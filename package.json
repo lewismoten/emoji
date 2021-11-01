@@ -1,6 +1,6 @@
 {
   "name": "@lewismoten/emoji",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "description": "list of named emoji unicode values",
   "main": "emoji.js",
   "files": [
