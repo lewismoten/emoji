@@ -1,4 +1,4 @@
-name: Publish node packages
+name: Publish to NPM registries
 
 on: push
 
@@ -12,7 +12,7 @@ jobs:
           node-version: 14
       - run: npm ci
 
-  publish-npm:
+  publish-npmjs:
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -24,9 +24,9 @@ jobs:
       - run: npm ci
       - run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-  publish-gpr:
+  publish-github:
     needs: build
     runs-on: ubuntu-latest
     permissions:
