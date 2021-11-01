@@ -1,5 +1,5 @@
 {
-  "name": "@lewismoten/emoji",
+  "name": "little-emoji",
   "version": "2.1.0",
   "description": "list of named emoji unicode values",
   "main": "emoji.js",
