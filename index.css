@@ -1,0 +1,30 @@
+.list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.list div {
+  width: 48px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-bottom: 5px;
+}
+
+.list div span {
+  border: 1px solid silver;
+  width: 100%;
+  text-align: center;
+}
+
+.list div span:first-child {
+  height: 32px;
+}
+
+.list div span:last-child {
+  background-color: silver;
+  font-size: xx-small;
+  text-overflow: clip;
+}
