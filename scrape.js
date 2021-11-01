@@ -10,6 +10,8 @@ var emojiJs = Array.prototype.slice // convert collection to an array
     (t, i) =>
       // let's parse out a quick and dirty `key: 'code',`
       (t.split("\t")[t.split("\t").length - 1] || "")
+        // remove appostrophees
+        .replace(/['’]/g, "")
         // we only want letters for key names. change reset to underscore
         .replace(/[^a-z]/gi, "_") +
       ': "' +
@@ -44,6 +46,7 @@ var emojiJs = Array.prototype.slice // convert collection to an array
       : m.reduce((tt, mm) => tt.replace(mm, mm.toLowerCase()), t);
   })
   .map(t => t[0].toLowerCase() + t.slice(1)) // Everyone starts out lowercase
+  .sort() // make changes easier to find
   .join(",\r\n  ");
 
 // setup rest of code template
