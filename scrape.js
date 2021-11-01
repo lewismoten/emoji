@@ -16,8 +16,14 @@ var emojiJs = Array.prototype.slice // convert collection to an array
         .replace(/[&]/g, "And")
         // remove apostrophes
         .replace(/['’]/g, "")
-        // we only want letters for key names. change reset to underscore
-        .replace(/[^a-z]/gi, "_") +
+        .replace(/: #/g, " hash")
+        .replace(/: \*/g, " asterisk")
+        .replace(/1st/g, " first")
+        .replace(/2nd/g, " second")
+        .replace(/3rd/g, " third")
+        // we only want letters and numbers for key names.
+        // change reset to underscore
+        .replace(/[^a-z\d]/gi, "_") +
       ': "' +
       t
         .split("\t")[1] // second cell
