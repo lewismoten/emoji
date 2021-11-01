@@ -31,9 +31,9 @@ var emojiJs = Array.prototype.slice // convert collection to an array
       )
   )
   .map(t => {
-    // Many buttons are all caps prior to "Button" (OKButton).
+    // Some names have capitalized words (OKButton, BACKArrow).
     // Let's fix the camels head be "okButton"
-    let m = t.match(/([A-Z]+)Button/);
+    let m = t.match(/^([A-Z]+)[A-Z][a-z]/);
     return m === null ? t : t.replace(m[1], m[1].toLowerCase());
   })
   .map(t => {
