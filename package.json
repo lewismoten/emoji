@@ -3,6 +3,7 @@
   "version": "2.1.1",
   "description": "list of named emoji unicode values",
   "main": "emoji.js",
+  "private": false,
   "files": [
     "emoji.js"
   ],
