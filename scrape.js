@@ -10,7 +10,11 @@ var emojiJs = Array.prototype.slice // convert collection to an array
     (t, i) =>
       // let's parse out a quick and dirty `key: 'code',`
       (t.split("\t")[t.split("\t").length - 1] || "")
-        // remove appostrophees
+        // use simililar characters in lower-ascii
+        .normalize("NFKD")
+        // Spell it out
+        .replace(/[&]/g, "And")
+        // remove apostrophes
         .replace(/['’]/g, "")
         // we only want letters for key names. change reset to underscore
         .replace(/[^a-z]/gi, "_") +
