@@ -5,7 +5,7 @@
 }
 
 .list div {
-  width: 48px;
+  width: 64px;
   display: flex;
   flex-direction: column;
   justify-content: center;
