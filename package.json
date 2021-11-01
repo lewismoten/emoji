@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": "git://github.com/lewismoten/emoji.git",
+  "repository": "git://github.com/lewismoten/emoji",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
