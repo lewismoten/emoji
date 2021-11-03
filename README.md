@@ -18,6 +18,8 @@ console.log(emoji.clinkingBeerMugs);
 
 https://lewismoten.github.io/emoji/
 
+![Screenshot](screenshot.png)
+
 ## Scraper
 
 Names and codes scraped from https://unicode.org/emoji/charts/full-emoji-list.html
