@@ -8,18 +8,10 @@ on:
 jobs:
   delete:
     runs-on: ubuntu-latest
-    name: Remove 100
+    name: Remove Old Versions
     steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 14
-      - uses: actions/delete-package-versions@v1
+      - uses: smartsquaregmbh/delete-old-packages@v0.3.2
         with:
           owner: "lewismoten"
           repo: "emoji"
-          package-name: "emoji"
-          num-old-versions-to-delete: 100
-          token: ${{ secrets.GITHUB_TOKEN }}
+          names: emoji
