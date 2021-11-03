@@ -1,3 +1,11 @@
+body {
+  background-color: #1b062a;
+  color: #5ea3db;
+  font-family: sans-serif;
+}
+a {
+  color: #7babd1;
+}
 .list {
   display: flex;
   flex-direction: row;
@@ -10,11 +18,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  border-bottom: 5px solid white;
+  border-bottom: 5px solid #1b062a;
 }
 
 .list div:hover {
-  background: lightblue;
+  background: #082d42;
 }
 
 .list div:active {
@@ -22,7 +30,7 @@
 }
 
 .list div span {
-  border: 1px solid silver;
+  border: 1px solid #212874;
   width: 100%;
   text-align: center;
 }
@@ -32,18 +40,18 @@
 }
 
 .list div span:last-child {
-  background-color: silver;
+  background-color: #212874;
   font-size: small;
   text-overflow: clip;
 }
 
 .list div:hover span:last-child {
-  background-color: lightgrey;
+  background-color: #39698b;
 }
 
 .code {
   font-family: monospace;
-  background-color: black;
+  background-color: #082d42;
   color: #b3b3b3;
   font-size: larger;
   padding: 5px 50px;
