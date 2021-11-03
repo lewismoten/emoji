@@ -23,3 +23,255 @@ jobs:
           package-name: "emoji"
           num-old-versions-to-delete: 100
           token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/delete-package-versions@v1
+        with:
+          owner: "lewismoten"
+          repo: "emoji"
+          package-name: "emoji"
+          num-old-versions-to-delete: 100
+          token: ${{ secrets.GITHUB_TOKEN }}
