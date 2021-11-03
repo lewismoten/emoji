@@ -15,6 +15,6 @@ jobs:
         package-version-ids:
         owner: lewismoten
         repo: emoji
-        package-name: @lewismoten/emoji
+        package-name: "@lewismoten/emoji"
         num-old-versions-to-delete: 10
         token: ${{secrets.GITHUB_TOKEN}}
