@@ -20,6 +20,6 @@ jobs:
         with:
           owner: "lewismoten"
           repo: "emoji"
-          package-name: "@lewismoten/emoji"
+          package-name: "emoji"
           num-old-versions-to-delete: 10000
           token: ${{ secrets.GITHUB_TOKEN }}
