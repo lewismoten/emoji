@@ -47,7 +47,6 @@ function onKeyUp(e) {
 }
 
 function onClick(e) {
-  window.foo = e;
   var id = e.target.id;
   if ((id || "") === "") id = e.target.parentElement.id;
   var value = emoji[id];
