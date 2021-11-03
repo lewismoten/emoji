@@ -8,7 +8,7 @@ on:
 jobs:
   delete:
     runs-on: ubuntu-latest
-    name: Remove Prior Version
+    name: Remove 100
     steps:
       - uses: actions/checkout@v2
         with:
