@@ -50,8 +50,23 @@ function onClick(e) {
   window.foo = e;
   var id = e.target.id;
   if ((id || "") === "") id = e.target.parentElement.id;
+  var value = emoji[id];
+  if (value === undefined) return;
+  var bits = [];
+  var i;
+  for (i = 0; i < value.length; i++) {
+    const hex = value.codePointAt(i).toString(16);
+    if (hex.length <= 4) {
+      bits.push("\\u" + hex);
+    } else {
+      bits.push("\\u{" + hex + "}");
+      i++; // skip next code as this one overlaps into it
+    }
+  }
+
   document.getElementsByClassName("emoji-key")[0].innerText = id;
-  document.getElementsByClassName("emoji-value")[0].innerText = emoji[id];
+  document.getElementsByClassName("emoji-value")[0].innerText = value;
+  document.getElementsByClassName("emoji-encoded")[0].innerText = bits.join("");
   navigator.clipboard.writeText(id);
 }
 window.addEventListener("load", onLoad);
