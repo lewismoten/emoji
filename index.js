@@ -5,8 +5,8 @@ function onLoad() {
   searchText = document.getElementsByClassName("text")[0];
   emojiList = document.getElementsByClassName("list")[0];
 
-  window.addEventListener("keyup", onKeyUp);
-  window.addEventListener("click", onClick);
+  searchText.addEventListener("keyup", onKeyUp);
+  emojiList.addEventListener("click", onClick);
   drawList();
 }
 
