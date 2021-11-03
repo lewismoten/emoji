@@ -1,7 +1,12 @@
+var searchText;
+var emojiList;
+
 function onLoad() {
-  var keys = Object.keys(emoji);
-  var div = document.getElementsByClassName("list")[0];
-  div.replaceChildren(...keys.map(asItem));
+  searchText = document.getElementsByClassName("text")[0];
+  emojiList = document.getElementsByClassName("list")[0];
+
+  window.addEventListener("keyup", onKeyUp);
+  drawList();
 }
 
 function asItem(key) {
@@ -16,4 +21,25 @@ function asItem(key) {
   return div;
 }
 
+function drawList() {
+  var keywords = searchText.value
+    .toLowerCase()
+    .replace(/[,]/gi, " ")
+    .replace(/[^a-z\d*# ]/gi, "")
+    .split(" ");
+
+  function hasKeyword(emojiKey) {
+    for (var i = 0; i < keywords.length; i++) {
+      if (emojiKey.toLowerCase().indexOf(keywords[i]) !== -1) return true;
+    }
+    return false;
+  }
+
+  var keys = Object.keys(emoji).filter(hasKeyword);
+  emojiList.replaceChildren(...keys.map(asItem));
+}
+
+function onKeyUp(e) {
+  drawList();
+}
 window.addEventListener("load", onLoad);
