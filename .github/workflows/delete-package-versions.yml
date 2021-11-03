@@ -8,7 +8,7 @@ on:
 jobs:
   delete:
     runs-on: ubuntu-latest
-    name: Delete Old Packages
+    name: Remove Prior Version
     steps:
       - uses: actions/checkout@v2
         with:
@@ -18,9 +18,8 @@ jobs:
           node-version: 14
       - uses: actions/delete-package-versions@v1
         with:
-          package-version-ids:
-          owner: lewismoten
-          repo: emoji
+          owner: "lewismoten"
+          repo: "emoji"
           package-name: "@lewismoten/emoji"
-          num-old-versions-to-delete: 10
-          token: ${{secrets.GITHUB_TOKEN}}
+          num-old-versions-to-delete: 10000
+          token: ${{ secrets.GITHUB_TOKEN }}
