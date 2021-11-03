@@ -5,12 +5,20 @@
 }
 
 .list div {
-  width: 64px;
+  width: 32px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding-bottom: 5px;
+  border-bottom: 5px solid white;
+}
+
+.list div:hover {
+  background: lightblue;
+}
+
+.list div:active {
+  background: black;
 }
 
 .list div span {
@@ -25,6 +33,46 @@
 
 .list div span:last-child {
   background-color: silver;
-  font-size: xx-small;
+  font-size: small;
   text-overflow: clip;
+}
+
+.list div:hover span:last-child {
+  background-color: lightgrey;
+}
+
+.code {
+  font-family: monospace;
+  background-color: black;
+  color: #b3b3b3;
+  font-size: larger;
+  padding: 5px 50px;
+}
+
+.code .line {
+  display: block;
+}
+
+.code .operator,
+.code .keyword {
+  color: #da85e9;
+}
+.code .variable {
+  color: #b3b3b3;
+}
+.code .native-function {
+  color: #58d5d5;
+}
+.code .string {
+  color: #c2fdc2;
+}
+.code .comment {
+  color: #505050;
+}
+.code .native-object {
+  color: #e3d68f;
+}
+.code .object,
+.code .object-key {
+  color: #f37f7f;
 }

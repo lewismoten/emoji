@@ -6,12 +6,15 @@ function onLoad() {
   emojiList = document.getElementsByClassName("list")[0];
 
   window.addEventListener("keyup", onKeyUp);
+  window.addEventListener("click", onClick);
   drawList();
 }
 
 function asItem(key) {
   var value = emoji[key];
-  var div = document.createElement("div", { title: key });
+  var div = document.createElement("div");
+  div.id = key;
+  div.title = key;
   var emojiDiv = document.createElement("span");
   emojiDiv.innerText = value;
   div.appendChild(emojiDiv);
@@ -41,5 +44,14 @@ function drawList() {
 
 function onKeyUp(e) {
   drawList();
+}
+
+function onClick(e) {
+  window.foo = e;
+  var id = e.target.id;
+  if ((id || "") === "") id = e.target.parentElement.id;
+  document.getElementsByClassName("emoji-key")[0].innerText = id;
+  document.getElementsByClassName("emoji-value")[0].innerText = emoji[id];
+  navigator.clipboard.writeText(id);
 }
 window.addEventListener("load", onLoad);
