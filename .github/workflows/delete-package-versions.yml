@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Delete Old Packages
     steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
       - uses: actions/delete-package-versions@v1
         with:
           package-version-ids:
