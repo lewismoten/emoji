@@ -1,9 +1,9 @@
 name: Publish to NPM registries
 
 on:
-  release:
-    types:
-      - created
+  push:
+    tags:
+      - "v*"
 
 jobs:
   build:
