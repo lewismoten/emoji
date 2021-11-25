@@ -1,10 +1,9 @@
 ---
 deployment:
   tasks:
-    - mkdir /home3/regaldra/public_html/github
-    - mkdir /home3/regaldra/public_html/github/emoji
-    - /bin/cp emoji.js /home3/regaldra/public_html/github/emoji/emoji.js
-    - /bin/cp index.css /home3/regaldra/public_html/github/emoji/index.css
-    - /bin/cp index.html /home3/regaldra/public_html/github/emoji/index.html
-    - /bin/cp index.js /home3/regaldra/public_html/github/emoji/index.js
-    - /bin/cp LICENSE.md /home3/regaldra/public_html/github/emoji/LICENSE.md
+    - mkdir -p /home/user/public_html/github/emoji
+    - /bin/cp emoji.js /home/user/public_html/github/emoji/emoji.js
+    - /bin/cp index.css /home/user/public_html/github/emoji/index.css
+    - /bin/cp index.html /home/user/public_html/github/emoji/index.html
+    - /bin/cp index.js /home/user/public_html/github/emoji/index.js
+    - /bin/cp LICENSE.md /home/user/public_html/github/emoji/LICENSE.md
