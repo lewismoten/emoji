@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/user/public_html/github/emoji
+    - export DEPLOYPATH=/home3/regaldra/public_html/github/emoji
     - /bin/cp emoji.js $DEPLOYPATH
     - /bin/cp index.css $DEPLOYPATH
     - /bin/cp index.html $DEPLOYPATH
