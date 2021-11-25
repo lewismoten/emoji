@@ -1,9 +1,10 @@
 ---
 deployment:
   tasks:
-    - mkdir -p /home3/regaldra/public_html/github/emoji
-    - /bin/cp emoji.js /home3/regaldra/public_html/github/emoji/emoji.js
-    - /bin/cp index.css /home3/regaldra/public_html/github/emoji/index.css
-    - /bin/cp index.html /home3/regaldra/public_html/github/emoji/index.html
-    - /bin/cp index.js /home3/regaldra/public_html/github/emoji/index.js
-    - /bin/cp LICENSE.md /home3/regaldra/public_html/github/emoji/LICENSE.md
+    - export DEPLOYPATH=/home3/regaldra/public_html/github/emoji
+    - mkdir -p $DEPLOYPATH
+    - /bin/cp emoji.js $DEPLOYPATH
+    - /bin/cp index.css $DEPLOYPATH
+    - /bin/cp index.html $DEPLOYPATH
+    - /bin/cp index.js $DEPLOYPATH
+    - /bin/cp LICENSE.md $DEPLOYPATH
