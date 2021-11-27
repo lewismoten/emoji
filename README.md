@@ -30,14 +30,14 @@ console.log(emoji.clinkingBeerMugs);
 
 ## Demo
 
-An interactive demonstration that uses the library exposed as `window.emoji` is also included. The live demo is also hosted on github pages:
+An interactive demonstration that uses the library exposed as `window.emoji` is also included. The live demo is also hosted on GitHub pages:
 
-https://lewismoten.github.io/emoji/
+<https://lewismoten.github.io/emoji/>
 
 ![Screenshot](screenshot.png)
 
 ## Scraper
 
-Names and codes scraped from https://unicode.org/emoji/charts/full-emoji-list.html
+Names and codes scraped from <https://unicode.org/emoji/charts/full-emoji-list.html>
 
 The code used to scrape the unicode web page with the emoji list is also included.
