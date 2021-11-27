@@ -8,14 +8,14 @@ Provides a lookup list of emoji in unicode format.
 
 ## Code
 
-The code is a simple javascript object.
+The code is a simple javascript object. Here are examples of how to use it to show :beers:
 
 ## Module
+
 
 ```js
 var emoji = require("@lewismoten/emoji");
 console.log(emoji.clinkingBeerMugs);
-// "🍻"
 ```
 
 ## Browser
@@ -24,7 +24,6 @@ console.log(emoji.clinkingBeerMugs);
 <script src="./emoji.js" type="text/javascript"></script>
 <script type="text/javascript">
   console.log(emoji.clinkingBeerMugs);
-  // "🍻"
 </script>
 ```
 
