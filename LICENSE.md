@@ -1,5 +1,5 @@
 
-Copyright (c) 2021, Lewis Moten <lewismoten@gmail.com>
+Copyright (c) 2021-2024, Lewis Moten <lewismoten@gmail.com>
 
 Permission to use, copy, modify, and/or distribute this software for any
 purpose with or without fee is hereby granted, provided that the above
