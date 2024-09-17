@@ -27,17 +27,25 @@ var parseWordsAndSpaces = text => {
     .replace(/[^a-z\d]/gi, "_")
 }
 
-var camelHead = text => {
+var noBigHumps = text => {
+  // Fix all-caps: ZZZ
   if (/^[A-Z]+$/.test(text)) return text.toLowerCase();
-  // Some names have capitalized words (OKButton, BACKArrow, ZZZ).
-  // Let's fix the camels head be "okButton" or "zzz"
+  // Fix initial caps: OKButton, BACKArrow
   text = text.replace(/^([A-Z]+)[A-Z][a-z]/, (search, replace) => {
     return replace.toLowerCase() + search.slice(-2)
   });
-  return text.charAt(0).toLowerCase() + text.slice(1);
+
+  // Fix endings: personGesturingOK womanGesturingNO
+  text = text.replace(/[a-z][A-Z]([A-Z]+)$/, (search, replace) => {
+    return search.slice(0, 2) + replace.toLowerCase()
+  });
+
+  text = text.charAt(0).toLowerCase() + text.slice(1);
+
+  return text;
 }
 var camelCase = text =>
-  camelHead(text.split("_")
+  noBigHumps(text.split("_")
     .reduce(
       (camel, hump) =>
         hump.length === 0
@@ -63,9 +71,9 @@ emojiJs = entries
 
 // setup rest of code template
 emojiJs =
-  "var emoji = {\r\n  " +
+  "export default {\r\n  " +
   emojiJs +
-  "\r\n};\r\ntry {\r\n  if (module) module.exports = emoji;\r\n} catch (e) {\r\n  // not loaded as a module\r\n}\r\n";
+  "\r\n};\r\n";
 
 console.log("click the page somewhere..."); // otherwise dom is not active
 

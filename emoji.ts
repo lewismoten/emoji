@@ -2114,9 +2114,9 @@ export default {
   /** man genie \u{1f9de}\u{200d}\u{2642}\u{fe0f} */
   manGenie: "\u{1f9de}\u{200d}\u{2642}\u{fe0f}",
   /** man gesturing NO \u{1f645}\u{200d}\u{2642}\u{fe0f} */
-  manGesturingNO: "\u{1f645}\u{200d}\u{2642}\u{fe0f}",
+  manGesturingNo: "\u{1f645}\u{200d}\u{2642}\u{fe0f}",
   /** man gesturing OK \u{1f646}\u{200d}\u{2642}\u{fe0f} */
-  manGesturingOK: "\u{1f646}\u{200d}\u{2642}\u{fe0f}",
+  manGesturingOk: "\u{1f646}\u{200d}\u{2642}\u{fe0f}",
   /** man getting haircut \u{1f487}\u{200d}\u{2642}\u{fe0f} */
   manGettingHaircut: "\u{1f487}\u{200d}\u{2642}\u{fe0f}",
   /** man getting massage \u{1f486}\u{200d}\u{2642}\u{fe0f} */
@@ -2630,9 +2630,9 @@ export default {
   /** person frowning \u{1f64d} */
   personFrowning: "\u{1f64d}",
   /** person gesturing NO \u{1f645} */
-  personGesturingNO: "\u{1f645}",
+  personGesturingNo: "\u{1f645}",
   /** person gesturing OK \u{1f646} */
-  personGesturingOK: "\u{1f646}",
+  personGesturingOk: "\u{1f646}",
   /** person getting haircut \u{1f487} */
   personGettingHaircut: "\u{1f487}",
   /** person getting massage \u{1f486} */
@@ -3650,9 +3650,9 @@ export default {
   /** woman genie \u{1f9de}\u{200d}\u{2640}\u{fe0f} */
   womanGenie: "\u{1f9de}\u{200d}\u{2640}\u{fe0f}",
   /** woman gesturing NO \u{1f645}\u{200d}\u{2640}\u{fe0f} */
-  womanGesturingNO: "\u{1f645}\u{200d}\u{2640}\u{fe0f}",
+  womanGesturingNo: "\u{1f645}\u{200d}\u{2640}\u{fe0f}",
   /** woman gesturing OK \u{1f646}\u{200d}\u{2640}\u{fe0f} */
-  womanGesturingOK: "\u{1f646}\u{200d}\u{2640}\u{fe0f}",
+  womanGesturingOk: "\u{1f646}\u{200d}\u{2640}\u{fe0f}",
   /** woman getting haircut \u{1f487}\u{200d}\u{2640}\u{fe0f} */
   womanGettingHaircut: "\u{1f487}\u{200d}\u{2640}\u{fe0f}",
   /** woman getting massage \u{1f486}\u{200d}\u{2640}\u{fe0f} */
