@@ -8,28 +8,24 @@ Provides a lookup list of emoji in unicode format.
 
 ## Code
 
-The code is a simple javascript object. Here are examples of how to use it to show :beers:
-
-## Module
-
+How do show :beers:
 
 ```js
-var emoji = require("@lewismoten/emoji");
+import emoji from "@lewismoten/emoji";
 console.log(emoji.clinkingBeerMugs);
-```
-
-## Browser
-
-```html
-<script src="./emoji.js" type="text/javascript"></script>
-<script type="text/javascript">
-  console.log(emoji.clinkingBeerMugs);
-</script>
 ```
 
 ## Demo
 
-An interactive demonstration that uses the library exposed as `window.emoji` is also included. The live demo is also hosted on GitHub pages:
+A local demo can be ran using vite
+
+```bash
+npm i
+npm start
+http://localhost:5173
+```
+
+The live demo is hosted on GitHub pages:
 
 <https://lewismoten.github.io/emoji/>
 
@@ -39,4 +35,9 @@ An interactive demonstration that uses the library exposed as `window.emoji` is 
 
 Names and codes scraped from <https://unicode.org/emoji/charts/full-emoji-list.html>
 
-The code used to scrape the unicode web page with the emoji list is also included.
+- Open the web page
+- Wait for it to load completely
+- Copy code from `./scrape.js` into the browsers console
+- Wait for the page to be parsed and new code generated
+- Copy the generated code into `./emoji.js`
+- In the terminal, type `npm run build`
