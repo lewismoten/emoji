@@ -48,13 +48,17 @@ var camelCase = text =>
 
 var parseKey = text => camelCase(parseWordsAndSpaces(text));
 
-var entries = trCellText.map(cells => [
-  parseKey(cells[cells.length - 1]),
-  parseUnicodeEscape(cells[1])
-]);
+var entries = trCellText.map(cells => {
+  const last = cells.pop();
+  return [
+    parseKey(last),
+    parseUnicodeEscape(cells[1]),
+    last
+  ]
+});
 emojiJs = entries
   .sort(([a], [b]) => a.localeCompare(b))
-  .map(([key, value]) => `${key}: "${value}"`)
+  .map(([key, value, name]) => `/** ${name} ${value} */\r\n  ${key}: "${value}"`)
   .join(",\r\n  ");
 
 // setup rest of code template

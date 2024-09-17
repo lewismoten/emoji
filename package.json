@@ -2,13 +2,15 @@
   "name": "@lewismoten/emoji",
   "version": "2.3.1",
   "description": "list of named emoji unicode values",
-  "main": "emoji.js",
-  "types": "index.d.ts",
+  "main": "dist/emoji.js",
+  "types": "dist/emoji.d.ts",
   "files": [
-    "emoji.js",
-    "index.d.ts"
+    "dist/emoji.js",
+    "dist/emoji.js.map",
+    "dist/emoji.d.ts"
   ],
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -27,5 +29,8 @@
   "bugs": {
     "url": "https://github.com/lewismoten/emoji/issues"
   },
-  "homepage": "https://github.com/lewismoten/emoji#readme"
+  "homepage": "https://github.com/lewismoten/emoji#readme",
+  "devDependencies": {
+    "typescript": "^5.6.2"
+  }
 }

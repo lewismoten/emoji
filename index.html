@@ -1,41 +1,32 @@
 <html>
-  <head>
-    <title>Emoji</title>
-    <script defer src="./index.js" type="text/javascript"></script>
-    <script defer src="./emoji.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="./index.css" />
-  </head>
-  <body>
-    <noscript>JavaScript not enabled</noscript>
-    <div class="search">Search <input class="text" type="text" /></div>
-    <div>
-      Code:
-      <a href="https://github.com/lewismoten/emoji">Github @lewismoten/emoji</a>
-    </div>
-    Click emoji to copy the emoji key.
-    <div class="code">
-      <span class="line"
-        ><span class="keyword">var</span> <span class="variable">emoji</span>
-        <span class="operator">=</span>
-        <span class="native-function">require</span>(<span class="string"
-          >"@lewismoten/emoji"</span
-        >);</span
-      >
-      <span class="line"
-        ><span class="native-object">console</span>.<span
-          class="native-function"
-          >log</span
-        >(<span class="object">emoji</span>.<span class="object-key emoji-key"
-          >clinkingBeerMugs</span
-        >);<span class="comment"></span
-        ><span class="line"
-          >// <span class="emoji-value">&#x1F37B;</span>
-          <span class="emoji-encoded">\u{1f37b}</span></span
-        ></span
-      >
-    </div>
-    <div class="list">
-      Not loaded.
-    </div>
-  </body>
+
+<head>
+  <title>Emoji</title>
+  <script defer src="./index.js" type="text/javascript"></script>
+  <script defer src="./dist/emoji.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="./index.css" />
+</head>
+
+<body>
+  <noscript>JavaScript not enabled</noscript>
+  <div class="search">Search <input class="text" type="text" /></div>
+  <div>
+    Code:
+    <a href="https://github.com/lewismoten/emoji">Github @lewismoten/emoji</a>
+  </div>
+  Click emoji to copy the emoji key.
+  <div class="code">
+    <span class="line"><span class="keyword">var</span> <span class="variable">emoji</span>
+      <span class="operator">=</span>
+      <span class="native-function">require</span>(<span class="string">"@lewismoten/emoji"</span>);</span>
+    <span class="line"><span class="native-object">console</span>.<span class="native-function">log</span>(<span
+        class="object">emoji</span>.<span class="object-key emoji-key">clinkingBeerMugs</span>);<span
+        class="comment"></span><span class="line">// <span class="emoji-value">&#x1F37B;</span>
+        <span class="emoji-encoded">\u{1f37b}</span></span></span>
+  </div>
+  <div class="list">
+    Not loaded.
+  </div>
+</body>
+
 </html>
