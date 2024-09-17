@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
+export default {
     /** abacus \u{1f9ee} */
     abacus: "\u{1f9ee}",
     /** AB button (blood type) \u{1f18e} */
