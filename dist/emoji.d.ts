@@ -2114,9 +2114,9 @@ declare const _default: {
     /** man genie \u{1f9de}\u{200d}\u{2642}\u{fe0f} */
     manGenie: string;
     /** man gesturing NO \u{1f645}\u{200d}\u{2642}\u{fe0f} */
-    manGesturingNO: string;
+    manGesturingNo: string;
     /** man gesturing OK \u{1f646}\u{200d}\u{2642}\u{fe0f} */
-    manGesturingOK: string;
+    manGesturingOk: string;
     /** man getting haircut \u{1f487}\u{200d}\u{2642}\u{fe0f} */
     manGettingHaircut: string;
     /** man getting massage \u{1f486}\u{200d}\u{2642}\u{fe0f} */
@@ -2630,9 +2630,9 @@ declare const _default: {
     /** person frowning \u{1f64d} */
     personFrowning: string;
     /** person gesturing NO \u{1f645} */
-    personGesturingNO: string;
+    personGesturingNo: string;
     /** person gesturing OK \u{1f646} */
-    personGesturingOK: string;
+    personGesturingOk: string;
     /** person getting haircut \u{1f487} */
     personGettingHaircut: string;
     /** person getting massage \u{1f486} */
@@ -3650,9 +3650,9 @@ declare const _default: {
     /** woman genie \u{1f9de}\u{200d}\u{2640}\u{fe0f} */
     womanGenie: string;
     /** woman gesturing NO \u{1f645}\u{200d}\u{2640}\u{fe0f} */
-    womanGesturingNO: string;
+    womanGesturingNo: string;
     /** woman gesturing OK \u{1f646}\u{200d}\u{2640}\u{fe0f} */
-    womanGesturingOK: string;
+    womanGesturingOk: string;
     /** woman getting haircut \u{1f487}\u{200d}\u{2640}\u{fe0f} */
     womanGettingHaircut: string;
     /** woman getting massage \u{1f486}\u{200d}\u{2640}\u{fe0f} */
