@@ -8,7 +8,7 @@ Provides a lookup list of emoji in unicode format.
 
 ## Code
 
-How do show :beers:
+How to show :beers:
 
 ```js
 import emoji from "@lewismoten/emoji";
