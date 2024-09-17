@@ -1,3823 +1,3823 @@
 declare const _default: {
-    /** abacus \u{1f9ee} */
+    /** abacus 🧮 */
     abacus: string;
-    /** AB button (blood type) \u{1f18e} */
+    /** AB button (blood type) 🆎 */
     abButtonBloodType: string;
-    /** A button (blood type) \u{1f170} */
+    /** A button (blood type) 🅰 */
     aButtonBloodType: string;
-    /** accordion \u{1fa97} */
+    /** accordion 🪗 */
     accordion: string;
-    /** adhesive bandage \u{1fa79} */
+    /** adhesive bandage 🩹 */
     adhesiveBandage: string;
-    /** admission tickets \u{1f39f} */
+    /** admission tickets 🎟 */
     admissionTickets: string;
-    /** aerial tramway \u{1f6a1} */
+    /** aerial tramway 🚡 */
     aerialTramway: string;
-    /** airplane \u{2708} */
+    /** airplane ✈ */
     airplane: string;
-    /** airplane arrival \u{1f6ec} */
+    /** airplane arrival 🛬 */
     airplaneArrival: string;
-    /** airplane departure \u{1f6eb} */
+    /** airplane departure 🛫 */
     airplaneDeparture: string;
-    /** alarm clock \u{23f0} */
+    /** alarm clock ⏰ */
     alarmClock: string;
-    /** alembic \u{2697} */
+    /** alembic ⚗ */
     alembic: string;
-    /** alien \u{1f47d} */
+    /** alien 👽 */
     alien: string;
-    /** alien monster \u{1f47e} */
+    /** alien monster 👾 */
     alienMonster: string;
-    /** ambulance \u{1f691} */
+    /** ambulance 🚑 */
     ambulance: string;
-    /** american football \u{1f3c8} */
+    /** american football 🏈 */
     americanFootball: string;
-    /** amphora \u{1f3fa} */
+    /** amphora 🏺 */
     amphora: string;
-    /** anatomical heart \u{1fac0} */
+    /** anatomical heart 🫀 */
     anatomicalHeart: string;
-    /** anchor \u{2693} */
+    /** anchor ⚓ */
     anchor: string;
-    /** anger symbol \u{1f4a2} */
+    /** anger symbol 💢 */
     angerSymbol: string;
-    /** angry face \u{1f620} */
+    /** angry face 😠 */
     angryFace: string;
-    /** angry face with horns \u{1f47f} */
+    /** angry face with horns 👿 */
     angryFaceWithHorns: string;
-    /** anguished face \u{1f627} */
+    /** anguished face 😧 */
     anguishedFace: string;
-    /** ant \u{1f41c} */
+    /** ant 🐜 */
     ant: string;
-    /** antenna bars \u{1f4f6} */
+    /** antenna bars 📶 */
     antennaBars: string;
-    /** anxious face with sweat \u{1f630} */
+    /** anxious face with sweat 😰 */
     anxiousFaceWithSweat: string;
-    /** Aquarius \u{2652} */
+    /** Aquarius ♒ */
     aquarius: string;
-    /** Aries \u{2648} */
+    /** Aries ♈ */
     aries: string;
-    /** articulated lorry \u{1f69b} */
+    /** articulated lorry 🚛 */
     articulatedLorry: string;
-    /** artist \u{1f9d1}\u{200d}\u{1f3a8} */
+    /** artist 🧑‍🎨 */
     artist: string;
-    /** artist palette \u{1f3a8} */
+    /** artist palette 🎨 */
     artistPalette: string;
-    /** astonished face \u{1f632} */
+    /** astonished face 😲 */
     astonishedFace: string;
-    /** astronaut \u{1f9d1}\u{200d}\u{1f680} */
+    /** astronaut 🧑‍🚀 */
     astronaut: string;
-    /** ATM sign \u{1f3e7} */
+    /** ATM sign 🏧 */
     atmSign: string;
-    /** atom symbol \u{269b} */
+    /** atom symbol ⚛ */
     atomSymbol: string;
-    /** automobile \u{1f697} */
+    /** automobile 🚗 */
     automobile: string;
-    /** auto rickshaw \u{1f6fa} */
+    /** auto rickshaw 🛺 */
     autoRickshaw: string;
-    /** avocado \u{1f951} */
+    /** avocado 🥑 */
     avocado: string;
-    /** axe \u{1fa93} */
+    /** axe 🪓 */
     axe: string;
-    /** baby \u{1f476} */
+    /** baby 👶 */
     baby: string;
-    /** baby angel \u{1f47c} */
+    /** baby angel 👼 */
     babyAngel: string;
-    /** baby bottle \u{1f37c} */
+    /** baby bottle 🍼 */
     babyBottle: string;
-    /** baby chick \u{1f424} */
+    /** baby chick 🐤 */
     babyChick: string;
-    /** baby symbol \u{1f6bc} */
+    /** baby symbol 🚼 */
     babySymbol: string;
-    /** BACK arrow \u{1f519} */
+    /** BACK arrow 🔙 */
     backArrow: string;
-    /** backhand index pointing down \u{1f447} */
+    /** backhand index pointing down 👇 */
     backhandIndexPointingDown: string;
-    /** backhand index pointing left \u{1f448} */
+    /** backhand index pointing left 👈 */
     backhandIndexPointingLeft: string;
-    /** backhand index pointing right \u{1f449} */
+    /** backhand index pointing right 👉 */
     backhandIndexPointingRight: string;
-    /** backhand index pointing up \u{1f446} */
+    /** backhand index pointing up 👆 */
     backhandIndexPointingUp: string;
-    /** backpack \u{1f392} */
+    /** backpack 🎒 */
     backpack: string;
-    /** bacon \u{1f953} */
+    /** bacon 🥓 */
     bacon: string;
-    /** badger \u{1f9a1} */
+    /** badger 🦡 */
     badger: string;
-    /** badminton \u{1f3f8} */
+    /** badminton 🏸 */
     badminton: string;
-    /** bagel \u{1f96f} */
+    /** bagel 🥯 */
     bagel: string;
-    /** baggage claim \u{1f6c4} */
+    /** baggage claim 🛄 */
     baggageClaim: string;
-    /** baguette bread \u{1f956} */
+    /** baguette bread 🥖 */
     baguetteBread: string;
-    /** balance scale \u{2696} */
+    /** balance scale ⚖ */
     balanceScale: string;
-    /** bald \u{1f9b2} */
+    /** bald 🦲 */
     bald: string;
-    /** ballet shoes \u{1fa70} */
+    /** ballet shoes 🩰 */
     balletShoes: string;
-    /** balloon \u{1f388} */
+    /** balloon 🎈 */
     balloon: string;
-    /** ballot box with ballot \u{1f5f3} */
+    /** ballot box with ballot 🗳 */
     ballotBoxWithBallot: string;
-    /** banana \u{1f34c} */
+    /** banana 🍌 */
     banana: string;
-    /** banjo \u{1fa95} */
+    /** banjo 🪕 */
     banjo: string;
-    /** bank \u{1f3e6} */
+    /** bank 🏦 */
     bank: string;
-    /** barber pole \u{1f488} */
+    /** barber pole 💈 */
     barberPole: string;
-    /** bar chart \u{1f4ca} */
+    /** bar chart 📊 */
     barChart: string;
-    /** baseball \u{26be} */
+    /** baseball ⚾ */
     baseball: string;
-    /** basket \u{1f9fa} */
+    /** basket 🧺 */
     basket: string;
-    /** basketball \u{1f3c0} */
+    /** basketball 🏀 */
     basketball: string;
-    /** bat \u{1f987} */
+    /** bat 🦇 */
     bat: string;
-    /** bathtub \u{1f6c1} */
+    /** bathtub 🛁 */
     bathtub: string;
-    /** battery \u{1f50b} */
+    /** battery 🔋 */
     battery: string;
-    /** B button (blood type) \u{1f171} */
+    /** B button (blood type) 🅱 */
     bButtonBloodType: string;
-    /** beach with umbrella \u{1f3d6} */
+    /** beach with umbrella 🏖 */
     beachWithUmbrella: string;
-    /** beaming face with smiling eyes \u{1f601} */
+    /** beaming face with smiling eyes 😁 */
     beamingFaceWithSmilingEyes: string;
-    /** beans \u{1fad8} */
+    /** beans 🫘 */
     beans: string;
-    /** bear \u{1f43b} */
+    /** bear 🐻 */
     bear: string;
-    /** beating heart \u{1f493} */
+    /** beating heart 💓 */
     beatingHeart: string;
-    /** beaver \u{1f9ab} */
+    /** beaver 🦫 */
     beaver: string;
-    /** bed \u{1f6cf} */
+    /** bed 🛏 */
     bed: string;
-    /** beer mug \u{1f37a} */
+    /** beer mug 🍺 */
     beerMug: string;
-    /** beetle \u{1fab2} */
+    /** beetle 🪲 */
     beetle: string;
-    /** bell \u{1f514} */
+    /** bell 🔔 */
     bell: string;
-    /** bellhop bell \u{1f6ce} */
+    /** bellhop bell 🛎 */
     bellhopBell: string;
-    /** bell pepper \u{1fad1} */
+    /** bell pepper 🫑 */
     bellPepper: string;
-    /** bell with slash \u{1f515} */
+    /** bell with slash 🔕 */
     bellWithSlash: string;
-    /** bento box \u{1f371} */
+    /** bento box 🍱 */
     bentoBox: string;
-    /** beverage box \u{1f9c3} */
+    /** beverage box 🧃 */
     beverageBox: string;
-    /** bicycle \u{1f6b2} */
+    /** bicycle 🚲 */
     bicycle: string;
-    /** bikini \u{1f459} */
+    /** bikini 👙 */
     bikini: string;
-    /** billed cap \u{1f9e2} */
+    /** billed cap 🧢 */
     billedCap: string;
-    /** biohazard \u{2623} */
+    /** biohazard ☣ */
     biohazard: string;
-    /** bird \u{1f426} */
+    /** bird 🐦 */
     bird: string;
-    /** birthday cake \u{1f382} */
+    /** birthday cake 🎂 */
     birthdayCake: string;
-    /** bison \u{1f9ac} */
+    /** bison 🦬 */
     bison: string;
-    /** biting lip \u{1fae6} */
+    /** biting lip 🫦 */
     bitingLip: string;
-    /** black bird \u{1f426}\u{200d}\u{2b1b} */
+    /** black bird 🐦‍⬛ */
     blackBird: string;
-    /** black cat \u{1f408}\u{200d}\u{2b1b} */
+    /** black cat 🐈‍⬛ */
     blackCat: string;
-    /** black circle \u{26ab} */
+    /** black circle ⚫ */
     blackCircle: string;
-    /** black flag \u{1f3f4} */
+    /** black flag 🏴 */
     blackFlag: string;
-    /** black heart \u{1f5a4} */
+    /** black heart 🖤 */
     blackHeart: string;
-    /** black large square \u{2b1b} */
+    /** black large square ⬛ */
     blackLargeSquare: string;
-    /** black medium-small square \u{25fe} */
+    /** black medium-small square ◾ */
     blackMediumSmallSquare: string;
-    /** black medium square \u{25fc} */
+    /** black medium square ◼ */
     blackMediumSquare: string;
-    /** black nib \u{2712} */
+    /** black nib ✒ */
     blackNib: string;
-    /** black small square \u{25aa} */
+    /** black small square ▪ */
     blackSmallSquare: string;
-    /** black square button \u{1f532} */
+    /** black square button 🔲 */
     blackSquareButton: string;
-    /** blossom \u{1f33c} */
+    /** blossom 🌼 */
     blossom: string;
-    /** blowfish \u{1f421} */
+    /** blowfish 🐡 */
     blowfish: string;
-    /** blueberries \u{1fad0} */
+    /** blueberries 🫐 */
     blueberries: string;
-    /** blue book \u{1f4d8} */
+    /** blue book 📘 */
     blueBook: string;
-    /** blue circle \u{1f535} */
+    /** blue circle 🔵 */
     blueCircle: string;
-    /** blue heart \u{1f499} */
+    /** blue heart 💙 */
     blueHeart: string;
-    /** blue square \u{1f7e6} */
+    /** blue square 🟦 */
     blueSquare: string;
-    /** boar \u{1f417} */
+    /** boar 🐗 */
     boar: string;
-    /** bomb \u{1f4a3} */
+    /** bomb 💣 */
     bomb: string;
-    /** bone \u{1f9b4} */
+    /** bone 🦴 */
     bone: string;
-    /** bookmark \u{1f516} */
+    /** bookmark 🔖 */
     bookmark: string;
-    /** bookmark tabs \u{1f4d1} */
+    /** bookmark tabs 📑 */
     bookmarkTabs: string;
-    /** books \u{1f4da} */
+    /** books 📚 */
     books: string;
-    /** boomerang \u{1fa83} */
+    /** boomerang 🪃 */
     boomerang: string;
-    /** bottle with popping cork \u{1f37e} */
+    /** bottle with popping cork 🍾 */
     bottleWithPoppingCork: string;
-    /** bouquet \u{1f490} */
+    /** bouquet 💐 */
     bouquet: string;
-    /** bow and arrow \u{1f3f9} */
+    /** bow and arrow 🏹 */
     bowAndArrow: string;
-    /** bowling \u{1f3b3} */
+    /** bowling 🎳 */
     bowling: string;
-    /** bowl with spoon \u{1f963} */
+    /** bowl with spoon 🥣 */
     bowlWithSpoon: string;
-    /** boxing glove \u{1f94a} */
+    /** boxing glove 🥊 */
     boxingGlove: string;
-    /** boy \u{1f466} */
+    /** boy 👦 */
     boy: string;
-    /** brain \u{1f9e0} */
+    /** brain 🧠 */
     brain: string;
-    /** bread \u{1f35e} */
+    /** bread 🍞 */
     bread: string;
-    /** breast-feeding \u{1f931} */
+    /** breast-feeding 🤱 */
     breastFeeding: string;
-    /** brick \u{1f9f1} */
+    /** brick 🧱 */
     brick: string;
-    /** bridge at night \u{1f309} */
+    /** bridge at night 🌉 */
     bridgeAtNight: string;
-    /** briefcase \u{1f4bc} */
+    /** briefcase 💼 */
     briefcase: string;
-    /** briefs \u{1fa72} */
+    /** briefs 🩲 */
     briefs: string;
-    /** bright button \u{1f506} */
+    /** bright button 🔆 */
     brightButton: string;
-    /** broccoli \u{1f966} */
+    /** broccoli 🥦 */
     broccoli: string;
-    /** broken chain \u{26d3}\u{fe0f}\u{200d}\u{1f4a5} */
+    /** broken chain ⛓️‍💥 */
     brokenChain: string;
-    /** broken heart \u{1f494} */
+    /** broken heart 💔 */
     brokenHeart: string;
-    /** broom \u{1f9f9} */
+    /** broom 🧹 */
     broom: string;
-    /** brown circle \u{1f7e4} */
+    /** brown circle 🟤 */
     brownCircle: string;
-    /** brown heart \u{1f90e} */
+    /** brown heart 🤎 */
     brownHeart: string;
-    /** brown mushroom \u{1f344}\u{200d}\u{1f7eb} */
+    /** brown mushroom 🍄‍🟫 */
     brownMushroom: string;
-    /** brown square \u{1f7eb} */
+    /** brown square 🟫 */
     brownSquare: string;
-    /** bubbles \u{1fae7} */
+    /** bubbles 🫧 */
     bubbles: string;
-    /** bubble tea \u{1f9cb} */
+    /** bubble tea 🧋 */
     bubbleTea: string;
-    /** bucket \u{1faa3} */
+    /** bucket 🪣 */
     bucket: string;
-    /** bug \u{1f41b} */
+    /** bug 🐛 */
     bug: string;
-    /** building construction \u{1f3d7} */
+    /** building construction 🏗 */
     buildingConstruction: string;
-    /** bullet train \u{1f685} */
+    /** bullet train 🚅 */
     bulletTrain: string;
-    /** bullseye \u{1f3af} */
+    /** bullseye 🎯 */
     bullseye: string;
-    /** burrito \u{1f32f} */
+    /** burrito 🌯 */
     burrito: string;
-    /** bus \u{1f68c} */
+    /** bus 🚌 */
     bus: string;
-    /** bus stop \u{1f68f} */
+    /** bus stop 🚏 */
     busStop: string;
-    /** bust in silhouette \u{1f464} */
+    /** bust in silhouette 👤 */
     bustInSilhouette: string;
-    /** busts in silhouette \u{1f465} */
+    /** busts in silhouette 👥 */
     bustsInSilhouette: string;
-    /** butter \u{1f9c8} */
+    /** butter 🧈 */
     butter: string;
-    /** butterfly \u{1f98b} */
+    /** butterfly 🦋 */
     butterfly: string;
-    /** cactus \u{1f335} */
+    /** cactus 🌵 */
     cactus: string;
-    /** calendar \u{1f4c5} */
+    /** calendar 📅 */
     calendar: string;
-    /** call me hand \u{1f919} */
+    /** call me hand 🤙 */
     callMeHand: string;
-    /** camel \u{1f42a} */
+    /** camel 🐪 */
     camel: string;
-    /** camera \u{1f4f7} */
+    /** camera 📷 */
     camera: string;
-    /** camera with flash \u{1f4f8} */
+    /** camera with flash 📸 */
     cameraWithFlash: string;
-    /** camping \u{1f3d5} */
+    /** camping 🏕 */
     camping: string;
-    /** Cancer \u{264b} */
+    /** Cancer ♋ */
     cancer: string;
-    /** candle \u{1f56f} */
+    /** candle 🕯 */
     candle: string;
-    /** candy \u{1f36c} */
+    /** candy 🍬 */
     candy: string;
-    /** canned food \u{1f96b} */
+    /** canned food 🥫 */
     cannedFood: string;
-    /** canoe \u{1f6f6} */
+    /** canoe 🛶 */
     canoe: string;
-    /** Capricorn \u{2651} */
+    /** Capricorn ♑ */
     capricorn: string;
-    /** card file box \u{1f5c3} */
+    /** card file box 🗃 */
     cardFileBox: string;
-    /** card index \u{1f4c7} */
+    /** card index 📇 */
     cardIndex: string;
-    /** card index dividers \u{1f5c2} */
+    /** card index dividers 🗂 */
     cardIndexDividers: string;
-    /** carousel horse \u{1f3a0} */
+    /** carousel horse 🎠 */
     carouselHorse: string;
-    /** carpentry saw \u{1fa9a} */
+    /** carpentry saw 🪚 */
     carpentrySaw: string;
-    /** carp streamer \u{1f38f} */
+    /** carp streamer 🎏 */
     carpStreamer: string;
-    /** carrot \u{1f955} */
+    /** carrot 🥕 */
     carrot: string;
-    /** castle \u{1f3f0} */
+    /** castle 🏰 */
     castle: string;
-    /** cat \u{1f408} */
+    /** cat 🐈 */
     cat: string;
-    /** cat face \u{1f431} */
+    /** cat face 🐱 */
     catFace: string;
-    /** cat with tears of joy \u{1f639} */
+    /** cat with tears of joy 😹 */
     catWithTearsOfJoy: string;
-    /** cat with wry smile \u{1f63c} */
+    /** cat with wry smile 😼 */
     catWithWrySmile: string;
-    /** chains \u{26d3} */
+    /** chains ⛓ */
     chains: string;
-    /** chair \u{1fa91} */
+    /** chair 🪑 */
     chair: string;
-    /** chart decreasing \u{1f4c9} */
+    /** chart decreasing 📉 */
     chartDecreasing: string;
-    /** chart increasing \u{1f4c8} */
+    /** chart increasing 📈 */
     chartIncreasing: string;
-    /** chart increasing with yen \u{1f4b9} */
+    /** chart increasing with yen 💹 */
     chartIncreasingWithYen: string;
-    /** check box with check \u{2611} */
+    /** check box with check ☑ */
     checkBoxWithCheck: string;
-    /** check mark \u{2714} */
+    /** check mark ✔ */
     checkMark: string;
-    /** check mark button \u{2705} */
+    /** check mark button ✅ */
     checkMarkButton: string;
-    /** cheese wedge \u{1f9c0} */
+    /** cheese wedge 🧀 */
     cheeseWedge: string;
-    /** chequered flag \u{1f3c1} */
+    /** chequered flag 🏁 */
     chequeredFlag: string;
-    /** cherries \u{1f352} */
+    /** cherries 🍒 */
     cherries: string;
-    /** cherry blossom \u{1f338} */
+    /** cherry blossom 🌸 */
     cherryBlossom: string;
-    /** chess pawn \u{265f} */
+    /** chess pawn ♟ */
     chessPawn: string;
-    /** chestnut \u{1f330} */
+    /** chestnut 🌰 */
     chestnut: string;
-    /** chicken \u{1f414} */
+    /** chicken 🐔 */
     chicken: string;
-    /** child \u{1f9d2} */
+    /** child 🧒 */
     child: string;
-    /** children crossing \u{1f6b8} */
+    /** children crossing 🚸 */
     childrenCrossing: string;
-    /** chipmunk \u{1f43f} */
+    /** chipmunk 🐿 */
     chipmunk: string;
-    /** chocolate bar \u{1f36b} */
+    /** chocolate bar 🍫 */
     chocolateBar: string;
-    /** chopsticks \u{1f962} */
+    /** chopsticks 🥢 */
     chopsticks: string;
-    /** Christmas tree \u{1f384} */
+    /** Christmas tree 🎄 */
     christmasTree: string;
-    /** church \u{26ea} */
+    /** church ⛪ */
     church: string;
-    /** cigarette \u{1f6ac} */
+    /** cigarette 🚬 */
     cigarette: string;
-    /** cinema \u{1f3a6} */
+    /** cinema 🎦 */
     cinema: string;
-    /** circled M \u{24c2} */
+    /** circled M Ⓜ */
     circledM: string;
-    /** circus tent \u{1f3aa} */
+    /** circus tent 🎪 */
     circusTent: string;
-    /** cityscape \u{1f3d9} */
+    /** cityscape 🏙 */
     cityscape: string;
-    /** cityscape at dusk \u{1f306} */
+    /** cityscape at dusk 🌆 */
     cityscapeAtDusk: string;
-    /** clamp \u{1f5dc} */
+    /** clamp 🗜 */
     clamp: string;
-    /** clapper board \u{1f3ac} */
+    /** clapper board 🎬 */
     clapperBoard: string;
-    /** clapping hands \u{1f44f} */
+    /** clapping hands 👏 */
     clappingHands: string;
-    /** classical building \u{1f3db} */
+    /** classical building 🏛 */
     classicalBuilding: string;
-    /** CL button \u{1f191} */
+    /** CL button 🆑 */
     clButton: string;
-    /** clinking beer mugs \u{1f37b} */
+    /** clinking beer mugs 🍻 */
     clinkingBeerMugs: string;
-    /** clinking glasses \u{1f942} */
+    /** clinking glasses 🥂 */
     clinkingGlasses: string;
-    /** clipboard \u{1f4cb} */
+    /** clipboard 📋 */
     clipboard: string;
-    /** clockwise vertical arrows \u{1f503} */
+    /** clockwise vertical arrows 🔃 */
     clockwiseVerticalArrows: string;
-    /** closed book \u{1f4d5} */
+    /** closed book 📕 */
     closedBook: string;
-    /** closed mailbox with lowered flag \u{1f4ea} */
+    /** closed mailbox with lowered flag 📪 */
     closedMailboxWithLoweredFlag: string;
-    /** closed mailbox with raised flag \u{1f4eb} */
+    /** closed mailbox with raised flag 📫 */
     closedMailboxWithRaisedFlag: string;
-    /** closed umbrella \u{1f302} */
+    /** closed umbrella 🌂 */
     closedUmbrella: string;
-    /** cloud \u{2601} */
+    /** cloud ☁ */
     cloud: string;
-    /** cloud with lightning \u{1f329} */
+    /** cloud with lightning 🌩 */
     cloudWithLightning: string;
-    /** cloud with lightning and rain \u{26c8} */
+    /** cloud with lightning and rain ⛈ */
     cloudWithLightningAndRain: string;
-    /** cloud with rain \u{1f327} */
+    /** cloud with rain 🌧 */
     cloudWithRain: string;
-    /** cloud with snow \u{1f328} */
+    /** cloud with snow 🌨 */
     cloudWithSnow: string;
-    /** clown face \u{1f921} */
+    /** clown face 🤡 */
     clownFace: string;
-    /** club suit \u{2663} */
+    /** club suit ♣ */
     clubSuit: string;
-    /** clutch bag \u{1f45d} */
+    /** clutch bag 👝 */
     clutchBag: string;
-    /** coat \u{1f9e5} */
+    /** coat 🧥 */
     coat: string;
-    /** cockroach \u{1fab3} */
+    /** cockroach 🪳 */
     cockroach: string;
-    /** cocktail glass \u{1f378} */
+    /** cocktail glass 🍸 */
     cocktailGlass: string;
-    /** coconut \u{1f965} */
+    /** coconut 🥥 */
     coconut: string;
-    /** coffin \u{26b0} */
+    /** coffin ⚰ */
     coffin: string;
-    /** coin \u{1fa99} */
+    /** coin 🪙 */
     coin: string;
-    /** cold face \u{1f976} */
+    /** cold face 🥶 */
     coldFace: string;
-    /** collision \u{1f4a5} */
+    /** collision 💥 */
     collision: string;
-    /** comet \u{2604} */
+    /** comet ☄ */
     comet: string;
-    /** compass \u{1f9ed} */
+    /** compass 🧭 */
     compass: string;
-    /** computer disk \u{1f4bd} */
+    /** computer disk 💽 */
     computerDisk: string;
-    /** computer mouse \u{1f5b1} */
+    /** computer mouse 🖱 */
     computerMouse: string;
-    /** confetti ball \u{1f38a} */
+    /** confetti ball 🎊 */
     confettiBall: string;
-    /** confounded face \u{1f616} */
+    /** confounded face 😖 */
     confoundedFace: string;
-    /** confused face \u{1f615} */
+    /** confused face 😕 */
     confusedFace: string;
-    /** construction \u{1f6a7} */
+    /** construction 🚧 */
     construction: string;
-    /** construction worker \u{1f477} */
+    /** construction worker 👷 */
     constructionWorker: string;
-    /** control knobs \u{1f39b} */
+    /** control knobs 🎛 */
     controlKnobs: string;
-    /** convenience store \u{1f3ea} */
+    /** convenience store 🏪 */
     convenienceStore: string;
-    /** cook \u{1f9d1}\u{200d}\u{1f373} */
+    /** cook 🧑‍🍳 */
     cook: string;
-    /** cooked rice \u{1f35a} */
+    /** cooked rice 🍚 */
     cookedRice: string;
-    /** cookie \u{1f36a} */
+    /** cookie 🍪 */
     cookie: string;
-    /** cooking \u{1f373} */
+    /** cooking 🍳 */
     cooking: string;
-    /** COOL button \u{1f192} */
+    /** COOL button 🆒 */
     coolButton: string;
-    /** copyright \u{00a9} */
+    /** copyright © */
     copyright: string;
-    /** coral \u{1fab8} */
+    /** coral 🪸 */
     coral: string;
-    /** couch and lamp \u{1f6cb} */
+    /** couch and lamp 🛋 */
     couchAndLamp: string;
-    /** counterclockwise arrows button \u{1f504} */
+    /** counterclockwise arrows button 🔄 */
     counterclockwiseArrowsButton: string;
-    /** couple with heart \u{1f491} */
+    /** couple with heart 💑 */
     coupleWithHeart: string;
-    /** couple with heart: man, man \u{1f468}\u{200d}\u{2764}\u{fe0f}\u{200d}\u{1f468} */
+    /** couple with heart: man, man 👨‍❤️‍👨 */
     coupleWithHeartManMan: string;
-    /** couple with heart: woman, man \u{1f469}\u{200d}\u{2764}\u{fe0f}\u{200d}\u{1f468} */
+    /** couple with heart: woman, man 👩‍❤️‍👨 */
     coupleWithHeartWomanMan: string;
-    /** couple with heart: woman, woman \u{1f469}\u{200d}\u{2764}\u{fe0f}\u{200d}\u{1f469} */
+    /** couple with heart: woman, woman 👩‍❤️‍👩 */
     coupleWithHeartWomanWoman: string;
-    /** cow \u{1f404} */
+    /** cow 🐄 */
     cow: string;
-    /** cowboy hat face \u{1f920} */
+    /** cowboy hat face 🤠 */
     cowboyHatFace: string;
-    /** cow face \u{1f42e} */
+    /** cow face 🐮 */
     cowFace: string;
-    /** crab \u{1f980} */
+    /** crab 🦀 */
     crab: string;
-    /** crayon \u{1f58d} */
+    /** crayon 🖍 */
     crayon: string;
-    /** credit card \u{1f4b3} */
+    /** credit card 💳 */
     creditCard: string;
-    /** crescent moon \u{1f319} */
+    /** crescent moon 🌙 */
     crescentMoon: string;
-    /** cricket \u{1f997} */
+    /** cricket 🦗 */
     cricket: string;
-    /** cricket game \u{1f3cf} */
+    /** cricket game 🏏 */
     cricketGame: string;
-    /** crocodile \u{1f40a} */
+    /** crocodile 🐊 */
     crocodile: string;
-    /** croissant \u{1f950} */
+    /** croissant 🥐 */
     croissant: string;
-    /** crossed fingers \u{1f91e} */
+    /** crossed fingers 🤞 */
     crossedFingers: string;
-    /** crossed flags \u{1f38c} */
+    /** crossed flags 🎌 */
     crossedFlags: string;
-    /** crossed swords \u{2694} */
+    /** crossed swords ⚔ */
     crossedSwords: string;
-    /** cross mark \u{274c} */
+    /** cross mark ❌ */
     crossMark: string;
-    /** cross mark button \u{274e} */
+    /** cross mark button ❎ */
     crossMarkButton: string;
-    /** crown \u{1f451} */
+    /** crown 👑 */
     crown: string;
-    /** crutch \u{1fa7c} */
+    /** crutch 🩼 */
     crutch: string;
-    /** crying cat \u{1f63f} */
+    /** crying cat 😿 */
     cryingCat: string;
-    /** crying face \u{1f622} */
+    /** crying face 😢 */
     cryingFace: string;
-    /** crystal ball \u{1f52e} */
+    /** crystal ball 🔮 */
     crystalBall: string;
-    /** cucumber \u{1f952} */
+    /** cucumber 🥒 */
     cucumber: string;
-    /** cupcake \u{1f9c1} */
+    /** cupcake 🧁 */
     cupcake: string;
-    /** cup with straw \u{1f964} */
+    /** cup with straw 🥤 */
     cupWithStraw: string;
-    /** curling stone \u{1f94c} */
+    /** curling stone 🥌 */
     curlingStone: string;
-    /** curly hair \u{1f9b1} */
+    /** curly hair 🦱 */
     curlyHair: string;
-    /** curly loop \u{27b0} */
+    /** curly loop ➰ */
     curlyLoop: string;
-    /** currency exchange \u{1f4b1} */
+    /** currency exchange 💱 */
     currencyExchange: string;
-    /** curry rice \u{1f35b} */
+    /** curry rice 🍛 */
     curryRice: string;
-    /** custard \u{1f36e} */
+    /** custard 🍮 */
     custard: string;
-    /** customs \u{1f6c3} */
+    /** customs 🛃 */
     customs: string;
-    /** cut of meat \u{1f969} */
+    /** cut of meat 🥩 */
     cutOfMeat: string;
-    /** cyclone \u{1f300} */
+    /** cyclone 🌀 */
     cyclone: string;
-    /** dagger \u{1f5e1} */
+    /** dagger 🗡 */
     dagger: string;
-    /** dango \u{1f361} */
+    /** dango 🍡 */
     dango: string;
-    /** dashing away \u{1f4a8} */
+    /** dashing away 💨 */
     dashingAway: string;
-    /** deaf man \u{1f9cf}\u{200d}\u{2642}\u{fe0f} */
+    /** deaf man 🧏‍♂️ */
     deafMan: string;
-    /** deaf person \u{1f9cf} */
+    /** deaf person 🧏 */
     deafPerson: string;
-    /** deaf woman \u{1f9cf}\u{200d}\u{2640}\u{fe0f} */
+    /** deaf woman 🧏‍♀️ */
     deafWoman: string;
-    /** deciduous tree \u{1f333} */
+    /** deciduous tree 🌳 */
     deciduousTree: string;
-    /** deer \u{1f98c} */
+    /** deer 🦌 */
     deer: string;
-    /** delivery truck \u{1f69a} */
+    /** delivery truck 🚚 */
     deliveryTruck: string;
-    /** department store \u{1f3ec} */
+    /** department store 🏬 */
     departmentStore: string;
-    /** derelict house \u{1f3da} */
+    /** derelict house 🏚 */
     derelictHouse: string;
-    /** desert \u{1f3dc} */
+    /** desert 🏜 */
     desert: string;
-    /** desert island \u{1f3dd} */
+    /** desert island 🏝 */
     desertIsland: string;
-    /** desktop computer \u{1f5a5} */
+    /** desktop computer 🖥 */
     desktopComputer: string;
-    /** detective \u{1f575} */
+    /** detective 🕵 */
     detective: string;
-    /** diamond suit \u{2666} */
+    /** diamond suit ♦ */
     diamondSuit: string;
-    /** diamond with a dot \u{1f4a0} */
+    /** diamond with a dot 💠 */
     diamondWithADot: string;
-    /** dim button \u{1f505} */
+    /** dim button 🔅 */
     dimButton: string;
-    /** disappointed face \u{1f61e} */
+    /** disappointed face 😞 */
     disappointedFace: string;
-    /** disguised face \u{1f978} */
+    /** disguised face 🥸 */
     disguisedFace: string;
-    /** divide \u{2797} */
+    /** divide ➗ */
     divide: string;
-    /** diving mask \u{1f93f} */
+    /** diving mask 🤿 */
     divingMask: string;
-    /** diya lamp \u{1fa94} */
+    /** diya lamp 🪔 */
     diyaLamp: string;
-    /** dizzy \u{1f4ab} */
+    /** dizzy 💫 */
     dizzy: string;
-    /** dna \u{1f9ec} */
+    /** dna 🧬 */
     dna: string;
-    /** dodo \u{1f9a4} */
+    /** dodo 🦤 */
     dodo: string;
-    /** dog \u{1f415} */
+    /** dog 🐕 */
     dog: string;
-    /** dog face \u{1f436} */
+    /** dog face 🐶 */
     dogFace: string;
-    /** dollar banknote \u{1f4b5} */
+    /** dollar banknote 💵 */
     dollarBanknote: string;
-    /** dolphin \u{1f42c} */
+    /** dolphin 🐬 */
     dolphin: string;
-    /** donkey \u{1facf} */
+    /** donkey 🫏 */
     donkey: string;
-    /** door \u{1f6aa} */
+    /** door 🚪 */
     door: string;
-    /** dotted line face \u{1fae5} */
+    /** dotted line face 🫥 */
     dottedLineFace: string;
-    /** dotted six-pointed star \u{1f52f} */
+    /** dotted six-pointed star 🔯 */
     dottedSixPointedStar: string;
-    /** double curly loop \u{27bf} */
+    /** double curly loop ➿ */
     doubleCurlyLoop: string;
-    /** double exclamation mark \u{203c} */
+    /** double exclamation mark ‼ */
     doubleExclamationMark: string;
-    /** doughnut \u{1f369} */
+    /** doughnut 🍩 */
     doughnut: string;
-    /** dove \u{1f54a} */
+    /** dove 🕊 */
     dove: string;
-    /** down arrow \u{2b07} */
+    /** down arrow ⬇ */
     downArrow: string;
-    /** downcast face with sweat \u{1f613} */
+    /** downcast face with sweat 😓 */
     downcastFaceWithSweat: string;
-    /** down-left arrow \u{2199} */
+    /** down-left arrow ↙ */
     downLeftArrow: string;
-    /** down-right arrow \u{2198} */
+    /** down-right arrow ↘ */
     downRightArrow: string;
-    /** downwards button \u{1f53d} */
+    /** downwards button 🔽 */
     downwardsButton: string;
-    /** dragon \u{1f409} */
+    /** dragon 🐉 */
     dragon: string;
-    /** dragon face \u{1f432} */
+    /** dragon face 🐲 */
     dragonFace: string;
-    /** dress \u{1f457} */
+    /** dress 👗 */
     dress: string;
-    /** drooling face \u{1f924} */
+    /** drooling face 🤤 */
     droolingFace: string;
-    /** droplet \u{1f4a7} */
+    /** droplet 💧 */
     droplet: string;
-    /** drop of blood \u{1fa78} */
+    /** drop of blood 🩸 */
     dropOfBlood: string;
-    /** drum \u{1f941} */
+    /** drum 🥁 */
     drum: string;
-    /** duck \u{1f986} */
+    /** duck 🦆 */
     duck: string;
-    /** dumpling \u{1f95f} */
+    /** dumpling 🥟 */
     dumpling: string;
-    /** dvd \u{1f4c0} */
+    /** dvd 📀 */
     dvd: string;
-    /** eagle \u{1f985} */
+    /** eagle 🦅 */
     eagle: string;
-    /** ear \u{1f442} */
+    /** ear 👂 */
     ear: string;
-    /** ear of corn \u{1f33d} */
+    /** ear of corn 🌽 */
     earOfCorn: string;
-    /** ear with hearing aid \u{1f9bb} */
+    /** ear with hearing aid 🦻 */
     earWithHearingAid: string;
-    /** egg \u{1f95a} */
+    /** egg 🥚 */
     egg: string;
-    /** eggplant \u{1f346} */
+    /** eggplant 🍆 */
     eggplant: string;
-    /** eight o’clock \u{1f557} */
+    /** eight o’clock 🕗 */
     eightOclock: string;
-    /** eight-pointed star \u{2734} */
+    /** eight-pointed star ✴ */
     eightPointedStar: string;
-    /** eight-spoked asterisk \u{2733} */
+    /** eight-spoked asterisk ✳ */
     eightSpokedAsterisk: string;
-    /** eight-thirty \u{1f563} */
+    /** eight-thirty 🕣 */
     eightThirty: string;
-    /** eject button \u{23cf} */
+    /** eject button ⏏ */
     ejectButton: string;
-    /** electric plug \u{1f50c} */
+    /** electric plug 🔌 */
     electricPlug: string;
-    /** elephant \u{1f418} */
+    /** elephant 🐘 */
     elephant: string;
-    /** elevator \u{1f6d7} */
+    /** elevator 🛗 */
     elevator: string;
-    /** eleven o’clock \u{1f55a} */
+    /** eleven o’clock 🕚 */
     elevenOclock: string;
-    /** eleven-thirty \u{1f566} */
+    /** eleven-thirty 🕦 */
     elevenThirty: string;
-    /** elf \u{1f9dd} */
+    /** elf 🧝 */
     elf: string;
-    /** e-mail \u{1f4e7} */
+    /** e-mail 📧 */
     eMail: string;
-    /** empty nest \u{1fab9} */
+    /** empty nest 🪹 */
     emptyNest: string;
-    /** END arrow \u{1f51a} */
+    /** END arrow 🔚 */
     endArrow: string;
-    /** enraged face \u{1f621} */
+    /** enraged face 😡 */
     enragedFace: string;
-    /** envelope \u{2709} */
+    /** envelope ✉ */
     envelope: string;
-    /** envelope with arrow \u{1f4e9} */
+    /** envelope with arrow 📩 */
     envelopeWithArrow: string;
-    /** euro banknote \u{1f4b6} */
+    /** euro banknote 💶 */
     euroBanknote: string;
-    /** evergreen tree \u{1f332} */
+    /** evergreen tree 🌲 */
     evergreenTree: string;
-    /** ewe \u{1f411} */
+    /** ewe 🐑 */
     ewe: string;
-    /** exclamation question mark \u{2049} */
+    /** exclamation question mark ⁉ */
     exclamationQuestionMark: string;
-    /** exploding head \u{1f92f} */
+    /** exploding head 🤯 */
     explodingHead: string;
-    /** expressionless face \u{1f611} */
+    /** expressionless face 😑 */
     expressionlessFace: string;
-    /** eye \u{1f441} */
+    /** eye 👁 */
     eye: string;
-    /** eye in speech bubble \u{1f441}\u{fe0f}\u{200d}\u{1f5e8}\u{fe0f} */
+    /** eye in speech bubble 👁️‍🗨️ */
     eyeInSpeechBubble: string;
-    /** eyes \u{1f440} */
+    /** eyes 👀 */
     eyes: string;
-    /** face blowing a kiss \u{1f618} */
+    /** face blowing a kiss 😘 */
     faceBlowingAKiss: string;
-    /** face exhaling \u{1f62e}\u{200d}\u{1f4a8} */
+    /** face exhaling 😮‍💨 */
     faceExhaling: string;
-    /** face holding back tears \u{1f979} */
+    /** face holding back tears 🥹 */
     faceHoldingBackTears: string;
-    /** face in clouds \u{1f636}\u{200d}\u{1f32b}\u{fe0f} */
+    /** face in clouds 😶‍🌫️ */
     faceInClouds: string;
-    /** face savoring food \u{1f60b} */
+    /** face savoring food 😋 */
     faceSavoringFood: string;
-    /** face screaming in fear \u{1f631} */
+    /** face screaming in fear 😱 */
     faceScreamingInFear: string;
-    /** face vomiting \u{1f92e} */
+    /** face vomiting 🤮 */
     faceVomiting: string;
-    /** ⊛ face with bags under eyes \u{1fae9} */
+    /** ⊛ face with bags under eyes 🫩 */
     faceWithBagsUnderEyes: string;
-    /** face with crossed-out eyes \u{1f635} */
+    /** face with crossed-out eyes 😵 */
     faceWithCrossedOutEyes: string;
-    /** face with diagonal mouth \u{1fae4} */
+    /** face with diagonal mouth 🫤 */
     faceWithDiagonalMouth: string;
-    /** face with hand over mouth \u{1f92d} */
+    /** face with hand over mouth 🤭 */
     faceWithHandOverMouth: string;
-    /** face with head-bandage \u{1f915} */
+    /** face with head-bandage 🤕 */
     faceWithHeadBandage: string;
-    /** face with medical mask \u{1f637} */
+    /** face with medical mask 😷 */
     faceWithMedicalMask: string;
-    /** face with monocle \u{1f9d0} */
+    /** face with monocle 🧐 */
     faceWithMonocle: string;
-    /** face with open eyes and hand over mouth \u{1fae2} */
+    /** face with open eyes and hand over mouth 🫢 */
     faceWithOpenEyesAndHandOverMouth: string;
-    /** face with open mouth \u{1f62e} */
+    /** face with open mouth 😮 */
     faceWithOpenMouth: string;
-    /** face without mouth \u{1f636} */
+    /** face without mouth 😶 */
     faceWithoutMouth: string;
-    /** face with peeking eye \u{1fae3} */
+    /** face with peeking eye 🫣 */
     faceWithPeekingEye: string;
-    /** face with raised eyebrow \u{1f928} */
+    /** face with raised eyebrow 🤨 */
     faceWithRaisedEyebrow: string;
-    /** face with rolling eyes \u{1f644} */
+    /** face with rolling eyes 🙄 */
     faceWithRollingEyes: string;
-    /** face with spiral eyes \u{1f635}\u{200d}\u{1f4ab} */
+    /** face with spiral eyes 😵‍💫 */
     faceWithSpiralEyes: string;
-    /** face with steam from nose \u{1f624} */
+    /** face with steam from nose 😤 */
     faceWithSteamFromNose: string;
-    /** face with symbols on mouth \u{1f92c} */
+    /** face with symbols on mouth 🤬 */
     faceWithSymbolsOnMouth: string;
-    /** face with tears of joy \u{1f602} */
+    /** face with tears of joy 😂 */
     faceWithTearsOfJoy: string;
-    /** face with thermometer \u{1f912} */
+    /** face with thermometer 🤒 */
     faceWithThermometer: string;
-    /** face with tongue \u{1f61b} */
+    /** face with tongue 😛 */
     faceWithTongue: string;
-    /** factory \u{1f3ed} */
+    /** factory 🏭 */
     factory: string;
-    /** factory worker \u{1f9d1}\u{200d}\u{1f3ed} */
+    /** factory worker 🧑‍🏭 */
     factoryWorker: string;
-    /** fairy \u{1f9da} */
+    /** fairy 🧚 */
     fairy: string;
-    /** falafel \u{1f9c6} */
+    /** falafel 🧆 */
     falafel: string;
-    /** fallen leaf \u{1f342} */
+    /** fallen leaf 🍂 */
     fallenLeaf: string;
-    /** family \u{1f46a} */
+    /** family 👪 */
     family: string;
-    /** family: adult, adult, child \u{1f9d1}\u{200d}\u{1f9d1}\u{200d}\u{1f9d2} */
+    /** family: adult, adult, child 🧑‍🧑‍🧒 */
     familyAdultAdultChild: string;
-    /** family: adult, adult, child, child \u{1f9d1}\u{200d}\u{1f9d1}\u{200d}\u{1f9d2}\u{200d}\u{1f9d2} */
+    /** family: adult, adult, child, child 🧑‍🧑‍🧒‍🧒 */
     familyAdultAdultChildChild: string;
-    /** family: adult, child \u{1f9d1}\u{200d}\u{1f9d2} */
+    /** family: adult, child 🧑‍🧒 */
     familyAdultChild: string;
-    /** family: adult, child, child \u{1f9d1}\u{200d}\u{1f9d2}\u{200d}\u{1f9d2} */
+    /** family: adult, child, child 🧑‍🧒‍🧒 */
     familyAdultChildChild: string;
-    /** family: man, boy \u{1f468}\u{200d}\u{1f466} */
+    /** family: man, boy 👨‍👦 */
     familyManBoy: string;
-    /** family: man, boy, boy \u{1f468}\u{200d}\u{1f466}\u{200d}\u{1f466} */
+    /** family: man, boy, boy 👨‍👦‍👦 */
     familyManBoyBoy: string;
-    /** family: man, girl \u{1f468}\u{200d}\u{1f467} */
+    /** family: man, girl 👨‍👧 */
     familyManGirl: string;
-    /** family: man, girl, boy \u{1f468}\u{200d}\u{1f467}\u{200d}\u{1f466} */
+    /** family: man, girl, boy 👨‍👧‍👦 */
     familyManGirlBoy: string;
-    /** family: man, girl, girl \u{1f468}\u{200d}\u{1f467}\u{200d}\u{1f467} */
+    /** family: man, girl, girl 👨‍👧‍👧 */
     familyManGirlGirl: string;
-    /** family: man, man, boy \u{1f468}\u{200d}\u{1f468}\u{200d}\u{1f466} */
+    /** family: man, man, boy 👨‍👨‍👦 */
     familyManManBoy: string;
-    /** family: man, man, boy, boy \u{1f468}\u{200d}\u{1f468}\u{200d}\u{1f466}\u{200d}\u{1f466} */
+    /** family: man, man, boy, boy 👨‍👨‍👦‍👦 */
     familyManManBoyBoy: string;
-    /** family: man, man, girl \u{1f468}\u{200d}\u{1f468}\u{200d}\u{1f467} */
+    /** family: man, man, girl 👨‍👨‍👧 */
     familyManManGirl: string;
-    /** family: man, man, girl, boy \u{1f468}\u{200d}\u{1f468}\u{200d}\u{1f467}\u{200d}\u{1f466} */
+    /** family: man, man, girl, boy 👨‍👨‍👧‍👦 */
     familyManManGirlBoy: string;
-    /** family: man, man, girl, girl \u{1f468}\u{200d}\u{1f468}\u{200d}\u{1f467}\u{200d}\u{1f467} */
+    /** family: man, man, girl, girl 👨‍👨‍👧‍👧 */
     familyManManGirlGirl: string;
-    /** family: man, woman, boy \u{1f468}\u{200d}\u{1f469}\u{200d}\u{1f466} */
+    /** family: man, woman, boy 👨‍👩‍👦 */
     familyManWomanBoy: string;
-    /** family: man, woman, boy, boy \u{1f468}\u{200d}\u{1f469}\u{200d}\u{1f466}\u{200d}\u{1f466} */
+    /** family: man, woman, boy, boy 👨‍👩‍👦‍👦 */
     familyManWomanBoyBoy: string;
-    /** family: man, woman, girl \u{1f468}\u{200d}\u{1f469}\u{200d}\u{1f467} */
+    /** family: man, woman, girl 👨‍👩‍👧 */
     familyManWomanGirl: string;
-    /** family: man, woman, girl, boy \u{1f468}\u{200d}\u{1f469}\u{200d}\u{1f467}\u{200d}\u{1f466} */
+    /** family: man, woman, girl, boy 👨‍👩‍👧‍👦 */
     familyManWomanGirlBoy: string;
-    /** family: man, woman, girl, girl \u{1f468}\u{200d}\u{1f469}\u{200d}\u{1f467}\u{200d}\u{1f467} */
+    /** family: man, woman, girl, girl 👨‍👩‍👧‍👧 */
     familyManWomanGirlGirl: string;
-    /** family: woman, boy \u{1f469}\u{200d}\u{1f466} */
+    /** family: woman, boy 👩‍👦 */
     familyWomanBoy: string;
-    /** family: woman, boy, boy \u{1f469}\u{200d}\u{1f466}\u{200d}\u{1f466} */
+    /** family: woman, boy, boy 👩‍👦‍👦 */
     familyWomanBoyBoy: string;
-    /** family: woman, girl \u{1f469}\u{200d}\u{1f467} */
+    /** family: woman, girl 👩‍👧 */
     familyWomanGirl: string;
-    /** family: woman, girl, boy \u{1f469}\u{200d}\u{1f467}\u{200d}\u{1f466} */
+    /** family: woman, girl, boy 👩‍👧‍👦 */
     familyWomanGirlBoy: string;
-    /** family: woman, girl, girl \u{1f469}\u{200d}\u{1f467}\u{200d}\u{1f467} */
+    /** family: woman, girl, girl 👩‍👧‍👧 */
     familyWomanGirlGirl: string;
-    /** family: woman, woman, boy \u{1f469}\u{200d}\u{1f469}\u{200d}\u{1f466} */
+    /** family: woman, woman, boy 👩‍👩‍👦 */
     familyWomanWomanBoy: string;
-    /** family: woman, woman, boy, boy \u{1f469}\u{200d}\u{1f469}\u{200d}\u{1f466}\u{200d}\u{1f466} */
+    /** family: woman, woman, boy, boy 👩‍👩‍👦‍👦 */
     familyWomanWomanBoyBoy: string;
-    /** family: woman, woman, girl \u{1f469}\u{200d}\u{1f469}\u{200d}\u{1f467} */
+    /** family: woman, woman, girl 👩‍👩‍👧 */
     familyWomanWomanGirl: string;
-    /** family: woman, woman, girl, boy \u{1f469}\u{200d}\u{1f469}\u{200d}\u{1f467}\u{200d}\u{1f466} */
+    /** family: woman, woman, girl, boy 👩‍👩‍👧‍👦 */
     familyWomanWomanGirlBoy: string;
-    /** family: woman, woman, girl, girl \u{1f469}\u{200d}\u{1f469}\u{200d}\u{1f467}\u{200d}\u{1f467} */
+    /** family: woman, woman, girl, girl 👩‍👩‍👧‍👧 */
     familyWomanWomanGirlGirl: string;
-    /** farmer \u{1f9d1}\u{200d}\u{1f33e} */
+    /** farmer 🧑‍🌾 */
     farmer: string;
-    /** fast down button \u{23ec} */
+    /** fast down button ⏬ */
     fastDownButton: string;
-    /** fast-forward button \u{23e9} */
+    /** fast-forward button ⏩ */
     fastForwardButton: string;
-    /** fast reverse button \u{23ea} */
+    /** fast reverse button ⏪ */
     fastReverseButton: string;
-    /** fast up button \u{23eb} */
+    /** fast up button ⏫ */
     fastUpButton: string;
-    /** fax machine \u{1f4e0} */
+    /** fax machine 📠 */
     faxMachine: string;
-    /** fearful face \u{1f628} */
+    /** fearful face 😨 */
     fearfulFace: string;
-    /** feather \u{1fab6} */
+    /** feather 🪶 */
     feather: string;
-    /** female sign \u{2640} */
+    /** female sign ♀ */
     femaleSign: string;
-    /** ferris wheel \u{1f3a1} */
+    /** ferris wheel 🎡 */
     ferrisWheel: string;
-    /** ferry \u{26f4} */
+    /** ferry ⛴ */
     ferry: string;
-    /** field hockey \u{1f3d1} */
+    /** field hockey 🏑 */
     fieldHockey: string;
-    /** file cabinet \u{1f5c4} */
+    /** file cabinet 🗄 */
     fileCabinet: string;
-    /** file folder \u{1f4c1} */
+    /** file folder 📁 */
     fileFolder: string;
-    /** film frames \u{1f39e} */
+    /** film frames 🎞 */
     filmFrames: string;
-    /** film projector \u{1f4fd} */
+    /** film projector 📽 */
     filmProjector: string;
-    /** ⊛ fingerprint \u{1fac6} */
+    /** ⊛ fingerprint 🫆 */
     fingerprint: string;
-    /** fire \u{1f525} */
+    /** fire 🔥 */
     fire: string;
-    /** firecracker \u{1f9e8} */
+    /** firecracker 🧨 */
     firecracker: string;
-    /** fire engine \u{1f692} */
+    /** fire engine 🚒 */
     fireEngine: string;
-    /** fire extinguisher \u{1f9ef} */
+    /** fire extinguisher 🧯 */
     fireExtinguisher: string;
-    /** firefighter \u{1f9d1}\u{200d}\u{1f692} */
+    /** firefighter 🧑‍🚒 */
     firefighter: string;
-    /** fireworks \u{1f386} */
+    /** fireworks 🎆 */
     fireworks: string;
-    /** 1st place medal \u{1f947} */
+    /** 1st place medal 🥇 */
     firstPlaceMedal: string;
-    /** first quarter moon \u{1f313} */
+    /** first quarter moon 🌓 */
     firstQuarterMoon: string;
-    /** first quarter moon face \u{1f31b} */
+    /** first quarter moon face 🌛 */
     firstQuarterMoonFace: string;
-    /** fish \u{1f41f} */
+    /** fish 🐟 */
     fish: string;
-    /** fish cake with swirl \u{1f365} */
+    /** fish cake with swirl 🍥 */
     fishCakeWithSwirl: string;
-    /** fishing pole \u{1f3a3} */
+    /** fishing pole 🎣 */
     fishingPole: string;
-    /** five o’clock \u{1f554} */
+    /** five o’clock 🕔 */
     fiveOclock: string;
-    /** five-thirty \u{1f560} */
+    /** five-thirty 🕠 */
     fiveThirty: string;
-    /** flag: Afghanistan \u{1f1e6}\u{1f1eb} */
+    /** flag: Afghanistan 🇦🇫 */
     flagAfghanistan: string;
-    /** flag: Åland Islands \u{1f1e6}\u{1f1fd} */
+    /** flag: Åland Islands 🇦🇽 */
     flagAlandIslands: string;
-    /** flag: Albania \u{1f1e6}\u{1f1f1} */
+    /** flag: Albania 🇦🇱 */
     flagAlbania: string;
-    /** flag: Algeria \u{1f1e9}\u{1f1ff} */
+    /** flag: Algeria 🇩🇿 */
     flagAlgeria: string;
-    /** flag: American Samoa \u{1f1e6}\u{1f1f8} */
+    /** flag: American Samoa 🇦🇸 */
     flagAmericanSamoa: string;
-    /** flag: Andorra \u{1f1e6}\u{1f1e9} */
+    /** flag: Andorra 🇦🇩 */
     flagAndorra: string;
-    /** flag: Angola \u{1f1e6}\u{1f1f4} */
+    /** flag: Angola 🇦🇴 */
     flagAngola: string;
-    /** flag: Anguilla \u{1f1e6}\u{1f1ee} */
+    /** flag: Anguilla 🇦🇮 */
     flagAnguilla: string;
-    /** flag: Antarctica \u{1f1e6}\u{1f1f6} */
+    /** flag: Antarctica 🇦🇶 */
     flagAntarctica: string;
-    /** flag: Antigua & Barbuda \u{1f1e6}\u{1f1ec} */
+    /** flag: Antigua & Barbuda 🇦🇬 */
     flagAntiguaAndBarbuda: string;
-    /** flag: Argentina \u{1f1e6}\u{1f1f7} */
+    /** flag: Argentina 🇦🇷 */
     flagArgentina: string;
-    /** flag: Armenia \u{1f1e6}\u{1f1f2} */
+    /** flag: Armenia 🇦🇲 */
     flagArmenia: string;
-    /** flag: Aruba \u{1f1e6}\u{1f1fc} */
+    /** flag: Aruba 🇦🇼 */
     flagAruba: string;
-    /** flag: Ascension Island \u{1f1e6}\u{1f1e8} */
+    /** flag: Ascension Island 🇦🇨 */
     flagAscensionIsland: string;
-    /** flag: Australia \u{1f1e6}\u{1f1fa} */
+    /** flag: Australia 🇦🇺 */
     flagAustralia: string;
-    /** flag: Austria \u{1f1e6}\u{1f1f9} */
+    /** flag: Austria 🇦🇹 */
     flagAustria: string;
-    /** flag: Azerbaijan \u{1f1e6}\u{1f1ff} */
+    /** flag: Azerbaijan 🇦🇿 */
     flagAzerbaijan: string;
-    /** flag: Bahamas \u{1f1e7}\u{1f1f8} */
+    /** flag: Bahamas 🇧🇸 */
     flagBahamas: string;
-    /** flag: Bahrain \u{1f1e7}\u{1f1ed} */
+    /** flag: Bahrain 🇧🇭 */
     flagBahrain: string;
-    /** flag: Bangladesh \u{1f1e7}\u{1f1e9} */
+    /** flag: Bangladesh 🇧🇩 */
     flagBangladesh: string;
-    /** flag: Barbados \u{1f1e7}\u{1f1e7} */
+    /** flag: Barbados 🇧🇧 */
     flagBarbados: string;
-    /** flag: Belarus \u{1f1e7}\u{1f1fe} */
+    /** flag: Belarus 🇧🇾 */
     flagBelarus: string;
-    /** flag: Belgium \u{1f1e7}\u{1f1ea} */
+    /** flag: Belgium 🇧🇪 */
     flagBelgium: string;
-    /** flag: Belize \u{1f1e7}\u{1f1ff} */
+    /** flag: Belize 🇧🇿 */
     flagBelize: string;
-    /** flag: Benin \u{1f1e7}\u{1f1ef} */
+    /** flag: Benin 🇧🇯 */
     flagBenin: string;
-    /** flag: Bermuda \u{1f1e7}\u{1f1f2} */
+    /** flag: Bermuda 🇧🇲 */
     flagBermuda: string;
-    /** flag: Bhutan \u{1f1e7}\u{1f1f9} */
+    /** flag: Bhutan 🇧🇹 */
     flagBhutan: string;
-    /** flag: Bolivia \u{1f1e7}\u{1f1f4} */
+    /** flag: Bolivia 🇧🇴 */
     flagBolivia: string;
-    /** flag: Bosnia & Herzegovina \u{1f1e7}\u{1f1e6} */
+    /** flag: Bosnia & Herzegovina 🇧🇦 */
     flagBosniaAndHerzegovina: string;
-    /** flag: Botswana \u{1f1e7}\u{1f1fc} */
+    /** flag: Botswana 🇧🇼 */
     flagBotswana: string;
-    /** flag: Bouvet Island \u{1f1e7}\u{1f1fb} */
+    /** flag: Bouvet Island 🇧🇻 */
     flagBouvetIsland: string;
-    /** flag: Brazil \u{1f1e7}\u{1f1f7} */
+    /** flag: Brazil 🇧🇷 */
     flagBrazil: string;
-    /** flag: British Indian Ocean Territory \u{1f1ee}\u{1f1f4} */
+    /** flag: British Indian Ocean Territory 🇮🇴 */
     flagBritishIndianOceanTerritory: string;
-    /** flag: British Virgin Islands \u{1f1fb}\u{1f1ec} */
+    /** flag: British Virgin Islands 🇻🇬 */
     flagBritishVirginIslands: string;
-    /** flag: Brunei \u{1f1e7}\u{1f1f3} */
+    /** flag: Brunei 🇧🇳 */
     flagBrunei: string;
-    /** flag: Bulgaria \u{1f1e7}\u{1f1ec} */
+    /** flag: Bulgaria 🇧🇬 */
     flagBulgaria: string;
-    /** flag: Burkina Faso \u{1f1e7}\u{1f1eb} */
+    /** flag: Burkina Faso 🇧🇫 */
     flagBurkinaFaso: string;
-    /** flag: Burundi \u{1f1e7}\u{1f1ee} */
+    /** flag: Burundi 🇧🇮 */
     flagBurundi: string;
-    /** flag: Cambodia \u{1f1f0}\u{1f1ed} */
+    /** flag: Cambodia 🇰🇭 */
     flagCambodia: string;
-    /** flag: Cameroon \u{1f1e8}\u{1f1f2} */
+    /** flag: Cameroon 🇨🇲 */
     flagCameroon: string;
-    /** flag: Canada \u{1f1e8}\u{1f1e6} */
+    /** flag: Canada 🇨🇦 */
     flagCanada: string;
-    /** flag: Canary Islands \u{1f1ee}\u{1f1e8} */
+    /** flag: Canary Islands 🇮🇨 */
     flagCanaryIslands: string;
-    /** flag: Cape Verde \u{1f1e8}\u{1f1fb} */
+    /** flag: Cape Verde 🇨🇻 */
     flagCapeVerde: string;
-    /** flag: Caribbean Netherlands \u{1f1e7}\u{1f1f6} */
+    /** flag: Caribbean Netherlands 🇧🇶 */
     flagCaribbeanNetherlands: string;
-    /** flag: Cayman Islands \u{1f1f0}\u{1f1fe} */
+    /** flag: Cayman Islands 🇰🇾 */
     flagCaymanIslands: string;
-    /** flag: Central African Republic \u{1f1e8}\u{1f1eb} */
+    /** flag: Central African Republic 🇨🇫 */
     flagCentralAfricanRepublic: string;
-    /** flag: Ceuta & Melilla \u{1f1ea}\u{1f1e6} */
+    /** flag: Ceuta & Melilla 🇪🇦 */
     flagCeutaAndMelilla: string;
-    /** flag: Chad \u{1f1f9}\u{1f1e9} */
+    /** flag: Chad 🇹🇩 */
     flagChad: string;
-    /** flag: Chile \u{1f1e8}\u{1f1f1} */
+    /** flag: Chile 🇨🇱 */
     flagChile: string;
-    /** flag: China \u{1f1e8}\u{1f1f3} */
+    /** flag: China 🇨🇳 */
     flagChina: string;
-    /** flag: Christmas Island \u{1f1e8}\u{1f1fd} */
+    /** flag: Christmas Island 🇨🇽 */
     flagChristmasIsland: string;
-    /** flag: Clipperton Island \u{1f1e8}\u{1f1f5} */
+    /** flag: Clipperton Island 🇨🇵 */
     flagClippertonIsland: string;
-    /** flag: Cocos (Keeling) Islands \u{1f1e8}\u{1f1e8} */
+    /** flag: Cocos (Keeling) Islands 🇨🇨 */
     flagCocosKeelingIslands: string;
-    /** flag: Colombia \u{1f1e8}\u{1f1f4} */
+    /** flag: Colombia 🇨🇴 */
     flagColombia: string;
-    /** flag: Comoros \u{1f1f0}\u{1f1f2} */
+    /** flag: Comoros 🇰🇲 */
     flagComoros: string;
-    /** flag: Congo - Brazzaville \u{1f1e8}\u{1f1ec} */
+    /** flag: Congo - Brazzaville 🇨🇬 */
     flagCongoBrazzaville: string;
-    /** flag: Congo - Kinshasa \u{1f1e8}\u{1f1e9} */
+    /** flag: Congo - Kinshasa 🇨🇩 */
     flagCongoKinshasa: string;
-    /** flag: Cook Islands \u{1f1e8}\u{1f1f0} */
+    /** flag: Cook Islands 🇨🇰 */
     flagCookIslands: string;
-    /** flag: Costa Rica \u{1f1e8}\u{1f1f7} */
+    /** flag: Costa Rica 🇨🇷 */
     flagCostaRica: string;
-    /** flag: Côte d’Ivoire \u{1f1e8}\u{1f1ee} */
+    /** flag: Côte d’Ivoire 🇨🇮 */
     flagCoteDIvoire: string;
-    /** flag: Croatia \u{1f1ed}\u{1f1f7} */
+    /** flag: Croatia 🇭🇷 */
     flagCroatia: string;
-    /** flag: Cuba \u{1f1e8}\u{1f1fa} */
+    /** flag: Cuba 🇨🇺 */
     flagCuba: string;
-    /** flag: Curaçao \u{1f1e8}\u{1f1fc} */
+    /** flag: Curaçao 🇨🇼 */
     flagCuracao: string;
-    /** flag: Cyprus \u{1f1e8}\u{1f1fe} */
+    /** flag: Cyprus 🇨🇾 */
     flagCyprus: string;
-    /** flag: Czechia \u{1f1e8}\u{1f1ff} */
+    /** flag: Czechia 🇨🇿 */
     flagCzechia: string;
-    /** flag: Denmark \u{1f1e9}\u{1f1f0} */
+    /** flag: Denmark 🇩🇰 */
     flagDenmark: string;
-    /** flag: Diego Garcia \u{1f1e9}\u{1f1ec} */
+    /** flag: Diego Garcia 🇩🇬 */
     flagDiegoGarcia: string;
-    /** flag: Djibouti \u{1f1e9}\u{1f1ef} */
+    /** flag: Djibouti 🇩🇯 */
     flagDjibouti: string;
-    /** flag: Dominica \u{1f1e9}\u{1f1f2} */
+    /** flag: Dominica 🇩🇲 */
     flagDominica: string;
-    /** flag: Dominican Republic \u{1f1e9}\u{1f1f4} */
+    /** flag: Dominican Republic 🇩🇴 */
     flagDominicanRepublic: string;
-    /** flag: Ecuador \u{1f1ea}\u{1f1e8} */
+    /** flag: Ecuador 🇪🇨 */
     flagEcuador: string;
-    /** flag: Egypt \u{1f1ea}\u{1f1ec} */
+    /** flag: Egypt 🇪🇬 */
     flagEgypt: string;
-    /** flag: El Salvador \u{1f1f8}\u{1f1fb} */
+    /** flag: El Salvador 🇸🇻 */
     flagElSalvador: string;
-    /** flag: England \u{1f3f4}\u{e0067}\u{e0062}\u{e0065}\u{e006e}\u{e0067}\u{e007f} */
+    /** flag: England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 */
     flagEngland: string;
-    /** flag: Equatorial Guinea \u{1f1ec}\u{1f1f6} */
+    /** flag: Equatorial Guinea 🇬🇶 */
     flagEquatorialGuinea: string;
-    /** flag: Eritrea \u{1f1ea}\u{1f1f7} */
+    /** flag: Eritrea 🇪🇷 */
     flagEritrea: string;
-    /** flag: Estonia \u{1f1ea}\u{1f1ea} */
+    /** flag: Estonia 🇪🇪 */
     flagEstonia: string;
-    /** flag: Eswatini \u{1f1f8}\u{1f1ff} */
+    /** flag: Eswatini 🇸🇿 */
     flagEswatini: string;
-    /** flag: Ethiopia \u{1f1ea}\u{1f1f9} */
+    /** flag: Ethiopia 🇪🇹 */
     flagEthiopia: string;
-    /** flag: European Union \u{1f1ea}\u{1f1fa} */
+    /** flag: European Union 🇪🇺 */
     flagEuropeanUnion: string;
-    /** flag: Falkland Islands \u{1f1eb}\u{1f1f0} */
+    /** flag: Falkland Islands 🇫🇰 */
     flagFalklandIslands: string;
-    /** flag: Faroe Islands \u{1f1eb}\u{1f1f4} */
+    /** flag: Faroe Islands 🇫🇴 */
     flagFaroeIslands: string;
-    /** flag: Fiji \u{1f1eb}\u{1f1ef} */
+    /** flag: Fiji 🇫🇯 */
     flagFiji: string;
-    /** flag: Finland \u{1f1eb}\u{1f1ee} */
+    /** flag: Finland 🇫🇮 */
     flagFinland: string;
-    /** flag: France \u{1f1eb}\u{1f1f7} */
+    /** flag: France 🇫🇷 */
     flagFrance: string;
-    /** flag: French Guiana \u{1f1ec}\u{1f1eb} */
+    /** flag: French Guiana 🇬🇫 */
     flagFrenchGuiana: string;
-    /** flag: French Polynesia \u{1f1f5}\u{1f1eb} */
+    /** flag: French Polynesia 🇵🇫 */
     flagFrenchPolynesia: string;
-    /** flag: French Southern Territories \u{1f1f9}\u{1f1eb} */
+    /** flag: French Southern Territories 🇹🇫 */
     flagFrenchSouthernTerritories: string;
-    /** flag: Gabon \u{1f1ec}\u{1f1e6} */
+    /** flag: Gabon 🇬🇦 */
     flagGabon: string;
-    /** flag: Gambia \u{1f1ec}\u{1f1f2} */
+    /** flag: Gambia 🇬🇲 */
     flagGambia: string;
-    /** flag: Georgia \u{1f1ec}\u{1f1ea} */
+    /** flag: Georgia 🇬🇪 */
     flagGeorgia: string;
-    /** flag: Germany \u{1f1e9}\u{1f1ea} */
+    /** flag: Germany 🇩🇪 */
     flagGermany: string;
-    /** flag: Ghana \u{1f1ec}\u{1f1ed} */
+    /** flag: Ghana 🇬🇭 */
     flagGhana: string;
-    /** flag: Gibraltar \u{1f1ec}\u{1f1ee} */
+    /** flag: Gibraltar 🇬🇮 */
     flagGibraltar: string;
-    /** flag: Greece \u{1f1ec}\u{1f1f7} */
+    /** flag: Greece 🇬🇷 */
     flagGreece: string;
-    /** flag: Greenland \u{1f1ec}\u{1f1f1} */
+    /** flag: Greenland 🇬🇱 */
     flagGreenland: string;
-    /** flag: Grenada \u{1f1ec}\u{1f1e9} */
+    /** flag: Grenada 🇬🇩 */
     flagGrenada: string;
-    /** flag: Guadeloupe \u{1f1ec}\u{1f1f5} */
+    /** flag: Guadeloupe 🇬🇵 */
     flagGuadeloupe: string;
-    /** flag: Guam \u{1f1ec}\u{1f1fa} */
+    /** flag: Guam 🇬🇺 */
     flagGuam: string;
-    /** flag: Guatemala \u{1f1ec}\u{1f1f9} */
+    /** flag: Guatemala 🇬🇹 */
     flagGuatemala: string;
-    /** flag: Guernsey \u{1f1ec}\u{1f1ec} */
+    /** flag: Guernsey 🇬🇬 */
     flagGuernsey: string;
-    /** flag: Guinea \u{1f1ec}\u{1f1f3} */
+    /** flag: Guinea 🇬🇳 */
     flagGuinea: string;
-    /** flag: Guinea-Bissau \u{1f1ec}\u{1f1fc} */
+    /** flag: Guinea-Bissau 🇬🇼 */
     flagGuineaBissau: string;
-    /** flag: Guyana \u{1f1ec}\u{1f1fe} */
+    /** flag: Guyana 🇬🇾 */
     flagGuyana: string;
-    /** flag: Haiti \u{1f1ed}\u{1f1f9} */
+    /** flag: Haiti 🇭🇹 */
     flagHaiti: string;
-    /** flag: Heard & McDonald Islands \u{1f1ed}\u{1f1f2} */
+    /** flag: Heard & McDonald Islands 🇭🇲 */
     flagHeardAndMcDonaldIslands: string;
-    /** flag: Honduras \u{1f1ed}\u{1f1f3} */
+    /** flag: Honduras 🇭🇳 */
     flagHonduras: string;
-    /** flag: Hong Kong SAR China \u{1f1ed}\u{1f1f0} */
+    /** flag: Hong Kong SAR China 🇭🇰 */
     flagHongKongSARChina: string;
-    /** flag: Hungary \u{1f1ed}\u{1f1fa} */
+    /** flag: Hungary 🇭🇺 */
     flagHungary: string;
-    /** flag: Iceland \u{1f1ee}\u{1f1f8} */
+    /** flag: Iceland 🇮🇸 */
     flagIceland: string;
-    /** flag: India \u{1f1ee}\u{1f1f3} */
+    /** flag: India 🇮🇳 */
     flagIndia: string;
-    /** flag: Indonesia \u{1f1ee}\u{1f1e9} */
+    /** flag: Indonesia 🇮🇩 */
     flagIndonesia: string;
-    /** flag in hole \u{26f3} */
+    /** flag in hole ⛳ */
     flagInHole: string;
-    /** flag: Iran \u{1f1ee}\u{1f1f7} */
+    /** flag: Iran 🇮🇷 */
     flagIran: string;
-    /** flag: Iraq \u{1f1ee}\u{1f1f6} */
+    /** flag: Iraq 🇮🇶 */
     flagIraq: string;
-    /** flag: Ireland \u{1f1ee}\u{1f1ea} */
+    /** flag: Ireland 🇮🇪 */
     flagIreland: string;
-    /** flag: Isle of Man \u{1f1ee}\u{1f1f2} */
+    /** flag: Isle of Man 🇮🇲 */
     flagIsleOfMan: string;
-    /** flag: Israel \u{1f1ee}\u{1f1f1} */
+    /** flag: Israel 🇮🇱 */
     flagIsrael: string;
-    /** flag: Italy \u{1f1ee}\u{1f1f9} */
+    /** flag: Italy 🇮🇹 */
     flagItaly: string;
-    /** flag: Jamaica \u{1f1ef}\u{1f1f2} */
+    /** flag: Jamaica 🇯🇲 */
     flagJamaica: string;
-    /** flag: Japan \u{1f1ef}\u{1f1f5} */
+    /** flag: Japan 🇯🇵 */
     flagJapan: string;
-    /** flag: Jersey \u{1f1ef}\u{1f1ea} */
+    /** flag: Jersey 🇯🇪 */
     flagJersey: string;
-    /** flag: Jordan \u{1f1ef}\u{1f1f4} */
+    /** flag: Jordan 🇯🇴 */
     flagJordan: string;
-    /** flag: Kazakhstan \u{1f1f0}\u{1f1ff} */
+    /** flag: Kazakhstan 🇰🇿 */
     flagKazakhstan: string;
-    /** flag: Kenya \u{1f1f0}\u{1f1ea} */
+    /** flag: Kenya 🇰🇪 */
     flagKenya: string;
-    /** flag: Kiribati \u{1f1f0}\u{1f1ee} */
+    /** flag: Kiribati 🇰🇮 */
     flagKiribati: string;
-    /** flag: Kosovo \u{1f1fd}\u{1f1f0} */
+    /** flag: Kosovo 🇽🇰 */
     flagKosovo: string;
-    /** flag: Kuwait \u{1f1f0}\u{1f1fc} */
+    /** flag: Kuwait 🇰🇼 */
     flagKuwait: string;
-    /** flag: Kyrgyzstan \u{1f1f0}\u{1f1ec} */
+    /** flag: Kyrgyzstan 🇰🇬 */
     flagKyrgyzstan: string;
-    /** flag: Laos \u{1f1f1}\u{1f1e6} */
+    /** flag: Laos 🇱🇦 */
     flagLaos: string;
-    /** flag: Latvia \u{1f1f1}\u{1f1fb} */
+    /** flag: Latvia 🇱🇻 */
     flagLatvia: string;
-    /** flag: Lebanon \u{1f1f1}\u{1f1e7} */
+    /** flag: Lebanon 🇱🇧 */
     flagLebanon: string;
-    /** flag: Lesotho \u{1f1f1}\u{1f1f8} */
+    /** flag: Lesotho 🇱🇸 */
     flagLesotho: string;
-    /** flag: Liberia \u{1f1f1}\u{1f1f7} */
+    /** flag: Liberia 🇱🇷 */
     flagLiberia: string;
-    /** flag: Libya \u{1f1f1}\u{1f1fe} */
+    /** flag: Libya 🇱🇾 */
     flagLibya: string;
-    /** flag: Liechtenstein \u{1f1f1}\u{1f1ee} */
+    /** flag: Liechtenstein 🇱🇮 */
     flagLiechtenstein: string;
-    /** flag: Lithuania \u{1f1f1}\u{1f1f9} */
+    /** flag: Lithuania 🇱🇹 */
     flagLithuania: string;
-    /** flag: Luxembourg \u{1f1f1}\u{1f1fa} */
+    /** flag: Luxembourg 🇱🇺 */
     flagLuxembourg: string;
-    /** flag: Macao SAR China \u{1f1f2}\u{1f1f4} */
+    /** flag: Macao SAR China 🇲🇴 */
     flagMacaoSARChina: string;
-    /** flag: Madagascar \u{1f1f2}\u{1f1ec} */
+    /** flag: Madagascar 🇲🇬 */
     flagMadagascar: string;
-    /** flag: Malawi \u{1f1f2}\u{1f1fc} */
+    /** flag: Malawi 🇲🇼 */
     flagMalawi: string;
-    /** flag: Malaysia \u{1f1f2}\u{1f1fe} */
+    /** flag: Malaysia 🇲🇾 */
     flagMalaysia: string;
-    /** flag: Maldives \u{1f1f2}\u{1f1fb} */
+    /** flag: Maldives 🇲🇻 */
     flagMaldives: string;
-    /** flag: Mali \u{1f1f2}\u{1f1f1} */
+    /** flag: Mali 🇲🇱 */
     flagMali: string;
-    /** flag: Malta \u{1f1f2}\u{1f1f9} */
+    /** flag: Malta 🇲🇹 */
     flagMalta: string;
-    /** flag: Marshall Islands \u{1f1f2}\u{1f1ed} */
+    /** flag: Marshall Islands 🇲🇭 */
     flagMarshallIslands: string;
-    /** flag: Martinique \u{1f1f2}\u{1f1f6} */
+    /** flag: Martinique 🇲🇶 */
     flagMartinique: string;
-    /** flag: Mauritania \u{1f1f2}\u{1f1f7} */
+    /** flag: Mauritania 🇲🇷 */
     flagMauritania: string;
-    /** flag: Mauritius \u{1f1f2}\u{1f1fa} */
+    /** flag: Mauritius 🇲🇺 */
     flagMauritius: string;
-    /** flag: Mayotte \u{1f1fe}\u{1f1f9} */
+    /** flag: Mayotte 🇾🇹 */
     flagMayotte: string;
-    /** flag: Mexico \u{1f1f2}\u{1f1fd} */
+    /** flag: Mexico 🇲🇽 */
     flagMexico: string;
-    /** flag: Micronesia \u{1f1eb}\u{1f1f2} */
+    /** flag: Micronesia 🇫🇲 */
     flagMicronesia: string;
-    /** flag: Moldova \u{1f1f2}\u{1f1e9} */
+    /** flag: Moldova 🇲🇩 */
     flagMoldova: string;
-    /** flag: Monaco \u{1f1f2}\u{1f1e8} */
+    /** flag: Monaco 🇲🇨 */
     flagMonaco: string;
-    /** flag: Mongolia \u{1f1f2}\u{1f1f3} */
+    /** flag: Mongolia 🇲🇳 */
     flagMongolia: string;
-    /** flag: Montenegro \u{1f1f2}\u{1f1ea} */
+    /** flag: Montenegro 🇲🇪 */
     flagMontenegro: string;
-    /** flag: Montserrat \u{1f1f2}\u{1f1f8} */
+    /** flag: Montserrat 🇲🇸 */
     flagMontserrat: string;
-    /** flag: Morocco \u{1f1f2}\u{1f1e6} */
+    /** flag: Morocco 🇲🇦 */
     flagMorocco: string;
-    /** flag: Mozambique \u{1f1f2}\u{1f1ff} */
+    /** flag: Mozambique 🇲🇿 */
     flagMozambique: string;
-    /** flag: Myanmar (Burma) \u{1f1f2}\u{1f1f2} */
+    /** flag: Myanmar (Burma) 🇲🇲 */
     flagMyanmarBurma: string;
-    /** flag: Namibia \u{1f1f3}\u{1f1e6} */
+    /** flag: Namibia 🇳🇦 */
     flagNamibia: string;
-    /** flag: Nauru \u{1f1f3}\u{1f1f7} */
+    /** flag: Nauru 🇳🇷 */
     flagNauru: string;
-    /** flag: Nepal \u{1f1f3}\u{1f1f5} */
+    /** flag: Nepal 🇳🇵 */
     flagNepal: string;
-    /** flag: Netherlands \u{1f1f3}\u{1f1f1} */
+    /** flag: Netherlands 🇳🇱 */
     flagNetherlands: string;
-    /** flag: New Caledonia \u{1f1f3}\u{1f1e8} */
+    /** flag: New Caledonia 🇳🇨 */
     flagNewCaledonia: string;
-    /** flag: New Zealand \u{1f1f3}\u{1f1ff} */
+    /** flag: New Zealand 🇳🇿 */
     flagNewZealand: string;
-    /** flag: Nicaragua \u{1f1f3}\u{1f1ee} */
+    /** flag: Nicaragua 🇳🇮 */
     flagNicaragua: string;
-    /** flag: Niger \u{1f1f3}\u{1f1ea} */
+    /** flag: Niger 🇳🇪 */
     flagNiger: string;
-    /** flag: Nigeria \u{1f1f3}\u{1f1ec} */
+    /** flag: Nigeria 🇳🇬 */
     flagNigeria: string;
-    /** flag: Niue \u{1f1f3}\u{1f1fa} */
+    /** flag: Niue 🇳🇺 */
     flagNiue: string;
-    /** flag: Norfolk Island \u{1f1f3}\u{1f1eb} */
+    /** flag: Norfolk Island 🇳🇫 */
     flagNorfolkIsland: string;
-    /** flag: Northern Mariana Islands \u{1f1f2}\u{1f1f5} */
+    /** flag: Northern Mariana Islands 🇲🇵 */
     flagNorthernMarianaIslands: string;
-    /** flag: North Korea \u{1f1f0}\u{1f1f5} */
+    /** flag: North Korea 🇰🇵 */
     flagNorthKorea: string;
-    /** flag: North Macedonia \u{1f1f2}\u{1f1f0} */
+    /** flag: North Macedonia 🇲🇰 */
     flagNorthMacedonia: string;
-    /** flag: Norway \u{1f1f3}\u{1f1f4} */
+    /** flag: Norway 🇳🇴 */
     flagNorway: string;
-    /** flag: Oman \u{1f1f4}\u{1f1f2} */
+    /** flag: Oman 🇴🇲 */
     flagOman: string;
-    /** flag: Pakistan \u{1f1f5}\u{1f1f0} */
+    /** flag: Pakistan 🇵🇰 */
     flagPakistan: string;
-    /** flag: Palau \u{1f1f5}\u{1f1fc} */
+    /** flag: Palau 🇵🇼 */
     flagPalau: string;
-    /** flag: Palestinian Territories \u{1f1f5}\u{1f1f8} */
+    /** flag: Palestinian Territories 🇵🇸 */
     flagPalestinianTerritories: string;
-    /** flag: Panama \u{1f1f5}\u{1f1e6} */
+    /** flag: Panama 🇵🇦 */
     flagPanama: string;
-    /** flag: Papua New Guinea \u{1f1f5}\u{1f1ec} */
+    /** flag: Papua New Guinea 🇵🇬 */
     flagPapuaNewGuinea: string;
-    /** flag: Paraguay \u{1f1f5}\u{1f1fe} */
+    /** flag: Paraguay 🇵🇾 */
     flagParaguay: string;
-    /** flag: Peru \u{1f1f5}\u{1f1ea} */
+    /** flag: Peru 🇵🇪 */
     flagPeru: string;
-    /** flag: Philippines \u{1f1f5}\u{1f1ed} */
+    /** flag: Philippines 🇵🇭 */
     flagPhilippines: string;
-    /** flag: Pitcairn Islands \u{1f1f5}\u{1f1f3} */
+    /** flag: Pitcairn Islands 🇵🇳 */
     flagPitcairnIslands: string;
-    /** flag: Poland \u{1f1f5}\u{1f1f1} */
+    /** flag: Poland 🇵🇱 */
     flagPoland: string;
-    /** flag: Portugal \u{1f1f5}\u{1f1f9} */
+    /** flag: Portugal 🇵🇹 */
     flagPortugal: string;
-    /** flag: Puerto Rico \u{1f1f5}\u{1f1f7} */
+    /** flag: Puerto Rico 🇵🇷 */
     flagPuertoRico: string;
-    /** flag: Qatar \u{1f1f6}\u{1f1e6} */
+    /** flag: Qatar 🇶🇦 */
     flagQatar: string;
-    /** flag: Réunion \u{1f1f7}\u{1f1ea} */
+    /** flag: Réunion 🇷🇪 */
     flagReunion: string;
-    /** flag: Romania \u{1f1f7}\u{1f1f4} */
+    /** flag: Romania 🇷🇴 */
     flagRomania: string;
-    /** flag: Russia \u{1f1f7}\u{1f1fa} */
+    /** flag: Russia 🇷🇺 */
     flagRussia: string;
-    /** flag: Rwanda \u{1f1f7}\u{1f1fc} */
+    /** flag: Rwanda 🇷🇼 */
     flagRwanda: string;
-    /** flag: Samoa \u{1f1fc}\u{1f1f8} */
+    /** flag: Samoa 🇼🇸 */
     flagSamoa: string;
-    /** flag: San Marino \u{1f1f8}\u{1f1f2} */
+    /** flag: San Marino 🇸🇲 */
     flagSanMarino: string;
-    /** flag: São Tomé & Príncipe \u{1f1f8}\u{1f1f9} */
+    /** flag: São Tomé & Príncipe 🇸🇹 */
     flagSaoTomeAndPrincipe: string;
-    /** ⊛ flag: Sark \u{1f1e8}\u{1f1f6} */
+    /** ⊛ flag: Sark 🇨🇶 */
     flagSark: string;
-    /** flag: Saudi Arabia \u{1f1f8}\u{1f1e6} */
+    /** flag: Saudi Arabia 🇸🇦 */
     flagSaudiArabia: string;
-    /** flag: Scotland \u{1f3f4}\u{e0067}\u{e0062}\u{e0073}\u{e0063}\u{e0074}\u{e007f} */
+    /** flag: Scotland 🏴󠁧󠁢󠁳󠁣󠁴󠁿 */
     flagScotland: string;
-    /** flag: Senegal \u{1f1f8}\u{1f1f3} */
+    /** flag: Senegal 🇸🇳 */
     flagSenegal: string;
-    /** flag: Serbia \u{1f1f7}\u{1f1f8} */
+    /** flag: Serbia 🇷🇸 */
     flagSerbia: string;
-    /** flag: Seychelles \u{1f1f8}\u{1f1e8} */
+    /** flag: Seychelles 🇸🇨 */
     flagSeychelles: string;
-    /** flag: Sierra Leone \u{1f1f8}\u{1f1f1} */
+    /** flag: Sierra Leone 🇸🇱 */
     flagSierraLeone: string;
-    /** flag: Singapore \u{1f1f8}\u{1f1ec} */
+    /** flag: Singapore 🇸🇬 */
     flagSingapore: string;
-    /** flag: Sint Maarten \u{1f1f8}\u{1f1fd} */
+    /** flag: Sint Maarten 🇸🇽 */
     flagSintMaarten: string;
-    /** flag: Slovakia \u{1f1f8}\u{1f1f0} */
+    /** flag: Slovakia 🇸🇰 */
     flagSlovakia: string;
-    /** flag: Slovenia \u{1f1f8}\u{1f1ee} */
+    /** flag: Slovenia 🇸🇮 */
     flagSlovenia: string;
-    /** flag: Solomon Islands \u{1f1f8}\u{1f1e7} */
+    /** flag: Solomon Islands 🇸🇧 */
     flagSolomonIslands: string;
-    /** flag: Somalia \u{1f1f8}\u{1f1f4} */
+    /** flag: Somalia 🇸🇴 */
     flagSomalia: string;
-    /** flag: South Africa \u{1f1ff}\u{1f1e6} */
+    /** flag: South Africa 🇿🇦 */
     flagSouthAfrica: string;
-    /** flag: South Georgia & South Sandwich Islands \u{1f1ec}\u{1f1f8} */
+    /** flag: South Georgia & South Sandwich Islands 🇬🇸 */
     flagSouthGeorgiaAndSouthSandwichIslands: string;
-    /** flag: South Korea \u{1f1f0}\u{1f1f7} */
+    /** flag: South Korea 🇰🇷 */
     flagSouthKorea: string;
-    /** flag: South Sudan \u{1f1f8}\u{1f1f8} */
+    /** flag: South Sudan 🇸🇸 */
     flagSouthSudan: string;
-    /** flag: Spain \u{1f1ea}\u{1f1f8} */
+    /** flag: Spain 🇪🇸 */
     flagSpain: string;
-    /** flag: Sri Lanka \u{1f1f1}\u{1f1f0} */
+    /** flag: Sri Lanka 🇱🇰 */
     flagSriLanka: string;
-    /** flag: St. Barthélemy \u{1f1e7}\u{1f1f1} */
+    /** flag: St. Barthélemy 🇧🇱 */
     flagStBarthelemy: string;
-    /** flag: St. Helena \u{1f1f8}\u{1f1ed} */
+    /** flag: St. Helena 🇸🇭 */
     flagStHelena: string;
-    /** flag: St. Kitts & Nevis \u{1f1f0}\u{1f1f3} */
+    /** flag: St. Kitts & Nevis 🇰🇳 */
     flagStKittsAndNevis: string;
-    /** flag: St. Lucia \u{1f1f1}\u{1f1e8} */
+    /** flag: St. Lucia 🇱🇨 */
     flagStLucia: string;
-    /** flag: St. Martin \u{1f1f2}\u{1f1eb} */
+    /** flag: St. Martin 🇲🇫 */
     flagStMartin: string;
-    /** flag: St. Pierre & Miquelon \u{1f1f5}\u{1f1f2} */
+    /** flag: St. Pierre & Miquelon 🇵🇲 */
     flagStPierreAndMiquelon: string;
-    /** flag: St. Vincent & Grenadines \u{1f1fb}\u{1f1e8} */
+    /** flag: St. Vincent & Grenadines 🇻🇨 */
     flagStVincentAndGrenadines: string;
-    /** flag: Sudan \u{1f1f8}\u{1f1e9} */
+    /** flag: Sudan 🇸🇩 */
     flagSudan: string;
-    /** flag: Suriname \u{1f1f8}\u{1f1f7} */
+    /** flag: Suriname 🇸🇷 */
     flagSuriname: string;
-    /** flag: Svalbard & Jan Mayen \u{1f1f8}\u{1f1ef} */
+    /** flag: Svalbard & Jan Mayen 🇸🇯 */
     flagSvalbardAndJanMayen: string;
-    /** flag: Sweden \u{1f1f8}\u{1f1ea} */
+    /** flag: Sweden 🇸🇪 */
     flagSweden: string;
-    /** flag: Switzerland \u{1f1e8}\u{1f1ed} */
+    /** flag: Switzerland 🇨🇭 */
     flagSwitzerland: string;
-    /** flag: Syria \u{1f1f8}\u{1f1fe} */
+    /** flag: Syria 🇸🇾 */
     flagSyria: string;
-    /** flag: Taiwan \u{1f1f9}\u{1f1fc} */
+    /** flag: Taiwan 🇹🇼 */
     flagTaiwan: string;
-    /** flag: Tajikistan \u{1f1f9}\u{1f1ef} */
+    /** flag: Tajikistan 🇹🇯 */
     flagTajikistan: string;
-    /** flag: Tanzania \u{1f1f9}\u{1f1ff} */
+    /** flag: Tanzania 🇹🇿 */
     flagTanzania: string;
-    /** flag: Thailand \u{1f1f9}\u{1f1ed} */
+    /** flag: Thailand 🇹🇭 */
     flagThailand: string;
-    /** flag: Timor-Leste \u{1f1f9}\u{1f1f1} */
+    /** flag: Timor-Leste 🇹🇱 */
     flagTimorLeste: string;
-    /** flag: Togo \u{1f1f9}\u{1f1ec} */
+    /** flag: Togo 🇹🇬 */
     flagTogo: string;
-    /** flag: Tokelau \u{1f1f9}\u{1f1f0} */
+    /** flag: Tokelau 🇹🇰 */
     flagTokelau: string;
-    /** flag: Tonga \u{1f1f9}\u{1f1f4} */
+    /** flag: Tonga 🇹🇴 */
     flagTonga: string;
-    /** flag: Trinidad & Tobago \u{1f1f9}\u{1f1f9} */
+    /** flag: Trinidad & Tobago 🇹🇹 */
     flagTrinidadAndTobago: string;
-    /** flag: Tristan da Cunha \u{1f1f9}\u{1f1e6} */
+    /** flag: Tristan da Cunha 🇹🇦 */
     flagTristanDaCunha: string;
-    /** flag: Tunisia \u{1f1f9}\u{1f1f3} */
+    /** flag: Tunisia 🇹🇳 */
     flagTunisia: string;
-    /** flag: Türkiye \u{1f1f9}\u{1f1f7} */
+    /** flag: Türkiye 🇹🇷 */
     flagTurkiye: string;
-    /** flag: Turkmenistan \u{1f1f9}\u{1f1f2} */
+    /** flag: Turkmenistan 🇹🇲 */
     flagTurkmenistan: string;
-    /** flag: Turks & Caicos Islands \u{1f1f9}\u{1f1e8} */
+    /** flag: Turks & Caicos Islands 🇹🇨 */
     flagTurksAndCaicosIslands: string;
-    /** flag: Tuvalu \u{1f1f9}\u{1f1fb} */
+    /** flag: Tuvalu 🇹🇻 */
     flagTuvalu: string;
-    /** flag: Uganda \u{1f1fa}\u{1f1ec} */
+    /** flag: Uganda 🇺🇬 */
     flagUganda: string;
-    /** flag: Ukraine \u{1f1fa}\u{1f1e6} */
+    /** flag: Ukraine 🇺🇦 */
     flagUkraine: string;
-    /** flag: United Arab Emirates \u{1f1e6}\u{1f1ea} */
+    /** flag: United Arab Emirates 🇦🇪 */
     flagUnitedArabEmirates: string;
-    /** flag: United Kingdom \u{1f1ec}\u{1f1e7} */
+    /** flag: United Kingdom 🇬🇧 */
     flagUnitedKingdom: string;
-    /** flag: United Nations \u{1f1fa}\u{1f1f3} */
+    /** flag: United Nations 🇺🇳 */
     flagUnitedNations: string;
-    /** flag: United States \u{1f1fa}\u{1f1f8} */
+    /** flag: United States 🇺🇸 */
     flagUnitedStates: string;
-    /** flag: Uruguay \u{1f1fa}\u{1f1fe} */
+    /** flag: Uruguay 🇺🇾 */
     flagUruguay: string;
-    /** flag: U.S. Outlying Islands \u{1f1fa}\u{1f1f2} */
+    /** flag: U.S. Outlying Islands 🇺🇲 */
     flagUSOutlyingIslands: string;
-    /** flag: U.S. Virgin Islands \u{1f1fb}\u{1f1ee} */
+    /** flag: U.S. Virgin Islands 🇻🇮 */
     flagUSVirginIslands: string;
-    /** flag: Uzbekistan \u{1f1fa}\u{1f1ff} */
+    /** flag: Uzbekistan 🇺🇿 */
     flagUzbekistan: string;
-    /** flag: Vanuatu \u{1f1fb}\u{1f1fa} */
+    /** flag: Vanuatu 🇻🇺 */
     flagVanuatu: string;
-    /** flag: Vatican City \u{1f1fb}\u{1f1e6} */
+    /** flag: Vatican City 🇻🇦 */
     flagVaticanCity: string;
-    /** flag: Venezuela \u{1f1fb}\u{1f1ea} */
+    /** flag: Venezuela 🇻🇪 */
     flagVenezuela: string;
-    /** flag: Vietnam \u{1f1fb}\u{1f1f3} */
+    /** flag: Vietnam 🇻🇳 */
     flagVietnam: string;
-    /** flag: Wales \u{1f3f4}\u{e0067}\u{e0062}\u{e0077}\u{e006c}\u{e0073}\u{e007f} */
+    /** flag: Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿 */
     flagWales: string;
-    /** flag: Wallis & Futuna \u{1f1fc}\u{1f1eb} */
+    /** flag: Wallis & Futuna 🇼🇫 */
     flagWallisAndFutuna: string;
-    /** flag: Western Sahara \u{1f1ea}\u{1f1ed} */
+    /** flag: Western Sahara 🇪🇭 */
     flagWesternSahara: string;
-    /** flag: Yemen \u{1f1fe}\u{1f1ea} */
+    /** flag: Yemen 🇾🇪 */
     flagYemen: string;
-    /** flag: Zambia \u{1f1ff}\u{1f1f2} */
+    /** flag: Zambia 🇿🇲 */
     flagZambia: string;
-    /** flag: Zimbabwe \u{1f1ff}\u{1f1fc} */
+    /** flag: Zimbabwe 🇿🇼 */
     flagZimbabwe: string;
-    /** flamingo \u{1f9a9} */
+    /** flamingo 🦩 */
     flamingo: string;
-    /** flashlight \u{1f526} */
+    /** flashlight 🔦 */
     flashlight: string;
-    /** flatbread \u{1fad3} */
+    /** flatbread 🫓 */
     flatbread: string;
-    /** flat shoe \u{1f97f} */
+    /** flat shoe 🥿 */
     flatShoe: string;
-    /** fleur-de-lis \u{269c} */
+    /** fleur-de-lis ⚜ */
     fleurDeLis: string;
-    /** flexed biceps \u{1f4aa} */
+    /** flexed biceps 💪 */
     flexedBiceps: string;
-    /** floppy disk \u{1f4be} */
+    /** floppy disk 💾 */
     floppyDisk: string;
-    /** flower playing cards \u{1f3b4} */
+    /** flower playing cards 🎴 */
     flowerPlayingCards: string;
-    /** flushed face \u{1f633} */
+    /** flushed face 😳 */
     flushedFace: string;
-    /** flute \u{1fa88} */
+    /** flute 🪈 */
     flute: string;
-    /** fly \u{1fab0} */
+    /** fly 🪰 */
     fly: string;
-    /** flying disc \u{1f94f} */
+    /** flying disc 🥏 */
     flyingDisc: string;
-    /** flying saucer \u{1f6f8} */
+    /** flying saucer 🛸 */
     flyingSaucer: string;
-    /** fog \u{1f32b} */
+    /** fog 🌫 */
     fog: string;
-    /** foggy \u{1f301} */
+    /** foggy 🌁 */
     foggy: string;
-    /** folded hands \u{1f64f} */
+    /** folded hands 🙏 */
     foldedHands: string;
-    /** folding hand fan \u{1faad} */
+    /** folding hand fan 🪭 */
     foldingHandFan: string;
-    /** fondue \u{1fad5} */
+    /** fondue 🫕 */
     fondue: string;
-    /** foot \u{1f9b6} */
+    /** foot 🦶 */
     foot: string;
-    /** footprints \u{1f463} */
+    /** footprints 👣 */
     footprints: string;
-    /** fork and knife \u{1f374} */
+    /** fork and knife 🍴 */
     forkAndKnife: string;
-    /** fork and knife with plate \u{1f37d} */
+    /** fork and knife with plate 🍽 */
     forkAndKnifeWithPlate: string;
-    /** fortune cookie \u{1f960} */
+    /** fortune cookie 🥠 */
     fortuneCookie: string;
-    /** fountain \u{26f2} */
+    /** fountain ⛲ */
     fountain: string;
-    /** fountain pen \u{1f58b} */
+    /** fountain pen 🖋 */
     fountainPen: string;
-    /** four leaf clover \u{1f340} */
+    /** four leaf clover 🍀 */
     fourLeafClover: string;
-    /** four o’clock \u{1f553} */
+    /** four o’clock 🕓 */
     fourOclock: string;
-    /** four-thirty \u{1f55f} */
+    /** four-thirty 🕟 */
     fourThirty: string;
-    /** fox \u{1f98a} */
+    /** fox 🦊 */
     fox: string;
-    /** framed picture \u{1f5bc} */
+    /** framed picture 🖼 */
     framedPicture: string;
-    /** FREE button \u{1f193} */
+    /** FREE button 🆓 */
     freeButton: string;
-    /** french fries \u{1f35f} */
+    /** french fries 🍟 */
     frenchFries: string;
-    /** fried shrimp \u{1f364} */
+    /** fried shrimp 🍤 */
     friedShrimp: string;
-    /** frog \u{1f438} */
+    /** frog 🐸 */
     frog: string;
-    /** front-facing baby chick \u{1f425} */
+    /** front-facing baby chick 🐥 */
     frontFacingBabyChick: string;
-    /** frowning face \u{2639} */
+    /** frowning face ☹ */
     frowningFace: string;
-    /** frowning face with open mouth \u{1f626} */
+    /** frowning face with open mouth 😦 */
     frowningFaceWithOpenMouth: string;
-    /** fuel pump \u{26fd} */
+    /** fuel pump ⛽ */
     fuelPump: string;
-    /** full moon \u{1f315} */
+    /** full moon 🌕 */
     fullMoon: string;
-    /** full moon face \u{1f31d} */
+    /** full moon face 🌝 */
     fullMoonFace: string;
-    /** funeral urn \u{26b1} */
+    /** funeral urn ⚱ */
     funeralUrn: string;
-    /** game die \u{1f3b2} */
+    /** game die 🎲 */
     gameDie: string;
-    /** garlic \u{1f9c4} */
+    /** garlic 🧄 */
     garlic: string;
-    /** gear \u{2699} */
+    /** gear ⚙ */
     gear: string;
-    /** Gemini \u{264a} */
+    /** Gemini ♊ */
     gemini: string;
-    /** gem stone \u{1f48e} */
+    /** gem stone 💎 */
     gemStone: string;
-    /** genie \u{1f9de} */
+    /** genie 🧞 */
     genie: string;
-    /** ghost \u{1f47b} */
+    /** ghost 👻 */
     ghost: string;
-    /** ginger root \u{1fada} */
+    /** ginger root 🫚 */
     gingerRoot: string;
-    /** giraffe \u{1f992} */
+    /** giraffe 🦒 */
     giraffe: string;
-    /** girl \u{1f467} */
+    /** girl 👧 */
     girl: string;
-    /** glasses \u{1f453} */
+    /** glasses 👓 */
     glasses: string;
-    /** glass of milk \u{1f95b} */
+    /** glass of milk 🥛 */
     glassOfMilk: string;
-    /** globe showing Americas \u{1f30e} */
+    /** globe showing Americas 🌎 */
     globeShowingAmericas: string;
-    /** globe showing Asia-Australia \u{1f30f} */
+    /** globe showing Asia-Australia 🌏 */
     globeShowingAsiaAustralia: string;
-    /** globe showing Europe-Africa \u{1f30d} */
+    /** globe showing Europe-Africa 🌍 */
     globeShowingEuropeAfrica: string;
-    /** globe with meridians \u{1f310} */
+    /** globe with meridians 🌐 */
     globeWithMeridians: string;
-    /** gloves \u{1f9e4} */
+    /** gloves 🧤 */
     gloves: string;
-    /** glowing star \u{1f31f} */
+    /** glowing star 🌟 */
     glowingStar: string;
-    /** goal net \u{1f945} */
+    /** goal net 🥅 */
     goalNet: string;
-    /** goat \u{1f410} */
+    /** goat 🐐 */
     goat: string;
-    /** goblin \u{1f47a} */
+    /** goblin 👺 */
     goblin: string;
-    /** goggles \u{1f97d} */
+    /** goggles 🥽 */
     goggles: string;
-    /** goose \u{1fabf} */
+    /** goose 🪿 */
     goose: string;
-    /** gorilla \u{1f98d} */
+    /** gorilla 🦍 */
     gorilla: string;
-    /** graduation cap \u{1f393} */
+    /** graduation cap 🎓 */
     graduationCap: string;
-    /** grapes \u{1f347} */
+    /** grapes 🍇 */
     grapes: string;
-    /** green apple \u{1f34f} */
+    /** green apple 🍏 */
     greenApple: string;
-    /** green book \u{1f4d7} */
+    /** green book 📗 */
     greenBook: string;
-    /** green circle \u{1f7e2} */
+    /** green circle 🟢 */
     greenCircle: string;
-    /** green heart \u{1f49a} */
+    /** green heart 💚 */
     greenHeart: string;
-    /** green salad \u{1f957} */
+    /** green salad 🥗 */
     greenSalad: string;
-    /** green square \u{1f7e9} */
+    /** green square 🟩 */
     greenSquare: string;
-    /** grey heart \u{1fa76} */
+    /** grey heart 🩶 */
     greyHeart: string;
-    /** grimacing face \u{1f62c} */
+    /** grimacing face 😬 */
     grimacingFace: string;
-    /** grinning cat \u{1f63a} */
+    /** grinning cat 😺 */
     grinningCat: string;
-    /** grinning cat with smiling eyes \u{1f638} */
+    /** grinning cat with smiling eyes 😸 */
     grinningCatWithSmilingEyes: string;
-    /** grinning face \u{1f600} */
+    /** grinning face 😀 */
     grinningFace: string;
-    /** grinning face with big eyes \u{1f603} */
+    /** grinning face with big eyes 😃 */
     grinningFaceWithBigEyes: string;
-    /** grinning face with smiling eyes \u{1f604} */
+    /** grinning face with smiling eyes 😄 */
     grinningFaceWithSmilingEyes: string;
-    /** grinning face with sweat \u{1f605} */
+    /** grinning face with sweat 😅 */
     grinningFaceWithSweat: string;
-    /** grinning squinting face \u{1f606} */
+    /** grinning squinting face 😆 */
     grinningSquintingFace: string;
-    /** growing heart \u{1f497} */
+    /** growing heart 💗 */
     growingHeart: string;
-    /** guard \u{1f482} */
+    /** guard 💂 */
     guard: string;
-    /** guide dog \u{1f9ae} */
+    /** guide dog 🦮 */
     guideDog: string;
-    /** guitar \u{1f3b8} */
+    /** guitar 🎸 */
     guitar: string;
-    /** hair pick \u{1faae} */
+    /** hair pick 🪮 */
     hairPick: string;
-    /** hamburger \u{1f354} */
+    /** hamburger 🍔 */
     hamburger: string;
-    /** hammer \u{1f528} */
+    /** hammer 🔨 */
     hammer: string;
-    /** hammer and pick \u{2692} */
+    /** hammer and pick ⚒ */
     hammerAndPick: string;
-    /** hammer and wrench \u{1f6e0} */
+    /** hammer and wrench 🛠 */
     hammerAndWrench: string;
-    /** hamsa \u{1faac} */
+    /** hamsa 🪬 */
     hamsa: string;
-    /** hamster \u{1f439} */
+    /** hamster 🐹 */
     hamster: string;
-    /** handbag \u{1f45c} */
+    /** handbag 👜 */
     handbag: string;
-    /** handshake \u{1f91d} */
+    /** handshake 🤝 */
     handshake: string;
-    /** hand with fingers splayed \u{1f590} */
+    /** hand with fingers splayed 🖐 */
     handWithFingersSplayed: string;
-    /** hand with index finger and thumb crossed \u{1faf0} */
+    /** hand with index finger and thumb crossed 🫰 */
     handWithIndexFingerAndThumbCrossed: string;
-    /** ⊛ harp \u{1fa89} */
+    /** ⊛ harp 🪉 */
     harp: string;
-    /** hatching chick \u{1f423} */
+    /** hatching chick 🐣 */
     hatchingChick: string;
-    /** headphone \u{1f3a7} */
+    /** headphone 🎧 */
     headphone: string;
-    /** head shaking horizontally \u{1f642}\u{200d}\u{2194}\u{fe0f} */
+    /** head shaking horizontally 🙂‍↔️ */
     headShakingHorizontally: string;
-    /** head shaking vertically \u{1f642}\u{200d}\u{2195}\u{fe0f} */
+    /** head shaking vertically 🙂‍↕️ */
     headShakingVertically: string;
-    /** headstone \u{1faa6} */
+    /** headstone 🪦 */
     headstone: string;
-    /** health worker \u{1f9d1}\u{200d}\u{2695}\u{fe0f} */
+    /** health worker 🧑‍⚕️ */
     healthWorker: string;
-    /** hear-no-evil monkey \u{1f649} */
+    /** hear-no-evil monkey 🙉 */
     hearNoEvilMonkey: string;
-    /** heart decoration \u{1f49f} */
+    /** heart decoration 💟 */
     heartDecoration: string;
-    /** heart exclamation \u{2763} */
+    /** heart exclamation ❣ */
     heartExclamation: string;
-    /** heart hands \u{1faf6} */
+    /** heart hands 🫶 */
     heartHands: string;
-    /** heart on fire \u{2764}\u{fe0f}\u{200d}\u{1f525} */
+    /** heart on fire ❤️‍🔥 */
     heartOnFire: string;
-    /** heart suit \u{2665} */
+    /** heart suit ♥ */
     heartSuit: string;
-    /** heart with arrow \u{1f498} */
+    /** heart with arrow 💘 */
     heartWithArrow: string;
-    /** heart with ribbon \u{1f49d} */
+    /** heart with ribbon 💝 */
     heartWithRibbon: string;
-    /** heavy dollar sign \u{1f4b2} */
+    /** heavy dollar sign 💲 */
     heavyDollarSign: string;
-    /** heavy equals sign \u{1f7f0} */
+    /** heavy equals sign 🟰 */
     heavyEqualsSign: string;
-    /** hedgehog \u{1f994} */
+    /** hedgehog 🦔 */
     hedgehog: string;
-    /** helicopter \u{1f681} */
+    /** helicopter 🚁 */
     helicopter: string;
-    /** herb \u{1f33f} */
+    /** herb 🌿 */
     herb: string;
-    /** hibiscus \u{1f33a} */
+    /** hibiscus 🌺 */
     hibiscus: string;
-    /** high-heeled shoe \u{1f460} */
+    /** high-heeled shoe 👠 */
     highHeeledShoe: string;
-    /** high-speed train \u{1f684} */
+    /** high-speed train 🚄 */
     highSpeedTrain: string;
-    /** high voltage \u{26a1} */
+    /** high voltage ⚡ */
     highVoltage: string;
-    /** hiking boot \u{1f97e} */
+    /** hiking boot 🥾 */
     hikingBoot: string;
-    /** hindu temple \u{1f6d5} */
+    /** hindu temple 🛕 */
     hinduTemple: string;
-    /** hippopotamus \u{1f99b} */
+    /** hippopotamus 🦛 */
     hippopotamus: string;
-    /** hole \u{1f573} */
+    /** hole 🕳 */
     hole: string;
-    /** hollow red circle \u{2b55} */
+    /** hollow red circle ⭕ */
     hollowRedCircle: string;
-    /** honeybee \u{1f41d} */
+    /** honeybee 🐝 */
     honeybee: string;
-    /** honey pot \u{1f36f} */
+    /** honey pot 🍯 */
     honeyPot: string;
-    /** hook \u{1fa9d} */
+    /** hook 🪝 */
     hook: string;
-    /** horizontal traffic light \u{1f6a5} */
+    /** horizontal traffic light 🚥 */
     horizontalTrafficLight: string;
-    /** horse \u{1f40e} */
+    /** horse 🐎 */
     horse: string;
-    /** horse face \u{1f434} */
+    /** horse face 🐴 */
     horseFace: string;
-    /** horse racing \u{1f3c7} */
+    /** horse racing 🏇 */
     horseRacing: string;
-    /** hospital \u{1f3e5} */
+    /** hospital 🏥 */
     hospital: string;
-    /** hot beverage \u{2615} */
+    /** hot beverage ☕ */
     hotBeverage: string;
-    /** hot dog \u{1f32d} */
+    /** hot dog 🌭 */
     hotDog: string;
-    /** hotel \u{1f3e8} */
+    /** hotel 🏨 */
     hotel: string;
-    /** hot face \u{1f975} */
+    /** hot face 🥵 */
     hotFace: string;
-    /** hot pepper \u{1f336} */
+    /** hot pepper 🌶 */
     hotPepper: string;
-    /** hot springs \u{2668} */
+    /** hot springs ♨ */
     hotSprings: string;
-    /** hourglass done \u{231b} */
+    /** hourglass done ⌛ */
     hourglassDone: string;
-    /** hourglass not done \u{23f3} */
+    /** hourglass not done ⏳ */
     hourglassNotDone: string;
-    /** house \u{1f3e0} */
+    /** house 🏠 */
     house: string;
-    /** houses \u{1f3d8} */
+    /** houses 🏘 */
     houses: string;
-    /** house with garden \u{1f3e1} */
+    /** house with garden 🏡 */
     houseWithGarden: string;
-    /** hundred points \u{1f4af} */
+    /** hundred points 💯 */
     hundredPoints: string;
-    /** hushed face \u{1f62f} */
+    /** hushed face 😯 */
     hushedFace: string;
-    /** hut \u{1f6d6} */
+    /** hut 🛖 */
     hut: string;
-    /** hyacinth \u{1fabb} */
+    /** hyacinth 🪻 */
     hyacinth: string;
-    /** ice \u{1f9ca} */
+    /** ice 🧊 */
     ice: string;
-    /** ice cream \u{1f368} */
+    /** ice cream 🍨 */
     iceCream: string;
-    /** ice hockey \u{1f3d2} */
+    /** ice hockey 🏒 */
     iceHockey: string;
-    /** ice skate \u{26f8} */
+    /** ice skate ⛸ */
     iceSkate: string;
-    /** ID button \u{1f194} */
+    /** ID button 🆔 */
     idButton: string;
-    /** identification card \u{1faaa} */
+    /** identification card 🪪 */
     identificationCard: string;
-    /** inbox tray \u{1f4e5} */
+    /** inbox tray 📥 */
     inboxTray: string;
-    /** incoming envelope \u{1f4e8} */
+    /** incoming envelope 📨 */
     incomingEnvelope: string;
-    /** index pointing at the viewer \u{1faf5} */
+    /** index pointing at the viewer 🫵 */
     indexPointingAtTheViewer: string;
-    /** index pointing up \u{261d} */
+    /** index pointing up ☝ */
     indexPointingUp: string;
-    /** infinity \u{267e} */
+    /** infinity ♾ */
     infinity: string;
-    /** information \u{2139} */
+    /** information ℹ */
     information: string;
-    /** input latin letters \u{1f524} */
+    /** input latin letters 🔤 */
     inputLatinLetters: string;
-    /** input latin lowercase \u{1f521} */
+    /** input latin lowercase 🔡 */
     inputLatinLowercase: string;
-    /** input latin uppercase \u{1f520} */
+    /** input latin uppercase 🔠 */
     inputLatinUppercase: string;
-    /** input numbers \u{1f522} */
+    /** input numbers 🔢 */
     inputNumbers: string;
-    /** input symbols \u{1f523} */
+    /** input symbols 🔣 */
     inputSymbols: string;
-    /** jack-o-lantern \u{1f383} */
+    /** jack-o-lantern 🎃 */
     jackOLantern: string;
-    /** Japanese “acceptable” button \u{1f251} */
+    /** Japanese “acceptable” button 🉑 */
     japaneseAcceptableButton: string;
-    /** Japanese “application” button \u{1f238} */
+    /** Japanese “application” button 🈸 */
     japaneseApplicationButton: string;
-    /** Japanese “bargain” button \u{1f250} */
+    /** Japanese “bargain” button 🉐 */
     japaneseBargainButton: string;
-    /** Japanese castle \u{1f3ef} */
+    /** Japanese castle 🏯 */
     japaneseCastle: string;
-    /** Japanese “congratulations” button \u{3297} */
+    /** Japanese “congratulations” button ㊗ */
     japaneseCongratulationsButton: string;
-    /** Japanese “discount” button \u{1f239} */
+    /** Japanese “discount” button 🈹 */
     japaneseDiscountButton: string;
-    /** Japanese dolls \u{1f38e} */
+    /** Japanese dolls 🎎 */
     japaneseDolls: string;
-    /** Japanese “free of charge” button \u{1f21a} */
+    /** Japanese “free of charge” button 🈚 */
     japaneseFreeOfChargeButton: string;
-    /** Japanese “here” button \u{1f201} */
+    /** Japanese “here” button 🈁 */
     japaneseHereButton: string;
-    /** Japanese “monthly amount” button \u{1f237} */
+    /** Japanese “monthly amount” button 🈷 */
     japaneseMonthlyAmountButton: string;
-    /** Japanese “not free of charge” button \u{1f236} */
+    /** Japanese “not free of charge” button 🈶 */
     japaneseNotFreeOfChargeButton: string;
-    /** Japanese “no vacancy” button \u{1f235} */
+    /** Japanese “no vacancy” button 🈵 */
     japaneseNoVacancyButton: string;
-    /** Japanese “open for business” button \u{1f23a} */
+    /** Japanese “open for business” button 🈺 */
     japaneseOpenForBusinessButton: string;
-    /** Japanese “passing grade” button \u{1f234} */
+    /** Japanese “passing grade” button 🈴 */
     japanesePassingGradeButton: string;
-    /** Japanese post office \u{1f3e3} */
+    /** Japanese post office 🏣 */
     japanesePostOffice: string;
-    /** Japanese “prohibited” button \u{1f232} */
+    /** Japanese “prohibited” button 🈲 */
     japaneseProhibitedButton: string;
-    /** Japanese “reserved” button \u{1f22f} */
+    /** Japanese “reserved” button 🈯 */
     japaneseReservedButton: string;
-    /** Japanese “secret” button \u{3299} */
+    /** Japanese “secret” button ㊙ */
     japaneseSecretButton: string;
-    /** Japanese “service charge” button \u{1f202} */
+    /** Japanese “service charge” button 🈂 */
     japaneseServiceChargeButton: string;
-    /** Japanese symbol for beginner \u{1f530} */
+    /** Japanese symbol for beginner 🔰 */
     japaneseSymbolForBeginner: string;
-    /** Japanese “vacancy” button \u{1f233} */
+    /** Japanese “vacancy” button 🈳 */
     japaneseVacancyButton: string;
-    /** jar \u{1fad9} */
+    /** jar 🫙 */
     jar: string;
-    /** jeans \u{1f456} */
+    /** jeans 👖 */
     jeans: string;
-    /** jellyfish \u{1fabc} */
+    /** jellyfish 🪼 */
     jellyfish: string;
-    /** joker \u{1f0cf} */
+    /** joker 🃏 */
     joker: string;
-    /** joystick \u{1f579} */
+    /** joystick 🕹 */
     joystick: string;
-    /** judge \u{1f9d1}\u{200d}\u{2696}\u{fe0f} */
+    /** judge 🧑‍⚖️ */
     judge: string;
-    /** kaaba \u{1f54b} */
+    /** kaaba 🕋 */
     kaaba: string;
-    /** kangaroo \u{1f998} */
+    /** kangaroo 🦘 */
     kangaroo: string;
-    /** key \u{1f511} */
+    /** key 🔑 */
     key: string;
-    /** keyboard \u{2328} */
+    /** keyboard ⌨ */
     keyboard: string;
-    /** keycap: 0 \u{0030}\u{fe0f}\u{20e3} */
+    /** keycap: 0 0️⃣ */
     keycap0: string;
-    /** keycap: 1 \u{0031}\u{fe0f}\u{20e3} */
+    /** keycap: 1 1️⃣ */
     keycap1: string;
-    /** keycap: 10 \u{1f51f} */
+    /** keycap: 10 🔟 */
     keycap10: string;
-    /** keycap: 2 \u{0032}\u{fe0f}\u{20e3} */
+    /** keycap: 2 2️⃣ */
     keycap2: string;
-    /** keycap: 3 \u{0033}\u{fe0f}\u{20e3} */
+    /** keycap: 3 3️⃣ */
     keycap3: string;
-    /** keycap: 4 \u{0034}\u{fe0f}\u{20e3} */
+    /** keycap: 4 4️⃣ */
     keycap4: string;
-    /** keycap: 5 \u{0035}\u{fe0f}\u{20e3} */
+    /** keycap: 5 5️⃣ */
     keycap5: string;
-    /** keycap: 6 \u{0036}\u{fe0f}\u{20e3} */
+    /** keycap: 6 6️⃣ */
     keycap6: string;
-    /** keycap: 7 \u{0037}\u{fe0f}\u{20e3} */
+    /** keycap: 7 7️⃣ */
     keycap7: string;
-    /** keycap: 8 \u{0038}\u{fe0f}\u{20e3} */
+    /** keycap: 8 8️⃣ */
     keycap8: string;
-    /** keycap: 9 \u{0039}\u{fe0f}\u{20e3} */
+    /** keycap: 9 9️⃣ */
     keycap9: string;
-    /** keycap: * \u{002a}\u{fe0f}\u{20e3} */
+    /** keycap: * *️⃣ */
     keycapAsterisk: string;
-    /** keycap: # \u{0023}\u{fe0f}\u{20e3} */
+    /** keycap: # #️⃣ */
     keycapHash: string;
-    /** khanda \u{1faaf} */
+    /** khanda 🪯 */
     khanda: string;
-    /** kick scooter \u{1f6f4} */
+    /** kick scooter 🛴 */
     kickScooter: string;
-    /** kimono \u{1f458} */
+    /** kimono 👘 */
     kimono: string;
-    /** kiss \u{1f48f} */
+    /** kiss 💏 */
     kiss: string;
-    /** kissing cat \u{1f63d} */
+    /** kissing cat 😽 */
     kissingCat: string;
-    /** kissing face \u{1f617} */
+    /** kissing face 😗 */
     kissingFace: string;
-    /** kissing face with closed eyes \u{1f61a} */
+    /** kissing face with closed eyes 😚 */
     kissingFaceWithClosedEyes: string;
-    /** kissing face with smiling eyes \u{1f619} */
+    /** kissing face with smiling eyes 😙 */
     kissingFaceWithSmilingEyes: string;
-    /** kiss: man, man \u{1f468}\u{200d}\u{2764}\u{fe0f}\u{200d}\u{1f48b}\u{200d}\u{1f468} */
+    /** kiss: man, man 👨‍❤️‍💋‍👨 */
     kissManMan: string;
-    /** kiss mark \u{1f48b} */
+    /** kiss mark 💋 */
     kissMark: string;
-    /** kiss: woman, man \u{1f469}\u{200d}\u{2764}\u{fe0f}\u{200d}\u{1f48b}\u{200d}\u{1f468} */
+    /** kiss: woman, man 👩‍❤️‍💋‍👨 */
     kissWomanMan: string;
-    /** kiss: woman, woman \u{1f469}\u{200d}\u{2764}\u{fe0f}\u{200d}\u{1f48b}\u{200d}\u{1f469} */
+    /** kiss: woman, woman 👩‍❤️‍💋‍👩 */
     kissWomanWoman: string;
-    /** kitchen knife \u{1f52a} */
+    /** kitchen knife 🔪 */
     kitchenKnife: string;
-    /** kite \u{1fa81} */
+    /** kite 🪁 */
     kite: string;
-    /** kiwi fruit \u{1f95d} */
+    /** kiwi fruit 🥝 */
     kiwiFruit: string;
-    /** knot \u{1faa2} */
+    /** knot 🪢 */
     knot: string;
-    /** koala \u{1f428} */
+    /** koala 🐨 */
     koala: string;
-    /** lab coat \u{1f97c} */
+    /** lab coat 🥼 */
     labCoat: string;
-    /** label \u{1f3f7} */
+    /** label 🏷 */
     label: string;
-    /** lacrosse \u{1f94d} */
+    /** lacrosse 🥍 */
     lacrosse: string;
-    /** ladder \u{1fa9c} */
+    /** ladder 🪜 */
     ladder: string;
-    /** lady beetle \u{1f41e} */
+    /** lady beetle 🐞 */
     ladyBeetle: string;
-    /** laptop \u{1f4bb} */
+    /** laptop 💻 */
     laptop: string;
-    /** large blue diamond \u{1f537} */
+    /** large blue diamond 🔷 */
     largeBlueDiamond: string;
-    /** large orange diamond \u{1f536} */
+    /** large orange diamond 🔶 */
     largeOrangeDiamond: string;
-    /** last quarter moon \u{1f317} */
+    /** last quarter moon 🌗 */
     lastQuarterMoon: string;
-    /** last quarter moon face \u{1f31c} */
+    /** last quarter moon face 🌜 */
     lastQuarterMoonFace: string;
-    /** last track button \u{23ee} */
+    /** last track button ⏮ */
     lastTrackButton: string;
-    /** latin cross \u{271d} */
+    /** latin cross ✝ */
     latinCross: string;
-    /** leaf fluttering in wind \u{1f343} */
+    /** leaf fluttering in wind 🍃 */
     leafFlutteringInWind: string;
-    /** ⊛ leafless tree \u{1fabe} */
+    /** ⊛ leafless tree 🪾 */
     leaflessTree: string;
-    /** leafy green \u{1f96c} */
+    /** leafy green 🥬 */
     leafyGreen: string;
-    /** ledger \u{1f4d2} */
+    /** ledger 📒 */
     ledger: string;
-    /** left arrow \u{2b05} */
+    /** left arrow ⬅ */
     leftArrow: string;
-    /** left arrow curving right \u{21aa} */
+    /** left arrow curving right ↪ */
     leftArrowCurvingRight: string;
-    /** left-facing fist \u{1f91b} */
+    /** left-facing fist 🤛 */
     leftFacingFist: string;
-    /** left luggage \u{1f6c5} */
+    /** left luggage 🛅 */
     leftLuggage: string;
-    /** left-right arrow \u{2194} */
+    /** left-right arrow ↔ */
     leftRightArrow: string;
-    /** left speech bubble \u{1f5e8} */
+    /** left speech bubble 🗨 */
     leftSpeechBubble: string;
-    /** leftwards hand \u{1faf2} */
+    /** leftwards hand 🫲 */
     leftwardsHand: string;
-    /** leftwards pushing hand \u{1faf7} */
+    /** leftwards pushing hand 🫷 */
     leftwardsPushingHand: string;
-    /** leg \u{1f9b5} */
+    /** leg 🦵 */
     leg: string;
-    /** lemon \u{1f34b} */
+    /** lemon 🍋 */
     lemon: string;
-    /** Leo \u{264c} */
+    /** Leo ♌ */
     leo: string;
-    /** leopard \u{1f406} */
+    /** leopard 🐆 */
     leopard: string;
-    /** level slider \u{1f39a} */
+    /** level slider 🎚 */
     levelSlider: string;
-    /** Libra \u{264e} */
+    /** Libra ♎ */
     libra: string;
-    /** light blue heart \u{1fa75} */
+    /** light blue heart 🩵 */
     lightBlueHeart: string;
-    /** light bulb \u{1f4a1} */
+    /** light bulb 💡 */
     lightBulb: string;
-    /** light rail \u{1f688} */
+    /** light rail 🚈 */
     lightRail: string;
-    /** lime \u{1f34b}\u{200d}\u{1f7e9} */
+    /** lime 🍋‍🟩 */
     lime: string;
-    /** link \u{1f517} */
+    /** link 🔗 */
     link: string;
-    /** linked paperclips \u{1f587} */
+    /** linked paperclips 🖇 */
     linkedPaperclips: string;
-    /** lion \u{1f981} */
+    /** lion 🦁 */
     lion: string;
-    /** lipstick \u{1f484} */
+    /** lipstick 💄 */
     lipstick: string;
-    /** litter in bin sign \u{1f6ae} */
+    /** litter in bin sign 🚮 */
     litterInBinSign: string;
-    /** lizard \u{1f98e} */
+    /** lizard 🦎 */
     lizard: string;
-    /** llama \u{1f999} */
+    /** llama 🦙 */
     llama: string;
-    /** lobster \u{1f99e} */
+    /** lobster 🦞 */
     lobster: string;
-    /** locked \u{1f512} */
+    /** locked 🔒 */
     locked: string;
-    /** locked with key \u{1f510} */
+    /** locked with key 🔐 */
     lockedWithKey: string;
-    /** locked with pen \u{1f50f} */
+    /** locked with pen 🔏 */
     lockedWithPen: string;
-    /** locomotive \u{1f682} */
+    /** locomotive 🚂 */
     locomotive: string;
-    /** lollipop \u{1f36d} */
+    /** lollipop 🍭 */
     lollipop: string;
-    /** long drum \u{1fa98} */
+    /** long drum 🪘 */
     longDrum: string;
-    /** lotion bottle \u{1f9f4} */
+    /** lotion bottle 🧴 */
     lotionBottle: string;
-    /** lotus \u{1fab7} */
+    /** lotus 🪷 */
     lotus: string;
-    /** loudly crying face \u{1f62d} */
+    /** loudly crying face 😭 */
     loudlyCryingFace: string;
-    /** loudspeaker \u{1f4e2} */
+    /** loudspeaker 📢 */
     loudspeaker: string;
-    /** love hotel \u{1f3e9} */
+    /** love hotel 🏩 */
     loveHotel: string;
-    /** love letter \u{1f48c} */
+    /** love letter 💌 */
     loveLetter: string;
-    /** love-you gesture \u{1f91f} */
+    /** love-you gesture 🤟 */
     loveYouGesture: string;
-    /** low battery \u{1faab} */
+    /** low battery 🪫 */
     lowBattery: string;
-    /** luggage \u{1f9f3} */
+    /** luggage 🧳 */
     luggage: string;
-    /** lungs \u{1fac1} */
+    /** lungs 🫁 */
     lungs: string;
-    /** lying face \u{1f925} */
+    /** lying face 🤥 */
     lyingFace: string;
-    /** mage \u{1f9d9} */
+    /** mage 🧙 */
     mage: string;
-    /** magic wand \u{1fa84} */
+    /** magic wand 🪄 */
     magicWand: string;
-    /** magnet \u{1f9f2} */
+    /** magnet 🧲 */
     magnet: string;
-    /** magnifying glass tilted left \u{1f50d} */
+    /** magnifying glass tilted left 🔍 */
     magnifyingGlassTiltedLeft: string;
-    /** magnifying glass tilted right \u{1f50e} */
+    /** magnifying glass tilted right 🔎 */
     magnifyingGlassTiltedRight: string;
-    /** mahjong red dragon \u{1f004} */
+    /** mahjong red dragon 🀄 */
     mahjongRedDragon: string;
-    /** male sign \u{2642} */
+    /** male sign ♂ */
     maleSign: string;
-    /** mammoth \u{1f9a3} */
+    /** mammoth 🦣 */
     mammoth: string;
-    /** man \u{1f468} */
+    /** man 👨 */
     man: string;
-    /** man artist \u{1f468}\u{200d}\u{1f3a8} */
+    /** man artist 👨‍🎨 */
     manArtist: string;
-    /** man astronaut \u{1f468}\u{200d}\u{1f680} */
+    /** man astronaut 👨‍🚀 */
     manAstronaut: string;
-    /** man: bald \u{1f468}\u{200d}\u{1f9b2} */
+    /** man: bald 👨‍🦲 */
     manBald: string;
-    /** man: beard \u{1f9d4}\u{200d}\u{2642}\u{fe0f} */
+    /** man: beard 🧔‍♂️ */
     manBeard: string;
-    /** man biking \u{1f6b4}\u{200d}\u{2642}\u{fe0f} */
+    /** man biking 🚴‍♂️ */
     manBiking: string;
-    /** man: blond hair \u{1f471}\u{200d}\u{2642}\u{fe0f} */
+    /** man: blond hair 👱‍♂️ */
     manBlondHair: string;
-    /** man bouncing ball \u{26f9}\u{fe0f}\u{200d}\u{2642}\u{fe0f} */
+    /** man bouncing ball ⛹️‍♂️ */
     manBouncingBall: string;
-    /** man bowing \u{1f647}\u{200d}\u{2642}\u{fe0f} */
+    /** man bowing 🙇‍♂️ */
     manBowing: string;
-    /** man cartwheeling \u{1f938}\u{200d}\u{2642}\u{fe0f} */
+    /** man cartwheeling 🤸‍♂️ */
     manCartwheeling: string;
-    /** man climbing \u{1f9d7}\u{200d}\u{2642}\u{fe0f} */
+    /** man climbing 🧗‍♂️ */
     manClimbing: string;
-    /** man construction worker \u{1f477}\u{200d}\u{2642}\u{fe0f} */
+    /** man construction worker 👷‍♂️ */
     manConstructionWorker: string;
-    /** man cook \u{1f468}\u{200d}\u{1f373} */
+    /** man cook 👨‍🍳 */
     manCook: string;
-    /** man: curly hair \u{1f468}\u{200d}\u{1f9b1} */
+    /** man: curly hair 👨‍🦱 */
     manCurlyHair: string;
-    /** man dancing \u{1f57a} */
+    /** man dancing 🕺 */
     manDancing: string;
-    /** man detective \u{1f575}\u{fe0f}\u{200d}\u{2642}\u{fe0f} */
+    /** man detective 🕵️‍♂️ */
     manDetective: string;
-    /** man elf \u{1f9dd}\u{200d}\u{2642}\u{fe0f} */
+    /** man elf 🧝‍♂️ */
     manElf: string;
-    /** man facepalming \u{1f926}\u{200d}\u{2642}\u{fe0f} */
+    /** man facepalming 🤦‍♂️ */
     manFacepalming: string;
-    /** man factory worker \u{1f468}\u{200d}\u{1f3ed} */
+    /** man factory worker 👨‍🏭 */
     manFactoryWorker: string;
-    /** man fairy \u{1f9da}\u{200d}\u{2642}\u{fe0f} */
+    /** man fairy 🧚‍♂️ */
     manFairy: string;
-    /** man farmer \u{1f468}\u{200d}\u{1f33e} */
+    /** man farmer 👨‍🌾 */
     manFarmer: string;
-    /** man feeding baby \u{1f468}\u{200d}\u{1f37c} */
+    /** man feeding baby 👨‍🍼 */
     manFeedingBaby: string;
-    /** man firefighter \u{1f468}\u{200d}\u{1f692} */
+    /** man firefighter 👨‍🚒 */
     manFirefighter: string;
-    /** man frowning \u{1f64d}\u{200d}\u{2642}\u{fe0f} */
+    /** man frowning 🙍‍♂️ */
     manFrowning: string;
-    /** man genie \u{1f9de}\u{200d}\u{2642}\u{fe0f} */
+    /** man genie 🧞‍♂️ */
     manGenie: string;
-    /** man gesturing NO \u{1f645}\u{200d}\u{2642}\u{fe0f} */
+    /** man gesturing NO 🙅‍♂️ */
     manGesturingNo: string;
-    /** man gesturing OK \u{1f646}\u{200d}\u{2642}\u{fe0f} */
+    /** man gesturing OK 🙆‍♂️ */
     manGesturingOk: string;
-    /** man getting haircut \u{1f487}\u{200d}\u{2642}\u{fe0f} */
+    /** man getting haircut 💇‍♂️ */
     manGettingHaircut: string;
-    /** man getting massage \u{1f486}\u{200d}\u{2642}\u{fe0f} */
+    /** man getting massage 💆‍♂️ */
     manGettingMassage: string;
-    /** mango \u{1f96d} */
+    /** mango 🥭 */
     mango: string;
-    /** man golfing \u{1f3cc}\u{fe0f}\u{200d}\u{2642}\u{fe0f} */
+    /** man golfing 🏌️‍♂️ */
     manGolfing: string;
-    /** man guard \u{1f482}\u{200d}\u{2642}\u{fe0f} */
+    /** man guard 💂‍♂️ */
     manGuard: string;
-    /** man health worker \u{1f468}\u{200d}\u{2695}\u{fe0f} */
+    /** man health worker 👨‍⚕️ */
     manHealthWorker: string;
-    /** man in lotus position \u{1f9d8}\u{200d}\u{2642}\u{fe0f} */
+    /** man in lotus position 🧘‍♂️ */
     manInLotusPosition: string;
-    /** man in manual wheelchair \u{1f468}\u{200d}\u{1f9bd} */
+    /** man in manual wheelchair 👨‍🦽 */
     manInManualWheelchair: string;
-    /** man in manual wheelchair facing right \u{1f468}\u{200d}\u{1f9bd}\u{200d}\u{27a1}\u{fe0f} */
+    /** man in manual wheelchair facing right 👨‍🦽‍➡️ */
     manInManualWheelchairFacingRight: string;
-    /** man in motorized wheelchair \u{1f468}\u{200d}\u{1f9bc} */
+    /** man in motorized wheelchair 👨‍🦼 */
     manInMotorizedWheelchair: string;
-    /** man in motorized wheelchair facing right \u{1f468}\u{200d}\u{1f9bc}\u{200d}\u{27a1}\u{fe0f} */
+    /** man in motorized wheelchair facing right 👨‍🦼‍➡️ */
     manInMotorizedWheelchairFacingRight: string;
-    /** man in steamy room \u{1f9d6}\u{200d}\u{2642}\u{fe0f} */
+    /** man in steamy room 🧖‍♂️ */
     manInSteamyRoom: string;
-    /** man in tuxedo \u{1f935}\u{200d}\u{2642}\u{fe0f} */
+    /** man in tuxedo 🤵‍♂️ */
     manInTuxedo: string;
-    /** man judge \u{1f468}\u{200d}\u{2696}\u{fe0f} */
+    /** man judge 👨‍⚖️ */
     manJudge: string;
-    /** man juggling \u{1f939}\u{200d}\u{2642}\u{fe0f} */
+    /** man juggling 🤹‍♂️ */
     manJuggling: string;
-    /** man kneeling \u{1f9ce}\u{200d}\u{2642}\u{fe0f} */
+    /** man kneeling 🧎‍♂️ */
     manKneeling: string;
-    /** man kneeling facing right \u{1f9ce}\u{200d}\u{2642}\u{fe0f}\u{200d}\u{27a1}\u{fe0f} */
+    /** man kneeling facing right 🧎‍♂️‍➡️ */
     manKneelingFacingRight: string;
-    /** man lifting weights \u{1f3cb}\u{fe0f}\u{200d}\u{2642}\u{fe0f} */
+    /** man lifting weights 🏋️‍♂️ */
     manLiftingWeights: string;
-    /** man mage \u{1f9d9}\u{200d}\u{2642}\u{fe0f} */
+    /** man mage 🧙‍♂️ */
     manMage: string;
-    /** man mechanic \u{1f468}\u{200d}\u{1f527} */
+    /** man mechanic 👨‍🔧 */
     manMechanic: string;
-    /** man mountain biking \u{1f6b5}\u{200d}\u{2642}\u{fe0f} */
+    /** man mountain biking 🚵‍♂️ */
     manMountainBiking: string;
-    /** man office worker \u{1f468}\u{200d}\u{1f4bc} */
+    /** man office worker 👨‍💼 */
     manOfficeWorker: string;
-    /** man pilot \u{1f468}\u{200d}\u{2708}\u{fe0f} */
+    /** man pilot 👨‍✈️ */
     manPilot: string;
-    /** man playing handball \u{1f93e}\u{200d}\u{2642}\u{fe0f} */
+    /** man playing handball 🤾‍♂️ */
     manPlayingHandball: string;
-    /** man playing water polo \u{1f93d}\u{200d}\u{2642}\u{fe0f} */
+    /** man playing water polo 🤽‍♂️ */
     manPlayingWaterPolo: string;
-    /** man police officer \u{1f46e}\u{200d}\u{2642}\u{fe0f} */
+    /** man police officer 👮‍♂️ */
     manPoliceOfficer: string;
-    /** man pouting \u{1f64e}\u{200d}\u{2642}\u{fe0f} */
+    /** man pouting 🙎‍♂️ */
     manPouting: string;
-    /** man raising hand \u{1f64b}\u{200d}\u{2642}\u{fe0f} */
+    /** man raising hand 🙋‍♂️ */
     manRaisingHand: string;
-    /** man: red hair \u{1f468}\u{200d}\u{1f9b0} */
+    /** man: red hair 👨‍🦰 */
     manRedHair: string;
-    /** man rowing boat \u{1f6a3}\u{200d}\u{2642}\u{fe0f} */
+    /** man rowing boat 🚣‍♂️ */
     manRowingBoat: string;
-    /** man running \u{1f3c3}\u{200d}\u{2642}\u{fe0f} */
+    /** man running 🏃‍♂️ */
     manRunning: string;
-    /** man running facing right \u{1f3c3}\u{200d}\u{2642}\u{fe0f}\u{200d}\u{27a1}\u{fe0f} */
+    /** man running facing right 🏃‍♂️‍➡️ */
     manRunningFacingRight: string;
-    /** man scientist \u{1f468}\u{200d}\u{1f52c} */
+    /** man scientist 👨‍🔬 */
     manScientist: string;
-    /** man shrugging \u{1f937}\u{200d}\u{2642}\u{fe0f} */
+    /** man shrugging 🤷‍♂️ */
     manShrugging: string;
-    /** man singer \u{1f468}\u{200d}\u{1f3a4} */
+    /** man singer 👨‍🎤 */
     manSinger: string;
-    /** man’s shoe \u{1f45e} */
+    /** man’s shoe 👞 */
     mansShoe: string;
-    /** man standing \u{1f9cd}\u{200d}\u{2642}\u{fe0f} */
+    /** man standing 🧍‍♂️ */
     manStanding: string;
-    /** man student \u{1f468}\u{200d}\u{1f393} */
+    /** man student 👨‍🎓 */
     manStudent: string;
-    /** man superhero \u{1f9b8}\u{200d}\u{2642}\u{fe0f} */
+    /** man superhero 🦸‍♂️ */
     manSuperhero: string;
-    /** man supervillain \u{1f9b9}\u{200d}\u{2642}\u{fe0f} */
+    /** man supervillain 🦹‍♂️ */
     manSupervillain: string;
-    /** man surfing \u{1f3c4}\u{200d}\u{2642}\u{fe0f} */
+    /** man surfing 🏄‍♂️ */
     manSurfing: string;
-    /** man swimming \u{1f3ca}\u{200d}\u{2642}\u{fe0f} */
+    /** man swimming 🏊‍♂️ */
     manSwimming: string;
-    /** man teacher \u{1f468}\u{200d}\u{1f3eb} */
+    /** man teacher 👨‍🏫 */
     manTeacher: string;
-    /** man technologist \u{1f468}\u{200d}\u{1f4bb} */
+    /** man technologist 👨‍💻 */
     manTechnologist: string;
-    /** mantelpiece clock \u{1f570} */
+    /** mantelpiece clock 🕰 */
     mantelpieceClock: string;
-    /** man tipping hand \u{1f481}\u{200d}\u{2642}\u{fe0f} */
+    /** man tipping hand 💁‍♂️ */
     manTippingHand: string;
-    /** manual wheelchair \u{1f9bd} */
+    /** manual wheelchair 🦽 */
     manualWheelchair: string;
-    /** man vampire \u{1f9db}\u{200d}\u{2642}\u{fe0f} */
+    /** man vampire 🧛‍♂️ */
     manVampire: string;
-    /** man walking \u{1f6b6}\u{200d}\u{2642}\u{fe0f} */
+    /** man walking 🚶‍♂️ */
     manWalking: string;
-    /** man walking facing right \u{1f6b6}\u{200d}\u{2642}\u{fe0f}\u{200d}\u{27a1}\u{fe0f} */
+    /** man walking facing right 🚶‍♂️‍➡️ */
     manWalkingFacingRight: string;
-    /** man wearing turban \u{1f473}\u{200d}\u{2642}\u{fe0f} */
+    /** man wearing turban 👳‍♂️ */
     manWearingTurban: string;
-    /** man: white hair \u{1f468}\u{200d}\u{1f9b3} */
+    /** man: white hair 👨‍🦳 */
     manWhiteHair: string;
-    /** man with veil \u{1f470}\u{200d}\u{2642}\u{fe0f} */
+    /** man with veil 👰‍♂️ */
     manWithVeil: string;
-    /** man with white cane \u{1f468}\u{200d}\u{1f9af} */
+    /** man with white cane 👨‍🦯 */
     manWithWhiteCane: string;
-    /** man with white cane facing right \u{1f468}\u{200d}\u{1f9af}\u{200d}\u{27a1}\u{fe0f} */
+    /** man with white cane facing right 👨‍🦯‍➡️ */
     manWithWhiteCaneFacingRight: string;
-    /** man zombie \u{1f9df}\u{200d}\u{2642}\u{fe0f} */
+    /** man zombie 🧟‍♂️ */
     manZombie: string;
-    /** maple leaf \u{1f341} */
+    /** maple leaf 🍁 */
     mapleLeaf: string;
-    /** map of Japan \u{1f5fe} */
+    /** map of Japan 🗾 */
     mapOfJapan: string;
-    /** maracas \u{1fa87} */
+    /** maracas 🪇 */
     maracas: string;
-    /** martial arts uniform \u{1f94b} */
+    /** martial arts uniform 🥋 */
     martialArtsUniform: string;
-    /** mate \u{1f9c9} */
+    /** mate 🧉 */
     mate: string;
-    /** meat on bone \u{1f356} */
+    /** meat on bone 🍖 */
     meatOnBone: string;
-    /** mechanic \u{1f9d1}\u{200d}\u{1f527} */
+    /** mechanic 🧑‍🔧 */
     mechanic: string;
-    /** mechanical arm \u{1f9be} */
+    /** mechanical arm 🦾 */
     mechanicalArm: string;
-    /** mechanical leg \u{1f9bf} */
+    /** mechanical leg 🦿 */
     mechanicalLeg: string;
-    /** medical symbol \u{2695} */
+    /** medical symbol ⚕ */
     medicalSymbol: string;
-    /** megaphone \u{1f4e3} */
+    /** megaphone 📣 */
     megaphone: string;
-    /** melon \u{1f348} */
+    /** melon 🍈 */
     melon: string;
-    /** melting face \u{1fae0} */
+    /** melting face 🫠 */
     meltingFace: string;
-    /** memo \u{1f4dd} */
+    /** memo 📝 */
     memo: string;
-    /** mending heart \u{2764}\u{fe0f}\u{200d}\u{1fa79} */
+    /** mending heart ❤️‍🩹 */
     mendingHeart: string;
-    /** men holding hands \u{1f46c} */
+    /** men holding hands 👬 */
     menHoldingHands: string;
-    /** menorah \u{1f54e} */
+    /** menorah 🕎 */
     menorah: string;
-    /** men’s room \u{1f6b9} */
+    /** men’s room 🚹 */
     mensRoom: string;
-    /** men with bunny ears \u{1f46f}\u{200d}\u{2642}\u{fe0f} */
+    /** men with bunny ears 👯‍♂️ */
     menWithBunnyEars: string;
-    /** men wrestling \u{1f93c}\u{200d}\u{2642}\u{fe0f} */
+    /** men wrestling 🤼‍♂️ */
     menWrestling: string;
-    /** mermaid \u{1f9dc}\u{200d}\u{2640}\u{fe0f} */
+    /** mermaid 🧜‍♀️ */
     mermaid: string;
-    /** merman \u{1f9dc}\u{200d}\u{2642}\u{fe0f} */
+    /** merman 🧜‍♂️ */
     merman: string;
-    /** merperson \u{1f9dc} */
+    /** merperson 🧜 */
     merperson: string;
-    /** metro \u{1f687} */
+    /** metro 🚇 */
     metro: string;
-    /** microbe \u{1f9a0} */
+    /** microbe 🦠 */
     microbe: string;
-    /** microphone \u{1f3a4} */
+    /** microphone 🎤 */
     microphone: string;
-    /** microscope \u{1f52c} */
+    /** microscope 🔬 */
     microscope: string;
-    /** middle finger \u{1f595} */
+    /** middle finger 🖕 */
     middleFinger: string;
-    /** military helmet \u{1fa96} */
+    /** military helmet 🪖 */
     militaryHelmet: string;
-    /** military medal \u{1f396} */
+    /** military medal 🎖 */
     militaryMedal: string;
-    /** milky way \u{1f30c} */
+    /** milky way 🌌 */
     milkyWay: string;
-    /** minibus \u{1f690} */
+    /** minibus 🚐 */
     minibus: string;
-    /** minus \u{2796} */
+    /** minus ➖ */
     minus: string;
-    /** mirror \u{1fa9e} */
+    /** mirror 🪞 */
     mirror: string;
-    /** mirror ball \u{1faa9} */
+    /** mirror ball 🪩 */
     mirrorBall: string;
-    /** moai \u{1f5ff} */
+    /** moai 🗿 */
     moai: string;
-    /** mobile phone \u{1f4f1} */
+    /** mobile phone 📱 */
     mobilePhone: string;
-    /** mobile phone off \u{1f4f4} */
+    /** mobile phone off 📴 */
     mobilePhoneOff: string;
-    /** mobile phone with arrow \u{1f4f2} */
+    /** mobile phone with arrow 📲 */
     mobilePhoneWithArrow: string;
-    /** money bag \u{1f4b0} */
+    /** money bag 💰 */
     moneyBag: string;
-    /** money-mouth face \u{1f911} */
+    /** money-mouth face 🤑 */
     moneyMouthFace: string;
-    /** money with wings \u{1f4b8} */
+    /** money with wings 💸 */
     moneyWithWings: string;
-    /** monkey \u{1f412} */
+    /** monkey 🐒 */
     monkey: string;
-    /** monkey face \u{1f435} */
+    /** monkey face 🐵 */
     monkeyFace: string;
-    /** monorail \u{1f69d} */
+    /** monorail 🚝 */
     monorail: string;
-    /** moon cake \u{1f96e} */
+    /** moon cake 🥮 */
     moonCake: string;
-    /** moon viewing ceremony \u{1f391} */
+    /** moon viewing ceremony 🎑 */
     moonViewingCeremony: string;
-    /** moose \u{1face} */
+    /** moose 🫎 */
     moose: string;
-    /** mosque \u{1f54c} */
+    /** mosque 🕌 */
     mosque: string;
-    /** mosquito \u{1f99f} */
+    /** mosquito 🦟 */
     mosquito: string;
-    /** motor boat \u{1f6e5} */
+    /** motor boat 🛥 */
     motorBoat: string;
-    /** motorcycle \u{1f3cd} */
+    /** motorcycle 🏍 */
     motorcycle: string;
-    /** motorized wheelchair \u{1f9bc} */
+    /** motorized wheelchair 🦼 */
     motorizedWheelchair: string;
-    /** motor scooter \u{1f6f5} */
+    /** motor scooter 🛵 */
     motorScooter: string;
-    /** motorway \u{1f6e3} */
+    /** motorway 🛣 */
     motorway: string;
-    /** mountain \u{26f0} */
+    /** mountain ⛰ */
     mountain: string;
-    /** mountain cableway \u{1f6a0} */
+    /** mountain cableway 🚠 */
     mountainCableway: string;
-    /** mountain railway \u{1f69e} */
+    /** mountain railway 🚞 */
     mountainRailway: string;
-    /** mount fuji \u{1f5fb} */
+    /** mount fuji 🗻 */
     mountFuji: string;
-    /** mouse \u{1f401} */
+    /** mouse 🐁 */
     mouse: string;
-    /** mouse face \u{1f42d} */
+    /** mouse face 🐭 */
     mouseFace: string;
-    /** mouse trap \u{1faa4} */
+    /** mouse trap 🪤 */
     mouseTrap: string;
-    /** mouth \u{1f444} */
+    /** mouth 👄 */
     mouth: string;
-    /** movie camera \u{1f3a5} */
+    /** movie camera 🎥 */
     movieCamera: string;
-    /** Mrs. Claus \u{1f936} */
+    /** Mrs. Claus 🤶 */
     mrsClaus: string;
-    /** multiply \u{2716} */
+    /** multiply ✖ */
     multiply: string;
-    /** mushroom \u{1f344} */
+    /** mushroom 🍄 */
     mushroom: string;
-    /** musical keyboard \u{1f3b9} */
+    /** musical keyboard 🎹 */
     musicalKeyboard: string;
-    /** musical note \u{1f3b5} */
+    /** musical note 🎵 */
     musicalNote: string;
-    /** musical notes \u{1f3b6} */
+    /** musical notes 🎶 */
     musicalNotes: string;
-    /** musical score \u{1f3bc} */
+    /** musical score 🎼 */
     musicalScore: string;
-    /** muted speaker \u{1f507} */
+    /** muted speaker 🔇 */
     mutedSpeaker: string;
-    /** Mx Claus \u{1f9d1}\u{200d}\u{1f384} */
+    /** Mx Claus 🧑‍🎄 */
     mxClaus: string;
-    /** nail polish \u{1f485} */
+    /** nail polish 💅 */
     nailPolish: string;
-    /** name badge \u{1f4db} */
+    /** name badge 📛 */
     nameBadge: string;
-    /** national park \u{1f3de} */
+    /** national park 🏞 */
     nationalPark: string;
-    /** nauseated face \u{1f922} */
+    /** nauseated face 🤢 */
     nauseatedFace: string;
-    /** nazar amulet \u{1f9ff} */
+    /** nazar amulet 🧿 */
     nazarAmulet: string;
-    /** necktie \u{1f454} */
+    /** necktie 👔 */
     necktie: string;
-    /** nerd face \u{1f913} */
+    /** nerd face 🤓 */
     nerdFace: string;
-    /** nesting dolls \u{1fa86} */
+    /** nesting dolls 🪆 */
     nestingDolls: string;
-    /** nest with eggs \u{1faba} */
+    /** nest with eggs 🪺 */
     nestWithEggs: string;
-    /** neutral face \u{1f610} */
+    /** neutral face 😐 */
     neutralFace: string;
-    /** NEW button \u{1f195} */
+    /** NEW button 🆕 */
     newButton: string;
-    /** new moon \u{1f311} */
+    /** new moon 🌑 */
     newMoon: string;
-    /** new moon face \u{1f31a} */
+    /** new moon face 🌚 */
     newMoonFace: string;
-    /** newspaper \u{1f4f0} */
+    /** newspaper 📰 */
     newspaper: string;
-    /** next track button \u{23ed} */
+    /** next track button ⏭ */
     nextTrackButton: string;
-    /** NG button \u{1f196} */
+    /** NG button 🆖 */
     ngButton: string;
-    /** night with stars \u{1f303} */
+    /** night with stars 🌃 */
     nightWithStars: string;
-    /** nine o’clock \u{1f558} */
+    /** nine o’clock 🕘 */
     nineOclock: string;
-    /** nine-thirty \u{1f564} */
+    /** nine-thirty 🕤 */
     nineThirty: string;
-    /** ninja \u{1f977} */
+    /** ninja 🥷 */
     ninja: string;
-    /** no bicycles \u{1f6b3} */
+    /** no bicycles 🚳 */
     noBicycles: string;
-    /** no entry \u{26d4} */
+    /** no entry ⛔ */
     noEntry: string;
-    /** no littering \u{1f6af} */
+    /** no littering 🚯 */
     noLittering: string;
-    /** no mobile phones \u{1f4f5} */
+    /** no mobile phones 📵 */
     noMobilePhones: string;
-    /** non-potable water \u{1f6b1} */
+    /** non-potable water 🚱 */
     nonPotableWater: string;
-    /** no one under eighteen \u{1f51e} */
+    /** no one under eighteen 🔞 */
     noOneUnderEighteen: string;
-    /** no pedestrians \u{1f6b7} */
+    /** no pedestrians 🚷 */
     noPedestrians: string;
-    /** nose \u{1f443} */
+    /** nose 👃 */
     nose: string;
-    /** no smoking \u{1f6ad} */
+    /** no smoking 🚭 */
     noSmoking: string;
-    /** notebook \u{1f4d3} */
+    /** notebook 📓 */
     notebook: string;
-    /** notebook with decorative cover \u{1f4d4} */
+    /** notebook with decorative cover 📔 */
     notebookWithDecorativeCover: string;
-    /** nut and bolt \u{1f529} */
+    /** nut and bolt 🔩 */
     nutAndBolt: string;
-    /** O button (blood type) \u{1f17e} */
+    /** O button (blood type) 🅾 */
     oButtonBloodType: string;
-    /** octopus \u{1f419} */
+    /** octopus 🐙 */
     octopus: string;
-    /** oden \u{1f362} */
+    /** oden 🍢 */
     oden: string;
-    /** office building \u{1f3e2} */
+    /** office building 🏢 */
     officeBuilding: string;
-    /** office worker \u{1f9d1}\u{200d}\u{1f4bc} */
+    /** office worker 🧑‍💼 */
     officeWorker: string;
-    /** ogre \u{1f479} */
+    /** ogre 👹 */
     ogre: string;
-    /** oil drum \u{1f6e2} */
+    /** oil drum 🛢 */
     oilDrum: string;
-    /** OK button \u{1f197} */
+    /** OK button 🆗 */
     okButton: string;
-    /** OK hand \u{1f44c} */
+    /** OK hand 👌 */
     okHand: string;
-    /** older person \u{1f9d3} */
+    /** older person 🧓 */
     olderPerson: string;
-    /** old key \u{1f5dd} */
+    /** old key 🗝 */
     oldKey: string;
-    /** old man \u{1f474} */
+    /** old man 👴 */
     oldMan: string;
-    /** old woman \u{1f475} */
+    /** old woman 👵 */
     oldWoman: string;
-    /** olive \u{1fad2} */
+    /** olive 🫒 */
     olive: string;
-    /** om \u{1f549} */
+    /** om 🕉 */
     om: string;
-    /** ON! arrow \u{1f51b} */
+    /** ON! arrow 🔛 */
     onArrow: string;
-    /** oncoming automobile \u{1f698} */
+    /** oncoming automobile 🚘 */
     oncomingAutomobile: string;
-    /** oncoming bus \u{1f68d} */
+    /** oncoming bus 🚍 */
     oncomingBus: string;
-    /** oncoming fist \u{1f44a} */
+    /** oncoming fist 👊 */
     oncomingFist: string;
-    /** oncoming police car \u{1f694} */
+    /** oncoming police car 🚔 */
     oncomingPoliceCar: string;
-    /** oncoming taxi \u{1f696} */
+    /** oncoming taxi 🚖 */
     oncomingTaxi: string;
-    /** one o’clock \u{1f550} */
+    /** one o’clock 🕐 */
     oneOclock: string;
-    /** one-piece swimsuit \u{1fa71} */
+    /** one-piece swimsuit 🩱 */
     onePieceSwimsuit: string;
-    /** one-thirty \u{1f55c} */
+    /** one-thirty 🕜 */
     oneThirty: string;
-    /** onion \u{1f9c5} */
+    /** onion 🧅 */
     onion: string;
-    /** open book \u{1f4d6} */
+    /** open book 📖 */
     openBook: string;
-    /** open file folder \u{1f4c2} */
+    /** open file folder 📂 */
     openFileFolder: string;
-    /** open hands \u{1f450} */
+    /** open hands 👐 */
     openHands: string;
-    /** open mailbox with lowered flag \u{1f4ed} */
+    /** open mailbox with lowered flag 📭 */
     openMailboxWithLoweredFlag: string;
-    /** open mailbox with raised flag \u{1f4ec} */
+    /** open mailbox with raised flag 📬 */
     openMailboxWithRaisedFlag: string;
-    /** Ophiuchus \u{26ce} */
+    /** Ophiuchus ⛎ */
     ophiuchus: string;
-    /** optical disk \u{1f4bf} */
+    /** optical disk 💿 */
     opticalDisk: string;
-    /** orange book \u{1f4d9} */
+    /** orange book 📙 */
     orangeBook: string;
-    /** orange circle \u{1f7e0} */
+    /** orange circle 🟠 */
     orangeCircle: string;
-    /** orange heart \u{1f9e1} */
+    /** orange heart 🧡 */
     orangeHeart: string;
-    /** orange square \u{1f7e7} */
+    /** orange square 🟧 */
     orangeSquare: string;
-    /** orangutan \u{1f9a7} */
+    /** orangutan 🦧 */
     orangutan: string;
-    /** orthodox cross \u{2626} */
+    /** orthodox cross ☦ */
     orthodoxCross: string;
-    /** otter \u{1f9a6} */
+    /** otter 🦦 */
     otter: string;
-    /** outbox tray \u{1f4e4} */
+    /** outbox tray 📤 */
     outboxTray: string;
-    /** owl \u{1f989} */
+    /** owl 🦉 */
     owl: string;
-    /** ox \u{1f402} */
+    /** ox 🐂 */
     ox: string;
-    /** oyster \u{1f9aa} */
+    /** oyster 🦪 */
     oyster: string;
-    /** package \u{1f4e6} */
+    /** package 📦 */
     package: string;
-    /** page facing up \u{1f4c4} */
+    /** page facing up 📄 */
     pageFacingUp: string;
-    /** pager \u{1f4df} */
+    /** pager 📟 */
     pager: string;
-    /** page with curl \u{1f4c3} */
+    /** page with curl 📃 */
     pageWithCurl: string;
-    /** paintbrush \u{1f58c} */
+    /** paintbrush 🖌 */
     paintbrush: string;
-    /** palm down hand \u{1faf3} */
+    /** palm down hand 🫳 */
     palmDownHand: string;
-    /** palms up together \u{1f932} */
+    /** palms up together 🤲 */
     palmsUpTogether: string;
-    /** palm tree \u{1f334} */
+    /** palm tree 🌴 */
     palmTree: string;
-    /** palm up hand \u{1faf4} */
+    /** palm up hand 🫴 */
     palmUpHand: string;
-    /** pancakes \u{1f95e} */
+    /** pancakes 🥞 */
     pancakes: string;
-    /** panda \u{1f43c} */
+    /** panda 🐼 */
     panda: string;
-    /** paperclip \u{1f4ce} */
+    /** paperclip 📎 */
     paperclip: string;
-    /** parachute \u{1fa82} */
+    /** parachute 🪂 */
     parachute: string;
-    /** parrot \u{1f99c} */
+    /** parrot 🦜 */
     parrot: string;
-    /** part alternation mark \u{303d} */
+    /** part alternation mark 〽 */
     partAlternationMark: string;
-    /** partying face \u{1f973} */
+    /** partying face 🥳 */
     partyingFace: string;
-    /** party popper \u{1f389} */
+    /** party popper 🎉 */
     partyPopper: string;
-    /** passenger ship \u{1f6f3} */
+    /** passenger ship 🛳 */
     passengerShip: string;
-    /** passport control \u{1f6c2} */
+    /** passport control 🛂 */
     passportControl: string;
-    /** pause button \u{23f8} */
+    /** pause button ⏸ */
     pauseButton: string;
-    /** paw prints \u{1f43e} */
+    /** paw prints 🐾 */
     pawPrints: string;
-    /** P button \u{1f17f} */
+    /** P button 🅿 */
     pButton: string;
-    /** peace symbol \u{262e} */
+    /** peace symbol ☮ */
     peaceSymbol: string;
-    /** peach \u{1f351} */
+    /** peach 🍑 */
     peach: string;
-    /** peacock \u{1f99a} */
+    /** peacock 🦚 */
     peacock: string;
-    /** peanuts \u{1f95c} */
+    /** peanuts 🥜 */
     peanuts: string;
-    /** pea pod \u{1fadb} */
+    /** pea pod 🫛 */
     peaPod: string;
-    /** pear \u{1f350} */
+    /** pear 🍐 */
     pear: string;
-    /** pen \u{1f58a} */
+    /** pen 🖊 */
     pen: string;
-    /** pencil \u{270f} */
+    /** pencil ✏ */
     pencil: string;
-    /** penguin \u{1f427} */
+    /** penguin 🐧 */
     penguin: string;
-    /** pensive face \u{1f614} */
+    /** pensive face 😔 */
     pensiveFace: string;
-    /** people holding hands \u{1f9d1}\u{200d}\u{1f91d}\u{200d}\u{1f9d1} */
+    /** people holding hands 🧑‍🤝‍🧑 */
     peopleHoldingHands: string;
-    /** people hugging \u{1fac2} */
+    /** people hugging 🫂 */
     peopleHugging: string;
-    /** people with bunny ears \u{1f46f} */
+    /** people with bunny ears 👯 */
     peopleWithBunnyEars: string;
-    /** people wrestling \u{1f93c} */
+    /** people wrestling 🤼 */
     peopleWrestling: string;
-    /** performing arts \u{1f3ad} */
+    /** performing arts 🎭 */
     performingArts: string;
-    /** persevering face \u{1f623} */
+    /** persevering face 😣 */
     perseveringFace: string;
-    /** person \u{1f9d1} */
+    /** person 🧑 */
     person: string;
-    /** person: bald \u{1f9d1}\u{200d}\u{1f9b2} */
+    /** person: bald 🧑‍🦲 */
     personBald: string;
-    /** person: beard \u{1f9d4} */
+    /** person: beard 🧔 */
     personBeard: string;
-    /** person biking \u{1f6b4} */
+    /** person biking 🚴 */
     personBiking: string;
-    /** person: blond hair \u{1f471} */
+    /** person: blond hair 👱 */
     personBlondHair: string;
-    /** person bouncing ball \u{26f9} */
+    /** person bouncing ball ⛹ */
     personBouncingBall: string;
-    /** person bowing \u{1f647} */
+    /** person bowing 🙇 */
     personBowing: string;
-    /** person cartwheeling \u{1f938} */
+    /** person cartwheeling 🤸 */
     personCartwheeling: string;
-    /** person climbing \u{1f9d7} */
+    /** person climbing 🧗 */
     personClimbing: string;
-    /** person: curly hair \u{1f9d1}\u{200d}\u{1f9b1} */
+    /** person: curly hair 🧑‍🦱 */
     personCurlyHair: string;
-    /** person facepalming \u{1f926} */
+    /** person facepalming 🤦 */
     personFacepalming: string;
-    /** person feeding baby \u{1f9d1}\u{200d}\u{1f37c} */
+    /** person feeding baby 🧑‍🍼 */
     personFeedingBaby: string;
-    /** person fencing \u{1f93a} */
+    /** person fencing 🤺 */
     personFencing: string;
-    /** person frowning \u{1f64d} */
+    /** person frowning 🙍 */
     personFrowning: string;
-    /** person gesturing NO \u{1f645} */
+    /** person gesturing NO 🙅 */
     personGesturingNo: string;
-    /** person gesturing OK \u{1f646} */
+    /** person gesturing OK 🙆 */
     personGesturingOk: string;
-    /** person getting haircut \u{1f487} */
+    /** person getting haircut 💇 */
     personGettingHaircut: string;
-    /** person getting massage \u{1f486} */
+    /** person getting massage 💆 */
     personGettingMassage: string;
-    /** person golfing \u{1f3cc} */
+    /** person golfing 🏌 */
     personGolfing: string;
-    /** person in bed \u{1f6cc} */
+    /** person in bed 🛌 */
     personInBed: string;
-    /** person in lotus position \u{1f9d8} */
+    /** person in lotus position 🧘 */
     personInLotusPosition: string;
-    /** person in manual wheelchair \u{1f9d1}\u{200d}\u{1f9bd} */
+    /** person in manual wheelchair 🧑‍🦽 */
     personInManualWheelchair: string;
-    /** person in manual wheelchair facing right \u{1f9d1}\u{200d}\u{1f9bd}\u{200d}\u{27a1}\u{fe0f} */
+    /** person in manual wheelchair facing right 🧑‍🦽‍➡️ */
     personInManualWheelchairFacingRight: string;
-    /** person in motorized wheelchair \u{1f9d1}\u{200d}\u{1f9bc} */
+    /** person in motorized wheelchair 🧑‍🦼 */
     personInMotorizedWheelchair: string;
-    /** person in motorized wheelchair facing right \u{1f9d1}\u{200d}\u{1f9bc}\u{200d}\u{27a1}\u{fe0f} */
+    /** person in motorized wheelchair facing right 🧑‍🦼‍➡️ */
     personInMotorizedWheelchairFacingRight: string;
-    /** person in steamy room \u{1f9d6} */
+    /** person in steamy room 🧖 */
     personInSteamyRoom: string;
-    /** person in suit levitating \u{1f574} */
+    /** person in suit levitating 🕴 */
     personInSuitLevitating: string;
-    /** person in tuxedo \u{1f935} */
+    /** person in tuxedo 🤵 */
     personInTuxedo: string;
-    /** person juggling \u{1f939} */
+    /** person juggling 🤹 */
     personJuggling: string;
-    /** person kneeling \u{1f9ce} */
+    /** person kneeling 🧎 */
     personKneeling: string;
-    /** person kneeling facing right \u{1f9ce}\u{200d}\u{27a1}\u{fe0f} */
+    /** person kneeling facing right 🧎‍➡️ */
     personKneelingFacingRight: string;
-    /** person lifting weights \u{1f3cb} */
+    /** person lifting weights 🏋 */
     personLiftingWeights: string;
-    /** person mountain biking \u{1f6b5} */
+    /** person mountain biking 🚵 */
     personMountainBiking: string;
-    /** person playing handball \u{1f93e} */
+    /** person playing handball 🤾 */
     personPlayingHandball: string;
-    /** person playing water polo \u{1f93d} */
+    /** person playing water polo 🤽 */
     personPlayingWaterPolo: string;
-    /** person pouting \u{1f64e} */
+    /** person pouting 🙎 */
     personPouting: string;
-    /** person raising hand \u{1f64b} */
+    /** person raising hand 🙋 */
     personRaisingHand: string;
-    /** person: red hair \u{1f9d1}\u{200d}\u{1f9b0} */
+    /** person: red hair 🧑‍🦰 */
     personRedHair: string;
-    /** person rowing boat \u{1f6a3} */
+    /** person rowing boat 🚣 */
     personRowingBoat: string;
-    /** person running \u{1f3c3} */
+    /** person running 🏃 */
     personRunning: string;
-    /** person running facing right \u{1f3c3}\u{200d}\u{27a1}\u{fe0f} */
+    /** person running facing right 🏃‍➡️ */
     personRunningFacingRight: string;
-    /** person shrugging \u{1f937} */
+    /** person shrugging 🤷 */
     personShrugging: string;
-    /** person standing \u{1f9cd} */
+    /** person standing 🧍 */
     personStanding: string;
-    /** person surfing \u{1f3c4} */
+    /** person surfing 🏄 */
     personSurfing: string;
-    /** person swimming \u{1f3ca} */
+    /** person swimming 🏊 */
     personSwimming: string;
-    /** person taking bath \u{1f6c0} */
+    /** person taking bath 🛀 */
     personTakingBath: string;
-    /** person tipping hand \u{1f481} */
+    /** person tipping hand 💁 */
     personTippingHand: string;
-    /** person walking \u{1f6b6} */
+    /** person walking 🚶 */
     personWalking: string;
-    /** person walking facing right \u{1f6b6}\u{200d}\u{27a1}\u{fe0f} */
+    /** person walking facing right 🚶‍➡️ */
     personWalkingFacingRight: string;
-    /** person wearing turban \u{1f473} */
+    /** person wearing turban 👳 */
     personWearingTurban: string;
-    /** person: white hair \u{1f9d1}\u{200d}\u{1f9b3} */
+    /** person: white hair 🧑‍🦳 */
     personWhiteHair: string;
-    /** person with crown \u{1fac5} */
+    /** person with crown 🫅 */
     personWithCrown: string;
-    /** person with skullcap \u{1f472} */
+    /** person with skullcap 👲 */
     personWithSkullcap: string;
-    /** person with veil \u{1f470} */
+    /** person with veil 👰 */
     personWithVeil: string;
-    /** person with white cane \u{1f9d1}\u{200d}\u{1f9af} */
+    /** person with white cane 🧑‍🦯 */
     personWithWhiteCane: string;
-    /** person with white cane facing right \u{1f9d1}\u{200d}\u{1f9af}\u{200d}\u{27a1}\u{fe0f} */
+    /** person with white cane facing right 🧑‍🦯‍➡️ */
     personWithWhiteCaneFacingRight: string;
-    /** petri dish \u{1f9eb} */
+    /** petri dish 🧫 */
     petriDish: string;
-    /** phoenix \u{1f426}\u{200d}\u{1f525} */
+    /** phoenix 🐦‍🔥 */
     phoenix: string;
-    /** pick \u{26cf} */
+    /** pick ⛏ */
     pick: string;
-    /** pickup truck \u{1f6fb} */
+    /** pickup truck 🛻 */
     pickupTruck: string;
-    /** pie \u{1f967} */
+    /** pie 🥧 */
     pie: string;
-    /** pig \u{1f416} */
+    /** pig 🐖 */
     pig: string;
-    /** pig face \u{1f437} */
+    /** pig face 🐷 */
     pigFace: string;
-    /** pig nose \u{1f43d} */
+    /** pig nose 🐽 */
     pigNose: string;
-    /** pile of poo \u{1f4a9} */
+    /** pile of poo 💩 */
     pileOfPoo: string;
-    /** pill \u{1f48a} */
+    /** pill 💊 */
     pill: string;
-    /** pilot \u{1f9d1}\u{200d}\u{2708}\u{fe0f} */
+    /** pilot 🧑‍✈️ */
     pilot: string;
-    /** piñata \u{1fa85} */
+    /** piñata 🪅 */
     pinata: string;
-    /** pinched fingers \u{1f90c} */
+    /** pinched fingers 🤌 */
     pinchedFingers: string;
-    /** pinching hand \u{1f90f} */
+    /** pinching hand 🤏 */
     pinchingHand: string;
-    /** pineapple \u{1f34d} */
+    /** pineapple 🍍 */
     pineapple: string;
-    /** pine decoration \u{1f38d} */
+    /** pine decoration 🎍 */
     pineDecoration: string;
-    /** ping pong \u{1f3d3} */
+    /** ping pong 🏓 */
     pingPong: string;
-    /** pink heart \u{1fa77} */
+    /** pink heart 🩷 */
     pinkHeart: string;
-    /** pirate flag \u{1f3f4}\u{200d}\u{2620}\u{fe0f} */
+    /** pirate flag 🏴‍☠️ */
     pirateFlag: string;
-    /** Pisces \u{2653} */
+    /** Pisces ♓ */
     pisces: string;
-    /** pizza \u{1f355} */
+    /** pizza 🍕 */
     pizza: string;
-    /** placard \u{1faa7} */
+    /** placard 🪧 */
     placard: string;
-    /** place of worship \u{1f6d0} */
+    /** place of worship 🛐 */
     placeOfWorship: string;
-    /** play button \u{25b6} */
+    /** play button ▶ */
     playButton: string;
-    /** playground slide \u{1f6dd} */
+    /** playground slide 🛝 */
     playgroundSlide: string;
-    /** play or pause button \u{23ef} */
+    /** play or pause button ⏯ */
     playOrPauseButton: string;
-    /** pleading face \u{1f97a} */
+    /** pleading face 🥺 */
     pleadingFace: string;
-    /** plunger \u{1faa0} */
+    /** plunger 🪠 */
     plunger: string;
-    /** plus \u{2795} */
+    /** plus ➕ */
     plus: string;
-    /** polar bear \u{1f43b}\u{200d}\u{2744}\u{fe0f} */
+    /** polar bear 🐻‍❄️ */
     polarBear: string;
-    /** police car \u{1f693} */
+    /** police car 🚓 */
     policeCar: string;
-    /** police car light \u{1f6a8} */
+    /** police car light 🚨 */
     policeCarLight: string;
-    /** police officer \u{1f46e} */
+    /** police officer 👮 */
     policeOfficer: string;
-    /** poodle \u{1f429} */
+    /** poodle 🐩 */
     poodle: string;
-    /** pool 8 ball \u{1f3b1} */
+    /** pool 8 ball 🎱 */
     pool8Ball: string;
-    /** popcorn \u{1f37f} */
+    /** popcorn 🍿 */
     popcorn: string;
-    /** postal horn \u{1f4ef} */
+    /** postal horn 📯 */
     postalHorn: string;
-    /** postbox \u{1f4ee} */
+    /** postbox 📮 */
     postbox: string;
-    /** post office \u{1f3e4} */
+    /** post office 🏤 */
     postOffice: string;
-    /** potable water \u{1f6b0} */
+    /** potable water 🚰 */
     potableWater: string;
-    /** potato \u{1f954} */
+    /** potato 🥔 */
     potato: string;
-    /** pot of food \u{1f372} */
+    /** pot of food 🍲 */
     potOfFood: string;
-    /** potted plant \u{1fab4} */
+    /** potted plant 🪴 */
     pottedPlant: string;
-    /** poultry leg \u{1f357} */
+    /** poultry leg 🍗 */
     poultryLeg: string;
-    /** pound banknote \u{1f4b7} */
+    /** pound banknote 💷 */
     poundBanknote: string;
-    /** pouring liquid \u{1fad7} */
+    /** pouring liquid 🫗 */
     pouringLiquid: string;
-    /** pouting cat \u{1f63e} */
+    /** pouting cat 😾 */
     poutingCat: string;
-    /** prayer beads \u{1f4ff} */
+    /** prayer beads 📿 */
     prayerBeads: string;
-    /** pregnant man \u{1fac3} */
+    /** pregnant man 🫃 */
     pregnantMan: string;
-    /** pregnant person \u{1fac4} */
+    /** pregnant person 🫄 */
     pregnantPerson: string;
-    /** pregnant woman \u{1f930} */
+    /** pregnant woman 🤰 */
     pregnantWoman: string;
-    /** pretzel \u{1f968} */
+    /** pretzel 🥨 */
     pretzel: string;
-    /** prince \u{1f934} */
+    /** prince 🤴 */
     prince: string;
-    /** princess \u{1f478} */
+    /** princess 👸 */
     princess: string;
-    /** printer \u{1f5a8} */
+    /** printer 🖨 */
     printer: string;
-    /** prohibited \u{1f6ab} */
+    /** prohibited 🚫 */
     prohibited: string;
-    /** purple circle \u{1f7e3} */
+    /** purple circle 🟣 */
     purpleCircle: string;
-    /** purple heart \u{1f49c} */
+    /** purple heart 💜 */
     purpleHeart: string;
-    /** purple square \u{1f7ea} */
+    /** purple square 🟪 */
     purpleSquare: string;
-    /** purse \u{1f45b} */
+    /** purse 👛 */
     purse: string;
-    /** pushpin \u{1f4cc} */
+    /** pushpin 📌 */
     pushpin: string;
-    /** puzzle piece \u{1f9e9} */
+    /** puzzle piece 🧩 */
     puzzlePiece: string;
-    /** rabbit \u{1f407} */
+    /** rabbit 🐇 */
     rabbit: string;
-    /** rabbit face \u{1f430} */
+    /** rabbit face 🐰 */
     rabbitFace: string;
-    /** raccoon \u{1f99d} */
+    /** raccoon 🦝 */
     raccoon: string;
-    /** racing car \u{1f3ce} */
+    /** racing car 🏎 */
     racingCar: string;
-    /** radio \u{1f4fb} */
+    /** radio 📻 */
     radio: string;
-    /** radioactive \u{2622} */
+    /** radioactive ☢ */
     radioactive: string;
-    /** radio button \u{1f518} */
+    /** radio button 🔘 */
     radioButton: string;
-    /** railway car \u{1f683} */
+    /** railway car 🚃 */
     railwayCar: string;
-    /** railway track \u{1f6e4} */
+    /** railway track 🛤 */
     railwayTrack: string;
-    /** rainbow \u{1f308} */
+    /** rainbow 🌈 */
     rainbow: string;
-    /** rainbow flag \u{1f3f3}\u{fe0f}\u{200d}\u{1f308} */
+    /** rainbow flag 🏳️‍🌈 */
     rainbowFlag: string;
-    /** raised back of hand \u{1f91a} */
+    /** raised back of hand 🤚 */
     raisedBackOfHand: string;
-    /** raised fist \u{270a} */
+    /** raised fist ✊ */
     raisedFist: string;
-    /** raised hand \u{270b} */
+    /** raised hand ✋ */
     raisedHand: string;
-    /** raising hands \u{1f64c} */
+    /** raising hands 🙌 */
     raisingHands: string;
-    /** ram \u{1f40f} */
+    /** ram 🐏 */
     ram: string;
-    /** rat \u{1f400} */
+    /** rat 🐀 */
     rat: string;
-    /** razor \u{1fa92} */
+    /** razor 🪒 */
     razor: string;
-    /** receipt \u{1f9fe} */
+    /** receipt 🧾 */
     receipt: string;
-    /** record button \u{23fa} */
+    /** record button ⏺ */
     recordButton: string;
-    /** recycling symbol \u{267b} */
+    /** recycling symbol ♻ */
     recyclingSymbol: string;
-    /** red apple \u{1f34e} */
+    /** red apple 🍎 */
     redApple: string;
-    /** red circle \u{1f534} */
+    /** red circle 🔴 */
     redCircle: string;
-    /** red envelope \u{1f9e7} */
+    /** red envelope 🧧 */
     redEnvelope: string;
-    /** red exclamation mark \u{2757} */
+    /** red exclamation mark ❗ */
     redExclamationMark: string;
-    /** red hair \u{1f9b0} */
+    /** red hair 🦰 */
     redHair: string;
-    /** red heart \u{2764} */
+    /** red heart ❤ */
     redHeart: string;
-    /** red paper lantern \u{1f3ee} */
+    /** red paper lantern 🏮 */
     redPaperLantern: string;
-    /** red question mark \u{2753} */
+    /** red question mark ❓ */
     redQuestionMark: string;
-    /** red square \u{1f7e5} */
+    /** red square 🟥 */
     redSquare: string;
-    /** red triangle pointed down \u{1f53b} */
+    /** red triangle pointed down 🔻 */
     redTrianglePointedDown: string;
-    /** red triangle pointed up \u{1f53a} */
+    /** red triangle pointed up 🔺 */
     redTrianglePointedUp: string;
-    /** registered \u{00ae} */
+    /** registered ® */
     registered: string;
-    /** relieved face \u{1f60c} */
+    /** relieved face 😌 */
     relievedFace: string;
-    /** reminder ribbon \u{1f397} */
+    /** reminder ribbon 🎗 */
     reminderRibbon: string;
-    /** repeat button \u{1f501} */
+    /** repeat button 🔁 */
     repeatButton: string;
-    /** repeat single button \u{1f502} */
+    /** repeat single button 🔂 */
     repeatSingleButton: string;
-    /** rescue worker’s helmet \u{26d1} */
+    /** rescue worker’s helmet ⛑ */
     rescueWorkersHelmet: string;
-    /** restroom \u{1f6bb} */
+    /** restroom 🚻 */
     restroom: string;
-    /** reverse button \u{25c0} */
+    /** reverse button ◀ */
     reverseButton: string;
-    /** revolving hearts \u{1f49e} */
+    /** revolving hearts 💞 */
     revolvingHearts: string;
-    /** rhinoceros \u{1f98f} */
+    /** rhinoceros 🦏 */
     rhinoceros: string;
-    /** ribbon \u{1f380} */
+    /** ribbon 🎀 */
     ribbon: string;
-    /** rice ball \u{1f359} */
+    /** rice ball 🍙 */
     riceBall: string;
-    /** rice cracker \u{1f358} */
+    /** rice cracker 🍘 */
     riceCracker: string;
-    /** right anger bubble \u{1f5ef} */
+    /** right anger bubble 🗯 */
     rightAngerBubble: string;
-    /** right arrow \u{27a1} */
+    /** right arrow ➡ */
     rightArrow: string;
-    /** right arrow curving down \u{2935} */
+    /** right arrow curving down ⤵ */
     rightArrowCurvingDown: string;
-    /** right arrow curving left \u{21a9} */
+    /** right arrow curving left ↩ */
     rightArrowCurvingLeft: string;
-    /** right arrow curving up \u{2934} */
+    /** right arrow curving up ⤴ */
     rightArrowCurvingUp: string;
-    /** right-facing fist \u{1f91c} */
+    /** right-facing fist 🤜 */
     rightFacingFist: string;
-    /** rightwards hand \u{1faf1} */
+    /** rightwards hand 🫱 */
     rightwardsHand: string;
-    /** rightwards pushing hand \u{1faf8} */
+    /** rightwards pushing hand 🫸 */
     rightwardsPushingHand: string;
-    /** ring \u{1f48d} */
+    /** ring 💍 */
     ring: string;
-    /** ring buoy \u{1f6df} */
+    /** ring buoy 🛟 */
     ringBuoy: string;
-    /** ringed planet \u{1fa90} */
+    /** ringed planet 🪐 */
     ringedPlanet: string;
-    /** roasted sweet potato \u{1f360} */
+    /** roasted sweet potato 🍠 */
     roastedSweetPotato: string;
-    /** robot \u{1f916} */
+    /** robot 🤖 */
     robot: string;
-    /** rock \u{1faa8} */
+    /** rock 🪨 */
     rock: string;
-    /** rocket \u{1f680} */
+    /** rocket 🚀 */
     rocket: string;
-    /** rolled-up newspaper \u{1f5de} */
+    /** rolled-up newspaper 🗞 */
     rolledUpNewspaper: string;
-    /** roller coaster \u{1f3a2} */
+    /** roller coaster 🎢 */
     rollerCoaster: string;
-    /** roller skate \u{1f6fc} */
+    /** roller skate 🛼 */
     rollerSkate: string;
-    /** rolling on the floor laughing \u{1f923} */
+    /** rolling on the floor laughing 🤣 */
     rollingOnTheFloorLaughing: string;
-    /** roll of paper \u{1f9fb} */
+    /** roll of paper 🧻 */
     rollOfPaper: string;
-    /** rooster \u{1f413} */
+    /** rooster 🐓 */
     rooster: string;
-    /** ⊛ root vegetable \u{1fadc} */
+    /** ⊛ root vegetable 🫜 */
     rootVegetable: string;
-    /** rose \u{1f339} */
+    /** rose 🌹 */
     rose: string;
-    /** rosette \u{1f3f5} */
+    /** rosette 🏵 */
     rosette: string;
-    /** round pushpin \u{1f4cd} */
+    /** round pushpin 📍 */
     roundPushpin: string;
-    /** rugby football \u{1f3c9} */
+    /** rugby football 🏉 */
     rugbyFootball: string;
-    /** running shirt \u{1f3bd} */
+    /** running shirt 🎽 */
     runningShirt: string;
-    /** running shoe \u{1f45f} */
+    /** running shoe 👟 */
     runningShoe: string;
-    /** sad but relieved face \u{1f625} */
+    /** sad but relieved face 😥 */
     sadButRelievedFace: string;
-    /** safety pin \u{1f9f7} */
+    /** safety pin 🧷 */
     safetyPin: string;
-    /** safety vest \u{1f9ba} */
+    /** safety vest 🦺 */
     safetyVest: string;
-    /** Sagittarius \u{2650} */
+    /** Sagittarius ♐ */
     sagittarius: string;
-    /** sailboat \u{26f5} */
+    /** sailboat ⛵ */
     sailboat: string;
-    /** sake \u{1f376} */
+    /** sake 🍶 */
     sake: string;
-    /** salt \u{1f9c2} */
+    /** salt 🧂 */
     salt: string;
-    /** saluting face \u{1fae1} */
+    /** saluting face 🫡 */
     salutingFace: string;
-    /** sandwich \u{1f96a} */
+    /** sandwich 🥪 */
     sandwich: string;
-    /** Santa Claus \u{1f385} */
+    /** Santa Claus 🎅 */
     santaClaus: string;
-    /** sari \u{1f97b} */
+    /** sari 🥻 */
     sari: string;
-    /** satellite \u{1f6f0} */
+    /** satellite 🛰 */
     satellite: string;
-    /** satellite antenna \u{1f4e1} */
+    /** satellite antenna 📡 */
     satelliteAntenna: string;
-    /** sauropod \u{1f995} */
+    /** sauropod 🦕 */
     sauropod: string;
-    /** saxophone \u{1f3b7} */
+    /** saxophone 🎷 */
     saxophone: string;
-    /** scarf \u{1f9e3} */
+    /** scarf 🧣 */
     scarf: string;
-    /** school \u{1f3eb} */
+    /** school 🏫 */
     school: string;
-    /** scientist \u{1f9d1}\u{200d}\u{1f52c} */
+    /** scientist 🧑‍🔬 */
     scientist: string;
-    /** scissors \u{2702} */
+    /** scissors ✂ */
     scissors: string;
-    /** Scorpio \u{264f} */
+    /** Scorpio ♏ */
     scorpio: string;
-    /** scorpion \u{1f982} */
+    /** scorpion 🦂 */
     scorpion: string;
-    /** screwdriver \u{1fa9b} */
+    /** screwdriver 🪛 */
     screwdriver: string;
-    /** scroll \u{1f4dc} */
+    /** scroll 📜 */
     scroll: string;
-    /** seal \u{1f9ad} */
+    /** seal 🦭 */
     seal: string;
-    /** seat \u{1f4ba} */
+    /** seat 💺 */
     seat: string;
-    /** 2nd place medal \u{1f948} */
+    /** 2nd place medal 🥈 */
     secondPlaceMedal: string;
-    /** seedling \u{1f331} */
+    /** seedling 🌱 */
     seedling: string;
-    /** see-no-evil monkey \u{1f648} */
+    /** see-no-evil monkey 🙈 */
     seeNoEvilMonkey: string;
-    /** selfie \u{1f933} */
+    /** selfie 🤳 */
     selfie: string;
-    /** service dog \u{1f415}\u{200d}\u{1f9ba} */
+    /** service dog 🐕‍🦺 */
     serviceDog: string;
-    /** seven o’clock \u{1f556} */
+    /** seven o’clock 🕖 */
     sevenOclock: string;
-    /** seven-thirty \u{1f562} */
+    /** seven-thirty 🕢 */
     sevenThirty: string;
-    /** sewing needle \u{1faa1} */
+    /** sewing needle 🪡 */
     sewingNeedle: string;
-    /** shaking face \u{1fae8} */
+    /** shaking face 🫨 */
     shakingFace: string;
-    /** shallow pan of food \u{1f958} */
+    /** shallow pan of food 🥘 */
     shallowPanOfFood: string;
-    /** shamrock \u{2618} */
+    /** shamrock ☘ */
     shamrock: string;
-    /** shark \u{1f988} */
+    /** shark 🦈 */
     shark: string;
-    /** shaved ice \u{1f367} */
+    /** shaved ice 🍧 */
     shavedIce: string;
-    /** sheaf of rice \u{1f33e} */
+    /** sheaf of rice 🌾 */
     sheafOfRice: string;
-    /** shield \u{1f6e1} */
+    /** shield 🛡 */
     shield: string;
-    /** shinto shrine \u{26e9} */
+    /** shinto shrine ⛩ */
     shintoShrine: string;
-    /** ship \u{1f6a2} */
+    /** ship 🚢 */
     ship: string;
-    /** shooting star \u{1f320} */
+    /** shooting star 🌠 */
     shootingStar: string;
-    /** shopping bags \u{1f6cd} */
+    /** shopping bags 🛍 */
     shoppingBags: string;
-    /** shopping cart \u{1f6d2} */
+    /** shopping cart 🛒 */
     shoppingCart: string;
-    /** shortcake \u{1f370} */
+    /** shortcake 🍰 */
     shortcake: string;
-    /** shorts \u{1fa73} */
+    /** shorts 🩳 */
     shorts: string;
-    /** ⊛ shovel \u{1fa8f} */
+    /** ⊛ shovel 🪏 */
     shovel: string;
-    /** shower \u{1f6bf} */
+    /** shower 🚿 */
     shower: string;
-    /** shrimp \u{1f990} */
+    /** shrimp 🦐 */
     shrimp: string;
-    /** shuffle tracks button \u{1f500} */
+    /** shuffle tracks button 🔀 */
     shuffleTracksButton: string;
-    /** shushing face \u{1f92b} */
+    /** shushing face 🤫 */
     shushingFace: string;
-    /** sign of the horns \u{1f918} */
+    /** sign of the horns 🤘 */
     signOfTheHorns: string;
-    /** singer \u{1f9d1}\u{200d}\u{1f3a4} */
+    /** singer 🧑‍🎤 */
     singer: string;
-    /** six o’clock \u{1f555} */
+    /** six o’clock 🕕 */
     sixOclock: string;
-    /** six-thirty \u{1f561} */
+    /** six-thirty 🕡 */
     sixThirty: string;
-    /** skateboard \u{1f6f9} */
+    /** skateboard 🛹 */
     skateboard: string;
-    /** skier \u{26f7} */
+    /** skier ⛷ */
     skier: string;
-    /** skis \u{1f3bf} */
+    /** skis 🎿 */
     skis: string;
-    /** skull \u{1f480} */
+    /** skull 💀 */
     skull: string;
-    /** skull and crossbones \u{2620} */
+    /** skull and crossbones ☠ */
     skullAndCrossbones: string;
-    /** skunk \u{1f9a8} */
+    /** skunk 🦨 */
     skunk: string;
-    /** sled \u{1f6f7} */
+    /** sled 🛷 */
     sled: string;
-    /** sleeping face \u{1f634} */
+    /** sleeping face 😴 */
     sleepingFace: string;
-    /** sleepy face \u{1f62a} */
+    /** sleepy face 😪 */
     sleepyFace: string;
-    /** slightly frowning face \u{1f641} */
+    /** slightly frowning face 🙁 */
     slightlyFrowningFace: string;
-    /** slightly smiling face \u{1f642} */
+    /** slightly smiling face 🙂 */
     slightlySmilingFace: string;
-    /** sloth \u{1f9a5} */
+    /** sloth 🦥 */
     sloth: string;
-    /** slot machine \u{1f3b0} */
+    /** slot machine 🎰 */
     slotMachine: string;
-    /** small airplane \u{1f6e9} */
+    /** small airplane 🛩 */
     smallAirplane: string;
-    /** small blue diamond \u{1f539} */
+    /** small blue diamond 🔹 */
     smallBlueDiamond: string;
-    /** small orange diamond \u{1f538} */
+    /** small orange diamond 🔸 */
     smallOrangeDiamond: string;
-    /** smiling cat with heart-eyes \u{1f63b} */
+    /** smiling cat with heart-eyes 😻 */
     smilingCatWithHeartEyes: string;
-    /** smiling face \u{263a} */
+    /** smiling face ☺ */
     smilingFace: string;
-    /** smiling face with halo \u{1f607} */
+    /** smiling face with halo 😇 */
     smilingFaceWithHalo: string;
-    /** smiling face with heart-eyes \u{1f60d} */
+    /** smiling face with heart-eyes 😍 */
     smilingFaceWithHeartEyes: string;
-    /** smiling face with hearts \u{1f970} */
+    /** smiling face with hearts 🥰 */
     smilingFaceWithHearts: string;
-    /** smiling face with horns \u{1f608} */
+    /** smiling face with horns 😈 */
     smilingFaceWithHorns: string;
-    /** smiling face with open hands \u{1f917} */
+    /** smiling face with open hands 🤗 */
     smilingFaceWithOpenHands: string;
-    /** smiling face with smiling eyes \u{1f60a} */
+    /** smiling face with smiling eyes 😊 */
     smilingFaceWithSmilingEyes: string;
-    /** smiling face with sunglasses \u{1f60e} */
+    /** smiling face with sunglasses 😎 */
     smilingFaceWithSunglasses: string;
-    /** smiling face with tear \u{1f972} */
+    /** smiling face with tear 🥲 */
     smilingFaceWithTear: string;
-    /** smirking face \u{1f60f} */
+    /** smirking face 😏 */
     smirkingFace: string;
-    /** snail \u{1f40c} */
+    /** snail 🐌 */
     snail: string;
-    /** snake \u{1f40d} */
+    /** snake 🐍 */
     snake: string;
-    /** sneezing face \u{1f927} */
+    /** sneezing face 🤧 */
     sneezingFace: string;
-    /** snowboarder \u{1f3c2} */
+    /** snowboarder 🏂 */
     snowboarder: string;
-    /** snow-capped mountain \u{1f3d4} */
+    /** snow-capped mountain 🏔 */
     snowCappedMountain: string;
-    /** snowflake \u{2744} */
+    /** snowflake ❄ */
     snowflake: string;
-    /** snowman \u{2603} */
+    /** snowman ☃ */
     snowman: string;
-    /** snowman without snow \u{26c4} */
+    /** snowman without snow ⛄ */
     snowmanWithoutSnow: string;
-    /** soap \u{1f9fc} */
+    /** soap 🧼 */
     soap: string;
-    /** soccer ball \u{26bd} */
+    /** soccer ball ⚽ */
     soccerBall: string;
-    /** socks \u{1f9e6} */
+    /** socks 🧦 */
     socks: string;
-    /** softball \u{1f94e} */
+    /** softball 🥎 */
     softball: string;
-    /** soft ice cream \u{1f366} */
+    /** soft ice cream 🍦 */
     softIceCream: string;
-    /** SOON arrow \u{1f51c} */
+    /** SOON arrow 🔜 */
     soonArrow: string;
-    /** SOS button \u{1f198} */
+    /** SOS button 🆘 */
     sosButton: string;
-    /** spade suit \u{2660} */
+    /** spade suit ♠ */
     spadeSuit: string;
-    /** spaghetti \u{1f35d} */
+    /** spaghetti 🍝 */
     spaghetti: string;
-    /** sparkle \u{2747} */
+    /** sparkle ❇ */
     sparkle: string;
-    /** sparkler \u{1f387} */
+    /** sparkler 🎇 */
     sparkler: string;
-    /** sparkles \u{2728} */
+    /** sparkles ✨ */
     sparkles: string;
-    /** sparkling heart \u{1f496} */
+    /** sparkling heart 💖 */
     sparklingHeart: string;
-    /** speaker high volume \u{1f50a} */
+    /** speaker high volume 🔊 */
     speakerHighVolume: string;
-    /** speaker low volume \u{1f508} */
+    /** speaker low volume 🔈 */
     speakerLowVolume: string;
-    /** speaker medium volume \u{1f509} */
+    /** speaker medium volume 🔉 */
     speakerMediumVolume: string;
-    /** speaking head \u{1f5e3} */
+    /** speaking head 🗣 */
     speakingHead: string;
-    /** speak-no-evil monkey \u{1f64a} */
+    /** speak-no-evil monkey 🙊 */
     speakNoEvilMonkey: string;
-    /** speech balloon \u{1f4ac} */
+    /** speech balloon 💬 */
     speechBalloon: string;
-    /** speedboat \u{1f6a4} */
+    /** speedboat 🚤 */
     speedboat: string;
-    /** spider \u{1f577} */
+    /** spider 🕷 */
     spider: string;
-    /** spider web \u{1f578} */
+    /** spider web 🕸 */
     spiderWeb: string;
-    /** spiral calendar \u{1f5d3} */
+    /** spiral calendar 🗓 */
     spiralCalendar: string;
-    /** spiral notepad \u{1f5d2} */
+    /** spiral notepad 🗒 */
     spiralNotepad: string;
-    /** spiral shell \u{1f41a} */
+    /** spiral shell 🐚 */
     spiralShell: string;
-    /** ⊛ splatter \u{1fadf} */
+    /** ⊛ splatter 🫟 */
     splatter: string;
-    /** sponge \u{1f9fd} */
+    /** sponge 🧽 */
     sponge: string;
-    /** spoon \u{1f944} */
+    /** spoon 🥄 */
     spoon: string;
-    /** sports medal \u{1f3c5} */
+    /** sports medal 🏅 */
     sportsMedal: string;
-    /** sport utility vehicle \u{1f699} */
+    /** sport utility vehicle 🚙 */
     sportUtilityVehicle: string;
-    /** spouting whale \u{1f433} */
+    /** spouting whale 🐳 */
     spoutingWhale: string;
-    /** squid \u{1f991} */
+    /** squid 🦑 */
     squid: string;
-    /** squinting face with tongue \u{1f61d} */
+    /** squinting face with tongue 😝 */
     squintingFaceWithTongue: string;
-    /** stadium \u{1f3df} */
+    /** stadium 🏟 */
     stadium: string;
-    /** star \u{2b50} */
+    /** star ⭐ */
     star: string;
-    /** star and crescent \u{262a} */
+    /** star and crescent ☪ */
     starAndCrescent: string;
-    /** star of David \u{2721} */
+    /** star of David ✡ */
     starOfDavid: string;
-    /** star-struck \u{1f929} */
+    /** star-struck 🤩 */
     starStruck: string;
-    /** station \u{1f689} */
+    /** station 🚉 */
     station: string;
-    /** Statue of Liberty \u{1f5fd} */
+    /** Statue of Liberty 🗽 */
     statueOfLiberty: string;
-    /** steaming bowl \u{1f35c} */
+    /** steaming bowl 🍜 */
     steamingBowl: string;
-    /** stethoscope \u{1fa7a} */
+    /** stethoscope 🩺 */
     stethoscope: string;
-    /** stop button \u{23f9} */
+    /** stop button ⏹ */
     stopButton: string;
-    /** stop sign \u{1f6d1} */
+    /** stop sign 🛑 */
     stopSign: string;
-    /** stopwatch \u{23f1} */
+    /** stopwatch ⏱ */
     stopwatch: string;
-    /** straight ruler \u{1f4cf} */
+    /** straight ruler 📏 */
     straightRuler: string;
-    /** strawberry \u{1f353} */
+    /** strawberry 🍓 */
     strawberry: string;
-    /** student \u{1f9d1}\u{200d}\u{1f393} */
+    /** student 🧑‍🎓 */
     student: string;
-    /** studio microphone \u{1f399} */
+    /** studio microphone 🎙 */
     studioMicrophone: string;
-    /** stuffed flatbread \u{1f959} */
+    /** stuffed flatbread 🥙 */
     stuffedFlatbread: string;
-    /** sun \u{2600} */
+    /** sun ☀ */
     sun: string;
-    /** sun behind cloud \u{26c5} */
+    /** sun behind cloud ⛅ */
     sunBehindCloud: string;
-    /** sun behind large cloud \u{1f325} */
+    /** sun behind large cloud 🌥 */
     sunBehindLargeCloud: string;
-    /** sun behind rain cloud \u{1f326} */
+    /** sun behind rain cloud 🌦 */
     sunBehindRainCloud: string;
-    /** sun behind small cloud \u{1f324} */
+    /** sun behind small cloud 🌤 */
     sunBehindSmallCloud: string;
-    /** sunflower \u{1f33b} */
+    /** sunflower 🌻 */
     sunflower: string;
-    /** sunglasses \u{1f576} */
+    /** sunglasses 🕶 */
     sunglasses: string;
-    /** sunrise \u{1f305} */
+    /** sunrise 🌅 */
     sunrise: string;
-    /** sunrise over mountains \u{1f304} */
+    /** sunrise over mountains 🌄 */
     sunriseOverMountains: string;
-    /** sunset \u{1f307} */
+    /** sunset 🌇 */
     sunset: string;
-    /** sun with face \u{1f31e} */
+    /** sun with face 🌞 */
     sunWithFace: string;
-    /** superhero \u{1f9b8} */
+    /** superhero 🦸 */
     superhero: string;
-    /** supervillain \u{1f9b9} */
+    /** supervillain 🦹 */
     supervillain: string;
-    /** sushi \u{1f363} */
+    /** sushi 🍣 */
     sushi: string;
-    /** suspension railway \u{1f69f} */
+    /** suspension railway 🚟 */
     suspensionRailway: string;
-    /** swan \u{1f9a2} */
+    /** swan 🦢 */
     swan: string;
-    /** sweat droplets \u{1f4a6} */
+    /** sweat droplets 💦 */
     sweatDroplets: string;
-    /** synagogue \u{1f54d} */
+    /** synagogue 🕍 */
     synagogue: string;
-    /** syringe \u{1f489} */
+    /** syringe 💉 */
     syringe: string;
-    /** taco \u{1f32e} */
+    /** taco 🌮 */
     taco: string;
-    /** takeout box \u{1f961} */
+    /** takeout box 🥡 */
     takeoutBox: string;
-    /** tamale \u{1fad4} */
+    /** tamale 🫔 */
     tamale: string;
-    /** tanabata tree \u{1f38b} */
+    /** tanabata tree 🎋 */
     tanabataTree: string;
-    /** tangerine \u{1f34a} */
+    /** tangerine 🍊 */
     tangerine: string;
-    /** Taurus \u{2649} */
+    /** Taurus ♉ */
     taurus: string;
-    /** taxi \u{1f695} */
+    /** taxi 🚕 */
     taxi: string;
-    /** teacher \u{1f9d1}\u{200d}\u{1f3eb} */
+    /** teacher 🧑‍🏫 */
     teacher: string;
-    /** teacup without handle \u{1f375} */
+    /** teacup without handle 🍵 */
     teacupWithoutHandle: string;
-    /** teapot \u{1fad6} */
+    /** teapot 🫖 */
     teapot: string;
-    /** tear-off calendar \u{1f4c6} */
+    /** tear-off calendar 📆 */
     tearOffCalendar: string;
-    /** technologist \u{1f9d1}\u{200d}\u{1f4bb} */
+    /** technologist 🧑‍💻 */
     technologist: string;
-    /** teddy bear \u{1f9f8} */
+    /** teddy bear 🧸 */
     teddyBear: string;
-    /** telephone \u{260e} */
+    /** telephone ☎ */
     telephone: string;
-    /** telephone receiver \u{1f4de} */
+    /** telephone receiver 📞 */
     telephoneReceiver: string;
-    /** telescope \u{1f52d} */
+    /** telescope 🔭 */
     telescope: string;
-    /** television \u{1f4fa} */
+    /** television 📺 */
     television: string;
-    /** tennis \u{1f3be} */
+    /** tennis 🎾 */
     tennis: string;
-    /** ten o’clock \u{1f559} */
+    /** ten o’clock 🕙 */
     tenOclock: string;
-    /** tent \u{26fa} */
+    /** tent ⛺ */
     tent: string;
-    /** ten-thirty \u{1f565} */
+    /** ten-thirty 🕥 */
     tenThirty: string;
-    /** test tube \u{1f9ea} */
+    /** test tube 🧪 */
     testTube: string;
-    /** thermometer \u{1f321} */
+    /** thermometer 🌡 */
     thermometer: string;
-    /** thinking face \u{1f914} */
+    /** thinking face 🤔 */
     thinkingFace: string;
-    /** 3rd place medal \u{1f949} */
+    /** 3rd place medal 🥉 */
     thirdPlaceMedal: string;
-    /** thong sandal \u{1fa74} */
+    /** thong sandal 🩴 */
     thongSandal: string;
-    /** thought balloon \u{1f4ad} */
+    /** thought balloon 💭 */
     thoughtBalloon: string;
-    /** thread \u{1f9f5} */
+    /** thread 🧵 */
     thread: string;
-    /** three o’clock \u{1f552} */
+    /** three o’clock 🕒 */
     threeOclock: string;
-    /** three-thirty \u{1f55e} */
+    /** three-thirty 🕞 */
     threeThirty: string;
-    /** thumbs down \u{1f44e} */
+    /** thumbs down 👎 */
     thumbsDown: string;
-    /** thumbs up \u{1f44d} */
+    /** thumbs up 👍 */
     thumbsUp: string;
-    /** ticket \u{1f3ab} */
+    /** ticket 🎫 */
     ticket: string;
-    /** tiger \u{1f405} */
+    /** tiger 🐅 */
     tiger: string;
-    /** tiger face \u{1f42f} */
+    /** tiger face 🐯 */
     tigerFace: string;
-    /** timer clock \u{23f2} */
+    /** timer clock ⏲ */
     timerClock: string;
-    /** tired face \u{1f62b} */
+    /** tired face 😫 */
     tiredFace: string;
-    /** toilet \u{1f6bd} */
+    /** toilet 🚽 */
     toilet: string;
-    /** Tokyo tower \u{1f5fc} */
+    /** Tokyo tower 🗼 */
     tokyoTower: string;
-    /** tomato \u{1f345} */
+    /** tomato 🍅 */
     tomato: string;
-    /** tongue \u{1f445} */
+    /** tongue 👅 */
     tongue: string;
-    /** toolbox \u{1f9f0} */
+    /** toolbox 🧰 */
     toolbox: string;
-    /** tooth \u{1f9b7} */
+    /** tooth 🦷 */
     tooth: string;
-    /** toothbrush \u{1faa5} */
+    /** toothbrush 🪥 */
     toothbrush: string;
-    /** TOP arrow \u{1f51d} */
+    /** TOP arrow 🔝 */
     topArrow: string;
-    /** top hat \u{1f3a9} */
+    /** top hat 🎩 */
     topHat: string;
-    /** tornado \u{1f32a} */
+    /** tornado 🌪 */
     tornado: string;
-    /** trackball \u{1f5b2} */
+    /** trackball 🖲 */
     trackball: string;
-    /** tractor \u{1f69c} */
+    /** tractor 🚜 */
     tractor: string;
-    /** trade mark \u{2122} */
+    /** trade mark ™ */
     tradeMark: string;
-    /** train \u{1f686} */
+    /** train 🚆 */
     train: string;
-    /** tram \u{1f68a} */
+    /** tram 🚊 */
     tram: string;
-    /** tram car \u{1f68b} */
+    /** tram car 🚋 */
     tramCar: string;
-    /** transgender flag \u{1f3f3}\u{fe0f}\u{200d}\u{26a7}\u{fe0f} */
+    /** transgender flag 🏳️‍⚧️ */
     transgenderFlag: string;
-    /** transgender symbol \u{26a7} */
+    /** transgender symbol ⚧ */
     transgenderSymbol: string;
-    /** T-Rex \u{1f996} */
+    /** T-Rex 🦖 */
     tRex: string;
-    /** triangular flag \u{1f6a9} */
+    /** triangular flag 🚩 */
     triangularFlag: string;
-    /** triangular ruler \u{1f4d0} */
+    /** triangular ruler 📐 */
     triangularRuler: string;
-    /** trident emblem \u{1f531} */
+    /** trident emblem 🔱 */
     tridentEmblem: string;
-    /** troll \u{1f9cc} */
+    /** troll 🧌 */
     troll: string;
-    /** trolleybus \u{1f68e} */
+    /** trolleybus 🚎 */
     trolleybus: string;
-    /** trophy \u{1f3c6} */
+    /** trophy 🏆 */
     trophy: string;
-    /** tropical drink \u{1f379} */
+    /** tropical drink 🍹 */
     tropicalDrink: string;
-    /** tropical fish \u{1f420} */
+    /** tropical fish 🐠 */
     tropicalFish: string;
-    /** trumpet \u{1f3ba} */
+    /** trumpet 🎺 */
     trumpet: string;
-    /** t-shirt \u{1f455} */
+    /** t-shirt 👕 */
     tShirt: string;
-    /** tulip \u{1f337} */
+    /** tulip 🌷 */
     tulip: string;
-    /** tumbler glass \u{1f943} */
+    /** tumbler glass 🥃 */
     tumblerGlass: string;
-    /** turkey \u{1f983} */
+    /** turkey 🦃 */
     turkey: string;
-    /** turtle \u{1f422} */
+    /** turtle 🐢 */
     turtle: string;
-    /** twelve o’clock \u{1f55b} */
+    /** twelve o’clock 🕛 */
     twelveOclock: string;
-    /** twelve-thirty \u{1f567} */
+    /** twelve-thirty 🕧 */
     twelveThirty: string;
-    /** two hearts \u{1f495} */
+    /** two hearts 💕 */
     twoHearts: string;
-    /** two-hump camel \u{1f42b} */
+    /** two-hump camel 🐫 */
     twoHumpCamel: string;
-    /** two o’clock \u{1f551} */
+    /** two o’clock 🕑 */
     twoOclock: string;
-    /** two-thirty \u{1f55d} */
+    /** two-thirty 🕝 */
     twoThirty: string;
-    /** umbrella \u{2602} */
+    /** umbrella ☂ */
     umbrella: string;
-    /** umbrella on ground \u{26f1} */
+    /** umbrella on ground ⛱ */
     umbrellaOnGround: string;
-    /** umbrella with rain drops \u{2614} */
+    /** umbrella with rain drops ☔ */
     umbrellaWithRainDrops: string;
-    /** unamused face \u{1f612} */
+    /** unamused face 😒 */
     unamusedFace: string;
-    /** unicorn \u{1f984} */
+    /** unicorn 🦄 */
     unicorn: string;
-    /** unlocked \u{1f513} */
+    /** unlocked 🔓 */
     unlocked: string;
-    /** up arrow \u{2b06} */
+    /** up arrow ⬆ */
     upArrow: string;
-    /** UP! button \u{1f199} */
+    /** UP! button 🆙 */
     upButton: string;
-    /** up-down arrow \u{2195} */
+    /** up-down arrow ↕ */
     upDownArrow: string;
-    /** up-left arrow \u{2196} */
+    /** up-left arrow ↖ */
     upLeftArrow: string;
-    /** up-right arrow \u{2197} */
+    /** up-right arrow ↗ */
     upRightArrow: string;
-    /** upside-down face \u{1f643} */
+    /** upside-down face 🙃 */
     upsideDownFace: string;
-    /** upwards button \u{1f53c} */
+    /** upwards button 🔼 */
     upwardsButton: string;
-    /** vampire \u{1f9db} */
+    /** vampire 🧛 */
     vampire: string;
-    /** vertical traffic light \u{1f6a6} */
+    /** vertical traffic light 🚦 */
     verticalTrafficLight: string;
-    /** vibration mode \u{1f4f3} */
+    /** vibration mode 📳 */
     vibrationMode: string;
-    /** victory hand \u{270c} */
+    /** victory hand ✌ */
     victoryHand: string;
-    /** video camera \u{1f4f9} */
+    /** video camera 📹 */
     videoCamera: string;
-    /** videocassette \u{1f4fc} */
+    /** videocassette 📼 */
     videocassette: string;
-    /** video game \u{1f3ae} */
+    /** video game 🎮 */
     videoGame: string;
-    /** violin \u{1f3bb} */
+    /** violin 🎻 */
     violin: string;
-    /** Virgo \u{264d} */
+    /** Virgo ♍ */
     virgo: string;
-    /** volcano \u{1f30b} */
+    /** volcano 🌋 */
     volcano: string;
-    /** volleyball \u{1f3d0} */
+    /** volleyball 🏐 */
     volleyball: string;
-    /** VS button \u{1f19a} */
+    /** VS button 🆚 */
     vsButton: string;
-    /** vulcan salute \u{1f596} */
+    /** vulcan salute 🖖 */
     vulcanSalute: string;
-    /** waffle \u{1f9c7} */
+    /** waffle 🧇 */
     waffle: string;
-    /** waning crescent moon \u{1f318} */
+    /** waning crescent moon 🌘 */
     waningCrescentMoon: string;
-    /** waning gibbous moon \u{1f316} */
+    /** waning gibbous moon 🌖 */
     waningGibbousMoon: string;
-    /** warning \u{26a0} */
+    /** warning ⚠ */
     warning: string;
-    /** wastebasket \u{1f5d1} */
+    /** wastebasket 🗑 */
     wastebasket: string;
-    /** watch \u{231a} */
+    /** watch ⌚ */
     watch: string;
-    /** water buffalo \u{1f403} */
+    /** water buffalo 🐃 */
     waterBuffalo: string;
-    /** water closet \u{1f6be} */
+    /** water closet 🚾 */
     waterCloset: string;
-    /** watermelon \u{1f349} */
+    /** watermelon 🍉 */
     watermelon: string;
-    /** water pistol \u{1f52b} */
+    /** water pistol 🔫 */
     waterPistol: string;
-    /** water wave \u{1f30a} */
+    /** water wave 🌊 */
     waterWave: string;
-    /** waving hand \u{1f44b} */
+    /** waving hand 👋 */
     wavingHand: string;
-    /** wavy dash \u{3030} */
+    /** wavy dash 〰 */
     wavyDash: string;
-    /** waxing crescent moon \u{1f312} */
+    /** waxing crescent moon 🌒 */
     waxingCrescentMoon: string;
-    /** waxing gibbous moon \u{1f314} */
+    /** waxing gibbous moon 🌔 */
     waxingGibbousMoon: string;
-    /** weary cat \u{1f640} */
+    /** weary cat 🙀 */
     wearyCat: string;
-    /** weary face \u{1f629} */
+    /** weary face 😩 */
     wearyFace: string;
-    /** wedding \u{1f492} */
+    /** wedding 💒 */
     wedding: string;
-    /** whale \u{1f40b} */
+    /** whale 🐋 */
     whale: string;
-    /** wheel \u{1f6de} */
+    /** wheel 🛞 */
     wheel: string;
-    /** wheelchair symbol \u{267f} */
+    /** wheelchair symbol ♿ */
     wheelchairSymbol: string;
-    /** wheel of dharma \u{2638} */
+    /** wheel of dharma ☸ */
     wheelOfDharma: string;
-    /** white cane \u{1f9af} */
+    /** white cane 🦯 */
     whiteCane: string;
-    /** white circle \u{26aa} */
+    /** white circle ⚪ */
     whiteCircle: string;
-    /** white exclamation mark \u{2755} */
+    /** white exclamation mark ❕ */
     whiteExclamationMark: string;
-    /** white flag \u{1f3f3} */
+    /** white flag 🏳 */
     whiteFlag: string;
-    /** white flower \u{1f4ae} */
+    /** white flower 💮 */
     whiteFlower: string;
-    /** white hair \u{1f9b3} */
+    /** white hair 🦳 */
     whiteHair: string;
-    /** white heart \u{1f90d} */
+    /** white heart 🤍 */
     whiteHeart: string;
-    /** white large square \u{2b1c} */
+    /** white large square ⬜ */
     whiteLargeSquare: string;
-    /** white medium-small square \u{25fd} */
+    /** white medium-small square ◽ */
     whiteMediumSmallSquare: string;
-    /** white medium square \u{25fb} */
+    /** white medium square ◻ */
     whiteMediumSquare: string;
-    /** white question mark \u{2754} */
+    /** white question mark ❔ */
     whiteQuestionMark: string;
-    /** white small square \u{25ab} */
+    /** white small square ▫ */
     whiteSmallSquare: string;
-    /** white square button \u{1f533} */
+    /** white square button 🔳 */
     whiteSquareButton: string;
-    /** wilted flower \u{1f940} */
+    /** wilted flower 🥀 */
     wiltedFlower: string;
-    /** wind chime \u{1f390} */
+    /** wind chime 🎐 */
     windChime: string;
-    /** wind face \u{1f32c} */
+    /** wind face 🌬 */
     windFace: string;
-    /** window \u{1fa9f} */
+    /** window 🪟 */
     window: string;
-    /** wine glass \u{1f377} */
+    /** wine glass 🍷 */
     wineGlass: string;
-    /** wing \u{1fabd} */
+    /** wing 🪽 */
     wing: string;
-    /** winking face \u{1f609} */
+    /** winking face 😉 */
     winkingFace: string;
-    /** winking face with tongue \u{1f61c} */
+    /** winking face with tongue 😜 */
     winkingFaceWithTongue: string;
-    /** wireless \u{1f6dc} */
+    /** wireless 🛜 */
     wireless: string;
-    /** wolf \u{1f43a} */
+    /** wolf 🐺 */
     wolf: string;
-    /** woman \u{1f469} */
+    /** woman 👩 */
     woman: string;
-    /** woman and man holding hands \u{1f46b} */
+    /** woman and man holding hands 👫 */
     womanAndManHoldingHands: string;
-    /** woman artist \u{1f469}\u{200d}\u{1f3a8} */
+    /** woman artist 👩‍🎨 */
     womanArtist: string;
-    /** woman astronaut \u{1f469}\u{200d}\u{1f680} */
+    /** woman astronaut 👩‍🚀 */
     womanAstronaut: string;
-    /** woman: bald \u{1f469}\u{200d}\u{1f9b2} */
+    /** woman: bald 👩‍🦲 */
     womanBald: string;
-    /** woman: beard \u{1f9d4}\u{200d}\u{2640}\u{fe0f} */
+    /** woman: beard 🧔‍♀️ */
     womanBeard: string;
-    /** woman biking \u{1f6b4}\u{200d}\u{2640}\u{fe0f} */
+    /** woman biking 🚴‍♀️ */
     womanBiking: string;
-    /** woman: blond hair \u{1f471}\u{200d}\u{2640}\u{fe0f} */
+    /** woman: blond hair 👱‍♀️ */
     womanBlondHair: string;
-    /** woman bouncing ball \u{26f9}\u{fe0f}\u{200d}\u{2640}\u{fe0f} */
+    /** woman bouncing ball ⛹️‍♀️ */
     womanBouncingBall: string;
-    /** woman bowing \u{1f647}\u{200d}\u{2640}\u{fe0f} */
+    /** woman bowing 🙇‍♀️ */
     womanBowing: string;
-    /** woman cartwheeling \u{1f938}\u{200d}\u{2640}\u{fe0f} */
+    /** woman cartwheeling 🤸‍♀️ */
     womanCartwheeling: string;
-    /** woman climbing \u{1f9d7}\u{200d}\u{2640}\u{fe0f} */
+    /** woman climbing 🧗‍♀️ */
     womanClimbing: string;
-    /** woman construction worker \u{1f477}\u{200d}\u{2640}\u{fe0f} */
+    /** woman construction worker 👷‍♀️ */
     womanConstructionWorker: string;
-    /** woman cook \u{1f469}\u{200d}\u{1f373} */
+    /** woman cook 👩‍🍳 */
     womanCook: string;
-    /** woman: curly hair \u{1f469}\u{200d}\u{1f9b1} */
+    /** woman: curly hair 👩‍🦱 */
     womanCurlyHair: string;
-    /** woman dancing \u{1f483} */
+    /** woman dancing 💃 */
     womanDancing: string;
-    /** woman detective \u{1f575}\u{fe0f}\u{200d}\u{2640}\u{fe0f} */
+    /** woman detective 🕵️‍♀️ */
     womanDetective: string;
-    /** woman elf \u{1f9dd}\u{200d}\u{2640}\u{fe0f} */
+    /** woman elf 🧝‍♀️ */
     womanElf: string;
-    /** woman facepalming \u{1f926}\u{200d}\u{2640}\u{fe0f} */
+    /** woman facepalming 🤦‍♀️ */
     womanFacepalming: string;
-    /** woman factory worker \u{1f469}\u{200d}\u{1f3ed} */
+    /** woman factory worker 👩‍🏭 */
     womanFactoryWorker: string;
-    /** woman fairy \u{1f9da}\u{200d}\u{2640}\u{fe0f} */
+    /** woman fairy 🧚‍♀️ */
     womanFairy: string;
-    /** woman farmer \u{1f469}\u{200d}\u{1f33e} */
+    /** woman farmer 👩‍🌾 */
     womanFarmer: string;
-    /** woman feeding baby \u{1f469}\u{200d}\u{1f37c} */
+    /** woman feeding baby 👩‍🍼 */
     womanFeedingBaby: string;
-    /** woman firefighter \u{1f469}\u{200d}\u{1f692} */
+    /** woman firefighter 👩‍🚒 */
     womanFirefighter: string;
-    /** woman frowning \u{1f64d}\u{200d}\u{2640}\u{fe0f} */
+    /** woman frowning 🙍‍♀️ */
     womanFrowning: string;
-    /** woman genie \u{1f9de}\u{200d}\u{2640}\u{fe0f} */
+    /** woman genie 🧞‍♀️ */
     womanGenie: string;
-    /** woman gesturing NO \u{1f645}\u{200d}\u{2640}\u{fe0f} */
+    /** woman gesturing NO 🙅‍♀️ */
     womanGesturingNo: string;
-    /** woman gesturing OK \u{1f646}\u{200d}\u{2640}\u{fe0f} */
+    /** woman gesturing OK 🙆‍♀️ */
     womanGesturingOk: string;
-    /** woman getting haircut \u{1f487}\u{200d}\u{2640}\u{fe0f} */
+    /** woman getting haircut 💇‍♀️ */
     womanGettingHaircut: string;
-    /** woman getting massage \u{1f486}\u{200d}\u{2640}\u{fe0f} */
+    /** woman getting massage 💆‍♀️ */
     womanGettingMassage: string;
-    /** woman golfing \u{1f3cc}\u{fe0f}\u{200d}\u{2640}\u{fe0f} */
+    /** woman golfing 🏌️‍♀️ */
     womanGolfing: string;
-    /** woman guard \u{1f482}\u{200d}\u{2640}\u{fe0f} */
+    /** woman guard 💂‍♀️ */
     womanGuard: string;
-    /** woman health worker \u{1f469}\u{200d}\u{2695}\u{fe0f} */
+    /** woman health worker 👩‍⚕️ */
     womanHealthWorker: string;
-    /** woman in lotus position \u{1f9d8}\u{200d}\u{2640}\u{fe0f} */
+    /** woman in lotus position 🧘‍♀️ */
     womanInLotusPosition: string;
-    /** woman in manual wheelchair \u{1f469}\u{200d}\u{1f9bd} */
+    /** woman in manual wheelchair 👩‍🦽 */
     womanInManualWheelchair: string;
-    /** woman in manual wheelchair facing right \u{1f469}\u{200d}\u{1f9bd}\u{200d}\u{27a1}\u{fe0f} */
+    /** woman in manual wheelchair facing right 👩‍🦽‍➡️ */
     womanInManualWheelchairFacingRight: string;
-    /** woman in motorized wheelchair \u{1f469}\u{200d}\u{1f9bc} */
+    /** woman in motorized wheelchair 👩‍🦼 */
     womanInMotorizedWheelchair: string;
-    /** woman in motorized wheelchair facing right \u{1f469}\u{200d}\u{1f9bc}\u{200d}\u{27a1}\u{fe0f} */
+    /** woman in motorized wheelchair facing right 👩‍🦼‍➡️ */
     womanInMotorizedWheelchairFacingRight: string;
-    /** woman in steamy room \u{1f9d6}\u{200d}\u{2640}\u{fe0f} */
+    /** woman in steamy room 🧖‍♀️ */
     womanInSteamyRoom: string;
-    /** woman in tuxedo \u{1f935}\u{200d}\u{2640}\u{fe0f} */
+    /** woman in tuxedo 🤵‍♀️ */
     womanInTuxedo: string;
-    /** woman judge \u{1f469}\u{200d}\u{2696}\u{fe0f} */
+    /** woman judge 👩‍⚖️ */
     womanJudge: string;
-    /** woman juggling \u{1f939}\u{200d}\u{2640}\u{fe0f} */
+    /** woman juggling 🤹‍♀️ */
     womanJuggling: string;
-    /** woman kneeling \u{1f9ce}\u{200d}\u{2640}\u{fe0f} */
+    /** woman kneeling 🧎‍♀️ */
     womanKneeling: string;
-    /** woman kneeling facing right \u{1f9ce}\u{200d}\u{2640}\u{fe0f}\u{200d}\u{27a1}\u{fe0f} */
+    /** woman kneeling facing right 🧎‍♀️‍➡️ */
     womanKneelingFacingRight: string;
-    /** woman lifting weights \u{1f3cb}\u{fe0f}\u{200d}\u{2640}\u{fe0f} */
+    /** woman lifting weights 🏋️‍♀️ */
     womanLiftingWeights: string;
-    /** woman mage \u{1f9d9}\u{200d}\u{2640}\u{fe0f} */
+    /** woman mage 🧙‍♀️ */
     womanMage: string;
-    /** woman mechanic \u{1f469}\u{200d}\u{1f527} */
+    /** woman mechanic 👩‍🔧 */
     womanMechanic: string;
-    /** woman mountain biking \u{1f6b5}\u{200d}\u{2640}\u{fe0f} */
+    /** woman mountain biking 🚵‍♀️ */
     womanMountainBiking: string;
-    /** woman office worker \u{1f469}\u{200d}\u{1f4bc} */
+    /** woman office worker 👩‍💼 */
     womanOfficeWorker: string;
-    /** woman pilot \u{1f469}\u{200d}\u{2708}\u{fe0f} */
+    /** woman pilot 👩‍✈️ */
     womanPilot: string;
-    /** woman playing handball \u{1f93e}\u{200d}\u{2640}\u{fe0f} */
+    /** woman playing handball 🤾‍♀️ */
     womanPlayingHandball: string;
-    /** woman playing water polo \u{1f93d}\u{200d}\u{2640}\u{fe0f} */
+    /** woman playing water polo 🤽‍♀️ */
     womanPlayingWaterPolo: string;
-    /** woman police officer \u{1f46e}\u{200d}\u{2640}\u{fe0f} */
+    /** woman police officer 👮‍♀️ */
     womanPoliceOfficer: string;
-    /** woman pouting \u{1f64e}\u{200d}\u{2640}\u{fe0f} */
+    /** woman pouting 🙎‍♀️ */
     womanPouting: string;
-    /** woman raising hand \u{1f64b}\u{200d}\u{2640}\u{fe0f} */
+    /** woman raising hand 🙋‍♀️ */
     womanRaisingHand: string;
-    /** woman: red hair \u{1f469}\u{200d}\u{1f9b0} */
+    /** woman: red hair 👩‍🦰 */
     womanRedHair: string;
-    /** woman rowing boat \u{1f6a3}\u{200d}\u{2640}\u{fe0f} */
+    /** woman rowing boat 🚣‍♀️ */
     womanRowingBoat: string;
-    /** woman running \u{1f3c3}\u{200d}\u{2640}\u{fe0f} */
+    /** woman running 🏃‍♀️ */
     womanRunning: string;
-    /** woman running facing right \u{1f3c3}\u{200d}\u{2640}\u{fe0f}\u{200d}\u{27a1}\u{fe0f} */
+    /** woman running facing right 🏃‍♀️‍➡️ */
     womanRunningFacingRight: string;
-    /** woman’s boot \u{1f462} */
+    /** woman’s boot 👢 */
     womansBoot: string;
-    /** woman scientist \u{1f469}\u{200d}\u{1f52c} */
+    /** woman scientist 👩‍🔬 */
     womanScientist: string;
-    /** woman’s clothes \u{1f45a} */
+    /** woman’s clothes 👚 */
     womansClothes: string;
-    /** woman’s hat \u{1f452} */
+    /** woman’s hat 👒 */
     womansHat: string;
-    /** woman shrugging \u{1f937}\u{200d}\u{2640}\u{fe0f} */
+    /** woman shrugging 🤷‍♀️ */
     womanShrugging: string;
-    /** woman singer \u{1f469}\u{200d}\u{1f3a4} */
+    /** woman singer 👩‍🎤 */
     womanSinger: string;
-    /** woman’s sandal \u{1f461} */
+    /** woman’s sandal 👡 */
     womansSandal: string;
-    /** woman standing \u{1f9cd}\u{200d}\u{2640}\u{fe0f} */
+    /** woman standing 🧍‍♀️ */
     womanStanding: string;
-    /** woman student \u{1f469}\u{200d}\u{1f393} */
+    /** woman student 👩‍🎓 */
     womanStudent: string;
-    /** woman superhero \u{1f9b8}\u{200d}\u{2640}\u{fe0f} */
+    /** woman superhero 🦸‍♀️ */
     womanSuperhero: string;
-    /** woman supervillain \u{1f9b9}\u{200d}\u{2640}\u{fe0f} */
+    /** woman supervillain 🦹‍♀️ */
     womanSupervillain: string;
-    /** woman surfing \u{1f3c4}\u{200d}\u{2640}\u{fe0f} */
+    /** woman surfing 🏄‍♀️ */
     womanSurfing: string;
-    /** woman swimming \u{1f3ca}\u{200d}\u{2640}\u{fe0f} */
+    /** woman swimming 🏊‍♀️ */
     womanSwimming: string;
-    /** woman teacher \u{1f469}\u{200d}\u{1f3eb} */
+    /** woman teacher 👩‍🏫 */
     womanTeacher: string;
-    /** woman technologist \u{1f469}\u{200d}\u{1f4bb} */
+    /** woman technologist 👩‍💻 */
     womanTechnologist: string;
-    /** woman tipping hand \u{1f481}\u{200d}\u{2640}\u{fe0f} */
+    /** woman tipping hand 💁‍♀️ */
     womanTippingHand: string;
-    /** woman vampire \u{1f9db}\u{200d}\u{2640}\u{fe0f} */
+    /** woman vampire 🧛‍♀️ */
     womanVampire: string;
-    /** woman walking \u{1f6b6}\u{200d}\u{2640}\u{fe0f} */
+    /** woman walking 🚶‍♀️ */
     womanWalking: string;
-    /** woman walking facing right \u{1f6b6}\u{200d}\u{2640}\u{fe0f}\u{200d}\u{27a1}\u{fe0f} */
+    /** woman walking facing right 🚶‍♀️‍➡️ */
     womanWalkingFacingRight: string;
-    /** woman wearing turban \u{1f473}\u{200d}\u{2640}\u{fe0f} */
+    /** woman wearing turban 👳‍♀️ */
     womanWearingTurban: string;
-    /** woman: white hair \u{1f469}\u{200d}\u{1f9b3} */
+    /** woman: white hair 👩‍🦳 */
     womanWhiteHair: string;
-    /** woman with headscarf \u{1f9d5} */
+    /** woman with headscarf 🧕 */
     womanWithHeadscarf: string;
-    /** woman with veil \u{1f470}\u{200d}\u{2640}\u{fe0f} */
+    /** woman with veil 👰‍♀️ */
     womanWithVeil: string;
-    /** woman with white cane \u{1f469}\u{200d}\u{1f9af} */
+    /** woman with white cane 👩‍🦯 */
     womanWithWhiteCane: string;
-    /** woman with white cane facing right \u{1f469}\u{200d}\u{1f9af}\u{200d}\u{27a1}\u{fe0f} */
+    /** woman with white cane facing right 👩‍🦯‍➡️ */
     womanWithWhiteCaneFacingRight: string;
-    /** woman zombie \u{1f9df}\u{200d}\u{2640}\u{fe0f} */
+    /** woman zombie 🧟‍♀️ */
     womanZombie: string;
-    /** women holding hands \u{1f46d} */
+    /** women holding hands 👭 */
     womenHoldingHands: string;
-    /** women’s room \u{1f6ba} */
+    /** women’s room 🚺 */
     womensRoom: string;
-    /** women with bunny ears \u{1f46f}\u{200d}\u{2640}\u{fe0f} */
+    /** women with bunny ears 👯‍♀️ */
     womenWithBunnyEars: string;
-    /** women wrestling \u{1f93c}\u{200d}\u{2640}\u{fe0f} */
+    /** women wrestling 🤼‍♀️ */
     womenWrestling: string;
-    /** wood \u{1fab5} */
+    /** wood 🪵 */
     wood: string;
-    /** woozy face \u{1f974} */
+    /** woozy face 🥴 */
     woozyFace: string;
-    /** world map \u{1f5fa} */
+    /** world map 🗺 */
     worldMap: string;
-    /** worm \u{1fab1} */
+    /** worm 🪱 */
     worm: string;
-    /** worried face \u{1f61f} */
+    /** worried face 😟 */
     worriedFace: string;
-    /** wrapped gift \u{1f381} */
+    /** wrapped gift 🎁 */
     wrappedGift: string;
-    /** wrench \u{1f527} */
+    /** wrench 🔧 */
     wrench: string;
-    /** writing hand \u{270d} */
+    /** writing hand ✍ */
     writingHand: string;
-    /** x-ray \u{1fa7b} */
+    /** x-ray 🩻 */
     xRay: string;
-    /** yarn \u{1f9f6} */
+    /** yarn 🧶 */
     yarn: string;
-    /** yawning face \u{1f971} */
+    /** yawning face 🥱 */
     yawningFace: string;
-    /** yellow circle \u{1f7e1} */
+    /** yellow circle 🟡 */
     yellowCircle: string;
-    /** yellow heart \u{1f49b} */
+    /** yellow heart 💛 */
     yellowHeart: string;
-    /** yellow square \u{1f7e8} */
+    /** yellow square 🟨 */
     yellowSquare: string;
-    /** yen banknote \u{1f4b4} */
+    /** yen banknote 💴 */
     yenBanknote: string;
-    /** yin yang \u{262f} */
+    /** yin yang ☯ */
     yinYang: string;
-    /** yo-yo \u{1fa80} */
+    /** yo-yo 🪀 */
     yoYo: string;
-    /** zany face \u{1f92a} */
+    /** zany face 🤪 */
     zanyFace: string;
-    /** zebra \u{1f993} */
+    /** zebra 🦓 */
     zebra: string;
-    /** zipper-mouth face \u{1f910} */
+    /** zipper-mouth face 🤐 */
     zipperMouthFace: string;
-    /** zombie \u{1f9df} */
+    /** zombie 🧟 */
     zombie: string;
-    /** ZZZ \u{1f4a4} */
+    /** ZZZ 💤 */
     zzz: string;
 };
 export default _default;
