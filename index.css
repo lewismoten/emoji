@@ -1,11 +1,13 @@
 body {
   background-color: #1b062a;
   color: #5ea3db;
-  font-family: sans-serif;
+  font-family: 'Segoe UI Emoji', 'Segoe UI', 'Noto Sans', 'Roboto', 'Helvetica Neue', sans-serif;
 }
+
 a {
   color: #7babd1;
 }
+
 .list {
   display: flex;
   flex-direction: row;
@@ -65,21 +67,27 @@ a {
 .code .keyword {
   color: #da85e9;
 }
+
 .code .variable {
   color: #b3b3b3;
 }
+
 .code .native-function {
   color: #58d5d5;
 }
+
 .code .string {
   color: #c2fdc2;
 }
+
 .code .comment {
   color: #505050;
 }
+
 .code .native-object {
   color: #e3d68f;
 }
+
 .code .object,
 .code .object-key {
   color: #f37f7f;

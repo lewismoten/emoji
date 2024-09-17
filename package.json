@@ -10,6 +10,7 @@
     "dist/emoji.d.ts"
   ],
   "scripts": {
+    "start": "vite",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -31,6 +32,7 @@
   },
   "homepage": "https://github.com/lewismoten/emoji#readme",
   "devDependencies": {
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "vite": "^5.4.6"
   }
 }

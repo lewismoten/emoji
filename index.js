@@ -1,3 +1,5 @@
+import emoji from './dist/emoji.js';
+
 var searchText;
 var emojiList;
 
@@ -7,6 +9,7 @@ function onLoad() {
 
   searchText.addEventListener("keyup", onKeyUp);
   emojiList.addEventListener("click", onClick);
+
   drawList();
 }
 
