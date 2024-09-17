@@ -52,9 +52,8 @@ var entries = trCellText.map(cells => [
   parseKey(cells[cells.length - 1]),
   parseUnicodeEscape(cells[1])
 ]);
-//entries.sort((a, b) => a[0].localeCompare(b[0]));
 emojiJs = entries
-  .sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)
+  .sort(([a], [b]) => a.localeCompare(b))
   .map(([key, value]) => `${key}: "${value}"`)
   .join(",\r\n  ");
 
