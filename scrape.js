@@ -66,7 +66,10 @@ var entries = trCellText.map(cells => {
 });
 emojiJs = entries
   .sort(([a], [b]) => a.localeCompare(b))
-  .map(([key, value, name]) => `/** ${name} ${eval(`"${value}"`)} */\r\n  ${key}: "${value}"`)
+  .map(([key, value, name]) => [
+    `/** ${name} ${eval(`"${value}"`)} */`,
+    `${key}: "${value}" as "${value}"`
+  ].join('\r\n  '))
   .join(",\r\n  ");
 
 // setup rest of code template

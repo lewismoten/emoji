@@ -1,3823 +1,3823 @@
 declare const _default: {
     /** abacus 🧮 */
-    abacus: string;
+    abacus: "\uD83E\uDDEE";
     /** AB button (blood type) 🆎 */
-    abButtonBloodType: string;
+    abButtonBloodType: "\uD83C\uDD8E";
     /** A button (blood type) 🅰 */
-    aButtonBloodType: string;
+    aButtonBloodType: "\uD83C\uDD70";
     /** accordion 🪗 */
-    accordion: string;
+    accordion: "\uD83E\uDE97";
     /** adhesive bandage 🩹 */
-    adhesiveBandage: string;
+    adhesiveBandage: "\uD83E\uDE79";
     /** admission tickets 🎟 */
-    admissionTickets: string;
+    admissionTickets: "\uD83C\uDF9F";
     /** aerial tramway 🚡 */
-    aerialTramway: string;
+    aerialTramway: "\uD83D\uDEA1";
     /** airplane ✈ */
-    airplane: string;
+    airplane: "\u2708";
     /** airplane arrival 🛬 */
-    airplaneArrival: string;
+    airplaneArrival: "\uD83D\uDEEC";
     /** airplane departure 🛫 */
-    airplaneDeparture: string;
+    airplaneDeparture: "\uD83D\uDEEB";
     /** alarm clock ⏰ */
-    alarmClock: string;
+    alarmClock: "\u23F0";
     /** alembic ⚗ */
-    alembic: string;
+    alembic: "\u2697";
     /** alien 👽 */
-    alien: string;
+    alien: "\uD83D\uDC7D";
     /** alien monster 👾 */
-    alienMonster: string;
+    alienMonster: "\uD83D\uDC7E";
     /** ambulance 🚑 */
-    ambulance: string;
+    ambulance: "\uD83D\uDE91";
     /** american football 🏈 */
-    americanFootball: string;
+    americanFootball: "\uD83C\uDFC8";
     /** amphora 🏺 */
-    amphora: string;
+    amphora: "\uD83C\uDFFA";
     /** anatomical heart 🫀 */
-    anatomicalHeart: string;
+    anatomicalHeart: "\uD83E\uDEC0";
     /** anchor ⚓ */
-    anchor: string;
+    anchor: "\u2693";
     /** anger symbol 💢 */
-    angerSymbol: string;
+    angerSymbol: "\uD83D\uDCA2";
     /** angry face 😠 */
-    angryFace: string;
+    angryFace: "\uD83D\uDE20";
     /** angry face with horns 👿 */
-    angryFaceWithHorns: string;
+    angryFaceWithHorns: "\uD83D\uDC7F";
     /** anguished face 😧 */
-    anguishedFace: string;
+    anguishedFace: "\uD83D\uDE27";
     /** ant 🐜 */
-    ant: string;
+    ant: "\uD83D\uDC1C";
     /** antenna bars 📶 */
-    antennaBars: string;
+    antennaBars: "\uD83D\uDCF6";
     /** anxious face with sweat 😰 */
-    anxiousFaceWithSweat: string;
+    anxiousFaceWithSweat: "\uD83D\uDE30";
     /** Aquarius ♒ */
-    aquarius: string;
+    aquarius: "\u2652";
     /** Aries ♈ */
-    aries: string;
+    aries: "\u2648";
     /** articulated lorry 🚛 */
-    articulatedLorry: string;
+    articulatedLorry: "\uD83D\uDE9B";
     /** artist 🧑‍🎨 */
-    artist: string;
+    artist: "\uD83E\uDDD1\u200D\uD83C\uDFA8";
     /** artist palette 🎨 */
-    artistPalette: string;
+    artistPalette: "\uD83C\uDFA8";
     /** astonished face 😲 */
-    astonishedFace: string;
+    astonishedFace: "\uD83D\uDE32";
     /** astronaut 🧑‍🚀 */
-    astronaut: string;
+    astronaut: "\uD83E\uDDD1\u200D\uD83D\uDE80";
     /** ATM sign 🏧 */
-    atmSign: string;
+    atmSign: "\uD83C\uDFE7";
     /** atom symbol ⚛ */
-    atomSymbol: string;
+    atomSymbol: "\u269B";
     /** automobile 🚗 */
-    automobile: string;
+    automobile: "\uD83D\uDE97";
     /** auto rickshaw 🛺 */
-    autoRickshaw: string;
+    autoRickshaw: "\uD83D\uDEFA";
     /** avocado 🥑 */
-    avocado: string;
+    avocado: "\uD83E\uDD51";
     /** axe 🪓 */
-    axe: string;
+    axe: "\uD83E\uDE93";
     /** baby 👶 */
-    baby: string;
+    baby: "\uD83D\uDC76";
     /** baby angel 👼 */
-    babyAngel: string;
+    babyAngel: "\uD83D\uDC7C";
     /** baby bottle 🍼 */
-    babyBottle: string;
+    babyBottle: "\uD83C\uDF7C";
     /** baby chick 🐤 */
-    babyChick: string;
+    babyChick: "\uD83D\uDC24";
     /** baby symbol 🚼 */
-    babySymbol: string;
+    babySymbol: "\uD83D\uDEBC";
     /** BACK arrow 🔙 */
-    backArrow: string;
+    backArrow: "\uD83D\uDD19";
     /** backhand index pointing down 👇 */
-    backhandIndexPointingDown: string;
+    backhandIndexPointingDown: "\uD83D\uDC47";
     /** backhand index pointing left 👈 */
-    backhandIndexPointingLeft: string;
+    backhandIndexPointingLeft: "\uD83D\uDC48";
     /** backhand index pointing right 👉 */
-    backhandIndexPointingRight: string;
+    backhandIndexPointingRight: "\uD83D\uDC49";
     /** backhand index pointing up 👆 */
-    backhandIndexPointingUp: string;
+    backhandIndexPointingUp: "\uD83D\uDC46";
     /** backpack 🎒 */
-    backpack: string;
+    backpack: "\uD83C\uDF92";
     /** bacon 🥓 */
-    bacon: string;
+    bacon: "\uD83E\uDD53";
     /** badger 🦡 */
-    badger: string;
+    badger: "\uD83E\uDDA1";
     /** badminton 🏸 */
-    badminton: string;
+    badminton: "\uD83C\uDFF8";
     /** bagel 🥯 */
-    bagel: string;
+    bagel: "\uD83E\uDD6F";
     /** baggage claim 🛄 */
-    baggageClaim: string;
+    baggageClaim: "\uD83D\uDEC4";
     /** baguette bread 🥖 */
-    baguetteBread: string;
+    baguetteBread: "\uD83E\uDD56";
     /** balance scale ⚖ */
-    balanceScale: string;
+    balanceScale: "\u2696";
     /** bald 🦲 */
-    bald: string;
+    bald: "\uD83E\uDDB2";
     /** ballet shoes 🩰 */
-    balletShoes: string;
+    balletShoes: "\uD83E\uDE70";
     /** balloon 🎈 */
-    balloon: string;
+    balloon: "\uD83C\uDF88";
     /** ballot box with ballot 🗳 */
-    ballotBoxWithBallot: string;
+    ballotBoxWithBallot: "\uD83D\uDDF3";
     /** banana 🍌 */
-    banana: string;
+    banana: "\uD83C\uDF4C";
     /** banjo 🪕 */
-    banjo: string;
+    banjo: "\uD83E\uDE95";
     /** bank 🏦 */
-    bank: string;
+    bank: "\uD83C\uDFE6";
     /** barber pole 💈 */
-    barberPole: string;
+    barberPole: "\uD83D\uDC88";
     /** bar chart 📊 */
-    barChart: string;
+    barChart: "\uD83D\uDCCA";
     /** baseball ⚾ */
-    baseball: string;
+    baseball: "\u26BE";
     /** basket 🧺 */
-    basket: string;
+    basket: "\uD83E\uDDFA";
     /** basketball 🏀 */
-    basketball: string;
+    basketball: "\uD83C\uDFC0";
     /** bat 🦇 */
-    bat: string;
+    bat: "\uD83E\uDD87";
     /** bathtub 🛁 */
-    bathtub: string;
+    bathtub: "\uD83D\uDEC1";
     /** battery 🔋 */
-    battery: string;
+    battery: "\uD83D\uDD0B";
     /** B button (blood type) 🅱 */
-    bButtonBloodType: string;
+    bButtonBloodType: "\uD83C\uDD71";
     /** beach with umbrella 🏖 */
-    beachWithUmbrella: string;
+    beachWithUmbrella: "\uD83C\uDFD6";
     /** beaming face with smiling eyes 😁 */
-    beamingFaceWithSmilingEyes: string;
+    beamingFaceWithSmilingEyes: "\uD83D\uDE01";
     /** beans 🫘 */
-    beans: string;
+    beans: "\uD83E\uDED8";
     /** bear 🐻 */
-    bear: string;
+    bear: "\uD83D\uDC3B";
     /** beating heart 💓 */
-    beatingHeart: string;
+    beatingHeart: "\uD83D\uDC93";
     /** beaver 🦫 */
-    beaver: string;
+    beaver: "\uD83E\uDDAB";
     /** bed 🛏 */
-    bed: string;
+    bed: "\uD83D\uDECF";
     /** beer mug 🍺 */
-    beerMug: string;
+    beerMug: "\uD83C\uDF7A";
     /** beetle 🪲 */
-    beetle: string;
+    beetle: "\uD83E\uDEB2";
     /** bell 🔔 */
-    bell: string;
+    bell: "\uD83D\uDD14";
     /** bellhop bell 🛎 */
-    bellhopBell: string;
+    bellhopBell: "\uD83D\uDECE";
     /** bell pepper 🫑 */
-    bellPepper: string;
+    bellPepper: "\uD83E\uDED1";
     /** bell with slash 🔕 */
-    bellWithSlash: string;
+    bellWithSlash: "\uD83D\uDD15";
     /** bento box 🍱 */
-    bentoBox: string;
+    bentoBox: "\uD83C\uDF71";
     /** beverage box 🧃 */
-    beverageBox: string;
+    beverageBox: "\uD83E\uDDC3";
     /** bicycle 🚲 */
-    bicycle: string;
+    bicycle: "\uD83D\uDEB2";
     /** bikini 👙 */
-    bikini: string;
+    bikini: "\uD83D\uDC59";
     /** billed cap 🧢 */
-    billedCap: string;
+    billedCap: "\uD83E\uDDE2";
     /** biohazard ☣ */
-    biohazard: string;
+    biohazard: "\u2623";
     /** bird 🐦 */
-    bird: string;
+    bird: "\uD83D\uDC26";
     /** birthday cake 🎂 */
-    birthdayCake: string;
+    birthdayCake: "\uD83C\uDF82";
     /** bison 🦬 */
-    bison: string;
+    bison: "\uD83E\uDDAC";
     /** biting lip 🫦 */
-    bitingLip: string;
+    bitingLip: "\uD83E\uDEE6";
     /** black bird 🐦‍⬛ */
-    blackBird: string;
+    blackBird: "\uD83D\uDC26\u200D\u2B1B";
     /** black cat 🐈‍⬛ */
-    blackCat: string;
+    blackCat: "\uD83D\uDC08\u200D\u2B1B";
     /** black circle ⚫ */
-    blackCircle: string;
+    blackCircle: "\u26AB";
     /** black flag 🏴 */
-    blackFlag: string;
+    blackFlag: "\uD83C\uDFF4";
     /** black heart 🖤 */
-    blackHeart: string;
+    blackHeart: "\uD83D\uDDA4";
     /** black large square ⬛ */
-    blackLargeSquare: string;
+    blackLargeSquare: "\u2B1B";
     /** black medium-small square ◾ */
-    blackMediumSmallSquare: string;
+    blackMediumSmallSquare: "\u25FE";
     /** black medium square ◼ */
-    blackMediumSquare: string;
+    blackMediumSquare: "\u25FC";
     /** black nib ✒ */
-    blackNib: string;
+    blackNib: "\u2712";
     /** black small square ▪ */
-    blackSmallSquare: string;
+    blackSmallSquare: "\u25AA";
     /** black square button 🔲 */
-    blackSquareButton: string;
+    blackSquareButton: "\uD83D\uDD32";
     /** blossom 🌼 */
-    blossom: string;
+    blossom: "\uD83C\uDF3C";
     /** blowfish 🐡 */
-    blowfish: string;
+    blowfish: "\uD83D\uDC21";
     /** blueberries 🫐 */
-    blueberries: string;
+    blueberries: "\uD83E\uDED0";
     /** blue book 📘 */
-    blueBook: string;
+    blueBook: "\uD83D\uDCD8";
     /** blue circle 🔵 */
-    blueCircle: string;
+    blueCircle: "\uD83D\uDD35";
     /** blue heart 💙 */
-    blueHeart: string;
+    blueHeart: "\uD83D\uDC99";
     /** blue square 🟦 */
-    blueSquare: string;
+    blueSquare: "\uD83D\uDFE6";
     /** boar 🐗 */
-    boar: string;
+    boar: "\uD83D\uDC17";
     /** bomb 💣 */
-    bomb: string;
+    bomb: "\uD83D\uDCA3";
     /** bone 🦴 */
-    bone: string;
+    bone: "\uD83E\uDDB4";
     /** bookmark 🔖 */
-    bookmark: string;
+    bookmark: "\uD83D\uDD16";
     /** bookmark tabs 📑 */
-    bookmarkTabs: string;
+    bookmarkTabs: "\uD83D\uDCD1";
     /** books 📚 */
-    books: string;
+    books: "\uD83D\uDCDA";
     /** boomerang 🪃 */
-    boomerang: string;
+    boomerang: "\uD83E\uDE83";
     /** bottle with popping cork 🍾 */
-    bottleWithPoppingCork: string;
+    bottleWithPoppingCork: "\uD83C\uDF7E";
     /** bouquet 💐 */
-    bouquet: string;
+    bouquet: "\uD83D\uDC90";
     /** bow and arrow 🏹 */
-    bowAndArrow: string;
+    bowAndArrow: "\uD83C\uDFF9";
     /** bowling 🎳 */
-    bowling: string;
+    bowling: "\uD83C\uDFB3";
     /** bowl with spoon 🥣 */
-    bowlWithSpoon: string;
+    bowlWithSpoon: "\uD83E\uDD63";
     /** boxing glove 🥊 */
-    boxingGlove: string;
+    boxingGlove: "\uD83E\uDD4A";
     /** boy 👦 */
-    boy: string;
+    boy: "\uD83D\uDC66";
     /** brain 🧠 */
-    brain: string;
+    brain: "\uD83E\uDDE0";
     /** bread 🍞 */
-    bread: string;
+    bread: "\uD83C\uDF5E";
     /** breast-feeding 🤱 */
-    breastFeeding: string;
+    breastFeeding: "\uD83E\uDD31";
     /** brick 🧱 */
-    brick: string;
+    brick: "\uD83E\uDDF1";
     /** bridge at night 🌉 */
-    bridgeAtNight: string;
+    bridgeAtNight: "\uD83C\uDF09";
     /** briefcase 💼 */
-    briefcase: string;
+    briefcase: "\uD83D\uDCBC";
     /** briefs 🩲 */
-    briefs: string;
+    briefs: "\uD83E\uDE72";
     /** bright button 🔆 */
-    brightButton: string;
+    brightButton: "\uD83D\uDD06";
     /** broccoli 🥦 */
-    broccoli: string;
+    broccoli: "\uD83E\uDD66";
     /** broken chain ⛓️‍💥 */
-    brokenChain: string;
+    brokenChain: "\u26D3\uFE0F\u200D\uD83D\uDCA5";
     /** broken heart 💔 */
-    brokenHeart: string;
+    brokenHeart: "\uD83D\uDC94";
     /** broom 🧹 */
-    broom: string;
+    broom: "\uD83E\uDDF9";
     /** brown circle 🟤 */
-    brownCircle: string;
+    brownCircle: "\uD83D\uDFE4";
     /** brown heart 🤎 */
-    brownHeart: string;
+    brownHeart: "\uD83E\uDD0E";
     /** brown mushroom 🍄‍🟫 */
-    brownMushroom: string;
+    brownMushroom: "\uD83C\uDF44\u200D\uD83D\uDFEB";
     /** brown square 🟫 */
-    brownSquare: string;
+    brownSquare: "\uD83D\uDFEB";
     /** bubbles 🫧 */
-    bubbles: string;
+    bubbles: "\uD83E\uDEE7";
     /** bubble tea 🧋 */
-    bubbleTea: string;
+    bubbleTea: "\uD83E\uDDCB";
     /** bucket 🪣 */
-    bucket: string;
+    bucket: "\uD83E\uDEA3";
     /** bug 🐛 */
-    bug: string;
+    bug: "\uD83D\uDC1B";
     /** building construction 🏗 */
-    buildingConstruction: string;
+    buildingConstruction: "\uD83C\uDFD7";
     /** bullet train 🚅 */
-    bulletTrain: string;
+    bulletTrain: "\uD83D\uDE85";
     /** bullseye 🎯 */
-    bullseye: string;
+    bullseye: "\uD83C\uDFAF";
     /** burrito 🌯 */
-    burrito: string;
+    burrito: "\uD83C\uDF2F";
     /** bus 🚌 */
-    bus: string;
+    bus: "\uD83D\uDE8C";
     /** bus stop 🚏 */
-    busStop: string;
+    busStop: "\uD83D\uDE8F";
     /** bust in silhouette 👤 */
-    bustInSilhouette: string;
+    bustInSilhouette: "\uD83D\uDC64";
     /** busts in silhouette 👥 */
-    bustsInSilhouette: string;
+    bustsInSilhouette: "\uD83D\uDC65";
     /** butter 🧈 */
-    butter: string;
+    butter: "\uD83E\uDDC8";
     /** butterfly 🦋 */
-    butterfly: string;
+    butterfly: "\uD83E\uDD8B";
     /** cactus 🌵 */
-    cactus: string;
+    cactus: "\uD83C\uDF35";
     /** calendar 📅 */
-    calendar: string;
+    calendar: "\uD83D\uDCC5";
     /** call me hand 🤙 */
-    callMeHand: string;
+    callMeHand: "\uD83E\uDD19";
     /** camel 🐪 */
-    camel: string;
+    camel: "\uD83D\uDC2A";
     /** camera 📷 */
-    camera: string;
+    camera: "\uD83D\uDCF7";
     /** camera with flash 📸 */
-    cameraWithFlash: string;
+    cameraWithFlash: "\uD83D\uDCF8";
     /** camping 🏕 */
-    camping: string;
+    camping: "\uD83C\uDFD5";
     /** Cancer ♋ */
-    cancer: string;
+    cancer: "\u264B";
     /** candle 🕯 */
-    candle: string;
+    candle: "\uD83D\uDD6F";
     /** candy 🍬 */
-    candy: string;
+    candy: "\uD83C\uDF6C";
     /** canned food 🥫 */
-    cannedFood: string;
+    cannedFood: "\uD83E\uDD6B";
     /** canoe 🛶 */
-    canoe: string;
+    canoe: "\uD83D\uDEF6";
     /** Capricorn ♑ */
-    capricorn: string;
+    capricorn: "\u2651";
     /** card file box 🗃 */
-    cardFileBox: string;
+    cardFileBox: "\uD83D\uDDC3";
     /** card index 📇 */
-    cardIndex: string;
+    cardIndex: "\uD83D\uDCC7";
     /** card index dividers 🗂 */
-    cardIndexDividers: string;
+    cardIndexDividers: "\uD83D\uDDC2";
     /** carousel horse 🎠 */
-    carouselHorse: string;
+    carouselHorse: "\uD83C\uDFA0";
     /** carpentry saw 🪚 */
-    carpentrySaw: string;
+    carpentrySaw: "\uD83E\uDE9A";
     /** carp streamer 🎏 */
-    carpStreamer: string;
+    carpStreamer: "\uD83C\uDF8F";
     /** carrot 🥕 */
-    carrot: string;
+    carrot: "\uD83E\uDD55";
     /** castle 🏰 */
-    castle: string;
+    castle: "\uD83C\uDFF0";
     /** cat 🐈 */
-    cat: string;
+    cat: "\uD83D\uDC08";
     /** cat face 🐱 */
-    catFace: string;
+    catFace: "\uD83D\uDC31";
     /** cat with tears of joy 😹 */
-    catWithTearsOfJoy: string;
+    catWithTearsOfJoy: "\uD83D\uDE39";
     /** cat with wry smile 😼 */
-    catWithWrySmile: string;
+    catWithWrySmile: "\uD83D\uDE3C";
     /** chains ⛓ */
-    chains: string;
+    chains: "\u26D3";
     /** chair 🪑 */
-    chair: string;
+    chair: "\uD83E\uDE91";
     /** chart decreasing 📉 */
-    chartDecreasing: string;
+    chartDecreasing: "\uD83D\uDCC9";
     /** chart increasing 📈 */
-    chartIncreasing: string;
+    chartIncreasing: "\uD83D\uDCC8";
     /** chart increasing with yen 💹 */
-    chartIncreasingWithYen: string;
+    chartIncreasingWithYen: "\uD83D\uDCB9";
     /** check box with check ☑ */
-    checkBoxWithCheck: string;
+    checkBoxWithCheck: "\u2611";
     /** check mark ✔ */
-    checkMark: string;
+    checkMark: "\u2714";
     /** check mark button ✅ */
-    checkMarkButton: string;
+    checkMarkButton: "\u2705";
     /** cheese wedge 🧀 */
-    cheeseWedge: string;
+    cheeseWedge: "\uD83E\uDDC0";
     /** chequered flag 🏁 */
-    chequeredFlag: string;
+    chequeredFlag: "\uD83C\uDFC1";
     /** cherries 🍒 */
-    cherries: string;
+    cherries: "\uD83C\uDF52";
     /** cherry blossom 🌸 */
-    cherryBlossom: string;
+    cherryBlossom: "\uD83C\uDF38";
     /** chess pawn ♟ */
-    chessPawn: string;
+    chessPawn: "\u265F";
     /** chestnut 🌰 */
-    chestnut: string;
+    chestnut: "\uD83C\uDF30";
     /** chicken 🐔 */
-    chicken: string;
+    chicken: "\uD83D\uDC14";
     /** child 🧒 */
-    child: string;
+    child: "\uD83E\uDDD2";
     /** children crossing 🚸 */
-    childrenCrossing: string;
+    childrenCrossing: "\uD83D\uDEB8";
     /** chipmunk 🐿 */
-    chipmunk: string;
+    chipmunk: "\uD83D\uDC3F";
     /** chocolate bar 🍫 */
-    chocolateBar: string;
+    chocolateBar: "\uD83C\uDF6B";
     /** chopsticks 🥢 */
-    chopsticks: string;
+    chopsticks: "\uD83E\uDD62";
     /** Christmas tree 🎄 */
-    christmasTree: string;
+    christmasTree: "\uD83C\uDF84";
     /** church ⛪ */
-    church: string;
+    church: "\u26EA";
     /** cigarette 🚬 */
-    cigarette: string;
+    cigarette: "\uD83D\uDEAC";
     /** cinema 🎦 */
-    cinema: string;
+    cinema: "\uD83C\uDFA6";
     /** circled M Ⓜ */
-    circledM: string;
+    circledM: "\u24C2";
     /** circus tent 🎪 */
-    circusTent: string;
+    circusTent: "\uD83C\uDFAA";
     /** cityscape 🏙 */
-    cityscape: string;
+    cityscape: "\uD83C\uDFD9";
     /** cityscape at dusk 🌆 */
-    cityscapeAtDusk: string;
+    cityscapeAtDusk: "\uD83C\uDF06";
     /** clamp 🗜 */
-    clamp: string;
+    clamp: "\uD83D\uDDDC";
     /** clapper board 🎬 */
-    clapperBoard: string;
+    clapperBoard: "\uD83C\uDFAC";
     /** clapping hands 👏 */
-    clappingHands: string;
+    clappingHands: "\uD83D\uDC4F";
     /** classical building 🏛 */
-    classicalBuilding: string;
+    classicalBuilding: "\uD83C\uDFDB";
     /** CL button 🆑 */
-    clButton: string;
+    clButton: "\uD83C\uDD91";
     /** clinking beer mugs 🍻 */
-    clinkingBeerMugs: string;
+    clinkingBeerMugs: "\uD83C\uDF7B";
     /** clinking glasses 🥂 */
-    clinkingGlasses: string;
+    clinkingGlasses: "\uD83E\uDD42";
     /** clipboard 📋 */
-    clipboard: string;
+    clipboard: "\uD83D\uDCCB";
     /** clockwise vertical arrows 🔃 */
-    clockwiseVerticalArrows: string;
+    clockwiseVerticalArrows: "\uD83D\uDD03";
     /** closed book 📕 */
-    closedBook: string;
+    closedBook: "\uD83D\uDCD5";
     /** closed mailbox with lowered flag 📪 */
-    closedMailboxWithLoweredFlag: string;
+    closedMailboxWithLoweredFlag: "\uD83D\uDCEA";
     /** closed mailbox with raised flag 📫 */
-    closedMailboxWithRaisedFlag: string;
+    closedMailboxWithRaisedFlag: "\uD83D\uDCEB";
     /** closed umbrella 🌂 */
-    closedUmbrella: string;
+    closedUmbrella: "\uD83C\uDF02";
     /** cloud ☁ */
-    cloud: string;
+    cloud: "\u2601";
     /** cloud with lightning 🌩 */
-    cloudWithLightning: string;
+    cloudWithLightning: "\uD83C\uDF29";
     /** cloud with lightning and rain ⛈ */
-    cloudWithLightningAndRain: string;
+    cloudWithLightningAndRain: "\u26C8";
     /** cloud with rain 🌧 */
-    cloudWithRain: string;
+    cloudWithRain: "\uD83C\uDF27";
     /** cloud with snow 🌨 */
-    cloudWithSnow: string;
+    cloudWithSnow: "\uD83C\uDF28";
     /** clown face 🤡 */
-    clownFace: string;
+    clownFace: "\uD83E\uDD21";
     /** club suit ♣ */
-    clubSuit: string;
+    clubSuit: "\u2663";
     /** clutch bag 👝 */
-    clutchBag: string;
+    clutchBag: "\uD83D\uDC5D";
     /** coat 🧥 */
-    coat: string;
+    coat: "\uD83E\uDDE5";
     /** cockroach 🪳 */
-    cockroach: string;
+    cockroach: "\uD83E\uDEB3";
     /** cocktail glass 🍸 */
-    cocktailGlass: string;
+    cocktailGlass: "\uD83C\uDF78";
     /** coconut 🥥 */
-    coconut: string;
+    coconut: "\uD83E\uDD65";
     /** coffin ⚰ */
-    coffin: string;
+    coffin: "\u26B0";
     /** coin 🪙 */
-    coin: string;
+    coin: "\uD83E\uDE99";
     /** cold face 🥶 */
-    coldFace: string;
+    coldFace: "\uD83E\uDD76";
     /** collision 💥 */
-    collision: string;
+    collision: "\uD83D\uDCA5";
     /** comet ☄ */
-    comet: string;
+    comet: "\u2604";
     /** compass 🧭 */
-    compass: string;
+    compass: "\uD83E\uDDED";
     /** computer disk 💽 */
-    computerDisk: string;
+    computerDisk: "\uD83D\uDCBD";
     /** computer mouse 🖱 */
-    computerMouse: string;
+    computerMouse: "\uD83D\uDDB1";
     /** confetti ball 🎊 */
-    confettiBall: string;
+    confettiBall: "\uD83C\uDF8A";
     /** confounded face 😖 */
-    confoundedFace: string;
+    confoundedFace: "\uD83D\uDE16";
     /** confused face 😕 */
-    confusedFace: string;
+    confusedFace: "\uD83D\uDE15";
     /** construction 🚧 */
-    construction: string;
+    construction: "\uD83D\uDEA7";
     /** construction worker 👷 */
-    constructionWorker: string;
+    constructionWorker: "\uD83D\uDC77";
     /** control knobs 🎛 */
-    controlKnobs: string;
+    controlKnobs: "\uD83C\uDF9B";
     /** convenience store 🏪 */
-    convenienceStore: string;
+    convenienceStore: "\uD83C\uDFEA";
     /** cook 🧑‍🍳 */
-    cook: string;
+    cook: "\uD83E\uDDD1\u200D\uD83C\uDF73";
     /** cooked rice 🍚 */
-    cookedRice: string;
+    cookedRice: "\uD83C\uDF5A";
     /** cookie 🍪 */
-    cookie: string;
+    cookie: "\uD83C\uDF6A";
     /** cooking 🍳 */
-    cooking: string;
+    cooking: "\uD83C\uDF73";
     /** COOL button 🆒 */
-    coolButton: string;
+    coolButton: "\uD83C\uDD92";
     /** copyright © */
-    copyright: string;
+    copyright: "\u00A9";
     /** coral 🪸 */
-    coral: string;
+    coral: "\uD83E\uDEB8";
     /** couch and lamp 🛋 */
-    couchAndLamp: string;
+    couchAndLamp: "\uD83D\uDECB";
     /** counterclockwise arrows button 🔄 */
-    counterclockwiseArrowsButton: string;
+    counterclockwiseArrowsButton: "\uD83D\uDD04";
     /** couple with heart 💑 */
-    coupleWithHeart: string;
+    coupleWithHeart: "\uD83D\uDC91";
     /** couple with heart: man, man 👨‍❤️‍👨 */
-    coupleWithHeartManMan: string;
+    coupleWithHeartManMan: "\uD83D\uDC68\u200D\u2764\uFE0F\u200D\uD83D\uDC68";
     /** couple with heart: woman, man 👩‍❤️‍👨 */
-    coupleWithHeartWomanMan: string;
+    coupleWithHeartWomanMan: "\uD83D\uDC69\u200D\u2764\uFE0F\u200D\uD83D\uDC68";
     /** couple with heart: woman, woman 👩‍❤️‍👩 */
-    coupleWithHeartWomanWoman: string;
+    coupleWithHeartWomanWoman: "\uD83D\uDC69\u200D\u2764\uFE0F\u200D\uD83D\uDC69";
     /** cow 🐄 */
-    cow: string;
+    cow: "\uD83D\uDC04";
     /** cowboy hat face 🤠 */
-    cowboyHatFace: string;
+    cowboyHatFace: "\uD83E\uDD20";
     /** cow face 🐮 */
-    cowFace: string;
+    cowFace: "\uD83D\uDC2E";
     /** crab 🦀 */
-    crab: string;
+    crab: "\uD83E\uDD80";
     /** crayon 🖍 */
-    crayon: string;
+    crayon: "\uD83D\uDD8D";
     /** credit card 💳 */
-    creditCard: string;
+    creditCard: "\uD83D\uDCB3";
     /** crescent moon 🌙 */
-    crescentMoon: string;
+    crescentMoon: "\uD83C\uDF19";
     /** cricket 🦗 */
-    cricket: string;
+    cricket: "\uD83E\uDD97";
     /** cricket game 🏏 */
-    cricketGame: string;
+    cricketGame: "\uD83C\uDFCF";
     /** crocodile 🐊 */
-    crocodile: string;
+    crocodile: "\uD83D\uDC0A";
     /** croissant 🥐 */
-    croissant: string;
+    croissant: "\uD83E\uDD50";
     /** crossed fingers 🤞 */
-    crossedFingers: string;
+    crossedFingers: "\uD83E\uDD1E";
     /** crossed flags 🎌 */
-    crossedFlags: string;
+    crossedFlags: "\uD83C\uDF8C";
     /** crossed swords ⚔ */
-    crossedSwords: string;
+    crossedSwords: "\u2694";
     /** cross mark ❌ */
-    crossMark: string;
+    crossMark: "\u274C";
     /** cross mark button ❎ */
-    crossMarkButton: string;
+    crossMarkButton: "\u274E";
     /** crown 👑 */
-    crown: string;
+    crown: "\uD83D\uDC51";
     /** crutch 🩼 */
-    crutch: string;
+    crutch: "\uD83E\uDE7C";
     /** crying cat 😿 */
-    cryingCat: string;
+    cryingCat: "\uD83D\uDE3F";
     /** crying face 😢 */
-    cryingFace: string;
+    cryingFace: "\uD83D\uDE22";
     /** crystal ball 🔮 */
-    crystalBall: string;
+    crystalBall: "\uD83D\uDD2E";
     /** cucumber 🥒 */
-    cucumber: string;
+    cucumber: "\uD83E\uDD52";
     /** cupcake 🧁 */
-    cupcake: string;
+    cupcake: "\uD83E\uDDC1";
     /** cup with straw 🥤 */
-    cupWithStraw: string;
+    cupWithStraw: "\uD83E\uDD64";
     /** curling stone 🥌 */
-    curlingStone: string;
+    curlingStone: "\uD83E\uDD4C";
     /** curly hair 🦱 */
-    curlyHair: string;
+    curlyHair: "\uD83E\uDDB1";
     /** curly loop ➰ */
-    curlyLoop: string;
+    curlyLoop: "\u27B0";
     /** currency exchange 💱 */
-    currencyExchange: string;
+    currencyExchange: "\uD83D\uDCB1";
     /** curry rice 🍛 */
-    curryRice: string;
+    curryRice: "\uD83C\uDF5B";
     /** custard 🍮 */
-    custard: string;
+    custard: "\uD83C\uDF6E";
     /** customs 🛃 */
-    customs: string;
+    customs: "\uD83D\uDEC3";
     /** cut of meat 🥩 */
-    cutOfMeat: string;
+    cutOfMeat: "\uD83E\uDD69";
     /** cyclone 🌀 */
-    cyclone: string;
+    cyclone: "\uD83C\uDF00";
     /** dagger 🗡 */
-    dagger: string;
+    dagger: "\uD83D\uDDE1";
     /** dango 🍡 */
-    dango: string;
+    dango: "\uD83C\uDF61";
     /** dashing away 💨 */
-    dashingAway: string;
+    dashingAway: "\uD83D\uDCA8";
     /** deaf man 🧏‍♂️ */
-    deafMan: string;
+    deafMan: "\uD83E\uDDCF\u200D\u2642\uFE0F";
     /** deaf person 🧏 */
-    deafPerson: string;
+    deafPerson: "\uD83E\uDDCF";
     /** deaf woman 🧏‍♀️ */
-    deafWoman: string;
+    deafWoman: "\uD83E\uDDCF\u200D\u2640\uFE0F";
     /** deciduous tree 🌳 */
-    deciduousTree: string;
+    deciduousTree: "\uD83C\uDF33";
     /** deer 🦌 */
-    deer: string;
+    deer: "\uD83E\uDD8C";
     /** delivery truck 🚚 */
-    deliveryTruck: string;
+    deliveryTruck: "\uD83D\uDE9A";
     /** department store 🏬 */
-    departmentStore: string;
+    departmentStore: "\uD83C\uDFEC";
     /** derelict house 🏚 */
-    derelictHouse: string;
+    derelictHouse: "\uD83C\uDFDA";
     /** desert 🏜 */
-    desert: string;
+    desert: "\uD83C\uDFDC";
     /** desert island 🏝 */
-    desertIsland: string;
+    desertIsland: "\uD83C\uDFDD";
     /** desktop computer 🖥 */
-    desktopComputer: string;
+    desktopComputer: "\uD83D\uDDA5";
     /** detective 🕵 */
-    detective: string;
+    detective: "\uD83D\uDD75";
     /** diamond suit ♦ */
-    diamondSuit: string;
+    diamondSuit: "\u2666";
     /** diamond with a dot 💠 */
-    diamondWithADot: string;
+    diamondWithADot: "\uD83D\uDCA0";
     /** dim button 🔅 */
-    dimButton: string;
+    dimButton: "\uD83D\uDD05";
     /** disappointed face 😞 */
-    disappointedFace: string;
+    disappointedFace: "\uD83D\uDE1E";
     /** disguised face 🥸 */
-    disguisedFace: string;
+    disguisedFace: "\uD83E\uDD78";
     /** divide ➗ */
-    divide: string;
+    divide: "\u2797";
     /** diving mask 🤿 */
-    divingMask: string;
+    divingMask: "\uD83E\uDD3F";
     /** diya lamp 🪔 */
-    diyaLamp: string;
+    diyaLamp: "\uD83E\uDE94";
     /** dizzy 💫 */
-    dizzy: string;
+    dizzy: "\uD83D\uDCAB";
     /** dna 🧬 */
-    dna: string;
+    dna: "\uD83E\uDDEC";
     /** dodo 🦤 */
-    dodo: string;
+    dodo: "\uD83E\uDDA4";
     /** dog 🐕 */
-    dog: string;
+    dog: "\uD83D\uDC15";
     /** dog face 🐶 */
-    dogFace: string;
+    dogFace: "\uD83D\uDC36";
     /** dollar banknote 💵 */
-    dollarBanknote: string;
+    dollarBanknote: "\uD83D\uDCB5";
     /** dolphin 🐬 */
-    dolphin: string;
+    dolphin: "\uD83D\uDC2C";
     /** donkey 🫏 */
-    donkey: string;
+    donkey: "\uD83E\uDECF";
     /** door 🚪 */
-    door: string;
+    door: "\uD83D\uDEAA";
     /** dotted line face 🫥 */
-    dottedLineFace: string;
+    dottedLineFace: "\uD83E\uDEE5";
     /** dotted six-pointed star 🔯 */
-    dottedSixPointedStar: string;
+    dottedSixPointedStar: "\uD83D\uDD2F";
     /** double curly loop ➿ */
-    doubleCurlyLoop: string;
+    doubleCurlyLoop: "\u27BF";
     /** double exclamation mark ‼ */
-    doubleExclamationMark: string;
+    doubleExclamationMark: "\u203C";
     /** doughnut 🍩 */
-    doughnut: string;
+    doughnut: "\uD83C\uDF69";
     /** dove 🕊 */
-    dove: string;
+    dove: "\uD83D\uDD4A";
     /** down arrow ⬇ */
-    downArrow: string;
+    downArrow: "\u2B07";
     /** downcast face with sweat 😓 */
-    downcastFaceWithSweat: string;
+    downcastFaceWithSweat: "\uD83D\uDE13";
     /** down-left arrow ↙ */
-    downLeftArrow: string;
+    downLeftArrow: "\u2199";
     /** down-right arrow ↘ */
-    downRightArrow: string;
+    downRightArrow: "\u2198";
     /** downwards button 🔽 */
-    downwardsButton: string;
+    downwardsButton: "\uD83D\uDD3D";
     /** dragon 🐉 */
-    dragon: string;
+    dragon: "\uD83D\uDC09";
     /** dragon face 🐲 */
-    dragonFace: string;
+    dragonFace: "\uD83D\uDC32";
     /** dress 👗 */
-    dress: string;
+    dress: "\uD83D\uDC57";
     /** drooling face 🤤 */
-    droolingFace: string;
+    droolingFace: "\uD83E\uDD24";
     /** droplet 💧 */
-    droplet: string;
+    droplet: "\uD83D\uDCA7";
     /** drop of blood 🩸 */
-    dropOfBlood: string;
+    dropOfBlood: "\uD83E\uDE78";
     /** drum 🥁 */
-    drum: string;
+    drum: "\uD83E\uDD41";
     /** duck 🦆 */
-    duck: string;
+    duck: "\uD83E\uDD86";
     /** dumpling 🥟 */
-    dumpling: string;
+    dumpling: "\uD83E\uDD5F";
     /** dvd 📀 */
-    dvd: string;
+    dvd: "\uD83D\uDCC0";
     /** eagle 🦅 */
-    eagle: string;
+    eagle: "\uD83E\uDD85";
     /** ear 👂 */
-    ear: string;
+    ear: "\uD83D\uDC42";
     /** ear of corn 🌽 */
-    earOfCorn: string;
+    earOfCorn: "\uD83C\uDF3D";
     /** ear with hearing aid 🦻 */
-    earWithHearingAid: string;
+    earWithHearingAid: "\uD83E\uDDBB";
     /** egg 🥚 */
-    egg: string;
+    egg: "\uD83E\uDD5A";
     /** eggplant 🍆 */
-    eggplant: string;
+    eggplant: "\uD83C\uDF46";
     /** eight o’clock 🕗 */
-    eightOclock: string;
+    eightOclock: "\uD83D\uDD57";
     /** eight-pointed star ✴ */
-    eightPointedStar: string;
+    eightPointedStar: "\u2734";
     /** eight-spoked asterisk ✳ */
-    eightSpokedAsterisk: string;
+    eightSpokedAsterisk: "\u2733";
     /** eight-thirty 🕣 */
-    eightThirty: string;
+    eightThirty: "\uD83D\uDD63";
     /** eject button ⏏ */
-    ejectButton: string;
+    ejectButton: "\u23CF";
     /** electric plug 🔌 */
-    electricPlug: string;
+    electricPlug: "\uD83D\uDD0C";
     /** elephant 🐘 */
-    elephant: string;
+    elephant: "\uD83D\uDC18";
     /** elevator 🛗 */
-    elevator: string;
+    elevator: "\uD83D\uDED7";
     /** eleven o’clock 🕚 */
-    elevenOclock: string;
+    elevenOclock: "\uD83D\uDD5A";
     /** eleven-thirty 🕦 */
-    elevenThirty: string;
+    elevenThirty: "\uD83D\uDD66";
     /** elf 🧝 */
-    elf: string;
+    elf: "\uD83E\uDDDD";
     /** e-mail 📧 */
-    eMail: string;
+    eMail: "\uD83D\uDCE7";
     /** empty nest 🪹 */
-    emptyNest: string;
+    emptyNest: "\uD83E\uDEB9";
     /** END arrow 🔚 */
-    endArrow: string;
+    endArrow: "\uD83D\uDD1A";
     /** enraged face 😡 */
-    enragedFace: string;
+    enragedFace: "\uD83D\uDE21";
     /** envelope ✉ */
-    envelope: string;
+    envelope: "\u2709";
     /** envelope with arrow 📩 */
-    envelopeWithArrow: string;
+    envelopeWithArrow: "\uD83D\uDCE9";
     /** euro banknote 💶 */
-    euroBanknote: string;
+    euroBanknote: "\uD83D\uDCB6";
     /** evergreen tree 🌲 */
-    evergreenTree: string;
+    evergreenTree: "\uD83C\uDF32";
     /** ewe 🐑 */
-    ewe: string;
+    ewe: "\uD83D\uDC11";
     /** exclamation question mark ⁉ */
-    exclamationQuestionMark: string;
+    exclamationQuestionMark: "\u2049";
     /** exploding head 🤯 */
-    explodingHead: string;
+    explodingHead: "\uD83E\uDD2F";
     /** expressionless face 😑 */
-    expressionlessFace: string;
+    expressionlessFace: "\uD83D\uDE11";
     /** eye 👁 */
-    eye: string;
+    eye: "\uD83D\uDC41";
     /** eye in speech bubble 👁️‍🗨️ */
-    eyeInSpeechBubble: string;
+    eyeInSpeechBubble: "\uD83D\uDC41\uFE0F\u200D\uD83D\uDDE8\uFE0F";
     /** eyes 👀 */
-    eyes: string;
+    eyes: "\uD83D\uDC40";
     /** face blowing a kiss 😘 */
-    faceBlowingAKiss: string;
+    faceBlowingAKiss: "\uD83D\uDE18";
     /** face exhaling 😮‍💨 */
-    faceExhaling: string;
+    faceExhaling: "\uD83D\uDE2E\u200D\uD83D\uDCA8";
     /** face holding back tears 🥹 */
-    faceHoldingBackTears: string;
+    faceHoldingBackTears: "\uD83E\uDD79";
     /** face in clouds 😶‍🌫️ */
-    faceInClouds: string;
+    faceInClouds: "\uD83D\uDE36\u200D\uD83C\uDF2B\uFE0F";
     /** face savoring food 😋 */
-    faceSavoringFood: string;
+    faceSavoringFood: "\uD83D\uDE0B";
     /** face screaming in fear 😱 */
-    faceScreamingInFear: string;
+    faceScreamingInFear: "\uD83D\uDE31";
     /** face vomiting 🤮 */
-    faceVomiting: string;
+    faceVomiting: "\uD83E\uDD2E";
     /** ⊛ face with bags under eyes 🫩 */
-    faceWithBagsUnderEyes: string;
+    faceWithBagsUnderEyes: "\uD83E\uDEE9";
     /** face with crossed-out eyes 😵 */
-    faceWithCrossedOutEyes: string;
+    faceWithCrossedOutEyes: "\uD83D\uDE35";
     /** face with diagonal mouth 🫤 */
-    faceWithDiagonalMouth: string;
+    faceWithDiagonalMouth: "\uD83E\uDEE4";
     /** face with hand over mouth 🤭 */
-    faceWithHandOverMouth: string;
+    faceWithHandOverMouth: "\uD83E\uDD2D";
     /** face with head-bandage 🤕 */
-    faceWithHeadBandage: string;
+    faceWithHeadBandage: "\uD83E\uDD15";
     /** face with medical mask 😷 */
-    faceWithMedicalMask: string;
+    faceWithMedicalMask: "\uD83D\uDE37";
     /** face with monocle 🧐 */
-    faceWithMonocle: string;
+    faceWithMonocle: "\uD83E\uDDD0";
     /** face with open eyes and hand over mouth 🫢 */
-    faceWithOpenEyesAndHandOverMouth: string;
+    faceWithOpenEyesAndHandOverMouth: "\uD83E\uDEE2";
     /** face with open mouth 😮 */
-    faceWithOpenMouth: string;
+    faceWithOpenMouth: "\uD83D\uDE2E";
     /** face without mouth 😶 */
-    faceWithoutMouth: string;
+    faceWithoutMouth: "\uD83D\uDE36";
     /** face with peeking eye 🫣 */
-    faceWithPeekingEye: string;
+    faceWithPeekingEye: "\uD83E\uDEE3";
     /** face with raised eyebrow 🤨 */
-    faceWithRaisedEyebrow: string;
+    faceWithRaisedEyebrow: "\uD83E\uDD28";
     /** face with rolling eyes 🙄 */
-    faceWithRollingEyes: string;
+    faceWithRollingEyes: "\uD83D\uDE44";
     /** face with spiral eyes 😵‍💫 */
-    faceWithSpiralEyes: string;
+    faceWithSpiralEyes: "\uD83D\uDE35\u200D\uD83D\uDCAB";
     /** face with steam from nose 😤 */
-    faceWithSteamFromNose: string;
+    faceWithSteamFromNose: "\uD83D\uDE24";
     /** face with symbols on mouth 🤬 */
-    faceWithSymbolsOnMouth: string;
+    faceWithSymbolsOnMouth: "\uD83E\uDD2C";
     /** face with tears of joy 😂 */
-    faceWithTearsOfJoy: string;
+    faceWithTearsOfJoy: "\uD83D\uDE02";
     /** face with thermometer 🤒 */
-    faceWithThermometer: string;
+    faceWithThermometer: "\uD83E\uDD12";
     /** face with tongue 😛 */
-    faceWithTongue: string;
+    faceWithTongue: "\uD83D\uDE1B";
     /** factory 🏭 */
-    factory: string;
+    factory: "\uD83C\uDFED";
     /** factory worker 🧑‍🏭 */
-    factoryWorker: string;
+    factoryWorker: "\uD83E\uDDD1\u200D\uD83C\uDFED";
     /** fairy 🧚 */
-    fairy: string;
+    fairy: "\uD83E\uDDDA";
     /** falafel 🧆 */
-    falafel: string;
+    falafel: "\uD83E\uDDC6";
     /** fallen leaf 🍂 */
-    fallenLeaf: string;
+    fallenLeaf: "\uD83C\uDF42";
     /** family 👪 */
-    family: string;
+    family: "\uD83D\uDC6A";
     /** family: adult, adult, child 🧑‍🧑‍🧒 */
-    familyAdultAdultChild: string;
+    familyAdultAdultChild: "\uD83E\uDDD1\u200D\uD83E\uDDD1\u200D\uD83E\uDDD2";
     /** family: adult, adult, child, child 🧑‍🧑‍🧒‍🧒 */
-    familyAdultAdultChildChild: string;
+    familyAdultAdultChildChild: "\uD83E\uDDD1\u200D\uD83E\uDDD1\u200D\uD83E\uDDD2\u200D\uD83E\uDDD2";
     /** family: adult, child 🧑‍🧒 */
-    familyAdultChild: string;
+    familyAdultChild: "\uD83E\uDDD1\u200D\uD83E\uDDD2";
     /** family: adult, child, child 🧑‍🧒‍🧒 */
-    familyAdultChildChild: string;
+    familyAdultChildChild: "\uD83E\uDDD1\u200D\uD83E\uDDD2\u200D\uD83E\uDDD2";
     /** family: man, boy 👨‍👦 */
-    familyManBoy: string;
+    familyManBoy: "\uD83D\uDC68\u200D\uD83D\uDC66";
     /** family: man, boy, boy 👨‍👦‍👦 */
-    familyManBoyBoy: string;
+    familyManBoyBoy: "\uD83D\uDC68\u200D\uD83D\uDC66\u200D\uD83D\uDC66";
     /** family: man, girl 👨‍👧 */
-    familyManGirl: string;
+    familyManGirl: "\uD83D\uDC68\u200D\uD83D\uDC67";
     /** family: man, girl, boy 👨‍👧‍👦 */
-    familyManGirlBoy: string;
+    familyManGirlBoy: "\uD83D\uDC68\u200D\uD83D\uDC67\u200D\uD83D\uDC66";
     /** family: man, girl, girl 👨‍👧‍👧 */
-    familyManGirlGirl: string;
+    familyManGirlGirl: "\uD83D\uDC68\u200D\uD83D\uDC67\u200D\uD83D\uDC67";
     /** family: man, man, boy 👨‍👨‍👦 */
-    familyManManBoy: string;
+    familyManManBoy: "\uD83D\uDC68\u200D\uD83D\uDC68\u200D\uD83D\uDC66";
     /** family: man, man, boy, boy 👨‍👨‍👦‍👦 */
-    familyManManBoyBoy: string;
+    familyManManBoyBoy: "\uD83D\uDC68\u200D\uD83D\uDC68\u200D\uD83D\uDC66\u200D\uD83D\uDC66";
     /** family: man, man, girl 👨‍👨‍👧 */
-    familyManManGirl: string;
+    familyManManGirl: "\uD83D\uDC68\u200D\uD83D\uDC68\u200D\uD83D\uDC67";
     /** family: man, man, girl, boy 👨‍👨‍👧‍👦 */
-    familyManManGirlBoy: string;
+    familyManManGirlBoy: "\uD83D\uDC68\u200D\uD83D\uDC68\u200D\uD83D\uDC67\u200D\uD83D\uDC66";
     /** family: man, man, girl, girl 👨‍👨‍👧‍👧 */
-    familyManManGirlGirl: string;
+    familyManManGirlGirl: "\uD83D\uDC68\u200D\uD83D\uDC68\u200D\uD83D\uDC67\u200D\uD83D\uDC67";
     /** family: man, woman, boy 👨‍👩‍👦 */
-    familyManWomanBoy: string;
+    familyManWomanBoy: "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC66";
     /** family: man, woman, boy, boy 👨‍👩‍👦‍👦 */
-    familyManWomanBoyBoy: string;
+    familyManWomanBoyBoy: "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC66\u200D\uD83D\uDC66";
     /** family: man, woman, girl 👨‍👩‍👧 */
-    familyManWomanGirl: string;
+    familyManWomanGirl: "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67";
     /** family: man, woman, girl, boy 👨‍👩‍👧‍👦 */
-    familyManWomanGirlBoy: string;
+    familyManWomanGirlBoy: "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66";
     /** family: man, woman, girl, girl 👨‍👩‍👧‍👧 */
-    familyManWomanGirlGirl: string;
+    familyManWomanGirlGirl: "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC67";
     /** family: woman, boy 👩‍👦 */
-    familyWomanBoy: string;
+    familyWomanBoy: "\uD83D\uDC69\u200D\uD83D\uDC66";
     /** family: woman, boy, boy 👩‍👦‍👦 */
-    familyWomanBoyBoy: string;
+    familyWomanBoyBoy: "\uD83D\uDC69\u200D\uD83D\uDC66\u200D\uD83D\uDC66";
     /** family: woman, girl 👩‍👧 */
-    familyWomanGirl: string;
+    familyWomanGirl: "\uD83D\uDC69\u200D\uD83D\uDC67";
     /** family: woman, girl, boy 👩‍👧‍👦 */
-    familyWomanGirlBoy: string;
+    familyWomanGirlBoy: "\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66";
     /** family: woman, girl, girl 👩‍👧‍👧 */
-    familyWomanGirlGirl: string;
+    familyWomanGirlGirl: "\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC67";
     /** family: woman, woman, boy 👩‍👩‍👦 */
-    familyWomanWomanBoy: string;
+    familyWomanWomanBoy: "\uD83D\uDC69\u200D\uD83D\uDC69\u200D\uD83D\uDC66";
     /** family: woman, woman, boy, boy 👩‍👩‍👦‍👦 */
-    familyWomanWomanBoyBoy: string;
+    familyWomanWomanBoyBoy: "\uD83D\uDC69\u200D\uD83D\uDC69\u200D\uD83D\uDC66\u200D\uD83D\uDC66";
     /** family: woman, woman, girl 👩‍👩‍👧 */
-    familyWomanWomanGirl: string;
+    familyWomanWomanGirl: "\uD83D\uDC69\u200D\uD83D\uDC69\u200D\uD83D\uDC67";
     /** family: woman, woman, girl, boy 👩‍👩‍👧‍👦 */
-    familyWomanWomanGirlBoy: string;
+    familyWomanWomanGirlBoy: "\uD83D\uDC69\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66";
     /** family: woman, woman, girl, girl 👩‍👩‍👧‍👧 */
-    familyWomanWomanGirlGirl: string;
+    familyWomanWomanGirlGirl: "\uD83D\uDC69\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC67";
     /** farmer 🧑‍🌾 */
-    farmer: string;
+    farmer: "\uD83E\uDDD1\u200D\uD83C\uDF3E";
     /** fast down button ⏬ */
-    fastDownButton: string;
+    fastDownButton: "\u23EC";
     /** fast-forward button ⏩ */
-    fastForwardButton: string;
+    fastForwardButton: "\u23E9";
     /** fast reverse button ⏪ */
-    fastReverseButton: string;
+    fastReverseButton: "\u23EA";
     /** fast up button ⏫ */
-    fastUpButton: string;
+    fastUpButton: "\u23EB";
     /** fax machine 📠 */
-    faxMachine: string;
+    faxMachine: "\uD83D\uDCE0";
     /** fearful face 😨 */
-    fearfulFace: string;
+    fearfulFace: "\uD83D\uDE28";
     /** feather 🪶 */
-    feather: string;
+    feather: "\uD83E\uDEB6";
     /** female sign ♀ */
-    femaleSign: string;
+    femaleSign: "\u2640";
     /** ferris wheel 🎡 */
-    ferrisWheel: string;
+    ferrisWheel: "\uD83C\uDFA1";
     /** ferry ⛴ */
-    ferry: string;
+    ferry: "\u26F4";
     /** field hockey 🏑 */
-    fieldHockey: string;
+    fieldHockey: "\uD83C\uDFD1";
     /** file cabinet 🗄 */
-    fileCabinet: string;
+    fileCabinet: "\uD83D\uDDC4";
     /** file folder 📁 */
-    fileFolder: string;
+    fileFolder: "\uD83D\uDCC1";
     /** film frames 🎞 */
-    filmFrames: string;
+    filmFrames: "\uD83C\uDF9E";
     /** film projector 📽 */
-    filmProjector: string;
+    filmProjector: "\uD83D\uDCFD";
     /** ⊛ fingerprint 🫆 */
-    fingerprint: string;
+    fingerprint: "\uD83E\uDEC6";
     /** fire 🔥 */
-    fire: string;
+    fire: "\uD83D\uDD25";
     /** firecracker 🧨 */
-    firecracker: string;
+    firecracker: "\uD83E\uDDE8";
     /** fire engine 🚒 */
-    fireEngine: string;
+    fireEngine: "\uD83D\uDE92";
     /** fire extinguisher 🧯 */
-    fireExtinguisher: string;
+    fireExtinguisher: "\uD83E\uDDEF";
     /** firefighter 🧑‍🚒 */
-    firefighter: string;
+    firefighter: "\uD83E\uDDD1\u200D\uD83D\uDE92";
     /** fireworks 🎆 */
-    fireworks: string;
+    fireworks: "\uD83C\uDF86";
     /** 1st place medal 🥇 */
-    firstPlaceMedal: string;
+    firstPlaceMedal: "\uD83E\uDD47";
     /** first quarter moon 🌓 */
-    firstQuarterMoon: string;
+    firstQuarterMoon: "\uD83C\uDF13";
     /** first quarter moon face 🌛 */
-    firstQuarterMoonFace: string;
+    firstQuarterMoonFace: "\uD83C\uDF1B";
     /** fish 🐟 */
-    fish: string;
+    fish: "\uD83D\uDC1F";
     /** fish cake with swirl 🍥 */
-    fishCakeWithSwirl: string;
+    fishCakeWithSwirl: "\uD83C\uDF65";
     /** fishing pole 🎣 */
-    fishingPole: string;
+    fishingPole: "\uD83C\uDFA3";
     /** five o’clock 🕔 */
-    fiveOclock: string;
+    fiveOclock: "\uD83D\uDD54";
     /** five-thirty 🕠 */
-    fiveThirty: string;
+    fiveThirty: "\uD83D\uDD60";
     /** flag: Afghanistan 🇦🇫 */
-    flagAfghanistan: string;
+    flagAfghanistan: "\uD83C\uDDE6\uD83C\uDDEB";
     /** flag: Åland Islands 🇦🇽 */
-    flagAlandIslands: string;
+    flagAlandIslands: "\uD83C\uDDE6\uD83C\uDDFD";
     /** flag: Albania 🇦🇱 */
-    flagAlbania: string;
+    flagAlbania: "\uD83C\uDDE6\uD83C\uDDF1";
     /** flag: Algeria 🇩🇿 */
-    flagAlgeria: string;
+    flagAlgeria: "\uD83C\uDDE9\uD83C\uDDFF";
     /** flag: American Samoa 🇦🇸 */
-    flagAmericanSamoa: string;
+    flagAmericanSamoa: "\uD83C\uDDE6\uD83C\uDDF8";
     /** flag: Andorra 🇦🇩 */
-    flagAndorra: string;
+    flagAndorra: "\uD83C\uDDE6\uD83C\uDDE9";
     /** flag: Angola 🇦🇴 */
-    flagAngola: string;
+    flagAngola: "\uD83C\uDDE6\uD83C\uDDF4";
     /** flag: Anguilla 🇦🇮 */
-    flagAnguilla: string;
+    flagAnguilla: "\uD83C\uDDE6\uD83C\uDDEE";
     /** flag: Antarctica 🇦🇶 */
-    flagAntarctica: string;
+    flagAntarctica: "\uD83C\uDDE6\uD83C\uDDF6";
     /** flag: Antigua & Barbuda 🇦🇬 */
-    flagAntiguaAndBarbuda: string;
+    flagAntiguaAndBarbuda: "\uD83C\uDDE6\uD83C\uDDEC";
     /** flag: Argentina 🇦🇷 */
-    flagArgentina: string;
+    flagArgentina: "\uD83C\uDDE6\uD83C\uDDF7";
     /** flag: Armenia 🇦🇲 */
-    flagArmenia: string;
+    flagArmenia: "\uD83C\uDDE6\uD83C\uDDF2";
     /** flag: Aruba 🇦🇼 */
-    flagAruba: string;
+    flagAruba: "\uD83C\uDDE6\uD83C\uDDFC";
     /** flag: Ascension Island 🇦🇨 */
-    flagAscensionIsland: string;
+    flagAscensionIsland: "\uD83C\uDDE6\uD83C\uDDE8";
     /** flag: Australia 🇦🇺 */
-    flagAustralia: string;
+    flagAustralia: "\uD83C\uDDE6\uD83C\uDDFA";
     /** flag: Austria 🇦🇹 */
-    flagAustria: string;
+    flagAustria: "\uD83C\uDDE6\uD83C\uDDF9";
     /** flag: Azerbaijan 🇦🇿 */
-    flagAzerbaijan: string;
+    flagAzerbaijan: "\uD83C\uDDE6\uD83C\uDDFF";
     /** flag: Bahamas 🇧🇸 */
-    flagBahamas: string;
+    flagBahamas: "\uD83C\uDDE7\uD83C\uDDF8";
     /** flag: Bahrain 🇧🇭 */
-    flagBahrain: string;
+    flagBahrain: "\uD83C\uDDE7\uD83C\uDDED";
     /** flag: Bangladesh 🇧🇩 */
-    flagBangladesh: string;
+    flagBangladesh: "\uD83C\uDDE7\uD83C\uDDE9";
     /** flag: Barbados 🇧🇧 */
-    flagBarbados: string;
+    flagBarbados: "\uD83C\uDDE7\uD83C\uDDE7";
     /** flag: Belarus 🇧🇾 */
-    flagBelarus: string;
+    flagBelarus: "\uD83C\uDDE7\uD83C\uDDFE";
     /** flag: Belgium 🇧🇪 */
-    flagBelgium: string;
+    flagBelgium: "\uD83C\uDDE7\uD83C\uDDEA";
     /** flag: Belize 🇧🇿 */
-    flagBelize: string;
+    flagBelize: "\uD83C\uDDE7\uD83C\uDDFF";
     /** flag: Benin 🇧🇯 */
-    flagBenin: string;
+    flagBenin: "\uD83C\uDDE7\uD83C\uDDEF";
     /** flag: Bermuda 🇧🇲 */
-    flagBermuda: string;
+    flagBermuda: "\uD83C\uDDE7\uD83C\uDDF2";
     /** flag: Bhutan 🇧🇹 */
-    flagBhutan: string;
+    flagBhutan: "\uD83C\uDDE7\uD83C\uDDF9";
     /** flag: Bolivia 🇧🇴 */
-    flagBolivia: string;
+    flagBolivia: "\uD83C\uDDE7\uD83C\uDDF4";
     /** flag: Bosnia & Herzegovina 🇧🇦 */
-    flagBosniaAndHerzegovina: string;
+    flagBosniaAndHerzegovina: "\uD83C\uDDE7\uD83C\uDDE6";
     /** flag: Botswana 🇧🇼 */
-    flagBotswana: string;
+    flagBotswana: "\uD83C\uDDE7\uD83C\uDDFC";
     /** flag: Bouvet Island 🇧🇻 */
-    flagBouvetIsland: string;
+    flagBouvetIsland: "\uD83C\uDDE7\uD83C\uDDFB";
     /** flag: Brazil 🇧🇷 */
-    flagBrazil: string;
+    flagBrazil: "\uD83C\uDDE7\uD83C\uDDF7";
     /** flag: British Indian Ocean Territory 🇮🇴 */
-    flagBritishIndianOceanTerritory: string;
+    flagBritishIndianOceanTerritory: "\uD83C\uDDEE\uD83C\uDDF4";
     /** flag: British Virgin Islands 🇻🇬 */
-    flagBritishVirginIslands: string;
+    flagBritishVirginIslands: "\uD83C\uDDFB\uD83C\uDDEC";
     /** flag: Brunei 🇧🇳 */
-    flagBrunei: string;
+    flagBrunei: "\uD83C\uDDE7\uD83C\uDDF3";
     /** flag: Bulgaria 🇧🇬 */
-    flagBulgaria: string;
+    flagBulgaria: "\uD83C\uDDE7\uD83C\uDDEC";
     /** flag: Burkina Faso 🇧🇫 */
-    flagBurkinaFaso: string;
+    flagBurkinaFaso: "\uD83C\uDDE7\uD83C\uDDEB";
     /** flag: Burundi 🇧🇮 */
-    flagBurundi: string;
+    flagBurundi: "\uD83C\uDDE7\uD83C\uDDEE";
     /** flag: Cambodia 🇰🇭 */
-    flagCambodia: string;
+    flagCambodia: "\uD83C\uDDF0\uD83C\uDDED";
     /** flag: Cameroon 🇨🇲 */
-    flagCameroon: string;
+    flagCameroon: "\uD83C\uDDE8\uD83C\uDDF2";
     /** flag: Canada 🇨🇦 */
-    flagCanada: string;
+    flagCanada: "\uD83C\uDDE8\uD83C\uDDE6";
     /** flag: Canary Islands 🇮🇨 */
-    flagCanaryIslands: string;
+    flagCanaryIslands: "\uD83C\uDDEE\uD83C\uDDE8";
     /** flag: Cape Verde 🇨🇻 */
-    flagCapeVerde: string;
+    flagCapeVerde: "\uD83C\uDDE8\uD83C\uDDFB";
     /** flag: Caribbean Netherlands 🇧🇶 */
-    flagCaribbeanNetherlands: string;
+    flagCaribbeanNetherlands: "\uD83C\uDDE7\uD83C\uDDF6";
     /** flag: Cayman Islands 🇰🇾 */
-    flagCaymanIslands: string;
+    flagCaymanIslands: "\uD83C\uDDF0\uD83C\uDDFE";
     /** flag: Central African Republic 🇨🇫 */
-    flagCentralAfricanRepublic: string;
+    flagCentralAfricanRepublic: "\uD83C\uDDE8\uD83C\uDDEB";
     /** flag: Ceuta & Melilla 🇪🇦 */
-    flagCeutaAndMelilla: string;
+    flagCeutaAndMelilla: "\uD83C\uDDEA\uD83C\uDDE6";
     /** flag: Chad 🇹🇩 */
-    flagChad: string;
+    flagChad: "\uD83C\uDDF9\uD83C\uDDE9";
     /** flag: Chile 🇨🇱 */
-    flagChile: string;
+    flagChile: "\uD83C\uDDE8\uD83C\uDDF1";
     /** flag: China 🇨🇳 */
-    flagChina: string;
+    flagChina: "\uD83C\uDDE8\uD83C\uDDF3";
     /** flag: Christmas Island 🇨🇽 */
-    flagChristmasIsland: string;
+    flagChristmasIsland: "\uD83C\uDDE8\uD83C\uDDFD";
     /** flag: Clipperton Island 🇨🇵 */
-    flagClippertonIsland: string;
+    flagClippertonIsland: "\uD83C\uDDE8\uD83C\uDDF5";
     /** flag: Cocos (Keeling) Islands 🇨🇨 */
-    flagCocosKeelingIslands: string;
+    flagCocosKeelingIslands: "\uD83C\uDDE8\uD83C\uDDE8";
     /** flag: Colombia 🇨🇴 */
-    flagColombia: string;
+    flagColombia: "\uD83C\uDDE8\uD83C\uDDF4";
     /** flag: Comoros 🇰🇲 */
-    flagComoros: string;
+    flagComoros: "\uD83C\uDDF0\uD83C\uDDF2";
     /** flag: Congo - Brazzaville 🇨🇬 */
-    flagCongoBrazzaville: string;
+    flagCongoBrazzaville: "\uD83C\uDDE8\uD83C\uDDEC";
     /** flag: Congo - Kinshasa 🇨🇩 */
-    flagCongoKinshasa: string;
+    flagCongoKinshasa: "\uD83C\uDDE8\uD83C\uDDE9";
     /** flag: Cook Islands 🇨🇰 */
-    flagCookIslands: string;
+    flagCookIslands: "\uD83C\uDDE8\uD83C\uDDF0";
     /** flag: Costa Rica 🇨🇷 */
-    flagCostaRica: string;
+    flagCostaRica: "\uD83C\uDDE8\uD83C\uDDF7";
     /** flag: Côte d’Ivoire 🇨🇮 */
-    flagCoteDIvoire: string;
+    flagCoteDIvoire: "\uD83C\uDDE8\uD83C\uDDEE";
     /** flag: Croatia 🇭🇷 */
-    flagCroatia: string;
+    flagCroatia: "\uD83C\uDDED\uD83C\uDDF7";
     /** flag: Cuba 🇨🇺 */
-    flagCuba: string;
+    flagCuba: "\uD83C\uDDE8\uD83C\uDDFA";
     /** flag: Curaçao 🇨🇼 */
-    flagCuracao: string;
+    flagCuracao: "\uD83C\uDDE8\uD83C\uDDFC";
     /** flag: Cyprus 🇨🇾 */
-    flagCyprus: string;
+    flagCyprus: "\uD83C\uDDE8\uD83C\uDDFE";
     /** flag: Czechia 🇨🇿 */
-    flagCzechia: string;
+    flagCzechia: "\uD83C\uDDE8\uD83C\uDDFF";
     /** flag: Denmark 🇩🇰 */
-    flagDenmark: string;
+    flagDenmark: "\uD83C\uDDE9\uD83C\uDDF0";
     /** flag: Diego Garcia 🇩🇬 */
-    flagDiegoGarcia: string;
+    flagDiegoGarcia: "\uD83C\uDDE9\uD83C\uDDEC";
     /** flag: Djibouti 🇩🇯 */
-    flagDjibouti: string;
+    flagDjibouti: "\uD83C\uDDE9\uD83C\uDDEF";
     /** flag: Dominica 🇩🇲 */
-    flagDominica: string;
+    flagDominica: "\uD83C\uDDE9\uD83C\uDDF2";
     /** flag: Dominican Republic 🇩🇴 */
-    flagDominicanRepublic: string;
+    flagDominicanRepublic: "\uD83C\uDDE9\uD83C\uDDF4";
     /** flag: Ecuador 🇪🇨 */
-    flagEcuador: string;
+    flagEcuador: "\uD83C\uDDEA\uD83C\uDDE8";
     /** flag: Egypt 🇪🇬 */
-    flagEgypt: string;
+    flagEgypt: "\uD83C\uDDEA\uD83C\uDDEC";
     /** flag: El Salvador 🇸🇻 */
-    flagElSalvador: string;
+    flagElSalvador: "\uD83C\uDDF8\uD83C\uDDFB";
     /** flag: England 🏴󠁧󠁢󠁥󠁮󠁧󠁿 */
-    flagEngland: string;
+    flagEngland: "\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67\uDB40\uDC7F";
     /** flag: Equatorial Guinea 🇬🇶 */
-    flagEquatorialGuinea: string;
+    flagEquatorialGuinea: "\uD83C\uDDEC\uD83C\uDDF6";
     /** flag: Eritrea 🇪🇷 */
-    flagEritrea: string;
+    flagEritrea: "\uD83C\uDDEA\uD83C\uDDF7";
     /** flag: Estonia 🇪🇪 */
-    flagEstonia: string;
+    flagEstonia: "\uD83C\uDDEA\uD83C\uDDEA";
     /** flag: Eswatini 🇸🇿 */
-    flagEswatini: string;
+    flagEswatini: "\uD83C\uDDF8\uD83C\uDDFF";
     /** flag: Ethiopia 🇪🇹 */
-    flagEthiopia: string;
+    flagEthiopia: "\uD83C\uDDEA\uD83C\uDDF9";
     /** flag: European Union 🇪🇺 */
-    flagEuropeanUnion: string;
+    flagEuropeanUnion: "\uD83C\uDDEA\uD83C\uDDFA";
     /** flag: Falkland Islands 🇫🇰 */
-    flagFalklandIslands: string;
+    flagFalklandIslands: "\uD83C\uDDEB\uD83C\uDDF0";
     /** flag: Faroe Islands 🇫🇴 */
-    flagFaroeIslands: string;
+    flagFaroeIslands: "\uD83C\uDDEB\uD83C\uDDF4";
     /** flag: Fiji 🇫🇯 */
-    flagFiji: string;
+    flagFiji: "\uD83C\uDDEB\uD83C\uDDEF";
     /** flag: Finland 🇫🇮 */
-    flagFinland: string;
+    flagFinland: "\uD83C\uDDEB\uD83C\uDDEE";
     /** flag: France 🇫🇷 */
-    flagFrance: string;
+    flagFrance: "\uD83C\uDDEB\uD83C\uDDF7";
     /** flag: French Guiana 🇬🇫 */
-    flagFrenchGuiana: string;
+    flagFrenchGuiana: "\uD83C\uDDEC\uD83C\uDDEB";
     /** flag: French Polynesia 🇵🇫 */
-    flagFrenchPolynesia: string;
+    flagFrenchPolynesia: "\uD83C\uDDF5\uD83C\uDDEB";
     /** flag: French Southern Territories 🇹🇫 */
-    flagFrenchSouthernTerritories: string;
+    flagFrenchSouthernTerritories: "\uD83C\uDDF9\uD83C\uDDEB";
     /** flag: Gabon 🇬🇦 */
-    flagGabon: string;
+    flagGabon: "\uD83C\uDDEC\uD83C\uDDE6";
     /** flag: Gambia 🇬🇲 */
-    flagGambia: string;
+    flagGambia: "\uD83C\uDDEC\uD83C\uDDF2";
     /** flag: Georgia 🇬🇪 */
-    flagGeorgia: string;
+    flagGeorgia: "\uD83C\uDDEC\uD83C\uDDEA";
     /** flag: Germany 🇩🇪 */
-    flagGermany: string;
+    flagGermany: "\uD83C\uDDE9\uD83C\uDDEA";
     /** flag: Ghana 🇬🇭 */
-    flagGhana: string;
+    flagGhana: "\uD83C\uDDEC\uD83C\uDDED";
     /** flag: Gibraltar 🇬🇮 */
-    flagGibraltar: string;
+    flagGibraltar: "\uD83C\uDDEC\uD83C\uDDEE";
     /** flag: Greece 🇬🇷 */
-    flagGreece: string;
+    flagGreece: "\uD83C\uDDEC\uD83C\uDDF7";
     /** flag: Greenland 🇬🇱 */
-    flagGreenland: string;
+    flagGreenland: "\uD83C\uDDEC\uD83C\uDDF1";
     /** flag: Grenada 🇬🇩 */
-    flagGrenada: string;
+    flagGrenada: "\uD83C\uDDEC\uD83C\uDDE9";
     /** flag: Guadeloupe 🇬🇵 */
-    flagGuadeloupe: string;
+    flagGuadeloupe: "\uD83C\uDDEC\uD83C\uDDF5";
     /** flag: Guam 🇬🇺 */
-    flagGuam: string;
+    flagGuam: "\uD83C\uDDEC\uD83C\uDDFA";
     /** flag: Guatemala 🇬🇹 */
-    flagGuatemala: string;
+    flagGuatemala: "\uD83C\uDDEC\uD83C\uDDF9";
     /** flag: Guernsey 🇬🇬 */
-    flagGuernsey: string;
+    flagGuernsey: "\uD83C\uDDEC\uD83C\uDDEC";
     /** flag: Guinea 🇬🇳 */
-    flagGuinea: string;
+    flagGuinea: "\uD83C\uDDEC\uD83C\uDDF3";
     /** flag: Guinea-Bissau 🇬🇼 */
-    flagGuineaBissau: string;
+    flagGuineaBissau: "\uD83C\uDDEC\uD83C\uDDFC";
     /** flag: Guyana 🇬🇾 */
-    flagGuyana: string;
+    flagGuyana: "\uD83C\uDDEC\uD83C\uDDFE";
     /** flag: Haiti 🇭🇹 */
-    flagHaiti: string;
+    flagHaiti: "\uD83C\uDDED\uD83C\uDDF9";
     /** flag: Heard & McDonald Islands 🇭🇲 */
-    flagHeardAndMcDonaldIslands: string;
+    flagHeardAndMcDonaldIslands: "\uD83C\uDDED\uD83C\uDDF2";
     /** flag: Honduras 🇭🇳 */
-    flagHonduras: string;
+    flagHonduras: "\uD83C\uDDED\uD83C\uDDF3";
     /** flag: Hong Kong SAR China 🇭🇰 */
-    flagHongKongSARChina: string;
+    flagHongKongSARChina: "\uD83C\uDDED\uD83C\uDDF0";
     /** flag: Hungary 🇭🇺 */
-    flagHungary: string;
+    flagHungary: "\uD83C\uDDED\uD83C\uDDFA";
     /** flag: Iceland 🇮🇸 */
-    flagIceland: string;
+    flagIceland: "\uD83C\uDDEE\uD83C\uDDF8";
     /** flag: India 🇮🇳 */
-    flagIndia: string;
+    flagIndia: "\uD83C\uDDEE\uD83C\uDDF3";
     /** flag: Indonesia 🇮🇩 */
-    flagIndonesia: string;
+    flagIndonesia: "\uD83C\uDDEE\uD83C\uDDE9";
     /** flag in hole ⛳ */
-    flagInHole: string;
+    flagInHole: "\u26F3";
     /** flag: Iran 🇮🇷 */
-    flagIran: string;
+    flagIran: "\uD83C\uDDEE\uD83C\uDDF7";
     /** flag: Iraq 🇮🇶 */
-    flagIraq: string;
+    flagIraq: "\uD83C\uDDEE\uD83C\uDDF6";
     /** flag: Ireland 🇮🇪 */
-    flagIreland: string;
+    flagIreland: "\uD83C\uDDEE\uD83C\uDDEA";
     /** flag: Isle of Man 🇮🇲 */
-    flagIsleOfMan: string;
+    flagIsleOfMan: "\uD83C\uDDEE\uD83C\uDDF2";
     /** flag: Israel 🇮🇱 */
-    flagIsrael: string;
+    flagIsrael: "\uD83C\uDDEE\uD83C\uDDF1";
     /** flag: Italy 🇮🇹 */
-    flagItaly: string;
+    flagItaly: "\uD83C\uDDEE\uD83C\uDDF9";
     /** flag: Jamaica 🇯🇲 */
-    flagJamaica: string;
+    flagJamaica: "\uD83C\uDDEF\uD83C\uDDF2";
     /** flag: Japan 🇯🇵 */
-    flagJapan: string;
+    flagJapan: "\uD83C\uDDEF\uD83C\uDDF5";
     /** flag: Jersey 🇯🇪 */
-    flagJersey: string;
+    flagJersey: "\uD83C\uDDEF\uD83C\uDDEA";
     /** flag: Jordan 🇯🇴 */
-    flagJordan: string;
+    flagJordan: "\uD83C\uDDEF\uD83C\uDDF4";
     /** flag: Kazakhstan 🇰🇿 */
-    flagKazakhstan: string;
+    flagKazakhstan: "\uD83C\uDDF0\uD83C\uDDFF";
     /** flag: Kenya 🇰🇪 */
-    flagKenya: string;
+    flagKenya: "\uD83C\uDDF0\uD83C\uDDEA";
     /** flag: Kiribati 🇰🇮 */
-    flagKiribati: string;
+    flagKiribati: "\uD83C\uDDF0\uD83C\uDDEE";
     /** flag: Kosovo 🇽🇰 */
-    flagKosovo: string;
+    flagKosovo: "\uD83C\uDDFD\uD83C\uDDF0";
     /** flag: Kuwait 🇰🇼 */
-    flagKuwait: string;
+    flagKuwait: "\uD83C\uDDF0\uD83C\uDDFC";
     /** flag: Kyrgyzstan 🇰🇬 */
-    flagKyrgyzstan: string;
+    flagKyrgyzstan: "\uD83C\uDDF0\uD83C\uDDEC";
     /** flag: Laos 🇱🇦 */
-    flagLaos: string;
+    flagLaos: "\uD83C\uDDF1\uD83C\uDDE6";
     /** flag: Latvia 🇱🇻 */
-    flagLatvia: string;
+    flagLatvia: "\uD83C\uDDF1\uD83C\uDDFB";
     /** flag: Lebanon 🇱🇧 */
-    flagLebanon: string;
+    flagLebanon: "\uD83C\uDDF1\uD83C\uDDE7";
     /** flag: Lesotho 🇱🇸 */
-    flagLesotho: string;
+    flagLesotho: "\uD83C\uDDF1\uD83C\uDDF8";
     /** flag: Liberia 🇱🇷 */
-    flagLiberia: string;
+    flagLiberia: "\uD83C\uDDF1\uD83C\uDDF7";
     /** flag: Libya 🇱🇾 */
-    flagLibya: string;
+    flagLibya: "\uD83C\uDDF1\uD83C\uDDFE";
     /** flag: Liechtenstein 🇱🇮 */
-    flagLiechtenstein: string;
+    flagLiechtenstein: "\uD83C\uDDF1\uD83C\uDDEE";
     /** flag: Lithuania 🇱🇹 */
-    flagLithuania: string;
+    flagLithuania: "\uD83C\uDDF1\uD83C\uDDF9";
     /** flag: Luxembourg 🇱🇺 */
-    flagLuxembourg: string;
+    flagLuxembourg: "\uD83C\uDDF1\uD83C\uDDFA";
     /** flag: Macao SAR China 🇲🇴 */
-    flagMacaoSARChina: string;
+    flagMacaoSARChina: "\uD83C\uDDF2\uD83C\uDDF4";
     /** flag: Madagascar 🇲🇬 */
-    flagMadagascar: string;
+    flagMadagascar: "\uD83C\uDDF2\uD83C\uDDEC";
     /** flag: Malawi 🇲🇼 */
-    flagMalawi: string;
+    flagMalawi: "\uD83C\uDDF2\uD83C\uDDFC";
     /** flag: Malaysia 🇲🇾 */
-    flagMalaysia: string;
+    flagMalaysia: "\uD83C\uDDF2\uD83C\uDDFE";
     /** flag: Maldives 🇲🇻 */
-    flagMaldives: string;
+    flagMaldives: "\uD83C\uDDF2\uD83C\uDDFB";
     /** flag: Mali 🇲🇱 */
-    flagMali: string;
+    flagMali: "\uD83C\uDDF2\uD83C\uDDF1";
     /** flag: Malta 🇲🇹 */
-    flagMalta: string;
+    flagMalta: "\uD83C\uDDF2\uD83C\uDDF9";
     /** flag: Marshall Islands 🇲🇭 */
-    flagMarshallIslands: string;
+    flagMarshallIslands: "\uD83C\uDDF2\uD83C\uDDED";
     /** flag: Martinique 🇲🇶 */
-    flagMartinique: string;
+    flagMartinique: "\uD83C\uDDF2\uD83C\uDDF6";
     /** flag: Mauritania 🇲🇷 */
-    flagMauritania: string;
+    flagMauritania: "\uD83C\uDDF2\uD83C\uDDF7";
     /** flag: Mauritius 🇲🇺 */
-    flagMauritius: string;
+    flagMauritius: "\uD83C\uDDF2\uD83C\uDDFA";
     /** flag: Mayotte 🇾🇹 */
-    flagMayotte: string;
+    flagMayotte: "\uD83C\uDDFE\uD83C\uDDF9";
     /** flag: Mexico 🇲🇽 */
-    flagMexico: string;
+    flagMexico: "\uD83C\uDDF2\uD83C\uDDFD";
     /** flag: Micronesia 🇫🇲 */
-    flagMicronesia: string;
+    flagMicronesia: "\uD83C\uDDEB\uD83C\uDDF2";
     /** flag: Moldova 🇲🇩 */
-    flagMoldova: string;
+    flagMoldova: "\uD83C\uDDF2\uD83C\uDDE9";
     /** flag: Monaco 🇲🇨 */
-    flagMonaco: string;
+    flagMonaco: "\uD83C\uDDF2\uD83C\uDDE8";
     /** flag: Mongolia 🇲🇳 */
-    flagMongolia: string;
+    flagMongolia: "\uD83C\uDDF2\uD83C\uDDF3";
     /** flag: Montenegro 🇲🇪 */
-    flagMontenegro: string;
+    flagMontenegro: "\uD83C\uDDF2\uD83C\uDDEA";
     /** flag: Montserrat 🇲🇸 */
-    flagMontserrat: string;
+    flagMontserrat: "\uD83C\uDDF2\uD83C\uDDF8";
     /** flag: Morocco 🇲🇦 */
-    flagMorocco: string;
+    flagMorocco: "\uD83C\uDDF2\uD83C\uDDE6";
     /** flag: Mozambique 🇲🇿 */
-    flagMozambique: string;
+    flagMozambique: "\uD83C\uDDF2\uD83C\uDDFF";
     /** flag: Myanmar (Burma) 🇲🇲 */
-    flagMyanmarBurma: string;
+    flagMyanmarBurma: "\uD83C\uDDF2\uD83C\uDDF2";
     /** flag: Namibia 🇳🇦 */
-    flagNamibia: string;
+    flagNamibia: "\uD83C\uDDF3\uD83C\uDDE6";
     /** flag: Nauru 🇳🇷 */
-    flagNauru: string;
+    flagNauru: "\uD83C\uDDF3\uD83C\uDDF7";
     /** flag: Nepal 🇳🇵 */
-    flagNepal: string;
+    flagNepal: "\uD83C\uDDF3\uD83C\uDDF5";
     /** flag: Netherlands 🇳🇱 */
-    flagNetherlands: string;
+    flagNetherlands: "\uD83C\uDDF3\uD83C\uDDF1";
     /** flag: New Caledonia 🇳🇨 */
-    flagNewCaledonia: string;
+    flagNewCaledonia: "\uD83C\uDDF3\uD83C\uDDE8";
     /** flag: New Zealand 🇳🇿 */
-    flagNewZealand: string;
+    flagNewZealand: "\uD83C\uDDF3\uD83C\uDDFF";
     /** flag: Nicaragua 🇳🇮 */
-    flagNicaragua: string;
+    flagNicaragua: "\uD83C\uDDF3\uD83C\uDDEE";
     /** flag: Niger 🇳🇪 */
-    flagNiger: string;
+    flagNiger: "\uD83C\uDDF3\uD83C\uDDEA";
     /** flag: Nigeria 🇳🇬 */
-    flagNigeria: string;
+    flagNigeria: "\uD83C\uDDF3\uD83C\uDDEC";
     /** flag: Niue 🇳🇺 */
-    flagNiue: string;
+    flagNiue: "\uD83C\uDDF3\uD83C\uDDFA";
     /** flag: Norfolk Island 🇳🇫 */
-    flagNorfolkIsland: string;
+    flagNorfolkIsland: "\uD83C\uDDF3\uD83C\uDDEB";
     /** flag: Northern Mariana Islands 🇲🇵 */
-    flagNorthernMarianaIslands: string;
+    flagNorthernMarianaIslands: "\uD83C\uDDF2\uD83C\uDDF5";
     /** flag: North Korea 🇰🇵 */
-    flagNorthKorea: string;
+    flagNorthKorea: "\uD83C\uDDF0\uD83C\uDDF5";
     /** flag: North Macedonia 🇲🇰 */
-    flagNorthMacedonia: string;
+    flagNorthMacedonia: "\uD83C\uDDF2\uD83C\uDDF0";
     /** flag: Norway 🇳🇴 */
-    flagNorway: string;
+    flagNorway: "\uD83C\uDDF3\uD83C\uDDF4";
     /** flag: Oman 🇴🇲 */
-    flagOman: string;
+    flagOman: "\uD83C\uDDF4\uD83C\uDDF2";
     /** flag: Pakistan 🇵🇰 */
-    flagPakistan: string;
+    flagPakistan: "\uD83C\uDDF5\uD83C\uDDF0";
     /** flag: Palau 🇵🇼 */
-    flagPalau: string;
+    flagPalau: "\uD83C\uDDF5\uD83C\uDDFC";
     /** flag: Palestinian Territories 🇵🇸 */
-    flagPalestinianTerritories: string;
+    flagPalestinianTerritories: "\uD83C\uDDF5\uD83C\uDDF8";
     /** flag: Panama 🇵🇦 */
-    flagPanama: string;
+    flagPanama: "\uD83C\uDDF5\uD83C\uDDE6";
     /** flag: Papua New Guinea 🇵🇬 */
-    flagPapuaNewGuinea: string;
+    flagPapuaNewGuinea: "\uD83C\uDDF5\uD83C\uDDEC";
     /** flag: Paraguay 🇵🇾 */
-    flagParaguay: string;
+    flagParaguay: "\uD83C\uDDF5\uD83C\uDDFE";
     /** flag: Peru 🇵🇪 */
-    flagPeru: string;
+    flagPeru: "\uD83C\uDDF5\uD83C\uDDEA";
     /** flag: Philippines 🇵🇭 */
-    flagPhilippines: string;
+    flagPhilippines: "\uD83C\uDDF5\uD83C\uDDED";
     /** flag: Pitcairn Islands 🇵🇳 */
-    flagPitcairnIslands: string;
+    flagPitcairnIslands: "\uD83C\uDDF5\uD83C\uDDF3";
     /** flag: Poland 🇵🇱 */
-    flagPoland: string;
+    flagPoland: "\uD83C\uDDF5\uD83C\uDDF1";
     /** flag: Portugal 🇵🇹 */
-    flagPortugal: string;
+    flagPortugal: "\uD83C\uDDF5\uD83C\uDDF9";
     /** flag: Puerto Rico 🇵🇷 */
-    flagPuertoRico: string;
+    flagPuertoRico: "\uD83C\uDDF5\uD83C\uDDF7";
     /** flag: Qatar 🇶🇦 */
-    flagQatar: string;
+    flagQatar: "\uD83C\uDDF6\uD83C\uDDE6";
     /** flag: Réunion 🇷🇪 */
-    flagReunion: string;
+    flagReunion: "\uD83C\uDDF7\uD83C\uDDEA";
     /** flag: Romania 🇷🇴 */
-    flagRomania: string;
+    flagRomania: "\uD83C\uDDF7\uD83C\uDDF4";
     /** flag: Russia 🇷🇺 */
-    flagRussia: string;
+    flagRussia: "\uD83C\uDDF7\uD83C\uDDFA";
     /** flag: Rwanda 🇷🇼 */
-    flagRwanda: string;
+    flagRwanda: "\uD83C\uDDF7\uD83C\uDDFC";
     /** flag: Samoa 🇼🇸 */
-    flagSamoa: string;
+    flagSamoa: "\uD83C\uDDFC\uD83C\uDDF8";
     /** flag: San Marino 🇸🇲 */
-    flagSanMarino: string;
+    flagSanMarino: "\uD83C\uDDF8\uD83C\uDDF2";
     /** flag: São Tomé & Príncipe 🇸🇹 */
-    flagSaoTomeAndPrincipe: string;
+    flagSaoTomeAndPrincipe: "\uD83C\uDDF8\uD83C\uDDF9";
     /** ⊛ flag: Sark 🇨🇶 */
-    flagSark: string;
+    flagSark: "\uD83C\uDDE8\uD83C\uDDF6";
     /** flag: Saudi Arabia 🇸🇦 */
-    flagSaudiArabia: string;
+    flagSaudiArabia: "\uD83C\uDDF8\uD83C\uDDE6";
     /** flag: Scotland 🏴󠁧󠁢󠁳󠁣󠁴󠁿 */
-    flagScotland: string;
+    flagScotland: "\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC73\uDB40\uDC63\uDB40\uDC74\uDB40\uDC7F";
     /** flag: Senegal 🇸🇳 */
-    flagSenegal: string;
+    flagSenegal: "\uD83C\uDDF8\uD83C\uDDF3";
     /** flag: Serbia 🇷🇸 */
-    flagSerbia: string;
+    flagSerbia: "\uD83C\uDDF7\uD83C\uDDF8";
     /** flag: Seychelles 🇸🇨 */
-    flagSeychelles: string;
+    flagSeychelles: "\uD83C\uDDF8\uD83C\uDDE8";
     /** flag: Sierra Leone 🇸🇱 */
-    flagSierraLeone: string;
+    flagSierraLeone: "\uD83C\uDDF8\uD83C\uDDF1";
     /** flag: Singapore 🇸🇬 */
-    flagSingapore: string;
+    flagSingapore: "\uD83C\uDDF8\uD83C\uDDEC";
     /** flag: Sint Maarten 🇸🇽 */
-    flagSintMaarten: string;
+    flagSintMaarten: "\uD83C\uDDF8\uD83C\uDDFD";
     /** flag: Slovakia 🇸🇰 */
-    flagSlovakia: string;
+    flagSlovakia: "\uD83C\uDDF8\uD83C\uDDF0";
     /** flag: Slovenia 🇸🇮 */
-    flagSlovenia: string;
+    flagSlovenia: "\uD83C\uDDF8\uD83C\uDDEE";
     /** flag: Solomon Islands 🇸🇧 */
-    flagSolomonIslands: string;
+    flagSolomonIslands: "\uD83C\uDDF8\uD83C\uDDE7";
     /** flag: Somalia 🇸🇴 */
-    flagSomalia: string;
+    flagSomalia: "\uD83C\uDDF8\uD83C\uDDF4";
     /** flag: South Africa 🇿🇦 */
-    flagSouthAfrica: string;
+    flagSouthAfrica: "\uD83C\uDDFF\uD83C\uDDE6";
     /** flag: South Georgia & South Sandwich Islands 🇬🇸 */
-    flagSouthGeorgiaAndSouthSandwichIslands: string;
+    flagSouthGeorgiaAndSouthSandwichIslands: "\uD83C\uDDEC\uD83C\uDDF8";
     /** flag: South Korea 🇰🇷 */
-    flagSouthKorea: string;
+    flagSouthKorea: "\uD83C\uDDF0\uD83C\uDDF7";
     /** flag: South Sudan 🇸🇸 */
-    flagSouthSudan: string;
+    flagSouthSudan: "\uD83C\uDDF8\uD83C\uDDF8";
     /** flag: Spain 🇪🇸 */
-    flagSpain: string;
+    flagSpain: "\uD83C\uDDEA\uD83C\uDDF8";
     /** flag: Sri Lanka 🇱🇰 */
-    flagSriLanka: string;
+    flagSriLanka: "\uD83C\uDDF1\uD83C\uDDF0";
     /** flag: St. Barthélemy 🇧🇱 */
-    flagStBarthelemy: string;
+    flagStBarthelemy: "\uD83C\uDDE7\uD83C\uDDF1";
     /** flag: St. Helena 🇸🇭 */
-    flagStHelena: string;
+    flagStHelena: "\uD83C\uDDF8\uD83C\uDDED";
     /** flag: St. Kitts & Nevis 🇰🇳 */
-    flagStKittsAndNevis: string;
+    flagStKittsAndNevis: "\uD83C\uDDF0\uD83C\uDDF3";
     /** flag: St. Lucia 🇱🇨 */
-    flagStLucia: string;
+    flagStLucia: "\uD83C\uDDF1\uD83C\uDDE8";
     /** flag: St. Martin 🇲🇫 */
-    flagStMartin: string;
+    flagStMartin: "\uD83C\uDDF2\uD83C\uDDEB";
     /** flag: St. Pierre & Miquelon 🇵🇲 */
-    flagStPierreAndMiquelon: string;
+    flagStPierreAndMiquelon: "\uD83C\uDDF5\uD83C\uDDF2";
     /** flag: St. Vincent & Grenadines 🇻🇨 */
-    flagStVincentAndGrenadines: string;
+    flagStVincentAndGrenadines: "\uD83C\uDDFB\uD83C\uDDE8";
     /** flag: Sudan 🇸🇩 */
-    flagSudan: string;
+    flagSudan: "\uD83C\uDDF8\uD83C\uDDE9";
     /** flag: Suriname 🇸🇷 */
-    flagSuriname: string;
+    flagSuriname: "\uD83C\uDDF8\uD83C\uDDF7";
     /** flag: Svalbard & Jan Mayen 🇸🇯 */
-    flagSvalbardAndJanMayen: string;
+    flagSvalbardAndJanMayen: "\uD83C\uDDF8\uD83C\uDDEF";
     /** flag: Sweden 🇸🇪 */
-    flagSweden: string;
+    flagSweden: "\uD83C\uDDF8\uD83C\uDDEA";
     /** flag: Switzerland 🇨🇭 */
-    flagSwitzerland: string;
+    flagSwitzerland: "\uD83C\uDDE8\uD83C\uDDED";
     /** flag: Syria 🇸🇾 */
-    flagSyria: string;
+    flagSyria: "\uD83C\uDDF8\uD83C\uDDFE";
     /** flag: Taiwan 🇹🇼 */
-    flagTaiwan: string;
+    flagTaiwan: "\uD83C\uDDF9\uD83C\uDDFC";
     /** flag: Tajikistan 🇹🇯 */
-    flagTajikistan: string;
+    flagTajikistan: "\uD83C\uDDF9\uD83C\uDDEF";
     /** flag: Tanzania 🇹🇿 */
-    flagTanzania: string;
+    flagTanzania: "\uD83C\uDDF9\uD83C\uDDFF";
     /** flag: Thailand 🇹🇭 */
-    flagThailand: string;
+    flagThailand: "\uD83C\uDDF9\uD83C\uDDED";
     /** flag: Timor-Leste 🇹🇱 */
-    flagTimorLeste: string;
+    flagTimorLeste: "\uD83C\uDDF9\uD83C\uDDF1";
     /** flag: Togo 🇹🇬 */
-    flagTogo: string;
+    flagTogo: "\uD83C\uDDF9\uD83C\uDDEC";
     /** flag: Tokelau 🇹🇰 */
-    flagTokelau: string;
+    flagTokelau: "\uD83C\uDDF9\uD83C\uDDF0";
     /** flag: Tonga 🇹🇴 */
-    flagTonga: string;
+    flagTonga: "\uD83C\uDDF9\uD83C\uDDF4";
     /** flag: Trinidad & Tobago 🇹🇹 */
-    flagTrinidadAndTobago: string;
+    flagTrinidadAndTobago: "\uD83C\uDDF9\uD83C\uDDF9";
     /** flag: Tristan da Cunha 🇹🇦 */
-    flagTristanDaCunha: string;
+    flagTristanDaCunha: "\uD83C\uDDF9\uD83C\uDDE6";
     /** flag: Tunisia 🇹🇳 */
-    flagTunisia: string;
+    flagTunisia: "\uD83C\uDDF9\uD83C\uDDF3";
     /** flag: Türkiye 🇹🇷 */
-    flagTurkiye: string;
+    flagTurkiye: "\uD83C\uDDF9\uD83C\uDDF7";
     /** flag: Turkmenistan 🇹🇲 */
-    flagTurkmenistan: string;
+    flagTurkmenistan: "\uD83C\uDDF9\uD83C\uDDF2";
     /** flag: Turks & Caicos Islands 🇹🇨 */
-    flagTurksAndCaicosIslands: string;
+    flagTurksAndCaicosIslands: "\uD83C\uDDF9\uD83C\uDDE8";
     /** flag: Tuvalu 🇹🇻 */
-    flagTuvalu: string;
+    flagTuvalu: "\uD83C\uDDF9\uD83C\uDDFB";
     /** flag: Uganda 🇺🇬 */
-    flagUganda: string;
+    flagUganda: "\uD83C\uDDFA\uD83C\uDDEC";
     /** flag: Ukraine 🇺🇦 */
-    flagUkraine: string;
+    flagUkraine: "\uD83C\uDDFA\uD83C\uDDE6";
     /** flag: United Arab Emirates 🇦🇪 */
-    flagUnitedArabEmirates: string;
+    flagUnitedArabEmirates: "\uD83C\uDDE6\uD83C\uDDEA";
     /** flag: United Kingdom 🇬🇧 */
-    flagUnitedKingdom: string;
+    flagUnitedKingdom: "\uD83C\uDDEC\uD83C\uDDE7";
     /** flag: United Nations 🇺🇳 */
-    flagUnitedNations: string;
+    flagUnitedNations: "\uD83C\uDDFA\uD83C\uDDF3";
     /** flag: United States 🇺🇸 */
-    flagUnitedStates: string;
+    flagUnitedStates: "\uD83C\uDDFA\uD83C\uDDF8";
     /** flag: Uruguay 🇺🇾 */
-    flagUruguay: string;
+    flagUruguay: "\uD83C\uDDFA\uD83C\uDDFE";
     /** flag: U.S. Outlying Islands 🇺🇲 */
-    flagUSOutlyingIslands: string;
+    flagUSOutlyingIslands: "\uD83C\uDDFA\uD83C\uDDF2";
     /** flag: U.S. Virgin Islands 🇻🇮 */
-    flagUSVirginIslands: string;
+    flagUSVirginIslands: "\uD83C\uDDFB\uD83C\uDDEE";
     /** flag: Uzbekistan 🇺🇿 */
-    flagUzbekistan: string;
+    flagUzbekistan: "\uD83C\uDDFA\uD83C\uDDFF";
     /** flag: Vanuatu 🇻🇺 */
-    flagVanuatu: string;
+    flagVanuatu: "\uD83C\uDDFB\uD83C\uDDFA";
     /** flag: Vatican City 🇻🇦 */
-    flagVaticanCity: string;
+    flagVaticanCity: "\uD83C\uDDFB\uD83C\uDDE6";
     /** flag: Venezuela 🇻🇪 */
-    flagVenezuela: string;
+    flagVenezuela: "\uD83C\uDDFB\uD83C\uDDEA";
     /** flag: Vietnam 🇻🇳 */
-    flagVietnam: string;
+    flagVietnam: "\uD83C\uDDFB\uD83C\uDDF3";
     /** flag: Wales 🏴󠁧󠁢󠁷󠁬󠁳󠁿 */
-    flagWales: string;
+    flagWales: "\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC77\uDB40\uDC6C\uDB40\uDC73\uDB40\uDC7F";
     /** flag: Wallis & Futuna 🇼🇫 */
-    flagWallisAndFutuna: string;
+    flagWallisAndFutuna: "\uD83C\uDDFC\uD83C\uDDEB";
     /** flag: Western Sahara 🇪🇭 */
-    flagWesternSahara: string;
+    flagWesternSahara: "\uD83C\uDDEA\uD83C\uDDED";
     /** flag: Yemen 🇾🇪 */
-    flagYemen: string;
+    flagYemen: "\uD83C\uDDFE\uD83C\uDDEA";
     /** flag: Zambia 🇿🇲 */
-    flagZambia: string;
+    flagZambia: "\uD83C\uDDFF\uD83C\uDDF2";
     /** flag: Zimbabwe 🇿🇼 */
-    flagZimbabwe: string;
+    flagZimbabwe: "\uD83C\uDDFF\uD83C\uDDFC";
     /** flamingo 🦩 */
-    flamingo: string;
+    flamingo: "\uD83E\uDDA9";
     /** flashlight 🔦 */
-    flashlight: string;
+    flashlight: "\uD83D\uDD26";
     /** flatbread 🫓 */
-    flatbread: string;
+    flatbread: "\uD83E\uDED3";
     /** flat shoe 🥿 */
-    flatShoe: string;
+    flatShoe: "\uD83E\uDD7F";
     /** fleur-de-lis ⚜ */
-    fleurDeLis: string;
+    fleurDeLis: "\u269C";
     /** flexed biceps 💪 */
-    flexedBiceps: string;
+    flexedBiceps: "\uD83D\uDCAA";
     /** floppy disk 💾 */
-    floppyDisk: string;
+    floppyDisk: "\uD83D\uDCBE";
     /** flower playing cards 🎴 */
-    flowerPlayingCards: string;
+    flowerPlayingCards: "\uD83C\uDFB4";
     /** flushed face 😳 */
-    flushedFace: string;
+    flushedFace: "\uD83D\uDE33";
     /** flute 🪈 */
-    flute: string;
+    flute: "\uD83E\uDE88";
     /** fly 🪰 */
-    fly: string;
+    fly: "\uD83E\uDEB0";
     /** flying disc 🥏 */
-    flyingDisc: string;
+    flyingDisc: "\uD83E\uDD4F";
     /** flying saucer 🛸 */
-    flyingSaucer: string;
+    flyingSaucer: "\uD83D\uDEF8";
     /** fog 🌫 */
-    fog: string;
+    fog: "\uD83C\uDF2B";
     /** foggy 🌁 */
-    foggy: string;
+    foggy: "\uD83C\uDF01";
     /** folded hands 🙏 */
-    foldedHands: string;
+    foldedHands: "\uD83D\uDE4F";
     /** folding hand fan 🪭 */
-    foldingHandFan: string;
+    foldingHandFan: "\uD83E\uDEAD";
     /** fondue 🫕 */
-    fondue: string;
+    fondue: "\uD83E\uDED5";
     /** foot 🦶 */
-    foot: string;
+    foot: "\uD83E\uDDB6";
     /** footprints 👣 */
-    footprints: string;
+    footprints: "\uD83D\uDC63";
     /** fork and knife 🍴 */
-    forkAndKnife: string;
+    forkAndKnife: "\uD83C\uDF74";
     /** fork and knife with plate 🍽 */
-    forkAndKnifeWithPlate: string;
+    forkAndKnifeWithPlate: "\uD83C\uDF7D";
     /** fortune cookie 🥠 */
-    fortuneCookie: string;
+    fortuneCookie: "\uD83E\uDD60";
     /** fountain ⛲ */
-    fountain: string;
+    fountain: "\u26F2";
     /** fountain pen 🖋 */
-    fountainPen: string;
+    fountainPen: "\uD83D\uDD8B";
     /** four leaf clover 🍀 */
-    fourLeafClover: string;
+    fourLeafClover: "\uD83C\uDF40";
     /** four o’clock 🕓 */
-    fourOclock: string;
+    fourOclock: "\uD83D\uDD53";
     /** four-thirty 🕟 */
-    fourThirty: string;
+    fourThirty: "\uD83D\uDD5F";
     /** fox 🦊 */
-    fox: string;
+    fox: "\uD83E\uDD8A";
     /** framed picture 🖼 */
-    framedPicture: string;
+    framedPicture: "\uD83D\uDDBC";
     /** FREE button 🆓 */
-    freeButton: string;
+    freeButton: "\uD83C\uDD93";
     /** french fries 🍟 */
-    frenchFries: string;
+    frenchFries: "\uD83C\uDF5F";
     /** fried shrimp 🍤 */
-    friedShrimp: string;
+    friedShrimp: "\uD83C\uDF64";
     /** frog 🐸 */
-    frog: string;
+    frog: "\uD83D\uDC38";
     /** front-facing baby chick 🐥 */
-    frontFacingBabyChick: string;
+    frontFacingBabyChick: "\uD83D\uDC25";
     /** frowning face ☹ */
-    frowningFace: string;
+    frowningFace: "\u2639";
     /** frowning face with open mouth 😦 */
-    frowningFaceWithOpenMouth: string;
+    frowningFaceWithOpenMouth: "\uD83D\uDE26";
     /** fuel pump ⛽ */
-    fuelPump: string;
+    fuelPump: "\u26FD";
     /** full moon 🌕 */
-    fullMoon: string;
+    fullMoon: "\uD83C\uDF15";
     /** full moon face 🌝 */
-    fullMoonFace: string;
+    fullMoonFace: "\uD83C\uDF1D";
     /** funeral urn ⚱ */
-    funeralUrn: string;
+    funeralUrn: "\u26B1";
     /** game die 🎲 */
-    gameDie: string;
+    gameDie: "\uD83C\uDFB2";
     /** garlic 🧄 */
-    garlic: string;
+    garlic: "\uD83E\uDDC4";
     /** gear ⚙ */
-    gear: string;
+    gear: "\u2699";
     /** Gemini ♊ */
-    gemini: string;
+    gemini: "\u264A";
     /** gem stone 💎 */
-    gemStone: string;
+    gemStone: "\uD83D\uDC8E";
     /** genie 🧞 */
-    genie: string;
+    genie: "\uD83E\uDDDE";
     /** ghost 👻 */
-    ghost: string;
+    ghost: "\uD83D\uDC7B";
     /** ginger root 🫚 */
-    gingerRoot: string;
+    gingerRoot: "\uD83E\uDEDA";
     /** giraffe 🦒 */
-    giraffe: string;
+    giraffe: "\uD83E\uDD92";
     /** girl 👧 */
-    girl: string;
+    girl: "\uD83D\uDC67";
     /** glasses 👓 */
-    glasses: string;
+    glasses: "\uD83D\uDC53";
     /** glass of milk 🥛 */
-    glassOfMilk: string;
+    glassOfMilk: "\uD83E\uDD5B";
     /** globe showing Americas 🌎 */
-    globeShowingAmericas: string;
+    globeShowingAmericas: "\uD83C\uDF0E";
     /** globe showing Asia-Australia 🌏 */
-    globeShowingAsiaAustralia: string;
+    globeShowingAsiaAustralia: "\uD83C\uDF0F";
     /** globe showing Europe-Africa 🌍 */
-    globeShowingEuropeAfrica: string;
+    globeShowingEuropeAfrica: "\uD83C\uDF0D";
     /** globe with meridians 🌐 */
-    globeWithMeridians: string;
+    globeWithMeridians: "\uD83C\uDF10";
     /** gloves 🧤 */
-    gloves: string;
+    gloves: "\uD83E\uDDE4";
     /** glowing star 🌟 */
-    glowingStar: string;
+    glowingStar: "\uD83C\uDF1F";
     /** goal net 🥅 */
-    goalNet: string;
+    goalNet: "\uD83E\uDD45";
     /** goat 🐐 */
-    goat: string;
+    goat: "\uD83D\uDC10";
     /** goblin 👺 */
-    goblin: string;
+    goblin: "\uD83D\uDC7A";
     /** goggles 🥽 */
-    goggles: string;
+    goggles: "\uD83E\uDD7D";
     /** goose 🪿 */
-    goose: string;
+    goose: "\uD83E\uDEBF";
     /** gorilla 🦍 */
-    gorilla: string;
+    gorilla: "\uD83E\uDD8D";
     /** graduation cap 🎓 */
-    graduationCap: string;
+    graduationCap: "\uD83C\uDF93";
     /** grapes 🍇 */
-    grapes: string;
+    grapes: "\uD83C\uDF47";
     /** green apple 🍏 */
-    greenApple: string;
+    greenApple: "\uD83C\uDF4F";
     /** green book 📗 */
-    greenBook: string;
+    greenBook: "\uD83D\uDCD7";
     /** green circle 🟢 */
-    greenCircle: string;
+    greenCircle: "\uD83D\uDFE2";
     /** green heart 💚 */
-    greenHeart: string;
+    greenHeart: "\uD83D\uDC9A";
     /** green salad 🥗 */
-    greenSalad: string;
+    greenSalad: "\uD83E\uDD57";
     /** green square 🟩 */
-    greenSquare: string;
+    greenSquare: "\uD83D\uDFE9";
     /** grey heart 🩶 */
-    greyHeart: string;
+    greyHeart: "\uD83E\uDE76";
     /** grimacing face 😬 */
-    grimacingFace: string;
+    grimacingFace: "\uD83D\uDE2C";
     /** grinning cat 😺 */
-    grinningCat: string;
+    grinningCat: "\uD83D\uDE3A";
     /** grinning cat with smiling eyes 😸 */
-    grinningCatWithSmilingEyes: string;
+    grinningCatWithSmilingEyes: "\uD83D\uDE38";
     /** grinning face 😀 */
-    grinningFace: string;
+    grinningFace: "\uD83D\uDE00";
     /** grinning face with big eyes 😃 */
-    grinningFaceWithBigEyes: string;
+    grinningFaceWithBigEyes: "\uD83D\uDE03";
     /** grinning face with smiling eyes 😄 */
-    grinningFaceWithSmilingEyes: string;
+    grinningFaceWithSmilingEyes: "\uD83D\uDE04";
     /** grinning face with sweat 😅 */
-    grinningFaceWithSweat: string;
+    grinningFaceWithSweat: "\uD83D\uDE05";
     /** grinning squinting face 😆 */
-    grinningSquintingFace: string;
+    grinningSquintingFace: "\uD83D\uDE06";
     /** growing heart 💗 */
-    growingHeart: string;
+    growingHeart: "\uD83D\uDC97";
     /** guard 💂 */
-    guard: string;
+    guard: "\uD83D\uDC82";
     /** guide dog 🦮 */
-    guideDog: string;
+    guideDog: "\uD83E\uDDAE";
     /** guitar 🎸 */
-    guitar: string;
+    guitar: "\uD83C\uDFB8";
     /** hair pick 🪮 */
-    hairPick: string;
+    hairPick: "\uD83E\uDEAE";
     /** hamburger 🍔 */
-    hamburger: string;
+    hamburger: "\uD83C\uDF54";
     /** hammer 🔨 */
-    hammer: string;
+    hammer: "\uD83D\uDD28";
     /** hammer and pick ⚒ */
-    hammerAndPick: string;
+    hammerAndPick: "\u2692";
     /** hammer and wrench 🛠 */
-    hammerAndWrench: string;
+    hammerAndWrench: "\uD83D\uDEE0";
     /** hamsa 🪬 */
-    hamsa: string;
+    hamsa: "\uD83E\uDEAC";
     /** hamster 🐹 */
-    hamster: string;
+    hamster: "\uD83D\uDC39";
     /** handbag 👜 */
-    handbag: string;
+    handbag: "\uD83D\uDC5C";
     /** handshake 🤝 */
-    handshake: string;
+    handshake: "\uD83E\uDD1D";
     /** hand with fingers splayed 🖐 */
-    handWithFingersSplayed: string;
+    handWithFingersSplayed: "\uD83D\uDD90";
     /** hand with index finger and thumb crossed 🫰 */
-    handWithIndexFingerAndThumbCrossed: string;
+    handWithIndexFingerAndThumbCrossed: "\uD83E\uDEF0";
     /** ⊛ harp 🪉 */
-    harp: string;
+    harp: "\uD83E\uDE89";
     /** hatching chick 🐣 */
-    hatchingChick: string;
+    hatchingChick: "\uD83D\uDC23";
     /** headphone 🎧 */
-    headphone: string;
+    headphone: "\uD83C\uDFA7";
     /** head shaking horizontally 🙂‍↔️ */
-    headShakingHorizontally: string;
+    headShakingHorizontally: "\uD83D\uDE42\u200D\u2194\uFE0F";
     /** head shaking vertically 🙂‍↕️ */
-    headShakingVertically: string;
+    headShakingVertically: "\uD83D\uDE42\u200D\u2195\uFE0F";
     /** headstone 🪦 */
-    headstone: string;
+    headstone: "\uD83E\uDEA6";
     /** health worker 🧑‍⚕️ */
-    healthWorker: string;
+    healthWorker: "\uD83E\uDDD1\u200D\u2695\uFE0F";
     /** hear-no-evil monkey 🙉 */
-    hearNoEvilMonkey: string;
+    hearNoEvilMonkey: "\uD83D\uDE49";
     /** heart decoration 💟 */
-    heartDecoration: string;
+    heartDecoration: "\uD83D\uDC9F";
     /** heart exclamation ❣ */
-    heartExclamation: string;
+    heartExclamation: "\u2763";
     /** heart hands 🫶 */
-    heartHands: string;
+    heartHands: "\uD83E\uDEF6";
     /** heart on fire ❤️‍🔥 */
-    heartOnFire: string;
+    heartOnFire: "\u2764\uFE0F\u200D\uD83D\uDD25";
     /** heart suit ♥ */
-    heartSuit: string;
+    heartSuit: "\u2665";
     /** heart with arrow 💘 */
-    heartWithArrow: string;
+    heartWithArrow: "\uD83D\uDC98";
     /** heart with ribbon 💝 */
-    heartWithRibbon: string;
+    heartWithRibbon: "\uD83D\uDC9D";
     /** heavy dollar sign 💲 */
-    heavyDollarSign: string;
+    heavyDollarSign: "\uD83D\uDCB2";
     /** heavy equals sign 🟰 */
-    heavyEqualsSign: string;
+    heavyEqualsSign: "\uD83D\uDFF0";
     /** hedgehog 🦔 */
-    hedgehog: string;
+    hedgehog: "\uD83E\uDD94";
     /** helicopter 🚁 */
-    helicopter: string;
+    helicopter: "\uD83D\uDE81";
     /** herb 🌿 */
-    herb: string;
+    herb: "\uD83C\uDF3F";
     /** hibiscus 🌺 */
-    hibiscus: string;
+    hibiscus: "\uD83C\uDF3A";
     /** high-heeled shoe 👠 */
-    highHeeledShoe: string;
+    highHeeledShoe: "\uD83D\uDC60";
     /** high-speed train 🚄 */
-    highSpeedTrain: string;
+    highSpeedTrain: "\uD83D\uDE84";
     /** high voltage ⚡ */
-    highVoltage: string;
+    highVoltage: "\u26A1";
     /** hiking boot 🥾 */
-    hikingBoot: string;
+    hikingBoot: "\uD83E\uDD7E";
     /** hindu temple 🛕 */
-    hinduTemple: string;
+    hinduTemple: "\uD83D\uDED5";
     /** hippopotamus 🦛 */
-    hippopotamus: string;
+    hippopotamus: "\uD83E\uDD9B";
     /** hole 🕳 */
-    hole: string;
+    hole: "\uD83D\uDD73";
     /** hollow red circle ⭕ */
-    hollowRedCircle: string;
+    hollowRedCircle: "\u2B55";
     /** honeybee 🐝 */
-    honeybee: string;
+    honeybee: "\uD83D\uDC1D";
     /** honey pot 🍯 */
-    honeyPot: string;
+    honeyPot: "\uD83C\uDF6F";
     /** hook 🪝 */
-    hook: string;
+    hook: "\uD83E\uDE9D";
     /** horizontal traffic light 🚥 */
-    horizontalTrafficLight: string;
+    horizontalTrafficLight: "\uD83D\uDEA5";
     /** horse 🐎 */
-    horse: string;
+    horse: "\uD83D\uDC0E";
     /** horse face 🐴 */
-    horseFace: string;
+    horseFace: "\uD83D\uDC34";
     /** horse racing 🏇 */
-    horseRacing: string;
+    horseRacing: "\uD83C\uDFC7";
     /** hospital 🏥 */
-    hospital: string;
+    hospital: "\uD83C\uDFE5";
     /** hot beverage ☕ */
-    hotBeverage: string;
+    hotBeverage: "\u2615";
     /** hot dog 🌭 */
-    hotDog: string;
+    hotDog: "\uD83C\uDF2D";
     /** hotel 🏨 */
-    hotel: string;
+    hotel: "\uD83C\uDFE8";
     /** hot face 🥵 */
-    hotFace: string;
+    hotFace: "\uD83E\uDD75";
     /** hot pepper 🌶 */
-    hotPepper: string;
+    hotPepper: "\uD83C\uDF36";
     /** hot springs ♨ */
-    hotSprings: string;
+    hotSprings: "\u2668";
     /** hourglass done ⌛ */
-    hourglassDone: string;
+    hourglassDone: "\u231B";
     /** hourglass not done ⏳ */
-    hourglassNotDone: string;
+    hourglassNotDone: "\u23F3";
     /** house 🏠 */
-    house: string;
+    house: "\uD83C\uDFE0";
     /** houses 🏘 */
-    houses: string;
+    houses: "\uD83C\uDFD8";
     /** house with garden 🏡 */
-    houseWithGarden: string;
+    houseWithGarden: "\uD83C\uDFE1";
     /** hundred points 💯 */
-    hundredPoints: string;
+    hundredPoints: "\uD83D\uDCAF";
     /** hushed face 😯 */
-    hushedFace: string;
+    hushedFace: "\uD83D\uDE2F";
     /** hut 🛖 */
-    hut: string;
+    hut: "\uD83D\uDED6";
     /** hyacinth 🪻 */
-    hyacinth: string;
+    hyacinth: "\uD83E\uDEBB";
     /** ice 🧊 */
-    ice: string;
+    ice: "\uD83E\uDDCA";
     /** ice cream 🍨 */
-    iceCream: string;
+    iceCream: "\uD83C\uDF68";
     /** ice hockey 🏒 */
-    iceHockey: string;
+    iceHockey: "\uD83C\uDFD2";
     /** ice skate ⛸ */
-    iceSkate: string;
+    iceSkate: "\u26F8";
     /** ID button 🆔 */
-    idButton: string;
+    idButton: "\uD83C\uDD94";
     /** identification card 🪪 */
-    identificationCard: string;
+    identificationCard: "\uD83E\uDEAA";
     /** inbox tray 📥 */
-    inboxTray: string;
+    inboxTray: "\uD83D\uDCE5";
     /** incoming envelope 📨 */
-    incomingEnvelope: string;
+    incomingEnvelope: "\uD83D\uDCE8";
     /** index pointing at the viewer 🫵 */
-    indexPointingAtTheViewer: string;
+    indexPointingAtTheViewer: "\uD83E\uDEF5";
     /** index pointing up ☝ */
-    indexPointingUp: string;
+    indexPointingUp: "\u261D";
     /** infinity ♾ */
-    infinity: string;
+    infinity: "\u267E";
     /** information ℹ */
-    information: string;
+    information: "\u2139";
     /** input latin letters 🔤 */
-    inputLatinLetters: string;
+    inputLatinLetters: "\uD83D\uDD24";
     /** input latin lowercase 🔡 */
-    inputLatinLowercase: string;
+    inputLatinLowercase: "\uD83D\uDD21";
     /** input latin uppercase 🔠 */
-    inputLatinUppercase: string;
+    inputLatinUppercase: "\uD83D\uDD20";
     /** input numbers 🔢 */
-    inputNumbers: string;
+    inputNumbers: "\uD83D\uDD22";
     /** input symbols 🔣 */
-    inputSymbols: string;
+    inputSymbols: "\uD83D\uDD23";
     /** jack-o-lantern 🎃 */
-    jackOLantern: string;
+    jackOLantern: "\uD83C\uDF83";
     /** Japanese “acceptable” button 🉑 */
-    japaneseAcceptableButton: string;
+    japaneseAcceptableButton: "\uD83C\uDE51";
     /** Japanese “application” button 🈸 */
-    japaneseApplicationButton: string;
+    japaneseApplicationButton: "\uD83C\uDE38";
     /** Japanese “bargain” button 🉐 */
-    japaneseBargainButton: string;
+    japaneseBargainButton: "\uD83C\uDE50";
     /** Japanese castle 🏯 */
-    japaneseCastle: string;
+    japaneseCastle: "\uD83C\uDFEF";
     /** Japanese “congratulations” button ㊗ */
-    japaneseCongratulationsButton: string;
+    japaneseCongratulationsButton: "\u3297";
     /** Japanese “discount” button 🈹 */
-    japaneseDiscountButton: string;
+    japaneseDiscountButton: "\uD83C\uDE39";
     /** Japanese dolls 🎎 */
-    japaneseDolls: string;
+    japaneseDolls: "\uD83C\uDF8E";
     /** Japanese “free of charge” button 🈚 */
-    japaneseFreeOfChargeButton: string;
+    japaneseFreeOfChargeButton: "\uD83C\uDE1A";
     /** Japanese “here” button 🈁 */
-    japaneseHereButton: string;
+    japaneseHereButton: "\uD83C\uDE01";
     /** Japanese “monthly amount” button 🈷 */
-    japaneseMonthlyAmountButton: string;
+    japaneseMonthlyAmountButton: "\uD83C\uDE37";
     /** Japanese “not free of charge” button 🈶 */
-    japaneseNotFreeOfChargeButton: string;
+    japaneseNotFreeOfChargeButton: "\uD83C\uDE36";
     /** Japanese “no vacancy” button 🈵 */
-    japaneseNoVacancyButton: string;
+    japaneseNoVacancyButton: "\uD83C\uDE35";
     /** Japanese “open for business” button 🈺 */
-    japaneseOpenForBusinessButton: string;
+    japaneseOpenForBusinessButton: "\uD83C\uDE3A";
     /** Japanese “passing grade” button 🈴 */
-    japanesePassingGradeButton: string;
+    japanesePassingGradeButton: "\uD83C\uDE34";
     /** Japanese post office 🏣 */
-    japanesePostOffice: string;
+    japanesePostOffice: "\uD83C\uDFE3";
     /** Japanese “prohibited” button 🈲 */
-    japaneseProhibitedButton: string;
+    japaneseProhibitedButton: "\uD83C\uDE32";
     /** Japanese “reserved” button 🈯 */
-    japaneseReservedButton: string;
+    japaneseReservedButton: "\uD83C\uDE2F";
     /** Japanese “secret” button ㊙ */
-    japaneseSecretButton: string;
+    japaneseSecretButton: "\u3299";
     /** Japanese “service charge” button 🈂 */
-    japaneseServiceChargeButton: string;
+    japaneseServiceChargeButton: "\uD83C\uDE02";
     /** Japanese symbol for beginner 🔰 */
-    japaneseSymbolForBeginner: string;
+    japaneseSymbolForBeginner: "\uD83D\uDD30";
     /** Japanese “vacancy” button 🈳 */
-    japaneseVacancyButton: string;
+    japaneseVacancyButton: "\uD83C\uDE33";
     /** jar 🫙 */
-    jar: string;
+    jar: "\uD83E\uDED9";
     /** jeans 👖 */
-    jeans: string;
+    jeans: "\uD83D\uDC56";
     /** jellyfish 🪼 */
-    jellyfish: string;
+    jellyfish: "\uD83E\uDEBC";
     /** joker 🃏 */
-    joker: string;
+    joker: "\uD83C\uDCCF";
     /** joystick 🕹 */
-    joystick: string;
+    joystick: "\uD83D\uDD79";
     /** judge 🧑‍⚖️ */
-    judge: string;
+    judge: "\uD83E\uDDD1\u200D\u2696\uFE0F";
     /** kaaba 🕋 */
-    kaaba: string;
+    kaaba: "\uD83D\uDD4B";
     /** kangaroo 🦘 */
-    kangaroo: string;
+    kangaroo: "\uD83E\uDD98";
     /** key 🔑 */
-    key: string;
+    key: "\uD83D\uDD11";
     /** keyboard ⌨ */
-    keyboard: string;
+    keyboard: "\u2328";
     /** keycap: 0 0️⃣ */
-    keycap0: string;
+    keycap0: "0\uFE0F\u20E3";
     /** keycap: 1 1️⃣ */
-    keycap1: string;
+    keycap1: "1\uFE0F\u20E3";
     /** keycap: 10 🔟 */
-    keycap10: string;
+    keycap10: "\uD83D\uDD1F";
     /** keycap: 2 2️⃣ */
-    keycap2: string;
+    keycap2: "2\uFE0F\u20E3";
     /** keycap: 3 3️⃣ */
-    keycap3: string;
+    keycap3: "3\uFE0F\u20E3";
     /** keycap: 4 4️⃣ */
-    keycap4: string;
+    keycap4: "4\uFE0F\u20E3";
     /** keycap: 5 5️⃣ */
-    keycap5: string;
+    keycap5: "5\uFE0F\u20E3";
     /** keycap: 6 6️⃣ */
-    keycap6: string;
+    keycap6: "6\uFE0F\u20E3";
     /** keycap: 7 7️⃣ */
-    keycap7: string;
+    keycap7: "7\uFE0F\u20E3";
     /** keycap: 8 8️⃣ */
-    keycap8: string;
+    keycap8: "8\uFE0F\u20E3";
     /** keycap: 9 9️⃣ */
-    keycap9: string;
+    keycap9: "9\uFE0F\u20E3";
     /** keycap: * *️⃣ */
-    keycapAsterisk: string;
+    keycapAsterisk: "*\uFE0F\u20E3";
     /** keycap: # #️⃣ */
-    keycapHash: string;
+    keycapHash: "#\uFE0F\u20E3";
     /** khanda 🪯 */
-    khanda: string;
+    khanda: "\uD83E\uDEAF";
     /** kick scooter 🛴 */
-    kickScooter: string;
+    kickScooter: "\uD83D\uDEF4";
     /** kimono 👘 */
-    kimono: string;
+    kimono: "\uD83D\uDC58";
     /** kiss 💏 */
-    kiss: string;
+    kiss: "\uD83D\uDC8F";
     /** kissing cat 😽 */
-    kissingCat: string;
+    kissingCat: "\uD83D\uDE3D";
     /** kissing face 😗 */
-    kissingFace: string;
+    kissingFace: "\uD83D\uDE17";
     /** kissing face with closed eyes 😚 */
-    kissingFaceWithClosedEyes: string;
+    kissingFaceWithClosedEyes: "\uD83D\uDE1A";
     /** kissing face with smiling eyes 😙 */
-    kissingFaceWithSmilingEyes: string;
+    kissingFaceWithSmilingEyes: "\uD83D\uDE19";
     /** kiss: man, man 👨‍❤️‍💋‍👨 */
-    kissManMan: string;
+    kissManMan: "\uD83D\uDC68\u200D\u2764\uFE0F\u200D\uD83D\uDC8B\u200D\uD83D\uDC68";
     /** kiss mark 💋 */
-    kissMark: string;
+    kissMark: "\uD83D\uDC8B";
     /** kiss: woman, man 👩‍❤️‍💋‍👨 */
-    kissWomanMan: string;
+    kissWomanMan: "\uD83D\uDC69\u200D\u2764\uFE0F\u200D\uD83D\uDC8B\u200D\uD83D\uDC68";
     /** kiss: woman, woman 👩‍❤️‍💋‍👩 */
-    kissWomanWoman: string;
+    kissWomanWoman: "\uD83D\uDC69\u200D\u2764\uFE0F\u200D\uD83D\uDC8B\u200D\uD83D\uDC69";
     /** kitchen knife 🔪 */
-    kitchenKnife: string;
+    kitchenKnife: "\uD83D\uDD2A";
     /** kite 🪁 */
-    kite: string;
+    kite: "\uD83E\uDE81";
     /** kiwi fruit 🥝 */
-    kiwiFruit: string;
+    kiwiFruit: "\uD83E\uDD5D";
     /** knot 🪢 */
-    knot: string;
+    knot: "\uD83E\uDEA2";
     /** koala 🐨 */
-    koala: string;
+    koala: "\uD83D\uDC28";
     /** lab coat 🥼 */
-    labCoat: string;
+    labCoat: "\uD83E\uDD7C";
     /** label 🏷 */
-    label: string;
+    label: "\uD83C\uDFF7";
     /** lacrosse 🥍 */
-    lacrosse: string;
+    lacrosse: "\uD83E\uDD4D";
     /** ladder 🪜 */
-    ladder: string;
+    ladder: "\uD83E\uDE9C";
     /** lady beetle 🐞 */
-    ladyBeetle: string;
+    ladyBeetle: "\uD83D\uDC1E";
     /** laptop 💻 */
-    laptop: string;
+    laptop: "\uD83D\uDCBB";
     /** large blue diamond 🔷 */
-    largeBlueDiamond: string;
+    largeBlueDiamond: "\uD83D\uDD37";
     /** large orange diamond 🔶 */
-    largeOrangeDiamond: string;
+    largeOrangeDiamond: "\uD83D\uDD36";
     /** last quarter moon 🌗 */
-    lastQuarterMoon: string;
+    lastQuarterMoon: "\uD83C\uDF17";
     /** last quarter moon face 🌜 */
-    lastQuarterMoonFace: string;
+    lastQuarterMoonFace: "\uD83C\uDF1C";
     /** last track button ⏮ */
-    lastTrackButton: string;
+    lastTrackButton: "\u23EE";
     /** latin cross ✝ */
-    latinCross: string;
+    latinCross: "\u271D";
     /** leaf fluttering in wind 🍃 */
-    leafFlutteringInWind: string;
+    leafFlutteringInWind: "\uD83C\uDF43";
     /** ⊛ leafless tree 🪾 */
-    leaflessTree: string;
+    leaflessTree: "\uD83E\uDEBE";
     /** leafy green 🥬 */
-    leafyGreen: string;
+    leafyGreen: "\uD83E\uDD6C";
     /** ledger 📒 */
-    ledger: string;
+    ledger: "\uD83D\uDCD2";
     /** left arrow ⬅ */
-    leftArrow: string;
+    leftArrow: "\u2B05";
     /** left arrow curving right ↪ */
-    leftArrowCurvingRight: string;
+    leftArrowCurvingRight: "\u21AA";
     /** left-facing fist 🤛 */
-    leftFacingFist: string;
+    leftFacingFist: "\uD83E\uDD1B";
     /** left luggage 🛅 */
-    leftLuggage: string;
+    leftLuggage: "\uD83D\uDEC5";
     /** left-right arrow ↔ */
-    leftRightArrow: string;
+    leftRightArrow: "\u2194";
     /** left speech bubble 🗨 */
-    leftSpeechBubble: string;
+    leftSpeechBubble: "\uD83D\uDDE8";
     /** leftwards hand 🫲 */
-    leftwardsHand: string;
+    leftwardsHand: "\uD83E\uDEF2";
     /** leftwards pushing hand 🫷 */
-    leftwardsPushingHand: string;
+    leftwardsPushingHand: "\uD83E\uDEF7";
     /** leg 🦵 */
-    leg: string;
+    leg: "\uD83E\uDDB5";
     /** lemon 🍋 */
-    lemon: string;
+    lemon: "\uD83C\uDF4B";
     /** Leo ♌ */
-    leo: string;
+    leo: "\u264C";
     /** leopard 🐆 */
-    leopard: string;
+    leopard: "\uD83D\uDC06";
     /** level slider 🎚 */
-    levelSlider: string;
+    levelSlider: "\uD83C\uDF9A";
     /** Libra ♎ */
-    libra: string;
+    libra: "\u264E";
     /** light blue heart 🩵 */
-    lightBlueHeart: string;
+    lightBlueHeart: "\uD83E\uDE75";
     /** light bulb 💡 */
-    lightBulb: string;
+    lightBulb: "\uD83D\uDCA1";
     /** light rail 🚈 */
-    lightRail: string;
+    lightRail: "\uD83D\uDE88";
     /** lime 🍋‍🟩 */
-    lime: string;
+    lime: "\uD83C\uDF4B\u200D\uD83D\uDFE9";
     /** link 🔗 */
-    link: string;
+    link: "\uD83D\uDD17";
     /** linked paperclips 🖇 */
-    linkedPaperclips: string;
+    linkedPaperclips: "\uD83D\uDD87";
     /** lion 🦁 */
-    lion: string;
+    lion: "\uD83E\uDD81";
     /** lipstick 💄 */
-    lipstick: string;
+    lipstick: "\uD83D\uDC84";
     /** litter in bin sign 🚮 */
-    litterInBinSign: string;
+    litterInBinSign: "\uD83D\uDEAE";
     /** lizard 🦎 */
-    lizard: string;
+    lizard: "\uD83E\uDD8E";
     /** llama 🦙 */
-    llama: string;
+    llama: "\uD83E\uDD99";
     /** lobster 🦞 */
-    lobster: string;
+    lobster: "\uD83E\uDD9E";
     /** locked 🔒 */
-    locked: string;
+    locked: "\uD83D\uDD12";
     /** locked with key 🔐 */
-    lockedWithKey: string;
+    lockedWithKey: "\uD83D\uDD10";
     /** locked with pen 🔏 */
-    lockedWithPen: string;
+    lockedWithPen: "\uD83D\uDD0F";
     /** locomotive 🚂 */
-    locomotive: string;
+    locomotive: "\uD83D\uDE82";
     /** lollipop 🍭 */
-    lollipop: string;
+    lollipop: "\uD83C\uDF6D";
     /** long drum 🪘 */
-    longDrum: string;
+    longDrum: "\uD83E\uDE98";
     /** lotion bottle 🧴 */
-    lotionBottle: string;
+    lotionBottle: "\uD83E\uDDF4";
     /** lotus 🪷 */
-    lotus: string;
+    lotus: "\uD83E\uDEB7";
     /** loudly crying face 😭 */
-    loudlyCryingFace: string;
+    loudlyCryingFace: "\uD83D\uDE2D";
     /** loudspeaker 📢 */
-    loudspeaker: string;
+    loudspeaker: "\uD83D\uDCE2";
     /** love hotel 🏩 */
-    loveHotel: string;
+    loveHotel: "\uD83C\uDFE9";
     /** love letter 💌 */
-    loveLetter: string;
+    loveLetter: "\uD83D\uDC8C";
     /** love-you gesture 🤟 */
-    loveYouGesture: string;
+    loveYouGesture: "\uD83E\uDD1F";
     /** low battery 🪫 */
-    lowBattery: string;
+    lowBattery: "\uD83E\uDEAB";
     /** luggage 🧳 */
-    luggage: string;
+    luggage: "\uD83E\uDDF3";
     /** lungs 🫁 */
-    lungs: string;
+    lungs: "\uD83E\uDEC1";
     /** lying face 🤥 */
-    lyingFace: string;
+    lyingFace: "\uD83E\uDD25";
     /** mage 🧙 */
-    mage: string;
+    mage: "\uD83E\uDDD9";
     /** magic wand 🪄 */
-    magicWand: string;
+    magicWand: "\uD83E\uDE84";
     /** magnet 🧲 */
-    magnet: string;
+    magnet: "\uD83E\uDDF2";
     /** magnifying glass tilted left 🔍 */
-    magnifyingGlassTiltedLeft: string;
+    magnifyingGlassTiltedLeft: "\uD83D\uDD0D";
     /** magnifying glass tilted right 🔎 */
-    magnifyingGlassTiltedRight: string;
+    magnifyingGlassTiltedRight: "\uD83D\uDD0E";
     /** mahjong red dragon 🀄 */
-    mahjongRedDragon: string;
+    mahjongRedDragon: "\uD83C\uDC04";
     /** male sign ♂ */
-    maleSign: string;
+    maleSign: "\u2642";
     /** mammoth 🦣 */
-    mammoth: string;
+    mammoth: "\uD83E\uDDA3";
     /** man 👨 */
-    man: string;
+    man: "\uD83D\uDC68";
     /** man artist 👨‍🎨 */
-    manArtist: string;
+    manArtist: "\uD83D\uDC68\u200D\uD83C\uDFA8";
     /** man astronaut 👨‍🚀 */
-    manAstronaut: string;
+    manAstronaut: "\uD83D\uDC68\u200D\uD83D\uDE80";
     /** man: bald 👨‍🦲 */
-    manBald: string;
+    manBald: "\uD83D\uDC68\u200D\uD83E\uDDB2";
     /** man: beard 🧔‍♂️ */
-    manBeard: string;
+    manBeard: "\uD83E\uDDD4\u200D\u2642\uFE0F";
     /** man biking 🚴‍♂️ */
-    manBiking: string;
+    manBiking: "\uD83D\uDEB4\u200D\u2642\uFE0F";
     /** man: blond hair 👱‍♂️ */
-    manBlondHair: string;
+    manBlondHair: "\uD83D\uDC71\u200D\u2642\uFE0F";
     /** man bouncing ball ⛹️‍♂️ */
-    manBouncingBall: string;
+    manBouncingBall: "\u26F9\uFE0F\u200D\u2642\uFE0F";
     /** man bowing 🙇‍♂️ */
-    manBowing: string;
+    manBowing: "\uD83D\uDE47\u200D\u2642\uFE0F";
     /** man cartwheeling 🤸‍♂️ */
-    manCartwheeling: string;
+    manCartwheeling: "\uD83E\uDD38\u200D\u2642\uFE0F";
     /** man climbing 🧗‍♂️ */
-    manClimbing: string;
+    manClimbing: "\uD83E\uDDD7\u200D\u2642\uFE0F";
     /** man construction worker 👷‍♂️ */
-    manConstructionWorker: string;
+    manConstructionWorker: "\uD83D\uDC77\u200D\u2642\uFE0F";
     /** man cook 👨‍🍳 */
-    manCook: string;
+    manCook: "\uD83D\uDC68\u200D\uD83C\uDF73";
     /** man: curly hair 👨‍🦱 */
-    manCurlyHair: string;
+    manCurlyHair: "\uD83D\uDC68\u200D\uD83E\uDDB1";
     /** man dancing 🕺 */
-    manDancing: string;
+    manDancing: "\uD83D\uDD7A";
     /** man detective 🕵️‍♂️ */
-    manDetective: string;
+    manDetective: "\uD83D\uDD75\uFE0F\u200D\u2642\uFE0F";
     /** man elf 🧝‍♂️ */
-    manElf: string;
+    manElf: "\uD83E\uDDDD\u200D\u2642\uFE0F";
     /** man facepalming 🤦‍♂️ */
-    manFacepalming: string;
+    manFacepalming: "\uD83E\uDD26\u200D\u2642\uFE0F";
     /** man factory worker 👨‍🏭 */
-    manFactoryWorker: string;
+    manFactoryWorker: "\uD83D\uDC68\u200D\uD83C\uDFED";
     /** man fairy 🧚‍♂️ */
-    manFairy: string;
+    manFairy: "\uD83E\uDDDA\u200D\u2642\uFE0F";
     /** man farmer 👨‍🌾 */
-    manFarmer: string;
+    manFarmer: "\uD83D\uDC68\u200D\uD83C\uDF3E";
     /** man feeding baby 👨‍🍼 */
-    manFeedingBaby: string;
+    manFeedingBaby: "\uD83D\uDC68\u200D\uD83C\uDF7C";
     /** man firefighter 👨‍🚒 */
-    manFirefighter: string;
+    manFirefighter: "\uD83D\uDC68\u200D\uD83D\uDE92";
     /** man frowning 🙍‍♂️ */
-    manFrowning: string;
+    manFrowning: "\uD83D\uDE4D\u200D\u2642\uFE0F";
     /** man genie 🧞‍♂️ */
-    manGenie: string;
+    manGenie: "\uD83E\uDDDE\u200D\u2642\uFE0F";
     /** man gesturing NO 🙅‍♂️ */
-    manGesturingNo: string;
+    manGesturingNo: "\uD83D\uDE45\u200D\u2642\uFE0F";
     /** man gesturing OK 🙆‍♂️ */
-    manGesturingOk: string;
+    manGesturingOk: "\uD83D\uDE46\u200D\u2642\uFE0F";
     /** man getting haircut 💇‍♂️ */
-    manGettingHaircut: string;
+    manGettingHaircut: "\uD83D\uDC87\u200D\u2642\uFE0F";
     /** man getting massage 💆‍♂️ */
-    manGettingMassage: string;
+    manGettingMassage: "\uD83D\uDC86\u200D\u2642\uFE0F";
     /** mango 🥭 */
-    mango: string;
+    mango: "\uD83E\uDD6D";
     /** man golfing 🏌️‍♂️ */
-    manGolfing: string;
+    manGolfing: "\uD83C\uDFCC\uFE0F\u200D\u2642\uFE0F";
     /** man guard 💂‍♂️ */
-    manGuard: string;
+    manGuard: "\uD83D\uDC82\u200D\u2642\uFE0F";
     /** man health worker 👨‍⚕️ */
-    manHealthWorker: string;
+    manHealthWorker: "\uD83D\uDC68\u200D\u2695\uFE0F";
     /** man in lotus position 🧘‍♂️ */
-    manInLotusPosition: string;
+    manInLotusPosition: "\uD83E\uDDD8\u200D\u2642\uFE0F";
     /** man in manual wheelchair 👨‍🦽 */
-    manInManualWheelchair: string;
+    manInManualWheelchair: "\uD83D\uDC68\u200D\uD83E\uDDBD";
     /** man in manual wheelchair facing right 👨‍🦽‍➡️ */
-    manInManualWheelchairFacingRight: string;
+    manInManualWheelchairFacingRight: "\uD83D\uDC68\u200D\uD83E\uDDBD\u200D\u27A1\uFE0F";
     /** man in motorized wheelchair 👨‍🦼 */
-    manInMotorizedWheelchair: string;
+    manInMotorizedWheelchair: "\uD83D\uDC68\u200D\uD83E\uDDBC";
     /** man in motorized wheelchair facing right 👨‍🦼‍➡️ */
-    manInMotorizedWheelchairFacingRight: string;
+    manInMotorizedWheelchairFacingRight: "\uD83D\uDC68\u200D\uD83E\uDDBC\u200D\u27A1\uFE0F";
     /** man in steamy room 🧖‍♂️ */
-    manInSteamyRoom: string;
+    manInSteamyRoom: "\uD83E\uDDD6\u200D\u2642\uFE0F";
     /** man in tuxedo 🤵‍♂️ */
-    manInTuxedo: string;
+    manInTuxedo: "\uD83E\uDD35\u200D\u2642\uFE0F";
     /** man judge 👨‍⚖️ */
-    manJudge: string;
+    manJudge: "\uD83D\uDC68\u200D\u2696\uFE0F";
     /** man juggling 🤹‍♂️ */
-    manJuggling: string;
+    manJuggling: "\uD83E\uDD39\u200D\u2642\uFE0F";
     /** man kneeling 🧎‍♂️ */
-    manKneeling: string;
+    manKneeling: "\uD83E\uDDCE\u200D\u2642\uFE0F";
     /** man kneeling facing right 🧎‍♂️‍➡️ */
-    manKneelingFacingRight: string;
+    manKneelingFacingRight: "\uD83E\uDDCE\u200D\u2642\uFE0F\u200D\u27A1\uFE0F";
     /** man lifting weights 🏋️‍♂️ */
-    manLiftingWeights: string;
+    manLiftingWeights: "\uD83C\uDFCB\uFE0F\u200D\u2642\uFE0F";
     /** man mage 🧙‍♂️ */
-    manMage: string;
+    manMage: "\uD83E\uDDD9\u200D\u2642\uFE0F";
     /** man mechanic 👨‍🔧 */
-    manMechanic: string;
+    manMechanic: "\uD83D\uDC68\u200D\uD83D\uDD27";
     /** man mountain biking 🚵‍♂️ */
-    manMountainBiking: string;
+    manMountainBiking: "\uD83D\uDEB5\u200D\u2642\uFE0F";
     /** man office worker 👨‍💼 */
-    manOfficeWorker: string;
+    manOfficeWorker: "\uD83D\uDC68\u200D\uD83D\uDCBC";
     /** man pilot 👨‍✈️ */
-    manPilot: string;
+    manPilot: "\uD83D\uDC68\u200D\u2708\uFE0F";
     /** man playing handball 🤾‍♂️ */
-    manPlayingHandball: string;
+    manPlayingHandball: "\uD83E\uDD3E\u200D\u2642\uFE0F";
     /** man playing water polo 🤽‍♂️ */
-    manPlayingWaterPolo: string;
+    manPlayingWaterPolo: "\uD83E\uDD3D\u200D\u2642\uFE0F";
     /** man police officer 👮‍♂️ */
-    manPoliceOfficer: string;
+    manPoliceOfficer: "\uD83D\uDC6E\u200D\u2642\uFE0F";
     /** man pouting 🙎‍♂️ */
-    manPouting: string;
+    manPouting: "\uD83D\uDE4E\u200D\u2642\uFE0F";
     /** man raising hand 🙋‍♂️ */
-    manRaisingHand: string;
+    manRaisingHand: "\uD83D\uDE4B\u200D\u2642\uFE0F";
     /** man: red hair 👨‍🦰 */
-    manRedHair: string;
+    manRedHair: "\uD83D\uDC68\u200D\uD83E\uDDB0";
     /** man rowing boat 🚣‍♂️ */
-    manRowingBoat: string;
+    manRowingBoat: "\uD83D\uDEA3\u200D\u2642\uFE0F";
     /** man running 🏃‍♂️ */
-    manRunning: string;
+    manRunning: "\uD83C\uDFC3\u200D\u2642\uFE0F";
     /** man running facing right 🏃‍♂️‍➡️ */
-    manRunningFacingRight: string;
+    manRunningFacingRight: "\uD83C\uDFC3\u200D\u2642\uFE0F\u200D\u27A1\uFE0F";
     /** man scientist 👨‍🔬 */
-    manScientist: string;
+    manScientist: "\uD83D\uDC68\u200D\uD83D\uDD2C";
     /** man shrugging 🤷‍♂️ */
-    manShrugging: string;
+    manShrugging: "\uD83E\uDD37\u200D\u2642\uFE0F";
     /** man singer 👨‍🎤 */
-    manSinger: string;
+    manSinger: "\uD83D\uDC68\u200D\uD83C\uDFA4";
     /** man’s shoe 👞 */
-    mansShoe: string;
+    mansShoe: "\uD83D\uDC5E";
     /** man standing 🧍‍♂️ */
-    manStanding: string;
+    manStanding: "\uD83E\uDDCD\u200D\u2642\uFE0F";
     /** man student 👨‍🎓 */
-    manStudent: string;
+    manStudent: "\uD83D\uDC68\u200D\uD83C\uDF93";
     /** man superhero 🦸‍♂️ */
-    manSuperhero: string;
+    manSuperhero: "\uD83E\uDDB8\u200D\u2642\uFE0F";
     /** man supervillain 🦹‍♂️ */
-    manSupervillain: string;
+    manSupervillain: "\uD83E\uDDB9\u200D\u2642\uFE0F";
     /** man surfing 🏄‍♂️ */
-    manSurfing: string;
+    manSurfing: "\uD83C\uDFC4\u200D\u2642\uFE0F";
     /** man swimming 🏊‍♂️ */
-    manSwimming: string;
+    manSwimming: "\uD83C\uDFCA\u200D\u2642\uFE0F";
     /** man teacher 👨‍🏫 */
-    manTeacher: string;
+    manTeacher: "\uD83D\uDC68\u200D\uD83C\uDFEB";
     /** man technologist 👨‍💻 */
-    manTechnologist: string;
+    manTechnologist: "\uD83D\uDC68\u200D\uD83D\uDCBB";
     /** mantelpiece clock 🕰 */
-    mantelpieceClock: string;
+    mantelpieceClock: "\uD83D\uDD70";
     /** man tipping hand 💁‍♂️ */
-    manTippingHand: string;
+    manTippingHand: "\uD83D\uDC81\u200D\u2642\uFE0F";
     /** manual wheelchair 🦽 */
-    manualWheelchair: string;
+    manualWheelchair: "\uD83E\uDDBD";
     /** man vampire 🧛‍♂️ */
-    manVampire: string;
+    manVampire: "\uD83E\uDDDB\u200D\u2642\uFE0F";
     /** man walking 🚶‍♂️ */
-    manWalking: string;
+    manWalking: "\uD83D\uDEB6\u200D\u2642\uFE0F";
     /** man walking facing right 🚶‍♂️‍➡️ */
-    manWalkingFacingRight: string;
+    manWalkingFacingRight: "\uD83D\uDEB6\u200D\u2642\uFE0F\u200D\u27A1\uFE0F";
     /** man wearing turban 👳‍♂️ */
-    manWearingTurban: string;
+    manWearingTurban: "\uD83D\uDC73\u200D\u2642\uFE0F";
     /** man: white hair 👨‍🦳 */
-    manWhiteHair: string;
+    manWhiteHair: "\uD83D\uDC68\u200D\uD83E\uDDB3";
     /** man with veil 👰‍♂️ */
-    manWithVeil: string;
+    manWithVeil: "\uD83D\uDC70\u200D\u2642\uFE0F";
     /** man with white cane 👨‍🦯 */
-    manWithWhiteCane: string;
+    manWithWhiteCane: "\uD83D\uDC68\u200D\uD83E\uDDAF";
     /** man with white cane facing right 👨‍🦯‍➡️ */
-    manWithWhiteCaneFacingRight: string;
+    manWithWhiteCaneFacingRight: "\uD83D\uDC68\u200D\uD83E\uDDAF\u200D\u27A1\uFE0F";
     /** man zombie 🧟‍♂️ */
-    manZombie: string;
+    manZombie: "\uD83E\uDDDF\u200D\u2642\uFE0F";
     /** maple leaf 🍁 */
-    mapleLeaf: string;
+    mapleLeaf: "\uD83C\uDF41";
     /** map of Japan 🗾 */
-    mapOfJapan: string;
+    mapOfJapan: "\uD83D\uDDFE";
     /** maracas 🪇 */
-    maracas: string;
+    maracas: "\uD83E\uDE87";
     /** martial arts uniform 🥋 */
-    martialArtsUniform: string;
+    martialArtsUniform: "\uD83E\uDD4B";
     /** mate 🧉 */
-    mate: string;
+    mate: "\uD83E\uDDC9";
     /** meat on bone 🍖 */
-    meatOnBone: string;
+    meatOnBone: "\uD83C\uDF56";
     /** mechanic 🧑‍🔧 */
-    mechanic: string;
+    mechanic: "\uD83E\uDDD1\u200D\uD83D\uDD27";
     /** mechanical arm 🦾 */
-    mechanicalArm: string;
+    mechanicalArm: "\uD83E\uDDBE";
     /** mechanical leg 🦿 */
-    mechanicalLeg: string;
+    mechanicalLeg: "\uD83E\uDDBF";
     /** medical symbol ⚕ */
-    medicalSymbol: string;
+    medicalSymbol: "\u2695";
     /** megaphone 📣 */
-    megaphone: string;
+    megaphone: "\uD83D\uDCE3";
     /** melon 🍈 */
-    melon: string;
+    melon: "\uD83C\uDF48";
     /** melting face 🫠 */
-    meltingFace: string;
+    meltingFace: "\uD83E\uDEE0";
     /** memo 📝 */
-    memo: string;
+    memo: "\uD83D\uDCDD";
     /** mending heart ❤️‍🩹 */
-    mendingHeart: string;
+    mendingHeart: "\u2764\uFE0F\u200D\uD83E\uDE79";
     /** men holding hands 👬 */
-    menHoldingHands: string;
+    menHoldingHands: "\uD83D\uDC6C";
     /** menorah 🕎 */
-    menorah: string;
+    menorah: "\uD83D\uDD4E";
     /** men’s room 🚹 */
-    mensRoom: string;
+    mensRoom: "\uD83D\uDEB9";
     /** men with bunny ears 👯‍♂️ */
-    menWithBunnyEars: string;
+    menWithBunnyEars: "\uD83D\uDC6F\u200D\u2642\uFE0F";
     /** men wrestling 🤼‍♂️ */
-    menWrestling: string;
+    menWrestling: "\uD83E\uDD3C\u200D\u2642\uFE0F";
     /** mermaid 🧜‍♀️ */
-    mermaid: string;
+    mermaid: "\uD83E\uDDDC\u200D\u2640\uFE0F";
     /** merman 🧜‍♂️ */
-    merman: string;
+    merman: "\uD83E\uDDDC\u200D\u2642\uFE0F";
     /** merperson 🧜 */
-    merperson: string;
+    merperson: "\uD83E\uDDDC";
     /** metro 🚇 */
-    metro: string;
+    metro: "\uD83D\uDE87";
     /** microbe 🦠 */
-    microbe: string;
+    microbe: "\uD83E\uDDA0";
     /** microphone 🎤 */
-    microphone: string;
+    microphone: "\uD83C\uDFA4";
     /** microscope 🔬 */
-    microscope: string;
+    microscope: "\uD83D\uDD2C";
     /** middle finger 🖕 */
-    middleFinger: string;
+    middleFinger: "\uD83D\uDD95";
     /** military helmet 🪖 */
-    militaryHelmet: string;
+    militaryHelmet: "\uD83E\uDE96";
     /** military medal 🎖 */
-    militaryMedal: string;
+    militaryMedal: "\uD83C\uDF96";
     /** milky way 🌌 */
-    milkyWay: string;
+    milkyWay: "\uD83C\uDF0C";
     /** minibus 🚐 */
-    minibus: string;
+    minibus: "\uD83D\uDE90";
     /** minus ➖ */
-    minus: string;
+    minus: "\u2796";
     /** mirror 🪞 */
-    mirror: string;
+    mirror: "\uD83E\uDE9E";
     /** mirror ball 🪩 */
-    mirrorBall: string;
+    mirrorBall: "\uD83E\uDEA9";
     /** moai 🗿 */
-    moai: string;
+    moai: "\uD83D\uDDFF";
     /** mobile phone 📱 */
-    mobilePhone: string;
+    mobilePhone: "\uD83D\uDCF1";
     /** mobile phone off 📴 */
-    mobilePhoneOff: string;
+    mobilePhoneOff: "\uD83D\uDCF4";
     /** mobile phone with arrow 📲 */
-    mobilePhoneWithArrow: string;
+    mobilePhoneWithArrow: "\uD83D\uDCF2";
     /** money bag 💰 */
-    moneyBag: string;
+    moneyBag: "\uD83D\uDCB0";
     /** money-mouth face 🤑 */
-    moneyMouthFace: string;
+    moneyMouthFace: "\uD83E\uDD11";
     /** money with wings 💸 */
-    moneyWithWings: string;
+    moneyWithWings: "\uD83D\uDCB8";
     /** monkey 🐒 */
-    monkey: string;
+    monkey: "\uD83D\uDC12";
     /** monkey face 🐵 */
-    monkeyFace: string;
+    monkeyFace: "\uD83D\uDC35";
     /** monorail 🚝 */
-    monorail: string;
+    monorail: "\uD83D\uDE9D";
     /** moon cake 🥮 */
-    moonCake: string;
+    moonCake: "\uD83E\uDD6E";
     /** moon viewing ceremony 🎑 */
-    moonViewingCeremony: string;
+    moonViewingCeremony: "\uD83C\uDF91";
     /** moose 🫎 */
-    moose: string;
+    moose: "\uD83E\uDECE";
     /** mosque 🕌 */
-    mosque: string;
+    mosque: "\uD83D\uDD4C";
     /** mosquito 🦟 */
-    mosquito: string;
+    mosquito: "\uD83E\uDD9F";
     /** motor boat 🛥 */
-    motorBoat: string;
+    motorBoat: "\uD83D\uDEE5";
     /** motorcycle 🏍 */
-    motorcycle: string;
+    motorcycle: "\uD83C\uDFCD";
     /** motorized wheelchair 🦼 */
-    motorizedWheelchair: string;
+    motorizedWheelchair: "\uD83E\uDDBC";
     /** motor scooter 🛵 */
-    motorScooter: string;
+    motorScooter: "\uD83D\uDEF5";
     /** motorway 🛣 */
-    motorway: string;
+    motorway: "\uD83D\uDEE3";
     /** mountain ⛰ */
-    mountain: string;
+    mountain: "\u26F0";
     /** mountain cableway 🚠 */
-    mountainCableway: string;
+    mountainCableway: "\uD83D\uDEA0";
     /** mountain railway 🚞 */
-    mountainRailway: string;
+    mountainRailway: "\uD83D\uDE9E";
     /** mount fuji 🗻 */
-    mountFuji: string;
+    mountFuji: "\uD83D\uDDFB";
     /** mouse 🐁 */
-    mouse: string;
+    mouse: "\uD83D\uDC01";
     /** mouse face 🐭 */
-    mouseFace: string;
+    mouseFace: "\uD83D\uDC2D";
     /** mouse trap 🪤 */
-    mouseTrap: string;
+    mouseTrap: "\uD83E\uDEA4";
     /** mouth 👄 */
-    mouth: string;
+    mouth: "\uD83D\uDC44";
     /** movie camera 🎥 */
-    movieCamera: string;
+    movieCamera: "\uD83C\uDFA5";
     /** Mrs. Claus 🤶 */
-    mrsClaus: string;
+    mrsClaus: "\uD83E\uDD36";
     /** multiply ✖ */
-    multiply: string;
+    multiply: "\u2716";
     /** mushroom 🍄 */
-    mushroom: string;
+    mushroom: "\uD83C\uDF44";
     /** musical keyboard 🎹 */
-    musicalKeyboard: string;
+    musicalKeyboard: "\uD83C\uDFB9";
     /** musical note 🎵 */
-    musicalNote: string;
+    musicalNote: "\uD83C\uDFB5";
     /** musical notes 🎶 */
-    musicalNotes: string;
+    musicalNotes: "\uD83C\uDFB6";
     /** musical score 🎼 */
-    musicalScore: string;
+    musicalScore: "\uD83C\uDFBC";
     /** muted speaker 🔇 */
-    mutedSpeaker: string;
+    mutedSpeaker: "\uD83D\uDD07";
     /** Mx Claus 🧑‍🎄 */
-    mxClaus: string;
+    mxClaus: "\uD83E\uDDD1\u200D\uD83C\uDF84";
     /** nail polish 💅 */
-    nailPolish: string;
+    nailPolish: "\uD83D\uDC85";
     /** name badge 📛 */
-    nameBadge: string;
+    nameBadge: "\uD83D\uDCDB";
     /** national park 🏞 */
-    nationalPark: string;
+    nationalPark: "\uD83C\uDFDE";
     /** nauseated face 🤢 */
-    nauseatedFace: string;
+    nauseatedFace: "\uD83E\uDD22";
     /** nazar amulet 🧿 */
-    nazarAmulet: string;
+    nazarAmulet: "\uD83E\uDDFF";
     /** necktie 👔 */
-    necktie: string;
+    necktie: "\uD83D\uDC54";
     /** nerd face 🤓 */
-    nerdFace: string;
+    nerdFace: "\uD83E\uDD13";
     /** nesting dolls 🪆 */
-    nestingDolls: string;
+    nestingDolls: "\uD83E\uDE86";
     /** nest with eggs 🪺 */
-    nestWithEggs: string;
+    nestWithEggs: "\uD83E\uDEBA";
     /** neutral face 😐 */
-    neutralFace: string;
+    neutralFace: "\uD83D\uDE10";
     /** NEW button 🆕 */
-    newButton: string;
+    newButton: "\uD83C\uDD95";
     /** new moon 🌑 */
-    newMoon: string;
+    newMoon: "\uD83C\uDF11";
     /** new moon face 🌚 */
-    newMoonFace: string;
+    newMoonFace: "\uD83C\uDF1A";
     /** newspaper 📰 */
-    newspaper: string;
+    newspaper: "\uD83D\uDCF0";
     /** next track button ⏭ */
-    nextTrackButton: string;
+    nextTrackButton: "\u23ED";
     /** NG button 🆖 */
-    ngButton: string;
+    ngButton: "\uD83C\uDD96";
     /** night with stars 🌃 */
-    nightWithStars: string;
+    nightWithStars: "\uD83C\uDF03";
     /** nine o’clock 🕘 */
-    nineOclock: string;
+    nineOclock: "\uD83D\uDD58";
     /** nine-thirty 🕤 */
-    nineThirty: string;
+    nineThirty: "\uD83D\uDD64";
     /** ninja 🥷 */
-    ninja: string;
+    ninja: "\uD83E\uDD77";
     /** no bicycles 🚳 */
-    noBicycles: string;
+    noBicycles: "\uD83D\uDEB3";
     /** no entry ⛔ */
-    noEntry: string;
+    noEntry: "\u26D4";
     /** no littering 🚯 */
-    noLittering: string;
+    noLittering: "\uD83D\uDEAF";
     /** no mobile phones 📵 */
-    noMobilePhones: string;
+    noMobilePhones: "\uD83D\uDCF5";
     /** non-potable water 🚱 */
-    nonPotableWater: string;
+    nonPotableWater: "\uD83D\uDEB1";
     /** no one under eighteen 🔞 */
-    noOneUnderEighteen: string;
+    noOneUnderEighteen: "\uD83D\uDD1E";
     /** no pedestrians 🚷 */
-    noPedestrians: string;
+    noPedestrians: "\uD83D\uDEB7";
     /** nose 👃 */
-    nose: string;
+    nose: "\uD83D\uDC43";
     /** no smoking 🚭 */
-    noSmoking: string;
+    noSmoking: "\uD83D\uDEAD";
     /** notebook 📓 */
-    notebook: string;
+    notebook: "\uD83D\uDCD3";
     /** notebook with decorative cover 📔 */
-    notebookWithDecorativeCover: string;
+    notebookWithDecorativeCover: "\uD83D\uDCD4";
     /** nut and bolt 🔩 */
-    nutAndBolt: string;
+    nutAndBolt: "\uD83D\uDD29";
     /** O button (blood type) 🅾 */
-    oButtonBloodType: string;
+    oButtonBloodType: "\uD83C\uDD7E";
     /** octopus 🐙 */
-    octopus: string;
+    octopus: "\uD83D\uDC19";
     /** oden 🍢 */
-    oden: string;
+    oden: "\uD83C\uDF62";
     /** office building 🏢 */
-    officeBuilding: string;
+    officeBuilding: "\uD83C\uDFE2";
     /** office worker 🧑‍💼 */
-    officeWorker: string;
+    officeWorker: "\uD83E\uDDD1\u200D\uD83D\uDCBC";
     /** ogre 👹 */
-    ogre: string;
+    ogre: "\uD83D\uDC79";
     /** oil drum 🛢 */
-    oilDrum: string;
+    oilDrum: "\uD83D\uDEE2";
     /** OK button 🆗 */
-    okButton: string;
+    okButton: "\uD83C\uDD97";
     /** OK hand 👌 */
-    okHand: string;
+    okHand: "\uD83D\uDC4C";
     /** older person 🧓 */
-    olderPerson: string;
+    olderPerson: "\uD83E\uDDD3";
     /** old key 🗝 */
-    oldKey: string;
+    oldKey: "\uD83D\uDDDD";
     /** old man 👴 */
-    oldMan: string;
+    oldMan: "\uD83D\uDC74";
     /** old woman 👵 */
-    oldWoman: string;
+    oldWoman: "\uD83D\uDC75";
     /** olive 🫒 */
-    olive: string;
+    olive: "\uD83E\uDED2";
     /** om 🕉 */
-    om: string;
+    om: "\uD83D\uDD49";
     /** ON! arrow 🔛 */
-    onArrow: string;
+    onArrow: "\uD83D\uDD1B";
     /** oncoming automobile 🚘 */
-    oncomingAutomobile: string;
+    oncomingAutomobile: "\uD83D\uDE98";
     /** oncoming bus 🚍 */
-    oncomingBus: string;
+    oncomingBus: "\uD83D\uDE8D";
     /** oncoming fist 👊 */
-    oncomingFist: string;
+    oncomingFist: "\uD83D\uDC4A";
     /** oncoming police car 🚔 */
-    oncomingPoliceCar: string;
+    oncomingPoliceCar: "\uD83D\uDE94";
     /** oncoming taxi 🚖 */
-    oncomingTaxi: string;
+    oncomingTaxi: "\uD83D\uDE96";
     /** one o’clock 🕐 */
-    oneOclock: string;
+    oneOclock: "\uD83D\uDD50";
     /** one-piece swimsuit 🩱 */
-    onePieceSwimsuit: string;
+    onePieceSwimsuit: "\uD83E\uDE71";
     /** one-thirty 🕜 */
-    oneThirty: string;
+    oneThirty: "\uD83D\uDD5C";
     /** onion 🧅 */
-    onion: string;
+    onion: "\uD83E\uDDC5";
     /** open book 📖 */
-    openBook: string;
+    openBook: "\uD83D\uDCD6";
     /** open file folder 📂 */
-    openFileFolder: string;
+    openFileFolder: "\uD83D\uDCC2";
     /** open hands 👐 */
-    openHands: string;
+    openHands: "\uD83D\uDC50";
     /** open mailbox with lowered flag 📭 */
-    openMailboxWithLoweredFlag: string;
+    openMailboxWithLoweredFlag: "\uD83D\uDCED";
     /** open mailbox with raised flag 📬 */
-    openMailboxWithRaisedFlag: string;
+    openMailboxWithRaisedFlag: "\uD83D\uDCEC";
     /** Ophiuchus ⛎ */
-    ophiuchus: string;
+    ophiuchus: "\u26CE";
     /** optical disk 💿 */
-    opticalDisk: string;
+    opticalDisk: "\uD83D\uDCBF";
     /** orange book 📙 */
-    orangeBook: string;
+    orangeBook: "\uD83D\uDCD9";
     /** orange circle 🟠 */
-    orangeCircle: string;
+    orangeCircle: "\uD83D\uDFE0";
     /** orange heart 🧡 */
-    orangeHeart: string;
+    orangeHeart: "\uD83E\uDDE1";
     /** orange square 🟧 */
-    orangeSquare: string;
+    orangeSquare: "\uD83D\uDFE7";
     /** orangutan 🦧 */
-    orangutan: string;
+    orangutan: "\uD83E\uDDA7";
     /** orthodox cross ☦ */
-    orthodoxCross: string;
+    orthodoxCross: "\u2626";
     /** otter 🦦 */
-    otter: string;
+    otter: "\uD83E\uDDA6";
     /** outbox tray 📤 */
-    outboxTray: string;
+    outboxTray: "\uD83D\uDCE4";
     /** owl 🦉 */
-    owl: string;
+    owl: "\uD83E\uDD89";
     /** ox 🐂 */
-    ox: string;
+    ox: "\uD83D\uDC02";
     /** oyster 🦪 */
-    oyster: string;
+    oyster: "\uD83E\uDDAA";
     /** package 📦 */
-    package: string;
+    package: "\uD83D\uDCE6";
     /** page facing up 📄 */
-    pageFacingUp: string;
+    pageFacingUp: "\uD83D\uDCC4";
     /** pager 📟 */
-    pager: string;
+    pager: "\uD83D\uDCDF";
     /** page with curl 📃 */
-    pageWithCurl: string;
+    pageWithCurl: "\uD83D\uDCC3";
     /** paintbrush 🖌 */
-    paintbrush: string;
+    paintbrush: "\uD83D\uDD8C";
     /** palm down hand 🫳 */
-    palmDownHand: string;
+    palmDownHand: "\uD83E\uDEF3";
     /** palms up together 🤲 */
-    palmsUpTogether: string;
+    palmsUpTogether: "\uD83E\uDD32";
     /** palm tree 🌴 */
-    palmTree: string;
+    palmTree: "\uD83C\uDF34";
     /** palm up hand 🫴 */
-    palmUpHand: string;
+    palmUpHand: "\uD83E\uDEF4";
     /** pancakes 🥞 */
-    pancakes: string;
+    pancakes: "\uD83E\uDD5E";
     /** panda 🐼 */
-    panda: string;
+    panda: "\uD83D\uDC3C";
     /** paperclip 📎 */
-    paperclip: string;
+    paperclip: "\uD83D\uDCCE";
     /** parachute 🪂 */
-    parachute: string;
+    parachute: "\uD83E\uDE82";
     /** parrot 🦜 */
-    parrot: string;
+    parrot: "\uD83E\uDD9C";
     /** part alternation mark 〽 */
-    partAlternationMark: string;
+    partAlternationMark: "\u303D";
     /** partying face 🥳 */
-    partyingFace: string;
+    partyingFace: "\uD83E\uDD73";
     /** party popper 🎉 */
-    partyPopper: string;
+    partyPopper: "\uD83C\uDF89";
     /** passenger ship 🛳 */
-    passengerShip: string;
+    passengerShip: "\uD83D\uDEF3";
     /** passport control 🛂 */
-    passportControl: string;
+    passportControl: "\uD83D\uDEC2";
     /** pause button ⏸ */
-    pauseButton: string;
+    pauseButton: "\u23F8";
     /** paw prints 🐾 */
-    pawPrints: string;
+    pawPrints: "\uD83D\uDC3E";
     /** P button 🅿 */
-    pButton: string;
+    pButton: "\uD83C\uDD7F";
     /** peace symbol ☮ */
-    peaceSymbol: string;
+    peaceSymbol: "\u262E";
     /** peach 🍑 */
-    peach: string;
+    peach: "\uD83C\uDF51";
     /** peacock 🦚 */
-    peacock: string;
+    peacock: "\uD83E\uDD9A";
     /** peanuts 🥜 */
-    peanuts: string;
+    peanuts: "\uD83E\uDD5C";
     /** pea pod 🫛 */
-    peaPod: string;
+    peaPod: "\uD83E\uDEDB";
     /** pear 🍐 */
-    pear: string;
+    pear: "\uD83C\uDF50";
     /** pen 🖊 */
-    pen: string;
+    pen: "\uD83D\uDD8A";
     /** pencil ✏ */
-    pencil: string;
+    pencil: "\u270F";
     /** penguin 🐧 */
-    penguin: string;
+    penguin: "\uD83D\uDC27";
     /** pensive face 😔 */
-    pensiveFace: string;
+    pensiveFace: "\uD83D\uDE14";
     /** people holding hands 🧑‍🤝‍🧑 */
-    peopleHoldingHands: string;
+    peopleHoldingHands: "\uD83E\uDDD1\u200D\uD83E\uDD1D\u200D\uD83E\uDDD1";
     /** people hugging 🫂 */
-    peopleHugging: string;
+    peopleHugging: "\uD83E\uDEC2";
     /** people with bunny ears 👯 */
-    peopleWithBunnyEars: string;
+    peopleWithBunnyEars: "\uD83D\uDC6F";
     /** people wrestling 🤼 */
-    peopleWrestling: string;
+    peopleWrestling: "\uD83E\uDD3C";
     /** performing arts 🎭 */
-    performingArts: string;
+    performingArts: "\uD83C\uDFAD";
     /** persevering face 😣 */
-    perseveringFace: string;
+    perseveringFace: "\uD83D\uDE23";
     /** person 🧑 */
-    person: string;
+    person: "\uD83E\uDDD1";
     /** person: bald 🧑‍🦲 */
-    personBald: string;
+    personBald: "\uD83E\uDDD1\u200D\uD83E\uDDB2";
     /** person: beard 🧔 */
-    personBeard: string;
+    personBeard: "\uD83E\uDDD4";
     /** person biking 🚴 */
-    personBiking: string;
+    personBiking: "\uD83D\uDEB4";
     /** person: blond hair 👱 */
-    personBlondHair: string;
+    personBlondHair: "\uD83D\uDC71";
     /** person bouncing ball ⛹ */
-    personBouncingBall: string;
+    personBouncingBall: "\u26F9";
     /** person bowing 🙇 */
-    personBowing: string;
+    personBowing: "\uD83D\uDE47";
     /** person cartwheeling 🤸 */
-    personCartwheeling: string;
+    personCartwheeling: "\uD83E\uDD38";
     /** person climbing 🧗 */
-    personClimbing: string;
+    personClimbing: "\uD83E\uDDD7";
     /** person: curly hair 🧑‍🦱 */
-    personCurlyHair: string;
+    personCurlyHair: "\uD83E\uDDD1\u200D\uD83E\uDDB1";
     /** person facepalming 🤦 */
-    personFacepalming: string;
+    personFacepalming: "\uD83E\uDD26";
     /** person feeding baby 🧑‍🍼 */
-    personFeedingBaby: string;
+    personFeedingBaby: "\uD83E\uDDD1\u200D\uD83C\uDF7C";
     /** person fencing 🤺 */
-    personFencing: string;
+    personFencing: "\uD83E\uDD3A";
     /** person frowning 🙍 */
-    personFrowning: string;
+    personFrowning: "\uD83D\uDE4D";
     /** person gesturing NO 🙅 */
-    personGesturingNo: string;
+    personGesturingNo: "\uD83D\uDE45";
     /** person gesturing OK 🙆 */
-    personGesturingOk: string;
+    personGesturingOk: "\uD83D\uDE46";
     /** person getting haircut 💇 */
-    personGettingHaircut: string;
+    personGettingHaircut: "\uD83D\uDC87";
     /** person getting massage 💆 */
-    personGettingMassage: string;
+    personGettingMassage: "\uD83D\uDC86";
     /** person golfing 🏌 */
-    personGolfing: string;
+    personGolfing: "\uD83C\uDFCC";
     /** person in bed 🛌 */
-    personInBed: string;
+    personInBed: "\uD83D\uDECC";
     /** person in lotus position 🧘 */
-    personInLotusPosition: string;
+    personInLotusPosition: "\uD83E\uDDD8";
     /** person in manual wheelchair 🧑‍🦽 */
-    personInManualWheelchair: string;
+    personInManualWheelchair: "\uD83E\uDDD1\u200D\uD83E\uDDBD";
     /** person in manual wheelchair facing right 🧑‍🦽‍➡️ */
-    personInManualWheelchairFacingRight: string;
+    personInManualWheelchairFacingRight: "\uD83E\uDDD1\u200D\uD83E\uDDBD\u200D\u27A1\uFE0F";
     /** person in motorized wheelchair 🧑‍🦼 */
-    personInMotorizedWheelchair: string;
+    personInMotorizedWheelchair: "\uD83E\uDDD1\u200D\uD83E\uDDBC";
     /** person in motorized wheelchair facing right 🧑‍🦼‍➡️ */
-    personInMotorizedWheelchairFacingRight: string;
+    personInMotorizedWheelchairFacingRight: "\uD83E\uDDD1\u200D\uD83E\uDDBC\u200D\u27A1\uFE0F";
     /** person in steamy room 🧖 */
-    personInSteamyRoom: string;
+    personInSteamyRoom: "\uD83E\uDDD6";
     /** person in suit levitating 🕴 */
-    personInSuitLevitating: string;
+    personInSuitLevitating: "\uD83D\uDD74";
     /** person in tuxedo 🤵 */
-    personInTuxedo: string;
+    personInTuxedo: "\uD83E\uDD35";
     /** person juggling 🤹 */
-    personJuggling: string;
+    personJuggling: "\uD83E\uDD39";
     /** person kneeling 🧎 */
-    personKneeling: string;
+    personKneeling: "\uD83E\uDDCE";
     /** person kneeling facing right 🧎‍➡️ */
-    personKneelingFacingRight: string;
+    personKneelingFacingRight: "\uD83E\uDDCE\u200D\u27A1\uFE0F";
     /** person lifting weights 🏋 */
-    personLiftingWeights: string;
+    personLiftingWeights: "\uD83C\uDFCB";
     /** person mountain biking 🚵 */
-    personMountainBiking: string;
+    personMountainBiking: "\uD83D\uDEB5";
     /** person playing handball 🤾 */
-    personPlayingHandball: string;
+    personPlayingHandball: "\uD83E\uDD3E";
     /** person playing water polo 🤽 */
-    personPlayingWaterPolo: string;
+    personPlayingWaterPolo: "\uD83E\uDD3D";
     /** person pouting 🙎 */
-    personPouting: string;
+    personPouting: "\uD83D\uDE4E";
     /** person raising hand 🙋 */
-    personRaisingHand: string;
+    personRaisingHand: "\uD83D\uDE4B";
     /** person: red hair 🧑‍🦰 */
-    personRedHair: string;
+    personRedHair: "\uD83E\uDDD1\u200D\uD83E\uDDB0";
     /** person rowing boat 🚣 */
-    personRowingBoat: string;
+    personRowingBoat: "\uD83D\uDEA3";
     /** person running 🏃 */
-    personRunning: string;
+    personRunning: "\uD83C\uDFC3";
     /** person running facing right 🏃‍➡️ */
-    personRunningFacingRight: string;
+    personRunningFacingRight: "\uD83C\uDFC3\u200D\u27A1\uFE0F";
     /** person shrugging 🤷 */
-    personShrugging: string;
+    personShrugging: "\uD83E\uDD37";
     /** person standing 🧍 */
-    personStanding: string;
+    personStanding: "\uD83E\uDDCD";
     /** person surfing 🏄 */
-    personSurfing: string;
+    personSurfing: "\uD83C\uDFC4";
     /** person swimming 🏊 */
-    personSwimming: string;
+    personSwimming: "\uD83C\uDFCA";
     /** person taking bath 🛀 */
-    personTakingBath: string;
+    personTakingBath: "\uD83D\uDEC0";
     /** person tipping hand 💁 */
-    personTippingHand: string;
+    personTippingHand: "\uD83D\uDC81";
     /** person walking 🚶 */
-    personWalking: string;
+    personWalking: "\uD83D\uDEB6";
     /** person walking facing right 🚶‍➡️ */
-    personWalkingFacingRight: string;
+    personWalkingFacingRight: "\uD83D\uDEB6\u200D\u27A1\uFE0F";
     /** person wearing turban 👳 */
-    personWearingTurban: string;
+    personWearingTurban: "\uD83D\uDC73";
     /** person: white hair 🧑‍🦳 */
-    personWhiteHair: string;
+    personWhiteHair: "\uD83E\uDDD1\u200D\uD83E\uDDB3";
     /** person with crown 🫅 */
-    personWithCrown: string;
+    personWithCrown: "\uD83E\uDEC5";
     /** person with skullcap 👲 */
-    personWithSkullcap: string;
+    personWithSkullcap: "\uD83D\uDC72";
     /** person with veil 👰 */
-    personWithVeil: string;
+    personWithVeil: "\uD83D\uDC70";
     /** person with white cane 🧑‍🦯 */
-    personWithWhiteCane: string;
+    personWithWhiteCane: "\uD83E\uDDD1\u200D\uD83E\uDDAF";
     /** person with white cane facing right 🧑‍🦯‍➡️ */
-    personWithWhiteCaneFacingRight: string;
+    personWithWhiteCaneFacingRight: "\uD83E\uDDD1\u200D\uD83E\uDDAF\u200D\u27A1\uFE0F";
     /** petri dish 🧫 */
-    petriDish: string;
+    petriDish: "\uD83E\uDDEB";
     /** phoenix 🐦‍🔥 */
-    phoenix: string;
+    phoenix: "\uD83D\uDC26\u200D\uD83D\uDD25";
     /** pick ⛏ */
-    pick: string;
+    pick: "\u26CF";
     /** pickup truck 🛻 */
-    pickupTruck: string;
+    pickupTruck: "\uD83D\uDEFB";
     /** pie 🥧 */
-    pie: string;
+    pie: "\uD83E\uDD67";
     /** pig 🐖 */
-    pig: string;
+    pig: "\uD83D\uDC16";
     /** pig face 🐷 */
-    pigFace: string;
+    pigFace: "\uD83D\uDC37";
     /** pig nose 🐽 */
-    pigNose: string;
+    pigNose: "\uD83D\uDC3D";
     /** pile of poo 💩 */
-    pileOfPoo: string;
+    pileOfPoo: "\uD83D\uDCA9";
     /** pill 💊 */
-    pill: string;
+    pill: "\uD83D\uDC8A";
     /** pilot 🧑‍✈️ */
-    pilot: string;
+    pilot: "\uD83E\uDDD1\u200D\u2708\uFE0F";
     /** piñata 🪅 */
-    pinata: string;
+    pinata: "\uD83E\uDE85";
     /** pinched fingers 🤌 */
-    pinchedFingers: string;
+    pinchedFingers: "\uD83E\uDD0C";
     /** pinching hand 🤏 */
-    pinchingHand: string;
+    pinchingHand: "\uD83E\uDD0F";
     /** pineapple 🍍 */
-    pineapple: string;
+    pineapple: "\uD83C\uDF4D";
     /** pine decoration 🎍 */
-    pineDecoration: string;
+    pineDecoration: "\uD83C\uDF8D";
     /** ping pong 🏓 */
-    pingPong: string;
+    pingPong: "\uD83C\uDFD3";
     /** pink heart 🩷 */
-    pinkHeart: string;
+    pinkHeart: "\uD83E\uDE77";
     /** pirate flag 🏴‍☠️ */
-    pirateFlag: string;
+    pirateFlag: "\uD83C\uDFF4\u200D\u2620\uFE0F";
     /** Pisces ♓ */
-    pisces: string;
+    pisces: "\u2653";
     /** pizza 🍕 */
-    pizza: string;
+    pizza: "\uD83C\uDF55";
     /** placard 🪧 */
-    placard: string;
+    placard: "\uD83E\uDEA7";
     /** place of worship 🛐 */
-    placeOfWorship: string;
+    placeOfWorship: "\uD83D\uDED0";
     /** play button ▶ */
-    playButton: string;
+    playButton: "\u25B6";
     /** playground slide 🛝 */
-    playgroundSlide: string;
+    playgroundSlide: "\uD83D\uDEDD";
     /** play or pause button ⏯ */
-    playOrPauseButton: string;
+    playOrPauseButton: "\u23EF";
     /** pleading face 🥺 */
-    pleadingFace: string;
+    pleadingFace: "\uD83E\uDD7A";
     /** plunger 🪠 */
-    plunger: string;
+    plunger: "\uD83E\uDEA0";
     /** plus ➕ */
-    plus: string;
+    plus: "\u2795";
     /** polar bear 🐻‍❄️ */
-    polarBear: string;
+    polarBear: "\uD83D\uDC3B\u200D\u2744\uFE0F";
     /** police car 🚓 */
-    policeCar: string;
+    policeCar: "\uD83D\uDE93";
     /** police car light 🚨 */
-    policeCarLight: string;
+    policeCarLight: "\uD83D\uDEA8";
     /** police officer 👮 */
-    policeOfficer: string;
+    policeOfficer: "\uD83D\uDC6E";
     /** poodle 🐩 */
-    poodle: string;
+    poodle: "\uD83D\uDC29";
     /** pool 8 ball 🎱 */
-    pool8Ball: string;
+    pool8Ball: "\uD83C\uDFB1";
     /** popcorn 🍿 */
-    popcorn: string;
+    popcorn: "\uD83C\uDF7F";
     /** postal horn 📯 */
-    postalHorn: string;
+    postalHorn: "\uD83D\uDCEF";
     /** postbox 📮 */
-    postbox: string;
+    postbox: "\uD83D\uDCEE";
     /** post office 🏤 */
-    postOffice: string;
+    postOffice: "\uD83C\uDFE4";
     /** potable water 🚰 */
-    potableWater: string;
+    potableWater: "\uD83D\uDEB0";
     /** potato 🥔 */
-    potato: string;
+    potato: "\uD83E\uDD54";
     /** pot of food 🍲 */
-    potOfFood: string;
+    potOfFood: "\uD83C\uDF72";
     /** potted plant 🪴 */
-    pottedPlant: string;
+    pottedPlant: "\uD83E\uDEB4";
     /** poultry leg 🍗 */
-    poultryLeg: string;
+    poultryLeg: "\uD83C\uDF57";
     /** pound banknote 💷 */
-    poundBanknote: string;
+    poundBanknote: "\uD83D\uDCB7";
     /** pouring liquid 🫗 */
-    pouringLiquid: string;
+    pouringLiquid: "\uD83E\uDED7";
     /** pouting cat 😾 */
-    poutingCat: string;
+    poutingCat: "\uD83D\uDE3E";
     /** prayer beads 📿 */
-    prayerBeads: string;
+    prayerBeads: "\uD83D\uDCFF";
     /** pregnant man 🫃 */
-    pregnantMan: string;
+    pregnantMan: "\uD83E\uDEC3";
     /** pregnant person 🫄 */
-    pregnantPerson: string;
+    pregnantPerson: "\uD83E\uDEC4";
     /** pregnant woman 🤰 */
-    pregnantWoman: string;
+    pregnantWoman: "\uD83E\uDD30";
     /** pretzel 🥨 */
-    pretzel: string;
+    pretzel: "\uD83E\uDD68";
     /** prince 🤴 */
-    prince: string;
+    prince: "\uD83E\uDD34";
     /** princess 👸 */
-    princess: string;
+    princess: "\uD83D\uDC78";
     /** printer 🖨 */
-    printer: string;
+    printer: "\uD83D\uDDA8";
     /** prohibited 🚫 */
-    prohibited: string;
+    prohibited: "\uD83D\uDEAB";
     /** purple circle 🟣 */
-    purpleCircle: string;
+    purpleCircle: "\uD83D\uDFE3";
     /** purple heart 💜 */
-    purpleHeart: string;
+    purpleHeart: "\uD83D\uDC9C";
     /** purple square 🟪 */
-    purpleSquare: string;
+    purpleSquare: "\uD83D\uDFEA";
     /** purse 👛 */
-    purse: string;
+    purse: "\uD83D\uDC5B";
     /** pushpin 📌 */
-    pushpin: string;
+    pushpin: "\uD83D\uDCCC";
     /** puzzle piece 🧩 */
-    puzzlePiece: string;
+    puzzlePiece: "\uD83E\uDDE9";
     /** rabbit 🐇 */
-    rabbit: string;
+    rabbit: "\uD83D\uDC07";
     /** rabbit face 🐰 */
-    rabbitFace: string;
+    rabbitFace: "\uD83D\uDC30";
     /** raccoon 🦝 */
-    raccoon: string;
+    raccoon: "\uD83E\uDD9D";
     /** racing car 🏎 */
-    racingCar: string;
+    racingCar: "\uD83C\uDFCE";
     /** radio 📻 */
-    radio: string;
+    radio: "\uD83D\uDCFB";
     /** radioactive ☢ */
-    radioactive: string;
+    radioactive: "\u2622";
     /** radio button 🔘 */
-    radioButton: string;
+    radioButton: "\uD83D\uDD18";
     /** railway car 🚃 */
-    railwayCar: string;
+    railwayCar: "\uD83D\uDE83";
     /** railway track 🛤 */
-    railwayTrack: string;
+    railwayTrack: "\uD83D\uDEE4";
     /** rainbow 🌈 */
-    rainbow: string;
+    rainbow: "\uD83C\uDF08";
     /** rainbow flag 🏳️‍🌈 */
-    rainbowFlag: string;
+    rainbowFlag: "\uD83C\uDFF3\uFE0F\u200D\uD83C\uDF08";
     /** raised back of hand 🤚 */
-    raisedBackOfHand: string;
+    raisedBackOfHand: "\uD83E\uDD1A";
     /** raised fist ✊ */
-    raisedFist: string;
+    raisedFist: "\u270A";
     /** raised hand ✋ */
-    raisedHand: string;
+    raisedHand: "\u270B";
     /** raising hands 🙌 */
-    raisingHands: string;
+    raisingHands: "\uD83D\uDE4C";
     /** ram 🐏 */
-    ram: string;
+    ram: "\uD83D\uDC0F";
     /** rat 🐀 */
-    rat: string;
+    rat: "\uD83D\uDC00";
     /** razor 🪒 */
-    razor: string;
+    razor: "\uD83E\uDE92";
     /** receipt 🧾 */
-    receipt: string;
+    receipt: "\uD83E\uDDFE";
     /** record button ⏺ */
-    recordButton: string;
+    recordButton: "\u23FA";
     /** recycling symbol ♻ */
-    recyclingSymbol: string;
+    recyclingSymbol: "\u267B";
     /** red apple 🍎 */
-    redApple: string;
+    redApple: "\uD83C\uDF4E";
     /** red circle 🔴 */
-    redCircle: string;
+    redCircle: "\uD83D\uDD34";
     /** red envelope 🧧 */
-    redEnvelope: string;
+    redEnvelope: "\uD83E\uDDE7";
     /** red exclamation mark ❗ */
-    redExclamationMark: string;
+    redExclamationMark: "\u2757";
     /** red hair 🦰 */
-    redHair: string;
+    redHair: "\uD83E\uDDB0";
     /** red heart ❤ */
-    redHeart: string;
+    redHeart: "\u2764";
     /** red paper lantern 🏮 */
-    redPaperLantern: string;
+    redPaperLantern: "\uD83C\uDFEE";
     /** red question mark ❓ */
-    redQuestionMark: string;
+    redQuestionMark: "\u2753";
     /** red square 🟥 */
-    redSquare: string;
+    redSquare: "\uD83D\uDFE5";
     /** red triangle pointed down 🔻 */
-    redTrianglePointedDown: string;
+    redTrianglePointedDown: "\uD83D\uDD3B";
     /** red triangle pointed up 🔺 */
-    redTrianglePointedUp: string;
+    redTrianglePointedUp: "\uD83D\uDD3A";
     /** registered ® */
-    registered: string;
+    registered: "\u00AE";
     /** relieved face 😌 */
-    relievedFace: string;
+    relievedFace: "\uD83D\uDE0C";
     /** reminder ribbon 🎗 */
-    reminderRibbon: string;
+    reminderRibbon: "\uD83C\uDF97";
     /** repeat button 🔁 */
-    repeatButton: string;
+    repeatButton: "\uD83D\uDD01";
     /** repeat single button 🔂 */
-    repeatSingleButton: string;
+    repeatSingleButton: "\uD83D\uDD02";
     /** rescue worker’s helmet ⛑ */
-    rescueWorkersHelmet: string;
+    rescueWorkersHelmet: "\u26D1";
     /** restroom 🚻 */
-    restroom: string;
+    restroom: "\uD83D\uDEBB";
     /** reverse button ◀ */
-    reverseButton: string;
+    reverseButton: "\u25C0";
     /** revolving hearts 💞 */
-    revolvingHearts: string;
+    revolvingHearts: "\uD83D\uDC9E";
     /** rhinoceros 🦏 */
-    rhinoceros: string;
+    rhinoceros: "\uD83E\uDD8F";
     /** ribbon 🎀 */
-    ribbon: string;
+    ribbon: "\uD83C\uDF80";
     /** rice ball 🍙 */
-    riceBall: string;
+    riceBall: "\uD83C\uDF59";
     /** rice cracker 🍘 */
-    riceCracker: string;
+    riceCracker: "\uD83C\uDF58";
     /** right anger bubble 🗯 */
-    rightAngerBubble: string;
+    rightAngerBubble: "\uD83D\uDDEF";
     /** right arrow ➡ */
-    rightArrow: string;
+    rightArrow: "\u27A1";
     /** right arrow curving down ⤵ */
-    rightArrowCurvingDown: string;
+    rightArrowCurvingDown: "\u2935";
     /** right arrow curving left ↩ */
-    rightArrowCurvingLeft: string;
+    rightArrowCurvingLeft: "\u21A9";
     /** right arrow curving up ⤴ */
-    rightArrowCurvingUp: string;
+    rightArrowCurvingUp: "\u2934";
     /** right-facing fist 🤜 */
-    rightFacingFist: string;
+    rightFacingFist: "\uD83E\uDD1C";
     /** rightwards hand 🫱 */
-    rightwardsHand: string;
+    rightwardsHand: "\uD83E\uDEF1";
     /** rightwards pushing hand 🫸 */
-    rightwardsPushingHand: string;
+    rightwardsPushingHand: "\uD83E\uDEF8";
     /** ring 💍 */
-    ring: string;
+    ring: "\uD83D\uDC8D";
     /** ring buoy 🛟 */
-    ringBuoy: string;
+    ringBuoy: "\uD83D\uDEDF";
     /** ringed planet 🪐 */
-    ringedPlanet: string;
+    ringedPlanet: "\uD83E\uDE90";
     /** roasted sweet potato 🍠 */
-    roastedSweetPotato: string;
+    roastedSweetPotato: "\uD83C\uDF60";
     /** robot 🤖 */
-    robot: string;
+    robot: "\uD83E\uDD16";
     /** rock 🪨 */
-    rock: string;
+    rock: "\uD83E\uDEA8";
     /** rocket 🚀 */
-    rocket: string;
+    rocket: "\uD83D\uDE80";
     /** rolled-up newspaper 🗞 */
-    rolledUpNewspaper: string;
+    rolledUpNewspaper: "\uD83D\uDDDE";
     /** roller coaster 🎢 */
-    rollerCoaster: string;
+    rollerCoaster: "\uD83C\uDFA2";
     /** roller skate 🛼 */
-    rollerSkate: string;
+    rollerSkate: "\uD83D\uDEFC";
     /** rolling on the floor laughing 🤣 */
-    rollingOnTheFloorLaughing: string;
+    rollingOnTheFloorLaughing: "\uD83E\uDD23";
     /** roll of paper 🧻 */
-    rollOfPaper: string;
+    rollOfPaper: "\uD83E\uDDFB";
     /** rooster 🐓 */
-    rooster: string;
+    rooster: "\uD83D\uDC13";
     /** ⊛ root vegetable 🫜 */
-    rootVegetable: string;
+    rootVegetable: "\uD83E\uDEDC";
     /** rose 🌹 */
-    rose: string;
+    rose: "\uD83C\uDF39";
     /** rosette 🏵 */
-    rosette: string;
+    rosette: "\uD83C\uDFF5";
     /** round pushpin 📍 */
-    roundPushpin: string;
+    roundPushpin: "\uD83D\uDCCD";
     /** rugby football 🏉 */
-    rugbyFootball: string;
+    rugbyFootball: "\uD83C\uDFC9";
     /** running shirt 🎽 */
-    runningShirt: string;
+    runningShirt: "\uD83C\uDFBD";
     /** running shoe 👟 */
-    runningShoe: string;
+    runningShoe: "\uD83D\uDC5F";
     /** sad but relieved face 😥 */
-    sadButRelievedFace: string;
+    sadButRelievedFace: "\uD83D\uDE25";
     /** safety pin 🧷 */
-    safetyPin: string;
+    safetyPin: "\uD83E\uDDF7";
     /** safety vest 🦺 */
-    safetyVest: string;
+    safetyVest: "\uD83E\uDDBA";
     /** Sagittarius ♐ */
-    sagittarius: string;
+    sagittarius: "\u2650";
     /** sailboat ⛵ */
-    sailboat: string;
+    sailboat: "\u26F5";
     /** sake 🍶 */
-    sake: string;
+    sake: "\uD83C\uDF76";
     /** salt 🧂 */
-    salt: string;
+    salt: "\uD83E\uDDC2";
     /** saluting face 🫡 */
-    salutingFace: string;
+    salutingFace: "\uD83E\uDEE1";
     /** sandwich 🥪 */
-    sandwich: string;
+    sandwich: "\uD83E\uDD6A";
     /** Santa Claus 🎅 */
-    santaClaus: string;
+    santaClaus: "\uD83C\uDF85";
     /** sari 🥻 */
-    sari: string;
+    sari: "\uD83E\uDD7B";
     /** satellite 🛰 */
-    satellite: string;
+    satellite: "\uD83D\uDEF0";
     /** satellite antenna 📡 */
-    satelliteAntenna: string;
+    satelliteAntenna: "\uD83D\uDCE1";
     /** sauropod 🦕 */
-    sauropod: string;
+    sauropod: "\uD83E\uDD95";
     /** saxophone 🎷 */
-    saxophone: string;
+    saxophone: "\uD83C\uDFB7";
     /** scarf 🧣 */
-    scarf: string;
+    scarf: "\uD83E\uDDE3";
     /** school 🏫 */
-    school: string;
+    school: "\uD83C\uDFEB";
     /** scientist 🧑‍🔬 */
-    scientist: string;
+    scientist: "\uD83E\uDDD1\u200D\uD83D\uDD2C";
     /** scissors ✂ */
-    scissors: string;
+    scissors: "\u2702";
     /** Scorpio ♏ */
-    scorpio: string;
+    scorpio: "\u264F";
     /** scorpion 🦂 */
-    scorpion: string;
+    scorpion: "\uD83E\uDD82";
     /** screwdriver 🪛 */
-    screwdriver: string;
+    screwdriver: "\uD83E\uDE9B";
     /** scroll 📜 */
-    scroll: string;
+    scroll: "\uD83D\uDCDC";
     /** seal 🦭 */
-    seal: string;
+    seal: "\uD83E\uDDAD";
     /** seat 💺 */
-    seat: string;
+    seat: "\uD83D\uDCBA";
     /** 2nd place medal 🥈 */
-    secondPlaceMedal: string;
+    secondPlaceMedal: "\uD83E\uDD48";
     /** seedling 🌱 */
-    seedling: string;
+    seedling: "\uD83C\uDF31";
     /** see-no-evil monkey 🙈 */
-    seeNoEvilMonkey: string;
+    seeNoEvilMonkey: "\uD83D\uDE48";
     /** selfie 🤳 */
-    selfie: string;
+    selfie: "\uD83E\uDD33";
     /** service dog 🐕‍🦺 */
-    serviceDog: string;
+    serviceDog: "\uD83D\uDC15\u200D\uD83E\uDDBA";
     /** seven o’clock 🕖 */
-    sevenOclock: string;
+    sevenOclock: "\uD83D\uDD56";
     /** seven-thirty 🕢 */
-    sevenThirty: string;
+    sevenThirty: "\uD83D\uDD62";
     /** sewing needle 🪡 */
-    sewingNeedle: string;
+    sewingNeedle: "\uD83E\uDEA1";
     /** shaking face 🫨 */
-    shakingFace: string;
+    shakingFace: "\uD83E\uDEE8";
     /** shallow pan of food 🥘 */
-    shallowPanOfFood: string;
+    shallowPanOfFood: "\uD83E\uDD58";
     /** shamrock ☘ */
-    shamrock: string;
+    shamrock: "\u2618";
     /** shark 🦈 */
-    shark: string;
+    shark: "\uD83E\uDD88";
     /** shaved ice 🍧 */
-    shavedIce: string;
+    shavedIce: "\uD83C\uDF67";
     /** sheaf of rice 🌾 */
-    sheafOfRice: string;
+    sheafOfRice: "\uD83C\uDF3E";
     /** shield 🛡 */
-    shield: string;
+    shield: "\uD83D\uDEE1";
     /** shinto shrine ⛩ */
-    shintoShrine: string;
+    shintoShrine: "\u26E9";
     /** ship 🚢 */
-    ship: string;
+    ship: "\uD83D\uDEA2";
     /** shooting star 🌠 */
-    shootingStar: string;
+    shootingStar: "\uD83C\uDF20";
     /** shopping bags 🛍 */
-    shoppingBags: string;
+    shoppingBags: "\uD83D\uDECD";
     /** shopping cart 🛒 */
-    shoppingCart: string;
+    shoppingCart: "\uD83D\uDED2";
     /** shortcake 🍰 */
-    shortcake: string;
+    shortcake: "\uD83C\uDF70";
     /** shorts 🩳 */
-    shorts: string;
+    shorts: "\uD83E\uDE73";
     /** ⊛ shovel 🪏 */
-    shovel: string;
+    shovel: "\uD83E\uDE8F";
     /** shower 🚿 */
-    shower: string;
+    shower: "\uD83D\uDEBF";
     /** shrimp 🦐 */
-    shrimp: string;
+    shrimp: "\uD83E\uDD90";
     /** shuffle tracks button 🔀 */
-    shuffleTracksButton: string;
+    shuffleTracksButton: "\uD83D\uDD00";
     /** shushing face 🤫 */
-    shushingFace: string;
+    shushingFace: "\uD83E\uDD2B";
     /** sign of the horns 🤘 */
-    signOfTheHorns: string;
+    signOfTheHorns: "\uD83E\uDD18";
     /** singer 🧑‍🎤 */
-    singer: string;
+    singer: "\uD83E\uDDD1\u200D\uD83C\uDFA4";
     /** six o’clock 🕕 */
-    sixOclock: string;
+    sixOclock: "\uD83D\uDD55";
     /** six-thirty 🕡 */
-    sixThirty: string;
+    sixThirty: "\uD83D\uDD61";
     /** skateboard 🛹 */
-    skateboard: string;
+    skateboard: "\uD83D\uDEF9";
     /** skier ⛷ */
-    skier: string;
+    skier: "\u26F7";
     /** skis 🎿 */
-    skis: string;
+    skis: "\uD83C\uDFBF";
     /** skull 💀 */
-    skull: string;
+    skull: "\uD83D\uDC80";
     /** skull and crossbones ☠ */
-    skullAndCrossbones: string;
+    skullAndCrossbones: "\u2620";
     /** skunk 🦨 */
-    skunk: string;
+    skunk: "\uD83E\uDDA8";
     /** sled 🛷 */
-    sled: string;
+    sled: "\uD83D\uDEF7";
     /** sleeping face 😴 */
-    sleepingFace: string;
+    sleepingFace: "\uD83D\uDE34";
     /** sleepy face 😪 */
-    sleepyFace: string;
+    sleepyFace: "\uD83D\uDE2A";
     /** slightly frowning face 🙁 */
-    slightlyFrowningFace: string;
+    slightlyFrowningFace: "\uD83D\uDE41";
     /** slightly smiling face 🙂 */
-    slightlySmilingFace: string;
+    slightlySmilingFace: "\uD83D\uDE42";
     /** sloth 🦥 */
-    sloth: string;
+    sloth: "\uD83E\uDDA5";
     /** slot machine 🎰 */
-    slotMachine: string;
+    slotMachine: "\uD83C\uDFB0";
     /** small airplane 🛩 */
-    smallAirplane: string;
+    smallAirplane: "\uD83D\uDEE9";
     /** small blue diamond 🔹 */
-    smallBlueDiamond: string;
+    smallBlueDiamond: "\uD83D\uDD39";
     /** small orange diamond 🔸 */
-    smallOrangeDiamond: string;
+    smallOrangeDiamond: "\uD83D\uDD38";
     /** smiling cat with heart-eyes 😻 */
-    smilingCatWithHeartEyes: string;
+    smilingCatWithHeartEyes: "\uD83D\uDE3B";
     /** smiling face ☺ */
-    smilingFace: string;
+    smilingFace: "\u263A";
     /** smiling face with halo 😇 */
-    smilingFaceWithHalo: string;
+    smilingFaceWithHalo: "\uD83D\uDE07";
     /** smiling face with heart-eyes 😍 */
-    smilingFaceWithHeartEyes: string;
+    smilingFaceWithHeartEyes: "\uD83D\uDE0D";
     /** smiling face with hearts 🥰 */
-    smilingFaceWithHearts: string;
+    smilingFaceWithHearts: "\uD83E\uDD70";
     /** smiling face with horns 😈 */
-    smilingFaceWithHorns: string;
+    smilingFaceWithHorns: "\uD83D\uDE08";
     /** smiling face with open hands 🤗 */
-    smilingFaceWithOpenHands: string;
+    smilingFaceWithOpenHands: "\uD83E\uDD17";
     /** smiling face with smiling eyes 😊 */
-    smilingFaceWithSmilingEyes: string;
+    smilingFaceWithSmilingEyes: "\uD83D\uDE0A";
     /** smiling face with sunglasses 😎 */
-    smilingFaceWithSunglasses: string;
+    smilingFaceWithSunglasses: "\uD83D\uDE0E";
     /** smiling face with tear 🥲 */
-    smilingFaceWithTear: string;
+    smilingFaceWithTear: "\uD83E\uDD72";
     /** smirking face 😏 */
-    smirkingFace: string;
+    smirkingFace: "\uD83D\uDE0F";
     /** snail 🐌 */
-    snail: string;
+    snail: "\uD83D\uDC0C";
     /** snake 🐍 */
-    snake: string;
+    snake: "\uD83D\uDC0D";
     /** sneezing face 🤧 */
-    sneezingFace: string;
+    sneezingFace: "\uD83E\uDD27";
     /** snowboarder 🏂 */
-    snowboarder: string;
+    snowboarder: "\uD83C\uDFC2";
     /** snow-capped mountain 🏔 */
-    snowCappedMountain: string;
+    snowCappedMountain: "\uD83C\uDFD4";
     /** snowflake ❄ */
-    snowflake: string;
+    snowflake: "\u2744";
     /** snowman ☃ */
-    snowman: string;
+    snowman: "\u2603";
     /** snowman without snow ⛄ */
-    snowmanWithoutSnow: string;
+    snowmanWithoutSnow: "\u26C4";
     /** soap 🧼 */
-    soap: string;
+    soap: "\uD83E\uDDFC";
     /** soccer ball ⚽ */
-    soccerBall: string;
+    soccerBall: "\u26BD";
     /** socks 🧦 */
-    socks: string;
+    socks: "\uD83E\uDDE6";
     /** softball 🥎 */
-    softball: string;
+    softball: "\uD83E\uDD4E";
     /** soft ice cream 🍦 */
-    softIceCream: string;
+    softIceCream: "\uD83C\uDF66";
     /** SOON arrow 🔜 */
-    soonArrow: string;
+    soonArrow: "\uD83D\uDD1C";
     /** SOS button 🆘 */
-    sosButton: string;
+    sosButton: "\uD83C\uDD98";
     /** spade suit ♠ */
-    spadeSuit: string;
+    spadeSuit: "\u2660";
     /** spaghetti 🍝 */
-    spaghetti: string;
+    spaghetti: "\uD83C\uDF5D";
     /** sparkle ❇ */
-    sparkle: string;
+    sparkle: "\u2747";
     /** sparkler 🎇 */
-    sparkler: string;
+    sparkler: "\uD83C\uDF87";
     /** sparkles ✨ */
-    sparkles: string;
+    sparkles: "\u2728";
     /** sparkling heart 💖 */
-    sparklingHeart: string;
+    sparklingHeart: "\uD83D\uDC96";
     /** speaker high volume 🔊 */
-    speakerHighVolume: string;
+    speakerHighVolume: "\uD83D\uDD0A";
     /** speaker low volume 🔈 */
-    speakerLowVolume: string;
+    speakerLowVolume: "\uD83D\uDD08";
     /** speaker medium volume 🔉 */
-    speakerMediumVolume: string;
+    speakerMediumVolume: "\uD83D\uDD09";
     /** speaking head 🗣 */
-    speakingHead: string;
+    speakingHead: "\uD83D\uDDE3";
     /** speak-no-evil monkey 🙊 */
-    speakNoEvilMonkey: string;
+    speakNoEvilMonkey: "\uD83D\uDE4A";
     /** speech balloon 💬 */
-    speechBalloon: string;
+    speechBalloon: "\uD83D\uDCAC";
     /** speedboat 🚤 */
-    speedboat: string;
+    speedboat: "\uD83D\uDEA4";
     /** spider 🕷 */
-    spider: string;
+    spider: "\uD83D\uDD77";
     /** spider web 🕸 */
-    spiderWeb: string;
+    spiderWeb: "\uD83D\uDD78";
     /** spiral calendar 🗓 */
-    spiralCalendar: string;
+    spiralCalendar: "\uD83D\uDDD3";
     /** spiral notepad 🗒 */
-    spiralNotepad: string;
+    spiralNotepad: "\uD83D\uDDD2";
     /** spiral shell 🐚 */
-    spiralShell: string;
+    spiralShell: "\uD83D\uDC1A";
     /** ⊛ splatter 🫟 */
-    splatter: string;
+    splatter: "\uD83E\uDEDF";
     /** sponge 🧽 */
-    sponge: string;
+    sponge: "\uD83E\uDDFD";
     /** spoon 🥄 */
-    spoon: string;
+    spoon: "\uD83E\uDD44";
     /** sports medal 🏅 */
-    sportsMedal: string;
+    sportsMedal: "\uD83C\uDFC5";
     /** sport utility vehicle 🚙 */
-    sportUtilityVehicle: string;
+    sportUtilityVehicle: "\uD83D\uDE99";
     /** spouting whale 🐳 */
-    spoutingWhale: string;
+    spoutingWhale: "\uD83D\uDC33";
     /** squid 🦑 */
-    squid: string;
+    squid: "\uD83E\uDD91";
     /** squinting face with tongue 😝 */
-    squintingFaceWithTongue: string;
+    squintingFaceWithTongue: "\uD83D\uDE1D";
     /** stadium 🏟 */
-    stadium: string;
+    stadium: "\uD83C\uDFDF";
     /** star ⭐ */
-    star: string;
+    star: "\u2B50";
     /** star and crescent ☪ */
-    starAndCrescent: string;
+    starAndCrescent: "\u262A";
     /** star of David ✡ */
-    starOfDavid: string;
+    starOfDavid: "\u2721";
     /** star-struck 🤩 */
-    starStruck: string;
+    starStruck: "\uD83E\uDD29";
     /** station 🚉 */
-    station: string;
+    station: "\uD83D\uDE89";
     /** Statue of Liberty 🗽 */
-    statueOfLiberty: string;
+    statueOfLiberty: "\uD83D\uDDFD";
     /** steaming bowl 🍜 */
-    steamingBowl: string;
+    steamingBowl: "\uD83C\uDF5C";
     /** stethoscope 🩺 */
-    stethoscope: string;
+    stethoscope: "\uD83E\uDE7A";
     /** stop button ⏹ */
-    stopButton: string;
+    stopButton: "\u23F9";
     /** stop sign 🛑 */
-    stopSign: string;
+    stopSign: "\uD83D\uDED1";
     /** stopwatch ⏱ */
-    stopwatch: string;
+    stopwatch: "\u23F1";
     /** straight ruler 📏 */
-    straightRuler: string;
+    straightRuler: "\uD83D\uDCCF";
     /** strawberry 🍓 */
-    strawberry: string;
+    strawberry: "\uD83C\uDF53";
     /** student 🧑‍🎓 */
-    student: string;
+    student: "\uD83E\uDDD1\u200D\uD83C\uDF93";
     /** studio microphone 🎙 */
-    studioMicrophone: string;
+    studioMicrophone: "\uD83C\uDF99";
     /** stuffed flatbread 🥙 */
-    stuffedFlatbread: string;
+    stuffedFlatbread: "\uD83E\uDD59";
     /** sun ☀ */
-    sun: string;
+    sun: "\u2600";
     /** sun behind cloud ⛅ */
-    sunBehindCloud: string;
+    sunBehindCloud: "\u26C5";
     /** sun behind large cloud 🌥 */
-    sunBehindLargeCloud: string;
+    sunBehindLargeCloud: "\uD83C\uDF25";
     /** sun behind rain cloud 🌦 */
-    sunBehindRainCloud: string;
+    sunBehindRainCloud: "\uD83C\uDF26";
     /** sun behind small cloud 🌤 */
-    sunBehindSmallCloud: string;
+    sunBehindSmallCloud: "\uD83C\uDF24";
     /** sunflower 🌻 */
-    sunflower: string;
+    sunflower: "\uD83C\uDF3B";
     /** sunglasses 🕶 */
-    sunglasses: string;
+    sunglasses: "\uD83D\uDD76";
     /** sunrise 🌅 */
-    sunrise: string;
+    sunrise: "\uD83C\uDF05";
     /** sunrise over mountains 🌄 */
-    sunriseOverMountains: string;
+    sunriseOverMountains: "\uD83C\uDF04";
     /** sunset 🌇 */
-    sunset: string;
+    sunset: "\uD83C\uDF07";
     /** sun with face 🌞 */
-    sunWithFace: string;
+    sunWithFace: "\uD83C\uDF1E";
     /** superhero 🦸 */
-    superhero: string;
+    superhero: "\uD83E\uDDB8";
     /** supervillain 🦹 */
-    supervillain: string;
+    supervillain: "\uD83E\uDDB9";
     /** sushi 🍣 */
-    sushi: string;
+    sushi: "\uD83C\uDF63";
     /** suspension railway 🚟 */
-    suspensionRailway: string;
+    suspensionRailway: "\uD83D\uDE9F";
     /** swan 🦢 */
-    swan: string;
+    swan: "\uD83E\uDDA2";
     /** sweat droplets 💦 */
-    sweatDroplets: string;
+    sweatDroplets: "\uD83D\uDCA6";
     /** synagogue 🕍 */
-    synagogue: string;
+    synagogue: "\uD83D\uDD4D";
     /** syringe 💉 */
-    syringe: string;
+    syringe: "\uD83D\uDC89";
     /** taco 🌮 */
-    taco: string;
+    taco: "\uD83C\uDF2E";
     /** takeout box 🥡 */
-    takeoutBox: string;
+    takeoutBox: "\uD83E\uDD61";
     /** tamale 🫔 */
-    tamale: string;
+    tamale: "\uD83E\uDED4";
     /** tanabata tree 🎋 */
-    tanabataTree: string;
+    tanabataTree: "\uD83C\uDF8B";
     /** tangerine 🍊 */
-    tangerine: string;
+    tangerine: "\uD83C\uDF4A";
     /** Taurus ♉ */
-    taurus: string;
+    taurus: "\u2649";
     /** taxi 🚕 */
-    taxi: string;
+    taxi: "\uD83D\uDE95";
     /** teacher 🧑‍🏫 */
-    teacher: string;
+    teacher: "\uD83E\uDDD1\u200D\uD83C\uDFEB";
     /** teacup without handle 🍵 */
-    teacupWithoutHandle: string;
+    teacupWithoutHandle: "\uD83C\uDF75";
     /** teapot 🫖 */
-    teapot: string;
+    teapot: "\uD83E\uDED6";
     /** tear-off calendar 📆 */
-    tearOffCalendar: string;
+    tearOffCalendar: "\uD83D\uDCC6";
     /** technologist 🧑‍💻 */
-    technologist: string;
+    technologist: "\uD83E\uDDD1\u200D\uD83D\uDCBB";
     /** teddy bear 🧸 */
-    teddyBear: string;
+    teddyBear: "\uD83E\uDDF8";
     /** telephone ☎ */
-    telephone: string;
+    telephone: "\u260E";
     /** telephone receiver 📞 */
-    telephoneReceiver: string;
+    telephoneReceiver: "\uD83D\uDCDE";
     /** telescope 🔭 */
-    telescope: string;
+    telescope: "\uD83D\uDD2D";
     /** television 📺 */
-    television: string;
+    television: "\uD83D\uDCFA";
     /** tennis 🎾 */
-    tennis: string;
+    tennis: "\uD83C\uDFBE";
     /** ten o’clock 🕙 */
-    tenOclock: string;
+    tenOclock: "\uD83D\uDD59";
     /** tent ⛺ */
-    tent: string;
+    tent: "\u26FA";
     /** ten-thirty 🕥 */
-    tenThirty: string;
+    tenThirty: "\uD83D\uDD65";
     /** test tube 🧪 */
-    testTube: string;
+    testTube: "\uD83E\uDDEA";
     /** thermometer 🌡 */
-    thermometer: string;
+    thermometer: "\uD83C\uDF21";
     /** thinking face 🤔 */
-    thinkingFace: string;
+    thinkingFace: "\uD83E\uDD14";
     /** 3rd place medal 🥉 */
-    thirdPlaceMedal: string;
+    thirdPlaceMedal: "\uD83E\uDD49";
     /** thong sandal 🩴 */
-    thongSandal: string;
+    thongSandal: "\uD83E\uDE74";
     /** thought balloon 💭 */
-    thoughtBalloon: string;
+    thoughtBalloon: "\uD83D\uDCAD";
     /** thread 🧵 */
-    thread: string;
+    thread: "\uD83E\uDDF5";
     /** three o’clock 🕒 */
-    threeOclock: string;
+    threeOclock: "\uD83D\uDD52";
     /** three-thirty 🕞 */
-    threeThirty: string;
+    threeThirty: "\uD83D\uDD5E";
     /** thumbs down 👎 */
-    thumbsDown: string;
+    thumbsDown: "\uD83D\uDC4E";
     /** thumbs up 👍 */
-    thumbsUp: string;
+    thumbsUp: "\uD83D\uDC4D";
     /** ticket 🎫 */
-    ticket: string;
+    ticket: "\uD83C\uDFAB";
     /** tiger 🐅 */
-    tiger: string;
+    tiger: "\uD83D\uDC05";
     /** tiger face 🐯 */
-    tigerFace: string;
+    tigerFace: "\uD83D\uDC2F";
     /** timer clock ⏲ */
-    timerClock: string;
+    timerClock: "\u23F2";
     /** tired face 😫 */
-    tiredFace: string;
+    tiredFace: "\uD83D\uDE2B";
     /** toilet 🚽 */
-    toilet: string;
+    toilet: "\uD83D\uDEBD";
     /** Tokyo tower 🗼 */
-    tokyoTower: string;
+    tokyoTower: "\uD83D\uDDFC";
     /** tomato 🍅 */
-    tomato: string;
+    tomato: "\uD83C\uDF45";
     /** tongue 👅 */
-    tongue: string;
+    tongue: "\uD83D\uDC45";
     /** toolbox 🧰 */
-    toolbox: string;
+    toolbox: "\uD83E\uDDF0";
     /** tooth 🦷 */
-    tooth: string;
+    tooth: "\uD83E\uDDB7";
     /** toothbrush 🪥 */
-    toothbrush: string;
+    toothbrush: "\uD83E\uDEA5";
     /** TOP arrow 🔝 */
-    topArrow: string;
+    topArrow: "\uD83D\uDD1D";
     /** top hat 🎩 */
-    topHat: string;
+    topHat: "\uD83C\uDFA9";
     /** tornado 🌪 */
-    tornado: string;
+    tornado: "\uD83C\uDF2A";
     /** trackball 🖲 */
-    trackball: string;
+    trackball: "\uD83D\uDDB2";
     /** tractor 🚜 */
-    tractor: string;
+    tractor: "\uD83D\uDE9C";
     /** trade mark ™ */
-    tradeMark: string;
+    tradeMark: "\u2122";
     /** train 🚆 */
-    train: string;
+    train: "\uD83D\uDE86";
     /** tram 🚊 */
-    tram: string;
+    tram: "\uD83D\uDE8A";
     /** tram car 🚋 */
-    tramCar: string;
+    tramCar: "\uD83D\uDE8B";
     /** transgender flag 🏳️‍⚧️ */
-    transgenderFlag: string;
+    transgenderFlag: "\uD83C\uDFF3\uFE0F\u200D\u26A7\uFE0F";
     /** transgender symbol ⚧ */
-    transgenderSymbol: string;
+    transgenderSymbol: "\u26A7";
     /** T-Rex 🦖 */
-    tRex: string;
+    tRex: "\uD83E\uDD96";
     /** triangular flag 🚩 */
-    triangularFlag: string;
+    triangularFlag: "\uD83D\uDEA9";
     /** triangular ruler 📐 */
-    triangularRuler: string;
+    triangularRuler: "\uD83D\uDCD0";
     /** trident emblem 🔱 */
-    tridentEmblem: string;
+    tridentEmblem: "\uD83D\uDD31";
     /** troll 🧌 */
-    troll: string;
+    troll: "\uD83E\uDDCC";
     /** trolleybus 🚎 */
-    trolleybus: string;
+    trolleybus: "\uD83D\uDE8E";
     /** trophy 🏆 */
-    trophy: string;
+    trophy: "\uD83C\uDFC6";
     /** tropical drink 🍹 */
-    tropicalDrink: string;
+    tropicalDrink: "\uD83C\uDF79";
     /** tropical fish 🐠 */
-    tropicalFish: string;
+    tropicalFish: "\uD83D\uDC20";
     /** trumpet 🎺 */
-    trumpet: string;
+    trumpet: "\uD83C\uDFBA";
     /** t-shirt 👕 */
-    tShirt: string;
+    tShirt: "\uD83D\uDC55";
     /** tulip 🌷 */
-    tulip: string;
+    tulip: "\uD83C\uDF37";
     /** tumbler glass 🥃 */
-    tumblerGlass: string;
+    tumblerGlass: "\uD83E\uDD43";
     /** turkey 🦃 */
-    turkey: string;
+    turkey: "\uD83E\uDD83";
     /** turtle 🐢 */
-    turtle: string;
+    turtle: "\uD83D\uDC22";
     /** twelve o’clock 🕛 */
-    twelveOclock: string;
+    twelveOclock: "\uD83D\uDD5B";
     /** twelve-thirty 🕧 */
-    twelveThirty: string;
+    twelveThirty: "\uD83D\uDD67";
     /** two hearts 💕 */
-    twoHearts: string;
+    twoHearts: "\uD83D\uDC95";
     /** two-hump camel 🐫 */
-    twoHumpCamel: string;
+    twoHumpCamel: "\uD83D\uDC2B";
     /** two o’clock 🕑 */
-    twoOclock: string;
+    twoOclock: "\uD83D\uDD51";
     /** two-thirty 🕝 */
-    twoThirty: string;
+    twoThirty: "\uD83D\uDD5D";
     /** umbrella ☂ */
-    umbrella: string;
+    umbrella: "\u2602";
     /** umbrella on ground ⛱ */
-    umbrellaOnGround: string;
+    umbrellaOnGround: "\u26F1";
     /** umbrella with rain drops ☔ */
-    umbrellaWithRainDrops: string;
+    umbrellaWithRainDrops: "\u2614";
     /** unamused face 😒 */
-    unamusedFace: string;
+    unamusedFace: "\uD83D\uDE12";
     /** unicorn 🦄 */
-    unicorn: string;
+    unicorn: "\uD83E\uDD84";
     /** unlocked 🔓 */
-    unlocked: string;
+    unlocked: "\uD83D\uDD13";
     /** up arrow ⬆ */
-    upArrow: string;
+    upArrow: "\u2B06";
     /** UP! button 🆙 */
-    upButton: string;
+    upButton: "\uD83C\uDD99";
     /** up-down arrow ↕ */
-    upDownArrow: string;
+    upDownArrow: "\u2195";
     /** up-left arrow ↖ */
-    upLeftArrow: string;
+    upLeftArrow: "\u2196";
     /** up-right arrow ↗ */
-    upRightArrow: string;
+    upRightArrow: "\u2197";
     /** upside-down face 🙃 */
-    upsideDownFace: string;
+    upsideDownFace: "\uD83D\uDE43";
     /** upwards button 🔼 */
-    upwardsButton: string;
+    upwardsButton: "\uD83D\uDD3C";
     /** vampire 🧛 */
-    vampire: string;
+    vampire: "\uD83E\uDDDB";
     /** vertical traffic light 🚦 */
-    verticalTrafficLight: string;
+    verticalTrafficLight: "\uD83D\uDEA6";
     /** vibration mode 📳 */
-    vibrationMode: string;
+    vibrationMode: "\uD83D\uDCF3";
     /** victory hand ✌ */
-    victoryHand: string;
+    victoryHand: "\u270C";
     /** video camera 📹 */
-    videoCamera: string;
+    videoCamera: "\uD83D\uDCF9";
     /** videocassette 📼 */
-    videocassette: string;
+    videocassette: "\uD83D\uDCFC";
     /** video game 🎮 */
-    videoGame: string;
+    videoGame: "\uD83C\uDFAE";
     /** violin 🎻 */
-    violin: string;
+    violin: "\uD83C\uDFBB";
     /** Virgo ♍ */
-    virgo: string;
+    virgo: "\u264D";
     /** volcano 🌋 */
-    volcano: string;
+    volcano: "\uD83C\uDF0B";
     /** volleyball 🏐 */
-    volleyball: string;
+    volleyball: "\uD83C\uDFD0";
     /** VS button 🆚 */
-    vsButton: string;
+    vsButton: "\uD83C\uDD9A";
     /** vulcan salute 🖖 */
-    vulcanSalute: string;
+    vulcanSalute: "\uD83D\uDD96";
     /** waffle 🧇 */
-    waffle: string;
+    waffle: "\uD83E\uDDC7";
     /** waning crescent moon 🌘 */
-    waningCrescentMoon: string;
+    waningCrescentMoon: "\uD83C\uDF18";
     /** waning gibbous moon 🌖 */
-    waningGibbousMoon: string;
+    waningGibbousMoon: "\uD83C\uDF16";
     /** warning ⚠ */
-    warning: string;
+    warning: "\u26A0";
     /** wastebasket 🗑 */
-    wastebasket: string;
+    wastebasket: "\uD83D\uDDD1";
     /** watch ⌚ */
-    watch: string;
+    watch: "\u231A";
     /** water buffalo 🐃 */
-    waterBuffalo: string;
+    waterBuffalo: "\uD83D\uDC03";
     /** water closet 🚾 */
-    waterCloset: string;
+    waterCloset: "\uD83D\uDEBE";
     /** watermelon 🍉 */
-    watermelon: string;
+    watermelon: "\uD83C\uDF49";
     /** water pistol 🔫 */
-    waterPistol: string;
+    waterPistol: "\uD83D\uDD2B";
     /** water wave 🌊 */
-    waterWave: string;
+    waterWave: "\uD83C\uDF0A";
     /** waving hand 👋 */
-    wavingHand: string;
+    wavingHand: "\uD83D\uDC4B";
     /** wavy dash 〰 */
-    wavyDash: string;
+    wavyDash: "\u3030";
     /** waxing crescent moon 🌒 */
-    waxingCrescentMoon: string;
+    waxingCrescentMoon: "\uD83C\uDF12";
     /** waxing gibbous moon 🌔 */
-    waxingGibbousMoon: string;
+    waxingGibbousMoon: "\uD83C\uDF14";
     /** weary cat 🙀 */
-    wearyCat: string;
+    wearyCat: "\uD83D\uDE40";
     /** weary face 😩 */
-    wearyFace: string;
+    wearyFace: "\uD83D\uDE29";
     /** wedding 💒 */
-    wedding: string;
+    wedding: "\uD83D\uDC92";
     /** whale 🐋 */
-    whale: string;
+    whale: "\uD83D\uDC0B";
     /** wheel 🛞 */
-    wheel: string;
+    wheel: "\uD83D\uDEDE";
     /** wheelchair symbol ♿ */
-    wheelchairSymbol: string;
+    wheelchairSymbol: "\u267F";
     /** wheel of dharma ☸ */
-    wheelOfDharma: string;
+    wheelOfDharma: "\u2638";
     /** white cane 🦯 */
-    whiteCane: string;
+    whiteCane: "\uD83E\uDDAF";
     /** white circle ⚪ */
-    whiteCircle: string;
+    whiteCircle: "\u26AA";
     /** white exclamation mark ❕ */
-    whiteExclamationMark: string;
+    whiteExclamationMark: "\u2755";
     /** white flag 🏳 */
-    whiteFlag: string;
+    whiteFlag: "\uD83C\uDFF3";
     /** white flower 💮 */
-    whiteFlower: string;
+    whiteFlower: "\uD83D\uDCAE";
     /** white hair 🦳 */
-    whiteHair: string;
+    whiteHair: "\uD83E\uDDB3";
     /** white heart 🤍 */
-    whiteHeart: string;
+    whiteHeart: "\uD83E\uDD0D";
     /** white large square ⬜ */
-    whiteLargeSquare: string;
+    whiteLargeSquare: "\u2B1C";
     /** white medium-small square ◽ */
-    whiteMediumSmallSquare: string;
+    whiteMediumSmallSquare: "\u25FD";
     /** white medium square ◻ */
-    whiteMediumSquare: string;
+    whiteMediumSquare: "\u25FB";
     /** white question mark ❔ */
-    whiteQuestionMark: string;
+    whiteQuestionMark: "\u2754";
     /** white small square ▫ */
-    whiteSmallSquare: string;
+    whiteSmallSquare: "\u25AB";
     /** white square button 🔳 */
-    whiteSquareButton: string;
+    whiteSquareButton: "\uD83D\uDD33";
     /** wilted flower 🥀 */
-    wiltedFlower: string;
+    wiltedFlower: "\uD83E\uDD40";
     /** wind chime 🎐 */
-    windChime: string;
+    windChime: "\uD83C\uDF90";
     /** wind face 🌬 */
-    windFace: string;
+    windFace: "\uD83C\uDF2C";
     /** window 🪟 */
-    window: string;
+    window: "\uD83E\uDE9F";
     /** wine glass 🍷 */
-    wineGlass: string;
+    wineGlass: "\uD83C\uDF77";
     /** wing 🪽 */
-    wing: string;
+    wing: "\uD83E\uDEBD";
     /** winking face 😉 */
-    winkingFace: string;
+    winkingFace: "\uD83D\uDE09";
     /** winking face with tongue 😜 */
-    winkingFaceWithTongue: string;
+    winkingFaceWithTongue: "\uD83D\uDE1C";
     /** wireless 🛜 */
-    wireless: string;
+    wireless: "\uD83D\uDEDC";
     /** wolf 🐺 */
-    wolf: string;
+    wolf: "\uD83D\uDC3A";
     /** woman 👩 */
-    woman: string;
+    woman: "\uD83D\uDC69";
     /** woman and man holding hands 👫 */
-    womanAndManHoldingHands: string;
+    womanAndManHoldingHands: "\uD83D\uDC6B";
     /** woman artist 👩‍🎨 */
-    womanArtist: string;
+    womanArtist: "\uD83D\uDC69\u200D\uD83C\uDFA8";
     /** woman astronaut 👩‍🚀 */
-    womanAstronaut: string;
+    womanAstronaut: "\uD83D\uDC69\u200D\uD83D\uDE80";
     /** woman: bald 👩‍🦲 */
-    womanBald: string;
+    womanBald: "\uD83D\uDC69\u200D\uD83E\uDDB2";
     /** woman: beard 🧔‍♀️ */
-    womanBeard: string;
+    womanBeard: "\uD83E\uDDD4\u200D\u2640\uFE0F";
     /** woman biking 🚴‍♀️ */
-    womanBiking: string;
+    womanBiking: "\uD83D\uDEB4\u200D\u2640\uFE0F";
     /** woman: blond hair 👱‍♀️ */
-    womanBlondHair: string;
+    womanBlondHair: "\uD83D\uDC71\u200D\u2640\uFE0F";
     /** woman bouncing ball ⛹️‍♀️ */
-    womanBouncingBall: string;
+    womanBouncingBall: "\u26F9\uFE0F\u200D\u2640\uFE0F";
     /** woman bowing 🙇‍♀️ */
-    womanBowing: string;
+    womanBowing: "\uD83D\uDE47\u200D\u2640\uFE0F";
     /** woman cartwheeling 🤸‍♀️ */
-    womanCartwheeling: string;
+    womanCartwheeling: "\uD83E\uDD38\u200D\u2640\uFE0F";
     /** woman climbing 🧗‍♀️ */
-    womanClimbing: string;
+    womanClimbing: "\uD83E\uDDD7\u200D\u2640\uFE0F";
     /** woman construction worker 👷‍♀️ */
-    womanConstructionWorker: string;
+    womanConstructionWorker: "\uD83D\uDC77\u200D\u2640\uFE0F";
     /** woman cook 👩‍🍳 */
-    womanCook: string;
+    womanCook: "\uD83D\uDC69\u200D\uD83C\uDF73";
     /** woman: curly hair 👩‍🦱 */
-    womanCurlyHair: string;
+    womanCurlyHair: "\uD83D\uDC69\u200D\uD83E\uDDB1";
     /** woman dancing 💃 */
-    womanDancing: string;
+    womanDancing: "\uD83D\uDC83";
     /** woman detective 🕵️‍♀️ */
-    womanDetective: string;
+    womanDetective: "\uD83D\uDD75\uFE0F\u200D\u2640\uFE0F";
     /** woman elf 🧝‍♀️ */
-    womanElf: string;
+    womanElf: "\uD83E\uDDDD\u200D\u2640\uFE0F";
     /** woman facepalming 🤦‍♀️ */
-    womanFacepalming: string;
+    womanFacepalming: "\uD83E\uDD26\u200D\u2640\uFE0F";
     /** woman factory worker 👩‍🏭 */
-    womanFactoryWorker: string;
+    womanFactoryWorker: "\uD83D\uDC69\u200D\uD83C\uDFED";
     /** woman fairy 🧚‍♀️ */
-    womanFairy: string;
+    womanFairy: "\uD83E\uDDDA\u200D\u2640\uFE0F";
     /** woman farmer 👩‍🌾 */
-    womanFarmer: string;
+    womanFarmer: "\uD83D\uDC69\u200D\uD83C\uDF3E";
     /** woman feeding baby 👩‍🍼 */
-    womanFeedingBaby: string;
+    womanFeedingBaby: "\uD83D\uDC69\u200D\uD83C\uDF7C";
     /** woman firefighter 👩‍🚒 */
-    womanFirefighter: string;
+    womanFirefighter: "\uD83D\uDC69\u200D\uD83D\uDE92";
     /** woman frowning 🙍‍♀️ */
-    womanFrowning: string;
+    womanFrowning: "\uD83D\uDE4D\u200D\u2640\uFE0F";
     /** woman genie 🧞‍♀️ */
-    womanGenie: string;
+    womanGenie: "\uD83E\uDDDE\u200D\u2640\uFE0F";
     /** woman gesturing NO 🙅‍♀️ */
-    womanGesturingNo: string;
+    womanGesturingNo: "\uD83D\uDE45\u200D\u2640\uFE0F";
     /** woman gesturing OK 🙆‍♀️ */
-    womanGesturingOk: string;
+    womanGesturingOk: "\uD83D\uDE46\u200D\u2640\uFE0F";
     /** woman getting haircut 💇‍♀️ */
-    womanGettingHaircut: string;
+    womanGettingHaircut: "\uD83D\uDC87\u200D\u2640\uFE0F";
     /** woman getting massage 💆‍♀️ */
-    womanGettingMassage: string;
+    womanGettingMassage: "\uD83D\uDC86\u200D\u2640\uFE0F";
     /** woman golfing 🏌️‍♀️ */
-    womanGolfing: string;
+    womanGolfing: "\uD83C\uDFCC\uFE0F\u200D\u2640\uFE0F";
     /** woman guard 💂‍♀️ */
-    womanGuard: string;
+    womanGuard: "\uD83D\uDC82\u200D\u2640\uFE0F";
     /** woman health worker 👩‍⚕️ */
-    womanHealthWorker: string;
+    womanHealthWorker: "\uD83D\uDC69\u200D\u2695\uFE0F";
     /** woman in lotus position 🧘‍♀️ */
-    womanInLotusPosition: string;
+    womanInLotusPosition: "\uD83E\uDDD8\u200D\u2640\uFE0F";
     /** woman in manual wheelchair 👩‍🦽 */
-    womanInManualWheelchair: string;
+    womanInManualWheelchair: "\uD83D\uDC69\u200D\uD83E\uDDBD";
     /** woman in manual wheelchair facing right 👩‍🦽‍➡️ */
-    womanInManualWheelchairFacingRight: string;
+    womanInManualWheelchairFacingRight: "\uD83D\uDC69\u200D\uD83E\uDDBD\u200D\u27A1\uFE0F";
     /** woman in motorized wheelchair 👩‍🦼 */
-    womanInMotorizedWheelchair: string;
+    womanInMotorizedWheelchair: "\uD83D\uDC69\u200D\uD83E\uDDBC";
     /** woman in motorized wheelchair facing right 👩‍🦼‍➡️ */
-    womanInMotorizedWheelchairFacingRight: string;
+    womanInMotorizedWheelchairFacingRight: "\uD83D\uDC69\u200D\uD83E\uDDBC\u200D\u27A1\uFE0F";
     /** woman in steamy room 🧖‍♀️ */
-    womanInSteamyRoom: string;
+    womanInSteamyRoom: "\uD83E\uDDD6\u200D\u2640\uFE0F";
     /** woman in tuxedo 🤵‍♀️ */
-    womanInTuxedo: string;
+    womanInTuxedo: "\uD83E\uDD35\u200D\u2640\uFE0F";
     /** woman judge 👩‍⚖️ */
-    womanJudge: string;
+    womanJudge: "\uD83D\uDC69\u200D\u2696\uFE0F";
     /** woman juggling 🤹‍♀️ */
-    womanJuggling: string;
+    womanJuggling: "\uD83E\uDD39\u200D\u2640\uFE0F";
     /** woman kneeling 🧎‍♀️ */
-    womanKneeling: string;
+    womanKneeling: "\uD83E\uDDCE\u200D\u2640\uFE0F";
     /** woman kneeling facing right 🧎‍♀️‍➡️ */
-    womanKneelingFacingRight: string;
+    womanKneelingFacingRight: "\uD83E\uDDCE\u200D\u2640\uFE0F\u200D\u27A1\uFE0F";
     /** woman lifting weights 🏋️‍♀️ */
-    womanLiftingWeights: string;
+    womanLiftingWeights: "\uD83C\uDFCB\uFE0F\u200D\u2640\uFE0F";
     /** woman mage 🧙‍♀️ */
-    womanMage: string;
+    womanMage: "\uD83E\uDDD9\u200D\u2640\uFE0F";
     /** woman mechanic 👩‍🔧 */
-    womanMechanic: string;
+    womanMechanic: "\uD83D\uDC69\u200D\uD83D\uDD27";
     /** woman mountain biking 🚵‍♀️ */
-    womanMountainBiking: string;
+    womanMountainBiking: "\uD83D\uDEB5\u200D\u2640\uFE0F";
     /** woman office worker 👩‍💼 */
-    womanOfficeWorker: string;
+    womanOfficeWorker: "\uD83D\uDC69\u200D\uD83D\uDCBC";
     /** woman pilot 👩‍✈️ */
-    womanPilot: string;
+    womanPilot: "\uD83D\uDC69\u200D\u2708\uFE0F";
     /** woman playing handball 🤾‍♀️ */
-    womanPlayingHandball: string;
+    womanPlayingHandball: "\uD83E\uDD3E\u200D\u2640\uFE0F";
     /** woman playing water polo 🤽‍♀️ */
-    womanPlayingWaterPolo: string;
+    womanPlayingWaterPolo: "\uD83E\uDD3D\u200D\u2640\uFE0F";
     /** woman police officer 👮‍♀️ */
-    womanPoliceOfficer: string;
+    womanPoliceOfficer: "\uD83D\uDC6E\u200D\u2640\uFE0F";
     /** woman pouting 🙎‍♀️ */
-    womanPouting: string;
+    womanPouting: "\uD83D\uDE4E\u200D\u2640\uFE0F";
     /** woman raising hand 🙋‍♀️ */
-    womanRaisingHand: string;
+    womanRaisingHand: "\uD83D\uDE4B\u200D\u2640\uFE0F";
     /** woman: red hair 👩‍🦰 */
-    womanRedHair: string;
+    womanRedHair: "\uD83D\uDC69\u200D\uD83E\uDDB0";
     /** woman rowing boat 🚣‍♀️ */
-    womanRowingBoat: string;
+    womanRowingBoat: "\uD83D\uDEA3\u200D\u2640\uFE0F";
     /** woman running 🏃‍♀️ */
-    womanRunning: string;
+    womanRunning: "\uD83C\uDFC3\u200D\u2640\uFE0F";
     /** woman running facing right 🏃‍♀️‍➡️ */
-    womanRunningFacingRight: string;
+    womanRunningFacingRight: "\uD83C\uDFC3\u200D\u2640\uFE0F\u200D\u27A1\uFE0F";
     /** woman’s boot 👢 */
-    womansBoot: string;
+    womansBoot: "\uD83D\uDC62";
     /** woman scientist 👩‍🔬 */
-    womanScientist: string;
+    womanScientist: "\uD83D\uDC69\u200D\uD83D\uDD2C";
     /** woman’s clothes 👚 */
-    womansClothes: string;
+    womansClothes: "\uD83D\uDC5A";
     /** woman’s hat 👒 */
-    womansHat: string;
+    womansHat: "\uD83D\uDC52";
     /** woman shrugging 🤷‍♀️ */
-    womanShrugging: string;
+    womanShrugging: "\uD83E\uDD37\u200D\u2640\uFE0F";
     /** woman singer 👩‍🎤 */
-    womanSinger: string;
+    womanSinger: "\uD83D\uDC69\u200D\uD83C\uDFA4";
     /** woman’s sandal 👡 */
-    womansSandal: string;
+    womansSandal: "\uD83D\uDC61";
     /** woman standing 🧍‍♀️ */
-    womanStanding: string;
+    womanStanding: "\uD83E\uDDCD\u200D\u2640\uFE0F";
     /** woman student 👩‍🎓 */
-    womanStudent: string;
+    womanStudent: "\uD83D\uDC69\u200D\uD83C\uDF93";
     /** woman superhero 🦸‍♀️ */
-    womanSuperhero: string;
+    womanSuperhero: "\uD83E\uDDB8\u200D\u2640\uFE0F";
     /** woman supervillain 🦹‍♀️ */
-    womanSupervillain: string;
+    womanSupervillain: "\uD83E\uDDB9\u200D\u2640\uFE0F";
     /** woman surfing 🏄‍♀️ */
-    womanSurfing: string;
+    womanSurfing: "\uD83C\uDFC4\u200D\u2640\uFE0F";
     /** woman swimming 🏊‍♀️ */
-    womanSwimming: string;
+    womanSwimming: "\uD83C\uDFCA\u200D\u2640\uFE0F";
     /** woman teacher 👩‍🏫 */
-    womanTeacher: string;
+    womanTeacher: "\uD83D\uDC69\u200D\uD83C\uDFEB";
     /** woman technologist 👩‍💻 */
-    womanTechnologist: string;
+    womanTechnologist: "\uD83D\uDC69\u200D\uD83D\uDCBB";
     /** woman tipping hand 💁‍♀️ */
-    womanTippingHand: string;
+    womanTippingHand: "\uD83D\uDC81\u200D\u2640\uFE0F";
     /** woman vampire 🧛‍♀️ */
-    womanVampire: string;
+    womanVampire: "\uD83E\uDDDB\u200D\u2640\uFE0F";
     /** woman walking 🚶‍♀️ */
-    womanWalking: string;
+    womanWalking: "\uD83D\uDEB6\u200D\u2640\uFE0F";
     /** woman walking facing right 🚶‍♀️‍➡️ */
-    womanWalkingFacingRight: string;
+    womanWalkingFacingRight: "\uD83D\uDEB6\u200D\u2640\uFE0F\u200D\u27A1\uFE0F";
     /** woman wearing turban 👳‍♀️ */
-    womanWearingTurban: string;
+    womanWearingTurban: "\uD83D\uDC73\u200D\u2640\uFE0F";
     /** woman: white hair 👩‍🦳 */
-    womanWhiteHair: string;
+    womanWhiteHair: "\uD83D\uDC69\u200D\uD83E\uDDB3";
     /** woman with headscarf 🧕 */
-    womanWithHeadscarf: string;
+    womanWithHeadscarf: "\uD83E\uDDD5";
     /** woman with veil 👰‍♀️ */
-    womanWithVeil: string;
+    womanWithVeil: "\uD83D\uDC70\u200D\u2640\uFE0F";
     /** woman with white cane 👩‍🦯 */
-    womanWithWhiteCane: string;
+    womanWithWhiteCane: "\uD83D\uDC69\u200D\uD83E\uDDAF";
     /** woman with white cane facing right 👩‍🦯‍➡️ */
-    womanWithWhiteCaneFacingRight: string;
+    womanWithWhiteCaneFacingRight: "\uD83D\uDC69\u200D\uD83E\uDDAF\u200D\u27A1\uFE0F";
     /** woman zombie 🧟‍♀️ */
-    womanZombie: string;
+    womanZombie: "\uD83E\uDDDF\u200D\u2640\uFE0F";
     /** women holding hands 👭 */
-    womenHoldingHands: string;
+    womenHoldingHands: "\uD83D\uDC6D";
     /** women’s room 🚺 */
-    womensRoom: string;
+    womensRoom: "\uD83D\uDEBA";
     /** women with bunny ears 👯‍♀️ */
-    womenWithBunnyEars: string;
+    womenWithBunnyEars: "\uD83D\uDC6F\u200D\u2640\uFE0F";
     /** women wrestling 🤼‍♀️ */
-    womenWrestling: string;
+    womenWrestling: "\uD83E\uDD3C\u200D\u2640\uFE0F";
     /** wood 🪵 */
-    wood: string;
+    wood: "\uD83E\uDEB5";
     /** woozy face 🥴 */
-    woozyFace: string;
+    woozyFace: "\uD83E\uDD74";
     /** world map 🗺 */
-    worldMap: string;
+    worldMap: "\uD83D\uDDFA";
     /** worm 🪱 */
-    worm: string;
+    worm: "\uD83E\uDEB1";
     /** worried face 😟 */
-    worriedFace: string;
+    worriedFace: "\uD83D\uDE1F";
     /** wrapped gift 🎁 */
-    wrappedGift: string;
+    wrappedGift: "\uD83C\uDF81";
     /** wrench 🔧 */
-    wrench: string;
+    wrench: "\uD83D\uDD27";
     /** writing hand ✍ */
-    writingHand: string;
+    writingHand: "\u270D";
     /** x-ray 🩻 */
-    xRay: string;
+    xRay: "\uD83E\uDE7B";
     /** yarn 🧶 */
-    yarn: string;
+    yarn: "\uD83E\uDDF6";
     /** yawning face 🥱 */
-    yawningFace: string;
+    yawningFace: "\uD83E\uDD71";
     /** yellow circle 🟡 */
-    yellowCircle: string;
+    yellowCircle: "\uD83D\uDFE1";
     /** yellow heart 💛 */
-    yellowHeart: string;
+    yellowHeart: "\uD83D\uDC9B";
     /** yellow square 🟨 */
-    yellowSquare: string;
+    yellowSquare: "\uD83D\uDFE8";
     /** yen banknote 💴 */
-    yenBanknote: string;
+    yenBanknote: "\uD83D\uDCB4";
     /** yin yang ☯ */
-    yinYang: string;
+    yinYang: "\u262F";
     /** yo-yo 🪀 */
-    yoYo: string;
+    yoYo: "\uD83E\uDE80";
     /** zany face 🤪 */
-    zanyFace: string;
+    zanyFace: "\uD83E\uDD2A";
     /** zebra 🦓 */
-    zebra: string;
+    zebra: "\uD83E\uDD93";
     /** zipper-mouth face 🤐 */
-    zipperMouthFace: string;
+    zipperMouthFace: "\uD83E\uDD10";
     /** zombie 🧟 */
-    zombie: string;
+    zombie: "\uD83E\uDDDF";
     /** ZZZ 💤 */
-    zzz: string;
+    zzz: "\uD83D\uDCA4";
 };
 export default _default;
