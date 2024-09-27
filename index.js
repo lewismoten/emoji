@@ -2,10 +2,12 @@ import emoji from './dist/emoji.js';
 
 var searchText;
 var emojiList;
+var matchCount;
 
 function onLoad() {
   searchText = document.getElementsByClassName("text")[0];
   emojiList = document.getElementsByClassName("list")[0];
+  matchCount = document.getElementsByClassName('match-count')[0];
 
   searchText.addEventListener("keyup", onKeyUp);
   emojiList.addEventListener("click", onClick);
@@ -43,6 +45,8 @@ function drawList() {
 
   var keys = Object.keys(emoji).filter(hasKeyword);
   emojiList.replaceChildren(...keys.map(asItem));
+  console.log(matchCount);
+  matchCount.innerText = keys.length;
 }
 
 function onKeyUp(e) {
