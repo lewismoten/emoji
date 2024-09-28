@@ -1,6 +1,6 @@
 {
   "name": "@lewismoten/emoji",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "list of named emoji unicode values",
   "type": "module",
   "main": "dist/commonjs/index.min.cjs",
