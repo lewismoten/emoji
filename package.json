@@ -16,7 +16,7 @@
     "get-zwj": "npm run build && node ./build/scripts/emoji-zwj-sequences.mjs",
     "get-sequences": "npm run build && node ./build/scripts/emoji-sequences.mjs",
     "get-test": "npm run build && node ./build/scripts/emoji-test.mjs",
-    "parse": "npm run build && npm run get-zwj && npm run get-sequences && npm run get-test && node ./build/scripts/emoji-parse.mjs"
+    "parse": "npm run get-test && node ./build/scripts/emoji-parse.mjs"
   },
   "repository": {
     "type": "git",

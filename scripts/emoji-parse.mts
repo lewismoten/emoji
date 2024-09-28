@@ -4,38 +4,24 @@ import path from 'node:path';
 import { logger } from '@codejamboree/js-logger';
 
 const cachePath = 'cache';
-const sequenceFile = 'emoji-sequences.json';
 const testFile = 'emoji-test.json';
-const zwjFile = 'emoji-zwj-sequences.json';
 
 interface Emoji {
   emoji: string,
   codePoints: string,
   shortName: string
 }
-interface ZwjEmoji extends Emoji {
-  type: string,
-  category: string
-}
 interface TestEmoji extends Emoji {
   status: string,
   group: string,
   subGroup: string
-}
-interface SequenceEmoji extends Emoji {
-  type: string
 }
 
 const main = async () => {
   if (!fs.existsSync(cachePath))
     fs.mkdirSync(cachePath, { recursive: true });
 
-  const sequence = readJson<SequenceEmoji>(sequenceFile);
   const test = readJson<TestEmoji>(testFile);
-  const zwj = readJson<ZwjEmoji>(zwjFile);
-
-  checkForMissing(sequence, 'sequence', test, 'test');
-  checkForMissing(zwj, 'zwj', test, 'test');
 
   const unique = test.filter(({ status }) => ['fully-qualified', 'component'].includes(status));
 
@@ -63,18 +49,6 @@ const main = async () => {
     ""
   ].join('\r\n');
   fs.writeFileSync('emoji.ts', emojiJs, 'utf8')
-}
-const checkForMissing = (candidate: Emoji[], candidateName: string, target: Emoji[], targetName: string) => {
-
-  const missing = candidate.filter(
-    ({ codePoints }) => !target.find(emoji => emoji.codePoints === codePoints)
-  );
-  if (missing.length === 0) {
-    console.info(`All items from ${candidateName} are already present in ${targetName}`);
-  } else {
-    console.warn(`${targetName} is missing items from ${candidateName}`, missing.length);
-  }
-
 }
 const parseUnicodeEscape = (codePoints: string): string => codePoints
   .split(' ')
