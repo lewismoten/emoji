@@ -31,7 +31,20 @@ The live demo is hosted on GitHub pages:
 
 ![Screenshot](screenshot.png)
 
-## Scraper
+## Scripts
+
+- clean: drops the build & dist folders
+- build: creates typescript
+- bundle: creates JavaScript & TypeScript Definitions for packaging
+- prepublishOnly: ensures a new bundle is created for publishing
+- start: Runs demo site at http://localhost:5173
+- test: Misc tests from research
+- get-zwj: Downloads zero-width join data (deprecated)
+- get-sequences: Downloads sequences (deprecated)
+- get-test: Downloads test data
+- parse: Downloads test data and parses it to create emoji.ts and emoji.json
+
+## Scraper (Depricated)
 
 Names and codes scraped from <https://unicode.org/emoji/charts/full-emoji-list.html>
 
