@@ -2,16 +2,58 @@
   "name": "@lewismoten/emoji",
   "version": "3.2.0",
   "description": "list of named emoji unicode values",
-  "main": "dist/emoji.js",
-  "types": "dist/emoji.d.ts",
-  "files": [
-    "dist/emoji.js",
-    "dist/emoji.js.map",
-    "dist/emoji.d.ts"
-  ],
+  "type": "module",
+  "main": "dist/commonjs/index.min.cjs",
+  "types": "dist/commonjs/types/index.d.min.ts",
+  "module": "dist/commonjs/index.min.cjs",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/types/index.d.min.mts",
+        "default": "./dist/esm/index.min.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/types/index.d.min.ts",
+        "default": "./dist/commonjs/index.min.cjs"
+      }
+    },
+    "./production": {
+      "import": {
+        "types": "./dist/esm/types/index.d.min.mts",
+        "default": "./dist/esm/index.min.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/types/index.d.min.ts",
+        "default": "./dist/commonjs/index.min.cjs"
+      }
+    },
+    "./development": {
+      "import": {
+        "types": "./dist/esm/types/index.d.mts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/types/index.d.ts",
+        "default": "./dist/commonjs/index.cjs"
+      }
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "production": [
+        "dist/commonjs/types/index.d.min.ts"
+      ],
+      "development": [
+        "dist/commonjs/types/index.d.ts"
+      ]
+    }
+  },
   "scripts": {
+    "clean": "rm -rf build && rm -rf dist",
+    "build": "npm run clean && tsc",
+    "bundle": "npm run build && npx rollup -c ./build/rollup.config.js",
+    "prepublishOnly": "npm run bundle",
     "start": "vite",
-    "build": "tsc",
     "test": "npm run build && node ./build/scripts/test.mjs",
     "get-zwj": "npm run build && node ./build/scripts/emoji-zwj-sequences.mjs",
     "get-sequences": "npm run build && node ./build/scripts/emoji-sequences.mjs",
@@ -38,6 +80,13 @@
   "devDependencies": {
     "@codejamboree/js-logger": "^2.2.3",
     "@codejamboree/web-request-queue": "^3.2.0",
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "rollup": "^4.22.5",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-license": "^3.5.3",
+    "rollup-plugin-typescript2": "^0.36.0",
     "typescript": "^5.6.2",
     "vite": "^5.4.8"
   }

@@ -1,3 +1,13 @@
 /node_modules/
 /build/
 /cache/
+
+/dist/commonjs
+/dist/esm/types
+/dist/esm/emoji.d.ts 
+/dist/esm/index.js.map
+/dist/esm/index.min.js
+/dist/esm/index.min.js.map
+/dist/esm/rollup.config.d.ts
+# /dist/
+# !/dist/esm/index.js - not working?

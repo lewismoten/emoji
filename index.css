@@ -81,7 +81,8 @@ a {
 }
 
 .code .comment {
-  color: #505050;
+  color: #848484;
+  font-weight: bolder;
 }
 
 .code .native-object {

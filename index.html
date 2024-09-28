@@ -8,20 +8,90 @@
 
 <body>
   <noscript>JavaScript not enabled</noscript>
-  <div class="search">Search <input class="text" type="text" /><span class="match-count">0</span> matches</div>
+  <div class="search">
+    Search <input class="text" type="text" />
+    <span class="match-count">0</span> matches
+  </div>
+  <div>
+    Group: <select class="select-group">
+      <option>Not loaded</option>
+    </select>
+  </div>
+  <div>
+    Sub-Group: <select class="select-subgroup">
+      <option>Not loaded</option>
+    </select>
+  </div>
+  <div>
+    Skin Tones:
+    <label>
+      <input type="checkbox" class="skin-tone" value="1F3FF">Dark
+    </label>
+    <label>
+      <input type="checkbox" class="skin-tone" value="1F3FE">Medium-Dark
+    </label>
+    <label>
+      <input type="checkbox" class="skin-tone" value="1F3FD">Medium
+    </label>
+    <label>
+      <input type="checkbox" class="skin-tone" value="1F3FC">Medium-Light
+    </label>
+    <label>
+      <input type="checkbox" class="skin-tone" value="1F3FB">Light
+    </label>
+  </div>
+  <div>
+
+  </div>
+  Hair:
+  <label>
+    <input type="checkbox" class="hair" value="1F9B0">Red
+  </label>
+  <label>
+    <input type="checkbox" class="hair" value="1F9B1">Curly
+  </label>
+  <label>
+    <input type="checkbox" class="hair" value="1F9B2">Bald
+  </label>
+  <label>
+    <input type="checkbox" class="hair" value="1F9B3">White
+  </label>
+  </div>
   <div>
     Code:
     <a href="https://github.com/lewismoten/emoji">Github @lewismoten/emoji</a>
   </div>
   Click emoji to copy the emoji key.
   <div class="code">
-    <span class="line"><span class="keyword">var</span> <span class="variable">emoji</span>
+    <span class="line">
+      <span class="keyword">var</span>
+      <span class="variable">emoji</span>
       <span class="operator">=</span>
-      <span class="native-function">require</span>(<span class="string">"@lewismoten/emoji"</span>);</span>
-    <span class="line"><span class="native-object">console</span>.<span class="native-function">log</span>(<span
-        class="object">emoji</span>.<span class="object-key emoji-key">clinkingBeerMugs</span>);<span
-        class="comment"></span><span class="line">// <span class="emoji-value">&#x1F37B;</span>
-        <span class="emoji-encoded">\u{1f37b}</span></span></span>
+      <span class="native-function">require</span>(<span class="string">"@lewismoten/emoji"</span>);
+    </span>
+    <span class="line">
+      <span class="native-object">console</span>.<span class="native-function">log</span>(<span
+        class="object">emoji</span>.<span class="object-key emoji-key">clinkingBeerMugs</span>);
+    </span>
+    <span class="line">
+      <span class="comment">
+        //
+        <span class="emoji-value">&#x1F37B;</span>
+        <span class="emoji-encoded">\u{1f37b}</span>
+      </span>
+    </span>
+    <span class="line">
+      <span class="comment">
+        // Group:
+        <span class="emoji-group"></span>
+      </span>
+    </span>
+    <span class="line">
+      <span class="comment">
+        // Sub Group:
+        <span class="emoji-subgroup"></span>
+      </span>
+    </span>
   </div>
   <div class="list">
     Not loaded.

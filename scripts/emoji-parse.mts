@@ -23,19 +23,21 @@ const main = async () => {
 
   const test = readJson<TestEmoji>(testFile);
 
-  const unique = test.filter(({ status }) => ['fully-qualified', 'component'].includes(status));
+  const unique = test
+    .filter(({ status }) =>
+      ['fully-qualified', 'component'].includes(status)
+    ).map(item => {
+      return {
+        ...item,
+        key: parseKey(item.shortName),
+        value: parseUnicodeEscape(item.codePoints)
+      }
+    }).sort(({ key: a }, { key: b }) => a.localeCompare(b))
 
-  const parsed = unique.map(item => {
-    const key = parseKey(item.shortName);
-    const unicodeEscape = parseUnicodeEscape(item.codePoints);
-    const shortName = item.shortName;
-    return [key, unicodeEscape, shortName];
-  });
 
-  const emojiJsBody = parsed
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([key, value, name]) => [
-      `/** ${name} ${eval(`"${value}"`)} */`,
+  const emojiJsBody = unique
+    .map(({ key, shortName, value }) => [
+      `/** ${shortName} ${eval(`"${value}"`)} */`,
       `${key}: "${value}" as "${value}"`
     ].join('\n  '))
     .join(",\n  ");
@@ -49,6 +51,7 @@ const main = async () => {
     ""
   ].join('\r\n');
   fs.writeFileSync('emoji.ts', emojiJs, 'utf8')
+  fs.writeFileSync('emoji.json', JSON.stringify(unique, null, '  '), 'utf8')
 }
 const parseUnicodeEscape = (codePoints: string): string => codePoints
   .split(' ')
