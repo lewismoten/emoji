@@ -12,7 +12,11 @@
   "scripts": {
     "start": "vite",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run build && node ./build/scripts/test.mjs",
+    "get-zwj": "npm run build && node ./build/scripts/emoji-zwj-sequences.mjs",
+    "get-sequences": "npm run build && node ./build/scripts/emoji-sequences.mjs",
+    "get-test": "npm run build && node ./build/scripts/emoji-test.mjs",
+    "parse": "npm run build && npm run get-zwj && npm run get-sequences && npm run get-test && node ./build/scripts/emoji-parse.mjs"
   },
   "repository": {
     "type": "git",
@@ -32,7 +36,9 @@
   },
   "homepage": "https://github.com/lewismoten/emoji#readme",
   "devDependencies": {
+    "@codejamboree/js-logger": "^2.2.3",
+    "@codejamboree/web-request-queue": "^3.2.0",
     "typescript": "^5.6.2",
-    "vite": "^5.4.6"
+    "vite": "^5.4.8"
   }
 }
