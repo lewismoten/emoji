@@ -38,7 +38,7 @@ const main = async () => {
   const emojiJsBody = unique
     .map(({ key, shortName, value }) => [
       `/** ${shortName} ${eval(`"${value}"`)} */`,
-      `${key}: "${value}" as "${value}"`
+      `${key}: "${value}" as const`
     ].join('\n  '))
     .join(",\n  ");
 
@@ -47,7 +47,7 @@ const main = async () => {
   const emojiJs = [
     "export default {",
     `  ${emojiJsBody}`,
-    "};",
+    "} as const;",
     ""
   ].join('\r\n');
   fs.writeFileSync('emoji.ts', emojiJs, 'utf8')
