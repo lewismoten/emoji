@@ -4,6 +4,9 @@ var items = [];
 var groups = [];
 var subGroups = {};
 const NO_FILTER = 'Not applied';
+var allIds = Object.keys(emoji);
+var groupedKeys = {};
+var byId = {};
 
 var searchText;
 var emojiList;
@@ -39,6 +42,8 @@ function loadData() {
     .then(response => response.json())
     .then(data => {
       items = data;
+      byId = items.reduce((byId, item) => ({ ...byId, [item.key]: item }), {});
+
       groups = items
         .reduce((all, item) => all.includes(item.group) ? all : [...all, item.group], [])
         .sort();
@@ -68,6 +73,27 @@ function loadData() {
       });
       groupSelector.addEventListener('change', onChangeGroup);
       subGroupSelector.addEventListener('change', drawList)
+
+      allIds = [];
+      // sort keys by group, sub group, then key name
+      groups.forEach(group => {
+        if (group === NO_FILTER) return;
+        groupedKeys[group] = {};
+        subGroups[group].forEach(subGroup => {
+          if (subGroup === NO_FILTER) return;
+          groupedKeys[group][subGroup] = [];
+          items.forEach(item => {
+            if (item.group === group && item.subGroup === subGroup) {
+              allIds.push(item.key);
+              groupedKeys[group][subGroup].push(item.key);
+            }
+          })
+        })
+      })
+
+
+
+
       onChangeGroup();
       onClick({ target: { id: 'clinkingBeerMugs' } })
     });
@@ -94,18 +120,72 @@ function onChangeGroup() {
   drawList();
 }
 
-function asItem(key) {
+const asGroup = (name) => {
+  var div = document.createElement("span");
+  div.className = 'group';
+  var divName = document.createElement('span');
+  divName.innerText = name;
+  divName.className = 'name';
+  div.appendChild(divName);
+
+  return div;
+}
+const asSubGroup = name => {
+  var div = document.createElement("span");
+  div.className = 'subgroup';
+  var divName = document.createElement('span');
+  divName.innerText = name;
+  divName.className = 'name';
+  div.appendChild(divName);
+  var divEmoji = document.createElement('span');
+  divEmoji.className = 'emoji';
+  div.appendChild(divEmoji);
+  return div;
+}
+function asItem(state, key) {
   var value = emoji[key];
+
+  var meta = byId[key] ?? { group: NO_FILTER, subGroups: NO_FILTER }
+  var groupId = 0;
+  var subGroupId = 0;
+  const hasGroups = meta && groups.length !== 0;
+
+  if (hasGroups) {
+
+    if (state.group !== meta.group) {
+      state.groupElement = asGroup(meta.group);
+      state.items.push(state.groupElement);
+      state.subGroupElement = asSubGroup(meta.subGroup);
+      state.groupElement.appendChild(state.subGroupElement);
+      state.group = meta.group;
+      state.subGroup = meta.subGroup;
+    } else if (state.subGroup !== meta.subGroup) {
+      state.subGroupElement = asSubGroup(meta.subGroup);
+      state.groupElement.appendChild(state.subGroupElement);
+      state.subGroup = meta.subGroup;
+    }
+
+    groupId = groups.indexOf(meta.group);
+    subGroupId = subGroups[meta.group].indexOf(meta.subGroup);
+  }
+
+
   var div = document.createElement("div");
   div.id = key;
-  div.title = key;
+  div.title = meta?.shortName ?? key;
+  div.classList.add(`group-${groupId}`);
+  div.classList.add(`sub-group-${subGroupId}`);
   var emojiDiv = document.createElement("span");
   emojiDiv.innerText = value;
   div.appendChild(emojiDiv);
-  var nameDiv = document.createElement("span");
-  nameDiv.innerText = key;
-  div.appendChild(nameDiv);
-  return div;
+
+  if (hasGroups) {
+    state.subGroupElement.lastChild.appendChild(div);
+  } else {
+    state.items.push(div);
+  }
+
+  return state;
 }
 
 function drawList() {
@@ -123,7 +203,7 @@ function drawList() {
   }
 
   var group = groupSelector.value;
-  var keys = Object.keys(emoji).filter(hasKeyword);
+  var keys = allIds.filter(hasKeyword);
   if (group !== NO_FILTER && items.length !== 0) {
     keys = keys.filter(key => items.find(item => item.key === key)?.group === group);
   }
@@ -147,7 +227,13 @@ function drawList() {
     )?.codePoints.includes(check.value))
   });
 
-  emojiList.replaceChildren(...keys.map(asItem));
+  emojiList.replaceChildren(...keys.reduce(asItem, {
+    items: [],
+    group: NO_FILTER,
+    subGroup: NO_FILTER,
+    groupElement: null,
+    subGroupElement: null
+  }).items);
   matchCount.innerText = keys.length;
 }
 
