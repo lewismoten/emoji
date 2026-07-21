@@ -231,7 +231,7 @@ async function loadData() {
       groups.forEach(name => {
         const option = document.createElement('option');
         option.value = name;
-        option.text = name;
+        option.text = name === NO_FILTER ? name : `${getGroupRepresentativeEmoji(name)} ${name}`;
         groupSelector.appendChild(option);
       });
       // Replacing the placeholder options can leave a browser holding on to its
@@ -334,11 +334,27 @@ function onChangeGroup() {
     subGroups[group].forEach(name => {
       const option = document.createElement('option');
       option.value = name;
-      option.text = displayUnicodeSubGroupName(name);
+      option.text = name === NO_FILTER
+        ? '(all sub-groups)'
+        : `${getSubGroupRepresentativeEmoji(group, name)} ${displayUnicodeSubGroupName(name)}`;
       subGroupSelector.appendChild(option);
     })
   }
   drawList();
+}
+
+function getGroupRepresentativeEmoji(group) {
+  const firstSubGroupWithMultipleEmoji = subGroups[group]
+    .filter(name => name !== NO_FILTER)
+    .find(name => items.filter(item => item.group === group && item.unicodeSubGroup === name).length > 1);
+  const subgroupItems = items.filter(item =>
+    item.group === group && item.unicodeSubGroup === firstSubGroupWithMultipleEmoji
+  );
+  return subgroupItems[1]?.emoji ?? subgroupItems[0]?.emoji ?? '';
+}
+
+function getSubGroupRepresentativeEmoji(group, subGroup) {
+  return items.find(item => item.group === group && item.unicodeSubGroup === subGroup)?.emoji ?? '';
 }
 
 function displayUnicodeSubGroupName(name) {
