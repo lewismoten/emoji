@@ -15,6 +15,8 @@ var groupSelector;
 var subGroupSelector;
 var versionModeSelector;
 var versionSelector;
+var advancedFilters;
+var example;
 var skinToneCheckboxes;
 var hairCheckboxes;
 var versionManifests = [];
@@ -28,6 +30,8 @@ function onLoad() {
   subGroupSelector = document.getElementsByClassName('select-subgroup')[0];
   versionModeSelector = document.getElementsByClassName('select-version-mode')[0];
   versionSelector = document.getElementsByClassName('select-version')[0];
+  advancedFilters = document.getElementsByClassName('advanced-filters')[0];
+  example = document.getElementsByClassName('example')[0];
   skinToneCheckboxes = Array.from(document.getElementsByClassName('skin-tone'));
   hairCheckboxes = Array.from(document.getElementsByClassName('hair'));
 
@@ -39,28 +43,20 @@ function onLoad() {
   versionModeSelector.addEventListener('change', onVersionFilterChange);
   versionSelector.addEventListener('change', drawList);
 
+  if (window.matchMedia('(max-width: 560px)').matches) {
+    advancedFilters.open = false;
+    example.open = false;
+  }
+
   loadData();
 
   drawList();
 }
 
 async function loadData() {
-  const [data, manifest] = await Promise.all([
-    fetch('emoji.json').then(response => response.json()),
-    fetch('versions/manifest.json').then(response => response.json())
-  ]);
-  const manifests = manifest.versions
-    .filter(version => version.released)
-    .sort((a, b) => a.released.localeCompare(b.released));
-  const keys = await Promise.all(manifests.map(async version => [
-    version.version,
-    new Set(await fetch(`versions/${version.file}`).then(response => response.json()))
-  ]));
+  const data = await fetch('emoji.json').then(response => response.json());
 
   items = data;
-  versionManifests = manifests;
-  versionKeys = new Map(keys);
-  populateVersionSelector();
       byId = items.reduce((byId, item) => ({ ...byId, [item.key]: item }), {});
 
       groups = items
@@ -90,6 +86,10 @@ async function loadData() {
         option.text = name;
         groupSelector.appendChild(option);
       });
+      // Replacing the placeholder options can leave a browser holding on to its
+      // old value ("Not loaded"). Reset to an unfiltered state before drawing.
+      groupSelector.value = NO_FILTER;
+      versionModeSelector.value = 'all';
       groupSelector.addEventListener('change', onChangeGroup);
       subGroupSelector.addEventListener('change', drawList)
 
@@ -114,7 +114,30 @@ async function loadData() {
 
 
       onChangeGroup();
-      onClick({ target: { id: 'clinkingBeerMugs' } })
+      onClick({ target: { id: 'clinkingBeerMugs' } }, false)
+      loadVersionData();
+}
+
+async function loadVersionData() {
+  try {
+    const manifest = await fetch('versions/manifest.json').then(response => response.json());
+    const manifests = manifest.versions
+      .filter(version => version.released)
+      .sort((a, b) => a.released.localeCompare(b.released));
+    const keys = await Promise.all(manifests.map(async version => [
+      version.version,
+      new Set(await fetch(`versions/${version.file}`).then(response => response.json()))
+    ]));
+
+    versionManifests = manifests;
+    versionKeys = new Map(keys);
+    populateVersionSelector();
+    drawList();
+  } catch (error) {
+    console.warn('Version filters unavailable', error);
+    versionModeSelector.disabled = true;
+    versionSelector.disabled = true;
+  }
 }
 
 function populateVersionSelector() {
@@ -291,7 +314,7 @@ function onKeyUp(e) {
   drawList();
 }
 
-function onClick(e) {
+function onClick(e, copy = true) {
   var id = e.target.id;
   if ((id || "") === "") id = e.target.parentElement.id;
   var value = emoji[id];
@@ -316,6 +339,6 @@ function onClick(e) {
   document.getElementsByClassName("emoji-key")[0].innerText = id;
   document.getElementsByClassName("emoji-value")[0].innerText = value;
   document.getElementsByClassName("emoji-encoded")[0].innerText = bits.join("");
-  navigator.clipboard.writeText(id);
+  if (copy) navigator.clipboard?.writeText(id);
 }
 window.addEventListener("load", onLoad);

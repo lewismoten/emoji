@@ -1,112 +1,94 @@
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-  <title>Emoji</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Emoji Explorer</title>
   <script defer src="./index.js" type="module"></script>
-  <link rel="stylesheet" href="./index.css" />
+  <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
-  <noscript>JavaScript not enabled</noscript>
-  <div class="search">
-    Search <input class="text" type="text" />
-    <span class="match-count">0</span> matches
-  </div>
-  <div>
-    Group: <select class="select-group">
-      <option>Not loaded</option>
-    </select>
-  </div>
-  <div>
-    Sub-Group: <select class="select-subgroup">
-      <option>Not loaded</option>
-    </select>
-  </div>
-  <div>
-    Versions:
-    <select class="select-version-mode">
-      <option value="all">All versions</option>
-      <option value="through">All through selected version</option>
-      <option value="selected">Selected version only</option>
-    </select>
-    <select class="select-version" disabled>
-      <option>Loading versions</option>
-    </select>
-  </div>
-  <div>
-    Skin Tones:
-    <label>
-      <input type="checkbox" class="skin-tone" value="1F3FF">Dark
-    </label>
-    <label>
-      <input type="checkbox" class="skin-tone" value="1F3FE">Medium-Dark
-    </label>
-    <label>
-      <input type="checkbox" class="skin-tone" value="1F3FD">Medium
-    </label>
-    <label>
-      <input type="checkbox" class="skin-tone" value="1F3FC">Medium-Light
-    </label>
-    <label>
-      <input type="checkbox" class="skin-tone" value="1F3FB">Light
-    </label>
-  </div>
-  <div>
+  <main>
+    <noscript>JavaScript is required to browse the emoji collection.</noscript>
 
-  </div>
-  Hair:
-  <label>
-    <input type="checkbox" class="hair" value="1F9B0">Red
-  </label>
-  <label>
-    <input type="checkbox" class="hair" value="1F9B1">Curly
-  </label>
-  <label>
-    <input type="checkbox" class="hair" value="1F9B2">Bald
-  </label>
-  <label>
-    <input type="checkbox" class="hair" value="1F9B3">White
-  </label>
-  </div>
-  <div>
-    Code:
-    <a href="https://github.com/lewismoten/emoji">Github @lewismoten/emoji</a>
-  </div>
-  Click emoji to copy the emoji key.
-  <div class="code">
-    <span class="line">
-      <span class="keyword">import</span>
-      <span class="variable">emoji</span>
-      <span class="keyword">from</span>
-      <span class="string">"./dist/esm/index.js"</span>;
-    </span>
-    <span class="line">
-      <span class="native-object">console</span>.<span class="native-function">log</span>(<span
-        class="object">emoji</span>.<span class="object-key emoji-key">clinkingBeerMugs</span>);
-    </span>
-    <span class="line">
-      <span class="comment">
-        //
-        <span class="emoji-value">&#x1F37B;</span>
-        <span class="emoji-encoded">\u{1f37b}</span>
-      </span>
-    </span>
-    <span class="line">
-      <span class="comment">
-        // Group:
-        <span class="emoji-group"></span>
-      </span>
-    </span>
-    <span class="line">
-      <span class="comment">
-        // Sub Group:
-        <span class="emoji-subgroup"></span>
-      </span>
-    </span>
-  </div>
-  <div class="list">
-    Not loaded.
-  </div>
+    <header class="toolbar">
+      <div class="toolbar-heading">
+        <div>
+          <p class="eyebrow">Unicode Emoji Explorer</p>
+          <h1>Find the right emoji</h1>
+        </div>
+        <p class="result-count"><span class="match-count">0</span> matches</p>
+      </div>
+
+      <form class="filters" aria-label="Filter emoji" onsubmit="return false">
+        <label class="filter-field search-field">
+          <span>Search</span>
+          <input class="text" type="search" placeholder="Try “beer”, “heart”, or “face”" autocomplete="off">
+        </label>
+
+        <details class="advanced-filters">
+          <summary>Filter by category, version, and modifiers</summary>
+          <div class="filter-grid">
+            <label class="filter-field">
+              <span>Group</span>
+              <select class="select-group"><option>Not loaded</option></select>
+            </label>
+            <label class="filter-field">
+              <span>Sub-group</span>
+              <select class="select-subgroup"><option>Not loaded</option></select>
+            </label>
+            <label class="filter-field">
+              <span>Version filter</span>
+              <select class="select-version-mode">
+                <option value="all">All versions</option>
+                <option value="through">All through selected version</option>
+                <option value="selected">Selected version only</option>
+              </select>
+            </label>
+            <label class="filter-field">
+              <span>Emoji version</span>
+              <select class="select-version" disabled><option>Loading versions</option></select>
+            </label>
+          </div>
+
+          <div class="modifier-filters">
+            <fieldset>
+              <legend>Skin tone</legend>
+              <label><input type="checkbox" class="skin-tone" value="1F3FF"> Dark</label>
+              <label><input type="checkbox" class="skin-tone" value="1F3FE"> Medium-dark</label>
+              <label><input type="checkbox" class="skin-tone" value="1F3FD"> Medium</label>
+              <label><input type="checkbox" class="skin-tone" value="1F3FC"> Medium-light</label>
+              <label><input type="checkbox" class="skin-tone" value="1F3FB"> Light</label>
+            </fieldset>
+            <fieldset>
+              <legend>Hair</legend>
+              <label><input type="checkbox" class="hair" value="1F9B0"> Red</label>
+              <label><input type="checkbox" class="hair" value="1F9B1"> Curly</label>
+              <label><input type="checkbox" class="hair" value="1F9B2"> Bald</label>
+              <label><input type="checkbox" class="hair" value="1F9B3"> White</label>
+            </fieldset>
+          </div>
+        </details>
+      </form>
+
+      <details class="example" open>
+        <summary class="example-heading">
+          <span>Click an emoji to copy its key</span>
+        </summary>
+        <div class="code">
+          <span class="line"><span class="keyword">import</span> <span class="variable">emoji</span> <span class="keyword">from</span> <span class="string">"./dist/esm/index.js"</span>;</span>
+          <span class="line"><span class="native-object">console</span>.<span class="native-function">log</span>(<span class="object">emoji</span>.<span class="object-key emoji-key">clinkingBeerMugs</span>);</span>
+          <span class="line comment">// <span class="emoji-value">&#x1F37B;</span> <span class="emoji-encoded">\u{1f37b}</span></span>
+          <span class="line comment">// <span class="emoji-group"></span> · <span class="emoji-subgroup"></span></span>
+        </div>
+        <div class="example-link"><a href="https://github.com/lewismoten/emoji">View the package on GitHub</a></div>
+      </details>
+    </header>
+
+    <div class="list" aria-live="polite">Loading emoji…</div>
+  </main>
 </body>
 
 </html>
