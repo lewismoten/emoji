@@ -28,7 +28,7 @@ const inputs = (directory: string) => Object.fromEntries(
 const output = (format: 'es' | 'cjs', production: boolean): OutputOptions => ({
   dir: format === 'es' ? 'dist/esm' : 'dist/commonjs',
   format,
-  sourcemap: true,
+  sourcemap: false,
   preserveModules: true,
   preserveModulesRoot: javascriptDirectory,
   entryFileNames: production ? `[name].min.${format === 'es' ? 'js' : 'cjs'}` : `[name].${format === 'es' ? 'js' : 'cjs'}`,

@@ -12,20 +12,15 @@ const write = (file, contents) => {
 };
 const slug = text => text.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 const pack = (file, items) => {
-  const relative = key => path.relative(path.dirname(file), path.join(sourceDirectory, 'individual', key)).replaceAll('\\\\', '/').replace(/^([^./])/, './$1');
-  const lines = items.map(({ key }, index) => `import value${index} from '${relative(key)}';`);
-  lines.push('', `export default { ${items.map(({ key }, index) => `${JSON.stringify(key)}: value${index}`).join(', ')} } as const;`);
+  const lines = [
+    'export default {',
+    ...items.map(item => `  /** ${item.shortName} */\n  ${JSON.stringify(item.key)}: "${item.value}" as const,`),
+    '} as const;'
+  ];
   write(file, lines.join('\n'));
 };
 
 clean(sourceDirectory);
-
-for (const item of emoji) {
-  write(
-    path.join(sourceDirectory, 'individual', `${item.key}.ts`),
-    `/** ${item.shortName} */\nexport default "${item.value}" as const;`
-  );
-}
 
 const byKey = new Map(emoji.map(item => [item.key, item]));
 const popularItems = popular.map(key => {
@@ -53,4 +48,4 @@ for (const [name, items] of Object.entries(variationPacks)) {
   pack(path.join(sourceDirectory, 'variations', `${name}.ts`), items);
 }
 
-console.log(`Generated ${emoji.length} individual modules, 10 categories, and ${Object.keys(variationPacks).length} variation packs.`);
+console.log(`Generated ${emoji.length} emoji across popular, all, 10 categories, and ${Object.keys(variationPacks).length} variation packs.`);

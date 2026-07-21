@@ -73,11 +73,8 @@ for (const variation of ['skin-tones', 'hair', 'families', 'all']) {
 }
 
 for (const item of [emoji[0], emoji.at(Math.floor(emoji.length / 2)), emoji.at(-1)]) {
-  assert.ok(item, 'individual export test items must exist');
-  const individualEmoji = (await import(pathToFileURL(
-    path.join(root, 'dist/esm/individual', `${item.key}.min.js`)
-  ).href)).default;
-  assert.equal(individualEmoji, item.emoji, `${item.key} individual export must match its emoji`);
+  assert.ok(item, 'individual lookup test items must exist');
+  assert.equal(allEmoji[item.key], item.emoji, `${item.key} must be available from the all export`);
 }
 
 console.info(`Verified ${emoji.length.toLocaleString()} emoji, ${manifest.versions.length} Unicode version files, and package entry points.`);

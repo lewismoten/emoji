@@ -33,11 +33,6 @@
       "import": "./dist/esm/variations/*.min.js",
       "require": "./dist/commonjs/variations/*.min.cjs"
     },
-    "./individual/*": {
-      "types": "./dist/esm/types/individual/*.d.mts",
-      "import": "./dist/esm/individual/*.min.js",
-      "require": "./dist/commonjs/individual/*.min.cjs"
-    },
     "./versions/*": "./versions/*.json",
     "./proposed/*": "./proposed/*.json",
     "./development/*": {

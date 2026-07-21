@@ -58,10 +58,12 @@ Variant packs are available at `variations/skin-tones`, `variations/hair`,
 import families from "@lewismoten/emoji/variations/families";
 ```
 
-For the smallest possible static or dynamic import, use an individual module:
+For an individual emoji, use the `all` export. This avoids shipping thousands of tiny per-emoji files:
 
 ```js
-import clinkingBeerMugs from "@lewismoten/emoji/individual/clinkingBeerMugs";
+import emoji from "@lewismoten/emoji/all";
+
+const clinkingBeerMugs = emoji.clinkingBeerMugs;
 ```
 
 For direct browser use, `dist/esm/index.js` is a self-contained module containing
@@ -94,7 +96,7 @@ The live demo is hosted on GitHub pages:
 
 - clean: drops the build & dist folders
 - build: creates typescript
-- generate: creates pack and individual source modules from `emoji.json` and `popular.json`
+- generate: creates popular, all, category, and variation source packs from `emoji.json` and `popular.json`
 - bundle: creates JavaScript & TypeScript Definitions for packaging
 - prepublishOnly: ensures a new bundle is created for publishing
 - start: Runs demo site at http://localhost:5173
