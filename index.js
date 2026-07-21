@@ -13,8 +13,12 @@ var emojiList;
 var matchCount;
 var groupSelector;
 var subGroupSelector;
+var versionModeSelector;
+var versionSelector;
 var skinToneCheckboxes;
 var hairCheckboxes;
+var versionManifests = [];
+var versionKeys = new Map();
 
 function onLoad() {
   searchText = document.getElementsByClassName("text")[0];
@@ -22,6 +26,8 @@ function onLoad() {
   matchCount = document.getElementsByClassName('match-count')[0];
   groupSelector = document.getElementsByClassName('select-group')[0];
   subGroupSelector = document.getElementsByClassName('select-subgroup')[0];
+  versionModeSelector = document.getElementsByClassName('select-version-mode')[0];
+  versionSelector = document.getElementsByClassName('select-version')[0];
   skinToneCheckboxes = Array.from(document.getElementsByClassName('skin-tone'));
   hairCheckboxes = Array.from(document.getElementsByClassName('hair'));
 
@@ -30,18 +36,31 @@ function onLoad() {
 
   searchText.addEventListener("keyup", onKeyUp);
   emojiList.addEventListener("click", onClick);
+  versionModeSelector.addEventListener('change', onVersionFilterChange);
+  versionSelector.addEventListener('change', drawList);
 
   loadData();
 
   drawList();
 }
 
-function loadData() {
+async function loadData() {
+  const [data, manifest] = await Promise.all([
+    fetch('emoji.json').then(response => response.json()),
+    fetch('versions/manifest.json').then(response => response.json())
+  ]);
+  const manifests = manifest.versions
+    .filter(version => version.released)
+    .sort((a, b) => a.released.localeCompare(b.released));
+  const keys = await Promise.all(manifests.map(async version => [
+    version.version,
+    new Set(await fetch(`versions/${version.file}`).then(response => response.json()))
+  ]));
 
-  fetch('emoji.json')
-    .then(response => response.json())
-    .then(data => {
-      items = data;
+  items = data;
+  versionManifests = manifests;
+  versionKeys = new Map(keys);
+  populateVersionSelector();
       byId = items.reduce((byId, item) => ({ ...byId, [item.key]: item }), {});
 
       groups = items
@@ -96,8 +115,35 @@ function loadData() {
 
       onChangeGroup();
       onClick({ target: { id: 'clinkingBeerMugs' } })
-    });
+}
 
+function populateVersionSelector() {
+  versionSelector.replaceChildren();
+  versionManifests.forEach(version => {
+    const option = document.createElement('option');
+    option.value = version.version;
+    option.text = `Emoji ${version.version} (${version.released})`;
+    versionSelector.appendChild(option);
+  });
+  versionSelector.value = versionManifests.at(-1)?.version ?? '';
+  versionSelector.disabled = true;
+}
+
+function onVersionFilterChange() {
+  versionSelector.disabled = versionModeSelector.value === 'all';
+  drawList();
+}
+
+function getVersionKeys() {
+  if (versionModeSelector.value === 'all') return null;
+  if (versionModeSelector.value === 'selected') {
+    return versionKeys.get(versionSelector.value) ?? new Set();
+  }
+
+  const selectedIndex = versionManifests.findIndex(version => version.version === versionSelector.value);
+  return new Set(versionManifests
+    .slice(0, selectedIndex + 1)
+    .flatMap(version => [...(versionKeys.get(version.version) ?? [])]));
 }
 function onChangeGroup() {
   var group = groupSelector.value;
@@ -204,6 +250,10 @@ function drawList() {
 
   var group = groupSelector.value;
   var keys = allIds.filter(hasKeyword);
+  const includedVersionKeys = getVersionKeys();
+  if (includedVersionKeys) {
+    keys = keys.filter(key => includedVersionKeys.has(key));
+  }
   if (group !== NO_FILTER && items.length !== 0) {
     keys = keys.filter(key => items.find(item => item.key === key)?.group === group);
   }
