@@ -52,10 +52,7 @@
     "prepublishOnly": "npm run bundle",
     "start": "vite",
     "test": "npm run build && node ./build/scripts/test.mjs",
-    "get-zwj": "npm run build && node ./build/scripts/emoji-zwj-sequences.mjs",
-    "get-sequences": "npm run build && node ./build/scripts/emoji-sequences.mjs",
-    "get-test": "npm run build && node ./build/scripts/emoji-test.mjs",
-    "parse": "npm run get-test && node ./build/scripts/emoji-parse.mjs"
+    "unicode": "node ./scripts/update-unicode.mjs"
   },
   "repository": {
     "type": "git",

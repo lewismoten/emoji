@@ -7904,5 +7904,5 @@ export default {
   /** zombie 🧟 */
   zombie: "\u{1f9df}" as const,
   /** ZZZ 💤 */
-  zzz: "\u{1f4a4}" as const
+  zzz: "\u{1f4a4}" as const,
 } as const;
