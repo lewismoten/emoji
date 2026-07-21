@@ -1,56 +1,53 @@
 {
   "name": "@lewismoten/emoji",
-  "version": "3.4.0",
+  "version": "4.0.0",
   "description": "list of named emoji unicode values",
   "type": "module",
-  "main": "dist/commonjs/index.min.cjs",
-  "types": "dist/commonjs/types/index.d.min.ts",
-  "module": "dist/commonjs/index.min.cjs",
+  "main": "./dist/commonjs/popular.min.cjs",
+  "types": "./dist/esm/types/popular.d.mts",
+  "module": "./dist/esm/popular.min.js",
+  "sideEffects": false,
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/esm/types/index.d.min.mts",
-        "default": "./dist/esm/index.min.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/types/index.d.min.ts",
-        "default": "./dist/commonjs/index.min.cjs"
-      }
+      "types": "./dist/esm/types/popular.d.mts",
+      "import": "./dist/esm/popular.min.js",
+      "require": "./dist/commonjs/popular.min.cjs"
     },
-    "./production": {
-      "import": {
-        "types": "./dist/esm/types/index.d.min.mts",
-        "default": "./dist/esm/index.min.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/types/index.d.min.ts",
-        "default": "./dist/commonjs/index.min.cjs"
-      }
+    "./popular": {
+      "types": "./dist/esm/types/popular.d.mts",
+      "import": "./dist/esm/popular.min.js",
+      "require": "./dist/commonjs/popular.min.cjs"
     },
-    "./development": {
-      "import": {
-        "types": "./dist/esm/types/index.d.mts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/types/index.d.ts",
-        "default": "./dist/commonjs/index.cjs"
-      }
-    }
-  },
-  "typesVersions": {
-    "*": {
-      "production": [
-        "dist/commonjs/types/index.d.min.ts"
-      ],
-      "development": [
-        "dist/commonjs/types/index.d.ts"
-      ]
+    "./all": {
+      "types": "./dist/esm/types/all.d.mts",
+      "import": "./dist/esm/all.min.js",
+      "require": "./dist/commonjs/all.min.cjs"
+    },
+    "./categories/*": {
+      "types": "./dist/esm/types/categories/*.d.mts",
+      "import": "./dist/esm/categories/*.min.js",
+      "require": "./dist/commonjs/categories/*.min.cjs"
+    },
+    "./variations/*": {
+      "types": "./dist/esm/types/variations/*.d.mts",
+      "import": "./dist/esm/variations/*.min.js",
+      "require": "./dist/commonjs/variations/*.min.cjs"
+    },
+    "./individual/*": {
+      "types": "./dist/esm/types/individual/*.d.mts",
+      "import": "./dist/esm/individual/*.min.js",
+      "require": "./dist/commonjs/individual/*.min.cjs"
+    },
+    "./development/*": {
+      "types": "./dist/esm/types/*.d.mts",
+      "import": "./dist/esm/*.js",
+      "require": "./dist/commonjs/*.cjs"
     }
   },
   "scripts": {
     "clean": "rm -rf build && rm -rf dist",
-    "build": "npm run clean && tsc",
+    "generate": "node ./scripts/generate-library.mjs",
+    "build": "npm run clean && npm run generate && tsc",
     "bundle": "npm run build && npx rollup -c ./build/rollup.config.js",
     "prepublishOnly": "npm run bundle",
     "start": "vite",
@@ -82,12 +79,12 @@
     "@codejamboree/web-request-queue": "^3.2.0",
     "@rollup/plugin-commonjs": "^28.0.0",
     "@rollup/plugin-node-resolve": "^15.3.0",
-    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-terser": "^1.0.0",
     "rollup": "^4.22.5",
     "rollup-plugin-dts": "^6.1.1",
-    "rollup-plugin-license": "^3.5.3",
+    "rollup-plugin-license": "^3.7.1",
     "rollup-plugin-typescript2": "^0.36.0",
     "typescript": "^5.6.2",
-    "vite": "^5.4.8"
+    "vite": "^8.1.5"
   }
 }
