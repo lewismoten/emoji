@@ -1,4 +1,4 @@
-import emoji from './dist/esm/index.js';
+import emoji from './dist/esm/all.js';
 
 var items = [];
 var groups = [];

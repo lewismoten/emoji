@@ -1,6 +1,6 @@
 # emoji
 
-Provides a lookup list of emoji in unicode format.
+Provides Unicode emoji lookup packs that can be imported or lazy-loaded by need.
 
 ## Installation
 
@@ -8,11 +8,42 @@ Provides a lookup list of emoji in unicode format.
 
 ## Code
 
-How to show :beers:
+The root export is a small, curated popular pack:
 
 ```js
 import emoji from "@lewismoten/emoji";
 console.log(emoji.clinkingBeerMugs);
+```
+
+## Packs
+
+Load all emojis only when a complete lookup is needed:
+
+```js
+import emoji from "@lewismoten/emoji/all";
+```
+
+Categories are separate modules and can be lazy-loaded:
+
+```js
+const { default: people } = await import("@lewismoten/emoji/categories/people-and-body");
+```
+
+Available categories are `activities`, `animals-and-nature`, `component`, `flags`,
+`food-and-drink`, `objects`, `people-and-body`, `smileys-and-emotion`, `symbols`,
+and `travel-and-places`.
+
+Variant packs are available at `variations/skin-tones`, `variations/hair`,
+`variations/families`, and `variations/all`:
+
+```js
+import families from "@lewismoten/emoji/variations/families";
+```
+
+For the smallest possible static or dynamic import, use an individual module:
+
+```js
+import clinkingBeerMugs from "@lewismoten/emoji/individual/clinkingBeerMugs";
 ```
 
 ## Demo
@@ -35,6 +66,7 @@ The live demo is hosted on GitHub pages:
 
 - clean: drops the build & dist folders
 - build: creates typescript
+- generate: creates pack and individual source modules from `emoji.json` and `popular.json`
 - bundle: creates JavaScript & TypeScript Definitions for packaging
 - prepublishOnly: ensures a new bundle is created for publishing
 - start: Runs demo site at http://localhost:5173

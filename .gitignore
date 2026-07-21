@@ -1,6 +1,8 @@
 /node_modules/
 /build/
+/library/
 /cache/
+/dist/
 
 /dist/commonjs
 /dist/esm/types

@@ -1,95 +1,67 @@
-import fs from 'fs';
+import fs from 'node:fs';
+import path from 'node:path';
 
-import typescript from 'rollup-plugin-typescript2';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import { dts } from 'rollup-plugin-dts';
 import license from 'rollup-plugin-license';
-import { RollupWatchOptions, OutputOptions, InputPluginOption, OutputPluginOption } from 'rollup';
+import { OutputOptions, RollupOptions } from 'rollup';
 
 const read = (file: string) => fs.readFileSync(file, 'utf-8');
-
-const pkg = JSON.parse(read('package.json'));
-const dev = pkg.exports['./development'];
-const prod = pkg.exports['./production'];
-
-const input = './emoji.ts';
-const dependencies = (!!pkg.dependencies ? Object.keys(pkg.dependencies) : []);
-const external: string[] = ['fs', 'http', ...dependencies];
-
-const name = pkg.name.replace(/^@.*\//, '');
-console.log()
-console.warn('Bundling', pkg.name, 'as', name);
-console.log()
-
-if (name === pkg.name) {
-  throw new Error('Name in package.json missing @scope');
-}
 const banner = read('LICENSE.md');
 
-const outFile = (file: string, format: 'esm' | 'commonjs'): OutputOptions => ({
-  file,
+const files = (directory: string): string[] => fs.readdirSync(directory, { withFileTypes: true })
+  .flatMap(entry => {
+    const file = path.join(directory, entry.name);
+    return entry.isDirectory() ? files(file) : [file];
+  });
+
+const sourceDirectory = 'library';
+const javascriptDirectory = 'build/library';
+const inputs = (directory: string) => Object.fromEntries(
+  files(directory)
+    .filter(file => file.endsWith(directory === sourceDirectory ? '.ts' : '.js'))
+    .map(file => [path.relative(directory, file).replace(/\.[^.]+$/, ''), file])
+);
+
+const output = (format: 'es' | 'cjs', production: boolean): OutputOptions => ({
+  dir: format === 'es' ? 'dist/esm' : 'dist/commonjs',
   format,
   sourcemap: true,
-  exports: format === 'esm' ? 'auto' : 'named',
-  plugins: [license({ banner })],
+  preserveModules: true,
+  preserveModulesRoot: javascriptDirectory,
+  entryFileNames: production ? `[name].min.${format === 'es' ? 'js' : 'cjs'}` : `[name].${format === 'es' ? 'js' : 'cjs'}`,
+  chunkFileNames: production ? `[name]-[hash].min.${format === 'es' ? 'js' : 'cjs'}` : `[name]-[hash].${format === 'es' ? 'js' : 'cjs'}`,
+  plugins: [license({ banner }), ...(production ? [terser()] : [])]
 });
 
-const libraryFile = (file: string, format: 'esm' | 'commonjs', production: boolean): OutputOptions => {
-  const options = outFile(file, format);
-  if (production) {
-    (options?.plugins as OutputPluginOption[]).push(terser())
-  }
-  if (format === 'esm') options.name = name;
-  return options;
-}
+const javascript = (format: 'es' | 'cjs', production: boolean): RollupOptions => ({
+  input: inputs(javascriptDirectory),
+  output: output(format, production),
+  plugins: [
+    resolve({ browser: false, preferBuiltins: true }),
+    ...(format === 'cjs' ? [commonjs()] : [])
+  ]
+});
 
-const libraryEnvironments = (devFile: string, prodFile: string, format: 'esm' | 'commonjs'): RollupWatchOptions => {
-  const plugins: InputPluginOption[] = [
-    typescript(),
-    resolve({
-      browser: false,
-      preferBuiltins: true
-    })
-  ];
-  if (format === 'commonjs') plugins.push(commonjs());
+const types = (format: 'es' | 'cjs'): RollupOptions => ({
+  input: inputs(sourceDirectory),
+  output: {
+    dir: `dist/${format === 'es' ? 'esm' : 'commonjs'}/types`,
+    format,
+    preserveModules: true,
+    preserveModulesRoot: sourceDirectory,
+    entryFileNames: `[name].d.${format === 'es' ? 'mts' : 'ts'}`
+  },
+  plugins: [dts()]
+});
 
-  return {
-    input,
-    external,
-    output: [
-      libraryFile(devFile, format, false),
-      libraryFile(prodFile, format, true)
-    ],
-    plugins,
-  }
-}
-
-const config: RollupWatchOptions[] = [
-  libraryEnvironments(
-    dev.import.default,
-    prod.import.default,
-    'esm'
-  ),
-  libraryEnvironments(
-    dev.require.default,
-    prod.require.default,
-    'commonjs'
-  ),
-  {
-    input,
-    external,
-    output: [
-      outFile(dev.import.types, 'esm'),
-      outFile(prod.import.types, 'esm'),
-      outFile(dev.require.types, 'commonjs'),
-      outFile(prod.require.types, 'commonjs')
-    ],
-    plugins: [
-      dts()
-    ],
-  }
-];
-
-export default config;
+export default [
+  javascript('es', false),
+  javascript('es', true),
+  javascript('cjs', false),
+  javascript('cjs', true),
+  types('es'),
+  types('cjs')
+] satisfies RollupOptions[];
