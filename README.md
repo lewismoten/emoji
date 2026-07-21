@@ -49,6 +49,16 @@ For the smallest possible static or dynamic import, use an individual module:
 import clinkingBeerMugs from "@lewismoten/emoji/individual/clinkingBeerMugs";
 ```
 
+For direct browser use, `dist/esm/index.js` is a self-contained module containing
+the complete lookup object:
+
+```html
+<script type="module">
+  import emoji from "./dist/esm/index.js";
+  console.log(emoji.clinkingBeerMugs);
+</script>
+```
+
 ## Demo
 
 A local demo can be ran using vite

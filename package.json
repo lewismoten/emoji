@@ -48,7 +48,7 @@
     "clean": "rm -rf build && rm -rf dist",
     "generate": "node ./scripts/generate-library.mjs",
     "build": "npm run clean && npm run generate && tsc",
-    "bundle": "npm run build && npx rollup -c ./build/rollup.config.js",
+    "bundle": "npm run build && node ./scripts/generate-browser.mjs && npx rollup -c ./build/rollup.config.js --silent",
     "prepublishOnly": "npm run bundle",
     "start": "vite",
     "test": "npm run build && node ./build/scripts/test.mjs",

@@ -110,4 +110,4 @@ fs.writeFileSync('emoji.json', `${JSON.stringify(emoji, null, '  ')}\n`);
 fs.writeFileSync('emoji.ts', source);
 console.info(`Generated ${emoji.length} Unicode Emoji ${emojiVersion} entries.`);
 
-execFileSync('npm', ['run', 'build'], { stdio: 'inherit' });
+execFileSync('npm', ['run', 'bundle'], { stdio: 'inherit' });
