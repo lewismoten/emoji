@@ -39,7 +39,7 @@ jobs:
       - name: Assemble Pages site
         run: |
           mkdir _site
-          cp index.html index.js index.css emoji.json Screenshot.png _site/
+          cp index.html index.js index.css emoji.json screenshot.png _site/
           cp -R dist _site/dist
           cp -R versions _site/versions
           cp -R proposed _site/proposed
