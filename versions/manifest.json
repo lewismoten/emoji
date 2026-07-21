@@ -1,0 +1,107 @@
+{
+  "emojiVersion": "17.0",
+  "versions": [
+    {
+      "version": "0.6",
+      "released": "2010-10-11",
+      "file": "0.6.json",
+      "count": 719
+    },
+    {
+      "version": "0.7",
+      "released": "2014-06-16",
+      "file": "0.7.json",
+      "count": 139
+    },
+    {
+      "version": "1.0",
+      "released": "2015-06-09",
+      "file": "1.0.json",
+      "count": 490
+    },
+    {
+      "version": "2.0",
+      "released": "2015-11-12",
+      "file": "2.0.json",
+      "count": 286
+    },
+    {
+      "version": "3.0",
+      "released": "2016-06-03",
+      "file": "3.0.json",
+      "count": 157
+    },
+    {
+      "version": "4.0",
+      "released": "2016-11-22",
+      "file": "4.0.json",
+      "count": 598
+    },
+    {
+      "version": "5.0",
+      "released": "2017-06-20",
+      "file": "5.0.json",
+      "count": 239
+    },
+    {
+      "version": "11.0",
+      "released": "2018-05-21",
+      "file": "11.0.json",
+      "count": 161
+    },
+    {
+      "version": "12.0",
+      "released": "2019-03-05",
+      "file": "12.0.json",
+      "count": 230
+    },
+    {
+      "version": "12.1",
+      "released": "2019-10-21",
+      "file": "12.1.json",
+      "count": 168
+    },
+    {
+      "version": "13.0",
+      "released": "2020-03-10",
+      "file": "13.0.json",
+      "count": 117
+    },
+    {
+      "version": "13.1",
+      "released": "2020-09-15",
+      "file": "13.1.json",
+      "count": 217
+    },
+    {
+      "version": "14.0",
+      "released": "2021-09-14",
+      "file": "14.0.json",
+      "count": 112
+    },
+    {
+      "version": "15.0",
+      "released": "2022-09-13",
+      "file": "15.0.json",
+      "count": 31
+    },
+    {
+      "version": "15.1",
+      "released": "2023-09-12",
+      "file": "15.1.json",
+      "count": 118
+    },
+    {
+      "version": "16.0",
+      "released": "2024-09-10",
+      "file": "16.0.json",
+      "count": 8
+    },
+    {
+      "version": "17.0",
+      "released": "2025-09-09",
+      "file": "17.0.json",
+      "count": 163
+    }
+  ]
+}

@@ -16,6 +16,10 @@ emoji lookup itself:
 const introducedIn17 = await fetch('./versions/17.0.json').then(response => response.json());
 ```
 
+`versions/manifest.json` lists each version file, its official release date,
+and its entry count. Use its ISO date to select all version files available by
+a cutoff year or date.
+
 ## Installation
 
 `npm i @lewismoten/emoji -s`

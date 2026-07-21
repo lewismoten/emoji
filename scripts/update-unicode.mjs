@@ -18,6 +18,25 @@ const files = [
   ['ucd/emoji/emoji-data.txt', `emoji-data-${emojiVersion}.txt`],
   ['ucd/emoji/emoji-variation-sequences.txt', `emoji-variation-sequences-${emojiVersion}.txt`]
 ];
+const releaseDates = {
+  '0.6': '2010-10-11',
+  '0.7': '2014-06-16',
+  '1.0': '2015-06-09',
+  '2.0': '2015-11-12',
+  '3.0': '2016-06-03',
+  '4.0': '2016-11-22',
+  '5.0': '2017-06-20',
+  '11.0': '2018-05-21',
+  '12.0': '2019-03-05',
+  '12.1': '2019-10-21',
+  '13.0': '2020-03-10',
+  '13.1': '2020-09-15',
+  '14.0': '2021-09-14',
+  '15.0': '2022-09-13',
+  '15.1': '2023-09-12',
+  '16.0': '2024-09-10',
+  '17.0': '2025-09-09'
+};
 
 const asValue = codePoints => codePoints
   .split(' ')
@@ -115,9 +134,12 @@ fs.writeFileSync('emoji.json', `${JSON.stringify(emoji, null, '  ')}\n`);
 fs.writeFileSync('emoji.ts', source);
 fs.rmSync('versions', { recursive: true, force: true });
 fs.mkdirSync('versions', { recursive: true });
+const manifest = [];
 for (const [version, keys] of [...versions.entries()].sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))) {
   fs.writeFileSync(`versions/${version}.json`, `${JSON.stringify(keys, null, '  ')}\n`);
+  manifest.push({ version, released: releaseDates[version] ?? null, file: `${version}.json`, count: keys.length });
 }
+fs.writeFileSync('versions/manifest.json', `${JSON.stringify({ emojiVersion, versions: manifest }, null, '  ')}\n`);
 console.info(`Generated ${emoji.length} Unicode Emoji ${emojiVersion} entries.`);
 
 execFileSync('npm', ['run', 'bundle'], { stdio: 'inherit' });
