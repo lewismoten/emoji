@@ -181,11 +181,22 @@ function onChangeGroup() {
     subGroups[group].forEach(name => {
       const option = document.createElement('option');
       option.value = name;
-      option.text = name;
+      option.text = displaySubGroupName(name, group);
       subGroupSelector.appendChild(option);
     })
   }
   drawList();
+}
+
+function displaySubGroupName(name, group) {
+  const withoutGroupPrefix = group === 'Food & Drink'
+    ? name.replace(/^food-/, '')
+    : name;
+
+  return withoutGroupPrefix
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 const asGroup = (name) => {
@@ -198,11 +209,11 @@ const asGroup = (name) => {
 
   return div;
 }
-const asSubGroup = name => {
+const asSubGroup = (name, group) => {
   var div = document.createElement("span");
   div.className = 'subgroup';
   var divName = document.createElement('span');
-  divName.innerText = name;
+  divName.innerText = displaySubGroupName(name, group);
   divName.className = 'name';
   div.appendChild(divName);
   var divEmoji = document.createElement('span');
@@ -223,12 +234,12 @@ function asItem(state, key) {
     if (state.group !== meta.group) {
       state.groupElement = asGroup(meta.group);
       state.items.push(state.groupElement);
-      state.subGroupElement = asSubGroup(meta.subGroup);
+      state.subGroupElement = asSubGroup(meta.subGroup, meta.group);
       state.groupElement.appendChild(state.subGroupElement);
       state.group = meta.group;
       state.subGroup = meta.subGroup;
     } else if (state.subGroup !== meta.subGroup) {
-      state.subGroupElement = asSubGroup(meta.subGroup);
+      state.subGroupElement = asSubGroup(meta.subGroup, meta.group);
       state.groupElement.appendChild(state.subGroupElement);
       state.subGroup = meta.subGroup;
     }
@@ -333,7 +344,7 @@ function onClick(e, copy = true) {
   document.getElementsByClassName('emoji-group')[0].innerText = group;
 
   var subGroup = items.find(item => item.key === id)?.subGroup ?? '(none)';
-  document.getElementsByClassName('emoji-subgroup')[0].innerText = subGroup;
+  document.getElementsByClassName('emoji-subgroup')[0].innerText = displaySubGroupName(subGroup, group);
 
   document.getElementsByClassName("emoji-key")[0].innerText = id;
   document.getElementsByClassName("emoji-value")[0].innerText = value;
