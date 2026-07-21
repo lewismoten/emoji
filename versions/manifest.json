@@ -108,11 +108,13 @@
     {
       "version": "18.0",
       "status": "proposed",
+      "stage": "beta",
       "released": null,
       "file": "proposed/18.0.json",
       "source": "https://www.unicode.org/Public/draft/emoji/emoji-test.txt",
-      "retrieved": "2026-07-21T21:21:25.655Z",
-      "count": 19
+      "retrieved": "2026-07-21T21:29:19.236Z",
+      "count": 19,
+      "expectedRelease": "2026-09"
     }
   ]
 }

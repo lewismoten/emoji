@@ -4,7 +4,9 @@ var items = [];
 var groups = [];
 var subGroups = {};
 const NO_FILTER = 'Not applied';
-var allIds = Object.keys(emoji);
+var emojiByKey = { ...emoji };
+var allIds = Object.keys(emojiByKey);
+var releasedIds = new Set(allIds);
 var groupedKeys = {};
 var byId = {};
 
@@ -21,6 +23,7 @@ var exampleDialog;
 var skinToneCheckboxes;
 var hairCheckboxes;
 var versionManifests = [];
+var proposedVersionManifests = [];
 var versionKeys = new Map();
 
 const countryContinents = {
@@ -280,9 +283,28 @@ async function loadVersionData() {
       version.version,
       new Set(await fetch(`versions/${version.file}`).then(response => response.json()))
     ]));
+    const proposed = (manifest.proposed ?? []).sort((a, b) => a.version.localeCompare(b.version, undefined, { numeric: true }));
+    const proposedKeys = await Promise.all(proposed.map(async version => {
+      const proposal = await fetch(version.file).then(response => response.json());
+      const proposalItems = proposal.emoji ?? [];
+      proposalItems.forEach(item => {
+        if (emojiByKey[item.key]) return;
+        const explorerItem = {
+          ...item,
+          unicodeSubGroup: item.subGroup,
+          subGroup: getExplorerSubGroup(item)
+        };
+        items.push(explorerItem);
+        byId[item.key] = explorerItem;
+        emojiByKey[item.key] = item.emoji;
+        allIds.push(item.key);
+      });
+      return [version.version, new Set(proposalItems.map(item => item.key))];
+    }));
 
     versionManifests = manifests;
-    versionKeys = new Map(keys);
+    proposedVersionManifests = proposed;
+    versionKeys = new Map([...keys, ...proposedKeys]);
     populateVersionSelector();
     drawList();
   } catch (error) {
@@ -294,24 +316,40 @@ async function loadVersionData() {
 
 function populateVersionSelector() {
   versionSelector.replaceChildren();
-  versionManifests.forEach(version => {
+  const futureMode = versionModeSelector.value.startsWith('future');
+  const manifests = futureMode ? proposedVersionManifests : versionManifests;
+  manifests.forEach(version => {
     const option = document.createElement('option');
     option.value = version.version;
-    option.text = `Emoji ${version.version} (${version.released})`;
+    if (futureMode) {
+      const stage = version.stage ?? version.status ?? 'draft';
+      const timing = version.expectedRelease
+        ? `expected ${version.expectedRelease}`
+        : `updated ${new Date(version.retrieved).toLocaleDateString()}`;
+      option.text = `Emoji ${version.version} (${stage} · ${timing})`;
+    } else {
+      option.text = `Emoji ${version.version} (${version.released})`;
+    }
     versionSelector.appendChild(option);
   });
-  versionSelector.value = versionManifests.at(-1)?.version ?? '';
-  versionSelector.disabled = true;
+  versionSelector.value = manifests.at(-1)?.version ?? '';
+  versionSelector.disabled = versionModeSelector.value === 'all' || versionModeSelector.value === 'future';
 }
 
 function onVersionFilterChange() {
-  versionSelector.disabled = versionModeSelector.value === 'all';
+  populateVersionSelector();
   drawList();
 }
 
 function getVersionKeys() {
-  if (versionModeSelector.value === 'all') return null;
-  if (versionModeSelector.value === 'selected') {
+  if (versionModeSelector.value === 'all') return releasedIds;
+  if (versionModeSelector.value === 'future') {
+    return new Set([
+      ...releasedIds,
+      ...proposedVersionManifests.flatMap(version => [...(versionKeys.get(version.version) ?? [])])
+    ]);
+  }
+  if (versionModeSelector.value === 'selected' || versionModeSelector.value === 'future-selected') {
     return versionKeys.get(versionSelector.value) ?? new Set();
   }
 
@@ -409,7 +447,7 @@ const asSubGroup = (name, direct) => {
   return div;
 }
 function asItem(state, key) {
-  var value = emoji[key];
+  var value = emojiByKey[key];
 
   var meta = byId[key] ?? { group: NO_FILTER, subGroups: NO_FILTER }
   var groupId = 0;
@@ -442,7 +480,7 @@ function asItem(state, key) {
     }
 
     groupId = groups.indexOf(meta.group);
-    subGroupId = subGroups[meta.group].indexOf(meta.unicodeSubGroup);
+    subGroupId = subGroups[meta.group]?.indexOf(meta.unicodeSubGroup) ?? 0;
   }
 
 
@@ -526,7 +564,7 @@ function onKeyUp(e) {
 function onClick(e, copy = true) {
   var id = e.target.id;
   if ((id || "") === "") id = e.target.parentElement.id;
-  var value = emoji[id];
+  var value = emojiByKey[id];
   if (value === undefined) return;
   var bits = [];
   var i;

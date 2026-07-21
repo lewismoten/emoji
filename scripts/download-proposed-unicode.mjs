@@ -1,10 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-const requestedVersion = process.argv[2] ?? 'next';
+const [requestedVersion = 'next', ...options] = process.argv.slice(2);
 if (requestedVersion !== 'next' && !/^\d+\.\d+(?:\.\d+)?$/.test(requestedVersion)) {
-  throw new Error('Usage: npm run unicode:proposed -- [next|major.minor[.patch]]');
+  throw new Error('Usage: npm run unicode:proposed -- [next|major.minor[.patch]] [--stage draft|beta] [--expected YYYY-MM]');
 }
+const optionValue = name => options.find(option => option.startsWith(`${name}=`))?.slice(name.length + 1);
+const stage = optionValue('--stage') ?? 'draft';
+const expectedRelease = optionValue('--expected');
 
 const sourceUrl = 'https://www.unicode.org/Public/draft/emoji/emoji-test.txt';
 const asValue = codePoints => codePoints
@@ -108,11 +111,13 @@ const proposed = (manifest.proposed ?? []).filter(version => version.version !==
 proposed.push({
   version: draftVersion,
   status: 'proposed',
+  stage,
   released: null,
   file: `proposed/${draftVersion}.json`,
   source: sourceUrl,
   retrieved: new Date().toISOString(),
-  count: candidates.length
+  count: candidates.length,
+  ...(expectedRelease ? { expectedRelease } : {})
 });
 proposed.sort((a, b) => a.version.localeCompare(b.version, undefined, { numeric: true }));
 fs.writeFileSync(manifestFile, `${JSON.stringify({ ...manifest, proposed }, null, 2)}\n`);

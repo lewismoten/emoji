@@ -119,3 +119,9 @@ This writes `proposed/<draft-version>.json` and records it in `versions/manifest
 ```bash
 npm run unicode:proposed -- 18.0
 ```
+
+Pass draft-release context to make the demo label the future version more clearly:
+
+```bash
+npm run unicode:proposed -- 18.0 --stage=beta --expected=2026-09
+```
