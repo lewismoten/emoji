@@ -195,6 +195,18 @@ export default {
   balanceScale: "\u{2696}\u{fe0f}" as const,
   /** bald 🦲 */
   bald: "\u{1f9b2}" as const,
+  /** ballet dancer 🧑‍🩰 */
+  balletDancer: "\u{1f9d1}\u{200d}\u{1fa70}" as const,
+  /** ballet dancer: dark skin tone 🧑🏿‍🩰 */
+  balletDancerDarkSkinTone: "\u{1f9d1}\u{1f3ff}\u{200d}\u{1fa70}" as const,
+  /** ballet dancer: light skin tone 🧑🏻‍🩰 */
+  balletDancerLightSkinTone: "\u{1f9d1}\u{1f3fb}\u{200d}\u{1fa70}" as const,
+  /** ballet dancer: medium-dark skin tone 🧑🏾‍🩰 */
+  balletDancerMediumDarkSkinTone: "\u{1f9d1}\u{1f3fe}\u{200d}\u{1fa70}" as const,
+  /** ballet dancer: medium-light skin tone 🧑🏼‍🩰 */
+  balletDancerMediumLightSkinTone: "\u{1f9d1}\u{1f3fc}\u{200d}\u{1fa70}" as const,
+  /** ballet dancer: medium skin tone 🧑🏽‍🩰 */
+  balletDancerMediumSkinTone: "\u{1f9d1}\u{1f3fd}\u{200d}\u{1fa70}" as const,
   /** ballet shoes 🩰 */
   balletShoes: "\u{1fa70}" as const,
   /** balloon 🎈 */
@@ -1035,6 +1047,8 @@ export default {
   disappointedFace: "\u{1f61e}" as const,
   /** disguised face 🥸 */
   disguisedFace: "\u{1f978}" as const,
+  /** distorted face 🫪 */
+  distortedFace: "\u{1faea}" as const,
   /** divide ➗ */
   divide: "\u{2797}" as const,
   /** diving mask 🤿 */
@@ -1371,6 +1385,8 @@ export default {
   ferry: "\u{26f4}\u{fe0f}" as const,
   /** field hockey 🏑 */
   fieldHockey: "\u{1f3d1}" as const,
+  /** fight cloud 🫯 */
+  fightCloud: "\u{1faef}" as const,
   /** file cabinet 🗄️ */
   fileCabinet: "\u{1f5c4}\u{fe0f}" as const,
   /** file folder 📁 */
@@ -2169,6 +2185,8 @@ export default {
   guitar: "\u{1f3b8}" as const,
   /** hair pick 🪮 */
   hairPick: "\u{1faae}" as const,
+  /** hairy creature 🫈 */
+  hairyCreature: "\u{1fac8}" as const,
   /** hamburger 🍔 */
   hamburger: "\u{1f354}" as const,
   /** hammer 🔨 */
@@ -2791,6 +2809,8 @@ export default {
   ladder: "\u{1fa9c}" as const,
   /** lady beetle 🐞 */
   ladyBeetle: "\u{1f41e}" as const,
+  /** landslide 🛘 */
+  landslide: "\u{1f6d8}" as const,
   /** laptop 💻 */
   laptop: "\u{1f4bb}" as const,
   /** large blue diamond 🔷 */
@@ -4017,8 +4037,108 @@ export default {
   mensRoom: "\u{1f6b9}" as const,
   /** men with bunny ears 👯‍♂️ */
   menWithBunnyEars: "\u{1f46f}\u{200d}\u{2642}\u{fe0f}" as const,
+  /** men with bunny ears: dark skin tone 👯🏿‍♂️ */
+  menWithBunnyEarsDarkSkinTone: "\u{1f46f}\u{1f3ff}\u{200d}\u{2642}\u{fe0f}" as const,
+  /** men with bunny ears: dark skin tone, light skin tone 👨🏿‍🐰‍👨🏻 */
+  menWithBunnyEarsDarkSkinToneLightSkinTone: "\u{1f468}\u{1f3ff}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fb}" as const,
+  /** men with bunny ears: dark skin tone, medium-dark skin tone 👨🏿‍🐰‍👨🏾 */
+  menWithBunnyEarsDarkSkinToneMediumDarkSkinTone: "\u{1f468}\u{1f3ff}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fe}" as const,
+  /** men with bunny ears: dark skin tone, medium-light skin tone 👨🏿‍🐰‍👨🏼 */
+  menWithBunnyEarsDarkSkinToneMediumLightSkinTone: "\u{1f468}\u{1f3ff}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fc}" as const,
+  /** men with bunny ears: dark skin tone, medium skin tone 👨🏿‍🐰‍👨🏽 */
+  menWithBunnyEarsDarkSkinToneMediumSkinTone: "\u{1f468}\u{1f3ff}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fd}" as const,
+  /** men with bunny ears: light skin tone 👯🏻‍♂️ */
+  menWithBunnyEarsLightSkinTone: "\u{1f46f}\u{1f3fb}\u{200d}\u{2642}\u{fe0f}" as const,
+  /** men with bunny ears: light skin tone, dark skin tone 👨🏻‍🐰‍👨🏿 */
+  menWithBunnyEarsLightSkinToneDarkSkinTone: "\u{1f468}\u{1f3fb}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3ff}" as const,
+  /** men with bunny ears: light skin tone, medium-dark skin tone 👨🏻‍🐰‍👨🏾 */
+  menWithBunnyEarsLightSkinToneMediumDarkSkinTone: "\u{1f468}\u{1f3fb}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fe}" as const,
+  /** men with bunny ears: light skin tone, medium-light skin tone 👨🏻‍🐰‍👨🏼 */
+  menWithBunnyEarsLightSkinToneMediumLightSkinTone: "\u{1f468}\u{1f3fb}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fc}" as const,
+  /** men with bunny ears: light skin tone, medium skin tone 👨🏻‍🐰‍👨🏽 */
+  menWithBunnyEarsLightSkinToneMediumSkinTone: "\u{1f468}\u{1f3fb}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fd}" as const,
+  /** men with bunny ears: medium-dark skin tone 👯🏾‍♂️ */
+  menWithBunnyEarsMediumDarkSkinTone: "\u{1f46f}\u{1f3fe}\u{200d}\u{2642}\u{fe0f}" as const,
+  /** men with bunny ears: medium-dark skin tone, dark skin tone 👨🏾‍🐰‍👨🏿 */
+  menWithBunnyEarsMediumDarkSkinToneDarkSkinTone: "\u{1f468}\u{1f3fe}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3ff}" as const,
+  /** men with bunny ears: medium-dark skin tone, light skin tone 👨🏾‍🐰‍👨🏻 */
+  menWithBunnyEarsMediumDarkSkinToneLightSkinTone: "\u{1f468}\u{1f3fe}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fb}" as const,
+  /** men with bunny ears: medium-dark skin tone, medium-light skin tone 👨🏾‍🐰‍👨🏼 */
+  menWithBunnyEarsMediumDarkSkinToneMediumLightSkinTone: "\u{1f468}\u{1f3fe}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fc}" as const,
+  /** men with bunny ears: medium-dark skin tone, medium skin tone 👨🏾‍🐰‍👨🏽 */
+  menWithBunnyEarsMediumDarkSkinToneMediumSkinTone: "\u{1f468}\u{1f3fe}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fd}" as const,
+  /** men with bunny ears: medium-light skin tone 👯🏼‍♂️ */
+  menWithBunnyEarsMediumLightSkinTone: "\u{1f46f}\u{1f3fc}\u{200d}\u{2642}\u{fe0f}" as const,
+  /** men with bunny ears: medium-light skin tone, dark skin tone 👨🏼‍🐰‍👨🏿 */
+  menWithBunnyEarsMediumLightSkinToneDarkSkinTone: "\u{1f468}\u{1f3fc}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3ff}" as const,
+  /** men with bunny ears: medium-light skin tone, light skin tone 👨🏼‍🐰‍👨🏻 */
+  menWithBunnyEarsMediumLightSkinToneLightSkinTone: "\u{1f468}\u{1f3fc}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fb}" as const,
+  /** men with bunny ears: medium-light skin tone, medium-dark skin tone 👨🏼‍🐰‍👨🏾 */
+  menWithBunnyEarsMediumLightSkinToneMediumDarkSkinTone: "\u{1f468}\u{1f3fc}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fe}" as const,
+  /** men with bunny ears: medium-light skin tone, medium skin tone 👨🏼‍🐰‍👨🏽 */
+  menWithBunnyEarsMediumLightSkinToneMediumSkinTone: "\u{1f468}\u{1f3fc}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fd}" as const,
+  /** men with bunny ears: medium skin tone 👯🏽‍♂️ */
+  menWithBunnyEarsMediumSkinTone: "\u{1f46f}\u{1f3fd}\u{200d}\u{2642}\u{fe0f}" as const,
+  /** men with bunny ears: medium skin tone, dark skin tone 👨🏽‍🐰‍👨🏿 */
+  menWithBunnyEarsMediumSkinToneDarkSkinTone: "\u{1f468}\u{1f3fd}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3ff}" as const,
+  /** men with bunny ears: medium skin tone, light skin tone 👨🏽‍🐰‍👨🏻 */
+  menWithBunnyEarsMediumSkinToneLightSkinTone: "\u{1f468}\u{1f3fd}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fb}" as const,
+  /** men with bunny ears: medium skin tone, medium-dark skin tone 👨🏽‍🐰‍👨🏾 */
+  menWithBunnyEarsMediumSkinToneMediumDarkSkinTone: "\u{1f468}\u{1f3fd}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fe}" as const,
+  /** men with bunny ears: medium skin tone, medium-light skin tone 👨🏽‍🐰‍👨🏼 */
+  menWithBunnyEarsMediumSkinToneMediumLightSkinTone: "\u{1f468}\u{1f3fd}\u{200d}\u{1f430}\u{200d}\u{1f468}\u{1f3fc}" as const,
   /** men wrestling 🤼‍♂️ */
   menWrestling: "\u{1f93c}\u{200d}\u{2642}\u{fe0f}" as const,
+  /** men wrestling: dark skin tone 🤼🏿‍♂️ */
+  menWrestlingDarkSkinTone: "\u{1f93c}\u{1f3ff}\u{200d}\u{2642}\u{fe0f}" as const,
+  /** men wrestling: dark skin tone, light skin tone 👨🏿‍🫯‍👨🏻 */
+  menWrestlingDarkSkinToneLightSkinTone: "\u{1f468}\u{1f3ff}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fb}" as const,
+  /** men wrestling: dark skin tone, medium-dark skin tone 👨🏿‍🫯‍👨🏾 */
+  menWrestlingDarkSkinToneMediumDarkSkinTone: "\u{1f468}\u{1f3ff}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fe}" as const,
+  /** men wrestling: dark skin tone, medium-light skin tone 👨🏿‍🫯‍👨🏼 */
+  menWrestlingDarkSkinToneMediumLightSkinTone: "\u{1f468}\u{1f3ff}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fc}" as const,
+  /** men wrestling: dark skin tone, medium skin tone 👨🏿‍🫯‍👨🏽 */
+  menWrestlingDarkSkinToneMediumSkinTone: "\u{1f468}\u{1f3ff}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fd}" as const,
+  /** men wrestling: light skin tone 🤼🏻‍♂️ */
+  menWrestlingLightSkinTone: "\u{1f93c}\u{1f3fb}\u{200d}\u{2642}\u{fe0f}" as const,
+  /** men wrestling: light skin tone, dark skin tone 👨🏻‍🫯‍👨🏿 */
+  menWrestlingLightSkinToneDarkSkinTone: "\u{1f468}\u{1f3fb}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3ff}" as const,
+  /** men wrestling: light skin tone, medium-dark skin tone 👨🏻‍🫯‍👨🏾 */
+  menWrestlingLightSkinToneMediumDarkSkinTone: "\u{1f468}\u{1f3fb}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fe}" as const,
+  /** men wrestling: light skin tone, medium-light skin tone 👨🏻‍🫯‍👨🏼 */
+  menWrestlingLightSkinToneMediumLightSkinTone: "\u{1f468}\u{1f3fb}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fc}" as const,
+  /** men wrestling: light skin tone, medium skin tone 👨🏻‍🫯‍👨🏽 */
+  menWrestlingLightSkinToneMediumSkinTone: "\u{1f468}\u{1f3fb}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fd}" as const,
+  /** men wrestling: medium-dark skin tone 🤼🏾‍♂️ */
+  menWrestlingMediumDarkSkinTone: "\u{1f93c}\u{1f3fe}\u{200d}\u{2642}\u{fe0f}" as const,
+  /** men wrestling: medium-dark skin tone, dark skin tone 👨🏾‍🫯‍👨🏿 */
+  menWrestlingMediumDarkSkinToneDarkSkinTone: "\u{1f468}\u{1f3fe}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3ff}" as const,
+  /** men wrestling: medium-dark skin tone, light skin tone 👨🏾‍🫯‍👨🏻 */
+  menWrestlingMediumDarkSkinToneLightSkinTone: "\u{1f468}\u{1f3fe}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fb}" as const,
+  /** men wrestling: medium-dark skin tone, medium-light skin tone 👨🏾‍🫯‍👨🏼 */
+  menWrestlingMediumDarkSkinToneMediumLightSkinTone: "\u{1f468}\u{1f3fe}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fc}" as const,
+  /** men wrestling: medium-dark skin tone, medium skin tone 👨🏾‍🫯‍👨🏽 */
+  menWrestlingMediumDarkSkinToneMediumSkinTone: "\u{1f468}\u{1f3fe}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fd}" as const,
+  /** men wrestling: medium-light skin tone 🤼🏼‍♂️ */
+  menWrestlingMediumLightSkinTone: "\u{1f93c}\u{1f3fc}\u{200d}\u{2642}\u{fe0f}" as const,
+  /** men wrestling: medium-light skin tone, dark skin tone 👨🏼‍🫯‍👨🏿 */
+  menWrestlingMediumLightSkinToneDarkSkinTone: "\u{1f468}\u{1f3fc}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3ff}" as const,
+  /** men wrestling: medium-light skin tone, light skin tone 👨🏼‍🫯‍👨🏻 */
+  menWrestlingMediumLightSkinToneLightSkinTone: "\u{1f468}\u{1f3fc}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fb}" as const,
+  /** men wrestling: medium-light skin tone, medium-dark skin tone 👨🏼‍🫯‍👨🏾 */
+  menWrestlingMediumLightSkinToneMediumDarkSkinTone: "\u{1f468}\u{1f3fc}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fe}" as const,
+  /** men wrestling: medium-light skin tone, medium skin tone 👨🏼‍🫯‍👨🏽 */
+  menWrestlingMediumLightSkinToneMediumSkinTone: "\u{1f468}\u{1f3fc}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fd}" as const,
+  /** men wrestling: medium skin tone 🤼🏽‍♂️ */
+  menWrestlingMediumSkinTone: "\u{1f93c}\u{1f3fd}\u{200d}\u{2642}\u{fe0f}" as const,
+  /** men wrestling: medium skin tone, dark skin tone 👨🏽‍🫯‍👨🏿 */
+  menWrestlingMediumSkinToneDarkSkinTone: "\u{1f468}\u{1f3fd}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3ff}" as const,
+  /** men wrestling: medium skin tone, light skin tone 👨🏽‍🫯‍👨🏻 */
+  menWrestlingMediumSkinToneLightSkinTone: "\u{1f468}\u{1f3fd}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fb}" as const,
+  /** men wrestling: medium skin tone, medium-dark skin tone 👨🏽‍🫯‍👨🏾 */
+  menWrestlingMediumSkinToneMediumDarkSkinTone: "\u{1f468}\u{1f3fd}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fe}" as const,
+  /** men wrestling: medium skin tone, medium-light skin tone 👨🏽‍🫯‍👨🏼 */
+  menWrestlingMediumSkinToneMediumLightSkinTone: "\u{1f468}\u{1f3fd}\u{200d}\u{1faef}\u{200d}\u{1f468}\u{1f3fc}" as const,
   /** mermaid 🧜‍♀️ */
   mermaid: "\u{1f9dc}\u{200d}\u{2640}\u{fe0f}" as const,
   /** mermaid: dark skin tone 🧜🏿‍♀️ */
@@ -4423,6 +4543,8 @@ export default {
   orangeSquare: "\u{1f7e7}" as const,
   /** orangutan 🦧 */
   orangutan: "\u{1f9a7}" as const,
+  /** orca 🫍 */
+  orca: "\u{1facd}" as const,
   /** orthodox cross ☦️ */
   orthodoxCross: "\u{2626}\u{fe0f}" as const,
   /** otter 🦦 */
@@ -4585,8 +4707,108 @@ export default {
   peopleHugging: "\u{1fac2}" as const,
   /** people with bunny ears 👯 */
   peopleWithBunnyEars: "\u{1f46f}" as const,
+  /** people with bunny ears: dark skin tone 👯🏿 */
+  peopleWithBunnyEarsDarkSkinTone: "\u{1f46f}\u{1f3ff}" as const,
+  /** people with bunny ears: dark skin tone, light skin tone 🧑🏿‍🐰‍🧑🏻 */
+  peopleWithBunnyEarsDarkSkinToneLightSkinTone: "\u{1f9d1}\u{1f3ff}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fb}" as const,
+  /** people with bunny ears: dark skin tone, medium-dark skin tone 🧑🏿‍🐰‍🧑🏾 */
+  peopleWithBunnyEarsDarkSkinToneMediumDarkSkinTone: "\u{1f9d1}\u{1f3ff}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fe}" as const,
+  /** people with bunny ears: dark skin tone, medium-light skin tone 🧑🏿‍🐰‍🧑🏼 */
+  peopleWithBunnyEarsDarkSkinToneMediumLightSkinTone: "\u{1f9d1}\u{1f3ff}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fc}" as const,
+  /** people with bunny ears: dark skin tone, medium skin tone 🧑🏿‍🐰‍🧑🏽 */
+  peopleWithBunnyEarsDarkSkinToneMediumSkinTone: "\u{1f9d1}\u{1f3ff}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fd}" as const,
+  /** people with bunny ears: light skin tone 👯🏻 */
+  peopleWithBunnyEarsLightSkinTone: "\u{1f46f}\u{1f3fb}" as const,
+  /** people with bunny ears: light skin tone, dark skin tone 🧑🏻‍🐰‍🧑🏿 */
+  peopleWithBunnyEarsLightSkinToneDarkSkinTone: "\u{1f9d1}\u{1f3fb}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3ff}" as const,
+  /** people with bunny ears: light skin tone, medium-dark skin tone 🧑🏻‍🐰‍🧑🏾 */
+  peopleWithBunnyEarsLightSkinToneMediumDarkSkinTone: "\u{1f9d1}\u{1f3fb}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fe}" as const,
+  /** people with bunny ears: light skin tone, medium-light skin tone 🧑🏻‍🐰‍🧑🏼 */
+  peopleWithBunnyEarsLightSkinToneMediumLightSkinTone: "\u{1f9d1}\u{1f3fb}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fc}" as const,
+  /** people with bunny ears: light skin tone, medium skin tone 🧑🏻‍🐰‍🧑🏽 */
+  peopleWithBunnyEarsLightSkinToneMediumSkinTone: "\u{1f9d1}\u{1f3fb}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fd}" as const,
+  /** people with bunny ears: medium-dark skin tone 👯🏾 */
+  peopleWithBunnyEarsMediumDarkSkinTone: "\u{1f46f}\u{1f3fe}" as const,
+  /** people with bunny ears: medium-dark skin tone, dark skin tone 🧑🏾‍🐰‍🧑🏿 */
+  peopleWithBunnyEarsMediumDarkSkinToneDarkSkinTone: "\u{1f9d1}\u{1f3fe}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3ff}" as const,
+  /** people with bunny ears: medium-dark skin tone, light skin tone 🧑🏾‍🐰‍🧑🏻 */
+  peopleWithBunnyEarsMediumDarkSkinToneLightSkinTone: "\u{1f9d1}\u{1f3fe}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fb}" as const,
+  /** people with bunny ears: medium-dark skin tone, medium-light skin tone 🧑🏾‍🐰‍🧑🏼 */
+  peopleWithBunnyEarsMediumDarkSkinToneMediumLightSkinTone: "\u{1f9d1}\u{1f3fe}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fc}" as const,
+  /** people with bunny ears: medium-dark skin tone, medium skin tone 🧑🏾‍🐰‍🧑🏽 */
+  peopleWithBunnyEarsMediumDarkSkinToneMediumSkinTone: "\u{1f9d1}\u{1f3fe}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fd}" as const,
+  /** people with bunny ears: medium-light skin tone 👯🏼 */
+  peopleWithBunnyEarsMediumLightSkinTone: "\u{1f46f}\u{1f3fc}" as const,
+  /** people with bunny ears: medium-light skin tone, dark skin tone 🧑🏼‍🐰‍🧑🏿 */
+  peopleWithBunnyEarsMediumLightSkinToneDarkSkinTone: "\u{1f9d1}\u{1f3fc}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3ff}" as const,
+  /** people with bunny ears: medium-light skin tone, light skin tone 🧑🏼‍🐰‍🧑🏻 */
+  peopleWithBunnyEarsMediumLightSkinToneLightSkinTone: "\u{1f9d1}\u{1f3fc}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fb}" as const,
+  /** people with bunny ears: medium-light skin tone, medium-dark skin tone 🧑🏼‍🐰‍🧑🏾 */
+  peopleWithBunnyEarsMediumLightSkinToneMediumDarkSkinTone: "\u{1f9d1}\u{1f3fc}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fe}" as const,
+  /** people with bunny ears: medium-light skin tone, medium skin tone 🧑🏼‍🐰‍🧑🏽 */
+  peopleWithBunnyEarsMediumLightSkinToneMediumSkinTone: "\u{1f9d1}\u{1f3fc}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fd}" as const,
+  /** people with bunny ears: medium skin tone 👯🏽 */
+  peopleWithBunnyEarsMediumSkinTone: "\u{1f46f}\u{1f3fd}" as const,
+  /** people with bunny ears: medium skin tone, dark skin tone 🧑🏽‍🐰‍🧑🏿 */
+  peopleWithBunnyEarsMediumSkinToneDarkSkinTone: "\u{1f9d1}\u{1f3fd}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3ff}" as const,
+  /** people with bunny ears: medium skin tone, light skin tone 🧑🏽‍🐰‍🧑🏻 */
+  peopleWithBunnyEarsMediumSkinToneLightSkinTone: "\u{1f9d1}\u{1f3fd}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fb}" as const,
+  /** people with bunny ears: medium skin tone, medium-dark skin tone 🧑🏽‍🐰‍🧑🏾 */
+  peopleWithBunnyEarsMediumSkinToneMediumDarkSkinTone: "\u{1f9d1}\u{1f3fd}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fe}" as const,
+  /** people with bunny ears: medium skin tone, medium-light skin tone 🧑🏽‍🐰‍🧑🏼 */
+  peopleWithBunnyEarsMediumSkinToneMediumLightSkinTone: "\u{1f9d1}\u{1f3fd}\u{200d}\u{1f430}\u{200d}\u{1f9d1}\u{1f3fc}" as const,
   /** people wrestling 🤼 */
   peopleWrestling: "\u{1f93c}" as const,
+  /** people wrestling: dark skin tone 🤼🏿 */
+  peopleWrestlingDarkSkinTone: "\u{1f93c}\u{1f3ff}" as const,
+  /** people wrestling: dark skin tone, light skin tone 🧑🏿‍🫯‍🧑🏻 */
+  peopleWrestlingDarkSkinToneLightSkinTone: "\u{1f9d1}\u{1f3ff}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fb}" as const,
+  /** people wrestling: dark skin tone, medium-dark skin tone 🧑🏿‍🫯‍🧑🏾 */
+  peopleWrestlingDarkSkinToneMediumDarkSkinTone: "\u{1f9d1}\u{1f3ff}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fe}" as const,
+  /** people wrestling: dark skin tone, medium-light skin tone 🧑🏿‍🫯‍🧑🏼 */
+  peopleWrestlingDarkSkinToneMediumLightSkinTone: "\u{1f9d1}\u{1f3ff}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fc}" as const,
+  /** people wrestling: dark skin tone, medium skin tone 🧑🏿‍🫯‍🧑🏽 */
+  peopleWrestlingDarkSkinToneMediumSkinTone: "\u{1f9d1}\u{1f3ff}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fd}" as const,
+  /** people wrestling: light skin tone 🤼🏻 */
+  peopleWrestlingLightSkinTone: "\u{1f93c}\u{1f3fb}" as const,
+  /** people wrestling: light skin tone, dark skin tone 🧑🏻‍🫯‍🧑🏿 */
+  peopleWrestlingLightSkinToneDarkSkinTone: "\u{1f9d1}\u{1f3fb}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3ff}" as const,
+  /** people wrestling: light skin tone, medium-dark skin tone 🧑🏻‍🫯‍🧑🏾 */
+  peopleWrestlingLightSkinToneMediumDarkSkinTone: "\u{1f9d1}\u{1f3fb}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fe}" as const,
+  /** people wrestling: light skin tone, medium-light skin tone 🧑🏻‍🫯‍🧑🏼 */
+  peopleWrestlingLightSkinToneMediumLightSkinTone: "\u{1f9d1}\u{1f3fb}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fc}" as const,
+  /** people wrestling: light skin tone, medium skin tone 🧑🏻‍🫯‍🧑🏽 */
+  peopleWrestlingLightSkinToneMediumSkinTone: "\u{1f9d1}\u{1f3fb}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fd}" as const,
+  /** people wrestling: medium-dark skin tone 🤼🏾 */
+  peopleWrestlingMediumDarkSkinTone: "\u{1f93c}\u{1f3fe}" as const,
+  /** people wrestling: medium-dark skin tone, dark skin tone 🧑🏾‍🫯‍🧑🏿 */
+  peopleWrestlingMediumDarkSkinToneDarkSkinTone: "\u{1f9d1}\u{1f3fe}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3ff}" as const,
+  /** people wrestling: medium-dark skin tone, light skin tone 🧑🏾‍🫯‍🧑🏻 */
+  peopleWrestlingMediumDarkSkinToneLightSkinTone: "\u{1f9d1}\u{1f3fe}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fb}" as const,
+  /** people wrestling: medium-dark skin tone, medium-light skin tone 🧑🏾‍🫯‍🧑🏼 */
+  peopleWrestlingMediumDarkSkinToneMediumLightSkinTone: "\u{1f9d1}\u{1f3fe}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fc}" as const,
+  /** people wrestling: medium-dark skin tone, medium skin tone 🧑🏾‍🫯‍🧑🏽 */
+  peopleWrestlingMediumDarkSkinToneMediumSkinTone: "\u{1f9d1}\u{1f3fe}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fd}" as const,
+  /** people wrestling: medium-light skin tone 🤼🏼 */
+  peopleWrestlingMediumLightSkinTone: "\u{1f93c}\u{1f3fc}" as const,
+  /** people wrestling: medium-light skin tone, dark skin tone 🧑🏼‍🫯‍🧑🏿 */
+  peopleWrestlingMediumLightSkinToneDarkSkinTone: "\u{1f9d1}\u{1f3fc}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3ff}" as const,
+  /** people wrestling: medium-light skin tone, light skin tone 🧑🏼‍🫯‍🧑🏻 */
+  peopleWrestlingMediumLightSkinToneLightSkinTone: "\u{1f9d1}\u{1f3fc}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fb}" as const,
+  /** people wrestling: medium-light skin tone, medium-dark skin tone 🧑🏼‍🫯‍🧑🏾 */
+  peopleWrestlingMediumLightSkinToneMediumDarkSkinTone: "\u{1f9d1}\u{1f3fc}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fe}" as const,
+  /** people wrestling: medium-light skin tone, medium skin tone 🧑🏼‍🫯‍🧑🏽 */
+  peopleWrestlingMediumLightSkinToneMediumSkinTone: "\u{1f9d1}\u{1f3fc}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fd}" as const,
+  /** people wrestling: medium skin tone 🤼🏽 */
+  peopleWrestlingMediumSkinTone: "\u{1f93c}\u{1f3fd}" as const,
+  /** people wrestling: medium skin tone, dark skin tone 🧑🏽‍🫯‍🧑🏿 */
+  peopleWrestlingMediumSkinToneDarkSkinTone: "\u{1f9d1}\u{1f3fd}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3ff}" as const,
+  /** people wrestling: medium skin tone, light skin tone 🧑🏽‍🫯‍🧑🏻 */
+  peopleWrestlingMediumSkinToneLightSkinTone: "\u{1f9d1}\u{1f3fd}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fb}" as const,
+  /** people wrestling: medium skin tone, medium-dark skin tone 🧑🏽‍🫯‍🧑🏾 */
+  peopleWrestlingMediumSkinToneMediumDarkSkinTone: "\u{1f9d1}\u{1f3fd}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fe}" as const,
+  /** people wrestling: medium skin tone, medium-light skin tone 🧑🏽‍🫯‍🧑🏼 */
+  peopleWrestlingMediumSkinToneMediumLightSkinTone: "\u{1f9d1}\u{1f3fd}\u{200d}\u{1faef}\u{200d}\u{1f9d1}\u{1f3fc}" as const,
   /** performing arts 🎭 */
   performingArts: "\u{1f3ad}" as const,
   /** persevering face 😣 */
@@ -6243,6 +6465,8 @@ export default {
   transgenderFlag: "\u{1f3f3}\u{fe0f}\u{200d}\u{26a7}\u{fe0f}" as const,
   /** transgender symbol ⚧️ */
   transgenderSymbol: "\u{26a7}\u{fe0f}" as const,
+  /** treasure chest 🪎 */
+  treasureChest: "\u{1fa8e}" as const,
   /** T-Rex 🦖 */
   tRex: "\u{1f996}" as const,
   /** triangular flag 🚩 */
@@ -6255,6 +6479,8 @@ export default {
   troll: "\u{1f9cc}" as const,
   /** trolleybus 🚎 */
   trolleybus: "\u{1f68e}" as const,
+  /** trombone 🪊 */
+  trombone: "\u{1fa8a}" as const,
   /** trophy 🏆 */
   trophy: "\u{1f3c6}" as const,
   /** tropical drink 🍹 */
@@ -7523,8 +7749,108 @@ export default {
   womensRoom: "\u{1f6ba}" as const,
   /** women with bunny ears 👯‍♀️ */
   womenWithBunnyEars: "\u{1f46f}\u{200d}\u{2640}\u{fe0f}" as const,
+  /** women with bunny ears: dark skin tone 👯🏿‍♀️ */
+  womenWithBunnyEarsDarkSkinTone: "\u{1f46f}\u{1f3ff}\u{200d}\u{2640}\u{fe0f}" as const,
+  /** women with bunny ears: dark skin tone, light skin tone 👩🏿‍🐰‍👩🏻 */
+  womenWithBunnyEarsDarkSkinToneLightSkinTone: "\u{1f469}\u{1f3ff}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fb}" as const,
+  /** women with bunny ears: dark skin tone, medium-dark skin tone 👩🏿‍🐰‍👩🏾 */
+  womenWithBunnyEarsDarkSkinToneMediumDarkSkinTone: "\u{1f469}\u{1f3ff}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fe}" as const,
+  /** women with bunny ears: dark skin tone, medium-light skin tone 👩🏿‍🐰‍👩🏼 */
+  womenWithBunnyEarsDarkSkinToneMediumLightSkinTone: "\u{1f469}\u{1f3ff}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fc}" as const,
+  /** women with bunny ears: dark skin tone, medium skin tone 👩🏿‍🐰‍👩🏽 */
+  womenWithBunnyEarsDarkSkinToneMediumSkinTone: "\u{1f469}\u{1f3ff}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fd}" as const,
+  /** women with bunny ears: light skin tone 👯🏻‍♀️ */
+  womenWithBunnyEarsLightSkinTone: "\u{1f46f}\u{1f3fb}\u{200d}\u{2640}\u{fe0f}" as const,
+  /** women with bunny ears: light skin tone, dark skin tone 👩🏻‍🐰‍👩🏿 */
+  womenWithBunnyEarsLightSkinToneDarkSkinTone: "\u{1f469}\u{1f3fb}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3ff}" as const,
+  /** women with bunny ears: light skin tone, medium-dark skin tone 👩🏻‍🐰‍👩🏾 */
+  womenWithBunnyEarsLightSkinToneMediumDarkSkinTone: "\u{1f469}\u{1f3fb}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fe}" as const,
+  /** women with bunny ears: light skin tone, medium-light skin tone 👩🏻‍🐰‍👩🏼 */
+  womenWithBunnyEarsLightSkinToneMediumLightSkinTone: "\u{1f469}\u{1f3fb}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fc}" as const,
+  /** women with bunny ears: light skin tone, medium skin tone 👩🏻‍🐰‍👩🏽 */
+  womenWithBunnyEarsLightSkinToneMediumSkinTone: "\u{1f469}\u{1f3fb}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fd}" as const,
+  /** women with bunny ears: medium-dark skin tone 👯🏾‍♀️ */
+  womenWithBunnyEarsMediumDarkSkinTone: "\u{1f46f}\u{1f3fe}\u{200d}\u{2640}\u{fe0f}" as const,
+  /** women with bunny ears: medium-dark skin tone, dark skin tone 👩🏾‍🐰‍👩🏿 */
+  womenWithBunnyEarsMediumDarkSkinToneDarkSkinTone: "\u{1f469}\u{1f3fe}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3ff}" as const,
+  /** women with bunny ears: medium-dark skin tone, light skin tone 👩🏾‍🐰‍👩🏻 */
+  womenWithBunnyEarsMediumDarkSkinToneLightSkinTone: "\u{1f469}\u{1f3fe}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fb}" as const,
+  /** women with bunny ears: medium-dark skin tone, medium-light skin tone 👩🏾‍🐰‍👩🏼 */
+  womenWithBunnyEarsMediumDarkSkinToneMediumLightSkinTone: "\u{1f469}\u{1f3fe}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fc}" as const,
+  /** women with bunny ears: medium-dark skin tone, medium skin tone 👩🏾‍🐰‍👩🏽 */
+  womenWithBunnyEarsMediumDarkSkinToneMediumSkinTone: "\u{1f469}\u{1f3fe}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fd}" as const,
+  /** women with bunny ears: medium-light skin tone 👯🏼‍♀️ */
+  womenWithBunnyEarsMediumLightSkinTone: "\u{1f46f}\u{1f3fc}\u{200d}\u{2640}\u{fe0f}" as const,
+  /** women with bunny ears: medium-light skin tone, dark skin tone 👩🏼‍🐰‍👩🏿 */
+  womenWithBunnyEarsMediumLightSkinToneDarkSkinTone: "\u{1f469}\u{1f3fc}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3ff}" as const,
+  /** women with bunny ears: medium-light skin tone, light skin tone 👩🏼‍🐰‍👩🏻 */
+  womenWithBunnyEarsMediumLightSkinToneLightSkinTone: "\u{1f469}\u{1f3fc}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fb}" as const,
+  /** women with bunny ears: medium-light skin tone, medium-dark skin tone 👩🏼‍🐰‍👩🏾 */
+  womenWithBunnyEarsMediumLightSkinToneMediumDarkSkinTone: "\u{1f469}\u{1f3fc}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fe}" as const,
+  /** women with bunny ears: medium-light skin tone, medium skin tone 👩🏼‍🐰‍👩🏽 */
+  womenWithBunnyEarsMediumLightSkinToneMediumSkinTone: "\u{1f469}\u{1f3fc}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fd}" as const,
+  /** women with bunny ears: medium skin tone 👯🏽‍♀️ */
+  womenWithBunnyEarsMediumSkinTone: "\u{1f46f}\u{1f3fd}\u{200d}\u{2640}\u{fe0f}" as const,
+  /** women with bunny ears: medium skin tone, dark skin tone 👩🏽‍🐰‍👩🏿 */
+  womenWithBunnyEarsMediumSkinToneDarkSkinTone: "\u{1f469}\u{1f3fd}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3ff}" as const,
+  /** women with bunny ears: medium skin tone, light skin tone 👩🏽‍🐰‍👩🏻 */
+  womenWithBunnyEarsMediumSkinToneLightSkinTone: "\u{1f469}\u{1f3fd}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fb}" as const,
+  /** women with bunny ears: medium skin tone, medium-dark skin tone 👩🏽‍🐰‍👩🏾 */
+  womenWithBunnyEarsMediumSkinToneMediumDarkSkinTone: "\u{1f469}\u{1f3fd}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fe}" as const,
+  /** women with bunny ears: medium skin tone, medium-light skin tone 👩🏽‍🐰‍👩🏼 */
+  womenWithBunnyEarsMediumSkinToneMediumLightSkinTone: "\u{1f469}\u{1f3fd}\u{200d}\u{1f430}\u{200d}\u{1f469}\u{1f3fc}" as const,
   /** women wrestling 🤼‍♀️ */
   womenWrestling: "\u{1f93c}\u{200d}\u{2640}\u{fe0f}" as const,
+  /** women wrestling: dark skin tone 🤼🏿‍♀️ */
+  womenWrestlingDarkSkinTone: "\u{1f93c}\u{1f3ff}\u{200d}\u{2640}\u{fe0f}" as const,
+  /** women wrestling: dark skin tone, light skin tone 👩🏿‍🫯‍👩🏻 */
+  womenWrestlingDarkSkinToneLightSkinTone: "\u{1f469}\u{1f3ff}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fb}" as const,
+  /** women wrestling: dark skin tone, medium-dark skin tone 👩🏿‍🫯‍👩🏾 */
+  womenWrestlingDarkSkinToneMediumDarkSkinTone: "\u{1f469}\u{1f3ff}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fe}" as const,
+  /** women wrestling: dark skin tone, medium-light skin tone 👩🏿‍🫯‍👩🏼 */
+  womenWrestlingDarkSkinToneMediumLightSkinTone: "\u{1f469}\u{1f3ff}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fc}" as const,
+  /** women wrestling: dark skin tone, medium skin tone 👩🏿‍🫯‍👩🏽 */
+  womenWrestlingDarkSkinToneMediumSkinTone: "\u{1f469}\u{1f3ff}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fd}" as const,
+  /** women wrestling: light skin tone 🤼🏻‍♀️ */
+  womenWrestlingLightSkinTone: "\u{1f93c}\u{1f3fb}\u{200d}\u{2640}\u{fe0f}" as const,
+  /** women wrestling: light skin tone, dark skin tone 👩🏻‍🫯‍👩🏿 */
+  womenWrestlingLightSkinToneDarkSkinTone: "\u{1f469}\u{1f3fb}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3ff}" as const,
+  /** women wrestling: light skin tone, medium-dark skin tone 👩🏻‍🫯‍👩🏾 */
+  womenWrestlingLightSkinToneMediumDarkSkinTone: "\u{1f469}\u{1f3fb}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fe}" as const,
+  /** women wrestling: light skin tone, medium-light skin tone 👩🏻‍🫯‍👩🏼 */
+  womenWrestlingLightSkinToneMediumLightSkinTone: "\u{1f469}\u{1f3fb}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fc}" as const,
+  /** women wrestling: light skin tone, medium skin tone 👩🏻‍🫯‍👩🏽 */
+  womenWrestlingLightSkinToneMediumSkinTone: "\u{1f469}\u{1f3fb}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fd}" as const,
+  /** women wrestling: medium-dark skin tone 🤼🏾‍♀️ */
+  womenWrestlingMediumDarkSkinTone: "\u{1f93c}\u{1f3fe}\u{200d}\u{2640}\u{fe0f}" as const,
+  /** women wrestling: medium-dark skin tone, dark skin tone 👩🏾‍🫯‍👩🏿 */
+  womenWrestlingMediumDarkSkinToneDarkSkinTone: "\u{1f469}\u{1f3fe}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3ff}" as const,
+  /** women wrestling: medium-dark skin tone, light skin tone 👩🏾‍🫯‍👩🏻 */
+  womenWrestlingMediumDarkSkinToneLightSkinTone: "\u{1f469}\u{1f3fe}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fb}" as const,
+  /** women wrestling: medium-dark skin tone, medium-light skin tone 👩🏾‍🫯‍👩🏼 */
+  womenWrestlingMediumDarkSkinToneMediumLightSkinTone: "\u{1f469}\u{1f3fe}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fc}" as const,
+  /** women wrestling: medium-dark skin tone, medium skin tone 👩🏾‍🫯‍👩🏽 */
+  womenWrestlingMediumDarkSkinToneMediumSkinTone: "\u{1f469}\u{1f3fe}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fd}" as const,
+  /** women wrestling: medium-light skin tone 🤼🏼‍♀️ */
+  womenWrestlingMediumLightSkinTone: "\u{1f93c}\u{1f3fc}\u{200d}\u{2640}\u{fe0f}" as const,
+  /** women wrestling: medium-light skin tone, dark skin tone 👩🏼‍🫯‍👩🏿 */
+  womenWrestlingMediumLightSkinToneDarkSkinTone: "\u{1f469}\u{1f3fc}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3ff}" as const,
+  /** women wrestling: medium-light skin tone, light skin tone 👩🏼‍🫯‍👩🏻 */
+  womenWrestlingMediumLightSkinToneLightSkinTone: "\u{1f469}\u{1f3fc}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fb}" as const,
+  /** women wrestling: medium-light skin tone, medium-dark skin tone 👩🏼‍🫯‍👩🏾 */
+  womenWrestlingMediumLightSkinToneMediumDarkSkinTone: "\u{1f469}\u{1f3fc}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fe}" as const,
+  /** women wrestling: medium-light skin tone, medium skin tone 👩🏼‍🫯‍👩🏽 */
+  womenWrestlingMediumLightSkinToneMediumSkinTone: "\u{1f469}\u{1f3fc}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fd}" as const,
+  /** women wrestling: medium skin tone 🤼🏽‍♀️ */
+  womenWrestlingMediumSkinTone: "\u{1f93c}\u{1f3fd}\u{200d}\u{2640}\u{fe0f}" as const,
+  /** women wrestling: medium skin tone, dark skin tone 👩🏽‍🫯‍👩🏿 */
+  womenWrestlingMediumSkinToneDarkSkinTone: "\u{1f469}\u{1f3fd}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3ff}" as const,
+  /** women wrestling: medium skin tone, light skin tone 👩🏽‍🫯‍👩🏻 */
+  womenWrestlingMediumSkinToneLightSkinTone: "\u{1f469}\u{1f3fd}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fb}" as const,
+  /** women wrestling: medium skin tone, medium-dark skin tone 👩🏽‍🫯‍👩🏾 */
+  womenWrestlingMediumSkinToneMediumDarkSkinTone: "\u{1f469}\u{1f3fd}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fe}" as const,
+  /** women wrestling: medium skin tone, medium-light skin tone 👩🏽‍🫯‍👩🏼 */
+  womenWrestlingMediumSkinToneMediumLightSkinTone: "\u{1f469}\u{1f3fd}\u{200d}\u{1faef}\u{200d}\u{1f469}\u{1f3fc}" as const,
   /** wood 🪵 */
   wood: "\u{1fab5}" as const,
   /** woozy face 🥴 */

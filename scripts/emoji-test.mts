@@ -5,7 +5,9 @@ import { logger } from '@codejamboree/js-logger';
 import { webRequest } from '@codejamboree/web-request-queue';
 
 const cachePath = 'cache';
-const fileName = 'emoji-test.txt';
+const emojiVersion = '17.0';
+const unicodeVersion = '17.0.0';
+const fileName = `emoji-test-${emojiVersion}.txt`;
 const jsonName = 'emoji-test.json';
 
 const GROUP = 'group';
@@ -17,7 +19,7 @@ const main = async () => {
 
   const cacheFilePath = path.join(cachePath, fileName);
   if (!fs.existsSync(cacheFilePath)) {
-    const url = `https://unicode.org/Public/emoji/16.0/${fileName}`;
+    const url = `https://unicode.org/Public/${unicodeVersion}/emoji/emoji-test.txt`;
     console.info(`Downloading`, url)
     await webRequest.toFile(cacheFilePath, url);
   }

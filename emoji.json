@@ -980,6 +980,66 @@
     "value": "\\u{1f9b2}"
   },
   {
+    "emoji": "🧑‍🩰",
+    "codePoints": "1F9D1 200D 1FA70",
+    "status": "fully-qualified",
+    "shortName": "ballet dancer",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "balletDancer",
+    "value": "\\u{1f9d1}\\u{200d}\\u{1fa70}"
+  },
+  {
+    "emoji": "🧑🏿‍🩰",
+    "codePoints": "1F9D1 1F3FF 200D 1FA70",
+    "status": "fully-qualified",
+    "shortName": "ballet dancer: dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "balletDancerDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3ff}\\u{200d}\\u{1fa70}"
+  },
+  {
+    "emoji": "🧑🏻‍🩰",
+    "codePoints": "1F9D1 1F3FB 200D 1FA70",
+    "status": "fully-qualified",
+    "shortName": "ballet dancer: light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "balletDancerLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fb}\\u{200d}\\u{1fa70}"
+  },
+  {
+    "emoji": "🧑🏾‍🩰",
+    "codePoints": "1F9D1 1F3FE 200D 1FA70",
+    "status": "fully-qualified",
+    "shortName": "ballet dancer: medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "balletDancerMediumDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fe}\\u{200d}\\u{1fa70}"
+  },
+  {
+    "emoji": "🧑🏼‍🩰",
+    "codePoints": "1F9D1 1F3FC 200D 1FA70",
+    "status": "fully-qualified",
+    "shortName": "ballet dancer: medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "balletDancerMediumLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fc}\\u{200d}\\u{1fa70}"
+  },
+  {
+    "emoji": "🧑🏽‍🩰",
+    "codePoints": "1F9D1 1F3FD 200D 1FA70",
+    "status": "fully-qualified",
+    "shortName": "ballet dancer: medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "balletDancerMediumSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fd}\\u{200d}\\u{1fa70}"
+  },
+  {
     "emoji": "🩰",
     "codePoints": "1FA70",
     "status": "fully-qualified",
@@ -5180,6 +5240,16 @@
     "value": "\\u{1f978}"
   },
   {
+    "emoji": "🫪",
+    "codePoints": "1FAEA",
+    "status": "fully-qualified",
+    "shortName": "distorted face",
+    "group": "Smileys & Emotion",
+    "subGroup": "face-concerned",
+    "key": "distortedFace",
+    "value": "\\u{1faea}"
+  },
+  {
     "emoji": "➗",
     "codePoints": "2797",
     "status": "fully-qualified",
@@ -6858,6 +6928,16 @@
     "subGroup": "sport",
     "key": "fieldHockey",
     "value": "\\u{1f3d1}"
+  },
+  {
+    "emoji": "🫯",
+    "codePoints": "1FAEF",
+    "status": "fully-qualified",
+    "shortName": "fight cloud",
+    "group": "Smileys & Emotion",
+    "subGroup": "emotion",
+    "key": "fightCloud",
+    "value": "\\u{1faef}"
   },
   {
     "emoji": "🗄️",
@@ -10850,6 +10930,16 @@
     "value": "\\u{1faae}"
   },
   {
+    "emoji": "🫈",
+    "codePoints": "1FAC8",
+    "status": "fully-qualified",
+    "shortName": "hairy creature",
+    "group": "People & Body",
+    "subGroup": "person-fantasy",
+    "key": "hairyCreature",
+    "value": "\\u{1fac8}"
+  },
+  {
     "emoji": "🍔",
     "codePoints": "1F354",
     "status": "fully-qualified",
@@ -13958,6 +14048,16 @@
     "subGroup": "animal-bug",
     "key": "ladyBeetle",
     "value": "\\u{1f41e}"
+  },
+  {
+    "emoji": "🛘",
+    "codePoints": "1F6D8",
+    "status": "fully-qualified",
+    "shortName": "landslide",
+    "group": "Travel & Places",
+    "subGroup": "place-geographic",
+    "key": "landslide",
+    "value": "\\u{1f6d8}"
   },
   {
     "emoji": "💻",
@@ -20090,6 +20190,256 @@
     "value": "\\u{1f46f}\\u{200d}\\u{2642}\\u{fe0f}"
   },
   {
+    "emoji": "👯🏿‍♂️",
+    "codePoints": "1F46F 1F3FF 200D 2642 FE0F",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsDarkSkinTone",
+    "value": "\\u{1f46f}\\u{1f3ff}\\u{200d}\\u{2642}\\u{fe0f}"
+  },
+  {
+    "emoji": "👨🏿‍🐰‍👨🏻",
+    "codePoints": "1F468 1F3FF 200D 1F430 200D 1F468 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: dark skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsDarkSkinToneLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3ff}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👨🏿‍🐰‍👨🏾",
+    "codePoints": "1F468 1F3FF 200D 1F430 200D 1F468 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: dark skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsDarkSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3ff}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👨🏿‍🐰‍👨🏼",
+    "codePoints": "1F468 1F3FF 200D 1F430 200D 1F468 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: dark skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsDarkSkinToneMediumLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3ff}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fc}"
+  },
+  {
+    "emoji": "👨🏿‍🐰‍👨🏽",
+    "codePoints": "1F468 1F3FF 200D 1F430 200D 1F468 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: dark skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsDarkSkinToneMediumSkinTone",
+    "value": "\\u{1f468}\\u{1f3ff}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fd}"
+  },
+  {
+    "emoji": "👯🏻‍♂️",
+    "codePoints": "1F46F 1F3FB 200D 2642 FE0F",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsLightSkinTone",
+    "value": "\\u{1f46f}\\u{1f3fb}\\u{200d}\\u{2642}\\u{fe0f}"
+  },
+  {
+    "emoji": "👨🏻‍🐰‍👨🏿",
+    "codePoints": "1F468 1F3FB 200D 1F430 200D 1F468 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: light skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsLightSkinToneDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fb}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👨🏻‍🐰‍👨🏾",
+    "codePoints": "1F468 1F3FB 200D 1F430 200D 1F468 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: light skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsLightSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fb}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👨🏻‍🐰‍👨🏼",
+    "codePoints": "1F468 1F3FB 200D 1F430 200D 1F468 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: light skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsLightSkinToneMediumLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3fb}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fc}"
+  },
+  {
+    "emoji": "👨🏻‍🐰‍👨🏽",
+    "codePoints": "1F468 1F3FB 200D 1F430 200D 1F468 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: light skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsLightSkinToneMediumSkinTone",
+    "value": "\\u{1f468}\\u{1f3fb}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fd}"
+  },
+  {
+    "emoji": "👯🏾‍♂️",
+    "codePoints": "1F46F 1F3FE 200D 2642 FE0F",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumDarkSkinTone",
+    "value": "\\u{1f46f}\\u{1f3fe}\\u{200d}\\u{2642}\\u{fe0f}"
+  },
+  {
+    "emoji": "👨🏾‍🐰‍👨🏿",
+    "codePoints": "1F468 1F3FE 200D 1F430 200D 1F468 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium-dark skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumDarkSkinToneDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fe}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👨🏾‍🐰‍👨🏻",
+    "codePoints": "1F468 1F3FE 200D 1F430 200D 1F468 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium-dark skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumDarkSkinToneLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3fe}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👨🏾‍🐰‍👨🏼",
+    "codePoints": "1F468 1F3FE 200D 1F430 200D 1F468 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium-dark skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumDarkSkinToneMediumLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3fe}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fc}"
+  },
+  {
+    "emoji": "👨🏾‍🐰‍👨🏽",
+    "codePoints": "1F468 1F3FE 200D 1F430 200D 1F468 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium-dark skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumDarkSkinToneMediumSkinTone",
+    "value": "\\u{1f468}\\u{1f3fe}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fd}"
+  },
+  {
+    "emoji": "👯🏼‍♂️",
+    "codePoints": "1F46F 1F3FC 200D 2642 FE0F",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumLightSkinTone",
+    "value": "\\u{1f46f}\\u{1f3fc}\\u{200d}\\u{2642}\\u{fe0f}"
+  },
+  {
+    "emoji": "👨🏼‍🐰‍👨🏿",
+    "codePoints": "1F468 1F3FC 200D 1F430 200D 1F468 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium-light skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumLightSkinToneDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fc}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👨🏼‍🐰‍👨🏻",
+    "codePoints": "1F468 1F3FC 200D 1F430 200D 1F468 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium-light skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumLightSkinToneLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3fc}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👨🏼‍🐰‍👨🏾",
+    "codePoints": "1F468 1F3FC 200D 1F430 200D 1F468 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium-light skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumLightSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fc}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👨🏼‍🐰‍👨🏽",
+    "codePoints": "1F468 1F3FC 200D 1F430 200D 1F468 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium-light skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumLightSkinToneMediumSkinTone",
+    "value": "\\u{1f468}\\u{1f3fc}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fd}"
+  },
+  {
+    "emoji": "👯🏽‍♂️",
+    "codePoints": "1F46F 1F3FD 200D 2642 FE0F",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumSkinTone",
+    "value": "\\u{1f46f}\\u{1f3fd}\\u{200d}\\u{2642}\\u{fe0f}"
+  },
+  {
+    "emoji": "👨🏽‍🐰‍👨🏿",
+    "codePoints": "1F468 1F3FD 200D 1F430 200D 1F468 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumSkinToneDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fd}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👨🏽‍🐰‍👨🏻",
+    "codePoints": "1F468 1F3FD 200D 1F430 200D 1F468 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumSkinToneLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3fd}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👨🏽‍🐰‍👨🏾",
+    "codePoints": "1F468 1F3FD 200D 1F430 200D 1F468 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fd}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👨🏽‍🐰‍👨🏼",
+    "codePoints": "1F468 1F3FD 200D 1F430 200D 1F468 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "men with bunny ears: medium skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "menWithBunnyEarsMediumSkinToneMediumLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3fd}\\u{200d}\\u{1f430}\\u{200d}\\u{1f468}\\u{1f3fc}"
+  },
+  {
     "emoji": "🤼‍♂️",
     "codePoints": "1F93C 200D 2642 FE0F",
     "status": "fully-qualified",
@@ -20098,6 +20448,256 @@
     "subGroup": "person-sport",
     "key": "menWrestling",
     "value": "\\u{1f93c}\\u{200d}\\u{2642}\\u{fe0f}"
+  },
+  {
+    "emoji": "🤼🏿‍♂️",
+    "codePoints": "1F93C 1F3FF 200D 2642 FE0F",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingDarkSkinTone",
+    "value": "\\u{1f93c}\\u{1f3ff}\\u{200d}\\u{2642}\\u{fe0f}"
+  },
+  {
+    "emoji": "👨🏿‍🫯‍👨🏻",
+    "codePoints": "1F468 1F3FF 200D 1FAEF 200D 1F468 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: dark skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingDarkSkinToneLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3ff}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👨🏿‍🫯‍👨🏾",
+    "codePoints": "1F468 1F3FF 200D 1FAEF 200D 1F468 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: dark skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingDarkSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3ff}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👨🏿‍🫯‍👨🏼",
+    "codePoints": "1F468 1F3FF 200D 1FAEF 200D 1F468 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: dark skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingDarkSkinToneMediumLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3ff}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fc}"
+  },
+  {
+    "emoji": "👨🏿‍🫯‍👨🏽",
+    "codePoints": "1F468 1F3FF 200D 1FAEF 200D 1F468 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: dark skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingDarkSkinToneMediumSkinTone",
+    "value": "\\u{1f468}\\u{1f3ff}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🤼🏻‍♂️",
+    "codePoints": "1F93C 1F3FB 200D 2642 FE0F",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingLightSkinTone",
+    "value": "\\u{1f93c}\\u{1f3fb}\\u{200d}\\u{2642}\\u{fe0f}"
+  },
+  {
+    "emoji": "👨🏻‍🫯‍👨🏿",
+    "codePoints": "1F468 1F3FB 200D 1FAEF 200D 1F468 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: light skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingLightSkinToneDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fb}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👨🏻‍🫯‍👨🏾",
+    "codePoints": "1F468 1F3FB 200D 1FAEF 200D 1F468 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: light skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingLightSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fb}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👨🏻‍🫯‍👨🏼",
+    "codePoints": "1F468 1F3FB 200D 1FAEF 200D 1F468 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: light skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingLightSkinToneMediumLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3fb}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fc}"
+  },
+  {
+    "emoji": "👨🏻‍🫯‍👨🏽",
+    "codePoints": "1F468 1F3FB 200D 1FAEF 200D 1F468 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: light skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingLightSkinToneMediumSkinTone",
+    "value": "\\u{1f468}\\u{1f3fb}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🤼🏾‍♂️",
+    "codePoints": "1F93C 1F3FE 200D 2642 FE0F",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumDarkSkinTone",
+    "value": "\\u{1f93c}\\u{1f3fe}\\u{200d}\\u{2642}\\u{fe0f}"
+  },
+  {
+    "emoji": "👨🏾‍🫯‍👨🏿",
+    "codePoints": "1F468 1F3FE 200D 1FAEF 200D 1F468 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium-dark skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumDarkSkinToneDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fe}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👨🏾‍🫯‍👨🏻",
+    "codePoints": "1F468 1F3FE 200D 1FAEF 200D 1F468 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium-dark skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumDarkSkinToneLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3fe}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👨🏾‍🫯‍👨🏼",
+    "codePoints": "1F468 1F3FE 200D 1FAEF 200D 1F468 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium-dark skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumDarkSkinToneMediumLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3fe}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fc}"
+  },
+  {
+    "emoji": "👨🏾‍🫯‍👨🏽",
+    "codePoints": "1F468 1F3FE 200D 1FAEF 200D 1F468 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium-dark skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumDarkSkinToneMediumSkinTone",
+    "value": "\\u{1f468}\\u{1f3fe}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🤼🏼‍♂️",
+    "codePoints": "1F93C 1F3FC 200D 2642 FE0F",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumLightSkinTone",
+    "value": "\\u{1f93c}\\u{1f3fc}\\u{200d}\\u{2642}\\u{fe0f}"
+  },
+  {
+    "emoji": "👨🏼‍🫯‍👨🏿",
+    "codePoints": "1F468 1F3FC 200D 1FAEF 200D 1F468 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium-light skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumLightSkinToneDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fc}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👨🏼‍🫯‍👨🏻",
+    "codePoints": "1F468 1F3FC 200D 1FAEF 200D 1F468 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium-light skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumLightSkinToneLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3fc}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👨🏼‍🫯‍👨🏾",
+    "codePoints": "1F468 1F3FC 200D 1FAEF 200D 1F468 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium-light skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumLightSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fc}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👨🏼‍🫯‍👨🏽",
+    "codePoints": "1F468 1F3FC 200D 1FAEF 200D 1F468 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium-light skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumLightSkinToneMediumSkinTone",
+    "value": "\\u{1f468}\\u{1f3fc}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🤼🏽‍♂️",
+    "codePoints": "1F93C 1F3FD 200D 2642 FE0F",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumSkinTone",
+    "value": "\\u{1f93c}\\u{1f3fd}\\u{200d}\\u{2642}\\u{fe0f}"
+  },
+  {
+    "emoji": "👨🏽‍🫯‍👨🏿",
+    "codePoints": "1F468 1F3FD 200D 1FAEF 200D 1F468 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumSkinToneDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fd}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👨🏽‍🫯‍👨🏻",
+    "codePoints": "1F468 1F3FD 200D 1FAEF 200D 1F468 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumSkinToneLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3fd}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👨🏽‍🫯‍👨🏾",
+    "codePoints": "1F468 1F3FD 200D 1FAEF 200D 1F468 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f468}\\u{1f3fd}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👨🏽‍🫯‍👨🏼",
+    "codePoints": "1F468 1F3FD 200D 1FAEF 200D 1F468 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "men wrestling: medium skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "menWrestlingMediumSkinToneMediumLightSkinTone",
+    "value": "\\u{1f468}\\u{1f3fd}\\u{200d}\\u{1faef}\\u{200d}\\u{1f468}\\u{1f3fc}"
   },
   {
     "emoji": "🧜‍♀️",
@@ -22120,6 +22720,16 @@
     "value": "\\u{1f9a7}"
   },
   {
+    "emoji": "🫍",
+    "codePoints": "1FACD",
+    "status": "fully-qualified",
+    "shortName": "orca",
+    "group": "Animals & Nature",
+    "subGroup": "animal-marine",
+    "key": "orca",
+    "value": "\\u{1facd}"
+  },
+  {
     "emoji": "☦️",
     "codePoints": "2626 FE0F",
     "status": "fully-qualified",
@@ -22930,6 +23540,256 @@
     "value": "\\u{1f46f}"
   },
   {
+    "emoji": "👯🏿",
+    "codePoints": "1F46F 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsDarkSkinTone",
+    "value": "\\u{1f46f}\\u{1f3ff}"
+  },
+  {
+    "emoji": "🧑🏿‍🐰‍🧑🏻",
+    "codePoints": "1F9D1 1F3FF 200D 1F430 200D 1F9D1 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: dark skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsDarkSkinToneLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3ff}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fb}"
+  },
+  {
+    "emoji": "🧑🏿‍🐰‍🧑🏾",
+    "codePoints": "1F9D1 1F3FF 200D 1F430 200D 1F9D1 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: dark skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsDarkSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3ff}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fe}"
+  },
+  {
+    "emoji": "🧑🏿‍🐰‍🧑🏼",
+    "codePoints": "1F9D1 1F3FF 200D 1F430 200D 1F9D1 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: dark skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsDarkSkinToneMediumLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3ff}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fc}"
+  },
+  {
+    "emoji": "🧑🏿‍🐰‍🧑🏽",
+    "codePoints": "1F9D1 1F3FF 200D 1F430 200D 1F9D1 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: dark skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsDarkSkinToneMediumSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3ff}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fd}"
+  },
+  {
+    "emoji": "👯🏻",
+    "codePoints": "1F46F 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsLightSkinTone",
+    "value": "\\u{1f46f}\\u{1f3fb}"
+  },
+  {
+    "emoji": "🧑🏻‍🐰‍🧑🏿",
+    "codePoints": "1F9D1 1F3FB 200D 1F430 200D 1F9D1 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: light skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsLightSkinToneDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fb}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3ff}"
+  },
+  {
+    "emoji": "🧑🏻‍🐰‍🧑🏾",
+    "codePoints": "1F9D1 1F3FB 200D 1F430 200D 1F9D1 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: light skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsLightSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fb}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fe}"
+  },
+  {
+    "emoji": "🧑🏻‍🐰‍🧑🏼",
+    "codePoints": "1F9D1 1F3FB 200D 1F430 200D 1F9D1 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: light skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsLightSkinToneMediumLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fb}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fc}"
+  },
+  {
+    "emoji": "🧑🏻‍🐰‍🧑🏽",
+    "codePoints": "1F9D1 1F3FB 200D 1F430 200D 1F9D1 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: light skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsLightSkinToneMediumSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fb}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fd}"
+  },
+  {
+    "emoji": "👯🏾",
+    "codePoints": "1F46F 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumDarkSkinTone",
+    "value": "\\u{1f46f}\\u{1f3fe}"
+  },
+  {
+    "emoji": "🧑🏾‍🐰‍🧑🏿",
+    "codePoints": "1F9D1 1F3FE 200D 1F430 200D 1F9D1 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium-dark skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumDarkSkinToneDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fe}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3ff}"
+  },
+  {
+    "emoji": "🧑🏾‍🐰‍🧑🏻",
+    "codePoints": "1F9D1 1F3FE 200D 1F430 200D 1F9D1 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium-dark skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumDarkSkinToneLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fe}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fb}"
+  },
+  {
+    "emoji": "🧑🏾‍🐰‍🧑🏼",
+    "codePoints": "1F9D1 1F3FE 200D 1F430 200D 1F9D1 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium-dark skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumDarkSkinToneMediumLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fe}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fc}"
+  },
+  {
+    "emoji": "🧑🏾‍🐰‍🧑🏽",
+    "codePoints": "1F9D1 1F3FE 200D 1F430 200D 1F9D1 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium-dark skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumDarkSkinToneMediumSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fe}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fd}"
+  },
+  {
+    "emoji": "👯🏼",
+    "codePoints": "1F46F 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumLightSkinTone",
+    "value": "\\u{1f46f}\\u{1f3fc}"
+  },
+  {
+    "emoji": "🧑🏼‍🐰‍🧑🏿",
+    "codePoints": "1F9D1 1F3FC 200D 1F430 200D 1F9D1 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium-light skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumLightSkinToneDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fc}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3ff}"
+  },
+  {
+    "emoji": "🧑🏼‍🐰‍🧑🏻",
+    "codePoints": "1F9D1 1F3FC 200D 1F430 200D 1F9D1 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium-light skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumLightSkinToneLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fc}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fb}"
+  },
+  {
+    "emoji": "🧑🏼‍🐰‍🧑🏾",
+    "codePoints": "1F9D1 1F3FC 200D 1F430 200D 1F9D1 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium-light skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumLightSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fc}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fe}"
+  },
+  {
+    "emoji": "🧑🏼‍🐰‍🧑🏽",
+    "codePoints": "1F9D1 1F3FC 200D 1F430 200D 1F9D1 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium-light skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumLightSkinToneMediumSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fc}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fd}"
+  },
+  {
+    "emoji": "👯🏽",
+    "codePoints": "1F46F 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumSkinTone",
+    "value": "\\u{1f46f}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🧑🏽‍🐰‍🧑🏿",
+    "codePoints": "1F9D1 1F3FD 200D 1F430 200D 1F9D1 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumSkinToneDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fd}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3ff}"
+  },
+  {
+    "emoji": "🧑🏽‍🐰‍🧑🏻",
+    "codePoints": "1F9D1 1F3FD 200D 1F430 200D 1F9D1 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumSkinToneLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fd}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fb}"
+  },
+  {
+    "emoji": "🧑🏽‍🐰‍🧑🏾",
+    "codePoints": "1F9D1 1F3FD 200D 1F430 200D 1F9D1 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fd}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fe}"
+  },
+  {
+    "emoji": "🧑🏽‍🐰‍🧑🏼",
+    "codePoints": "1F9D1 1F3FD 200D 1F430 200D 1F9D1 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "people with bunny ears: medium skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "peopleWithBunnyEarsMediumSkinToneMediumLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fd}\\u{200d}\\u{1f430}\\u{200d}\\u{1f9d1}\\u{1f3fc}"
+  },
+  {
     "emoji": "🤼",
     "codePoints": "1F93C",
     "status": "fully-qualified",
@@ -22938,6 +23798,256 @@
     "subGroup": "person-sport",
     "key": "peopleWrestling",
     "value": "\\u{1f93c}"
+  },
+  {
+    "emoji": "🤼🏿",
+    "codePoints": "1F93C 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingDarkSkinTone",
+    "value": "\\u{1f93c}\\u{1f3ff}"
+  },
+  {
+    "emoji": "🧑🏿‍🫯‍🧑🏻",
+    "codePoints": "1F9D1 1F3FF 200D 1FAEF 200D 1F9D1 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: dark skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingDarkSkinToneLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3ff}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fb}"
+  },
+  {
+    "emoji": "🧑🏿‍🫯‍🧑🏾",
+    "codePoints": "1F9D1 1F3FF 200D 1FAEF 200D 1F9D1 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: dark skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingDarkSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3ff}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fe}"
+  },
+  {
+    "emoji": "🧑🏿‍🫯‍🧑🏼",
+    "codePoints": "1F9D1 1F3FF 200D 1FAEF 200D 1F9D1 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: dark skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingDarkSkinToneMediumLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3ff}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fc}"
+  },
+  {
+    "emoji": "🧑🏿‍🫯‍🧑🏽",
+    "codePoints": "1F9D1 1F3FF 200D 1FAEF 200D 1F9D1 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: dark skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingDarkSkinToneMediumSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3ff}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🤼🏻",
+    "codePoints": "1F93C 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingLightSkinTone",
+    "value": "\\u{1f93c}\\u{1f3fb}"
+  },
+  {
+    "emoji": "🧑🏻‍🫯‍🧑🏿",
+    "codePoints": "1F9D1 1F3FB 200D 1FAEF 200D 1F9D1 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: light skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingLightSkinToneDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fb}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3ff}"
+  },
+  {
+    "emoji": "🧑🏻‍🫯‍🧑🏾",
+    "codePoints": "1F9D1 1F3FB 200D 1FAEF 200D 1F9D1 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: light skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingLightSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fb}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fe}"
+  },
+  {
+    "emoji": "🧑🏻‍🫯‍🧑🏼",
+    "codePoints": "1F9D1 1F3FB 200D 1FAEF 200D 1F9D1 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: light skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingLightSkinToneMediumLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fb}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fc}"
+  },
+  {
+    "emoji": "🧑🏻‍🫯‍🧑🏽",
+    "codePoints": "1F9D1 1F3FB 200D 1FAEF 200D 1F9D1 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: light skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingLightSkinToneMediumSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fb}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🤼🏾",
+    "codePoints": "1F93C 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumDarkSkinTone",
+    "value": "\\u{1f93c}\\u{1f3fe}"
+  },
+  {
+    "emoji": "🧑🏾‍🫯‍🧑🏿",
+    "codePoints": "1F9D1 1F3FE 200D 1FAEF 200D 1F9D1 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium-dark skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumDarkSkinToneDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fe}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3ff}"
+  },
+  {
+    "emoji": "🧑🏾‍🫯‍🧑🏻",
+    "codePoints": "1F9D1 1F3FE 200D 1FAEF 200D 1F9D1 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium-dark skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumDarkSkinToneLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fe}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fb}"
+  },
+  {
+    "emoji": "🧑🏾‍🫯‍🧑🏼",
+    "codePoints": "1F9D1 1F3FE 200D 1FAEF 200D 1F9D1 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium-dark skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumDarkSkinToneMediumLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fe}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fc}"
+  },
+  {
+    "emoji": "🧑🏾‍🫯‍🧑🏽",
+    "codePoints": "1F9D1 1F3FE 200D 1FAEF 200D 1F9D1 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium-dark skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumDarkSkinToneMediumSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fe}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🤼🏼",
+    "codePoints": "1F93C 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumLightSkinTone",
+    "value": "\\u{1f93c}\\u{1f3fc}"
+  },
+  {
+    "emoji": "🧑🏼‍🫯‍🧑🏿",
+    "codePoints": "1F9D1 1F3FC 200D 1FAEF 200D 1F9D1 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium-light skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumLightSkinToneDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fc}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3ff}"
+  },
+  {
+    "emoji": "🧑🏼‍🫯‍🧑🏻",
+    "codePoints": "1F9D1 1F3FC 200D 1FAEF 200D 1F9D1 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium-light skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumLightSkinToneLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fc}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fb}"
+  },
+  {
+    "emoji": "🧑🏼‍🫯‍🧑🏾",
+    "codePoints": "1F9D1 1F3FC 200D 1FAEF 200D 1F9D1 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium-light skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumLightSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fc}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fe}"
+  },
+  {
+    "emoji": "🧑🏼‍🫯‍🧑🏽",
+    "codePoints": "1F9D1 1F3FC 200D 1FAEF 200D 1F9D1 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium-light skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumLightSkinToneMediumSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fc}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🤼🏽",
+    "codePoints": "1F93C 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumSkinTone",
+    "value": "\\u{1f93c}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🧑🏽‍🫯‍🧑🏿",
+    "codePoints": "1F9D1 1F3FD 200D 1FAEF 200D 1F9D1 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumSkinToneDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fd}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3ff}"
+  },
+  {
+    "emoji": "🧑🏽‍🫯‍🧑🏻",
+    "codePoints": "1F9D1 1F3FD 200D 1FAEF 200D 1F9D1 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumSkinToneLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fd}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fb}"
+  },
+  {
+    "emoji": "🧑🏽‍🫯‍🧑🏾",
+    "codePoints": "1F9D1 1F3FD 200D 1FAEF 200D 1F9D1 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fd}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fe}"
+  },
+  {
+    "emoji": "🧑🏽‍🫯‍🧑🏼",
+    "codePoints": "1F9D1 1F3FD 200D 1FAEF 200D 1F9D1 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "people wrestling: medium skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "peopleWrestlingMediumSkinToneMediumLightSkinTone",
+    "value": "\\u{1f9d1}\\u{1f3fd}\\u{200d}\\u{1faef}\\u{200d}\\u{1f9d1}\\u{1f3fc}"
   },
   {
     "emoji": "🎭",
@@ -31220,6 +32330,16 @@
     "value": "\\u{26a7}\\u{fe0f}"
   },
   {
+    "emoji": "🪎",
+    "codePoints": "1FA8E",
+    "status": "fully-qualified",
+    "shortName": "treasure chest",
+    "group": "Objects",
+    "subGroup": "money",
+    "key": "treasureChest",
+    "value": "\\u{1fa8e}"
+  },
+  {
     "emoji": "🦖",
     "codePoints": "1F996",
     "status": "fully-qualified",
@@ -31278,6 +32398,16 @@
     "subGroup": "transport-ground",
     "key": "trolleybus",
     "value": "\\u{1f68e}"
+  },
+  {
+    "emoji": "🪊",
+    "codePoints": "1FA8A",
+    "status": "fully-qualified",
+    "shortName": "trombone",
+    "group": "Objects",
+    "subGroup": "musical-instrument",
+    "key": "trombone",
+    "value": "\\u{1fa8a}"
   },
   {
     "emoji": "🏆",
@@ -37620,6 +38750,256 @@
     "value": "\\u{1f46f}\\u{200d}\\u{2640}\\u{fe0f}"
   },
   {
+    "emoji": "👯🏿‍♀️",
+    "codePoints": "1F46F 1F3FF 200D 2640 FE0F",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsDarkSkinTone",
+    "value": "\\u{1f46f}\\u{1f3ff}\\u{200d}\\u{2640}\\u{fe0f}"
+  },
+  {
+    "emoji": "👩🏿‍🐰‍👩🏻",
+    "codePoints": "1F469 1F3FF 200D 1F430 200D 1F469 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: dark skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsDarkSkinToneLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3ff}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👩🏿‍🐰‍👩🏾",
+    "codePoints": "1F469 1F3FF 200D 1F430 200D 1F469 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: dark skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsDarkSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3ff}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👩🏿‍🐰‍👩🏼",
+    "codePoints": "1F469 1F3FF 200D 1F430 200D 1F469 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: dark skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsDarkSkinToneMediumLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3ff}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fc}"
+  },
+  {
+    "emoji": "👩🏿‍🐰‍👩🏽",
+    "codePoints": "1F469 1F3FF 200D 1F430 200D 1F469 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: dark skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsDarkSkinToneMediumSkinTone",
+    "value": "\\u{1f469}\\u{1f3ff}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fd}"
+  },
+  {
+    "emoji": "👯🏻‍♀️",
+    "codePoints": "1F46F 1F3FB 200D 2640 FE0F",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsLightSkinTone",
+    "value": "\\u{1f46f}\\u{1f3fb}\\u{200d}\\u{2640}\\u{fe0f}"
+  },
+  {
+    "emoji": "👩🏻‍🐰‍👩🏿",
+    "codePoints": "1F469 1F3FB 200D 1F430 200D 1F469 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: light skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsLightSkinToneDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fb}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👩🏻‍🐰‍👩🏾",
+    "codePoints": "1F469 1F3FB 200D 1F430 200D 1F469 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: light skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsLightSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fb}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👩🏻‍🐰‍👩🏼",
+    "codePoints": "1F469 1F3FB 200D 1F430 200D 1F469 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: light skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsLightSkinToneMediumLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3fb}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fc}"
+  },
+  {
+    "emoji": "👩🏻‍🐰‍👩🏽",
+    "codePoints": "1F469 1F3FB 200D 1F430 200D 1F469 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: light skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsLightSkinToneMediumSkinTone",
+    "value": "\\u{1f469}\\u{1f3fb}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fd}"
+  },
+  {
+    "emoji": "👯🏾‍♀️",
+    "codePoints": "1F46F 1F3FE 200D 2640 FE0F",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumDarkSkinTone",
+    "value": "\\u{1f46f}\\u{1f3fe}\\u{200d}\\u{2640}\\u{fe0f}"
+  },
+  {
+    "emoji": "👩🏾‍🐰‍👩🏿",
+    "codePoints": "1F469 1F3FE 200D 1F430 200D 1F469 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium-dark skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumDarkSkinToneDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fe}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👩🏾‍🐰‍👩🏻",
+    "codePoints": "1F469 1F3FE 200D 1F430 200D 1F469 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium-dark skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumDarkSkinToneLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3fe}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👩🏾‍🐰‍👩🏼",
+    "codePoints": "1F469 1F3FE 200D 1F430 200D 1F469 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium-dark skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumDarkSkinToneMediumLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3fe}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fc}"
+  },
+  {
+    "emoji": "👩🏾‍🐰‍👩🏽",
+    "codePoints": "1F469 1F3FE 200D 1F430 200D 1F469 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium-dark skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumDarkSkinToneMediumSkinTone",
+    "value": "\\u{1f469}\\u{1f3fe}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fd}"
+  },
+  {
+    "emoji": "👯🏼‍♀️",
+    "codePoints": "1F46F 1F3FC 200D 2640 FE0F",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumLightSkinTone",
+    "value": "\\u{1f46f}\\u{1f3fc}\\u{200d}\\u{2640}\\u{fe0f}"
+  },
+  {
+    "emoji": "👩🏼‍🐰‍👩🏿",
+    "codePoints": "1F469 1F3FC 200D 1F430 200D 1F469 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium-light skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumLightSkinToneDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fc}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👩🏼‍🐰‍👩🏻",
+    "codePoints": "1F469 1F3FC 200D 1F430 200D 1F469 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium-light skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumLightSkinToneLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3fc}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👩🏼‍🐰‍👩🏾",
+    "codePoints": "1F469 1F3FC 200D 1F430 200D 1F469 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium-light skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumLightSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fc}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👩🏼‍🐰‍👩🏽",
+    "codePoints": "1F469 1F3FC 200D 1F430 200D 1F469 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium-light skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumLightSkinToneMediumSkinTone",
+    "value": "\\u{1f469}\\u{1f3fc}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fd}"
+  },
+  {
+    "emoji": "👯🏽‍♀️",
+    "codePoints": "1F46F 1F3FD 200D 2640 FE0F",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumSkinTone",
+    "value": "\\u{1f46f}\\u{1f3fd}\\u{200d}\\u{2640}\\u{fe0f}"
+  },
+  {
+    "emoji": "👩🏽‍🐰‍👩🏿",
+    "codePoints": "1F469 1F3FD 200D 1F430 200D 1F469 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumSkinToneDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fd}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👩🏽‍🐰‍👩🏻",
+    "codePoints": "1F469 1F3FD 200D 1F430 200D 1F469 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumSkinToneLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3fd}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👩🏽‍🐰‍👩🏾",
+    "codePoints": "1F469 1F3FD 200D 1F430 200D 1F469 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fd}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👩🏽‍🐰‍👩🏼",
+    "codePoints": "1F469 1F3FD 200D 1F430 200D 1F469 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "women with bunny ears: medium skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-activity",
+    "key": "womenWithBunnyEarsMediumSkinToneMediumLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3fd}\\u{200d}\\u{1f430}\\u{200d}\\u{1f469}\\u{1f3fc}"
+  },
+  {
     "emoji": "🤼‍♀️",
     "codePoints": "1F93C 200D 2640 FE0F",
     "status": "fully-qualified",
@@ -37628,6 +39008,256 @@
     "subGroup": "person-sport",
     "key": "womenWrestling",
     "value": "\\u{1f93c}\\u{200d}\\u{2640}\\u{fe0f}"
+  },
+  {
+    "emoji": "🤼🏿‍♀️",
+    "codePoints": "1F93C 1F3FF 200D 2640 FE0F",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingDarkSkinTone",
+    "value": "\\u{1f93c}\\u{1f3ff}\\u{200d}\\u{2640}\\u{fe0f}"
+  },
+  {
+    "emoji": "👩🏿‍🫯‍👩🏻",
+    "codePoints": "1F469 1F3FF 200D 1FAEF 200D 1F469 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: dark skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingDarkSkinToneLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3ff}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👩🏿‍🫯‍👩🏾",
+    "codePoints": "1F469 1F3FF 200D 1FAEF 200D 1F469 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: dark skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingDarkSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3ff}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👩🏿‍🫯‍👩🏼",
+    "codePoints": "1F469 1F3FF 200D 1FAEF 200D 1F469 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: dark skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingDarkSkinToneMediumLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3ff}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fc}"
+  },
+  {
+    "emoji": "👩🏿‍🫯‍👩🏽",
+    "codePoints": "1F469 1F3FF 200D 1FAEF 200D 1F469 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: dark skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingDarkSkinToneMediumSkinTone",
+    "value": "\\u{1f469}\\u{1f3ff}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🤼🏻‍♀️",
+    "codePoints": "1F93C 1F3FB 200D 2640 FE0F",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingLightSkinTone",
+    "value": "\\u{1f93c}\\u{1f3fb}\\u{200d}\\u{2640}\\u{fe0f}"
+  },
+  {
+    "emoji": "👩🏻‍🫯‍👩🏿",
+    "codePoints": "1F469 1F3FB 200D 1FAEF 200D 1F469 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: light skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingLightSkinToneDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fb}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👩🏻‍🫯‍👩🏾",
+    "codePoints": "1F469 1F3FB 200D 1FAEF 200D 1F469 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: light skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingLightSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fb}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👩🏻‍🫯‍👩🏼",
+    "codePoints": "1F469 1F3FB 200D 1FAEF 200D 1F469 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: light skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingLightSkinToneMediumLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3fb}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fc}"
+  },
+  {
+    "emoji": "👩🏻‍🫯‍👩🏽",
+    "codePoints": "1F469 1F3FB 200D 1FAEF 200D 1F469 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: light skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingLightSkinToneMediumSkinTone",
+    "value": "\\u{1f469}\\u{1f3fb}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🤼🏾‍♀️",
+    "codePoints": "1F93C 1F3FE 200D 2640 FE0F",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumDarkSkinTone",
+    "value": "\\u{1f93c}\\u{1f3fe}\\u{200d}\\u{2640}\\u{fe0f}"
+  },
+  {
+    "emoji": "👩🏾‍🫯‍👩🏿",
+    "codePoints": "1F469 1F3FE 200D 1FAEF 200D 1F469 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium-dark skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumDarkSkinToneDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fe}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👩🏾‍🫯‍👩🏻",
+    "codePoints": "1F469 1F3FE 200D 1FAEF 200D 1F469 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium-dark skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumDarkSkinToneLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3fe}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👩🏾‍🫯‍👩🏼",
+    "codePoints": "1F469 1F3FE 200D 1FAEF 200D 1F469 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium-dark skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumDarkSkinToneMediumLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3fe}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fc}"
+  },
+  {
+    "emoji": "👩🏾‍🫯‍👩🏽",
+    "codePoints": "1F469 1F3FE 200D 1FAEF 200D 1F469 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium-dark skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumDarkSkinToneMediumSkinTone",
+    "value": "\\u{1f469}\\u{1f3fe}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🤼🏼‍♀️",
+    "codePoints": "1F93C 1F3FC 200D 2640 FE0F",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumLightSkinTone",
+    "value": "\\u{1f93c}\\u{1f3fc}\\u{200d}\\u{2640}\\u{fe0f}"
+  },
+  {
+    "emoji": "👩🏼‍🫯‍👩🏿",
+    "codePoints": "1F469 1F3FC 200D 1FAEF 200D 1F469 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium-light skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumLightSkinToneDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fc}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👩🏼‍🫯‍👩🏻",
+    "codePoints": "1F469 1F3FC 200D 1FAEF 200D 1F469 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium-light skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumLightSkinToneLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3fc}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👩🏼‍🫯‍👩🏾",
+    "codePoints": "1F469 1F3FC 200D 1FAEF 200D 1F469 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium-light skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumLightSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fc}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👩🏼‍🫯‍👩🏽",
+    "codePoints": "1F469 1F3FC 200D 1FAEF 200D 1F469 1F3FD",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium-light skin tone, medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumLightSkinToneMediumSkinTone",
+    "value": "\\u{1f469}\\u{1f3fc}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fd}"
+  },
+  {
+    "emoji": "🤼🏽‍♀️",
+    "codePoints": "1F93C 1F3FD 200D 2640 FE0F",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumSkinTone",
+    "value": "\\u{1f93c}\\u{1f3fd}\\u{200d}\\u{2640}\\u{fe0f}"
+  },
+  {
+    "emoji": "👩🏽‍🫯‍👩🏿",
+    "codePoints": "1F469 1F3FD 200D 1FAEF 200D 1F469 1F3FF",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium skin tone, dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumSkinToneDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fd}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3ff}"
+  },
+  {
+    "emoji": "👩🏽‍🫯‍👩🏻",
+    "codePoints": "1F469 1F3FD 200D 1FAEF 200D 1F469 1F3FB",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium skin tone, light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumSkinToneLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3fd}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fb}"
+  },
+  {
+    "emoji": "👩🏽‍🫯‍👩🏾",
+    "codePoints": "1F469 1F3FD 200D 1FAEF 200D 1F469 1F3FE",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium skin tone, medium-dark skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumSkinToneMediumDarkSkinTone",
+    "value": "\\u{1f469}\\u{1f3fd}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fe}"
+  },
+  {
+    "emoji": "👩🏽‍🫯‍👩🏼",
+    "codePoints": "1F469 1F3FD 200D 1FAEF 200D 1F469 1F3FC",
+    "status": "fully-qualified",
+    "shortName": "women wrestling: medium skin tone, medium-light skin tone",
+    "group": "People & Body",
+    "subGroup": "person-sport",
+    "key": "womenWrestlingMediumSkinToneMediumLightSkinTone",
+    "value": "\\u{1f469}\\u{1f3fd}\\u{200d}\\u{1faef}\\u{200d}\\u{1f469}\\u{1f3fc}"
   },
   {
     "emoji": "🪵",

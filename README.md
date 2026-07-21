@@ -1,6 +1,9 @@
 # emoji
 
-Provides Unicode emoji lookup packs that can be imported or lazy-loaded by need.
+Provides Unicode Emoji 17.0 lookup packs that can be imported or lazy-loaded by need.
+
+The generated dataset contains every Unicode-recommended fully-qualified emoji
+sequence, including skin-tone, hair, gender, family, and ZWJ variants.
 
 ## Installation
 
