@@ -114,7 +114,7 @@ To inspect candidate emoji for the upcoming draft release without changing the s
 npm run unicode:proposed
 ```
 
-This writes `proposed/<draft-version>.json`. Candidate data is deliberately excluded from npm exports and release-version manifests because Unicode may change or remove it before release. To require a particular current draft version, pass it explicitly:
+This writes `proposed/<draft-version>.json` and records it in `versions/manifest.json` under `proposed`. Proposed entries have no release date and are clearly marked with `"status": "proposed"`; they are separate from released version arrays because Unicode may change or remove them before release. To require a particular current draft version, pass it explicitly:
 
 ```bash
 npm run unicode:proposed -- 18.0

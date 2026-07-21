@@ -42,6 +42,7 @@ jobs:
           cp index.html index.js index.css emoji.json Screenshot.png _site/
           cp -R dist _site/dist
           cp -R versions _site/versions
+          cp -R proposed _site/proposed
           touch _site/.nojekyll
 
       - name: Configure Pages

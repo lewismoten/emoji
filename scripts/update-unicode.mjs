@@ -132,6 +132,9 @@ const source = [
 
 fs.writeFileSync('emoji.json', `${JSON.stringify(emoji, null, '  ')}\n`);
 fs.writeFileSync('emoji.ts', source);
+const previousManifest = fs.existsSync('versions/manifest.json')
+  ? JSON.parse(fs.readFileSync('versions/manifest.json', 'utf8'))
+  : {};
 fs.rmSync('versions', { recursive: true, force: true });
 fs.mkdirSync('versions', { recursive: true });
 const manifest = [];
@@ -139,7 +142,9 @@ for (const [version, keys] of [...versions.entries()].sort(([a], [b]) => a.local
   fs.writeFileSync(`versions/${version}.json`, `${JSON.stringify(keys, null, '  ')}\n`);
   manifest.push({ version, released: releaseDates[version] ?? null, file: `${version}.json`, count: keys.length });
 }
-fs.writeFileSync('versions/manifest.json', `${JSON.stringify({ emojiVersion, versions: manifest }, null, '  ')}\n`);
+const proposed = (previousManifest.proposed ?? []).filter(version => version.version !== emojiVersion);
+fs.rmSync(path.join('proposed', `${emojiVersion}.json`), { force: true });
+fs.writeFileSync('versions/manifest.json', `${JSON.stringify({ emojiVersion, versions: manifest, proposed }, null, '  ')}\n`);
 console.info(`Generated ${emoji.length} Unicode Emoji ${emojiVersion} entries.`);
 
 execFileSync('npm', ['run', 'bundle'], { stdio: 'inherit' });

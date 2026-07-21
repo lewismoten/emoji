@@ -6,6 +6,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 type Emoji = {
   key: string;
   emoji: string;
+  codePoints: string;
   group: string;
 };
 
@@ -15,13 +16,18 @@ type Version = {
   count: number;
 };
 
+type ProposedVersion = Version & {
+  status: 'proposed';
+  released: null;
+};
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const readJson = async <T,>(file: string) => JSON.parse(await fs.readFile(path.join(root, file), 'utf8')) as T;
 const importDefault = async (file: string) =>
   (await import(pathToFileURL(path.join(root, file)).href)).default as Record<string, string>;
 
 const emoji = await readJson<Emoji[]>('emoji.json');
-const manifest = await readJson<{ versions: Version[] }>('versions/manifest.json');
+const manifest = await readJson<{ versions: Version[]; proposed?: ProposedVersion[] }>('versions/manifest.json');
 const emojiByKey = Object.fromEntries(emoji.map(item => [item.key, item.emoji]));
 const browserEmoji = await importDefault('dist/esm/index.js');
 const allEmoji = await importDefault('dist/esm/all.min.js');
@@ -45,6 +51,15 @@ for (const version of manifest.versions) {
   }
 }
 assert.deepEqual(versionKeys, new Set(Object.keys(emojiByKey)), 'version files must account for every emoji');
+
+const releasedCodePoints = new Set(emoji.map(item => item.codePoints));
+for (const version of manifest.proposed ?? []) {
+  assert.equal(version.status, 'proposed', `Unicode ${version.version} must be marked proposed`);
+  assert.equal(version.released, null, `Unicode ${version.version} must not have a release date`);
+  const proposal = await readJson<{ count: number; emoji: Emoji[] }>(version.file);
+  assert.equal(proposal.count, version.count, `Unicode ${version.version} proposed count must match its manifest`);
+  assert.ok(proposal.emoji.every(item => !releasedCodePoints.has(item.codePoints)), 'proposed emoji must not be released emoji');
+}
 
 for (const group of new Set(emoji.map(item => item.group))) {
   const category = group.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');

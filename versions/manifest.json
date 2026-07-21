@@ -103,5 +103,16 @@
       "file": "17.0.json",
       "count": 163
     }
+  ],
+  "proposed": [
+    {
+      "version": "18.0",
+      "status": "proposed",
+      "released": null,
+      "file": "proposed/18.0.json",
+      "source": "https://www.unicode.org/Public/draft/emoji/emoji-test.txt",
+      "retrieved": "2026-07-21T21:21:25.655Z",
+      "count": 19
+    }
   ]
 }

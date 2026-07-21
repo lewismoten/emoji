@@ -1,0 +1,218 @@
+{
+  "unicodeVersion": "18.0",
+  "status": "draft",
+  "source": "https://www.unicode.org/Public/draft/emoji/emoji-test.txt",
+  "retrieved": "2026-07-21T21:21:25.652Z",
+  "count": 19,
+  "emoji": [
+    {
+      "emoji": "🫫",
+      "codePoints": "1FAEB",
+      "status": "fully-qualified",
+      "shortName": "cracking face",
+      "group": "Smileys & Emotion",
+      "subGroup": "face-smiling",
+      "key": "crackingFace",
+      "value": "\\u{1faeb}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🪌",
+      "codePoints": "1FA8C",
+      "status": "fully-qualified",
+      "shortName": "eraser",
+      "group": "Objects",
+      "subGroup": "writing",
+      "key": "eraser",
+      "value": "\\u{1fa8c}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫹",
+      "codePoints": "1FAF9",
+      "status": "fully-qualified",
+      "shortName": "leftwards thumb sign",
+      "group": "People & Body",
+      "subGroup": "hand-fingers-closed",
+      "key": "leftwardsThumbSign",
+      "value": "\\u{1faf9}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫹🏿",
+      "codePoints": "1FAF9 1F3FF",
+      "status": "fully-qualified",
+      "shortName": "leftwards thumb sign: dark skin tone",
+      "group": "People & Body",
+      "subGroup": "hand-fingers-closed",
+      "key": "leftwardsThumbSignDarkSkinTone",
+      "value": "\\u{1faf9}\\u{1f3ff}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫹🏻",
+      "codePoints": "1FAF9 1F3FB",
+      "status": "fully-qualified",
+      "shortName": "leftwards thumb sign: light skin tone",
+      "group": "People & Body",
+      "subGroup": "hand-fingers-closed",
+      "key": "leftwardsThumbSignLightSkinTone",
+      "value": "\\u{1faf9}\\u{1f3fb}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫹🏾",
+      "codePoints": "1FAF9 1F3FE",
+      "status": "fully-qualified",
+      "shortName": "leftwards thumb sign: medium-dark skin tone",
+      "group": "People & Body",
+      "subGroup": "hand-fingers-closed",
+      "key": "leftwardsThumbSignMediumDarkSkinTone",
+      "value": "\\u{1faf9}\\u{1f3fe}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫹🏼",
+      "codePoints": "1FAF9 1F3FC",
+      "status": "fully-qualified",
+      "shortName": "leftwards thumb sign: medium-light skin tone",
+      "group": "People & Body",
+      "subGroup": "hand-fingers-closed",
+      "key": "leftwardsThumbSignMediumLightSkinTone",
+      "value": "\\u{1faf9}\\u{1f3fc}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫹🏽",
+      "codePoints": "1FAF9 1F3FD",
+      "status": "fully-qualified",
+      "shortName": "leftwards thumb sign: medium skin tone",
+      "group": "People & Body",
+      "subGroup": "hand-fingers-closed",
+      "key": "leftwardsThumbSignMediumSkinTone",
+      "value": "\\u{1faf9}\\u{1f3fd}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🛙",
+      "codePoints": "1F6D9",
+      "status": "fully-qualified",
+      "shortName": "lighthouse",
+      "group": "Travel & Places",
+      "subGroup": "transport-water",
+      "key": "lighthouse",
+      "value": "\\u{1f6d9}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🪋",
+      "codePoints": "1FA8B",
+      "status": "fully-qualified",
+      "shortName": "meteor",
+      "group": "Travel & Places",
+      "subGroup": "sky & weather",
+      "key": "meteor",
+      "value": "\\u{1fa8b}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫌",
+      "codePoints": "1FACC",
+      "status": "fully-qualified",
+      "shortName": "monarch butterfly",
+      "group": "Animals & Nature",
+      "subGroup": "animal-bug",
+      "key": "monarchButterfly",
+      "value": "\\u{1facc}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🪍",
+      "codePoints": "1FA8D",
+      "status": "fully-qualified",
+      "shortName": "net with handle",
+      "group": "Objects",
+      "subGroup": "tool",
+      "key": "netWithHandle",
+      "value": "\\u{1fa8d}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫝",
+      "codePoints": "1FADD",
+      "status": "fully-qualified",
+      "shortName": "pickle",
+      "group": "Food & Drink",
+      "subGroup": "food-vegetable",
+      "key": "pickle",
+      "value": "\\u{1fadd}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫺",
+      "codePoints": "1FAFA",
+      "status": "fully-qualified",
+      "shortName": "rightwards thumb sign",
+      "group": "People & Body",
+      "subGroup": "hand-fingers-closed",
+      "key": "rightwardsThumbSign",
+      "value": "\\u{1fafa}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫺🏿",
+      "codePoints": "1FAFA 1F3FF",
+      "status": "fully-qualified",
+      "shortName": "rightwards thumb sign: dark skin tone",
+      "group": "People & Body",
+      "subGroup": "hand-fingers-closed",
+      "key": "rightwardsThumbSignDarkSkinTone",
+      "value": "\\u{1fafa}\\u{1f3ff}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫺🏻",
+      "codePoints": "1FAFA 1F3FB",
+      "status": "fully-qualified",
+      "shortName": "rightwards thumb sign: light skin tone",
+      "group": "People & Body",
+      "subGroup": "hand-fingers-closed",
+      "key": "rightwardsThumbSignLightSkinTone",
+      "value": "\\u{1fafa}\\u{1f3fb}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫺🏾",
+      "codePoints": "1FAFA 1F3FE",
+      "status": "fully-qualified",
+      "shortName": "rightwards thumb sign: medium-dark skin tone",
+      "group": "People & Body",
+      "subGroup": "hand-fingers-closed",
+      "key": "rightwardsThumbSignMediumDarkSkinTone",
+      "value": "\\u{1fafa}\\u{1f3fe}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫺🏼",
+      "codePoints": "1FAFA 1F3FC",
+      "status": "fully-qualified",
+      "shortName": "rightwards thumb sign: medium-light skin tone",
+      "group": "People & Body",
+      "subGroup": "hand-fingers-closed",
+      "key": "rightwardsThumbSignMediumLightSkinTone",
+      "value": "\\u{1fafa}\\u{1f3fc}",
+      "emojiVersion": "18.0"
+    },
+    {
+      "emoji": "🫺🏽",
+      "codePoints": "1FAFA 1F3FD",
+      "status": "fully-qualified",
+      "shortName": "rightwards thumb sign: medium skin tone",
+      "group": "People & Body",
+      "subGroup": "hand-fingers-closed",
+      "key": "rightwardsThumbSignMediumSkinTone",
+      "value": "\\u{1fafa}\\u{1f3fd}",
+      "emojiVersion": "18.0"
+    }
+  ]
+}

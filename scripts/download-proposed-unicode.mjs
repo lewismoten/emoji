@@ -93,6 +93,7 @@ if (duplicateKeys.length) {
 
 const outputDirectory = 'proposed';
 const outputFile = path.join(outputDirectory, `${draftVersion}.json`);
+const manifestFile = path.join('versions', 'manifest.json');
 fs.mkdirSync(outputDirectory, { recursive: true });
 fs.writeFileSync(outputFile, `${JSON.stringify({
   unicodeVersion: draftVersion,
@@ -102,4 +103,17 @@ fs.writeFileSync(outputFile, `${JSON.stringify({
   count: candidates.length,
   emoji: candidates
 }, null, 2)}\n`);
+const manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
+const proposed = (manifest.proposed ?? []).filter(version => version.version !== draftVersion);
+proposed.push({
+  version: draftVersion,
+  status: 'proposed',
+  released: null,
+  file: `proposed/${draftVersion}.json`,
+  source: sourceUrl,
+  retrieved: new Date().toISOString(),
+  count: candidates.length
+});
+proposed.sort((a, b) => a.version.localeCompare(b.version, undefined, { numeric: true }));
+fs.writeFileSync(manifestFile, `${JSON.stringify({ ...manifest, proposed }, null, 2)}\n`);
 console.info(`Wrote ${candidates.length} proposed Unicode Emoji ${draftVersion} entries to ${outputFile}.`);

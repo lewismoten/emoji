@@ -39,6 +39,7 @@
       "require": "./dist/commonjs/individual/*.min.cjs"
     },
     "./versions/*": "./versions/*.json",
+    "./proposed/*": "./proposed/*.json",
     "./development/*": {
       "types": "./dist/esm/types/*.d.mts",
       "import": "./dist/esm/*.js",
