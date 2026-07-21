@@ -38,6 +38,7 @@
       "import": "./dist/esm/individual/*.min.js",
       "require": "./dist/commonjs/individual/*.min.cjs"
     },
+    "./versions/*": "./versions/*.json",
     "./development/*": {
       "types": "./dist/esm/types/*.d.mts",
       "import": "./dist/esm/*.js",

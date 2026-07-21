@@ -5,6 +5,17 @@ Provides Unicode Emoji 17.0 lookup packs that can be imported or lazy-loaded by 
 The generated dataset contains every Unicode-recommended fully-qualified emoji
 sequence, including skin-tone, hair, gender, family, and ZWJ variants.
 
+## Unicode version manifests
+
+Each `versions/<version>.json` file contains only the exported emoji keys that
+were introduced in that Unicode Emoji version. Load a manifest separately when
+you need to include or exclude a release without adding version metadata to the
+emoji lookup itself:
+
+```js
+const introducedIn17 = await fetch('./versions/17.0.json').then(response => response.json());
+```
+
 ## Installation
 
 `npm i @lewismoten/emoji -s`

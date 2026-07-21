@@ -47,6 +47,7 @@ const parseEmojiTest = text => {
   let group = '';
   let subGroup = '';
   const emoji = [];
+  const versions = new Map();
   for (const line of text.split('\n')) {
     if (line.startsWith('# group: ')) {
       group = line.slice('# group: '.length).trim();
@@ -63,9 +64,11 @@ const parseEmojiTest = text => {
     if (!['fully-qualified', 'component'].includes(status)) continue;
 
     const comment = rawStatus.slice(rawStatus.indexOf('#') + 1).trim();
-    const shortName = comment.match(/E\d+\.\d+\s+(.+?)$/)?.[1];
-    if (!shortName) throw new Error(`Could not parse emoji name: ${line}`);
+    const versionMatch = comment.match(/E(\d+\.\d+)\s+(.+?)$/);
+    if (!versionMatch) throw new Error(`Could not parse emoji name and version: ${line}`);
+    const [, introducedIn, shortName] = versionMatch;
     const value = asValue(rawCodePoints);
+    const key = asKey(shortName);
     emoji.push({
       emoji: String.fromCodePoint(...rawCodePoints.split(' ').map(code => Number.parseInt(code, 16))),
       codePoints: rawCodePoints,
@@ -73,15 +76,17 @@ const parseEmojiTest = text => {
       shortName,
       group,
       subGroup,
-      key: asKey(shortName),
+      key,
       value
     });
+    versions.set(introducedIn, [...(versions.get(introducedIn) ?? []), key]);
   }
   emoji.sort((a, b) => a.key.localeCompare(b.key));
 
   const duplicateKeys = emoji.filter((item, index) => index > 0 && item.key === emoji[index - 1].key);
   if (duplicateKeys.length) throw new Error(`Duplicate emoji keys: ${duplicateKeys.map(item => item.key).join(', ')}`);
-  return emoji;
+  for (const keys of versions.values()) keys.sort((a, b) => a.localeCompare(b));
+  return { emoji, versions };
 };
 
 const download = async (source, destination) => {
@@ -98,7 +103,7 @@ for (const [source, file] of files) {
 }
 
 const testFile = path.join(cacheDirectory, `emoji-test-${emojiVersion}.txt`);
-const emoji = parseEmojiTest(fs.readFileSync(testFile, 'utf8'));
+const { emoji, versions } = parseEmojiTest(fs.readFileSync(testFile, 'utf8'));
 const source = [
   'export default {',
   ...emoji.map(item => `  /** ${item.shortName} ${item.emoji} */\n  ${item.key}: "${item.value}" as const,`),
@@ -108,6 +113,11 @@ const source = [
 
 fs.writeFileSync('emoji.json', `${JSON.stringify(emoji, null, '  ')}\n`);
 fs.writeFileSync('emoji.ts', source);
+fs.rmSync('versions', { recursive: true, force: true });
+fs.mkdirSync('versions', { recursive: true });
+for (const [version, keys] of [...versions.entries()].sort(([a], [b]) => a.localeCompare(b, undefined, { numeric: true }))) {
+  fs.writeFileSync(`versions/${version}.json`, `${JSON.stringify(keys, null, '  ')}\n`);
+}
 console.info(`Generated ${emoji.length} Unicode Emoji ${emojiVersion} entries.`);
 
 execFileSync('npm', ['run', 'bundle'], { stdio: 'inherit' });
