@@ -2,6 +2,7 @@
 /build/
 /library/
 /cache/
+/proposed/
 /dist/*
 !/dist/esm/
 /dist/esm/*

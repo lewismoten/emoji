@@ -98,11 +98,24 @@ The live demo is hosted on GitHub pages:
 - bundle: creates JavaScript & TypeScript Definitions for packaging
 - prepublishOnly: ensures a new bundle is created for publishing
 - start: Runs demo site at http://localhost:5173
-- test: Misc tests from research
+- test: builds the complete package and verifies every release data set and public pack
 - unicode: downloads a Unicode Emoji version, regenerates `emoji.ts` and `emoji.json`, and rebuilds the packs
+- unicode:proposed: downloads the current official Unicode draft data and writes only new candidate emoji to `proposed/`
 
 To update to a future Unicode release, run:
 
 ```bash
 npm run unicode -- 18.0
+```
+
+To inspect candidate emoji for the upcoming draft release without changing the stable package data, run:
+
+```bash
+npm run unicode:proposed
+```
+
+This writes `proposed/<draft-version>.json`. Candidate data is deliberately excluded from npm exports and release-version manifests because Unicode may change or remove it before release. To require a particular current draft version, pass it explicitly:
+
+```bash
+npm run unicode:proposed -- 18.0
 ```

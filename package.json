@@ -53,7 +53,8 @@
     "prepublishOnly": "npm run bundle",
     "start": "vite",
     "test": "npm run bundle && node ./build/scripts/test.mjs",
-    "unicode": "node ./scripts/update-unicode.mjs"
+    "unicode": "node ./scripts/update-unicode.mjs",
+    "unicode:proposed": "node ./scripts/download-proposed-unicode.mjs"
   },
   "repository": {
     "type": "git",
