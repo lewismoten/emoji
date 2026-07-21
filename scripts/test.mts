@@ -1,55 +1,68 @@
-// const personFoldedArms = '\u{1F468}';
-// const xx = '👨‍👧‍👦';
-// console.log(xx);
-const codePoints = '1F469 1F3FB 200D 2764 FE0F 200D 1F468 1F3FE';
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
-const getPadding = (index: number) => {
-  return {
-    0: 10,
-    1: 8,
-    2: 8,
-    3: 7,
-    4: 7,
-    5: 7,
-    6: 5,
-    7: 3
-  }[index] ?? 10;
+type Emoji = {
+  key: string;
+  emoji: string;
+  group: string;
+};
+
+type Version = {
+  version: string;
+  file: string;
+  count: number;
+};
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
+const readJson = async <T,>(file: string) => JSON.parse(await fs.readFile(path.join(root, file), 'utf8')) as T;
+const importDefault = async (file: string) =>
+  (await import(pathToFileURL(path.join(root, file)).href)).default as Record<string, string>;
+
+const emoji = await readJson<Emoji[]>('emoji.json');
+const manifest = await readJson<{ versions: Version[] }>('versions/manifest.json');
+const emojiByKey = Object.fromEntries(emoji.map(item => [item.key, item.emoji]));
+const browserEmoji = await importDefault('dist/esm/index.js');
+const allEmoji = await importDefault('dist/esm/all.min.js');
+const popularEmoji = await importDefault('dist/esm/popular.min.js');
+
+assert.equal(new Set(emoji.map(item => item.key)).size, emoji.length, 'emoji keys must be unique');
+assert.deepEqual(browserEmoji, emojiByKey, 'browser bundle must contain every emoji value');
+assert.deepEqual(allEmoji, emojiByKey, 'all export must contain every emoji value');
+assert.ok(Object.keys(popularEmoji).length > 0, 'popular export must not be empty');
+assert.ok(Object.keys(popularEmoji).every(key => key in emojiByKey), 'popular export must only contain known keys');
+
+const versionKeys = new Set<string>();
+for (const version of manifest.versions) {
+  const keys = await readJson<string[]>(`versions/${version.file}`);
+  assert.equal(keys.length, version.count, `Emoji ${version.version} count must match its manifest`);
+  assert.equal(new Set(keys).size, keys.length, `Emoji ${version.version} keys must be unique`);
+  for (const key of keys) {
+    assert.ok(key in emojiByKey, `Emoji ${version.version} contains unknown key ${key}`);
+    assert.ok(!versionKeys.has(key), `Emoji ${key} must be introduced by only one version`);
+    versionKeys.add(key);
+  }
 }
-codePoints
-  .split(' ')
-  .map(code => parseInt(code, 16))
-  .reduce<number[]>((all, code, index) => {
-    all.push(code);
-    const text = all.map(code => String.fromCodePoint(code)).join('');
-    const codes = all.map(code => code.toString(16)).join(' ');
+assert.deepEqual(versionKeys, new Set(Object.keys(emojiByKey)), 'version files must account for every emoji');
 
-    const padding = ' '.repeat(getPadding(index));
-
-    console.log(`${index + 1}. ${text} ${padding}${codes}`);
-    return all;
-  }, []);
-
-
-console.log(1468 + 2322)
-console.log("São Tomé & Príncipe".normalize("NFD").replace(/[\u0300-\u036f]/g, ''));
-console.log(String.fromCodePoint(0x1F5E8));// + String.fromCodePoint(0xFE0E))
-
-const variations = '1F469 1F3FB 200D 2764 FE0F 200D 1F468 1F3FE'.split(' ').map(s => parseInt(s, 16));
-for (let i = 0; i < 16; i++) {
-  variations[4] = 0xFE00 + i;
-  console.log(`FE${i.toString(16).padStart(2, '0')} ${variations.map(v => String.fromCodePoint(v)).join('')}`)
+for (const group of new Set(emoji.map(item => item.group))) {
+  const category = group.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const categoryEmoji = await importDefault(`dist/esm/categories/${category}.min.js`);
+  assert.ok(Object.keys(categoryEmoji).every(key => key in emojiByKey), `${group} export must only contain known keys`);
 }
 
-const tones = [0x1f3ff, 0x1F3FE, 0x1F3FD, 0x1f3FC, 0x1F3FB];
-const hairs = [0x1F9B0, 0x1F9B1, 0x1F9B2, 0x1F9B3];
-// const skinTone = '1F469 1F3FB'.split(' ').map(s => parseInt(s, 16));
-const skinTone = '1F469 200D'.split(' ').map(s => parseInt(s, 16));
-console.log(String.fromCodePoint(0x1f469))
-// for (let i = 0; i < tones.length; i++) {
-// skinTone[1] = tones[i];
-for (let h = 0; h < hairs.length; h++) {
-  skinTone[2] = hairs[h];
-  console.log(`${skinTone[1].toString(16).padStart(2, '0')} ${skinTone.map(v => String.fromCodePoint(v)).join('')}`)
-  // }
+for (const variation of ['skin-tones', 'hair', 'families', 'all']) {
+  const variationEmoji = await importDefault(`dist/esm/variations/${variation}.min.js`);
+  assert.ok(Object.keys(variationEmoji).every(key => key in emojiByKey), `${variation} export must only contain known keys`);
 }
-console.log(30 ** 4);
+
+for (const item of [emoji[0], emoji.at(Math.floor(emoji.length / 2)), emoji.at(-1)]) {
+  assert.ok(item, 'individual export test items must exist');
+  const individualEmoji = (await import(pathToFileURL(
+    path.join(root, 'dist/esm/individual', `${item.key}.min.js`)
+  ).href)).default;
+  assert.equal(individualEmoji, item.emoji, `${item.key} individual export must match its emoji`);
+}
+
+console.info(`Verified ${emoji.length.toLocaleString()} emoji, ${manifest.versions.length} Unicode version files, and package entry points.`);
