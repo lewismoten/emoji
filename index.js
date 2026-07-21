@@ -16,7 +16,7 @@ var subGroupSelector;
 var versionModeSelector;
 var versionSelector;
 var advancedFilters;
-var example;
+var exampleDialog;
 var skinToneCheckboxes;
 var hairCheckboxes;
 var versionManifests = [];
@@ -31,7 +31,7 @@ function onLoad() {
   versionModeSelector = document.getElementsByClassName('select-version-mode')[0];
   versionSelector = document.getElementsByClassName('select-version')[0];
   advancedFilters = document.getElementsByClassName('advanced-filters')[0];
-  example = document.getElementsByClassName('example')[0];
+  exampleDialog = document.getElementsByClassName('example-dialog')[0];
   skinToneCheckboxes = Array.from(document.getElementsByClassName('skin-tone'));
   hairCheckboxes = Array.from(document.getElementsByClassName('hair'));
 
@@ -45,7 +45,6 @@ function onLoad() {
 
   if (window.matchMedia('(max-width: 560px)').matches) {
     advancedFilters.open = false;
-    example.open = false;
   }
 
   loadData();
@@ -307,7 +306,7 @@ function drawList() {
     groupElement: null,
     subGroupElement: null
   }).items);
-  matchCount.innerText = keys.length;
+  matchCount.innerText = keys.length.toLocaleString();
 }
 
 function onKeyUp(e) {
@@ -339,6 +338,9 @@ function onClick(e, copy = true) {
   document.getElementsByClassName("emoji-key")[0].innerText = id;
   document.getElementsByClassName("emoji-value")[0].innerText = value;
   document.getElementsByClassName("emoji-encoded")[0].innerText = bits.join("");
-  if (copy) navigator.clipboard?.writeText(id);
+  if (copy) {
+    navigator.clipboard?.writeText(id);
+    exampleDialog.showModal();
+  }
 }
 window.addEventListener("load", onLoad);

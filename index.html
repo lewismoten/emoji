@@ -15,17 +15,14 @@
 
     <header class="toolbar">
       <div class="toolbar-heading">
-        <div>
-          <p class="eyebrow">Unicode Emoji Explorer</p>
-          <h1>Find the right emoji</h1>
-        </div>
+        <h1>Emoji Explorer</h1>
         <p class="result-count"><span class="match-count">0</span> matches</p>
       </div>
 
       <form class="filters" aria-label="Filter emoji" onsubmit="return false">
         <label class="filter-field search-field">
-          <span>Search</span>
-          <input class="text" type="search" placeholder="Try “beer”, “heart”, or “face”" autocomplete="off">
+          <span class="sr-only">Search emoji</span>
+          <input class="text" type="search" placeholder="Search emoji, e.g. beer or heart" autocomplete="off">
         </label>
 
         <details class="advanced-filters">
@@ -73,10 +70,19 @@
         </details>
       </form>
 
-      <details class="example" open>
-        <summary class="example-heading">
-          <span>Click an emoji to copy its key</span>
-        </summary>
+    </header>
+
+    <div class="list" aria-live="polite">Loading emoji…</div>
+
+    <dialog class="example-dialog" aria-labelledby="example-title">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">Copied emoji key</p>
+          <h2 id="example-title">Use this emoji</h2>
+        </div>
+        <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
+      </div>
+      <p class="dialog-description">The emoji key has been copied to your clipboard.</p>
         <div class="code">
           <span class="line"><span class="keyword">import</span> <span class="variable">emoji</span> <span class="keyword">from</span> <span class="string">"./dist/esm/index.js"</span>;</span>
           <span class="line"><span class="native-object">console</span>.<span class="native-function">log</span>(<span class="object">emoji</span>.<span class="object-key emoji-key">clinkingBeerMugs</span>);</span>
@@ -84,10 +90,7 @@
           <span class="line comment">// <span class="emoji-group"></span> · <span class="emoji-subgroup"></span></span>
         </div>
         <div class="example-link"><a href="https://github.com/lewismoten/emoji">View the package on GitHub</a></div>
-      </details>
-    </header>
-
-    <div class="list" aria-live="polite">Loading emoji…</div>
+    </dialog>
   </main>
 </body>
 

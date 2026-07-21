@@ -31,7 +31,7 @@ a { color: var(--accent); }
   z-index: 10;
   max-height: 76svh;
   overflow: auto;
-  padding: 1rem clamp(1rem, 3vw, 2rem);
+  padding: .55rem clamp(.75rem, 2vw, 1.25rem);
   border-bottom: 1px solid var(--border);
   background: color-mix(in srgb, var(--page) 94%, transparent);
   box-shadow: 0 0.75rem 1.75rem rgb(0 0 0 / 25%);
@@ -39,7 +39,7 @@ a { color: var(--accent); }
 }
 
 .toolbar-heading,
-.example-heading {
+.dialog-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -55,7 +55,7 @@ a { color: var(--accent); }
   text-transform: uppercase;
 }
 
-h1 { margin: 0; font-size: clamp(1.25rem, 3vw, 1.7rem); }
+h1 { margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); }
 
 .result-count {
   flex: none;
@@ -66,10 +66,21 @@ h1 { margin: 0; font-size: clamp(1.25rem, 3vw, 1.7rem); }
 
 .match-count { color: var(--accent); font-size: 1.15em; font-weight: 750; }
 
-.filters { margin-top: 1rem; }
+.filters { margin-top: .45rem; }
 .search-field { max-width: 34rem; }
 
-.advanced-filters { margin-top: .7rem; }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.advanced-filters { margin-top: .4rem; }
 .advanced-filters > summary {
   width: fit-content;
   cursor: pointer;
@@ -97,7 +108,7 @@ select {
   font: inherit;
 }
 
-input[type="search"] { padding: .55rem .75rem; }
+input[type="search"] { min-height: 2.25rem; padding: .4rem .65rem; }
 select { padding: .45rem .55rem; }
 input:focus-visible,
 select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -125,17 +136,36 @@ legend { padding: 0 .25rem; color: var(--muted); font-size: .75rem; font-weight:
 fieldset label { display: flex; align-items: center; gap: .2rem; font-size: .8rem; white-space: nowrap; }
 fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-strong); }
 
-.example {
-  margin-top: .75rem;
+.example-dialog {
+  width: min(42rem, calc(100vw - 2rem));
+  margin: auto;
+  padding: 0;
   border: 1px solid var(--border);
   border-radius: .6rem;
+  background: var(--panel);
+  color: var(--text);
   overflow: hidden;
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 55%);
 }
 
-.example > summary { cursor: pointer; list-style: none; }
-.example > summary::-webkit-details-marker { display: none; }
+.example-dialog::backdrop { background: rgb(0 0 0 / 60%); backdrop-filter: blur(3px); }
 
-.example-heading { padding: .45rem .7rem; color: var(--muted); background: var(--panel-strong); font-size: .78rem; }
+.dialog-heading { padding: .8rem 1rem; background: var(--panel-strong); }
+h2 { margin: 0; font-size: 1.15rem; }
+.dialog-close {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: .4rem;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+.dialog-description { margin: .8rem 1rem; color: var(--muted); font-size: .88rem; }
 
 .code {
   overflow-x: auto;
@@ -158,7 +188,7 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
 .code .object,
 .code .object-key { color: #ffaaa3; }
 
-.example-link { padding: .4rem .7rem; background: var(--panel); font-size: .78rem; }
+.example-link { padding: .55rem 1rem; background: var(--panel-strong); font-size: .8rem; }
 
 .list { display: flex; flex-wrap: wrap; padding: 1rem; }
 .group { display: flex; flex: 1 0 100%; flex-wrap: wrap; margin-bottom: 1rem; border: 1px solid var(--border); border-radius: .65rem; overflow: hidden; }
@@ -187,9 +217,9 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
 }
 
 @media (max-width: 560px) {
-  .toolbar { max-height: 50svh; padding: .75rem; }
-  .toolbar-heading,
-  .example-heading { align-items: flex-start; flex-direction: column; gap: .35rem; }
+  .toolbar { max-height: 40svh; padding: .5rem .65rem; }
+  .toolbar-heading { align-items: flex-start; flex-direction: column; gap: .35rem; }
+  .dialog-heading { gap: .35rem; }
   .search-field { max-width: none; }
   .filter-grid { grid-template-columns: 1fr; }
   .modifier-filters { display: grid; grid-template-columns: 1fr; }
