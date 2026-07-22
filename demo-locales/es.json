@@ -77,5 +77,7 @@
   "sequenceTag": "Secuencia de etiquetas",
   "fullyQualified": "Totalmente calificado",
   "minimallyQualified": "Calificación mínima",
-  "unqualified": "Sin calificar"
+  "unqualified": "Sin calificar",
+  "aboutTitle": "Busca y explora emoji Unicode",
+  "aboutDescription": "Explora miles de emoji por nombres y palabras clave localizados, categorías y subgrupos Unicode, versión de lanzamiento, modificadores y tipo de secuencia."
 }

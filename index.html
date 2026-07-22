@@ -4,7 +4,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Emoji Explorer</title>
+  <title>Emoji Explorer – Search Unicode Emoji by Name, Category & Version</title>
+  <meta name="description" content="Search and browse thousands of Unicode emoji by localized name, keyword, category, subgroup, version, skin tone, hair style, and sequence type.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#160622">
+  <link rel="canonical" href="https://lewismoten.github.io/emoji/">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Emoji Explorer">
+  <meta property="og:title" content="Emoji Explorer – Search and Browse Unicode Emoji">
+  <meta property="og:description" content="Explore Unicode emoji by localized name, keyword, category, version, modifiers, and sequence type.">
+  <meta property="og:url" content="https://lewismoten.github.io/emoji/">
+  <meta property="og:image" content="https://lewismoten.github.io/emoji/screenshot.png">
+  <meta property="og:image:alt" content="Emoji Explorer showing a searchable collection of Unicode emoji">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Emoji Explorer – Search and Browse Unicode Emoji">
+  <meta name="twitter:description" content="Explore Unicode emoji by localized name, keyword, category, version, modifiers, and sequence type.">
+  <meta name="twitter:image" content="https://lewismoten.github.io/emoji/screenshot.png">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Emoji Explorer",
+      "alternateName": "@lewismoten/emoji",
+      "description": "A localized Unicode emoji explorer and JavaScript package with searchable emoji names, keywords, categories, versions, modifiers, and sequence metadata.",
+      "url": "https://lewismoten.github.io/emoji/",
+      "image": "https://lewismoten.github.io/emoji/screenshot.png",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Any",
+      "codeRepository": "https://github.com/lewismoten/emoji",
+      "downloadUrl": "https://www.npmjs.com/package/@lewismoten/emoji",
+      "license": "https://github.com/lewismoten/emoji/blob/main/LICENSE.md",
+      "author": { "@type": "Person", "name": "Lewis Moten" },
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+  </script>
   <script defer src="./index.js" type="module"></script>
   <link rel="stylesheet" href="./index.css">
 </head>
@@ -84,6 +118,12 @@
     </header>
 
     <div class="list" aria-live="polite">Loading emoji…</div>
+
+    <section class="about-explorer" aria-labelledby="about-title">
+      <h2 id="about-title" data-i18n="aboutTitle">Search and explore Unicode emoji</h2>
+      <p data-i18n="aboutDescription">Browse thousands of emoji by localized names and keywords, Unicode categories and subgroups, release version, modifiers, and sequence type.</p>
+      <p><a href="https://github.com/lewismoten/emoji">GitHub</a> · <a href="https://www.npmjs.com/package/@lewismoten/emoji">npm</a> · <a href="https://unicode.org/emoji/charts/">Unicode Emoji Charts</a></p>
+    </section>
 
     <nav class="order-footer" aria-label="Emoji browse order">
       <span class="order-label" data-i18n="browse">Browse</span>

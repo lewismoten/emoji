@@ -77,5 +77,7 @@
   "sequenceTag": "标签序列",
   "fullyQualified": "完全限定",
   "minimallyQualified": "最小限定",
-  "unqualified": "未限定"
+  "unqualified": "未限定",
+  "aboutTitle": "搜索和浏览 Unicode 表情",
+  "aboutDescription": "按本地化名称和关键词、Unicode 类别和子组、发布版本、修饰符及序列类型浏览数千个表情。"
 }

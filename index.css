@@ -317,6 +317,15 @@ h2 { margin: 0; font-size: 1.15rem; }
 .example-link { padding: .55rem 1rem; background: var(--panel-strong); font-size: .8rem; }
 
 .list { display: flex; flex-wrap: wrap; padding: 1rem; }
+.about-explorer {
+  margin: 0 1rem 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: .65rem;
+  background: var(--panel);
+}
+.about-explorer h2 { font-size: 1rem; }
+.about-explorer p { max-width: 72rem; margin: .55rem 0 0; color: var(--muted); font-size: .85rem; line-height: 1.55; }
 .order-footer {
   position: fixed;
   right: max(.75rem, env(safe-area-inset-right));

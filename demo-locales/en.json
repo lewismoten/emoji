@@ -77,5 +77,7 @@
   "sequenceTag": "Tag sequence",
   "fullyQualified": "Fully qualified",
   "minimallyQualified": "Minimally qualified",
-  "unqualified": "Unqualified"
+  "unqualified": "Unqualified",
+  "aboutTitle": "Search and explore Unicode emoji",
+  "aboutDescription": "Browse thousands of emoji by localized names and keywords, Unicode categories and subgroups, release version, modifiers, and sequence type."
 }
