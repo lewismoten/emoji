@@ -250,7 +250,7 @@ function getSportType(name) {
   return 'Running & Movement';
 }
 
-function onLoad() {
+async function onLoad() {
   searchText = document.getElementsByClassName("text")[0];
   languagePicker = document.getElementsByClassName('language-picker')[0];
   languagePickerFlag = document.getElementsByClassName('language-picker-flag')[0];
@@ -306,9 +306,11 @@ function onLoad() {
   }
 
   loadData();
-  loadSearchLanguages();
-  const initialUiLocale = document.documentElement.dataset.locale ?? 'en';
-  loadUiTranslations(initialUiLocale, document.documentElement.dir === 'rtl');
+  const initialUiLocale = document.documentElement.dataset.locale
+    ?? window.location.pathname.match(/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/)?.[1]
+    ?? 'en';
+  await loadUiTranslations(initialUiLocale, document.documentElement.dir === 'rtl');
+  await loadSearchLanguages(initialUiLocale);
 
   drawList();
 }
@@ -403,12 +405,11 @@ async function loadData() {
       loadOrderData();
 }
 
-async function loadSearchLanguages() {
+async function loadSearchLanguages(initialLocale = '') {
   try {
     const manifest = await fetch('locales/manifest.json').then(response => response.json());
     searchLocales = manifest.locales ?? [];
     renderSearchLanguages();
-    const initialLocale = document.documentElement.dataset.locale;
     if (initialLocale && searchLocales.some(locale => locale.locale === initialLocale)) {
       await setSearchLanguage(initialLocale);
     }
