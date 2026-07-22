@@ -797,6 +797,21 @@ function onClick(e, copy = true) {
   document.getElementsByClassName("emoji-key")[0].innerText = id;
   document.getElementsByClassName("emoji-value")[0].innerText = value;
   document.getElementsByClassName("emoji-encoded")[0].innerText = bits.join("");
+  document.getElementsByClassName('emoji-preview')[0].innerText = value;
+
+  const localizedDetails = document.getElementsByClassName('localized-emoji-details')[0];
+  const annotations = searchAnnotations[id] ?? [];
+  if (selectedSearchLocale && annotations.length > 0) {
+    document.getElementsByClassName('emoji-dialog-eyebrow')[0].innerText = `${languagePickerFlag.innerText} ${languagePickerLabel.innerText}`;
+    document.getElementById('example-title').innerText = annotations[0];
+    document.getElementsByClassName('localized-language')[0].innerText = `${languagePickerLabel.innerText} keywords`;
+    document.getElementsByClassName('localized-keywords')[0].innerText = annotations.slice(1).join(' · ');
+    localizedDetails.hidden = false;
+  } else {
+    document.getElementsByClassName('emoji-dialog-eyebrow')[0].innerText = 'Copied emoji key';
+    document.getElementById('example-title').innerText = 'Use this emoji';
+    localizedDetails.hidden = true;
+  }
   if (copy) {
     navigator.clipboard?.writeText(id);
     exampleDialog.showModal();

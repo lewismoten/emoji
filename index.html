@@ -97,12 +97,19 @@
     <dialog class="example-dialog" aria-labelledby="example-title">
       <div class="dialog-heading">
         <div>
-          <p class="eyebrow">Copied emoji key</p>
+          <p class="eyebrow emoji-dialog-eyebrow">Copied emoji key</p>
           <h2 id="example-title">Use this emoji</h2>
         </div>
         <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
       </div>
       <p class="dialog-description">The emoji key has been copied to your clipboard.</p>
+        <div class="emoji-dialog-details">
+          <div class="emoji-preview" aria-hidden="true">&#x1F37B;</div>
+          <div class="localized-emoji-details" hidden>
+            <p class="localized-language"></p>
+            <p class="localized-keywords"></p>
+          </div>
+        </div>
         <div class="code">
           <span class="line"><span class="keyword">import</span> <span class="variable">emoji</span> <span class="keyword">from</span> <span class="string">"./dist/esm/index.js"</span>;</span>
           <span class="line"><span class="native-object">console</span>.<span class="native-function">log</span>(<span class="object">emoji</span>.<span class="object-key emoji-key">clinkingBeerMugs</span>);</span>
