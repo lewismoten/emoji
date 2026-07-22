@@ -45,7 +45,7 @@ console.log(manifest.categories);
 ```
 
 `@lewismoten/emoji/orders/manifest` provides canonical Unicode key order and
-Unicode sequence-type key arrays for ordered rendering without sorting names.
+the `sequenceType` field on each emoji supports sequence-aware rendering.
 
 Each top-level category is composed from Unicode subgroup imports. For example,
 load only hand emoji instead of the full People & Body category:
@@ -110,6 +110,13 @@ The live demo is hosted on GitHub pages:
 <https://lewismoten.github.io/emoji/>
 
 ![Screenshot](screenshot.png)
+
+## Data attribution
+
+Generated emoji, ordering, release, and proposed data are derived from Unicode
+data files and are distributed under the Unicode License v3 (`Unicode-3.0`).
+See [NOTICE.md](NOTICE.md) for the required copyright and permission notice.
+The Unicode word mark and logo are not used to endorse this package.
 
 ## Scripts
 

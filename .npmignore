@@ -2,6 +2,7 @@
 *
 # Except everything in dist folder
 !dist/**
+!NOTICE.md
 !manifest.json
 !orders/
 !orders/**

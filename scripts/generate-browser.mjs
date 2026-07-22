@@ -1,7 +1,8 @@
 import fs from 'node:fs';
 
 const license = fs.readFileSync('LICENSE.md', 'utf8').trim();
-const banner = `/**\n${license}\n */`;
+const unicodeNotice = fs.readFileSync('NOTICE.md', 'utf8').trim();
+const banner = `/**\n${license}\n\n${unicodeNotice}\n */`;
 const emoji = JSON.parse(fs.readFileSync('emoji.json', 'utf8'));
 const properties = emoji.map(({ key, shortName, emoji: value, value: escaped }) =>
   `    /** ${shortName} ${value} */\n    ${key}: "${escaped}",`

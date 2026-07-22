@@ -5,11 +5,14 @@ import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 import { dts } from 'rollup-plugin-dts';
-import license from 'rollup-plugin-license';
 import { OutputOptions, RollupOptions } from 'rollup';
 
-const read = (file: string) => fs.readFileSync(file, 'utf-8');
-const banner = read('LICENSE.md');
+const banner = `/*!
+ * @lewismoten/emoji — Copyright (c) 2021-2026 Lewis Moten
+ * Generated emoji data derived from Unicode data files.
+ * Unicode data: Copyright © 1991-2026 Unicode, Inc. — Unicode License v3.
+ * Full notices: https://github.com/lewismoten/emoji/blob/main/NOTICE.md
+ */`;
 
 const files = (directory: string): string[] => fs.readdirSync(directory, { withFileTypes: true })
   .flatMap(entry => {
@@ -28,12 +31,13 @@ const inputs = (directory: string) => Object.fromEntries(
 const output = (format: 'es' | 'cjs', production: boolean): OutputOptions => ({
   dir: format === 'es' ? 'dist/esm' : 'dist/commonjs',
   format,
+  banner,
   sourcemap: false,
   preserveModules: true,
   preserveModulesRoot: javascriptDirectory,
   entryFileNames: production ? `[name].min.${format === 'es' ? 'js' : 'cjs'}` : `[name].${format === 'es' ? 'js' : 'cjs'}`,
   chunkFileNames: production ? `[name]-[hash].min.${format === 'es' ? 'js' : 'cjs'}` : `[name]-[hash].${format === 'es' ? 'js' : 'cjs'}`,
-  plugins: [license({ banner }), ...(production ? [terser()] : [])]
+  plugins: [...(production ? [terser({ format: { comments: /^!/ } })] : [])]
 });
 
 const javascript = (format: 'es' | 'cjs', production: boolean): RollupOptions => ({
