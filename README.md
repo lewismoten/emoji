@@ -1,5 +1,7 @@
 # emoji
 
+[![Emoji Explorer — Unicode emoji for JavaScript](https://raw.githubusercontent.com/lewismoten/emoji/main/social-preview.svg)](https://lewismoten.github.io/emoji/)
+
 Provides Unicode Emoji 17.0 lookup packs that can be imported or lazy-loaded by need.
 
 The generated dataset contains every Unicode-recommended fully-qualified emoji
