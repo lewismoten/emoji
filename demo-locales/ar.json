@@ -1,0 +1,21 @@
+{
+  "title": "مستكشف الرموز التعبيرية",
+  "matches": "نتيجة",
+  "searchPlaceholder": "ابحث عن رمز تعبيري، مثل بيرة أو قلب",
+  "languageNotLoaded": "لم تُحمّل اللغة",
+  "filtersLong": "التصفية حسب الفئة والإصدار والمعدلات",
+  "filters": "عوامل التصفية",
+  "group": "المجموعة",
+  "subgroup": "المجموعة الفرعية",
+  "versionFilter": "تصفية الإصدار",
+  "emojiVersion": "إصدار الرموز التعبيرية",
+  "skinTone": "لون البشرة",
+  "hair": "الشعر",
+  "browse": "استعراض",
+  "groups": "المجموعات",
+  "unicode": "يونيكود",
+  "sequences": "التسلسلات",
+  "localizedSearch": "بحث مترجم",
+  "chooseLanguage": "اختر لغة البحث",
+  "chooseLanguageDescription": "اختر لغة للبحث عن الرموز التعبيرية.", "allReleased":"كل الإصدارات المنشورة","releasedThrough":"الإصدارات المنشورة حتى الإصدار المحدد","selectedReleased":"الإصدار المنشور المحدد فقط","allFuture":"كل الإصدارات المنشورة والقادمة","selectedFuture":"الإصدار القادم المحدد فقط","dark":"داكن","mediumDark":"داكن متوسط","medium":"متوسط","mediumLight":"فاتح متوسط","light":"فاتح","red":"أحمر","curly":"مجعد","bald":"أصلع","white":"أبيض","notApplied":"غير مطبق","noGroupSelected":"(لم تُحدد مجموعة)","allSubgroups":"(كل المجموعات الفرعية)","expected":"متوقع","updated":"محدّث"
+}

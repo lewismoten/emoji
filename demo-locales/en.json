@@ -1,0 +1,21 @@
+{
+  "title": "Emoji Explorer",
+  "matches": "matches",
+  "searchPlaceholder": "Search emoji, e.g. beer or heart",
+  "languageNotLoaded": "Language not loaded",
+  "filtersLong": "Filter by category, version, and modifiers",
+  "filters": "Filters",
+  "group": "Group",
+  "subgroup": "Sub-group",
+  "versionFilter": "Version filter",
+  "emojiVersion": "Emoji version",
+  "skinTone": "Skin tone",
+  "hair": "Hair",
+  "browse": "Browse",
+  "groups": "Groups",
+  "unicode": "Unicode",
+  "sequences": "Sequences",
+  "localizedSearch": "Localized search",
+  "chooseLanguage": "Choose a search language",
+  "chooseLanguageDescription": "Choose a language for emoji search.", "allReleased":"All released versions","releasedThrough":"Released through selected version","selectedReleased":"Selected released version only","allFuture":"All released and future versions","selectedFuture":"Selected future version only","dark":"Dark","mediumDark":"Medium-dark","medium":"Medium","mediumLight":"Medium-light","light":"Light","red":"Red","curly":"Curly","bald":"Bald","white":"White","notApplied":"Not applied","noGroupSelected":"(no group selected)","allSubgroups":"(all sub-groups)","expected":"expected","updated":"updated"
+}

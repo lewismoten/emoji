@@ -1,0 +1,21 @@
+{
+  "title": "Explorador de emoji",
+  "matches": "coincidencias",
+  "searchPlaceholder": "Buscar emoji, p. ej., cerveza o corazón",
+  "languageNotLoaded": "Idioma no cargado",
+  "filtersLong": "Filtrar por categoría, versión y modificadores",
+  "filters": "Filtros",
+  "group": "Grupo",
+  "subgroup": "Subgrupo",
+  "versionFilter": "Filtro de versión",
+  "emojiVersion": "Versión de emoji",
+  "skinTone": "Tono de piel",
+  "hair": "Cabello",
+  "browse": "Explorar",
+  "groups": "Grupos",
+  "unicode": "Unicode",
+  "sequences": "Secuencias",
+  "localizedSearch": "Búsqueda localizada",
+  "chooseLanguage": "Elige un idioma de búsqueda",
+  "chooseLanguageDescription": "Elige un idioma para buscar emoji.", "allReleased":"Todas las versiones publicadas","releasedThrough":"Publicados hasta la versión seleccionada","selectedReleased":"Solo la versión publicada seleccionada","allFuture":"Todas las versiones publicadas y futuras","selectedFuture":"Solo la versión futura seleccionada","dark":"Oscuro","mediumDark":"Medio oscuro","medium":"Medio","mediumLight":"Medio claro","light":"Claro","red":"Rojo","curly":"Rizado","bald":"Calvo","white":"Blanco","notApplied":"No aplicado","noGroupSelected":"(sin grupo seleccionado)","allSubgroups":"(todos los subgrupos)","expected":"previsto","updated":"actualizado"
+}

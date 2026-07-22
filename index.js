@@ -37,6 +37,7 @@ var orderMode = 'grouped';
 var searchAnnotations = {};
 var searchLabels = {};
 var searchSubgroupLabels = {};
+var uiStrings = {};
 var searchLocales = [];
 var selectedSearchLocale = '';
 var searchLoadId = 0;
@@ -86,6 +87,33 @@ const sequenceTypeLabels = {
   tag: 'Tag sequences'
 };
 const sequenceTypeOrder = Object.keys(sequenceTypeLabels);
+const explorerLabelKeys = {
+  'Africa': 'africa', 'Asia': 'asia', 'Europe': 'europe', 'North America': 'northAmerica', 'South America': 'southAmerica', 'Oceania': 'oceania', 'Other Flags': 'otherFlags',
+  'Accessories': 'accessories', 'Clothing': 'clothing', 'Hats & Headwear': 'hatsHeadwear', 'Shoes': 'shoes',
+  'Couples with Heart': 'couplesWithHeart', 'Families': 'families', 'Holding Hands': 'holdingHands', 'Kissing Couples': 'kissingCouples', 'Adults': 'adults', 'Children': 'children'
+};
+
+const translate = (key, fallback) => uiStrings[key] ?? fallback;
+const displayExplorerLabel = label => translate(explorerLabelKeys[label], label);
+const applyUiTranslations = () => {
+  document.querySelectorAll('[data-i18n]').forEach(element => {
+    element.textContent = translate(element.dataset.i18n, element.textContent);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+    element.placeholder = translate(element.dataset.i18nPlaceholder, element.placeholder);
+  });
+};
+async function loadUiTranslations(locale) {
+  const baseLocale = locale.split('-')[0];
+  try {
+    uiStrings = await fetch(`demo-locales/${baseLocale}.json`).then(response => response.json());
+    document.documentElement.lang = baseLocale;
+  } catch {
+    uiStrings = {};
+    document.documentElement.lang = 'en';
+  }
+  applyUiTranslations();
+}
 
 const countryContinents = {
   Africa: new Set('DZ AO BJ BW BF BI CV CM CF TD KM CD CG CI DJ EG GQ ER SZ ET GA GM GH GN GW KE LS LR LY MG MW ML MR MU MA MZ NA NE NG RW ST SN SC SL SO ZA SS SD TZ TG TN UG ZM ZW'.split(' ')),
@@ -255,6 +283,7 @@ function onLoad() {
 
   loadData();
   loadSearchLanguages();
+  loadUiTranslations('en');
 
   drawList();
 }
@@ -306,7 +335,7 @@ async function loadData() {
       groups.forEach(name => {
         const option = document.createElement('option');
         option.value = name;
-        option.text = name === NO_FILTER ? name : `${getGroupRepresentativeEmoji(name)} ${displayGroupName(name)}`;
+        option.text = name === NO_FILTER ? translate('notApplied', name) : `${getGroupRepresentativeEmoji(name)} ${displayGroupName(name)}`;
         groupSelector.appendChild(option);
       });
       // Replacing the placeholder options can leave a browser holding on to its
@@ -389,6 +418,7 @@ async function setSearchLanguage(requestedLocale) {
     languagePickerFlag.textContent = '🌐';
     languagePickerLabel.textContent = 'Language not loaded';
     languageDialog.close();
+    loadUiTranslations('en');
     refreshLocalizedLabels();
     return;
   }
@@ -407,6 +437,7 @@ async function setSearchLanguage(requestedLocale) {
     searchLabels = Object.assign({}, ...packs.map(pack => pack.labels ?? {}));
     searchSubgroupLabels = Object.assign({}, ...packs.map(pack => pack.subgroups ?? {}));
     selectedSearchLocale = locale.locale;
+    await loadUiTranslations(locale.locale);
     languagePickerFlag.textContent = languageFlags[locale.locale] ?? '🌐';
     languagePickerLabel.textContent = locale.label;
     languageDialog.close();
@@ -524,11 +555,11 @@ function populateVersionSelector() {
     if (futureMode) {
       const stage = version.stage ?? version.status ?? 'draft';
       const timing = version.expectedRelease
-        ? `expected ${version.expectedRelease}`
-        : `updated ${new Date(version.retrieved).toLocaleDateString()}`;
+        ? `${translate('expected', 'expected')} ${version.expectedRelease}`
+        : `${translate('updated', 'updated')} ${new Date(version.retrieved).toLocaleDateString(selectedSearchLocale || undefined)}`;
       option.text = `Emoji ${version.version} (${stage} · ${timing})`;
     } else {
-      option.text = `Emoji ${version.version} (${version.released})`;
+      option.text = `Emoji ${version.version} (${translate('released', 'released')} ${version.released})`;
     }
     versionSelector.appendChild(option);
   });
@@ -566,14 +597,14 @@ function onChangeGroup() {
   if (group === NO_FILTER) {
     const option = document.createElement('option');
     option.value = NO_FILTER;
-    option.text = '(no group selected)';
+    option.text = translate('noGroupSelected', '(no group selected)');
     subGroupSelector.appendChild(option);
   } else {
     subGroups[group].forEach(name => {
       const option = document.createElement('option');
       option.value = name;
       option.text = name === NO_FILTER
-        ? '(all sub-groups)'
+        ? translate('allSubgroups', '(all sub-groups)')
         : `${getSubGroupRepresentativeEmoji(group, name)} ${displayUnicodeSubGroupName(name)}`;
       subGroupSelector.appendChild(option);
     })
@@ -652,7 +683,7 @@ const asSubGroup = (name, direct) => {
   var div = document.createElement("span");
   div.className = direct ? 'subgroup is-direct' : 'subgroup';
   var divName = document.createElement('span');
-  divName.innerText = name;
+  divName.innerText = displayExplorerLabel(name);
   divName.className = 'name';
   div.appendChild(divName);
   var divEmoji = document.createElement('span');
@@ -857,11 +888,11 @@ function onClick(e, copy = true) {
   if (selectedSearchLocale && annotations.length > 0) {
     document.getElementsByClassName('emoji-dialog-eyebrow')[0].innerText = `${languagePickerFlag.innerText} ${languagePickerLabel.innerText}`;
     document.getElementById('example-title').innerText = annotations[0];
-    document.getElementsByClassName('localized-language')[0].innerText = `${languagePickerLabel.innerText} keywords`;
+    document.getElementsByClassName('localized-language')[0].innerText = `${languagePickerLabel.innerText} ${translate('keywords', 'keywords')}`;
     document.getElementsByClassName('localized-keywords')[0].innerText = annotations.slice(1).join(' · ');
     localizedDetails.hidden = false;
   } else {
-    document.getElementsByClassName('emoji-dialog-eyebrow')[0].innerText = 'Copied emoji key';
+    document.getElementsByClassName('emoji-dialog-eyebrow')[0].innerText = translate('copiedEmojiKey', 'Copied emoji key');
     document.getElementById('example-title').innerText = displayEmojiKey(id);
     localizedDetails.hidden = true;
   }

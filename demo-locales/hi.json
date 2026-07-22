@@ -1,0 +1,21 @@
+{
+  "title": "इमोजी एक्सप्लोरर",
+  "matches": "मिलान",
+  "searchPlaceholder": "इमोजी खोजें, जैसे बीयर या दिल",
+  "languageNotLoaded": "भाषा लोड नहीं हुई",
+  "filtersLong": "श्रेणी, संस्करण और संशोधकों से फ़िल्टर करें",
+  "filters": "फ़िल्टर",
+  "group": "समूह",
+  "subgroup": "उपसमूह",
+  "versionFilter": "संस्करण फ़िल्टर",
+  "emojiVersion": "इमोजी संस्करण",
+  "skinTone": "त्वचा रंग",
+  "hair": "बाल",
+  "browse": "ब्राउज़ करें",
+  "groups": "समूह",
+  "unicode": "यूनिकोड",
+  "sequences": "अनुक्रम",
+  "localizedSearch": "स्थानीयकृत खोज",
+  "chooseLanguage": "खोज की भाषा चुनें",
+  "chooseLanguageDescription": "इमोजी खोजने के लिए भाषा चुनें।", "allReleased":"सभी जारी संस्करण","releasedThrough":"चुने गए संस्करण तक जारी","selectedReleased":"केवल चुना गया जारी संस्करण","allFuture":"सभी जारी और भावी संस्करण","selectedFuture":"केवल चुना गया भावी संस्करण","dark":"गहरा","mediumDark":"मध्यम गहरा","medium":"मध्यम","mediumLight":"मध्यम हल्का","light":"हल्का","red":"लाल","curly":"घुंघराले","bald":"गंजा","white":"सफेद","notApplied":"लागू नहीं","noGroupSelected":"(कोई समूह चयनित नहीं)","allSubgroups":"(सभी उपसमूह)","expected":"अपेक्षित","updated":"अपडेट किया गया"
+}

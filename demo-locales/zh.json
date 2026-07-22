@@ -1,0 +1,21 @@
+{
+  "title": "表情浏览器",
+  "matches": "个匹配项",
+  "searchPlaceholder": "搜索表情，例如啤酒或爱心",
+  "languageNotLoaded": "未加载语言",
+  "filtersLong": "按类别、版本和修饰符筛选",
+  "filters": "筛选",
+  "group": "组",
+  "subgroup": "子组",
+  "versionFilter": "版本筛选",
+  "emojiVersion": "表情版本",
+  "skinTone": "肤色",
+  "hair": "头发",
+  "browse": "浏览",
+  "groups": "组",
+  "unicode": "Unicode",
+  "sequences": "序列",
+  "localizedSearch": "本地化搜索",
+  "chooseLanguage": "选择搜索语言",
+  "chooseLanguageDescription": "选择一种语言来搜索表情。", "allReleased":"所有已发布版本","releasedThrough":"截至所选版本已发布","selectedReleased":"仅所选已发布版本","allFuture":"所有已发布和未来版本","selectedFuture":"仅所选未来版本","dark":"深色","mediumDark":"中深色","medium":"中等","mediumLight":"中浅色","light":"浅色","red":"红色","curly":"卷发","bald":"秃头","white":"白色","notApplied":"未应用","noGroupSelected":"（未选择组）","allSubgroups":"（所有子组）","expected":"预计","updated":"已更新"
+}

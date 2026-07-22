@@ -15,65 +15,65 @@
 
     <header class="toolbar">
       <div class="toolbar-heading">
-        <h1>Emoji Explorer</h1>
-        <p class="result-count"><span class="match-count">0</span> matches</p>
+        <h1 data-i18n="title">Emoji Explorer</h1>
+        <p class="result-count"><span class="match-count">0</span> <span data-i18n="matches">matches</span></p>
       </div>
 
       <form class="filters" aria-label="Filter emoji" onsubmit="return false">
         <div class="search-controls">
           <label class="filter-field search-field">
             <span class="sr-only">Search emoji</span>
-            <input class="text" type="search" placeholder="Search emoji, e.g. beer or heart" autocomplete="off">
+          <input class="text" type="search" data-i18n-placeholder="searchPlaceholder" placeholder="Search emoji, e.g. beer or heart" autocomplete="off">
           </label>
           <button class="language-picker" type="button" aria-haspopup="dialog" aria-controls="language-dialog">
             <span class="language-picker-flag">🌐</span>
-            <span class="language-picker-label">Language not loaded</span>
+            <span class="language-picker-label" data-i18n="languageNotLoaded">Language not loaded</span>
           </button>
         </div>
 
         <div class="filter-options">
           <details class="advanced-filters">
-            <summary><span class="summary-long">Filter by category, version, and modifiers</span><span class="summary-short">Filters</span></summary>
+            <summary><span class="summary-long" data-i18n="filtersLong">Filter by category, version, and modifiers</span><span class="summary-short" data-i18n="filters">Filters</span></summary>
             <div class="filter-grid">
             <label class="filter-field">
-              <span>Group</span>
+              <span data-i18n="group">Group</span>
               <select class="select-group"><option>Not loaded</option></select>
             </label>
             <label class="filter-field">
-              <span>Sub-group</span>
+              <span data-i18n="subgroup">Sub-group</span>
               <select class="select-subgroup"><option>Not loaded</option></select>
             </label>
             <label class="filter-field">
-              <span>Version filter</span>
+              <span data-i18n="versionFilter">Version filter</span>
               <select class="select-version-mode">
-                <option value="all">All released versions</option>
-                <option value="through">Released through selected version</option>
-                <option value="selected">Selected released version only</option>
-                <option value="future">All released and future versions</option>
-                <option value="future-selected">Selected future version only</option>
+                <option value="all" data-i18n="allReleased">All released versions</option>
+                <option value="through" data-i18n="releasedThrough">Released through selected version</option>
+                <option value="selected" data-i18n="selectedReleased">Selected released version only</option>
+                <option value="future" data-i18n="allFuture">All released and future versions</option>
+                <option value="future-selected" data-i18n="selectedFuture">Selected future version only</option>
               </select>
             </label>
             <label class="filter-field">
-              <span>Emoji version</span>
+              <span data-i18n="emojiVersion">Emoji version</span>
               <select class="select-version" disabled><option>Loading versions</option></select>
             </label>
             </div>
 
             <div class="modifier-filters">
               <fieldset>
-                <legend>Skin tone</legend>
-                <label><input type="checkbox" class="skin-tone" value="1F3FF"><span class="modifier-emoji">🏿</span><span class="modifier-label">Dark</span></label>
-                <label><input type="checkbox" class="skin-tone" value="1F3FE"><span class="modifier-emoji">🏾</span><span class="modifier-label">Medium-dark</span></label>
-                <label><input type="checkbox" class="skin-tone" value="1F3FD"><span class="modifier-emoji">🏽</span><span class="modifier-label">Medium</span></label>
-              <label><input type="checkbox" class="skin-tone" value="1F3FC"><span class="modifier-emoji">🏼</span><span class="modifier-label">Medium-light</span></label>
-              <label><input type="checkbox" class="skin-tone" value="1F3FB"><span class="modifier-emoji">🏻</span><span class="modifier-label">Light</span></label>
+                <legend data-i18n="skinTone">Skin tone</legend>
+                <label><input type="checkbox" class="skin-tone" value="1F3FF"><span class="modifier-emoji">🏿</span><span class="modifier-label" data-i18n="dark">Dark</span></label>
+                <label><input type="checkbox" class="skin-tone" value="1F3FE"><span class="modifier-emoji">🏾</span><span class="modifier-label" data-i18n="mediumDark">Medium-dark</span></label>
+                <label><input type="checkbox" class="skin-tone" value="1F3FD"><span class="modifier-emoji">🏽</span><span class="modifier-label" data-i18n="medium">Medium</span></label>
+              <label><input type="checkbox" class="skin-tone" value="1F3FC"><span class="modifier-emoji">🏼</span><span class="modifier-label" data-i18n="mediumLight">Medium-light</span></label>
+              <label><input type="checkbox" class="skin-tone" value="1F3FB"><span class="modifier-emoji">🏻</span><span class="modifier-label" data-i18n="light">Light</span></label>
               </fieldset>
               <fieldset>
-                <legend>Hair</legend>
-              <label><input type="checkbox" class="hair" value="1F9B0"><span class="modifier-emoji">🧑‍🦰</span><span class="modifier-label">Red</span></label>
-              <label><input type="checkbox" class="hair" value="1F9B1"><span class="modifier-emoji">🧑‍🦱</span><span class="modifier-label">Curly</span></label>
-              <label><input type="checkbox" class="hair" value="1F9B2"><span class="modifier-emoji">🧑‍🦲</span><span class="modifier-label">Bald</span></label>
-              <label><input type="checkbox" class="hair" value="1F9B3"><span class="modifier-emoji">🧑‍🦳</span><span class="modifier-label">White</span></label>
+                <legend data-i18n="hair">Hair</legend>
+              <label><input type="checkbox" class="hair" value="1F9B0"><span class="modifier-emoji">🧑‍🦰</span><span class="modifier-label" data-i18n="red">Red</span></label>
+              <label><input type="checkbox" class="hair" value="1F9B1"><span class="modifier-emoji">🧑‍🦱</span><span class="modifier-label" data-i18n="curly">Curly</span></label>
+              <label><input type="checkbox" class="hair" value="1F9B2"><span class="modifier-emoji">🧑‍🦲</span><span class="modifier-label" data-i18n="bald">Bald</span></label>
+              <label><input type="checkbox" class="hair" value="1F9B3"><span class="modifier-emoji">🧑‍🦳</span><span class="modifier-label" data-i18n="white">White</span></label>
               </fieldset>
             </div>
           </details>
@@ -86,11 +86,11 @@
     <div class="list" aria-live="polite">Loading emoji…</div>
 
     <nav class="order-footer" aria-label="Emoji browse order">
-      <span class="order-label">Browse</span>
+      <span class="order-label" data-i18n="browse">Browse</span>
       <div class="order-buttons" role="group" aria-label="Choose emoji browse order">
-        <button type="button" class="order-mode is-active" data-order="grouped" aria-pressed="true">Groups</button>
-        <button type="button" class="order-mode" data-order="unicode" aria-pressed="false">Unicode</button>
-        <button type="button" class="order-mode" data-order="sequence" aria-pressed="false">Sequences</button>
+        <button type="button" class="order-mode is-active" data-order="grouped" aria-pressed="true" data-i18n="groups">Groups</button>
+        <button type="button" class="order-mode" data-order="unicode" aria-pressed="false" data-i18n="unicode">Unicode</button>
+        <button type="button" class="order-mode" data-order="sequence" aria-pressed="false" data-i18n="sequences">Sequences</button>
       </div>
     </nav>
 
@@ -102,7 +102,7 @@
         </div>
         <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
       </div>
-      <p class="dialog-description">The emoji key has been copied to your clipboard.</p>
+      <p class="dialog-description" data-i18n="copiedDescription">The emoji key has been copied to your clipboard.</p>
         <div class="emoji-dialog-details">
           <div class="emoji-preview" aria-hidden="true">&#x1F37B;</div>
           <div class="localized-emoji-details" hidden>
@@ -116,18 +116,18 @@
           <span class="line comment">// <span class="emoji-value">&#x1F37B;</span> <span class="emoji-encoded">\u{1f37b}</span></span>
           <span class="line comment">// <span class="emoji-group"></span> · <span class="emoji-subgroup"></span></span>
         </div>
-        <div class="example-link"><a href="https://github.com/lewismoten/emoji">View the package on GitHub</a></div>
+        <div class="example-link"><a href="https://github.com/lewismoten/emoji" data-i18n="viewGitHub">View the package on GitHub</a></div>
     </dialog>
 
     <dialog class="language-dialog" id="language-dialog" aria-labelledby="language-title">
       <div class="dialog-heading">
         <div>
-          <p class="eyebrow">Localized search</p>
-          <h2 id="language-title">Choose a search language</h2>
+          <p class="eyebrow" data-i18n="localizedSearch">Localized search</p>
+          <h2 id="language-title" data-i18n="chooseLanguage">Choose a search language</h2>
         </div>
         <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
       </div>
-      <p class="dialog-description">Choose a language for emoji search.</p>
+      <p class="dialog-description" data-i18n="chooseLanguageDescription">Choose a language for emoji search.</p>
       <div class="language-list" role="list"></div>
     </dialog>
   </main>
