@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
@@ -23,8 +24,11 @@ type ProposedVersion = Version & {
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const readJson = async <T,>(file: string) => JSON.parse(await fs.readFile(path.join(root, file), 'utf8')) as T;
-const importDefault = async (file: string) =>
+const importFileDefault = async (file: string) =>
   (await import(pathToFileURL(path.join(root, file)).href)).default as Record<string, string>;
+const importPackageDefault = async (specifier: string) =>
+  (await import(specifier)).default as Record<string, string>;
+const require = createRequire(import.meta.url);
 
 const emoji = await readJson<Emoji[]>('emoji.json');
 const packageManifest = await readJson<{
@@ -41,9 +45,10 @@ const packageManifest = await readJson<{
 }>('manifest.json');
 const manifest = await readJson<{ versions: Version[]; proposed?: ProposedVersion[] }>('versions/manifest.json');
 const emojiByKey = Object.fromEntries(emoji.map(item => [item.key, item.emoji]));
-const browserEmoji = await importDefault('dist/esm/index.js');
-const allEmoji = await importDefault('dist/esm/all.min.js');
-const popularEmoji = await importDefault('dist/esm/popular.min.js');
+const browserEmoji = await importFileDefault('dist/esm/index.js');
+const rootEmoji = await importPackageDefault('@lewismoten/emoji');
+const allEmoji = await importPackageDefault('@lewismoten/emoji/all');
+const popularEmoji = await importPackageDefault('@lewismoten/emoji/popular');
 const allTypes = await fs.readFile(path.join(root, 'dist/esm/types/all.d.mts'), 'utf8');
 const activitiesTypes = await fs.readFile(path.join(root, 'dist/esm/types/categories/activities/arts-and-crafts.d.mts'), 'utf8');
 
@@ -54,6 +59,8 @@ assert.match(allTypes, /declare const emoji: typeof \S+ & typeof \S+/, 'all merg
 assert.match(activitiesTypes, /\*\* artist palette 🎨 \*\//, 'emoji declarations must document the emoji glyph');
 assert.ok(Object.keys(popularEmoji).length > 0, 'popular export must not be empty');
 assert.ok(Object.keys(popularEmoji).every(key => key in emojiByKey), 'popular export must only contain known keys');
+assert.deepEqual(rootEmoji, popularEmoji, 'root export must resolve to the popular package export');
+assert.deepEqual(require('@lewismoten/emoji/all'), allEmoji, 'CommonJS all export must resolve through package exports');
 assert.equal(packageManifest.name, '@lewismoten/emoji', 'package manifest must identify this package');
 assert.equal(packageManifest.packs.find(pack => pack.id === 'all')?.count, emoji.length, 'all pack count must match emoji data');
 assert.equal(packageManifest.categories.length, new Set(emoji.map(item => item.group)).size, 'package manifest must list every Unicode category');
@@ -61,11 +68,11 @@ for (const category of packageManifest.categories) {
   assert.equal(category.importPath, `@lewismoten/emoji/categories/${category.id}`, `${category.label} must have a public import path`);
   assert.equal(category.count, emoji.filter(item => item.group === category.label).length, `${category.label} count must match emoji data`);
   assert.equal(category.subcategories.reduce((count, subcategory) => count + subcategory.count, 0), category.count, `${category.label} subcategories must account for every emoji`);
-  const categoryEmoji = await importDefault(`dist/esm/categories/${category.id}.min.js`);
+  const categoryEmoji = await importPackageDefault(category.importPath);
   assert.equal(Object.keys(categoryEmoji).length, category.count, `${category.label} export count must match its manifest`);
   for (const subcategory of category.subcategories) {
     assert.equal(subcategory.importPath, `@lewismoten/emoji/categories/${category.id}/${subcategory.id}`, `${subcategory.label} must have a public import path`);
-    const subcategoryEmoji = await importDefault(`dist/esm/categories/${category.id}/${subcategory.id}.min.js`);
+    const subcategoryEmoji = await importPackageDefault(subcategory.importPath);
     assert.equal(Object.keys(subcategoryEmoji).length, subcategory.count, `${subcategory.label} export count must match its manifest`);
     assert.ok(Object.keys(subcategoryEmoji).every(key => key in categoryEmoji), `${subcategory.label} must belong to ${category.label}`);
   }
@@ -97,7 +104,7 @@ for (const version of manifest.proposed ?? []) {
 }
 
 for (const variation of ['skin-tones', 'hair', 'families', 'all']) {
-  const variationEmoji = await importDefault(`dist/esm/variations/${variation}.min.js`);
+  const variationEmoji = await importPackageDefault(`@lewismoten/emoji/variations/${variation}`);
   assert.ok(Object.keys(variationEmoji).every(key => key in emojiByKey), `${variation} export must only contain known keys`);
 }
 
