@@ -25,12 +25,15 @@ type ProposedVersion = Version & {
 };
 
 type LocaleManifest = {
-  locales: { locale: string; baseLocale?: string; file: string; count: number; totalCount: number; characterLabelCount: number; totalCharacterLabelCount: number; subgroupLabelCount: number; totalSubgroupLabelCount: number; cldrVersion: string }[];
+  locales: { locale: string; label: string; nativeLabel: string; rtl: boolean; baseLocale?: string; file: string; count: number; totalCount: number; characterLabelCount: number; totalCharacterLabelCount: number; subgroupLabelCount: number; totalSubgroupLabelCount: number; cldrVersion: string }[];
 };
 
 type LocalePack = {
   locale: string;
   baseLocale?: string;
+  label: string;
+  nativeLabel: string;
+  rtl: boolean;
   cldrVersion: string;
   annotations: Record<string, string[]>;
   labels: Record<string, string>;
@@ -87,6 +90,10 @@ assert.deepEqual(localeManifest.locales.map(locale => locale.locale), ['ar', 'en
 for (const locale of localeManifest.locales) {
   const pack = require(`@lewismoten/emoji/locales/${locale.locale}`) as LocalePack;
   assert.equal(pack.locale, locale.locale, `${locale.locale} pack must identify its locale`);
+  assert.ok(locale.label && locale.nativeLabel, `${locale.locale} manifest must provide English and native labels`);
+  assert.equal(pack.label, locale.label, `${locale.locale} pack must provide its English label`);
+  assert.equal(pack.nativeLabel, locale.nativeLabel, `${locale.locale} pack must provide its native label`);
+  assert.equal(pack.rtl, locale.rtl, `${locale.locale} pack must provide its text direction`);
   assert.equal(pack.cldrVersion, locale.cldrVersion, `${locale.locale} pack must identify its CLDR version`);
   assert.equal(pack.baseLocale, locale.baseLocale, `${locale.locale} pack must identify its base locale`);
   assert.equal(Object.keys(pack.annotations).length, locale.count, `${locale.locale} annotation count must match its manifest`);

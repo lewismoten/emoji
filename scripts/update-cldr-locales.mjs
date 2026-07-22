@@ -17,6 +17,8 @@ const customSubgroupLabels = JSON.parse(fs.readFileSync('scripts/locale-label-ov
 const outputDirectory = 'locales';
 const manifestFile = path.join(outputDirectory, 'manifest.json');
 const displayNames = new Intl.DisplayNames(['en'], { type: 'language' });
+const nativeDisplayName = locale => new Intl.DisplayNames([locale], { type: 'language' }).of(locale) ?? locale;
+const rtlLocales = new Set(['ar', 'he', 'fa', 'ur']);
 
 const sourceUrl = (packageName, directory, locale) =>
   `https://raw.githubusercontent.com/unicode-org/cldr-json/${cldrVersion}/cldr-json/${packageName}/${directory}/${locale}/annotations.json`;
@@ -136,6 +138,9 @@ for (const locale of locales) {
   fs.writeFileSync(path.join(outputDirectory, file), `${JSON.stringify({
     locale,
     ...(baseLocale === locale ? {} : { baseLocale }),
+    label: displayNames.of(locale) ?? locale,
+    nativeLabel: nativeDisplayName(locale),
+    rtl: rtlLocales.has(baseLocale),
     cldrVersion,
     annotations: annotationsToWrite,
     labels: labelsToWrite,
@@ -144,6 +149,8 @@ for (const locale of locales) {
   manifest.set(locale, {
     locale,
     label: displayNames.of(locale) ?? locale,
+    nativeLabel: nativeDisplayName(locale),
+    rtl: rtlLocales.has(baseLocale),
     file,
     ...(baseLocale === locale ? {} : { baseLocale }),
     count: Object.keys(annotationsToWrite).length,

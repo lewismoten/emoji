@@ -103,7 +103,7 @@ const applyUiTranslations = () => {
     element.placeholder = translate(element.dataset.i18nPlaceholder, element.placeholder);
   });
 };
-async function loadUiTranslations(locale) {
+async function loadUiTranslations(locale, rtl = false) {
   const baseLocale = locale.split('-')[0];
   try {
     const files = locale === baseLocale
@@ -116,11 +116,15 @@ async function loadUiTranslations(locale) {
     }));
     uiStrings = Object.assign({}, ...packs);
     document.documentElement.lang = locale;
+    document.documentElement.dir = rtl ? 'rtl' : 'ltr';
   } catch {
     uiStrings = {};
     document.documentElement.lang = 'en';
+    document.documentElement.dir = 'ltr';
   }
   applyUiTranslations();
+  renderSearchLanguages();
+  updateFutureReleaseButton();
 }
 
 const countryContinents = {
@@ -398,10 +402,11 @@ async function loadSearchLanguages() {
 }
 
 function renderSearchLanguages() {
+  languageList.replaceChildren();
   const noLanguage = document.createElement('button');
   noLanguage.type = 'button';
   noLanguage.className = 'language-option';
-  noLanguage.innerHTML = '<span class="language-option-flag">🌐</span><span class="language-option-label">No language pack</span>';
+  noLanguage.innerHTML = `<span class="language-option-flag">🌐</span><span class="language-option-label">${translate('noLanguagePack', 'No language pack')}</span>`;
   noLanguage.addEventListener('click', () => setSearchLanguage(''));
   languageList.appendChild(noLanguage);
 
@@ -410,7 +415,12 @@ function renderSearchLanguages() {
     const flag = languageFlags[locale.locale] ?? '🌐';
     option.type = 'button';
     option.className = 'language-option';
-    option.innerHTML = `<span class="language-option-flag">${flag}</span><span class="language-option-label">${locale.label}</span>`;
+    const uiLocale = document.documentElement.lang || 'en';
+    const localizedLabel = new Intl.DisplayNames([uiLocale], { type: 'language' }).of(locale.locale) ?? locale.label;
+    const label = locale.locale === selectedSearchLocale || localizedLabel === locale.nativeLabel
+      ? localizedLabel
+      : `${localizedLabel} (${locale.nativeLabel})`;
+    option.innerHTML = `<span class="language-option-flag">${flag}</span><span class="language-option-label">${label}</span>`;
     option.addEventListener('click', () => setSearchLanguage(locale.locale));
     languageList.appendChild(option);
   });
@@ -445,9 +455,9 @@ async function setSearchLanguage(requestedLocale) {
     searchLabels = Object.assign({}, ...packs.map(pack => pack.labels ?? {}));
     searchSubgroupLabels = Object.assign({}, ...packs.map(pack => pack.subgroups ?? {}));
     selectedSearchLocale = locale.locale;
-    await loadUiTranslations(locale.locale);
+    await loadUiTranslations(locale.locale, locale.rtl);
     languagePickerFlag.textContent = languageFlags[locale.locale] ?? '🌐';
-    languagePickerLabel.textContent = locale.label;
+    languagePickerLabel.textContent = locale.nativeLabel;
     languageDialog.close();
     refreshLocalizedLabels();
   } catch (error) {
@@ -532,7 +542,7 @@ function updateFutureReleaseButton() {
   if (!latest) return;
   const stage = latest.stage ?? latest.status ?? 'draft';
   const label = `Emoji ${latest.version} ${stage}`;
-  const timing = latest.expectedRelease ? `expected ${latest.expectedRelease}` : '';
+  const timing = latest.expectedRelease ? `${translate('expected', 'expected')} ${latest.expectedRelease}` : '';
   const name = document.createElement('span');
   name.textContent = `✨ ${label}`;
   const releaseTiming = document.createElement('span');
@@ -852,7 +862,9 @@ function drawList() {
       subGroupElement: null
     };
   emojiList.replaceChildren(...keys.reduce(renderer, initialState).items);
-  matchCount.innerText = keys.length.toLocaleString();
+  const numberLocale = selectedSearchLocale || undefined;
+  const numberOptions = selectedSearchLocale.startsWith('ar') ? { numberingSystem: 'arab' } : {};
+  matchCount.innerText = new Intl.NumberFormat(numberLocale, numberOptions).format(keys.length);
 }
 
 function onKeyUp(e) {
@@ -894,9 +906,9 @@ function onClick(e, copy = true) {
   const localizedDetails = document.getElementsByClassName('localized-emoji-details')[0];
   const annotations = searchAnnotations[id] ?? [];
   if (selectedSearchLocale && annotations.length > 0) {
-    document.getElementsByClassName('emoji-dialog-eyebrow')[0].innerText = `${languagePickerFlag.innerText} ${languagePickerLabel.innerText}`;
+    document.getElementsByClassName('emoji-dialog-eyebrow')[0].innerText = translate('copiedEmojiKey', 'Copied emoji key');
     document.getElementById('example-title').innerText = annotations[0];
-    document.getElementsByClassName('localized-language')[0].innerText = `${languagePickerLabel.innerText} ${translate('keywords', 'keywords')}`;
+    document.getElementsByClassName('localized-language')[0].innerText = translate('keywords', 'keywords');
     document.getElementsByClassName('localized-keywords')[0].innerText = annotations.slice(1).join(' · ');
     localizedDetails.hidden = false;
   } else {

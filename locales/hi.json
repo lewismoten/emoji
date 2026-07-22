@@ -1,5 +1,8 @@
 {
   "locale": "hi",
+  "label": "Hindi",
+  "nativeLabel": "हिन्दी",
+  "rtl": false,
   "cldrVersion": "48.2.0",
   "annotations": {
     "abacus": [

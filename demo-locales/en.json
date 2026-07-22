@@ -3,6 +3,7 @@
   "matches": "matches",
   "searchPlaceholder": "Search emoji, e.g. beer or heart",
   "languageNotLoaded": "Language not loaded",
+  "noLanguagePack": "No language pack",
   "filtersLong": "Filter by category, version, and modifiers",
   "filters": "Filters",
   "group": "Group",

@@ -1,5 +1,8 @@
 {
   "locale": "zh",
+  "label": "Chinese",
+  "nativeLabel": "中文",
+  "rtl": false,
   "cldrVersion": "48.2.0",
   "annotations": {
     "abacus": ["算盘", "计算", "计算器"],

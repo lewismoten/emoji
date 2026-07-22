@@ -1,5 +1,8 @@
 {
   "locale": "ar",
+  "label": "Arabic",
+  "nativeLabel": "العربية",
+  "rtl": true,
   "cldrVersion": "48.2.0",
   "annotations": {
     "abacus": [

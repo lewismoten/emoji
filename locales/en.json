@@ -1,5 +1,8 @@
 {
   "locale": "en",
+  "label": "English",
+  "nativeLabel": "English",
+  "rtl": false,
   "cldrVersion": "48.2.0",
   "annotations": {
     "abacus": ["abacus", "calculation", "calculator"],

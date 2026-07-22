@@ -3,6 +3,7 @@
   "matches": "个匹配项",
   "searchPlaceholder": "搜索表情，例如啤酒或爱心",
   "languageNotLoaded": "未加载语言",
+  "noLanguagePack": "无语言包",
   "filtersLong": "按类别、版本和修饰符筛选",
   "filters": "筛选",
   "group": "组",

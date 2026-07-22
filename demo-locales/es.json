@@ -3,6 +3,7 @@
   "matches": "coincidencias",
   "searchPlaceholder": "Buscar emoji, p. ej., cerveza o corazón",
   "languageNotLoaded": "Idioma no cargado",
+  "noLanguagePack": "Sin paquete de idioma",
   "filtersLong": "Filtrar por categoría, versión y modificadores",
   "filters": "Filtros",
   "group": "Grupo",

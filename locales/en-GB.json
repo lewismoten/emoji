@@ -1,6 +1,9 @@
 {
   "locale": "en-GB",
   "baseLocale": "en",
+  "label": "British English",
+  "nativeLabel": "British English",
+  "rtl": false,
   "cldrVersion": "48.2.0",
   "annotations": {
     "airplaneArrival": ["arrival", "arriving", "landing", "plane"],

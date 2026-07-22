@@ -1,5 +1,8 @@
 {
   "locale": "es",
+  "label": "Spanish",
+  "nativeLabel": "español",
+  "rtl": false,
   "cldrVersion": "48.2.0",
   "annotations": {
     "abacus": ["ábaco", "cálculo", "contar", "matemáticas"],

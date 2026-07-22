@@ -3,6 +3,8 @@
     {
       "locale": "ar",
       "label": "Arabic",
+      "nativeLabel": "العربية",
+      "rtl": true,
       "file": "ar.json",
       "count": 2773,
       "totalCount": 2773,
@@ -15,6 +17,8 @@
     {
       "locale": "en",
       "label": "English",
+      "nativeLabel": "English",
+      "rtl": false,
       "file": "en.json",
       "count": 2773,
       "totalCount": 2773,
@@ -27,6 +31,8 @@
     {
       "locale": "en-GB",
       "label": "British English",
+      "nativeLabel": "British English",
+      "rtl": false,
       "file": "en-GB.json",
       "baseLocale": "en",
       "count": 84,
@@ -40,6 +46,8 @@
     {
       "locale": "es",
       "label": "Spanish",
+      "nativeLabel": "español",
+      "rtl": false,
       "file": "es.json",
       "count": 2773,
       "totalCount": 2773,
@@ -52,6 +60,8 @@
     {
       "locale": "hi",
       "label": "Hindi",
+      "nativeLabel": "हिन्दी",
+      "rtl": false,
       "file": "hi.json",
       "count": 2772,
       "totalCount": 2772,
@@ -64,6 +74,8 @@
     {
       "locale": "zh",
       "label": "Chinese",
+      "nativeLabel": "中文",
+      "rtl": false,
       "file": "zh.json",
       "count": 2773,
       "totalCount": 2773,
