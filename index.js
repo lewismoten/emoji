@@ -37,6 +37,9 @@ var orderButtons;
 var exampleDialog;
 var skinToneCheckboxes;
 var hairCheckboxes;
+var modifierFilters;
+var skinToneFieldset;
+var hairFieldset;
 var versionManifests = [];
 var proposedVersionManifests = [];
 var versionKeys = new Map();
@@ -296,6 +299,9 @@ async function onLoad() {
   exampleDialog = document.getElementsByClassName('example-dialog')[0];
   skinToneCheckboxes = Array.from(document.getElementsByClassName('skin-tone'));
   hairCheckboxes = Array.from(document.getElementsByClassName('hair'));
+  modifierFilters = document.getElementsByClassName('modifier-filters')[0];
+  skinToneFieldset = skinToneCheckboxes[0]?.closest('fieldset');
+  hairFieldset = hairCheckboxes[0]?.closest('fieldset');
 
   window.addEventListener('online', updateOnlineStatus);
   window.addEventListener('offline', updateOnlineStatus);
@@ -784,6 +790,7 @@ function syncVersionRange() {
   versionRangeValue.value = selectedVersion ? versionSliderLabel(selectedVersion) : '—';
   versionRangeValue.classList.toggle('is-future', proposedVersionManifests.some(version => version.version === selectedVersion));
   versionRange.setAttribute('aria-valuetext', options[selectedIndex]?.text ?? '—');
+  updateModifierAvailability();
 }
 
 function onVersionRangeInput() {
@@ -793,7 +800,31 @@ function onVersionRangeInput() {
   versionRangeValue.value = versionSliderLabel(option.value);
   versionRangeValue.classList.toggle('is-future', proposedVersionManifests.some(version => version.version === option.value));
   versionRange.setAttribute('aria-valuetext', option.text);
+  updateModifierAvailability();
   drawList();
+}
+
+function updateModifierAvailability() {
+  const manifests = [...versionManifests, ...proposedVersionManifests];
+  const selectedIndex = manifests.findIndex(version => version.version === versionSelector.value);
+  const skinToneIndex = manifests.findIndex(version =>
+    [...(versionKeys.get(version.version) ?? [])].some(key => key.endsWith('SkinTone'))
+  );
+  const hairKeys = new Set(['redHair', 'curlyHair', 'bald', 'whiteHair']);
+  const hairIndex = manifests.findIndex(version =>
+    [...(versionKeys.get(version.version) ?? [])].some(key => hairKeys.has(key))
+  );
+  const skinToneAvailable = selectedIndex >= skinToneIndex && skinToneIndex !== -1;
+  const hairAvailable = selectedIndex >= hairIndex && hairIndex !== -1;
+
+  if (skinToneFieldset) skinToneFieldset.hidden = !skinToneAvailable;
+  if (hairFieldset) hairFieldset.hidden = !hairAvailable;
+  if (!skinToneAvailable) skinToneCheckboxes.forEach(checkbox => { checkbox.checked = false; });
+  if (!hairAvailable) hairCheckboxes.forEach(checkbox => { checkbox.checked = false; });
+  if (modifierFilters) {
+    modifierFilters.hidden = !skinToneAvailable && !hairAvailable;
+    modifierFilters.classList.toggle('has-single', skinToneAvailable !== hairAvailable);
+  }
 }
 
 function getVersionKeys() {
