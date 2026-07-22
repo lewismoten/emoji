@@ -25,9 +25,10 @@
           <input class="text" type="search" placeholder="Search emoji, e.g. beer or heart" autocomplete="off">
         </label>
 
-        <details class="advanced-filters">
-          <summary>Filter by category, version, and modifiers</summary>
-          <div class="filter-grid">
+        <div class="filter-options">
+          <details class="advanced-filters">
+            <summary><span class="summary-long">Filter by category, version, and modifiers</span><span class="summary-short">Filters</span></summary>
+            <div class="filter-grid">
             <label class="filter-field">
               <span>Group</span>
               <select class="select-group"><option>Not loaded</option></select>
@@ -50,26 +51,28 @@
               <span>Emoji version</span>
               <select class="select-version" disabled><option>Loading versions</option></select>
             </label>
-          </div>
+            </div>
 
-          <div class="modifier-filters">
-            <fieldset>
-              <legend>Skin tone</legend>
-              <label><input type="checkbox" class="skin-tone" value="1F3FF"><span class="modifier-emoji">🏿</span><span class="modifier-label">Dark</span></label>
-              <label><input type="checkbox" class="skin-tone" value="1F3FE"><span class="modifier-emoji">🏾</span><span class="modifier-label">Medium-dark</span></label>
-              <label><input type="checkbox" class="skin-tone" value="1F3FD"><span class="modifier-emoji">🏽</span><span class="modifier-label">Medium</span></label>
+            <div class="modifier-filters">
+              <fieldset>
+                <legend>Skin tone</legend>
+                <label><input type="checkbox" class="skin-tone" value="1F3FF"><span class="modifier-emoji">🏿</span><span class="modifier-label">Dark</span></label>
+                <label><input type="checkbox" class="skin-tone" value="1F3FE"><span class="modifier-emoji">🏾</span><span class="modifier-label">Medium-dark</span></label>
+                <label><input type="checkbox" class="skin-tone" value="1F3FD"><span class="modifier-emoji">🏽</span><span class="modifier-label">Medium</span></label>
               <label><input type="checkbox" class="skin-tone" value="1F3FC"><span class="modifier-emoji">🏼</span><span class="modifier-label">Medium-light</span></label>
               <label><input type="checkbox" class="skin-tone" value="1F3FB"><span class="modifier-emoji">🏻</span><span class="modifier-label">Light</span></label>
-            </fieldset>
-            <fieldset>
-              <legend>Hair</legend>
+              </fieldset>
+              <fieldset>
+                <legend>Hair</legend>
               <label><input type="checkbox" class="hair" value="1F9B0"><span class="modifier-emoji">🧑‍🦰</span><span class="modifier-label">Red</span></label>
               <label><input type="checkbox" class="hair" value="1F9B1"><span class="modifier-emoji">🧑‍🦱</span><span class="modifier-label">Curly</span></label>
               <label><input type="checkbox" class="hair" value="1F9B2"><span class="modifier-emoji">🧑‍🦲</span><span class="modifier-label">Bald</span></label>
               <label><input type="checkbox" class="hair" value="1F9B3"><span class="modifier-emoji">🧑‍🦳</span><span class="modifier-label">White</span></label>
-            </fieldset>
-          </div>
-        </details>
+              </fieldset>
+            </div>
+          </details>
+          <button class="future-release" type="button" hidden></button>
+        </div>
       </form>
 
     </header>

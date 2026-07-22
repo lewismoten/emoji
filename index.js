@@ -19,6 +19,7 @@ var subGroupSelector;
 var versionModeSelector;
 var versionSelector;
 var advancedFilters;
+var futureReleaseButton;
 var exampleDialog;
 var skinToneCheckboxes;
 var hairCheckboxes;
@@ -156,6 +157,7 @@ function onLoad() {
   versionModeSelector = document.getElementsByClassName('select-version-mode')[0];
   versionSelector = document.getElementsByClassName('select-version')[0];
   advancedFilters = document.getElementsByClassName('advanced-filters')[0];
+  futureReleaseButton = document.getElementsByClassName('future-release')[0];
   exampleDialog = document.getElementsByClassName('example-dialog')[0];
   skinToneCheckboxes = Array.from(document.getElementsByClassName('skin-tone'));
   hairCheckboxes = Array.from(document.getElementsByClassName('hair'));
@@ -167,6 +169,7 @@ function onLoad() {
   emojiList.addEventListener("click", onClick);
   versionModeSelector.addEventListener('change', onVersionFilterChange);
   versionSelector.addEventListener('change', drawList);
+  futureReleaseButton.addEventListener('click', showLatestFutureRelease);
 
   const setToolbarHeight = () => {
     document.documentElement.style.setProperty('--toolbar-height', `${toolbar.offsetHeight}px`);
@@ -306,12 +309,39 @@ async function loadVersionData() {
     proposedVersionManifests = proposed;
     versionKeys = new Map([...keys, ...proposedKeys]);
     populateVersionSelector();
+    updateFutureReleaseButton();
     drawList();
   } catch (error) {
     console.warn('Version filters unavailable', error);
     versionModeSelector.disabled = true;
     versionSelector.disabled = true;
   }
+}
+
+function updateFutureReleaseButton() {
+  const latest = proposedVersionManifests.at(-1);
+  if (!latest) return;
+  const stage = latest.stage ?? latest.status ?? 'draft';
+  const label = `Emoji ${latest.version} ${stage}`;
+  const timing = latest.expectedRelease ? `expected ${latest.expectedRelease}` : '';
+  const name = document.createElement('span');
+  name.textContent = `✨ ${label}`;
+  const releaseTiming = document.createElement('span');
+  releaseTiming.className = 'future-release-timing';
+  releaseTiming.textContent = timing ? ` · ${timing}` : '';
+  futureReleaseButton.replaceChildren(name, releaseTiming);
+  futureReleaseButton.setAttribute('aria-label', `Show only ${label} candidates${timing ? `, ${timing}` : ''}`);
+  futureReleaseButton.title = futureReleaseButton.getAttribute('aria-label');
+  futureReleaseButton.hidden = false;
+}
+
+function showLatestFutureRelease() {
+  const latest = proposedVersionManifests.at(-1);
+  if (!latest) return;
+  versionModeSelector.value = 'future-selected';
+  populateVersionSelector();
+  versionSelector.value = latest.version;
+  drawList();
 }
 
 function populateVersionSelector() {
