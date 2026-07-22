@@ -29,10 +29,10 @@ var compactGroupLabel;
 var compactSubGroupLabel;
 var versionModeSelector;
 var versionSelector;
+var versionModeToggle;
 var versionRange;
 var versionRangeValue;
 var advancedFilters;
-var futureReleaseButton;
 var orderButtons;
 var exampleDialog;
 var skinToneCheckboxes;
@@ -106,6 +106,10 @@ const explorerLabelKeys = {
 };
 
 const translate = (key, fallback) => uiStrings[key] ?? fallback;
+const versionModeDefinitions = [
+  { value: 'through', key: 'throughSelectedVersion', fallback: 'All up to selected version' },
+  { value: 'selected', key: 'selectedVersionOnly', fallback: 'Selected version only' }
+];
 const displayExplorerLabel = label => translate(explorerLabelKeys[label], label);
 const applyUiTranslations = () => {
   document.querySelectorAll('[data-i18n]').forEach(element => {
@@ -141,8 +145,8 @@ async function loadUiTranslations(locale, rtl = false) {
     document.documentElement.dir = 'ltr';
   }
   applyUiTranslations();
+  renderVersionModeToggle();
   renderSearchLanguages();
-  updateFutureReleaseButton();
 }
 
 const countryContinents = {
@@ -284,10 +288,10 @@ async function onLoad() {
   compactSubGroupLabel = ensureSelectionLabel(subGroupSelector, 'compact-subgroup-label', 'subgroup-filter-label');
   versionModeSelector = document.getElementsByClassName('select-version-mode')[0];
   versionSelector = document.getElementsByClassName('select-version')[0];
-  versionRange = document.getElementsByClassName('version-range')[0];
-  versionRangeValue = document.getElementsByClassName('version-range-value')[0];
+  ({ range: versionRange, output: versionRangeValue } = ensureVersionSlider());
+  versionModeToggle = ensureVersionModeToggle();
+  versionSelector.closest('.filter-field')?.classList.toggle('has-version-slider', Boolean(versionRange && versionRangeValue));
   advancedFilters = document.getElementsByClassName('advanced-filters')[0];
-  futureReleaseButton = document.getElementsByClassName('future-release')[0];
   orderButtons = Array.from(document.getElementsByClassName('order-mode'));
   exampleDialog = document.getElementsByClassName('example-dialog')[0];
   skinToneCheckboxes = Array.from(document.getElementsByClassName('skin-tone'));
@@ -312,14 +316,14 @@ async function onLoad() {
     const value = currentEmojiCopies[button.dataset.copy];
     if (value !== undefined) navigator.clipboard?.writeText(value);
   });
-  versionModeSelector.addEventListener('change', onVersionFilterChange);
+  versionModeToggle?.addEventListener('click', toggleVersionMode);
   versionSelector.addEventListener('change', () => {
     syncVersionRange();
     drawList();
   });
   versionRange?.addEventListener('input', onVersionRangeInput);
-  futureReleaseButton.addEventListener('click', showLatestFutureRelease);
   orderButtons.forEach(button => button.addEventListener('click', onOrderModeChange));
+  renderVersionModeToggle();
 
   const setToolbarHeight = () => {
     document.documentElement.style.setProperty('--toolbar-height', `${toolbar.offsetHeight}px`);
@@ -389,6 +393,95 @@ function ensureSelectionLabel(selector, className, labelId) {
   return selection;
 }
 
+function ensureVersionSlider() {
+  const existingRange = document.getElementsByClassName('version-range')[0];
+  const existingOutput = document.getElementsByClassName('version-range-value')[0];
+  if (existingRange && existingOutput) return { range: existingRange, output: existingOutput };
+
+  let field = versionSelector.closest('.filter-field');
+  if (field?.tagName === 'LABEL') {
+    const replacement = document.createElement('div');
+    replacement.className = `${field.className} version-field`;
+    replacement.append(...field.childNodes);
+    field.replaceWith(replacement);
+    field = replacement;
+  }
+  const label = field?.querySelector('span');
+  if (label && !label.id) label.id = 'version-filter-label';
+  versionSelector.setAttribute('aria-labelledby', label?.id || 'version-filter-label');
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'compact-version';
+  const range = document.createElement('input');
+  range.id = 'version-range';
+  range.className = 'version-range';
+  range.type = 'range';
+  range.min = '0';
+  range.max = '0';
+  range.step = '1';
+  range.value = '0';
+  range.disabled = true;
+  range.setAttribute('aria-labelledby', label?.id || 'version-filter-label');
+  range.setAttribute('aria-describedby', 'version-range-value');
+  const output = document.createElement('output');
+  output.id = 'version-range-value';
+  output.className = 'version-range-value';
+  output.setAttribute('for', 'version-range');
+  output.setAttribute('aria-live', 'polite');
+  output.value = '—';
+  wrapper.append(range, output);
+  field?.appendChild(wrapper);
+  return { range, output };
+}
+
+function ensureVersionModeToggle() {
+  populateVersionModeOptions();
+  const versionField = versionSelector.closest('.filter-field');
+  const oldModeField = versionModeSelector.closest('.filter-field');
+  if (oldModeField && oldModeField !== versionField) oldModeField.hidden = true;
+  versionModeSelector.hidden = true;
+
+  const existing = document.getElementsByClassName('version-mode-toggle')[0];
+  if (existing) return existing;
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'version-mode-toggle';
+  const icon = document.createElement('span');
+  icon.setAttribute('aria-hidden', 'true');
+  icon.textContent = '🎯';
+  button.appendChild(icon);
+  versionRange.closest('.compact-version')?.prepend(button);
+  return button;
+}
+
+function populateVersionModeOptions() {
+  const previousValue = versionModeDefinitions.some(mode => mode.value === versionModeSelector.value)
+    ? versionModeSelector.value
+    : 'through';
+  versionModeSelector.replaceChildren(...versionModeDefinitions.map(mode => {
+    const option = document.createElement('option');
+    option.value = mode.value;
+    option.textContent = translate(mode.key, mode.fallback);
+    return option;
+  }));
+  versionModeSelector.value = previousValue;
+}
+
+function renderVersionModeToggle() {
+  if (!versionModeToggle) return;
+  populateVersionModeOptions();
+  const label = translate('selectedVersionOnly', 'Selected version only');
+  versionModeToggle.setAttribute('aria-pressed', String(versionModeSelector.value === 'selected'));
+  versionModeToggle.setAttribute('aria-label', label);
+  versionModeToggle.title = label;
+}
+
+function toggleVersionMode() {
+  versionModeSelector.value = versionModeSelector.value === 'selected' ? 'through' : 'selected';
+  renderVersionModeToggle();
+  drawList();
+}
+
 const isViteDevelopment = typeof import.meta.env !== 'undefined' && import.meta.env.DEV === true;
 if ('serviceWorker' in navigator && window.isSecureContext && isViteDevelopment) {
   window.addEventListener('load', async () => {
@@ -450,7 +543,7 @@ async function loadData() {
       }, {});
       groups.forEach(group => subGroups[group].sort());
 
-      versionModeSelector.value = 'all';
+      versionModeSelector.value = 'through';
       groupSelector.addEventListener('change', onGroupSelectorChange);
       subGroupSelector.addEventListener('change', onSubGroupSelectorChange);
       renderCategoryFilters();
@@ -639,7 +732,6 @@ async function loadVersionData() {
     proposedVersionManifests = proposed;
     versionKeys = new Map([...keys, ...proposedKeys]);
     populateVersionSelector();
-    updateFutureReleaseButton();
     drawList();
   } catch (error) {
     console.warn('Version filters unavailable', error);
@@ -648,41 +740,14 @@ async function loadVersionData() {
   }
 }
 
-function updateFutureReleaseButton() {
-  const latest = proposedVersionManifests.at(-1);
-  if (!latest) return;
-  const stage = latest.stage ?? latest.status ?? 'draft';
-  const label = `Emoji ${latest.version} ${stage}`;
-  const timing = latest.expectedRelease ? `${translate('expected', 'expected')} ${latest.expectedRelease}` : '';
-  const name = document.createElement('span');
-  name.textContent = `✨ ${label}`;
-  const releaseTiming = document.createElement('span');
-  releaseTiming.className = 'future-release-timing';
-  releaseTiming.textContent = timing ? ` · ${timing}` : '';
-  futureReleaseButton.replaceChildren(name, releaseTiming);
-  futureReleaseButton.setAttribute('aria-label', `Show only ${label} candidates${timing ? `, ${timing}` : ''}`);
-  futureReleaseButton.title = futureReleaseButton.getAttribute('aria-label');
-  futureReleaseButton.hidden = false;
-}
-
-function showLatestFutureRelease() {
-  const latest = proposedVersionManifests.at(-1);
-  if (!latest) return;
-  versionModeSelector.value = 'future-selected';
-  populateVersionSelector();
-  versionSelector.value = latest.version;
-  syncVersionRange();
-  drawList();
-}
-
 function populateVersionSelector() {
+  const previousValue = versionSelector.value;
   versionSelector.replaceChildren();
-  const futureMode = versionModeSelector.value.startsWith('future');
-  const manifests = futureMode ? proposedVersionManifests : versionManifests;
+  const manifests = [...versionManifests, ...proposedVersionManifests];
   manifests.forEach(version => {
     const option = document.createElement('option');
     option.value = version.version;
-    if (futureMode) {
+    if (!version.released) {
       const stage = version.stage ?? version.status ?? 'draft';
       const timing = version.expectedRelease
         ? `${translate('expected', 'expected')} ${version.expectedRelease}`
@@ -693,48 +758,53 @@ function populateVersionSelector() {
     }
     versionSelector.appendChild(option);
   });
-  versionSelector.value = manifests.at(-1)?.version ?? '';
-  versionSelector.disabled = versionModeSelector.value === 'all' || versionModeSelector.value === 'future';
+  const defaultVersion = versionManifests.at(-1)?.version ?? manifests.at(-1)?.version ?? '';
+  versionSelector.value = manifests.some(version => version.version === previousValue)
+    ? previousValue
+    : defaultVersion;
+  versionSelector.disabled = manifests.length === 0;
   syncVersionRange();
+}
+
+function versionSliderLabel(version) {
+  const proposed = proposedVersionManifests.find(item => item.version === version);
+  if (!proposed) return `Emoji ${version}`;
+  return `✨ Emoji ${version} ${proposed.stage ?? proposed.status ?? 'draft'}`;
 }
 
 function syncVersionRange() {
   if (!versionRange || !versionRangeValue) return;
+  versionSelector.closest('.filter-field')?.classList.add('has-version-slider');
   const options = Array.from(versionSelector.options);
   const selectedIndex = Math.max(0, options.findIndex(option => option.value === versionSelector.value));
   versionRange.max = String(Math.max(0, options.length - 1));
   versionRange.value = String(selectedIndex);
   versionRange.disabled = versionSelector.disabled || options.length === 0;
-  versionRangeValue.value = options[selectedIndex]?.text.replace(/\s*\(.*/, '') ?? '—';
+  const selectedVersion = options[selectedIndex]?.value ?? '';
+  versionRangeValue.value = selectedVersion ? versionSliderLabel(selectedVersion) : '—';
+  versionRangeValue.classList.toggle('is-future', proposedVersionManifests.some(version => version.version === selectedVersion));
+  versionRange.setAttribute('aria-valuetext', options[selectedIndex]?.text ?? '—');
 }
 
 function onVersionRangeInput() {
   const option = versionSelector.options[Number(versionRange.value)];
   if (!option) return;
   versionSelector.value = option.value;
-  versionRangeValue.value = option.text.replace(/\s*\(.*/, '');
-  drawList();
-}
-
-function onVersionFilterChange() {
-  populateVersionSelector();
+  versionRangeValue.value = versionSliderLabel(option.value);
+  versionRangeValue.classList.toggle('is-future', proposedVersionManifests.some(version => version.version === option.value));
+  versionRange.setAttribute('aria-valuetext', option.text);
   drawList();
 }
 
 function getVersionKeys() {
-  if (versionModeSelector.value === 'all') return releasedIds;
-  if (versionModeSelector.value === 'future') {
-    return new Set([
-      ...releasedIds,
-      ...proposedVersionManifests.flatMap(version => [...(versionKeys.get(version.version) ?? [])])
-    ]);
-  }
-  if (versionModeSelector.value === 'selected' || versionModeSelector.value === 'future-selected') {
+  if (versionKeys.size === 0) return releasedIds;
+  if (versionModeSelector.value === 'selected') {
     return versionKeys.get(versionSelector.value) ?? new Set();
   }
 
-  const selectedIndex = versionManifests.findIndex(version => version.version === versionSelector.value);
-  return new Set(versionManifests
+  const manifests = [...versionManifests, ...proposedVersionManifests];
+  const selectedIndex = manifests.findIndex(version => version.version === versionSelector.value);
+  return new Set(manifests
     .slice(0, selectedIndex + 1)
     .flatMap(version => [...(versionKeys.get(version.version) ?? [])]));
 }

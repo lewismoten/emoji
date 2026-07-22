@@ -95,20 +95,15 @@
               <select class="select-subgroup" aria-labelledby="subgroup-filter-label"><option>Not loaded</option></select>
               <div class="compact-choices compact-subgroup-choices" role="radiogroup" aria-labelledby="subgroup-filter-label"></div>
             </div>
-            <label class="filter-field">
-              <span data-i18n="versionFilter">Version filter</span>
-              <select class="select-version-mode">
-                <option value="all" data-i18n="allReleased">All released versions</option>
-                <option value="through" data-i18n="releasedThrough">Released through selected version</option>
-                <option value="selected" data-i18n="selectedReleased">Selected released version only</option>
-                <option value="future" data-i18n="allFuture">All released and future versions</option>
-                <option value="future-selected" data-i18n="selectedFuture">Selected future version only</option>
-              </select>
-            </label>
             <div class="filter-field version-field">
               <span id="version-filter-label" data-i18n="emojiVersion">Emoji version</span>
+              <select class="select-version-mode" hidden>
+                <option value="through" data-i18n="throughSelectedVersion">All up to selected version</option>
+                <option value="selected" data-i18n="selectedVersionOnly">Selected version only</option>
+              </select>
               <select class="select-version" aria-labelledby="version-filter-label" disabled><option data-i18n="loadingVersions">Loading versions…</option></select>
               <div class="compact-version">
+                <button class="version-mode-toggle" type="button" aria-pressed="false" data-i18n-title="selectedVersionOnly"><span aria-hidden="true">🎯</span></button>
                 <input id="version-range" class="version-range" type="range" min="0" max="0" step="1" value="0" aria-labelledby="version-filter-label" aria-describedby="version-range-value" disabled>
                 <output id="version-range-value" class="version-range-value" for="version-range" aria-live="polite">—</output>
               </div>
@@ -133,7 +128,6 @@
               </fieldset>
             </div>
           </details>
-          <button class="future-release" type="button" hidden></button>
         </div>
       </form>
 
