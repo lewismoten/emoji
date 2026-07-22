@@ -35,6 +35,7 @@
     },
     "./manifest": "./manifest.json",
     "./manifest.json": "./manifest.json",
+    "./orders/*": "./orders/*.json",
     "./versions/*": "./versions/*.json",
     "./proposed/*": "./proposed/*.json",
     "./development/*": {

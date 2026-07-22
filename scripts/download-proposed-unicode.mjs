@@ -14,6 +14,15 @@ const asValue = codePoints => codePoints
   .split(' ')
   .map(code => `\\u{${code.toLowerCase()}}`)
   .join('');
+const sequenceType = codePoints => {
+  const points = codePoints.split(' ');
+  if (points.includes('200D')) return 'zwj';
+  if (points.includes('20E3')) return 'keycap';
+  if (points.some(point => /^1F1[EF][0-9A-F]$/i.test(point))) return 'flag';
+  if (points.some(point => /^E00[2-7][0-9A-F]$/i.test(point))) return 'tag';
+  if (points.some(point => /^1F3F[B-F]$/i.test(point))) return 'modifier';
+  return 'single';
+};
 
 const asKey = text => {
   const words = text.normalize('NFD')
@@ -38,6 +47,7 @@ const parseEmojiTest = text => {
   let group = '';
   let subGroup = '';
   const emoji = [];
+  let order = 0;
 
   for (const line of text.split('\n')) {
     if (line.startsWith('# group: ')) {
@@ -65,6 +75,8 @@ const parseEmojiTest = text => {
       shortName,
       group,
       subGroup,
+      order: order++,
+      sequenceType: sequenceType(rawCodePoints),
       key: asKey(shortName),
       value: asValue(rawCodePoints),
       emojiVersion

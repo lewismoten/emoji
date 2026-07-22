@@ -44,6 +44,9 @@ import manifest from "@lewismoten/emoji/manifest" with { type: "json" };
 console.log(manifest.categories);
 ```
 
+`@lewismoten/emoji/orders/manifest` provides canonical Unicode key order and
+Unicode sequence-type key arrays for ordered rendering without sorting names.
+
 Each top-level category is composed from Unicode subgroup imports. For example,
 load only hand emoji instead of the full People & Body category:
 

@@ -40,6 +40,10 @@ const mergedPack = (file, packs) => {
 clean(sourceDirectory);
 
 const byKey = new Map(emoji.map(item => [item.key, item]));
+const sequenceTypes = ['single', 'modifier', 'zwj', 'flag', 'keycap', 'tag'];
+if (emoji.some(item => !Number.isInteger(item.order) || !sequenceTypes.includes(item.sequenceType))) {
+  throw new Error('emoji.json must contain an integer order and a valid sequenceType for every emoji. Run npm run unicode -- 17.0.');
+}
 const popularItems = popular.map(key => {
   const item = byKey.get(key);
   if (!item) throw new Error(`Unknown popular emoji: ${key}`);
@@ -109,5 +113,10 @@ write('manifest.json', JSON.stringify({
     { id: 'all', label: 'All variations', count: variationPacks.all.length, importPath: `${packageJson.name}/variations/all` }
   ]
 }, null, 2));
+
+const unicodeOrder = [...emoji].sort((a, b) => a.order - b.order);
+write('orders/manifest.json', JSON.stringify({
+  unicode: unicodeOrder.map(item => item.key)
+}));
 
 console.log(`Generated ${emoji.length} emoji across popular, all, ${categories.length} categories, ${categories.reduce((count, category) => count + category.subcategories.length, 0)} category subpacks, and ${Object.keys(variationPacks).length} variation packs.`);

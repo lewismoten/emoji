@@ -20,12 +20,24 @@ var versionModeSelector;
 var versionSelector;
 var advancedFilters;
 var futureReleaseButton;
+var orderButtons;
 var exampleDialog;
 var skinToneCheckboxes;
 var hairCheckboxes;
 var versionManifests = [];
 var proposedVersionManifests = [];
 var versionKeys = new Map();
+var orderManifest = { unicode: [] };
+var orderMode = 'grouped';
+const sequenceTypeLabels = {
+  single: 'Single emoji',
+  modifier: 'Modifier sequences',
+  zwj: 'ZWJ sequences',
+  flag: 'Flags',
+  keycap: 'Keycap sequences',
+  tag: 'Tag sequences'
+};
+const sequenceTypeOrder = Object.keys(sequenceTypeLabels);
 
 const countryContinents = {
   Africa: new Set('DZ AO BJ BW BF BI CV CM CF TD KM CD CG CI DJ EG GQ ER SZ ET GA GM GH GN GW KE LS LR LY MG MW ML MR MU MA MZ NA NE NG RW ST SN SC SL SO ZA SS SD TZ TG TN UG ZM ZW'.split(' ')),
@@ -158,6 +170,7 @@ function onLoad() {
   versionSelector = document.getElementsByClassName('select-version')[0];
   advancedFilters = document.getElementsByClassName('advanced-filters')[0];
   futureReleaseButton = document.getElementsByClassName('future-release')[0];
+  orderButtons = Array.from(document.getElementsByClassName('order-mode'));
   exampleDialog = document.getElementsByClassName('example-dialog')[0];
   skinToneCheckboxes = Array.from(document.getElementsByClassName('skin-tone'));
   hairCheckboxes = Array.from(document.getElementsByClassName('hair'));
@@ -170,6 +183,7 @@ function onLoad() {
   versionModeSelector.addEventListener('change', onVersionFilterChange);
   versionSelector.addEventListener('change', drawList);
   futureReleaseButton.addEventListener('click', showLatestFutureRelease);
+  orderButtons.forEach(button => button.addEventListener('click', onOrderModeChange));
 
   const setToolbarHeight = () => {
     document.documentElement.style.setProperty('--toolbar-height', `${toolbar.offsetHeight}px`);
@@ -277,6 +291,26 @@ async function loadData() {
       onChangeGroup();
       onClick({ target: { id: 'clinkingBeerMugs' } }, false)
       loadVersionData();
+      loadOrderData();
+}
+
+async function loadOrderData() {
+  try {
+    orderManifest = await fetch('orders/manifest.json').then(response => response.json());
+    drawList();
+  } catch (error) {
+    console.warn('Unicode order data unavailable', error);
+  }
+}
+
+function onOrderModeChange(event) {
+  orderMode = event.currentTarget.dataset.order;
+  orderButtons.forEach(button => {
+    const active = button.dataset.order === orderMode;
+    button.classList.toggle('is-active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  drawList();
 }
 
 async function loadVersionData() {
@@ -480,9 +514,9 @@ const asSubGroup = (name, direct) => {
   return div;
 }
 function asItem(state, key) {
-  var value = emojiByKey[key];
-
   var meta = byId[key] ?? { group: NO_FILTER, subGroups: NO_FILTER }
+  const displaySubGroup = orderMode === 'unicode' ? meta.unicodeSubGroup : meta.subGroup;
+  const directSubGroup = orderMode === 'unicode' || !meta.hasExplorerSections;
   var groupId = 0;
   var subGroupId = 0;
   const hasGroups = meta && groups.length !== 0;
@@ -494,22 +528,22 @@ function asItem(state, key) {
       state.items.push(state.groupElement);
       state.unicodeSubGroupElement = asUnicodeSubGroup(meta.unicodeSubGroup);
       state.groupElement.appendChild(state.unicodeSubGroupElement);
-      state.subGroupElement = asSubGroup(meta.subGroup, !meta.hasExplorerSections);
+      state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
       state.unicodeSubGroupElement.lastChild.appendChild(state.subGroupElement);
       state.group = meta.group;
       state.unicodeSubGroup = meta.unicodeSubGroup;
-      state.subGroup = meta.subGroup;
+      state.subGroup = displaySubGroup;
     } else if (state.unicodeSubGroup !== meta.unicodeSubGroup) {
       state.unicodeSubGroupElement = asUnicodeSubGroup(meta.unicodeSubGroup);
       state.groupElement.appendChild(state.unicodeSubGroupElement);
-      state.subGroupElement = asSubGroup(meta.subGroup, !meta.hasExplorerSections);
+      state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
       state.unicodeSubGroupElement.lastChild.appendChild(state.subGroupElement);
       state.unicodeSubGroup = meta.unicodeSubGroup;
-      state.subGroup = meta.subGroup;
-    } else if (state.subGroup !== meta.subGroup) {
-      state.subGroupElement = asSubGroup(meta.subGroup, !meta.hasExplorerSections);
+      state.subGroup = displaySubGroup;
+    } else if (state.subGroup !== displaySubGroup) {
+      state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
       state.unicodeSubGroupElement.lastChild.appendChild(state.subGroupElement);
-      state.subGroup = meta.subGroup;
+      state.subGroup = displaySubGroup;
     }
 
     groupId = groups.indexOf(meta.group);
@@ -517,14 +551,7 @@ function asItem(state, key) {
   }
 
 
-  var div = document.createElement("div");
-  div.id = key;
-  div.title = meta?.shortName ?? key;
-  div.classList.add(`group-${groupId}`);
-  div.classList.add(`sub-group-${subGroupId}`);
-  var emojiDiv = document.createElement("span");
-  emojiDiv.innerText = value;
-  div.appendChild(emojiDiv);
+  var div = asEmojiCell(key, groupId, subGroupId);
 
   if (hasGroups) {
     state.subGroupElement.lastChild.appendChild(div);
@@ -533,6 +560,53 @@ function asItem(state, key) {
   }
 
   return state;
+}
+
+function asEmojiCell(key, groupId = 0, subGroupId = 0) {
+  const div = document.createElement('div');
+  div.id = key;
+  div.title = byId[key]?.shortName ?? key;
+  div.classList.add(`group-${groupId}`);
+  div.classList.add(`sub-group-${subGroupId}`);
+  const emojiDiv = document.createElement('span');
+  emojiDiv.innerText = emojiByKey[key];
+  div.appendChild(emojiDiv);
+  return div;
+}
+
+function asSequenceItem(state, key) {
+  const type = byId[key]?.sequenceType ?? 'single';
+  if (state.type !== type) {
+    const section = document.createElement('section');
+    section.className = 'sequence-type';
+    const name = document.createElement('div');
+    name.className = 'name';
+    name.innerText = sequenceTypeLabels[type] ?? type;
+    const emoji = document.createElement('div');
+    emoji.className = 'emoji';
+    section.append(name, emoji);
+    state.items.push(section);
+    state.emoji = emoji;
+    state.type = type;
+  }
+  state.emoji.appendChild(asEmojiCell(key));
+  return state;
+}
+
+function orderedKeys(keys) {
+  if (orderMode === 'grouped') return keys;
+  const preferred = orderMode === 'unicode'
+    ? orderManifest.unicode
+    : sequenceTypeOrder.flatMap(type => orderManifest.unicode.filter(key => byId[key]?.sequenceType === type));
+  const included = new Set(keys);
+  const ordered = preferred.filter(key => included.delete(key));
+  return [...ordered, ...included].sort((left, right) => {
+    if (orderMode === 'sequence') {
+      const typeDifference = sequenceTypeOrder.indexOf(byId[left]?.sequenceType ?? 'single') - sequenceTypeOrder.indexOf(byId[right]?.sequenceType ?? 'single');
+      if (typeDifference !== 0) return typeDifference;
+    }
+    return (byId[left]?.order ?? Infinity) - (byId[right]?.order ?? Infinity);
+  });
 }
 
 function drawList() {
@@ -578,15 +652,20 @@ function drawList() {
     )?.codePoints.includes(check.value))
   });
 
-  emojiList.replaceChildren(...keys.reduce(asItem, {
+  keys = orderedKeys(keys);
+  const renderer = orderMode === 'sequence' ? asSequenceItem : asItem;
+  const initialState = orderMode === 'sequence'
+    ? { items: [], type: '', emoji: null }
+    : {
     items: [],
     group: NO_FILTER,
     unicodeSubGroup: NO_FILTER,
     subGroup: NO_FILTER,
     groupElement: null,
     unicodeSubGroupElement: null,
-    subGroupElement: null
-  }).items);
+      subGroupElement: null
+    };
+  emojiList.replaceChildren(...keys.reduce(renderer, initialState).items);
   matchCount.innerText = keys.length.toLocaleString();
 }
 

@@ -2,7 +2,7 @@
   "unicodeVersion": "18.0",
   "status": "draft",
   "source": "https://www.unicode.org/Public/draft/emoji/emoji-test.txt",
-  "retrieved": "2026-07-21T21:29:19.234Z",
+  "retrieved": "2026-07-22T05:01:10.109Z",
   "count": 19,
   "emoji": [
     {
@@ -12,6 +12,8 @@
       "shortName": "cracking face",
       "group": "Smileys & Emotion",
       "subGroup": "face-smiling",
+      "order": 11,
+      "sequenceType": "single",
       "key": "crackingFace",
       "value": "\\u{1faeb}",
       "emojiVersion": "18.0"
@@ -23,6 +25,8 @@
       "shortName": "eraser",
       "group": "Objects",
       "subGroup": "writing",
+      "order": 3372,
+      "sequenceType": "single",
       "key": "eraser",
       "value": "\\u{1fa8c}",
       "emojiVersion": "18.0"
@@ -34,6 +38,8 @@
       "shortName": "leftwards thumb sign",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
+      "order": 346,
+      "sequenceType": "single",
       "key": "leftwardsThumbSign",
       "value": "\\u{1faf9}",
       "emojiVersion": "18.0"
@@ -45,6 +51,8 @@
       "shortName": "leftwards thumb sign: dark skin tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
+      "order": 351,
+      "sequenceType": "modifier",
       "key": "leftwardsThumbSignDarkSkinTone",
       "value": "\\u{1faf9}\\u{1f3ff}",
       "emojiVersion": "18.0"
@@ -56,6 +64,8 @@
       "shortName": "leftwards thumb sign: light skin tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
+      "order": 347,
+      "sequenceType": "modifier",
       "key": "leftwardsThumbSignLightSkinTone",
       "value": "\\u{1faf9}\\u{1f3fb}",
       "emojiVersion": "18.0"
@@ -67,6 +77,8 @@
       "shortName": "leftwards thumb sign: medium-dark skin tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
+      "order": 350,
+      "sequenceType": "modifier",
       "key": "leftwardsThumbSignMediumDarkSkinTone",
       "value": "\\u{1faf9}\\u{1f3fe}",
       "emojiVersion": "18.0"
@@ -78,6 +90,8 @@
       "shortName": "leftwards thumb sign: medium-light skin tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
+      "order": 348,
+      "sequenceType": "modifier",
       "key": "leftwardsThumbSignMediumLightSkinTone",
       "value": "\\u{1faf9}\\u{1f3fc}",
       "emojiVersion": "18.0"
@@ -89,6 +103,8 @@
       "shortName": "leftwards thumb sign: medium skin tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
+      "order": 349,
+      "sequenceType": "modifier",
       "key": "leftwardsThumbSignMediumSkinTone",
       "value": "\\u{1faf9}\\u{1f3fd}",
       "emojiVersion": "18.0"
@@ -100,6 +116,8 @@
       "shortName": "lighthouse",
       "group": "Travel & Places",
       "subGroup": "transport-water",
+      "order": 3021,
+      "sequenceType": "single",
       "key": "lighthouse",
       "value": "\\u{1f6d9}",
       "emojiVersion": "18.0"
@@ -111,6 +129,8 @@
       "shortName": "meteor",
       "group": "Travel & Places",
       "subGroup": "sky & weather",
+      "order": 3121,
+      "sequenceType": "single",
       "key": "meteor",
       "value": "\\u{1fa8b}",
       "emojiVersion": "18.0"
@@ -122,6 +142,8 @@
       "shortName": "monarch butterfly",
       "group": "Animals & Nature",
       "subGroup": "animal-bug",
+      "order": 2728,
+      "sequenceType": "single",
       "key": "monarchButterfly",
       "value": "\\u{1facc}",
       "emojiVersion": "18.0"
@@ -133,6 +155,8 @@
       "shortName": "net with handle",
       "group": "Objects",
       "subGroup": "tool",
+      "order": 3402,
+      "sequenceType": "single",
       "key": "netWithHandle",
       "value": "\\u{1fa8d}",
       "emojiVersion": "18.0"
@@ -144,6 +168,8 @@
       "shortName": "pickle",
       "group": "Food & Drink",
       "subGroup": "food-vegetable",
+      "order": 2800,
+      "sequenceType": "single",
       "key": "pickle",
       "value": "\\u{1fadd}",
       "emojiVersion": "18.0"
@@ -155,6 +181,8 @@
       "shortName": "rightwards thumb sign",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
+      "order": 352,
+      "sequenceType": "single",
       "key": "rightwardsThumbSign",
       "value": "\\u{1fafa}",
       "emojiVersion": "18.0"
@@ -166,6 +194,8 @@
       "shortName": "rightwards thumb sign: dark skin tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
+      "order": 357,
+      "sequenceType": "modifier",
       "key": "rightwardsThumbSignDarkSkinTone",
       "value": "\\u{1fafa}\\u{1f3ff}",
       "emojiVersion": "18.0"
@@ -177,6 +207,8 @@
       "shortName": "rightwards thumb sign: light skin tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
+      "order": 353,
+      "sequenceType": "modifier",
       "key": "rightwardsThumbSignLightSkinTone",
       "value": "\\u{1fafa}\\u{1f3fb}",
       "emojiVersion": "18.0"
@@ -188,6 +220,8 @@
       "shortName": "rightwards thumb sign: medium-dark skin tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
+      "order": 356,
+      "sequenceType": "modifier",
       "key": "rightwardsThumbSignMediumDarkSkinTone",
       "value": "\\u{1fafa}\\u{1f3fe}",
       "emojiVersion": "18.0"
@@ -199,6 +233,8 @@
       "shortName": "rightwards thumb sign: medium-light skin tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
+      "order": 354,
+      "sequenceType": "modifier",
       "key": "rightwardsThumbSignMediumLightSkinTone",
       "value": "\\u{1fafa}\\u{1f3fc}",
       "emojiVersion": "18.0"
@@ -210,6 +246,8 @@
       "shortName": "rightwards thumb sign: medium skin tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
+      "order": 355,
+      "sequenceType": "modifier",
       "key": "rightwardsThumbSignMediumSkinTone",
       "value": "\\u{1fafa}\\u{1f3fd}",
       "emojiVersion": "18.0"

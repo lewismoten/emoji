@@ -9,6 +9,8 @@ type Emoji = {
   emoji: string;
   codePoints: string;
   group: string;
+  order: number;
+  sequenceType: string;
 };
 
 type Version = {
@@ -31,6 +33,7 @@ const importPackageDefault = async (specifier: string) =>
 const require = createRequire(import.meta.url);
 
 const emoji = await readJson<Emoji[]>('emoji.json');
+const orderManifest = await readJson<{ unicode: string[] }>('orders/manifest.json');
 const packageManifest = await readJson<{
   name: string;
   packs: { id: string; count: number; importPath: string }[];
@@ -53,6 +56,9 @@ const allTypes = await fs.readFile(path.join(root, 'dist/esm/types/all.d.mts'), 
 const activitiesTypes = await fs.readFile(path.join(root, 'dist/esm/types/categories/activities/arts-and-crafts.d.mts'), 'utf8');
 
 assert.equal(new Set(emoji.map(item => item.key)).size, emoji.length, 'emoji keys must be unique');
+assert.ok(emoji.every(item => Number.isInteger(item.order)), 'every emoji must have a Unicode order');
+assert.ok(emoji.every(item => ['single', 'modifier', 'zwj', 'flag', 'keycap', 'tag'].includes(item.sequenceType)), 'every emoji must have a known sequence type');
+assert.deepEqual(orderManifest.unicode, [...emoji].sort((a, b) => a.order - b.order).map(item => item.key), 'Unicode order manifest must match emoji order metadata');
 assert.deepEqual(browserEmoji, emojiByKey, 'browser bundle must contain every emoji value');
 assert.deepEqual(allEmoji, emojiByKey, 'all export must contain every emoji value');
 assert.match(allTypes, /declare const emoji: typeof \S+ & typeof \S+/, 'all merger must preserve the types of its imported category packs');
@@ -61,6 +67,7 @@ assert.ok(Object.keys(popularEmoji).length > 0, 'popular export must not be empt
 assert.ok(Object.keys(popularEmoji).every(key => key in emojiByKey), 'popular export must only contain known keys');
 assert.deepEqual(rootEmoji, popularEmoji, 'root export must resolve to the popular package export');
 assert.deepEqual(require('@lewismoten/emoji/all'), allEmoji, 'CommonJS all export must resolve through package exports');
+assert.deepEqual(require('@lewismoten/emoji/orders/manifest'), orderManifest, 'order manifest must resolve through package exports');
 assert.equal(packageManifest.name, '@lewismoten/emoji', 'package manifest must identify this package');
 assert.equal(packageManifest.packs.find(pack => pack.id === 'all')?.count, emoji.length, 'all pack count must match emoji data');
 assert.equal(packageManifest.categories.length, new Set(emoji.map(item => item.group)).size, 'package manifest must list every Unicode category');
