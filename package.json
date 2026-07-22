@@ -60,6 +60,7 @@
     "test": "npm run bundle && node ./build/scripts/test.mjs && tsc --noEmit --module NodeNext --moduleResolution NodeNext --target ESNext --strict .type-tests/merged-exports.mts",
     "format": "prettier --write \"**/*.json\"",
     "format:check": "prettier --check \"**/*.json\"",
+    "demo:locales": "node ./scripts/generate-demo-pages.mjs",
     "unicode": "node ./scripts/update-unicode.mjs",
     "unicode:proposed": "node ./scripts/download-proposed-unicode.mjs",
     "cldr": "node ./scripts/update-cldr-locales.mjs && npm run format"

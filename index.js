@@ -307,7 +307,8 @@ function onLoad() {
 
   loadData();
   loadSearchLanguages();
-  loadUiTranslations('en');
+  const initialUiLocale = document.documentElement.dataset.locale ?? 'en';
+  loadUiTranslations(initialUiLocale, document.documentElement.dir === 'rtl');
 
   drawList();
 }
@@ -407,6 +408,10 @@ async function loadSearchLanguages() {
     const manifest = await fetch('locales/manifest.json').then(response => response.json());
     searchLocales = manifest.locales ?? [];
     renderSearchLanguages();
+    const initialLocale = document.documentElement.dataset.locale;
+    if (initialLocale && searchLocales.some(locale => locale.locale === initialLocale)) {
+      await setSearchLanguage(initialLocale);
+    }
   } catch (error) {
     console.warn('Search language packs unavailable', error);
     languagePicker.disabled = true;
@@ -415,19 +420,18 @@ async function loadSearchLanguages() {
 
 function renderSearchLanguages() {
   languageList.replaceChildren();
-  const noLanguage = document.createElement('button');
-  noLanguage.type = 'button';
+  const noLanguage = document.createElement('a');
+  noLanguage.href = './';
   noLanguage.className = 'language-option';
   noLanguage.classList.toggle('is-selected', selectedSearchLocale === '');
   noLanguage.setAttribute('aria-pressed', String(selectedSearchLocale === ''));
   noLanguage.innerHTML = `<span class="language-option-flag">🌐</span><span class="language-option-label">${translate('noLanguagePack', 'No language pack')}</span>`;
-  noLanguage.addEventListener('click', () => setSearchLanguage(''));
   languageList.appendChild(noLanguage);
 
   searchLocales.forEach(locale => {
-    const option = document.createElement('button');
+    const option = document.createElement('a');
     const flag = languageFlags[locale.locale] ?? '🌐';
-    option.type = 'button';
+    option.href = `./index.${locale.locale}.html`;
     option.className = 'language-option';
     option.classList.toggle('is-selected', locale.locale === selectedSearchLocale);
     option.setAttribute('aria-pressed', String(locale.locale === selectedSearchLocale));
@@ -437,7 +441,6 @@ function renderSearchLanguages() {
       ? localizedLabel
       : `${localizedLabel} (${locale.nativeLabel})`;
     option.innerHTML = `<span class="language-option-flag">${flag}</span><span class="language-option-label">${label}</span>`;
-    option.addEventListener('click', () => setSearchLanguage(locale.locale));
     languageList.appendChild(option);
   });
 }
@@ -452,7 +455,7 @@ async function setSearchLanguage(requestedLocale) {
     languagePickerFlag.textContent = '🌐';
     languagePickerLabel.textContent = 'Language not loaded';
     languageDialog.close();
-    loadUiTranslations('en');
+    await loadUiTranslations('en');
     refreshLocalizedLabels();
     return;
   }

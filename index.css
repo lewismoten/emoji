@@ -212,6 +212,7 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
   cursor: pointer;
   font: inherit;
   text-align: left;
+  text-decoration: none;
 }
 .language-option:hover { border-color: var(--accent); background: #15384d; }
 .language-option.is-selected {

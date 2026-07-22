@@ -46,6 +46,7 @@ jobs:
           cp -R orders _site/orders
           cp -R versions _site/versions
           cp -R proposed _site/proposed
+          npm run demo:locales -- _site
           touch _site/.nojekyll
 
       - name: Configure Pages
