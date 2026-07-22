@@ -110,7 +110,7 @@ const manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
 const proposed = (manifest.proposed ?? []).filter(version => version.version !== draftVersion);
 proposed.push({
   version: draftVersion,
-  status: 'proposed',
+  status: 'draft',
   stage,
   released: null,
   file: `proposed/${draftVersion}.json`,

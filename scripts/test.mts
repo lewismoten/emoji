@@ -17,7 +17,7 @@ type Version = {
 };
 
 type ProposedVersion = Version & {
-  status: 'proposed';
+  status: 'draft';
   released: null;
 };
 
@@ -70,7 +70,7 @@ assert.deepEqual(versionKeys, new Set(Object.keys(emojiByKey)), 'version files m
 
 const releasedCodePoints = new Set(emoji.map(item => item.codePoints));
 for (const version of manifest.proposed ?? []) {
-  assert.equal(version.status, 'proposed', `Unicode ${version.version} must be marked proposed`);
+  assert.equal(version.status, 'draft', `Unicode ${version.version} must match its draft source data`);
   assert.equal(version.released, null, `Unicode ${version.version} must not have a release date`);
   const proposal = await readJson<{ count: number; emoji: Emoji[] }>(version.file);
   assert.equal(proposal.count, version.count, `Unicode ${version.version} proposed count must match its manifest`);

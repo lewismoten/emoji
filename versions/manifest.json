@@ -107,7 +107,7 @@
   "proposed": [
     {
       "version": "18.0",
-      "status": "proposed",
+      "status": "draft",
       "stage": "beta",
       "released": null,
       "file": "proposed/18.0.json",
