@@ -73,9 +73,10 @@ import americanEnglish from "@lewismoten/emoji/locales/en-US" with { type: "json
 const search = createEmojiSearch(mergeEmojiLocalePacks(english, americanEnglish));
 ```
 
-The included locale packs are `ar`, `en`, `en-GB`, `en-US`, `es`, `hi`,
-`hi-IN`, `zh`, and `zh-CN`.
-Generate or update selected CLDR locales with `npm run cldr -- <locale...>`.
+The included locale packs are listed in `@lewismoten/emoji/locales/manifest`.
+Regional packs are published only when CLDR has annotations that differ from
+their base language. When you request a regional locale, its base language is
+generated first automatically: `npm run cldr -- en-US`.
 
 Each top-level category is composed from Unicode subgroup imports. For example,
 load only hand emoji instead of the full People & Body category:

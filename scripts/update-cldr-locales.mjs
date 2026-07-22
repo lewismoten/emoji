@@ -4,7 +4,13 @@ import path from 'node:path';
 const defaultLocales = ['en', 'en-US', 'en-GB', 'es', 'hi', 'hi-IN', 'zh', 'zh-CN', 'ar'];
 const cldrVersion = process.env.CLDR_VERSION ?? '48.2.0';
 const requestedLocales = process.argv.slice(2).filter(argument => !argument.startsWith('--'));
-const locales = requestedLocales.length > 0 ? requestedLocales : defaultLocales;
+const requestedOrDefaultLocales = requestedLocales.length > 0 ? requestedLocales : defaultLocales;
+// A regional pack is an overlay, so always generate its base pack first. This
+// also makes `npm run cldr -- en-US` self-contained and comparable.
+const locales = [...new Set(requestedOrDefaultLocales.flatMap(locale => {
+  const baseLocale = locale.split('-')[0];
+  return baseLocale === locale ? [locale] : [baseLocale, locale];
+}))];
 const emoji = JSON.parse(fs.readFileSync('emoji.json', 'utf8'));
 const outputDirectory = 'locales';
 const manifestFile = path.join(outputDirectory, 'manifest.json');
@@ -74,6 +80,12 @@ for (const locale of locales) {
     ? entries
     : Object.fromEntries(Object.entries(entries).filter(([key, terms]) => JSON.stringify(terms) !== JSON.stringify(baseEntries[key])));
   const file = `${locale}.json`;
+  if (baseLocale !== locale && Object.keys(annotationsToWrite).length === 0) {
+    fs.rmSync(path.join(outputDirectory, file), { force: true });
+    manifest.delete(locale);
+    console.info(`No ${locale}-specific CLDR annotations are available; omitted ${path.join(outputDirectory, file)} and use ${baseLocale} instead`);
+    continue;
+  }
   fs.writeFileSync(path.join(outputDirectory, file), `${JSON.stringify({
     locale,
     ...(baseLocale === locale ? {} : { baseLocale }),

@@ -11,6 +11,11 @@ var groupedKeys = {};
 var byId = {};
 
 var searchText;
+var languagePicker;
+var languagePickerFlag;
+var languagePickerLabel;
+var languageDialog;
+var languageList;
 var emojiList;
 var matchCount;
 var toolbar;
@@ -30,6 +35,20 @@ var versionKeys = new Map();
 var orderManifest = { unicode: [] };
 var orderMode = 'grouped';
 var searchAnnotations = {};
+var searchLocales = [];
+var selectedSearchLocale = '';
+var searchLoadId = 0;
+const languageFlags = {
+  'ar': '🌐',
+  'en': '🌐',
+  'en-GB': '🇬🇧',
+  'en-US': '🇺🇸',
+  'es': '🌐',
+  'hi': '🌐',
+  'hi-IN': '🇮🇳',
+  'zh': '🌐',
+  'zh-CN': '🇨🇳'
+};
 const sequenceTypeLabels = {
   single: 'Single emoji',
   modifier: 'Modifier sequences',
@@ -162,6 +181,11 @@ function getSportType(name) {
 
 function onLoad() {
   searchText = document.getElementsByClassName("text")[0];
+  languagePicker = document.getElementsByClassName('language-picker')[0];
+  languagePickerFlag = document.getElementsByClassName('language-picker-flag')[0];
+  languagePickerLabel = document.getElementsByClassName('language-picker-label')[0];
+  languageDialog = document.getElementsByClassName('language-dialog')[0];
+  languageList = document.getElementsByClassName('language-list')[0];
   emojiList = document.getElementsByClassName("list")[0];
   matchCount = document.getElementsByClassName('match-count')[0];
   toolbar = document.getElementsByClassName('toolbar')[0];
@@ -180,6 +204,7 @@ function onLoad() {
   hairCheckboxes.forEach(checkbox => checkbox.addEventListener('change', drawList));
 
   searchText.addEventListener("keyup", onKeyUp);
+  languagePicker.addEventListener('click', () => languageDialog.showModal());
   emojiList.addEventListener("click", onClick);
   versionModeSelector.addEventListener('change', onVersionFilterChange);
   versionSelector.addEventListener('change', drawList);
@@ -201,6 +226,7 @@ function onLoad() {
   }
 
   loadData();
+  loadSearchLanguages();
 
   drawList();
 }
@@ -293,16 +319,77 @@ async function loadData() {
       onClick({ target: { id: 'clinkingBeerMugs' } }, false)
       loadVersionData();
       loadOrderData();
-      loadSearchAnnotations();
 }
 
-async function loadSearchAnnotations() {
+async function loadSearchLanguages() {
   try {
-    const locale = await fetch('locales/en.json').then(response => response.json());
-    searchAnnotations = locale.annotations ?? {};
+    const manifest = await fetch('locales/manifest.json').then(response => response.json());
+    searchLocales = manifest.locales ?? [];
+    renderSearchLanguages();
+  } catch (error) {
+    console.warn('Search language packs unavailable', error);
+    languagePicker.disabled = true;
+  }
+}
+
+function renderSearchLanguages() {
+  const noLanguage = document.createElement('button');
+  noLanguage.type = 'button';
+  noLanguage.className = 'language-option';
+  noLanguage.innerHTML = '<span class="language-option-flag">🌐</span><span><span class="language-option-label">No language pack</span><span class="language-option-detail">Search built-in emoji names only</span></span>';
+  noLanguage.addEventListener('click', () => setSearchLanguage(''));
+  languageList.appendChild(noLanguage);
+
+  searchLocales.forEach(locale => {
+    const option = document.createElement('button');
+    const flag = languageFlags[locale.locale] ?? '🌐';
+    option.type = 'button';
+    option.className = 'language-option';
+    option.innerHTML = `<span class="language-option-flag">${flag}</span><span><span class="language-option-label">${locale.label}</span><span class="language-option-detail">Load ${locale.locale}${locale.baseLocale ? ` (uses ${locale.baseLocale} as its base)` : ''}</span></span>`;
+    option.addEventListener('click', () => setSearchLanguage(locale.locale));
+    languageList.appendChild(option);
+  });
+}
+
+async function setSearchLanguage(requestedLocale) {
+  const loadId = ++searchLoadId;
+  if (!requestedLocale) {
+    selectedSearchLocale = '';
+    searchAnnotations = {};
+    languagePickerFlag.textContent = '🌐';
+    languagePickerLabel.textContent = 'Language not loaded';
+    languageDialog.close();
+    drawList();
+    return;
+  }
+
+  const locale = searchLocales.find(entry => entry.locale === requestedLocale);
+  if (!locale) return;
+  languagePicker.disabled = true;
+  languagePickerLabel.textContent = 'Loading language…';
+  try {
+    const packs = await Promise.all([
+      ...(locale.baseLocale ? [fetch(`locales/${locale.baseLocale}.json`).then(response => response.json())] : []),
+      fetch(`locales/${locale.file}`).then(response => response.json())
+    ]);
+    if (loadId !== searchLoadId) return;
+    searchAnnotations = Object.assign({}, ...packs.map(pack => pack.annotations ?? {}));
+    selectedSearchLocale = locale.locale;
+    languagePickerFlag.textContent = languageFlags[locale.locale] ?? '🌐';
+    languagePickerLabel.textContent = locale.label;
+    languageDialog.close();
     drawList();
   } catch (error) {
-    console.warn('English search annotations unavailable', error);
+    if (loadId === searchLoadId) {
+      console.warn(`Search language ${requestedLocale} unavailable`, error);
+      selectedSearchLocale = '';
+      searchAnnotations = {};
+      languagePickerFlag.textContent = '🌐';
+      languagePickerLabel.textContent = 'Language not loaded';
+      drawList();
+    }
+  } finally {
+    if (loadId === searchLoadId) languagePicker.disabled = false;
   }
 }
 
@@ -622,14 +709,17 @@ function orderedKeys(keys) {
 }
 
 function drawList() {
-  var keywords = searchText.value.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
+  var keywords = searchText.value
+    .toLocaleLowerCase(selectedSearchLocale || undefined)
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
 
   function hasKeyword(emojiKey) {
-    const searchable = [emojiKey, byId[emojiKey]?.shortName, ...(searchAnnotations[emojiKey] ?? [])]
+    const searchableFields = [emojiKey, byId[emojiKey]?.shortName, ...(searchAnnotations[emojiKey] ?? [])]
       .filter(Boolean)
-      .join(' ')
-      .toLocaleLowerCase();
-    return keywords.every(keyword => searchable.includes(keyword));
+      .map(field => field.toLocaleLowerCase(selectedSearchLocale || undefined));
+    return keywords.every(keyword => searchableFields.some(field => field.includes(keyword)));
   }
 
   var group = groupSelector.value;

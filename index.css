@@ -69,7 +69,27 @@ h1 { margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); }
 .match-count { color: var(--accent); font-size: 1.15em; font-weight: 750; }
 
 .filters { margin-top: .45rem; }
-.search-field { max-width: 34rem; }
+.search-controls { display: flex; align-items: end; gap: .45rem; max-width: 44rem; }
+.search-field { flex: 1; min-width: 0; }
+.language-picker {
+  display: inline-flex;
+  flex: 0 1 13rem;
+  align-items: center;
+  gap: .35rem;
+  min-width: 10rem;
+  min-height: 2.25rem;
+  padding: .4rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: .5rem;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+.language-picker:hover { border-color: var(--accent); }
+.language-picker:disabled { cursor: wait; opacity: .65; }
+.language-picker-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .sr-only {
   position: absolute;
@@ -159,7 +179,8 @@ fieldset label { display: flex; align-items: center; gap: .2rem; font-size: .8re
 fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-strong); }
 .modifier-emoji { display: none; }
 
-.example-dialog {
+.example-dialog,
+.language-dialog {
   width: min(42rem, calc(100vw - 2rem));
   margin: auto;
   padding: 0;
@@ -171,7 +192,33 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
   box-shadow: 0 1rem 3rem rgb(0 0 0 / 55%);
 }
 
-.example-dialog::backdrop { background: rgb(0 0 0 / 60%); backdrop-filter: blur(3px); }
+.language-dialog { width: min(34rem, calc(100vw - 2rem)); }
+.language-list { display: grid; gap: .5rem; padding: 0 1rem 1rem; }
+.language-option {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: .55rem;
+  align-items: center;
+  width: 100%;
+  min-height: 3.2rem;
+  padding: .55rem .7rem;
+  border: 1px solid var(--border);
+  border-radius: .55rem;
+  background: var(--panel-strong);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+.language-option:hover { border-color: var(--accent); background: #15384d; }
+.language-option:focus-visible,
+.language-picker:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.language-option-flag { font-size: 1.35rem; text-align: center; }
+.language-option-label { font-weight: 700; }
+.language-option-detail { margin-top: .12rem; color: var(--muted); font-size: .78rem; }
+
+.example-dialog::backdrop,
+.language-dialog::backdrop { background: rgb(0 0 0 / 60%); backdrop-filter: blur(3px); }
 
 .dialog-heading { padding: .8rem 1rem; background: var(--panel-strong); }
 h2 { margin: 0; font-size: 1.15rem; }
@@ -287,7 +334,10 @@ h2 { margin: 0; font-size: 1.15rem; }
   .toolbar { max-height: 40svh; padding: .5rem .65rem; }
   .toolbar-heading { align-items: flex-start; flex-direction: column; gap: .35rem; }
   .dialog-heading { gap: .35rem; }
+  .search-controls { gap: .35rem; }
   .search-field { max-width: none; }
+  .language-picker { flex: 0 0 auto; min-width: 0; padding: .4rem .5rem; }
+  .language-picker-label { display: none; }
   .filter-options { gap: .4rem; }
   .advanced-filters > summary { font-size: .78rem; }
   .future-release { padding: .3rem .45rem; font-size: .72rem; }

@@ -26,15 +26,6 @@
       "cldrVersion": "48.2.0"
     },
     {
-      "locale": "en-US",
-      "label": "American English",
-      "file": "en-US.json",
-      "baseLocale": "en",
-      "count": 0,
-      "totalCount": 2773,
-      "cldrVersion": "48.2.0"
-    },
-    {
       "locale": "es",
       "label": "Spanish",
       "file": "es.json",
@@ -51,28 +42,10 @@
       "cldrVersion": "48.2.0"
     },
     {
-      "locale": "hi-IN",
-      "label": "Hindi (India)",
-      "file": "hi-IN.json",
-      "baseLocale": "hi",
-      "count": 0,
-      "totalCount": 2772,
-      "cldrVersion": "48.2.0"
-    },
-    {
       "locale": "zh",
       "label": "Chinese",
       "file": "zh.json",
       "count": 2773,
-      "totalCount": 2773,
-      "cldrVersion": "48.2.0"
-    },
-    {
-      "locale": "zh-CN",
-      "label": "Chinese (China)",
-      "file": "zh-CN.json",
-      "baseLocale": "zh",
-      "count": 0,
       "totalCount": 2773,
       "cldrVersion": "48.2.0"
     }

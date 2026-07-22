@@ -20,10 +20,16 @@
       </div>
 
       <form class="filters" aria-label="Filter emoji" onsubmit="return false">
-        <label class="filter-field search-field">
-          <span class="sr-only">Search emoji</span>
-          <input class="text" type="search" placeholder="Search emoji, e.g. beer or heart" autocomplete="off">
-        </label>
+        <div class="search-controls">
+          <label class="filter-field search-field">
+            <span class="sr-only">Search emoji</span>
+            <input class="text" type="search" placeholder="Search emoji, e.g. beer or heart" autocomplete="off">
+          </label>
+          <button class="language-picker" type="button" aria-haspopup="dialog" aria-controls="language-dialog">
+            <span class="language-picker-flag">🌐</span>
+            <span class="language-picker-label">Language not loaded</span>
+          </button>
+        </div>
 
         <div class="filter-options">
           <details class="advanced-filters">
@@ -104,6 +110,18 @@
           <span class="line comment">// <span class="emoji-group"></span> · <span class="emoji-subgroup"></span></span>
         </div>
         <div class="example-link"><a href="https://github.com/lewismoten/emoji">View the package on GitHub</a></div>
+    </dialog>
+
+    <dialog class="language-dialog" id="language-dialog" aria-labelledby="language-title">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">Localized search</p>
+          <h2 id="language-title">Choose a search language</h2>
+        </div>
+        <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
+      </div>
+      <p class="dialog-description">Language packs download only when selected. Choose “No language pack” to search the built-in emoji names only.</p>
+      <div class="language-list" role="list"></div>
     </dialog>
   </main>
 </body>
