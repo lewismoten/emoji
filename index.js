@@ -272,7 +272,10 @@ function onLoad() {
   hairCheckboxes.forEach(checkbox => checkbox.addEventListener('change', drawList));
 
   searchText.addEventListener("keyup", onKeyUp);
-  languagePicker.addEventListener('click', () => languageDialog.showModal());
+  languagePicker.addEventListener('click', () => {
+    languageDialog.showModal();
+    languageList.querySelector('.is-selected')?.focus();
+  });
   emojiList.addEventListener("click", onClick);
   versionModeSelector.addEventListener('change', onVersionFilterChange);
   versionSelector.addEventListener('change', drawList);
@@ -406,6 +409,8 @@ function renderSearchLanguages() {
   const noLanguage = document.createElement('button');
   noLanguage.type = 'button';
   noLanguage.className = 'language-option';
+  noLanguage.classList.toggle('is-selected', selectedSearchLocale === '');
+  noLanguage.setAttribute('aria-pressed', String(selectedSearchLocale === ''));
   noLanguage.innerHTML = `<span class="language-option-flag">🌐</span><span class="language-option-label">${translate('noLanguagePack', 'No language pack')}</span>`;
   noLanguage.addEventListener('click', () => setSearchLanguage(''));
   languageList.appendChild(noLanguage);
@@ -415,6 +420,8 @@ function renderSearchLanguages() {
     const flag = languageFlags[locale.locale] ?? '🌐';
     option.type = 'button';
     option.className = 'language-option';
+    option.classList.toggle('is-selected', locale.locale === selectedSearchLocale);
+    option.setAttribute('aria-pressed', String(locale.locale === selectedSearchLocale));
     const uiLocale = document.documentElement.lang || 'en';
     const localizedLabel = new Intl.DisplayNames([uiLocale], { type: 'language' }).of(locale.locale) ?? locale.label;
     const label = locale.locale === selectedSearchLocale || localizedLabel === locale.nativeLabel

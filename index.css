@@ -214,6 +214,17 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
   text-align: left;
 }
 .language-option:hover { border-color: var(--accent); background: #15384d; }
+.language-option.is-selected {
+  border-color: var(--accent);
+  background: #15384d;
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.language-option.is-selected::after {
+  content: "✓";
+  color: var(--accent);
+  font-weight: 800;
+}
+.language-option.is-selected { grid-template-columns: 2rem 1fr auto; }
 .language-option:focus-visible,
 .language-picker:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .language-option-flag { font-size: 1.35rem; text-align: center; }
