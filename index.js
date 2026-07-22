@@ -842,7 +842,7 @@ function onClick(e, copy = true) {
     }
   }
   var group = items.find(item => item.key === id)?.group ?? '(none)';
-  document.getElementsByClassName('emoji-group')[0].innerText = group;
+  document.getElementsByClassName('emoji-group')[0].innerText = displayGroupName(group);
 
   var subGroup = items.find(item => item.key === id)?.unicodeSubGroup ?? '(none)';
   document.getElementsByClassName('emoji-subgroup')[0].innerText = displayUnicodeSubGroupName(subGroup);
