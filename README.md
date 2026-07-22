@@ -1,44 +1,58 @@
-# emoji
+# @lewismoten/emoji
 
 [![Emoji Explorer — Unicode emoji for JavaScript](https://raw.githubusercontent.com/lewismoten/emoji/main/social-preview.svg)](https://lewismoten.github.io/emoji/)
 
-Provides Unicode Emoji 17.0 lookup packs that can be imported or lazy-loaded by need.
+Named Unicode Emoji 17.0 lookup packs for JavaScript and TypeScript. Import a
+small popular set, the complete collection, a Unicode category or subgroup, or
+a modifier-focused variation pack.
 
 The generated dataset contains every Unicode-recommended fully-qualified emoji
-sequence, including skin-tone, hair, gender, family, and ZWJ variants.
+sequence, including skin-tone, hair, gender, family, and ZWJ variants. Proposed
+Emoji 18.0 candidates are kept separate from released emoji.
 
-## Unicode version manifests
-
-Each `versions/<version>.json` file contains only the exported emoji keys that
-were introduced in that Unicode Emoji version. Load a manifest separately when
-you need to include or exclude a release without adding version metadata to the
-emoji lookup itself:
-
-```js
-const introducedIn17 = await fetch('./versions/17.0.json').then(response => response.json());
-```
-
-`versions/manifest.json` lists each version file, its official release date,
-and its entry count. Use its ISO date to select all version files available by
-a cutoff year or date.
+[Explore the emoji](https://lewismoten.github.io/emoji/) ·
+[View the package on npm](https://www.npmjs.com/package/@lewismoten/emoji)
 
 ## Installation
 
-`npm i @lewismoten/emoji -s`
+```bash
+npm install @lewismoten/emoji
+```
 
-## Code
+## Quick start
 
 The root export is a small, curated popular pack:
 
 ```js
 import emoji from "@lewismoten/emoji";
-console.log(emoji.clinkingBeerMugs);
+
+console.log(emoji.clinkingBeerMugs); // 🍻
 ```
 
-## Packs
+Import the complete lookup only when it is needed:
 
-Discover the available packs, labels, counts, and public import paths without
-hard-coding them:
+```js
+import emoji from "@lewismoten/emoji/all";
+
+console.log(emoji.wrappedGift); // 🎁
+```
+
+CommonJS is also supported:
+
+```js
+const emoji = require("@lewismoten/emoji/all");
+```
+
+### TypeScript
+
+Every JavaScript export includes declarations with exact emoji keys. Editors
+can autocomplete expressions such as `emoji.` and show declaration comments
+that include the emoji name and glyph.
+
+## Choosing a pack
+
+The machine-readable package manifest lists every pack, label, entry count,
+Unicode category, subgroup, and public import path:
 
 ```js
 import manifest from "@lewismoten/emoji/manifest" with { type: "json" };
@@ -46,83 +60,50 @@ import manifest from "@lewismoten/emoji/manifest" with { type: "json" };
 console.log(manifest.categories);
 ```
 
-`@lewismoten/emoji/orders/manifest` provides canonical Unicode key order and
-the `sequenceType` field on each emoji supports sequence-aware rendering.
+Using the manifest prevents applications from hard-coding a category list that
+may change when Unicode adds or reorganizes emoji.
 
-## Search and localization
+### Categories and subgroups
 
-Search is data-free until a locale pack is imported. Locale packs contain CLDR
-short names and keywords where CLDR provides them, and can be loaded only for
-the languages your app needs:
+Categories are separate modules and can be imported normally or lazy-loaded:
 
 ```js
-import { createEmojiSearch } from "@lewismoten/emoji/search";
-import english from "@lewismoten/emoji/locales/en" with { type: "json" };
+import objects from "@lewismoten/emoji/categories/objects";
 
-const search = createEmojiSearch(english);
-console.log(search("artist palette")); // ["artistPalette"]
+const { default: people } = await import(
+  "@lewismoten/emoji/categories/people-and-body"
+);
 ```
 
-Regional packs are compact overrides, so merge their base locale first. The
-locale manifest exposes `baseLocale`, `count` (stored overrides), and
-`totalCount` (annotations after inheritance):
-
-```js
-import { createEmojiSearch, mergeEmojiLocalePacks } from "@lewismoten/emoji/search";
-import english from "@lewismoten/emoji/locales/en" with { type: "json" };
-import americanEnglish from "@lewismoten/emoji/locales/en-US" with { type: "json" };
-
-const search = createEmojiSearch(mergeEmojiLocalePacks(english, americanEnglish));
-```
-
-The included locale packs are listed in `@lewismoten/emoji/locales/manifest`.
-Regional packs are published only when CLDR has annotations that differ from
-their base language. When you request a regional locale, its base language is
-generated first automatically: `npm run cldr -- en-US`.
-
-Each locale pack also includes `labels`, the CLDR character-label dictionary
-used by character pickers and keyboards. It supplies localized broad labels
-such as `person`, `food_drink`, `travel_places`, and `symbols`; consumers can
-keep their Unicode group/subgroup IDs stable while using these values for display.
-The package supplements CLDR with `subgroups` for the Unicode subgroup labels
-that CLDR does not define directly; the reviewable additions live in
-`scripts/locale-label-overrides.json` and are merged during locale generation.
-
-The Emoji Explorer uses a representative country flag beside each language to
-make the picker easier to scan. Those flags are visual identifiers only; a base
-language pack such as `es` or `ar` is not limited to that country or region.
-
-Each top-level category is composed from Unicode subgroup imports. For example,
-load only hand emoji instead of the full People & Body category:
+Each category is composed from smaller Unicode subgroup modules. For example,
+an application can load only hand emoji instead of the complete People & Body
+category:
 
 ```js
 import hands from "@lewismoten/emoji/categories/people-and-body/hands";
 ```
 
-Load all emojis only when a complete lookup is needed:
+Available top-level categories are `activities`, `animals-and-nature`,
+`component`, `flags`, `food-and-drink`, `objects`, `people-and-body`,
+`smileys-and-emotion`, `symbols`, and `travel-and-places`.
+
+### Variations
+
+Modifier-focused packs are available for skin tones, hair, families, or every
+supported variation:
 
 ```js
-import emoji from "@lewismoten/emoji/all";
-```
-
-Categories are separate modules and can be lazy-loaded:
-
-```js
-const { default: people } = await import("@lewismoten/emoji/categories/people-and-body");
-```
-
-Available categories are `activities`, `animals-and-nature`, `component`, `flags`,
-`food-and-drink`, `objects`, `people-and-body`, `smileys-and-emotion`, `symbols`,
-and `travel-and-places`.
-
-Variant packs are available at `variations/skin-tones`, `variations/hair`,
-`variations/families`, and `variations/all`:
-
-```js
+import skinTones from "@lewismoten/emoji/variations/skin-tones";
+import hair from "@lewismoten/emoji/variations/hair";
 import families from "@lewismoten/emoji/variations/families";
+import variations from "@lewismoten/emoji/variations/all";
 ```
 
-For an individual emoji, use the `all` export. This avoids shipping thousands of tiny per-emoji files:
+### Individual emoji
+
+Individual per-emoji files are intentionally not generated because thousands
+of tiny files make the installed package unnecessarily large. Use the `all`
+lookup when an individual key is needed:
 
 ```js
 import emoji from "@lewismoten/emoji/all";
@@ -130,71 +111,196 @@ import emoji from "@lewismoten/emoji/all";
 const clinkingBeerMugs = emoji.clinkingBeerMugs;
 ```
 
-For direct browser use, `dist/esm/index.js` is a self-contained module containing
-the complete lookup object:
+## Search and localization
+
+The search implementation contains no language data until a locale pack is
+loaded. Locale packs contain CLDR short names, keywords, character labels, and
+additional translated subgroup labels:
+
+```js
+import { createEmojiSearch } from "@lewismoten/emoji/search";
+import english from "@lewismoten/emoji/locales/en" with { type: "json" };
+
+const search = createEmojiSearch(english);
+
+console.log(search("artist palette")); // ["artistPalette"]
+console.log(search("painting")); // includes "artistPalette"
+```
+
+Regional packs contain only annotations that differ from their base language.
+Merge the base and regional packs before searching:
+
+```js
+import {
+  createEmojiSearch,
+  mergeEmojiLocalePacks,
+} from "@lewismoten/emoji/search";
+import english from "@lewismoten/emoji/locales/en" with { type: "json" };
+import britishEnglish from "@lewismoten/emoji/locales/en-GB" with {
+  type: "json",
+};
+
+const locale = mergeEmojiLocalePacks(english, britishEnglish);
+const search = createEmojiSearch(locale);
+```
+
+The locale manifest identifies every available pack and provides its English
+name, native name, text direction, base locale, CLDR version, and stored and
+inherited entry counts:
+
+```js
+import locales from "@lewismoten/emoji/locales/manifest" with {
+  type: "json",
+};
+
+console.log(locales.locales);
+```
+
+Regional packs are published only when CLDR provides annotations that differ
+from the base language. For example, `en-GB` exists, while an empty `en-US`
+override is omitted. Each base pack also includes `labels` for broad picker
+labels and `subgroups` for labels Unicode and CLDR do not translate directly.
+
+The Emoji Explorer uses representative country flags to make languages easier
+to scan. These flags are visual identifiers only; a base language such as `es`
+or `ar` is not limited to one country or region.
+
+## Unicode order and versions
+
+Use the order manifest to display keys in canonical Unicode order:
+
+```js
+import order from "@lewismoten/emoji/orders/manifest" with { type: "json" };
+
+console.log(order.unicode);
+```
+
+Each `versions/<version>.json` file contains only the exported keys introduced
+in that Unicode Emoji version. The version manifest lists every file, official
+release date, and entry count:
+
+```js
+import versions from "@lewismoten/emoji/versions/manifest" with {
+  type: "json",
+};
+import introducedIn17 from "@lewismoten/emoji/versions/17.0" with {
+  type: "json",
+};
+
+const releasesAvailableBy2025 = versions.versions
+  .filter(release => release.released <= "2025-12-31")
+  .map(release => release.version);
+
+console.log(introducedIn17);
+```
+
+Version arrays are separate from the emoji lookup, so applications pay for
+version metadata only when they use it. Proposed candidates are likewise
+separate from released data:
+
+```js
+import proposed18 from "@lewismoten/emoji/proposed/18.0" with {
+  type: "json",
+};
+
+console.log(proposed18.status); // "draft"
+```
+
+Draft candidates may change or be removed before Unicode publishes the final
+release.
+
+## Direct browser use
+
+`dist/esm/index.js` is a self-contained browser module containing the complete
+lookup object. It does not load category modules behind the scenes.
+
+Use it from a CDN:
 
 ```html
 <script type="module">
-  import emoji from "./dist/esm/index.js";
+  import emoji from "https://cdn.jsdelivr.net/npm/@lewismoten/emoji@4/dist/esm/index.js";
+
   console.log(emoji.clinkingBeerMugs);
 </script>
 ```
 
-## Demo
+Or copy `dist/esm/index.js` and serve it with an application:
 
-A local demo can be ran using vite
+```html
+<script type="module">
+  import emoji from "./dist/esm/index.js";
 
-```bash
-npm i
-npm start
-http://localhost:5173
+  console.log(emoji.clinkingBeerMugs);
+</script>
 ```
 
-The live demo is hosted on GitHub pages:
+## Emoji Explorer demo
 
-<https://lewismoten.github.io/emoji/>
+The [live Emoji Explorer](https://lewismoten.github.io/emoji/) demonstrates
+search, localization, category and subgroup browsing, release filtering,
+modifier filtering, and Unicode and sequence ordering.
 
-![Screenshot](screenshot.png)
+It is an installable web app. After the first visit, the explorer and its core
+Unicode data work offline. Search-language packs are cached for offline use
+after they are selected once.
 
-## Data attribution
+Run the demo locally with Vite:
 
-Generated emoji, ordering, release, and proposed data are derived from Unicode
-data files and are distributed under the Unicode License v3 (`Unicode-3.0`).
-See [NOTICE.md](NOTICE.md) for the required copyright and permission notice.
-The Unicode word mark and logo are not used to endorse this package.
+```bash
+npm install
+npm start
+```
 
-## Scripts
+Then open <http://localhost:5173/>. Localized routes such as
+<http://localhost:5173/index.ar.html> are generated in memory by Vite.
 
-- clean: drops the build & dist folders
-- build: creates typescript
-- generate: creates popular, all, category, and variation source packs from `emoji.json` and `popular.json`
-- bundle: creates JavaScript & TypeScript Definitions for packaging
-- prepublishOnly: ensures a new bundle is created for publishing
-- start: Runs demo site at http://localhost:5173
-- test: builds the complete package and verifies every release data set and public pack
-- unicode: downloads a Unicode Emoji version, regenerates `emoji.ts` and `emoji.json`, and rebuilds the packs
-- unicode:proposed: downloads the current official Unicode draft data and writes only new candidate emoji to `proposed/`
+![Emoji Explorer screenshot](https://raw.githubusercontent.com/lewismoten/emoji/main/screenshot.png)
 
-To update to a future Unicode release, run:
+## Data attribution and license
+
+The package source code is distributed under the [ISC license](LICENSE.md).
+
+Generated emoji, ordering, release, localization, and proposed data are derived
+from Unicode and CLDR data files. Unicode data is distributed under the Unicode
+License v3 (`Unicode-3.0`). See [NOTICE.md](NOTICE.md) for the copyright,
+permission, attribution, and trademark notices. The Unicode word mark and logo
+are not used to endorse this package.
+
+## Development scripts
+
+- `npm run clean` removes generated `build` and `dist` directories.
+- `npm run generate` creates popular, complete, category, subgroup, and
+  variation source packs from `emoji.json` and `popular.json`.
+- `npm run build` regenerates the library and compiles TypeScript.
+- `npm run bundle` produces the publishable JavaScript and TypeScript files.
+- `npm test` builds the package and verifies Unicode releases, public package
+  specifiers, TypeScript declarations, localized demo pages, and PWA assets.
+- `npm start` runs the local Emoji Explorer.
+- `npm run format` formats repository JSON files with Prettier.
+- `npm run cldr -- <locale>` downloads CLDR annotations and regenerates locale
+  packs. A regional locale automatically generates its base language first.
+- `npm run unicode -- <version>` downloads a released Unicode Emoji version and
+  regenerates the library data.
+- `npm run unicode:proposed` downloads the current official Unicode draft data.
+
+Update to a future released version with:
 
 ```bash
 npm run unicode -- 18.0
 ```
 
-To inspect candidate emoji for the upcoming draft release without changing the stable package data, run:
+Inspect the current draft without changing stable emoji data with:
 
 ```bash
 npm run unicode:proposed
 ```
 
-This writes `proposed/<draft-version>.json` and records it in `versions/manifest.json` under `proposed`. Draft entries have no release date and are clearly marked with `"status": "draft"`; they are separate from released version arrays because Unicode may change or remove them before release. To require a particular current draft version, pass it explicitly:
-
-```bash
-npm run unicode:proposed -- 18.0
-```
-
-Pass draft-release context to make the demo label the future version more clearly:
+To require a particular draft version and provide display context for the demo:
 
 ```bash
 npm run unicode:proposed -- 18.0 --stage=beta --expected=2026-09
 ```
+
+The draft command writes `proposed/<version>.json` and records it under
+`proposed` in `versions/manifest.json`. Draft entries have no release date and
+remain separate from released version arrays.
