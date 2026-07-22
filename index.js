@@ -41,6 +41,7 @@ var uiStrings = {};
 var searchLocales = [];
 var selectedSearchLocale = '';
 var searchLoadId = 0;
+var currentEmojiCopies = {};
 const languageFlags = {
   'ar': '🇸🇦',
   'en': '🇺🇸',
@@ -87,6 +88,8 @@ const sequenceTypeLabels = {
   tag: 'Tag sequences'
 };
 const sequenceTypeOrder = Object.keys(sequenceTypeLabels);
+const sequenceTranslationKeys = { single: 'sequenceSingle', modifier: 'sequenceModifier', zwj: 'sequenceZwj', flag: 'sequenceFlag', keycap: 'sequenceKeycap', tag: 'sequenceTag' };
+const statusTranslationKeys = { 'fully-qualified': 'fullyQualified', 'minimally-qualified': 'minimallyQualified', unqualified: 'unqualified' };
 const explorerLabelKeys = {
   'Africa': 'africa', 'Asia': 'asia', 'Europe': 'europe', 'North America': 'northAmerica', 'South America': 'southAmerica', 'Oceania': 'oceania', 'Other Flags': 'otherFlags',
   'Accessories': 'accessories', 'Clothing': 'clothing', 'Hats & Headwear': 'hatsHeadwear', 'Shoes': 'shoes',
@@ -277,6 +280,12 @@ function onLoad() {
     languageList.querySelector('.is-selected')?.focus();
   });
   emojiList.addEventListener("click", onClick);
+  exampleDialog.addEventListener('click', event => {
+    const button = event.target.closest('[data-copy]');
+    if (!button) return;
+    const value = currentEmojiCopies[button.dataset.copy];
+    if (value !== undefined) navigator.clipboard?.writeText(value);
+  });
   versionModeSelector.addEventListener('change', onVersionFilterChange);
   versionSelector.addEventListener('change', drawList);
   futureReleaseButton.addEventListener('click', showLatestFutureRelease);
@@ -883,6 +892,11 @@ function displayEmojiKey(key) {
   return words.charAt(0).toLocaleUpperCase() + words.slice(1);
 }
 
+function getIntroducedVersion(key) {
+  return [...versionManifests, ...proposedVersionManifests]
+    .find(version => versionKeys.get(version.version)?.has(key))?.version ?? '—';
+}
+
 function onClick(e, copy = true) {
   var id = e.target.id;
   if ((id || "") === "") id = e.target.parentElement.id;
@@ -909,6 +923,15 @@ function onClick(e, copy = true) {
   document.getElementsByClassName("emoji-value")[0].innerText = value;
   document.getElementsByClassName("emoji-encoded")[0].innerText = bits.join("");
   document.getElementsByClassName('emoji-preview')[0].innerText = value;
+  const item = byId[id] ?? {};
+  const codePoints = (item.codePoints ?? '').split(/\s+/).filter(Boolean).map(point => `U+${point}`).join(' ');
+  document.getElementsByClassName('emoji-english-name')[0].innerText = item.shortName ?? displayEmojiKey(id);
+  document.getElementsByClassName('emoji-version')[0].innerText = getIntroducedVersion(id);
+  document.getElementsByClassName('emoji-code-points')[0].innerText = codePoints;
+  const sequenceLabel = sequenceTypeLabels[item.sequenceType] ?? item.sequenceType ?? '—';
+  document.getElementsByClassName('emoji-sequence-type')[0].innerText = translate(sequenceTranslationKeys[item.sequenceType], sequenceLabel);
+  document.getElementsByClassName('emoji-status')[0].innerText = translate(statusTranslationKeys[item.status], item.status ?? '—');
+  currentEmojiCopies = { emoji: value, key: id, escape: bits.join(''), codePoints };
 
   const localizedDetails = document.getElementsByClassName('localized-emoji-details')[0];
   const annotations = searchAnnotations[id] ?? [];

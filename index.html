@@ -110,6 +110,19 @@
             <p class="localized-keywords"></p>
           </div>
         </div>
+        <dl class="emoji-metadata">
+          <div><dt data-i18n="englishName">English name</dt><dd class="emoji-english-name"></dd></div>
+          <div><dt data-i18n="introduced">Introduced</dt><dd class="emoji-version"></dd></div>
+          <div><dt data-i18n="codePoints">Code points</dt><dd class="emoji-code-points" dir="ltr"></dd></div>
+          <div><dt data-i18n="sequenceType">Sequence type</dt><dd class="emoji-sequence-type"></dd></div>
+          <div><dt data-i18n="qualification">Qualification</dt><dd class="emoji-status"></dd></div>
+        </dl>
+        <div class="emoji-copy-actions">
+          <button type="button" data-copy="emoji" data-i18n="copyEmoji">Copy emoji</button>
+          <button type="button" data-copy="key" data-i18n="copyKey">Copy key</button>
+          <button type="button" data-copy="escape" data-i18n="copyEscape">Copy escape</button>
+          <button type="button" data-copy="codePoints" data-i18n="copyCodePoints">Copy code points</button>
+        </div>
         <div class="code" dir="ltr">
           <span class="line"><span class="keyword">import</span> <span class="variable">emoji</span> <span class="keyword">from</span> <span class="string">"./dist/esm/index.js"</span>;</span>
           <span class="line"><span class="native-object">console</span>.<span class="native-function">log</span>(<span class="object">emoji</span>.<span class="object-key emoji-key">clinkingBeerMugs</span>);</span>

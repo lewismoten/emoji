@@ -266,6 +266,29 @@ h2 { margin: 0; font-size: 1.15rem; }
 .localized-emoji-details { min-width: 0; }
 .localized-language { margin: 0 0 .25rem; color: var(--accent); font-size: .8rem; font-weight: 750; }
 .localized-keywords { margin: 0; color: var(--muted); font-size: .88rem; line-height: 1.5; }
+.emoji-metadata {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: .5rem;
+  margin: 0;
+  padding: 0 1rem .85rem;
+}
+.emoji-metadata > div { padding: .5rem .6rem; border: 1px solid var(--border); border-radius: .5rem; background: var(--panel-strong); }
+.emoji-metadata dt { color: var(--muted); font-size: .7rem; font-weight: 700; }
+.emoji-metadata dd { margin: .2rem 0 0; overflow-wrap: anywhere; font-size: .82rem; }
+.emoji-copy-actions { display: flex; flex-wrap: wrap; gap: .4rem; padding: 0 1rem .85rem; }
+.emoji-copy-actions button {
+  min-height: 2rem;
+  padding: .3rem .55rem;
+  border: 1px solid var(--border);
+  border-radius: .45rem;
+  background: var(--panel-strong);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: .75rem;
+}
+.emoji-copy-actions button:hover { border-color: var(--accent); }
 
 .code {
   direction: ltr;
