@@ -6,7 +6,7 @@ var subGroups = {};
 const NO_FILTER = 'Not applied';
 var emojiByKey = { ...emoji };
 var allIds = Object.keys(emojiByKey);
-var releasedIds = new Set(allIds);
+var releasedIds = new Set();
 var groupedKeys = {};
 var byId = {};
 
@@ -268,6 +268,9 @@ async function loadData() {
         })
       })
 
+      // Keep this snapshot before draft candidates are appended in
+      // loadVersionData(), so the default version filter stays released-only.
+      releasedIds = new Set(allIds);
 
 
 
