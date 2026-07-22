@@ -820,6 +820,11 @@ function onKeyUp(e) {
   drawList();
 }
 
+function displayEmojiKey(key) {
+  const words = key.replace(/([a-z0-9])([A-Z])/g, '$1 $2').toLocaleLowerCase();
+  return words.charAt(0).toLocaleUpperCase() + words.slice(1);
+}
+
 function onClick(e, copy = true) {
   var id = e.target.id;
   if ((id || "") === "") id = e.target.parentElement.id;
@@ -857,7 +862,7 @@ function onClick(e, copy = true) {
     localizedDetails.hidden = false;
   } else {
     document.getElementsByClassName('emoji-dialog-eyebrow')[0].innerText = 'Copied emoji key';
-    document.getElementById('example-title').innerText = 'Use this emoji';
+    document.getElementById('example-title').innerText = displayEmojiKey(id);
     localizedDetails.hidden = true;
   }
   if (copy) {
