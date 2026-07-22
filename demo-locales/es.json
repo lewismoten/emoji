@@ -78,6 +78,9 @@
   "fullyQualified": "Totalmente calificado",
   "minimallyQualified": "Calificación mínima",
   "unqualified": "Sin calificar",
+  "loadingEmoji": "Cargando emojis…",
+  "loadingVersions": "Cargando versiones…",
+  "loadingLanguage": "Cargando idioma…",
   "aboutTitle": "Busca y explora emojis de Unicode",
   "aboutDescription": "Explora miles de emojis por nombres y palabras clave localizados, categorías y subgrupos de Unicode, versión de lanzamiento, modificadores y tipo de secuencia."
 }

@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const outputDirectory = process.argv[2] ?? '.';
 const siteUrl = 'https://lewismoten.github.io/emoji/';
-const locales = ['en', 'en-GB', 'es', 'hi', 'zh', 'ar'];
+export const locales = ['en', 'en-GB', 'es', 'hi', 'zh', 'ar'];
 const rtlLocales = new Set(['ar']);
 const template = fs.readFileSync('index.html', 'utf8');
 const english = JSON.parse(fs.readFileSync('demo-locales/en.json', 'utf8'));
@@ -31,8 +31,7 @@ const alternates = [
   ...locales.map(locale => `  <link rel="alternate" hreflang="${locale}" href="${pageUrl(locale)}">`)
 ].join('\n');
 
-fs.mkdirSync(outputDirectory, { recursive: true });
-const renderPage = (locale, url, htmlLocale = locale, dataLocale = locale) => {
+export const renderPage = (locale, url, htmlLocale = locale, dataLocale = locale) => {
   const translations = translationsFor(locale);
   const title = `${translations.title} – Unicode Emoji`;
   const description = translations.aboutDescription;
@@ -56,16 +55,23 @@ const renderPage = (locale, url, htmlLocale = locale, dataLocale = locale) => {
       `${opening}${escapeHtml(translations[key] ?? '')}${closing}`);
 };
 
-fs.writeFileSync(path.join(outputDirectory, 'index.html'), renderPage('en', siteUrl, 'en-US', 'en'));
-for (const locale of locales) {
-  fs.writeFileSync(path.join(outputDirectory, `index.${locale}.html`), renderPage(locale, pageUrl(locale)));
-}
+export const generateDemoPages = (outputDirectory = '.') => {
+  fs.mkdirSync(outputDirectory, { recursive: true });
+  fs.writeFileSync(path.join(outputDirectory, 'index.html'), renderPage('en', siteUrl, 'en-US', 'en'));
+  for (const locale of locales) {
+    fs.writeFileSync(path.join(outputDirectory, `index.${locale}.html`), renderPage(locale, pageUrl(locale)));
+  }
 
-const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>${siteUrl}</loc></url>
 ${locales.map(locale => `  <url><loc>${pageUrl(locale)}</loc></url>`).join('\n')}
 </urlset>\n`;
-fs.writeFileSync(path.join(outputDirectory, 'sitemap.xml'), sitemap);
+  fs.writeFileSync(path.join(outputDirectory, 'sitemap.xml'), sitemap);
 
-console.info(`Generated the en-US root and ${locales.length} localized demo pages in ${outputDirectory}.`);
+  console.info(`Generated the en-US root and ${locales.length} localized demo pages in ${outputDirectory}.`);
+};
+
+if (path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  generateDemoPages(process.argv[2] ?? '.');
+}

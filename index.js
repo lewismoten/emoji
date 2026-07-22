@@ -468,7 +468,7 @@ async function setSearchLanguage(requestedLocale) {
     searchLabels = {};
     searchSubgroupLabels = {};
     languagePickerFlag.textContent = '🌐';
-    languagePickerLabel.textContent = 'Language not loaded';
+    languagePickerLabel.textContent = translate('languageNotLoaded', 'Language not loaded');
     languageDialog.close();
     await loadUiTranslations('en');
     refreshLocalizedLabels();
@@ -478,7 +478,7 @@ async function setSearchLanguage(requestedLocale) {
   const locale = searchLocales.find(entry => entry.locale === requestedLocale);
   if (!locale) return;
   languagePicker.disabled = true;
-  languagePickerLabel.textContent = 'Loading language…';
+  languagePickerLabel.textContent = translate('loadingLanguage', 'Loading language…');
   try {
     const packs = await Promise.all([
       ...(locale.baseLocale ? [fetch(`locales/${locale.baseLocale}.json`).then(response => response.json())] : []),
@@ -502,7 +502,7 @@ async function setSearchLanguage(requestedLocale) {
       searchLabels = {};
       searchSubgroupLabels = {};
       languagePickerFlag.textContent = '🌐';
-      languagePickerLabel.textContent = 'Language not loaded';
+      languagePickerLabel.textContent = translate('languageNotLoaded', 'Language not loaded');
       refreshLocalizedLabels();
     }
   } finally {
