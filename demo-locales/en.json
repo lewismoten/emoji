@@ -81,6 +81,7 @@
   "loadingEmoji": "Loading emoji…",
   "loadingVersions": "Loading versions…",
   "loadingLanguage": "Loading language…",
+  "offlineStatus": "Offline — showing saved data",
   "aboutTitle": "Search and explore Unicode emoji",
   "aboutDescription": "Browse thousands of emoji by localized names and keywords, Unicode categories and subgroups, release version, modifiers, and sequence type."
 }

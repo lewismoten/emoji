@@ -1,0 +1,49 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+const versionManifest = JSON.parse(fs.readFileSync('versions/manifest.json', 'utf8'));
+const demoLocales = fs.readdirSync('demo-locales')
+  .filter(file => file.endsWith('.json'))
+  .map(file => `./demo-locales/${file}`);
+const localizedPages = ['en', 'en-GB', 'es', 'hi', 'zh', 'ar']
+  .map(locale => `./index.${locale}.html`);
+const versionFiles = versionManifest.versions.map(version => `./versions/${version.file}`);
+const proposedFiles = (versionManifest.proposed ?? []).map(version => `./${version.file}`);
+const coreAssets = [
+  './',
+  './index.html',
+  ...localizedPages,
+  './index.css',
+  './index.js',
+  './emoji.json',
+  './dist/esm/index.js',
+  './favicon.svg',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/icon-maskable-512.png',
+  './manifest.webmanifest',
+  './offline.html',
+  './locales/manifest.json',
+  './orders/manifest.json',
+  './versions/manifest.json',
+  ...demoLocales,
+  ...versionFiles,
+  ...proposedFiles
+];
+
+const template = fs.readFileSync('scripts/service-worker.template.js', 'utf8');
+export const renderServiceWorker = () => template
+  .replace('__PACKAGE_VERSION__', packageJson.version)
+  .replace('__CORE_ASSETS__', JSON.stringify(coreAssets, null, 2));
+
+export const generateServiceWorker = (outputFile = 'service-worker.js') => {
+  fs.mkdirSync(path.dirname(path.resolve(outputFile)), { recursive: true });
+  fs.writeFileSync(outputFile, renderServiceWorker());
+  console.info(`Generated ${outputFile} with cache ${packageJson.version} and ${coreAssets.length} core assets.`);
+};
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  generateServiceWorker(process.argv[2]);
+}

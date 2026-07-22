@@ -81,6 +81,7 @@
   "loadingEmoji": "正在加载表情…",
   "loadingVersions": "正在加载版本…",
   "loadingLanguage": "正在加载语言…",
+  "offlineStatus": "离线 — 正在显示已保存的数据",
   "aboutTitle": "搜索和浏览统一码表情",
   "aboutDescription": "按本地化名称和关键词、统一码类别和子组、发布版本、修饰符及序列类型浏览数千个表情。"
 }

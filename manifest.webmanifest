@@ -1,0 +1,43 @@
+{
+  "id": "./",
+  "name": "Emoji Explorer",
+  "short_name": "Emoji",
+  "description": "Search and browse Unicode emoji by localized name, category, version, modifier, and sequence type.",
+  "lang": "en-US",
+  "dir": "auto",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#160622",
+  "theme_color": "#160622",
+  "categories": ["utilities", "developer tools", "reference"],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "./screenshot.png",
+      "sizes": "704x503",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Emoji Explorer search and filters"
+    }
+  ]
+}

@@ -42,6 +42,7 @@ var searchLocales = [];
 var selectedSearchLocale = '';
 var searchLoadId = 0;
 var currentEmojiCopies = {};
+var offlineStatus;
 const languageFlags = {
   'ar': '🇸🇦',
   'en': '🇺🇸',
@@ -105,6 +106,12 @@ const applyUiTranslations = () => {
   document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
     element.placeholder = translate(element.dataset.i18nPlaceholder, element.placeholder);
   });
+  updateOnlineStatus();
+};
+const updateOnlineStatus = () => {
+  if (!offlineStatus) return;
+  offlineStatus.textContent = translate('offlineStatus', 'Offline — showing saved data');
+  offlineStatus.hidden = navigator.onLine;
 };
 async function loadUiTranslations(locale, rtl = false) {
   const baseLocale = locale.split('-')[0];
@@ -251,6 +258,7 @@ function getSportType(name) {
 }
 
 async function onLoad() {
+  offlineStatus = document.getElementsByClassName('offline-status')[0];
   searchText = document.getElementsByClassName("text")[0];
   languagePicker = document.getElementsByClassName('language-picker')[0];
   languagePickerFlag = document.getElementsByClassName('language-picker-flag')[0];
@@ -270,6 +278,10 @@ async function onLoad() {
   exampleDialog = document.getElementsByClassName('example-dialog')[0];
   skinToneCheckboxes = Array.from(document.getElementsByClassName('skin-tone'));
   hairCheckboxes = Array.from(document.getElementsByClassName('hair'));
+
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+  updateOnlineStatus();
 
   skinToneCheckboxes.forEach(checkbox => checkbox.addEventListener('change', drawList));
   hairCheckboxes.forEach(checkbox => checkbox.addEventListener('change', drawList));
@@ -313,6 +325,14 @@ async function onLoad() {
   await loadSearchLanguages(initialUiLocale);
 
   drawList();
+}
+
+if ('serviceWorker' in navigator && window.isSecureContext) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./service-worker.js').catch(error => {
+      console.warn('Offline support unavailable', error);
+    });
+  });
 }
 
 async function loadData() {

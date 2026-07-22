@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#160622">
+  <title>Emoji Explorer — Offline</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+    body { display: grid; min-height: 100vh; margin: 0; place-items: center; background: #160622; color: #f5edff; }
+    main { max-width: 30rem; padding: 2rem; text-align: center; }
+    .emoji { margin: 0; font-size: 5rem; }
+    p { color: #c8acd9; line-height: 1.5; }
+    button { min-height: 2.5rem; padding: .5rem 1rem; border: 1px solid #7fd8ff; border-radius: .5rem; background: #301249; color: #f5edff; cursor: pointer; font: inherit; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="emoji" aria-hidden="true">📴</p>
+    <h1 id="title">You’re offline</h1>
+    <p id="description">This page has not been saved yet. Reconnect and visit it once to make it available offline.</p>
+    <button id="retry" type="button">Try again</button>
+  </main>
+  <script>
+    const messages = {
+      ar: ['غير متصل', 'لم تُحفظ هذه الصفحة بعد. أعد الاتصال وزُرها مرة واحدة لإتاحتها دون اتصال.', 'حاول مرة أخرى'],
+      es: ['Estás sin conexión', 'Esta página aún no se ha guardado. Vuelve a conectarte y visítala una vez para usarla sin conexión.', 'Intentar de nuevo'],
+      hi: ['आप ऑफ़लाइन हैं', 'यह पेज अभी सहेजा नहीं गया है। दोबारा कनेक्ट होकर इसे एक बार खोलें ताकि यह ऑफ़लाइन उपलब्ध हो सके।', 'फिर से कोशिश करें'],
+      zh: ['您已离线', '此页面尚未保存。重新连接并访问一次后，即可离线使用。', '重试']
+    };
+    const locale = navigator.language.split('-')[0];
+    if (messages[locale]) {
+      document.documentElement.lang = locale;
+      document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
+      document.getElementById('title').textContent = messages[locale][0];
+      document.getElementById('description').textContent = messages[locale][1];
+      document.getElementById('retry').textContent = messages[locale][2];
+    }
+    document.getElementById('retry').addEventListener('click', () => location.reload());
+  </script>
+</body>
+</html>

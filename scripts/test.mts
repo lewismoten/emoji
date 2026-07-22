@@ -40,6 +40,14 @@ type LocalePack = {
   subgroups: Record<string, string>;
 };
 
+type WebAppManifest = {
+  id: string;
+  start_url: string;
+  scope: string;
+  display: string;
+  icons: { src: string; sizes: string; type: string; purpose: string }[];
+};
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const readJson = async <T,>(file: string) => JSON.parse(await fs.readFile(path.join(root, file), 'utf8')) as T;
 const importFileDefault = async (file: string) =>
@@ -64,6 +72,10 @@ const packageManifest = await readJson<{
   variations: { id: string; count: number; importPath: string }[];
 }>('manifest.json');
 const manifest = await readJson<{ versions: Version[]; proposed?: ProposedVersion[] }>('versions/manifest.json');
+const webAppManifest = await readJson<WebAppManifest>('manifest.webmanifest');
+const packageJson = await readJson<{ version: string }>('package.json');
+const serviceWorker = await fs.readFile(path.join(root, 'build/demo-pages/service-worker.js'), 'utf8');
+const arabicDemo = await fs.readFile(path.join(root, 'build/demo-pages/index.ar.html'), 'utf8');
 const emojiByKey = Object.fromEntries(emoji.map(item => [item.key, item.emoji]));
 const browserEmoji = await importFileDefault('dist/esm/index.js');
 const rootEmoji = await importPackageDefault('@lewismoten/emoji');
@@ -76,6 +88,18 @@ assert.equal(new Set(emoji.map(item => item.key)).size, emoji.length, 'emoji key
 assert.ok(emoji.every(item => Number.isInteger(item.order)), 'every emoji must have a Unicode order');
 assert.ok(emoji.every(item => ['single', 'modifier', 'zwj', 'flag', 'keycap', 'tag'].includes(item.sequenceType)), 'every emoji must have a known sequence type');
 assert.deepEqual(orderManifest.unicode, [...emoji].sort((a, b) => a.order - b.order).map(item => item.key), 'Unicode order manifest must match emoji order metadata');
+assert.equal(webAppManifest.id, './', 'web app manifest ID must remain within the GitHub Pages project scope');
+assert.equal(webAppManifest.start_url, './', 'web app must start at the GitHub Pages project root');
+assert.equal(webAppManifest.scope, './', 'web app scope must remain within the GitHub Pages project');
+assert.equal(webAppManifest.display, 'standalone', 'installed web app must use standalone display mode');
+assert.deepEqual(webAppManifest.icons.map(icon => icon.sizes), ['192x192', '512x512', '512x512'], 'web app must provide standard and maskable install icons');
+const expectedCacheName = 'const CACHE_NAME = `${CACHE_PREFIX}' + packageJson.version + '`;';
+assert.ok(serviceWorker.includes(expectedCacheName), 'service-worker cache must use the package version');
+for (const asset of ['./index.ar.html', './emoji.json', './dist/esm/index.js', './offline.html', './versions/manifest.json']) {
+  assert.ok(serviceWorker.includes(`"${asset}"`), `service worker must precache ${asset}`);
+}
+assert.match(arabicDemo, /<html lang="ar" dir="rtl" data-locale="ar">/, 'Arabic demo page must start in Arabic and RTL');
+assert.match(arabicDemo, /جارٍ تحميل الرموز التعبيرية/, 'Arabic demo loading state must be localized before JavaScript runs');
 assert.deepEqual(browserEmoji, emojiByKey, 'browser bundle must contain every emoji value');
 assert.deepEqual(allEmoji, emojiByKey, 'all export must contain every emoji value');
 assert.match(allTypes, /declare const emoji: typeof \S+ & typeof \S+/, 'all merger must preserve the types of its imported category packs');

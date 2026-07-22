@@ -39,7 +39,8 @@ jobs:
       - name: Assemble Pages site
         run: |
           mkdir _site
-          cp index.html index.js index.css emoji.json screenshot.png favicon.svg robots.txt sitemap.xml _site/
+          cp index.html index.js index.css emoji.json screenshot.png favicon.svg manifest.webmanifest offline.html robots.txt sitemap.xml _site/
+          cp -R icons _site/icons
           cp -R dist _site/dist
           cp -R locales _site/locales
           cp -R demo-locales _site/demo-locales
@@ -47,6 +48,7 @@ jobs:
           cp -R versions _site/versions
           cp -R proposed _site/proposed
           npm run demo:locales -- _site
+          npm run demo:pwa -- _site/service-worker.js
           touch _site/.nojekyll
 
       - name: Configure Pages

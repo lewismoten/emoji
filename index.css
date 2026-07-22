@@ -41,6 +41,26 @@ main { max-width: 1600px; margin: 0 auto; }
 
 a { color: var(--accent); }
 
+.offline-status {
+  position: fixed;
+  top: max(.5rem, env(safe-area-inset-top));
+  left: 50%;
+  z-index: 30;
+  max-width: calc(100% - 2rem);
+  padding: .4rem .7rem;
+  border: 1px solid #f1c46f;
+  border-radius: 999px;
+  background: #4a3210;
+  box-shadow: 0 .35rem 1rem rgb(0 0 0 / 35%);
+  color: #fff4d6;
+  font-size: .78rem;
+  font-weight: 700;
+  text-align: center;
+  transform: translateX(-50%);
+}
+
+.offline-status[hidden] { display: none; }
+
 .toolbar {
   position: sticky;
   top: 0;

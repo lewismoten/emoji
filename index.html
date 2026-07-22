@@ -8,6 +8,11 @@
   <meta name="description" content="Search and browse thousands of Unicode emoji by localized name, keyword, category, subgroup, version, skin tone, hair style, and sequence type.">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#160622">
+  <meta name="application-name" content="Emoji Explorer">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Emoji Explorer">
   <link rel="canonical" href="https://lewismoten.github.io/emoji/">
   <link rel="alternate" hreflang="x-default" href="https://lewismoten.github.io/emoji/">
   <link rel="alternate" hreflang="en-US" href="https://lewismoten.github.io/emoji/">
@@ -18,6 +23,8 @@
   <link rel="alternate" hreflang="zh" href="https://lewismoten.github.io/emoji/index.zh.html">
   <link rel="alternate" hreflang="ar" href="https://lewismoten.github.io/emoji/index.ar.html">
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="manifest" href="./manifest.webmanifest">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Emoji Explorer">
   <meta property="og:title" content="Emoji Explorer – Search and Browse Unicode Emoji">
@@ -54,6 +61,7 @@
 <body>
   <main>
     <noscript>JavaScript is required to browse the emoji collection.</noscript>
+    <div class="offline-status" role="status" aria-live="polite" hidden data-i18n="offlineStatus">Offline — showing saved data</div>
 
     <header class="toolbar">
       <div class="toolbar-heading">
