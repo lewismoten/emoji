@@ -19,61 +19,781 @@
       "id": "objects",
       "label": "Objects",
       "count": 266,
-      "importPath": "@lewismoten/emoji/categories/objects"
+      "importPath": "@lewismoten/emoji/categories/objects",
+      "subcategories": [
+        {
+          "id": "computer",
+          "label": "Computer",
+          "unicodeSubgroup": "computer",
+          "count": 14,
+          "importPath": "@lewismoten/emoji/categories/objects/computer"
+        },
+        {
+          "id": "musical-instrument",
+          "label": "Musical Instrument",
+          "unicodeSubgroup": "musical-instrument",
+          "count": 13,
+          "importPath": "@lewismoten/emoji/categories/objects/musical-instrument"
+        },
+        {
+          "id": "medical",
+          "label": "Medical",
+          "unicodeSubgroup": "medical",
+          "count": 7,
+          "importPath": "@lewismoten/emoji/categories/objects/medical"
+        },
+        {
+          "id": "science",
+          "label": "Science",
+          "unicodeSubgroup": "science",
+          "count": 7,
+          "importPath": "@lewismoten/emoji/categories/objects/science"
+        },
+        {
+          "id": "tool",
+          "label": "Tool",
+          "unicodeSubgroup": "tool",
+          "count": 27,
+          "importPath": "@lewismoten/emoji/categories/objects/tool"
+        },
+        {
+          "id": "clothing",
+          "label": "Clothing",
+          "unicodeSubgroup": "clothing",
+          "count": 47,
+          "importPath": "@lewismoten/emoji/categories/objects/clothing"
+        },
+        {
+          "id": "mail",
+          "label": "Mail",
+          "unicodeSubgroup": "mail",
+          "count": 13,
+          "importPath": "@lewismoten/emoji/categories/objects/mail"
+        },
+        {
+          "id": "office",
+          "label": "Office",
+          "unicodeSubgroup": "office",
+          "count": 23,
+          "importPath": "@lewismoten/emoji/categories/objects/office"
+        },
+        {
+          "id": "household",
+          "label": "Household",
+          "unicodeSubgroup": "household",
+          "count": 25,
+          "importPath": "@lewismoten/emoji/categories/objects/household"
+        },
+        {
+          "id": "sound",
+          "label": "Sound",
+          "unicodeSubgroup": "sound",
+          "count": 9,
+          "importPath": "@lewismoten/emoji/categories/objects/sound"
+        },
+        {
+          "id": "writing",
+          "label": "Writing",
+          "unicodeSubgroup": "writing",
+          "count": 7,
+          "importPath": "@lewismoten/emoji/categories/objects/writing"
+        },
+        {
+          "id": "book-paper",
+          "label": "Book Paper",
+          "unicodeSubgroup": "book-paper",
+          "count": 17,
+          "importPath": "@lewismoten/emoji/categories/objects/book-paper"
+        },
+        {
+          "id": "light-and-video",
+          "label": "Light & Video",
+          "unicodeSubgroup": "light & video",
+          "count": 16,
+          "importPath": "@lewismoten/emoji/categories/objects/light-and-video"
+        },
+        {
+          "id": "money",
+          "label": "Money",
+          "unicodeSubgroup": "money",
+          "count": 11,
+          "importPath": "@lewismoten/emoji/categories/objects/money"
+        },
+        {
+          "id": "other-object",
+          "label": "Other Object",
+          "unicodeSubgroup": "other-object",
+          "count": 9,
+          "importPath": "@lewismoten/emoji/categories/objects/other-object"
+        },
+        {
+          "id": "music",
+          "label": "Music",
+          "unicodeSubgroup": "music",
+          "count": 9,
+          "importPath": "@lewismoten/emoji/categories/objects/music"
+        },
+        {
+          "id": "phone",
+          "label": "Phone",
+          "unicodeSubgroup": "phone",
+          "count": 6,
+          "importPath": "@lewismoten/emoji/categories/objects/phone"
+        },
+        {
+          "id": "lock",
+          "label": "Lock",
+          "unicodeSubgroup": "lock",
+          "count": 6,
+          "importPath": "@lewismoten/emoji/categories/objects/lock"
+        }
+      ]
     },
     {
       "id": "symbols",
       "label": "Symbols",
       "count": 224,
-      "importPath": "@lewismoten/emoji/categories/symbols"
+      "importPath": "@lewismoten/emoji/categories/symbols",
+      "subcategories": [
+        {
+          "id": "alphanum",
+          "label": "Alphanum",
+          "unicodeSubgroup": "alphanum",
+          "count": 39,
+          "importPath": "@lewismoten/emoji/categories/symbols/alphanum"
+        },
+        {
+          "id": "av-symbol",
+          "label": "Av Symbol",
+          "unicodeSubgroup": "av-symbol",
+          "count": 25,
+          "importPath": "@lewismoten/emoji/categories/symbols/av-symbol"
+        },
+        {
+          "id": "zodiac",
+          "label": "Zodiac",
+          "unicodeSubgroup": "zodiac",
+          "count": 13,
+          "importPath": "@lewismoten/emoji/categories/symbols/zodiac"
+        },
+        {
+          "id": "transport-sign",
+          "label": "Transport Sign",
+          "unicodeSubgroup": "transport-sign",
+          "count": 13,
+          "importPath": "@lewismoten/emoji/categories/symbols/transport-sign"
+        },
+        {
+          "id": "religion",
+          "label": "Religion",
+          "unicodeSubgroup": "religion",
+          "count": 13,
+          "importPath": "@lewismoten/emoji/categories/symbols/religion"
+        },
+        {
+          "id": "arrow",
+          "label": "Arrow",
+          "unicodeSubgroup": "arrow",
+          "count": 21,
+          "importPath": "@lewismoten/emoji/categories/symbols/arrow"
+        },
+        {
+          "id": "warning",
+          "label": "Warning",
+          "unicodeSubgroup": "warning",
+          "count": 13,
+          "importPath": "@lewismoten/emoji/categories/symbols/warning"
+        },
+        {
+          "id": "geometric",
+          "label": "Geometric",
+          "unicodeSubgroup": "geometric",
+          "count": 34,
+          "importPath": "@lewismoten/emoji/categories/symbols/geometric"
+        },
+        {
+          "id": "other-symbol",
+          "label": "Other Symbol",
+          "unicodeSubgroup": "other-symbol",
+          "count": 22,
+          "importPath": "@lewismoten/emoji/categories/symbols/other-symbol"
+        },
+        {
+          "id": "currency",
+          "label": "Currency",
+          "unicodeSubgroup": "currency",
+          "count": 2,
+          "importPath": "@lewismoten/emoji/categories/symbols/currency"
+        },
+        {
+          "id": "math",
+          "label": "Math",
+          "unicodeSubgroup": "math",
+          "count": 6,
+          "importPath": "@lewismoten/emoji/categories/symbols/math"
+        },
+        {
+          "id": "punctuation",
+          "label": "Punctuation",
+          "unicodeSubgroup": "punctuation",
+          "count": 7,
+          "importPath": "@lewismoten/emoji/categories/symbols/punctuation"
+        },
+        {
+          "id": "gender",
+          "label": "Gender",
+          "unicodeSubgroup": "gender",
+          "count": 3,
+          "importPath": "@lewismoten/emoji/categories/symbols/gender"
+        },
+        {
+          "id": "keycap",
+          "label": "Keycap",
+          "unicodeSubgroup": "keycap",
+          "count": 13,
+          "importPath": "@lewismoten/emoji/categories/symbols/keycap"
+        }
+      ]
     },
     {
       "id": "activities",
       "label": "Activities",
       "count": 85,
-      "importPath": "@lewismoten/emoji/categories/activities"
+      "importPath": "@lewismoten/emoji/categories/activities",
+      "subcategories": [
+        {
+          "id": "event",
+          "label": "Event",
+          "unicodeSubgroup": "event",
+          "count": 21,
+          "importPath": "@lewismoten/emoji/categories/activities/event"
+        },
+        {
+          "id": "sport",
+          "label": "Sport",
+          "unicodeSubgroup": "sport",
+          "count": 27,
+          "importPath": "@lewismoten/emoji/categories/activities/sport"
+        },
+        {
+          "id": "arts-and-crafts",
+          "label": "Arts & Crafts",
+          "unicodeSubgroup": "arts & crafts",
+          "count": 7,
+          "importPath": "@lewismoten/emoji/categories/activities/arts-and-crafts"
+        },
+        {
+          "id": "game",
+          "label": "Game",
+          "unicodeSubgroup": "game",
+          "count": 24,
+          "importPath": "@lewismoten/emoji/categories/activities/game"
+        },
+        {
+          "id": "award-medal",
+          "label": "Award Medal",
+          "unicodeSubgroup": "award-medal",
+          "count": 6,
+          "importPath": "@lewismoten/emoji/categories/activities/award-medal"
+        }
+      ]
     },
     {
       "id": "travel-and-places",
       "label": "Travel & Places",
       "count": 219,
-      "importPath": "@lewismoten/emoji/categories/travel-and-places"
+      "importPath": "@lewismoten/emoji/categories/travel-and-places",
+      "subcategories": [
+        {
+          "id": "transport-air",
+          "label": "Transport Air",
+          "unicodeSubgroup": "transport-air",
+          "count": 13,
+          "importPath": "@lewismoten/emoji/categories/travel-and-places/transport-air"
+        },
+        {
+          "id": "time",
+          "label": "Time",
+          "unicodeSubgroup": "time",
+          "count": 31,
+          "importPath": "@lewismoten/emoji/categories/travel-and-places/time"
+        },
+        {
+          "id": "transport-ground",
+          "label": "Transport Ground",
+          "unicodeSubgroup": "transport-ground",
+          "count": 50,
+          "importPath": "@lewismoten/emoji/categories/travel-and-places/transport-ground"
+        },
+        {
+          "id": "transport-water",
+          "label": "Transport Water",
+          "unicodeSubgroup": "transport-water",
+          "count": 9,
+          "importPath": "@lewismoten/emoji/categories/travel-and-places/transport-water"
+        },
+        {
+          "id": "place-building",
+          "label": "Place Building",
+          "unicodeSubgroup": "place-building",
+          "count": 27,
+          "importPath": "@lewismoten/emoji/categories/travel-and-places/place-building"
+        },
+        {
+          "id": "place-other",
+          "label": "Place Other",
+          "unicodeSubgroup": "place-other",
+          "count": 17,
+          "importPath": "@lewismoten/emoji/categories/travel-and-places/place-other"
+        },
+        {
+          "id": "place-geographic",
+          "label": "Place Geographic",
+          "unicodeSubgroup": "place-geographic",
+          "count": 10,
+          "importPath": "@lewismoten/emoji/categories/travel-and-places/place-geographic"
+        },
+        {
+          "id": "hotel",
+          "label": "Hotel",
+          "unicodeSubgroup": "hotel",
+          "count": 2,
+          "importPath": "@lewismoten/emoji/categories/travel-and-places/hotel"
+        },
+        {
+          "id": "place-religious",
+          "label": "Place Religious",
+          "unicodeSubgroup": "place-religious",
+          "count": 6,
+          "importPath": "@lewismoten/emoji/categories/travel-and-places/place-religious"
+        },
+        {
+          "id": "sky-and-weather",
+          "label": "Sky & Weather",
+          "unicodeSubgroup": "sky & weather",
+          "count": 47,
+          "importPath": "@lewismoten/emoji/categories/travel-and-places/sky-and-weather"
+        },
+        {
+          "id": "place-map",
+          "label": "Place Map",
+          "unicodeSubgroup": "place-map",
+          "count": 7,
+          "importPath": "@lewismoten/emoji/categories/travel-and-places/place-map"
+        }
+      ]
     },
     {
       "id": "smileys-and-emotion",
       "label": "Smileys & Emotion",
       "count": 171,
-      "importPath": "@lewismoten/emoji/categories/smileys-and-emotion"
+      "importPath": "@lewismoten/emoji/categories/smileys-and-emotion",
+      "subcategories": [
+        {
+          "id": "face-costume",
+          "label": "Face Costume",
+          "unicodeSubgroup": "face-costume",
+          "count": 8,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/face-costume"
+        },
+        {
+          "id": "emotion",
+          "label": "Emotion",
+          "unicodeSubgroup": "emotion",
+          "count": 15,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/emotion"
+        },
+        {
+          "id": "face-negative",
+          "label": "Face Negative",
+          "unicodeSubgroup": "face-negative",
+          "count": 8,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/face-negative"
+        },
+        {
+          "id": "face-concerned",
+          "label": "Face Concerned",
+          "unicodeSubgroup": "face-concerned",
+          "count": 27,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/face-concerned"
+        },
+        {
+          "id": "face-smiling",
+          "label": "Face Smiling",
+          "unicodeSubgroup": "face-smiling",
+          "count": 14,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/face-smiling"
+        },
+        {
+          "id": "heart",
+          "label": "Heart",
+          "unicodeSubgroup": "heart",
+          "count": 25,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/heart"
+        },
+        {
+          "id": "cat-face",
+          "label": "Cat Face",
+          "unicodeSubgroup": "cat-face",
+          "count": 9,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/cat-face"
+        },
+        {
+          "id": "face-unwell",
+          "label": "Face Unwell",
+          "unicodeSubgroup": "face-unwell",
+          "count": 12,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/face-unwell"
+        },
+        {
+          "id": "face-hat",
+          "label": "Face Hat",
+          "unicodeSubgroup": "face-hat",
+          "count": 3,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/face-hat"
+        },
+        {
+          "id": "face-neutral-skeptical",
+          "label": "Face Neutral Skeptical",
+          "unicodeSubgroup": "face-neutral-skeptical",
+          "count": 16,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/face-neutral-skeptical"
+        },
+        {
+          "id": "face-sleepy",
+          "label": "Face Sleepy",
+          "unicodeSubgroup": "face-sleepy",
+          "count": 6,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/face-sleepy"
+        },
+        {
+          "id": "face-affection",
+          "label": "Face Affection",
+          "unicodeSubgroup": "face-affection",
+          "count": 9,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/face-affection"
+        },
+        {
+          "id": "face-tongue",
+          "label": "Face Tongue",
+          "unicodeSubgroup": "face-tongue",
+          "count": 6,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/face-tongue"
+        },
+        {
+          "id": "face-hand",
+          "label": "Face Hand",
+          "unicodeSubgroup": "face-hand",
+          "count": 7,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/face-hand"
+        },
+        {
+          "id": "face-glasses",
+          "label": "Face Glasses",
+          "unicodeSubgroup": "face-glasses",
+          "count": 3,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/face-glasses"
+        },
+        {
+          "id": "monkey-face",
+          "label": "Monkey Face",
+          "unicodeSubgroup": "monkey-face",
+          "count": 3,
+          "importPath": "@lewismoten/emoji/categories/smileys-and-emotion/monkey-face"
+        }
+      ]
     },
     {
       "id": "food-and-drink",
       "label": "Food & Drink",
       "count": 131,
-      "importPath": "@lewismoten/emoji/categories/food-and-drink"
+      "importPath": "@lewismoten/emoji/categories/food-and-drink",
+      "subcategories": [
+        {
+          "id": "dishware",
+          "label": "Dishware",
+          "unicodeSubgroup": "dishware",
+          "count": 7,
+          "importPath": "@lewismoten/emoji/categories/food-and-drink/dishware"
+        },
+        {
+          "id": "food-vegetable",
+          "label": "Food Vegetable",
+          "unicodeSubgroup": "food-vegetable",
+          "count": 19,
+          "importPath": "@lewismoten/emoji/categories/food-and-drink/food-vegetable"
+        },
+        {
+          "id": "drink",
+          "label": "Drink",
+          "unicodeSubgroup": "drink",
+          "count": 20,
+          "importPath": "@lewismoten/emoji/categories/food-and-drink/drink"
+        },
+        {
+          "id": "food-prepared",
+          "label": "Food Prepared",
+          "unicodeSubgroup": "food-prepared",
+          "count": 34,
+          "importPath": "@lewismoten/emoji/categories/food-and-drink/food-prepared"
+        },
+        {
+          "id": "food-fruit",
+          "label": "Food Fruit",
+          "unicodeSubgroup": "food-fruit",
+          "count": 20,
+          "importPath": "@lewismoten/emoji/categories/food-and-drink/food-fruit"
+        },
+        {
+          "id": "food-asian",
+          "label": "Food Asian",
+          "unicodeSubgroup": "food-asian",
+          "count": 17,
+          "importPath": "@lewismoten/emoji/categories/food-and-drink/food-asian"
+        },
+        {
+          "id": "food-sweet",
+          "label": "Food Sweet",
+          "unicodeSubgroup": "food-sweet",
+          "count": 14,
+          "importPath": "@lewismoten/emoji/categories/food-and-drink/food-sweet"
+        }
+      ]
     },
     {
       "id": "people-and-body",
       "label": "People & Body",
       "count": 2418,
-      "importPath": "@lewismoten/emoji/categories/people-and-body"
+      "importPath": "@lewismoten/emoji/categories/people-and-body",
+      "subcategories": [
+        {
+          "id": "body-parts",
+          "label": "Body Parts",
+          "unicodeSubgroup": "body-parts",
+          "count": 48,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/body-parts"
+        },
+        {
+          "id": "person-role",
+          "label": "Person Role",
+          "unicodeSubgroup": "person-role",
+          "count": 492,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/person-role"
+        },
+        {
+          "id": "person",
+          "label": "Person",
+          "unicodeSubgroup": "person",
+          "count": 168,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/person"
+        },
+        {
+          "id": "person-fantasy",
+          "label": "Person Fantasy",
+          "unicodeSubgroup": "person-fantasy",
+          "count": 158,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/person-fantasy"
+        },
+        {
+          "id": "hand-single-finger",
+          "label": "Hand Single Finger",
+          "unicodeSubgroup": "hand-single-finger",
+          "count": 42,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/hand-single-finger"
+        },
+        {
+          "id": "person-activity",
+          "label": "Person Activity",
+          "unicodeSubgroup": "person-activity",
+          "count": 408,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/person-activity"
+        },
+        {
+          "id": "person-symbol",
+          "label": "Person Symbol",
+          "unicodeSubgroup": "person-symbol",
+          "count": 11,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/person-symbol"
+        },
+        {
+          "id": "hand-fingers-partial",
+          "label": "Hand Fingers Partial",
+          "unicodeSubgroup": "hand-fingers-partial",
+          "count": 54,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/hand-fingers-partial"
+        },
+        {
+          "id": "hands",
+          "label": "Hands",
+          "unicodeSubgroup": "hands",
+          "count": 62,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/hands"
+        },
+        {
+          "id": "family",
+          "label": "Family",
+          "unicodeSubgroup": "family",
+          "count": 337,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/family"
+        },
+        {
+          "id": "person-gesture",
+          "label": "Person Gesture",
+          "unicodeSubgroup": "person-gesture",
+          "count": 180,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/person-gesture"
+        },
+        {
+          "id": "hand-fingers-open",
+          "label": "Hand Fingers Open",
+          "unicodeSubgroup": "hand-fingers-open",
+          "count": 66,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/hand-fingers-open"
+        },
+        {
+          "id": "person-sport",
+          "label": "Person Sport",
+          "unicodeSubgroup": "person-sport",
+          "count": 308,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/person-sport"
+        },
+        {
+          "id": "hand-fingers-closed",
+          "label": "Hand Fingers Closed",
+          "unicodeSubgroup": "hand-fingers-closed",
+          "count": 36,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/hand-fingers-closed"
+        },
+        {
+          "id": "person-resting",
+          "label": "Person Resting",
+          "unicodeSubgroup": "person-resting",
+          "count": 30,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/person-resting"
+        },
+        {
+          "id": "hand-prop",
+          "label": "Hand Prop",
+          "unicodeSubgroup": "hand-prop",
+          "count": 18,
+          "importPath": "@lewismoten/emoji/categories/people-and-body/hand-prop"
+        }
+      ]
     },
     {
       "id": "animals-and-nature",
       "label": "Animals & Nature",
       "count": 160,
-      "importPath": "@lewismoten/emoji/categories/animals-and-nature"
+      "importPath": "@lewismoten/emoji/categories/animals-and-nature",
+      "subcategories": [
+        {
+          "id": "animal-bug",
+          "label": "Animal Bug",
+          "unicodeSubgroup": "animal-bug",
+          "count": 16,
+          "importPath": "@lewismoten/emoji/categories/animals-and-nature/animal-bug"
+        },
+        {
+          "id": "animal-bird",
+          "label": "Animal Bird",
+          "unicodeSubgroup": "animal-bird",
+          "count": 22,
+          "importPath": "@lewismoten/emoji/categories/animals-and-nature/animal-bird"
+        },
+        {
+          "id": "animal-mammal",
+          "label": "Animal Mammal",
+          "unicodeSubgroup": "animal-mammal",
+          "count": 66,
+          "importPath": "@lewismoten/emoji/categories/animals-and-nature/animal-mammal"
+        },
+        {
+          "id": "plant-flower",
+          "label": "Plant Flower",
+          "unicodeSubgroup": "plant-flower",
+          "count": 12,
+          "importPath": "@lewismoten/emoji/categories/animals-and-nature/plant-flower"
+        },
+        {
+          "id": "animal-marine",
+          "label": "Animal Marine",
+          "unicodeSubgroup": "animal-marine",
+          "count": 18,
+          "importPath": "@lewismoten/emoji/categories/animals-and-nature/animal-marine"
+        },
+        {
+          "id": "plant-other",
+          "label": "Plant Other",
+          "unicodeSubgroup": "plant-other",
+          "count": 17,
+          "importPath": "@lewismoten/emoji/categories/animals-and-nature/plant-other"
+        },
+        {
+          "id": "animal-reptile",
+          "label": "Animal Reptile",
+          "unicodeSubgroup": "animal-reptile",
+          "count": 8,
+          "importPath": "@lewismoten/emoji/categories/animals-and-nature/animal-reptile"
+        },
+        {
+          "id": "animal-amphibian",
+          "label": "Animal Amphibian",
+          "unicodeSubgroup": "animal-amphibian",
+          "count": 1,
+          "importPath": "@lewismoten/emoji/categories/animals-and-nature/animal-amphibian"
+        }
+      ]
     },
     {
       "id": "component",
       "label": "Component",
       "count": 9,
-      "importPath": "@lewismoten/emoji/categories/component"
+      "importPath": "@lewismoten/emoji/categories/component",
+      "subcategories": [
+        {
+          "id": "hair-style",
+          "label": "Hair Style",
+          "unicodeSubgroup": "hair-style",
+          "count": 4,
+          "importPath": "@lewismoten/emoji/categories/component/hair-style"
+        },
+        {
+          "id": "skin-tone",
+          "label": "Skin Tone",
+          "unicodeSubgroup": "skin-tone",
+          "count": 5,
+          "importPath": "@lewismoten/emoji/categories/component/skin-tone"
+        }
+      ]
     },
     {
       "id": "flags",
       "label": "Flags",
       "count": 270,
-      "importPath": "@lewismoten/emoji/categories/flags"
+      "importPath": "@lewismoten/emoji/categories/flags",
+      "subcategories": [
+        {
+          "id": "flag",
+          "label": "Flag",
+          "unicodeSubgroup": "flag",
+          "count": 8,
+          "importPath": "@lewismoten/emoji/categories/flags/flag"
+        },
+        {
+          "id": "country-flag",
+          "label": "Country Flag",
+          "unicodeSubgroup": "country-flag",
+          "count": 259,
+          "importPath": "@lewismoten/emoji/categories/flags/country-flag"
+        },
+        {
+          "id": "subdivision-flag",
+          "label": "Subdivision Flag",
+          "unicodeSubgroup": "subdivision-flag",
+          "count": 3,
+          "importPath": "@lewismoten/emoji/categories/flags/subdivision-flag"
+        }
+      ]
     }
   ],
   "variations": [

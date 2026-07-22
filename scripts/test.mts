@@ -30,7 +30,13 @@ const emoji = await readJson<Emoji[]>('emoji.json');
 const packageManifest = await readJson<{
   name: string;
   packs: { id: string; count: number; importPath: string }[];
-  categories: { id: string; label: string; count: number; importPath: string }[];
+  categories: {
+    id: string;
+    label: string;
+    count: number;
+    importPath: string;
+    subcategories: { id: string; label: string; unicodeSubgroup: string; count: number; importPath: string }[];
+  }[];
   variations: { id: string; count: number; importPath: string }[];
 }>('manifest.json');
 const manifest = await readJson<{ versions: Version[]; proposed?: ProposedVersion[] }>('versions/manifest.json');
@@ -38,10 +44,14 @@ const emojiByKey = Object.fromEntries(emoji.map(item => [item.key, item.emoji]))
 const browserEmoji = await importDefault('dist/esm/index.js');
 const allEmoji = await importDefault('dist/esm/all.min.js');
 const popularEmoji = await importDefault('dist/esm/popular.min.js');
+const allTypes = await fs.readFile(path.join(root, 'dist/esm/types/all.d.mts'), 'utf8');
+const activitiesTypes = await fs.readFile(path.join(root, 'dist/esm/types/categories/activities/arts-and-crafts.d.mts'), 'utf8');
 
 assert.equal(new Set(emoji.map(item => item.key)).size, emoji.length, 'emoji keys must be unique');
 assert.deepEqual(browserEmoji, emojiByKey, 'browser bundle must contain every emoji value');
 assert.deepEqual(allEmoji, emojiByKey, 'all export must contain every emoji value');
+assert.match(allTypes, /declare const emoji: typeof \S+ & typeof \S+/, 'all merger must preserve the types of its imported category packs');
+assert.match(activitiesTypes, /\*\* artist palette 🎨 \*\//, 'emoji declarations must document the emoji glyph');
 assert.ok(Object.keys(popularEmoji).length > 0, 'popular export must not be empty');
 assert.ok(Object.keys(popularEmoji).every(key => key in emojiByKey), 'popular export must only contain known keys');
 assert.equal(packageManifest.name, '@lewismoten/emoji', 'package manifest must identify this package');
@@ -50,6 +60,15 @@ assert.equal(packageManifest.categories.length, new Set(emoji.map(item => item.g
 for (const category of packageManifest.categories) {
   assert.equal(category.importPath, `@lewismoten/emoji/categories/${category.id}`, `${category.label} must have a public import path`);
   assert.equal(category.count, emoji.filter(item => item.group === category.label).length, `${category.label} count must match emoji data`);
+  assert.equal(category.subcategories.reduce((count, subcategory) => count + subcategory.count, 0), category.count, `${category.label} subcategories must account for every emoji`);
+  const categoryEmoji = await importDefault(`dist/esm/categories/${category.id}.min.js`);
+  assert.equal(Object.keys(categoryEmoji).length, category.count, `${category.label} export count must match its manifest`);
+  for (const subcategory of category.subcategories) {
+    assert.equal(subcategory.importPath, `@lewismoten/emoji/categories/${category.id}/${subcategory.id}`, `${subcategory.label} must have a public import path`);
+    const subcategoryEmoji = await importDefault(`dist/esm/categories/${category.id}/${subcategory.id}.min.js`);
+    assert.equal(Object.keys(subcategoryEmoji).length, subcategory.count, `${subcategory.label} export count must match its manifest`);
+    assert.ok(Object.keys(subcategoryEmoji).every(key => key in categoryEmoji), `${subcategory.label} must belong to ${category.label}`);
+  }
 }
 for (const variation of packageManifest.variations) {
   assert.equal(variation.importPath, `@lewismoten/emoji/variations/${variation.id}`, `${variation.id} must have a public import path`);
@@ -75,12 +94,6 @@ for (const version of manifest.proposed ?? []) {
   const proposal = await readJson<{ count: number; emoji: Emoji[] }>(version.file);
   assert.equal(proposal.count, version.count, `Unicode ${version.version} proposed count must match its manifest`);
   assert.ok(proposal.emoji.every(item => !releasedCodePoints.has(item.codePoints)), 'proposed emoji must not be released emoji');
-}
-
-for (const group of new Set(emoji.map(item => item.group))) {
-  const category = group.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-  const categoryEmoji = await importDefault(`dist/esm/categories/${category}.min.js`);
-  assert.ok(Object.keys(categoryEmoji).every(key => key in emojiByKey), `${group} export must only contain known keys`);
 }
 
 for (const variation of ['skin-tones', 'hair', 'families', 'all']) {

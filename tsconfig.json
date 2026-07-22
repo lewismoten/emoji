@@ -24,6 +24,7 @@
   },
   "exclude": [
     "cache",
-    "build"
+    "build",
+    ".type-tests"
   ]
 }

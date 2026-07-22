@@ -44,6 +44,13 @@ import manifest from "@lewismoten/emoji/manifest" with { type: "json" };
 console.log(manifest.categories);
 ```
 
+Each top-level category is composed from Unicode subgroup imports. For example,
+load only hand emoji instead of the full People & Body category:
+
+```js
+import hands from "@lewismoten/emoji/categories/people-and-body/hands";
+```
+
 Load all emojis only when a complete lookup is needed:
 
 ```js
