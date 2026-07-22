@@ -106,8 +106,16 @@ const applyUiTranslations = () => {
 async function loadUiTranslations(locale) {
   const baseLocale = locale.split('-')[0];
   try {
-    uiStrings = await fetch(`demo-locales/${baseLocale}.json`).then(response => response.json());
-    document.documentElement.lang = baseLocale;
+    const files = locale === baseLocale
+      ? [baseLocale]
+      : [baseLocale, locale];
+    const packs = await Promise.all(files.map(async code => {
+      const response = await fetch(`demo-locales/${code}.json`);
+      if (!response.ok) throw new Error(`No demo locale for ${code}`);
+      return response.json();
+    }));
+    uiStrings = Object.assign({}, ...packs);
+    document.documentElement.lang = locale;
   } catch {
     uiStrings = {};
     document.documentElement.lang = 'en';
