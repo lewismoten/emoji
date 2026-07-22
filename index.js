@@ -39,14 +39,14 @@ var searchLocales = [];
 var selectedSearchLocale = '';
 var searchLoadId = 0;
 const languageFlags = {
-  'ar': '🌐',
-  'en': '🌐',
+  'ar': '🇸🇦',
+  'en': '🇺🇸',
   'en-GB': '🇬🇧',
   'en-US': '🇺🇸',
-  'es': '🌐',
-  'hi': '🌐',
+  'es': '🇪🇸',
+  'hi': '🇮🇳',
   'hi-IN': '🇮🇳',
-  'zh': '🌐',
+  'zh': '🇨🇳',
   'zh-CN': '🇨🇳'
 };
 const sequenceTypeLabels = {

@@ -78,6 +78,10 @@ Regional packs are published only when CLDR has annotations that differ from
 their base language. When you request a regional locale, its base language is
 generated first automatically: `npm run cldr -- en-US`.
 
+The Emoji Explorer uses a representative country flag beside each language to
+make the picker easier to scan. Those flags are visual identifiers only; a base
+language pack such as `es` or `ar` is not limited to that country or region.
+
 Each top-level category is composed from Unicode subgroup imports. For example,
 load only hand emoji instead of the full People & Body category:
 
