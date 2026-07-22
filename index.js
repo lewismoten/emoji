@@ -426,6 +426,7 @@ function renderSearchLanguages() {
   noLanguage.classList.toggle('is-selected', selectedSearchLocale === '');
   noLanguage.setAttribute('aria-pressed', String(selectedSearchLocale === ''));
   noLanguage.innerHTML = `<span class="language-option-flag">🌐</span><span class="language-option-label">${translate('noLanguagePack', 'No language pack')}</span>`;
+  noLanguage.addEventListener('click', event => selectLanguageLink(event, '', noLanguage.href));
   languageList.appendChild(noLanguage);
 
   searchLocales.forEach(locale => {
@@ -441,9 +442,22 @@ function renderSearchLanguages() {
       ? localizedLabel
       : `${localizedLabel} (${locale.nativeLabel})`;
     option.innerHTML = `<span class="language-option-flag">${flag}</span><span class="language-option-label">${label}</span>`;
+    option.addEventListener('click', event => selectLanguageLink(event, locale.locale, option.href));
     languageList.appendChild(option);
   });
 }
+
+async function selectLanguageLink(event, locale, href) {
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  event.preventDefault();
+  await setSearchLanguage(locale);
+  window.history.pushState({ locale }, '', href);
+}
+
+window.addEventListener('popstate', () => {
+  const locale = window.location.pathname.match(/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/)?.[1] ?? '';
+  if (!locale || searchLocales.some(entry => entry.locale === locale)) setSearchLanguage(locale);
+});
 
 async function setSearchLanguage(requestedLocale) {
   const loadId = ++searchLoadId;
