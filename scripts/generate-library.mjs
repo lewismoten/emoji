@@ -149,6 +149,6 @@ write('manifest.json', JSON.stringify({
 const unicodeOrder = [...emoji].sort((a, b) => a.order - b.order);
 write('orders/manifest.json', JSON.stringify({
   unicode: unicodeOrder.map(item => item.key)
-}));
+}, null, 2));
 
 console.log(`Generated ${emoji.length} emoji across popular, all, ${categories.length} categories, ${categories.reduce((count, category) => count + category.subcategories.length, 0)} category subpacks, and ${Object.keys(variationPacks).length} variation packs.`);

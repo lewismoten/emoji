@@ -1,21 +1,13 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": [
-      "ESNext"
-    ],
-    "types": [
-      "node"
-    ],
+    "lib": ["ESNext"],
+    "types": ["node"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "paths": {
-      "@codejamboree/web-request-queue": [
-        "./types/web-request-queue.d.ts"
-      ],
-      "@lewismoten/emoji/search": [
-        "./library/search.ts"
-      ]
+      "@codejamboree/web-request-queue": ["./types/web-request-queue.d.ts"],
+      "@lewismoten/emoji/search": ["./library/search.ts"]
     },
     "rootDir": ".",
     "outDir": "build",
@@ -26,9 +18,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "exclude": [
-    "cache",
-    "build",
-    ".type-tests"
-  ]
+  "exclude": ["cache", "build", ".type-tests"]
 }

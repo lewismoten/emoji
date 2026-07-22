@@ -91,7 +91,7 @@ for (const locale of locales) {
     ...(baseLocale === locale ? {} : { baseLocale }),
     cldrVersion,
     annotations: annotationsToWrite
-  })}\n`);
+  }, null, 2)}\n`);
   manifest.set(locale, {
     locale,
     label: displayNames.of(locale) ?? locale,
