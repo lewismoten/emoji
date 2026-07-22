@@ -15,7 +15,7 @@ const coreAssets = [
   './',
   './index.html',
   ...localizedPages,
-  './index.css',
+  './index.css?direct',
   './index.js',
   './emoji.json',
   './dist/esm/index.js',

@@ -98,6 +98,7 @@ assert.ok(serviceWorker.includes(expectedCacheName), 'service-worker cache must 
 for (const asset of ['./index.ar.html', './emoji.json', './dist/esm/index.js', './offline.html', './versions/manifest.json']) {
   assert.ok(serviceWorker.includes(`"${asset}"`), `service worker must precache ${asset}`);
 }
+assert.ok(serviceWorker.includes('"./index.css?direct"'), 'service worker must precache Vite-compatible direct CSS');
 assert.match(arabicDemo, /<html lang="ar" dir="rtl" data-locale="ar">/, 'Arabic demo page must start in Arabic and RTL');
 assert.match(arabicDemo, /جارٍ تحميل الرموز التعبيرية/, 'Arabic demo loading state must be localized before JavaScript runs');
 assert.deepEqual(browserEmoji, emojiByKey, 'browser bundle must contain every emoji value');

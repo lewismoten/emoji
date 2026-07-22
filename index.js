@@ -327,7 +327,23 @@ async function onLoad() {
   drawList();
 }
 
-if ('serviceWorker' in navigator && window.isSecureContext) {
+const isViteDevelopment = typeof import.meta.env !== 'undefined' && import.meta.env.DEV === true;
+if ('serviceWorker' in navigator && window.isSecureContext && isViteDevelopment) {
+  window.addEventListener('load', async () => {
+    try {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations
+        .filter(registration => registration.scope.startsWith(window.location.origin))
+        .map(registration => registration.unregister()));
+      const cacheNames = await caches.keys();
+      await Promise.all(cacheNames
+        .filter(name => name.startsWith('emoji-explorer-'))
+        .map(name => caches.delete(name)));
+    } catch (error) {
+      console.warn('Could not clear local offline cache', error);
+    }
+  });
+} else if ('serviceWorker' in navigator && window.isSecureContext) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./service-worker.js').catch(error => {
       console.warn('Offline support unavailable', error);
