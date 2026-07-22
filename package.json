@@ -58,6 +58,8 @@
     "prepublishOnly": "npm run bundle",
     "start": "vite",
     "test": "npm run bundle && node ./build/scripts/test.mjs && tsc --noEmit --module NodeNext --moduleResolution NodeNext --target ESNext --strict .type-tests/merged-exports.mts",
+    "format": "prettier --write \"**/*.json\"",
+    "format:check": "prettier --check \"**/*.json\"",
     "unicode": "node ./scripts/update-unicode.mjs",
     "unicode:proposed": "node ./scripts/download-proposed-unicode.mjs",
     "cldr": "node ./scripts/update-cldr-locales.mjs"
@@ -90,6 +92,7 @@
     "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-license": "^3.7.1",
     "rollup-plugin-typescript2": "^0.36.0",
+    "prettier": "3.9.6",
     "typescript": "^5.6.2",
     "vite": "^8.1.5"
   }
