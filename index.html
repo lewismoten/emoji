@@ -85,14 +85,16 @@
           <details class="advanced-filters">
             <summary><span class="summary-long" data-i18n="filtersLong">Filter by category, version, and modifiers</span><span class="summary-short" data-i18n="filters">Filters</span></summary>
             <div class="filter-grid">
-            <label class="filter-field">
-              <span data-i18n="group">Group</span>
-              <select class="select-group"><option>Not loaded</option></select>
-            </label>
-            <label class="filter-field">
-              <span data-i18n="subgroup">Sub-group</span>
-              <select class="select-subgroup"><option>Not loaded</option></select>
-            </label>
+            <div class="filter-field">
+              <div class="filter-heading"><span id="group-filter-label" data-i18n="group">Group</span><span class="compact-group-label"></span></div>
+              <select class="select-group" aria-labelledby="group-filter-label"><option>Not loaded</option></select>
+              <div class="compact-choices compact-group-choices" role="radiogroup" aria-labelledby="group-filter-label"></div>
+            </div>
+            <div class="filter-field">
+              <div class="filter-heading"><span id="subgroup-filter-label" data-i18n="subgroup">Sub-group</span><span class="compact-subgroup-label"></span></div>
+              <select class="select-subgroup" aria-labelledby="subgroup-filter-label"><option>Not loaded</option></select>
+              <div class="compact-choices compact-subgroup-choices" role="radiogroup" aria-labelledby="subgroup-filter-label"></div>
+            </div>
             <label class="filter-field">
               <span data-i18n="versionFilter">Version filter</span>
               <select class="select-version-mode">
@@ -103,10 +105,14 @@
                 <option value="future-selected" data-i18n="selectedFuture">Selected future version only</option>
               </select>
             </label>
-            <label class="filter-field">
-              <span data-i18n="emojiVersion">Emoji version</span>
-              <select class="select-version" disabled><option data-i18n="loadingVersions">Loading versions…</option></select>
-            </label>
+            <div class="filter-field version-field">
+              <span id="version-filter-label" data-i18n="emojiVersion">Emoji version</span>
+              <select class="select-version" aria-labelledby="version-filter-label" disabled><option data-i18n="loadingVersions">Loading versions…</option></select>
+              <div class="compact-version">
+                <input id="version-range" class="version-range" type="range" min="0" max="0" step="1" value="0" aria-labelledby="version-filter-label" aria-describedby="version-range-value" disabled>
+                <output id="version-range-value" class="version-range-value" for="version-range" aria-live="polite">—</output>
+              </div>
+            </div>
             </div>
 
             <div class="modifier-filters">

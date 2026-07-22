@@ -3,7 +3,9 @@ import emoji from './dist/esm/index.js';
 var items = [];
 var groups = [];
 var subGroups = {};
-const NO_FILTER = 'Not applied';
+const UNASSIGNED = '\u0000';
+var selectedGroup = '';
+var selectedSubGroup = '';
 var emojiByKey = { ...emoji };
 var allIds = Object.keys(emojiByKey);
 var releasedIds = new Set();
@@ -21,8 +23,14 @@ var matchCount;
 var toolbar;
 var groupSelector;
 var subGroupSelector;
+var compactGroupChoices;
+var compactSubGroupChoices;
+var compactGroupLabel;
+var compactSubGroupLabel;
 var versionModeSelector;
 var versionSelector;
+var versionRange;
+var versionRangeValue;
 var advancedFilters;
 var futureReleaseButton;
 var orderButtons;
@@ -270,8 +278,14 @@ async function onLoad() {
   toolbar = document.getElementsByClassName('toolbar')[0];
   groupSelector = document.getElementsByClassName('select-group')[0];
   subGroupSelector = document.getElementsByClassName('select-subgroup')[0];
+  compactGroupChoices = ensureChoiceContainer(groupSelector, 'compact-group-choices', 'group-filter-label');
+  compactSubGroupChoices = ensureChoiceContainer(subGroupSelector, 'compact-subgroup-choices', 'subgroup-filter-label');
+  compactGroupLabel = ensureSelectionLabel(groupSelector, 'compact-group-label', 'group-filter-label');
+  compactSubGroupLabel = ensureSelectionLabel(subGroupSelector, 'compact-subgroup-label', 'subgroup-filter-label');
   versionModeSelector = document.getElementsByClassName('select-version-mode')[0];
   versionSelector = document.getElementsByClassName('select-version')[0];
+  versionRange = document.getElementsByClassName('version-range')[0];
+  versionRangeValue = document.getElementsByClassName('version-range-value')[0];
   advancedFilters = document.getElementsByClassName('advanced-filters')[0];
   futureReleaseButton = document.getElementsByClassName('future-release')[0];
   orderButtons = Array.from(document.getElementsByClassName('order-mode'));
@@ -299,7 +313,11 @@ async function onLoad() {
     if (value !== undefined) navigator.clipboard?.writeText(value);
   });
   versionModeSelector.addEventListener('change', onVersionFilterChange);
-  versionSelector.addEventListener('change', drawList);
+  versionSelector.addEventListener('change', () => {
+    syncVersionRange();
+    drawList();
+  });
+  versionRange?.addEventListener('input', onVersionRangeInput);
   futureReleaseButton.addEventListener('click', showLatestFutureRelease);
   orderButtons.forEach(button => button.addEventListener('click', onOrderModeChange));
 
@@ -325,6 +343,50 @@ async function onLoad() {
   await loadSearchLanguages(initialUiLocale);
 
   drawList();
+}
+
+function ensureChoiceContainer(selector, className, labelId) {
+  const existing = document.getElementsByClassName(className)[0];
+  if (existing) return existing;
+
+  let field = selector.closest('.filter-field');
+  if (field?.tagName === 'LABEL') {
+    const replacement = document.createElement('div');
+    replacement.className = field.className;
+    replacement.append(...field.childNodes);
+    field.replaceWith(replacement);
+    field = replacement;
+  }
+
+  const label = field?.querySelector('span');
+  if (label && !label.id) label.id = labelId;
+  selector.setAttribute('aria-labelledby', label?.id || labelId);
+  const choices = document.createElement('div');
+  choices.className = `compact-choices ${className}`;
+  choices.setAttribute('role', 'radiogroup');
+  choices.setAttribute('aria-labelledby', label?.id || labelId);
+  field?.appendChild(choices);
+  return choices;
+}
+
+function ensureSelectionLabel(selector, className, labelId) {
+  const existing = document.getElementsByClassName(className)[0];
+  if (existing) return existing;
+
+  const field = selector.closest('.filter-field');
+  const label = document.getElementById(labelId) ?? field?.querySelector('span');
+  if (!field || !label) return undefined;
+  let heading = label.closest('.filter-heading');
+  if (!heading) {
+    heading = document.createElement('div');
+    heading.className = 'filter-heading';
+    label.before(heading);
+    heading.appendChild(label);
+  }
+  const selection = document.createElement('span');
+  selection.className = className;
+  heading.appendChild(selection);
+  return selection;
 }
 
 const isViteDevelopment = typeof import.meta.env !== 'undefined' && import.meta.env.DEV === true;
@@ -386,35 +448,18 @@ async function loadData() {
         }
         return all;
       }, {});
-      groups.forEach(group => {
-        subGroups[group].sort();
-        subGroups[group].unshift(NO_FILTER);
-      });
+      groups.forEach(group => subGroups[group].sort());
 
-      while (groupSelector.firstChild)
-        groupSelector.removeChild(groupSelector.firstChild);
-
-      groups.unshift(NO_FILTER);
-      groups.forEach(name => {
-        const option = document.createElement('option');
-        option.value = name;
-        option.text = name === NO_FILTER ? translate('notApplied', name) : `${getGroupRepresentativeEmoji(name)} ${displayGroupName(name)}`;
-        groupSelector.appendChild(option);
-      });
-      // Replacing the placeholder options can leave a browser holding on to its
-      // old value ("Not loaded"). Reset to an unfiltered state before drawing.
-      groupSelector.value = NO_FILTER;
       versionModeSelector.value = 'all';
-      groupSelector.addEventListener('change', onChangeGroup);
-      subGroupSelector.addEventListener('change', drawList)
+      groupSelector.addEventListener('change', onGroupSelectorChange);
+      subGroupSelector.addEventListener('change', onSubGroupSelectorChange);
+      renderCategoryFilters();
 
       allIds = [];
       // Sort keys by Unicode group and subgroup, then by explorer section.
       groups.forEach(group => {
-        if (group === NO_FILTER) return;
         groupedKeys[group] = {};
         subGroups[group].forEach(unicodeSubGroup => {
-          if (unicodeSubGroup === NO_FILTER) return;
           groupedKeys[group][unicodeSubGroup] = [];
           const subgroupItems = items.filter(item =>
             item.group === group && item.unicodeSubGroup === unicodeSubGroup
@@ -432,10 +477,6 @@ async function loadData() {
       // Keep this snapshot before draft candidates are appended in
       // loadVersionData(), so the default version filter stays released-only.
       releasedIds = new Set(allIds);
-
-
-
-      onChangeGroup();
       onClick({ target: { id: 'clinkingBeerMugs' } }, false)
       loadVersionData();
       loadOrderData();
@@ -630,6 +671,7 @@ function showLatestFutureRelease() {
   versionModeSelector.value = 'future-selected';
   populateVersionSelector();
   versionSelector.value = latest.version;
+  syncVersionRange();
   drawList();
 }
 
@@ -653,6 +695,25 @@ function populateVersionSelector() {
   });
   versionSelector.value = manifests.at(-1)?.version ?? '';
   versionSelector.disabled = versionModeSelector.value === 'all' || versionModeSelector.value === 'future';
+  syncVersionRange();
+}
+
+function syncVersionRange() {
+  if (!versionRange || !versionRangeValue) return;
+  const options = Array.from(versionSelector.options);
+  const selectedIndex = Math.max(0, options.findIndex(option => option.value === versionSelector.value));
+  versionRange.max = String(Math.max(0, options.length - 1));
+  versionRange.value = String(selectedIndex);
+  versionRange.disabled = versionSelector.disabled || options.length === 0;
+  versionRangeValue.value = options[selectedIndex]?.text.replace(/\s*\(.*/, '') ?? '—';
+}
+
+function onVersionRangeInput() {
+  const option = versionSelector.options[Number(versionRange.value)];
+  if (!option) return;
+  versionSelector.value = option.value;
+  versionRangeValue.value = option.text.replace(/\s*\(.*/, '');
+  drawList();
 }
 
 function onVersionFilterChange() {
@@ -677,35 +738,160 @@ function getVersionKeys() {
     .slice(0, selectedIndex + 1)
     .flatMap(version => [...(versionKeys.get(version.version) ?? [])]));
 }
-function onChangeGroup() {
-  var group = groupSelector.value;
-  while (subGroupSelector.firstChild)
-    subGroupSelector.removeChild(subGroupSelector.firstChild);
+function onGroupSelectorChange() {
+  selectedGroup = groupSelector.value;
+  selectedSubGroup = '';
+  renderCategoryFilters();
+  drawList();
+}
 
-  if (group === NO_FILTER) {
+function onSubGroupSelectorChange() {
+  selectedSubGroup = subGroupSelector.value;
+  renderCategoryFilters();
+  drawList();
+}
+
+function subGroupSelectionKey(group, subGroup) {
+  return `${group}::${subGroup}`;
+}
+
+function renderCategoryFilters() {
+  groupSelector.closest('.filter-field')?.classList.toggle('has-choice-buttons', Boolean(compactGroupChoices));
+  const subGroupField = subGroupSelector.closest('.filter-field');
+  subGroupField?.classList.toggle('has-choice-buttons', Boolean(compactSubGroupChoices));
+  if (subGroupField) subGroupField.hidden = !selectedGroup;
+  populateGroupFilter();
+  populateSubGroupFilter();
+  renderCompactGroupChoices();
+  renderCompactSubGroupChoices();
+}
+
+function populateGroupFilter() {
+  const all = document.createElement('option');
+  all.value = '';
+  all.text = `🌐 ${translate('all', 'All')}`;
+  groupSelector.replaceChildren(all, ...groups.map(name => {
     const option = document.createElement('option');
-    option.value = NO_FILTER;
-    option.text = translate('noGroupSelected', '(no group selected)');
-    subGroupSelector.appendChild(option);
-  } else {
+    option.value = name;
+    option.text = `${getGroupRepresentativeEmoji(name)} ${displayGroupName(name)}`;
+    return option;
+  }));
+  groupSelector.value = selectedGroup;
+}
+
+function populateSubGroupFilter() {
+  const all = document.createElement('option');
+  all.value = '';
+  all.text = `🌐 ${translate('all', 'All')}`;
+  const children = [all];
+  availableSubGroupParents().forEach(group => {
+    const optionGroup = document.createElement('optgroup');
+    optionGroup.label = displayGroupName(group);
     subGroups[group].forEach(name => {
       const option = document.createElement('option');
-      option.value = name;
-      option.text = name === NO_FILTER
-        ? translate('allSubgroups', '(all sub-groups)')
-        : `${getSubGroupRepresentativeEmoji(group, name)} ${displayUnicodeSubGroupName(name)}`;
-      subGroupSelector.appendChild(option);
-    })
+      option.value = subGroupSelectionKey(group, name);
+      option.dataset.group = group;
+      option.dataset.subgroup = name;
+      option.text = `${getSubGroupRepresentativeEmoji(group, name)} ${displayUnicodeSubGroupName(name)}`;
+      optionGroup.appendChild(option);
+    });
+    children.push(optionGroup);
+  });
+  subGroupSelector.replaceChildren(...children);
+  subGroupSelector.value = selectedSubGroup;
+  subGroupSelector.disabled = false;
+}
+
+function availableSubGroupParents() {
+  return selectedGroup ? [selectedGroup] : [];
+}
+
+function renderCompactGroupChoices() {
+  if (!compactGroupChoices) return;
+  if (compactGroupLabel) {
+    compactGroupLabel.textContent = selectedGroup
+      ? displayGroupName(selectedGroup)
+      : translate('all', 'All');
   }
-  drawList();
+  const choices = [{ name: '', emoji: '🌐', label: translate('all', 'All') }, ...groups.map(name => ({
+    name,
+    emoji: getGroupRepresentativeEmoji(name),
+    label: displayGroupName(name)
+  }))];
+  compactGroupChoices.replaceChildren(...choices.map(({ name, emoji, label }) => makeCompactChoice({
+    value: name,
+    emoji,
+    label,
+    selected: selectedGroup === name,
+    onSelect() {
+      selectedGroup = name;
+      selectedSubGroup = '';
+      renderCategoryFilters();
+      drawList();
+    }
+  })));
+}
+
+function renderCompactSubGroupChoices() {
+  if (!compactSubGroupChoices) return;
+  if (compactSubGroupLabel) {
+    const separatorIndex = selectedSubGroup.indexOf('::');
+    const name = separatorIndex === -1 ? '' : selectedSubGroup.slice(separatorIndex + 2);
+    compactSubGroupLabel.textContent = name
+      ? displayUnicodeSubGroupName(name)
+      : translate('all', 'All');
+  }
+  const choices = availableSubGroupParents()
+    .flatMap(group => subGroups[group].map(name => ({ group, name })));
+  const allChoice = makeCompactChoice({
+    value: '',
+    emoji: '🌐',
+    label: translate('all', 'All'),
+    selected: selectedSubGroup === '',
+    onSelect() {
+      selectedSubGroup = '';
+      renderCategoryFilters();
+      drawList();
+    }
+  });
+  compactSubGroupChoices.replaceChildren(allChoice, ...choices.map(({ group, name }) => makeCompactChoice({
+    value: subGroupSelectionKey(group, name),
+    emoji: getSubGroupRepresentativeEmoji(group, name),
+    label: `${displayGroupName(group)}: ${displayUnicodeSubGroupName(name)}`,
+    selected: selectedSubGroup === subGroupSelectionKey(group, name),
+    onSelect() {
+      selectedSubGroup = subGroupSelectionKey(group, name);
+      renderCategoryFilters();
+      drawList();
+    }
+  })));
+}
+
+function makeCompactChoice({ value, emoji, label, selected, onSelect }) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'compact-choice';
+  button.dataset.value = value;
+  button.setAttribute('role', 'radio');
+  button.setAttribute('aria-checked', String(selected));
+  button.setAttribute('aria-label', label);
+  button.title = label;
+  const icon = document.createElement('span');
+  icon.className = 'compact-choice-emoji';
+  icon.setAttribute('aria-hidden', 'true');
+  icon.textContent = emoji;
+  const text = document.createElement('span');
+  text.className = 'compact-choice-label';
+  text.textContent = label;
+  button.replaceChildren(icon, text);
+  button.addEventListener('click', onSelect);
+  return button;
 }
 
 function refreshLocalizedLabels() {
   if (groups.length === 0) return;
-  Array.from(groupSelector.options).forEach(option => {
-    if (option.value !== NO_FILTER) option.text = `${getGroupRepresentativeEmoji(option.value)} ${displayGroupName(option.value)}`;
-  });
-  onChangeGroup();
+  renderCategoryFilters();
+  syncVersionRange();
 }
 
 function displayGroupName(name) {
@@ -714,7 +900,6 @@ function displayGroupName(name) {
 
 function getGroupRepresentativeEmoji(group) {
   const firstSubGroupWithMultipleEmoji = subGroups[group]
-    .filter(name => name !== NO_FILTER)
     .find(name => items.filter(item => item.group === group && item.unicodeSubGroup === name).length > 1);
   const subgroupItems = items.filter(item =>
     item.group === group && item.unicodeSubGroup === firstSubGroupWithMultipleEmoji
@@ -780,7 +965,7 @@ const asSubGroup = (name, direct) => {
   return div;
 }
 function asItem(state, key) {
-  var meta = byId[key] ?? { group: NO_FILTER, subGroups: NO_FILTER }
+  var meta = byId[key] ?? { group: UNASSIGNED, subGroups: UNASSIGNED }
   const displaySubGroup = orderMode === 'unicode' ? meta.unicodeSubGroup : meta.subGroup;
   const directSubGroup = orderMode === 'unicode' || !meta.hasExplorerSections;
   var groupId = 0;
@@ -889,18 +1074,16 @@ function drawList() {
     return keywords.every(keyword => searchableFields.some(field => field.includes(keyword)));
   }
 
-  var group = groupSelector.value;
   var keys = allIds.filter(hasKeyword);
   const includedVersionKeys = getVersionKeys();
   if (includedVersionKeys) {
     keys = keys.filter(key => includedVersionKeys.has(key));
   }
-  if (group !== NO_FILTER && items.length !== 0) {
-    keys = keys.filter(key => items.find(item => item.key === key)?.group === group);
+  if (selectedGroup && items.length !== 0) {
+    keys = keys.filter(key => byId[key]?.group === selectedGroup);
   }
-  var subGroup = subGroupSelector.value;
-  if (subGroup !== NO_FILTER && items.length !== 0) {
-    keys = keys.filter(key => items.find(item => item.key === key)?.unicodeSubGroup === subGroup);
+  if (selectedSubGroup && items.length !== 0) {
+    keys = keys.filter(key => subGroupSelectionKey(byId[key]?.group, byId[key]?.unicodeSubGroup) === selectedSubGroup);
   }
   skinToneCheckboxes.filter(check => {
     return check.checked
@@ -924,9 +1107,9 @@ function drawList() {
     ? { items: [], type: '', emoji: null }
     : {
     items: [],
-    group: NO_FILTER,
-    unicodeSubGroup: NO_FILTER,
-    subGroup: NO_FILTER,
+    group: UNASSIGNED,
+    unicodeSubGroup: UNASSIGNED,
+    subGroup: UNASSIGNED,
     groupElement: null,
     unicodeSubGroupElement: null,
       subGroupElement: null

@@ -139,7 +139,7 @@ h1 { margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); }
   border: 0;
 }
 
-.filter-options { display: flex; align-items: center; gap: .65rem; margin-top: .4rem; }
+.filter-options { display: flex; align-items: flex-start; gap: .65rem; margin-top: .4rem; }
 .advanced-filters { flex: 1; min-width: 0; }
 .advanced-filters > summary {
   width: fit-content;
@@ -151,6 +151,7 @@ h1 { margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); }
 .summary-short { display: none; }
 .future-release {
   display: inline-flex;
+  flex: none;
   align-items: center;
   min-height: 2rem;
   padding: .35rem .6rem;
@@ -169,12 +170,70 @@ h1 { margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); }
 .future-release[hidden] { display: none; }
 .filter-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(10rem, 1fr));
+  grid-template-columns: repeat(2, minmax(10rem, 1fr));
+  align-items: start;
   gap: .65rem;
   margin-top: .65rem;
 }
 
-.filter-field { display: grid; gap: .3rem; color: var(--muted); font-size: .78rem; font-weight: 650; }
+.filter-field { display: grid; align-content: start; align-self: start; gap: .3rem; color: var(--muted); font-size: .78rem; font-weight: 650; }
+.filter-field[hidden] { display: none; }
+.filter-heading { display: flex; align-items: baseline; min-width: 0; }
+.compact-group-label,
+.compact-subgroup-label { display: none; flex: 1; min-width: 0; overflow: hidden; color: var(--text); text-overflow: ellipsis; white-space: nowrap; }
+.compact-group-label::before,
+.compact-subgroup-label::before { margin-inline: .35rem; color: var(--muted); content: '·'; }
+.compact-group-label:empty,
+.compact-subgroup-label:empty { display: none; }
+
+.compact-version { display: none; }
+
+.compact-choices {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  gap: .3rem;
+}
+
+.compact-choice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+  height: 2.65rem;
+  padding: .35rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: .55rem;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 650;
+}
+.compact-choice-emoji { font-family: var(--emoji-font); font-size: 1.25rem; }
+.compact-choice-label { font-size: .78rem; white-space: nowrap; }
+.compact-choice:hover { border-color: var(--accent); }
+.compact-choice[aria-checked="true"] {
+  border-color: var(--accent);
+  background: var(--panel-strong);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.compact-choice:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.filter-field.has-choice-buttons > .select-group,
+.filter-field.has-choice-buttons > .select-subgroup { display: none; }
+
+.compact-version { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: .55rem; }
+.version-range {
+  min-height: 1.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  accent-color: var(--accent-strong);
+  cursor: pointer;
+}
+.version-range:disabled { cursor: default; opacity: .5; }
+.version-range-value { min-width: 5.5rem; color: var(--text); font-variant-numeric: tabular-nums; text-align: end; }
 
 input,
 select {
@@ -433,10 +492,6 @@ h2 { margin: 0; font-size: 1.15rem; }
 .subgroup .emoji > div span,
 .sequence-type > .emoji > div span { width: 100%; text-align: center; }
 
-@media (max-width: 900px) {
-  .filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
 @media (max-width: 560px) {
   .toolbar { max-height: 40svh; padding: .5rem .65rem; }
   .toolbar-heading { align-items: flex-start; flex-direction: column; gap: .35rem; }
@@ -445,18 +500,64 @@ h2 { margin: 0; font-size: 1.15rem; }
   .search-field { max-width: none; }
   .language-picker { flex: 0 0 auto; min-width: 0; padding: .4rem .5rem; }
   .language-picker-label { display: none; }
-  .filter-options { gap: .4rem; }
-  .advanced-filters > summary { font-size: .78rem; }
-  .future-release { padding: .3rem .45rem; font-size: .72rem; }
+  .filter-options { position: relative; display: block; }
+  .advanced-filters > summary { padding-inline-end: 7rem; font-size: .78rem; }
+  .future-release {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-end: 0;
+    padding: .3rem .45rem;
+    font-size: .72rem;
+  }
   .summary-long,
   .future-release-timing { display: none; }
   .summary-short { display: inline; }
-  .filter-grid { grid-template-columns: 1fr; }
+  .filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .filter-field:has(.compact-version) > .select-version { display: none; }
+  .compact-version { display: grid; }
   .modifier-filters { gap: .4rem; }
   fieldset { gap: .3rem; padding: .35rem .45rem .45rem; }
-  fieldset label { gap: .1rem; }
+  .modifier-filters fieldset label {
+    display: grid;
+    place-items: center;
+    width: 2.65rem;
+    min-height: 2.65rem;
+    padding: .2rem;
+    border: 1px solid var(--border);
+    border-radius: .55rem;
+    background: var(--panel);
+    cursor: pointer;
+  }
+  .modifier-filters fieldset label:has(input:checked) {
+    border-color: var(--accent);
+    background: var(--panel-strong);
+    box-shadow: inset 0 0 0 1px var(--accent);
+  }
+  .modifier-filters fieldset label:has(input:focus-visible) {
+    outline: 1px dashed var(--muted);
+    outline-offset: 3px;
+  }
+  .modifier-filters fieldset input {
+    position: absolute;
+    width: 1px;
+    min-height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
   .modifier-emoji { display: inline; font-size: .95rem; }
-  .modifier-label { display: none; }
+  .modifier-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
   .list { padding: .55rem; }
   .emoji-dialog-details { gap: .7rem; }
   .emoji-preview { flex-basis: 6rem; width: 6rem; height: 6rem; font-size: 4.5rem; }
@@ -466,4 +567,15 @@ h2 { margin: 0; font-size: 1.15rem; }
   .subgroup { flex-basis: 100%; }
   .subgroup .emoji > div,
   .sequence-type > .emoji > div { width: 2.7rem; height: 2.7rem; }
+}
+
+@media (max-width: 560px) and (hover: hover) {
+  .modifier-filters fieldset label:hover { border-color: var(--accent); }
+}
+
+@media (max-width: 399px) {
+  .compact-choice { width: 2.65rem; padding: .2rem; }
+  .compact-choice-label { display: none; }
+  .compact-group-label,
+  .compact-subgroup-label { display: inline; }
 }
