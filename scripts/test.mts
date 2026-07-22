@@ -27,6 +27,12 @@ const importDefault = async (file: string) =>
   (await import(pathToFileURL(path.join(root, file)).href)).default as Record<string, string>;
 
 const emoji = await readJson<Emoji[]>('emoji.json');
+const packageManifest = await readJson<{
+  name: string;
+  packs: { id: string; count: number; importPath: string }[];
+  categories: { id: string; label: string; count: number; importPath: string }[];
+  variations: { id: string; count: number; importPath: string }[];
+}>('manifest.json');
 const manifest = await readJson<{ versions: Version[]; proposed?: ProposedVersion[] }>('versions/manifest.json');
 const emojiByKey = Object.fromEntries(emoji.map(item => [item.key, item.emoji]));
 const browserEmoji = await importDefault('dist/esm/index.js');
@@ -38,6 +44,16 @@ assert.deepEqual(browserEmoji, emojiByKey, 'browser bundle must contain every em
 assert.deepEqual(allEmoji, emojiByKey, 'all export must contain every emoji value');
 assert.ok(Object.keys(popularEmoji).length > 0, 'popular export must not be empty');
 assert.ok(Object.keys(popularEmoji).every(key => key in emojiByKey), 'popular export must only contain known keys');
+assert.equal(packageManifest.name, '@lewismoten/emoji', 'package manifest must identify this package');
+assert.equal(packageManifest.packs.find(pack => pack.id === 'all')?.count, emoji.length, 'all pack count must match emoji data');
+assert.equal(packageManifest.categories.length, new Set(emoji.map(item => item.group)).size, 'package manifest must list every Unicode category');
+for (const category of packageManifest.categories) {
+  assert.equal(category.importPath, `@lewismoten/emoji/categories/${category.id}`, `${category.label} must have a public import path`);
+  assert.equal(category.count, emoji.filter(item => item.group === category.label).length, `${category.label} count must match emoji data`);
+}
+for (const variation of packageManifest.variations) {
+  assert.equal(variation.importPath, `@lewismoten/emoji/variations/${variation.id}`, `${variation.id} must have a public import path`);
+}
 
 const versionKeys = new Set<string>();
 for (const version of manifest.versions) {

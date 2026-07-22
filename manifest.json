@@ -1,0 +1,105 @@
+{
+  "name": "@lewismoten/emoji",
+  "packs": [
+    {
+      "id": "popular",
+      "label": "Popular",
+      "count": 40,
+      "importPath": "@lewismoten/emoji"
+    },
+    {
+      "id": "all",
+      "label": "All emoji",
+      "count": 3953,
+      "importPath": "@lewismoten/emoji/all"
+    }
+  ],
+  "categories": [
+    {
+      "id": "objects",
+      "label": "Objects",
+      "count": 266,
+      "importPath": "@lewismoten/emoji/categories/objects"
+    },
+    {
+      "id": "symbols",
+      "label": "Symbols",
+      "count": 224,
+      "importPath": "@lewismoten/emoji/categories/symbols"
+    },
+    {
+      "id": "activities",
+      "label": "Activities",
+      "count": 85,
+      "importPath": "@lewismoten/emoji/categories/activities"
+    },
+    {
+      "id": "travel-and-places",
+      "label": "Travel & Places",
+      "count": 219,
+      "importPath": "@lewismoten/emoji/categories/travel-and-places"
+    },
+    {
+      "id": "smileys-and-emotion",
+      "label": "Smileys & Emotion",
+      "count": 171,
+      "importPath": "@lewismoten/emoji/categories/smileys-and-emotion"
+    },
+    {
+      "id": "food-and-drink",
+      "label": "Food & Drink",
+      "count": 131,
+      "importPath": "@lewismoten/emoji/categories/food-and-drink"
+    },
+    {
+      "id": "people-and-body",
+      "label": "People & Body",
+      "count": 2418,
+      "importPath": "@lewismoten/emoji/categories/people-and-body"
+    },
+    {
+      "id": "animals-and-nature",
+      "label": "Animals & Nature",
+      "count": 160,
+      "importPath": "@lewismoten/emoji/categories/animals-and-nature"
+    },
+    {
+      "id": "component",
+      "label": "Component",
+      "count": 9,
+      "importPath": "@lewismoten/emoji/categories/component"
+    },
+    {
+      "id": "flags",
+      "label": "Flags",
+      "count": 270,
+      "importPath": "@lewismoten/emoji/categories/flags"
+    }
+  ],
+  "variations": [
+    {
+      "id": "skin-tones",
+      "label": "Skin tones",
+      "count": 2035,
+      "importPath": "@lewismoten/emoji/variations/skin-tones"
+    },
+    {
+      "id": "hair",
+      "label": "Hair styles",
+      "count": 76,
+      "importPath": "@lewismoten/emoji/variations/hair"
+    },
+    {
+      "id": "families",
+      "label": "Families",
+      "count": 29,
+      "importPath": "@lewismoten/emoji/variations/families"
+    },
+    {
+      "id": "all",
+      "label": "All variations",
+      "count": 2080,
+      "importPath": "@lewismoten/emoji/variations/all"
+    }
+  ]
+}

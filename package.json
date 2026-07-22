@@ -33,6 +33,8 @@
       "import": "./dist/esm/variations/*.min.js",
       "require": "./dist/commonjs/variations/*.min.cjs"
     },
+    "./manifest": "./manifest.json",
+    "./manifest.json": "./manifest.json",
     "./versions/*": "./versions/*.json",
     "./proposed/*": "./proposed/*.json",
     "./development/*": {

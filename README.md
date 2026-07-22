@@ -35,6 +35,15 @@ console.log(emoji.clinkingBeerMugs);
 
 ## Packs
 
+Discover the available packs, labels, counts, and public import paths without
+hard-coding them:
+
+```js
+import manifest from "@lewismoten/emoji/manifest" with { type: "json" };
+
+console.log(manifest.categories);
+```
+
 Load all emojis only when a complete lookup is needed:
 
 ```js

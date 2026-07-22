@@ -2,6 +2,7 @@
 *
 # Except everything in dist folder
 !dist/**
+!manifest.json
 !versions/
 !versions/**
 !proposed/
