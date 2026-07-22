@@ -10,6 +10,20 @@
   --accent-strong: #df9cff;
   --code: #0b2637;
   --toolbar-height: 0px;
+  --ui-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --emoji-font: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla", sans-serif;
+}
+
+:lang(ar) {
+  --ui-font: "Noto Sans Arabic", "Noto Naskh Arabic", "Geeza Pro", Tahoma, "Segoe UI", Arial, sans-serif;
+}
+
+:lang(hi) {
+  --ui-font: "Noto Sans Devanagari", "Kohinoor Devanagari", "Nirmala UI", Mangal, system-ui, sans-serif;
+}
+
+:lang(zh) {
+  --ui-font: "Noto Sans CJK SC", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Heiti SC", system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -20,7 +34,7 @@ body {
   padding-bottom: 4rem;
   background: var(--page);
   color: var(--text);
-  font-family: "Segoe UI Emoji", "Segoe UI", "Noto Sans", Roboto, "Helvetica Neue", sans-serif;
+  font-family: var(--ui-font);
 }
 
 main { max-width: 1600px; margin: 0 auto; }
@@ -181,6 +195,12 @@ legend { padding: 0 .25rem; color: var(--muted); font-size: .75rem; font-weight:
 fieldset label { display: flex; align-items: center; gap: .2rem; font-size: .8rem; white-space: nowrap; }
 fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-strong); }
 .modifier-emoji { display: none; }
+.modifier-emoji,
+.language-option-flag,
+.language-picker-flag,
+.emoji-preview,
+.subgroup .emoji > div,
+.sequence-type > .emoji > div { font-family: var(--emoji-font); }
 
 .example-dialog,
 .language-dialog {
@@ -314,6 +334,7 @@ h2 { margin: 0; font-size: 1.15rem; }
 .code .native-object { color: #ffe28e; }
 .code .object,
 .code .object-key { color: #ffaaa3; }
+.code .emoji-value { font-family: var(--emoji-font); }
 
 .example-link { padding: .55rem 1rem; background: var(--panel-strong); font-size: .8rem; }
 
