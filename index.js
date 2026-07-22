@@ -336,7 +336,7 @@ function renderSearchLanguages() {
   const noLanguage = document.createElement('button');
   noLanguage.type = 'button';
   noLanguage.className = 'language-option';
-  noLanguage.innerHTML = '<span class="language-option-flag">🌐</span><span><span class="language-option-label">No language pack</span><span class="language-option-detail">Search built-in emoji names only</span></span>';
+  noLanguage.innerHTML = '<span class="language-option-flag">🌐</span><span class="language-option-label">No language pack</span>';
   noLanguage.addEventListener('click', () => setSearchLanguage(''));
   languageList.appendChild(noLanguage);
 
@@ -345,7 +345,7 @@ function renderSearchLanguages() {
     const flag = languageFlags[locale.locale] ?? '🌐';
     option.type = 'button';
     option.className = 'language-option';
-    option.innerHTML = `<span class="language-option-flag">${flag}</span><span><span class="language-option-label">${locale.label}</span><span class="language-option-detail">Load ${locale.locale}${locale.baseLocale ? ` (uses ${locale.baseLocale} as its base)` : ''}</span></span>`;
+    option.innerHTML = `<span class="language-option-flag">${flag}</span><span class="language-option-label">${locale.label}</span>`;
     option.addEventListener('click', () => setSearchLanguage(locale.locale));
     languageList.appendChild(option);
   });

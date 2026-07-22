@@ -215,7 +215,6 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
 .language-picker:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .language-option-flag { font-size: 1.35rem; text-align: center; }
 .language-option-label { font-weight: 700; }
-.language-option-detail { margin-top: .12rem; color: var(--muted); font-size: .78rem; }
 
 .example-dialog::backdrop,
 .language-dialog::backdrop { background: rgb(0 0 0 / 60%); backdrop-filter: blur(3px); }
