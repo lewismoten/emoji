@@ -36,8 +36,40 @@ const mergedPack = (file, packs) => {
   ];
   write(file, lines.join('\n'));
 };
+const searchModule = `export type EmojiAnnotations = Readonly<Record<string, readonly string[]>>;
+
+export type EmojiLocalePack = Readonly<{
+  locale?: string;
+  baseLocale?: string;
+  annotations: EmojiAnnotations;
+}>;
+
+const normalize = (value: string) => value.trim().toLocaleLowerCase();
+
+export const searchEmoji = (query: string, locale: EmojiLocalePack, limit = Infinity): string[] => {
+  const terms = normalize(query).split(/\\s+/).filter(Boolean);
+  if (terms.length === 0) return [];
+  return Object.entries(locale.annotations)
+    .filter(([, annotations]) => {
+      const searchable = annotations.map(normalize);
+      return terms.every(term => searchable.some(annotation => annotation.includes(term)));
+    })
+    .slice(0, limit)
+    .map(([key]) => key);
+};
+
+export const createEmojiSearch = (locale: EmojiLocalePack) =>
+  (query: string, limit?: number) => searchEmoji(query, locale, limit);
+
+/** Merge a base locale followed by any regional override packs. */
+export const mergeEmojiLocalePacks = (...packs: readonly EmojiLocalePack[]): EmojiLocalePack => ({
+  ...(packs.length > 0 && packs[packs.length - 1].locale ? { locale: packs[packs.length - 1].locale } : {}),
+  annotations: Object.assign({}, ...packs.map(pack => pack.annotations))
+});
+`;
 
 clean(sourceDirectory);
+write(path.join(sourceDirectory, 'search.ts'), searchModule.trim());
 
 const byKey = new Map(emoji.map(item => [item.key, item]));
 const sequenceTypes = ['single', 'modifier', 'zwj', 'flag', 'keycap', 'tag'];

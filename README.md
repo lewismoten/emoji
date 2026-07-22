@@ -47,6 +47,36 @@ console.log(manifest.categories);
 `@lewismoten/emoji/orders/manifest` provides canonical Unicode key order and
 the `sequenceType` field on each emoji supports sequence-aware rendering.
 
+## Search and localization
+
+Search is data-free until a locale pack is imported. Locale packs contain CLDR
+short names and keywords where CLDR provides them, and can be loaded only for
+the languages your app needs:
+
+```js
+import { createEmojiSearch } from "@lewismoten/emoji/search";
+import english from "@lewismoten/emoji/locales/en" with { type: "json" };
+
+const search = createEmojiSearch(english);
+console.log(search("artist palette")); // ["artistPalette"]
+```
+
+Regional packs are compact overrides, so merge their base locale first. The
+locale manifest exposes `baseLocale`, `count` (stored overrides), and
+`totalCount` (annotations after inheritance):
+
+```js
+import { createEmojiSearch, mergeEmojiLocalePacks } from "@lewismoten/emoji/search";
+import english from "@lewismoten/emoji/locales/en" with { type: "json" };
+import americanEnglish from "@lewismoten/emoji/locales/en-US" with { type: "json" };
+
+const search = createEmojiSearch(mergeEmojiLocalePacks(english, americanEnglish));
+```
+
+The included locale packs are `ar`, `en`, `en-GB`, `en-US`, `es`, `hi`,
+`hi-IN`, `zh`, and `zh-CN`.
+Generate or update selected CLDR locales with `npm run cldr -- <locale...>`.
+
 Each top-level category is composed from Unicode subgroup imports. For example,
 load only hand emoji instead of the full People & Body category:
 

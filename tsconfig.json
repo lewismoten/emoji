@@ -12,8 +12,12 @@
     "paths": {
       "@codejamboree/web-request-queue": [
         "./types/web-request-queue.d.ts"
+      ],
+      "@lewismoten/emoji/search": [
+        "./library/search.ts"
       ]
     },
+    "rootDir": ".",
     "outDir": "build",
     "sourceMap": true,
     "declaration": true,

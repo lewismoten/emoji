@@ -29,6 +29,7 @@ var proposedVersionManifests = [];
 var versionKeys = new Map();
 var orderManifest = { unicode: [] };
 var orderMode = 'grouped';
+var searchAnnotations = {};
 const sequenceTypeLabels = {
   single: 'Single emoji',
   modifier: 'Modifier sequences',
@@ -292,6 +293,17 @@ async function loadData() {
       onClick({ target: { id: 'clinkingBeerMugs' } }, false)
       loadVersionData();
       loadOrderData();
+      loadSearchAnnotations();
+}
+
+async function loadSearchAnnotations() {
+  try {
+    const locale = await fetch('locales/en.json').then(response => response.json());
+    searchAnnotations = locale.annotations ?? {};
+    drawList();
+  } catch (error) {
+    console.warn('English search annotations unavailable', error);
+  }
 }
 
 async function loadOrderData() {
@@ -610,17 +622,14 @@ function orderedKeys(keys) {
 }
 
 function drawList() {
-  var keywords = searchText.value
-    .toLowerCase()
-    .replace(/[,]/gi, " ")
-    .replace(/[^a-z\d*# ]/gi, "")
-    .split(" ");
+  var keywords = searchText.value.toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
 
   function hasKeyword(emojiKey) {
-    for (var i = 0; i < keywords.length; i++) {
-      if (emojiKey.toLowerCase().indexOf(keywords[i]) !== -1) return true;
-    }
-    return false;
+    const searchable = [emojiKey, byId[emojiKey]?.shortName, ...(searchAnnotations[emojiKey] ?? [])]
+      .filter(Boolean)
+      .join(' ')
+      .toLocaleLowerCase();
+    return keywords.every(keyword => searchable.includes(keyword));
   }
 
   var group = groupSelector.value;

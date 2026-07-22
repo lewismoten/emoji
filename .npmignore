@@ -4,6 +4,8 @@
 !dist/**
 !NOTICE.md
 !manifest.json
+!locales/
+!locales/**
 !orders/
 !orders/**
 !versions/

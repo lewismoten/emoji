@@ -35,6 +35,12 @@
     },
     "./manifest": "./manifest.json",
     "./manifest.json": "./manifest.json",
+    "./search": {
+      "types": "./dist/esm/types/search.d.mts",
+      "import": "./dist/esm/search.min.js",
+      "require": "./dist/commonjs/search.min.cjs"
+    },
+    "./locales/*": "./locales/*.json",
     "./orders/*": "./orders/*.json",
     "./versions/*": "./versions/*.json",
     "./proposed/*": "./proposed/*.json",
@@ -53,7 +59,8 @@
     "start": "vite",
     "test": "npm run bundle && node ./build/scripts/test.mjs && tsc --noEmit --module NodeNext --moduleResolution NodeNext --target ESNext --strict .type-tests/merged-exports.mts",
     "unicode": "node ./scripts/update-unicode.mjs",
-    "unicode:proposed": "node ./scripts/download-proposed-unicode.mjs"
+    "unicode:proposed": "node ./scripts/download-proposed-unicode.mjs",
+    "cldr": "node ./scripts/update-cldr-locales.mjs"
   },
   "repository": {
     "type": "git",

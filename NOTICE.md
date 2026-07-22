@@ -2,8 +2,8 @@
 
 ## Unicode data
 
-The generated emoji data, Unicode version manifests, proposed emoji data, and
-ordering data are derived from Unicode data files.
+The generated emoji data, CLDR locale annotations, Unicode version manifests,
+proposed emoji data, and ordering data are derived from Unicode data files.
 
 Unicode License v3
 

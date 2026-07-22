@@ -24,6 +24,17 @@ type ProposedVersion = Version & {
   released: null;
 };
 
+type LocaleManifest = {
+  locales: { locale: string; baseLocale?: string; file: string; count: number; totalCount: number; cldrVersion: string }[];
+};
+
+type LocalePack = {
+  locale: string;
+  baseLocale?: string;
+  cldrVersion: string;
+  annotations: Record<string, string[]>;
+};
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const readJson = async <T,>(file: string) => JSON.parse(await fs.readFile(path.join(root, file), 'utf8')) as T;
 const importFileDefault = async (file: string) =>
@@ -34,6 +45,7 @@ const require = createRequire(import.meta.url);
 
 const emoji = await readJson<Emoji[]>('emoji.json');
 const orderManifest = await readJson<{ unicode: string[] }>('orders/manifest.json');
+const localeManifest = await readJson<LocaleManifest>('locales/manifest.json');
 const packageManifest = await readJson<{
   name: string;
   packs: { id: string; count: number; importPath: string }[];
@@ -68,6 +80,26 @@ assert.ok(Object.keys(popularEmoji).every(key => key in emojiByKey), 'popular ex
 assert.deepEqual(rootEmoji, popularEmoji, 'root export must resolve to the popular package export');
 assert.deepEqual(require('@lewismoten/emoji/all'), allEmoji, 'CommonJS all export must resolve through package exports');
 assert.deepEqual(require('@lewismoten/emoji/orders/manifest'), orderManifest, 'order manifest must resolve through package exports');
+assert.deepEqual(require('@lewismoten/emoji/locales/manifest'), localeManifest, 'locale manifest must resolve through package exports');
+assert.deepEqual(localeManifest.locales.map(locale => locale.locale), ['ar', 'en', 'en-GB', 'en-US', 'es', 'hi', 'hi-IN', 'zh', 'zh-CN'], 'default CLDR locale packs must be present');
+for (const locale of localeManifest.locales) {
+  const pack = require(`@lewismoten/emoji/locales/${locale.locale}`) as LocalePack;
+  assert.equal(pack.locale, locale.locale, `${locale.locale} pack must identify its locale`);
+  assert.equal(pack.cldrVersion, locale.cldrVersion, `${locale.locale} pack must identify its CLDR version`);
+  assert.equal(pack.baseLocale, locale.baseLocale, `${locale.locale} pack must identify its base locale`);
+  assert.equal(Object.keys(pack.annotations).length, locale.count, `${locale.locale} annotation count must match its manifest`);
+  assert.ok(Object.keys(pack.annotations).every(key => key in emojiByKey), `${locale.locale} annotations must only reference known emoji`);
+}
+const { createEmojiSearch, mergeEmojiLocalePacks } = await import('@lewismoten/emoji/search');
+const searchEnglish = createEmojiSearch(require('@lewismoten/emoji/locales/en') as LocalePack);
+assert.ok(searchEnglish('artist palette').includes('artistPalette'), 'search must find CLDR short names');
+assert.ok(searchEnglish('painting').includes('artistPalette'), 'search must find CLDR keywords');
+for (const locale of localeManifest.locales.filter(locale => locale.baseLocale)) {
+  const base = require(`@lewismoten/emoji/locales/${locale.baseLocale}`) as LocalePack;
+  const regional = require(`@lewismoten/emoji/locales/${locale.locale}`) as LocalePack;
+  const merged = mergeEmojiLocalePacks(base, regional);
+  assert.equal(Object.keys(merged.annotations).length, locale.totalCount, `${locale.locale} must merge with its base locale`);
+}
 assert.equal(packageManifest.name, '@lewismoten/emoji', 'package manifest must identify this package');
 assert.equal(packageManifest.packs.find(pack => pack.id === 'all')?.count, emoji.length, 'all pack count must match emoji data');
 assert.equal(packageManifest.categories.length, new Set(emoji.map(item => item.group)).size, 'package manifest must list every Unicode category');
