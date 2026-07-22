@@ -3,6 +3,7 @@ import path from 'node:path';
 
 const defaultLocales = ['en', 'en-US', 'en-GB', 'es', 'hi', 'hi-IN', 'zh', 'zh-CN', 'ar'];
 const cldrVersion = process.env.CLDR_VERSION ?? '48.2.0';
+const cldrSourceTag = `release-${cldrVersion.split('.').slice(0, 2).join('-')}`;
 const requestedLocales = process.argv.slice(2).filter(argument => !argument.startsWith('--'));
 const requestedOrDefaultLocales = requestedLocales.length > 0 ? requestedLocales : defaultLocales;
 // A regional pack is an overlay, so always generate its base pack first. This
@@ -18,6 +19,8 @@ const displayNames = new Intl.DisplayNames(['en'], { type: 'language' });
 
 const sourceUrl = (packageName, directory, locale) =>
   `https://raw.githubusercontent.com/unicode-org/cldr-json/${cldrVersion}/cldr-json/${packageName}/${directory}/${locale}/annotations.json`;
+const characterLabelsUrl = locale =>
+  `https://raw.githubusercontent.com/unicode-org/cldr/${cldrSourceTag}/common/main/${locale}.xml`;
 const fetchJson = async url => {
   const response = await fetch(url);
   if (!response.ok) {
@@ -27,6 +30,15 @@ const fetchJson = async url => {
   }
   return response.json();
 };
+const fetchText = async url => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    const error = new Error(`Failed to download ${url}: ${response.status} ${response.statusText}`);
+    error.status = response.status;
+    throw error;
+  }
+  return response.text();
+};
 const fetchOptionalJson = async (packageName, directory, locale) => {
   try {
     return await fetchJson(sourceUrl(packageName, directory, locale));
@@ -35,7 +47,29 @@ const fetchOptionalJson = async (packageName, directory, locale) => {
     return null;
   }
 };
+const fetchOptionalText = async url => {
+  try {
+    return await fetchText(url);
+  } catch (error) {
+    if (error.status !== 404) throw error;
+    return null;
+  }
+};
 const annotationsFrom = data => data.annotations?.annotations ?? data.annotationsDerived?.annotations ?? {};
+const decodeXml = value => value
+  .replace(/&amp;/g, '&')
+  .replace(/&lt;/g, '<')
+  .replace(/&gt;/g, '>')
+  .replace(/&quot;/g, '"')
+  .replace(/&apos;/g, "'");
+const characterLabelsFrom = xml => {
+  const labels = {};
+  const section = xml?.match(/<characterLabels>([\s\S]*?)<\/characterLabels>/)?.[1] ?? '';
+  for (const match of section.matchAll(/<characterLabel type="([^"]+)"[^>]*>([\s\S]*?)<\/characterLabel>/g)) {
+    labels[match[1]] = decodeXml(match[2].trim());
+  }
+  return labels;
+};
 
 fs.mkdirSync(outputDirectory, { recursive: true });
 const existingManifest = fs.existsSync(manifestFile)
@@ -49,11 +83,13 @@ for (const locale of locales) {
   }
   console.info(`Downloading CLDR ${cldrVersion} annotations for ${locale}`);
   const baseLocale = locale.split('-')[0];
-  const [baseAnnotations, baseDerivedAnnotations, annotations, derivedAnnotations] = await Promise.all([
+  const [baseAnnotations, baseDerivedAnnotations, annotations, derivedAnnotations, baseLabelsXml, labelsXml] = await Promise.all([
     fetchJson(sourceUrl('cldr-annotations-full', 'annotations', baseLocale)),
     fetchJson(sourceUrl('cldr-annotations-derived-full', 'annotationsDerived', baseLocale)),
     baseLocale === locale ? null : fetchOptionalJson('cldr-annotations-full', 'annotations', locale),
-    baseLocale === locale ? null : fetchOptionalJson('cldr-annotations-derived-full', 'annotationsDerived', locale)
+    baseLocale === locale ? null : fetchOptionalJson('cldr-annotations-derived-full', 'annotationsDerived', locale),
+    fetchText(characterLabelsUrl(baseLocale)),
+    baseLocale === locale ? null : fetchOptionalText(characterLabelsUrl(locale))
   ]);
   const baseSource = {
     ...annotationsFrom(baseDerivedAnnotations),
@@ -79,18 +115,24 @@ for (const locale of locales) {
   const annotationsToWrite = baseLocale === locale
     ? entries
     : Object.fromEntries(Object.entries(entries).filter(([key, terms]) => JSON.stringify(terms) !== JSON.stringify(baseEntries[key])));
+  const baseLabels = characterLabelsFrom(baseLabelsXml);
+  const labels = { ...baseLabels, ...characterLabelsFrom(labelsXml) };
+  const labelsToWrite = baseLocale === locale
+    ? labels
+    : Object.fromEntries(Object.entries(labels).filter(([key, label]) => label !== baseLabels[key]));
   const file = `${locale}.json`;
-  if (baseLocale !== locale && Object.keys(annotationsToWrite).length === 0) {
+  if (baseLocale !== locale && Object.keys(annotationsToWrite).length === 0 && Object.keys(labelsToWrite).length === 0) {
     fs.rmSync(path.join(outputDirectory, file), { force: true });
     manifest.delete(locale);
-    console.info(`No ${locale}-specific CLDR annotations are available; omitted ${path.join(outputDirectory, file)} and use ${baseLocale} instead`);
+    console.info(`No ${locale}-specific CLDR data is available; omitted ${path.join(outputDirectory, file)} and use ${baseLocale} instead`);
     continue;
   }
   fs.writeFileSync(path.join(outputDirectory, file), `${JSON.stringify({
     locale,
     ...(baseLocale === locale ? {} : { baseLocale }),
     cldrVersion,
-    annotations: annotationsToWrite
+    annotations: annotationsToWrite,
+    labels: labelsToWrite
   }, null, 2)}\n`);
   manifest.set(locale, {
     locale,
@@ -99,9 +141,11 @@ for (const locale of locales) {
     ...(baseLocale === locale ? {} : { baseLocale }),
     count: Object.keys(annotationsToWrite).length,
     totalCount: Object.keys(entries).length,
+    characterLabelCount: Object.keys(labelsToWrite).length,
+    totalCharacterLabelCount: Object.keys(labels).length,
     cldrVersion
   });
-  console.info(`Wrote ${Object.keys(annotationsToWrite).length} CLDR annotations to ${path.join(outputDirectory, file)} (${Object.keys(entries).length} after inheritance)`);
+  console.info(`Wrote ${Object.keys(annotationsToWrite).length} CLDR annotations and ${Object.keys(labelsToWrite).length} character labels to ${path.join(outputDirectory, file)}`);
 }
 
 fs.writeFileSync(manifestFile, `${JSON.stringify({

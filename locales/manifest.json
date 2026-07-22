@@ -6,6 +6,8 @@
       "file": "ar.json",
       "count": 2773,
       "totalCount": 2773,
+      "characterLabelCount": 86,
+      "totalCharacterLabelCount": 86,
       "cldrVersion": "48.2.0"
     },
     {
@@ -14,6 +16,8 @@
       "file": "en.json",
       "count": 2773,
       "totalCount": 2773,
+      "characterLabelCount": 86,
+      "totalCharacterLabelCount": 86,
       "cldrVersion": "48.2.0"
     },
     {
@@ -23,6 +27,8 @@
       "baseLocale": "en",
       "count": 84,
       "totalCount": 2773,
+      "characterLabelCount": 0,
+      "totalCharacterLabelCount": 86,
       "cldrVersion": "48.2.0"
     },
     {
@@ -31,6 +37,8 @@
       "file": "es.json",
       "count": 2773,
       "totalCount": 2773,
+      "characterLabelCount": 86,
+      "totalCharacterLabelCount": 86,
       "cldrVersion": "48.2.0"
     },
     {
@@ -39,6 +47,8 @@
       "file": "hi.json",
       "count": 2772,
       "totalCount": 2772,
+      "characterLabelCount": 86,
+      "totalCharacterLabelCount": 86,
       "cldrVersion": "48.2.0"
     },
     {
@@ -47,6 +57,8 @@
       "file": "zh.json",
       "count": 2773,
       "totalCount": 2773,
+      "characterLabelCount": 86,
+      "totalCharacterLabelCount": 86,
       "cldrVersion": "48.2.0"
     }
   ]

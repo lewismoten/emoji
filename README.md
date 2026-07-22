@@ -78,6 +78,11 @@ Regional packs are published only when CLDR has annotations that differ from
 their base language. When you request a regional locale, its base language is
 generated first automatically: `npm run cldr -- en-US`.
 
+Each locale pack also includes `labels`, the CLDR character-label dictionary
+used by character pickers and keyboards. It supplies localized broad labels
+such as `person`, `food_drink`, `travel_places`, and `symbols`; consumers can
+keep their Unicode group/subgroup IDs stable while using these values for display.
+
 The Emoji Explorer uses a representative country flag beside each language to
 make the picker easier to scan. Those flags are visual identifiers only; a base
 language pack such as `es` or `ar` is not limited to that country or region.

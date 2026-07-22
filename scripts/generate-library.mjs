@@ -42,6 +42,7 @@ export type EmojiLocalePack = Readonly<{
   locale?: string;
   baseLocale?: string;
   annotations: EmojiAnnotations;
+  labels?: Readonly<Record<string, string>>;
 }>;
 
 const normalize = (value: string) => value.trim().toLocaleLowerCase();
@@ -64,7 +65,8 @@ export const createEmojiSearch = (locale: EmojiLocalePack) =>
 /** Merge a base locale followed by any regional override packs. */
 export const mergeEmojiLocalePacks = (...packs: readonly EmojiLocalePack[]): EmojiLocalePack => ({
   ...(packs.length > 0 && packs[packs.length - 1].locale ? { locale: packs[packs.length - 1].locale } : {}),
-  annotations: Object.assign({}, ...packs.map(pack => pack.annotations))
+  annotations: Object.assign({}, ...packs.map(pack => pack.annotations)),
+  labels: Object.assign({}, ...packs.map(pack => pack.labels ?? {}))
 });
 `;
 

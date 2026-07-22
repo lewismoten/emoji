@@ -35,6 +35,7 @@ var versionKeys = new Map();
 var orderManifest = { unicode: [] };
 var orderMode = 'grouped';
 var searchAnnotations = {};
+var searchLabels = {};
 var searchLocales = [];
 var selectedSearchLocale = '';
 var searchLoadId = 0;
@@ -48,6 +49,32 @@ const languageFlags = {
   'hi-IN': '🇮🇳',
   'zh': '🇨🇳',
   'zh-CN': '🇨🇳'
+};
+const unicodeGroupLabelKeys = {
+  'Activities': 'activities',
+  'Animals & Nature': 'animals_nature',
+  'Component': 'emoji',
+  'Flags': 'flags',
+  'Food & Drink': 'food_drink',
+  'Objects': 'objects',
+  'People & Body': 'person',
+  'Smileys & Emotion': 'smileys_people',
+  'Symbols': 'symbols',
+  'Travel & Places': 'travel_places'
+};
+const unicodeSubgroupLabelKeys = {
+  'animal-amphibian': 'animal', 'animal-bird': 'animal', 'animal-bug': 'animal', 'animal-mammal': 'animal', 'animal-marine': 'animal', 'animal-reptile': 'animal',
+  'arrow': 'arrows', 'arts & crafts': 'activities', 'award-medal': 'activities',
+  'body-parts': 'body', 'cat-face': 'smiley', 'clothing': 'person',
+  'country-flag': 'flags', 'drink': 'food_drink', 'emotion': 'heart',
+  'face-affection': 'smiley', 'face-concerned': 'smiley', 'face-costume': 'smiley', 'face-glasses': 'smiley', 'face-hand': 'smiley', 'face-hat': 'smiley', 'face-negative': 'smiley', 'face-neutral-skeptical': 'smiley', 'face-sleepy': 'smiley', 'face-smiling': 'smiley', 'face-tongue': 'smiley', 'face-unwell': 'smiley',
+  'flag': 'flags', 'food-asian': 'food_drink', 'food-fruit': 'food_drink', 'food-prepared': 'food_drink', 'food-sweet': 'food_drink', 'food-vegetable': 'food_drink',
+  'game': 'sport', 'geometric': 'geometric_shapes', 'hand-fingers-closed': 'body', 'hand-fingers-open': 'body', 'hand-fingers-partial': 'body', 'hand-prop': 'body', 'hand-single-finger': 'body', 'hands': 'body',
+  'hair-style': 'person', 'heart': 'heart', 'keycap': 'keycap', 'monkey-face': 'animal', 'music': 'musical_symbols', 'musical-instrument': 'musical_symbols',
+  'person': 'person', 'person-activity': 'person', 'person-fantasy': 'person', 'person-gesture': 'person', 'person-resting': 'person', 'person-role': 'person', 'person-sport': 'person',
+  'place-building': 'place', 'place-geographic': 'place', 'place-map': 'place', 'place-other': 'place', 'place-religious': 'place', 'plant-flower': 'plant', 'plant-other': 'plant',
+  'skin-tone': 'modifier', 'sky & weather': 'weather', 'sport': 'sport', 'subdivision-flag': 'flags',
+  'transport-air': 'travel', 'transport-ground': 'travel', 'transport-sign': 'travel', 'transport-water': 'travel'
 };
 const sequenceTypeLabels = {
   single: 'Single emoji',
@@ -278,7 +305,7 @@ async function loadData() {
       groups.forEach(name => {
         const option = document.createElement('option');
         option.value = name;
-        option.text = name === NO_FILTER ? name : `${getGroupRepresentativeEmoji(name)} ${name}`;
+        option.text = name === NO_FILTER ? name : `${getGroupRepresentativeEmoji(name)} ${displayGroupName(name)}`;
         groupSelector.appendChild(option);
       });
       // Replacing the placeholder options can leave a browser holding on to its
@@ -356,10 +383,11 @@ async function setSearchLanguage(requestedLocale) {
   if (!requestedLocale) {
     selectedSearchLocale = '';
     searchAnnotations = {};
+    searchLabels = {};
     languagePickerFlag.textContent = '🌐';
     languagePickerLabel.textContent = 'Language not loaded';
     languageDialog.close();
-    drawList();
+    refreshLocalizedLabels();
     return;
   }
 
@@ -374,19 +402,21 @@ async function setSearchLanguage(requestedLocale) {
     ]);
     if (loadId !== searchLoadId) return;
     searchAnnotations = Object.assign({}, ...packs.map(pack => pack.annotations ?? {}));
+    searchLabels = Object.assign({}, ...packs.map(pack => pack.labels ?? {}));
     selectedSearchLocale = locale.locale;
     languagePickerFlag.textContent = languageFlags[locale.locale] ?? '🌐';
     languagePickerLabel.textContent = locale.label;
     languageDialog.close();
-    drawList();
+    refreshLocalizedLabels();
   } catch (error) {
     if (loadId === searchLoadId) {
       console.warn(`Search language ${requestedLocale} unavailable`, error);
       selectedSearchLocale = '';
       searchAnnotations = {};
+      searchLabels = {};
       languagePickerFlag.textContent = '🌐';
       languagePickerLabel.textContent = 'Language not loaded';
-      drawList();
+      refreshLocalizedLabels();
     }
   } finally {
     if (loadId === searchLoadId) languagePicker.disabled = false;
@@ -547,6 +577,18 @@ function onChangeGroup() {
   drawList();
 }
 
+function refreshLocalizedLabels() {
+  if (groups.length === 0) return;
+  Array.from(groupSelector.options).forEach(option => {
+    if (option.value !== NO_FILTER) option.text = `${getGroupRepresentativeEmoji(option.value)} ${displayGroupName(option.value)}`;
+  });
+  onChangeGroup();
+}
+
+function displayGroupName(name) {
+  return searchLabels[unicodeGroupLabelKeys[name]] ?? name;
+}
+
 function getGroupRepresentativeEmoji(group) {
   const firstSubGroupWithMultipleEmoji = subGroups[group]
     .filter(name => name !== NO_FILTER)
@@ -562,6 +604,7 @@ function getSubGroupRepresentativeEmoji(group, subGroup) {
 }
 
 function displayUnicodeSubGroupName(name) {
+  if (searchLabels[unicodeSubgroupLabelKeys[name]]) return searchLabels[unicodeSubgroupLabelKeys[name]];
   const conciseNames = {
     'animal-amphibian': 'Amphibians',
     'animal-bird': 'Birds',
@@ -582,7 +625,7 @@ const asGroup = (name) => {
   var div = document.createElement("span");
   div.className = 'group';
   var divName = document.createElement('span');
-  divName.innerText = name;
+  divName.innerText = displayGroupName(name);
   divName.className = 'name';
   div.appendChild(divName);
 

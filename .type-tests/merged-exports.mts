@@ -7,8 +7,8 @@ const allEmoji: string = emoji.clinkingBeerMugs;
 const search = createEmojiSearch({ annotations: { artistPalette: ['artist palette', 'painting'] } });
 const matches: string[] = search('painting');
 const mergedSearch = createEmojiSearch(mergeEmojiLocalePacks(
-  { locale: 'en', annotations: { artistPalette: ['artist palette'] } },
-  { locale: 'en-US', baseLocale: 'en', annotations: {} }
+  { locale: 'en', annotations: { artistPalette: ['artist palette'] }, labels: { objects: 'Objects' } },
+  { locale: 'en-US', baseLocale: 'en', annotations: {}, labels: {} }
 ));
 
 // Exact emoji names from merger-module declarations must remain available.

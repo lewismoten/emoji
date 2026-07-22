@@ -25,7 +25,7 @@ type ProposedVersion = Version & {
 };
 
 type LocaleManifest = {
-  locales: { locale: string; baseLocale?: string; file: string; count: number; totalCount: number; cldrVersion: string }[];
+  locales: { locale: string; baseLocale?: string; file: string; count: number; totalCount: number; characterLabelCount: number; totalCharacterLabelCount: number; cldrVersion: string }[];
 };
 
 type LocalePack = {
@@ -33,6 +33,7 @@ type LocalePack = {
   baseLocale?: string;
   cldrVersion: string;
   annotations: Record<string, string[]>;
+  labels: Record<string, string>;
 };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -88,7 +89,9 @@ for (const locale of localeManifest.locales) {
   assert.equal(pack.cldrVersion, locale.cldrVersion, `${locale.locale} pack must identify its CLDR version`);
   assert.equal(pack.baseLocale, locale.baseLocale, `${locale.locale} pack must identify its base locale`);
   assert.equal(Object.keys(pack.annotations).length, locale.count, `${locale.locale} annotation count must match its manifest`);
-  assert.ok(locale.count > 0, `${locale.locale} packs without annotations must be omitted`);
+  assert.equal(Object.keys(pack.labels).length, locale.characterLabelCount, `${locale.locale} character-label count must match its manifest`);
+  assert.ok(locale.count > 0 || locale.characterLabelCount > 0, `${locale.locale} packs without locale-specific data must be omitted`);
+  if (!locale.baseLocale) assert.ok(locale.characterLabelCount > 0, `${locale.locale} base packs must include localized character labels`);
   assert.ok(Object.keys(pack.annotations).every(key => key in emojiByKey), `${locale.locale} annotations must only reference known emoji`);
 }
 const { createEmojiSearch, mergeEmojiLocalePacks } = await import('@lewismoten/emoji/search');
@@ -100,6 +103,7 @@ for (const locale of localeManifest.locales.filter(locale => locale.baseLocale))
   const regional = require(`@lewismoten/emoji/locales/${locale.locale}`) as LocalePack;
   const merged = mergeEmojiLocalePacks(base, regional);
   assert.equal(Object.keys(merged.annotations).length, locale.totalCount, `${locale.locale} must merge with its base locale`);
+  assert.equal(Object.keys(merged.labels ?? {}).length, locale.totalCharacterLabelCount, `${locale.locale} character labels must merge with its base locale`);
 }
 assert.equal(packageManifest.name, '@lewismoten/emoji', 'package manifest must identify this package');
 assert.equal(packageManifest.packs.find(pack => pack.id === 'all')?.count, emoji.length, 'all pack count must match emoji data');
