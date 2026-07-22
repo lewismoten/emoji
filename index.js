@@ -36,6 +36,7 @@ var orderManifest = { unicode: [] };
 var orderMode = 'grouped';
 var searchAnnotations = {};
 var searchLabels = {};
+var searchSubgroupLabels = {};
 var searchLocales = [];
 var selectedSearchLocale = '';
 var searchLoadId = 0;
@@ -384,6 +385,7 @@ async function setSearchLanguage(requestedLocale) {
     selectedSearchLocale = '';
     searchAnnotations = {};
     searchLabels = {};
+    searchSubgroupLabels = {};
     languagePickerFlag.textContent = '🌐';
     languagePickerLabel.textContent = 'Language not loaded';
     languageDialog.close();
@@ -403,6 +405,7 @@ async function setSearchLanguage(requestedLocale) {
     if (loadId !== searchLoadId) return;
     searchAnnotations = Object.assign({}, ...packs.map(pack => pack.annotations ?? {}));
     searchLabels = Object.assign({}, ...packs.map(pack => pack.labels ?? {}));
+    searchSubgroupLabels = Object.assign({}, ...packs.map(pack => pack.subgroups ?? {}));
     selectedSearchLocale = locale.locale;
     languagePickerFlag.textContent = languageFlags[locale.locale] ?? '🌐';
     languagePickerLabel.textContent = locale.label;
@@ -414,6 +417,7 @@ async function setSearchLanguage(requestedLocale) {
       selectedSearchLocale = '';
       searchAnnotations = {};
       searchLabels = {};
+      searchSubgroupLabels = {};
       languagePickerFlag.textContent = '🌐';
       languagePickerLabel.textContent = 'Language not loaded';
       refreshLocalizedLabels();
@@ -604,6 +608,7 @@ function getSubGroupRepresentativeEmoji(group, subGroup) {
 }
 
 function displayUnicodeSubGroupName(name) {
+  if (searchSubgroupLabels[name]) return searchSubgroupLabels[name];
   if (searchLabels[unicodeSubgroupLabelKeys[name]]) return searchLabels[unicodeSubgroupLabelKeys[name]];
   const conciseNames = {
     'animal-amphibian': 'Amphibians',

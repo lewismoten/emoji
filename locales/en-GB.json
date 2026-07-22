@@ -257,5 +257,6 @@
     "waterWave": ["nature", "ocean", "sea", "surf"],
     "wood": ["log", "lumber", "stump", "timber"]
   },
-  "labels": {}
+  "labels": {},
+  "subgroups": {}
 }

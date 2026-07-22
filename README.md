@@ -82,6 +82,9 @@ Each locale pack also includes `labels`, the CLDR character-label dictionary
 used by character pickers and keyboards. It supplies localized broad labels
 such as `person`, `food_drink`, `travel_places`, and `symbols`; consumers can
 keep their Unicode group/subgroup IDs stable while using these values for display.
+The package supplements CLDR with `subgroups` for the Unicode subgroup labels
+that CLDR does not define directly; the reviewable additions live in
+`scripts/locale-label-overrides.json` and are merged during locale generation.
 
 The Emoji Explorer uses a representative country flag beside each language to
 make the picker easier to scan. Those flags are visual identifiers only; a base

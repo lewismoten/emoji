@@ -13,6 +13,7 @@ const locales = [...new Set(requestedOrDefaultLocales.flatMap(locale => {
   return baseLocale === locale ? [locale] : [baseLocale, locale];
 }))];
 const emoji = JSON.parse(fs.readFileSync('emoji.json', 'utf8'));
+const customSubgroupLabels = JSON.parse(fs.readFileSync('scripts/locale-label-overrides.json', 'utf8'));
 const outputDirectory = 'locales';
 const manifestFile = path.join(outputDirectory, 'manifest.json');
 const displayNames = new Intl.DisplayNames(['en'], { type: 'language' });
@@ -120,8 +121,13 @@ for (const locale of locales) {
   const labelsToWrite = baseLocale === locale
     ? labels
     : Object.fromEntries(Object.entries(labels).filter(([key, label]) => label !== baseLabels[key]));
+  const baseSubgroups = customSubgroupLabels[baseLocale] ?? {};
+  const subgroups = { ...baseSubgroups, ...(customSubgroupLabels[locale] ?? {}) };
+  const subgroupsToWrite = baseLocale === locale
+    ? subgroups
+    : Object.fromEntries(Object.entries(subgroups).filter(([key, label]) => label !== baseSubgroups[key]));
   const file = `${locale}.json`;
-  if (baseLocale !== locale && Object.keys(annotationsToWrite).length === 0 && Object.keys(labelsToWrite).length === 0) {
+  if (baseLocale !== locale && Object.keys(annotationsToWrite).length === 0 && Object.keys(labelsToWrite).length === 0 && Object.keys(subgroupsToWrite).length === 0) {
     fs.rmSync(path.join(outputDirectory, file), { force: true });
     manifest.delete(locale);
     console.info(`No ${locale}-specific CLDR data is available; omitted ${path.join(outputDirectory, file)} and use ${baseLocale} instead`);
@@ -132,7 +138,8 @@ for (const locale of locales) {
     ...(baseLocale === locale ? {} : { baseLocale }),
     cldrVersion,
     annotations: annotationsToWrite,
-    labels: labelsToWrite
+    labels: labelsToWrite,
+    subgroups: subgroupsToWrite
   }, null, 2)}\n`);
   manifest.set(locale, {
     locale,
@@ -143,6 +150,8 @@ for (const locale of locales) {
     totalCount: Object.keys(entries).length,
     characterLabelCount: Object.keys(labelsToWrite).length,
     totalCharacterLabelCount: Object.keys(labels).length,
+    subgroupLabelCount: Object.keys(subgroupsToWrite).length,
+    totalSubgroupLabelCount: Object.keys(subgroups).length,
     cldrVersion
   });
   console.info(`Wrote ${Object.keys(annotationsToWrite).length} CLDR annotations and ${Object.keys(labelsToWrite).length} character labels to ${path.join(outputDirectory, file)}`);

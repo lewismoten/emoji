@@ -62,7 +62,7 @@
     "format:check": "prettier --check \"**/*.json\"",
     "unicode": "node ./scripts/update-unicode.mjs",
     "unicode:proposed": "node ./scripts/download-proposed-unicode.mjs",
-    "cldr": "node ./scripts/update-cldr-locales.mjs"
+    "cldr": "node ./scripts/update-cldr-locales.mjs && npm run format"
   },
   "repository": {
     "type": "git",

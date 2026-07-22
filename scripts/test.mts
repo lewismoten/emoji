@@ -25,7 +25,7 @@ type ProposedVersion = Version & {
 };
 
 type LocaleManifest = {
-  locales: { locale: string; baseLocale?: string; file: string; count: number; totalCount: number; characterLabelCount: number; totalCharacterLabelCount: number; cldrVersion: string }[];
+  locales: { locale: string; baseLocale?: string; file: string; count: number; totalCount: number; characterLabelCount: number; totalCharacterLabelCount: number; subgroupLabelCount: number; totalSubgroupLabelCount: number; cldrVersion: string }[];
 };
 
 type LocalePack = {
@@ -34,6 +34,7 @@ type LocalePack = {
   cldrVersion: string;
   annotations: Record<string, string[]>;
   labels: Record<string, string>;
+  subgroups: Record<string, string>;
 };
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -90,6 +91,7 @@ for (const locale of localeManifest.locales) {
   assert.equal(pack.baseLocale, locale.baseLocale, `${locale.locale} pack must identify its base locale`);
   assert.equal(Object.keys(pack.annotations).length, locale.count, `${locale.locale} annotation count must match its manifest`);
   assert.equal(Object.keys(pack.labels).length, locale.characterLabelCount, `${locale.locale} character-label count must match its manifest`);
+  assert.equal(Object.keys(pack.subgroups).length, locale.subgroupLabelCount, `${locale.locale} custom subgroup-label count must match its manifest`);
   assert.ok(locale.count > 0 || locale.characterLabelCount > 0, `${locale.locale} packs without locale-specific data must be omitted`);
   if (!locale.baseLocale) assert.ok(locale.characterLabelCount > 0, `${locale.locale} base packs must include localized character labels`);
   assert.ok(Object.keys(pack.annotations).every(key => key in emojiByKey), `${locale.locale} annotations must only reference known emoji`);
