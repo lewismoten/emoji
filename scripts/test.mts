@@ -839,6 +839,26 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
+  /const artworkDrafts = new Map\(\)/,
+  "pixel editor must retain an in-memory artwork draft for each emoji",
+);
+assert.match(
+  pixelEditorScript,
+  /rememberCurrentDraft\(\);[\s\S]*currentEmoji = emoji/,
+  "pixel editor must retain the current draft before navigating to another emoji",
+);
+assert.match(
+  pixelEditorScript,
+  /const draft = artworkDrafts\.get\(entry\.key\)[\s\S]*pixels = draft\?\.pixels\.slice\(\) \?\? loadedPixels[\s\S]*traceOffsetX = draft\?\.traceOffsetX \?\? 0[\s\S]*traceOffsetY = draft\?\.traceOffsetY \?\? 0/,
+  "pixel editor must restore artwork and trace position when returning to an emoji",
+);
+assert.match(
+  pixelEditorScript,
+  /for \(const draft of artworkDrafts\.values\(\)\)[\s\S]*draft\.entry\.atlas !== currentEntry\.atlas[\s\S]*draft\.entry\.x[\s\S]*draft\.entry\.y/,
+  "saving must merge every retained draft belonging to the current atlas",
+);
+assert.match(
+  pixelEditorScript,
   /function updateTransferButtons[\s\S]*copyArtButton\.disabled =[\s\S]*!hasVisibleArtwork\(\)/,
   "copy-art action must be disabled while every artwork pixel is transparent",
 );
@@ -888,7 +908,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /atlasExists \|\| hasVisibleArtwork\(\)/,
+  /atlasExists \|\| hasVisibleAtlasDraft\(\)/,
   "a missing atlas must not be writable until visible artwork is added",
 );
 assert.doesNotMatch(

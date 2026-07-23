@@ -194,6 +194,7 @@ export function createPixelEditor({
   let pixels = new Uint8ClampedArray(CELL_SIZE * CELL_SIZE * 4);
   let selectedColor = "#ffff55";
   let copiedPixels;
+  const artworkDrafts = new Map();
   let traceOffsetX = 0;
   let traceOffsetY = 0;
   let tool = "pencil";
@@ -246,6 +247,7 @@ export function createPixelEditor({
     element: view,
     async open(key, emoji) {
       const requestedLoadId = ++loadId;
+      rememberCurrentDraft();
       currentEmoji = emoji;
       traceOffsetX = 0;
       traceOffsetY = 0;
@@ -302,7 +304,10 @@ export function createPixelEditor({
         atlasBlob = loadedAtlasBlob;
         atlasExists = hasPng;
         cellLoaded = true;
-        pixels = loadedPixels;
+        const draft = artworkDrafts.get(entry.key);
+        pixels = draft?.pixels.slice() ?? loadedPixels;
+        traceOffsetX = draft?.traceOffsetX ?? 0;
+        traceOffsetY = draft?.traceOffsetY ?? 0;
         undoStack = [];
         redoStack = [];
         updateLocation();
@@ -409,6 +414,7 @@ export function createPixelEditor({
     context.lineWidth = 1;
     context.stroke();
     drawArtworkPreview();
+    rememberCurrentDraft();
     updateFileButtons();
     updateTransferButtons();
   }
@@ -797,6 +803,7 @@ export function createPixelEditor({
   }
 
   async function renderUpdatedAtlas(source) {
+    rememberCurrentDraft();
     const image = await createImageBitmap(source);
     if (image.width !== atlasWidth || image.height !== atlasHeight) {
       image.close();
@@ -810,11 +817,14 @@ export function createPixelEditor({
     const atlasContext = atlasCanvas.getContext("2d");
     atlasContext.drawImage(image, 0, 0);
     image.close();
-    atlasContext.putImageData(
-      new ImageData(pixels.slice(), CELL_SIZE, CELL_SIZE),
-      currentEntry.x,
-      currentEntry.y,
-    );
+    for (const draft of artworkDrafts.values()) {
+      if (draft.entry.atlas !== currentEntry.atlas) continue;
+      atlasContext.putImageData(
+        new ImageData(draft.pixels.slice(), CELL_SIZE, CELL_SIZE),
+        draft.entry.x,
+        draft.entry.y,
+      );
+    }
     return new Promise((resolve, reject) => {
       atlasCanvas.toBlob(
         (blob) =>
@@ -827,13 +837,33 @@ export function createPixelEditor({
   function updateFileButtons() {
     const canWrite =
       Boolean(currentEntry && atlasBlob) &&
-      (atlasExists || hasVisibleArtwork());
+      (atlasExists || hasVisibleAtlasDraft());
     saveButton.disabled = !canWrite;
     downloadButton.disabled = !canWrite;
   }
 
   function hasVisibleArtwork() {
     return pixels.some((value, index) => index % 4 === 3 && value > 0);
+  }
+
+  function hasVisibleAtlasDraft() {
+    if (hasVisibleArtwork()) return true;
+    if (!currentEntry) return false;
+    return [...artworkDrafts.values()].some(
+      (draft) =>
+        draft.entry.atlas === currentEntry.atlas &&
+        draft.pixels.some((value, index) => index % 4 === 3 && value > 0),
+    );
+  }
+
+  function rememberCurrentDraft() {
+    if (!currentEntry || !cellLoaded) return;
+    artworkDrafts.set(currentEntry.key, {
+      entry: currentEntry,
+      pixels: pixels.slice(),
+      traceOffsetX,
+      traceOffsetY,
+    });
   }
 }
 
