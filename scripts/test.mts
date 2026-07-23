@@ -834,13 +834,45 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function pastePixelArt[\s\S]*pushHistory\(\);[\s\S]*pixels = copiedPixels\.slice\(\)/,
-  "pasted artwork must be undoable and independent of the copied buffer",
+  /function pastePixelArt[\s\S]*floatingLayer = cloneFloatingLayer\(artworkClipboard\)/,
+  "pasted artwork must remain independent of the copied buffer",
 );
 assert.match(
   pixelEditorScript,
-  /let copiedPixels;/,
+  /let artworkClipboard;/,
   "the artwork clipboard must persist while browsing between emoji",
+);
+assert.match(
+  pixelEditorScript,
+  /toolButton\(["']select["'][\s\S]*function copySelection[\s\S]*extractPixels/,
+  "pixel editor must select and copy a rectangular subsection",
+);
+assert.match(
+  pixelEditorScript,
+  /function bakeFloatingLayer[\s\S]*pushHistory\(\);[\s\S]*compositeLayer\(pixels, floatingLayer\)/,
+  "baking a floating layer must be undoable",
+);
+for (const transform of [
+  "rotate-left",
+  "rotate-right",
+  "flip-horizontal",
+  "flip-vertical",
+]) {
+  assert.match(
+    pixelEditorScript,
+    new RegExp(`data-layer-transform="${transform}"`),
+    `floating layers must support ${transform}`,
+  );
+}
+assert.match(
+  pixelEditorScript,
+  /function onCanvasKeyDown[\s\S]*ArrowLeft[\s\S]*ArrowUp[\s\S]*ArrowDown[\s\S]*ArrowRight[\s\S]*Enter[\s\S]*bakeFloatingLayer/,
+  "floating layers must support keyboard movement and baking",
+);
+assert.match(
+  pixelEditorScript,
+  /selection: cloneSelection\(selection\)[\s\S]*floatingLayer: cloneFloatingLayer\(floatingLayer\)/,
+  "selection and floating-layer drafts must survive emoji navigation",
 );
 assert.match(
   pixelEditorScript,
@@ -879,7 +911,14 @@ assert.match(
   /\.pixel-editor-previews figure[\s\S]*width:\s*12px;[\s\S]*height:\s*12px;[\s\S]*\.pixel-editor-previews canvas[\s\S]*width:\s*12px;[\s\S]*height:\s*12px;/,
   "actual-size previews must remain 12 by 12 instead of using uneven fractional scaling",
 );
-for (const tool of ["pencil", "rectangle", "ellipse", "bucket", "eyedropper"]) {
+for (const tool of [
+  "pencil",
+  "rectangle",
+  "ellipse",
+  "bucket",
+  "eyedropper",
+  "select",
+]) {
   assert.match(
     pixelEditorScript,
     new RegExp(`toolButton\\(["']${tool}["']`),
@@ -893,8 +932,8 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /@media \(max-width: 399px\)[\s\S]*\.pixel-editor-tools[\s\S]*grid-template-columns:\s*repeat\(5,\s*2\.35rem\);[\s\S]*\.pixel-editor-tools button > span:last-child[\s\S]*display:\s*none;/,
-  "skinny screens must show five compact icon-only drawing tools in one row",
+  /@media \(max-width: 399px\)[\s\S]*\.pixel-editor-tools[\s\S]*grid-template-columns:\s*repeat\(6,\s*2\.35rem\);[\s\S]*\.pixel-editor-tools button > span:last-child[\s\S]*display:\s*none;/,
+  "skinny screens must show six compact icon-only drawing tools in one row",
 );
 assert.match(
   pixelEditorScript,
