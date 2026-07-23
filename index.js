@@ -1218,6 +1218,7 @@ function refreshLocalizedLabels() {
   if (groups.length === 0) return;
   renderCategoryFilters();
   syncVersionRange();
+  drawList();
 }
 
 function displayGroupName(name) {
