@@ -25,6 +25,12 @@
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="manifest" href="./manifest.webmanifest">
+  <script>
+    try {
+      const preferences = JSON.parse(localStorage.getItem('@lewismoten/emoji:explorer-preferences') ?? '{}');
+      if (preferences.pixelFont === false) document.documentElement.dataset.emojiFont = 'system';
+    } catch {}
+  </script>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Emoji Explorer">
   <meta property="og:title" content="Emoji Explorer – Search and Browse Unicode Emoji">
@@ -80,6 +86,10 @@
             <span id="language-picker-accessible-label" class="sr-only" data-i18n="chooseLanguage">Choose a search language</span>
             <span class="language-picker-flag" aria-hidden="true">🌐</span>
             <span class="language-picker-label">Language not loaded</span>
+          </button>
+          <button class="pixel-font-toggle" type="button" aria-pressed="true" data-i18n-aria-label="pixelEmoji" aria-label="Pixel emoji">
+            <span class="pixel-font-toggle-icon" aria-hidden="true">▦</span>
+            <span class="pixel-font-toggle-label" data-i18n="pixelEmoji">Pixel emoji</span>
           </button>
           <button class="saved-picker" type="button" aria-haspopup="dialog" aria-controls="saved-dialog" data-i18n-aria-label="savedEmoji" aria-label="Saved emoji">
             <span aria-hidden="true">⭐</span>

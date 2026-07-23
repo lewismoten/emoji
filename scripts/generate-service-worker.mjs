@@ -21,6 +21,8 @@ const coreAssets = [
   './emoji.json',
   './manifest.json',
   './dist/esm/index.js',
+  './pixel-font/build/manifest.json',
+  './pixel-font/build/font/pixel-emoji.woff2',
   './favicon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',

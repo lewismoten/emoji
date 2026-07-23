@@ -1,3 +1,11 @@
+@font-face {
+  font-family: "Pixel Emoji";
+  src:
+    url("./pixel-font/build/font/pixel-emoji.woff2") format("woff2"),
+    url("./pixel-font/build/font/pixel-emoji.woff") format("woff");
+  font-display: swap;
+}
+
 :root {
   color-scheme: dark;
   --page: #160622;
@@ -11,8 +19,11 @@
   --code: #0b2637;
   --toolbar-height: 0px;
   --ui-font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --emoji-font: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla", sans-serif;
+  --system-emoji-font: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla", sans-serif;
+  --emoji-font: "Pixel Emoji", var(--system-emoji-font);
 }
+
+html[data-emoji-font="system"] { --emoji-font: var(--system-emoji-font); }
 
 :lang(ar) {
   --ui-font: "Noto Sans Arabic", "Noto Naskh Arabic", "Geeza Pro", Tahoma, "Segoe UI", Arial, sans-serif;
@@ -149,6 +160,7 @@ h1 { margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); }
   font: inherit;
   text-align: left;
 }
+.pixel-font-toggle,
 .saved-picker,
 .help-picker {
   display: inline-flex;
@@ -163,6 +175,24 @@ h1 { margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); }
   color: var(--text);
   cursor: pointer;
   font: inherit;
+}
+.pixel-font-toggle {
+  gap: .3rem;
+  max-width: 8rem;
+  padding: 0 .55rem;
+}
+.pixel-font-toggle-icon { font: 700 1.15rem/1 ui-monospace, monospace; }
+.pixel-font-toggle-label {
+  overflow: hidden;
+  font-size: .72rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pixel-font-toggle[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: #15384d;
+  color: var(--accent);
 }
 .saved-picker {
   max-width: 7rem;
@@ -180,6 +210,10 @@ h1 { margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); }
 .language-picker:hover,
 .saved-picker:hover,
 .help-picker:hover { border-color: var(--accent); }
+.language-picker:focus-visible,
+.pixel-font-toggle:focus-visible,
+.saved-picker:focus-visible,
+.help-picker:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .language-picker:disabled { cursor: wait; opacity: .65; }
 .language-picker-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
@@ -433,8 +467,6 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
 }
 .modifier-emoji { display: inline; font-size: 1rem; }
 .modifier-emoji,
-.language-option-flag,
-.language-picker-flag,
 .emoji-preview,
 .subgroup .emoji > div,
 .sequence-type > .emoji > div { font-family: var(--emoji-font); }
@@ -496,7 +528,16 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
 .help-picker:focus-visible,
 .saved-emoji-list button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .language-option-flag { font-size: 1.35rem; text-align: center; }
-.language-picker-flag { line-height: 1; }
+.language-picker-flag,
+.language-option-flag {
+  display: inline-grid;
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  place-items: center;
+  font-family: var(--system-emoji-font);
+  line-height: 1;
+}
 .language-option-label { font-weight: 700; }
 
 .example-dialog::backdrop,
@@ -970,6 +1011,12 @@ kbd {
     width: 2.25rem;
     padding: 0;
   }
+  .pixel-font-toggle {
+    flex-basis: 2.25rem;
+    width: 2.25rem;
+    padding: 0;
+  }
+  .pixel-font-toggle-label { display: none; }
   .saved-picker-label { display: none; }
   .language-picker-label { display: none; }
   .active-filter-text { max-width: calc(100vw - 8rem); }

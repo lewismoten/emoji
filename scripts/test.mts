@@ -97,7 +97,7 @@ assert.equal(webAppManifest.scope, './', 'web app scope must remain within the G
 assert.equal(webAppManifest.display, 'standalone', 'installed web app must use standalone display mode');
 assert.deepEqual(webAppManifest.icons.map(icon => icon.sizes), ['192x192', '512x512', '512x512'], 'web app must provide standard and maskable install icons');
 assert.match(serviceWorker, new RegExp(`const CACHE_NAME = \\\`\\$\\{CACHE_PREFIX\\}${packageJson.version}-[a-f0-9]{12}\\\`;`), 'service-worker cache must use the package version and an asset revision');
-for (const asset of ['./index.ar.html', './emoji.json', './dist/esm/index.js', './offline.html', './versions/manifest.json']) {
+for (const asset of ['./index.ar.html', './emoji.json', './dist/esm/index.js', './offline.html', './versions/manifest.json', './pixel-font/build/font/pixel-emoji.woff2']) {
   assert.ok(serviceWorker.includes(`"${asset}"`), `service worker must precache ${asset}`);
 }
 assert.ok(serviceWorker.includes('"./index.css?direct"'), 'service worker must precache Vite-compatible direct CSS');
@@ -165,6 +165,10 @@ assert.match(demoStyles, /\[dir="rtl"\] \.emoji-composition-equation \{[\s\S]*di
 assert.match(demoStyles, /\.emoji-composition-code-point \{ direction: ltr; unicode-bidi: isolate; \}/, 'individual code-point labels must retain LTR ordering');
 assert.doesNotMatch(demoHtml, /class="emoji-code-points"/, 'code points must not be repeated in a metadata card');
 assert.match(demoScript, /\.emoji-code-points'\)\?\.closest\('div'\)\?\.remove/, 'cached code-point metadata rows must be removed');
+assert.match(demoHtml, /class="pixel-font-toggle"/, 'demo must provide a pixel-font toggle');
+assert.match(demoScript, /function togglePixelFont/, 'pixel-font preference must be toggleable');
+assert.match(demoScript, /explorerPreferences\.pixelFont !== false/, 'pixel font must be enabled by default');
+assert.match(demoScript, /event\?\.detail > 0/, 'pointer toggles must release their active focus state');
 assert.match(demoScript, /explorer-preferences/, 'demo preferences must use a stable local-storage key');
 assert.match(demoScript, /recordCopiedEmoji/, 'demo must retain recently copied emoji');
 assert.match(demoScript, /if \(copied\) recordCopiedEmoji/, 'successful copy actions must update recently copied emoji');
@@ -173,6 +177,9 @@ assert.match(demoScript, /dialogNavigationKeys/, 'saved emoji must retain their 
 assert.match(demoScript, /\['favorites', 'help', 'language'\]\.includes/, 'utility dialogs must support direct URL panel state');
 assert.match(demoScript, /panelDialogEntry/, 'utility dialogs must participate in browser history');
 assert.match(demoStyles, /content-visibility: auto/, 'large emoji sections must defer off-screen rendering when supported');
+assert.match(demoStyles, /font-family: "Pixel Emoji"/, 'demo must load the generated pixel font');
+assert.match(demoStyles, /html\[data-emoji-font="system"\]/, 'demo must support the system emoji fallback');
+assert.match(demoStyles, /\.language-picker-flag,[\s\S]*font-family: var\(--system-emoji-font\)/, 'language flags must retain stable system-font metrics');
 assert.deepEqual(browserEmoji, emojiByKey, 'browser bundle must contain every emoji value');
 assert.deepEqual(allEmoji, emojiByKey, 'all export must contain every emoji value');
 assert.match(allTypes, /declare const emoji: typeof \S+ & typeof \S+/, 'all merger must preserve the types of its imported category packs');

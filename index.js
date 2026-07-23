@@ -24,6 +24,7 @@ var searchText;
 var languagePicker;
 var languagePickerFlag;
 var languagePickerLabel;
+var pixelFontToggle;
 var languageDialog;
 var languageList;
 var savedPicker;
@@ -170,6 +171,25 @@ function saveExplorerPreference(key, value) {
     // Preferences are optional when storage is unavailable or blocked.
   }
 }
+function renderPixelFontToggle() {
+  const enabled = explorerPreferences.pixelFont !== false;
+  document.documentElement.toggleAttribute('data-pixel-font', enabled);
+  if (enabled) {
+    delete document.documentElement.dataset.emojiFont;
+  } else {
+    document.documentElement.dataset.emojiFont = 'system';
+  }
+  if (!pixelFontToggle) return;
+  const label = translate('pixelEmoji', 'Pixel emoji');
+  pixelFontToggle.setAttribute('aria-pressed', String(enabled));
+  pixelFontToggle.setAttribute('aria-label', label);
+  pixelFontToggle.title = label;
+}
+function togglePixelFont(event) {
+  saveExplorerPreference('pixelFont', explorerPreferences.pixelFont === false);
+  renderPixelFontToggle();
+  if (event?.detail > 0) event.currentTarget.blur();
+}
 const applyUiTranslations = () => {
   document.querySelectorAll('[data-i18n]').forEach(element => {
     element.textContent = translate(element.dataset.i18n, element.textContent);
@@ -181,6 +201,7 @@ const applyUiTranslations = () => {
     element.setAttribute('aria-label', translate(element.dataset.i18nAriaLabel, element.getAttribute('aria-label')));
   });
   updateOnlineStatus();
+  renderPixelFontToggle();
 };
 const updateOnlineStatus = () => {
   if (!offlineStatus) return;
@@ -338,6 +359,15 @@ function ensureUtilityControls() {
       <button class="saved-picker" type="button" aria-haspopup="dialog" aria-controls="saved-dialog" data-i18n-aria-label="savedEmoji" aria-label="Saved emoji">
         <span aria-hidden="true">⭐</span>
         <span class="saved-picker-label" data-i18n="favorites">Favorites</span>
+      </button>
+    `);
+  }
+  if (searchControls && !searchControls.querySelector('.pixel-font-toggle')) {
+    const languageButton = searchControls.querySelector('.language-picker');
+    languageButton?.insertAdjacentHTML('afterend', `
+      <button class="pixel-font-toggle" type="button" aria-pressed="true" data-i18n-aria-label="pixelEmoji" aria-label="Pixel emoji">
+        <span class="pixel-font-toggle-icon" aria-hidden="true">▦</span>
+        <span class="pixel-font-toggle-label" data-i18n="pixelEmoji">Pixel emoji</span>
       </button>
     `);
   }
@@ -516,6 +546,7 @@ async function onLoad() {
   languagePicker = document.getElementsByClassName('language-picker')[0];
   languagePickerFlag = document.getElementsByClassName('language-picker-flag')[0];
   languagePickerLabel = document.getElementsByClassName('language-picker-label')[0];
+  pixelFontToggle = document.getElementsByClassName('pixel-font-toggle')[0];
   languageDialog = document.getElementsByClassName('language-dialog')[0];
   languageList = document.getElementsByClassName('language-list')[0];
   savedPicker = document.getElementsByClassName('saved-picker')[0];
@@ -576,6 +607,7 @@ async function onLoad() {
   languagePicker.addEventListener('click', () => {
     openPanelDialog('language');
   });
+  pixelFontToggle?.addEventListener('click', togglePixelFont);
   savedPicker?.addEventListener('click', () => {
     openPanelDialog('favorites');
   });
@@ -678,6 +710,7 @@ async function onLoad() {
   });
   document.addEventListener('keydown', onDocumentKeyDown);
   renderVersionModeToggle();
+  renderPixelFontToggle();
 
   const setToolbarHeight = () => {
     document.documentElement.style.setProperty('--toolbar-height', `${toolbar.offsetHeight}px`);

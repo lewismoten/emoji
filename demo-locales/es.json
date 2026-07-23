@@ -144,5 +144,6 @@
   "codeCopied": "Código copiado al portapapeles.",
   "linkCopied": "Enlace copiado al portapapeles.",
   "copiedToClipboard": "Copiado al portapapeles.",
-  "copyFailed": "No se pudo copiar al portapapeles."
+  "copyFailed": "No se pudo copiar al portapapeles.",
+  "pixelEmoji": "Emojis pixelados"
 }
