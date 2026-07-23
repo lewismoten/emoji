@@ -58,6 +58,7 @@
   "codePoints": "码点",
   "sequenceType": "序列类型",
   "qualification": "限定状态",
+  "copy": "复制",
   "copyEmoji": "复制表情",
   "copyKey": "复制键名",
   "copyEscape": "复制转义值",

@@ -177,9 +177,12 @@
           <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
         </div>
       </div>
-      <div class="copy-status sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+        <div class="copy-status sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
         <div class="emoji-dialog-details">
-          <button class="emoji-preview" type="button" data-copy="emoji" data-i18n-aria-label="copyEmoji" aria-label="Copy emoji">&#x1F37B;</button>
+          <button class="emoji-preview" type="button" data-copy="emoji" data-i18n-aria-label="copyEmoji" aria-label="Copy emoji">
+            <span class="emoji-preview-glyph">&#x1F37B;</span>
+            <span class="emoji-preview-copy-label" data-i18n="copy">Copy</span>
+          </button>
           <div class="localized-emoji-details" hidden>
             <p class="localized-language"></p>
             <p class="localized-keywords"></p>
@@ -193,7 +196,6 @@
           <div><dt data-i18n="qualification">Qualification</dt><dd class="emoji-status"></dd></div>
         </dl>
         <div class="emoji-copy-actions">
-          <button type="button" data-copy="emoji" data-i18n="copyEmoji">Copy emoji</button>
           <button type="button" data-copy="key" data-i18n="copyKey">Copy key</button>
           <button type="button" data-copy="escape" data-i18n="copyEscape">Copy escape</button>
           <button type="button" data-copy="codePoints" data-i18n="copyCodePoints">Copy code points</button>

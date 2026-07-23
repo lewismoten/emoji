@@ -455,21 +455,39 @@ h2 { margin: 0; font-size: 1.15rem; }
 .emoji-dialog-details:has(.localized-emoji-details[hidden]) { justify-content: center; }
 .emoji-preview {
   display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
   flex: 0 0 8rem;
   width: 8rem;
   height: 8rem;
-  place-items: center;
   padding: 0;
+  overflow: hidden;
   border: 1px solid var(--border);
   border-radius: .7rem;
   background: var(--panel-strong);
   color: var(--text);
   cursor: copy;
+}
+.emoji-preview-glyph {
+  display: grid;
+  min-height: 0;
+  place-items: center;
   font-family: var(--emoji-font);
-  font-size: 6rem;
+  font-size: 5.4rem;
   line-height: 1;
 }
+.emoji-preview-copy-label {
+  align-self: stretch;
+  padding: .25rem .35rem;
+  border-top: 1px solid var(--border);
+  background: rgb(0 0 0 / 18%);
+  font-family: var(--ui-font);
+  font-size: .72rem;
+  font-weight: 750;
+  line-height: 1.2;
+  text-align: center;
+}
 .emoji-preview:hover { border-color: var(--accent); }
+.emoji-preview:hover .emoji-preview-copy-label { background: #15384d; }
 .emoji-preview:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .localized-emoji-details { min-width: 0; }
 .localized-language { margin: 0 0 .25rem; color: var(--accent); font-size: .8rem; font-weight: 750; }
@@ -684,7 +702,8 @@ h2 { margin: 0; font-size: 1.15rem; }
   }
   .list { padding: .55rem; }
   .emoji-dialog-details { gap: .7rem; }
-  .emoji-preview { flex-basis: 6rem; width: 6rem; height: 6rem; font-size: 4.5rem; }
+  .emoji-preview { flex-basis: 6rem; width: 6rem; height: 6rem; }
+  .emoji-preview-glyph { font-size: 3.8rem; }
   .order-footer { right: .5rem; bottom: max(.5rem, env(safe-area-inset-bottom)); }
   .order-label { display: none; }
   .order-mode { padding: .25rem .4rem; font-size: .72rem; }

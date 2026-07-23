@@ -427,6 +427,21 @@ function upgradeEmojiDialog() {
     preview = button;
   }
   if (preview) {
+    const previewValue = preview.querySelector('.emoji-preview-glyph')?.textContent
+      ?? preview.textContent.trim()
+      ?? '🍻';
+    let glyph = preview.querySelector('.emoji-preview-glyph');
+    let copyLabel = preview.querySelector('.emoji-preview-copy-label');
+    if (!glyph || !copyLabel) {
+      glyph = document.createElement('span');
+      glyph.className = 'emoji-preview-glyph';
+      glyph.textContent = previewValue;
+      copyLabel = document.createElement('span');
+      copyLabel.className = 'emoji-preview-copy-label';
+      copyLabel.dataset.i18n = 'copy';
+      copyLabel.textContent = 'Copy';
+      preview.replaceChildren(glyph, copyLabel);
+    }
     preview.removeAttribute('aria-hidden');
     preview.dataset.copy = 'emoji';
     preview.dataset.i18nAriaLabel = 'copyEmoji';
@@ -480,6 +495,7 @@ function removeLegacyDialogElements() {
   const dialog = document.querySelector('.example-dialog');
   dialog?.querySelector('[data-i18n="copiedDescription"]')?.remove();
   dialog?.querySelector('.example-link')?.remove();
+  dialog?.querySelector('.emoji-copy-actions [data-copy="emoji"]')?.remove();
 }
 
 function ensureActiveFilterSummary() {
@@ -1867,7 +1883,7 @@ function showEmoji(id, openDialog = true) {
   document.getElementsByClassName("emoji-key")[0].innerText = id;
   document.getElementsByClassName("emoji-value")[0].innerText = value;
   document.getElementsByClassName("emoji-encoded")[0].innerText = bits.join("");
-  document.getElementsByClassName('emoji-preview')[0].innerText = value;
+  document.getElementsByClassName('emoji-preview-glyph')[0].innerText = value;
   const item = byId[id] ?? {};
   updateEmojiImportExamples(item);
   const codePoints = (item.codePoints ?? '').split(/\s+/).filter(Boolean).map(point => `U+${point}`).join(' ');
