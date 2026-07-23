@@ -588,11 +588,7 @@ async function onLoad() {
     dialog: exampleDialog,
     translate,
     formatNumber: formatUiNumber,
-    formatPercent: formatUiPercent,
-    setDialogMode: mode => {
-      setEmojiDialogView(mode);
-      if (mode === 'details') exampleDialog.querySelector('.show-pixel-editor')?.focus();
-    }
+    formatPercent: formatUiPercent
   });
   copyStatus = document.getElementsByClassName('copy-status')[0];
   emojiPrevious = document.getElementsByClassName('emoji-previous')[0];
@@ -673,7 +669,7 @@ async function onLoad() {
     const showCodeButton = event.target.closest('.show-emoji-code');
     if (showCodeButton) {
       setEmojiDialogView('code');
-      exampleDialog.querySelector('.back-to-emoji')?.focus();
+      exampleDialog.querySelector('.dialog-mode-back')?.focus();
       return;
     }
     const showEditorButton = event.target.closest('.show-pixel-editor');
@@ -682,10 +678,13 @@ async function onLoad() {
       exampleDialog.querySelector('.pixel-editor-canvas')?.focus();
       return;
     }
-    const backButton = event.target.closest('.back-to-emoji');
+    const backButton = event.target.closest('.dialog-mode-back, .back-to-emoji');
     if (backButton) {
+      const returnTarget = exampleDialog.classList.contains('is-editor-view')
+        ? '.show-pixel-editor'
+        : '.show-emoji-code';
       setEmojiDialogView('details');
-      exampleDialog.querySelector('.show-emoji-code')?.focus();
+      exampleDialog.querySelector(returnTarget)?.focus();
       return;
     }
     const button = event.target.closest('[data-copy]');
@@ -861,14 +860,6 @@ function ensureCodeDialogView() {
     toolbar.className = 'emoji-code-toolbar';
     codeView.prepend(toolbar);
   }
-  if (!toolbar.querySelector('.back-to-emoji')) {
-    const back = document.createElement('button');
-    back.className = 'back-to-emoji';
-    back.type = 'button';
-    back.dataset.i18n = 'backToEmoji';
-    back.textContent = 'Back to emoji';
-    toolbar.append(back);
-  }
   if (!toolbar.querySelector('[data-copy="code"]')) {
     const copy = document.createElement('button');
     copy.type = 'button';
@@ -940,6 +931,8 @@ function setEmojiDialogView(requestedMode, updateUrl = true) {
   exampleDialog.querySelector('.emoji-metadata').hidden = !showDetails;
   exampleDialog.querySelector('.emoji-copy-actions').hidden = !showDetails;
   exampleDialog.querySelector('.emoji-code-view').hidden = mode !== 'code';
+  const dialogModeBack = exampleDialog.querySelector('.dialog-mode-back');
+  if (dialogModeBack) dialogModeBack.hidden = mode === 'details';
   if (pixelEditor) {
     pixelEditor.element.hidden = mode !== 'editor';
     if (mode === 'editor' && currentEmojiKey) {

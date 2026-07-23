@@ -835,6 +835,19 @@ h2 {
   cursor: default;
   opacity: 0.35;
 }
+.dialog-mode-back {
+  min-height: 2rem;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+}
+.dialog-mode-back[hidden] {
+  display: none;
+}
 .dialog-description {
   margin: 0.8rem 1rem;
   color: var(--muted);
@@ -2019,6 +2032,11 @@ kbd {
     grid-row: 1;
     grid-column: 3;
   }
+  .example-dialog .dialog-mode-back {
+    grid-row: 3;
+    grid-column: 2 / 4;
+    justify-self: center;
+  }
   .dialog-title-row h2 {
     font-size: 1rem;
     overflow-wrap: anywhere;
@@ -2142,15 +2160,10 @@ kbd {
   .pixel-editor-toolbar {
     display: grid;
     grid-template-areas:
-      "back history"
+      "history history"
       "tools tools";
     grid-template-columns: minmax(0, 1fr) auto;
   }
-  .pixel-editor-back {
-    grid-area: back;
-    justify-self: start;
-  }
-  .pixel-editor-back,
   .pixel-editor-history button {
     min-width: 0;
     overflow-wrap: anywhere;
@@ -2169,6 +2182,7 @@ kbd {
   }
   .pixel-editor-history {
     grid-area: history;
+    justify-self: end;
     flex-wrap: nowrap;
     margin-inline-start: 0;
   }
@@ -2181,6 +2195,9 @@ kbd {
   }
   .pixel-editor-controls {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .pixel-editor-palette {
+    justify-content: center;
   }
   .pixel-editor-controls fieldset:first-child {
     grid-column: 1 / -1;
@@ -2251,6 +2268,69 @@ kbd {
   }
   .example-dialog.is-editor-view .pixel-editor-workspace {
     width: min(24rem, calc(100dvh - 10rem));
+  }
+}
+
+@media (min-width: 700px) and (max-height: 399px) {
+  .example-dialog.is-editor-view .pixel-editor-layout {
+    grid-template-columns:
+      minmax(0, min(24rem, calc(100dvh - 10rem)))
+      minmax(18rem, 1fr)
+      minmax(10rem, 1fr);
+    grid-template-rows: auto 1fr;
+    align-items: start;
+  }
+  .example-dialog.is-editor-view .pixel-editor-workspace {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+  .example-dialog.is-editor-view .pixel-editor-controls {
+    display: contents;
+  }
+  .example-dialog.is-editor-view .pixel-editor-drawing {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .example-dialog.is-editor-view .pixel-editor-tracing {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .example-dialog.is-editor-view .pixel-editor-trace-opacity {
+    display: flex;
+    grid-column: 1;
+    grid-row: 1;
+    flex-direction: column;
+    align-self: start;
+    align-items: stretch;
+    gap: 0.15rem;
+  }
+  .example-dialog.is-editor-view .pixel-editor-trace-alpha {
+    display: block;
+    width: 100%;
+    min-height: 1.25rem;
+    margin: 0;
+  }
+  .example-dialog.is-editor-view .pixel-editor-trace-position {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .example-dialog.is-editor-view .pixel-editor-transfer {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .example-dialog.is-editor-view .pixel-editor-file {
+    grid-column: 3;
+    grid-row: 2;
+  }
+  .example-dialog.is-editor-view .pixel-editor-layer {
+    grid-column: 2 / 4;
+    grid-row: 1 / span 2;
+  }
+  .example-dialog.is-editor-view
+    .pixel-editor-view.is-selection-mode
+    .pixel-editor-transfer {
+    grid-column: 2 / 4;
+    grid-row: 1 / span 2;
   }
 }
 

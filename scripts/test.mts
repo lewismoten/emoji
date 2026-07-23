@@ -726,7 +726,7 @@ assert.match(
 assert.match(
   demoStyles,
   /\.pixel-editor-palette[\s\S]*grid-template-columns:\s*repeat\(9,\s*1\.65rem\);[\s\S]*grid-template-rows:\s*repeat\(2,\s*1\.65rem\);[\s\S]*\.pixel-editor-swatch\.is-transparent[\s\S]*grid-column:\s*9;[\s\S]*grid-row:\s*1 \/ span 2;/,
-  "EGA colors must stay in rows of eight beside a two-row transparent swatch",
+  "EGA colors must retain full-size swatches beside the two-row transparent swatch",
 );
 assert.doesNotMatch(
   pixelEditorScript,
@@ -819,6 +819,41 @@ assert.match(
   demoStyles,
   /@media \(max-width: 560px\)[\s\S]*\.pixel-editor-trace-nudge[\s\S]*width:\s*1\.8rem;[\s\S]*height:\s*1\.8rem;/,
   "narrow pixel editors must compact the trace controls",
+);
+assert.match(
+  demoStyles,
+  /@media \(max-width: 560px\)[\s\S]*\.pixel-editor-palette[\s\S]*justify-content:\s*center;/,
+  "small screens must center the fixed-width EGA palette",
+);
+assert.match(
+  demoStyles,
+  /@media \(min-width: 700px\) and \(max-height: 399px\)[\s\S]*\.pixel-editor-layout[\s\S]*grid-template-columns:[\s\S]*minmax\(18rem,\s*1fr\)[\s\S]*minmax\(10rem,\s*1fr\)[\s\S]*\.pixel-editor-drawing[\s\S]*grid-column:\s*2;[\s\S]*\.pixel-editor-tracing[\s\S]*grid-column:\s*2;[\s\S]*\.pixel-editor-transfer[\s\S]*grid-column:\s*3;[\s\S]*\.pixel-editor-file[\s\S]*grid-column:\s*3;/,
+  "wide screens under 400 pixels high must use canvas, drawing, and target columns",
+);
+assert.match(
+  demoStyles,
+  /\.pixel-editor-trace-opacity[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\);[\s\S]*@media \(min-width: 700px\) and \(max-height: 399px\)[\s\S]*\.example-dialog\.is-editor-view \.pixel-editor-trace-opacity[\s\S]*display:\s*flex;[\s\S]*flex-direction:\s*column;[\s\S]*gap:\s*0\.15rem;[\s\S]*\.example-dialog\.is-editor-view \.pixel-editor-trace-alpha[\s\S]*width:\s*100%;[\s\S]*min-height:\s*1\.25rem;[\s\S]*\.example-dialog\.is-editor-view \.pixel-editor-trace-position[\s\S]*grid-column:\s*2;[\s\S]*grid-row:\s*1;/,
+  "wide, short screens must keep trace transparency stacked beneath its label beside the arrows",
+);
+assert.match(
+  demoHtml,
+  /class="dialog-mode-back"[^>]*data-i18n="pixelEditorBack"[^>]*>Back<\/button>/,
+  "the compact shared Back action must live in the dialog controls",
+);
+assert.match(
+  pixelEditorScript,
+  /toolButton\("select", "⌗", "selectRegion", "Select"\)/,
+  "pixel editor must use the compact Select label",
+);
+assert.match(
+  demoScript,
+  /const dialogModeBack = exampleDialog\.querySelector\('\.dialog-mode-back'\)[\s\S]*dialogModeBack\.hidden = mode === 'details'/,
+  "the dialog Back action must appear in code and pixel-editor modes",
+);
+assert.doesNotMatch(
+  demoHtml,
+  /class="back-to-emoji"/,
+  "the code panel must not duplicate the dialog-level Back action",
 );
 assert.doesNotMatch(
   pixelEditorScript,

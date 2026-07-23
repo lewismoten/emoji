@@ -77,21 +77,19 @@ export function createPixelEditor({
   translate,
   formatNumber = String,
   formatPercent = (value) => `${Math.round(value * 100)}%`,
-  setDialogMode,
 }) {
   const view = document.createElement("section");
   view.className = "pixel-editor-view";
   view.hidden = true;
   view.innerHTML = `
     <div class="pixel-editor-toolbar">
-      <button class="pixel-editor-back" type="button" data-i18n="backToEmoji">Back to emoji</button>
       <div class="pixel-editor-tools" role="toolbar" data-i18n-aria-label="drawingTools" aria-label="Drawing tools">
         ${toolButton("pencil", "✎", "pencil", "Pencil", true)}
         ${toolButton("rectangle", "□", "rectangle", "Rectangle")}
         ${toolButton("ellipse", "○", "ellipse", "Ellipse")}
         ${toolButton("bucket", "▰", "paintBucket", "Paint bucket")}
         ${toolButton("eyedropper", "⌞", "eyedropper", "Eyedropper")}
-        ${toolButton("select", "⌗", "selectRegion", "Select region")}
+        ${toolButton("select", "⌗", "selectRegion", "Select")}
       </div>
       <div class="pixel-editor-history">
         <button class="pixel-editor-undo" type="button" disabled><span aria-hidden="true">↶</span> <span data-i18n="undo">Undo</span></button>
@@ -282,9 +280,6 @@ export function createPixelEditor({
   let undoStack = [];
   let redoStack = [];
 
-  view
-    .querySelector(".pixel-editor-back")
-    .addEventListener("click", () => setDialogMode("details"));
   toolButtons.forEach((button) =>
     button.addEventListener("click", () => selectTool(button.dataset.tool)),
   );
@@ -1212,6 +1207,8 @@ export function createPixelEditor({
   function updateEditorModePanels() {
     const layerMode = Boolean(floatingLayer);
     const selectionMode = tool === "select" && !layerMode;
+    view.classList.toggle("is-layer-mode", layerMode);
+    view.classList.toggle("is-selection-mode", selectionMode);
     toolsPanel.hidden = layerMode;
     historyPanel.hidden = layerMode || selectionMode;
     drawingPanel.hidden = layerMode || selectionMode;
