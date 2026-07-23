@@ -573,8 +573,14 @@ h2 { margin: 0; font-size: 1.15rem; }
 }
 
 @media (max-width: 399px) {
-  .compact-choice { width: 2.65rem; padding: .2rem; }
+  .compact-choices { gap: .2rem; }
+  .compact-choice { width: 2.35rem; height: 2.35rem; padding: .15rem; }
+  .compact-choice-emoji { font-size: 1.1rem; }
   .compact-choice-label { display: none; }
   .compact-group-label,
   .compact-subgroup-label { display: inline; }
+  .modifier-filters fieldset { gap: .2rem; }
+  .modifier-filters fieldset label { width: 2.35rem; min-height: 2.35rem; padding: .15rem; }
+  .modifier-emoji { font-size: .9rem; }
+  .version-mode-toggle { width: 2.35rem; height: 2.35rem; }
 }
