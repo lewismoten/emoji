@@ -847,8 +847,23 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /const dialogModeBack = exampleDialog\.querySelector\('\.dialog-mode-back'\)[\s\S]*dialogModeBack\.hidden = mode === 'details'/,
-  "the dialog Back action must appear in code and pixel-editor modes",
+  /const dialogModeBack = exampleDialog\.querySelector\('\.dialog-mode-back'\)[\s\S]*dialogModeBack\.hidden = showDetails/,
+  "the dialog Back action must appear outside the main details view",
+);
+assert.match(
+  demoScript,
+  /if \(!showDetails && emojiParent\) \{\s*emojiParent\.hidden = true;[\s\S]*else if \(showDetails\) \{\s*updateCompositionBackButton\(\)/,
+  "nested dialog modes must hide the composition-parent control to preserve the compact control grid",
+);
+assert.match(
+  demoStyles,
+  /@media \(max-width: 560px\)[\s\S]*\.example-dialog \.dialog-mode-back:not\(\[hidden\]\) \{[\s\S]*grid-row:\s*1;[\s\S]*grid-column:\s*2;[\s\S]*\.example-dialog \.dialog-mode-back:not\(\[hidden\]\)::before \{[\s\S]*content:\s*"↩"/,
+  "narrow emoji dialogs must place an icon-only Back action in the favorite control slot",
+);
+assert.match(
+  demoStyles,
+  /\.example-dialog\.is-code-view \.toggle-favorite,[\s\S]*\.example-dialog\.is-editor-view \.toggle-favorite \{\s*display:\s*none;/,
+  "Favorites must only appear in the main emoji details view",
 );
 assert.doesNotMatch(
   demoHtml,

@@ -793,7 +793,8 @@ fieldset input {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }
-.example-dialog.is-code-view .toggle-favorite {
+.example-dialog.is-code-view .toggle-favorite,
+.example-dialog.is-editor-view .toggle-favorite {
   display: none;
 }
 .dialog-controls {
@@ -2032,10 +2033,22 @@ kbd {
     grid-row: 1;
     grid-column: 3;
   }
-  .example-dialog .dialog-mode-back {
-    grid-row: 3;
-    grid-column: 2 / 4;
-    justify-self: center;
+  .example-dialog .dialog-mode-back:not([hidden]) {
+    display: grid;
+    grid-row: 1;
+    grid-column: 2;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    padding: 0;
+    font-size: 0;
+  }
+  .example-dialog .dialog-mode-back:not([hidden])::before {
+    content: "↩";
+    font-size: 1rem;
+  }
+  [dir="rtl"] .example-dialog .dialog-mode-back:not([hidden])::before {
+    transform: scaleX(-1);
   }
   .dialog-title-row h2 {
     font-size: 1rem;

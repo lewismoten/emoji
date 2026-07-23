@@ -669,7 +669,7 @@ async function onLoad() {
     const showCodeButton = event.target.closest('.show-emoji-code');
     if (showCodeButton) {
       setEmojiDialogView('code');
-      exampleDialog.querySelector('.dialog-mode-back')?.focus();
+      exampleDialog.querySelector('.dialog-mode-back:not([hidden])')?.focus();
       return;
     }
     const showEditorButton = event.target.closest('.show-pixel-editor');
@@ -932,7 +932,12 @@ function setEmojiDialogView(requestedMode, updateUrl = true) {
   exampleDialog.querySelector('.emoji-copy-actions').hidden = !showDetails;
   exampleDialog.querySelector('.emoji-code-view').hidden = mode !== 'code';
   const dialogModeBack = exampleDialog.querySelector('.dialog-mode-back');
-  if (dialogModeBack) dialogModeBack.hidden = mode === 'details';
+  if (dialogModeBack) dialogModeBack.hidden = showDetails;
+  if (!showDetails && emojiParent) {
+    emojiParent.hidden = true;
+  } else if (showDetails) {
+    updateCompositionBackButton();
+  }
   if (pixelEditor) {
     pixelEditor.element.hidden = mode !== 'editor';
     if (mode === 'editor' && currentEmojiKey) {
