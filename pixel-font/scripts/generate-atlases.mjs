@@ -15,13 +15,32 @@ const config = JSON.parse(
 const emoji = JSON.parse(
   await fs.readFile(path.join(root, "emoji.json"), "utf8"),
 );
+const versionManifest = JSON.parse(
+  await fs.readFile(path.join(root, "versions", "manifest.json"), "utf8"),
+);
+const proposedEmoji = (
+  await Promise.all(
+    (versionManifest.proposed ?? []).map(async (version) => {
+      const proposal = JSON.parse(
+        await fs.readFile(path.join(root, version.file), "utf8"),
+      );
+      return (proposal.emoji ?? []).map((item) => ({
+        ...item,
+        releaseStatus: "proposed",
+        unicodeVersion: version.version,
+        proposalStage: version.stage ?? version.status ?? proposal.status,
+        expectedRelease: version.expectedRelease ?? null,
+      }));
+    }),
+  )
+).flat();
 const skinToneModifiers = new Set(
   config.skinToneModifierCodePoints.map((point) => point.toUpperCase()),
 );
 const hairModifiers = new Set(
   config.hairModifierCodePoints.map((point) => point.toUpperCase()),
 );
-const eligible = emoji.sort(
+const eligible = [...emoji, ...proposedEmoji].sort(
   (left, right) =>
     left.order - right.order || left.key.localeCompare(right.key),
 );
@@ -36,9 +55,14 @@ const buckets = new Map();
 
 for (const item of eligible) {
   const modifierType = getModifierType(item);
-  const bucketKey = `${modifierType}\0${item.group}\0${item.subGroup}`;
+  const releaseStatus = item.releaseStatus ?? "released";
+  const unicodeVersion =
+    releaseStatus === "proposed" ? item.unicodeVersion : null;
+  const bucketKey = `${releaseStatus}\0${unicodeVersion ?? ""}\0${modifierType}\0${item.group}\0${item.subGroup}`;
   if (!buckets.has(bucketKey)) {
     buckets.set(bucketKey, {
+      releaseStatus,
+      unicodeVersion,
       modifierType,
       group: item.group,
       subGroup: item.subGroup,
@@ -73,8 +97,13 @@ for (const bucket of [...buckets.values()].sort(compareBuckets)) {
     const groupSlug = slug(bucket.group);
     const subGroupSlug = slug(bucket.subGroup);
     const suffix = partCount > 1 ? `-${String(part + 1).padStart(2, "0")}` : "";
-    const prefix =
+    const releasePrefix =
+      bucket.releaseStatus === "proposed"
+        ? `proposed/${bucket.unicodeVersion}/`
+        : "";
+    const modifierPrefix =
       bucket.modifierType === "base" ? "" : `modifiers/${bucket.modifierType}/`;
+    const prefix = `${releasePrefix}${modifierPrefix}`;
     const id = `${prefix}${groupSlug}/${subGroupSlug}${suffix}`;
     const image = `${id}.png`;
     const mapping = `${id}.json`;
@@ -104,6 +133,16 @@ for (const bucket of [...buckets.values()].sort(compareBuckets)) {
         sequenceType: item?.sequenceType ?? previous.sequenceType ?? "",
         modifierType:
           item?.modifierType ?? previous.modifierType ?? bucket.modifierType,
+        ...(bucket.releaseStatus === "proposed"
+          ? {
+              releaseStatus: "proposed",
+              unicodeVersion: bucket.unicodeVersion,
+              proposalStage:
+                item?.proposalStage ?? previous.proposalStage ?? "draft",
+              expectedRelease:
+                item?.expectedRelease ?? previous.expectedRelease ?? null,
+            }
+          : {}),
         active: Boolean(item),
       };
     });
@@ -113,6 +152,12 @@ for (const bucket of [...buckets.values()].sort(compareBuckets)) {
       image,
       setName: config.setName,
       modifierType: bucket.modifierType,
+      ...(bucket.releaseStatus === "proposed"
+        ? {
+            releaseStatus: "proposed",
+            unicodeVersion: bucket.unicodeVersion,
+          }
+        : {}),
       group: bucket.group,
       subGroup: bucket.subGroup,
       part: part + 1,
@@ -139,6 +184,12 @@ for (const bucket of [...buckets.values()].sort(compareBuckets)) {
       image,
       mapping,
       modifierType: bucket.modifierType,
+      ...(bucket.releaseStatus === "proposed"
+        ? {
+            releaseStatus: "proposed",
+            unicodeVersion: bucket.unicodeVersion,
+          }
+        : {}),
       group: bucket.group,
       subGroup: bucket.subGroup,
       part: part + 1,
@@ -171,6 +222,17 @@ const manifest = {
   headerHeight: config.headerHeight,
   footerHeight: config.footerHeight,
   activeGlyphCount: eligible.length,
+  releasedGlyphCount: emoji.length,
+  proposedGlyphCount: proposedEmoji.length,
+  proposedVersions: (versionManifest.proposed ?? []).map((version) => ({
+    version: version.version,
+    status: version.status,
+    stage: version.stage ?? version.status,
+    expectedRelease: version.expectedRelease ?? null,
+    count: proposedEmoji.filter(
+      (item) => item.unicodeVersion === version.version,
+    ).length,
+  })),
   baseGlyphCount: eligible.filter((item) => getModifierType(item) === "base")
     .length,
   modifierGlyphCount: eligible.filter(
@@ -213,6 +275,8 @@ async function loadPreviousAssignments() {
       );
       for (const entry of sidecar.entries ?? []) {
         assignments.set(entry.key, {
+          releaseStatus: sidecar.releaseStatus ?? "released",
+          unicodeVersion: sidecar.unicodeVersion ?? null,
           modifierType: sidecar.modifierType ?? "base",
           group: sidecar.group,
           subGroup: sidecar.subGroup,
@@ -233,6 +297,8 @@ function assignBucket(bucket, previous) {
   for (const item of bucket.items) {
     const existing = previous.get(item.key);
     if (
+      existing?.releaseStatus !== bucket.releaseStatus ||
+      existing?.unicodeVersion !== bucket.unicodeVersion ||
       existing?.modifierType !== bucket.modifierType ||
       existing?.group !== bucket.group ||
       existing?.subGroup !== bucket.subGroup
@@ -259,12 +325,22 @@ function assignBucket(bucket, previous) {
 
 function compareBuckets(left, right) {
   const typeOrder = ["base", "skin-tone", "hair", "skin-and-hair"];
+  const releaseDifference =
+    (left.releaseStatus === "proposed" ? 1 : 0) -
+    (right.releaseStatus === "proposed" ? 1 : 0);
+  const versionDifference = String(left.unicodeVersion ?? "").localeCompare(
+    String(right.unicodeVersion ?? ""),
+    undefined,
+    { numeric: true },
+  );
   const typeDifference =
     typeOrder.indexOf(left.modifierType) -
     typeOrder.indexOf(right.modifierType);
   const leftOrder = Math.min(...left.items.map((item) => item.order));
   const rightOrder = Math.min(...right.items.map((item) => item.order));
   return (
+    releaseDifference ||
+    versionDifference ||
     typeDifference ||
     leftOrder - rightOrder ||
     left.group.localeCompare(right.group) ||

@@ -30,6 +30,12 @@ const pixelAtlasFiles = pixelAtlasManifest.sheets.flatMap((sheet) => {
     ...(fs.existsSync(image.replace(/^\.\//, "")) ? [image] : []),
   ];
 });
+const proposedPixelFont = "./pixel-font/build/font/proposed/pixel-emoji.woff2";
+const optionalPixelFontAssets = fs.existsSync(
+  proposedPixelFont.replace(/^\.\//, ""),
+)
+  ? [proposedPixelFont]
+  : [];
 const coreAssets = [
   "./",
   "./index.html",
@@ -44,6 +50,7 @@ const coreAssets = [
   "./pixel-font/build/atlases.html",
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
+  ...optionalPixelFontAssets,
   ...pixelAtlasFiles,
   "./pixel-editor.js",
   "./favicon.svg",

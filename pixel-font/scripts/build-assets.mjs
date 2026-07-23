@@ -19,6 +19,7 @@ const buildDirectory = path.join(workspace, "build");
 const pngDirectory = path.join(buildDirectory, "png");
 const svgDirectory = path.join(buildDirectory, "svg");
 const fontDirectory = path.join(buildDirectory, "font");
+const proposedFontDirectory = path.join(fontDirectory, "proposed");
 const manifest = JSON.parse(
   await fs.readFile(path.join(atlasDirectory, "manifest.json"), "utf8"),
 );
@@ -31,6 +32,7 @@ await Promise.all([
   fs.mkdir(pngDirectory, { recursive: true }),
   fs.mkdir(svgDirectory, { recursive: true }),
   fs.mkdir(fontDirectory, { recursive: true }),
+  fs.mkdir(proposedFontDirectory, { recursive: true }),
 ]);
 
 for (const sheet of manifest.sheets) {
@@ -75,6 +77,10 @@ for (const sheet of manifest.sheets) {
       subGroup: entry.subGroup,
       part: mapping.part,
       partCount: mapping.partCount,
+      releaseStatus: entry.releaseStatus ?? "released",
+      unicodeVersion: entry.unicodeVersion ?? null,
+      proposalStage: entry.proposalStage ?? null,
+      expectedRelease: entry.expectedRelease ?? null,
       painted,
     };
     if (!painted) continue;
@@ -90,6 +96,10 @@ for (const sheet of manifest.sheets) {
       emoji: entry.emoji,
       codePoints: entry.codePoints,
       sequenceType: entry.sequenceType,
+      releaseStatus: entry.releaseStatus ?? "released",
+      unicodeVersion: entry.unicodeVersion ?? null,
+      proposalStage: entry.proposalStage ?? null,
+      expectedRelease: entry.expectedRelease ?? null,
       atlas: sheet.id,
       index: entry.index,
       row: entry.row,
@@ -109,15 +119,53 @@ for (const sheet of manifest.sheets) {
 }
 
 const componentAnalysis = analyzeColorMasks(glyphs);
+const releasedGlyphs = glyphs.filter(
+  (glyph) => glyph.releaseStatus !== "proposed",
+);
+const proposedGlyphs = glyphs.filter(
+  (glyph) => glyph.releaseStatus === "proposed",
+);
 const buildManifest = {
   schemaVersion: 1,
   familyName: manifest.familyName,
   cellSize: manifest.cellSize,
   glyphCount: glyphs.length,
+  releasedGlyphCount: releasedGlyphs.length,
+  proposedGlyphCount: proposedGlyphs.length,
+  proposedVersions: manifest.proposedVersions ?? [],
   sequenceGlyphCount: glyphs.filter((glyph) => glyph.sequenceType !== "single")
     .length,
   sequenceTypeCounts: countBySequenceType(glyphs),
   componentOptimization: componentAnalysis,
+  fontSets: {
+    released: {
+      familyName: manifest.familyName,
+      glyphCount: releasedGlyphs.length,
+      files: {
+        css: "font/pixel-emoji.css",
+        ttf: "font/pixel-emoji.ttf",
+        woff: "font/pixel-emoji.woff",
+        woff2: "font/pixel-emoji.woff2",
+      },
+    },
+    proposed: {
+      familyName: `${manifest.familyName} Proposed`,
+      glyphCount: proposedGlyphs.length,
+      versions: [
+        ...new Set(
+          proposedGlyphs.map((glyph) => glyph.unicodeVersion).filter(Boolean),
+        ),
+      ],
+      files:
+        proposedGlyphs.length > 0
+          ? {
+              ttf: "font/proposed/pixel-emoji.ttf",
+              woff: "font/proposed/pixel-emoji.woff",
+              woff2: "font/proposed/pixel-emoji.woff2",
+            }
+          : null,
+    },
+  },
   glyphs: glyphs.map(({ pixels, ...glyph }) => glyph),
 };
 if (Object.keys(editorGlyphs).length !== manifest.activeGlyphCount) {
@@ -143,8 +191,15 @@ await writeJson(path.join(buildDirectory, "editor-manifest.json"), {
 await writeJson(path.join(buildDirectory, "font-source.json"), {
   familyName: manifest.familyName,
   cellSize: manifest.cellSize,
-  glyphs,
+  glyphs: releasedGlyphs,
 });
+if (proposedGlyphs.length > 0) {
+  await writeJson(path.join(buildDirectory, "proposed-font-source.json"), {
+    familyName: `${manifest.familyName} Proposed`,
+    cellSize: manifest.cellSize,
+    glyphs: proposedGlyphs,
+  });
+}
 
 const python = await pythonCommand();
 await run(python, [path.join(workspace, "scripts", "test-font-sequences.py")]);
@@ -153,8 +208,20 @@ await run(python, [
   path.join(buildDirectory, "font-source.json"),
   fontDirectory,
 ]);
+if (proposedGlyphs.length > 0) {
+  await run(python, [
+    path.join(workspace, "scripts", "compile-font.py"),
+    path.join(buildDirectory, "proposed-font-source.json"),
+    proposedFontDirectory,
+  ]);
+}
 await writeFontStylesheet();
-await fs.rm(path.join(buildDirectory, "font-source.json"), { force: true });
+await Promise.all([
+  fs.rm(path.join(buildDirectory, "font-source.json"), { force: true }),
+  fs.rm(path.join(buildDirectory, "proposed-font-source.json"), {
+    force: true,
+  }),
+]);
 await fs.writeFile(
   path.join(buildDirectory, "index.html"),
   renderPreview(buildManifest),
@@ -180,9 +247,28 @@ async function writeFontStylesheet() {
     revision.update(await fs.readFile(path.join(fontDirectory, file)));
   }
   const value = revision.digest("hex").slice(0, 12);
+  let proposedRule = "";
+  if (proposedGlyphs.length > 0) {
+    const proposedRevision = createHash("sha256");
+    for (const file of fontFiles) {
+      proposedRevision.update(
+        await fs.readFile(path.join(proposedFontDirectory, file)),
+      );
+    }
+    const proposedValue = proposedRevision.digest("hex").slice(0, 12);
+    proposedRule = `@font-face {
+  font-family: "Pixel Emoji Proposed";
+  src:
+    url("./proposed/pixel-emoji.woff2?v=${proposedValue}") format("woff2"),
+    url("./proposed/pixel-emoji.woff?v=${proposedValue}") format("woff");
+  font-display: swap;
+}
+
+`;
+  }
   await fs.writeFile(
     path.join(fontDirectory, "pixel-emoji.css"),
-    `@font-face {
+    `${proposedRule}@font-face {
   font-family: "Pixel Emoji";
   src:
     url("./pixel-emoji.woff2?v=${value}") format("woff2"),
@@ -270,6 +356,7 @@ function renderPreview(build) {
 <meta name="viewport" content="width=device-width">
 <title>${escapeXml(build.familyName)} preview</title>
 <style>
+  @import url("./font/pixel-emoji.css");
   @font-face {
     font-family: "${escapeCss(build.familyName)}";
     src: url("./font/pixel-emoji.woff2") format("woff2"),
@@ -285,7 +372,7 @@ function renderPreview(build) {
   .samples { display: flex; gap: 1rem; }
   figure { margin: 0; text-align: center; }
   img, .font { display: block; width: 8rem; height: 8rem; object-fit: contain; image-rendering: pixelated; }
-  .font { font: 8rem/1 "${escapeCss(build.familyName)}"; }
+  .font { font: 8rem/1 "Pixel Emoji Proposed", "${escapeCss(build.familyName)}"; }
   figcaption { margin-top: .5rem; }
 </style>
 <h1>${escapeXml(build.familyName)} build</h1>
@@ -301,7 +388,7 @@ function renderAtlasGallery(build, sheets) {
     .map(
       (sheet) => `<article>
   <h2>${escapeXml(sheet.group)} · ${escapeXml(sheet.subGroup)}${sheet.partCount > 1 ? ` · ${sheet.part}/${sheet.partCount}` : ""}</h2>
-  <p>${sheet.paintedCount.toLocaleString()} painted glyph${sheet.paintedCount === 1 ? "" : "s"}</p>
+  <p>${sheet.releaseStatus === "proposed" ? `Proposed Emoji ${escapeXml(sheet.unicodeVersion)} · ` : ""}${sheet.paintedCount.toLocaleString()} painted glyph${sheet.paintedCount === 1 ? "" : "s"}</p>
   <a href="../atlases/${escapeXml(sheet.image)}"><img src="../atlases/${escapeXml(sheet.image)}" alt="${escapeXml(`${sheet.group}, ${sheet.subGroup}, part ${sheet.part} of ${sheet.partCount}`)}"></a>
   <p><a href="../atlases/${escapeXml(sheet.mapping)}">JSON cell map</a></p>
 </article>`,
@@ -341,11 +428,22 @@ function renderAtlasMarkdown(build, sheets) {
   let previousCollection = "";
   let previousGroup = "";
   for (const sheet of sheets) {
-    if (sheet.modifierType !== previousCollection) {
-      sections.push(
-        `## ${collectionLabels[sheet.modifierType] ?? sheet.modifierType}`,
+    const collection = `${sheet.releaseStatus ?? "released"}:${sheet.unicodeVersion ?? ""}:${sheet.modifierType}`;
+    if (collection !== previousCollection) {
+      const proposal = (build.proposedVersions ?? []).find(
+        (version) => version.version === sheet.unicodeVersion,
       );
-      previousCollection = sheet.modifierType;
+      const proposalDetails = proposal
+        ? ` (${proposal.stage ?? proposal.status}${proposal.expectedRelease ? `; expected ${proposal.expectedRelease}` : ""})`
+        : "";
+      const releaseLabel =
+        sheet.releaseStatus === "proposed"
+          ? `Proposed Emoji ${sheet.unicodeVersion}${proposalDetails} — `
+          : "";
+      sections.push(
+        `## ${releaseLabel}${collectionLabels[sheet.modifierType] ?? sheet.modifierType}`,
+      );
+      previousCollection = collection;
       previousGroup = "";
     }
     if (sheet.group !== previousGroup) {

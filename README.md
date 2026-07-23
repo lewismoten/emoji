@@ -12,7 +12,8 @@ Emoji 18.0 candidates are kept separate from released emoji.
 
 [Explore the emoji](https://lewismoten.github.io/emoji/) ·
 [View the package on npm](https://www.npmjs.com/package/@lewismoten/emoji) ·
-[Follow the Pixel Emoji fallback font](pixel-font/README.md)
+[Follow the Pixel Emoji fallback font](pixel-font/README.md), including its
+separate fall-forward coverage for proposed Unicode versions.
 
 ## Installation
 

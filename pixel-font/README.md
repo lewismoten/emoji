@@ -3,7 +3,7 @@
 Pixel Emoji is a compact color fallback font for emoji that an older device's
 built-in fonts cannot display.
 
-This project began after I discovered that one of my devices dould not display
+This project began after I discovered that one of my devices could not display
 Emoji 17.0. The device was no longer receiving the feature-bearing operating system updates
 that normally deliver new system emoji, even though it could continue receiving
 security support. A missing system-font glyph should not make a newer emoji
@@ -49,6 +49,47 @@ The font is intended as a fallback after the operating system's native emoji
 font, not as a replacement for every system emoji. The PNG and SVG output also
 makes the same artwork usable where custom color fonts are unavailable.
 
+## Proposed Unicode coverage
+
+The atlas generator also reads every draft listed under `proposed` in
+`versions/manifest.json`. Proposed emoji receive versioned assignments under:
+
+```text
+atlases/proposed/18.0/smileys-and-emotion/face-smiling.json
+atlases/proposed/18.0/modifiers/skin-tone/people-and-body/hand-fingers-closed.json
+```
+
+These JSON mappings are generated immediately, but an atlas PNG is not created
+until artwork is saved from Emoji Explorer. Proposed cells are marked with
+their Unicode version, proposal stage, and expected release date so they remain
+distinguishable from released characters.
+
+Painted proposed glyphs never enter the stable **Pixel Emoji** font. The build
+places them in the separate **Pixel Emoji Proposed** font under
+`build/font/proposed/` and writes both font faces into
+`build/font/pixel-emoji.css`. Use the proposed face first to fall forward for
+draft characters and then fall back through the stable and system fonts:
+
+```css
+font-family:
+  "Pixel Emoji Proposed", "Pixel Emoji", "Apple Color Emoji", "Segoe UI Emoji",
+  sans-serif;
+```
+
+Draft names, sequences, code points, and release plans may change. Proposed
+artwork should therefore be considered experimental. After refreshing draft
+data with `npm run unicode:proposed`, rerun `npm run pixel-font:generate`.
+When Unicode releases that version and `emoji.json` is updated, regeneration
+creates released assignments for its final entries. Copy the approved artwork
+into those released cells and rebuild; proposed pixels are not silently
+promoted because the final sequence or meaning may have changed.
+
+```sh
+npm run unicode:proposed
+npm run pixel-font:generate
+npm run pixel-font:build
+```
+
 This workspace is separate from the published `@lewismoten/emoji` data
 package. Compiled font files belong in release artifacts or a future dedicated
 font package.
@@ -90,7 +131,15 @@ atlases/modifiers/skin-and-hair/people-and-body/person.png
 ```
 
 This keeps the base sheets compact while making every modifier combination
-available to the editor and the same generated font.
+available to the editor and its corresponding released or proposed font.
+
+Draft emoji add a version prefix before the same group, subgroup, and modifier
+layout:
+
+```text
+atlases/proposed/18.0/objects/writing.json
+atlases/proposed/18.0/modifiers/skin-tone/people-and-body/hand-fingers-closed.json
+```
 
 ## Artwork palette
 
@@ -173,6 +222,7 @@ generated output under `pixel-font/build/` includes:
 - standalone crisp-edge SVG files;
 - a COLR/CPAL TrueType font;
 - WOFF and WOFF2 web fonts;
+- a separate proposed TTF, WOFF, and WOFF2 set when proposed artwork exists;
 - a machine-readable manifest;
 - an HTML page comparing PNG, SVG, and font rendering.
 
@@ -224,6 +274,10 @@ npm run pixel-font:build
 
 Skin-tone and hair-modifier sequences use their separate modifier atlas trees
 and are edited through the same interface.
+
+Proposed entries are edited through the same interface after selecting the
+proposed Unicode version in Emoji Explorer. Their atlas downloads and direct
+saves retain the `proposed/<version>/` directory prefix.
 
 ## Editing
 

@@ -18,13 +18,30 @@ const manifest = JSON.parse(
 const emoji = JSON.parse(
   await fs.readFile(path.join(root, "emoji.json"), "utf8"),
 );
+const versionManifest = JSON.parse(
+  await fs.readFile(path.join(root, "versions", "manifest.json"), "utf8"),
+);
+const proposedEmoji = (
+  await Promise.all(
+    (versionManifest.proposed ?? []).map(async (version) => {
+      const proposal = JSON.parse(
+        await fs.readFile(path.join(root, version.file), "utf8"),
+      );
+      return (proposal.emoji ?? []).map((item) => ({
+        ...item,
+        releaseStatus: "proposed",
+        unicodeVersion: version.version,
+      }));
+    }),
+  )
+).flat();
 const skinToneModifiers = new Set(
   config.skinToneModifierCodePoints.map((point) => point.toUpperCase()),
 );
 const hairModifiers = new Set(
   config.hairModifierCodePoints.map((point) => point.toUpperCase()),
 );
-const eligible = emoji;
+const eligible = [...emoji, ...proposedEmoji];
 const expectedKeys = new Set(eligible.map((item) => item.key));
 const expectedByKey = new Map(eligible.map((item) => [item.key, item]));
 const expectedSequenceTypeCounts = countBySequenceType(eligible);
@@ -75,6 +92,14 @@ assert(
     eligible.length - expectedModifierTypeCounts.base,
   "Manifest modifier glyph count is incorrect",
 );
+assert(
+  manifest.releasedGlyphCount === emoji.length,
+  "Manifest released glyph count is incorrect",
+);
+assert(
+  manifest.proposedGlyphCount === proposedEmoji.length,
+  "Manifest proposed glyph count is incorrect",
+);
 
 for (const sheet of manifest.sheets) {
   const sidecar = JSON.parse(
@@ -84,6 +109,11 @@ for (const sheet of manifest.sheets) {
   assert(
     sidecar.modifierType === sheet.modifierType,
     `${sheet.mapping} has the wrong modifier type`,
+  );
+  assert(
+    (sidecar.releaseStatus ?? "released") ===
+      (sheet.releaseStatus ?? "released"),
+    `${sheet.mapping} has the wrong release status`,
   );
   assert(
     sidecar.image === sheet.image,
@@ -185,6 +215,18 @@ for (const sheet of manifest.sheets) {
         `Active atlas entry ${entry.key} has the wrong modifier type`,
       );
       const expected = expectedByKey.get(entry.key);
+      assert(
+        (entry.releaseStatus ?? "released") ===
+          (expected.releaseStatus ?? "released"),
+        `${entry.key} has the wrong release status`,
+      );
+      assert(
+        (entry.unicodeVersion ?? null) ===
+          (expected.releaseStatus === "proposed"
+            ? expected.unicodeVersion
+            : null),
+        `${entry.key} has the wrong proposed Unicode version`,
+      );
       assert(
         entry.sequenceType === expected.sequenceType,
         `${entry.key} has the wrong sequence type`,
