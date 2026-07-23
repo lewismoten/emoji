@@ -42,6 +42,11 @@ body {
   font-family: var(--ui-font);
 }
 
+html:has(dialog[open]),
+body:has(dialog[open]) {
+  overflow: hidden;
+}
+
 main { max-width: 1600px; margin: 0 auto; }
 
 a { color: var(--accent); }
@@ -367,13 +372,16 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
 .example-dialog,
 .language-dialog {
   width: min(42rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 1rem);
   margin: auto;
   padding: 0;
   border: 1px solid var(--border);
   border-radius: .6rem;
   background: var(--panel);
   color: var(--text);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   box-shadow: 0 1rem 3rem rgb(0 0 0 / 55%);
 }
 
@@ -416,7 +424,13 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
 .example-dialog::backdrop,
 .language-dialog::backdrop { background: rgb(0 0 0 / 60%); backdrop-filter: blur(3px); }
 
-.dialog-heading { padding: .8rem 1rem; background: var(--panel-strong); }
+.dialog-heading {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: .8rem 1rem;
+  background: var(--panel-strong);
+}
 .dialog-controls { display: flex; align-items: center; gap: .35rem; }
 .dialog-controls form { margin: 0; }
 h2 { margin: 0; font-size: 1.15rem; }
