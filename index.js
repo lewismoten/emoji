@@ -6,6 +6,9 @@ var subGroups = {};
 const UNASSIGNED = '\u0000';
 var selectedGroup = '';
 var selectedSubGroup = '';
+var availableGroups = [];
+var availableSubGroups = {};
+var availableCategoryKeys = new Set();
 var emojiByKey = { ...emoji };
 var allIds = Object.keys(emojiByKey);
 var releasedIds = new Set();
@@ -485,6 +488,7 @@ function renderVersionModeToggle() {
 function toggleVersionMode() {
   versionModeSelector.value = versionModeSelector.value === 'selected' ? 'through' : 'selected';
   renderVersionModeToggle();
+  renderCategoryFilters();
   drawList();
 }
 
@@ -738,6 +742,7 @@ async function loadVersionData() {
     proposedVersionManifests = proposed;
     versionKeys = new Map([...keys, ...proposedKeys]);
     populateVersionSelector();
+    renderCategoryFilters();
     drawList();
   } catch (error) {
     console.warn('Version filters unavailable', error);
@@ -801,6 +806,7 @@ function onVersionRangeInput() {
   versionRangeValue.classList.toggle('is-future', proposedVersionManifests.some(version => version.version === option.value));
   versionRange.setAttribute('aria-valuetext', option.text);
   updateModifierAvailability();
+  renderCategoryFilters();
   drawList();
 }
 
@@ -857,6 +863,7 @@ function subGroupSelectionKey(group, subGroup) {
 }
 
 function renderCategoryFilters() {
+  updateAvailableCategories();
   groupSelector.closest('.filter-field')?.classList.toggle('has-choice-buttons', Boolean(compactGroupChoices));
   const subGroupField = subGroupSelector.closest('.filter-field');
   subGroupField?.classList.toggle('has-choice-buttons', Boolean(compactSubGroupChoices));
@@ -867,11 +874,43 @@ function renderCategoryFilters() {
   renderCompactSubGroupChoices();
 }
 
+function updateAvailableCategories() {
+  const includedVersionKeys = getVersionKeys();
+  availableCategoryKeys = includedVersionKeys.size === 0 && versionKeys.size === 0
+    ? new Set(items.map(item => item.key))
+    : includedVersionKeys;
+  const groupNames = new Set();
+  const subgroupNames = {};
+  items.forEach(item => {
+    if (!availableCategoryKeys.has(item.key)) return;
+    groupNames.add(item.group);
+    if (!subgroupNames[item.group]) subgroupNames[item.group] = new Set();
+    subgroupNames[item.group].add(item.unicodeSubGroup);
+  });
+  availableGroups = groups.filter(group => groupNames.has(group));
+  availableSubGroups = Object.fromEntries(availableGroups.map(group => [
+    group,
+    subGroups[group].filter(subGroup => subgroupNames[group]?.has(subGroup))
+  ]));
+
+  if (selectedGroup && !availableGroups.includes(selectedGroup)) {
+    selectedGroup = '';
+    selectedSubGroup = '';
+  } else if (selectedSubGroup) {
+    const separatorIndex = selectedSubGroup.indexOf('::');
+    const group = separatorIndex === -1 ? '' : selectedSubGroup.slice(0, separatorIndex);
+    const subGroup = separatorIndex === -1 ? '' : selectedSubGroup.slice(separatorIndex + 2);
+    if (group !== selectedGroup || !availableSubGroups[group]?.includes(subGroup)) {
+      selectedSubGroup = '';
+    }
+  }
+}
+
 function populateGroupFilter() {
   const all = document.createElement('option');
   all.value = '';
   all.text = `🌐 ${translate('all', 'All')}`;
-  groupSelector.replaceChildren(all, ...groups.map(name => {
+  groupSelector.replaceChildren(all, ...availableGroups.map(name => {
     const option = document.createElement('option');
     option.value = name;
     option.text = `${getGroupRepresentativeEmoji(name)} ${displayGroupName(name)}`;
@@ -888,7 +927,7 @@ function populateSubGroupFilter() {
   availableSubGroupParents().forEach(group => {
     const optionGroup = document.createElement('optgroup');
     optionGroup.label = displayGroupName(group);
-    subGroups[group].forEach(name => {
+    availableSubGroups[group].forEach(name => {
       const option = document.createElement('option');
       option.value = subGroupSelectionKey(group, name);
       option.dataset.group = group;
@@ -904,7 +943,7 @@ function populateSubGroupFilter() {
 }
 
 function availableSubGroupParents() {
-  return selectedGroup ? [selectedGroup] : [];
+  return selectedGroup && availableGroups.includes(selectedGroup) ? [selectedGroup] : [];
 }
 
 function renderCompactGroupChoices() {
@@ -914,7 +953,7 @@ function renderCompactGroupChoices() {
       ? displayGroupName(selectedGroup)
       : translate('all', 'All');
   }
-  const choices = [{ name: '', emoji: '🌐', label: translate('all', 'All') }, ...groups.map(name => ({
+  const choices = [{ name: '', emoji: '🌐', label: translate('all', 'All') }, ...availableGroups.map(name => ({
     name,
     emoji: getGroupRepresentativeEmoji(name),
     label: displayGroupName(name)
@@ -943,7 +982,7 @@ function renderCompactSubGroupChoices() {
       : translate('all', 'All');
   }
   const choices = availableSubGroupParents()
-    .flatMap(group => subGroups[group].map(name => ({ group, name })));
+    .flatMap(group => availableSubGroups[group].map(name => ({ group, name })));
   const allChoice = makeCompactChoice({
     value: '',
     emoji: '🌐',
@@ -1000,16 +1039,19 @@ function displayGroupName(name) {
 }
 
 function getGroupRepresentativeEmoji(group) {
-  const firstSubGroupWithMultipleEmoji = subGroups[group]
-    .find(name => items.filter(item => item.group === group && item.unicodeSubGroup === name).length > 1);
+  const firstSubGroupWithMultipleEmoji = availableSubGroups[group]
+    .find(name => items.filter(item => availableCategoryKeys.has(item.key) && item.group === group && item.unicodeSubGroup === name).length > 1);
   const subgroupItems = items.filter(item =>
-    item.group === group && item.unicodeSubGroup === firstSubGroupWithMultipleEmoji
+    availableCategoryKeys.has(item.key) && item.group === group && item.unicodeSubGroup === firstSubGroupWithMultipleEmoji
   );
-  return subgroupItems[1]?.emoji ?? subgroupItems[0]?.emoji ?? '';
+  return subgroupItems[1]?.emoji
+    ?? subgroupItems[0]?.emoji
+    ?? items.find(item => availableCategoryKeys.has(item.key) && item.group === group)?.emoji
+    ?? '';
 }
 
 function getSubGroupRepresentativeEmoji(group, subGroup) {
-  return items.find(item => item.group === group && item.unicodeSubGroup === subGroup)?.emoji ?? '';
+  return items.find(item => availableCategoryKeys.has(item.key) && item.group === group && item.unicodeSubGroup === subGroup)?.emoji ?? '';
 }
 
 function displayUnicodeSubGroupName(name) {
