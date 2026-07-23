@@ -996,19 +996,54 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function updateLayerControlStates[\s\S]*layerNudgeButtons\.forEach[\s\S]*nextX < 0[\s\S]*nextX \+ floatingLayer\.width > CELL_SIZE[\s\S]*nextY \+ floatingLayer\.height > CELL_SIZE/,
+  /function updateLayerControlStates[\s\S]*layerNudgeButtons\.forEach[\s\S]*layerPositionAllowed\(floatingLayer, nextX, nextY\)/,
   "layer nudge controls must disable at canvas boundaries",
 );
 assert.match(
   pixelEditorScript,
-  /function setFloatingLayerPosition[\s\S]*clamp\(x, 0, CELL_SIZE - floatingLayer\.width\)[\s\S]*clamp\(y, 0, CELL_SIZE - floatingLayer\.height\)/,
-  "dragged layers must remain completely inside the canvas",
+  /function setFloatingLayerPosition[\s\S]*layerAxisBounds\(floatingLayer\.width\)[\s\S]*layerAxisBounds\(floatingLayer\.height\)[\s\S]*clamp\(x, minimumX, maximumX\)[\s\S]*clamp\(y, minimumY, maximumY\)/,
+  "dragged layers must stay within the valid positioning range",
 );
 assert.match(
   pixelEditorScript,
   /layerTransformButtons\.forEach[\s\S]*layerTransformChangesPixels[\s\S]*pixelsEqual/,
   "rotation and flip controls must disable when they would not alter the layer",
 );
+assert.match(
+  pixelEditorScript,
+  /function rotatePixels\(layer, degrees\)[\s\S]*document\.createElement\("canvas"\)[\s\S]*imageSmoothingEnabled = true[\s\S]*imageSmoothingQuality = "high"[\s\S]*translate\(width \/ 2, height \/ 2\)[\s\S]*rotate\(radians\)[\s\S]*drawImage/,
+  "floating selections must use an interpolated canvas rotation around their centers",
+);
+assert.match(
+  pixelEditorScript,
+  /function quantizeToEga\(source\)[\s\S]*ROTATION_ALPHA_THRESHOLD[\s\S]*nearestEgaColor[\s\S]*result\[offset \+ 3\] = 255/,
+  "canvas-rotated pixels must be reduced to transparency or the nearest opaque EGA color",
+);
+assert.match(
+  pixelEditorScript,
+  /function layerAxisBounds\(size\)[\s\S]*size <= CELL_SIZE \? \[0, CELL_SIZE - size\] : \[CELL_SIZE - size, 0\]/,
+  "oversized rotated selections must support safe negative positioning across the canvas",
+);
+assert.doesNotMatch(
+  pixelEditorScript,
+  /rotated\.width > CELL_SIZE|rotated\.height > CELL_SIZE/,
+  "45-degree rotation must not be blocked when its bounding box exceeds the canvas",
+);
+assert.match(
+  pixelEditorScript,
+  /function nextLayerRotation[\s\S]*rotationSource[\s\S]*rotationDegrees[\s\S]*\(clockwise \? 45 : -45\)[\s\S]*rotatePixels\(rotationSource, rotationDegrees\)/,
+  "successive 45-degree turns must render from the original layer instead of degrading the previous raster rotation",
+);
+for (const locale of ["en", "ar", "es", "hi", "zh"]) {
+  assert.match(
+    await fs.readFile(
+      path.join(root, "demo-locales", `${locale}.json`),
+      "utf8",
+    ),
+    /"rotateLayerLeft": ".*45.*"[\s\S]*"rotateLayerRight": ".*45.*"/,
+    `${locale} must explain that layer rotation uses 45-degree increments`,
+  );
+}
 for (const action of [
   "pixel-editor-save",
   "pixel-editor-download",

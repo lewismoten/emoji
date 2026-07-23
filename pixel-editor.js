@@ -1,5 +1,6 @@
 const CELL_SIZE = 12;
 const DISPLAY_SIZE = 384;
+const ROTATION_ALPHA_THRESHOLD = 128;
 const TOOLS = [
   "pencil",
   "rectangle",
@@ -175,8 +176,8 @@ export function createPixelEditor({
               ${layerNudgeButton("right", 1, 0, "→", "moveLayerRight", "Move layer right one pixel")}
             </div>
             <div class="pixel-editor-layer-transform" role="toolbar" data-i18n-aria-label="transformLayer" aria-label="Transform floating layer">
-              <button type="button" data-layer-transform="rotate-left" data-i18n-aria-label="rotateLayerLeft" aria-label="Rotate layer left"><span aria-hidden="true">↶</span></button>
-              <button type="button" data-layer-transform="rotate-right" data-i18n-aria-label="rotateLayerRight" aria-label="Rotate layer right"><span aria-hidden="true">↷</span></button>
+              <button type="button" data-layer-transform="rotate-left" data-i18n-aria-label="rotateLayerLeft" aria-label="Rotate layer 45 degrees left"><span aria-hidden="true">↶</span></button>
+              <button type="button" data-layer-transform="rotate-right" data-i18n-aria-label="rotateLayerRight" aria-label="Rotate layer 45 degrees right"><span aria-hidden="true">↷</span></button>
               <button type="button" data-layer-transform="flip-horizontal" data-i18n-aria-label="flipLayerHorizontal" aria-label="Flip layer horizontally"><span aria-hidden="true">↔</span></button>
               <button type="button" data-layer-transform="flip-vertical" data-i18n-aria-label="flipLayerVertical" aria-label="Flip layer vertically"><span aria-hidden="true">↕</span></button>
               <button class="pixel-editor-invert-layer" type="button" aria-pressed="false">
@@ -1113,20 +1114,16 @@ export function createPixelEditor({
     if (!floatingLayer) return;
     const nextX = floatingLayer.x + horizontal;
     const nextY = floatingLayer.y + vertical;
-    if (
-      nextX < 0 ||
-      nextY < 0 ||
-      nextX + floatingLayer.width > CELL_SIZE ||
-      nextY + floatingLayer.height > CELL_SIZE
-    )
-      return;
+    if (!layerPositionAllowed(floatingLayer, nextX, nextY)) return;
     setFloatingLayerPosition(nextX, nextY);
   }
 
   function setFloatingLayerPosition(x, y) {
     if (!floatingLayer) return;
-    floatingLayer.x = clamp(x, 0, CELL_SIZE - floatingLayer.width);
-    floatingLayer.y = clamp(y, 0, CELL_SIZE - floatingLayer.height);
+    const [minimumX, maximumX] = layerAxisBounds(floatingLayer.width);
+    const [minimumY, maximumY] = layerAxisBounds(floatingLayer.height);
+    floatingLayer.x = clamp(x, minimumX, maximumX);
+    floatingLayer.y = clamp(y, minimumY, maximumY);
     draw();
   }
 
@@ -1135,21 +1132,28 @@ export function createPixelEditor({
     const previousCenterX = floatingLayer.x + floatingLayer.width / 2;
     const previousCenterY = floatingLayer.y + floatingLayer.height / 2;
     if (transform === "rotate-left" || transform === "rotate-right") {
-      const rotated = rotatePixels(floatingLayer, transform === "rotate-right");
+      const rotated = nextLayerRotation(
+        floatingLayer,
+        transform === "rotate-right",
+      );
       if (!layerTransformChangesPixels(floatingLayer, rotated)) return;
       floatingLayer.pixels = rotated.pixels;
       floatingLayer.width = rotated.width;
       floatingLayer.height = rotated.height;
+      floatingLayer.rotationSource = rotated.rotationSource;
+      floatingLayer.rotationDegrees = rotated.rotationDegrees;
       floatingLayer.x = Math.round(previousCenterX - rotated.width / 2);
       floatingLayer.y = Math.round(previousCenterY - rotated.height / 2);
     } else if (transform === "flip-horizontal") {
       const flipped = flipPixels(floatingLayer, true);
       if (pixelsEqual(floatingLayer.pixels, flipped)) return;
       floatingLayer.pixels = flipped;
+      resetLayerRotation(floatingLayer);
     } else if (transform === "flip-vertical") {
       const flipped = flipPixels(floatingLayer, false);
       if (pixelsEqual(floatingLayer.pixels, flipped)) return;
       floatingLayer.pixels = flipped;
+      resetLayerRotation(floatingLayer);
     }
     setFloatingLayerPosition(floatingLayer.x, floatingLayer.y);
   }
@@ -1240,19 +1244,16 @@ export function createPixelEditor({
     layerNudgeButtons.forEach((button) => {
       const nextX = floatingLayer.x + Number(button.dataset.layerX);
       const nextY = floatingLayer.y + Number(button.dataset.layerY);
-      button.disabled =
-        nextX < 0 ||
-        nextY < 0 ||
-        nextX + floatingLayer.width > CELL_SIZE ||
-        nextY + floatingLayer.height > CELL_SIZE;
+      button.disabled = !layerPositionAllowed(floatingLayer, nextX, nextY);
     });
     layerTransformButtons.forEach((button) => {
       const transform = button.dataset.layerTransform;
       if (transform === "rotate-left" || transform === "rotate-right") {
-        button.disabled = !layerTransformChangesPixels(
+        const rotated = nextLayerRotation(
           floatingLayer,
-          rotatePixels(floatingLayer, transform === "rotate-right"),
+          transform === "rotate-right",
         );
+        button.disabled = !layerTransformChangesPixels(floatingLayer, rotated);
       } else {
         button.disabled = pixelsEqual(
           floatingLayer.pixels,
@@ -1655,22 +1656,69 @@ function extractPixels(source, sourceWidth, x, y, width, height) {
   return result;
 }
 
-function rotatePixels(layer, clockwise) {
-  const width = layer.height;
-  const height = layer.width;
-  const result = new Uint8ClampedArray(width * height * 4);
-  for (let y = 0; y < layer.height; y += 1) {
-    for (let x = 0; x < layer.width; x += 1) {
-      const targetX = clockwise ? layer.height - 1 - y : y;
-      const targetY = clockwise ? x : layer.width - 1 - x;
-      const sourceOffset = (y * layer.width + x) * 4;
-      result.set(
-        layer.pixels.slice(sourceOffset, sourceOffset + 4),
-        (targetY * width + targetX) * 4,
-      );
-    }
+function nextLayerRotation(layer, clockwise) {
+  const rotationSource = layer.rotationSource ?? {
+    pixels: layer.pixels.slice(),
+    width: layer.width,
+    height: layer.height,
+  };
+  const rotationDegrees =
+    ((layer.rotationDegrees ?? 0) + (clockwise ? 45 : -45) + 360) % 360;
+  return {
+    ...rotatePixels(rotationSource, rotationDegrees),
+    rotationSource,
+    rotationDegrees,
+  };
+}
+
+function resetLayerRotation(layer) {
+  delete layer.rotationSource;
+  delete layer.rotationDegrees;
+}
+
+function rotatePixels(layer, degrees) {
+  const radians = (degrees * Math.PI) / 180;
+  const cosine = Math.cos(radians);
+  const sine = Math.sin(radians);
+  const width = Math.ceil(
+    Math.abs(layer.width * cosine) + Math.abs(layer.height * sine) - 1e-10,
+  );
+  const height = Math.ceil(
+    Math.abs(layer.width * sine) + Math.abs(layer.height * cosine) - 1e-10,
+  );
+  const sourceCanvas = imageDataCanvas(layer.pixels, layer.width, layer.height);
+  const rotatedCanvas = document.createElement("canvas");
+  rotatedCanvas.width = width;
+  rotatedCanvas.height = height;
+  const rotatedContext = rotatedCanvas.getContext("2d");
+  rotatedContext.imageSmoothingEnabled = true;
+  rotatedContext.imageSmoothingQuality = "high";
+  rotatedContext.translate(width / 2, height / 2);
+  rotatedContext.rotate(radians);
+  rotatedContext.drawImage(sourceCanvas, -layer.width / 2, -layer.height / 2);
+  const interpolated = rotatedContext.getImageData(0, 0, width, height).data;
+  return {
+    pixels: quantizeToEga(interpolated),
+    width,
+    height,
+  };
+}
+
+function quantizeToEga(source) {
+  const result = new Uint8ClampedArray(source.length);
+  for (let offset = 0; offset < source.length; offset += 4) {
+    if (source[offset + 3] < ROTATION_ALPHA_THRESHOLD) continue;
+    const color = nearestEgaColor(
+      source[offset],
+      source[offset + 1],
+      source[offset + 2],
+    ).slice(1);
+    result[offset] = Number.parseInt(color.slice(0, 2), 16);
+    result[offset + 1] = Number.parseInt(color.slice(2, 4), 16);
+    result[offset + 2] = Number.parseInt(color.slice(4, 6), 16);
+    result[offset + 3] = 255;
   }
-  return { pixels: result, width, height };
+  return result;
 }
 
 function layerTransformChangesPixels(layer, transformed) {
@@ -1679,6 +1727,16 @@ function layerTransformChangesPixels(layer, transformed) {
     layer.height !== transformed.height ||
     !pixelsEqual(layer.pixels, transformed.pixels)
   );
+}
+
+function layerAxisBounds(size) {
+  return size <= CELL_SIZE ? [0, CELL_SIZE - size] : [CELL_SIZE - size, 0];
+}
+
+function layerPositionAllowed(layer, x, y) {
+  const [minimumX, maximumX] = layerAxisBounds(layer.width);
+  const [minimumY, maximumY] = layerAxisBounds(layer.height);
+  return x >= minimumX && x <= maximumX && y >= minimumY && y <= maximumY;
 }
 
 function pixelsEqual(left, right) {
@@ -1735,6 +1793,12 @@ function cloneFloatingLayer(value) {
     ? {
         ...value,
         pixels: value.pixels.slice(),
+        rotationSource: value.rotationSource
+          ? {
+              ...value.rotationSource,
+              pixels: value.rotationSource.pixels.slice(),
+            }
+          : undefined,
       }
     : undefined;
 }
