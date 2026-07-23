@@ -154,7 +154,7 @@
   "ellipse": "Ellipse",
   "paintBucket": "Paint bucket",
   "eyedropper": "Eyedropper",
-  "pixelCanvas": "16 by 16 pixel drawing canvas",
+  "pixelCanvas": "12 by 12 pixel drawing canvas",
   "drawingColor": "Drawing color",
   "color": "Color",
   "egaPalette": "Classic EGA color palette",
@@ -176,7 +176,7 @@
   "atlasDownloaded": "Updated atlas PNG downloaded.",
   "row": "row",
   "column": "column",
-  "pixelPreviews": "Emoji at actual 16 by 16 pixel size",
+  "pixelPreviews": "Emoji at actual 12 by 12 pixel size",
   "officialEmoji": "Official",
   "customFontEmoji": "Custom font",
   "currentArtwork": "Current grid"

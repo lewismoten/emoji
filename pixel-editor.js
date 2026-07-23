@@ -1,21 +1,83 @@
-const CELL_SIZE = 16;
-const DISPLAY_SIZE = 512;
-const TOOLS = ['pencil', 'rectangle', 'ellipse', 'bucket', 'eyedropper'];
-const EGA_COLORS = ['#000000', '#0000aa', '#00aa00', '#00aaaa', '#aa0000', '#aa00aa', '#aa5500', '#aaaaaa', '#555555', '#5555ff', '#55ff55', '#55ffff', '#ff5555', '#ff55ff', '#ffff55', '#ffffff'];
+const CELL_SIZE = 12;
+const DISPLAY_SIZE = 384;
+const TOOLS = ["pencil", "rectangle", "ellipse", "bucket", "eyedropper"];
+const EGA_COLORS = [
+  "#000000",
+  "#0000aa",
+  "#00aa00",
+  "#00aaaa",
+  "#aa0000",
+  "#aa00aa",
+  "#aa5500",
+  "#aaaaaa",
+  "#555555",
+  "#5555ff",
+  "#55ff55",
+  "#55ffff",
+  "#ff5555",
+  "#ff55ff",
+  "#ffff55",
+  "#ffffff",
+];
+const BITMAP_FONT = {
+  " ": ["00000", "00000", "00000", "00000", "00000", "00000", "00000"],
+  A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
+  B: ["11110", "10001", "10001", "11110", "10001", "10001", "11110"],
+  C: ["01111", "10000", "10000", "10000", "10000", "10000", "01111"],
+  D: ["11110", "10001", "10001", "10001", "10001", "10001", "11110"],
+  E: ["11111", "10000", "10000", "11110", "10000", "10000", "11111"],
+  F: ["11111", "10000", "10000", "11110", "10000", "10000", "10000"],
+  G: ["01111", "10000", "10000", "10111", "10001", "10001", "01111"],
+  H: ["10001", "10001", "10001", "11111", "10001", "10001", "10001"],
+  I: ["11111", "00100", "00100", "00100", "00100", "00100", "11111"],
+  J: ["00111", "00010", "00010", "00010", "10010", "10010", "01100"],
+  K: ["10001", "10010", "10100", "11000", "10100", "10010", "10001"],
+  L: ["10000", "10000", "10000", "10000", "10000", "10000", "11111"],
+  M: ["10001", "11011", "10101", "10101", "10001", "10001", "10001"],
+  N: ["10001", "11001", "10101", "10011", "10001", "10001", "10001"],
+  O: ["01110", "10001", "10001", "10001", "10001", "10001", "01110"],
+  P: ["11110", "10001", "10001", "11110", "10000", "10000", "10000"],
+  Q: ["01110", "10001", "10001", "10001", "10101", "10010", "01101"],
+  R: ["11110", "10001", "10001", "11110", "10100", "10010", "10001"],
+  S: ["01111", "10000", "10000", "01110", "00001", "00001", "11110"],
+  T: ["11111", "00100", "00100", "00100", "00100", "00100", "00100"],
+  U: ["10001", "10001", "10001", "10001", "10001", "10001", "01110"],
+  V: ["10001", "10001", "10001", "10001", "10001", "01010", "00100"],
+  W: ["10001", "10001", "10001", "10101", "10101", "10101", "01010"],
+  X: ["10001", "10001", "01010", "00100", "01010", "10001", "10001"],
+  Y: ["10001", "10001", "01010", "00100", "00100", "00100", "00100"],
+  Z: ["11111", "00001", "00010", "00100", "01000", "10000", "11111"],
+  0: ["01110", "10001", "10011", "10101", "11001", "10001", "01110"],
+  1: ["00100", "01100", "00100", "00100", "00100", "00100", "01110"],
+  2: ["01110", "10001", "00001", "00010", "00100", "01000", "11111"],
+  3: ["11110", "00001", "00001", "01110", "00001", "00001", "11110"],
+  4: ["00010", "00110", "01010", "10010", "11111", "00010", "00010"],
+  5: ["11111", "10000", "10000", "11110", "00001", "00001", "11110"],
+  6: ["01110", "10000", "10000", "11110", "10001", "10001", "01110"],
+  7: ["11111", "00001", "00010", "00100", "01000", "01000", "01000"],
+  8: ["01110", "10001", "10001", "01110", "10001", "10001", "01110"],
+  9: ["01110", "10001", "10001", "01111", "00001", "00001", "01110"],
+  "&": ["01100", "10010", "10100", "01000", "10101", "10010", "01101"],
+  ":": ["00000", "00100", "00100", "00000", "00100", "00100", "00000"],
+  "-": ["00000", "00000", "00000", "11111", "00000", "00000", "00000"],
+  ".": ["00000", "00000", "00000", "00000", "00000", "00100", "00100"],
+  "/": ["00001", "00010", "00010", "00100", "01000", "01000", "10000"],
+  "?": ["01110", "10001", "00001", "00010", "00100", "00000", "00100"],
+};
 
 export function createPixelEditor({ dialog, translate, setDialogMode }) {
-  const view = document.createElement('section');
-  view.className = 'pixel-editor-view';
+  const view = document.createElement("section");
+  view.className = "pixel-editor-view";
   view.hidden = true;
   view.innerHTML = `
     <div class="pixel-editor-toolbar">
       <button class="pixel-editor-back" type="button" data-i18n="backToEmoji">Back to emoji</button>
       <div class="pixel-editor-tools" role="toolbar" data-i18n-aria-label="drawingTools" aria-label="Drawing tools">
-        ${toolButton('pencil', '✎', 'pencil', 'Pencil', true)}
-        ${toolButton('rectangle', '□', 'rectangle', 'Rectangle')}
-        ${toolButton('ellipse', '○', 'ellipse', 'Ellipse')}
-        ${toolButton('bucket', '▰', 'paintBucket', 'Paint bucket')}
-        ${toolButton('eyedropper', '⌞', 'eyedropper', 'Eyedropper')}
+        ${toolButton("pencil", "✎", "pencil", "Pencil", true)}
+        ${toolButton("rectangle", "□", "rectangle", "Rectangle")}
+        ${toolButton("ellipse", "○", "ellipse", "Ellipse")}
+        ${toolButton("bucket", "▰", "paintBucket", "Paint bucket")}
+        ${toolButton("eyedropper", "⌞", "eyedropper", "Eyedropper")}
       </div>
       <div class="pixel-editor-history">
         <button class="pixel-editor-undo" type="button" disabled><span aria-hidden="true">↶</span> <span data-i18n="undo">Undo</span></button>
@@ -25,12 +87,12 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     <div class="pixel-editor-layout">
       <div class="pixel-editor-workspace">
         <div class="pixel-editor-stage">
-          <canvas class="pixel-editor-canvas" width="${DISPLAY_SIZE}" height="${DISPLAY_SIZE}" tabindex="0" data-i18n-aria-label="pixelCanvas" aria-label="16 by 16 pixel drawing canvas"></canvas>
+          <canvas class="pixel-editor-canvas" width="${DISPLAY_SIZE}" height="${DISPLAY_SIZE}" tabindex="0" data-i18n-aria-label="pixelCanvas" aria-label="12 by 12 pixel drawing canvas"></canvas>
         </div>
-        <div class="pixel-editor-previews" data-i18n-aria-label="pixelPreviews" aria-label="Emoji at actual 16 by 16 pixel size">
-          ${preview('official', 'officialEmoji', 'Official')}
-          ${preview('font', 'customFontEmoji', 'Custom font')}
-          ${preview('artwork', 'currentArtwork', 'Current grid')}
+        <div class="pixel-editor-previews" data-i18n-aria-label="pixelPreviews" aria-label="Emoji at actual 12 by 12 pixel size">
+          ${preview("official", "officialEmoji", "Official")}
+          ${preview("font", "customFontEmoji", "Custom font")}
+          ${preview("artwork", "currentArtwork", "Current grid")}
         </div>
       </div>
       <div class="pixel-editor-controls">
@@ -41,7 +103,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
             <input class="pixel-editor-color" type="color" value="#ffff55">
           </label>
           <div class="pixel-editor-palette" role="group" data-i18n-aria-label="egaPalette" aria-label="Classic EGA color palette">
-            ${EGA_COLORS.map(egaSwatch).join('')}
+            ${EGA_COLORS.map(egaSwatch).join("")}
             <button class="pixel-editor-swatch is-transparent" type="button" data-transparent="true" data-i18n-aria-label="transparentEraser" aria-label="Transparent eraser" title="Transparent"><span aria-hidden="true">╱</span></button>
           </div>
           <label>
@@ -71,35 +133,38 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     </div>`;
   dialog.append(view);
 
-  const canvas = view.querySelector('.pixel-editor-canvas');
-  const context = canvas.getContext('2d', { alpha: true });
-  const colorInput = view.querySelector('.pixel-editor-color');
-  const alphaInput = view.querySelector('.pixel-editor-alpha');
-  const alphaOutput = view.querySelector('.pixel-editor-alpha-value');
-  const fillShapes = view.querySelector('.pixel-editor-fill-shapes');
-  const traceAlpha = view.querySelector('.pixel-editor-trace-alpha');
-  const traceOutput = view.querySelector('.pixel-editor-trace-value');
-  const officialPreview = view.querySelector('.pixel-editor-preview-official');
-  const fontPreview = view.querySelector('.pixel-editor-preview-font');
-  const artworkPreview = view.querySelector('.pixel-editor-preview-artwork');
-  const undoButton = view.querySelector('.pixel-editor-undo');
-  const redoButton = view.querySelector('.pixel-editor-redo');
-  const saveButton = view.querySelector('.pixel-editor-save');
-  const downloadButton = view.querySelector('.pixel-editor-download');
-  const location = view.querySelector('.pixel-editor-location');
-  const status = view.querySelector('.pixel-editor-status');
-  const toolButtons = [...view.querySelectorAll('[data-tool]')];
-  const paletteButtons = [...view.querySelectorAll('.pixel-editor-swatch')];
-  const traceCanvas = document.createElement('canvas');
+  const canvas = view.querySelector(".pixel-editor-canvas");
+  const context = canvas.getContext("2d", { alpha: true });
+  const colorInput = view.querySelector(".pixel-editor-color");
+  const alphaInput = view.querySelector(".pixel-editor-alpha");
+  const alphaOutput = view.querySelector(".pixel-editor-alpha-value");
+  const fillShapes = view.querySelector(".pixel-editor-fill-shapes");
+  const traceAlpha = view.querySelector(".pixel-editor-trace-alpha");
+  const traceOutput = view.querySelector(".pixel-editor-trace-value");
+  const officialPreview = view.querySelector(".pixel-editor-preview-official");
+  const fontPreview = view.querySelector(".pixel-editor-preview-font");
+  const artworkPreview = view.querySelector(".pixel-editor-preview-artwork");
+  const undoButton = view.querySelector(".pixel-editor-undo");
+  const redoButton = view.querySelector(".pixel-editor-redo");
+  const saveButton = view.querySelector(".pixel-editor-save");
+  const downloadButton = view.querySelector(".pixel-editor-download");
+  const location = view.querySelector(".pixel-editor-location");
+  const status = view.querySelector(".pixel-editor-status");
+  const toolButtons = [...view.querySelectorAll("[data-tool]")];
+  const paletteButtons = [...view.querySelectorAll(".pixel-editor-swatch")];
+  const traceCanvas = document.createElement("canvas");
   traceCanvas.width = CELL_SIZE;
   traceCanvas.height = CELL_SIZE;
 
   let manifestPromise;
   let currentEntry;
-  let currentEmoji = '';
+  let currentEmoji = "";
   let atlasBlob;
+  let atlasExists = false;
+  let atlasWidth = CELL_SIZE * 16;
+  let atlasHeight = CELL_SIZE * 16;
   let pixels = new Uint8ClampedArray(CELL_SIZE * CELL_SIZE * 4);
-  let tool = 'pencil';
+  let tool = "pencil";
   let pointerStart;
   let pointerPrevious;
   let shapeBase;
@@ -108,27 +173,33 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   let undoStack = [];
   let redoStack = [];
 
-  view.querySelector('.pixel-editor-back').addEventListener('click', () => setDialogMode('details'));
-  toolButtons.forEach(button => button.addEventListener('click', () => selectTool(button.dataset.tool)));
-  colorInput.addEventListener('input', updatePaletteSelection);
-  alphaInput.addEventListener('input', () => {
+  view
+    .querySelector(".pixel-editor-back")
+    .addEventListener("click", () => setDialogMode("details"));
+  toolButtons.forEach((button) =>
+    button.addEventListener("click", () => selectTool(button.dataset.tool)),
+  );
+  colorInput.addEventListener("input", updatePaletteSelection);
+  alphaInput.addEventListener("input", () => {
     updateAlphaOutput();
     updatePaletteSelection();
   });
-  traceAlpha.addEventListener('input', () => {
+  traceAlpha.addEventListener("input", () => {
     traceOutput.value = `${traceAlpha.value}%`;
     draw();
   });
-  fillShapes.addEventListener('change', draw);
-  paletteButtons.forEach(button => button.addEventListener('click', () => selectPaletteColor(button)));
-  undoButton.addEventListener('click', undo);
-  redoButton.addEventListener('click', redo);
-  saveButton.addEventListener('click', saveAtlas);
-  downloadButton.addEventListener('click', downloadAtlas);
-  canvas.addEventListener('pointerdown', onPointerDown);
-  canvas.addEventListener('pointermove', onPointerMove);
-  canvas.addEventListener('pointerup', onPointerUp);
-  canvas.addEventListener('pointercancel', onPointerCancel);
+  fillShapes.addEventListener("change", draw);
+  paletteButtons.forEach((button) =>
+    button.addEventListener("click", () => selectPaletteColor(button)),
+  );
+  undoButton.addEventListener("click", undo);
+  redoButton.addEventListener("click", redo);
+  saveButton.addEventListener("click", saveAtlas);
+  downloadButton.addEventListener("click", downloadAtlas);
+  canvas.addEventListener("pointerdown", onPointerDown);
+  canvas.addEventListener("pointermove", onPointerMove);
+  canvas.addEventListener("pointerup", onPointerUp);
+  canvas.addEventListener("pointercancel", onPointerCancel);
   updateAlphaOutput();
   updatePaletteSelection();
   draw();
@@ -138,68 +209,89 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     async open(key, emoji) {
       const requestedLoadId = ++loadId;
       currentEmoji = emoji;
-      status.textContent = translate('pixelEditorLoading', 'Loading pixel cell…');
+      status.textContent = translate(
+        "pixelEditorLoading",
+        "Loading pixel cell…",
+      );
       saveButton.disabled = true;
       downloadButton.disabled = true;
       try {
         const manifest = await loadManifest();
         if (requestedLoadId !== loadId) return;
+        if (manifest.cellSize !== CELL_SIZE) {
+          throw new Error(`Expected ${CELL_SIZE} by ${CELL_SIZE} pixel cells`);
+        }
         const entry = manifest.glyphs[key];
         currentEntry = entry;
         if (!entry) {
-          location.textContent = '';
-          status.textContent = translate('pixelEditorUnavailable', 'This modified emoji is not part of the base atlas set.');
+          location.textContent = "";
+          status.textContent = translate(
+            "pixelEditorUnavailable",
+            "This modified emoji is not part of the base atlas set.",
+          );
           pixels.fill(0);
           renderTrace();
           draw();
           return;
         }
-        const loadedAtlasBlob = await fetch(`pixel-font/atlases/${entry.atlas}`).then(response => {
-          if (!response.ok) throw new Error(`Unable to load ${entry.atlas}`);
-          return response.blob();
-        });
+        atlasWidth = entry.atlasWidth;
+        atlasHeight = entry.atlasHeight;
+        const atlasResponse = await fetch(
+          `pixel-font/atlases/${entry.atlas}`,
+        ).catch(() => undefined);
+        const hasPng =
+          atlasResponse?.ok &&
+          atlasResponse.headers.get("content-type")?.includes("image/png");
+        const loadedAtlasBlob = hasPng
+          ? await atlasResponse.blob()
+          : await createBlankAtlas(manifest, entry);
         if (requestedLoadId !== loadId) return;
         const loadedPixels = await extractCell(loadedAtlasBlob, entry);
         if (requestedLoadId !== loadId) return;
         atlasBlob = loadedAtlasBlob;
+        atlasExists = hasPng;
         pixels = loadedPixels;
         undoStack = [];
         redoStack = [];
-        location.textContent = `${currentEntry.atlas} · ${translate('row', 'row')} ${currentEntry.row + 1} · ${translate('column', 'column')} ${currentEntry.column + 1}`;
-        status.textContent = '';
-        saveButton.disabled = false;
-        downloadButton.disabled = false;
+        location.textContent = `${currentEntry.atlas} · ${translate("row", "row")} ${currentEntry.row + 1} · ${translate("column", "column")} ${currentEntry.column + 1}`;
+        status.textContent = "";
         renderTrace();
         updateHistoryButtons();
         draw();
       } catch (error) {
         if (requestedLoadId !== loadId) return;
-        console.warn('Pixel editor unavailable', error);
-        status.textContent = translate('pixelEditorLoadFailed', 'The pixel atlas could not be loaded.');
+        console.warn("Pixel editor unavailable", error);
+        status.textContent = translate(
+          "pixelEditorLoadFailed",
+          "The pixel atlas could not be loaded.",
+        );
       }
     },
     refreshTranslations() {
       if (currentEntry) {
-        location.textContent = `${currentEntry.atlas} · ${translate('row', 'row')} ${currentEntry.row + 1} · ${translate('column', 'column')} ${currentEntry.column + 1}`;
+        location.textContent = `${currentEntry.atlas} · ${translate("row", "row")} ${currentEntry.row + 1} · ${translate("column", "column")} ${currentEntry.column + 1}`;
       }
     },
   };
 
   function loadManifest() {
-    manifestPromise ??= fetch('pixel-font/build/editor-manifest.json').then(response => {
-      if (!response.ok) throw new Error('Pixel editor manifest is unavailable');
-      return response.json();
-    });
+    manifestPromise ??= fetch("pixel-font/build/editor-manifest.json").then(
+      (response) => {
+        if (!response.ok)
+          throw new Error("Pixel editor manifest is unavailable");
+        return response.json();
+      },
+    );
     return manifestPromise;
   }
 
   function selectTool(nextTool) {
     if (!TOOLS.includes(nextTool)) return;
     tool = nextTool;
-    toolButtons.forEach(button => {
+    toolButtons.forEach((button) => {
       const selected = button.dataset.tool === tool;
-      button.setAttribute('aria-pressed', String(selected));
-      button.classList.toggle('is-active', selected);
+      button.setAttribute("aria-pressed", String(selected));
+      button.classList.toggle("is-active", selected);
     });
   }
 
@@ -208,12 +300,13 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   }
 
   function renderTrace() {
-    const traceContext = traceCanvas.getContext('2d');
+    const traceContext = traceCanvas.getContext("2d");
     traceContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-    traceContext.font = '14px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
-    traceContext.textAlign = 'center';
-    traceContext.textBaseline = 'middle';
-    traceContext.fillText(currentEmoji, CELL_SIZE / 2, CELL_SIZE / 2 + 2.5);
+    traceContext.font =
+      '11px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+    traceContext.textAlign = "center";
+    traceContext.textBaseline = "middle";
+    traceContext.fillText(currentEmoji, CELL_SIZE / 2, CELL_SIZE / 2 + 2);
     drawOfficialPreview();
     drawFontPreview();
   }
@@ -235,7 +328,12 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
         const alpha = pixels[offset + 3];
         if (alpha === 0) continue;
         context.fillStyle = `rgba(${pixels[offset]}, ${pixels[offset + 1]}, ${pixels[offset + 2]}, ${alpha / 255})`;
-        context.fillRect(x * displayCell, y * displayCell, displayCell, displayCell);
+        context.fillRect(
+          x * displayCell,
+          y * displayCell,
+          displayCell,
+          displayCell,
+        );
       }
     }
     context.beginPath();
@@ -246,37 +344,44 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
       context.moveTo(0, position);
       context.lineTo(DISPLAY_SIZE, position);
     }
-    context.strokeStyle = 'rgb(255 255 255 / 24%)';
+    context.strokeStyle = "rgb(255 255 255 / 24%)";
     context.lineWidth = 1;
     context.stroke();
     drawArtworkPreview();
+    updateFileButtons();
   }
 
   function drawOfficialPreview() {
-    const previewContext = officialPreview.getContext('2d');
+    const previewContext = officialPreview.getContext("2d");
     previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
     previewContext.drawImage(traceCanvas, 0, 0);
   }
 
   function drawFontPreview() {
-    const previewContext = fontPreview.getContext('2d');
+    const previewContext = fontPreview.getContext("2d");
     previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
     if (!currentEntry?.painted) return;
     const render = () => {
       previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-      previewContext.font = '16px "Pixel Emoji"';
-      previewContext.textAlign = 'center';
-      previewContext.textBaseline = 'alphabetic';
-      previewContext.fillText(currentEmoji, CELL_SIZE / 2, 14);
+      previewContext.font = `${CELL_SIZE}px "Pixel Emoji"`;
+      previewContext.textAlign = "center";
+      previewContext.textBaseline = "alphabetic";
+      previewContext.fillText(currentEmoji, CELL_SIZE / 2, CELL_SIZE - 1);
     };
     render();
-    document.fonts?.load('16px "Pixel Emoji"', currentEmoji).then(render);
+    document.fonts
+      ?.load(`${CELL_SIZE}px "Pixel Emoji"`, currentEmoji)
+      .then(render);
   }
 
   function drawArtworkPreview() {
-    const previewContext = artworkPreview.getContext('2d');
+    const previewContext = artworkPreview.getContext("2d");
     previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-    previewContext.putImageData(new ImageData(pixels.slice(), CELL_SIZE, CELL_SIZE), 0, 0);
+    previewContext.putImageData(
+      new ImageData(pixels.slice(), CELL_SIZE, CELL_SIZE),
+      0,
+      0,
+    );
   }
 
   function onPointerDown(event) {
@@ -285,30 +390,31 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     canvas.setPointerCapture(event.pointerId);
     pointerStart = point;
     pointerPrevious = point;
-    if (tool === 'eyedropper') {
+    if (tool === "eyedropper") {
       pickColor(point);
       return;
     }
     pushHistory();
-    if (tool === 'bucket') {
+    if (tool === "bucket") {
       floodFill(point);
       pointerStart = undefined;
       draw();
       return;
     }
     shapeBase = pixels.slice();
-    if (tool === 'pencil') paintPixel(point);
-    if (tool === 'rectangle' || tool === 'ellipse') drawShape(point, point, tool);
+    if (tool === "pencil") paintPixel(point);
+    if (tool === "rectangle" || tool === "ellipse")
+      drawShape(point, point, tool);
     draw();
   }
 
   function onPointerMove(event) {
     if (!pointerStart || !canvas.hasPointerCapture(event.pointerId)) return;
     const point = pointerCell(event);
-    if (tool === 'pencil') {
+    if (tool === "pencil") {
       drawLine(pointerPrevious, point);
       pointerPrevious = point;
-    } else if (tool === 'rectangle' || tool === 'ellipse') {
+    } else if (tool === "rectangle" || tool === "ellipse") {
       pixels.set(shapeBase);
       drawShape(pointerStart, point, tool);
     }
@@ -316,7 +422,8 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   }
 
   function onPointerUp(event) {
-    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+    if (canvas.hasPointerCapture(event.pointerId))
+      canvas.releasePointerCapture(event.pointerId);
     pointerStart = undefined;
     pointerPrevious = undefined;
     shapeBase = undefined;
@@ -331,14 +438,27 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   function pointerCell(event) {
     const bounds = canvas.getBoundingClientRect();
     return {
-      x: clamp(Math.floor(((event.clientX - bounds.left) / bounds.width) * CELL_SIZE), 0, 15),
-      y: clamp(Math.floor(((event.clientY - bounds.top) / bounds.height) * CELL_SIZE), 0, 15),
+      x: clamp(
+        Math.floor(((event.clientX - bounds.left) / bounds.width) * CELL_SIZE),
+        0,
+        CELL_SIZE - 1,
+      ),
+      y: clamp(
+        Math.floor(((event.clientY - bounds.top) / bounds.height) * CELL_SIZE),
+        0,
+        CELL_SIZE - 1,
+      ),
     };
   }
 
   function currentColor() {
     const value = colorInput.value.slice(1);
-    return [Number.parseInt(value.slice(0, 2), 16), Number.parseInt(value.slice(2, 4), 16), Number.parseInt(value.slice(4, 6), 16), Number(alphaInput.value)];
+    return [
+      Number.parseInt(value.slice(0, 2), 16),
+      Number.parseInt(value.slice(2, 4), 16),
+      Number.parseInt(value.slice(4, 6), 16),
+      Number(alphaInput.value),
+    ];
   }
 
   function paintPixel(point, color = currentColor()) {
@@ -373,10 +493,16 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     const right = Math.max(start.x, end.x);
     const top = Math.min(start.y, end.y);
     const bottom = Math.max(start.y, end.y);
-    if (shape === 'rectangle') {
+    if (shape === "rectangle") {
       for (let y = top; y <= bottom; y += 1) {
         for (let x = left; x <= right; x += 1) {
-          if (fillShapes.checked || x === left || x === right || y === top || y === bottom) {
+          if (
+            fillShapes.checked ||
+            x === left ||
+            x === right ||
+            y === top ||
+            y === bottom
+          ) {
             paintPixel({ x, y });
           }
         }
@@ -389,10 +515,18 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     const centerY = (top + bottom + 1) / 2;
     for (let y = top; y <= bottom; y += 1) {
       for (let x = left; x <= right; x += 1) {
-        const outer = ((x + 0.5 - centerX) / radiusX) ** 2 + ((y + 0.5 - centerY) / radiusY) ** 2 <= 1;
+        const outer =
+          ((x + 0.5 - centerX) / radiusX) ** 2 +
+            ((y + 0.5 - centerY) / radiusY) ** 2 <=
+          1;
         const innerRadiusX = radiusX - 1;
         const innerRadiusY = radiusY - 1;
-        const inner = innerRadiusX > 0 && innerRadiusY > 0 && ((x + 0.5 - centerX) / innerRadiusX) ** 2 + ((y + 0.5 - centerY) / innerRadiusY) ** 2 <= 1;
+        const inner =
+          innerRadiusX > 0 &&
+          innerRadiusY > 0 &&
+          ((x + 0.5 - centerX) / innerRadiusX) ** 2 +
+            ((y + 0.5 - centerY) / innerRadiusY) ** 2 <=
+            1;
         if (outer && (fillShapes.checked || !inner)) paintPixel({ x, y });
       }
     }
@@ -411,12 +545,15 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
       if (visited.has(key)) continue;
       visited.add(key);
       const pointOffset = pixelOffset(point.x, point.y);
-      if (!target.every((value, index) => pixels[pointOffset + index] === value)) continue;
+      if (
+        !target.every((value, index) => pixels[pointOffset + index] === value)
+      )
+        continue;
       pixels.set(replacement, pointOffset);
       if (point.x > 0) queue.push({ x: point.x - 1, y: point.y });
-      if (point.x < 15) queue.push({ x: point.x + 1, y: point.y });
+      if (point.x < CELL_SIZE - 1) queue.push({ x: point.x + 1, y: point.y });
       if (point.y > 0) queue.push({ x: point.x, y: point.y - 1 });
-      if (point.y < 15) queue.push({ x: point.x, y: point.y + 1 });
+      if (point.y < CELL_SIZE - 1) queue.push({ x: point.x, y: point.y + 1 });
     }
   }
 
@@ -424,7 +561,9 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     const offset = pixelOffset(point.x, point.y);
     let [red, green, blue, alpha] = pixels.slice(offset, offset + 4);
     if (alpha === 0 && Number(traceAlpha.value) > 0) {
-      [red, green, blue, alpha] = traceCanvas.getContext('2d').getImageData(point.x, point.y, 1, 1).data;
+      [red, green, blue, alpha] = traceCanvas
+        .getContext("2d")
+        .getImageData(point.x, point.y, 1, 1).data;
     }
     colorInput.value = `#${hex(red)}${hex(green)}${hex(blue)}`;
     alphaInput.value = String(alpha);
@@ -433,21 +572,25 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   }
 
   function selectPaletteColor(button) {
-    if (button.dataset.transparent === 'true') {
-      alphaInput.value = '0';
+    if (button.dataset.transparent === "true") {
+      alphaInput.value = "0";
     } else {
       colorInput.value = button.dataset.color;
-      alphaInput.value = '255';
+      alphaInput.value = "255";
     }
     updateAlphaOutput();
     updatePaletteSelection();
   }
 
   function updatePaletteSelection() {
-    paletteButtons.forEach(button => {
-      const selected = button.dataset.transparent === 'true' ? Number(alphaInput.value) === 0 : Number(alphaInput.value) === 255 && button.dataset.color === colorInput.value.toLowerCase();
-      button.classList.toggle('is-selected', selected);
-      button.setAttribute('aria-pressed', String(selected));
+    paletteButtons.forEach((button) => {
+      const selected =
+        button.dataset.transparent === "true"
+          ? Number(alphaInput.value) === 0
+          : Number(alphaInput.value) === 255 &&
+            button.dataset.color === colorInput.value.toLowerCase();
+      button.classList.toggle("is-selected", selected);
+      button.setAttribute("aria-pressed", String(selected));
     });
   }
 
@@ -482,72 +625,170 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   }
 
   async function saveAtlas() {
-    if (!currentEntry) return;
+    if (!currentEntry || !atlasBlob || saveButton.disabled) return;
     if (!window.showDirectoryPicker) {
-      status.textContent = translate('directoryAccessUnavailable', 'Direct folder access is unavailable; downloading the atlas instead.');
+      status.textContent = translate(
+        "directoryAccessUnavailable",
+        "Direct folder access is unavailable; downloading the atlas instead.",
+      );
       await downloadAtlas();
       return;
     }
     try {
       directoryHandle ??= await window.showDirectoryPicker({
-        id: 'pixel-emoji-atlases',
-        mode: 'readwrite',
-        startIn: 'documents',
+        id: "pixel-emoji-atlases",
+        mode: "readwrite",
+        startIn: "documents",
       });
-      const fileHandle = await directoryHandle.getFileHandle(currentEntry.atlas);
-      const sourceFile = await fileHandle.getFile();
-      const updatedBlob = await renderUpdatedAtlas(sourceFile);
+      const fileHandle = await getNestedFileHandle(
+        directoryHandle,
+        currentEntry.atlas,
+        true,
+      );
+      const updatedBlob = await renderUpdatedAtlas(atlasBlob);
       const writable = await fileHandle.createWritable();
       await writable.write(updatedBlob);
       await writable.close();
       atlasBlob = updatedBlob;
-      status.textContent = translate('atlasSaved', 'Atlas PNG saved.');
+      atlasExists = true;
+      updateFileButtons();
+      status.textContent = translate("atlasSaved", "Atlas PNG saved.");
     } catch (error) {
-      if (error.name === 'AbortError') return;
-      console.warn('Unable to save pixel atlas', error);
-      status.textContent = translate('atlasSaveFailed', `Could not save ${currentEntry.atlas}. Choose the pixel-font/atlases directory.`);
+      if (error.name === "AbortError") return;
+      console.warn("Unable to save pixel atlas", error);
+      status.textContent = translate(
+        "atlasSaveFailed",
+        `Could not save ${currentEntry.atlas}. Choose the pixel-font/atlases directory.`,
+      );
       directoryHandle = undefined;
     }
   }
 
   async function downloadAtlas() {
-    if (!currentEntry || !atlasBlob) return;
+    if (!currentEntry || !atlasBlob || downloadButton.disabled) return;
     const updatedBlob = await renderUpdatedAtlas(atlasBlob);
     atlasBlob = updatedBlob;
-    const link = document.createElement('a');
+    atlasExists = true;
+    updateFileButtons();
+    const link = document.createElement("a");
     const url = URL.createObjectURL(updatedBlob);
     link.href = url;
-    link.download = currentEntry.atlas;
+    link.download = currentEntry.atlas.split("/").at(-1);
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    status.textContent = translate('atlasDownloaded', 'Updated atlas PNG downloaded.');
+    status.textContent = translate(
+      "atlasDownloaded",
+      "Updated atlas PNG downloaded.",
+    );
   }
 
   async function renderUpdatedAtlas(source) {
     const image = await createImageBitmap(source);
-    if (image.width !== 256 || image.height !== 256) {
+    if (image.width !== atlasWidth || image.height !== atlasHeight) {
       image.close();
-      throw new Error('The selected atlas must be exactly 256 by 256 pixels');
+      throw new Error(
+        `The selected atlas must be exactly ${atlasWidth} by ${atlasHeight} pixels`,
+      );
     }
-    const atlasCanvas = document.createElement('canvas');
+    const atlasCanvas = document.createElement("canvas");
     atlasCanvas.width = image.width;
     atlasCanvas.height = image.height;
-    const atlasContext = atlasCanvas.getContext('2d');
+    const atlasContext = atlasCanvas.getContext("2d");
     atlasContext.drawImage(image, 0, 0);
     image.close();
-    atlasContext.putImageData(new ImageData(pixels.slice(), CELL_SIZE, CELL_SIZE), currentEntry.x, currentEntry.y);
+    atlasContext.putImageData(
+      new ImageData(pixels.slice(), CELL_SIZE, CELL_SIZE),
+      currentEntry.x,
+      currentEntry.y,
+    );
     return new Promise((resolve, reject) => {
-      atlasCanvas.toBlob(blob => (blob ? resolve(blob) : reject(new Error('PNG encoding failed'))), 'image/png');
+      atlasCanvas.toBlob(
+        (blob) =>
+          blob ? resolve(blob) : reject(new Error("PNG encoding failed")),
+        "image/png",
+      );
+    });
+  }
+
+  function updateFileButtons() {
+    const canWrite =
+      Boolean(currentEntry && atlasBlob) &&
+      (atlasExists || pixels.some((value, index) => index % 4 === 3 && value));
+    saveButton.disabled = !canWrite;
+    downloadButton.disabled = !canWrite;
+  }
+}
+
+async function getNestedFileHandle(root, relativePath, create = false) {
+  const parts = relativePath.split("/");
+  const fileName = parts.pop();
+  let directory = root;
+  for (const part of parts) {
+    directory = await directory.getDirectoryHandle(part, { create });
+  }
+  return directory.getFileHandle(fileName, { create });
+}
+
+async function createBlankAtlas(manifest, entry) {
+  const canvas = document.createElement("canvas");
+  canvas.width = entry.atlasWidth;
+  canvas.height = entry.atlasHeight;
+  const context = canvas.getContext("2d");
+  const footerY = canvas.height - manifest.footerHeight;
+  context.fillStyle = "#160622";
+  context.fillRect(0, 0, canvas.width, manifest.headerHeight);
+  context.fillRect(0, footerY, canvas.width, manifest.footerHeight);
+  context.fillStyle = "#6de0ff";
+  context.fillRect(0, manifest.headerHeight - 1, canvas.width, 1);
+  context.fillRect(0, footerY, canvas.width, 1);
+  const subGroupTitle =
+    entry.partCount > 1
+      ? `${entry.subGroup} ${entry.part}/${entry.partCount}`
+      : entry.subGroup;
+  drawBitmapText(context, 8, 4, manifest.setName, "#ffe28e");
+  drawBitmapText(context, 8, 12, `GROUP: ${entry.group}`, "#f5f3f8");
+  drawBitmapText(context, 8, 20, `SUBGROUP: ${subGroupTitle}`, "#f5f3f8");
+  drawBitmapText(context, 8, 28, `CREATED: ${manifest.createdDate}`, "#99afba");
+  drawBitmapText(
+    context,
+    8,
+    footerY + 4,
+    `AUTHOR: ${manifest.author}`,
+    "#f5f3f8",
+  );
+  drawBitmapText(context, 8, footerY + 12, manifest.url, "#6de0ff");
+  return canvasToPng(canvas);
+}
+
+function drawBitmapText(context, x, y, value, color) {
+  context.fillStyle = color;
+  for (const [index, character] of [...value.toUpperCase()].entries()) {
+    const glyph = BITMAP_FONT[character] ?? BITMAP_FONT["?"];
+    glyph.forEach((row, rowIndex) => {
+      [...row].forEach((pixel, columnIndex) => {
+        if (pixel === "1")
+          context.fillRect(x + index * 8 + columnIndex + 1, y + rowIndex, 1, 1);
+      });
     });
   }
 }
 
+function canvasToPng(canvas) {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) =>
+        blob ? resolve(blob) : reject(new Error("PNG encoding failed")),
+      "image/png",
+    );
+  });
+}
+
 async function extractCell(blob, entry) {
   const image = await createImageBitmap(blob);
-  const canvas = document.createElement('canvas');
+  const canvas = document.createElement("canvas");
   canvas.width = image.width;
   canvas.height = image.height;
-  const context = canvas.getContext('2d');
+  const context = canvas.getContext("2d");
   context.drawImage(image, 0, 0);
   image.close();
   return context.getImageData(entry.x, entry.y, CELL_SIZE, CELL_SIZE).data;
@@ -557,19 +798,19 @@ function drawCheckerboard(context, size) {
   const checker = size / 32;
   for (let y = 0; y < size / checker; y += 1) {
     for (let x = 0; x < size / checker; x += 1) {
-      context.fillStyle = (x + y) % 2 === 0 ? '#f1f1f1' : '#bdbdbd';
+      context.fillStyle = (x + y) % 2 === 0 ? "#f1f1f1" : "#bdbdbd";
       context.fillRect(x * checker, y * checker, checker, checker);
     }
   }
 }
 
 function toolButton(tool, icon, translationKey, fallback, selected = false) {
-  return `<button type="button" data-tool="${tool}" aria-pressed="${selected}" class="${selected ? 'is-active' : ''}"><span aria-hidden="true">${icon}</span><span data-i18n="${translationKey}">${fallback}</span></button>`;
+  return `<button type="button" data-tool="${tool}" aria-pressed="${selected}" class="${selected ? "is-active" : ""}"><span aria-hidden="true">${icon}</span><span data-i18n="${translationKey}">${fallback}</span></button>`;
 }
 
 function preview(kind, translationKey, fallback) {
   return `<figure data-i18n-aria-label="${translationKey}" aria-label="${fallback}">
-    <canvas class="pixel-editor-preview-${kind}" width="16" height="16"></canvas>
+    <canvas class="pixel-editor-preview-${kind}" width="${CELL_SIZE}" height="${CELL_SIZE}"></canvas>
   </figure>`;
 }
 
@@ -586,5 +827,5 @@ function clamp(value, minimum, maximum) {
 }
 
 function hex(value) {
-  return value.toString(16).padStart(2, '0');
+  return value.toString(16).padStart(2, "0");
 }

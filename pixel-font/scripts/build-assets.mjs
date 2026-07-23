@@ -1,16 +1,26 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { spawn } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
-import { cropRgba, decodeRgbaPng, encodeRgbaPng, hasVisiblePixels } from './png.mjs';
+import fs from "node:fs/promises";
+import path from "node:path";
+import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import {
+  cropRgba,
+  decodeRgbaPng,
+  encodeRgbaPng,
+  hasVisiblePixels,
+} from "./png.mjs";
 
-const workspace = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const atlasDirectory = path.join(workspace, 'atlases');
-const buildDirectory = path.join(workspace, 'build');
-const pngDirectory = path.join(buildDirectory, 'png');
-const svgDirectory = path.join(buildDirectory, 'svg');
-const fontDirectory = path.join(buildDirectory, 'font');
-const manifest = JSON.parse(await fs.readFile(path.join(atlasDirectory, 'manifest.json'), 'utf8'));
+const workspace = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+);
+const atlasDirectory = path.join(workspace, "atlases");
+const buildDirectory = path.join(workspace, "build");
+const pngDirectory = path.join(buildDirectory, "png");
+const svgDirectory = path.join(buildDirectory, "svg");
+const fontDirectory = path.join(buildDirectory, "font");
+const manifest = JSON.parse(
+  await fs.readFile(path.join(atlasDirectory, "manifest.json"), "utf8"),
+);
 const glyphs = [];
 const editorGlyphs = {};
 
@@ -18,20 +28,37 @@ await fs.rm(buildDirectory, { recursive: true, force: true });
 await Promise.all([
   fs.mkdir(pngDirectory, { recursive: true }),
   fs.mkdir(svgDirectory, { recursive: true }),
-  fs.mkdir(fontDirectory, { recursive: true })
+  fs.mkdir(fontDirectory, { recursive: true }),
 ]);
 
 for (const sheet of manifest.sheets) {
-  const mapping = JSON.parse(await fs.readFile(path.join(atlasDirectory, sheet.mapping), 'utf8'));
-  const atlas = decodeRgbaPng(await fs.readFile(path.join(atlasDirectory, sheet.image)));
-  for (const entry of mapping.entries.filter(item => item.active)) {
-    const cell = cropRgba(atlas, entry.x, entry.y, entry.width, entry.height);
-    const painted = hasVisiblePixels(cell);
+  const mapping = JSON.parse(
+    await fs.readFile(path.join(atlasDirectory, sheet.mapping), "utf8"),
+  );
+  let atlas;
+  try {
+    atlas = decodeRgbaPng(
+      await fs.readFile(path.join(atlasDirectory, sheet.image)),
+    );
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+  for (const entry of mapping.entries.filter((item) => item.active)) {
+    const cell = atlas
+      ? cropRgba(atlas, entry.x, entry.y, entry.width, entry.height)
+      : {
+          width: entry.width,
+          height: entry.height,
+          pixels: Buffer.alloc(entry.width * entry.height * 4),
+        };
+    const painted = Boolean(atlas && hasVisiblePixels(cell));
     editorGlyphs[entry.key] = {
       key: entry.key,
       name: entry.name,
       emoji: entry.emoji,
       atlas: sheet.image,
+      atlasWidth: mapping.imageWidth,
+      atlasHeight: mapping.imageHeight,
       index: entry.index,
       row: entry.row,
       column: entry.column,
@@ -41,7 +68,11 @@ for (const sheet of manifest.sheets) {
       height: entry.height,
       codePoints: entry.codePoints,
       sequenceType: entry.sequenceType,
-      painted
+      group: entry.group,
+      subGroup: entry.subGroup,
+      part: mapping.part,
+      partCount: mapping.partCount,
+      painted,
     };
     if (!painted) continue;
 
@@ -61,7 +92,7 @@ for (const sheet of manifest.sheets) {
       column: entry.column,
       png: `png/${png}`,
       svg: `svg/${svg}`,
-      pixels: [...cell.pixels]
+      pixels: [...cell.pixels],
     });
   }
 }
@@ -72,70 +103,84 @@ const buildManifest = {
   familyName: manifest.familyName,
   cellSize: manifest.cellSize,
   glyphCount: glyphs.length,
-  sequenceGlyphCount: glyphs.filter(glyph => glyph.sequenceType !== 'single').length,
+  sequenceGlyphCount: glyphs.filter((glyph) => glyph.sequenceType !== "single")
+    .length,
   sequenceTypeCounts: countBySequenceType(glyphs),
   componentOptimization: componentAnalysis,
-  glyphs: glyphs.map(({ pixels, ...glyph }) => glyph)
+  glyphs: glyphs.map(({ pixels, ...glyph }) => glyph),
 };
 if (Object.keys(editorGlyphs).length !== manifest.activeGlyphCount) {
-  throw new Error('Pixel editor manifest does not cover every active base-atlas assignment');
+  throw new Error(
+    "Pixel editor manifest does not cover every active base-atlas assignment",
+  );
 }
-await writeJson(path.join(buildDirectory, 'manifest.json'), buildManifest);
-await writeJson(path.join(buildDirectory, 'editor-manifest.json'), {
+await writeJson(path.join(buildDirectory, "manifest.json"), buildManifest);
+await writeJson(path.join(buildDirectory, "editor-manifest.json"), {
   schemaVersion: 1,
+  setName: manifest.setName,
+  author: manifest.author,
+  url: manifest.url,
+  createdDate: manifest.createdDate,
   cellSize: manifest.cellSize,
-  atlasWidth: manifest.columns * manifest.cellSize,
-  atlasHeight: manifest.rows * manifest.cellSize,
+  cellPadding: manifest.cellPadding,
+  outerPadding: manifest.outerPadding,
+  headerHeight: manifest.headerHeight,
+  footerHeight: manifest.footerHeight,
   glyphCount: Object.keys(editorGlyphs).length,
-  glyphs: editorGlyphs
+  glyphs: editorGlyphs,
 });
-await writeJson(path.join(buildDirectory, 'font-source.json'), {
+await writeJson(path.join(buildDirectory, "font-source.json"), {
   familyName: manifest.familyName,
   cellSize: manifest.cellSize,
-  glyphs
+  glyphs,
 });
 
-if (glyphs.length > 0) {
-  const python = await pythonCommand();
-  await run(python, [
-    path.join(workspace, 'scripts', 'test-font-sequences.py')
-  ]);
-  await run(python, [
-    path.join(workspace, 'scripts', 'compile-font.py'),
-    path.join(buildDirectory, 'font-source.json'),
-    fontDirectory
-  ]);
-}
-await fs.rm(path.join(buildDirectory, 'font-source.json'), { force: true });
-await fs.writeFile(path.join(buildDirectory, 'index.html'), renderPreview(buildManifest));
+const python = await pythonCommand();
+await run(python, [path.join(workspace, "scripts", "test-font-sequences.py")]);
+await run(python, [
+  path.join(workspace, "scripts", "compile-font.py"),
+  path.join(buildDirectory, "font-source.json"),
+  fontDirectory,
+]);
+await fs.rm(path.join(buildDirectory, "font-source.json"), { force: true });
+await fs.writeFile(
+  path.join(buildDirectory, "index.html"),
+  renderPreview(buildManifest),
+);
 
 console.log(
-  `Built ${glyphs.length.toLocaleString()} painted glyph${glyphs.length === 1 ? '' : 's'} `
-    + `from ${manifest.sheets.length} atlases.`
+  `Built ${glyphs.length.toLocaleString()} painted glyph${glyphs.length === 1 ? "" : "s"} ` +
+    `from ${manifest.sheets.length} atlases.`,
 );
 
 function renderSvg(image, entry) {
   const rectangles = pixelRuns(image)
-    .map(run => {
-      const opacity = run.alpha === 255 ? '' : ` fill-opacity="${trimNumber(run.alpha / 255)}"`;
+    .map((run) => {
+      const opacity =
+        run.alpha === 255
+          ? ""
+          : ` fill-opacity="${trimNumber(run.alpha / 255)}"`;
       return `  <rect x="${run.x}" y="${run.y}" width="${run.width}" height="1" fill="${run.color}"${opacity}/>`;
     })
-    .join('\n');
+    .join("\n");
   return [
-    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">',
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${image.width} ${image.height}" shape-rendering="crispEdges">`,
     `  <title>${escapeXml(entry.name)}</title>`,
     rectangles,
-    '</svg>',
-    ''
-  ].join('\n');
+    "</svg>",
+    "",
+  ].join("\n");
 }
 
 function pixelRuns(image) {
   const runs = [];
   for (let y = 0; y < image.height; y += 1) {
-    for (let x = 0; x < image.width; ) {
+    for (let x = 0; x < image.width;) {
       const offset = (y * image.width + x) * 4;
-      const [red, green, blue, alpha] = image.pixels.subarray(offset, offset + 4);
+      const [red, green, blue, alpha] = image.pixels.subarray(
+        offset,
+        offset + 4,
+      );
       if (alpha === 0) {
         x += 1;
         continue;
@@ -144,11 +189,12 @@ function pixelRuns(image) {
       while (x + width < image.width) {
         const next = (y * image.width + x + width) * 4;
         if (
-          image.pixels[next] !== red
-          || image.pixels[next + 1] !== green
-          || image.pixels[next + 2] !== blue
-          || image.pixels[next + 3] !== alpha
-        ) break;
+          image.pixels[next] !== red ||
+          image.pixels[next + 1] !== green ||
+          image.pixels[next + 2] !== blue ||
+          image.pixels[next + 3] !== alpha
+        )
+          break;
         width += 1;
       }
       runs.push({
@@ -156,7 +202,7 @@ function pixelRuns(image) {
         y,
         width,
         color: `#${hex(red)}${hex(green)}${hex(blue)}`,
-        alpha
+        alpha,
       });
       x += width;
     }
@@ -167,17 +213,17 @@ function pixelRuns(image) {
 function renderPreview(build) {
   const cards = build.glyphs
     .map(
-      glyph => `<article>
+      (glyph) => `<article>
   <h2>${escapeXml(glyph.emoji)} ${escapeXml(glyph.name)}</h2>
   <div class="samples">
     <figure><img src="${glyph.png}" alt=""><figcaption>PNG</figcaption></figure>
     <figure><img src="${glyph.svg}" alt=""><figcaption>SVG</figcaption></figure>
     <figure><span class="font">${escapeXml(glyph.emoji)}</span><figcaption>Font</figcaption></figure>
   </div>
-  <code>${glyph.codePoints.map(point => `U+${point}`).join(' ')}</code>
-</article>`
+  <code>${glyph.codePoints.map((point) => `U+${point}`).join(" ")}</code>
+</article>`,
     )
-    .join('\n');
+    .join("\n");
   return `<!doctype html>
 <html lang="en">
 <meta charset="utf-8">
@@ -203,7 +249,7 @@ function renderPreview(build) {
   figcaption { margin-top: .5rem; }
 </style>
 <h1>${escapeXml(build.familyName)} build</h1>
-<p>${build.glyphCount.toLocaleString()} painted glyph${build.glyphCount === 1 ? '' : 's'}</p>
+<p>${build.glyphCount.toLocaleString()} painted glyph${build.glyphCount === 1 ? "" : "s"}</p>
 <main>${cards}</main>
 </html>
 `;
@@ -211,24 +257,26 @@ function renderPreview(build) {
 
 function run(command, args) {
   return new Promise((resolve, reject) => {
-    const child = spawn(command, args, { stdio: 'inherit' });
-    child.on('error', reject);
-    child.on('exit', code =>
-      code === 0 ? resolve() : reject(new Error(`${command} exited with status ${code}`))
+    const child = spawn(command, args, { stdio: "inherit" });
+    child.on("error", reject);
+    child.on("exit", (code) =>
+      code === 0
+        ? resolve()
+        : reject(new Error(`${command} exited with status ${code}`)),
     );
   });
 }
 
 async function pythonCommand() {
   const virtualEnvironmentPython =
-    process.platform === 'win32'
-      ? path.join(workspace, '.venv', 'Scripts', 'python.exe')
-      : path.join(workspace, '.venv', 'bin', 'python');
+    process.platform === "win32"
+      ? path.join(workspace, ".venv", "Scripts", "python.exe")
+      : path.join(workspace, ".venv", "bin", "python");
   try {
     await fs.access(virtualEnvironmentPython);
     return virtualEnvironmentPython;
   } catch {
-    return process.platform === 'win32' ? 'python' : 'python3';
+    return process.platform === "win32" ? "python" : "python3";
   }
 }
 
@@ -237,18 +285,21 @@ async function writeJson(file, value) {
 }
 
 function hex(value) {
-  return value.toString(16).padStart(2, '0');
+  return value.toString(16).padStart(2, "0");
 }
 
 function trimNumber(value) {
-  return value.toFixed(4).replace(/0+$/, '').replace(/\.$/, '');
+  return value.toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
 }
 
 function countBySequenceType(entries) {
   return Object.fromEntries(
-    [...new Set(entries.map(entry => entry.sequenceType))]
+    [...new Set(entries.map((entry) => entry.sequenceType))]
       .sort()
-      .map(type => [type, entries.filter(entry => entry.sequenceType === type).length])
+      .map((type) => [
+        type,
+        entries.filter((entry) => entry.sequenceType === type).length,
+      ]),
   );
 }
 
@@ -259,35 +310,37 @@ function analyzeColorMasks(entries) {
     const colors = new Set();
     for (let offset = 0; offset < entry.pixels.length; offset += 4) {
       if (entry.pixels[offset + 3] === 0) continue;
-      colors.add(entry.pixels.slice(offset, offset + 4).join(','));
+      colors.add(entry.pixels.slice(offset, offset + 4).join(","));
     }
     for (const serializedColor of colors) {
       colorLayerCount += 1;
-      const color = serializedColor.split(',').map(Number);
+      const color = serializedColor.split(",").map(Number);
       const mask = Buffer.alloc(entry.pixels.length / 4);
       for (let offset = 0; offset < entry.pixels.length; offset += 4) {
         const pixel = entry.pixels.slice(offset, offset + 4);
-        mask[offset / 4] = pixel.every((value, index) => value === color[index]) ? 1 : 0;
+        mask[offset / 4] = pixel.every((value, index) => value === color[index])
+          ? 1
+          : 0;
       }
-      masks.add(mask.toString('base64'));
+      masks.add(mask.toString("base64"));
     }
   }
   return {
-    strategy: 'shared-color-masks',
+    strategy: "shared-color-masks",
     colorLayerCount,
     uniqueMaskCount: masks.size,
-    reusedLayerCount: colorLayerCount - masks.size
+    reusedLayerCount: colorLayerCount - masks.size,
   };
 }
 
 function escapeXml(value) {
   return String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;');
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
 }
 
 function escapeCss(value) {
-  return String(value).replaceAll('\\', '\\\\').replaceAll('"', '\\"');
+  return String(value).replaceAll("\\", "\\\\").replaceAll('"', '\\"');
 }

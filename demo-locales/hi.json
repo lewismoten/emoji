@@ -154,7 +154,7 @@
   "ellipse": "अंडाकार",
   "paintBucket": "पेंट बकेट",
   "eyedropper": "आईड्रॉपर",
-  "pixelCanvas": "16 गुणा 16 पिक्सेल ड्रॉइंग कैनवास",
+  "pixelCanvas": "12 गुणा 12 पिक्सेल ड्रॉइंग कैनवास",
   "drawingColor": "ड्रॉइंग का रंग",
   "color": "रंग",
   "egaPalette": "क्लासिक EGA रंग पैलेट",
@@ -176,7 +176,7 @@
   "atlasDownloaded": "अपडेट किया गया एटलस PNG डाउनलोड हुआ।",
   "row": "पंक्ति",
   "column": "स्तंभ",
-  "pixelPreviews": "वास्तविक 16 गुणा 16 पिक्सेल आकार में इमोजी",
+  "pixelPreviews": "वास्तविक 12 गुणा 12 पिक्सेल आकार में इमोजी",
   "officialEmoji": "आधिकारिक",
   "customFontEmoji": "कस्टम फ़ॉन्ट",
   "currentArtwork": "वर्तमान ग्रिड"

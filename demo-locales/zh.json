@@ -154,7 +154,7 @@
   "ellipse": "椭圆",
   "paintBucket": "油漆桶",
   "eyedropper": "吸管",
-  "pixelCanvas": "16×16 像素绘图画布",
+  "pixelCanvas": "12×12 像素绘图画布",
   "drawingColor": "绘图颜色",
   "color": "颜色",
   "egaPalette": "经典 EGA 调色板",
@@ -176,7 +176,7 @@
   "atlasDownloaded": "已下载更新后的图集 PNG。",
   "row": "行",
   "column": "列",
-  "pixelPreviews": "表情的实际 16×16 像素大小",
+  "pixelPreviews": "表情的实际 12×12 像素大小",
   "officialEmoji": "官方",
   "customFontEmoji": "自定义字体",
   "currentArtwork": "当前网格"

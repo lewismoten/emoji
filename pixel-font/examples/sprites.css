@@ -6,7 +6,7 @@
   background-image: var(--pixel-emoji-atlas);
   background-repeat: no-repeat;
   background-position: var(--pixel-emoji-x) var(--pixel-emoji-y);
-  background-size: 16em 16em;
+  background-size: var(--pixel-emoji-width) var(--pixel-emoji-height);
   image-rendering: pixelated;
   vertical-align: -0.125em;
 }

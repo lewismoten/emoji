@@ -11,10 +11,7 @@ from fontTools.fontBuilder import FontBuilder
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 
 
-UNITS_PER_EM = 1024
-PIXEL_SIZE = UNITS_PER_EM // 16
-ASCENDER = 896
-DESCENDER = -128
+UNITS_PER_EM = 960
 
 
 def main():
@@ -24,7 +21,16 @@ def main():
     output_directory.mkdir(parents=True, exist_ok=True)
 
     family_name = source["familyName"]
+    cell_size = source["cellSize"]
+    if UNITS_PER_EM % cell_size != 0:
+        raise ValueError(f"{cell_size}-pixel cells do not divide {UNITS_PER_EM} font units")
+    pixel_size = UNITS_PER_EM // cell_size
+    ascender = (cell_size - 2) * pixel_size
+    descender = -2 * pixel_size
     glyph_sources = source["glyphs"]
+    for glyph in glyph_sources:
+        if len(glyph["pixels"]) != cell_size * cell_size * 4:
+            raise ValueError(f"{glyph['key']} does not contain a {cell_size} by {cell_size} RGBA cell")
     base_names = {glyph["key"]: safe_name(glyph["key"]) for glyph in glyph_sources}
     codepoint_names = {}
     for glyph in glyph_sources:
@@ -78,13 +84,15 @@ def main():
 
     for key, name in mask_names.items():
         pixels, color = mask_sources[key]
-        glyphs[name] = color_glyph(pixels, color)
+        glyphs[name] = color_glyph(pixels, color, cell_size, pixel_size, ascender)
         glyph_order.append(name)
 
     for glyph_source in glyph_sources:
         base_name = base_names[glyph_source["key"]]
         if base_name not in glyphs:
-            glyphs[base_name] = silhouette_glyph(glyph_source["pixels"])
+            glyphs[base_name] = silhouette_glyph(
+                glyph_source["pixels"], cell_size, pixel_size, ascender
+            )
             glyph_order.append(base_name)
         layers = []
         for color in glyph_colors(glyph_source):
@@ -105,7 +113,7 @@ def main():
             for name in glyph_order
         }
     )
-    builder.setupHorizontalHeader(ascent=ASCENDER, descent=DESCENDER)
+    builder.setupHorizontalHeader(ascent=ascender, descent=descender)
     builder.setupNameTable(
         {
             "familyName": family_name,
@@ -117,19 +125,20 @@ def main():
         }
     )
     builder.setupOS2(
-        sTypoAscender=ASCENDER,
-        sTypoDescender=DESCENDER,
-        usWinAscent=ASCENDER,
-        usWinDescent=abs(DESCENDER),
+        sTypoAscender=ascender,
+        sTypoDescender=descender,
+        usWinAscent=ascender,
+        usWinDescent=abs(descender),
     )
     builder.setupPost()
     builder.setupMaxp()
 
     font = builder.font
-    font["COLR"] = buildCOLR(color_glyphs, version=0, glyphMap=font.getReverseGlyphMap())
-    font["CPAL"] = buildCPAL(
-        [[(red / 255, green / 255, blue / 255, alpha / 255) for red, green, blue, alpha in palette]]
-    )
+    if palette:
+        font["COLR"] = buildCOLR(color_glyphs, version=0, glyphMap=font.getReverseGlyphMap())
+        font["CPAL"] = buildCPAL(
+            [[(red / 255, green / 255, blue / 255, alpha / 255) for red, green, blue, alpha in palette]]
+        )
 
     features = ligature_features(glyph_sources, base_names, codepoint_names, single_by_codepoint)
     if features:
@@ -218,12 +227,12 @@ def empty_glyph():
     return TTGlyphPen(None).glyph()
 
 
-def silhouette_glyph(pixels):
-    return pixels_for_color(pixels, None)
+def silhouette_glyph(pixels, cell_size, pixel_size, ascender):
+    return pixels_for_color(pixels, None, cell_size, pixel_size, ascender)
 
 
-def color_glyph(pixels, color):
-    return pixels_for_color(pixels, color)
+def color_glyph(pixels, color, cell_size, pixel_size, ascender):
+    return pixels_for_color(pixels, color, cell_size, pixel_size, ascender)
 
 
 def glyph_colors(glyph):
@@ -243,28 +252,28 @@ def color_mask_key(pixels, selected_color):
     )
 
 
-def pixels_for_color(pixels, selected_color):
+def pixels_for_color(pixels, selected_color, cell_size, pixel_size, ascender):
     pen = TTGlyphPen(None)
-    for y in range(16):
+    for y in range(cell_size):
         x = 0
-        while x < 16:
-            offset = (y * 16 + x) * 4
+        while x < cell_size:
+            offset = (y * cell_size + x) * 4
             color = tuple(pixels[offset : offset + 4])
             matches = color[3] > 0 and (selected_color is None or color == selected_color)
             if not matches:
                 x += 1
                 continue
             width = 1
-            while x + width < 16:
-                next_offset = (y * 16 + x + width) * 4
+            while x + width < cell_size:
+                next_offset = (y * cell_size + x + width) * 4
                 next_color = tuple(pixels[next_offset : next_offset + 4])
                 if next_color[3] == 0 or (selected_color is not None and next_color != selected_color):
                     break
                 width += 1
-            x_min = x * PIXEL_SIZE
-            x_max = (x + width) * PIXEL_SIZE
-            y_max = ASCENDER - y * PIXEL_SIZE
-            y_min = y_max - PIXEL_SIZE
+            x_min = x * pixel_size
+            x_max = (x + width) * pixel_size
+            y_max = ascender - y * pixel_size
+            y_min = y_max - pixel_size
             pen.moveTo((x_min, y_min))
             pen.lineTo((x_min, y_max))
             pen.lineTo((x_max, y_max))

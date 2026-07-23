@@ -5,14 +5,23 @@ from the published `@lewismoten/emoji` data package.
 
 ## Atlas format
 
-Each atlas is a 256×256 transparent PNG divided into a 16×16 grid. Every cell
-is a 16×16-pixel emoji, so each atlas can hold 256 glyphs.
+Atlases are organized by Unicode group and subgroup. Each sheet is at most 16
+cells wide and 8 rows tall; shorter subgroups produce shorter PNGs, while
+large subgroups continue into numbered sheets. Every 12×12 artwork cell has
+2 transparent pixels on each side, producing a clear 4-pixel gap between
+neighboring emoji.
+
+Each sheet has a compact 8×8-style bitmap header and footer containing the set
+name, Unicode group, Unicode subgroup, creation date, author, and
+`https://lewismoten.com`. The artwork area remains transparent.
+When a subgroup needs multiple sheets, its subgroup label carries the part
+number—for example, `COUNTRY-FLAG 1/3`—while the set name remains unchanged.
 
 Each PNG has a same-named JSON sidecar:
 
 ```text
-atlases/base-000.png
-atlases/base-000.json
+atlases/smileys-and-emotion/face-affection.png
+atlases/smileys-and-emotion/face-affection.json
 ```
 
 The JSON identifies the emoji assigned to every cell, including its key,
@@ -70,15 +79,16 @@ npm run pixel-font:validate
 npm run pixel-font:build
 ```
 
-Generation creates missing transparent PNG templates but never overwrites an
-existing PNG. This protects hand-edited artwork. Delete a specific atlas PNG
-only when you intentionally want to recreate that blank template.
+Generation creates the JSON assignments but does not create empty PNG
+templates. Emoji Explorer constructs the branded sheet in memory, then creates
+the subgroup PNG when its first visible artwork is saved or downloaded.
+Existing PNG artwork is never overwritten by generation.
 
 `pixel-font:build` scans every mapped cell and builds only cells containing at
 least one pixel with nonzero opacity. Fully transparent cells are ignored. Its
 generated output under `pixel-font/build/` includes:
 
-- individual 16×16 PNG files;
+- individual 12×12 PNG files;
 - standalone crisp-edge SVG files;
 - a COLR/CPAL TrueType font;
 - WOFF and WOFF2 web fonts;
@@ -100,15 +110,17 @@ After building, run `npm start` and open
 
 ## Editing in Emoji Explorer
 
-Emoji Explorer includes a 16×16 pixel editor in each base emoji's details
+Emoji Explorer includes a 12×12 pixel editor in each base emoji's details
 dialog. Choose **Edit pixel art** to load that emoji's assigned atlas cell.
 The native emoji tracing layer is for reference only and is never written into
 the artwork.
 
 In browsers that support the File System Access API, **Save atlas** asks you
 to select the repository's `pixel-font/atlases/` directory and then updates
-the correct 256×256 PNG directly. The browser must ask for this permission;
-the page cannot silently write into the repository.
+or creates the correct nested subgroup PNG directly. Save and download remain
+disabled on a new sheet until at least one visible pixel has been drawn. The
+browser must ask for this permission; the page cannot silently write into the
+repository.
 
 Other browsers download the updated, full atlas PNG. Replace the same-named
 file under `pixel-font/atlases/`, then rebuild:
@@ -122,10 +134,12 @@ atlas set, so their editor shows an unavailable message.
 
 ## Editing
 
-Open an atlas PNG in a pixel-art editor with:
+Atlas dimensions vary with subgroup size. Open a PNG in a pixel-art editor
+with:
 
-- canvas: 256×256 pixels;
-- grid spacing: 16×16 pixels;
+- artwork cells: 12×12 pixels;
+- padded cell slots: 16×16 pixels;
+- cell positions and image dimensions taken from the JSON sidecar;
 - interpolation/resampling disabled;
 - transparent background;
 - PNG output kept at its original dimensions.
@@ -144,18 +158,19 @@ See [`examples/sprites.css`](examples/sprites.css) and
 CSS font size using a background image:
 
 ```html
-<span
-  class="pixel-emoji"
-  style="
-    --pixel-emoji-atlas: url('../atlases/base-000.png');
-    --pixel-emoji-x: -3em;
-    --pixel-emoji-y: -2em;
-  "
-></span>
+<span class="pixel-emoji"></span>
+<script type="module">
+  import { applyPixelEmoji, findPixelEmoji } from "./examples/sprites.js";
+
+  const mapping = "./atlases/smileys-and-emotion/face-affection.json";
+  const image = "./atlases/smileys-and-emotion/face-affection.png";
+  const entry = await findPixelEmoji(mapping, "smilingFaceWithHearts");
+  applyPixelEmoji(document.querySelector(".pixel-emoji"), image, entry);
+</script>
 ```
 
 `image-rendering: pixelated` preserves the pixel-art appearance. Exact physical
-pixel alignment is best at integer multiples of 16px.
+pixel alignment is best at integer multiples of 12px.
 
 Compiled font files belong in release artifacts or a separate font package,
 not in the existing emoji-data package.

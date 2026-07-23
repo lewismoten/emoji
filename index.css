@@ -846,13 +846,13 @@ button.emoji-composition-part:focus-visible { outline: 2px solid var(--accent); 
 .pixel-editor-toolbar button:disabled { cursor: default; opacity: .45; }
 .pixel-editor-layout {
   display: grid;
-  grid-template-columns: minmax(0, 32rem) minmax(13rem, 1fr);
+  grid-template-columns: minmax(0, 24rem) minmax(13rem, 1fr);
   align-items: start;
   gap: 1rem;
 }
 .pixel-editor-workspace {
   width: 100%;
-  max-width: 32rem;
+  max-width: 24rem;
 }
 .pixel-editor-stage {
   width: 100%;
@@ -1392,12 +1392,12 @@ kbd {
   }
   .example-dialog.is-editor-view .pixel-editor-layout {
     grid-template-columns:
-      minmax(0, min(32rem, calc(100dvh - 10rem)))
+      minmax(0, min(24rem, calc(100dvh - 10rem)))
       minmax(13rem, 1fr);
     gap: 0.65rem;
   }
   .example-dialog.is-editor-view .pixel-editor-workspace {
-    width: min(32rem, calc(100dvh - 10rem));
+    width: min(24rem, calc(100dvh - 10rem));
   }
 }
 

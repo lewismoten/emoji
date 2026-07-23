@@ -77,13 +77,13 @@ assert not compiler.is_zero_width_component(0x1F1FA)
 
 def pixels_for_variation(variation):
     pixels = []
-    for y in range(16):
-        for x in range(16):
+    for y in range(12):
+        for x in range(12):
             color = (
                 (255, 255, 255, 255)
-                if x < 8
+                if x < 6
                 else (255, 0, 0, 255)
-                if y == 0 and x == 8 + variation
+                if y == 0 and x == 6 + variation
                 else (0, 0, 0, 0)
             )
             pixels.extend(color)
@@ -105,6 +105,7 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         json.dumps(
             {
                 "familyName": "Pixel Emoji Sequence Test",
+                "cellSize": 12,
                 "glyphs": painted_glyphs,
             }
         )

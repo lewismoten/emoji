@@ -154,7 +154,7 @@
   "ellipse": "شكل بيضاوي",
   "paintBucket": "دلو الطلاء",
   "eyedropper": "قطّارة الألوان",
-  "pixelCanvas": "لوحة رسم بمقاس 16 في 16 بكسل",
+  "pixelCanvas": "لوحة رسم بمقاس 12 في 12 بكسل",
   "drawingColor": "لون الرسم",
   "color": "اللون",
   "egaPalette": "لوحة ألوان EGA الكلاسيكية",
@@ -176,7 +176,7 @@
   "atlasDownloaded": "تم تنزيل ملف PNG المحدّث للوحة الصور.",
   "row": "الصف",
   "column": "العمود",
-  "pixelPreviews": "الرمز التعبيري بالحجم الفعلي 16 في 16 بكسل",
+  "pixelPreviews": "الرمز التعبيري بالحجم الفعلي 12 في 12 بكسل",
   "officialEmoji": "الرسمي",
   "customFontEmoji": "الخط المخصص",
   "currentArtwork": "الشبكة الحالية"
