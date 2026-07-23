@@ -587,6 +587,8 @@ async function onLoad() {
   pixelEditor = createPixelEditor({
     dialog: exampleDialog,
     translate,
+    formatNumber: formatUiNumber,
+    formatPercent: formatUiPercent,
     setDialogMode: mode => {
       setEmojiDialogView(mode);
       if (mode === 'details') exampleDialog.querySelector('.show-pixel-editor')?.focus();
@@ -2792,6 +2794,16 @@ function formatUiNumber(value) {
   const locale = document.documentElement.lang || selectedSearchLocale || undefined;
   const options = locale?.startsWith('ar') ? { numberingSystem: 'arab' } : {};
   return new Intl.NumberFormat(locale, options).format(value);
+}
+
+function formatUiPercent(value) {
+  const locale = document.documentElement.lang || selectedSearchLocale || undefined;
+  const options = locale?.startsWith('ar') ? { numberingSystem: 'arab' } : {};
+  return new Intl.NumberFormat(locale, {
+    ...options,
+    style: 'percent',
+    maximumFractionDigits: 0
+  }).format(value);
 }
 
 function formatCompositionReduction(from, to) {

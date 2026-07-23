@@ -1279,6 +1279,22 @@ button.emoji-composition-part:focus-visible {
   font-size: 0.72rem;
   text-align: end;
 }
+.pixel-editor-trace-opacity {
+  grid-template-columns: minmax(0, 1fr);
+}
+.pixel-editor-trace-opacity-heading {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+.pixel-editor-trace-opacity-heading output {
+  min-width: 0;
+}
+.pixel-editor-trace-opacity > input {
+  min-width: 0;
+}
 .pixel-editor-trace-position {
   display: flex;
   align-items: center;
@@ -1286,8 +1302,27 @@ button.emoji-composition-part:focus-visible {
   gap: 0.5rem;
 }
 .pixel-editor-trace-position > div {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 2rem);
+  grid-template-rows: repeat(2, 2rem);
   gap: 0.25rem;
+  direction: ltr;
+}
+.pixel-editor-trace-nudge[data-trace-direction="left"] {
+  grid-column: 1;
+  grid-row: 2;
+}
+.pixel-editor-trace-nudge[data-trace-direction="up"] {
+  grid-column: 2;
+  grid-row: 1;
+}
+.pixel-editor-trace-nudge[data-trace-direction="down"] {
+  grid-column: 2;
+  grid-row: 2;
+}
+.pixel-editor-trace-nudge[data-trace-direction="right"] {
+  grid-column: 3;
+  grid-row: 2;
 }
 .pixel-editor-trace-nudge {
   display: grid;
@@ -1339,6 +1374,9 @@ button.emoji-composition-part:focus-visible {
 .pixel-editor-transfer button:disabled {
   cursor: default;
   opacity: 0.45;
+}
+.pixel-editor-transfer-icon {
+  font-family: var(--system-emoji-font);
 }
 .pixel-editor-file {
   padding: 0.65rem;
@@ -2028,6 +2066,24 @@ kbd {
   }
   .pixel-editor-controls label:has(input[type="checkbox"]) {
     display: flex;
+  }
+  .pixel-editor-trace-opacity-heading {
+    font-size: 0.72rem;
+  }
+  .pixel-editor-trace-position {
+    justify-content: center;
+  }
+  .pixel-editor-trace-position > span {
+    display: none;
+  }
+  .pixel-editor-trace-position > div {
+    grid-template-columns: repeat(3, 1.8rem);
+    grid-template-rows: repeat(2, 1.8rem);
+    gap: 0.2rem;
+  }
+  .pixel-editor-trace-nudge {
+    width: 1.8rem;
+    height: 1.8rem;
   }
   .order-footer {
     right: 0.5rem;

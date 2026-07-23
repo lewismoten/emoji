@@ -755,6 +755,41 @@ assert.match(
   /traceOffsetX = 0;[\s\S]*traceOffsetY = 0;[\s\S]*pixelEditorLoading/,
   "trace position must reset when another emoji opens",
 );
+assert.match(
+  pixelEditorScript,
+  /formatPercent\(Number\(traceAlpha\.value\) \/ 100\)/,
+  "trace opacity must use the active locale's percentage formatter",
+);
+assert.match(
+  pixelEditorScript,
+  /formatNumber\(currentEntry\.row \+ 1\)[\s\S]*formatNumber\(currentEntry\.column \+ 1\)/,
+  "pixel atlas row and column numbers must use the active locale",
+);
+assert.match(
+  demoScript,
+  /function formatUiPercent[\s\S]*numberingSystem: 'arab'[\s\S]*style: 'percent'/,
+  "Arabic percentages must use Arabic digits and percent formatting",
+);
+assert.match(
+  demoStyles,
+  /\.pixel-editor-trace-nudge\[data-trace-direction="up"\][\s\S]*grid-column:\s*2;[\s\S]*grid-row:\s*1;[\s\S]*\.pixel-editor-trace-nudge\[data-trace-direction="down"\][\s\S]*grid-column:\s*2;[\s\S]*grid-row:\s*2;/,
+  "trace arrows must form a directional pad with up above centered down",
+);
+assert.match(
+  demoStyles,
+  /\.pixel-editor-trace-position > div[\s\S]*direction:\s*ltr;/,
+  "trace arrows must retain physical left and right positions in RTL locales",
+);
+assert.match(
+  demoStyles,
+  /\.pixel-editor-trace-opacity-heading[\s\S]*display:\s*flex;[\s\S]*justify-content:\s*space-between;/,
+  "trace opacity value must share the label row and leave the slider its own row",
+);
+assert.match(
+  demoStyles,
+  /@media \(max-width: 560px\)[\s\S]*\.pixel-editor-trace-position > span[\s\S]*display:\s*none;[\s\S]*\.pixel-editor-trace-nudge[\s\S]*width:\s*1\.8rem;[\s\S]*height:\s*1\.8rem;/,
+  "narrow pixel editors must hide the position label and compact the trace controls",
+);
 for (const action of ["copyPixelArt", "copyFontGlyph", "pastePixelArt"]) {
   assert.match(
     pixelEditorScript,
@@ -769,6 +804,11 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
+  /class="pixel-editor-transfer-icon" aria-hidden="true">🔠<\/span>/,
+  "copy-font action must use the input Latin uppercase emoji",
+);
+assert.match(
+  pixelEditorScript,
   /function pastePixelArt[\s\S]*pushHistory\(\);[\s\S]*pixels = copiedPixels\.slice\(\)/,
   "pasted artwork must be undoable and independent of the copied buffer",
 );
@@ -776,6 +816,11 @@ assert.match(
   pixelEditorScript,
   /let copiedPixels;/,
   "the artwork clipboard must persist while browsing between emoji",
+);
+assert.match(
+  pixelEditorScript,
+  /function updateTransferButtons[\s\S]*copyArtButton\.disabled =[\s\S]*!hasVisibleArtwork\(\)/,
+  "copy-art action must be disabled while every artwork pixel is transparent",
 );
 for (const preview of ["official", "font", "artwork"]) {
   assert.match(
@@ -813,7 +858,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /atlasExists \|\| pixels\.some/,
+  /atlasExists \|\| hasVisibleArtwork\(\)/,
   "a missing atlas must not be writable until visible artwork is added",
 );
 assert.doesNotMatch(

@@ -65,7 +65,13 @@ const BITMAP_FONT = {
   "?": ["01110", "10001", "00001", "00010", "00100", "00000", "00100"],
 };
 
-export function createPixelEditor({ dialog, translate, setDialogMode }) {
+export function createPixelEditor({
+  dialog,
+  translate,
+  formatNumber = String,
+  formatPercent = (value) => `${Math.round(value * 100)}%`,
+  setDialogMode,
+}) {
   const view = document.createElement("section");
   view.className = "pixel-editor-view";
   view.hidden = true;
@@ -106,10 +112,12 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
         </fieldset>
         <fieldset>
           <legend data-i18n="tracing">Tracing</legend>
-          <label>
-            <span data-i18n="traceOpacity">Trace opacity</span>
+          <label class="pixel-editor-trace-opacity">
+            <span class="pixel-editor-trace-opacity-heading">
+              <span data-i18n="traceOpacity">Trace opacity</span>
+              <output class="pixel-editor-trace-value" dir="auto">35%</output>
+            </span>
             <input class="pixel-editor-trace-alpha" type="range" min="0" max="100" value="35">
-            <output class="pixel-editor-trace-value">35%</output>
           </label>
           <div class="pixel-editor-trace-position">
             <span data-i18n="tracePosition">Position</span>
@@ -129,7 +137,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
               <span data-i18n="copyPixelArt">Copy art</span>
             </button>
             <button class="pixel-editor-copy-font" type="button">
-              <span aria-hidden="true">A</span>
+              <span class="pixel-editor-transfer-icon" aria-hidden="true">🔠</span>
               <span data-i18n="copyFontGlyph">Copy font</span>
             </button>
             <button class="pixel-editor-paste-art" type="button" disabled>
@@ -205,7 +213,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     button.addEventListener("click", () => selectTool(button.dataset.tool)),
   );
   traceAlpha.addEventListener("input", () => {
-    traceOutput.value = `${traceAlpha.value}%`;
+    updateTraceOutput();
     draw();
   });
   traceNudgeButtons.forEach((button) =>
@@ -232,6 +240,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   canvas.addEventListener("pointerup", onPointerUp);
   canvas.addEventListener("pointercancel", onPointerCancel);
   updatePaletteSelection();
+  updateTraceOutput();
   draw();
 
   return {
@@ -297,7 +306,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
         pixels = loadedPixels;
         undoStack = [];
         redoStack = [];
-        location.textContent = `${currentEntry.atlas} · ${translate("row", "row")} ${currentEntry.row + 1} · ${translate("column", "column")} ${currentEntry.column + 1}`;
+        updateLocation();
         status.textContent = "";
         renderTrace();
         updateHistoryButtons();
@@ -313,8 +322,9 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     },
     refreshTranslations() {
       if (currentEntry) {
-        location.textContent = `${currentEntry.atlas} · ${translate("row", "row")} ${currentEntry.row + 1} · ${translate("column", "column")} ${currentEntry.column + 1}`;
+        updateLocation();
       }
+      updateTraceOutput();
     },
   };
 
@@ -337,6 +347,14 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
       button.setAttribute("aria-pressed", String(selected));
       button.classList.toggle("is-active", selected);
     });
+  }
+
+  function updateTraceOutput() {
+    traceOutput.value = formatPercent(Number(traceAlpha.value) / 100);
+  }
+
+  function updateLocation() {
+    location.textContent = `${currentEntry.atlas} · ${translate("row", "row")} ${formatNumber(currentEntry.row + 1)} · ${translate("column", "column")} ${formatNumber(currentEntry.column + 1)}`;
   }
 
   function renderTrace() {
@@ -666,7 +684,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   }
 
   function copyPixelArt() {
-    if (!currentEntry || !cellLoaded) return;
+    if (!currentEntry || !cellLoaded || !hasVisibleArtwork()) return;
     copiedPixels = pixels.slice();
     updateTransferButtons();
     status.textContent = translate("pixelArtCopied", "Pixel art copied.");
@@ -715,7 +733,8 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   }
 
   function updateTransferButtons() {
-    copyArtButton.disabled = !currentEntry || !cellLoaded;
+    copyArtButton.disabled =
+      !currentEntry || !cellLoaded || !hasVisibleArtwork();
     copyFontButton.disabled = !currentEntry?.painted || !cellLoaded;
     pasteArtButton.disabled = !currentEntry || !cellLoaded || !copiedPixels;
   }
@@ -809,9 +828,13 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   function updateFileButtons() {
     const canWrite =
       Boolean(currentEntry && atlasBlob) &&
-      (atlasExists || pixels.some((value, index) => index % 4 === 3 && value));
+      (atlasExists || hasVisibleArtwork());
     saveButton.disabled = !canWrite;
     downloadButton.disabled = !canWrite;
+  }
+
+  function hasVisibleArtwork() {
+    return pixels.some((value, index) => index % 4 === 3 && value > 0);
   }
 }
 
