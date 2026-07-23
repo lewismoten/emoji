@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "modifiers/hair/component/hair-style",
   "image": "modifiers/hair/component/hair-style.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "hair",
   "group": "Component",
   "subGroup": "hair-style",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "red hair",
       "emoji": "🦰",
       "codePoints": ["1F9B0"],
-      "group": "Component",
-      "subGroup": "hair-style",
       "order": 2594,
       "sequenceType": "single",
-      "modifierType": "hair",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "curly hair",
       "emoji": "🦱",
       "codePoints": ["1F9B1"],
-      "group": "Component",
-      "subGroup": "hair-style",
       "order": 2595,
       "sequenceType": "single",
-      "modifierType": "hair",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "white hair",
       "emoji": "🦳",
       "codePoints": ["1F9B3"],
-      "group": "Component",
-      "subGroup": "hair-style",
       "order": 2596,
       "sequenceType": "single",
-      "modifierType": "hair",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "bald",
       "emoji": "🦲",
       "codePoints": ["1F9B2"],
-      "group": "Component",
-      "subGroup": "hair-style",
       "order": 2597,
       "sequenceType": "single",
-      "modifierType": "hair",
       "active": true
     }
   ]

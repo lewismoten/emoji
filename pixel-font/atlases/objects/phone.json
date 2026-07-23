@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "objects/phone",
   "image": "objects/phone.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Objects",
   "subGroup": "phone",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "mobile phone",
       "emoji": "📱",
       "codePoints": ["1F4F1"],
-      "group": "Objects",
-      "subGroup": "phone",
       "order": 3271,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "mobile phone with arrow",
       "emoji": "📲",
       "codePoints": ["1F4F2"],
-      "group": "Objects",
-      "subGroup": "phone",
       "order": 3272,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "telephone",
       "emoji": "☎️",
       "codePoints": ["260E", "FE0F"],
-      "group": "Objects",
-      "subGroup": "phone",
       "order": 3273,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "telephone receiver",
       "emoji": "📞",
       "codePoints": ["1F4DE"],
-      "group": "Objects",
-      "subGroup": "phone",
       "order": 3274,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "pager",
       "emoji": "📟",
       "codePoints": ["1F4DF"],
-      "group": "Objects",
-      "subGroup": "phone",
       "order": 3275,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "fax machine",
       "emoji": "📠",
       "codePoints": ["1F4E0"],
-      "group": "Objects",
-      "subGroup": "phone",
       "order": 3276,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

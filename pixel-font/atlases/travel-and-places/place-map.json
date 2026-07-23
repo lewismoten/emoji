@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "travel-and-places/place-map",
   "image": "travel-and-places/place-map.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "place-map",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "globe showing Europe-Africa",
       "emoji": "🌍",
       "codePoints": ["1F30D"],
-      "group": "Travel & Places",
-      "subGroup": "place-map",
       "order": 2889,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "globe showing Americas",
       "emoji": "🌎",
       "codePoints": ["1F30E"],
-      "group": "Travel & Places",
-      "subGroup": "place-map",
       "order": 2890,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "globe showing Asia-Australia",
       "emoji": "🌏",
       "codePoints": ["1F30F"],
-      "group": "Travel & Places",
-      "subGroup": "place-map",
       "order": 2891,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "globe with meridians",
       "emoji": "🌐",
       "codePoints": ["1F310"],
-      "group": "Travel & Places",
-      "subGroup": "place-map",
       "order": 2892,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "world map",
       "emoji": "🗺️",
       "codePoints": ["1F5FA", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "place-map",
       "order": 2893,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "map of Japan",
       "emoji": "🗾",
       "codePoints": ["1F5FE"],
-      "group": "Travel & Places",
-      "subGroup": "place-map",
       "order": 2894,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "compass",
       "emoji": "🧭",
       "codePoints": ["1F9ED"],
-      "group": "Travel & Places",
-      "subGroup": "place-map",
       "order": 2895,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

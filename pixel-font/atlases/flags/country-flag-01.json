@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "flags/country-flag-01",
   "image": "flags/country-flag-01.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Flags",
   "subGroup": "country-flag",
   "part": 1,
   "partCount": 3,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 8,
-  "capacity": 128,
   "imageWidth": 272,
   "imageHeight": 192,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "flag: Ascension Island",
       "emoji": "🇦🇨",
       "codePoints": ["1F1E6", "1F1E8"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3691,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "flag: Andorra",
       "emoji": "🇦🇩",
       "codePoints": ["1F1E6", "1F1E9"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3692,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "flag: United Arab Emirates",
       "emoji": "🇦🇪",
       "codePoints": ["1F1E6", "1F1EA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3693,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "flag: Afghanistan",
       "emoji": "🇦🇫",
       "codePoints": ["1F1E6", "1F1EB"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3694,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "flag: Antigua & Barbuda",
       "emoji": "🇦🇬",
       "codePoints": ["1F1E6", "1F1EC"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3695,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "flag: Anguilla",
       "emoji": "🇦🇮",
       "codePoints": ["1F1E6", "1F1EE"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3696,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "flag: Albania",
       "emoji": "🇦🇱",
       "codePoints": ["1F1E6", "1F1F1"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3697,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "flag: Armenia",
       "emoji": "🇦🇲",
       "codePoints": ["1F1E6", "1F1F2"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3698,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "flag: Angola",
       "emoji": "🇦🇴",
       "codePoints": ["1F1E6", "1F1F4"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3699,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "flag: Antarctica",
       "emoji": "🇦🇶",
       "codePoints": ["1F1E6", "1F1F6"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3700,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "flag: Argentina",
       "emoji": "🇦🇷",
       "codePoints": ["1F1E6", "1F1F7"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3701,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "flag: American Samoa",
       "emoji": "🇦🇸",
       "codePoints": ["1F1E6", "1F1F8"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3702,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "flag: Austria",
       "emoji": "🇦🇹",
       "codePoints": ["1F1E6", "1F1F9"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3703,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "flag: Australia",
       "emoji": "🇦🇺",
       "codePoints": ["1F1E6", "1F1FA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3704,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "flag: Aruba",
       "emoji": "🇦🇼",
       "codePoints": ["1F1E6", "1F1FC"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3705,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "flag: Åland Islands",
       "emoji": "🇦🇽",
       "codePoints": ["1F1E6", "1F1FD"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3706,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "flag: Azerbaijan",
       "emoji": "🇦🇿",
       "codePoints": ["1F1E6", "1F1FF"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3707,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "flag: Bosnia & Herzegovina",
       "emoji": "🇧🇦",
       "codePoints": ["1F1E7", "1F1E6"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3708,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "flag: Barbados",
       "emoji": "🇧🇧",
       "codePoints": ["1F1E7", "1F1E7"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3709,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "flag: Bangladesh",
       "emoji": "🇧🇩",
       "codePoints": ["1F1E7", "1F1E9"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3710,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "flag: Belgium",
       "emoji": "🇧🇪",
       "codePoints": ["1F1E7", "1F1EA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3711,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "flag: Burkina Faso",
       "emoji": "🇧🇫",
       "codePoints": ["1F1E7", "1F1EB"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3712,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "flag: Bulgaria",
       "emoji": "🇧🇬",
       "codePoints": ["1F1E7", "1F1EC"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3713,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "flag: Bahrain",
       "emoji": "🇧🇭",
       "codePoints": ["1F1E7", "1F1ED"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3714,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "flag: Burundi",
       "emoji": "🇧🇮",
       "codePoints": ["1F1E7", "1F1EE"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3715,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "flag: Benin",
       "emoji": "🇧🇯",
       "codePoints": ["1F1E7", "1F1EF"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3716,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "flag: St. Barthélemy",
       "emoji": "🇧🇱",
       "codePoints": ["1F1E7", "1F1F1"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3717,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "flag: Bermuda",
       "emoji": "🇧🇲",
       "codePoints": ["1F1E7", "1F1F2"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3718,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "flag: Brunei",
       "emoji": "🇧🇳",
       "codePoints": ["1F1E7", "1F1F3"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3719,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "flag: Bolivia",
       "emoji": "🇧🇴",
       "codePoints": ["1F1E7", "1F1F4"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3720,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -604,11 +503,8 @@
       "name": "flag: Caribbean Netherlands",
       "emoji": "🇧🇶",
       "codePoints": ["1F1E7", "1F1F6"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3721,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -623,11 +519,8 @@
       "name": "flag: Brazil",
       "emoji": "🇧🇷",
       "codePoints": ["1F1E7", "1F1F7"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3722,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -642,11 +535,8 @@
       "name": "flag: Bahamas",
       "emoji": "🇧🇸",
       "codePoints": ["1F1E7", "1F1F8"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3723,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -661,11 +551,8 @@
       "name": "flag: Bhutan",
       "emoji": "🇧🇹",
       "codePoints": ["1F1E7", "1F1F9"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3724,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -680,11 +567,8 @@
       "name": "flag: Bouvet Island",
       "emoji": "🇧🇻",
       "codePoints": ["1F1E7", "1F1FB"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3725,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -699,11 +583,8 @@
       "name": "flag: Botswana",
       "emoji": "🇧🇼",
       "codePoints": ["1F1E7", "1F1FC"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3726,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -718,11 +599,8 @@
       "name": "flag: Belarus",
       "emoji": "🇧🇾",
       "codePoints": ["1F1E7", "1F1FE"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3727,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -737,11 +615,8 @@
       "name": "flag: Belize",
       "emoji": "🇧🇿",
       "codePoints": ["1F1E7", "1F1FF"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3728,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -756,11 +631,8 @@
       "name": "flag: Canada",
       "emoji": "🇨🇦",
       "codePoints": ["1F1E8", "1F1E6"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3729,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -775,11 +647,8 @@
       "name": "flag: Cocos (Keeling) Islands",
       "emoji": "🇨🇨",
       "codePoints": ["1F1E8", "1F1E8"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3730,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -794,11 +663,8 @@
       "name": "flag: Congo - Kinshasa",
       "emoji": "🇨🇩",
       "codePoints": ["1F1E8", "1F1E9"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3731,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -813,11 +679,8 @@
       "name": "flag: Central African Republic",
       "emoji": "🇨🇫",
       "codePoints": ["1F1E8", "1F1EB"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3732,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -832,11 +695,8 @@
       "name": "flag: Congo - Brazzaville",
       "emoji": "🇨🇬",
       "codePoints": ["1F1E8", "1F1EC"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3733,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -851,11 +711,8 @@
       "name": "flag: Switzerland",
       "emoji": "🇨🇭",
       "codePoints": ["1F1E8", "1F1ED"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3734,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -870,11 +727,8 @@
       "name": "flag: Côte d’Ivoire",
       "emoji": "🇨🇮",
       "codePoints": ["1F1E8", "1F1EE"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3735,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -889,11 +743,8 @@
       "name": "flag: Cook Islands",
       "emoji": "🇨🇰",
       "codePoints": ["1F1E8", "1F1F0"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3736,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -908,11 +759,8 @@
       "name": "flag: Chile",
       "emoji": "🇨🇱",
       "codePoints": ["1F1E8", "1F1F1"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3737,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -927,11 +775,8 @@
       "name": "flag: Cameroon",
       "emoji": "🇨🇲",
       "codePoints": ["1F1E8", "1F1F2"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3738,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -946,11 +791,8 @@
       "name": "flag: China",
       "emoji": "🇨🇳",
       "codePoints": ["1F1E8", "1F1F3"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3739,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -965,11 +807,8 @@
       "name": "flag: Colombia",
       "emoji": "🇨🇴",
       "codePoints": ["1F1E8", "1F1F4"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3740,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -984,11 +823,8 @@
       "name": "flag: Clipperton Island",
       "emoji": "🇨🇵",
       "codePoints": ["1F1E8", "1F1F5"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3741,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1003,11 +839,8 @@
       "name": "flag: Sark",
       "emoji": "🇨🇶",
       "codePoints": ["1F1E8", "1F1F6"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3742,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1022,11 +855,8 @@
       "name": "flag: Costa Rica",
       "emoji": "🇨🇷",
       "codePoints": ["1F1E8", "1F1F7"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3743,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1041,11 +871,8 @@
       "name": "flag: Cuba",
       "emoji": "🇨🇺",
       "codePoints": ["1F1E8", "1F1FA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3744,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1060,11 +887,8 @@
       "name": "flag: Cape Verde",
       "emoji": "🇨🇻",
       "codePoints": ["1F1E8", "1F1FB"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3745,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1079,11 +903,8 @@
       "name": "flag: Curaçao",
       "emoji": "🇨🇼",
       "codePoints": ["1F1E8", "1F1FC"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3746,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1098,11 +919,8 @@
       "name": "flag: Christmas Island",
       "emoji": "🇨🇽",
       "codePoints": ["1F1E8", "1F1FD"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3747,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1117,11 +935,8 @@
       "name": "flag: Cyprus",
       "emoji": "🇨🇾",
       "codePoints": ["1F1E8", "1F1FE"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3748,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1136,11 +951,8 @@
       "name": "flag: Czechia",
       "emoji": "🇨🇿",
       "codePoints": ["1F1E8", "1F1FF"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3749,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1155,11 +967,8 @@
       "name": "flag: Germany",
       "emoji": "🇩🇪",
       "codePoints": ["1F1E9", "1F1EA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3750,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1174,11 +983,8 @@
       "name": "flag: Diego Garcia",
       "emoji": "🇩🇬",
       "codePoints": ["1F1E9", "1F1EC"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3751,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1193,11 +999,8 @@
       "name": "flag: Djibouti",
       "emoji": "🇩🇯",
       "codePoints": ["1F1E9", "1F1EF"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3752,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1212,11 +1015,8 @@
       "name": "flag: Denmark",
       "emoji": "🇩🇰",
       "codePoints": ["1F1E9", "1F1F0"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3753,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1231,11 +1031,8 @@
       "name": "flag: Dominica",
       "emoji": "🇩🇲",
       "codePoints": ["1F1E9", "1F1F2"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3754,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1250,11 +1047,8 @@
       "name": "flag: Dominican Republic",
       "emoji": "🇩🇴",
       "codePoints": ["1F1E9", "1F1F4"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3755,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1269,11 +1063,8 @@
       "name": "flag: Algeria",
       "emoji": "🇩🇿",
       "codePoints": ["1F1E9", "1F1FF"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3756,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1288,11 +1079,8 @@
       "name": "flag: Ceuta & Melilla",
       "emoji": "🇪🇦",
       "codePoints": ["1F1EA", "1F1E6"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3757,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1307,11 +1095,8 @@
       "name": "flag: Ecuador",
       "emoji": "🇪🇨",
       "codePoints": ["1F1EA", "1F1E8"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3758,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1326,11 +1111,8 @@
       "name": "flag: Estonia",
       "emoji": "🇪🇪",
       "codePoints": ["1F1EA", "1F1EA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3759,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1345,11 +1127,8 @@
       "name": "flag: Egypt",
       "emoji": "🇪🇬",
       "codePoints": ["1F1EA", "1F1EC"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3760,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1364,11 +1143,8 @@
       "name": "flag: Western Sahara",
       "emoji": "🇪🇭",
       "codePoints": ["1F1EA", "1F1ED"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3761,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1383,11 +1159,8 @@
       "name": "flag: Eritrea",
       "emoji": "🇪🇷",
       "codePoints": ["1F1EA", "1F1F7"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3762,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1402,11 +1175,8 @@
       "name": "flag: Spain",
       "emoji": "🇪🇸",
       "codePoints": ["1F1EA", "1F1F8"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3763,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1421,11 +1191,8 @@
       "name": "flag: Ethiopia",
       "emoji": "🇪🇹",
       "codePoints": ["1F1EA", "1F1F9"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3764,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1440,11 +1207,8 @@
       "name": "flag: European Union",
       "emoji": "🇪🇺",
       "codePoints": ["1F1EA", "1F1FA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3765,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1459,11 +1223,8 @@
       "name": "flag: Finland",
       "emoji": "🇫🇮",
       "codePoints": ["1F1EB", "1F1EE"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3766,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1478,11 +1239,8 @@
       "name": "flag: Fiji",
       "emoji": "🇫🇯",
       "codePoints": ["1F1EB", "1F1EF"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3767,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1497,11 +1255,8 @@
       "name": "flag: Falkland Islands",
       "emoji": "🇫🇰",
       "codePoints": ["1F1EB", "1F1F0"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3768,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1516,11 +1271,8 @@
       "name": "flag: Micronesia",
       "emoji": "🇫🇲",
       "codePoints": ["1F1EB", "1F1F2"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3769,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1535,11 +1287,8 @@
       "name": "flag: Faroe Islands",
       "emoji": "🇫🇴",
       "codePoints": ["1F1EB", "1F1F4"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3770,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1554,11 +1303,8 @@
       "name": "flag: France",
       "emoji": "🇫🇷",
       "codePoints": ["1F1EB", "1F1F7"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3771,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1573,11 +1319,8 @@
       "name": "flag: Gabon",
       "emoji": "🇬🇦",
       "codePoints": ["1F1EC", "1F1E6"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3772,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1592,11 +1335,8 @@
       "name": "flag: United Kingdom",
       "emoji": "🇬🇧",
       "codePoints": ["1F1EC", "1F1E7"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3773,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1611,11 +1351,8 @@
       "name": "flag: Grenada",
       "emoji": "🇬🇩",
       "codePoints": ["1F1EC", "1F1E9"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3774,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1630,11 +1367,8 @@
       "name": "flag: Georgia",
       "emoji": "🇬🇪",
       "codePoints": ["1F1EC", "1F1EA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3775,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1649,11 +1383,8 @@
       "name": "flag: French Guiana",
       "emoji": "🇬🇫",
       "codePoints": ["1F1EC", "1F1EB"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3776,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1668,11 +1399,8 @@
       "name": "flag: Guernsey",
       "emoji": "🇬🇬",
       "codePoints": ["1F1EC", "1F1EC"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3777,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1687,11 +1415,8 @@
       "name": "flag: Ghana",
       "emoji": "🇬🇭",
       "codePoints": ["1F1EC", "1F1ED"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3778,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1706,11 +1431,8 @@
       "name": "flag: Gibraltar",
       "emoji": "🇬🇮",
       "codePoints": ["1F1EC", "1F1EE"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3779,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1725,11 +1447,8 @@
       "name": "flag: Greenland",
       "emoji": "🇬🇱",
       "codePoints": ["1F1EC", "1F1F1"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3780,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1744,11 +1463,8 @@
       "name": "flag: Gambia",
       "emoji": "🇬🇲",
       "codePoints": ["1F1EC", "1F1F2"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3781,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1763,11 +1479,8 @@
       "name": "flag: Guinea",
       "emoji": "🇬🇳",
       "codePoints": ["1F1EC", "1F1F3"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3782,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1782,11 +1495,8 @@
       "name": "flag: Guadeloupe",
       "emoji": "🇬🇵",
       "codePoints": ["1F1EC", "1F1F5"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3783,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1801,11 +1511,8 @@
       "name": "flag: Equatorial Guinea",
       "emoji": "🇬🇶",
       "codePoints": ["1F1EC", "1F1F6"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3784,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1820,11 +1527,8 @@
       "name": "flag: Greece",
       "emoji": "🇬🇷",
       "codePoints": ["1F1EC", "1F1F7"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3785,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1839,11 +1543,8 @@
       "name": "flag: South Georgia & South Sandwich Islands",
       "emoji": "🇬🇸",
       "codePoints": ["1F1EC", "1F1F8"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3786,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1858,11 +1559,8 @@
       "name": "flag: Guatemala",
       "emoji": "🇬🇹",
       "codePoints": ["1F1EC", "1F1F9"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3787,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1877,11 +1575,8 @@
       "name": "flag: Guam",
       "emoji": "🇬🇺",
       "codePoints": ["1F1EC", "1F1FA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3788,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1896,11 +1591,8 @@
       "name": "flag: Guinea-Bissau",
       "emoji": "🇬🇼",
       "codePoints": ["1F1EC", "1F1FC"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3789,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1915,11 +1607,8 @@
       "name": "flag: Guyana",
       "emoji": "🇬🇾",
       "codePoints": ["1F1EC", "1F1FE"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3790,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1934,11 +1623,8 @@
       "name": "flag: Hong Kong SAR China",
       "emoji": "🇭🇰",
       "codePoints": ["1F1ED", "1F1F0"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3791,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1953,11 +1639,8 @@
       "name": "flag: Heard & McDonald Islands",
       "emoji": "🇭🇲",
       "codePoints": ["1F1ED", "1F1F2"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3792,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1972,11 +1655,8 @@
       "name": "flag: Honduras",
       "emoji": "🇭🇳",
       "codePoints": ["1F1ED", "1F1F3"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3793,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1991,11 +1671,8 @@
       "name": "flag: Croatia",
       "emoji": "🇭🇷",
       "codePoints": ["1F1ED", "1F1F7"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3794,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2010,11 +1687,8 @@
       "name": "flag: Haiti",
       "emoji": "🇭🇹",
       "codePoints": ["1F1ED", "1F1F9"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3795,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2029,11 +1703,8 @@
       "name": "flag: Hungary",
       "emoji": "🇭🇺",
       "codePoints": ["1F1ED", "1F1FA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3796,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2048,11 +1719,8 @@
       "name": "flag: Canary Islands",
       "emoji": "🇮🇨",
       "codePoints": ["1F1EE", "1F1E8"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3797,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2067,11 +1735,8 @@
       "name": "flag: Indonesia",
       "emoji": "🇮🇩",
       "codePoints": ["1F1EE", "1F1E9"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3798,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2086,11 +1751,8 @@
       "name": "flag: Ireland",
       "emoji": "🇮🇪",
       "codePoints": ["1F1EE", "1F1EA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3799,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2105,11 +1767,8 @@
       "name": "flag: Israel",
       "emoji": "🇮🇱",
       "codePoints": ["1F1EE", "1F1F1"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3800,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2124,11 +1783,8 @@
       "name": "flag: Isle of Man",
       "emoji": "🇮🇲",
       "codePoints": ["1F1EE", "1F1F2"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3801,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2143,11 +1799,8 @@
       "name": "flag: India",
       "emoji": "🇮🇳",
       "codePoints": ["1F1EE", "1F1F3"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3802,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2162,11 +1815,8 @@
       "name": "flag: British Indian Ocean Territory",
       "emoji": "🇮🇴",
       "codePoints": ["1F1EE", "1F1F4"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3803,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2181,11 +1831,8 @@
       "name": "flag: Iraq",
       "emoji": "🇮🇶",
       "codePoints": ["1F1EE", "1F1F6"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3804,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2200,11 +1847,8 @@
       "name": "flag: Iran",
       "emoji": "🇮🇷",
       "codePoints": ["1F1EE", "1F1F7"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3805,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2219,11 +1863,8 @@
       "name": "flag: Iceland",
       "emoji": "🇮🇸",
       "codePoints": ["1F1EE", "1F1F8"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3806,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2238,11 +1879,8 @@
       "name": "flag: Italy",
       "emoji": "🇮🇹",
       "codePoints": ["1F1EE", "1F1F9"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3807,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2257,11 +1895,8 @@
       "name": "flag: Jersey",
       "emoji": "🇯🇪",
       "codePoints": ["1F1EF", "1F1EA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3808,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2276,11 +1911,8 @@
       "name": "flag: Jamaica",
       "emoji": "🇯🇲",
       "codePoints": ["1F1EF", "1F1F2"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3809,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2295,11 +1927,8 @@
       "name": "flag: Jordan",
       "emoji": "🇯🇴",
       "codePoints": ["1F1EF", "1F1F4"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3810,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2314,11 +1943,8 @@
       "name": "flag: Japan",
       "emoji": "🇯🇵",
       "codePoints": ["1F1EF", "1F1F5"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3811,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2333,11 +1959,8 @@
       "name": "flag: Kenya",
       "emoji": "🇰🇪",
       "codePoints": ["1F1F0", "1F1EA"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3812,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2352,11 +1975,8 @@
       "name": "flag: Kyrgyzstan",
       "emoji": "🇰🇬",
       "codePoints": ["1F1F0", "1F1EC"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3813,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2371,11 +1991,8 @@
       "name": "flag: Cambodia",
       "emoji": "🇰🇭",
       "codePoints": ["1F1F0", "1F1ED"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3814,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2390,11 +2007,8 @@
       "name": "flag: Kiribati",
       "emoji": "🇰🇮",
       "codePoints": ["1F1F0", "1F1EE"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3815,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2409,11 +2023,8 @@
       "name": "flag: Comoros",
       "emoji": "🇰🇲",
       "codePoints": ["1F1F0", "1F1F2"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3816,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2428,11 +2039,8 @@
       "name": "flag: St. Kitts & Nevis",
       "emoji": "🇰🇳",
       "codePoints": ["1F1F0", "1F1F3"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3817,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -2447,11 +2055,8 @@
       "name": "flag: North Korea",
       "emoji": "🇰🇵",
       "codePoints": ["1F1F0", "1F1F5"],
-      "group": "Flags",
-      "subGroup": "country-flag",
       "order": 3818,
       "sequenceType": "flag",
-      "modifierType": "base",
       "active": true
     }
   ]

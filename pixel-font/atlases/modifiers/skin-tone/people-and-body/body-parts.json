@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "modifiers/skin-tone/people-and-body/body-parts",
   "image": "modifiers/skin-tone/people-and-body/body-parts.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "skin-tone",
   "group": "People & Body",
   "subGroup": "body-parts",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "flexed biceps: light skin tone",
       "emoji": "💪🏻",
       "codePoints": ["1F4AA", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 450,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "flexed biceps: medium-light skin tone",
       "emoji": "💪🏼",
       "codePoints": ["1F4AA", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 451,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "flexed biceps: medium skin tone",
       "emoji": "💪🏽",
       "codePoints": ["1F4AA", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 452,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "flexed biceps: medium-dark skin tone",
       "emoji": "💪🏾",
       "codePoints": ["1F4AA", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 453,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "flexed biceps: dark skin tone",
       "emoji": "💪🏿",
       "codePoints": ["1F4AA", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 454,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "leg: light skin tone",
       "emoji": "🦵🏻",
       "codePoints": ["1F9B5", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 458,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "leg: medium-light skin tone",
       "emoji": "🦵🏼",
       "codePoints": ["1F9B5", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 459,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "leg: medium skin tone",
       "emoji": "🦵🏽",
       "codePoints": ["1F9B5", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 460,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "leg: medium-dark skin tone",
       "emoji": "🦵🏾",
       "codePoints": ["1F9B5", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 461,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "leg: dark skin tone",
       "emoji": "🦵🏿",
       "codePoints": ["1F9B5", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 462,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "foot: light skin tone",
       "emoji": "🦶🏻",
       "codePoints": ["1F9B6", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 464,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "foot: medium-light skin tone",
       "emoji": "🦶🏼",
       "codePoints": ["1F9B6", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 465,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "foot: medium skin tone",
       "emoji": "🦶🏽",
       "codePoints": ["1F9B6", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 466,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "foot: medium-dark skin tone",
       "emoji": "🦶🏾",
       "codePoints": ["1F9B6", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 467,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "foot: dark skin tone",
       "emoji": "🦶🏿",
       "codePoints": ["1F9B6", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 468,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "ear: light skin tone",
       "emoji": "👂🏻",
       "codePoints": ["1F442", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 470,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "ear: medium-light skin tone",
       "emoji": "👂🏼",
       "codePoints": ["1F442", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 471,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "ear: medium skin tone",
       "emoji": "👂🏽",
       "codePoints": ["1F442", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 472,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "ear: medium-dark skin tone",
       "emoji": "👂🏾",
       "codePoints": ["1F442", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 473,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "ear: dark skin tone",
       "emoji": "👂🏿",
       "codePoints": ["1F442", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 474,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "ear with hearing aid: light skin tone",
       "emoji": "🦻🏻",
       "codePoints": ["1F9BB", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 476,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "ear with hearing aid: medium-light skin tone",
       "emoji": "🦻🏼",
       "codePoints": ["1F9BB", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 477,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "ear with hearing aid: medium skin tone",
       "emoji": "🦻🏽",
       "codePoints": ["1F9BB", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 478,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "ear with hearing aid: medium-dark skin tone",
       "emoji": "🦻🏾",
       "codePoints": ["1F9BB", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 479,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "ear with hearing aid: dark skin tone",
       "emoji": "🦻🏿",
       "codePoints": ["1F9BB", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 480,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "nose: light skin tone",
       "emoji": "👃🏻",
       "codePoints": ["1F443", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 482,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "nose: medium-light skin tone",
       "emoji": "👃🏼",
       "codePoints": ["1F443", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 483,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "nose: medium skin tone",
       "emoji": "👃🏽",
       "codePoints": ["1F443", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 484,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "nose: medium-dark skin tone",
       "emoji": "👃🏾",
       "codePoints": ["1F443", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 485,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "nose: dark skin tone",
       "emoji": "👃🏿",
       "codePoints": ["1F443", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 486,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     }
   ]

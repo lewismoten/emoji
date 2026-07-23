@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "activities/event",
   "image": "activities/event.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Activities",
   "subGroup": "event",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "jack-o-lantern",
       "emoji": "🎃",
       "codePoints": ["1F383"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3108,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "Christmas tree",
       "emoji": "🎄",
       "codePoints": ["1F384"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3109,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "fireworks",
       "emoji": "🎆",
       "codePoints": ["1F386"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3110,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "sparkler",
       "emoji": "🎇",
       "codePoints": ["1F387"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3111,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "firecracker",
       "emoji": "🧨",
       "codePoints": ["1F9E8"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3112,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "sparkles",
       "emoji": "✨",
       "codePoints": ["2728"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3113,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "balloon",
       "emoji": "🎈",
       "codePoints": ["1F388"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3114,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "party popper",
       "emoji": "🎉",
       "codePoints": ["1F389"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3115,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "confetti ball",
       "emoji": "🎊",
       "codePoints": ["1F38A"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3116,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "tanabata tree",
       "emoji": "🎋",
       "codePoints": ["1F38B"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3117,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "pine decoration",
       "emoji": "🎍",
       "codePoints": ["1F38D"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3118,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "Japanese dolls",
       "emoji": "🎎",
       "codePoints": ["1F38E"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3119,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "carp streamer",
       "emoji": "🎏",
       "codePoints": ["1F38F"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3120,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "wind chime",
       "emoji": "🎐",
       "codePoints": ["1F390"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3121,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "moon viewing ceremony",
       "emoji": "🎑",
       "codePoints": ["1F391"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3122,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "red envelope",
       "emoji": "🧧",
       "codePoints": ["1F9E7"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3123,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "ribbon",
       "emoji": "🎀",
       "codePoints": ["1F380"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3124,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "wrapped gift",
       "emoji": "🎁",
       "codePoints": ["1F381"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3125,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "reminder ribbon",
       "emoji": "🎗️",
       "codePoints": ["1F397", "FE0F"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3126,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "admission tickets",
       "emoji": "🎟️",
       "codePoints": ["1F39F", "FE0F"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3127,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "ticket",
       "emoji": "🎫",
       "codePoints": ["1F3AB"],
-      "group": "Activities",
-      "subGroup": "event",
       "order": 3128,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

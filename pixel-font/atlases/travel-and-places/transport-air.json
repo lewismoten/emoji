@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "travel-and-places/transport-air",
   "image": "travel-and-places/transport-air.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "transport-air",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "airplane",
       "emoji": "✈️",
       "codePoints": ["2708", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3015,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "small airplane",
       "emoji": "🛩️",
       "codePoints": ["1F6E9", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3016,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "airplane departure",
       "emoji": "🛫",
       "codePoints": ["1F6EB"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3017,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "airplane arrival",
       "emoji": "🛬",
       "codePoints": ["1F6EC"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3018,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "parachute",
       "emoji": "🪂",
       "codePoints": ["1FA82"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3019,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "seat",
       "emoji": "💺",
       "codePoints": ["1F4BA"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3020,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "helicopter",
       "emoji": "🚁",
       "codePoints": ["1F681"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3021,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "suspension railway",
       "emoji": "🚟",
       "codePoints": ["1F69F"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3022,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "mountain cableway",
       "emoji": "🚠",
       "codePoints": ["1F6A0"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3023,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "aerial tramway",
       "emoji": "🚡",
       "codePoints": ["1F6A1"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3024,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "satellite",
       "emoji": "🛰️",
       "codePoints": ["1F6F0", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3025,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "rocket",
       "emoji": "🚀",
       "codePoints": ["1F680"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3026,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "flying saucer",
       "emoji": "🛸",
       "codePoints": ["1F6F8"],
-      "group": "Travel & Places",
-      "subGroup": "transport-air",
       "order": 3027,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

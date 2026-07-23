@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "food-and-drink/food-sweet",
   "image": "food-and-drink/food-sweet.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Food & Drink",
   "subGroup": "food-sweet",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "soft ice cream",
       "emoji": "🍦",
       "codePoints": ["1F366"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2848,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "shaved ice",
       "emoji": "🍧",
       "codePoints": ["1F367"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2849,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "ice cream",
       "emoji": "🍨",
       "codePoints": ["1F368"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2850,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "doughnut",
       "emoji": "🍩",
       "codePoints": ["1F369"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2851,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "cookie",
       "emoji": "🍪",
       "codePoints": ["1F36A"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2852,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "birthday cake",
       "emoji": "🎂",
       "codePoints": ["1F382"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2853,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "shortcake",
       "emoji": "🍰",
       "codePoints": ["1F370"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2854,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "cupcake",
       "emoji": "🧁",
       "codePoints": ["1F9C1"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2855,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "pie",
       "emoji": "🥧",
       "codePoints": ["1F967"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2856,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "chocolate bar",
       "emoji": "🍫",
       "codePoints": ["1F36B"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2857,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "candy",
       "emoji": "🍬",
       "codePoints": ["1F36C"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2858,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "lollipop",
       "emoji": "🍭",
       "codePoints": ["1F36D"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2859,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "custard",
       "emoji": "🍮",
       "codePoints": ["1F36E"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2860,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "honey pot",
       "emoji": "🍯",
       "codePoints": ["1F36F"],
-      "group": "Food & Drink",
-      "subGroup": "food-sweet",
       "order": 2861,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

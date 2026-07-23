@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "travel-and-places/time",
   "image": "travel-and-places/time.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "time",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "hourglass done",
       "emoji": "⌛",
       "codePoints": ["231B"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3030,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "hourglass not done",
       "emoji": "⏳",
       "codePoints": ["23F3"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3031,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "watch",
       "emoji": "⌚",
       "codePoints": ["231A"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3032,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "alarm clock",
       "emoji": "⏰",
       "codePoints": ["23F0"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3033,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "stopwatch",
       "emoji": "⏱️",
       "codePoints": ["23F1", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3034,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "timer clock",
       "emoji": "⏲️",
       "codePoints": ["23F2", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3035,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "mantelpiece clock",
       "emoji": "🕰️",
       "codePoints": ["1F570", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3036,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "twelve o’clock",
       "emoji": "🕛",
       "codePoints": ["1F55B"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3037,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "twelve-thirty",
       "emoji": "🕧",
       "codePoints": ["1F567"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3038,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "one o’clock",
       "emoji": "🕐",
       "codePoints": ["1F550"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3039,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "one-thirty",
       "emoji": "🕜",
       "codePoints": ["1F55C"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3040,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "two o’clock",
       "emoji": "🕑",
       "codePoints": ["1F551"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3041,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "two-thirty",
       "emoji": "🕝",
       "codePoints": ["1F55D"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3042,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "three o’clock",
       "emoji": "🕒",
       "codePoints": ["1F552"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3043,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "three-thirty",
       "emoji": "🕞",
       "codePoints": ["1F55E"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3044,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "four o’clock",
       "emoji": "🕓",
       "codePoints": ["1F553"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3045,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "four-thirty",
       "emoji": "🕟",
       "codePoints": ["1F55F"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3046,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "five o’clock",
       "emoji": "🕔",
       "codePoints": ["1F554"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3047,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "five-thirty",
       "emoji": "🕠",
       "codePoints": ["1F560"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3048,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "six o’clock",
       "emoji": "🕕",
       "codePoints": ["1F555"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3049,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "six-thirty",
       "emoji": "🕡",
       "codePoints": ["1F561"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3050,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "seven o’clock",
       "emoji": "🕖",
       "codePoints": ["1F556"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3051,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "seven-thirty",
       "emoji": "🕢",
       "codePoints": ["1F562"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3052,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "eight o’clock",
       "emoji": "🕗",
       "codePoints": ["1F557"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3053,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "eight-thirty",
       "emoji": "🕣",
       "codePoints": ["1F563"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3054,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "nine o’clock",
       "emoji": "🕘",
       "codePoints": ["1F558"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3055,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "nine-thirty",
       "emoji": "🕤",
       "codePoints": ["1F564"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3056,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "ten o’clock",
       "emoji": "🕙",
       "codePoints": ["1F559"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3057,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "ten-thirty",
       "emoji": "🕥",
       "codePoints": ["1F565"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3058,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "eleven o’clock",
       "emoji": "🕚",
       "codePoints": ["1F55A"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3059,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -604,11 +503,8 @@
       "name": "eleven-thirty",
       "emoji": "🕦",
       "codePoints": ["1F566"],
-      "group": "Travel & Places",
-      "subGroup": "time",
       "order": 3060,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

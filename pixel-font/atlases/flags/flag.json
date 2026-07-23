@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "flags/flag",
   "image": "flags/flag.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Flags",
   "subGroup": "flag",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "chequered flag",
       "emoji": "🏁",
       "codePoints": ["1F3C1"],
-      "group": "Flags",
-      "subGroup": "flag",
       "order": 3683,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "triangular flag",
       "emoji": "🚩",
       "codePoints": ["1F6A9"],
-      "group": "Flags",
-      "subGroup": "flag",
       "order": 3684,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "crossed flags",
       "emoji": "🎌",
       "codePoints": ["1F38C"],
-      "group": "Flags",
-      "subGroup": "flag",
       "order": 3685,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "black flag",
       "emoji": "🏴",
       "codePoints": ["1F3F4"],
-      "group": "Flags",
-      "subGroup": "flag",
       "order": 3686,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "white flag",
       "emoji": "🏳️",
       "codePoints": ["1F3F3", "FE0F"],
-      "group": "Flags",
-      "subGroup": "flag",
       "order": 3687,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "rainbow flag",
       "emoji": "🏳️‍🌈",
       "codePoints": ["1F3F3", "FE0F", "200D", "1F308"],
-      "group": "Flags",
-      "subGroup": "flag",
       "order": 3688,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "transgender flag",
       "emoji": "🏳️‍⚧️",
       "codePoints": ["1F3F3", "FE0F", "200D", "26A7", "FE0F"],
-      "group": "Flags",
-      "subGroup": "flag",
       "order": 3689,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "pirate flag",
       "emoji": "🏴‍☠️",
       "codePoints": ["1F3F4", "200D", "2620", "FE0F"],
-      "group": "Flags",
-      "subGroup": "flag",
       "order": 3690,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     }
   ]

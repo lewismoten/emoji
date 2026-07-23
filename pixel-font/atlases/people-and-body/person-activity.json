@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "people-and-body/person-activity",
   "image": "people-and-body/person-activity.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "People & Body",
   "subGroup": "person-activity",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 4,
-  "capacity": 64,
   "imageWidth": 272,
   "imageHeight": 128,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "person getting massage",
       "emoji": "💆",
       "codePoints": ["1F486"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1495,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "man getting massage",
       "emoji": "💆‍♂️",
       "codePoints": ["1F486", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1501,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "woman getting massage",
       "emoji": "💆‍♀️",
       "codePoints": ["1F486", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1507,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "person getting haircut",
       "emoji": "💇",
       "codePoints": ["1F487"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1513,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "man getting haircut",
       "emoji": "💇‍♂️",
       "codePoints": ["1F487", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1519,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "woman getting haircut",
       "emoji": "💇‍♀️",
       "codePoints": ["1F487", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1525,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "person walking",
       "emoji": "🚶",
       "codePoints": ["1F6B6"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1531,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "man walking",
       "emoji": "🚶‍♂️",
       "codePoints": ["1F6B6", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1537,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "woman walking",
       "emoji": "🚶‍♀️",
       "codePoints": ["1F6B6", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1543,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "person walking facing right",
       "emoji": "🚶‍➡️",
       "codePoints": ["1F6B6", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1549,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "woman walking facing right",
       "emoji": "🚶‍♀️‍➡️",
       "codePoints": ["1F6B6", "200D", "2640", "FE0F", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1555,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "man walking facing right",
       "emoji": "🚶‍♂️‍➡️",
       "codePoints": ["1F6B6", "200D", "2642", "FE0F", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1561,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "person standing",
       "emoji": "🧍",
       "codePoints": ["1F9CD"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1567,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "man standing",
       "emoji": "🧍‍♂️",
       "codePoints": ["1F9CD", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1573,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "woman standing",
       "emoji": "🧍‍♀️",
       "codePoints": ["1F9CD", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1579,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "person kneeling",
       "emoji": "🧎",
       "codePoints": ["1F9CE"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1585,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "man kneeling",
       "emoji": "🧎‍♂️",
       "codePoints": ["1F9CE", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1591,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "woman kneeling",
       "emoji": "🧎‍♀️",
       "codePoints": ["1F9CE", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1597,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "person kneeling facing right",
       "emoji": "🧎‍➡️",
       "codePoints": ["1F9CE", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1603,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "woman kneeling facing right",
       "emoji": "🧎‍♀️‍➡️",
       "codePoints": ["1F9CE", "200D", "2640", "FE0F", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1609,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "man kneeling facing right",
       "emoji": "🧎‍♂️‍➡️",
       "codePoints": ["1F9CE", "200D", "2642", "FE0F", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1615,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "person with white cane",
       "emoji": "🧑‍🦯",
       "codePoints": ["1F9D1", "200D", "1F9AF"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1621,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "person with white cane facing right",
       "emoji": "🧑‍🦯‍➡️",
       "codePoints": ["1F9D1", "200D", "1F9AF", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1627,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "man with white cane",
       "emoji": "👨‍🦯",
       "codePoints": ["1F468", "200D", "1F9AF"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1633,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "man with white cane facing right",
       "emoji": "👨‍🦯‍➡️",
       "codePoints": ["1F468", "200D", "1F9AF", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1639,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "woman with white cane",
       "emoji": "👩‍🦯",
       "codePoints": ["1F469", "200D", "1F9AF"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1645,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "woman with white cane facing right",
       "emoji": "👩‍🦯‍➡️",
       "codePoints": ["1F469", "200D", "1F9AF", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1651,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "person in motorized wheelchair",
       "emoji": "🧑‍🦼",
       "codePoints": ["1F9D1", "200D", "1F9BC"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1657,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "person in motorized wheelchair facing right",
       "emoji": "🧑‍🦼‍➡️",
       "codePoints": ["1F9D1", "200D", "1F9BC", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1663,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "man in motorized wheelchair",
       "emoji": "👨‍🦼",
       "codePoints": ["1F468", "200D", "1F9BC"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1669,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -604,11 +503,8 @@
       "name": "man in motorized wheelchair facing right",
       "emoji": "👨‍🦼‍➡️",
       "codePoints": ["1F468", "200D", "1F9BC", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1675,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -623,11 +519,8 @@
       "name": "woman in motorized wheelchair",
       "emoji": "👩‍🦼",
       "codePoints": ["1F469", "200D", "1F9BC"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1681,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -642,11 +535,8 @@
       "name": "woman in motorized wheelchair facing right",
       "emoji": "👩‍🦼‍➡️",
       "codePoints": ["1F469", "200D", "1F9BC", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1687,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -661,11 +551,8 @@
       "name": "person in manual wheelchair",
       "emoji": "🧑‍🦽",
       "codePoints": ["1F9D1", "200D", "1F9BD"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1693,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -680,11 +567,8 @@
       "name": "person in manual wheelchair facing right",
       "emoji": "🧑‍🦽‍➡️",
       "codePoints": ["1F9D1", "200D", "1F9BD", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1699,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -699,11 +583,8 @@
       "name": "man in manual wheelchair",
       "emoji": "👨‍🦽",
       "codePoints": ["1F468", "200D", "1F9BD"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1705,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -718,11 +599,8 @@
       "name": "man in manual wheelchair facing right",
       "emoji": "👨‍🦽‍➡️",
       "codePoints": ["1F468", "200D", "1F9BD", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1711,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -737,11 +615,8 @@
       "name": "woman in manual wheelchair",
       "emoji": "👩‍🦽",
       "codePoints": ["1F469", "200D", "1F9BD"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1717,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -756,11 +631,8 @@
       "name": "woman in manual wheelchair facing right",
       "emoji": "👩‍🦽‍➡️",
       "codePoints": ["1F469", "200D", "1F9BD", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1723,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -775,11 +647,8 @@
       "name": "person running",
       "emoji": "🏃",
       "codePoints": ["1F3C3"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1729,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -794,11 +663,8 @@
       "name": "man running",
       "emoji": "🏃‍♂️",
       "codePoints": ["1F3C3", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1735,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -813,11 +679,8 @@
       "name": "woman running",
       "emoji": "🏃‍♀️",
       "codePoints": ["1F3C3", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1741,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -832,11 +695,8 @@
       "name": "person running facing right",
       "emoji": "🏃‍➡️",
       "codePoints": ["1F3C3", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1747,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -851,11 +711,8 @@
       "name": "woman running facing right",
       "emoji": "🏃‍♀️‍➡️",
       "codePoints": ["1F3C3", "200D", "2640", "FE0F", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1753,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -870,11 +727,8 @@
       "name": "man running facing right",
       "emoji": "🏃‍♂️‍➡️",
       "codePoints": ["1F3C3", "200D", "2642", "FE0F", "200D", "27A1", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1759,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -889,11 +743,8 @@
       "name": "ballet dancer",
       "emoji": "🧑‍🩰",
       "codePoints": ["1F9D1", "200D", "1FA70"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1765,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -908,11 +759,8 @@
       "name": "woman dancing",
       "emoji": "💃",
       "codePoints": ["1F483"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1771,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -927,11 +775,8 @@
       "name": "man dancing",
       "emoji": "🕺",
       "codePoints": ["1F57A"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1777,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -946,11 +791,8 @@
       "name": "person in suit levitating",
       "emoji": "🕴️",
       "codePoints": ["1F574", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1783,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -965,11 +807,8 @@
       "name": "people with bunny ears",
       "emoji": "👯",
       "codePoints": ["1F46F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1789,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -984,11 +823,8 @@
       "name": "men with bunny ears",
       "emoji": "👯‍♂️",
       "codePoints": ["1F46F", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1795,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1003,11 +839,8 @@
       "name": "women with bunny ears",
       "emoji": "👯‍♀️",
       "codePoints": ["1F46F", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1801,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1022,11 +855,8 @@
       "name": "person in steamy room",
       "emoji": "🧖",
       "codePoints": ["1F9D6"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1867,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1041,11 +871,8 @@
       "name": "man in steamy room",
       "emoji": "🧖‍♂️",
       "codePoints": ["1F9D6", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1873,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1060,11 +887,8 @@
       "name": "woman in steamy room",
       "emoji": "🧖‍♀️",
       "codePoints": ["1F9D6", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1879,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1079,11 +903,8 @@
       "name": "person climbing",
       "emoji": "🧗",
       "codePoints": ["1F9D7"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1885,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1098,11 +919,8 @@
       "name": "man climbing",
       "emoji": "🧗‍♂️",
       "codePoints": ["1F9D7", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1891,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1117,11 +935,8 @@
       "name": "woman climbing",
       "emoji": "🧗‍♀️",
       "codePoints": ["1F9D7", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1897,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     }
   ]

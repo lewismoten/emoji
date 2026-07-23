@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "objects/light-and-video",
   "image": "objects/light-and-video.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Objects",
   "subGroup": "light & video",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "movie camera",
       "emoji": "🎥",
       "codePoints": ["1F3A5"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3291,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "film frames",
       "emoji": "🎞️",
       "codePoints": ["1F39E", "FE0F"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3292,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "film projector",
       "emoji": "📽️",
       "codePoints": ["1F4FD", "FE0F"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3293,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "clapper board",
       "emoji": "🎬",
       "codePoints": ["1F3AC"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3294,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "television",
       "emoji": "📺",
       "codePoints": ["1F4FA"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3295,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "camera",
       "emoji": "📷",
       "codePoints": ["1F4F7"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3296,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "camera with flash",
       "emoji": "📸",
       "codePoints": ["1F4F8"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3297,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "video camera",
       "emoji": "📹",
       "codePoints": ["1F4F9"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3298,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "videocassette",
       "emoji": "📼",
       "codePoints": ["1F4FC"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3299,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "magnifying glass tilted left",
       "emoji": "🔍",
       "codePoints": ["1F50D"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3300,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "magnifying glass tilted right",
       "emoji": "🔎",
       "codePoints": ["1F50E"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3301,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "candle",
       "emoji": "🕯️",
       "codePoints": ["1F56F", "FE0F"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3302,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "light bulb",
       "emoji": "💡",
       "codePoints": ["1F4A1"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3303,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "flashlight",
       "emoji": "🔦",
       "codePoints": ["1F526"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3304,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "red paper lantern",
       "emoji": "🏮",
       "codePoints": ["1F3EE"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3305,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "diya lamp",
       "emoji": "🪔",
       "codePoints": ["1FA94"],
-      "group": "Objects",
-      "subGroup": "light & video",
       "order": 3306,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

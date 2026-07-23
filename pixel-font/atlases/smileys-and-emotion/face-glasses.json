@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "smileys-and-emotion/face-glasses",
   "image": "smileys-and-emotion/face-glasses.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-glasses",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "smiling face with sunglasses",
       "emoji": "😎",
       "codePoints": ["1F60E"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-glasses",
       "order": 73,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "nerd face",
       "emoji": "🤓",
       "codePoints": ["1F913"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-glasses",
       "order": 74,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "face with monocle",
       "emoji": "🧐",
       "codePoints": ["1F9D0"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-glasses",
       "order": 75,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

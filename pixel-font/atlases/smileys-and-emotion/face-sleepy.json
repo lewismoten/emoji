@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "smileys-and-emotion/face-sleepy",
   "image": "smileys-and-emotion/face-sleepy.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-sleepy",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "relieved face",
       "emoji": "😌",
       "codePoints": ["1F60C"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-sleepy",
       "order": 52,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "pensive face",
       "emoji": "😔",
       "codePoints": ["1F614"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-sleepy",
       "order": 53,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "sleepy face",
       "emoji": "😪",
       "codePoints": ["1F62A"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-sleepy",
       "order": 54,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "drooling face",
       "emoji": "🤤",
       "codePoints": ["1F924"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-sleepy",
       "order": 55,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "sleeping face",
       "emoji": "😴",
       "codePoints": ["1F634"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-sleepy",
       "order": 56,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "face with bags under eyes",
       "emoji": "🫩",
       "codePoints": ["1FAE9"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-sleepy",
       "order": 57,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

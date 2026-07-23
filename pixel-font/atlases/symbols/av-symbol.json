@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "symbols/av-symbol",
   "image": "symbols/av-symbol.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Symbols",
   "subGroup": "av-symbol",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "shuffle tracks button",
       "emoji": "🔀",
       "codePoints": ["1F500"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3532,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "repeat button",
       "emoji": "🔁",
       "codePoints": ["1F501"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3533,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "repeat single button",
       "emoji": "🔂",
       "codePoints": ["1F502"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3534,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "play button",
       "emoji": "▶️",
       "codePoints": ["25B6", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3535,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "fast-forward button",
       "emoji": "⏩",
       "codePoints": ["23E9"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3536,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "next track button",
       "emoji": "⏭️",
       "codePoints": ["23ED", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3537,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "play or pause button",
       "emoji": "⏯️",
       "codePoints": ["23EF", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3538,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "reverse button",
       "emoji": "◀️",
       "codePoints": ["25C0", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3539,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "fast reverse button",
       "emoji": "⏪",
       "codePoints": ["23EA"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3540,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "last track button",
       "emoji": "⏮️",
       "codePoints": ["23EE", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3541,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "upwards button",
       "emoji": "🔼",
       "codePoints": ["1F53C"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3542,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "fast up button",
       "emoji": "⏫",
       "codePoints": ["23EB"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3543,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "downwards button",
       "emoji": "🔽",
       "codePoints": ["1F53D"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3544,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "fast down button",
       "emoji": "⏬",
       "codePoints": ["23EC"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3545,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "pause button",
       "emoji": "⏸️",
       "codePoints": ["23F8", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3546,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "stop button",
       "emoji": "⏹️",
       "codePoints": ["23F9", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3547,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "record button",
       "emoji": "⏺️",
       "codePoints": ["23FA", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3548,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "eject button",
       "emoji": "⏏️",
       "codePoints": ["23CF", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3549,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "cinema",
       "emoji": "🎦",
       "codePoints": ["1F3A6"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3550,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "dim button",
       "emoji": "🔅",
       "codePoints": ["1F505"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3551,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "bright button",
       "emoji": "🔆",
       "codePoints": ["1F506"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3552,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "antenna bars",
       "emoji": "📶",
       "codePoints": ["1F4F6"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3553,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "wireless",
       "emoji": "🛜",
       "codePoints": ["1F6DC"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3554,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "vibration mode",
       "emoji": "📳",
       "codePoints": ["1F4F3"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3555,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "mobile phone off",
       "emoji": "📴",
       "codePoints": ["1F4F4"],
-      "group": "Symbols",
-      "subGroup": "av-symbol",
       "order": 3556,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

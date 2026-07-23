@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "people-and-body/person-role",
   "image": "people-and-body/person-role.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "People & Body",
   "subGroup": "person-role",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 6,
-  "capacity": 96,
   "imageWidth": 272,
   "imageHeight": 160,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "health worker",
       "emoji": "🧑‍⚕️",
       "codePoints": ["1F9D1", "200D", "2695", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 845,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "man health worker",
       "emoji": "👨‍⚕️",
       "codePoints": ["1F468", "200D", "2695", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 851,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "woman health worker",
       "emoji": "👩‍⚕️",
       "codePoints": ["1F469", "200D", "2695", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 857,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "student",
       "emoji": "🧑‍🎓",
       "codePoints": ["1F9D1", "200D", "1F393"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 863,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "man student",
       "emoji": "👨‍🎓",
       "codePoints": ["1F468", "200D", "1F393"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 869,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "woman student",
       "emoji": "👩‍🎓",
       "codePoints": ["1F469", "200D", "1F393"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 875,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "teacher",
       "emoji": "🧑‍🏫",
       "codePoints": ["1F9D1", "200D", "1F3EB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 881,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "man teacher",
       "emoji": "👨‍🏫",
       "codePoints": ["1F468", "200D", "1F3EB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 887,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "woman teacher",
       "emoji": "👩‍🏫",
       "codePoints": ["1F469", "200D", "1F3EB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 893,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "judge",
       "emoji": "🧑‍⚖️",
       "codePoints": ["1F9D1", "200D", "2696", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 899,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "man judge",
       "emoji": "👨‍⚖️",
       "codePoints": ["1F468", "200D", "2696", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 905,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "woman judge",
       "emoji": "👩‍⚖️",
       "codePoints": ["1F469", "200D", "2696", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 911,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "farmer",
       "emoji": "🧑‍🌾",
       "codePoints": ["1F9D1", "200D", "1F33E"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 917,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "man farmer",
       "emoji": "👨‍🌾",
       "codePoints": ["1F468", "200D", "1F33E"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 923,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "woman farmer",
       "emoji": "👩‍🌾",
       "codePoints": ["1F469", "200D", "1F33E"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 929,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "cook",
       "emoji": "🧑‍🍳",
       "codePoints": ["1F9D1", "200D", "1F373"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 935,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "man cook",
       "emoji": "👨‍🍳",
       "codePoints": ["1F468", "200D", "1F373"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 941,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "woman cook",
       "emoji": "👩‍🍳",
       "codePoints": ["1F469", "200D", "1F373"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 947,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "mechanic",
       "emoji": "🧑‍🔧",
       "codePoints": ["1F9D1", "200D", "1F527"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 953,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "man mechanic",
       "emoji": "👨‍🔧",
       "codePoints": ["1F468", "200D", "1F527"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 959,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "woman mechanic",
       "emoji": "👩‍🔧",
       "codePoints": ["1F469", "200D", "1F527"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 965,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "factory worker",
       "emoji": "🧑‍🏭",
       "codePoints": ["1F9D1", "200D", "1F3ED"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 971,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "man factory worker",
       "emoji": "👨‍🏭",
       "codePoints": ["1F468", "200D", "1F3ED"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 977,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "woman factory worker",
       "emoji": "👩‍🏭",
       "codePoints": ["1F469", "200D", "1F3ED"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 983,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "office worker",
       "emoji": "🧑‍💼",
       "codePoints": ["1F9D1", "200D", "1F4BC"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 989,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "man office worker",
       "emoji": "👨‍💼",
       "codePoints": ["1F468", "200D", "1F4BC"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 995,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "woman office worker",
       "emoji": "👩‍💼",
       "codePoints": ["1F469", "200D", "1F4BC"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1001,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "scientist",
       "emoji": "🧑‍🔬",
       "codePoints": ["1F9D1", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1007,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "man scientist",
       "emoji": "👨‍🔬",
       "codePoints": ["1F468", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1013,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "woman scientist",
       "emoji": "👩‍🔬",
       "codePoints": ["1F469", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1019,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -604,11 +503,8 @@
       "name": "technologist",
       "emoji": "🧑‍💻",
       "codePoints": ["1F9D1", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1025,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -623,11 +519,8 @@
       "name": "man technologist",
       "emoji": "👨‍💻",
       "codePoints": ["1F468", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1031,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -642,11 +535,8 @@
       "name": "woman technologist",
       "emoji": "👩‍💻",
       "codePoints": ["1F469", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1037,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -661,11 +551,8 @@
       "name": "singer",
       "emoji": "🧑‍🎤",
       "codePoints": ["1F9D1", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1043,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -680,11 +567,8 @@
       "name": "man singer",
       "emoji": "👨‍🎤",
       "codePoints": ["1F468", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1049,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -699,11 +583,8 @@
       "name": "woman singer",
       "emoji": "👩‍🎤",
       "codePoints": ["1F469", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1055,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -718,11 +599,8 @@
       "name": "artist",
       "emoji": "🧑‍🎨",
       "codePoints": ["1F9D1", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1061,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -737,11 +615,8 @@
       "name": "man artist",
       "emoji": "👨‍🎨",
       "codePoints": ["1F468", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1067,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -756,11 +631,8 @@
       "name": "woman artist",
       "emoji": "👩‍🎨",
       "codePoints": ["1F469", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1073,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -775,11 +647,8 @@
       "name": "pilot",
       "emoji": "🧑‍✈️",
       "codePoints": ["1F9D1", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1079,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -794,11 +663,8 @@
       "name": "man pilot",
       "emoji": "👨‍✈️",
       "codePoints": ["1F468", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1085,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -813,11 +679,8 @@
       "name": "woman pilot",
       "emoji": "👩‍✈️",
       "codePoints": ["1F469", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1091,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -832,11 +695,8 @@
       "name": "astronaut",
       "emoji": "🧑‍🚀",
       "codePoints": ["1F9D1", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1097,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -851,11 +711,8 @@
       "name": "man astronaut",
       "emoji": "👨‍🚀",
       "codePoints": ["1F468", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1103,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -870,11 +727,8 @@
       "name": "woman astronaut",
       "emoji": "👩‍🚀",
       "codePoints": ["1F469", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1109,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -889,11 +743,8 @@
       "name": "firefighter",
       "emoji": "🧑‍🚒",
       "codePoints": ["1F9D1", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1115,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -908,11 +759,8 @@
       "name": "man firefighter",
       "emoji": "👨‍🚒",
       "codePoints": ["1F468", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1121,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -927,11 +775,8 @@
       "name": "woman firefighter",
       "emoji": "👩‍🚒",
       "codePoints": ["1F469", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1127,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -946,11 +791,8 @@
       "name": "police officer",
       "emoji": "👮",
       "codePoints": ["1F46E"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1133,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -965,11 +807,8 @@
       "name": "man police officer",
       "emoji": "👮‍♂️",
       "codePoints": ["1F46E", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1139,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -984,11 +823,8 @@
       "name": "woman police officer",
       "emoji": "👮‍♀️",
       "codePoints": ["1F46E", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1145,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1003,11 +839,8 @@
       "name": "detective",
       "emoji": "🕵️",
       "codePoints": ["1F575", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1151,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1022,11 +855,8 @@
       "name": "man detective",
       "emoji": "🕵️‍♂️",
       "codePoints": ["1F575", "FE0F", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1157,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1041,11 +871,8 @@
       "name": "woman detective",
       "emoji": "🕵️‍♀️",
       "codePoints": ["1F575", "FE0F", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1163,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1060,11 +887,8 @@
       "name": "guard",
       "emoji": "💂",
       "codePoints": ["1F482"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1169,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1079,11 +903,8 @@
       "name": "man guard",
       "emoji": "💂‍♂️",
       "codePoints": ["1F482", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1175,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1098,11 +919,8 @@
       "name": "woman guard",
       "emoji": "💂‍♀️",
       "codePoints": ["1F482", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1181,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1117,11 +935,8 @@
       "name": "ninja",
       "emoji": "🥷",
       "codePoints": ["1F977"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1187,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1136,11 +951,8 @@
       "name": "construction worker",
       "emoji": "👷",
       "codePoints": ["1F477"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1193,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1155,11 +967,8 @@
       "name": "man construction worker",
       "emoji": "👷‍♂️",
       "codePoints": ["1F477", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1199,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1174,11 +983,8 @@
       "name": "woman construction worker",
       "emoji": "👷‍♀️",
       "codePoints": ["1F477", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1205,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1193,11 +999,8 @@
       "name": "person with crown",
       "emoji": "🫅",
       "codePoints": ["1FAC5"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1211,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1212,11 +1015,8 @@
       "name": "prince",
       "emoji": "🤴",
       "codePoints": ["1F934"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1217,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1231,11 +1031,8 @@
       "name": "princess",
       "emoji": "👸",
       "codePoints": ["1F478"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1223,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1250,11 +1047,8 @@
       "name": "person wearing turban",
       "emoji": "👳",
       "codePoints": ["1F473"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1229,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1269,11 +1063,8 @@
       "name": "man wearing turban",
       "emoji": "👳‍♂️",
       "codePoints": ["1F473", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1235,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1288,11 +1079,8 @@
       "name": "woman wearing turban",
       "emoji": "👳‍♀️",
       "codePoints": ["1F473", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1241,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1307,11 +1095,8 @@
       "name": "person with skullcap",
       "emoji": "👲",
       "codePoints": ["1F472"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1247,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1326,11 +1111,8 @@
       "name": "woman with headscarf",
       "emoji": "🧕",
       "codePoints": ["1F9D5"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1253,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1345,11 +1127,8 @@
       "name": "person in tuxedo",
       "emoji": "🤵",
       "codePoints": ["1F935"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1259,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1364,11 +1143,8 @@
       "name": "man in tuxedo",
       "emoji": "🤵‍♂️",
       "codePoints": ["1F935", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1265,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1383,11 +1159,8 @@
       "name": "woman in tuxedo",
       "emoji": "🤵‍♀️",
       "codePoints": ["1F935", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1271,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1402,11 +1175,8 @@
       "name": "person with veil",
       "emoji": "👰",
       "codePoints": ["1F470"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1277,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1421,11 +1191,8 @@
       "name": "man with veil",
       "emoji": "👰‍♂️",
       "codePoints": ["1F470", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1283,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1440,11 +1207,8 @@
       "name": "woman with veil",
       "emoji": "👰‍♀️",
       "codePoints": ["1F470", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1289,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1459,11 +1223,8 @@
       "name": "pregnant woman",
       "emoji": "🤰",
       "codePoints": ["1F930"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1295,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1478,11 +1239,8 @@
       "name": "pregnant man",
       "emoji": "🫃",
       "codePoints": ["1FAC3"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1301,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1497,11 +1255,8 @@
       "name": "pregnant person",
       "emoji": "🫄",
       "codePoints": ["1FAC4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1307,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1516,11 +1271,8 @@
       "name": "breast-feeding",
       "emoji": "🤱",
       "codePoints": ["1F931"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1313,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1535,11 +1287,8 @@
       "name": "woman feeding baby",
       "emoji": "👩‍🍼",
       "codePoints": ["1F469", "200D", "1F37C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1319,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1554,11 +1303,8 @@
       "name": "man feeding baby",
       "emoji": "👨‍🍼",
       "codePoints": ["1F468", "200D", "1F37C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1325,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -1573,11 +1319,8 @@
       "name": "person feeding baby",
       "emoji": "🧑‍🍼",
       "codePoints": ["1F9D1", "200D", "1F37C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1331,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     }
   ]

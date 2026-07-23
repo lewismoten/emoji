@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "travel-and-places/transport-ground",
   "image": "travel-and-places/transport-ground.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "transport-ground",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 4,
-  "capacity": 64,
   "imageWidth": 272,
   "imageHeight": 128,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "locomotive",
       "emoji": "🚂",
       "codePoints": ["1F682"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2956,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "railway car",
       "emoji": "🚃",
       "codePoints": ["1F683"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2957,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "high-speed train",
       "emoji": "🚄",
       "codePoints": ["1F684"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2958,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "bullet train",
       "emoji": "🚅",
       "codePoints": ["1F685"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2959,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "train",
       "emoji": "🚆",
       "codePoints": ["1F686"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2960,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "metro",
       "emoji": "🚇",
       "codePoints": ["1F687"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2961,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "light rail",
       "emoji": "🚈",
       "codePoints": ["1F688"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2962,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "station",
       "emoji": "🚉",
       "codePoints": ["1F689"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2963,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "tram",
       "emoji": "🚊",
       "codePoints": ["1F68A"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2964,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "monorail",
       "emoji": "🚝",
       "codePoints": ["1F69D"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2965,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "mountain railway",
       "emoji": "🚞",
       "codePoints": ["1F69E"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2966,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "tram car",
       "emoji": "🚋",
       "codePoints": ["1F68B"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2967,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "bus",
       "emoji": "🚌",
       "codePoints": ["1F68C"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2968,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "oncoming bus",
       "emoji": "🚍",
       "codePoints": ["1F68D"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2969,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "trolleybus",
       "emoji": "🚎",
       "codePoints": ["1F68E"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2970,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "minibus",
       "emoji": "🚐",
       "codePoints": ["1F690"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2971,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "ambulance",
       "emoji": "🚑",
       "codePoints": ["1F691"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2972,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "fire engine",
       "emoji": "🚒",
       "codePoints": ["1F692"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2973,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "police car",
       "emoji": "🚓",
       "codePoints": ["1F693"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2974,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "oncoming police car",
       "emoji": "🚔",
       "codePoints": ["1F694"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2975,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "taxi",
       "emoji": "🚕",
       "codePoints": ["1F695"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2976,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "oncoming taxi",
       "emoji": "🚖",
       "codePoints": ["1F696"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2977,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "automobile",
       "emoji": "🚗",
       "codePoints": ["1F697"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2978,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "oncoming automobile",
       "emoji": "🚘",
       "codePoints": ["1F698"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2979,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "sport utility vehicle",
       "emoji": "🚙",
       "codePoints": ["1F699"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2980,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "pickup truck",
       "emoji": "🛻",
       "codePoints": ["1F6FB"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2981,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "delivery truck",
       "emoji": "🚚",
       "codePoints": ["1F69A"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2982,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "articulated lorry",
       "emoji": "🚛",
       "codePoints": ["1F69B"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2983,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "tractor",
       "emoji": "🚜",
       "codePoints": ["1F69C"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2984,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "racing car",
       "emoji": "🏎️",
       "codePoints": ["1F3CE", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2985,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -604,11 +503,8 @@
       "name": "motorcycle",
       "emoji": "🏍️",
       "codePoints": ["1F3CD", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2986,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -623,11 +519,8 @@
       "name": "motor scooter",
       "emoji": "🛵",
       "codePoints": ["1F6F5"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2987,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -642,11 +535,8 @@
       "name": "manual wheelchair",
       "emoji": "🦽",
       "codePoints": ["1F9BD"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2988,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -661,11 +551,8 @@
       "name": "motorized wheelchair",
       "emoji": "🦼",
       "codePoints": ["1F9BC"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2989,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -680,11 +567,8 @@
       "name": "auto rickshaw",
       "emoji": "🛺",
       "codePoints": ["1F6FA"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2990,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -699,11 +583,8 @@
       "name": "bicycle",
       "emoji": "🚲",
       "codePoints": ["1F6B2"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2991,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -718,11 +599,8 @@
       "name": "kick scooter",
       "emoji": "🛴",
       "codePoints": ["1F6F4"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2992,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -737,11 +615,8 @@
       "name": "skateboard",
       "emoji": "🛹",
       "codePoints": ["1F6F9"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2993,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -756,11 +631,8 @@
       "name": "roller skate",
       "emoji": "🛼",
       "codePoints": ["1F6FC"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2994,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -775,11 +647,8 @@
       "name": "bus stop",
       "emoji": "🚏",
       "codePoints": ["1F68F"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2995,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -794,11 +663,8 @@
       "name": "motorway",
       "emoji": "🛣️",
       "codePoints": ["1F6E3", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2996,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -813,11 +679,8 @@
       "name": "railway track",
       "emoji": "🛤️",
       "codePoints": ["1F6E4", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2997,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -832,11 +695,8 @@
       "name": "oil drum",
       "emoji": "🛢️",
       "codePoints": ["1F6E2", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2998,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -851,11 +711,8 @@
       "name": "fuel pump",
       "emoji": "⛽",
       "codePoints": ["26FD"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 2999,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -870,11 +727,8 @@
       "name": "wheel",
       "emoji": "🛞",
       "codePoints": ["1F6DE"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 3000,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -889,11 +743,8 @@
       "name": "police car light",
       "emoji": "🚨",
       "codePoints": ["1F6A8"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 3001,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -908,11 +759,8 @@
       "name": "horizontal traffic light",
       "emoji": "🚥",
       "codePoints": ["1F6A5"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 3002,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -927,11 +775,8 @@
       "name": "vertical traffic light",
       "emoji": "🚦",
       "codePoints": ["1F6A6"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 3003,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -946,11 +791,8 @@
       "name": "stop sign",
       "emoji": "🛑",
       "codePoints": ["1F6D1"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 3004,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -965,11 +807,8 @@
       "name": "construction",
       "emoji": "🚧",
       "codePoints": ["1F6A7"],
-      "group": "Travel & Places",
-      "subGroup": "transport-ground",
       "order": 3005,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "smileys-and-emotion/face-hand",
   "image": "smileys-and-emotion/face-hand.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-hand",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "smiling face with open hands",
       "emoji": "🤗",
       "codePoints": ["1F917"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-hand",
       "order": 29,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "face with hand over mouth",
       "emoji": "🤭",
       "codePoints": ["1F92D"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-hand",
       "order": 30,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "face with open eyes and hand over mouth",
       "emoji": "🫢",
       "codePoints": ["1FAE2"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-hand",
       "order": 31,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "face with peeking eye",
       "emoji": "🫣",
       "codePoints": ["1FAE3"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-hand",
       "order": 32,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "shushing face",
       "emoji": "🤫",
       "codePoints": ["1F92B"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-hand",
       "order": 33,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "thinking face",
       "emoji": "🤔",
       "codePoints": ["1F914"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-hand",
       "order": 34,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "saluting face",
       "emoji": "🫡",
       "codePoints": ["1FAE1"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-hand",
       "order": 35,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

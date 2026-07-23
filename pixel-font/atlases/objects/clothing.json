@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "objects/clothing",
   "image": "objects/clothing.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Objects",
   "subGroup": "clothing",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 3,
-  "capacity": 48,
   "imageWidth": 272,
   "imageHeight": 112,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "glasses",
       "emoji": "👓",
       "codePoints": ["1F453"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3193,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "sunglasses",
       "emoji": "🕶️",
       "codePoints": ["1F576", "FE0F"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3194,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "goggles",
       "emoji": "🥽",
       "codePoints": ["1F97D"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3195,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "lab coat",
       "emoji": "🥼",
       "codePoints": ["1F97C"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3196,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "safety vest",
       "emoji": "🦺",
       "codePoints": ["1F9BA"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3197,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "necktie",
       "emoji": "👔",
       "codePoints": ["1F454"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3198,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "t-shirt",
       "emoji": "👕",
       "codePoints": ["1F455"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3199,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "jeans",
       "emoji": "👖",
       "codePoints": ["1F456"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3200,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "scarf",
       "emoji": "🧣",
       "codePoints": ["1F9E3"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3201,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "gloves",
       "emoji": "🧤",
       "codePoints": ["1F9E4"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3202,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "coat",
       "emoji": "🧥",
       "codePoints": ["1F9E5"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3203,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "socks",
       "emoji": "🧦",
       "codePoints": ["1F9E6"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3204,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "dress",
       "emoji": "👗",
       "codePoints": ["1F457"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3205,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "kimono",
       "emoji": "👘",
       "codePoints": ["1F458"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3206,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "sari",
       "emoji": "🥻",
       "codePoints": ["1F97B"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3207,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "one-piece swimsuit",
       "emoji": "🩱",
       "codePoints": ["1FA71"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3208,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "briefs",
       "emoji": "🩲",
       "codePoints": ["1FA72"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3209,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "shorts",
       "emoji": "🩳",
       "codePoints": ["1FA73"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3210,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "bikini",
       "emoji": "👙",
       "codePoints": ["1F459"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3211,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "woman’s clothes",
       "emoji": "👚",
       "codePoints": ["1F45A"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3212,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "folding hand fan",
       "emoji": "🪭",
       "codePoints": ["1FAAD"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3213,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "purse",
       "emoji": "👛",
       "codePoints": ["1F45B"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3214,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "handbag",
       "emoji": "👜",
       "codePoints": ["1F45C"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3215,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "clutch bag",
       "emoji": "👝",
       "codePoints": ["1F45D"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3216,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "shopping bags",
       "emoji": "🛍️",
       "codePoints": ["1F6CD", "FE0F"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3217,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "backpack",
       "emoji": "🎒",
       "codePoints": ["1F392"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3218,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "thong sandal",
       "emoji": "🩴",
       "codePoints": ["1FA74"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3219,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "man’s shoe",
       "emoji": "👞",
       "codePoints": ["1F45E"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3220,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "running shoe",
       "emoji": "👟",
       "codePoints": ["1F45F"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3221,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "hiking boot",
       "emoji": "🥾",
       "codePoints": ["1F97E"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3222,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -604,11 +503,8 @@
       "name": "flat shoe",
       "emoji": "🥿",
       "codePoints": ["1F97F"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3223,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -623,11 +519,8 @@
       "name": "high-heeled shoe",
       "emoji": "👠",
       "codePoints": ["1F460"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3224,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -642,11 +535,8 @@
       "name": "woman’s sandal",
       "emoji": "👡",
       "codePoints": ["1F461"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3225,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -661,11 +551,8 @@
       "name": "ballet shoes",
       "emoji": "🩰",
       "codePoints": ["1FA70"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3226,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -680,11 +567,8 @@
       "name": "woman’s boot",
       "emoji": "👢",
       "codePoints": ["1F462"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3227,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -699,11 +583,8 @@
       "name": "hair pick",
       "emoji": "🪮",
       "codePoints": ["1FAAE"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3228,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -718,11 +599,8 @@
       "name": "crown",
       "emoji": "👑",
       "codePoints": ["1F451"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3229,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -737,11 +615,8 @@
       "name": "woman’s hat",
       "emoji": "👒",
       "codePoints": ["1F452"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3230,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -756,11 +631,8 @@
       "name": "top hat",
       "emoji": "🎩",
       "codePoints": ["1F3A9"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3231,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -775,11 +647,8 @@
       "name": "graduation cap",
       "emoji": "🎓",
       "codePoints": ["1F393"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3232,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -794,11 +663,8 @@
       "name": "billed cap",
       "emoji": "🧢",
       "codePoints": ["1F9E2"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3233,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -813,11 +679,8 @@
       "name": "military helmet",
       "emoji": "🪖",
       "codePoints": ["1FA96"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3234,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -832,11 +695,8 @@
       "name": "rescue worker’s helmet",
       "emoji": "⛑️",
       "codePoints": ["26D1", "FE0F"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3235,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -851,11 +711,8 @@
       "name": "prayer beads",
       "emoji": "📿",
       "codePoints": ["1F4FF"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3236,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -870,11 +727,8 @@
       "name": "lipstick",
       "emoji": "💄",
       "codePoints": ["1F484"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3237,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -889,11 +743,8 @@
       "name": "ring",
       "emoji": "💍",
       "codePoints": ["1F48D"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3238,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -908,11 +759,8 @@
       "name": "gem stone",
       "emoji": "💎",
       "codePoints": ["1F48E"],
-      "group": "Objects",
-      "subGroup": "clothing",
       "order": 3239,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

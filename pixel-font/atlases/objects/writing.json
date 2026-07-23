@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "objects/writing",
   "image": "objects/writing.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Objects",
   "subGroup": "writing",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "pencil",
       "emoji": "✏️",
       "codePoints": ["270F", "FE0F"],
-      "group": "Objects",
-      "subGroup": "writing",
       "order": 3348,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "black nib",
       "emoji": "✒️",
       "codePoints": ["2712", "FE0F"],
-      "group": "Objects",
-      "subGroup": "writing",
       "order": 3349,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "fountain pen",
       "emoji": "🖋️",
       "codePoints": ["1F58B", "FE0F"],
-      "group": "Objects",
-      "subGroup": "writing",
       "order": 3350,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "pen",
       "emoji": "🖊️",
       "codePoints": ["1F58A", "FE0F"],
-      "group": "Objects",
-      "subGroup": "writing",
       "order": 3351,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "paintbrush",
       "emoji": "🖌️",
       "codePoints": ["1F58C", "FE0F"],
-      "group": "Objects",
-      "subGroup": "writing",
       "order": 3352,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "crayon",
       "emoji": "🖍️",
       "codePoints": ["1F58D", "FE0F"],
-      "group": "Objects",
-      "subGroup": "writing",
       "order": 3353,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "memo",
       "emoji": "📝",
       "codePoints": ["1F4DD"],
-      "group": "Objects",
-      "subGroup": "writing",
       "order": 3354,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

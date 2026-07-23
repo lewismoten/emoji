@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "objects/money",
   "image": "objects/money.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Objects",
   "subGroup": "money",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "coin",
       "emoji": "🪙",
       "codePoints": ["1FA99"],
-      "group": "Objects",
-      "subGroup": "money",
       "order": 3324,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "money bag",
       "emoji": "💰",
       "codePoints": ["1F4B0"],
-      "group": "Objects",
-      "subGroup": "money",
       "order": 3325,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "treasure chest",
       "emoji": "🪎",
       "codePoints": ["1FA8E"],
-      "group": "Objects",
-      "subGroup": "money",
       "order": 3326,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "yen banknote",
       "emoji": "💴",
       "codePoints": ["1F4B4"],
-      "group": "Objects",
-      "subGroup": "money",
       "order": 3327,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "dollar banknote",
       "emoji": "💵",
       "codePoints": ["1F4B5"],
-      "group": "Objects",
-      "subGroup": "money",
       "order": 3328,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "euro banknote",
       "emoji": "💶",
       "codePoints": ["1F4B6"],
-      "group": "Objects",
-      "subGroup": "money",
       "order": 3329,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "pound banknote",
       "emoji": "💷",
       "codePoints": ["1F4B7"],
-      "group": "Objects",
-      "subGroup": "money",
       "order": 3330,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "money with wings",
       "emoji": "💸",
       "codePoints": ["1F4B8"],
-      "group": "Objects",
-      "subGroup": "money",
       "order": 3331,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "credit card",
       "emoji": "💳",
       "codePoints": ["1F4B3"],
-      "group": "Objects",
-      "subGroup": "money",
       "order": 3332,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "receipt",
       "emoji": "🧾",
       "codePoints": ["1F9FE"],
-      "group": "Objects",
-      "subGroup": "money",
       "order": 3333,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "chart increasing with yen",
       "emoji": "💹",
       "codePoints": ["1F4B9"],
-      "group": "Objects",
-      "subGroup": "money",
       "order": 3334,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "objects/other-object",
   "image": "objects/other-object.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Objects",
   "subGroup": "other-object",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "cigarette",
       "emoji": "🚬",
       "codePoints": ["1F6AC"],
-      "group": "Objects",
-      "subGroup": "other-object",
       "order": 3450,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "coffin",
       "emoji": "⚰️",
       "codePoints": ["26B0", "FE0F"],
-      "group": "Objects",
-      "subGroup": "other-object",
       "order": 3451,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "headstone",
       "emoji": "🪦",
       "codePoints": ["1FAA6"],
-      "group": "Objects",
-      "subGroup": "other-object",
       "order": 3452,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "funeral urn",
       "emoji": "⚱️",
       "codePoints": ["26B1", "FE0F"],
-      "group": "Objects",
-      "subGroup": "other-object",
       "order": 3453,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "nazar amulet",
       "emoji": "🧿",
       "codePoints": ["1F9FF"],
-      "group": "Objects",
-      "subGroup": "other-object",
       "order": 3454,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "hamsa",
       "emoji": "🪬",
       "codePoints": ["1FAAC"],
-      "group": "Objects",
-      "subGroup": "other-object",
       "order": 3455,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "moai",
       "emoji": "🗿",
       "codePoints": ["1F5FF"],
-      "group": "Objects",
-      "subGroup": "other-object",
       "order": 3456,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "placard",
       "emoji": "🪧",
       "codePoints": ["1FAA7"],
-      "group": "Objects",
-      "subGroup": "other-object",
       "order": 3457,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "identification card",
       "emoji": "🪪",
       "codePoints": ["1FAAA"],
-      "group": "Objects",
-      "subGroup": "other-object",
       "order": 3458,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

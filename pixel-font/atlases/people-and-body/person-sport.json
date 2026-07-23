@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "people-and-body/person-sport",
   "image": "people-and-body/person-sport.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "People & Body",
   "subGroup": "person-sport",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 3,
-  "capacity": 48,
   "imageWidth": 272,
   "imageHeight": 112,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "person fencing",
       "emoji": "🤺",
       "codePoints": ["1F93A"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1903,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "horse racing",
       "emoji": "🏇",
       "codePoints": ["1F3C7"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1904,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "skier",
       "emoji": "⛷️",
       "codePoints": ["26F7", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1910,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "snowboarder",
       "emoji": "🏂",
       "codePoints": ["1F3C2"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1911,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "person golfing",
       "emoji": "🏌️",
       "codePoints": ["1F3CC", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1917,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "man golfing",
       "emoji": "🏌️‍♂️",
       "codePoints": ["1F3CC", "FE0F", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1923,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "woman golfing",
       "emoji": "🏌️‍♀️",
       "codePoints": ["1F3CC", "FE0F", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1929,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "person surfing",
       "emoji": "🏄",
       "codePoints": ["1F3C4"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1935,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "man surfing",
       "emoji": "🏄‍♂️",
       "codePoints": ["1F3C4", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1941,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "woman surfing",
       "emoji": "🏄‍♀️",
       "codePoints": ["1F3C4", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1947,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "person rowing boat",
       "emoji": "🚣",
       "codePoints": ["1F6A3"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1953,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "man rowing boat",
       "emoji": "🚣‍♂️",
       "codePoints": ["1F6A3", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1959,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "woman rowing boat",
       "emoji": "🚣‍♀️",
       "codePoints": ["1F6A3", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1965,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "person swimming",
       "emoji": "🏊",
       "codePoints": ["1F3CA"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1971,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "man swimming",
       "emoji": "🏊‍♂️",
       "codePoints": ["1F3CA", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1977,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "woman swimming",
       "emoji": "🏊‍♀️",
       "codePoints": ["1F3CA", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1983,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "person bouncing ball",
       "emoji": "⛹️",
       "codePoints": ["26F9", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1989,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "man bouncing ball",
       "emoji": "⛹️‍♂️",
       "codePoints": ["26F9", "FE0F", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 1995,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "woman bouncing ball",
       "emoji": "⛹️‍♀️",
       "codePoints": ["26F9", "FE0F", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2001,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "person lifting weights",
       "emoji": "🏋️",
       "codePoints": ["1F3CB", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2007,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "man lifting weights",
       "emoji": "🏋️‍♂️",
       "codePoints": ["1F3CB", "FE0F", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2013,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "woman lifting weights",
       "emoji": "🏋️‍♀️",
       "codePoints": ["1F3CB", "FE0F", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2019,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "person biking",
       "emoji": "🚴",
       "codePoints": ["1F6B4"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2025,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "man biking",
       "emoji": "🚴‍♂️",
       "codePoints": ["1F6B4", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2031,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "woman biking",
       "emoji": "🚴‍♀️",
       "codePoints": ["1F6B4", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2037,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "person mountain biking",
       "emoji": "🚵",
       "codePoints": ["1F6B5"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2043,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "man mountain biking",
       "emoji": "🚵‍♂️",
       "codePoints": ["1F6B5", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2049,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "woman mountain biking",
       "emoji": "🚵‍♀️",
       "codePoints": ["1F6B5", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2055,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "person cartwheeling",
       "emoji": "🤸",
       "codePoints": ["1F938"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2061,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "man cartwheeling",
       "emoji": "🤸‍♂️",
       "codePoints": ["1F938", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2067,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -604,11 +503,8 @@
       "name": "woman cartwheeling",
       "emoji": "🤸‍♀️",
       "codePoints": ["1F938", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2073,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -623,11 +519,8 @@
       "name": "people wrestling",
       "emoji": "🤼",
       "codePoints": ["1F93C"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2079,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -642,11 +535,8 @@
       "name": "men wrestling",
       "emoji": "🤼‍♂️",
       "codePoints": ["1F93C", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2085,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -661,11 +551,8 @@
       "name": "women wrestling",
       "emoji": "🤼‍♀️",
       "codePoints": ["1F93C", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2091,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -680,11 +567,8 @@
       "name": "person playing water polo",
       "emoji": "🤽",
       "codePoints": ["1F93D"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2157,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -699,11 +583,8 @@
       "name": "man playing water polo",
       "emoji": "🤽‍♂️",
       "codePoints": ["1F93D", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2163,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -718,11 +599,8 @@
       "name": "woman playing water polo",
       "emoji": "🤽‍♀️",
       "codePoints": ["1F93D", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2169,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -737,11 +615,8 @@
       "name": "person playing handball",
       "emoji": "🤾",
       "codePoints": ["1F93E"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2175,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -756,11 +631,8 @@
       "name": "man playing handball",
       "emoji": "🤾‍♂️",
       "codePoints": ["1F93E", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2181,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -775,11 +647,8 @@
       "name": "woman playing handball",
       "emoji": "🤾‍♀️",
       "codePoints": ["1F93E", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2187,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -794,11 +663,8 @@
       "name": "person juggling",
       "emoji": "🤹",
       "codePoints": ["1F939"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2193,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -813,11 +679,8 @@
       "name": "man juggling",
       "emoji": "🤹‍♂️",
       "codePoints": ["1F939", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2199,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -832,11 +695,8 @@
       "name": "woman juggling",
       "emoji": "🤹‍♀️",
       "codePoints": ["1F939", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2205,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     }
   ]

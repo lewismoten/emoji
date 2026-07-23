@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "people-and-body/body-parts",
   "image": "people-and-body/body-parts.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "People & Body",
   "subGroup": "body-parts",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "flexed biceps",
       "emoji": "💪",
       "codePoints": ["1F4AA"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 449,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "mechanical arm",
       "emoji": "🦾",
       "codePoints": ["1F9BE"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 455,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "mechanical leg",
       "emoji": "🦿",
       "codePoints": ["1F9BF"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 456,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "leg",
       "emoji": "🦵",
       "codePoints": ["1F9B5"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 457,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "foot",
       "emoji": "🦶",
       "codePoints": ["1F9B6"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 463,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "ear",
       "emoji": "👂",
       "codePoints": ["1F442"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 469,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "ear with hearing aid",
       "emoji": "🦻",
       "codePoints": ["1F9BB"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 475,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "nose",
       "emoji": "👃",
       "codePoints": ["1F443"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 481,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "brain",
       "emoji": "🧠",
       "codePoints": ["1F9E0"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 487,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "anatomical heart",
       "emoji": "🫀",
       "codePoints": ["1FAC0"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 488,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "lungs",
       "emoji": "🫁",
       "codePoints": ["1FAC1"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 489,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "tooth",
       "emoji": "🦷",
       "codePoints": ["1F9B7"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 490,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "bone",
       "emoji": "🦴",
       "codePoints": ["1F9B4"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 491,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "eyes",
       "emoji": "👀",
       "codePoints": ["1F440"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 492,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "eye",
       "emoji": "👁️",
       "codePoints": ["1F441", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 493,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "tongue",
       "emoji": "👅",
       "codePoints": ["1F445"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 494,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "mouth",
       "emoji": "👄",
       "codePoints": ["1F444"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 495,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "biting lip",
       "emoji": "🫦",
       "codePoints": ["1FAE6"],
-      "group": "People & Body",
-      "subGroup": "body-parts",
       "order": 496,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

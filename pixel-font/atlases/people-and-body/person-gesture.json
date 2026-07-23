@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "people-and-body/person-gesture",
   "image": "people-and-body/person-gesture.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "People & Body",
   "subGroup": "person-gesture",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "person frowning",
       "emoji": "🙍",
       "codePoints": ["1F64D"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 665,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "man frowning",
       "emoji": "🙍‍♂️",
       "codePoints": ["1F64D", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 671,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "woman frowning",
       "emoji": "🙍‍♀️",
       "codePoints": ["1F64D", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 677,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "person pouting",
       "emoji": "🙎",
       "codePoints": ["1F64E"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 683,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "man pouting",
       "emoji": "🙎‍♂️",
       "codePoints": ["1F64E", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 689,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "woman pouting",
       "emoji": "🙎‍♀️",
       "codePoints": ["1F64E", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 695,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "person gesturing NO",
       "emoji": "🙅",
       "codePoints": ["1F645"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 701,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "man gesturing NO",
       "emoji": "🙅‍♂️",
       "codePoints": ["1F645", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 707,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "woman gesturing NO",
       "emoji": "🙅‍♀️",
       "codePoints": ["1F645", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 713,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "person gesturing OK",
       "emoji": "🙆",
       "codePoints": ["1F646"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 719,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "man gesturing OK",
       "emoji": "🙆‍♂️",
       "codePoints": ["1F646", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 725,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "woman gesturing OK",
       "emoji": "🙆‍♀️",
       "codePoints": ["1F646", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 731,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "person tipping hand",
       "emoji": "💁",
       "codePoints": ["1F481"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 737,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "man tipping hand",
       "emoji": "💁‍♂️",
       "codePoints": ["1F481", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 743,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "woman tipping hand",
       "emoji": "💁‍♀️",
       "codePoints": ["1F481", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 749,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "person raising hand",
       "emoji": "🙋",
       "codePoints": ["1F64B"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 755,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "man raising hand",
       "emoji": "🙋‍♂️",
       "codePoints": ["1F64B", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 761,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "woman raising hand",
       "emoji": "🙋‍♀️",
       "codePoints": ["1F64B", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 767,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "deaf person",
       "emoji": "🧏",
       "codePoints": ["1F9CF"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 773,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "deaf man",
       "emoji": "🧏‍♂️",
       "codePoints": ["1F9CF", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 779,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "deaf woman",
       "emoji": "🧏‍♀️",
       "codePoints": ["1F9CF", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 785,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "person bowing",
       "emoji": "🙇",
       "codePoints": ["1F647"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 791,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "man bowing",
       "emoji": "🙇‍♂️",
       "codePoints": ["1F647", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 797,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "woman bowing",
       "emoji": "🙇‍♀️",
       "codePoints": ["1F647", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 803,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "person facepalming",
       "emoji": "🤦",
       "codePoints": ["1F926"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 809,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "man facepalming",
       "emoji": "🤦‍♂️",
       "codePoints": ["1F926", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 815,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "woman facepalming",
       "emoji": "🤦‍♀️",
       "codePoints": ["1F926", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 821,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "person shrugging",
       "emoji": "🤷",
       "codePoints": ["1F937"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 827,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "man shrugging",
       "emoji": "🤷‍♂️",
       "codePoints": ["1F937", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 833,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "woman shrugging",
       "emoji": "🤷‍♀️",
       "codePoints": ["1F937", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-gesture",
       "order": 839,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     }
   ]

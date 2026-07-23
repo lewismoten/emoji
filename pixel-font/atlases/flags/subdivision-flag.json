@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "flags/subdivision-flag",
   "image": "flags/subdivision-flag.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Flags",
   "subGroup": "subdivision-flag",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -42,11 +31,8 @@
         "E0067",
         "E007F"
       ],
-      "group": "Flags",
-      "subGroup": "subdivision-flag",
       "order": 3950,
       "sequenceType": "tag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -69,11 +55,8 @@
         "E0074",
         "E007F"
       ],
-      "group": "Flags",
-      "subGroup": "subdivision-flag",
       "order": 3951,
       "sequenceType": "tag",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -96,11 +79,8 @@
         "E0073",
         "E007F"
       ],
-      "group": "Flags",
-      "subGroup": "subdivision-flag",
       "order": 3952,
       "sequenceType": "tag",
-      "modifierType": "base",
       "active": true
     }
   ]

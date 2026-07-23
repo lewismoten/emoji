@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "travel-and-places/place-building",
   "image": "travel-and-places/place-building.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "place-building",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "stadium",
       "emoji": "🏟️",
       "codePoints": ["1F3DF", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2906,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "classical building",
       "emoji": "🏛️",
       "codePoints": ["1F3DB", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2907,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "building construction",
       "emoji": "🏗️",
       "codePoints": ["1F3D7", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2908,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "brick",
       "emoji": "🧱",
       "codePoints": ["1F9F1"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2909,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "rock",
       "emoji": "🪨",
       "codePoints": ["1FAA8"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2910,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "wood",
       "emoji": "🪵",
       "codePoints": ["1FAB5"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2911,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "hut",
       "emoji": "🛖",
       "codePoints": ["1F6D6"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2912,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "houses",
       "emoji": "🏘️",
       "codePoints": ["1F3D8", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2913,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "derelict house",
       "emoji": "🏚️",
       "codePoints": ["1F3DA", "FE0F"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2914,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "house",
       "emoji": "🏠",
       "codePoints": ["1F3E0"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2915,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "house with garden",
       "emoji": "🏡",
       "codePoints": ["1F3E1"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2916,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "office building",
       "emoji": "🏢",
       "codePoints": ["1F3E2"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2917,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "Japanese post office",
       "emoji": "🏣",
       "codePoints": ["1F3E3"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2918,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "post office",
       "emoji": "🏤",
       "codePoints": ["1F3E4"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2919,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "hospital",
       "emoji": "🏥",
       "codePoints": ["1F3E5"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2920,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "bank",
       "emoji": "🏦",
       "codePoints": ["1F3E6"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2921,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "hotel",
       "emoji": "🏨",
       "codePoints": ["1F3E8"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2922,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "love hotel",
       "emoji": "🏩",
       "codePoints": ["1F3E9"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2923,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "convenience store",
       "emoji": "🏪",
       "codePoints": ["1F3EA"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2924,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "school",
       "emoji": "🏫",
       "codePoints": ["1F3EB"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2925,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "department store",
       "emoji": "🏬",
       "codePoints": ["1F3EC"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2926,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "factory",
       "emoji": "🏭",
       "codePoints": ["1F3ED"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2927,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "Japanese castle",
       "emoji": "🏯",
       "codePoints": ["1F3EF"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2928,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "castle",
       "emoji": "🏰",
       "codePoints": ["1F3F0"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2929,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "wedding",
       "emoji": "💒",
       "codePoints": ["1F492"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2930,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "Tokyo tower",
       "emoji": "🗼",
       "codePoints": ["1F5FC"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2931,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "Statue of Liberty",
       "emoji": "🗽",
       "codePoints": ["1F5FD"],
-      "group": "Travel & Places",
-      "subGroup": "place-building",
       "order": 2932,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "food-and-drink/food-prepared",
   "image": "food-and-drink/food-prepared.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Food & Drink",
   "subGroup": "food-prepared",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 3,
-  "capacity": 48,
   "imageWidth": 272,
   "imageHeight": 112,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "bread",
       "emoji": "🍞",
       "codePoints": ["1F35E"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2797,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "croissant",
       "emoji": "🥐",
       "codePoints": ["1F950"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2798,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "baguette bread",
       "emoji": "🥖",
       "codePoints": ["1F956"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2799,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "flatbread",
       "emoji": "🫓",
       "codePoints": ["1FAD3"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2800,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "pretzel",
       "emoji": "🥨",
       "codePoints": ["1F968"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2801,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "bagel",
       "emoji": "🥯",
       "codePoints": ["1F96F"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2802,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "pancakes",
       "emoji": "🥞",
       "codePoints": ["1F95E"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2803,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "waffle",
       "emoji": "🧇",
       "codePoints": ["1F9C7"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2804,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "cheese wedge",
       "emoji": "🧀",
       "codePoints": ["1F9C0"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2805,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "meat on bone",
       "emoji": "🍖",
       "codePoints": ["1F356"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2806,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "poultry leg",
       "emoji": "🍗",
       "codePoints": ["1F357"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2807,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "cut of meat",
       "emoji": "🥩",
       "codePoints": ["1F969"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2808,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "bacon",
       "emoji": "🥓",
       "codePoints": ["1F953"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2809,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "hamburger",
       "emoji": "🍔",
       "codePoints": ["1F354"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2810,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "french fries",
       "emoji": "🍟",
       "codePoints": ["1F35F"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2811,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "pizza",
       "emoji": "🍕",
       "codePoints": ["1F355"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2812,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "hot dog",
       "emoji": "🌭",
       "codePoints": ["1F32D"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2813,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "sandwich",
       "emoji": "🥪",
       "codePoints": ["1F96A"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2814,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "taco",
       "emoji": "🌮",
       "codePoints": ["1F32E"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2815,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "burrito",
       "emoji": "🌯",
       "codePoints": ["1F32F"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2816,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "tamale",
       "emoji": "🫔",
       "codePoints": ["1FAD4"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2817,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "stuffed flatbread",
       "emoji": "🥙",
       "codePoints": ["1F959"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2818,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "falafel",
       "emoji": "🧆",
       "codePoints": ["1F9C6"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2819,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "egg",
       "emoji": "🥚",
       "codePoints": ["1F95A"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2820,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "cooking",
       "emoji": "🍳",
       "codePoints": ["1F373"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2821,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "shallow pan of food",
       "emoji": "🥘",
       "codePoints": ["1F958"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2822,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "pot of food",
       "emoji": "🍲",
       "codePoints": ["1F372"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2823,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "fondue",
       "emoji": "🫕",
       "codePoints": ["1FAD5"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2824,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "bowl with spoon",
       "emoji": "🥣",
       "codePoints": ["1F963"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2825,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "green salad",
       "emoji": "🥗",
       "codePoints": ["1F957"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2826,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -604,11 +503,8 @@
       "name": "popcorn",
       "emoji": "🍿",
       "codePoints": ["1F37F"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2827,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -623,11 +519,8 @@
       "name": "butter",
       "emoji": "🧈",
       "codePoints": ["1F9C8"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2828,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -642,11 +535,8 @@
       "name": "salt",
       "emoji": "🧂",
       "codePoints": ["1F9C2"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2829,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -661,11 +551,8 @@
       "name": "canned food",
       "emoji": "🥫",
       "codePoints": ["1F96B"],
-      "group": "Food & Drink",
-      "subGroup": "food-prepared",
       "order": 2830,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "activities/game",
   "image": "activities/game.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Activities",
   "subGroup": "game",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "bullseye",
       "emoji": "🎯",
       "codePoints": ["1F3AF"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3162,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "yo-yo",
       "emoji": "🪀",
       "codePoints": ["1FA80"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3163,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "kite",
       "emoji": "🪁",
       "codePoints": ["1FA81"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3164,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "water pistol",
       "emoji": "🔫",
       "codePoints": ["1F52B"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3165,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "pool 8 ball",
       "emoji": "🎱",
       "codePoints": ["1F3B1"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3166,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "crystal ball",
       "emoji": "🔮",
       "codePoints": ["1F52E"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3167,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "magic wand",
       "emoji": "🪄",
       "codePoints": ["1FA84"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3168,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "video game",
       "emoji": "🎮",
       "codePoints": ["1F3AE"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3169,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "joystick",
       "emoji": "🕹️",
       "codePoints": ["1F579", "FE0F"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3170,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "slot machine",
       "emoji": "🎰",
       "codePoints": ["1F3B0"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3171,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "game die",
       "emoji": "🎲",
       "codePoints": ["1F3B2"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3172,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "puzzle piece",
       "emoji": "🧩",
       "codePoints": ["1F9E9"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3173,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "teddy bear",
       "emoji": "🧸",
       "codePoints": ["1F9F8"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3174,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "piñata",
       "emoji": "🪅",
       "codePoints": ["1FA85"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3175,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "mirror ball",
       "emoji": "🪩",
       "codePoints": ["1FAA9"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3176,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "nesting dolls",
       "emoji": "🪆",
       "codePoints": ["1FA86"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3177,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "spade suit",
       "emoji": "♠️",
       "codePoints": ["2660", "FE0F"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3178,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "heart suit",
       "emoji": "♥️",
       "codePoints": ["2665", "FE0F"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3179,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "diamond suit",
       "emoji": "♦️",
       "codePoints": ["2666", "FE0F"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3180,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "club suit",
       "emoji": "♣️",
       "codePoints": ["2663", "FE0F"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3181,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "chess pawn",
       "emoji": "♟️",
       "codePoints": ["265F", "FE0F"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3182,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "joker",
       "emoji": "🃏",
       "codePoints": ["1F0CF"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3183,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "mahjong red dragon",
       "emoji": "🀄",
       "codePoints": ["1F004"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3184,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "flower playing cards",
       "emoji": "🎴",
       "codePoints": ["1F3B4"],
-      "group": "Activities",
-      "subGroup": "game",
       "order": 3185,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

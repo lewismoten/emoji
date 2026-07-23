@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "activities/arts-and-crafts",
   "image": "activities/arts-and-crafts.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Activities",
   "subGroup": "arts & crafts",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "performing arts",
       "emoji": "🎭",
       "codePoints": ["1F3AD"],
-      "group": "Activities",
-      "subGroup": "arts & crafts",
       "order": 3186,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "framed picture",
       "emoji": "🖼️",
       "codePoints": ["1F5BC", "FE0F"],
-      "group": "Activities",
-      "subGroup": "arts & crafts",
       "order": 3187,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "artist palette",
       "emoji": "🎨",
       "codePoints": ["1F3A8"],
-      "group": "Activities",
-      "subGroup": "arts & crafts",
       "order": 3188,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "thread",
       "emoji": "🧵",
       "codePoints": ["1F9F5"],
-      "group": "Activities",
-      "subGroup": "arts & crafts",
       "order": 3189,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "sewing needle",
       "emoji": "🪡",
       "codePoints": ["1FAA1"],
-      "group": "Activities",
-      "subGroup": "arts & crafts",
       "order": 3190,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "yarn",
       "emoji": "🧶",
       "codePoints": ["1F9F6"],
-      "group": "Activities",
-      "subGroup": "arts & crafts",
       "order": 3191,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "knot",
       "emoji": "🪢",
       "codePoints": ["1FAA2"],
-      "group": "Activities",
-      "subGroup": "arts & crafts",
       "order": 3192,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

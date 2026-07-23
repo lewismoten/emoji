@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "objects/book-paper",
   "image": "objects/book-paper.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Objects",
   "subGroup": "book-paper",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "notebook with decorative cover",
       "emoji": "📔",
       "codePoints": ["1F4D4"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3307,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "closed book",
       "emoji": "📕",
       "codePoints": ["1F4D5"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3308,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "open book",
       "emoji": "📖",
       "codePoints": ["1F4D6"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3309,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "green book",
       "emoji": "📗",
       "codePoints": ["1F4D7"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3310,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "blue book",
       "emoji": "📘",
       "codePoints": ["1F4D8"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3311,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "orange book",
       "emoji": "📙",
       "codePoints": ["1F4D9"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3312,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "books",
       "emoji": "📚",
       "codePoints": ["1F4DA"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3313,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "notebook",
       "emoji": "📓",
       "codePoints": ["1F4D3"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3314,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "ledger",
       "emoji": "📒",
       "codePoints": ["1F4D2"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3315,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "page with curl",
       "emoji": "📃",
       "codePoints": ["1F4C3"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3316,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "scroll",
       "emoji": "📜",
       "codePoints": ["1F4DC"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3317,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "page facing up",
       "emoji": "📄",
       "codePoints": ["1F4C4"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3318,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "newspaper",
       "emoji": "📰",
       "codePoints": ["1F4F0"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3319,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "rolled-up newspaper",
       "emoji": "🗞️",
       "codePoints": ["1F5DE", "FE0F"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3320,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "bookmark tabs",
       "emoji": "📑",
       "codePoints": ["1F4D1"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3321,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "bookmark",
       "emoji": "🔖",
       "codePoints": ["1F516"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3322,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "label",
       "emoji": "🏷️",
       "codePoints": ["1F3F7", "FE0F"],
-      "group": "Objects",
-      "subGroup": "book-paper",
       "order": 3323,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

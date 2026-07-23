@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "people-and-body/person-symbol",
   "image": "people-and-body/person-symbol.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "People & Body",
   "subGroup": "person-symbol",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "speaking head",
       "emoji": "🗣️",
       "codePoints": ["1F5E3", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-symbol",
       "order": 2578,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "bust in silhouette",
       "emoji": "👤",
       "codePoints": ["1F464"],
-      "group": "People & Body",
-      "subGroup": "person-symbol",
       "order": 2579,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "busts in silhouette",
       "emoji": "👥",
       "codePoints": ["1F465"],
-      "group": "People & Body",
-      "subGroup": "person-symbol",
       "order": 2580,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "people hugging",
       "emoji": "🫂",
       "codePoints": ["1FAC2"],
-      "group": "People & Body",
-      "subGroup": "person-symbol",
       "order": 2581,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "family",
       "emoji": "👪",
       "codePoints": ["1F46A"],
-      "group": "People & Body",
-      "subGroup": "person-symbol",
       "order": 2582,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "family: adult, adult, child",
       "emoji": "🧑‍🧑‍🧒",
       "codePoints": ["1F9D1", "200D", "1F9D1", "200D", "1F9D2"],
-      "group": "People & Body",
-      "subGroup": "person-symbol",
       "order": 2583,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -156,11 +127,8 @@
         "200D",
         "1F9D2"
       ],
-      "group": "People & Body",
-      "subGroup": "person-symbol",
       "order": 2584,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -175,11 +143,8 @@
       "name": "family: adult, child",
       "emoji": "🧑‍🧒",
       "codePoints": ["1F9D1", "200D", "1F9D2"],
-      "group": "People & Body",
-      "subGroup": "person-symbol",
       "order": 2585,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -194,11 +159,8 @@
       "name": "family: adult, child, child",
       "emoji": "🧑‍🧒‍🧒",
       "codePoints": ["1F9D1", "200D", "1F9D2", "200D", "1F9D2"],
-      "group": "People & Body",
-      "subGroup": "person-symbol",
       "order": 2586,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -213,11 +175,8 @@
       "name": "footprints",
       "emoji": "👣",
       "codePoints": ["1F463"],
-      "group": "People & Body",
-      "subGroup": "person-symbol",
       "order": 2587,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -232,11 +191,8 @@
       "name": "fingerprint",
       "emoji": "🫆",
       "codePoints": ["1FAC6"],
-      "group": "People & Body",
-      "subGroup": "person-symbol",
       "order": 2588,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

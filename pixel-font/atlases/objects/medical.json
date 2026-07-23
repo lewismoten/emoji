@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "objects/medical",
   "image": "objects/medical.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Objects",
   "subGroup": "medical",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "syringe",
       "emoji": "💉",
       "codePoints": ["1F489"],
-      "group": "Objects",
-      "subGroup": "medical",
       "order": 3418,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "drop of blood",
       "emoji": "🩸",
       "codePoints": ["1FA78"],
-      "group": "Objects",
-      "subGroup": "medical",
       "order": 3419,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "pill",
       "emoji": "💊",
       "codePoints": ["1F48A"],
-      "group": "Objects",
-      "subGroup": "medical",
       "order": 3420,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "adhesive bandage",
       "emoji": "🩹",
       "codePoints": ["1FA79"],
-      "group": "Objects",
-      "subGroup": "medical",
       "order": 3421,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "crutch",
       "emoji": "🩼",
       "codePoints": ["1FA7C"],
-      "group": "Objects",
-      "subGroup": "medical",
       "order": 3422,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "stethoscope",
       "emoji": "🩺",
       "codePoints": ["1FA7A"],
-      "group": "Objects",
-      "subGroup": "medical",
       "order": 3423,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "x-ray",
       "emoji": "🩻",
       "codePoints": ["1FA7B"],
-      "group": "Objects",
-      "subGroup": "medical",
       "order": 3424,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "objects/music",
   "image": "objects/music.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Objects",
   "subGroup": "music",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "musical score",
       "emoji": "🎼",
       "codePoints": ["1F3BC"],
-      "group": "Objects",
-      "subGroup": "music",
       "order": 3249,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "musical note",
       "emoji": "🎵",
       "codePoints": ["1F3B5"],
-      "group": "Objects",
-      "subGroup": "music",
       "order": 3250,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "musical notes",
       "emoji": "🎶",
       "codePoints": ["1F3B6"],
-      "group": "Objects",
-      "subGroup": "music",
       "order": 3251,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "studio microphone",
       "emoji": "🎙️",
       "codePoints": ["1F399", "FE0F"],
-      "group": "Objects",
-      "subGroup": "music",
       "order": 3252,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "level slider",
       "emoji": "🎚️",
       "codePoints": ["1F39A", "FE0F"],
-      "group": "Objects",
-      "subGroup": "music",
       "order": 3253,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "control knobs",
       "emoji": "🎛️",
       "codePoints": ["1F39B", "FE0F"],
-      "group": "Objects",
-      "subGroup": "music",
       "order": 3254,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "microphone",
       "emoji": "🎤",
       "codePoints": ["1F3A4"],
-      "group": "Objects",
-      "subGroup": "music",
       "order": 3255,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "headphone",
       "emoji": "🎧",
       "codePoints": ["1F3A7"],
-      "group": "Objects",
-      "subGroup": "music",
       "order": 3256,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "radio",
       "emoji": "📻",
       "codePoints": ["1F4FB"],
-      "group": "Objects",
-      "subGroup": "music",
       "order": 3257,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

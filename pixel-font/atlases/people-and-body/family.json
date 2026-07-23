@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "people-and-body/family",
   "image": "people-and-body/family.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "People & Body",
   "subGroup": "family",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 3,
-  "capacity": 48,
   "imageWidth": 272,
   "imageHeight": 112,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "people holding hands",
       "emoji": "🧑‍🤝‍🧑",
       "codePoints": ["1F9D1", "200D", "1F91D", "200D", "1F9D1"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2241,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "women holding hands",
       "emoji": "👭",
       "codePoints": ["1F46D"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2267,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "woman and man holding hands",
       "emoji": "👫",
       "codePoints": ["1F46B"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2293,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "men holding hands",
       "emoji": "👬",
       "codePoints": ["1F46C"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2319,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "kiss",
       "emoji": "💏",
       "codePoints": ["1F48F"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2345,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -138,11 +112,8 @@
         "200D",
         "1F468"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2371,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -166,11 +137,8 @@
         "200D",
         "1F468"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2397,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -194,11 +162,8 @@
         "200D",
         "1F469"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2423,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -213,11 +178,8 @@
       "name": "couple with heart",
       "emoji": "💑",
       "codePoints": ["1F491"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2449,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -232,11 +194,8 @@
       "name": "couple with heart: woman, man",
       "emoji": "👩‍❤️‍👨",
       "codePoints": ["1F469", "200D", "2764", "FE0F", "200D", "1F468"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2475,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -251,11 +210,8 @@
       "name": "couple with heart: man, man",
       "emoji": "👨‍❤️‍👨",
       "codePoints": ["1F468", "200D", "2764", "FE0F", "200D", "1F468"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2501,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -270,11 +226,8 @@
       "name": "couple with heart: woman, woman",
       "emoji": "👩‍❤️‍👩",
       "codePoints": ["1F469", "200D", "2764", "FE0F", "200D", "1F469"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2527,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -289,11 +242,8 @@
       "name": "family: man, woman, boy",
       "emoji": "👨‍👩‍👦",
       "codePoints": ["1F468", "200D", "1F469", "200D", "1F466"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2553,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -308,11 +258,8 @@
       "name": "family: man, woman, girl",
       "emoji": "👨‍👩‍👧",
       "codePoints": ["1F468", "200D", "1F469", "200D", "1F467"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2554,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -335,11 +282,8 @@
         "200D",
         "1F466"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2555,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -362,11 +306,8 @@
         "200D",
         "1F466"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2556,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -389,11 +330,8 @@
         "200D",
         "1F467"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2557,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -408,11 +346,8 @@
       "name": "family: man, man, boy",
       "emoji": "👨‍👨‍👦",
       "codePoints": ["1F468", "200D", "1F468", "200D", "1F466"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2558,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -427,11 +362,8 @@
       "name": "family: man, man, girl",
       "emoji": "👨‍👨‍👧",
       "codePoints": ["1F468", "200D", "1F468", "200D", "1F467"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2559,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -454,11 +386,8 @@
         "200D",
         "1F466"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2560,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -481,11 +410,8 @@
         "200D",
         "1F466"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2561,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -508,11 +434,8 @@
         "200D",
         "1F467"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2562,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -527,11 +450,8 @@
       "name": "family: woman, woman, boy",
       "emoji": "👩‍👩‍👦",
       "codePoints": ["1F469", "200D", "1F469", "200D", "1F466"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2563,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -546,11 +466,8 @@
       "name": "family: woman, woman, girl",
       "emoji": "👩‍👩‍👧",
       "codePoints": ["1F469", "200D", "1F469", "200D", "1F467"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2564,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -573,11 +490,8 @@
         "200D",
         "1F466"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2565,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -600,11 +514,8 @@
         "200D",
         "1F466"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2566,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -627,11 +538,8 @@
         "200D",
         "1F467"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2567,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -646,11 +554,8 @@
       "name": "family: man, boy",
       "emoji": "👨‍👦",
       "codePoints": ["1F468", "200D", "1F466"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2568,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -665,11 +570,8 @@
       "name": "family: man, boy, boy",
       "emoji": "👨‍👦‍👦",
       "codePoints": ["1F468", "200D", "1F466", "200D", "1F466"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2569,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -684,11 +586,8 @@
       "name": "family: man, girl",
       "emoji": "👨‍👧",
       "codePoints": ["1F468", "200D", "1F467"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2570,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -703,11 +602,8 @@
       "name": "family: man, girl, boy",
       "emoji": "👨‍👧‍👦",
       "codePoints": ["1F468", "200D", "1F467", "200D", "1F466"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2571,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -722,11 +618,8 @@
       "name": "family: man, girl, girl",
       "emoji": "👨‍👧‍👧",
       "codePoints": ["1F468", "200D", "1F467", "200D", "1F467"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2572,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -741,11 +634,8 @@
       "name": "family: woman, boy",
       "emoji": "👩‍👦",
       "codePoints": ["1F469", "200D", "1F466"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2573,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -760,11 +650,8 @@
       "name": "family: woman, boy, boy",
       "emoji": "👩‍👦‍👦",
       "codePoints": ["1F469", "200D", "1F466", "200D", "1F466"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2574,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -779,11 +666,8 @@
       "name": "family: woman, girl",
       "emoji": "👩‍👧",
       "codePoints": ["1F469", "200D", "1F467"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2575,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -798,11 +682,8 @@
       "name": "family: woman, girl, boy",
       "emoji": "👩‍👧‍👦",
       "codePoints": ["1F469", "200D", "1F467", "200D", "1F466"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2576,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -817,11 +698,8 @@
       "name": "family: woman, girl, girl",
       "emoji": "👩‍👧‍👧",
       "codePoints": ["1F469", "200D", "1F467", "200D", "1F467"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2577,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     }
   ]

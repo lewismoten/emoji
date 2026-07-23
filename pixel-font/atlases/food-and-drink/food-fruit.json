@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "food-and-drink/food-fruit",
   "image": "food-and-drink/food-fruit.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Food & Drink",
   "subGroup": "food-fruit",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "grapes",
       "emoji": "🍇",
       "codePoints": ["1F347"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2758,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "melon",
       "emoji": "🍈",
       "codePoints": ["1F348"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2759,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "watermelon",
       "emoji": "🍉",
       "codePoints": ["1F349"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2760,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "tangerine",
       "emoji": "🍊",
       "codePoints": ["1F34A"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2761,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "lemon",
       "emoji": "🍋",
       "codePoints": ["1F34B"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2762,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "lime",
       "emoji": "🍋‍🟩",
       "codePoints": ["1F34B", "200D", "1F7E9"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2763,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "banana",
       "emoji": "🍌",
       "codePoints": ["1F34C"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2764,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "pineapple",
       "emoji": "🍍",
       "codePoints": ["1F34D"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2765,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "mango",
       "emoji": "🥭",
       "codePoints": ["1F96D"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2766,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "red apple",
       "emoji": "🍎",
       "codePoints": ["1F34E"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2767,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "green apple",
       "emoji": "🍏",
       "codePoints": ["1F34F"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2768,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "pear",
       "emoji": "🍐",
       "codePoints": ["1F350"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2769,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "peach",
       "emoji": "🍑",
       "codePoints": ["1F351"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2770,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "cherries",
       "emoji": "🍒",
       "codePoints": ["1F352"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2771,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "strawberry",
       "emoji": "🍓",
       "codePoints": ["1F353"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2772,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "blueberries",
       "emoji": "🫐",
       "codePoints": ["1FAD0"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2773,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "kiwi fruit",
       "emoji": "🥝",
       "codePoints": ["1F95D"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2774,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "tomato",
       "emoji": "🍅",
       "codePoints": ["1F345"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2775,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "olive",
       "emoji": "🫒",
       "codePoints": ["1FAD2"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2776,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "coconut",
       "emoji": "🥥",
       "codePoints": ["1F965"],
-      "group": "Food & Drink",
-      "subGroup": "food-fruit",
       "order": 2777,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

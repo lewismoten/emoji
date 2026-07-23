@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "animals-and-nature/animal-reptile",
   "image": "animals-and-nature/animal-reptile.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Animals & Nature",
   "subGroup": "animal-reptile",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "crocodile",
       "emoji": "🐊",
       "codePoints": ["1F40A"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-reptile",
       "order": 2687,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "turtle",
       "emoji": "🐢",
       "codePoints": ["1F422"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-reptile",
       "order": 2688,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "lizard",
       "emoji": "🦎",
       "codePoints": ["1F98E"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-reptile",
       "order": 2689,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "snake",
       "emoji": "🐍",
       "codePoints": ["1F40D"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-reptile",
       "order": 2690,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "dragon face",
       "emoji": "🐲",
       "codePoints": ["1F432"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-reptile",
       "order": 2691,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "dragon",
       "emoji": "🐉",
       "codePoints": ["1F409"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-reptile",
       "order": 2692,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "sauropod",
       "emoji": "🦕",
       "codePoints": ["1F995"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-reptile",
       "order": 2693,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "T-Rex",
       "emoji": "🦖",
       "codePoints": ["1F996"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-reptile",
       "order": 2694,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

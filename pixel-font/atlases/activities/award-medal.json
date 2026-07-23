@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "activities/award-medal",
   "image": "activities/award-medal.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Activities",
   "subGroup": "award-medal",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "military medal",
       "emoji": "🎖️",
       "codePoints": ["1F396", "FE0F"],
-      "group": "Activities",
-      "subGroup": "award-medal",
       "order": 3129,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "trophy",
       "emoji": "🏆",
       "codePoints": ["1F3C6"],
-      "group": "Activities",
-      "subGroup": "award-medal",
       "order": 3130,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "sports medal",
       "emoji": "🏅",
       "codePoints": ["1F3C5"],
-      "group": "Activities",
-      "subGroup": "award-medal",
       "order": 3131,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "1st place medal",
       "emoji": "🥇",
       "codePoints": ["1F947"],
-      "group": "Activities",
-      "subGroup": "award-medal",
       "order": 3132,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "2nd place medal",
       "emoji": "🥈",
       "codePoints": ["1F948"],
-      "group": "Activities",
-      "subGroup": "award-medal",
       "order": 3133,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "3rd place medal",
       "emoji": "🥉",
       "codePoints": ["1F949"],
-      "group": "Activities",
-      "subGroup": "award-medal",
       "order": 3134,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

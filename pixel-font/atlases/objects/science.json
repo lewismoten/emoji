@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "objects/science",
   "image": "objects/science.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Objects",
   "subGroup": "science",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "alembic",
       "emoji": "⚗️",
       "codePoints": ["2697", "FE0F"],
-      "group": "Objects",
-      "subGroup": "science",
       "order": 3411,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "test tube",
       "emoji": "🧪",
       "codePoints": ["1F9EA"],
-      "group": "Objects",
-      "subGroup": "science",
       "order": 3412,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "petri dish",
       "emoji": "🧫",
       "codePoints": ["1F9EB"],
-      "group": "Objects",
-      "subGroup": "science",
       "order": 3413,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "dna",
       "emoji": "🧬",
       "codePoints": ["1F9EC"],
-      "group": "Objects",
-      "subGroup": "science",
       "order": 3414,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "microscope",
       "emoji": "🔬",
       "codePoints": ["1F52C"],
-      "group": "Objects",
-      "subGroup": "science",
       "order": 3415,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "telescope",
       "emoji": "🔭",
       "codePoints": ["1F52D"],
-      "group": "Objects",
-      "subGroup": "science",
       "order": 3416,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "satellite antenna",
       "emoji": "📡",
       "codePoints": ["1F4E1"],
-      "group": "Objects",
-      "subGroup": "science",
       "order": 3417,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

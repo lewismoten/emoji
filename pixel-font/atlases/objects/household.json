@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "objects/household",
   "image": "objects/household.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Objects",
   "subGroup": "household",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "door",
       "emoji": "🚪",
       "codePoints": ["1F6AA"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3425,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "elevator",
       "emoji": "🛗",
       "codePoints": ["1F6D7"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3426,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "mirror",
       "emoji": "🪞",
       "codePoints": ["1FA9E"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3427,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "window",
       "emoji": "🪟",
       "codePoints": ["1FA9F"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3428,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "bed",
       "emoji": "🛏️",
       "codePoints": ["1F6CF", "FE0F"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3429,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "couch and lamp",
       "emoji": "🛋️",
       "codePoints": ["1F6CB", "FE0F"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3430,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "chair",
       "emoji": "🪑",
       "codePoints": ["1FA91"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3431,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "toilet",
       "emoji": "🚽",
       "codePoints": ["1F6BD"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3432,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "plunger",
       "emoji": "🪠",
       "codePoints": ["1FAA0"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3433,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "shower",
       "emoji": "🚿",
       "codePoints": ["1F6BF"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3434,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "bathtub",
       "emoji": "🛁",
       "codePoints": ["1F6C1"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3435,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "mouse trap",
       "emoji": "🪤",
       "codePoints": ["1FAA4"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3436,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "razor",
       "emoji": "🪒",
       "codePoints": ["1FA92"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3437,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "lotion bottle",
       "emoji": "🧴",
       "codePoints": ["1F9F4"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3438,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "safety pin",
       "emoji": "🧷",
       "codePoints": ["1F9F7"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3439,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "broom",
       "emoji": "🧹",
       "codePoints": ["1F9F9"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3440,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "basket",
       "emoji": "🧺",
       "codePoints": ["1F9FA"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3441,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "roll of paper",
       "emoji": "🧻",
       "codePoints": ["1F9FB"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3442,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "bucket",
       "emoji": "🪣",
       "codePoints": ["1FAA3"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3443,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "soap",
       "emoji": "🧼",
       "codePoints": ["1F9FC"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3444,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "bubbles",
       "emoji": "🫧",
       "codePoints": ["1FAE7"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3445,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "toothbrush",
       "emoji": "🪥",
       "codePoints": ["1FAA5"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3446,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "sponge",
       "emoji": "🧽",
       "codePoints": ["1F9FD"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3447,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "fire extinguisher",
       "emoji": "🧯",
       "codePoints": ["1F9EF"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3448,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "shopping cart",
       "emoji": "🛒",
       "codePoints": ["1F6D2"],
-      "group": "Objects",
-      "subGroup": "household",
       "order": 3449,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

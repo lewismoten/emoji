@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "animals-and-nature/plant-other",
   "image": "animals-and-nature/plant-other.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Animals & Nature",
   "subGroup": "plant-other",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "seedling",
       "emoji": "🌱",
       "codePoints": ["1F331"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2741,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "potted plant",
       "emoji": "🪴",
       "codePoints": ["1FAB4"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2742,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "evergreen tree",
       "emoji": "🌲",
       "codePoints": ["1F332"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2743,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "deciduous tree",
       "emoji": "🌳",
       "codePoints": ["1F333"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2744,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "palm tree",
       "emoji": "🌴",
       "codePoints": ["1F334"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2745,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "cactus",
       "emoji": "🌵",
       "codePoints": ["1F335"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2746,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "sheaf of rice",
       "emoji": "🌾",
       "codePoints": ["1F33E"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2747,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "herb",
       "emoji": "🌿",
       "codePoints": ["1F33F"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2748,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "shamrock",
       "emoji": "☘️",
       "codePoints": ["2618", "FE0F"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2749,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "four leaf clover",
       "emoji": "🍀",
       "codePoints": ["1F340"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2750,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "maple leaf",
       "emoji": "🍁",
       "codePoints": ["1F341"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2751,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "fallen leaf",
       "emoji": "🍂",
       "codePoints": ["1F342"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2752,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "leaf fluttering in wind",
       "emoji": "🍃",
       "codePoints": ["1F343"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2753,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "empty nest",
       "emoji": "🪹",
       "codePoints": ["1FAB9"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2754,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "nest with eggs",
       "emoji": "🪺",
       "codePoints": ["1FABA"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2755,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "mushroom",
       "emoji": "🍄",
       "codePoints": ["1F344"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2756,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "leafless tree",
       "emoji": "🪾",
       "codePoints": ["1FABE"],
-      "group": "Animals & Nature",
-      "subGroup": "plant-other",
       "order": 2757,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

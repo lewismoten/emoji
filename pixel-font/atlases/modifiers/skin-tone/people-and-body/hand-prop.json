@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "modifiers/skin-tone/people-and-body/hand-prop",
   "image": "modifiers/skin-tone/people-and-body/hand-prop.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "skin-tone",
   "group": "People & Body",
   "subGroup": "hand-prop",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "writing hand: light skin tone",
       "emoji": "✍🏻",
       "codePoints": ["270D", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 432,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "writing hand: medium-light skin tone",
       "emoji": "✍🏼",
       "codePoints": ["270D", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 433,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "writing hand: medium skin tone",
       "emoji": "✍🏽",
       "codePoints": ["270D", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 434,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "writing hand: medium-dark skin tone",
       "emoji": "✍🏾",
       "codePoints": ["270D", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 435,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "writing hand: dark skin tone",
       "emoji": "✍🏿",
       "codePoints": ["270D", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 436,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "nail polish: light skin tone",
       "emoji": "💅🏻",
       "codePoints": ["1F485", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 438,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "nail polish: medium-light skin tone",
       "emoji": "💅🏼",
       "codePoints": ["1F485", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 439,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "nail polish: medium skin tone",
       "emoji": "💅🏽",
       "codePoints": ["1F485", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 440,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "nail polish: medium-dark skin tone",
       "emoji": "💅🏾",
       "codePoints": ["1F485", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 441,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "nail polish: dark skin tone",
       "emoji": "💅🏿",
       "codePoints": ["1F485", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 442,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "selfie: light skin tone",
       "emoji": "🤳🏻",
       "codePoints": ["1F933", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 444,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "selfie: medium-light skin tone",
       "emoji": "🤳🏼",
       "codePoints": ["1F933", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 445,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "selfie: medium skin tone",
       "emoji": "🤳🏽",
       "codePoints": ["1F933", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 446,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "selfie: medium-dark skin tone",
       "emoji": "🤳🏾",
       "codePoints": ["1F933", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 447,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "selfie: dark skin tone",
       "emoji": "🤳🏿",
       "codePoints": ["1F933", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "hand-prop",
       "order": 448,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     }
   ]

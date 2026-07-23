@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "modifiers/skin-tone/people-and-body/hand-fingers-partial",
   "image": "modifiers/skin-tone/people-and-body/hand-fingers-partial.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "skin-tone",
   "group": "People & Body",
   "subGroup": "hand-fingers-partial",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 3,
-  "capacity": 48,
   "imageWidth": 272,
   "imageHeight": 112,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "OK hand: light skin tone",
       "emoji": "👌🏻",
       "codePoints": ["1F44C", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 238,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "OK hand: medium-light skin tone",
       "emoji": "👌🏼",
       "codePoints": ["1F44C", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 239,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "OK hand: medium skin tone",
       "emoji": "👌🏽",
       "codePoints": ["1F44C", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 240,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "OK hand: medium-dark skin tone",
       "emoji": "👌🏾",
       "codePoints": ["1F44C", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 241,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "OK hand: dark skin tone",
       "emoji": "👌🏿",
       "codePoints": ["1F44C", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 242,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "pinched fingers: light skin tone",
       "emoji": "🤌🏻",
       "codePoints": ["1F90C", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 244,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "pinched fingers: medium-light skin tone",
       "emoji": "🤌🏼",
       "codePoints": ["1F90C", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 245,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "pinched fingers: medium skin tone",
       "emoji": "🤌🏽",
       "codePoints": ["1F90C", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 246,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "pinched fingers: medium-dark skin tone",
       "emoji": "🤌🏾",
       "codePoints": ["1F90C", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 247,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "pinched fingers: dark skin tone",
       "emoji": "🤌🏿",
       "codePoints": ["1F90C", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 248,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "pinching hand: light skin tone",
       "emoji": "🤏🏻",
       "codePoints": ["1F90F", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 250,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "pinching hand: medium-light skin tone",
       "emoji": "🤏🏼",
       "codePoints": ["1F90F", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 251,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "pinching hand: medium skin tone",
       "emoji": "🤏🏽",
       "codePoints": ["1F90F", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 252,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "pinching hand: medium-dark skin tone",
       "emoji": "🤏🏾",
       "codePoints": ["1F90F", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 253,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "pinching hand: dark skin tone",
       "emoji": "🤏🏿",
       "codePoints": ["1F90F", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 254,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "victory hand: light skin tone",
       "emoji": "✌🏻",
       "codePoints": ["270C", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 256,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "victory hand: medium-light skin tone",
       "emoji": "✌🏼",
       "codePoints": ["270C", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 257,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "victory hand: medium skin tone",
       "emoji": "✌🏽",
       "codePoints": ["270C", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 258,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "victory hand: medium-dark skin tone",
       "emoji": "✌🏾",
       "codePoints": ["270C", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 259,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "victory hand: dark skin tone",
       "emoji": "✌🏿",
       "codePoints": ["270C", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 260,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "crossed fingers: light skin tone",
       "emoji": "🤞🏻",
       "codePoints": ["1F91E", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 262,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "crossed fingers: medium-light skin tone",
       "emoji": "🤞🏼",
       "codePoints": ["1F91E", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 263,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "crossed fingers: medium skin tone",
       "emoji": "🤞🏽",
       "codePoints": ["1F91E", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 264,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "crossed fingers: medium-dark skin tone",
       "emoji": "🤞🏾",
       "codePoints": ["1F91E", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 265,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "crossed fingers: dark skin tone",
       "emoji": "🤞🏿",
       "codePoints": ["1F91E", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 266,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "hand with index finger and thumb crossed: light skin tone",
       "emoji": "🫰🏻",
       "codePoints": ["1FAF0", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 268,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "hand with index finger and thumb crossed: medium-light skin tone",
       "emoji": "🫰🏼",
       "codePoints": ["1FAF0", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 269,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "hand with index finger and thumb crossed: medium skin tone",
       "emoji": "🫰🏽",
       "codePoints": ["1FAF0", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 270,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "hand with index finger and thumb crossed: medium-dark skin tone",
       "emoji": "🫰🏾",
       "codePoints": ["1FAF0", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 271,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "hand with index finger and thumb crossed: dark skin tone",
       "emoji": "🫰🏿",
       "codePoints": ["1FAF0", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 272,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -604,11 +503,8 @@
       "name": "love-you gesture: light skin tone",
       "emoji": "🤟🏻",
       "codePoints": ["1F91F", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 274,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -623,11 +519,8 @@
       "name": "love-you gesture: medium-light skin tone",
       "emoji": "🤟🏼",
       "codePoints": ["1F91F", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 275,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -642,11 +535,8 @@
       "name": "love-you gesture: medium skin tone",
       "emoji": "🤟🏽",
       "codePoints": ["1F91F", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 276,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -661,11 +551,8 @@
       "name": "love-you gesture: medium-dark skin tone",
       "emoji": "🤟🏾",
       "codePoints": ["1F91F", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 277,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -680,11 +567,8 @@
       "name": "love-you gesture: dark skin tone",
       "emoji": "🤟🏿",
       "codePoints": ["1F91F", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 278,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -699,11 +583,8 @@
       "name": "sign of the horns: light skin tone",
       "emoji": "🤘🏻",
       "codePoints": ["1F918", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 280,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -718,11 +599,8 @@
       "name": "sign of the horns: medium-light skin tone",
       "emoji": "🤘🏼",
       "codePoints": ["1F918", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 281,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -737,11 +615,8 @@
       "name": "sign of the horns: medium skin tone",
       "emoji": "🤘🏽",
       "codePoints": ["1F918", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 282,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -756,11 +631,8 @@
       "name": "sign of the horns: medium-dark skin tone",
       "emoji": "🤘🏾",
       "codePoints": ["1F918", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 283,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -775,11 +647,8 @@
       "name": "sign of the horns: dark skin tone",
       "emoji": "🤘🏿",
       "codePoints": ["1F918", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 284,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -794,11 +663,8 @@
       "name": "call me hand: light skin tone",
       "emoji": "🤙🏻",
       "codePoints": ["1F919", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 286,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -813,11 +679,8 @@
       "name": "call me hand: medium-light skin tone",
       "emoji": "🤙🏼",
       "codePoints": ["1F919", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 287,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -832,11 +695,8 @@
       "name": "call me hand: medium skin tone",
       "emoji": "🤙🏽",
       "codePoints": ["1F919", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 288,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -851,11 +711,8 @@
       "name": "call me hand: medium-dark skin tone",
       "emoji": "🤙🏾",
       "codePoints": ["1F919", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 289,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -870,11 +727,8 @@
       "name": "call me hand: dark skin tone",
       "emoji": "🤙🏿",
       "codePoints": ["1F919", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-partial",
       "order": 290,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     }
   ]

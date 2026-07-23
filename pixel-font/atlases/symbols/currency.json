@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "symbols/currency",
   "image": "symbols/currency.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Symbols",
   "subGroup": "currency",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "currency exchange",
       "emoji": "💱",
       "codePoints": ["1F4B1"],
-      "group": "Symbols",
-      "subGroup": "currency",
       "order": 3573,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "heavy dollar sign",
       "emoji": "💲",
       "codePoints": ["1F4B2"],
-      "group": "Symbols",
-      "subGroup": "currency",
       "order": 3574,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

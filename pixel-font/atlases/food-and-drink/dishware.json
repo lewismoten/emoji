@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "food-and-drink/dishware",
   "image": "food-and-drink/dishware.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Food & Drink",
   "subGroup": "dishware",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "chopsticks",
       "emoji": "🥢",
       "codePoints": ["1F962"],
-      "group": "Food & Drink",
-      "subGroup": "dishware",
       "order": 2882,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "fork and knife with plate",
       "emoji": "🍽️",
       "codePoints": ["1F37D", "FE0F"],
-      "group": "Food & Drink",
-      "subGroup": "dishware",
       "order": 2883,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "fork and knife",
       "emoji": "🍴",
       "codePoints": ["1F374"],
-      "group": "Food & Drink",
-      "subGroup": "dishware",
       "order": 2884,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "spoon",
       "emoji": "🥄",
       "codePoints": ["1F944"],
-      "group": "Food & Drink",
-      "subGroup": "dishware",
       "order": 2885,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "kitchen knife",
       "emoji": "🔪",
       "codePoints": ["1F52A"],
-      "group": "Food & Drink",
-      "subGroup": "dishware",
       "order": 2886,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "jar",
       "emoji": "🫙",
       "codePoints": ["1FAD9"],
-      "group": "Food & Drink",
-      "subGroup": "dishware",
       "order": 2887,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "amphora",
       "emoji": "🏺",
       "codePoints": ["1F3FA"],
-      "group": "Food & Drink",
-      "subGroup": "dishware",
       "order": 2888,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

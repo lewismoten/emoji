@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "modifiers/skin-tone/people-and-body/family-02",
   "image": "modifiers/skin-tone/people-and-body/family-02.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "skin-tone",
   "group": "People & Body",
   "subGroup": "family",
   "part": 2,
   "partCount": 3,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 8,
-  "capacity": 128,
   "imageWidth": 272,
   "imageHeight": 192,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -45,11 +34,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2375,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -75,11 +61,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2376,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -105,11 +88,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2377,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -135,11 +115,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2378,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -165,11 +142,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2379,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -195,11 +169,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2380,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -225,11 +196,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2381,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -255,11 +223,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2382,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -285,11 +250,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2383,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -315,11 +277,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2384,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -345,11 +304,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2385,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -375,11 +331,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2386,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -405,11 +358,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2387,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -435,11 +385,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2388,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -465,11 +412,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2389,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -495,11 +439,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2390,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -525,11 +466,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2391,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -555,11 +493,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2392,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -585,11 +520,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2393,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -615,11 +547,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2394,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -645,11 +574,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2395,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -675,11 +601,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2396,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -705,11 +628,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2398,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -735,11 +655,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2399,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -765,11 +682,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2400,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -795,11 +709,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2401,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -825,11 +736,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2402,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -855,11 +763,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2403,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -885,11 +790,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2404,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -915,11 +817,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2405,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -945,11 +844,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2406,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -975,11 +871,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2407,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1005,11 +898,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2408,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1035,11 +925,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2409,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1065,11 +952,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2410,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1095,11 +979,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2411,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1125,11 +1006,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2412,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1155,11 +1033,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2413,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1185,11 +1060,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2414,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1215,11 +1087,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2415,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1245,11 +1114,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2416,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1275,11 +1141,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2417,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1305,11 +1168,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2418,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1335,11 +1195,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2419,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1365,11 +1222,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2420,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1395,11 +1249,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2421,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1425,11 +1276,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2422,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1455,11 +1303,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2424,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1485,11 +1330,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2425,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1515,11 +1357,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2426,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1545,11 +1384,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2427,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1575,11 +1411,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2428,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1605,11 +1438,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2429,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1635,11 +1465,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2430,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1665,11 +1492,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2431,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1695,11 +1519,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2432,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1725,11 +1546,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2433,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1755,11 +1573,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2434,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1785,11 +1600,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2435,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1815,11 +1627,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2436,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1845,11 +1654,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2437,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1875,11 +1681,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2438,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1905,11 +1708,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2439,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1935,11 +1735,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2440,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1965,11 +1762,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2441,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1995,11 +1789,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2442,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2025,11 +1816,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2443,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2055,11 +1843,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2444,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2085,11 +1870,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2445,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2115,11 +1897,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2446,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2145,11 +1924,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2447,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2175,11 +1951,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2448,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2194,11 +1967,8 @@
       "name": "couple with heart: light skin tone",
       "emoji": "💑🏻",
       "codePoints": ["1F491", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2450,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2213,11 +1983,8 @@
       "name": "couple with heart: medium-light skin tone",
       "emoji": "💑🏼",
       "codePoints": ["1F491", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2451,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2232,11 +1999,8 @@
       "name": "couple with heart: medium skin tone",
       "emoji": "💑🏽",
       "codePoints": ["1F491", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2452,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2251,11 +2015,8 @@
       "name": "couple with heart: medium-dark skin tone",
       "emoji": "💑🏾",
       "codePoints": ["1F491", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2453,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2270,11 +2031,8 @@
       "name": "couple with heart: dark skin tone",
       "emoji": "💑🏿",
       "codePoints": ["1F491", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2454,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2298,11 +2056,8 @@
         "1F9D1",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2455,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2326,11 +2081,8 @@
         "1F9D1",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2456,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2354,11 +2106,8 @@
         "1F9D1",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2457,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2382,11 +2131,8 @@
         "1F9D1",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2458,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2410,11 +2156,8 @@
         "1F9D1",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2459,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2438,11 +2181,8 @@
         "1F9D1",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2460,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2466,11 +2206,8 @@
         "1F9D1",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2461,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2494,11 +2231,8 @@
         "1F9D1",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2462,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2522,11 +2256,8 @@
         "1F9D1",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2463,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2550,11 +2281,8 @@
         "1F9D1",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2464,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2578,11 +2306,8 @@
         "1F9D1",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2465,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2606,11 +2331,8 @@
         "1F9D1",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2466,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2634,11 +2356,8 @@
         "1F9D1",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2467,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2662,11 +2381,8 @@
         "1F9D1",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2468,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2690,11 +2406,8 @@
         "1F9D1",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2469,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2718,11 +2431,8 @@
         "1F9D1",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2470,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2746,11 +2456,8 @@
         "1F9D1",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2471,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2774,11 +2481,8 @@
         "1F9D1",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2472,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2802,11 +2506,8 @@
         "1F9D1",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2473,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2830,11 +2531,8 @@
         "1F9D1",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2474,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2858,11 +2556,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2476,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2886,11 +2581,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2477,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2914,11 +2606,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2478,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2942,11 +2631,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2479,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2970,11 +2656,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2480,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2998,11 +2681,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2481,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3026,11 +2706,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2482,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3054,11 +2731,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2483,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3082,11 +2756,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2484,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3110,11 +2781,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2485,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3138,11 +2806,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2486,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3166,11 +2831,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2487,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3194,11 +2856,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2488,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3222,11 +2881,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2489,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3250,11 +2906,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2490,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3278,11 +2931,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2491,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3306,11 +2956,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2492,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3334,11 +2981,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2493,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3362,11 +3006,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2494,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3390,11 +3031,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2495,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3418,11 +3056,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2496,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3446,11 +3081,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2497,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3474,11 +3106,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2498,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3502,11 +3131,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2499,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3530,11 +3156,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2500,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3558,11 +3181,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2502,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3586,11 +3206,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2503,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3614,11 +3231,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2504,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3642,11 +3256,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2505,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3670,11 +3281,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2506,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -3698,11 +3306,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "family",
       "order": 2507,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     }
   ]

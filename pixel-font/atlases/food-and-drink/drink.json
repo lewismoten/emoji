@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "food-and-drink/drink",
   "image": "food-and-drink/drink.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Food & Drink",
   "subGroup": "drink",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "baby bottle",
       "emoji": "🍼",
       "codePoints": ["1F37C"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2862,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "glass of milk",
       "emoji": "🥛",
       "codePoints": ["1F95B"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2863,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "hot beverage",
       "emoji": "☕",
       "codePoints": ["2615"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2864,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "teapot",
       "emoji": "🫖",
       "codePoints": ["1FAD6"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2865,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "teacup without handle",
       "emoji": "🍵",
       "codePoints": ["1F375"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2866,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "sake",
       "emoji": "🍶",
       "codePoints": ["1F376"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2867,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "bottle with popping cork",
       "emoji": "🍾",
       "codePoints": ["1F37E"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2868,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "wine glass",
       "emoji": "🍷",
       "codePoints": ["1F377"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2869,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "cocktail glass",
       "emoji": "🍸",
       "codePoints": ["1F378"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2870,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "tropical drink",
       "emoji": "🍹",
       "codePoints": ["1F379"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2871,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "beer mug",
       "emoji": "🍺",
       "codePoints": ["1F37A"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2872,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "clinking beer mugs",
       "emoji": "🍻",
       "codePoints": ["1F37B"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2873,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "clinking glasses",
       "emoji": "🥂",
       "codePoints": ["1F942"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2874,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "tumbler glass",
       "emoji": "🥃",
       "codePoints": ["1F943"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2875,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "pouring liquid",
       "emoji": "🫗",
       "codePoints": ["1FAD7"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2876,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "cup with straw",
       "emoji": "🥤",
       "codePoints": ["1F964"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2877,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "bubble tea",
       "emoji": "🧋",
       "codePoints": ["1F9CB"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2878,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "beverage box",
       "emoji": "🧃",
       "codePoints": ["1F9C3"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2879,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "mate",
       "emoji": "🧉",
       "codePoints": ["1F9C9"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2880,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "ice",
       "emoji": "🧊",
       "codePoints": ["1F9CA"],
-      "group": "Food & Drink",
-      "subGroup": "drink",
       "order": 2881,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

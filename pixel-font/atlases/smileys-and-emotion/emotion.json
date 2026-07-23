@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "smileys-and-emotion/emotion",
   "image": "smileys-and-emotion/emotion.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "emotion",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "kiss mark",
       "emoji": "💋",
       "codePoints": ["1F48B"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 156,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "hundred points",
       "emoji": "💯",
       "codePoints": ["1F4AF"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 157,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "anger symbol",
       "emoji": "💢",
       "codePoints": ["1F4A2"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 158,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "fight cloud",
       "emoji": "🫯",
       "codePoints": ["1FAEF"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 159,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "collision",
       "emoji": "💥",
       "codePoints": ["1F4A5"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 160,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "dizzy",
       "emoji": "💫",
       "codePoints": ["1F4AB"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 161,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "sweat droplets",
       "emoji": "💦",
       "codePoints": ["1F4A6"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 162,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "dashing away",
       "emoji": "💨",
       "codePoints": ["1F4A8"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 163,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "hole",
       "emoji": "🕳️",
       "codePoints": ["1F573", "FE0F"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 164,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "speech balloon",
       "emoji": "💬",
       "codePoints": ["1F4AC"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 165,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "eye in speech bubble",
       "emoji": "👁️‍🗨️",
       "codePoints": ["1F441", "FE0F", "200D", "1F5E8", "FE0F"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 166,
       "sequenceType": "zwj",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "left speech bubble",
       "emoji": "🗨️",
       "codePoints": ["1F5E8", "FE0F"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 167,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "right anger bubble",
       "emoji": "🗯️",
       "codePoints": ["1F5EF", "FE0F"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 168,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "thought balloon",
       "emoji": "💭",
       "codePoints": ["1F4AD"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 169,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "ZZZ",
       "emoji": "💤",
       "codePoints": ["1F4A4"],
-      "group": "Smileys & Emotion",
-      "subGroup": "emotion",
       "order": 170,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "modifiers/skin-tone/people-and-body/person-sport-02",
   "image": "modifiers/skin-tone/people-and-body/person-sport-02.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "skin-tone",
   "group": "People & Body",
   "subGroup": "person-sport",
   "part": 2,
   "partCount": 3,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 8,
-  "capacity": 128,
   "imageWidth": 272,
   "imageHeight": 192,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "woman mountain biking: medium-dark skin tone",
       "emoji": "🚵🏾‍♀️",
       "codePoints": ["1F6B5", "1F3FE", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2059,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "woman mountain biking: dark skin tone",
       "emoji": "🚵🏿‍♀️",
       "codePoints": ["1F6B5", "1F3FF", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2060,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "person cartwheeling: light skin tone",
       "emoji": "🤸🏻",
       "codePoints": ["1F938", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2062,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "person cartwheeling: medium-light skin tone",
       "emoji": "🤸🏼",
       "codePoints": ["1F938", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2063,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "person cartwheeling: medium skin tone",
       "emoji": "🤸🏽",
       "codePoints": ["1F938", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2064,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "person cartwheeling: medium-dark skin tone",
       "emoji": "🤸🏾",
       "codePoints": ["1F938", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2065,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "person cartwheeling: dark skin tone",
       "emoji": "🤸🏿",
       "codePoints": ["1F938", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2066,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "man cartwheeling: light skin tone",
       "emoji": "🤸🏻‍♂️",
       "codePoints": ["1F938", "1F3FB", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2068,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "man cartwheeling: medium-light skin tone",
       "emoji": "🤸🏼‍♂️",
       "codePoints": ["1F938", "1F3FC", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2069,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "man cartwheeling: medium skin tone",
       "emoji": "🤸🏽‍♂️",
       "codePoints": ["1F938", "1F3FD", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2070,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "man cartwheeling: medium-dark skin tone",
       "emoji": "🤸🏾‍♂️",
       "codePoints": ["1F938", "1F3FE", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2071,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "man cartwheeling: dark skin tone",
       "emoji": "🤸🏿‍♂️",
       "codePoints": ["1F938", "1F3FF", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2072,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "woman cartwheeling: light skin tone",
       "emoji": "🤸🏻‍♀️",
       "codePoints": ["1F938", "1F3FB", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2074,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "woman cartwheeling: medium-light skin tone",
       "emoji": "🤸🏼‍♀️",
       "codePoints": ["1F938", "1F3FC", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2075,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "woman cartwheeling: medium skin tone",
       "emoji": "🤸🏽‍♀️",
       "codePoints": ["1F938", "1F3FD", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2076,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "woman cartwheeling: medium-dark skin tone",
       "emoji": "🤸🏾‍♀️",
       "codePoints": ["1F938", "1F3FE", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2077,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "woman cartwheeling: dark skin tone",
       "emoji": "🤸🏿‍♀️",
       "codePoints": ["1F938", "1F3FF", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2078,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "people wrestling: light skin tone",
       "emoji": "🤼🏻",
       "codePoints": ["1F93C", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2080,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "people wrestling: medium-light skin tone",
       "emoji": "🤼🏼",
       "codePoints": ["1F93C", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2081,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "people wrestling: medium skin tone",
       "emoji": "🤼🏽",
       "codePoints": ["1F93C", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2082,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "people wrestling: medium-dark skin tone",
       "emoji": "🤼🏾",
       "codePoints": ["1F93C", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2083,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "people wrestling: dark skin tone",
       "emoji": "🤼🏿",
       "codePoints": ["1F93C", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2084,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "men wrestling: light skin tone",
       "emoji": "🤼🏻‍♂️",
       "codePoints": ["1F93C", "1F3FB", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2086,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "men wrestling: medium-light skin tone",
       "emoji": "🤼🏼‍♂️",
       "codePoints": ["1F93C", "1F3FC", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2087,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "men wrestling: medium skin tone",
       "emoji": "🤼🏽‍♂️",
       "codePoints": ["1F93C", "1F3FD", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2088,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "men wrestling: medium-dark skin tone",
       "emoji": "🤼🏾‍♂️",
       "codePoints": ["1F93C", "1F3FE", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2089,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "men wrestling: dark skin tone",
       "emoji": "🤼🏿‍♂️",
       "codePoints": ["1F93C", "1F3FF", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2090,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "women wrestling: light skin tone",
       "emoji": "🤼🏻‍♀️",
       "codePoints": ["1F93C", "1F3FB", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2092,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "women wrestling: medium-light skin tone",
       "emoji": "🤼🏼‍♀️",
       "codePoints": ["1F93C", "1F3FC", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2093,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "women wrestling: medium skin tone",
       "emoji": "🤼🏽‍♀️",
       "codePoints": ["1F93C", "1F3FD", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2094,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -604,11 +503,8 @@
       "name": "women wrestling: medium-dark skin tone",
       "emoji": "🤼🏾‍♀️",
       "codePoints": ["1F93C", "1F3FE", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2095,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -623,11 +519,8 @@
       "name": "women wrestling: dark skin tone",
       "emoji": "🤼🏿‍♀️",
       "codePoints": ["1F93C", "1F3FF", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2096,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -650,11 +543,8 @@
         "1F9D1",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2097,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -677,11 +567,8 @@
         "1F9D1",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2098,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -704,11 +591,8 @@
         "1F9D1",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2099,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -731,11 +615,8 @@
         "1F9D1",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2100,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -758,11 +639,8 @@
         "1F9D1",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2101,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -785,11 +663,8 @@
         "1F9D1",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2102,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -812,11 +687,8 @@
         "1F9D1",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2103,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -839,11 +711,8 @@
         "1F9D1",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2104,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -866,11 +735,8 @@
         "1F9D1",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2105,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -893,11 +759,8 @@
         "1F9D1",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2106,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -920,11 +783,8 @@
         "1F9D1",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2107,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -947,11 +807,8 @@
         "1F9D1",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2108,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -974,11 +831,8 @@
         "1F9D1",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2109,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1001,11 +855,8 @@
         "1F9D1",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2110,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1028,11 +879,8 @@
         "1F9D1",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2111,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1055,11 +903,8 @@
         "1F9D1",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2112,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1082,11 +927,8 @@
         "1F9D1",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2113,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1109,11 +951,8 @@
         "1F9D1",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2114,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1136,11 +975,8 @@
         "1F9D1",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2115,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1163,11 +999,8 @@
         "1F9D1",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2116,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1190,11 +1023,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2117,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1217,11 +1047,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2118,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1244,11 +1071,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2119,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1271,11 +1095,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2120,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1298,11 +1119,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2121,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1325,11 +1143,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2122,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1352,11 +1167,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2123,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1379,11 +1191,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2124,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1406,11 +1215,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2125,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1433,11 +1239,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2126,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1460,11 +1263,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2127,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1487,11 +1287,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2128,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1514,11 +1311,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2129,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1541,11 +1335,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2130,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1568,11 +1359,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2131,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1595,11 +1383,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2132,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1622,11 +1407,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2133,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1649,11 +1431,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2134,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1676,11 +1455,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2135,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1703,11 +1479,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2136,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1730,11 +1503,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2137,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1757,11 +1527,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2138,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1784,11 +1551,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2139,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1811,11 +1575,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2140,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1838,11 +1599,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2141,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1865,11 +1623,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2142,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1892,11 +1647,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2143,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1919,11 +1671,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2144,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1946,11 +1695,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2145,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1973,11 +1719,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2146,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2000,11 +1743,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2147,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2027,11 +1767,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2148,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2054,11 +1791,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2149,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2081,11 +1815,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2150,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2108,11 +1839,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2151,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2135,11 +1863,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2152,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2162,11 +1887,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2153,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2189,11 +1911,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2154,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2216,11 +1935,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2155,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2243,11 +1959,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2156,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2262,11 +1975,8 @@
       "name": "person playing water polo: light skin tone",
       "emoji": "🤽🏻",
       "codePoints": ["1F93D", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2158,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2281,11 +1991,8 @@
       "name": "person playing water polo: medium-light skin tone",
       "emoji": "🤽🏼",
       "codePoints": ["1F93D", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2159,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2300,11 +2007,8 @@
       "name": "person playing water polo: medium skin tone",
       "emoji": "🤽🏽",
       "codePoints": ["1F93D", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2160,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2319,11 +2023,8 @@
       "name": "person playing water polo: medium-dark skin tone",
       "emoji": "🤽🏾",
       "codePoints": ["1F93D", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2161,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2338,11 +2039,8 @@
       "name": "person playing water polo: dark skin tone",
       "emoji": "🤽🏿",
       "codePoints": ["1F93D", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2162,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2357,11 +2055,8 @@
       "name": "man playing water polo: light skin tone",
       "emoji": "🤽🏻‍♂️",
       "codePoints": ["1F93D", "1F3FB", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2164,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2376,11 +2071,8 @@
       "name": "man playing water polo: medium-light skin tone",
       "emoji": "🤽🏼‍♂️",
       "codePoints": ["1F93D", "1F3FC", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2165,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2395,11 +2087,8 @@
       "name": "man playing water polo: medium skin tone",
       "emoji": "🤽🏽‍♂️",
       "codePoints": ["1F93D", "1F3FD", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2166,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2414,11 +2103,8 @@
       "name": "man playing water polo: medium-dark skin tone",
       "emoji": "🤽🏾‍♂️",
       "codePoints": ["1F93D", "1F3FE", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2167,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2433,11 +2119,8 @@
       "name": "man playing water polo: dark skin tone",
       "emoji": "🤽🏿‍♂️",
       "codePoints": ["1F93D", "1F3FF", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2168,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2452,11 +2135,8 @@
       "name": "woman playing water polo: light skin tone",
       "emoji": "🤽🏻‍♀️",
       "codePoints": ["1F93D", "1F3FB", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2170,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2471,11 +2151,8 @@
       "name": "woman playing water polo: medium-light skin tone",
       "emoji": "🤽🏼‍♀️",
       "codePoints": ["1F93D", "1F3FC", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2171,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2490,11 +2167,8 @@
       "name": "woman playing water polo: medium skin tone",
       "emoji": "🤽🏽‍♀️",
       "codePoints": ["1F93D", "1F3FD", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2172,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2509,11 +2183,8 @@
       "name": "woman playing water polo: medium-dark skin tone",
       "emoji": "🤽🏾‍♀️",
       "codePoints": ["1F93D", "1F3FE", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2173,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2528,11 +2199,8 @@
       "name": "woman playing water polo: dark skin tone",
       "emoji": "🤽🏿‍♀️",
       "codePoints": ["1F93D", "1F3FF", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2174,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2547,11 +2215,8 @@
       "name": "person playing handball: light skin tone",
       "emoji": "🤾🏻",
       "codePoints": ["1F93E", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2176,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2566,11 +2231,8 @@
       "name": "person playing handball: medium-light skin tone",
       "emoji": "🤾🏼",
       "codePoints": ["1F93E", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2177,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2585,11 +2247,8 @@
       "name": "person playing handball: medium skin tone",
       "emoji": "🤾🏽",
       "codePoints": ["1F93E", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2178,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2604,11 +2263,8 @@
       "name": "person playing handball: medium-dark skin tone",
       "emoji": "🤾🏾",
       "codePoints": ["1F93E", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2179,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2623,11 +2279,8 @@
       "name": "person playing handball: dark skin tone",
       "emoji": "🤾🏿",
       "codePoints": ["1F93E", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2180,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2642,11 +2295,8 @@
       "name": "man playing handball: light skin tone",
       "emoji": "🤾🏻‍♂️",
       "codePoints": ["1F93E", "1F3FB", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2182,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2661,11 +2311,8 @@
       "name": "man playing handball: medium-light skin tone",
       "emoji": "🤾🏼‍♂️",
       "codePoints": ["1F93E", "1F3FC", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2183,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2680,11 +2327,8 @@
       "name": "man playing handball: medium skin tone",
       "emoji": "🤾🏽‍♂️",
       "codePoints": ["1F93E", "1F3FD", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2184,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2699,11 +2343,8 @@
       "name": "man playing handball: medium-dark skin tone",
       "emoji": "🤾🏾‍♂️",
       "codePoints": ["1F93E", "1F3FE", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2185,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2718,11 +2359,8 @@
       "name": "man playing handball: dark skin tone",
       "emoji": "🤾🏿‍♂️",
       "codePoints": ["1F93E", "1F3FF", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2186,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2737,11 +2375,8 @@
       "name": "woman playing handball: light skin tone",
       "emoji": "🤾🏻‍♀️",
       "codePoints": ["1F93E", "1F3FB", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2188,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2756,11 +2391,8 @@
       "name": "woman playing handball: medium-light skin tone",
       "emoji": "🤾🏼‍♀️",
       "codePoints": ["1F93E", "1F3FC", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2189,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2775,11 +2407,8 @@
       "name": "woman playing handball: medium skin tone",
       "emoji": "🤾🏽‍♀️",
       "codePoints": ["1F93E", "1F3FD", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2190,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2794,11 +2423,8 @@
       "name": "woman playing handball: medium-dark skin tone",
       "emoji": "🤾🏾‍♀️",
       "codePoints": ["1F93E", "1F3FE", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2191,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2813,11 +2439,8 @@
       "name": "woman playing handball: dark skin tone",
       "emoji": "🤾🏿‍♀️",
       "codePoints": ["1F93E", "1F3FF", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2192,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2832,11 +2455,8 @@
       "name": "person juggling: light skin tone",
       "emoji": "🤹🏻",
       "codePoints": ["1F939", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2194,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2851,11 +2471,8 @@
       "name": "person juggling: medium-light skin tone",
       "emoji": "🤹🏼",
       "codePoints": ["1F939", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2195,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2870,11 +2487,8 @@
       "name": "person juggling: medium skin tone",
       "emoji": "🤹🏽",
       "codePoints": ["1F939", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2196,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2889,11 +2503,8 @@
       "name": "person juggling: medium-dark skin tone",
       "emoji": "🤹🏾",
       "codePoints": ["1F939", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2197,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2908,11 +2519,8 @@
       "name": "person juggling: dark skin tone",
       "emoji": "🤹🏿",
       "codePoints": ["1F939", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2198,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2927,11 +2535,8 @@
       "name": "man juggling: light skin tone",
       "emoji": "🤹🏻‍♂️",
       "codePoints": ["1F939", "1F3FB", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-sport",
       "order": 2200,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     }
   ]

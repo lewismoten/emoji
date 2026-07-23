@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "modifiers/skin-tone/people-and-body/person-role-02",
   "image": "modifiers/skin-tone/people-and-body/person-role-02.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "skin-tone",
   "group": "People & Body",
   "subGroup": "person-role",
   "part": 2,
   "partCount": 4,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 8,
-  "capacity": 128,
   "imageWidth": 272,
   "imageHeight": 192,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "man office worker: medium-dark skin tone",
       "emoji": "👨🏾‍💼",
       "codePoints": ["1F468", "1F3FE", "200D", "1F4BC"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 999,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "man office worker: dark skin tone",
       "emoji": "👨🏿‍💼",
       "codePoints": ["1F468", "1F3FF", "200D", "1F4BC"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1000,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "woman office worker: light skin tone",
       "emoji": "👩🏻‍💼",
       "codePoints": ["1F469", "1F3FB", "200D", "1F4BC"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1002,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "woman office worker: medium-light skin tone",
       "emoji": "👩🏼‍💼",
       "codePoints": ["1F469", "1F3FC", "200D", "1F4BC"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1003,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "woman office worker: medium skin tone",
       "emoji": "👩🏽‍💼",
       "codePoints": ["1F469", "1F3FD", "200D", "1F4BC"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1004,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "woman office worker: medium-dark skin tone",
       "emoji": "👩🏾‍💼",
       "codePoints": ["1F469", "1F3FE", "200D", "1F4BC"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1005,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "woman office worker: dark skin tone",
       "emoji": "👩🏿‍💼",
       "codePoints": ["1F469", "1F3FF", "200D", "1F4BC"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1006,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "scientist: light skin tone",
       "emoji": "🧑🏻‍🔬",
       "codePoints": ["1F9D1", "1F3FB", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1008,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "scientist: medium-light skin tone",
       "emoji": "🧑🏼‍🔬",
       "codePoints": ["1F9D1", "1F3FC", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1009,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "scientist: medium skin tone",
       "emoji": "🧑🏽‍🔬",
       "codePoints": ["1F9D1", "1F3FD", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1010,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "scientist: medium-dark skin tone",
       "emoji": "🧑🏾‍🔬",
       "codePoints": ["1F9D1", "1F3FE", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1011,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "scientist: dark skin tone",
       "emoji": "🧑🏿‍🔬",
       "codePoints": ["1F9D1", "1F3FF", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1012,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "man scientist: light skin tone",
       "emoji": "👨🏻‍🔬",
       "codePoints": ["1F468", "1F3FB", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1014,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "man scientist: medium-light skin tone",
       "emoji": "👨🏼‍🔬",
       "codePoints": ["1F468", "1F3FC", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1015,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "man scientist: medium skin tone",
       "emoji": "👨🏽‍🔬",
       "codePoints": ["1F468", "1F3FD", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1016,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "man scientist: medium-dark skin tone",
       "emoji": "👨🏾‍🔬",
       "codePoints": ["1F468", "1F3FE", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1017,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "man scientist: dark skin tone",
       "emoji": "👨🏿‍🔬",
       "codePoints": ["1F468", "1F3FF", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1018,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "woman scientist: light skin tone",
       "emoji": "👩🏻‍🔬",
       "codePoints": ["1F469", "1F3FB", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1020,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "woman scientist: medium-light skin tone",
       "emoji": "👩🏼‍🔬",
       "codePoints": ["1F469", "1F3FC", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1021,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "woman scientist: medium skin tone",
       "emoji": "👩🏽‍🔬",
       "codePoints": ["1F469", "1F3FD", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1022,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "woman scientist: medium-dark skin tone",
       "emoji": "👩🏾‍🔬",
       "codePoints": ["1F469", "1F3FE", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1023,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "woman scientist: dark skin tone",
       "emoji": "👩🏿‍🔬",
       "codePoints": ["1F469", "1F3FF", "200D", "1F52C"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1024,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "technologist: light skin tone",
       "emoji": "🧑🏻‍💻",
       "codePoints": ["1F9D1", "1F3FB", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1026,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "technologist: medium-light skin tone",
       "emoji": "🧑🏼‍💻",
       "codePoints": ["1F9D1", "1F3FC", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1027,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "technologist: medium skin tone",
       "emoji": "🧑🏽‍💻",
       "codePoints": ["1F9D1", "1F3FD", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1028,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "technologist: medium-dark skin tone",
       "emoji": "🧑🏾‍💻",
       "codePoints": ["1F9D1", "1F3FE", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1029,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "technologist: dark skin tone",
       "emoji": "🧑🏿‍💻",
       "codePoints": ["1F9D1", "1F3FF", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1030,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -547,11 +455,8 @@
       "name": "man technologist: light skin tone",
       "emoji": "👨🏻‍💻",
       "codePoints": ["1F468", "1F3FB", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1032,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -566,11 +471,8 @@
       "name": "man technologist: medium-light skin tone",
       "emoji": "👨🏼‍💻",
       "codePoints": ["1F468", "1F3FC", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1033,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -585,11 +487,8 @@
       "name": "man technologist: medium skin tone",
       "emoji": "👨🏽‍💻",
       "codePoints": ["1F468", "1F3FD", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1034,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -604,11 +503,8 @@
       "name": "man technologist: medium-dark skin tone",
       "emoji": "👨🏾‍💻",
       "codePoints": ["1F468", "1F3FE", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1035,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -623,11 +519,8 @@
       "name": "man technologist: dark skin tone",
       "emoji": "👨🏿‍💻",
       "codePoints": ["1F468", "1F3FF", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1036,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -642,11 +535,8 @@
       "name": "woman technologist: light skin tone",
       "emoji": "👩🏻‍💻",
       "codePoints": ["1F469", "1F3FB", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1038,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -661,11 +551,8 @@
       "name": "woman technologist: medium-light skin tone",
       "emoji": "👩🏼‍💻",
       "codePoints": ["1F469", "1F3FC", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1039,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -680,11 +567,8 @@
       "name": "woman technologist: medium skin tone",
       "emoji": "👩🏽‍💻",
       "codePoints": ["1F469", "1F3FD", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1040,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -699,11 +583,8 @@
       "name": "woman technologist: medium-dark skin tone",
       "emoji": "👩🏾‍💻",
       "codePoints": ["1F469", "1F3FE", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1041,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -718,11 +599,8 @@
       "name": "woman technologist: dark skin tone",
       "emoji": "👩🏿‍💻",
       "codePoints": ["1F469", "1F3FF", "200D", "1F4BB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1042,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -737,11 +615,8 @@
       "name": "singer: light skin tone",
       "emoji": "🧑🏻‍🎤",
       "codePoints": ["1F9D1", "1F3FB", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1044,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -756,11 +631,8 @@
       "name": "singer: medium-light skin tone",
       "emoji": "🧑🏼‍🎤",
       "codePoints": ["1F9D1", "1F3FC", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1045,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -775,11 +647,8 @@
       "name": "singer: medium skin tone",
       "emoji": "🧑🏽‍🎤",
       "codePoints": ["1F9D1", "1F3FD", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1046,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -794,11 +663,8 @@
       "name": "singer: medium-dark skin tone",
       "emoji": "🧑🏾‍🎤",
       "codePoints": ["1F9D1", "1F3FE", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1047,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -813,11 +679,8 @@
       "name": "singer: dark skin tone",
       "emoji": "🧑🏿‍🎤",
       "codePoints": ["1F9D1", "1F3FF", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1048,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -832,11 +695,8 @@
       "name": "man singer: light skin tone",
       "emoji": "👨🏻‍🎤",
       "codePoints": ["1F468", "1F3FB", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1050,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -851,11 +711,8 @@
       "name": "man singer: medium-light skin tone",
       "emoji": "👨🏼‍🎤",
       "codePoints": ["1F468", "1F3FC", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1051,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -870,11 +727,8 @@
       "name": "man singer: medium skin tone",
       "emoji": "👨🏽‍🎤",
       "codePoints": ["1F468", "1F3FD", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1052,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -889,11 +743,8 @@
       "name": "man singer: medium-dark skin tone",
       "emoji": "👨🏾‍🎤",
       "codePoints": ["1F468", "1F3FE", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1053,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -908,11 +759,8 @@
       "name": "man singer: dark skin tone",
       "emoji": "👨🏿‍🎤",
       "codePoints": ["1F468", "1F3FF", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1054,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -927,11 +775,8 @@
       "name": "woman singer: light skin tone",
       "emoji": "👩🏻‍🎤",
       "codePoints": ["1F469", "1F3FB", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1056,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -946,11 +791,8 @@
       "name": "woman singer: medium-light skin tone",
       "emoji": "👩🏼‍🎤",
       "codePoints": ["1F469", "1F3FC", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1057,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -965,11 +807,8 @@
       "name": "woman singer: medium skin tone",
       "emoji": "👩🏽‍🎤",
       "codePoints": ["1F469", "1F3FD", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1058,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -984,11 +823,8 @@
       "name": "woman singer: medium-dark skin tone",
       "emoji": "👩🏾‍🎤",
       "codePoints": ["1F469", "1F3FE", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1059,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1003,11 +839,8 @@
       "name": "woman singer: dark skin tone",
       "emoji": "👩🏿‍🎤",
       "codePoints": ["1F469", "1F3FF", "200D", "1F3A4"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1060,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1022,11 +855,8 @@
       "name": "artist: light skin tone",
       "emoji": "🧑🏻‍🎨",
       "codePoints": ["1F9D1", "1F3FB", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1062,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1041,11 +871,8 @@
       "name": "artist: medium-light skin tone",
       "emoji": "🧑🏼‍🎨",
       "codePoints": ["1F9D1", "1F3FC", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1063,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1060,11 +887,8 @@
       "name": "artist: medium skin tone",
       "emoji": "🧑🏽‍🎨",
       "codePoints": ["1F9D1", "1F3FD", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1064,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1079,11 +903,8 @@
       "name": "artist: medium-dark skin tone",
       "emoji": "🧑🏾‍🎨",
       "codePoints": ["1F9D1", "1F3FE", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1065,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1098,11 +919,8 @@
       "name": "artist: dark skin tone",
       "emoji": "🧑🏿‍🎨",
       "codePoints": ["1F9D1", "1F3FF", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1066,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1117,11 +935,8 @@
       "name": "man artist: light skin tone",
       "emoji": "👨🏻‍🎨",
       "codePoints": ["1F468", "1F3FB", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1068,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1136,11 +951,8 @@
       "name": "man artist: medium-light skin tone",
       "emoji": "👨🏼‍🎨",
       "codePoints": ["1F468", "1F3FC", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1069,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1155,11 +967,8 @@
       "name": "man artist: medium skin tone",
       "emoji": "👨🏽‍🎨",
       "codePoints": ["1F468", "1F3FD", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1070,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1174,11 +983,8 @@
       "name": "man artist: medium-dark skin tone",
       "emoji": "👨🏾‍🎨",
       "codePoints": ["1F468", "1F3FE", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1071,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1193,11 +999,8 @@
       "name": "man artist: dark skin tone",
       "emoji": "👨🏿‍🎨",
       "codePoints": ["1F468", "1F3FF", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1072,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1212,11 +1015,8 @@
       "name": "woman artist: light skin tone",
       "emoji": "👩🏻‍🎨",
       "codePoints": ["1F469", "1F3FB", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1074,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1231,11 +1031,8 @@
       "name": "woman artist: medium-light skin tone",
       "emoji": "👩🏼‍🎨",
       "codePoints": ["1F469", "1F3FC", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1075,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1250,11 +1047,8 @@
       "name": "woman artist: medium skin tone",
       "emoji": "👩🏽‍🎨",
       "codePoints": ["1F469", "1F3FD", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1076,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1269,11 +1063,8 @@
       "name": "woman artist: medium-dark skin tone",
       "emoji": "👩🏾‍🎨",
       "codePoints": ["1F469", "1F3FE", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1077,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1288,11 +1079,8 @@
       "name": "woman artist: dark skin tone",
       "emoji": "👩🏿‍🎨",
       "codePoints": ["1F469", "1F3FF", "200D", "1F3A8"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1078,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1307,11 +1095,8 @@
       "name": "pilot: light skin tone",
       "emoji": "🧑🏻‍✈️",
       "codePoints": ["1F9D1", "1F3FB", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1080,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1326,11 +1111,8 @@
       "name": "pilot: medium-light skin tone",
       "emoji": "🧑🏼‍✈️",
       "codePoints": ["1F9D1", "1F3FC", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1081,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1345,11 +1127,8 @@
       "name": "pilot: medium skin tone",
       "emoji": "🧑🏽‍✈️",
       "codePoints": ["1F9D1", "1F3FD", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1082,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1364,11 +1143,8 @@
       "name": "pilot: medium-dark skin tone",
       "emoji": "🧑🏾‍✈️",
       "codePoints": ["1F9D1", "1F3FE", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1083,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1383,11 +1159,8 @@
       "name": "pilot: dark skin tone",
       "emoji": "🧑🏿‍✈️",
       "codePoints": ["1F9D1", "1F3FF", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1084,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1402,11 +1175,8 @@
       "name": "man pilot: light skin tone",
       "emoji": "👨🏻‍✈️",
       "codePoints": ["1F468", "1F3FB", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1086,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1421,11 +1191,8 @@
       "name": "man pilot: medium-light skin tone",
       "emoji": "👨🏼‍✈️",
       "codePoints": ["1F468", "1F3FC", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1087,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1440,11 +1207,8 @@
       "name": "man pilot: medium skin tone",
       "emoji": "👨🏽‍✈️",
       "codePoints": ["1F468", "1F3FD", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1088,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1459,11 +1223,8 @@
       "name": "man pilot: medium-dark skin tone",
       "emoji": "👨🏾‍✈️",
       "codePoints": ["1F468", "1F3FE", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1089,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1478,11 +1239,8 @@
       "name": "man pilot: dark skin tone",
       "emoji": "👨🏿‍✈️",
       "codePoints": ["1F468", "1F3FF", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1090,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1497,11 +1255,8 @@
       "name": "woman pilot: light skin tone",
       "emoji": "👩🏻‍✈️",
       "codePoints": ["1F469", "1F3FB", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1092,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1516,11 +1271,8 @@
       "name": "woman pilot: medium-light skin tone",
       "emoji": "👩🏼‍✈️",
       "codePoints": ["1F469", "1F3FC", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1093,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1535,11 +1287,8 @@
       "name": "woman pilot: medium skin tone",
       "emoji": "👩🏽‍✈️",
       "codePoints": ["1F469", "1F3FD", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1094,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1554,11 +1303,8 @@
       "name": "woman pilot: medium-dark skin tone",
       "emoji": "👩🏾‍✈️",
       "codePoints": ["1F469", "1F3FE", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1095,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1573,11 +1319,8 @@
       "name": "woman pilot: dark skin tone",
       "emoji": "👩🏿‍✈️",
       "codePoints": ["1F469", "1F3FF", "200D", "2708", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1096,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1592,11 +1335,8 @@
       "name": "astronaut: light skin tone",
       "emoji": "🧑🏻‍🚀",
       "codePoints": ["1F9D1", "1F3FB", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1098,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1611,11 +1351,8 @@
       "name": "astronaut: medium-light skin tone",
       "emoji": "🧑🏼‍🚀",
       "codePoints": ["1F9D1", "1F3FC", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1099,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1630,11 +1367,8 @@
       "name": "astronaut: medium skin tone",
       "emoji": "🧑🏽‍🚀",
       "codePoints": ["1F9D1", "1F3FD", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1100,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1649,11 +1383,8 @@
       "name": "astronaut: medium-dark skin tone",
       "emoji": "🧑🏾‍🚀",
       "codePoints": ["1F9D1", "1F3FE", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1101,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1668,11 +1399,8 @@
       "name": "astronaut: dark skin tone",
       "emoji": "🧑🏿‍🚀",
       "codePoints": ["1F9D1", "1F3FF", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1102,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1687,11 +1415,8 @@
       "name": "man astronaut: light skin tone",
       "emoji": "👨🏻‍🚀",
       "codePoints": ["1F468", "1F3FB", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1104,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1706,11 +1431,8 @@
       "name": "man astronaut: medium-light skin tone",
       "emoji": "👨🏼‍🚀",
       "codePoints": ["1F468", "1F3FC", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1105,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1725,11 +1447,8 @@
       "name": "man astronaut: medium skin tone",
       "emoji": "👨🏽‍🚀",
       "codePoints": ["1F468", "1F3FD", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1106,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1744,11 +1463,8 @@
       "name": "man astronaut: medium-dark skin tone",
       "emoji": "👨🏾‍🚀",
       "codePoints": ["1F468", "1F3FE", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1107,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1763,11 +1479,8 @@
       "name": "man astronaut: dark skin tone",
       "emoji": "👨🏿‍🚀",
       "codePoints": ["1F468", "1F3FF", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1108,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1782,11 +1495,8 @@
       "name": "woman astronaut: light skin tone",
       "emoji": "👩🏻‍🚀",
       "codePoints": ["1F469", "1F3FB", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1110,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1801,11 +1511,8 @@
       "name": "woman astronaut: medium-light skin tone",
       "emoji": "👩🏼‍🚀",
       "codePoints": ["1F469", "1F3FC", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1111,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1820,11 +1527,8 @@
       "name": "woman astronaut: medium skin tone",
       "emoji": "👩🏽‍🚀",
       "codePoints": ["1F469", "1F3FD", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1112,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1839,11 +1543,8 @@
       "name": "woman astronaut: medium-dark skin tone",
       "emoji": "👩🏾‍🚀",
       "codePoints": ["1F469", "1F3FE", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1113,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1858,11 +1559,8 @@
       "name": "woman astronaut: dark skin tone",
       "emoji": "👩🏿‍🚀",
       "codePoints": ["1F469", "1F3FF", "200D", "1F680"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1114,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1877,11 +1575,8 @@
       "name": "firefighter: light skin tone",
       "emoji": "🧑🏻‍🚒",
       "codePoints": ["1F9D1", "1F3FB", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1116,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1896,11 +1591,8 @@
       "name": "firefighter: medium-light skin tone",
       "emoji": "🧑🏼‍🚒",
       "codePoints": ["1F9D1", "1F3FC", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1117,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1915,11 +1607,8 @@
       "name": "firefighter: medium skin tone",
       "emoji": "🧑🏽‍🚒",
       "codePoints": ["1F9D1", "1F3FD", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1118,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1934,11 +1623,8 @@
       "name": "firefighter: medium-dark skin tone",
       "emoji": "🧑🏾‍🚒",
       "codePoints": ["1F9D1", "1F3FE", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1119,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1953,11 +1639,8 @@
       "name": "firefighter: dark skin tone",
       "emoji": "🧑🏿‍🚒",
       "codePoints": ["1F9D1", "1F3FF", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1120,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1972,11 +1655,8 @@
       "name": "man firefighter: light skin tone",
       "emoji": "👨🏻‍🚒",
       "codePoints": ["1F468", "1F3FB", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1122,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1991,11 +1671,8 @@
       "name": "man firefighter: medium-light skin tone",
       "emoji": "👨🏼‍🚒",
       "codePoints": ["1F468", "1F3FC", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1123,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2010,11 +1687,8 @@
       "name": "man firefighter: medium skin tone",
       "emoji": "👨🏽‍🚒",
       "codePoints": ["1F468", "1F3FD", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1124,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2029,11 +1703,8 @@
       "name": "man firefighter: medium-dark skin tone",
       "emoji": "👨🏾‍🚒",
       "codePoints": ["1F468", "1F3FE", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1125,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2048,11 +1719,8 @@
       "name": "man firefighter: dark skin tone",
       "emoji": "👨🏿‍🚒",
       "codePoints": ["1F468", "1F3FF", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1126,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2067,11 +1735,8 @@
       "name": "woman firefighter: light skin tone",
       "emoji": "👩🏻‍🚒",
       "codePoints": ["1F469", "1F3FB", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1128,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2086,11 +1751,8 @@
       "name": "woman firefighter: medium-light skin tone",
       "emoji": "👩🏼‍🚒",
       "codePoints": ["1F469", "1F3FC", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1129,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2105,11 +1767,8 @@
       "name": "woman firefighter: medium skin tone",
       "emoji": "👩🏽‍🚒",
       "codePoints": ["1F469", "1F3FD", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1130,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2124,11 +1783,8 @@
       "name": "woman firefighter: medium-dark skin tone",
       "emoji": "👩🏾‍🚒",
       "codePoints": ["1F469", "1F3FE", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1131,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2143,11 +1799,8 @@
       "name": "woman firefighter: dark skin tone",
       "emoji": "👩🏿‍🚒",
       "codePoints": ["1F469", "1F3FF", "200D", "1F692"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1132,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2162,11 +1815,8 @@
       "name": "police officer: light skin tone",
       "emoji": "👮🏻",
       "codePoints": ["1F46E", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1134,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2181,11 +1831,8 @@
       "name": "police officer: medium-light skin tone",
       "emoji": "👮🏼",
       "codePoints": ["1F46E", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1135,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2200,11 +1847,8 @@
       "name": "police officer: medium skin tone",
       "emoji": "👮🏽",
       "codePoints": ["1F46E", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1136,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2219,11 +1863,8 @@
       "name": "police officer: medium-dark skin tone",
       "emoji": "👮🏾",
       "codePoints": ["1F46E", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1137,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2238,11 +1879,8 @@
       "name": "police officer: dark skin tone",
       "emoji": "👮🏿",
       "codePoints": ["1F46E", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1138,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2257,11 +1895,8 @@
       "name": "man police officer: light skin tone",
       "emoji": "👮🏻‍♂️",
       "codePoints": ["1F46E", "1F3FB", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1140,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2276,11 +1911,8 @@
       "name": "man police officer: medium-light skin tone",
       "emoji": "👮🏼‍♂️",
       "codePoints": ["1F46E", "1F3FC", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1141,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2295,11 +1927,8 @@
       "name": "man police officer: medium skin tone",
       "emoji": "👮🏽‍♂️",
       "codePoints": ["1F46E", "1F3FD", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1142,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2314,11 +1943,8 @@
       "name": "man police officer: medium-dark skin tone",
       "emoji": "👮🏾‍♂️",
       "codePoints": ["1F46E", "1F3FE", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1143,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2333,11 +1959,8 @@
       "name": "man police officer: dark skin tone",
       "emoji": "👮🏿‍♂️",
       "codePoints": ["1F46E", "1F3FF", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1144,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2352,11 +1975,8 @@
       "name": "woman police officer: light skin tone",
       "emoji": "👮🏻‍♀️",
       "codePoints": ["1F46E", "1F3FB", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1146,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2371,11 +1991,8 @@
       "name": "woman police officer: medium-light skin tone",
       "emoji": "👮🏼‍♀️",
       "codePoints": ["1F46E", "1F3FC", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1147,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2390,11 +2007,8 @@
       "name": "woman police officer: medium skin tone",
       "emoji": "👮🏽‍♀️",
       "codePoints": ["1F46E", "1F3FD", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1148,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2409,11 +2023,8 @@
       "name": "woman police officer: medium-dark skin tone",
       "emoji": "👮🏾‍♀️",
       "codePoints": ["1F46E", "1F3FE", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1149,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2428,11 +2039,8 @@
       "name": "woman police officer: dark skin tone",
       "emoji": "👮🏿‍♀️",
       "codePoints": ["1F46E", "1F3FF", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1150,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2447,11 +2055,8 @@
       "name": "detective: light skin tone",
       "emoji": "🕵🏻",
       "codePoints": ["1F575", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "person-role",
       "order": 1152,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     }
   ]

@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "symbols/math",
   "image": "symbols/math.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Symbols",
   "subGroup": "math",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "multiply",
       "emoji": "✖️",
       "codePoints": ["2716", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "math",
       "order": 3560,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "plus",
       "emoji": "➕",
       "codePoints": ["2795"],
-      "group": "Symbols",
-      "subGroup": "math",
       "order": 3561,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "minus",
       "emoji": "➖",
       "codePoints": ["2796"],
-      "group": "Symbols",
-      "subGroup": "math",
       "order": 3562,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "divide",
       "emoji": "➗",
       "codePoints": ["2797"],
-      "group": "Symbols",
-      "subGroup": "math",
       "order": 3563,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "heavy equals sign",
       "emoji": "🟰",
       "codePoints": ["1F7F0"],
-      "group": "Symbols",
-      "subGroup": "math",
       "order": 3564,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "infinity",
       "emoji": "♾️",
       "codePoints": ["267E", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "math",
       "order": 3565,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

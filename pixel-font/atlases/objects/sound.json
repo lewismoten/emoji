@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "objects/sound",
   "image": "objects/sound.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Objects",
   "subGroup": "sound",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "muted speaker",
       "emoji": "🔇",
       "codePoints": ["1F507"],
-      "group": "Objects",
-      "subGroup": "sound",
       "order": 3240,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "speaker low volume",
       "emoji": "🔈",
       "codePoints": ["1F508"],
-      "group": "Objects",
-      "subGroup": "sound",
       "order": 3241,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "speaker medium volume",
       "emoji": "🔉",
       "codePoints": ["1F509"],
-      "group": "Objects",
-      "subGroup": "sound",
       "order": 3242,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "speaker high volume",
       "emoji": "🔊",
       "codePoints": ["1F50A"],
-      "group": "Objects",
-      "subGroup": "sound",
       "order": 3243,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "loudspeaker",
       "emoji": "📢",
       "codePoints": ["1F4E2"],
-      "group": "Objects",
-      "subGroup": "sound",
       "order": 3244,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "megaphone",
       "emoji": "📣",
       "codePoints": ["1F4E3"],
-      "group": "Objects",
-      "subGroup": "sound",
       "order": 3245,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "postal horn",
       "emoji": "📯",
       "codePoints": ["1F4EF"],
-      "group": "Objects",
-      "subGroup": "sound",
       "order": 3246,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "bell",
       "emoji": "🔔",
       "codePoints": ["1F514"],
-      "group": "Objects",
-      "subGroup": "sound",
       "order": 3247,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "bell with slash",
       "emoji": "🔕",
       "codePoints": ["1F515"],
-      "group": "Objects",
-      "subGroup": "sound",
       "order": 3248,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

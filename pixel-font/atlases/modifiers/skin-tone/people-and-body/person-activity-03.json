@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "modifiers/skin-tone/people-and-body/person-activity-03",
   "image": "modifiers/skin-tone/people-and-body/person-activity-03.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "skin-tone",
   "group": "People & Body",
   "subGroup": "person-activity",
   "part": 3,
   "partCount": 3,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 6,
-  "capacity": 96,
   "imageWidth": 272,
   "imageHeight": 160,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "women with bunny ears: medium-light skin tone",
       "emoji": "👯🏼‍♀️",
       "codePoints": ["1F46F", "1F3FC", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1803,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "women with bunny ears: medium skin tone",
       "emoji": "👯🏽‍♀️",
       "codePoints": ["1F46F", "1F3FD", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1804,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "women with bunny ears: medium-dark skin tone",
       "emoji": "👯🏾‍♀️",
       "codePoints": ["1F46F", "1F3FE", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1805,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "women with bunny ears: dark skin tone",
       "emoji": "👯🏿‍♀️",
       "codePoints": ["1F46F", "1F3FF", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1806,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -118,11 +95,8 @@
         "1F9D1",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1807,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -145,11 +119,8 @@
         "1F9D1",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1808,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -172,11 +143,8 @@
         "1F9D1",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1809,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -199,11 +167,8 @@
         "1F9D1",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1810,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -226,11 +191,8 @@
         "1F9D1",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1811,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -253,11 +215,8 @@
         "1F9D1",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1812,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -280,11 +239,8 @@
         "1F9D1",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1813,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -307,11 +263,8 @@
         "1F9D1",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1814,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -334,11 +287,8 @@
         "1F9D1",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1815,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -361,11 +311,8 @@
         "1F9D1",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1816,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -388,11 +335,8 @@
         "1F9D1",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1817,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -415,11 +359,8 @@
         "1F9D1",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1818,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -442,11 +383,8 @@
         "1F9D1",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1819,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -469,11 +407,8 @@
         "1F9D1",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1820,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -496,11 +431,8 @@
         "1F9D1",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1821,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -523,11 +455,8 @@
         "1F9D1",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1822,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -550,11 +479,8 @@
         "1F9D1",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1823,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -577,11 +503,8 @@
         "1F9D1",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1824,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -604,11 +527,8 @@
         "1F9D1",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1825,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -631,11 +551,8 @@
         "1F9D1",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1826,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -658,11 +575,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1827,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -685,11 +599,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1828,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -712,11 +623,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1829,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -739,11 +647,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1830,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -766,11 +671,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1831,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -793,11 +695,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1832,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -820,11 +719,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1833,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -847,11 +743,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1834,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -874,11 +767,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1835,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -901,11 +791,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1836,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -928,11 +815,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1837,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -955,11 +839,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1838,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -982,11 +863,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1839,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1009,11 +887,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1840,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1036,11 +911,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1841,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1063,11 +935,8 @@
         "1F468",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1842,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1090,11 +959,8 @@
         "1F468",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1843,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1117,11 +983,8 @@
         "1F468",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1844,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1144,11 +1007,8 @@
         "1F468",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1845,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1171,11 +1031,8 @@
         "1F468",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1846,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1198,11 +1055,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1847,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1225,11 +1079,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1848,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1252,11 +1103,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1849,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1279,11 +1127,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1850,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1306,11 +1151,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1851,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1333,11 +1175,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1852,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1360,11 +1199,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1853,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1387,11 +1223,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1854,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1414,11 +1247,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1855,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1441,11 +1271,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1856,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1468,11 +1295,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1857,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1495,11 +1319,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1858,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1522,11 +1343,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1859,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1549,11 +1367,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1860,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1576,11 +1391,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1861,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1603,11 +1415,8 @@
         "1F469",
         "1F3FF"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1862,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1630,11 +1439,8 @@
         "1F469",
         "1F3FB"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1863,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1657,11 +1463,8 @@
         "1F469",
         "1F3FC"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1864,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1684,11 +1487,8 @@
         "1F469",
         "1F3FD"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1865,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1711,11 +1511,8 @@
         "1F469",
         "1F3FE"
       ],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1866,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1730,11 +1527,8 @@
       "name": "person in steamy room: light skin tone",
       "emoji": "🧖🏻",
       "codePoints": ["1F9D6", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1868,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1749,11 +1543,8 @@
       "name": "person in steamy room: medium-light skin tone",
       "emoji": "🧖🏼",
       "codePoints": ["1F9D6", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1869,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1768,11 +1559,8 @@
       "name": "person in steamy room: medium skin tone",
       "emoji": "🧖🏽",
       "codePoints": ["1F9D6", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1870,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1787,11 +1575,8 @@
       "name": "person in steamy room: medium-dark skin tone",
       "emoji": "🧖🏾",
       "codePoints": ["1F9D6", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1871,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1806,11 +1591,8 @@
       "name": "person in steamy room: dark skin tone",
       "emoji": "🧖🏿",
       "codePoints": ["1F9D6", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1872,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1825,11 +1607,8 @@
       "name": "man in steamy room: light skin tone",
       "emoji": "🧖🏻‍♂️",
       "codePoints": ["1F9D6", "1F3FB", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1874,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1844,11 +1623,8 @@
       "name": "man in steamy room: medium-light skin tone",
       "emoji": "🧖🏼‍♂️",
       "codePoints": ["1F9D6", "1F3FC", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1875,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1863,11 +1639,8 @@
       "name": "man in steamy room: medium skin tone",
       "emoji": "🧖🏽‍♂️",
       "codePoints": ["1F9D6", "1F3FD", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1876,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1882,11 +1655,8 @@
       "name": "man in steamy room: medium-dark skin tone",
       "emoji": "🧖🏾‍♂️",
       "codePoints": ["1F9D6", "1F3FE", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1877,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1901,11 +1671,8 @@
       "name": "man in steamy room: dark skin tone",
       "emoji": "🧖🏿‍♂️",
       "codePoints": ["1F9D6", "1F3FF", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1878,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1920,11 +1687,8 @@
       "name": "woman in steamy room: light skin tone",
       "emoji": "🧖🏻‍♀️",
       "codePoints": ["1F9D6", "1F3FB", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1880,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1939,11 +1703,8 @@
       "name": "woman in steamy room: medium-light skin tone",
       "emoji": "🧖🏼‍♀️",
       "codePoints": ["1F9D6", "1F3FC", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1881,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1958,11 +1719,8 @@
       "name": "woman in steamy room: medium skin tone",
       "emoji": "🧖🏽‍♀️",
       "codePoints": ["1F9D6", "1F3FD", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1882,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1977,11 +1735,8 @@
       "name": "woman in steamy room: medium-dark skin tone",
       "emoji": "🧖🏾‍♀️",
       "codePoints": ["1F9D6", "1F3FE", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1883,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -1996,11 +1751,8 @@
       "name": "woman in steamy room: dark skin tone",
       "emoji": "🧖🏿‍♀️",
       "codePoints": ["1F9D6", "1F3FF", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1884,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2015,11 +1767,8 @@
       "name": "person climbing: light skin tone",
       "emoji": "🧗🏻",
       "codePoints": ["1F9D7", "1F3FB"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1886,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2034,11 +1783,8 @@
       "name": "person climbing: medium-light skin tone",
       "emoji": "🧗🏼",
       "codePoints": ["1F9D7", "1F3FC"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1887,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2053,11 +1799,8 @@
       "name": "person climbing: medium skin tone",
       "emoji": "🧗🏽",
       "codePoints": ["1F9D7", "1F3FD"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1888,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2072,11 +1815,8 @@
       "name": "person climbing: medium-dark skin tone",
       "emoji": "🧗🏾",
       "codePoints": ["1F9D7", "1F3FE"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1889,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2091,11 +1831,8 @@
       "name": "person climbing: dark skin tone",
       "emoji": "🧗🏿",
       "codePoints": ["1F9D7", "1F3FF"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1890,
       "sequenceType": "modifier",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2110,11 +1847,8 @@
       "name": "man climbing: light skin tone",
       "emoji": "🧗🏻‍♂️",
       "codePoints": ["1F9D7", "1F3FB", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1892,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2129,11 +1863,8 @@
       "name": "man climbing: medium-light skin tone",
       "emoji": "🧗🏼‍♂️",
       "codePoints": ["1F9D7", "1F3FC", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1893,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2148,11 +1879,8 @@
       "name": "man climbing: medium skin tone",
       "emoji": "🧗🏽‍♂️",
       "codePoints": ["1F9D7", "1F3FD", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1894,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2167,11 +1895,8 @@
       "name": "man climbing: medium-dark skin tone",
       "emoji": "🧗🏾‍♂️",
       "codePoints": ["1F9D7", "1F3FE", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1895,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2186,11 +1911,8 @@
       "name": "man climbing: dark skin tone",
       "emoji": "🧗🏿‍♂️",
       "codePoints": ["1F9D7", "1F3FF", "200D", "2642", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1896,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2205,11 +1927,8 @@
       "name": "woman climbing: light skin tone",
       "emoji": "🧗🏻‍♀️",
       "codePoints": ["1F9D7", "1F3FB", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1898,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2224,11 +1943,8 @@
       "name": "woman climbing: medium-light skin tone",
       "emoji": "🧗🏼‍♀️",
       "codePoints": ["1F9D7", "1F3FC", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1899,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2243,11 +1959,8 @@
       "name": "woman climbing: medium skin tone",
       "emoji": "🧗🏽‍♀️",
       "codePoints": ["1F9D7", "1F3FD", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1900,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2262,11 +1975,8 @@
       "name": "woman climbing: medium-dark skin tone",
       "emoji": "🧗🏾‍♀️",
       "codePoints": ["1F9D7", "1F3FE", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1901,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     },
     {
@@ -2281,11 +1991,8 @@
       "name": "woman climbing: dark skin tone",
       "emoji": "🧗🏿‍♀️",
       "codePoints": ["1F9D7", "1F3FF", "200D", "2640", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "person-activity",
       "order": 1902,
       "sequenceType": "zwj",
-      "modifierType": "skin-tone",
       "active": true
     }
   ]

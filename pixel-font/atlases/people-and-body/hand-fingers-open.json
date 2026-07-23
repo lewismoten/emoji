@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "people-and-body/hand-fingers-open",
   "image": "people-and-body/hand-fingers-open.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "People & Body",
   "subGroup": "hand-fingers-open",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "waving hand",
       "emoji": "👋",
       "codePoints": ["1F44B"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-open",
       "order": 171,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "raised back of hand",
       "emoji": "🤚",
       "codePoints": ["1F91A"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-open",
       "order": 177,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "hand with fingers splayed",
       "emoji": "🖐️",
       "codePoints": ["1F590", "FE0F"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-open",
       "order": 183,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "raised hand",
       "emoji": "✋",
       "codePoints": ["270B"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-open",
       "order": 189,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "vulcan salute",
       "emoji": "🖖",
       "codePoints": ["1F596"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-open",
       "order": 195,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "rightwards hand",
       "emoji": "🫱",
       "codePoints": ["1FAF1"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-open",
       "order": 201,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "leftwards hand",
       "emoji": "🫲",
       "codePoints": ["1FAF2"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-open",
       "order": 207,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "palm down hand",
       "emoji": "🫳",
       "codePoints": ["1FAF3"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-open",
       "order": 213,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "palm up hand",
       "emoji": "🫴",
       "codePoints": ["1FAF4"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-open",
       "order": 219,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "leftwards pushing hand",
       "emoji": "🫷",
       "codePoints": ["1FAF7"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-open",
       "order": 225,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "rightwards pushing hand",
       "emoji": "🫸",
       "codePoints": ["1FAF8"],
-      "group": "People & Body",
-      "subGroup": "hand-fingers-open",
       "order": 231,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

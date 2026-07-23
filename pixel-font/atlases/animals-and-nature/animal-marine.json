@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "animals-and-nature/animal-marine",
   "image": "animals-and-nature/animal-marine.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Animals & Nature",
   "subGroup": "animal-marine",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "spouting whale",
       "emoji": "🐳",
       "codePoints": ["1F433"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2695,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "whale",
       "emoji": "🐋",
       "codePoints": ["1F40B"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2696,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "dolphin",
       "emoji": "🐬",
       "codePoints": ["1F42C"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2697,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "orca",
       "emoji": "🫍",
       "codePoints": ["1FACD"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2698,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "seal",
       "emoji": "🦭",
       "codePoints": ["1F9AD"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2699,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "fish",
       "emoji": "🐟",
       "codePoints": ["1F41F"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2700,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "tropical fish",
       "emoji": "🐠",
       "codePoints": ["1F420"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2701,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "blowfish",
       "emoji": "🐡",
       "codePoints": ["1F421"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2702,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "shark",
       "emoji": "🦈",
       "codePoints": ["1F988"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2703,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "octopus",
       "emoji": "🐙",
       "codePoints": ["1F419"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2704,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "spiral shell",
       "emoji": "🐚",
       "codePoints": ["1F41A"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2705,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "coral",
       "emoji": "🪸",
       "codePoints": ["1FAB8"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2706,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "jellyfish",
       "emoji": "🪼",
       "codePoints": ["1FABC"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2707,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "crab",
       "emoji": "🦀",
       "codePoints": ["1F980"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2708,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "lobster",
       "emoji": "🦞",
       "codePoints": ["1F99E"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2709,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "shrimp",
       "emoji": "🦐",
       "codePoints": ["1F990"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2710,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "squid",
       "emoji": "🦑",
       "codePoints": ["1F991"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2711,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "oyster",
       "emoji": "🦪",
       "codePoints": ["1F9AA"],
-      "group": "Animals & Nature",
-      "subGroup": "animal-marine",
       "order": 2712,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

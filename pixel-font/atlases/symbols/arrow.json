@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "symbols/arrow",
   "image": "symbols/arrow.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Symbols",
   "subGroup": "arrow",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "up arrow",
       "emoji": "⬆️",
       "codePoints": ["2B06", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3485,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "up-right arrow",
       "emoji": "↗️",
       "codePoints": ["2197", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3486,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "right arrow",
       "emoji": "➡️",
       "codePoints": ["27A1", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3487,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "down-right arrow",
       "emoji": "↘️",
       "codePoints": ["2198", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3488,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "down arrow",
       "emoji": "⬇️",
       "codePoints": ["2B07", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3489,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "down-left arrow",
       "emoji": "↙️",
       "codePoints": ["2199", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3490,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "left arrow",
       "emoji": "⬅️",
       "codePoints": ["2B05", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3491,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "up-left arrow",
       "emoji": "↖️",
       "codePoints": ["2196", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3492,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "up-down arrow",
       "emoji": "↕️",
       "codePoints": ["2195", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3493,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "left-right arrow",
       "emoji": "↔️",
       "codePoints": ["2194", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3494,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "right arrow curving left",
       "emoji": "↩️",
       "codePoints": ["21A9", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3495,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "left arrow curving right",
       "emoji": "↪️",
       "codePoints": ["21AA", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3496,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "right arrow curving up",
       "emoji": "⤴️",
       "codePoints": ["2934", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3497,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "right arrow curving down",
       "emoji": "⤵️",
       "codePoints": ["2935", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3498,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "clockwise vertical arrows",
       "emoji": "🔃",
       "codePoints": ["1F503"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3499,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "counterclockwise arrows button",
       "emoji": "🔄",
       "codePoints": ["1F504"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3500,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "BACK arrow",
       "emoji": "🔙",
       "codePoints": ["1F519"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3501,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "END arrow",
       "emoji": "🔚",
       "codePoints": ["1F51A"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3502,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "ON! arrow",
       "emoji": "🔛",
       "codePoints": ["1F51B"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3503,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "SOON arrow",
       "emoji": "🔜",
       "codePoints": ["1F51C"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3504,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "TOP arrow",
       "emoji": "🔝",
       "codePoints": ["1F51D"],
-      "group": "Symbols",
-      "subGroup": "arrow",
       "order": 3505,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

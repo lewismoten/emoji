@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "symbols/gender",
   "image": "symbols/gender.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Symbols",
   "subGroup": "gender",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "female sign",
       "emoji": "♀️",
       "codePoints": ["2640", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "gender",
       "order": 3557,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "male sign",
       "emoji": "♂️",
       "codePoints": ["2642", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "gender",
       "order": 3558,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "transgender symbol",
       "emoji": "⚧️",
       "codePoints": ["26A7", "FE0F"],
-      "group": "Symbols",
-      "subGroup": "gender",
       "order": 3559,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

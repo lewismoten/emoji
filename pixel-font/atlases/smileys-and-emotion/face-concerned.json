@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "smileys-and-emotion/face-concerned",
   "image": "smileys-and-emotion/face-concerned.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-concerned",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 2,
-  "capacity": 32,
   "imageWidth": 272,
   "imageHeight": 96,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "confused face",
       "emoji": "😕",
       "codePoints": ["1F615"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 76,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "face with diagonal mouth",
       "emoji": "🫤",
       "codePoints": ["1FAE4"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 77,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "worried face",
       "emoji": "😟",
       "codePoints": ["1F61F"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 78,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "slightly frowning face",
       "emoji": "🙁",
       "codePoints": ["1F641"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 79,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "frowning face",
       "emoji": "☹️",
       "codePoints": ["2639", "FE0F"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 80,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "face with open mouth",
       "emoji": "😮",
       "codePoints": ["1F62E"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 81,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "hushed face",
       "emoji": "😯",
       "codePoints": ["1F62F"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 82,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "astonished face",
       "emoji": "😲",
       "codePoints": ["1F632"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 83,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -186,11 +151,8 @@
       "name": "flushed face",
       "emoji": "😳",
       "codePoints": ["1F633"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 84,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -205,11 +167,8 @@
       "name": "distorted face",
       "emoji": "🫪",
       "codePoints": ["1FAEA"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 85,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -224,11 +183,8 @@
       "name": "pleading face",
       "emoji": "🥺",
       "codePoints": ["1F97A"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 86,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -243,11 +199,8 @@
       "name": "face holding back tears",
       "emoji": "🥹",
       "codePoints": ["1F979"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 87,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -262,11 +215,8 @@
       "name": "frowning face with open mouth",
       "emoji": "😦",
       "codePoints": ["1F626"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 88,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -281,11 +231,8 @@
       "name": "anguished face",
       "emoji": "😧",
       "codePoints": ["1F627"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 89,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -300,11 +247,8 @@
       "name": "fearful face",
       "emoji": "😨",
       "codePoints": ["1F628"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 90,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -319,11 +263,8 @@
       "name": "anxious face with sweat",
       "emoji": "😰",
       "codePoints": ["1F630"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 91,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -338,11 +279,8 @@
       "name": "sad but relieved face",
       "emoji": "😥",
       "codePoints": ["1F625"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 92,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -357,11 +295,8 @@
       "name": "crying face",
       "emoji": "😢",
       "codePoints": ["1F622"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 93,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -376,11 +311,8 @@
       "name": "loudly crying face",
       "emoji": "😭",
       "codePoints": ["1F62D"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 94,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -395,11 +327,8 @@
       "name": "face screaming in fear",
       "emoji": "😱",
       "codePoints": ["1F631"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 95,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -414,11 +343,8 @@
       "name": "confounded face",
       "emoji": "😖",
       "codePoints": ["1F616"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 96,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -433,11 +359,8 @@
       "name": "persevering face",
       "emoji": "😣",
       "codePoints": ["1F623"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 97,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -452,11 +375,8 @@
       "name": "disappointed face",
       "emoji": "😞",
       "codePoints": ["1F61E"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 98,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -471,11 +391,8 @@
       "name": "downcast face with sweat",
       "emoji": "😓",
       "codePoints": ["1F613"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 99,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -490,11 +407,8 @@
       "name": "weary face",
       "emoji": "😩",
       "codePoints": ["1F629"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 100,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -509,11 +423,8 @@
       "name": "tired face",
       "emoji": "😫",
       "codePoints": ["1F62B"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 101,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -528,11 +439,8 @@
       "name": "yawning face",
       "emoji": "🥱",
       "codePoints": ["1F971"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-concerned",
       "order": 102,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]

@@ -1,26 +1,15 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "id": "smileys-and-emotion/face-costume",
   "image": "smileys-and-emotion/face-costume.png",
-  "setName": "Pixel Emoji Base Set",
   "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-costume",
   "part": 1,
   "partCount": 1,
-  "createdDate": "2026-07-23",
-  "author": "Lewis Moten",
-  "url": "https://lewismoten.com",
-  "cellSize": 12,
-  "cellPadding": 2,
-  "slotSize": 16,
-  "columns": 16,
   "rows": 1,
-  "capacity": 16,
   "imageWidth": 272,
   "imageHeight": 80,
-  "headerHeight": 40,
-  "footerHeight": 24,
   "entries": [
     {
       "index": 0,
@@ -34,11 +23,8 @@
       "name": "pile of poo",
       "emoji": "💩",
       "codePoints": ["1F4A9"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-costume",
       "order": 111,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -53,11 +39,8 @@
       "name": "clown face",
       "emoji": "🤡",
       "codePoints": ["1F921"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-costume",
       "order": 112,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -72,11 +55,8 @@
       "name": "ogre",
       "emoji": "👹",
       "codePoints": ["1F479"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-costume",
       "order": 113,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -91,11 +71,8 @@
       "name": "goblin",
       "emoji": "👺",
       "codePoints": ["1F47A"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-costume",
       "order": 114,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -110,11 +87,8 @@
       "name": "ghost",
       "emoji": "👻",
       "codePoints": ["1F47B"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-costume",
       "order": 115,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -129,11 +103,8 @@
       "name": "alien",
       "emoji": "👽",
       "codePoints": ["1F47D"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-costume",
       "order": 116,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -148,11 +119,8 @@
       "name": "alien monster",
       "emoji": "👾",
       "codePoints": ["1F47E"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-costume",
       "order": 117,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     },
     {
@@ -167,11 +135,8 @@
       "name": "robot",
       "emoji": "🤖",
       "codePoints": ["1F916"],
-      "group": "Smileys & Emotion",
-      "subGroup": "face-costume",
       "order": 118,
       "sequenceType": "single",
-      "modifierType": "base",
       "active": true
     }
   ]
