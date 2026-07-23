@@ -121,7 +121,7 @@ assert.doesNotMatch(demoScript, /glyph: `TAG |glyph: 'END'|glyph: 'SPACE'/, 'tag
 assert.match(demoScript, /translate\('tagAbbreviation', 'TAG'\)/, 'tag characters must use compact localized labels');
 assert.match(demoScript, /cancelTagAbbreviation[\s\S]*'END'/, 'tag endings must use compact localized labels');
 assert.match(demoScript, /dataset\.compositionEmoji/, 'composition parts must navigate to matching library emoji');
-assert.match(demoScript, /emojiKeyByCodePoints\.get\(`\$\{normalized\} FE0F`\)/, 'composition links must recognize emoji-presentation variants');
+assert.match(demoScript, /emojiKeyByCodePoints\.get\(`\$\{normalized\} FE0F`\)[\s\S]*emojiKey !== excludedEmojiKey/, 'composition links must recognize presentation variants without linking to the current emoji');
 assert.match(demoStyles, /button\.emoji-composition-part:hover/, 'linked composition parts must appear interactive');
 assert.match(demoHtml, /class="dialog-navigate emoji-parent"/, 'emoji details must provide parent-sequence navigation');
 assert.match(demoScript, /compositionParent: parentEmojiKey/, 'component navigation must retain its parent in browser history');

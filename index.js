@@ -2436,7 +2436,7 @@ function updateEmojiComposition(item, value) {
   displayedParts.forEach((displayedPart, index) => {
     const part = displayedPart.emojiKey
       ? createCondensedCompositionPart(displayedPart)
-      : createCompositionPart(displayedPart.component);
+      : createCompositionPart(displayedPart.component, item.key);
     equation.append(index === 0 ? part : createCompositionTerm('+', part));
   });
   equation.append(createCompositionTerm('=', createCompositionResult(value, item.shortName)));
@@ -2488,8 +2488,8 @@ function createCondensedCompositionPart({ emojiKey, components }) {
   return part;
 }
 
-function createCompositionPart({ hex, point }) {
-  const linkedEmojiKey = findCompositionEmojiKey(hex);
+function createCompositionPart({ hex, point }, currentEmojiKey) {
+  const linkedEmojiKey = findCompositionEmojiKey(hex, currentEmojiKey);
   const part = document.createElement(linkedEmojiKey ? 'button' : 'span');
   const glyph = document.createElement('span');
   const code = document.createElement('span');
@@ -2533,10 +2533,12 @@ function formatCompositionReduction(from, to) {
     : `${formatUiNumber(from)}→${formatUiNumber(to)}`;
 }
 
-function findCompositionEmojiKey(hex) {
+function findCompositionEmojiKey(hex, excludedEmojiKey) {
   const normalized = normalizeCodePoints(hex);
-  return emojiKeyByCodePoints.get(normalized)
-    ?? emojiKeyByCodePoints.get(`${normalized} FE0F`);
+  return [
+    emojiKeyByCodePoints.get(normalized),
+    emojiKeyByCodePoints.get(`${normalized} FE0F`)
+  ].find(emojiKey => emojiKey && emojiKey !== excludedEmojiKey);
 }
 
 function createCompositionOperator(operator) {
