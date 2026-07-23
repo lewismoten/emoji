@@ -107,6 +107,17 @@ export function createPixelEditor({
           ${preview("official", "officialEmoji", "Official")}
           ${preview("font", "customFontEmoji", "Custom font")}
           ${preview("artwork", "currentArtwork", "Current grid")}
+          <span class="pixel-editor-dirty" hidden>
+            <span aria-hidden="true"></span>
+            <span data-i18n="unsavedArtwork">Unsaved</span>
+          </span>
+          <div class="pixel-editor-preview-actions">
+            <button class="pixel-editor-save" type="button" data-i18n-aria-label="saveAtlas" aria-label="Save atlas" title="Save atlas"><span aria-hidden="true">💾</span></button>
+            <button class="pixel-editor-download" type="button" data-i18n-aria-label="downloadAtlas" aria-label="Download atlas" title="Download atlas"><span aria-hidden="true">⇩▦</span></button>
+            <button class="pixel-editor-download-emoji" type="button" data-i18n-aria-label="downloadEmojiPng" aria-label="Download 12 by 12 emoji PNG" title="Download 12 by 12 emoji PNG">
+              <span class="pixel-editor-download-emoji-icon" aria-hidden="true">⇩<canvas class="pixel-editor-download-preview" width="${CELL_SIZE}" height="${CELL_SIZE}"></canvas></span>
+            </button>
+          </div>
         </div>
       </div>
       <div class="pixel-editor-controls">
@@ -184,10 +195,6 @@ export function createPixelEditor({
         </fieldset>
         <div class="pixel-editor-file">
           <p class="pixel-editor-location"></p>
-          <div>
-            <button class="pixel-editor-save" type="button" data-i18n="saveAtlas">Save atlas</button>
-            <button class="pixel-editor-download" type="button" data-i18n="downloadAtlas">Download atlas</button>
-          </div>
           <p class="pixel-editor-status" role="status" aria-live="polite"></p>
         </div>
       </div>
@@ -202,6 +209,7 @@ export function createPixelEditor({
   const officialPreview = view.querySelector(".pixel-editor-preview-official");
   const fontPreview = view.querySelector(".pixel-editor-preview-font");
   const artworkPreview = view.querySelector(".pixel-editor-preview-artwork");
+  const downloadPreview = view.querySelector(".pixel-editor-download-preview");
   const undoButton = view.querySelector(".pixel-editor-undo");
   const redoButton = view.querySelector(".pixel-editor-redo");
   const toolsPanel = view.querySelector(".pixel-editor-tools");
@@ -210,6 +218,8 @@ export function createPixelEditor({
   const tracingPanel = view.querySelector(".pixel-editor-tracing");
   const transferPanel = view.querySelector(".pixel-editor-transfer");
   const filePanel = view.querySelector(".pixel-editor-file");
+  const previewActions = view.querySelector(".pixel-editor-preview-actions");
+  const dirtyIndicator = view.querySelector(".pixel-editor-dirty");
   const copyArtButton = view.querySelector(".pixel-editor-copy-art");
   const copyFontButton = view.querySelector(".pixel-editor-copy-font");
   const copySelectionButton = view.querySelector(
@@ -228,6 +238,9 @@ export function createPixelEditor({
   const invertLayerButton = view.querySelector(".pixel-editor-invert-layer");
   const saveButton = view.querySelector(".pixel-editor-save");
   const downloadButton = view.querySelector(".pixel-editor-download");
+  const downloadEmojiButton = view.querySelector(
+    ".pixel-editor-download-emoji",
+  );
   const location = view.querySelector(".pixel-editor-location");
   const status = view.querySelector(".pixel-editor-status");
   const toolButtons = [...view.querySelectorAll("[data-tool]")];
@@ -253,6 +266,8 @@ export function createPixelEditor({
   let selection;
   let floatingLayer;
   const artworkDrafts = new Map();
+  const persistedArtwork = new Map();
+  const dirtyKeys = new Set();
   let traceOffsetX = 0;
   let traceOffsetY = 0;
   let tool = "pencil";
@@ -314,14 +329,17 @@ export function createPixelEditor({
   invertLayerButton.addEventListener("click", toggleFloatingLayerInversion);
   saveButton.addEventListener("click", saveAtlas);
   downloadButton.addEventListener("click", downloadAtlas);
+  downloadEmojiButton.addEventListener("click", downloadEmojiPng);
   canvas.addEventListener("pointerdown", onPointerDown);
   canvas.addEventListener("pointermove", onPointerMove);
   canvas.addEventListener("pointerup", onPointerUp);
   canvas.addEventListener("pointercancel", onPointerCancel);
   canvas.addEventListener("keydown", onCanvasKeyDown);
   document.addEventListener("keydown", onEditorKeyDown, true);
+  window.addEventListener("beforeunload", warnAboutDirtyArtwork);
   updatePaletteSelection();
   updateTraceOutput();
+  updatePreviewActionLabels();
   draw();
 
   return {
@@ -388,6 +406,8 @@ export function createPixelEditor({
         atlasExists = hasPng;
         cellLoaded = true;
         const draft = artworkDrafts.get(entry.key);
+        if (!persistedArtwork.has(entry.key))
+          persistedArtwork.set(entry.key, loadedPixels.slice());
         pixels = draft?.pixels.slice() ?? loadedPixels;
         selection = cloneSelection(draft?.selection);
         floatingLayer = cloneFloatingLayer(draft?.floatingLayer);
@@ -414,6 +434,7 @@ export function createPixelEditor({
         updateLocation();
       }
       updateTraceOutput();
+      updatePreviewActionLabels();
     },
   };
 
@@ -503,6 +524,7 @@ export function createPixelEditor({
     drawArtworkPreview();
     if (updateState) {
       rememberCurrentDraft();
+      updateDirtyState();
       updateFileButtons();
       updateTransferButtons();
       updateHistoryButtons();
@@ -620,20 +642,27 @@ export function createPixelEditor({
   }
 
   function drawArtworkPreview() {
-    const previewContext = artworkPreview.getContext("2d");
-    previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-    previewContext.putImageData(
-      new ImageData(pixels.slice(), CELL_SIZE, CELL_SIZE),
-      0,
-      0,
-    );
+    const previewContexts = [
+      artworkPreview.getContext("2d"),
+      downloadPreview.getContext("2d"),
+    ];
+    previewContexts.forEach((previewContext) => {
+      previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
+      previewContext.putImageData(
+        new ImageData(pixels.slice(), CELL_SIZE, CELL_SIZE),
+        0,
+        0,
+      );
+    });
     if (floatingLayer) {
       const layerCanvas = imageDataCanvas(
         effectiveLayerPixels(floatingLayer),
         floatingLayer.width,
         floatingLayer.height,
       );
-      previewContext.drawImage(layerCanvas, floatingLayer.x, floatingLayer.y);
+      previewContexts.forEach((previewContext) =>
+        previewContext.drawImage(layerCanvas, floatingLayer.x, floatingLayer.y),
+      );
     }
   }
 
@@ -1154,6 +1183,7 @@ export function createPixelEditor({
     copyFontButton.hidden = selectionMode;
     copySelectionButton.hidden = !selectionMode;
     pasteArtButton.hidden = false;
+    previewActions.hidden = layerMode || selectionMode;
     toolButtons.forEach((button) => {
       button.disabled = layerMode;
     });
@@ -1222,6 +1252,7 @@ export function createPixelEditor({
       await writable.close();
       atlasBlob = updatedBlob;
       atlasExists = true;
+      markAtlasClean(currentEntry.atlas);
       updateFileButtons();
       status.textContent = translate("atlasSaved", "Atlas PNG saved.");
     } catch (error) {
@@ -1240,13 +1271,9 @@ export function createPixelEditor({
     const updatedBlob = await renderUpdatedAtlas(atlasBlob);
     atlasBlob = updatedBlob;
     atlasExists = true;
+    markAtlasClean(currentEntry.atlas);
     updateFileButtons();
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(updatedBlob);
-    link.href = url;
-    link.download = currentEntry.atlas.split("/").at(-1);
-    link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    downloadBlob(updatedBlob, currentEntry.atlas.split("/").at(-1));
     status.textContent = translate(
       "atlasDownloaded",
       "Updated atlas PNG downloaded.",
@@ -1286,12 +1313,35 @@ export function createPixelEditor({
   }
 
   function updateFileButtons() {
+    const pendingAtlasLayer = hasPendingAtlasLayer();
     const canWrite =
       Boolean(currentEntry && atlasBlob) &&
-      !floatingLayer &&
+      !pendingAtlasLayer &&
       (atlasExists || hasVisibleAtlasDraft());
-    saveButton.disabled = !canWrite;
+    saveButton.disabled = !canWrite || !hasDirtyAtlasDraft();
     downloadButton.disabled = !canWrite;
+    downloadEmojiButton.disabled =
+      !currentEntry ||
+      !cellLoaded ||
+      Boolean(floatingLayer) ||
+      !hasVisibleArtwork();
+  }
+
+  function hasDirtyAtlasDraft() {
+    if (!currentEntry) return false;
+    return [...artworkDrafts.values()].some(
+      (draft) =>
+        draft.entry.atlas === currentEntry.atlas &&
+        dirtyKeys.has(draft.entry.key),
+    );
+  }
+
+  function hasPendingAtlasLayer() {
+    if (!currentEntry) return false;
+    return [...artworkDrafts.values()].some(
+      (draft) =>
+        draft.entry.atlas === currentEntry.atlas && draft.floatingLayer,
+    );
   }
 
   function hasVisibleArtwork() {
@@ -1332,6 +1382,61 @@ export function createPixelEditor({
       selection: cloneSelection(selection),
       floatingLayer: cloneFloatingLayer(floatingLayer),
     });
+  }
+
+  function updateDirtyState() {
+    if (!currentEntry || !cellLoaded) {
+      dirtyIndicator.hidden = true;
+      return;
+    }
+    const baseline = persistedArtwork.get(currentEntry.key);
+    const dirty =
+      Boolean(floatingLayer) || !baseline || !pixelsEqual(pixels, baseline);
+    if (dirty) dirtyKeys.add(currentEntry.key);
+    else dirtyKeys.delete(currentEntry.key);
+    dirtyIndicator.hidden = !dirty;
+  }
+
+  function markAtlasClean(atlas) {
+    for (const draft of artworkDrafts.values()) {
+      if (draft.entry.atlas !== atlas || draft.floatingLayer) continue;
+      persistedArtwork.set(draft.entry.key, draft.pixels.slice());
+      dirtyKeys.delete(draft.entry.key);
+    }
+    updateDirtyState();
+  }
+
+  async function downloadEmojiPng() {
+    if (downloadEmojiButton.disabled || !currentEntry) return;
+    const blob = await canvasToPng(
+      imageDataCanvas(pixels, CELL_SIZE, CELL_SIZE),
+    );
+    downloadBlob(blob, `${currentEntry.key}.png`);
+    status.textContent = translate(
+      "emojiPngDownloaded",
+      "12 by 12 emoji PNG downloaded.",
+    );
+  }
+
+  function updatePreviewActionLabels() {
+    for (const [button, key, fallback] of [
+      [saveButton, "saveAtlas", "Save atlas"],
+      [downloadButton, "downloadAtlas", "Download atlas"],
+      [downloadEmojiButton, "downloadEmojiPng", "Download 12 by 12 emoji PNG"],
+    ]) {
+      const label = translate(key, fallback);
+      button.setAttribute("aria-label", label);
+      button.title = label;
+    }
+  }
+
+  function warnAboutDirtyArtwork(event) {
+    if (dirtyKeys.size === 0) return;
+    event.preventDefault();
+    event.returnValue = translate(
+      "unsavedArtworkPrompt",
+      "Save all unsaved pixel artwork before leaving.",
+    );
   }
 }
 
@@ -1397,6 +1502,15 @@ function canvasToPng(canvas) {
       "image/png",
     );
   });
+}
+
+function downloadBlob(blob, fileName) {
+  const link = document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  link.href = url;
+  link.download = fileName;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
 async function extractCell(blob, entry) {

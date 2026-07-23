@@ -929,6 +929,47 @@ assert.match(
   /layerTransformButtons\.forEach[\s\S]*layerTransformChangesPixels[\s\S]*pixelsEqual/,
   "rotation and flip controls must disable when they would not alter the layer",
 );
+for (const action of [
+  "pixel-editor-save",
+  "pixel-editor-download",
+  "pixel-editor-download-emoji",
+]) {
+  assert.match(
+    pixelEditorScript,
+    new RegExp(`class="${action}"`),
+    `pixel previews must provide ${action}`,
+  );
+}
+assert.match(
+  pixelEditorScript,
+  /function downloadEmojiPng[\s\S]*imageDataCanvas\(pixels, CELL_SIZE, CELL_SIZE\)[\s\S]*currentEntry\.key\}\.png/,
+  "the current 12 by 12 artwork must be downloadable as its own PNG",
+);
+assert.match(
+  pixelEditorScript,
+  /class="pixel-editor-download-emoji-icon"[\s\S]*class="pixel-editor-download-preview"[\s\S]*const downloadPreview[\s\S]*downloadPreview\.getContext/,
+  "the individual PNG action must preview the current pixel artwork instead of showing a 12 label",
+);
+assert.match(
+  pixelEditorScript,
+  /const persistedArtwork = new Map\(\)[\s\S]*const dirtyKeys = new Set\(\)[\s\S]*function updateDirtyState[\s\S]*pixelsEqual\(pixels, baseline\)[\s\S]*dirtyIndicator\.hidden = !dirty/,
+  "the editor must visibly track artwork that differs from its persisted atlas pixels",
+);
+assert.match(
+  pixelEditorScript,
+  /window\.addEventListener\("beforeunload", warnAboutDirtyArtwork\)[\s\S]*function warnAboutDirtyArtwork[\s\S]*dirtyKeys\.size === 0[\s\S]*event\.returnValue/,
+  "leaving the page must warn when any emoji artwork remains dirty",
+);
+assert.match(
+  pixelEditorScript,
+  /function markAtlasClean[\s\S]*persistedArtwork\.set[\s\S]*dirtyKeys\.delete/,
+  "saving or downloading an atlas must clear its saved emoji drafts",
+);
+assert.match(
+  demoStyles,
+  /\.pixel-editor-preview-actions[\s\S]*display:\s*flex;[\s\S]*\.pixel-editor-dirty[\s\S]*display:\s*inline-flex;/,
+  "preview save actions and the dirty indicator must sit with the actual-size previews",
+);
 assert.match(
   pixelEditorScript,
   /function onCanvasKeyDown[\s\S]*ArrowLeft[\s\S]*ArrowUp[\s\S]*ArrowDown[\s\S]*ArrowRight[\s\S]*Enter[\s\S]*bakeFloatingLayer/,
