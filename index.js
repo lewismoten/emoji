@@ -296,7 +296,6 @@ function getSportType(name) {
 
 async function onLoad() {
   offlineStatus = document.getElementsByClassName('offline-status')[0];
-  copyStatus = document.getElementsByClassName('copy-status')[0];
   searchText = document.getElementsByClassName("text")[0];
   languagePicker = document.getElementsByClassName('language-picker')[0];
   languagePickerFlag = document.getElementsByClassName('language-picker-flag')[0];
@@ -325,6 +324,8 @@ async function onLoad() {
   ({ summary: activeFilterSummary, text: activeFilterText, clear: clearFiltersButton } = ensureActiveFilterSummary());
   orderButtons = Array.from(document.getElementsByClassName('order-mode'));
   exampleDialog = document.getElementsByClassName('example-dialog')[0];
+  upgradeEmojiDialog();
+  copyStatus = document.getElementsByClassName('copy-status')[0];
   emojiPrevious = document.getElementsByClassName('emoji-previous')[0];
   emojiNext = document.getElementsByClassName('emoji-next')[0];
   skinToneCheckboxes = Array.from(document.getElementsByClassName('skin-tone'));
@@ -403,6 +404,41 @@ async function onLoad() {
   await loadData();
   urlStateReady = true;
   drawList();
+}
+
+function upgradeEmojiDialog() {
+  exampleDialog.querySelector('[data-i18n="copiedDescription"]')?.remove();
+
+  const eyebrow = exampleDialog.querySelector('.emoji-dialog-eyebrow');
+  if (eyebrow) {
+    eyebrow.dataset.i18n = 'emojiDetails';
+    eyebrow.textContent = 'Emoji details';
+  }
+
+  let preview = exampleDialog.querySelector('.emoji-preview');
+  if (preview?.tagName !== 'BUTTON') {
+    const button = document.createElement('button');
+    button.className = 'emoji-preview';
+    button.type = 'button';
+    button.textContent = preview?.textContent ?? '🍻';
+    preview?.replaceWith(button);
+    preview = button;
+  }
+  if (preview) {
+    preview.removeAttribute('aria-hidden');
+    preview.dataset.copy = 'emoji';
+    preview.dataset.i18nAriaLabel = 'copyEmoji';
+    preview.setAttribute('aria-label', 'Copy emoji');
+  }
+
+  if (!exampleDialog.querySelector('.copy-status')) {
+    const status = document.createElement('div');
+    status.className = 'copy-status sr-only';
+    status.setAttribute('role', 'status');
+    status.setAttribute('aria-live', 'polite');
+    status.setAttribute('aria-atomic', 'true');
+    exampleDialog.querySelector('.dialog-heading')?.after(status);
+  }
 }
 
 function ensureActiveFilterSummary() {
@@ -1722,16 +1758,16 @@ function getIntroducedVersion(key) {
     .find(version => versionKeys.get(version.version)?.has(key))?.version ?? '—';
 }
 
-function onClick(e, copy = true) {
+function onClick(e, openDialog = true) {
   const cell = e.target.closest?.('[data-emoji-key]');
   var id = cell?.id ?? e.target.id;
   var value = emojiByKey[id];
   if (value === undefined) return;
   cell?.focus();
-  showEmoji(id, copy);
+  showEmoji(id, openDialog);
 }
 
-function showEmoji(id, copy = true) {
+function showEmoji(id, openDialog = true) {
   var value = emojiByKey[id];
   if (value === undefined) return;
   currentEmojiKey = id;
@@ -1769,24 +1805,16 @@ function showEmoji(id, copy = true) {
   const localizedDetails = document.getElementsByClassName('localized-emoji-details')[0];
   const annotations = searchAnnotations[id] ?? [];
   if (selectedSearchLocale && annotations.length > 0) {
-    document.getElementsByClassName('emoji-dialog-eyebrow')[0].innerText = translate('copiedEmojiKey', 'Copied emoji key');
     document.getElementById('example-title').innerText = annotations[0];
     document.getElementsByClassName('localized-language')[0].innerText = translate('keywords', 'keywords');
     document.getElementsByClassName('localized-keywords')[0].innerText = annotations.slice(1).join(' · ');
     localizedDetails.hidden = false;
   } else {
-    document.getElementsByClassName('emoji-dialog-eyebrow')[0].innerText = translate('copiedEmojiKey', 'Copied emoji key');
     document.getElementById('example-title').innerText = displayEmojiKey(id);
     localizedDetails.hidden = true;
   }
-  if (copy) {
-    const description = exampleDialog.querySelector('.dialog-description');
-    description.textContent = translate('copiedDescription', 'The emoji key has been copied to your clipboard.');
-    copyToClipboard(id, translate('keyCopied', 'Emoji key copied to the clipboard.')).then(success => {
-      description.textContent = success
-        ? translate('copiedDescription', 'The emoji key has been copied to your clipboard.')
-        : translate('copyFailed', 'Could not copy to the clipboard.');
-    });
+  if (openDialog) {
+    if (copyStatus) copyStatus.textContent = '';
     exampleDialog.showModal();
   }
   updateDialogNavigation();

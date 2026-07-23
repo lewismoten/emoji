@@ -168,7 +168,7 @@
     <dialog class="example-dialog" aria-labelledby="example-title">
       <div class="dialog-heading">
         <div>
-          <p class="eyebrow emoji-dialog-eyebrow">Copied emoji key</p>
+          <p class="eyebrow emoji-dialog-eyebrow" data-i18n="emojiDetails">Emoji details</p>
           <h2 id="example-title">Use this emoji</h2>
         </div>
         <div class="dialog-controls">
@@ -177,10 +177,9 @@
           <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
         </div>
       </div>
-      <p class="dialog-description" data-i18n="copiedDescription">The emoji key has been copied to your clipboard.</p>
       <div class="copy-status sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
         <div class="emoji-dialog-details">
-          <div class="emoji-preview" aria-hidden="true">&#x1F37B;</div>
+          <button class="emoji-preview" type="button" data-copy="emoji" data-i18n-aria-label="copyEmoji" aria-label="Copy emoji">&#x1F37B;</button>
           <div class="localized-emoji-details" hidden>
             <p class="localized-language"></p>
             <p class="localized-keywords"></p>
