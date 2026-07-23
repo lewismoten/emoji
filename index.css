@@ -882,8 +882,9 @@ h2 {
   display: grid;
   min-height: 0;
   place-items: center;
-  font-family: var(--emoji-font);
+  font-family: var(--system-emoji-font);
   font-size: 5.4rem;
+  font-variant-emoji: emoji;
   line-height: 1.1;
 }
 .emoji-preview-copy-label {
@@ -1010,7 +1011,17 @@ button.emoji-composition-part:focus-visible {
   line-height: 1.1;
 }
 .emoji-composition-result .emoji-composition-glyph {
+  font-family: var(--system-emoji-font);
+}
+.modifier-emoji.has-pixel-art,
+.emoji-glyph.has-pixel-art,
+.emoji-preview-glyph.has-pixel-art,
+.emoji-composition-glyph.has-pixel-art {
   font-family: var(--emoji-font);
+}
+.emoji-glyph {
+  font-family: var(--system-emoji-font);
+  font-variant-emoji: emoji;
 }
 .emoji-composition-glyph.is-symbolic {
   font-family: var(--ui-font);

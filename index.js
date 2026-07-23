@@ -20,6 +20,7 @@ var releasedIds = new Set();
 var groupedKeys = {};
 var byId = {};
 var emojiKeyByCodePoints = new Map();
+var paintedPixelEmojiKeys = new Set();
 
 var searchText;
 var languagePicker;
@@ -1493,11 +1494,17 @@ if ('serviceWorker' in navigator && window.isSecureContext && isViteDevelopment)
 }
 
 async function loadData() {
-  const [data, manifest] = await Promise.all([
+  const [data, manifest, pixelFontManifest] = await Promise.all([
     fetch('emoji.json').then(response => response.json()),
-    fetch('manifest.json').then(response => response.json()).catch(() => ({ packs: [], categories: [] }))
+    fetch('manifest.json').then(response => response.json()).catch(() => ({ packs: [], categories: [] })),
+    fetch('pixel-font/build/manifest.json')
+      .then(response => response.ok ? response.json() : { glyphs: [] })
+      .catch(() => ({ glyphs: [] }))
   ]);
   packageManifest = manifest;
+  paintedPixelEmojiKeys = new Set(
+    (pixelFontManifest.glyphs ?? []).map(glyph => glyph.key)
+  );
 
   // Keep Unicode's group/subgroup taxonomy, then add a smaller explorer section
   // inside each Unicode subgroup for large collections.
@@ -1525,6 +1532,7 @@ async function loadData() {
         }
         return lookup;
       }, new Map());
+      updateModifierPixelArtwork();
 
       groups = items
         .reduce((all, item) => all.includes(item.group) ? all : [...all, item.group], [])
@@ -2317,6 +2325,8 @@ function asEmojiCell(key, groupId = 0, subGroupId = 0) {
   div.classList.add(`group-${groupId}`);
   div.classList.add(`sub-group-${subGroupId}`);
   const emojiDiv = document.createElement('span');
+  emojiDiv.className = 'emoji-glyph';
+  applyPixelArtworkClass(emojiDiv, key);
   emojiDiv.innerText = emojiByKey[key];
   div.appendChild(emojiDiv);
   return div;
@@ -2718,7 +2728,12 @@ function updateEmojiComposition(item, value) {
       : createCompositionPart(displayedPart.component, item.key);
     equation.append(index === 0 ? part : createCompositionTerm('+', part));
   });
-  equation.append(createCompositionTerm('=', createCompositionResult(value, item.shortName)));
+  equation.append(
+    createCompositionTerm(
+      '=',
+      createCompositionResult(value, item.shortName, item.key)
+    )
+  );
 }
 
 function condenseCompositionPoints(points, currentEmojiKey) {
@@ -2760,6 +2775,7 @@ function createCondensedCompositionPart({ emojiKey, components }) {
   part.title = `${viewLabel}: ${linkedName} — ${codePoints}`;
   part.setAttribute('aria-label', `${viewLabel}: ${linkedName}. ${codePoints}`);
   glyph.className = 'emoji-composition-glyph';
+  applyPixelArtworkClass(glyph, emojiKey);
   glyph.textContent = emojiByKey[emojiKey];
   code.className = 'emoji-composition-code emoji-composition-code-condensed';
   code.textContent = formatCompositionReduction(components.length, 1);
@@ -2789,6 +2805,7 @@ function createCompositionPart({ hex, point }, currentEmojiKey) {
     part.setAttribute('aria-label', `${details.label}, U+${hex}`);
   }
   glyph.className = `emoji-composition-glyph${details.symbolic ? ' is-symbolic' : ''}`;
+  applyPixelArtworkClass(glyph, linkedEmojiKey);
   glyph.textContent = details.glyph;
   code.className = 'emoji-composition-code emoji-composition-code-point';
   code.textContent = `U+${hex}`;
@@ -2845,7 +2862,7 @@ function createCompositionTerm(operator, part) {
   return term;
 }
 
-function createCompositionResult(value, name) {
+function createCompositionResult(value, name, emojiKey) {
   const result = document.createElement('span');
   const glyph = document.createElement('span');
   const label = document.createElement('span');
@@ -2854,11 +2871,31 @@ function createCompositionResult(value, name) {
   result.setAttribute('role', 'img');
   result.setAttribute('aria-label', `${resultLabel}: ${name ?? value}`);
   glyph.className = 'emoji-composition-glyph';
+  applyPixelArtworkClass(glyph, emojiKey);
   glyph.textContent = value;
   label.className = 'emoji-composition-code';
   label.textContent = resultLabel;
   result.append(glyph, label);
   return result;
+}
+
+function applyPixelArtworkClass(element, emojiKey) {
+  element?.classList.toggle(
+    'has-pixel-art',
+    Boolean(emojiKey && paintedPixelEmojiKeys.has(emojiKey))
+  );
+}
+
+function updateModifierPixelArtwork() {
+  [...skinToneCheckboxes, ...hairCheckboxes].forEach(checkbox => {
+    const emojiKey = emojiKeyByCodePoints.get(
+      normalizeCodePoints(checkbox.value)
+    );
+    applyPixelArtworkClass(
+      checkbox.closest('label')?.querySelector('.modifier-emoji'),
+      emojiKey
+    );
+  });
 }
 
 function describeCompositionPoint(point) {
@@ -2939,7 +2976,9 @@ function showEmoji(id, openDialog = true, navigationKeys) {
   document.getElementsByClassName("emoji-key")[0].innerText = id;
   document.getElementsByClassName("emoji-value")[0].innerText = value;
   document.getElementsByClassName("emoji-encoded")[0].innerText = bits.join("");
-  document.getElementsByClassName('emoji-preview-glyph')[0].innerText = value;
+  const previewGlyph = document.getElementsByClassName('emoji-preview-glyph')[0];
+  previewGlyph.innerText = value;
+  applyPixelArtworkClass(previewGlyph, id);
   const item = byId[id] ?? {};
   updateEmojiImportExamples(item);
   updateEmojiComposition(item, value);

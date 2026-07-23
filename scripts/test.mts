@@ -400,8 +400,18 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.emoji-composition-glyph\s*\{[\s\S]*font-family:\s*var\(--system-emoji-font\);[\s\S]*\.emoji-composition-result \.emoji-composition-glyph\s*\{\s*font-family:\s*var\(--emoji-font\);/,
-  "sequence parts must use native glyphs while completed results use the selected emoji font",
+  /\.emoji-composition-glyph\s*\{[\s\S]*font-family:\s*var\(--system-emoji-font\);[\s\S]*\.emoji-composition-glyph\.has-pixel-art\s*\{[\s\S]*font-family:\s*var\(--emoji-font\);/,
+  "sequence parts must use native glyphs unless painted artwork is available",
+);
+assert.match(
+  demoScript,
+  /fetch\('pixel-font\/build\/manifest\.json'\)[\s\S]*paintedPixelEmojiKeys = new Set/,
+  "the demo must discover which emoji have painted pixel-font glyphs",
+);
+assert.match(
+  demoScript,
+  /function updateModifierPixelArtwork\(\)[\s\S]*applyPixelArtworkClass/,
+  "painted modifier swatches must opt into the pixel font",
 );
 assert.match(
   demoStyles,
