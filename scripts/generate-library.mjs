@@ -136,7 +136,7 @@ for (const [name, items] of Object.entries(variationPacks)) {
 write('manifest.json', JSON.stringify({
   name: packageJson.name,
   packs: [
-    { id: 'popular', label: 'Popular', count: popularItems.length, importPath: packageJson.name },
+    { id: 'popular', label: 'Popular', count: popularItems.length, importPath: packageJson.name, keys: popular },
     { id: 'all', label: 'All emoji', count: emoji.length, importPath: `${packageJson.name}/all` }
   ],
   categories,

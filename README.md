@@ -61,7 +61,9 @@ console.log(manifest.categories);
 ```
 
 Using the manifest prevents applications from hard-coding a category list that
-may change when Unicode adds or reorganizes emoji.
+may change when Unicode adds or reorganizes emoji. The popular pack also lists
+its curated `keys`, allowing consumers to check whether a specific emoji is
+available from the root export.
 
 ### Categories and subgroups
 

@@ -18,6 +18,7 @@ const coreAssets = [
   './index.css?direct',
   './index.js',
   './emoji.json',
+  './manifest.json',
   './dist/esm/index.js',
   './favicon.svg',
   './icons/icon-192.png',

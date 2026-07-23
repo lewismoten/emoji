@@ -58,6 +58,7 @@ var versionManifests = [];
 var proposedVersionManifests = [];
 var versionKeys = new Map();
 var orderManifest = { unicode: [] };
+var packageManifest = { packs: [], categories: [] };
 var orderMode = 'grouped';
 var searchAnnotations = {};
 var searchLabels = {};
@@ -408,6 +409,7 @@ async function onLoad() {
 
 function upgradeEmojiDialog() {
   removeLegacyDialogElements();
+  ensureImportExamples();
 
   const eyebrow = exampleDialog.querySelector('.emoji-dialog-eyebrow');
   if (eyebrow) {
@@ -439,6 +441,39 @@ function upgradeEmojiDialog() {
     status.setAttribute('aria-atomic', 'true');
     exampleDialog.querySelector('.dialog-heading')?.after(status);
   }
+}
+
+function ensureImportExamples() {
+  const code = exampleDialog.querySelector('.code');
+  const importLine = code?.querySelector('.line');
+  const importString = importLine?.querySelector('.string');
+  if (!code || !importLine || !importString) return;
+
+  let allPath = importString.querySelector('.emoji-import-path');
+  if (!allPath) {
+    allPath = document.createElement('span');
+    allPath.className = 'emoji-import-path';
+    importString.replaceChildren('"', allPath, '"');
+  }
+  allPath.textContent = '@lewismoten/emoji/all';
+
+  const alternatives = [
+    ['emoji-popular-import', 'emoji-popular-import-path'],
+    ['emoji-category-import', 'emoji-category-import-path'],
+    ['emoji-subgroup-import', 'emoji-subgroup-import-path']
+  ];
+  let after = importLine;
+  alternatives.forEach(([lineClass, pathClass]) => {
+    let line = code.querySelector(`.${lineClass}`);
+    if (!line) {
+      line = document.createElement('span');
+      line.className = `line comment ${lineClass}`;
+      line.hidden = true;
+      line.append('// import emoji from "', Object.assign(document.createElement('span'), { className: pathClass }), '";');
+      after.after(line);
+    }
+    after = line;
+  });
 }
 
 function removeLegacyDialogElements() {
@@ -745,7 +780,11 @@ if ('serviceWorker' in navigator && window.isSecureContext && isViteDevelopment)
 }
 
 async function loadData() {
-  const data = await fetch('emoji.json').then(response => response.json());
+  const [data, manifest] = await Promise.all([
+    fetch('emoji.json').then(response => response.json()),
+    fetch('manifest.json').then(response => response.json()).catch(() => ({ packs: [], categories: [] }))
+  ]);
+  packageManifest = manifest;
 
   // Keep Unicode's group/subgroup taxonomy, then add a smaller explorer section
   // inside each Unicode subgroup for large collections.
@@ -1739,6 +1778,37 @@ function displayEmojiKey(key) {
   return words.charAt(0).toLocaleUpperCase() + words.slice(1);
 }
 
+function updateEmojiImportExamples(item) {
+  const popular = packageManifest.packs.find(pack => pack.id === 'popular');
+  const allPath = packageManifest.packs.find(pack => pack.id === 'all')?.importPath
+    ?? '@lewismoten/emoji/all';
+  const category = packageManifest.categories.find(entry => entry.label === item.group);
+  const subcategory = category?.subcategories.find(entry => entry.unicodeSubgroup === item.unicodeSubGroup);
+  document.querySelector('.emoji-import-path').textContent = allPath;
+
+  const popularLine = document.querySelector('.emoji-popular-import');
+  const popularPath = document.querySelector('.emoji-popular-import-path');
+  if (popularLine && popularPath) {
+    const includesPopularEmoji = popular?.keys?.includes(item.key) ?? false;
+    popularLine.hidden = !includesPopularEmoji;
+    popularPath.textContent = includesPopularEmoji ? popular.importPath : '';
+  }
+
+  const categoryLine = document.querySelector('.emoji-category-import');
+  const categoryPath = document.querySelector('.emoji-category-import-path');
+  if (categoryLine && categoryPath) {
+    categoryLine.hidden = !category;
+    categoryPath.textContent = category?.importPath ?? '';
+  }
+
+  const subgroupLine = document.querySelector('.emoji-subgroup-import');
+  const subgroupPath = document.querySelector('.emoji-subgroup-import-path');
+  if (subgroupLine && subgroupPath) {
+    subgroupLine.hidden = !subcategory;
+    subgroupPath.textContent = subcategory?.importPath ?? '';
+  }
+}
+
 function announceStatus(message) {
   if (!copyStatus) return;
   copyStatus.textContent = '';
@@ -1799,6 +1869,7 @@ function showEmoji(id, openDialog = true) {
   document.getElementsByClassName("emoji-encoded")[0].innerText = bits.join("");
   document.getElementsByClassName('emoji-preview')[0].innerText = value;
   const item = byId[id] ?? {};
+  updateEmojiImportExamples(item);
   const codePoints = (item.codePoints ?? '').split(/\s+/).filter(Boolean).map(point => `U+${point}`).join(' ');
   document.getElementsByClassName('emoji-english-name')[0].innerText = item.shortName ?? displayEmojiKey(id);
   document.getElementsByClassName('emoji-version')[0].innerText = getIntroducedVersion(id);

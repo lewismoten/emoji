@@ -499,6 +499,7 @@ h2 { margin: 0; font-size: 1.15rem; }
 }
 
 .code .line { display: block; }
+.code .line[hidden] { display: none; }
 .code .keyword { color: #ed9cff; }
 .code .variable { color: #f3f5f6; }
 .code .native-function { color: #6ee9e4; }
