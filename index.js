@@ -23,6 +23,10 @@ var languagePickerFlag;
 var languagePickerLabel;
 var languageDialog;
 var languageList;
+var savedPicker;
+var savedDialog;
+var helpPicker;
+var helpDialog;
 var emojiList;
 var matchCount;
 var toolbar;
@@ -69,15 +73,19 @@ var selectedSearchLocale = '';
 var searchLoadId = 0;
 var currentEmojiCopies = {};
 var displayedKeys = [];
+var dialogNavigationKeys = [];
 var currentEmojiKey = '';
 var focusedEmojiKey = '';
 var copyStatus;
 var urlStateReady = false;
 var applyingUrlState = false;
 var suppressDialogCloseSync = false;
+var suppressedPanelCloses = new WeakSet();
 var offlineStatus;
 const explorerPreferencesKey = '@lewismoten/emoji:explorer-preferences';
 var explorerPreferences = loadExplorerPreferences();
+var favoriteEmojiKeys = Array.isArray(explorerPreferences.favorites) ? explorerPreferences.favorites : [];
+var copiedEmojiKeys = Array.isArray(explorerPreferences.recentCopied) ? explorerPreferences.recentCopied : [];
 const languageFlags = {
   'ar': '🇸🇦',
   'en': '🇺🇸',
@@ -314,7 +322,127 @@ function getSportType(name) {
   return 'Running & Movement';
 }
 
+function ensureUtilityControls() {
+  const searchControls = document.querySelector('.search-controls');
+  if (searchControls && !searchControls.querySelector('.saved-picker')) {
+    searchControls.insertAdjacentHTML('beforeend', `
+      <button class="saved-picker" type="button" aria-haspopup="dialog" aria-controls="saved-dialog" data-i18n-aria-label="savedEmoji" aria-label="Saved emoji">
+        <span aria-hidden="true">⭐</span>
+        <span class="saved-picker-label" data-i18n="favorites">Favorites</span>
+      </button>
+    `);
+  }
+  if (searchControls && !searchControls.querySelector('.help-picker')) {
+    searchControls.insertAdjacentHTML('beforeend', `
+      <button class="help-picker" type="button" aria-haspopup="dialog" aria-controls="help-dialog" data-i18n-aria-label="keyboardShortcuts" aria-label="Keyboard shortcuts">
+        <span aria-hidden="true">?</span>
+      </button>
+    `);
+  }
+
+  const actions = document.querySelector('.emoji-copy-actions');
+  if (actions && !actions.querySelector('.toggle-favorite')) {
+    actions.insertAdjacentHTML('afterbegin', `
+      <button class="toggle-favorite" type="button" aria-pressed="false">
+        <span aria-hidden="true">☆</span>
+        <span class="toggle-favorite-label" data-i18n="addFavorite">Add favorite</span>
+      </button>
+    `);
+  }
+
+  const main = document.querySelector('main');
+  if (main && !document.querySelector('.saved-dialog')) {
+    main.insertAdjacentHTML('beforeend', `
+      <dialog class="saved-dialog" id="saved-dialog" aria-labelledby="saved-title">
+        <div class="dialog-heading">
+          <h2 id="saved-title" data-i18n="savedEmoji">Saved emoji</h2>
+          <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
+        </div>
+        <section class="saved-section" aria-labelledby="favorites-title">
+          <h3 id="favorites-title" data-i18n="favorites">Favorites</h3>
+          <div class="saved-emoji-list favorites-list"></div>
+          <p class="saved-empty favorites-empty" data-i18n="noFavorites">Favorite emoji will appear here.</p>
+        </section>
+        <section class="saved-section" aria-labelledby="copied-title">
+          <h3 id="copied-title" data-i18n="recentlyCopied">Recently Copied</h3>
+          <div class="saved-emoji-list copied-list"></div>
+          <p class="saved-empty copied-empty" data-i18n="noRecentlyCopied">Copied emoji will appear here.</p>
+        </section>
+      </dialog>
+    `);
+  }
+  if (main && !document.querySelector('.help-dialog')) {
+    main.insertAdjacentHTML('beforeend', `
+      <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
+        <div class="dialog-heading">
+          <h2 id="help-title" data-i18n="keyboardShortcuts">Keyboard shortcuts</h2>
+          <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
+        </div>
+        <dl class="shortcut-list">
+          <div><dt><kbd>/</kbd></dt><dd data-i18n="shortcutSearch">Focus search</dd></div>
+          <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd data-i18n="shortcutNavigate">Navigate emoji</dd></div>
+          <div><dt><kbd>Enter</kbd></dt><dd data-i18n="shortcutOpen">Open the selected emoji</dd></div>
+          <div><dt><kbd>Esc</kbd></dt><dd data-i18n="shortcutClose">Close a dialog or clear search</dd></div>
+          <div><dt><kbd>?</kbd></dt><dd data-i18n="shortcutHelp">Open keyboard help</dd></div>
+        </dl>
+      </dialog>
+    `);
+  }
+}
+
+function getPanelDialog(panel) {
+  return {
+    favorites: savedDialog,
+    help: helpDialog,
+    language: languageDialog
+  }[panel];
+}
+
+function getOpenPanel() {
+  if (savedDialog?.open) return 'favorites';
+  if (helpDialog?.open) return 'help';
+  if (languageDialog?.open) return 'language';
+  return '';
+}
+
+function focusPanelDialog(panel, dialog) {
+  if (panel === 'favorites') {
+    renderSavedEmoji();
+    (dialog.querySelector('.saved-emoji-list button') ?? dialog.querySelector('.dialog-close'))?.focus();
+  } else if (panel === 'language') {
+    (languageList.querySelector('.is-selected') ?? dialog.querySelector('.dialog-close'))?.focus();
+  } else {
+    dialog.querySelector('.dialog-close')?.focus();
+  }
+}
+
+function openPanelDialog(panel, addHistory = true) {
+  const dialog = getPanelDialog(panel);
+  if (!dialog) return;
+  if (!dialog.open) dialog.showModal();
+  focusPanelDialog(panel, dialog);
+  if (addHistory) {
+    syncUrlState('push', { ...window.history.state, panelDialogEntry: true });
+  }
+}
+
+function closePanelDialog(dialog) {
+  if (!dialog?.open) return;
+  suppressedPanelCloses.add(dialog);
+  dialog.close();
+}
+
+function onPanelDialogClose(event) {
+  if (suppressedPanelCloses.delete(event.currentTarget) || !urlStateReady || applyingUrlState) return;
+  if (window.history.state?.panelDialogEntry) {
+    window.history.back();
+  } else {
+    syncUrlState();
+  }
+}
+
 async function onLoad() {
+  ensureUtilityControls();
   offlineStatus = document.getElementsByClassName('offline-status')[0];
   searchText = document.getElementsByClassName("text")[0];
   languagePicker = document.getElementsByClassName('language-picker')[0];
@@ -322,6 +450,10 @@ async function onLoad() {
   languagePickerLabel = document.getElementsByClassName('language-picker-label')[0];
   languageDialog = document.getElementsByClassName('language-dialog')[0];
   languageList = document.getElementsByClassName('language-list')[0];
+  savedPicker = document.getElementsByClassName('saved-picker')[0];
+  savedDialog = document.getElementsByClassName('saved-dialog')[0];
+  helpPicker = document.getElementsByClassName('help-picker')[0];
+  helpDialog = document.getElementsByClassName('help-dialog')[0];
   emojiList = document.getElementsByClassName("list")[0];
   matchCount = document.getElementsByClassName('match-count')[0];
   toolbar = document.getElementsByClassName('toolbar')[0];
@@ -368,13 +500,35 @@ async function onLoad() {
 
   searchText.addEventListener("input", drawList);
   languagePicker.addEventListener('click', () => {
-    languageDialog.showModal();
-    languageList.querySelector('.is-selected')?.focus();
+    openPanelDialog('language');
+  });
+  savedPicker?.addEventListener('click', () => {
+    openPanelDialog('favorites');
+  });
+  helpPicker?.addEventListener('click', () => {
+    openPanelDialog('help');
+  });
+  languageDialog.addEventListener('close', onPanelDialogClose);
+  savedDialog?.addEventListener('close', onPanelDialogClose);
+  helpDialog?.addEventListener('close', onPanelDialogClose);
+  savedDialog?.addEventListener('click', event => {
+    const button = event.target.closest('[data-saved-emoji]');
+    if (!button) return;
+    const navigationKeys = button.dataset.savedSource === 'favorites'
+      ? favoriteEmojiKeys
+      : copiedEmojiKeys;
+    closePanelDialog(savedDialog);
+    showEmoji(button.dataset.savedEmoji, true, navigationKeys);
   });
   emojiList.addEventListener("click", onClick);
   emojiList.addEventListener('focusin', onEmojiFocus);
   emojiList.addEventListener('keydown', onEmojiKeyDown);
   exampleDialog.addEventListener('click', event => {
+    const favoriteButton = event.target.closest('.toggle-favorite');
+    if (favoriteButton) {
+      toggleFavorite(currentEmojiKey);
+      return;
+    }
     const showCodeButton = event.target.closest('.show-emoji-code');
     if (showCodeButton) {
       setEmojiDialogView(true);
@@ -403,7 +557,12 @@ async function onLoad() {
       link: ['linkCopied', 'Link copied to the clipboard.']
     };
     const [messageKey, fallback] = messages[button.dataset.copy] ?? ['copiedToClipboard', 'Copied to the clipboard.'];
-    if (value !== undefined) copyToClipboard(value, translate(messageKey, fallback));
+    if (value !== undefined) {
+      const copiedEmojiKey = currentEmojiKey;
+      copyToClipboard(value, translate(messageKey, fallback)).then(copied => {
+        if (copied) recordCopiedEmoji(copiedEmojiKey);
+      });
+    }
   });
   exampleDialog.addEventListener('close', onEmojiDialogClose);
   versionModeToggle?.addEventListener('click', toggleVersionMode);
@@ -581,6 +740,75 @@ function setEmojiDialogView(showCode, updateUrl = true) {
   eyebrow.dataset.i18n = key;
   eyebrow.textContent = translate(key, fallback);
   if (updateUrl && exampleDialog.open) syncUrlState();
+}
+
+function updateFavoriteButton() {
+  const button = exampleDialog.querySelector('.toggle-favorite');
+  if (!button) return;
+  const favorite = favoriteEmojiKeys.includes(currentEmojiKey);
+  button.setAttribute('aria-pressed', String(favorite));
+  button.querySelector('[aria-hidden="true"]').textContent = favorite ? '★' : '☆';
+  const label = button.querySelector('.toggle-favorite-label');
+  const key = favorite ? 'removeFavorite' : 'addFavorite';
+  const fallback = favorite ? 'Remove favorite' : 'Add favorite';
+  label.dataset.i18n = key;
+  label.textContent = translate(key, fallback);
+}
+
+function toggleFavorite(key) {
+  if (!key) return;
+  if (!favoriteEmojiKeys.includes(key)) {
+    addFavorite(key);
+    return;
+  }
+  favoriteEmojiKeys = favoriteEmojiKeys.filter(candidate => candidate !== key);
+  saveExplorerPreference('favorites', favoriteEmojiKeys);
+  updateFavoriteButton();
+  if (savedDialog?.open) renderSavedEmoji();
+}
+
+function addFavorite(key) {
+  if (!key || favoriteEmojiKeys.includes(key)) return;
+  favoriteEmojiKeys = [key, ...favoriteEmojiKeys];
+  saveExplorerPreference('favorites', favoriteEmojiKeys);
+  updateFavoriteButton();
+  if (savedDialog?.open) renderSavedEmoji();
+}
+
+function recordCopiedEmoji(key) {
+  if (!key) return;
+  copiedEmojiKeys = [key, ...copiedEmojiKeys.filter(candidate => candidate !== key)].slice(0, 24);
+  saveExplorerPreference('recentCopied', copiedEmojiKeys);
+}
+
+function renderSavedEmojiList(container, empty, keys, source) {
+  const available = keys.filter(key => emojiByKey[key] !== undefined);
+  container.replaceChildren(...available.map(key => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.dataset.savedEmoji = key;
+    button.dataset.savedSource = source;
+    button.textContent = emojiByKey[key];
+    button.setAttribute('aria-label', searchAnnotations[key]?.[0] ?? byId[key]?.shortName ?? displayEmojiKey(key));
+    return button;
+  }));
+  empty.hidden = available.length > 0;
+}
+
+function renderSavedEmoji() {
+  if (!savedDialog) return;
+  renderSavedEmojiList(
+    savedDialog.querySelector('.favorites-list'),
+    savedDialog.querySelector('.favorites-empty'),
+    favoriteEmojiKeys,
+    'favorites'
+  );
+  renderSavedEmojiList(
+    savedDialog.querySelector('.copied-list'),
+    savedDialog.querySelector('.copied-empty'),
+    copiedEmojiKeys,
+    'copied'
+  );
 }
 
 function getCodeExampleText() {
@@ -809,7 +1037,10 @@ function getUrlState() {
     gender: (params.get('gender') ?? '').split(',').filter(Boolean),
     order,
     emoji: params.get('emoji') ?? '',
-    emojiMode: params.get('emojiMode') === 'code' ? 'code' : 'details'
+    emojiMode: params.get('emojiMode') === 'code' ? 'code' : 'details',
+    panel: ['favorites', 'help', 'language'].includes(params.get('panel'))
+      ? params.get('panel')
+      : ''
   };
 }
 
@@ -847,15 +1078,27 @@ function applyLoadedUrlState() {
 function applyDialogUrlState() {
   const state = getUrlState();
   if (state.emoji && emojiByKey[state.emoji] !== undefined) {
-    showEmoji(state.emoji, false);
+    closePanelDialog(savedDialog);
+    closePanelDialog(helpDialog);
+    closePanelDialog(languageDialog);
+    showEmoji(state.emoji, false, displayedKeys);
     setEmojiDialogView(state.emojiMode === 'code', false);
-    if (!exampleDialog.open) exampleDialog.showModal();
+    if (!exampleDialog.open) {
+      exampleDialog.showModal();
+    }
     return;
   }
   if (exampleDialog.open) {
     suppressDialogCloseSync = true;
     exampleDialog.close();
     suppressDialogCloseSync = false;
+  }
+  const desiredPanelDialog = getPanelDialog(state.panel);
+  [savedDialog, helpDialog, languageDialog].forEach(dialog => {
+    if (dialog !== desiredPanelDialog) closePanelDialog(dialog);
+  });
+  if (desiredPanelDialog && !desiredPanelDialog.open) {
+    openPanelDialog(state.panel, false);
   }
 }
 
@@ -881,6 +1124,9 @@ function syncUrlState(method = 'replace', historyState = window.history.state) {
   if (exampleDialog.open && currentEmojiKey) {
     params.set('emoji', currentEmojiKey);
     if (exampleDialog.classList.contains('is-code-view')) params.set('emojiMode', 'code');
+  } else {
+    const panel = getOpenPanel();
+    if (panel) params.set('panel', panel);
   }
   const query = params.toString();
   const url = `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`;
@@ -923,12 +1169,18 @@ function stepVersion(amount) {
 function onDocumentKeyDown(event) {
   const activeTag = document.activeElement?.tagName;
   const isTyping = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT';
-  if (event.key === '/' && !isTyping && !exampleDialog.open && !languageDialog.open) {
+  const hasOpenDialog = Boolean(document.querySelector('dialog[open]'));
+  if (event.key === '?' && !isTyping && !hasOpenDialog && helpDialog) {
+    event.preventDefault();
+    openPanelDialog('help');
+    return;
+  }
+  if (event.key === '/' && !isTyping && !hasOpenDialog) {
     event.preventDefault();
     searchText.focus();
     return;
   }
-  if (event.key === 'Escape' && !exampleDialog.open && !languageDialog.open && searchText.value) {
+  if (event.key === 'Escape' && !hasOpenDialog && searchText.value) {
     searchText.value = '';
     drawList();
     searchText.focus();
@@ -1058,8 +1310,14 @@ async function loadSearchLanguages(initialLocale = '') {
 
 function renderSearchLanguages() {
   languageList.replaceChildren();
+  const navigationParams = new URLSearchParams(window.location.search);
+  navigationParams.delete('panel');
+  navigationParams.delete('emoji');
+  navigationParams.delete('emojiMode');
+  const navigationQuery = navigationParams.toString();
+  const navigationSearch = navigationQuery ? `?${navigationQuery}` : '';
   const noLanguage = document.createElement('a');
-  noLanguage.href = `./${window.location.search}`;
+  noLanguage.href = `./${navigationSearch}`;
   noLanguage.className = 'language-option';
   noLanguage.classList.toggle('is-selected', selectedSearchLocale === '');
   noLanguage.setAttribute('aria-pressed', String(selectedSearchLocale === ''));
@@ -1070,7 +1328,7 @@ function renderSearchLanguages() {
   searchLocales.forEach(locale => {
     const option = document.createElement('a');
     const flag = languageFlags[locale.locale] ?? '🌐';
-    option.href = `./index.${locale.locale}.html${window.location.search}`;
+    option.href = `./index.${locale.locale}.html${navigationSearch}`;
     option.className = 'language-option';
     option.classList.toggle('is-selected', locale.locale === selectedSearchLocale);
     option.setAttribute('aria-pressed', String(locale.locale === selectedSearchLocale));
@@ -1113,7 +1371,7 @@ async function setSearchLanguage(requestedLocale) {
     searchSubgroupLabels = {};
     languagePickerFlag.textContent = '🌐';
     languagePickerLabel.textContent = translate('languageNotLoaded', 'Language not loaded');
-    languageDialog.close();
+    closePanelDialog(languageDialog);
     await loadUiTranslations('en');
     saveExplorerPreference('locale', '');
     refreshLocalizedLabels();
@@ -1137,7 +1395,7 @@ async function setSearchLanguage(requestedLocale) {
     await loadUiTranslations(locale.locale, locale.rtl);
     languagePickerFlag.textContent = languageFlags[locale.locale] ?? '🌐';
     languagePickerLabel.textContent = locale.nativeLabel;
-    languageDialog.close();
+    closePanelDialog(languageDialog);
     saveExplorerPreference('locale', locale.locale);
     refreshLocalizedLabels();
   } catch (error) {
@@ -2056,9 +2314,13 @@ function onEmojiDialogClose() {
   }
 }
 
-function showEmoji(id, openDialog = true) {
+function showEmoji(id, openDialog = true, navigationKeys) {
   var value = emojiByKey[id];
   if (value === undefined) return;
+  if (navigationKeys || openDialog) {
+    dialogNavigationKeys = [...(navigationKeys ?? displayedKeys)]
+      .filter(key => emojiByKey[key] !== undefined);
+  }
   currentEmojiKey = id;
   var bits = [];
   var i;
@@ -2108,6 +2370,7 @@ function showEmoji(id, openDialog = true) {
   const dialogTitle = document.getElementById('example-title').innerText;
   englishNameElement.closest('.emoji-english-name-row, div').hidden =
     normalizeDisplayName(dialogTitle) === normalizeDisplayName(englishName);
+  updateFavoriteButton();
   if (openDialog) {
     if (copyStatus) copyStatus.textContent = '';
     setEmojiDialogView(false, false);
@@ -2118,9 +2381,10 @@ function showEmoji(id, openDialog = true) {
 }
 
 function navigateEmoji(amount) {
-  const index = displayedKeys.indexOf(currentEmojiKey);
+  const keys = dialogNavigationKeys.length > 0 ? dialogNavigationKeys : displayedKeys;
+  const index = keys.indexOf(currentEmojiKey);
   if (index === -1) return;
-  const nextKey = displayedKeys[index + amount];
+  const nextKey = keys[index + amount];
   if (nextKey) {
     showEmoji(nextKey, false);
     syncUrlState();
@@ -2128,9 +2392,10 @@ function navigateEmoji(amount) {
 }
 
 function updateDialogNavigation() {
-  const index = displayedKeys.indexOf(currentEmojiKey);
+  const keys = dialogNavigationKeys.length > 0 ? dialogNavigationKeys : displayedKeys;
+  const index = keys.indexOf(currentEmojiKey);
   if (emojiPrevious) emojiPrevious.disabled = index <= 0;
-  if (emojiNext) emojiNext.disabled = index === -1 || index >= displayedKeys.length - 1;
+  if (emojiNext) emojiNext.disabled = index === -1 || index >= keys.length - 1;
 }
 removeLegacyDialogElements();
 window.addEventListener("load", onLoad);

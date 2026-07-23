@@ -81,6 +81,13 @@
             <span class="language-picker-flag" aria-hidden="true">🌐</span>
             <span class="language-picker-label">Language not loaded</span>
           </button>
+          <button class="saved-picker" type="button" aria-haspopup="dialog" aria-controls="saved-dialog" data-i18n-aria-label="savedEmoji" aria-label="Saved emoji">
+            <span aria-hidden="true">⭐</span>
+            <span class="saved-picker-label" data-i18n="favorites">Favorites</span>
+          </button>
+          <button class="help-picker" type="button" aria-haspopup="dialog" aria-controls="help-dialog" data-i18n-aria-label="keyboardShortcuts" aria-label="Keyboard shortcuts">
+            <span aria-hidden="true">?</span>
+          </button>
         </div>
 
         <div class="filter-options">
@@ -196,6 +203,10 @@
           <div><dt data-i18n="qualification">Qualification</dt><dd class="emoji-status"></dd></div>
         </dl>
         <div class="emoji-copy-actions">
+          <button class="toggle-favorite" type="button" aria-pressed="false">
+            <span aria-hidden="true">☆</span>
+            <span class="toggle-favorite-label" data-i18n="addFavorite">Add favorite</span>
+          </button>
           <button type="button" data-copy="key" data-i18n="copyKey">Copy key</button>
           <button type="button" data-copy="escape" data-i18n="copyEscape">Copy escape</button>
           <button type="button" data-copy="codePoints" data-i18n="copyCodePoints">Copy code points</button>
@@ -230,6 +241,37 @@
       </div>
       <p class="dialog-description" data-i18n="chooseLanguageDescription">Choose a language for emoji search.</p>
       <div class="language-list" role="list"></div>
+    </dialog>
+
+    <dialog class="saved-dialog" id="saved-dialog" aria-labelledby="saved-title">
+      <div class="dialog-heading">
+        <h2 id="saved-title" data-i18n="savedEmoji">Saved emoji</h2>
+        <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
+      </div>
+      <section class="saved-section" aria-labelledby="favorites-title">
+        <h3 id="favorites-title" data-i18n="favorites">Favorites</h3>
+        <div class="saved-emoji-list favorites-list"></div>
+        <p class="saved-empty favorites-empty" data-i18n="noFavorites">Favorite emoji will appear here.</p>
+      </section>
+      <section class="saved-section" aria-labelledby="copied-title">
+        <h3 id="copied-title" data-i18n="recentlyCopied">Recently Copied</h3>
+        <div class="saved-emoji-list copied-list"></div>
+        <p class="saved-empty copied-empty" data-i18n="noRecentlyCopied">Copied emoji will appear here.</p>
+      </section>
+    </dialog>
+
+    <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
+      <div class="dialog-heading">
+        <h2 id="help-title" data-i18n="keyboardShortcuts">Keyboard shortcuts</h2>
+        <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
+      </div>
+      <dl class="shortcut-list">
+        <div><dt><kbd>/</kbd></dt><dd data-i18n="shortcutSearch">Focus search</dd></div>
+        <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd data-i18n="shortcutNavigate">Navigate emoji</dd></div>
+        <div><dt><kbd>Enter</kbd></dt><dd data-i18n="shortcutOpen">Open the selected emoji</dd></div>
+        <div><dt><kbd>Esc</kbd></dt><dd data-i18n="shortcutClose">Close a dialog or clear search</dd></div>
+        <div><dt><kbd>?</kbd></dt><dd data-i18n="shortcutHelp">Open keyboard help</dd></div>
+      </dl>
     </dialog>
   </main>
 </body>
