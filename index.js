@@ -76,6 +76,8 @@ var urlStateReady = false;
 var applyingUrlState = false;
 var suppressDialogCloseSync = false;
 var offlineStatus;
+const explorerPreferencesKey = '@lewismoten/emoji:explorer-preferences';
+var explorerPreferences = loadExplorerPreferences();
 const languageFlags = {
   'ar': '🇸🇦',
   'en': '🇺🇸',
@@ -136,6 +138,21 @@ const versionModeDefinitions = [
   { value: 'selected', key: 'selectedVersionOnly', fallback: 'Selected version only' }
 ];
 const displayExplorerLabel = label => translate(explorerLabelKeys[label], label);
+function loadExplorerPreferences() {
+  try {
+    return JSON.parse(window.localStorage.getItem(explorerPreferencesKey) ?? '{}');
+  } catch {
+    return {};
+  }
+}
+function saveExplorerPreference(key, value) {
+  explorerPreferences[key] = value;
+  try {
+    window.localStorage.setItem(explorerPreferencesKey, JSON.stringify(explorerPreferences));
+  } catch {
+    // Preferences are optional when storage is unavailable or blocked.
+  }
+}
 const applyUiTranslations = () => {
   document.querySelectorAll('[data-i18n]').forEach(element => {
     element.textContent = translate(element.dataset.i18n, element.textContent);
@@ -374,13 +391,16 @@ async function onLoad() {
     if (!button) return;
     const value = button.dataset.copy === 'code'
       ? getCodeExampleText()
-      : currentEmojiCopies[button.dataset.copy];
+      : button.dataset.copy === 'link'
+        ? window.location.href
+        : currentEmojiCopies[button.dataset.copy];
     const messages = {
       emoji: ['emojiCopied', 'Emoji copied to the clipboard.'],
       key: ['keyCopied', 'Emoji key copied to the clipboard.'],
       escape: ['escapeCopied', 'Escape sequence copied to the clipboard.'],
       codePoints: ['codePointsCopied', 'Code points copied to the clipboard.'],
-      code: ['codeCopied', 'Code copied to the clipboard.']
+      code: ['codeCopied', 'Code copied to the clipboard.'],
+      link: ['linkCopied', 'Link copied to the clipboard.']
     };
     const [messageKey, fallback] = messages[button.dataset.copy] ?? ['copiedToClipboard', 'Copied to the clipboard.'];
     if (value !== undefined) copyToClipboard(value, translate(messageKey, fallback));
@@ -398,6 +418,9 @@ async function onLoad() {
   });
   versionRange?.addEventListener('input', onVersionRangeInput);
   orderButtons.forEach(button => button.addEventListener('click', onOrderModeChange));
+  advancedFilters.addEventListener('toggle', () => {
+    saveExplorerPreference('filtersOpen', advancedFilters.open);
+  });
   document.addEventListener('keydown', onDocumentKeyDown);
   renderVersionModeToggle();
 
@@ -411,15 +434,20 @@ async function onLoad() {
     window.addEventListener('resize', setToolbarHeight);
   }
 
-  if (window.matchMedia('(max-width: 560px)').matches) {
+  if (typeof explorerPreferences.filtersOpen === 'boolean') {
+    advancedFilters.open = explorerPreferences.filtersOpen;
+  } else if (window.matchMedia('(max-width: 560px)').matches) {
     advancedFilters.open = false;
   }
 
-  const initialUiLocale = document.documentElement.dataset.locale
-    ?? window.location.pathname.match(/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/)?.[1]
+  const routeLocale = window.location.pathname.match(/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/)?.[1];
+  const initialUiLocale = routeLocale
+    ?? document.documentElement.dataset.locale
     ?? 'en';
+  const initialSearchLocale = routeLocale
+    ?? (Object.hasOwn(explorerPreferences, 'locale') ? explorerPreferences.locale : initialUiLocale);
   await loadUiTranslations(initialUiLocale, document.documentElement.dir === 'rtl');
-  await loadSearchLanguages(initialUiLocale);
+  await loadSearchLanguages(initialSearchLocale);
   await loadData();
   drawList();
   applyDialogUrlState();
@@ -522,6 +550,22 @@ function ensureCodeDialogView() {
     copy.dataset.i18n = 'copyCode';
     copy.textContent = 'Copy code';
     toolbar.append(copy);
+  }
+  if (!toolbar.querySelector('[data-copy="link"]')) {
+    const copyLink = document.createElement('button');
+    copyLink.type = 'button';
+    copyLink.dataset.copy = 'link';
+    copyLink.dataset.i18n = 'copyLink';
+    copyLink.textContent = 'Copy link';
+    toolbar.append(copyLink);
+  }
+  if (actions && !actions.querySelector('[data-copy="link"]')) {
+    const copyLink = document.createElement('button');
+    copyLink.type = 'button';
+    copyLink.dataset.copy = 'link';
+    copyLink.dataset.i18n = 'copyLink';
+    copyLink.textContent = 'Copy link';
+    actions.querySelector('.show-emoji-code')?.before(copyLink);
   }
 }
 
@@ -747,6 +791,13 @@ function toggleVersionMode() {
 
 function getUrlState() {
   const params = new URLSearchParams(window.location.search);
+  const requestedOrder = params.get('order');
+  const preferredOrder = explorerPreferences.order;
+  const order = ['grouped', 'unicode', 'sequence'].includes(requestedOrder)
+    ? requestedOrder
+    : ['grouped', 'unicode', 'sequence'].includes(preferredOrder)
+      ? preferredOrder
+      : 'grouped';
   return {
     search: params.get('q') ?? '',
     version: params.get('version') ?? '',
@@ -756,7 +807,7 @@ function getUrlState() {
     skin: (params.get('skin') ?? '').split(',').filter(Boolean),
     hair: (params.get('hair') ?? '').split(',').filter(Boolean),
     gender: (params.get('gender') ?? '').split(',').filter(Boolean),
-    order: ['grouped', 'unicode', 'sequence'].includes(params.get('order')) ? params.get('order') : 'grouped',
+    order,
     emoji: params.get('emoji') ?? '',
     emojiMode: params.get('emojiMode') === 'code' ? 'code' : 'details'
   };
@@ -1064,6 +1115,7 @@ async function setSearchLanguage(requestedLocale) {
     languagePickerLabel.textContent = translate('languageNotLoaded', 'Language not loaded');
     languageDialog.close();
     await loadUiTranslations('en');
+    saveExplorerPreference('locale', '');
     refreshLocalizedLabels();
     return;
   }
@@ -1086,6 +1138,7 @@ async function setSearchLanguage(requestedLocale) {
     languagePickerFlag.textContent = languageFlags[locale.locale] ?? '🌐';
     languagePickerLabel.textContent = locale.nativeLabel;
     languageDialog.close();
+    saveExplorerPreference('locale', locale.locale);
     refreshLocalizedLabels();
   } catch (error) {
     if (loadId === searchLoadId) {
@@ -1114,6 +1167,7 @@ async function loadOrderData() {
 
 function onOrderModeChange(event) {
   orderMode = event.currentTarget.dataset.order;
+  saveExplorerPreference('order', orderMode);
   orderButtons.forEach(button => {
     const active = button.dataset.order === orderMode;
     button.classList.toggle('is-active', active);

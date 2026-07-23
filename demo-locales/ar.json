@@ -67,6 +67,7 @@
   "codeExample": "مثال برمجي",
   "backToEmoji": "العودة إلى الرمز التعبيري",
   "copyCode": "نسخ الرمز البرمجي",
+  "copyLink": "نسخ الرابط",
   "sequenceSingle": "رمز تعبيري مفرد",
   "sequenceModifier": "تسلسل معدِّل",
   "sequenceZwj": "تسلسل ZWJ",
@@ -109,6 +110,7 @@
   "escapeCopied": "تم نسخ تسلسل الهروب إلى الحافظة.",
   "codePointsCopied": "تم نسخ نقاط الترميز إلى الحافظة.",
   "codeCopied": "تم نسخ الرمز البرمجي إلى الحافظة.",
+  "linkCopied": "تم نسخ الرابط إلى الحافظة.",
   "copiedToClipboard": "تم النسخ إلى الحافظة.",
   "copyFailed": "تعذر النسخ إلى الحافظة."
 }

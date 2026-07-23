@@ -670,6 +670,18 @@ h2 { margin: 0; font-size: 1.15rem; }
 .sequence-type > .name { width: 100%; margin: 0; padding: .45rem .7rem; background: #0a0711; color: var(--accent); font-size: .85rem; font-weight: 700; }
 .sequence-type > .emoji { display: flex; flex-wrap: wrap; padding: .35rem; }
 
+@supports (content-visibility: auto) {
+  .unicode-subgroup,
+  .subgroup,
+  .sequence-type {
+    content-visibility: auto;
+  }
+
+  .unicode-subgroup,
+  .sequence-type { contain-intrinsic-size: auto 12rem; }
+  .subgroup { contain-intrinsic-size: auto 8rem; }
+}
+
 .subgroup .emoji > div,
 .sequence-type > .emoji > div {
   display: grid;

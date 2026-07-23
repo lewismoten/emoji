@@ -67,6 +67,7 @@
   "codeExample": "代码示例",
   "backToEmoji": "返回表情",
   "copyCode": "复制代码",
+  "copyLink": "复制链接",
   "sequenceSingle": "单个表情",
   "sequenceModifier": "修饰符序列",
   "sequenceZwj": "ZWJ 序列",
@@ -109,6 +110,7 @@
   "escapeCopied": "转义序列已复制到剪贴板。",
   "codePointsCopied": "码点已复制到剪贴板。",
   "codeCopied": "代码已复制到剪贴板。",
+  "linkCopied": "链接已复制到剪贴板。",
   "copiedToClipboard": "已复制到剪贴板。",
   "copyFailed": "无法复制到剪贴板。"
 }

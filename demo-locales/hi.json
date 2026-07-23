@@ -67,6 +67,7 @@
   "codeExample": "कोड उदाहरण",
   "backToEmoji": "इमोजी पर वापस जाएँ",
   "copyCode": "कोड कॉपी करें",
+  "copyLink": "लिंक कॉपी करें",
   "sequenceSingle": "एकल इमोजी",
   "sequenceModifier": "संशोधक अनुक्रम",
   "sequenceZwj": "ZWJ अनुक्रम",
@@ -109,6 +110,7 @@
   "escapeCopied": "एस्केप अनुक्रम क्लिपबोर्ड पर कॉपी किया गया।",
   "codePointsCopied": "कोड पॉइंट क्लिपबोर्ड पर कॉपी किए गए।",
   "codeCopied": "कोड क्लिपबोर्ड पर कॉपी किया गया।",
+  "linkCopied": "लिंक क्लिपबोर्ड पर कॉपी किया गया।",
   "copiedToClipboard": "क्लिपबोर्ड पर कॉपी किया गया।",
   "copyFailed": "क्लिपबोर्ड पर कॉपी नहीं किया जा सका।"
 }

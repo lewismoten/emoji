@@ -67,6 +67,7 @@
   "codeExample": "Ejemplo de código",
   "backToEmoji": "Volver al emoji",
   "copyCode": "Copiar código",
+  "copyLink": "Copiar enlace",
   "sequenceSingle": "Emoji individual",
   "sequenceModifier": "Secuencia modificadora",
   "sequenceZwj": "Secuencia ZWJ",
@@ -109,6 +110,7 @@
   "escapeCopied": "Secuencia de escape copiada al portapapeles.",
   "codePointsCopied": "Puntos de código copiados al portapapeles.",
   "codeCopied": "Código copiado al portapapeles.",
+  "linkCopied": "Enlace copiado al portapapeles.",
   "copiedToClipboard": "Copiado al portapapeles.",
   "copyFailed": "No se pudo copiar al portapapeles."
 }
