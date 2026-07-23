@@ -64,7 +64,8 @@
     "demo:pwa": "node ./scripts/generate-service-worker.mjs",
     "unicode": "node ./scripts/update-unicode.mjs",
     "unicode:proposed": "node ./scripts/download-proposed-unicode.mjs",
-    "cldr": "node ./scripts/update-cldr-locales.mjs && npm run format"
+    "cldr": "node ./scripts/update-cldr-locales.mjs && npm run format",
+    "locales:overrides": "node ./scripts/apply-locale-label-overrides.mjs && npm run format"
   },
   "repository": {
     "type": "git",
