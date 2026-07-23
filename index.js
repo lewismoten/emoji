@@ -810,6 +810,13 @@ function setEmojiDialogView(showCode, updateUrl = true) {
   if (updateUrl && exampleDialog.open) syncUrlState();
 }
 
+function focusInitialEmojiDialogAction() {
+  const target = exampleDialog.classList.contains('is-code-view')
+    ? exampleDialog.querySelector('[data-copy="code"]')
+    : exampleDialog.querySelector('.emoji-preview');
+  target?.focus({ preventScroll: true });
+}
+
 function updateFavoriteButton() {
   const button = exampleDialog.querySelector('.toggle-favorite');
   if (!button) return;
@@ -1158,6 +1165,7 @@ function applyDialogUrlState() {
     setEmojiDialogView(state.emojiMode === 'code', false);
     if (!exampleDialog.open) {
       exampleDialog.showModal();
+      focusInitialEmojiDialogAction();
     }
     return;
   }
@@ -2683,6 +2691,7 @@ function showEmoji(id, openDialog = true, navigationKeys) {
     if (copyStatus) copyStatus.textContent = '';
     setEmojiDialogView(false, false);
     exampleDialog.showModal();
+    focusInitialEmojiDialogAction();
     syncUrlState('push', {
       ...withoutCompositionParent(),
       emojiDialogEntry: true

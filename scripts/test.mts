@@ -127,6 +127,9 @@ assert.match(demoHtml, /class="dialog-navigate emoji-parent"/, 'emoji details mu
 assert.match(demoScript, /compositionParent: parentEmojiKey/, 'component navigation must retain its parent in browser history');
 assert.match(demoScript, /event\.target\.closest\('\.emoji-parent'\)[\s\S]*window\.history\.back/, 'parent navigation must use browser history');
 assert.match(demoScript, /delete nextState\.compositionParent/, 'ordinary dialog navigation must clear stale component history');
+assert.match(demoScript, /showModal\(\);[\s\S]*focusInitialEmojiDialogAction\(\)/, 'newly opened emoji dialogs must focus their primary copy action');
+assert.match(demoScript, /querySelector\('\.emoji-preview'\)[\s\S]*focus\(\{ preventScroll: true \}\)/, 'emoji details must initially focus the large copy button');
+assert.match(demoStyles, /\.emoji-preview:focus-visible \{ outline: 2px solid var\(--accent\); outline-offset: -3px; \}/, 'the initial copy focus ring must remain inside the sticky dialog header boundary');
 assert.match(demoHtml, /class="emoji-composition-mode"/, 'foldable compositions must provide a display-mode toggle');
 assert.match(demoScript, /function condenseCompositionPoints/, 'emoji compositions must detect known nested sequences');
 assert.match(demoScript, /for \(let end = points\.length; end >= start \+ 2; end--\)/, 'composition folding must prefer the longest known sequence');
