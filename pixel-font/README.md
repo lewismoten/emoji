@@ -25,6 +25,26 @@ The base atlas set excludes sequences containing skin-tone modifiers
 sequences—including flags, keycaps, variation selectors, and unmodified ZWJ
 emoji—remain eligible.
 
+## Sequence glyphs
+
+Paint a sequence in its assigned atlas cell exactly like a single-code-point
+emoji. The font compiler turns painted multi-code-point entries into required
+OpenType ligatures:
+
+- ZWJ sequences retain `U+200D` in the substitution;
+- regional-indicator pairs form country flags;
+- keycap sequences include the combining keycap;
+- tag flags retain their tag characters and cancel tag;
+- variation selectors are normalized out of the substitution.
+
+Joiners, combining keycaps, and tag characters receive zero-width component
+glyphs. Ligature rules are emitted longest-first so a shorter known sequence
+cannot consume the beginning of a longer one.
+
+Skin-tone and hair sequences remain intentionally excluded for now. They can
+be introduced later as modifier atlases without splitting the generated font
+into separate files.
+
 ## Commands
 
 ```sh

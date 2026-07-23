@@ -9,4 +9,5 @@
 /service-worker.js
 /pixel-font/build/
 /pixel-font/.venv/
+/pixel-font/scripts/__pycache__/
 .DS_Store

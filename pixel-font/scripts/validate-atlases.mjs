@@ -9,11 +9,11 @@ const config = JSON.parse(await fs.readFile(path.join(workspace, 'config.json'),
 const manifest = JSON.parse(await fs.readFile(path.join(atlasDirectory, 'manifest.json'), 'utf8'));
 const emoji = JSON.parse(await fs.readFile(path.join(root, 'emoji.json'), 'utf8'));
 const excluded = new Set(config.excludedModifierCodePoints.map(point => point.toUpperCase()));
-const expectedKeys = new Set(
-  emoji
-    .filter(item => !item.codePoints.split(/\s+/).some(point => excluded.has(point.toUpperCase())))
-    .map(item => item.key)
-);
+const eligible = emoji
+  .filter(item => !item.codePoints.split(/\s+/).some(point => excluded.has(point.toUpperCase())));
+const expectedKeys = new Set(eligible.map(item => item.key));
+const expectedByKey = new Map(eligible.map(item => [item.key, item]));
+const expectedSequenceTypeCounts = countBySequenceType(eligible);
 const seenKeys = new Set();
 let activeCount = 0;
 let assignedCount = 0;
@@ -21,6 +21,14 @@ let assignedCount = 0;
 assert(manifest.cellSize === config.cellSize, 'Manifest cell size differs from config');
 assert(manifest.columns === config.columns, 'Manifest column count differs from config');
 assert(manifest.rows === config.rows, 'Manifest row count differs from config');
+assert(
+  manifest.sequenceGlyphCount === eligible.filter(item => item.sequenceType !== 'single').length,
+  'Manifest sequence glyph count is incorrect'
+);
+assert(
+  JSON.stringify(manifest.sequenceTypeCounts) === JSON.stringify(expectedSequenceTypeCounts),
+  'Manifest sequence type counts are incorrect'
+);
 
 for (const sheet of manifest.sheets) {
   const sidecar = JSON.parse(await fs.readFile(path.join(atlasDirectory, sheet.mapping), 'utf8'));
@@ -52,6 +60,15 @@ for (const sheet of manifest.sheets) {
         !entry.codePoints.some(point => excluded.has(point.toUpperCase())),
         `Active atlas entry ${entry.key} contains an excluded modifier`
       );
+      const expected = expectedByKey.get(entry.key);
+      assert(entry.sequenceType === expected.sequenceType, `${entry.key} has the wrong sequence type`);
+      const normalizedLength = entry.codePoints
+        .filter(point => !['FE0E', 'FE0F'].includes(point.toUpperCase()))
+        .length;
+      assert(
+        entry.sequenceType === 'single' ? normalizedLength === 1 : normalizedLength > 1,
+        `${entry.key} has an invalid ${entry.sequenceType} sequence`
+      );
     }
   }
 }
@@ -79,4 +96,12 @@ function readPngDimensions(buffer) {
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
+}
+
+function countBySequenceType(entries) {
+  return Object.fromEntries(
+    [...new Set(entries.map(entry => entry.sequenceType))]
+      .sort()
+      .map(type => [type, entries.filter(entry => entry.sequenceType === type).length])
+  );
 }

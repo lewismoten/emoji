@@ -39,6 +39,8 @@ for (const sheet of manifest.sheets) {
       y: entry.y,
       width: entry.width,
       height: entry.height,
+      codePoints: entry.codePoints,
+      sequenceType: entry.sequenceType,
       painted
     };
     if (!painted) continue;
@@ -52,6 +54,7 @@ for (const sheet of manifest.sheets) {
       name: entry.name,
       emoji: entry.emoji,
       codePoints: entry.codePoints,
+      sequenceType: entry.sequenceType,
       atlas: sheet.id,
       index: entry.index,
       row: entry.row,
@@ -68,6 +71,8 @@ const buildManifest = {
   familyName: manifest.familyName,
   cellSize: manifest.cellSize,
   glyphCount: glyphs.length,
+  sequenceGlyphCount: glyphs.filter(glyph => glyph.sequenceType !== 'single').length,
+  sequenceTypeCounts: countBySequenceType(glyphs),
   glyphs: glyphs.map(({ pixels, ...glyph }) => glyph)
 };
 if (Object.keys(editorGlyphs).length !== manifest.activeGlyphCount) {
@@ -89,7 +94,11 @@ await writeJson(path.join(buildDirectory, 'font-source.json'), {
 });
 
 if (glyphs.length > 0) {
-  await run(await pythonCommand(), [
+  const python = await pythonCommand();
+  await run(python, [
+    path.join(workspace, 'scripts', 'test-font-sequences.py')
+  ]);
+  await run(python, [
     path.join(workspace, 'scripts', 'compile-font.py'),
     path.join(buildDirectory, 'font-source.json'),
     fontDirectory
@@ -231,6 +240,14 @@ function hex(value) {
 
 function trimNumber(value) {
   return value.toFixed(4).replace(/0+$/, '').replace(/\.$/, '');
+}
+
+function countBySequenceType(entries) {
+  return Object.fromEntries(
+    [...new Set(entries.map(entry => entry.sequenceType))]
+      .sort()
+      .map(type => [type, entries.filter(entry => entry.sequenceType === type).length])
+  );
 }
 
 function escapeXml(value) {

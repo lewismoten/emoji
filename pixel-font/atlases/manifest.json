@@ -7,6 +7,14 @@
   "rows": 16,
   "glyphsPerAtlas": 256,
   "activeGlyphCount": 1902,
+  "sequenceGlyphCount": 511,
+  "sequenceTypeCounts": {
+    "flag": 259,
+    "keycap": 12,
+    "single": 1391,
+    "tag": 3,
+    "zwj": 237
+  },
   "assignedGlyphCount": 1902,
   "excludedGlyphCount": 2051,
   "sheets": [

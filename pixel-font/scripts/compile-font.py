@@ -30,6 +30,11 @@ def main():
     for glyph in glyph_sources:
         for codepoint in sequence(glyph):
             codepoint_names.setdefault(codepoint, f"uni{codepoint:04X}")
+    zero_width_names = {
+        name
+        for codepoint, name in codepoint_names.items()
+        if is_zero_width_component(codepoint)
+    }
 
     single_by_codepoint = {
         sequence(glyph)[0]: base_names[glyph["key"]]
@@ -39,7 +44,6 @@ def main():
     cmap = {
         codepoint: single_by_codepoint.get(codepoint, name)
         for codepoint, name in codepoint_names.items()
-        if codepoint not in {0x200D, 0xFE0F}
     }
 
     palette = sorted(
@@ -87,7 +91,7 @@ def main():
     builder.setupHorizontalMetrics(
         {
             name: (
-                0 if ".color" in name else UNITS_PER_EM,
+                0 if ".color" in name or name in zero_width_names else UNITS_PER_EM,
                 getattr(glyphs[name], "xMin", 0),
             )
             for name in glyph_order
@@ -158,21 +162,40 @@ def sequence(glyph):
 
 
 def ligature_features(glyph_sources, base_names, codepoint_names, single_by_codepoint):
-    substitutions = []
+    substitutions = {}
     for glyph in glyph_sources:
         codepoints = sequence(glyph)
         if len(codepoints) < 2:
             continue
-        inputs = [
+        inputs = tuple(
             single_by_codepoint.get(codepoint, codepoint_names[codepoint])
             for codepoint in codepoints
-            if codepoint != 0x200D
-        ]
+        )
         if len(inputs) > 1:
-            substitutions.append(f"  sub {' '.join(inputs)} by {base_names[glyph['key']]};")
+            output = base_names[glyph["key"]]
+            previous = substitutions.get(inputs)
+            if previous is not None and previous != output:
+                raise ValueError(
+                    f"Conflicting normalized sequence for {previous} and {output}"
+                )
+            substitutions[inputs] = output
     if not substitutions:
         return ""
-    return "feature liga {\n" + "\n".join(substitutions) + "\n} liga;\n"
+    rules = [
+        f"  sub {' '.join(inputs)} by {output};"
+        for inputs, output in sorted(
+            substitutions.items(),
+            key=lambda item: (-len(item[0]), item[0], item[1]),
+        )
+    ]
+    return "feature rlig {\n" + "\n".join(rules) + "\n} rlig;\n"
+
+
+def is_zero_width_component(codepoint):
+    return (
+        codepoint in {0x200D, 0x20E3}
+        or 0xE0020 <= codepoint <= 0xE007F
+    )
 
 
 def safe_name(key):

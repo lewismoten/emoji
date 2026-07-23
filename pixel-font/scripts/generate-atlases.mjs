@@ -120,6 +120,8 @@ const manifest = {
   rows: config.rows,
   glyphsPerAtlas: config.glyphsPerAtlas,
   activeGlyphCount: eligible.length,
+  sequenceGlyphCount: eligible.filter(item => item.sequenceType !== 'single').length,
+  sequenceTypeCounts: countBySequenceType(eligible),
   assignedGlyphCount: assignments.size,
   excludedGlyphCount: emoji.length - eligible.length,
   sheets: manifestSheets
@@ -172,4 +174,12 @@ function crc32(data) {
     }
   }
   return (crc ^ 0xffffffff) >>> 0;
+}
+
+function countBySequenceType(entries) {
+  return Object.fromEntries(
+    [...new Set(entries.map(entry => entry.sequenceType))]
+      .sort()
+      .map(type => [type, entries.filter(entry => entry.sequenceType === type).length])
+  );
 }
