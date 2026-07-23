@@ -305,7 +305,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.copy-action-long \{ display: none; \}[\s\S]*\.copy-action-short \{ display: inline; \}/,
+  /\.copy-action-long\s*\{\s*display:\s*none;\s*\}[\s\S]*\.copy-action-short\s*\{\s*display:\s*inline;\s*\}/,
   "emoji-dialog copy actions must use compact labels by default",
 );
 assert.match(
@@ -315,7 +315,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /@media \(min-width: 561px\)[\s\S]*\.example-dialog \.copy-action-long \{ display: inline; \}[\s\S]*\.example-dialog \.copy-action-short \{ display: none; \}/,
+  /@media \(min-width: 561px\)[\s\S]*\.example-dialog \.copy-action-long\s*\{\s*display:\s*inline;\s*\}[\s\S]*\.example-dialog \.copy-action-short\s*\{\s*display:\s*none;\s*\}/,
   "wide emoji dialogs must restore the full copy labels",
 );
 assert.match(
@@ -325,7 +325,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.example-dialog \.emoji-previous \{ grid-row: 2;[\s\S]*\.example-dialog \.emoji-next \{ grid-row: 2;/,
+  /\.example-dialog \.emoji-previous\s*\{[\s\S]*grid-row:\s*2;[\s\S]*\.example-dialog \.emoji-next\s*\{[\s\S]*grid-row:\s*2;/,
   "mobile emoji navigation must move below the complete title",
 );
 assert.doesNotMatch(
@@ -365,7 +365,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.emoji-dialog-eyebrow \{ display: none; \}/,
+  /\.emoji-dialog-eyebrow\s*\{\s*display:\s*none;\s*\}/,
   "the redundant Emoji details label must remain hidden",
 );
 assert.match(
@@ -390,7 +390,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.modifier-emoji \{ display: inline; font-size: 1rem; \}/,
+  /\.modifier-emoji\s*\{\s*display:\s*inline;\s*font-size:\s*1rem;\s*\}/,
   "modifier buttons must always display their emoji",
 );
 assert.match(
@@ -500,7 +500,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.emoji-preview:focus-visible \{ outline: 2px solid var\(--accent\); outline-offset: -3px; \}/,
+  /\.emoji-preview:focus-visible\s*\{\s*outline:\s*2px solid var\(--accent\);\s*outline-offset:\s*-3px;\s*\}/,
   "the initial copy focus ring must remain inside the sticky dialog header boundary",
 );
 assert.match(
@@ -530,7 +530,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.sequence-type > \.name \{ position: sticky; top: var\(--toolbar-height\);/,
+  /\.sequence-type > \.name\s*\{[\s\S]*position:\s*sticky;[\s\S]*top:\s*var\(--toolbar-height\);/,
   "sequence-type headings must remain sticky below the toolbar",
 );
 assert.match(
@@ -580,7 +580,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.emoji-composition-code-point \{ direction: ltr; unicode-bidi: isolate; \}/,
+  /\.emoji-composition-code-point\s*\{\s*direction:\s*ltr;\s*unicode-bidi:\s*isolate;\s*\}/,
   "individual code-point labels must retain LTR ordering",
 );
 assert.doesNotMatch(
@@ -702,6 +702,16 @@ assert.match(
   pixelEditorScript,
   /const EGA_COLORS = \[/,
   "pixel editor must provide the classic EGA palette",
+);
+assert.doesNotMatch(
+  pixelEditorScript,
+  /type="color"|class="pixel-editor-alpha"/,
+  "pixel editor must not expose custom colors or artwork opacity",
+);
+assert.match(
+  pixelEditorScript,
+  /nearestEgaColor/,
+  "the eyedropper must reduce sampled colors to the EGA palette",
 );
 assert.match(
   pixelEditorScript,

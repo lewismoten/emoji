@@ -98,19 +98,10 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
       <div class="pixel-editor-controls">
         <fieldset>
           <legend data-i18n="drawingColor">Drawing color</legend>
-          <label class="pixel-color-control">
-            <span data-i18n="color">Color</span>
-            <input class="pixel-editor-color" type="color" value="#ffff55">
-          </label>
           <div class="pixel-editor-palette" role="group" data-i18n-aria-label="egaPalette" aria-label="Classic EGA color palette">
             ${EGA_COLORS.map(egaSwatch).join("")}
             <button class="pixel-editor-swatch is-transparent" type="button" data-transparent="true" data-i18n-aria-label="transparentEraser" aria-label="Transparent eraser" title="Transparent"><span aria-hidden="true">╱</span></button>
           </div>
-          <label>
-            <span data-i18n="opacity">Opacity</span>
-            <input class="pixel-editor-alpha" type="range" min="0" max="255" value="255">
-            <output class="pixel-editor-alpha-value">100%</output>
-          </label>
           <label><input class="pixel-editor-fill-shapes" type="checkbox"> <span data-i18n="fillShapeInteriors">Fill rectangle and ellipse interiors</span></label>
         </fieldset>
         <fieldset>
@@ -135,9 +126,6 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
 
   const canvas = view.querySelector(".pixel-editor-canvas");
   const context = canvas.getContext("2d", { alpha: true });
-  const colorInput = view.querySelector(".pixel-editor-color");
-  const alphaInput = view.querySelector(".pixel-editor-alpha");
-  const alphaOutput = view.querySelector(".pixel-editor-alpha-value");
   const fillShapes = view.querySelector(".pixel-editor-fill-shapes");
   const traceAlpha = view.querySelector(".pixel-editor-trace-alpha");
   const traceOutput = view.querySelector(".pixel-editor-trace-value");
@@ -164,6 +152,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   let atlasWidth = CELL_SIZE * 16;
   let atlasHeight = CELL_SIZE * 16;
   let pixels = new Uint8ClampedArray(CELL_SIZE * CELL_SIZE * 4);
+  let selectedColor = "#ffff55";
   let tool = "pencil";
   let pointerStart;
   let pointerPrevious;
@@ -179,11 +168,6 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   toolButtons.forEach((button) =>
     button.addEventListener("click", () => selectTool(button.dataset.tool)),
   );
-  colorInput.addEventListener("input", updatePaletteSelection);
-  alphaInput.addEventListener("input", () => {
-    updateAlphaOutput();
-    updatePaletteSelection();
-  });
   traceAlpha.addEventListener("input", () => {
     traceOutput.value = `${traceAlpha.value}%`;
     draw();
@@ -200,7 +184,6 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   canvas.addEventListener("pointermove", onPointerMove);
   canvas.addEventListener("pointerup", onPointerUp);
   canvas.addEventListener("pointercancel", onPointerCancel);
-  updateAlphaOutput();
   updatePaletteSelection();
   draw();
 
@@ -293,10 +276,6 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
       button.setAttribute("aria-pressed", String(selected));
       button.classList.toggle("is-active", selected);
     });
-  }
-
-  function updateAlphaOutput() {
-    alphaOutput.value = `${Math.round((Number(alphaInput.value) / 255) * 100)}%`;
   }
 
   function renderTrace() {
@@ -452,12 +431,13 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   }
 
   function currentColor() {
-    const value = colorInput.value.slice(1);
+    if (selectedColor === "transparent") return [0, 0, 0, 0];
+    const value = selectedColor.slice(1);
     return [
       Number.parseInt(value.slice(0, 2), 16),
       Number.parseInt(value.slice(2, 4), 16),
       Number.parseInt(value.slice(4, 6), 16),
-      Number(alphaInput.value),
+      255,
     ];
   }
 
@@ -565,20 +545,16 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
         .getContext("2d")
         .getImageData(point.x, point.y, 1, 1).data;
     }
-    colorInput.value = `#${hex(red)}${hex(green)}${hex(blue)}`;
-    alphaInput.value = String(alpha);
-    updateAlphaOutput();
+    selectedColor =
+      alpha === 0 ? "transparent" : nearestEgaColor(red, green, blue);
     updatePaletteSelection();
   }
 
   function selectPaletteColor(button) {
-    if (button.dataset.transparent === "true") {
-      alphaInput.value = "0";
-    } else {
-      colorInput.value = button.dataset.color;
-      alphaInput.value = "255";
-    }
-    updateAlphaOutput();
+    selectedColor =
+      button.dataset.transparent === "true"
+        ? "transparent"
+        : button.dataset.color;
     updatePaletteSelection();
   }
 
@@ -586,9 +562,8 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     paletteButtons.forEach((button) => {
       const selected =
         button.dataset.transparent === "true"
-          ? Number(alphaInput.value) === 0
-          : Number(alphaInput.value) === 255 &&
-            button.dataset.color === colorInput.value.toLowerCase();
+          ? selectedColor === "transparent"
+          : button.dataset.color === selectedColor;
       button.classList.toggle("is-selected", selected);
       button.setAttribute("aria-pressed", String(selected));
     });
@@ -826,6 +801,19 @@ function clamp(value, minimum, maximum) {
   return Math.min(Math.max(value, minimum), maximum);
 }
 
-function hex(value) {
-  return value.toString(16).padStart(2, "0");
+function nearestEgaColor(red, green, blue) {
+  return EGA_COLORS.reduce(
+    (nearest, color) => {
+      const value = color.slice(1);
+      const colorRed = Number.parseInt(value.slice(0, 2), 16);
+      const colorGreen = Number.parseInt(value.slice(2, 4), 16);
+      const colorBlue = Number.parseInt(value.slice(4, 6), 16);
+      const distance =
+        (red - colorRed) ** 2 +
+        (green - colorGreen) ** 2 +
+        (blue - colorBlue) ** 2;
+      return distance < nearest.distance ? { color, distance } : nearest;
+    },
+    { color: EGA_COLORS[0], distance: Number.POSITIVE_INFINITY },
+  ).color;
 }
