@@ -190,6 +190,7 @@
   "rotateLayerRight": "تدوير الطبقة إلى اليمين",
   "flipLayerHorizontal": "عكس الطبقة أفقياً",
   "flipLayerVertical": "عكس الطبقة رأسياً",
+  "invertLayer": "عكس الألوان",
   "bakeLayer": "دمج",
   "cancelLayer": "إلغاء",
   "layerBaked": "تم دمج الطبقة العائمة في الرسم.",

@@ -190,6 +190,7 @@
   "rotateLayerRight": "向右旋转图层",
   "flipLayerHorizontal": "水平翻转图层",
   "flipLayerVertical": "垂直翻转图层",
+  "invertLayer": "反色",
   "bakeLayer": "合并",
   "cancelLayer": "取消",
   "layerBaked": "浮动图层已合并到图稿中。",

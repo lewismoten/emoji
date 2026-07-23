@@ -190,6 +190,7 @@
   "rotateLayerRight": "Rotate layer right",
   "flipLayerHorizontal": "Flip layer horizontally",
   "flipLayerVertical": "Flip layer vertically",
+  "invertLayer": "Invert",
   "bakeLayer": "Bake",
   "cancelLayer": "Cancel",
   "layerBaked": "Floating layer baked into the artwork.",

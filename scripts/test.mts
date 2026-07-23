@@ -849,7 +849,42 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function bakeFloatingLayer[\s\S]*pushHistory\(\);[\s\S]*compositeLayer\(pixels, floatingLayer\)/,
+  /function selectTool[\s\S]*nextTool !== "select"\) selection = undefined/,
+  "leaving the selection tool must clear its selection",
+);
+assert.match(
+  pixelEditorScript,
+  /function drawSelectionOutline[\s\S]*setLineDash[\s\S]*lineDashOffset[\s\S]*function animateSelectionOutline[\s\S]*draw\(false\)/,
+  "the selection frame must use animated marching ants",
+);
+assert.match(
+  pixelEditorScript,
+  /function updateEditorModePanels[\s\S]*copyArtButton\.hidden = selectionMode[\s\S]*copyFontButton\.hidden = selectionMode[\s\S]*copySelectionButton\.hidden = !selectionMode/,
+  "selection mode must show selection-specific transfer actions",
+);
+assert.match(
+  demoStyles,
+  /\.pixel-editor-transfer button\[hidden\][\s\S]*display:\s*none;/,
+  "explicit transfer-button layout must not override hidden selection actions",
+);
+assert.match(
+  pixelEditorScript,
+  /tool === "select" && artworkClipboard\.kind !== "selection"/,
+  "selection mode must paste only a copied selection",
+);
+assert.match(
+  pixelEditorScript,
+  /view\.addEventListener\("keydown", onEditorKeyDown\)[\s\S]*function onEditorKeyDown[\s\S]*event\.ctrlKey \|\| event\.metaKey[\s\S]*copySelection\(\)[\s\S]*pastePixelArt\(\)/,
+  "selection copy and layer paste must support Ctrl/Cmd keyboard shortcuts throughout the editor",
+);
+assert.match(
+  pixelEditorScript,
+  /function updateEditorModePanels[\s\S]*layerPanel\.hidden = !layerMode[\s\S]*filePanel\.hidden = layerMode \|\| selectionMode/,
+  "floating-layer mode must hide competing editor panels",
+);
+assert.match(
+  pixelEditorScript,
+  /function bakeFloatingLayer[\s\S]*pushHistory\(\);[\s\S]*compositeLayer\(pixels, \{[\s\S]*effectiveLayerPixels\(floatingLayer\)/,
   "baking a floating layer must be undoable",
 );
 for (const transform of [
@@ -864,6 +899,26 @@ for (const transform of [
     `floating layers must support ${transform}`,
   );
 }
+assert.match(
+  pixelEditorScript,
+  /class="pixel-editor-invert-layer"[\s\S]*function toggleFloatingLayerInversion[\s\S]*function effectiveLayerPixels[\s\S]*nearestEgaColor/,
+  "floating layers must support non-destructive inversion into the nearest EGA colors",
+);
+assert.match(
+  pixelEditorScript,
+  /function updateLayerControlStates[\s\S]*layerNudgeButtons\.forEach[\s\S]*nextX < 0[\s\S]*nextX \+ floatingLayer\.width > CELL_SIZE[\s\S]*nextY \+ floatingLayer\.height > CELL_SIZE/,
+  "layer nudge controls must disable at canvas boundaries",
+);
+assert.match(
+  pixelEditorScript,
+  /function setFloatingLayerPosition[\s\S]*clamp\(x, 0, CELL_SIZE - floatingLayer\.width\)[\s\S]*clamp\(y, 0, CELL_SIZE - floatingLayer\.height\)/,
+  "dragged layers must remain completely inside the canvas",
+);
+assert.match(
+  pixelEditorScript,
+  /layerTransformButtons\.forEach[\s\S]*layerTransformChangesPixels[\s\S]*pixelsEqual/,
+  "rotation and flip controls must disable when they would not alter the layer",
+);
 assert.match(
   pixelEditorScript,
   /function onCanvasKeyDown[\s\S]*ArrowLeft[\s\S]*ArrowUp[\s\S]*ArrowDown[\s\S]*ArrowRight[\s\S]*Enter[\s\S]*bakeFloatingLayer/,

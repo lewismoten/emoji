@@ -110,7 +110,7 @@ export function createPixelEditor({
         </div>
       </div>
       <div class="pixel-editor-controls">
-        <fieldset>
+        <fieldset class="pixel-editor-drawing">
           <legend data-i18n="drawingColor">Drawing color</legend>
           <div class="pixel-editor-palette" role="group" data-i18n-aria-label="egaPalette" aria-label="Classic EGA color palette">
             ${EGA_COLORS.map(egaSwatch).join("")}
@@ -171,6 +171,10 @@ export function createPixelEditor({
               <button type="button" data-layer-transform="rotate-right" data-i18n-aria-label="rotateLayerRight" aria-label="Rotate layer right"><span aria-hidden="true">↷</span></button>
               <button type="button" data-layer-transform="flip-horizontal" data-i18n-aria-label="flipLayerHorizontal" aria-label="Flip layer horizontally"><span aria-hidden="true">↔</span></button>
               <button type="button" data-layer-transform="flip-vertical" data-i18n-aria-label="flipLayerVertical" aria-label="Flip layer vertically"><span aria-hidden="true">↕</span></button>
+              <button class="pixel-editor-invert-layer" type="button" aria-pressed="false">
+                <span aria-hidden="true">◐</span>
+                <span data-i18n="invertLayer">Invert</span>
+              </button>
             </div>
             <div class="pixel-editor-layer-actions">
               <button class="pixel-editor-bake-layer" type="button" data-i18n="bakeLayer">Bake</button>
@@ -200,6 +204,12 @@ export function createPixelEditor({
   const artworkPreview = view.querySelector(".pixel-editor-preview-artwork");
   const undoButton = view.querySelector(".pixel-editor-undo");
   const redoButton = view.querySelector(".pixel-editor-redo");
+  const toolsPanel = view.querySelector(".pixel-editor-tools");
+  const historyPanel = view.querySelector(".pixel-editor-history");
+  const drawingPanel = view.querySelector(".pixel-editor-drawing");
+  const tracingPanel = view.querySelector(".pixel-editor-tracing");
+  const transferPanel = view.querySelector(".pixel-editor-transfer");
+  const filePanel = view.querySelector(".pixel-editor-file");
   const copyArtButton = view.querySelector(".pixel-editor-copy-art");
   const copyFontButton = view.querySelector(".pixel-editor-copy-font");
   const copySelectionButton = view.querySelector(
@@ -215,6 +225,7 @@ export function createPixelEditor({
   ];
   const bakeLayerButton = view.querySelector(".pixel-editor-bake-layer");
   const cancelLayerButton = view.querySelector(".pixel-editor-cancel-layer");
+  const invertLayerButton = view.querySelector(".pixel-editor-invert-layer");
   const saveButton = view.querySelector(".pixel-editor-save");
   const downloadButton = view.querySelector(".pixel-editor-download");
   const location = view.querySelector(".pixel-editor-location");
@@ -250,6 +261,8 @@ export function createPixelEditor({
   let shapeBase;
   let layerDragStart;
   let layerDragOrigin;
+  let selectionAnimationFrame;
+  let selectionDashOffset = 0;
   let directoryHandle;
   let loadId = 0;
   let undoStack = [];
@@ -298,6 +311,7 @@ export function createPixelEditor({
   );
   bakeLayerButton.addEventListener("click", bakeFloatingLayer);
   cancelLayerButton.addEventListener("click", cancelFloatingLayer);
+  invertLayerButton.addEventListener("click", toggleFloatingLayerInversion);
   saveButton.addEventListener("click", saveAtlas);
   downloadButton.addEventListener("click", downloadAtlas);
   canvas.addEventListener("pointerdown", onPointerDown);
@@ -305,6 +319,7 @@ export function createPixelEditor({
   canvas.addEventListener("pointerup", onPointerUp);
   canvas.addEventListener("pointercancel", onPointerCancel);
   canvas.addEventListener("keydown", onCanvasKeyDown);
+  view.addEventListener("keydown", onEditorKeyDown);
   updatePaletteSelection();
   updateTraceOutput();
   draw();
@@ -414,13 +429,15 @@ export function createPixelEditor({
   }
 
   function selectTool(nextTool) {
-    if (!TOOLS.includes(nextTool)) return;
+    if (!TOOLS.includes(nextTool) || floatingLayer) return;
+    if (nextTool !== "select") selection = undefined;
     tool = nextTool;
     toolButtons.forEach((button) => {
       const selected = button.dataset.tool === tool;
       button.setAttribute("aria-pressed", String(selected));
       button.classList.toggle("is-active", selected);
     });
+    draw();
   }
 
   function updateTraceOutput() {
@@ -445,7 +462,7 @@ export function createPixelEditor({
     drawFontPreview();
   }
 
-  function draw() {
+  function draw(updateState = true) {
     const displayCell = DISPLAY_SIZE / CELL_SIZE;
     context.clearRect(0, 0, DISPLAY_SIZE, DISPLAY_SIZE);
     drawCheckerboard(context, DISPLAY_SIZE);
@@ -484,20 +501,25 @@ export function createPixelEditor({
     context.stroke();
     drawSelectionOutline(context, displayCell);
     drawArtworkPreview();
-    rememberCurrentDraft();
-    updateFileButtons();
-    updateTransferButtons();
-    updateHistoryButtons();
+    if (updateState) {
+      rememberCurrentDraft();
+      updateFileButtons();
+      updateTransferButtons();
+      updateHistoryButtons();
+      updateEditorModePanels();
+    }
+    updateSelectionAnimation();
   }
 
   function drawFloatingLayer(targetContext, displayCell) {
     if (!floatingLayer) return;
+    const layerPixels = effectiveLayerPixels(floatingLayer);
     for (let y = 0; y < floatingLayer.height; y += 1) {
       for (let x = 0; x < floatingLayer.width; x += 1) {
         const offset = (y * floatingLayer.width + x) * 4;
-        const alpha = floatingLayer.pixels[offset + 3];
+        const alpha = layerPixels[offset + 3];
         if (alpha === 0) continue;
-        targetContext.fillStyle = `rgba(${floatingLayer.pixels[offset]}, ${floatingLayer.pixels[offset + 1]}, ${floatingLayer.pixels[offset + 2]}, ${alpha / 255})`;
+        targetContext.fillStyle = `rgba(${layerPixels[offset]}, ${layerPixels[offset + 1]}, ${layerPixels[offset + 2]}, ${alpha / 255})`;
         targetContext.fillRect(
           (floatingLayer.x + x) * displayCell,
           (floatingLayer.y + y) * displayCell,
@@ -520,18 +542,48 @@ export function createPixelEditor({
   }
 
   function drawSelectionOutline(targetContext, displayCell) {
-    if (!selection || floatingLayer) return;
+    if (!selection || floatingLayer || tool !== "select") return;
     targetContext.save();
-    targetContext.setLineDash([5, 4]);
-    targetContext.strokeStyle = "#ffffff";
-    targetContext.lineWidth = 3;
+    targetContext.setLineDash([7, 7]);
+    targetContext.lineDashOffset = selectionDashOffset;
+    targetContext.strokeStyle = "#000000";
+    targetContext.lineWidth = 4;
     targetContext.strokeRect(
-      selection.x * displayCell + 1.5,
-      selection.y * displayCell + 1.5,
-      selection.width * displayCell - 3,
-      selection.height * displayCell - 3,
+      selection.x * displayCell + 2,
+      selection.y * displayCell + 2,
+      selection.width * displayCell - 4,
+      selection.height * displayCell - 4,
+    );
+    targetContext.lineDashOffset = selectionDashOffset + 7;
+    targetContext.strokeStyle = "#ffffff";
+    targetContext.lineWidth = 2;
+    targetContext.strokeRect(
+      selection.x * displayCell + 2,
+      selection.y * displayCell + 2,
+      selection.width * displayCell - 4,
+      selection.height * displayCell - 4,
     );
     targetContext.restore();
+  }
+
+  function updateSelectionAnimation() {
+    const shouldAnimate =
+      tool === "select" && Boolean(selection) && !floatingLayer && !view.hidden;
+    if (!shouldAnimate) {
+      if (selectionAnimationFrame)
+        cancelAnimationFrame(selectionAnimationFrame);
+      selectionAnimationFrame = undefined;
+      return;
+    }
+    if (selectionAnimationFrame) return;
+    selectionAnimationFrame = requestAnimationFrame(animateSelectionOutline);
+  }
+
+  function animateSelectionOutline(timestamp) {
+    selectionAnimationFrame = undefined;
+    if (tool !== "select" || !selection || floatingLayer || view.hidden) return;
+    selectionDashOffset = -(timestamp / 55) % 14;
+    draw(false);
   }
 
   function pointInFloatingLayer(point) {
@@ -577,7 +629,7 @@ export function createPixelEditor({
     );
     if (floatingLayer) {
       const layerCanvas = imageDataCanvas(
-        floatingLayer.pixels,
+        effectiveLayerPixels(floatingLayer),
         floatingLayer.width,
         floatingLayer.height,
       );
@@ -678,6 +730,21 @@ export function createPixelEditor({
     } else if (event.key === "Escape") {
       event.preventDefault();
       cancelFloatingLayer();
+    }
+  }
+
+  function onEditorKeyDown(event) {
+    if (!(event.ctrlKey || event.metaKey) || event.altKey) return;
+    const key = event.key.toLowerCase();
+    if (key === "c" && tool === "select" && !copySelectionButton.disabled) {
+      event.preventDefault();
+      copySelection();
+    } else if (key === "c" && !copyArtButton.disabled) {
+      event.preventDefault();
+      copyPixelArt();
+    } else if (key === "v" && !pasteArtButton.disabled) {
+      event.preventDefault();
+      pastePixelArt();
     }
   }
 
@@ -869,6 +936,7 @@ export function createPixelEditor({
   function copyPixelArt() {
     if (!currentEntry || !cellLoaded || !hasVisibleArtwork()) return;
     artworkClipboard = {
+      kind: "art",
       pixels: pixels.slice(),
       width: CELL_SIZE,
       height: CELL_SIZE,
@@ -891,6 +959,7 @@ export function createPixelEditor({
     );
     if (!hasVisiblePixels(selectedPixels)) return;
     artworkClipboard = {
+      kind: "selection",
       pixels: selectedPixels,
       width: selection.width,
       height: selection.height,
@@ -918,6 +987,7 @@ export function createPixelEditor({
         throw new Error("Compiled font glyph PNG is unavailable");
       }
       artworkClipboard = {
+        kind: "font",
         pixels: await extractCell(await response.blob(), { x: 0, y: 0 }),
         width: CELL_SIZE,
         height: CELL_SIZE,
@@ -939,8 +1009,15 @@ export function createPixelEditor({
   }
 
   function pastePixelArt() {
-    if (!currentEntry || !cellLoaded || !artworkClipboard) return;
+    if (
+      !currentEntry ||
+      !cellLoaded ||
+      !artworkClipboard ||
+      (tool === "select" && artworkClipboard.kind !== "selection")
+    )
+      return;
     floatingLayer = cloneFloatingLayer(artworkClipboard);
+    floatingLayer.inverted = false;
     selection = undefined;
     draw();
     status.textContent = translate(
@@ -951,16 +1028,22 @@ export function createPixelEditor({
 
   function moveFloatingLayer(horizontal, vertical) {
     if (!floatingLayer) return;
-    setFloatingLayerPosition(
-      floatingLayer.x + horizontal,
-      floatingLayer.y + vertical,
-    );
+    const nextX = floatingLayer.x + horizontal;
+    const nextY = floatingLayer.y + vertical;
+    if (
+      nextX < 0 ||
+      nextY < 0 ||
+      nextX + floatingLayer.width > CELL_SIZE ||
+      nextY + floatingLayer.height > CELL_SIZE
+    )
+      return;
+    setFloatingLayerPosition(nextX, nextY);
   }
 
   function setFloatingLayerPosition(x, y) {
     if (!floatingLayer) return;
-    floatingLayer.x = clamp(x, -floatingLayer.width + 1, CELL_SIZE - 1);
-    floatingLayer.y = clamp(y, -floatingLayer.height + 1, CELL_SIZE - 1);
+    floatingLayer.x = clamp(x, 0, CELL_SIZE - floatingLayer.width);
+    floatingLayer.y = clamp(y, 0, CELL_SIZE - floatingLayer.height);
     draw();
   }
 
@@ -970,15 +1053,20 @@ export function createPixelEditor({
     const previousCenterY = floatingLayer.y + floatingLayer.height / 2;
     if (transform === "rotate-left" || transform === "rotate-right") {
       const rotated = rotatePixels(floatingLayer, transform === "rotate-right");
+      if (!layerTransformChangesPixels(floatingLayer, rotated)) return;
       floatingLayer.pixels = rotated.pixels;
       floatingLayer.width = rotated.width;
       floatingLayer.height = rotated.height;
       floatingLayer.x = Math.round(previousCenterX - rotated.width / 2);
       floatingLayer.y = Math.round(previousCenterY - rotated.height / 2);
     } else if (transform === "flip-horizontal") {
-      floatingLayer.pixels = flipPixels(floatingLayer, true);
+      const flipped = flipPixels(floatingLayer, true);
+      if (pixelsEqual(floatingLayer.pixels, flipped)) return;
+      floatingLayer.pixels = flipped;
     } else if (transform === "flip-vertical") {
-      floatingLayer.pixels = flipPixels(floatingLayer, false);
+      const flipped = flipPixels(floatingLayer, false);
+      if (pixelsEqual(floatingLayer.pixels, flipped)) return;
+      floatingLayer.pixels = flipped;
     }
     setFloatingLayerPosition(floatingLayer.x, floatingLayer.y);
   }
@@ -986,7 +1074,10 @@ export function createPixelEditor({
   function bakeFloatingLayer() {
     if (!floatingLayer) return;
     pushHistory();
-    compositeLayer(pixels, floatingLayer);
+    compositeLayer(pixels, {
+      ...floatingLayer,
+      pixels: effectiveLayerPixels(floatingLayer),
+    });
     floatingLayer = undefined;
     draw();
     status.textContent = translate(
@@ -1000,6 +1091,12 @@ export function createPixelEditor({
     floatingLayer = undefined;
     draw();
     status.textContent = "";
+  }
+
+  function toggleFloatingLayerInversion() {
+    if (!floatingLayer) return;
+    floatingLayer.inverted = !floatingLayer.inverted;
+    draw();
   }
 
   function updateTransferButtons() {
@@ -1017,8 +1114,66 @@ export function createPixelEditor({
       !selection ||
       !selectionHasVisibleArtwork();
     pasteArtButton.disabled =
-      !currentEntry || !cellLoaded || !artworkClipboard || floatingLayer;
-    layerPanel.hidden = !floatingLayer;
+      !currentEntry ||
+      !cellLoaded ||
+      !artworkClipboard ||
+      Boolean(floatingLayer) ||
+      (tool === "select" && artworkClipboard.kind !== "selection");
+  }
+
+  function updateEditorModePanels() {
+    const layerMode = Boolean(floatingLayer);
+    const selectionMode = tool === "select" && !layerMode;
+    toolsPanel.hidden = layerMode;
+    historyPanel.hidden = layerMode || selectionMode;
+    drawingPanel.hidden = layerMode || selectionMode;
+    tracingPanel.hidden = layerMode || selectionMode;
+    transferPanel.hidden = layerMode;
+    layerPanel.hidden = !layerMode;
+    filePanel.hidden = layerMode || selectionMode;
+    copyArtButton.hidden = selectionMode;
+    copyFontButton.hidden = selectionMode;
+    copySelectionButton.hidden = !selectionMode;
+    pasteArtButton.hidden = false;
+    toolButtons.forEach((button) => {
+      button.disabled = layerMode;
+    });
+    invertLayerButton.setAttribute(
+      "aria-pressed",
+      String(Boolean(floatingLayer?.inverted)),
+    );
+    invertLayerButton.classList.toggle(
+      "is-active",
+      Boolean(floatingLayer?.inverted),
+    );
+    updateLayerControlStates();
+  }
+
+  function updateLayerControlStates() {
+    if (!floatingLayer) return;
+    layerNudgeButtons.forEach((button) => {
+      const nextX = floatingLayer.x + Number(button.dataset.layerX);
+      const nextY = floatingLayer.y + Number(button.dataset.layerY);
+      button.disabled =
+        nextX < 0 ||
+        nextY < 0 ||
+        nextX + floatingLayer.width > CELL_SIZE ||
+        nextY + floatingLayer.height > CELL_SIZE;
+    });
+    layerTransformButtons.forEach((button) => {
+      const transform = button.dataset.layerTransform;
+      if (transform === "rotate-left" || transform === "rotate-right") {
+        button.disabled = !layerTransformChangesPixels(
+          floatingLayer,
+          rotatePixels(floatingLayer, transform === "rotate-right"),
+        );
+      } else {
+        button.disabled = pixelsEqual(
+          floatingLayer.pixels,
+          flipPixels(floatingLayer, transform === "flip-horizontal"),
+        );
+      }
+    });
   }
 
   async function saveAtlas() {
@@ -1348,6 +1503,21 @@ function rotatePixels(layer, clockwise) {
   return { pixels: result, width, height };
 }
 
+function layerTransformChangesPixels(layer, transformed) {
+  return (
+    layer.width !== transformed.width ||
+    layer.height !== transformed.height ||
+    !pixelsEqual(layer.pixels, transformed.pixels)
+  );
+}
+
+function pixelsEqual(left, right) {
+  return (
+    left.length === right.length &&
+    left.every((value, index) => value === right[index])
+  );
+}
+
 function flipPixels(layer, horizontal) {
   const result = new Uint8ClampedArray(layer.pixels.length);
   for (let y = 0; y < layer.height; y += 1) {
@@ -1401,6 +1571,26 @@ function cloneFloatingLayer(value) {
 
 function hasVisiblePixels(value) {
   return value.some((channel, index) => index % 4 === 3 && channel > 0);
+}
+
+function effectiveLayerPixels(layer) {
+  if (!layer.inverted) return layer.pixels;
+  const result = new Uint8ClampedArray(layer.pixels.length);
+  for (let offset = 0; offset < layer.pixels.length; offset += 4) {
+    const alpha = layer.pixels[offset + 3];
+    if (alpha === 0) continue;
+    const egaColor = nearestEgaColor(
+      255 - layer.pixels[offset],
+      255 - layer.pixels[offset + 1],
+      255 - layer.pixels[offset + 2],
+    );
+    const value = egaColor.slice(1);
+    result[offset] = Number.parseInt(value.slice(0, 2), 16);
+    result[offset + 1] = Number.parseInt(value.slice(2, 4), 16);
+    result[offset + 2] = Number.parseInt(value.slice(4, 6), 16);
+    result[offset + 3] = alpha;
+  }
+  return result;
 }
 
 function imageDataCanvas(pixels, width, height) {

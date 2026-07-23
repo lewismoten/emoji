@@ -190,6 +190,7 @@
   "rotateLayerRight": "लेयर को दाएँ घुमाएँ",
   "flipLayerHorizontal": "लेयर को आड़ा पलटें",
   "flipLayerVertical": "लेयर को लंबवत पलटें",
+  "invertLayer": "रंग उलटें",
   "bakeLayer": "मिलाएँ",
   "cancelLayer": "रद्द करें",
   "layerBaked": "फ़्लोटिंग लेयर आर्टवर्क में मिला दी गई।",

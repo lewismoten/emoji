@@ -190,6 +190,7 @@
   "rotateLayerRight": "Girar la capa a la derecha",
   "flipLayerHorizontal": "Voltear la capa horizontalmente",
   "flipLayerVertical": "Voltear la capa verticalmente",
+  "invertLayer": "Invertir",
   "bakeLayer": "Combinar",
   "cancelLayer": "Cancelar",
   "layerBaked": "La capa flotante se combinó con el dibujo.",

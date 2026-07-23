@@ -1105,6 +1105,10 @@ button.emoji-composition-part:focus-visible {
 .pixel-editor-view {
   padding: 0.75rem 1rem 1rem;
 }
+.pixel-editor-toolbar > [hidden],
+.pixel-editor-controls > [hidden] {
+  display: none;
+}
 .pixel-editor-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -1372,6 +1376,10 @@ button.emoji-composition-part:focus-visible {
   cursor: pointer;
   font: inherit;
 }
+.pixel-editor-transfer button[hidden],
+.pixel-editor-layer button[hidden] {
+  display: none;
+}
 .pixel-editor-transfer button:hover:not(:disabled),
 .pixel-editor-layer button:hover:not(:disabled) {
   border-color: var(--accent);
@@ -1432,6 +1440,11 @@ button.emoji-composition-part:focus-visible {
 .pixel-editor-layer-transform button {
   min-width: 2.1rem;
   font-size: 1rem;
+}
+.pixel-editor-layer-transform button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: #15384d;
+  color: var(--accent);
 }
 .pixel-editor-layer-actions {
   grid-column: 1 / -1;
