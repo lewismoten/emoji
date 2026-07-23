@@ -870,6 +870,21 @@ assert.doesNotMatch(
   /class="back-to-emoji"/,
   "the code panel must not duplicate the dialog-level Back action",
 );
+assert.match(
+  demoHtml,
+  /class="emoji-code-view"[\s\S]*class="code"[\s\S]*class="emoji-code-toolbar"[\s\S]*class="emoji-code-link"[\s\S]*>🔗<\/span>[\s\S]*class="emoji-code-copy"[\s\S]*data-i18n="copy">Copy/,
+  "the code panel must put code first and finish with compact link and Copy actions",
+);
+assert.match(
+  demoScript,
+  /if \(codeLink && codeCopy\) toolbar\.append\(codeLink, codeCopy\);\s*code\.after\(toolbar\)/,
+  "cached code dialogs must move their actions beneath the code in link-and-copy order",
+);
+assert.match(
+  demoStyles,
+  /\.emoji-code-toolbar \{[\s\S]*direction:\s*ltr;[\s\S]*justify-content:\s*flex-end;[\s\S]*background:\s*var\(--code\);[\s\S]*\.emoji-code-view \{[\s\S]*background:\s*var\(--code\)/,
+  "the bottom code actions must remain right-aligned on the code-colored background",
+);
 assert.doesNotMatch(
   pixelEditorScript,
   /data-i18n="tracePosition">Position/,

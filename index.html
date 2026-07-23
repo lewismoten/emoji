@@ -239,10 +239,6 @@
           <button class="show-pixel-editor" type="button" data-i18n="editPixelArt">Edit pixel art</button>
         </div>
         <div class="emoji-code-view" hidden>
-          <div class="emoji-code-toolbar">
-            <button type="button" data-copy="code" data-i18n-aria-label="copyCode" aria-label="Copy code"><span class="copy-action-long" data-i18n="copyCode">Copy code</span><span class="copy-action-short" data-i18n="codeShort">Code</span></button>
-            <button type="button" data-copy="link" data-i18n-aria-label="copyLink" aria-label="Copy link"><span class="copy-action-long" data-i18n="copyLink">Copy link</span><span class="copy-action-short" data-i18n="linkShort">Link</span></button>
-          </div>
           <div class="code" dir="ltr">
             <span class="line"><span class="keyword">import</span> <span class="variable">emoji</span> <span class="keyword">from</span> <span class="string">"<span class="emoji-import-path">@lewismoten/emoji/all</span>"</span>;</span>
             <span class="line comment emoji-popular-import" hidden>// import emoji from "<span class="emoji-popular-import-path"></span>";</span>
@@ -251,6 +247,10 @@
             <span class="line"><span class="native-object">console</span>.<span class="native-function">log</span>(<span class="object">emoji</span>.<span class="object-key emoji-key">clinkingBeerMugs</span>);</span>
             <span class="line comment">// <span class="emoji-value">&#x1F37B;</span> <span class="emoji-encoded">\u{1f37b}</span></span>
             <span class="line comment">// <bdi class="emoji-group"></bdi> · <bdi class="emoji-subgroup"></bdi></span>
+          </div>
+          <div class="emoji-code-toolbar">
+            <button class="emoji-code-link" type="button" data-copy="link" data-i18n-aria-label="copyLink" aria-label="Copy link"><span class="copy-action-long" aria-hidden="true">🔗</span><span class="copy-action-short" aria-hidden="true">🔗</span></button>
+            <button class="emoji-code-copy" type="button" data-copy="code" data-i18n-aria-label="copyCode" aria-label="Copy code"><span class="copy-action-long" data-i18n="copy">Copy</span><span class="copy-action-short" data-i18n="copy">Copy</span></button>
           </div>
         </div>
     </dialog>

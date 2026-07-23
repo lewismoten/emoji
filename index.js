@@ -876,6 +876,18 @@ function ensureCodeDialogView() {
     copyLink.textContent = 'Copy link';
     toolbar.append(copyLink);
   }
+  const codeCopy = toolbar.querySelector('[data-copy="code"]');
+  const codeLink = toolbar.querySelector('[data-copy="link"]');
+  if (codeCopy) {
+    codeCopy.className = 'emoji-code-copy';
+    codeCopy.innerHTML = '<span class="copy-action-long" data-i18n="copy">Copy</span><span class="copy-action-short" data-i18n="copy">Copy</span>';
+  }
+  if (codeLink) {
+    codeLink.className = 'emoji-code-link';
+    codeLink.innerHTML = '<span class="copy-action-long" aria-hidden="true">🔗</span><span class="copy-action-short" aria-hidden="true">🔗</span>';
+  }
+  if (codeLink && codeCopy) toolbar.append(codeLink, codeCopy);
+  code.after(toolbar);
   if (actions && !actions.querySelector('[data-copy="link"]')) {
     const copyLink = document.createElement('button');
     copyLink.type = 'button';

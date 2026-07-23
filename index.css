@@ -1087,8 +1087,10 @@ button.emoji-composition-part:focus-visible {
   padding: 0 1rem 0.85rem;
 }
 .emoji-code-toolbar {
-  justify-content: space-between;
-  padding: 1rem;
+  direction: ltr;
+  justify-content: flex-end;
+  padding: 0.45rem 0.75rem 0.75rem;
+  background: var(--code);
 }
 .emoji-copy-actions button,
 .emoji-code-toolbar button {
@@ -1111,6 +1113,17 @@ button.emoji-composition-part:focus-visible {
 }
 .emoji-code-view[hidden] {
   display: none;
+}
+.emoji-code-view {
+  background: var(--code);
+}
+.emoji-code-toolbar .emoji-code-link {
+  width: 2rem;
+  padding-inline: 0;
+  font-size: 1rem;
+}
+.emoji-code-toolbar .emoji-code-copy {
+  min-width: 4rem;
 }
 .example-dialog > [hidden] {
   display: none !important;
