@@ -63,6 +63,10 @@
   "copyKey": "复制键名",
   "copyEscape": "复制转义值",
   "copyCodePoints": "复制码点",
+  "viewCode": "查看代码",
+  "codeExample": "代码示例",
+  "backToEmoji": "返回表情",
+  "copyCode": "复制代码",
   "sequenceSingle": "单个表情",
   "sequenceModifier": "修饰符序列",
   "sequenceZwj": "ZWJ 序列",
@@ -104,6 +108,7 @@
   "keyCopied": "表情键名已复制到剪贴板。",
   "escapeCopied": "转义序列已复制到剪贴板。",
   "codePointsCopied": "码点已复制到剪贴板。",
+  "codeCopied": "代码已复制到剪贴板。",
   "copiedToClipboard": "已复制到剪贴板。",
   "copyFailed": "无法复制到剪贴板。"
 }

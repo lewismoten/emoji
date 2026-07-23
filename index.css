@@ -502,8 +502,12 @@ h2 { margin: 0; font-size: 1.15rem; }
 .emoji-metadata > div { padding: .5rem .6rem; border: 1px solid var(--border); border-radius: .5rem; background: var(--panel-strong); }
 .emoji-metadata dt { color: var(--muted); font-size: .7rem; font-weight: 700; }
 .emoji-metadata dd { margin: .2rem 0 0; overflow-wrap: anywhere; font-size: .82rem; }
-.emoji-copy-actions { display: flex; flex-wrap: wrap; gap: .4rem; padding: 0 1rem .85rem; }
-.emoji-copy-actions button {
+.emoji-copy-actions,
+.emoji-code-toolbar { display: flex; flex-wrap: wrap; gap: .4rem; }
+.emoji-copy-actions { padding: 0 1rem .85rem; }
+.emoji-code-toolbar { justify-content: space-between; padding: 1rem; }
+.emoji-copy-actions button,
+.emoji-code-toolbar button {
   min-height: 2rem;
   padding: .3rem .55rem;
   border: 1px solid var(--border);
@@ -514,7 +518,10 @@ h2 { margin: 0; font-size: 1.15rem; }
   font: inherit;
   font-size: .75rem;
 }
-.emoji-copy-actions button:hover { border-color: var(--accent); }
+.emoji-copy-actions button:hover,
+.emoji-code-toolbar button:hover { border-color: var(--accent); }
+.emoji-code-view[hidden] { display: none; }
+.example-dialog > [hidden] { display: none !important; }
 
 .code {
   direction: ltr;
@@ -568,7 +575,12 @@ h2 { margin: 0; font-size: 1.15rem; }
   }
   [dir="rtl"] .example-dialog > .emoji-metadata { padding: 1rem 0 1rem 1rem; }
   .example-dialog > .emoji-copy-actions { grid-area: actions; }
-  .example-dialog > .code { grid-area: code; }
+  .example-dialog > .emoji-code-view { grid-area: code; }
+  .example-dialog.is-code-view[open] {
+    grid-template-areas:
+      "heading heading"
+      "code code";
+  }
 }
 
 .list { display: flex; flex-wrap: wrap; padding: 1rem; }

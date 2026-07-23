@@ -199,15 +199,22 @@
           <button type="button" data-copy="key" data-i18n="copyKey">Copy key</button>
           <button type="button" data-copy="escape" data-i18n="copyEscape">Copy escape</button>
           <button type="button" data-copy="codePoints" data-i18n="copyCodePoints">Copy code points</button>
+          <button class="show-emoji-code" type="button" data-i18n="viewCode">View code</button>
         </div>
-        <div class="code" dir="ltr">
-          <span class="line"><span class="keyword">import</span> <span class="variable">emoji</span> <span class="keyword">from</span> <span class="string">"<span class="emoji-import-path">@lewismoten/emoji/all</span>"</span>;</span>
-          <span class="line comment emoji-popular-import" hidden>// import emoji from "<span class="emoji-popular-import-path"></span>";</span>
-          <span class="line comment emoji-category-import" hidden>// import emoji from "<span class="emoji-category-import-path"></span>";</span>
-          <span class="line comment emoji-subgroup-import" hidden>// import emoji from "<span class="emoji-subgroup-import-path"></span>";</span>
-          <span class="line"><span class="native-object">console</span>.<span class="native-function">log</span>(<span class="object">emoji</span>.<span class="object-key emoji-key">clinkingBeerMugs</span>);</span>
-          <span class="line comment">// <span class="emoji-value">&#x1F37B;</span> <span class="emoji-encoded">\u{1f37b}</span></span>
-          <span class="line comment">// <bdi class="emoji-group"></bdi> · <bdi class="emoji-subgroup"></bdi></span>
+        <div class="emoji-code-view" hidden>
+          <div class="emoji-code-toolbar">
+            <button class="back-to-emoji" type="button" data-i18n="backToEmoji">Back to emoji</button>
+            <button type="button" data-copy="code" data-i18n="copyCode">Copy code</button>
+          </div>
+          <div class="code" dir="ltr">
+            <span class="line"><span class="keyword">import</span> <span class="variable">emoji</span> <span class="keyword">from</span> <span class="string">"<span class="emoji-import-path">@lewismoten/emoji/all</span>"</span>;</span>
+            <span class="line comment emoji-popular-import" hidden>// import emoji from "<span class="emoji-popular-import-path"></span>";</span>
+            <span class="line comment emoji-category-import" hidden>// import emoji from "<span class="emoji-category-import-path"></span>";</span>
+            <span class="line comment emoji-subgroup-import" hidden>// import emoji from "<span class="emoji-subgroup-import-path"></span>";</span>
+            <span class="line"><span class="native-object">console</span>.<span class="native-function">log</span>(<span class="object">emoji</span>.<span class="object-key emoji-key">clinkingBeerMugs</span>);</span>
+            <span class="line comment">// <span class="emoji-value">&#x1F37B;</span> <span class="emoji-encoded">\u{1f37b}</span></span>
+            <span class="line comment">// <bdi class="emoji-group"></bdi> · <bdi class="emoji-subgroup"></bdi></span>
+          </div>
         </div>
     </dialog>
 

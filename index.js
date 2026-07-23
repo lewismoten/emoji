@@ -356,18 +356,34 @@ async function onLoad() {
   emojiList.addEventListener('focusin', onEmojiFocus);
   emojiList.addEventListener('keydown', onEmojiKeyDown);
   exampleDialog.addEventListener('click', event => {
+    const showCodeButton = event.target.closest('.show-emoji-code');
+    if (showCodeButton) {
+      setEmojiDialogView(true);
+      exampleDialog.querySelector('.back-to-emoji')?.focus();
+      return;
+    }
+    const backButton = event.target.closest('.back-to-emoji');
+    if (backButton) {
+      setEmojiDialogView(false);
+      exampleDialog.querySelector('.show-emoji-code')?.focus();
+      return;
+    }
     const button = event.target.closest('[data-copy]');
     if (!button) return;
-    const value = currentEmojiCopies[button.dataset.copy];
+    const value = button.dataset.copy === 'code'
+      ? getCodeExampleText()
+      : currentEmojiCopies[button.dataset.copy];
     const messages = {
       emoji: ['emojiCopied', 'Emoji copied to the clipboard.'],
       key: ['keyCopied', 'Emoji key copied to the clipboard.'],
       escape: ['escapeCopied', 'Escape sequence copied to the clipboard.'],
-      codePoints: ['codePointsCopied', 'Code points copied to the clipboard.']
+      codePoints: ['codePointsCopied', 'Code points copied to the clipboard.'],
+      code: ['codeCopied', 'Code copied to the clipboard.']
     };
     const [messageKey, fallback] = messages[button.dataset.copy] ?? ['copiedToClipboard', 'Copied to the clipboard.'];
     if (value !== undefined) copyToClipboard(value, translate(messageKey, fallback));
   });
+  exampleDialog.addEventListener('close', () => setEmojiDialogView(false));
   versionModeToggle?.addEventListener('click', toggleVersionMode);
   versionPrevious?.addEventListener('click', () => stepVersion(-1));
   versionNext?.addEventListener('click', () => stepVersion(1));
@@ -410,6 +426,7 @@ async function onLoad() {
 function upgradeEmojiDialog() {
   removeLegacyDialogElements();
   ensureImportExamples();
+  ensureCodeDialogView();
 
   const eyebrow = exampleDialog.querySelector('.emoji-dialog-eyebrow');
   if (eyebrow) {
@@ -456,6 +473,72 @@ function upgradeEmojiDialog() {
     status.setAttribute('aria-atomic', 'true');
     exampleDialog.querySelector('.dialog-heading')?.after(status);
   }
+}
+
+function ensureCodeDialogView() {
+  const actions = exampleDialog.querySelector('.emoji-copy-actions');
+  if (actions && !actions.querySelector('.show-emoji-code')) {
+    const showCode = document.createElement('button');
+    showCode.className = 'show-emoji-code';
+    showCode.type = 'button';
+    showCode.dataset.i18n = 'viewCode';
+    showCode.textContent = 'View code';
+    actions.append(showCode);
+  }
+
+  const code = exampleDialog.querySelector('.code');
+  if (!code) return;
+  let codeView = code.closest('.emoji-code-view');
+  if (!codeView) {
+    codeView = document.createElement('div');
+    codeView.className = 'emoji-code-view';
+    codeView.hidden = true;
+    code.replaceWith(codeView);
+    codeView.append(code);
+  }
+
+  let toolbar = codeView.querySelector('.emoji-code-toolbar');
+  if (!toolbar) {
+    toolbar = document.createElement('div');
+    toolbar.className = 'emoji-code-toolbar';
+    codeView.prepend(toolbar);
+  }
+  if (!toolbar.querySelector('.back-to-emoji')) {
+    const back = document.createElement('button');
+    back.className = 'back-to-emoji';
+    back.type = 'button';
+    back.dataset.i18n = 'backToEmoji';
+    back.textContent = 'Back to emoji';
+    toolbar.append(back);
+  }
+  if (!toolbar.querySelector('[data-copy="code"]')) {
+    const copy = document.createElement('button');
+    copy.type = 'button';
+    copy.dataset.copy = 'code';
+    copy.dataset.i18n = 'copyCode';
+    copy.textContent = 'Copy code';
+    toolbar.append(copy);
+  }
+}
+
+function setEmojiDialogView(showCode) {
+  exampleDialog.classList.toggle('is-code-view', showCode);
+  exampleDialog.querySelector('.emoji-dialog-details').hidden = showCode;
+  exampleDialog.querySelector('.emoji-metadata').hidden = showCode;
+  exampleDialog.querySelector('.emoji-copy-actions').hidden = showCode;
+  exampleDialog.querySelector('.emoji-code-view').hidden = !showCode;
+  const eyebrow = exampleDialog.querySelector('.emoji-dialog-eyebrow');
+  const key = showCode ? 'codeExample' : 'emojiDetails';
+  const fallback = showCode ? 'Code example' : 'Emoji details';
+  eyebrow.dataset.i18n = key;
+  eyebrow.textContent = translate(key, fallback);
+}
+
+function getCodeExampleText() {
+  return Array.from(exampleDialog.querySelectorAll('.code .line'))
+    .filter(line => !line.hidden)
+    .map(line => line.textContent)
+    .join('\n');
 }
 
 function ensureImportExamples() {
@@ -1917,6 +2000,7 @@ function showEmoji(id, openDialog = true) {
     normalizeDisplayName(dialogTitle) === normalizeDisplayName(englishName);
   if (openDialog) {
     if (copyStatus) copyStatus.textContent = '';
+    setEmojiDialogView(false);
     exampleDialog.showModal();
   }
   updateDialogNavigation();
