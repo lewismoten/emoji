@@ -359,19 +359,21 @@ function ensureUtilityControls() {
     if (title) dialogTitleRow.append(title);
   }
   let favoriteButton = document.querySelector('.example-dialog .toggle-favorite');
-  if (dialogTitleRow && !favoriteButton) {
+  const dialogControls = document.querySelector('.example-dialog .dialog-controls');
+  if (dialogControls && !favoriteButton) {
     favoriteButton = document.createElement('button');
     favoriteButton.className = 'toggle-favorite';
     favoriteButton.type = 'button';
     favoriteButton.setAttribute('aria-pressed', 'false');
     favoriteButton.innerHTML = '<span aria-hidden="true">☆</span>';
+    dialogControls.querySelector('form')?.before(favoriteButton);
   }
-  if (dialogTitleRow && favoriteButton) {
+  if (dialogControls && favoriteButton) {
     favoriteButton.querySelector('.toggle-favorite-label')?.remove();
     favoriteButton.dataset.i18nAriaLabel = 'addFavorite';
     favoriteButton.setAttribute('aria-label', 'Add favorite');
     favoriteButton.title = 'Add favorite';
-    dialogTitleRow.prepend(favoriteButton);
+    positionFavoriteButton();
   }
   const dialogDetails = document.querySelector('.example-dialog .emoji-dialog-details');
   if (dialogDetails && !document.querySelector('.example-dialog .emoji-composition')) {
@@ -441,6 +443,18 @@ function ensureUtilityControls() {
         </dl>
       </dialog>
     `);
+  }
+}
+
+function positionFavoriteButton() {
+  const favoriteButton = document.querySelector('.example-dialog .toggle-favorite');
+  const dialogTitleRow = document.querySelector('.example-dialog .dialog-title-row');
+  const dialogControls = document.querySelector('.example-dialog .dialog-controls');
+  if (!favoriteButton || !dialogTitleRow || !dialogControls) return;
+  if (window.matchMedia('(max-width: 560px)').matches) {
+    dialogControls.querySelector('form')?.before(favoriteButton);
+  } else {
+    dialogTitleRow.prepend(favoriteButton);
   }
 }
 
@@ -550,6 +564,7 @@ async function onLoad() {
 
   window.addEventListener('online', updateOnlineStatus);
   window.addEventListener('offline', updateOnlineStatus);
+  window.matchMedia('(max-width: 560px)').addEventListener('change', positionFavoriteButton);
   updateOnlineStatus();
 
   applyBasicUrlState();
@@ -2845,7 +2860,9 @@ function showEmoji(id, openDialog = true, navigationKeys) {
     document.getElementById('example-title').innerText = displayEmojiKey(id);
     localizedDetails.hidden = true;
   }
-  const dialogTitle = document.getElementById('example-title').innerText;
+  const dialogTitleElement = document.getElementById('example-title');
+  const dialogTitle = dialogTitleElement.innerText;
+  dialogTitleElement.title = dialogTitle;
   englishNameElement.closest('.emoji-english-name-row, div').hidden =
     normalizeDisplayName(dialogTitle) === normalizeDisplayName(englishName);
   updateFavoriteButton();

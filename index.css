@@ -481,10 +481,13 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
   padding: .8rem 1rem;
   background: var(--panel-strong);
 }
+.dialog-heading > :first-child,
+.dialog-title-row,
+.dialog-title-row h2 { min-width: 0; }
 .dialog-title-row { display: flex; align-items: center; gap: .35rem; }
 .emoji-dialog-eyebrow { display: none; }
 .example-dialog.is-code-view .emoji-dialog-eyebrow { display: block; }
-.dialog-title-row .toggle-favorite {
+.example-dialog .toggle-favorite {
   display: grid;
   flex: 0 0 2rem;
   width: 2rem;
@@ -497,10 +500,10 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
   cursor: pointer;
   font: 700 1.35rem/1 var(--ui-font);
 }
-.dialog-title-row .toggle-favorite:hover,
-.dialog-title-row .toggle-favorite[aria-pressed="true"] { color: var(--accent); }
-.dialog-title-row .toggle-favorite:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-.example-dialog.is-code-view .dialog-title-row .toggle-favorite { display: none; }
+.example-dialog .toggle-favorite:hover,
+.example-dialog .toggle-favorite[aria-pressed="true"] { color: var(--accent); }
+.example-dialog .toggle-favorite:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.example-dialog.is-code-view .toggle-favorite { display: none; }
 .dialog-controls { display: flex; align-items: center; gap: .35rem; }
 .dialog-controls form { margin: 0; }
 h2 { margin: 0; font-size: 1.15rem; }
@@ -890,7 +893,40 @@ kbd {
 @media (max-width: 560px) {
   .toolbar { max-height: 40svh; padding: .5rem .65rem; }
   .toolbar-heading { gap: .5rem; }
-  .dialog-heading { gap: .35rem; }
+  .example-dialog > .dialog-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) repeat(2, 2rem);
+    align-items: start;
+    gap: .35rem;
+  }
+  .example-dialog > .dialog-heading > :first-child {
+    grid-row: 1 / 3;
+    grid-column: 1;
+  }
+  .example-dialog .dialog-controls { display: contents; }
+  .example-dialog .dialog-controls .toggle-favorite {
+    grid-row: 1;
+    grid-column: 2;
+    border: 1px solid var(--border);
+    border-radius: .4rem;
+    background: var(--panel);
+    color: var(--text);
+  }
+  .example-dialog .emoji-previous { grid-row: 2; grid-column: 2; }
+  .example-dialog .emoji-next { grid-row: 2; grid-column: 3; }
+  .example-dialog .emoji-parent {
+    grid-row: 3;
+    grid-column: 2 / 4;
+    justify-self: center;
+  }
+  .example-dialog .dialog-controls form {
+    grid-row: 1;
+    grid-column: 3;
+  }
+  .dialog-title-row h2 {
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+  }
   .search-controls { gap: .35rem; }
   .search-field { max-width: none; }
   .language-picker {
