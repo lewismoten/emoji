@@ -9,6 +9,8 @@ var selectedSubGroup = '';
 var availableGroups = [];
 var availableSubGroups = {};
 var availableCategoryKeys = new Set();
+var groupRepresentativeEmoji = new Map();
+var subGroupRepresentativeEmoji = new Map();
 var emojiByKey = { ...emoji };
 var allIds = Object.keys(emojiByKey);
 var releasedIds = new Set();
@@ -552,6 +554,7 @@ async function loadData() {
         return all;
       }, {});
       groups.forEach(group => subGroups[group].sort());
+      buildCategoryRepresentatives();
 
       versionModeSelector.value = 'through';
       groupSelector.addEventListener('change', onGroupSelectorChange);
@@ -741,6 +744,7 @@ async function loadVersionData() {
     versionManifests = manifests;
     proposedVersionManifests = proposed;
     versionKeys = new Map([...keys, ...proposedKeys]);
+    buildCategoryRepresentatives();
     populateVersionSelector();
     renderCategoryFilters();
     drawList();
@@ -1038,20 +1042,46 @@ function displayGroupName(name) {
   return searchLabels[unicodeGroupLabelKeys[name]] ?? name;
 }
 
+function buildCategoryRepresentatives() {
+  const manifests = [...versionManifests, ...proposedVersionManifests];
+  const versionOrder = new Map();
+  manifests.forEach((version, index) => {
+    for (const key of versionKeys.get(version.version) ?? []) {
+      if (!versionOrder.has(key)) versionOrder.set(key, index);
+    }
+  });
+  const itemOrder = new Map(items.map((item, index) => [item.key, item.order ?? index]));
+  const byIntroduction = (left, right) =>
+    (versionOrder.get(left.key) ?? Infinity) - (versionOrder.get(right.key) ?? Infinity)
+    || itemOrder.get(left.key) - itemOrder.get(right.key)
+    || left.key.localeCompare(right.key);
+
+  groupRepresentativeEmoji = new Map();
+  subGroupRepresentativeEmoji = new Map();
+  groups.forEach(group => {
+    const subgroupRepresentatives = new Set();
+    subGroups[group].forEach(subGroup => {
+      const representative = items
+        .filter(item => item.group === group && item.unicodeSubGroup === subGroup)
+        .sort(byIntroduction)[0];
+      if (!representative) return;
+      subGroupRepresentativeEmoji.set(subGroupSelectionKey(group, subGroup), representative.emoji);
+      subgroupRepresentatives.add(representative.key);
+    });
+
+    const candidates = items.filter(item => item.group === group).sort(byIntroduction);
+    const representative = candidates.find(item => !subgroupRepresentatives.has(item.key))
+      ?? (subGroups[group].length === 1 && candidates.length === 1 ? candidates[0] : undefined);
+    if (representative) groupRepresentativeEmoji.set(group, representative.emoji);
+  });
+}
+
 function getGroupRepresentativeEmoji(group) {
-  const firstSubGroupWithMultipleEmoji = availableSubGroups[group]
-    .find(name => items.filter(item => availableCategoryKeys.has(item.key) && item.group === group && item.unicodeSubGroup === name).length > 1);
-  const subgroupItems = items.filter(item =>
-    availableCategoryKeys.has(item.key) && item.group === group && item.unicodeSubGroup === firstSubGroupWithMultipleEmoji
-  );
-  return subgroupItems[1]?.emoji
-    ?? subgroupItems[0]?.emoji
-    ?? items.find(item => availableCategoryKeys.has(item.key) && item.group === group)?.emoji
-    ?? '';
+  return groupRepresentativeEmoji.get(group) ?? '';
 }
 
 function getSubGroupRepresentativeEmoji(group, subGroup) {
-  return items.find(item => availableCategoryKeys.has(item.key) && item.group === group && item.unicodeSubGroup === subGroup)?.emoji ?? '';
+  return subGroupRepresentativeEmoji.get(subGroupSelectionKey(group, subGroup)) ?? '';
 }
 
 function displayUnicodeSubGroupName(name) {
