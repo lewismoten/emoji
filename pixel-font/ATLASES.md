@@ -95,7 +95,7 @@ nontransparent 12×12 cells.
 
 #### person-activity — part 2 of 3
 
-10 painted glyphs · [PNG](atlases/modifiers/skin-tone/people-and-body/person-activity-02.png) · [JSON cell map](atlases/modifiers/skin-tone/people-and-body/person-activity-02.json)
+15 painted glyphs · [PNG](atlases/modifiers/skin-tone/people-and-body/person-activity-02.png) · [JSON cell map](atlases/modifiers/skin-tone/people-and-body/person-activity-02.json)
 
 [![People & Body, person-activity — part 2 of 3](atlases/modifiers/skin-tone/people-and-body/person-activity-02.png)](atlases/modifiers/skin-tone/people-and-body/person-activity-02.png)
 

@@ -162,6 +162,16 @@ const pixelEditorScript = await fs.readFile(
   path.join(root, "pixel-editor.js"),
   "utf8",
 );
+const { remapSkinTonePixels, skinToneSequence } = (await import(
+  pathToFileURL(path.join(root, "pixel-editor.js")).href
+)) as {
+  remapSkinTonePixels: (
+    pixels: Uint8ClampedArray,
+    sourceTones: string[],
+    targetTones: string[],
+  ) => Uint8ClampedArray;
+  skinToneSequence: (codePoints: string[]) => string[];
+};
 const pixelAtlasGeneratorScript = await fs.readFile(
   path.join(root, "pixel-font/scripts/generate-atlases.mjs"),
   "utf8",
@@ -867,6 +877,67 @@ assert.match(
   /Keep the contextual skin-tone tool ready[\s\S]*selectedColor = "transparent"/,
   "leaving a skin-tone emoji must select the eraser instead of EGA yellow",
 );
+assert.deepEqual(
+  skinToneSequence(["1F469", "1F3FB", "200D", "1F468", "1F3FF"]),
+  ["1F3FB", "1F3FF"],
+  "skin-tone extraction must preserve modifier order and repeated people",
+);
+const rgbaPixels = (...colors: string[]) =>
+  new Uint8ClampedArray(
+    colors.flatMap((color) => [
+      Number.parseInt(color.slice(1, 3), 16),
+      Number.parseInt(color.slice(3, 5), 16),
+      Number.parseInt(color.slice(5, 7), 16),
+      255,
+    ]),
+  );
+const pixelColors = (pixels: Uint8ClampedArray) =>
+  Array.from({ length: pixels.length / 4 }, (_value, index) => {
+    const offset = index * 4;
+    return `#${[pixels[offset], pixels[offset + 1], pixels[offset + 2]]
+      .map((channel) => channel.toString(16).padStart(2, "0"))
+      .join("")}`;
+  });
+assert.deepEqual(
+  pixelColors(
+    remapSkinTonePixels(
+      rgbaPixels("#f2d2b6", "#d5a078", "#000000"),
+      ["1F3FB"],
+      ["1F3FF"],
+    ),
+  ),
+  ["#3b271d", "#000000", "#000000"],
+  "pasting to the darkest tone must extend its shadow to EGA black",
+);
+assert.deepEqual(
+  pixelColors(
+    remapSkinTonePixels(rgbaPixels("#3b271d", "#70452f"), ["1F3FF"], ["1F3FB"]),
+  ),
+  ["#f2d2b6", "#ffffff"],
+  "pasting to the lightest tone must extend its highlight to EGA white",
+);
+assert.deepEqual(
+  pixelColors(
+    remapSkinTonePixels(
+      rgbaPixels("#f2d2b6", "#d5a078", "#3b271d"),
+      ["1F3FB", "1F3FF"],
+      ["1F3FC", "1F3FE"],
+    ),
+  ),
+  ["#d5a078", "#a66a45", "#70452f"],
+  "multi-tone paste must map modifiers in Unicode sequence order",
+);
+assert.deepEqual(
+  pixelColors(
+    remapSkinTonePixels(
+      rgbaPixels("#f2d2b6", "#d5a078"),
+      ["1F3FB", "1F3FC"],
+      ["1F3FE", "1F3FF"],
+    ),
+  ),
+  ["#70452f", "#3b271d"],
+  "explicit normal tones must win over ambiguous neighboring shades",
+);
 assert.match(
   pixelEditorScript,
   /function nearestPaletteColor[\s\S]*colors\.reduce/,
@@ -1073,8 +1144,13 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function pastePixelArt[\s\S]*floatingLayer = cloneFloatingLayer\(artworkClipboard\)/,
-  "pasted artwork must remain independent of the copied buffer",
+  /function pastePixelArt[\s\S]*floatingLayer = cloneFloatingLayer\(artworkClipboard\)[\s\S]*remapSkinTonePixels[\s\S]*skinToneSequence\(currentEntry\.codePoints\)/,
+  "pasted artwork must remain independent and adapt to the destination skin tones",
+);
+assert.match(
+  pixelEditorScript,
+  /function copyPixelArt[\s\S]*skinTones: skinToneSequence\(currentEntry\.codePoints\)[\s\S]*function copySelection[\s\S]*skinTones: skinToneSequence\(currentEntry\.codePoints\)[\s\S]*function copyFontGlyph[\s\S]*skinTones: skinToneSequence\(currentEntry\.codePoints\)/,
+  "every artwork-copy path must retain ordered source skin tones",
 );
 assert.match(
   pixelEditorScript,

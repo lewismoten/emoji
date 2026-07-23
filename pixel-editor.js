@@ -1206,6 +1206,7 @@ export function createPixelEditor({
       height: CELL_SIZE,
       x: 0,
       y: 0,
+      skinTones: skinToneSequence(currentEntry.codePoints),
     };
     updateTransferButtons();
     status.textContent = translate("pixelArtCopied", "Pixel art copied.");
@@ -1229,6 +1230,7 @@ export function createPixelEditor({
       height: selection.height,
       x: selection.x,
       y: selection.y,
+      skinTones: skinToneSequence(currentEntry.codePoints),
     };
     updateTransferButtons();
     status.textContent = translate(
@@ -1257,6 +1259,7 @@ export function createPixelEditor({
         height: CELL_SIZE,
         x: 0,
         y: 0,
+        skinTones: skinToneSequence(currentEntry.codePoints),
       };
       status.textContent = translate(
         "fontGlyphCopied",
@@ -1281,6 +1284,11 @@ export function createPixelEditor({
     )
       return;
     floatingLayer = cloneFloatingLayer(artworkClipboard);
+    floatingLayer.pixels = remapSkinTonePixels(
+      floatingLayer.pixels,
+      artworkClipboard.skinTones,
+      skinToneSequence(currentEntry.codePoints),
+    );
     floatingLayer.inverted = false;
     selection = undefined;
     draw();
@@ -1835,6 +1843,94 @@ function skinToneCycle(codePoint) {
   ].filter(Boolean);
 }
 
+export function skinToneSequence(codePoints = []) {
+  const skinTones = new Set(SKIN_TONE_COLORS.map((tone) => tone.codePoint));
+  return codePoints
+    .map((codePoint) => codePoint.toUpperCase())
+    .filter((codePoint) => skinTones.has(codePoint));
+}
+
+export function remapSkinTonePixels(
+  pixels,
+  sourceTones = [],
+  targetTones = [],
+) {
+  const result = pixels.slice();
+  if (
+    sourceTones.length === 0 ||
+    targetTones.length === 0 ||
+    (sourceTones.length === targetTones.length &&
+      sourceTones.every((tone, index) => tone === targetTones[index]))
+  )
+    return result;
+
+  const pairs = sourceTones.map((sourceTone, index) => ({
+    sourceTone,
+    targetTone: targetTones[Math.min(index, targetTones.length - 1)],
+  }));
+  const colors = new Map();
+
+  // A normal color can also be a neighboring tone's highlight or shadow.
+  // Reserve every source normal first so multi-person artwork favors the
+  // explicit modifier order over an ambiguous shading interpretation.
+  for (const { sourceTone, targetTone } of pairs) {
+    const source = findSkinTone(sourceTone);
+    const target = findSkinTone(targetTone);
+    if (source && target && !colors.has(source.color)) {
+      colors.set(source.color, target.color);
+    }
+  }
+
+  for (const { sourceTone, targetTone } of pairs) {
+    const sourceCycle = skinToneCycle(sourceTone);
+    const targetCycle = skinToneCycle(targetTone);
+    for (const sourceShade of sourceCycle.filter(
+      (shade) => shade.kind !== "normal",
+    )) {
+      if (colors.has(sourceShade.color)) continue;
+      const targetShade =
+        targetCycle.find((shade) => shade.kind === sourceShade.kind) ??
+        endpointSkinToneShade(targetTone, sourceShade.kind) ??
+        targetCycle.find((shade) => shade.kind !== "normal") ??
+        targetCycle[0];
+      if (targetShade) colors.set(sourceShade.color, targetShade.color);
+    }
+  }
+
+  for (let offset = 0; offset < result.length; offset += 4) {
+    if (result[offset + 3] === 0) continue;
+    const sourceColor = rgbHex(
+      result[offset],
+      result[offset + 1],
+      result[offset + 2],
+    );
+    const targetColor = colors.get(sourceColor);
+    if (!targetColor) continue;
+    const value = targetColor.slice(1);
+    result[offset] = Number.parseInt(value.slice(0, 2), 16);
+    result[offset + 1] = Number.parseInt(value.slice(2, 4), 16);
+    result[offset + 2] = Number.parseInt(value.slice(4, 6), 16);
+  }
+  return result;
+}
+
+function endpointSkinToneShade(codePoint, shadeKind) {
+  if (
+    codePoint === SKIN_TONE_COLORS.at(-1)?.codePoint &&
+    shadeKind === "darker"
+  )
+    return { kind: "darker", color: EGA_COLORS[0] };
+  if (codePoint === SKIN_TONE_COLORS[0]?.codePoint && shadeKind === "lighter")
+    return { kind: "lighter", color: EGA_COLORS.at(-1) };
+  return undefined;
+}
+
+function rgbHex(red, green, blue) {
+  return `#${[red, green, blue]
+    .map((channel) => channel.toString(16).padStart(2, "0"))
+    .join("")}`;
+}
+
 function pixelOffset(x, y) {
   return (y * CELL_SIZE + x) * 4;
 }
@@ -2000,6 +2096,7 @@ function cloneFloatingLayer(value) {
     ? {
         ...value,
         pixels: value.pixels.slice(),
+        skinTones: value.skinTones?.slice(),
         rotationSource: value.rotationSource
           ? {
               ...value.rotationSource,
