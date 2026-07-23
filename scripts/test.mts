@@ -838,6 +838,16 @@ for (const tool of ["pencil", "rectangle", "ellipse", "bucket", "eyedropper"]) {
 }
 assert.match(
   pixelEditorScript,
+  /data-tool="\$\{tool\}" data-i18n-aria-label="\$\{translationKey\}" aria-label="\$\{fallback\}"/,
+  "icon-only drawing tools must retain localized accessible names",
+);
+assert.match(
+  demoStyles,
+  /@media \(max-width: 399px\)[\s\S]*\.pixel-editor-tools[\s\S]*grid-template-columns:\s*repeat\(5,\s*2\.35rem\);[\s\S]*\.pixel-editor-tools button > span:last-child[\s\S]*display:\s*none;/,
+  "skinny screens must show five compact icon-only drawing tools in one row",
+);
+assert.match(
+  pixelEditorScript,
   /showDirectoryPicker/,
   "pixel editor must support direct atlas-directory writes",
 );

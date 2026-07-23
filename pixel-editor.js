@@ -924,7 +924,7 @@ function drawCheckerboard(context, size) {
 }
 
 function toolButton(tool, icon, translationKey, fallback, selected = false) {
-  return `<button type="button" data-tool="${tool}" aria-pressed="${selected}" class="${selected ? "is-active" : ""}"><span aria-hidden="true">${icon}</span><span data-i18n="${translationKey}">${fallback}</span></button>`;
+  return `<button type="button" data-tool="${tool}" data-i18n-aria-label="${translationKey}" aria-label="${fallback}" aria-pressed="${selected}" class="${selected ? "is-active" : ""}"><span aria-hidden="true">${icon}</span><span data-i18n="${translationKey}">${fallback}</span></button>`;
 }
 
 function traceNudgeButton(
