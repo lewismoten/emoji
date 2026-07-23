@@ -401,7 +401,37 @@ fieldset {
 legend { padding: 0 .25rem; color: var(--muted); font-size: .75rem; font-weight: 700; }
 fieldset label { display: flex; align-items: center; gap: .2rem; font-size: .8rem; white-space: nowrap; }
 fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-strong); }
-.modifier-emoji { display: none; }
+.modifier-filters fieldset label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: .3rem .5rem;
+  border: 1px solid var(--border);
+  border-radius: .55rem;
+  background: var(--panel);
+  cursor: pointer;
+}
+.modifier-filters fieldset label:hover { border-color: var(--accent); }
+.modifier-filters fieldset label:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--panel-strong);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.modifier-filters fieldset label:has(input:focus-visible) {
+  outline: 1px dashed var(--muted);
+  outline-offset: 3px;
+}
+.modifier-filters fieldset input {
+  position: absolute;
+  width: 1px;
+  min-height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.modifier-emoji { display: inline; font-size: 1rem; }
 .modifier-emoji,
 .language-option-flag,
 .language-picker-flag,
@@ -1001,10 +1031,6 @@ kbd {
   .subgroup { flex-basis: 100%; }
   .subgroup .emoji > div,
   .sequence-type > .emoji > div { width: 2.7rem; height: 2.7rem; }
-}
-
-@media (max-width: 560px) and (hover: hover) {
-  .modifier-filters fieldset label:hover { border-color: var(--accent); }
 }
 
 @media (max-width: 399px) {
