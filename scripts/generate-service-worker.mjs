@@ -41,6 +41,7 @@ const coreAssets = [
   "./dist/esm/index.js",
   "./pixel-font/build/manifest.json",
   "./pixel-font/build/editor-manifest.json",
+  "./pixel-font/build/atlases.html",
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
   ...pixelAtlasFiles,

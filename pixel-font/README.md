@@ -1,7 +1,57 @@
-# Pixel Emoji artwork
+# Pixel Emoji fallback font
 
-This workspace stores pixel-emoji artwork in PNG sprite atlases. It is separate
-from the published `@lewismoten/emoji` data package.
+Pixel Emoji is a compact color fallback font for emoji that an older device's
+built-in fonts cannot display.
+
+This project began after I discovered that one of my devices dould not display
+Emoji 17.0. The device was no longer receiving the feature-bearing operating system updates
+that normally deliver new system emoji, even though it could continue receiving
+security support. A missing system-font glyph should not make a newer emoji
+unavailable, so I started drawing a backup set for Emoji 17.0 and later
+releases.
+
+The project is a work in progress. A font build includes only emoji whose
+artwork has been painted; the long-term goal is fallback coverage for new emoji
+that otherwise appear as missing-glyph boxes on older systems.
+
+[Open Emoji Explorer](https://lewismoten.github.io/emoji/) ·
+[Browse the font preview](https://lewismoten.github.io/emoji/pixel-font/build/) ·
+[Browse the PNG atlas gallery](ATLASES.md)
+
+## Design
+
+The artwork is inspired by the compact 12×12 pixel emoji used by early mobile
+systems before emoji became part of Unicode. At that resolution, every pixel
+has a job. The small grid keeps the font compact, preserves a distinctly retro
+appearance, and scales with hard pixel edges at any size.
+
+The primary artwork palette is limited to the 16 classic EGA colors. That
+constraint keeps the visual language consistent and gives the compiler more
+opportunities to reuse identical parts.
+
+Skin tones are the intentional exception. The EGA palette could not represent
+the meaning of Unicode's five skin-tone modifiers clearly or respectfully, so
+an emoji containing a skin-tone modifier may use a five-color skin ramp in
+addition to EGA. Those colors are contextual: they are available only when the
+modifier is part of that emoji's Unicode sequence.
+
+## What the build provides
+
+- installable COLR/CPAL TrueType font;
+- WOFF and WOFF2 fonts for websites;
+- individual 12×12 PNG and crisp-edge SVG files;
+- grouped PNG sprite atlases with machine-readable JSON cell maps;
+- a browser preview comparing PNG, SVG, and font rendering;
+- a repository-visible [atlas gallery](ATLASES.md) showing every source PNG
+  sheet used by the compiler.
+
+The font is intended as a fallback after the operating system's native emoji
+font, not as a replacement for every system emoji. The PNG and SVG output also
+makes the same artwork usable where custom color fonts are unavailable.
+
+This workspace is separate from the published `@lewismoten/emoji` data
+package. Compiled font files belong in release artifacts or a future dedicated
+font package.
 
 ## Atlas format
 
@@ -149,8 +199,8 @@ After building, run `npm start` and open
 
 ## Editing in Emoji Explorer
 
-Emoji Explorer includes a 12×12 pixel editor in each base emoji's details
-dialog. Choose **Edit pixel art** to load that emoji's assigned atlas cell.
+Emoji Explorer includes a 12×12 pixel editor in each emoji's details dialog.
+Choose **Edit pixel art** to load that emoji's assigned atlas cell.
 The native emoji tracing layer is for reference only and is never written into
 the artwork.
 
@@ -172,8 +222,8 @@ file under `pixel-font/atlases/`, then rebuild:
 npm run pixel-font:build
 ```
 
-Skin-tone and hair-modifier sequences are intentionally outside the base
-atlas set, so their editor shows an unavailable message.
+Skin-tone and hair-modifier sequences use their separate modifier atlas trees
+and are edited through the same interface.
 
 ## Editing
 
@@ -214,6 +264,3 @@ CSS font size using a background image:
 
 `image-rendering: pixelated` preserves the pixel-art appearance. Exact physical
 pixel alignment is best at integer multiples of 12px.
-
-Compiled font files belong in release artifacts or a separate font package,
-not in the existing emoji-data package.

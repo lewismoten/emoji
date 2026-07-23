@@ -24,6 +24,7 @@ const manifest = JSON.parse(
 );
 const glyphs = [];
 const editorGlyphs = {};
+const paintedAtlasSheets = [];
 
 await fs.rm(buildDirectory, { recursive: true, force: true });
 await Promise.all([
@@ -44,6 +45,7 @@ for (const sheet of manifest.sheets) {
   } catch (error) {
     if (error.code !== "ENOENT") throw error;
   }
+  let paintedCount = 0;
   for (const entry of mapping.entries.filter((item) => item.active)) {
     const cell = atlas
       ? cropRgba(atlas, entry.x, entry.y, entry.width, entry.height)
@@ -76,6 +78,7 @@ for (const sheet of manifest.sheets) {
       painted,
     };
     if (!painted) continue;
+    paintedCount += 1;
 
     const png = `${entry.key}.png`;
     const svg = `${entry.key}.svg`;
@@ -94,6 +97,13 @@ for (const sheet of manifest.sheets) {
       png: `png/${png}`,
       svg: `svg/${svg}`,
       pixels: [...cell.pixels],
+    });
+  }
+  if (atlas && paintedCount > 0) {
+    paintedAtlasSheets.push({
+      ...sheet,
+      setName: mapping.setName,
+      paintedCount,
     });
   }
 }
@@ -148,6 +158,14 @@ await fs.rm(path.join(buildDirectory, "font-source.json"), { force: true });
 await fs.writeFile(
   path.join(buildDirectory, "index.html"),
   renderPreview(buildManifest),
+);
+await fs.writeFile(
+  path.join(buildDirectory, "atlases.html"),
+  renderAtlasGallery(manifest, paintedAtlasSheets),
+);
+await fs.writeFile(
+  path.join(workspace, "ATLASES.md"),
+  renderAtlasMarkdown(manifest, paintedAtlasSheets),
 );
 
 console.log(
@@ -272,8 +290,91 @@ function renderPreview(build) {
 </style>
 <h1>${escapeXml(build.familyName)} build</h1>
 <p>${build.glyphCount.toLocaleString()} painted glyph${build.glyphCount === 1 ? "" : "s"}</p>
+<p><a href="./atlases.html">Browse the source atlas sheets</a></p>
 <main>${cards}</main>
 </html>
+`;
+}
+
+function renderAtlasGallery(build, sheets) {
+  const cards = sheets
+    .map(
+      (sheet) => `<article>
+  <h2>${escapeXml(sheet.group)} · ${escapeXml(sheet.subGroup)}${sheet.partCount > 1 ? ` · ${sheet.part}/${sheet.partCount}` : ""}</h2>
+  <p>${sheet.paintedCount.toLocaleString()} painted glyph${sheet.paintedCount === 1 ? "" : "s"}</p>
+  <a href="../atlases/${escapeXml(sheet.image)}"><img src="../atlases/${escapeXml(sheet.image)}" alt="${escapeXml(`${sheet.group}, ${sheet.subGroup}, part ${sheet.part} of ${sheet.partCount}`)}"></a>
+  <p><a href="../atlases/${escapeXml(sheet.mapping)}">JSON cell map</a></p>
+</article>`,
+    )
+    .join("\n");
+  return `<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>${escapeXml(build.familyName)} atlas gallery</title>
+<style>
+  :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+  body { margin: 0 auto; max-width: 80rem; padding: 1rem; background: #17111d; color: #fff; }
+  a { color: #7fd8ff; }
+  main { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 1rem; }
+  article { min-width: 0; padding: 1rem; border: 1px solid #70458b; border-radius: .75rem; background: #25142f; }
+  h1, h2 { margin-top: 0; }
+  h2 { font-size: 1rem; }
+  img { display: block; width: min(100%, ${build.columns * (build.cellSize + build.cellPadding * 2) + build.outerPadding * 2}px); height: auto; image-rendering: pixelated; }
+</style>
+<nav><a href="./index.html">Font glyph preview</a> · <a href="../../">Emoji Explorer</a></nav>
+<h1>${escapeXml(build.familyName)} atlas gallery</h1>
+<p>${sheets.length.toLocaleString()} painted atlas sheet${sheets.length === 1 ? "" : "s"}, grouped by Unicode category and subgroup.</p>
+<main>${cards}</main>
+</html>
+`;
+}
+
+function renderAtlasMarkdown(build, sheets) {
+  const sections = [];
+  const collectionLabels = {
+    base: "Base atlases",
+    "skin-tone": "Skin-tone modifier atlases",
+    hair: "Hair modifier atlases",
+    "skin-and-hair": "Skin-and-hair modifier atlases",
+  };
+  let previousCollection = "";
+  let previousGroup = "";
+  for (const sheet of sheets) {
+    if (sheet.modifierType !== previousCollection) {
+      sections.push(
+        `## ${collectionLabels[sheet.modifierType] ?? sheet.modifierType}`,
+      );
+      previousCollection = sheet.modifierType;
+      previousGroup = "";
+    }
+    if (sheet.group !== previousGroup) {
+      sections.push(`### ${sheet.group}`);
+      previousGroup = sheet.group;
+    }
+    const part =
+      sheet.partCount > 1 ? ` — part ${sheet.part} of ${sheet.partCount}` : "";
+    const label = `${sheet.group}, ${sheet.subGroup}${part}`;
+    sections.push(`#### ${sheet.subGroup}${part}
+
+${sheet.paintedCount.toLocaleString()} painted glyph${sheet.paintedCount === 1 ? "" : "s"} · [PNG](atlases/${sheet.image}) · [JSON cell map](atlases/${sheet.mapping})
+
+[![${label}](atlases/${sheet.image})](atlases/${sheet.image})`);
+  }
+  return `# ${build.familyName} atlas gallery
+
+[Back to the font README](README.md)
+
+This generated gallery lists every source atlas PNG that currently contains
+painted artwork. The font build reads these sheets and compiles only their
+nontransparent 12×12 cells.
+
+${sheets.length.toLocaleString()} painted atlas sheet${sheets.length === 1 ? "" : "s"} are currently available.
+
+> Generated by \`npm run pixel-font:build\`. Edit the PNG atlases rather than
+> this file.
+
+${sections.join("\n\n")}
 `;
 }
 
