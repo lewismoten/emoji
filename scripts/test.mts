@@ -78,6 +78,7 @@ const serviceWorker = await fs.readFile(path.join(root, 'build/demo-pages/servic
 const arabicDemo = await fs.readFile(path.join(root, 'build/demo-pages/index.ar.html'), 'utf8');
 const demoHtml = await fs.readFile(path.join(root, 'index.html'), 'utf8');
 const demoScript = await fs.readFile(path.join(root, 'index.js'), 'utf8');
+const pixelEditorScript = await fs.readFile(path.join(root, 'pixel-editor.js'), 'utf8');
 const demoStyles = await fs.readFile(path.join(root, 'index.css'), 'utf8');
 const emojiByKey = Object.fromEntries(emoji.map(item => [item.key, item.emoji]));
 const browserEmoji = await importFileDefault('dist/esm/index.js');
@@ -97,7 +98,7 @@ assert.equal(webAppManifest.scope, './', 'web app scope must remain within the G
 assert.equal(webAppManifest.display, 'standalone', 'installed web app must use standalone display mode');
 assert.deepEqual(webAppManifest.icons.map(icon => icon.sizes), ['192x192', '512x512', '512x512'], 'web app must provide standard and maskable install icons');
 assert.match(serviceWorker, new RegExp(`const CACHE_NAME = \\\`\\$\\{CACHE_PREFIX\\}${packageJson.version}-[a-f0-9]{12}\\\`;`), 'service-worker cache must use the package version and an asset revision');
-for (const asset of ['./index.ar.html', './emoji.json', './dist/esm/index.js', './offline.html', './versions/manifest.json', './pixel-font/build/font/pixel-emoji.woff2']) {
+for (const asset of ['./index.ar.html', './emoji.json', './dist/esm/index.js', './offline.html', './versions/manifest.json', './pixel-font/build/font/pixel-emoji.woff2', './pixel-font/build/editor-manifest.json', './pixel-editor.js']) {
   assert.ok(serviceWorker.includes(`"${asset}"`), `service worker must precache ${asset}`);
 }
 assert.ok(serviceWorker.includes('"./index.css?direct"'), 'service worker must precache Vite-compatible direct CSS');
@@ -106,6 +107,7 @@ assert.match(arabicDemo, /جارٍ تحميل الرموز التعبيرية/, 
 assert.match(arabicDemo, /نسخ الرابط/, 'Arabic demo must localize the copy-link action');
 assert.match(arabicDemo, /اختصارات لوحة المفاتيح/, 'Arabic demo must localize keyboard help');
 assert.match(arabicDemo, /الرموز التعبيرية المحفوظة/, 'Arabic demo must localize saved emoji');
+assert.match(arabicDemo, /تحرير الرسم بالبكسل/, 'Arabic demo must localize the pixel editor');
 assert.equal(demoHtml.match(/data-copy="link"/g)?.length, 2, 'details and code views must both provide copy-link actions');
 assert.match(demoHtml, /class="copy-action-long"/, 'emoji copy actions must retain their full desktop labels');
 assert.match(demoHtml, /class="copy-action-short"/, 'emoji copy actions must provide compact mobile labels');
@@ -129,6 +131,8 @@ assert.match(demoStyles, /\.modifier-filters fieldset label \{[\s\S]*min-height:
 assert.match(demoStyles, /\.modifier-emoji \{ display: inline; font-size: 1rem; \}/, 'modifier buttons must always display their emoji');
 assert.match(demoStyles, /\.modifier-filters fieldset input \{[\s\S]*clip: rect\(0, 0, 0, 0\)/, 'modifier checkboxes must remain accessible without being visually exposed');
 assert.match(demoHtml, /class="emoji-composition"/, 'emoji details must provide a sequence composition section');
+assert.match(demoHtml, /class="pixel-font-toggle"/, 'demo must provide a pixel-font toggle');
+assert.match(demoHtml, /class="show-pixel-editor"/, 'emoji details must provide a pixel-editor mode');
 assert.match(demoScript, /function ensureUtilityControls/, 'new utility controls must be restored when cached HTML is stale');
 assert.match(demoScript, /updateEmojiComposition\(item, value\)/, 'emoji details must render multi-code-point compositions');
 assert.match(demoScript, /0x200D[\s\S]*zeroWidthJoiner/, 'emoji compositions must identify zero-width joiners');
@@ -167,6 +171,8 @@ assert.doesNotMatch(demoHtml, /class="emoji-code-points"/, 'code points must not
 assert.match(demoScript, /\.emoji-code-points'\)\?\.closest\('div'\)\?\.remove/, 'cached code-point metadata rows must be removed');
 assert.match(demoHtml, /class="pixel-font-toggle"/, 'demo must provide a pixel-font toggle');
 assert.match(demoScript, /function togglePixelFont/, 'pixel-font preference must be toggleable');
+assert.match(demoScript, /createPixelEditor/, 'demo must initialize the pixel-art editor');
+assert.match(demoScript, /emojiMode.*editor|is-editor-view/, 'pixel-editor mode must participate in URL state');
 assert.match(demoScript, /explorerPreferences\.pixelFont !== false/, 'pixel font must be enabled by default');
 assert.match(demoScript, /event\?\.detail > 0/, 'pointer toggles must release their active focus state');
 assert.match(demoScript, /explorer-preferences/, 'demo preferences must use a stable local-storage key');
@@ -180,6 +186,18 @@ assert.match(demoStyles, /content-visibility: auto/, 'large emoji sections must 
 assert.match(demoStyles, /font-family: "Pixel Emoji"/, 'demo must load the generated pixel font');
 assert.match(demoStyles, /html\[data-emoji-font="system"\]/, 'demo must support the system emoji fallback');
 assert.match(demoStyles, /\.language-picker-flag,[\s\S]*font-family: var\(--system-emoji-font\)/, 'language flags must retain stable system-font metrics');
+assert.match(demoStyles, /\.pixel-editor-canvas/, 'demo must style the pixel-art canvas');
+assert.match(pixelEditorScript, /const CELL_SIZE = 16/, 'pixel editor must use a 16 by 16 cell');
+assert.match(pixelEditorScript, /CELL_SIZE \/ 2 \+ 2\.5/, 'native emoji trace must use the corrected two-pixel vertical offset');
+for (const preview of ['official', 'font', 'artwork']) {
+  assert.match(pixelEditorScript, new RegExp(`preview\\('${preview}'`), `pixel editor must provide the ${preview} 16-pixel preview`);
+}
+for (const tool of ['pencil', 'rectangle', 'ellipse', 'bucket', 'eyedropper']) {
+  assert.match(pixelEditorScript, new RegExp(`toolButton\\('${tool}'`), `pixel editor must provide the ${tool} tool`);
+}
+assert.match(pixelEditorScript, /showDirectoryPicker/, 'pixel editor must support direct atlas-directory writes');
+assert.match(pixelEditorScript, /downloadAtlas/, 'pixel editor must provide an atlas download fallback');
+assert.match(pixelEditorScript, /alpha === 0/, 'pixel editor must preserve transparent pixels');
 assert.deepEqual(browserEmoji, emojiByKey, 'browser bundle must contain every emoji value');
 assert.deepEqual(allEmoji, emojiByKey, 'all export must contain every emoji value');
 assert.match(allTypes, /declare const emoji: typeof \S+ & typeof \S+/, 'all merger must preserve the types of its imported category packs');

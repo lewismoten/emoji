@@ -12,6 +12,7 @@ const svgDirectory = path.join(buildDirectory, 'svg');
 const fontDirectory = path.join(buildDirectory, 'font');
 const manifest = JSON.parse(await fs.readFile(path.join(atlasDirectory, 'manifest.json'), 'utf8'));
 const glyphs = [];
+const editorGlyphs = {};
 
 await fs.rm(buildDirectory, { recursive: true, force: true });
 await Promise.all([
@@ -25,7 +26,22 @@ for (const sheet of manifest.sheets) {
   const atlas = decodeRgbaPng(await fs.readFile(path.join(atlasDirectory, sheet.image)));
   for (const entry of mapping.entries.filter(item => item.active)) {
     const cell = cropRgba(atlas, entry.x, entry.y, entry.width, entry.height);
-    if (!hasVisiblePixels(cell)) continue;
+    const painted = hasVisiblePixels(cell);
+    editorGlyphs[entry.key] = {
+      key: entry.key,
+      name: entry.name,
+      emoji: entry.emoji,
+      atlas: sheet.image,
+      index: entry.index,
+      row: entry.row,
+      column: entry.column,
+      x: entry.x,
+      y: entry.y,
+      width: entry.width,
+      height: entry.height,
+      painted
+    };
+    if (!painted) continue;
 
     const png = `${entry.key}.png`;
     const svg = `${entry.key}.svg`;
@@ -54,7 +70,18 @@ const buildManifest = {
   glyphCount: glyphs.length,
   glyphs: glyphs.map(({ pixels, ...glyph }) => glyph)
 };
+if (Object.keys(editorGlyphs).length !== manifest.activeGlyphCount) {
+  throw new Error('Pixel editor manifest does not cover every active base-atlas assignment');
+}
 await writeJson(path.join(buildDirectory, 'manifest.json'), buildManifest);
+await writeJson(path.join(buildDirectory, 'editor-manifest.json'), {
+  schemaVersion: 1,
+  cellSize: manifest.cellSize,
+  atlasWidth: manifest.columns * manifest.cellSize,
+  atlasHeight: manifest.rows * manifest.cellSize,
+  glyphCount: Object.keys(editorGlyphs).length,
+  glyphs: editorGlyphs
+});
 await writeJson(path.join(buildDirectory, 'font-source.json'), {
   familyName: manifest.familyName,
   cellSize: manifest.cellSize,

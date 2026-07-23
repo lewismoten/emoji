@@ -12,6 +12,8 @@ const localizedPages = ['en', 'en-GB', 'es', 'hi', 'zh', 'ar']
   .map(locale => `./index.${locale}.html`);
 const versionFiles = versionManifest.versions.map(version => `./versions/${version.file}`);
 const proposedFiles = (versionManifest.proposed ?? []).map(version => `./${version.file}`);
+const pixelAtlasManifest = JSON.parse(fs.readFileSync('pixel-font/atlases/manifest.json', 'utf8'));
+const pixelAtlasFiles = pixelAtlasManifest.sheets.map(sheet => `./pixel-font/atlases/${sheet.image}`);
 const coreAssets = [
   './',
   './index.html',
@@ -22,7 +24,10 @@ const coreAssets = [
   './manifest.json',
   './dist/esm/index.js',
   './pixel-font/build/manifest.json',
+  './pixel-font/build/editor-manifest.json',
   './pixel-font/build/font/pixel-emoji.woff2',
+  ...pixelAtlasFiles,
+  './pixel-editor.js',
   './favicon.svg',
   './icons/icon-192.png',
   './icons/icon-512.png',

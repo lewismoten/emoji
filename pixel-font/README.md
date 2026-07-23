@@ -61,6 +61,28 @@ Python is used and WOFF2 may be skipped if Brotli support is unavailable.
 After building, run `npm start` and open
 `http://localhost:5173/pixel-font/build/` to inspect the output.
 
+## Editing in Emoji Explorer
+
+Emoji Explorer includes a 16×16 pixel editor in each base emoji's details
+dialog. Choose **Edit pixel art** to load that emoji's assigned atlas cell.
+The native emoji tracing layer is for reference only and is never written into
+the artwork.
+
+In browsers that support the File System Access API, **Save atlas** asks you
+to select the repository's `pixel-font/atlases/` directory and then updates
+the correct 256×256 PNG directly. The browser must ask for this permission;
+the page cannot silently write into the repository.
+
+Other browsers download the updated, full atlas PNG. Replace the same-named
+file under `pixel-font/atlases/`, then rebuild:
+
+```sh
+npm run pixel-font:build
+```
+
+Skin-tone and hair-modifier sequences are intentionally outside the base
+atlas set, so their editor shows an unavailable message.
+
 ## Editing
 
 Open an atlas PNG in a pixel-art editor with:

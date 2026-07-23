@@ -1,4 +1,5 @@
 import emoji from './dist/esm/index.js';
+import { createPixelEditor } from './pixel-editor.js';
 
 var items = [];
 var groups = [];
@@ -86,6 +87,7 @@ var dialogNavigationKeys = [];
 var currentEmojiKey = '';
 var focusedEmojiKey = '';
 var copyStatus;
+var pixelEditor;
 var urlStateReady = false;
 var applyingUrlState = false;
 var suppressDialogCloseSync = false;
@@ -202,6 +204,7 @@ const applyUiTranslations = () => {
   });
   updateOnlineStatus();
   renderPixelFontToggle();
+  pixelEditor?.refreshTranslations();
 };
 const updateOnlineStatus = () => {
   if (!offlineStatus) return;
@@ -581,6 +584,14 @@ async function onLoad() {
   exampleDialog = document.getElementsByClassName('example-dialog')[0];
   upgradeEmojiDialog();
   emojiParent = document.getElementsByClassName('emoji-parent')[0];
+  pixelEditor = createPixelEditor({
+    dialog: exampleDialog,
+    translate,
+    setDialogMode: mode => {
+      setEmojiDialogView(mode);
+      if (mode === 'details') exampleDialog.querySelector('.show-pixel-editor')?.focus();
+    }
+  });
   copyStatus = document.getElementsByClassName('copy-status')[0];
   emojiPrevious = document.getElementsByClassName('emoji-previous')[0];
   emojiNext = document.getElementsByClassName('emoji-next')[0];
@@ -659,13 +670,19 @@ async function onLoad() {
     }
     const showCodeButton = event.target.closest('.show-emoji-code');
     if (showCodeButton) {
-      setEmojiDialogView(true);
+      setEmojiDialogView('code');
       exampleDialog.querySelector('.back-to-emoji')?.focus();
+      return;
+    }
+    const showEditorButton = event.target.closest('.show-pixel-editor');
+    if (showEditorButton) {
+      setEmojiDialogView('editor');
+      exampleDialog.querySelector('.pixel-editor-canvas')?.focus();
       return;
     }
     const backButton = event.target.closest('.back-to-emoji');
     if (backButton) {
-      setEmojiDialogView(false);
+      setEmojiDialogView('details');
       exampleDialog.querySelector('.show-emoji-code')?.focus();
       return;
     }
@@ -816,6 +833,14 @@ function ensureCodeDialogView() {
     showCode.textContent = 'View code';
     actions.append(showCode);
   }
+  if (actions && !actions.querySelector('.show-pixel-editor')) {
+    const showEditor = document.createElement('button');
+    showEditor.className = 'show-pixel-editor';
+    showEditor.type = 'button';
+    showEditor.dataset.i18n = 'editPixelArt';
+    showEditor.textContent = 'Edit pixel art';
+    actions.append(showEditor);
+  }
 
   const code = exampleDialog.querySelector('.code');
   if (!code) return;
@@ -896,17 +921,35 @@ function ensureCompactCopyLabels() {
   });
 }
 
-function setEmojiDialogView(showCode, updateUrl = true) {
-  exampleDialog.classList.toggle('is-code-view', showCode);
-  exampleDialog.querySelector('.emoji-dialog-details').hidden = showCode;
+function setEmojiDialogView(requestedMode, updateUrl = true) {
+  const mode = requestedMode === true
+    ? 'code'
+    : requestedMode === false
+      ? 'details'
+      : ['details', 'code', 'editor'].includes(requestedMode)
+        ? requestedMode
+        : 'details';
+  const showDetails = mode === 'details';
+  exampleDialog.classList.toggle('is-code-view', mode === 'code');
+  exampleDialog.classList.toggle('is-editor-view', mode === 'editor');
+  exampleDialog.querySelector('.emoji-dialog-details').hidden = !showDetails;
   const composition = exampleDialog.querySelector('.emoji-composition');
-  if (composition) composition.hidden = showCode || composition.dataset.available !== 'true';
-  exampleDialog.querySelector('.emoji-metadata').hidden = showCode;
-  exampleDialog.querySelector('.emoji-copy-actions').hidden = showCode;
-  exampleDialog.querySelector('.emoji-code-view').hidden = !showCode;
+  if (composition) composition.hidden = !showDetails || composition.dataset.available !== 'true';
+  exampleDialog.querySelector('.emoji-metadata').hidden = !showDetails;
+  exampleDialog.querySelector('.emoji-copy-actions').hidden = !showDetails;
+  exampleDialog.querySelector('.emoji-code-view').hidden = mode !== 'code';
+  if (pixelEditor) {
+    pixelEditor.element.hidden = mode !== 'editor';
+    if (mode === 'editor' && currentEmojiKey) {
+      pixelEditor.open(currentEmojiKey, emojiByKey[currentEmojiKey]);
+    }
+  }
   const eyebrow = exampleDialog.querySelector('.emoji-dialog-eyebrow');
-  const key = showCode ? 'codeExample' : 'emojiDetails';
-  const fallback = showCode ? 'Code example' : 'Emoji details';
+  const [key, fallback] = mode === 'code'
+    ? ['codeExample', 'Code example']
+    : mode === 'editor'
+      ? ['pixelEditor', 'Pixel editor']
+      : ['emojiDetails', 'Emoji details'];
   eyebrow.dataset.i18n = key;
   eyebrow.textContent = translate(key, fallback);
   if (updateUrl && exampleDialog.open) syncUrlState();
@@ -1239,7 +1282,9 @@ function getUrlState() {
     order,
     compositionMode: params.get('composition') === 'full' ? 'full' : 'condensed',
     emoji: params.get('emoji') ?? '',
-    emojiMode: params.get('emojiMode') === 'code' ? 'code' : 'details',
+    emojiMode: ['code', 'editor'].includes(params.get('emojiMode'))
+      ? params.get('emojiMode')
+      : 'details',
     panel: ['favorites', 'help', 'language'].includes(params.get('panel'))
       ? params.get('panel')
       : ''
@@ -1287,7 +1332,7 @@ function applyDialogUrlState() {
     closePanelDialog(helpDialog);
     closePanelDialog(languageDialog);
     showEmoji(state.emoji, false, displayedKeys);
-    setEmojiDialogView(state.emojiMode === 'code', false);
+    setEmojiDialogView(state.emojiMode, false);
     if (!exampleDialog.open) {
       exampleDialog.showModal();
       focusInitialEmojiDialogAction();
@@ -1336,6 +1381,7 @@ function syncUrlState(method = 'replace', historyState = window.history.state) {
   if (exampleDialog.open && currentEmojiKey) {
     params.set('emoji', currentEmojiKey);
     if (exampleDialog.classList.contains('is-code-view')) params.set('emojiMode', 'code');
+    if (exampleDialog.classList.contains('is-editor-view')) params.set('emojiMode', 'editor');
   } else {
     const panel = getOpenPanel();
     if (panel) params.set('panel', panel);
@@ -2603,7 +2649,7 @@ function onClick(e, openDialog = true) {
 }
 
 function onEmojiDialogClose() {
-  setEmojiDialogView(false, false);
+  setEmojiDialogView('details', false);
   if (suppressDialogCloseSync || !urlStateReady || applyingUrlState) return;
   if (window.history.state?.emojiDialogEntry) {
     window.history.back();
@@ -2901,7 +2947,7 @@ function showEmoji(id, openDialog = true, navigationKeys) {
   updateFavoriteButton();
   if (openDialog) {
     if (copyStatus) copyStatus.textContent = '';
-    setEmojiDialogView(false, false);
+    setEmojiDialogView('details', false);
     exampleDialog.showModal();
     focusInitialEmojiDialogAction();
     syncUrlState('push', {
@@ -2910,6 +2956,9 @@ function showEmoji(id, openDialog = true, navigationKeys) {
     });
   }
   updateDialogNavigation();
+  if (exampleDialog.classList.contains('is-editor-view')) {
+    pixelEditor?.open(id, value);
+  }
 }
 
 function navigateEmoji(amount) {
