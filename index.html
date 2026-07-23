@@ -104,7 +104,9 @@
               <select class="select-version" aria-labelledby="version-filter-label" disabled><option data-i18n="loadingVersions">Loading versions…</option></select>
               <div class="compact-version">
                 <button class="version-mode-toggle" type="button" aria-pressed="false" data-i18n-title="selectedVersionOnly"><span aria-hidden="true">🎯</span></button>
+                <button class="version-step version-previous" type="button" data-i18n-aria-label="previousVersion" aria-label="Previous version">−</button>
                 <input id="version-range" class="version-range" type="range" min="0" max="0" step="1" value="0" aria-labelledby="version-filter-label" aria-describedby="version-range-value" disabled>
+                <button class="version-step version-next" type="button" data-i18n-aria-label="nextVersion" aria-label="Next version">+</button>
                 <output id="version-range-value" class="version-range-value" for="version-range" aria-live="polite">—</output>
               </div>
             </div>
@@ -126,8 +128,18 @@
               <label><input type="checkbox" class="hair" value="1F9B2"><span class="modifier-emoji">🧑‍🦲</span><span class="modifier-label" data-i18n="bald">Bald</span></label>
               <label><input type="checkbox" class="hair" value="1F9B3"><span class="modifier-emoji">🧑‍🦳</span><span class="modifier-label" data-i18n="white">White</span></label>
               </fieldset>
+              <fieldset>
+                <legend data-i18n="gender">Gender</legend>
+                <label><input type="checkbox" class="gender" value="male"><span class="modifier-emoji">👨</span><span class="modifier-label" data-i18n="male">Male</span></label>
+                <label><input type="checkbox" class="gender" value="female"><span class="modifier-emoji">👩</span><span class="modifier-label" data-i18n="female">Female</span></label>
+                <label><input type="checkbox" class="gender" value="neutral"><span class="modifier-emoji">🧑</span><span class="modifier-label" data-i18n="neutral">Neutral</span></label>
+              </fieldset>
             </div>
           </details>
+          <div class="active-filter-summary" role="status" hidden>
+            <span class="active-filter-text"></span>
+            <button class="clear-filters" type="button" data-i18n="clearAll">Clear all</button>
+          </div>
         </div>
       </form>
 
@@ -156,7 +168,11 @@
           <p class="eyebrow emoji-dialog-eyebrow">Copied emoji key</p>
           <h2 id="example-title">Use this emoji</h2>
         </div>
-        <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
+        <div class="dialog-controls">
+          <button class="dialog-navigate emoji-previous" type="button" data-i18n-aria-label="previousEmoji" aria-label="Previous emoji">←</button>
+          <button class="dialog-navigate emoji-next" type="button" data-i18n-aria-label="nextEmoji" aria-label="Next emoji">→</button>
+          <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
+        </div>
       </div>
       <p class="dialog-description" data-i18n="copiedDescription">The emoji key has been copied to your clipboard.</p>
         <div class="emoji-dialog-details">

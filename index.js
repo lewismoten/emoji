@@ -37,14 +37,23 @@ var versionSelector;
 var versionModeToggle;
 var versionRange;
 var versionRangeValue;
+var versionPrevious;
+var versionNext;
 var advancedFilters;
+var activeFilterSummary;
+var activeFilterText;
+var clearFiltersButton;
 var orderButtons;
 var exampleDialog;
+var emojiPrevious;
+var emojiNext;
 var skinToneCheckboxes;
 var hairCheckboxes;
+var genderCheckboxes;
 var modifierFilters;
 var skinToneFieldset;
 var hairFieldset;
+var genderFieldset;
 var versionManifests = [];
 var proposedVersionManifests = [];
 var versionKeys = new Map();
@@ -58,6 +67,9 @@ var searchLocales = [];
 var selectedSearchLocale = '';
 var searchLoadId = 0;
 var currentEmojiCopies = {};
+var displayedKeys = [];
+var currentEmojiKey = '';
+var urlStateReady = false;
 var offlineStatus;
 const languageFlags = {
   'ar': '🇸🇦',
@@ -125,6 +137,9 @@ const applyUiTranslations = () => {
   });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
     element.placeholder = translate(element.dataset.i18nPlaceholder, element.placeholder);
+  });
+  document.querySelectorAll('[data-i18n-aria-label]').forEach(element => {
+    element.setAttribute('aria-label', translate(element.dataset.i18nAriaLabel, element.getAttribute('aria-label')));
   });
   updateOnlineStatus();
 };
@@ -298,29 +313,45 @@ async function onLoad() {
   versionSelector = document.getElementsByClassName('select-version')[0];
   ({ range: versionRange, output: versionRangeValue } = ensureVersionSlider());
   versionModeToggle = ensureVersionModeToggle();
+  versionPrevious = document.getElementsByClassName('version-previous')[0];
+  versionNext = document.getElementsByClassName('version-next')[0];
   versionSelector.closest('.filter-field')?.classList.toggle('has-version-slider', Boolean(versionRange && versionRangeValue));
   advancedFilters = document.getElementsByClassName('advanced-filters')[0];
+  ({ summary: activeFilterSummary, text: activeFilterText, clear: clearFiltersButton } = ensureActiveFilterSummary());
   orderButtons = Array.from(document.getElementsByClassName('order-mode'));
   exampleDialog = document.getElementsByClassName('example-dialog')[0];
+  emojiPrevious = document.getElementsByClassName('emoji-previous')[0];
+  emojiNext = document.getElementsByClassName('emoji-next')[0];
   skinToneCheckboxes = Array.from(document.getElementsByClassName('skin-tone'));
   hairCheckboxes = Array.from(document.getElementsByClassName('hair'));
+  genderCheckboxes = Array.from(document.getElementsByClassName('gender'));
   modifierFilters = document.getElementsByClassName('modifier-filters')[0];
   skinToneFieldset = skinToneCheckboxes[0]?.closest('fieldset');
   hairFieldset = hairCheckboxes[0]?.closest('fieldset');
+  genderFieldset = genderCheckboxes[0]?.closest('fieldset');
 
   window.addEventListener('online', updateOnlineStatus);
   window.addEventListener('offline', updateOnlineStatus);
   updateOnlineStatus();
 
+  applyBasicUrlState();
   skinToneCheckboxes.forEach(checkbox => checkbox.addEventListener('change', drawList));
   hairCheckboxes.forEach(checkbox => checkbox.addEventListener('change', drawList));
+  genderCheckboxes.forEach(checkbox => checkbox.addEventListener('change', drawList));
 
-  searchText.addEventListener("keyup", onKeyUp);
+  searchText.addEventListener("input", drawList);
   languagePicker.addEventListener('click', () => {
     languageDialog.showModal();
     languageList.querySelector('.is-selected')?.focus();
   });
   emojiList.addEventListener("click", onClick);
+  emojiList.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    const cell = event.target.closest('[id]');
+    if (!cell || !emojiByKey[cell.id]) return;
+    event.preventDefault();
+    onClick(event);
+  });
   exampleDialog.addEventListener('click', event => {
     const button = event.target.closest('[data-copy]');
     if (!button) return;
@@ -328,12 +359,18 @@ async function onLoad() {
     if (value !== undefined) navigator.clipboard?.writeText(value);
   });
   versionModeToggle?.addEventListener('click', toggleVersionMode);
+  versionPrevious?.addEventListener('click', () => stepVersion(-1));
+  versionNext?.addEventListener('click', () => stepVersion(1));
+  clearFiltersButton?.addEventListener('click', resetFilters);
+  emojiPrevious?.addEventListener('click', () => navigateEmoji(-1));
+  emojiNext?.addEventListener('click', () => navigateEmoji(1));
   versionSelector.addEventListener('change', () => {
     syncVersionRange();
     drawList();
   });
   versionRange?.addEventListener('input', onVersionRangeInput);
   orderButtons.forEach(button => button.addEventListener('click', onOrderModeChange));
+  document.addEventListener('keydown', onDocumentKeyDown);
   renderVersionModeToggle();
 
   const setToolbarHeight = () => {
@@ -350,14 +387,38 @@ async function onLoad() {
     advancedFilters.open = false;
   }
 
-  loadData();
   const initialUiLocale = document.documentElement.dataset.locale
     ?? window.location.pathname.match(/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/)?.[1]
     ?? 'en';
   await loadUiTranslations(initialUiLocale, document.documentElement.dir === 'rtl');
   await loadSearchLanguages(initialUiLocale);
-
+  await loadData();
+  urlStateReady = true;
   drawList();
+}
+
+function ensureActiveFilterSummary() {
+  let summary = document.getElementsByClassName('active-filter-summary')[0];
+  if (!summary) {
+    summary = document.createElement('div');
+    summary.className = 'active-filter-summary';
+    summary.hidden = true;
+    summary.setAttribute('role', 'status');
+    const text = document.createElement('span');
+    text.className = 'active-filter-text';
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'clear-filters';
+    clear.dataset.i18n = 'clearAll';
+    clear.textContent = 'Clear all';
+    summary.append(text, clear);
+    document.getElementsByClassName('filter-options')[0]?.appendChild(summary);
+  }
+  return {
+    summary,
+    text: summary.querySelector('.active-filter-text'),
+    clear: summary.querySelector('.clear-filters')
+  };
 }
 
 function ensureChoiceContainer(selector, className, labelId) {
@@ -494,6 +555,120 @@ function toggleVersionMode() {
   drawList();
 }
 
+function getUrlState() {
+  const params = new URLSearchParams(window.location.search);
+  return {
+    search: params.get('q') ?? '',
+    version: params.get('version') ?? '',
+    versionMode: params.get('mode') === 'selected' ? 'selected' : 'through',
+    group: params.get('group') ?? '',
+    subGroup: params.get('subgroup') ?? '',
+    skin: (params.get('skin') ?? '').split(',').filter(Boolean),
+    hair: (params.get('hair') ?? '').split(',').filter(Boolean),
+    gender: (params.get('gender') ?? '').split(',').filter(Boolean),
+    order: ['grouped', 'unicode', 'sequence'].includes(params.get('order')) ? params.get('order') : 'grouped'
+  };
+}
+
+function applyBasicUrlState() {
+  const state = getUrlState();
+  searchText.value = state.search;
+  orderMode = state.order;
+  orderButtons.forEach(button => {
+    const active = button.dataset.order === orderMode;
+    button.classList.toggle('is-active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+}
+
+function applyLoadedUrlState() {
+  const state = getUrlState();
+  if (state.version && Array.from(versionSelector.options).some(option => option.value === state.version)) {
+    versionSelector.value = state.version;
+  }
+  versionModeSelector.value = state.versionMode;
+  selectedGroup = groups.includes(state.group) ? state.group : '';
+  selectedSubGroup = selectedGroup && subGroups[selectedGroup]?.includes(state.subGroup)
+    ? subGroupSelectionKey(selectedGroup, state.subGroup)
+    : '';
+  skinToneCheckboxes.forEach(checkbox => { checkbox.checked = state.skin.includes(checkbox.value); });
+  hairCheckboxes.forEach(checkbox => { checkbox.checked = state.hair.includes(checkbox.value); });
+  genderCheckboxes.forEach(checkbox => { checkbox.checked = state.gender.includes(checkbox.value); });
+  renderVersionModeToggle();
+  syncVersionRange();
+}
+
+function syncUrlState() {
+  if (!urlStateReady) return;
+  const params = new URLSearchParams();
+  const search = searchText.value.trim();
+  if (search) params.set('q', search);
+  const latestReleased = versionManifests.at(-1)?.version;
+  if (versionSelector.value && (versionSelector.value !== latestReleased || versionModeSelector.value === 'selected')) {
+    params.set('version', versionSelector.value);
+  }
+  if (versionModeSelector.value === 'selected') params.set('mode', 'selected');
+  if (selectedGroup) params.set('group', selectedGroup);
+  if (selectedSubGroup) params.set('subgroup', selectedSubGroup.split('::').slice(1).join('::'));
+  const skin = skinToneCheckboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+  const hair = hairCheckboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+  const gender = genderCheckboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+  if (skin.length) params.set('skin', skin.join(','));
+  if (hair.length) params.set('hair', hair.join(','));
+  if (gender.length) params.set('gender', gender.join(','));
+  if (orderMode !== 'grouped') params.set('order', orderMode);
+  const query = params.toString();
+  window.history.replaceState(window.history.state, '', `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`);
+}
+
+function resetFilters() {
+  searchText.value = '';
+  selectedGroup = '';
+  selectedSubGroup = '';
+  versionModeSelector.value = 'through';
+  const latestReleased = versionManifests.at(-1)?.version;
+  if (latestReleased) versionSelector.value = latestReleased;
+  skinToneCheckboxes.forEach(checkbox => { checkbox.checked = false; });
+  hairCheckboxes.forEach(checkbox => { checkbox.checked = false; });
+  genderCheckboxes.forEach(checkbox => { checkbox.checked = false; });
+  renderVersionModeToggle();
+  syncVersionRange();
+  renderCategoryFilters();
+  drawList();
+  searchText.focus();
+}
+
+function stepVersion(amount) {
+  const nextIndex = Math.max(0, Math.min(versionSelector.options.length - 1, Number(versionRange.value) + amount));
+  if (nextIndex === Number(versionRange.value)) return;
+  versionRange.value = String(nextIndex);
+  onVersionRangeInput();
+}
+
+function onDocumentKeyDown(event) {
+  const activeTag = document.activeElement?.tagName;
+  const isTyping = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT';
+  if (event.key === '/' && !isTyping && !exampleDialog.open && !languageDialog.open) {
+    event.preventDefault();
+    searchText.focus();
+    return;
+  }
+  if (event.key === 'Escape' && !exampleDialog.open && !languageDialog.open && searchText.value) {
+    searchText.value = '';
+    drawList();
+    searchText.focus();
+    return;
+  }
+  if (!exampleDialog.open || isTyping) return;
+  if (event.key === 'ArrowLeft') {
+    event.preventDefault();
+    navigateEmoji(-1);
+  } else if (event.key === 'ArrowRight') {
+    event.preventDefault();
+    navigateEmoji(1);
+  }
+}
+
 const isViteDevelopment = typeof import.meta.env !== 'undefined' && import.meta.env.DEV === true;
 if ('serviceWorker' in navigator && window.isSecureContext && isViteDevelopment) {
   window.addEventListener('load', async () => {
@@ -584,8 +759,8 @@ async function loadData() {
       // loadVersionData(), so the default version filter stays released-only.
       releasedIds = new Set(allIds);
       onClick({ target: { id: 'clinkingBeerMugs' } }, false)
-      loadVersionData();
-      loadOrderData();
+      await loadVersionData();
+      await loadOrderData();
 }
 
 async function loadSearchLanguages(initialLocale = '') {
@@ -605,7 +780,7 @@ async function loadSearchLanguages(initialLocale = '') {
 function renderSearchLanguages() {
   languageList.replaceChildren();
   const noLanguage = document.createElement('a');
-  noLanguage.href = './';
+  noLanguage.href = `./${window.location.search}`;
   noLanguage.className = 'language-option';
   noLanguage.classList.toggle('is-selected', selectedSearchLocale === '');
   noLanguage.setAttribute('aria-pressed', String(selectedSearchLocale === ''));
@@ -616,7 +791,7 @@ function renderSearchLanguages() {
   searchLocales.forEach(locale => {
     const option = document.createElement('a');
     const flag = languageFlags[locale.locale] ?? '🌐';
-    option.href = `./index.${locale.locale}.html`;
+    option.href = `./index.${locale.locale}.html${window.location.search}`;
     option.className = 'language-option';
     option.classList.toggle('is-selected', locale.locale === selectedSearchLocale);
     option.setAttribute('aria-pressed', String(locale.locale === selectedSearchLocale));
@@ -746,6 +921,7 @@ async function loadVersionData() {
     versionKeys = new Map([...keys, ...proposedKeys]);
     buildCategoryRepresentatives();
     populateVersionSelector();
+    applyLoadedUrlState();
     renderCategoryFilters();
     drawList();
   } catch (error) {
@@ -799,6 +975,8 @@ function syncVersionRange() {
   versionRangeValue.value = selectedVersion ? versionSliderLabel(selectedVersion) : '—';
   versionRangeValue.classList.toggle('is-future', proposedVersionManifests.some(version => version.version === selectedVersion));
   versionRange.setAttribute('aria-valuetext', options[selectedIndex]?.text ?? '—');
+  if (versionPrevious) versionPrevious.disabled = versionRange.disabled || selectedIndex === 0;
+  if (versionNext) versionNext.disabled = versionRange.disabled || selectedIndex === options.length - 1;
   updateModifierAvailability();
 }
 
@@ -806,10 +984,7 @@ function onVersionRangeInput() {
   const option = versionSelector.options[Number(versionRange.value)];
   if (!option) return;
   versionSelector.value = option.value;
-  versionRangeValue.value = versionSliderLabel(option.value);
-  versionRangeValue.classList.toggle('is-future', proposedVersionManifests.some(version => version.version === option.value));
-  versionRange.setAttribute('aria-valuetext', option.text);
-  updateModifierAvailability();
+  syncVersionRange();
   renderCategoryFilters();
   drawList();
 }
@@ -824,16 +999,23 @@ function updateModifierAvailability() {
   const hairIndex = manifests.findIndex(version =>
     [...(versionKeys.get(version.version) ?? [])].some(key => hairKeys.has(key))
   );
+  const genderIndex = manifests.findIndex(version =>
+    [...(versionKeys.get(version.version) ?? [])].some(key => getEmojiGenders(byId[key] ?? {}).size > 0)
+  );
   const skinToneAvailable = selectedIndex >= skinToneIndex && skinToneIndex !== -1;
   const hairAvailable = selectedIndex >= hairIndex && hairIndex !== -1;
+  const genderAvailable = selectedIndex >= genderIndex && genderIndex !== -1;
 
   if (skinToneFieldset) skinToneFieldset.hidden = !skinToneAvailable;
   if (hairFieldset) hairFieldset.hidden = !hairAvailable;
+  if (genderFieldset) genderFieldset.hidden = !genderAvailable;
   if (!skinToneAvailable) skinToneCheckboxes.forEach(checkbox => { checkbox.checked = false; });
   if (!hairAvailable) hairCheckboxes.forEach(checkbox => { checkbox.checked = false; });
+  if (!genderAvailable) genderCheckboxes.forEach(checkbox => { checkbox.checked = false; });
   if (modifierFilters) {
-    modifierFilters.hidden = !skinToneAvailable && !hairAvailable;
-    modifierFilters.classList.toggle('has-single', skinToneAvailable !== hairAvailable);
+    const availableCount = [skinToneAvailable, hairAvailable, genderAvailable].filter(Boolean).length;
+    modifierFilters.hidden = availableCount === 0;
+    modifierFilters.classList.toggle('has-single', availableCount === 1);
   }
 }
 
@@ -1190,6 +1372,9 @@ function asEmojiCell(key, groupId = 0, subGroupId = 0) {
   const div = document.createElement('div');
   div.id = key;
   div.title = byId[key]?.shortName ?? key;
+  div.tabIndex = 0;
+  div.setAttribute('role', 'button');
+  div.setAttribute('aria-label', byId[key]?.shortName ?? displayEmojiKey(key));
   div.classList.add(`group-${groupId}`);
   div.classList.add(`sub-group-${subGroupId}`);
   const emojiDiv = document.createElement('span');
@@ -1233,6 +1418,29 @@ function orderedKeys(keys) {
   });
 }
 
+function getEmojiGenders(item) {
+  const genders = new Set();
+  const name = item.shortName?.toLocaleLowerCase() ?? '';
+  const points = ` ${item.codePoints ?? ''} `;
+  if (points.includes(' 2642 ') || /\b(man|men|boy|boys|father|prince|king|groom|male)\b/.test(name)) {
+    genders.add('male');
+  }
+  if (points.includes(' 2640 ') || /\b(woman|women|girl|girls|mother|princess|queen|bride|female)\b/.test(name)) {
+    genders.add('female');
+  }
+  if (/\b(person|people|adult|adults|child|children)\b/.test(name)) {
+    genders.add('neutral');
+  }
+  if (genders.size === 0) {
+    const key = item.key ?? '';
+    const capitalizedKey = key.charAt(0).toLocaleUpperCase() + key.slice(1);
+    if (emojiByKey[`man${capitalizedKey}`] && emojiByKey[`woman${capitalizedKey}`]) {
+      genders.add('neutral');
+    }
+  }
+  return genders;
+}
+
 function drawList() {
   var keywords = searchText.value
     .toLocaleLowerCase(selectedSearchLocale || undefined)
@@ -1273,8 +1481,13 @@ function drawList() {
       item => item.key === key
     )?.codePoints.includes(check.value))
   });
+  const selectedGenders = genderCheckboxes.filter(check => check.checked).map(check => check.value);
+  if (selectedGenders.length > 0) {
+    keys = keys.filter(key => selectedGenders.some(gender => getEmojiGenders(byId[key] ?? {}).has(gender)));
+  }
 
   keys = orderedKeys(keys);
+  displayedKeys = keys;
   const renderer = orderMode === 'sequence' ? asSequenceItem : asItem;
   const initialState = orderMode === 'sequence'
     ? { items: [], type: '', emoji: null }
@@ -1287,14 +1500,72 @@ function drawList() {
     unicodeSubGroupElement: null,
       subGroupElement: null
     };
-  emojiList.replaceChildren(...keys.reduce(renderer, initialState).items);
+  if (keys.length === 0) {
+    emojiList.replaceChildren(createEmptyResults());
+  } else {
+    emojiList.replaceChildren(...keys.reduce(renderer, initialState).items);
+  }
   const numberLocale = selectedSearchLocale || undefined;
   const numberOptions = selectedSearchLocale.startsWith('ar') ? { numberingSystem: 'arab' } : {};
   matchCount.innerText = new Intl.NumberFormat(numberLocale, numberOptions).format(keys.length);
+  updateActiveFilterSummary();
+  updateDialogNavigation();
+  syncUrlState();
 }
 
-function onKeyUp(e) {
-  drawList();
+function createEmptyResults() {
+  const section = document.createElement('section');
+  section.className = 'empty-results';
+  const title = document.createElement('h2');
+  title.textContent = translate('noResults', 'No emoji found');
+  const description = document.createElement('p');
+  description.textContent = translate('noResultsDescription', 'Try removing a search term or filter.');
+  const actions = document.createElement('div');
+  actions.className = 'empty-actions';
+  if (searchText.value.trim()) {
+    const clearSearch = document.createElement('button');
+    clearSearch.type = 'button';
+    clearSearch.textContent = translate('clearSearch', 'Clear search');
+    clearSearch.addEventListener('click', () => {
+      searchText.value = '';
+      drawList();
+      searchText.focus();
+    });
+    actions.appendChild(clearSearch);
+  }
+  const reset = document.createElement('button');
+  reset.type = 'button';
+  reset.textContent = translate('resetFilters', 'Reset filters');
+  reset.addEventListener('click', resetFilters);
+  actions.appendChild(reset);
+  section.append(title, description, actions);
+  return section;
+}
+
+function updateActiveFilterSummary() {
+  if (!activeFilterSummary || !activeFilterText) return;
+  const parts = [];
+  if (searchText.value.trim()) parts.push(`“${searchText.value.trim()}”`);
+  if (selectedGroup) parts.push(displayGroupName(selectedGroup));
+  if (selectedSubGroup) parts.push(displayUnicodeSubGroupName(selectedSubGroup.split('::').slice(1).join('::')));
+  const latestReleased = versionManifests.at(-1)?.version;
+  if (versionSelector.value && (versionSelector.value !== latestReleased || versionModeSelector.value === 'selected')) {
+    const mode = versionModeSelector.value === 'selected'
+      ? translate('onlyVersion', 'Only')
+      : translate('throughVersion', 'Through');
+    parts.push(`${mode} ${versionSliderLabel(versionSelector.value)}`);
+  }
+  skinToneCheckboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
+    parts.push(checkbox.closest('label')?.querySelector('.modifier-emoji')?.textContent ?? checkbox.value);
+  });
+  hairCheckboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
+    parts.push(checkbox.closest('label')?.querySelector('.modifier-emoji')?.textContent ?? checkbox.value);
+  });
+  genderCheckboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
+    parts.push(checkbox.closest('label')?.querySelector('.modifier-emoji')?.textContent ?? checkbox.value);
+  });
+  activeFilterSummary.hidden = parts.length === 0;
+  activeFilterText.textContent = parts.join(' · ');
 }
 
 function displayEmojiKey(key) {
@@ -1308,10 +1579,17 @@ function getIntroducedVersion(key) {
 }
 
 function onClick(e, copy = true) {
-  var id = e.target.id;
-  if ((id || "") === "") id = e.target.parentElement.id;
+  const cell = e.target.closest?.('[id]');
+  var id = cell?.id ?? e.target.id;
   var value = emojiByKey[id];
   if (value === undefined) return;
+  showEmoji(id, copy);
+}
+
+function showEmoji(id, copy = true) {
+  var value = emojiByKey[id];
+  if (value === undefined) return;
+  currentEmojiKey = id;
   var bits = [];
   var i;
   for (i = 0; i < value.length; i++) {
@@ -1360,5 +1638,19 @@ function onClick(e, copy = true) {
     navigator.clipboard?.writeText(id);
     exampleDialog.showModal();
   }
+  updateDialogNavigation();
+}
+
+function navigateEmoji(amount) {
+  const index = displayedKeys.indexOf(currentEmojiKey);
+  if (index === -1) return;
+  const nextKey = displayedKeys[index + amount];
+  if (nextKey) showEmoji(nextKey, false);
+}
+
+function updateDialogNavigation() {
+  const index = displayedKeys.indexOf(currentEmojiKey);
+  if (emojiPrevious) emojiPrevious.disabled = index <= 0;
+  if (emojiNext) emojiNext.disabled = index === -1 || index >= displayedKeys.length - 1;
 }
 window.addEventListener("load", onLoad);

@@ -139,8 +139,8 @@ h1 { margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); }
   border: 0;
 }
 
-.filter-options { display: flex; align-items: flex-start; gap: .65rem; margin-top: .4rem; }
-.advanced-filters { flex: 1; min-width: 0; }
+.filter-options { position: relative; margin-top: .4rem; }
+.advanced-filters { width: 100%; min-width: 0; }
 .advanced-filters > summary {
   width: fit-content;
   cursor: pointer;
@@ -149,6 +149,31 @@ h1 { margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); }
   font-weight: 650;
 }
 .summary-short { display: none; }
+.active-filter-summary {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  display: flex;
+  max-width: 52%;
+  min-width: 0;
+  align-items: center;
+  gap: .4rem;
+  color: var(--muted);
+  font-size: .75rem;
+}
+.active-filter-summary[hidden] { display: none; }
+.advanced-filters[open] + .active-filter-summary { display: none; }
+.active-filter-text { max-width: min(48vw, 30rem); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.clear-filters {
+  flex: none;
+  padding: .15rem .35rem;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+}
 .filter-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(10rem, 1fr));
@@ -207,7 +232,7 @@ h1 { margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); }
 .filter-field.has-choice-buttons > .select-subgroup { display: none; }
 .filter-field.has-version-slider > .select-version { display: none; }
 
-.compact-version { grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: .55rem; }
+.compact-version { grid-template-columns: auto auto minmax(0, 1fr) auto auto; align-items: center; gap: .4rem; }
 .version-mode-toggle {
   display: grid;
   place-items: center;
@@ -229,6 +254,23 @@ h1 { margin: 0; font-size: clamp(1rem, 2.5vw, 1.2rem); }
   box-shadow: inset 0 0 0 1px var(--accent);
 }
 .version-mode-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.version-step {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: .45rem;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+.version-step:hover:not(:disabled) { border-color: var(--accent); }
+.version-step:disabled { cursor: default; opacity: .4; }
 .version-range {
   min-height: 1.75rem;
   padding: 0;
@@ -260,7 +302,7 @@ select:disabled { opacity: .5; }
 
 .modifier-filters {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: .65rem;
   margin-top: .75rem;
 }
@@ -343,8 +385,11 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
 .language-dialog::backdrop { background: rgb(0 0 0 / 60%); backdrop-filter: blur(3px); }
 
 .dialog-heading { padding: .8rem 1rem; background: var(--panel-strong); }
+.dialog-controls { display: flex; align-items: center; gap: .35rem; }
+.dialog-controls form { margin: 0; }
 h2 { margin: 0; font-size: 1.15rem; }
-.dialog-close {
+.dialog-close,
+.dialog-navigate {
   display: grid;
   width: 2rem;
   height: 2rem;
@@ -357,6 +402,8 @@ h2 { margin: 0; font-size: 1.15rem; }
   font-size: 1.35rem;
   line-height: 1;
 }
+.dialog-navigate { font-size: 1rem; }
+.dialog-navigate:disabled { cursor: default; opacity: .35; }
 .dialog-description { margin: .8rem 1rem; color: var(--muted); font-size: .88rem; }
 .emoji-dialog-details { display: flex; align-items: center; gap: 1rem; padding: 0 1rem .85rem; }
 .emoji-dialog-details:has(.localized-emoji-details[hidden]) { justify-content: center; }
@@ -427,6 +474,31 @@ h2 { margin: 0; font-size: 1.15rem; }
 .example-link { padding: .55rem 1rem; background: var(--panel-strong); font-size: .8rem; }
 
 .list { display: flex; flex-wrap: wrap; padding: 1rem; }
+.empty-results {
+  width: min(32rem, 100%);
+  margin: 2rem auto;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: .65rem;
+  background: var(--panel);
+  text-align: center;
+}
+.empty-results h2 { font-size: 1rem; }
+.empty-results p { margin: .5rem 0 1rem; color: var(--muted); font-size: .85rem; }
+.empty-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: .45rem; }
+.empty-actions button {
+  min-height: 2.25rem;
+  padding: .35rem .65rem;
+  border: 1px solid var(--border);
+  border-radius: .45rem;
+  background: var(--panel-strong);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 700;
+}
+.empty-actions button:hover { border-color: var(--accent); }
 .about-explorer {
   margin: 0 1rem 1.5rem;
   padding: 1rem;
@@ -496,6 +568,8 @@ h2 { margin: 0; font-size: 1.15rem; }
 
 .subgroup .emoji > div:hover,
 .sequence-type > .emoji > div:hover { border-color: var(--accent); background: #15384d; }
+.subgroup .emoji > div:focus-visible,
+.sequence-type > .emoji > div:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 .subgroup .emoji > div:active,
 .sequence-type > .emoji > div:active { background: #07131b; transform: scale(.94); }
 .subgroup .emoji > div span,
@@ -509,12 +583,12 @@ h2 { margin: 0; font-size: 1.15rem; }
   .search-field { max-width: none; }
   .language-picker { flex: 0 0 auto; min-width: 0; padding: .4rem .5rem; }
   .language-picker-label { display: none; }
-  .filter-options { position: relative; display: block; }
+  .active-filter-text { max-width: calc(100vw - 8rem); }
   .advanced-filters > summary { font-size: .78rem; }
   .summary-long { display: none; }
   .summary-short { display: inline; }
   .filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .modifier-filters { gap: .4rem; }
+  .modifier-filters { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .4rem; }
   fieldset { gap: .3rem; padding: .35rem .45rem .45rem; }
   .modifier-filters fieldset label {
     display: grid;
@@ -583,4 +657,7 @@ h2 { margin: 0; font-size: 1.15rem; }
   .modifier-filters fieldset label { width: 2.35rem; min-height: 2.35rem; padding: .15rem; }
   .modifier-emoji { font-size: .9rem; }
   .version-mode-toggle { width: 2.35rem; height: 2.35rem; }
+  .compact-version { gap: .25rem; }
+  .version-step { width: 1.85rem; height: 1.85rem; }
+  .version-range-value { min-width: 4.5rem; font-size: .72rem; }
 }

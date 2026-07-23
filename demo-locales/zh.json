@@ -78,5 +78,20 @@
   "loadingLanguage": "正在加载语言…",
   "offlineStatus": "离线 — 正在显示已保存的数据",
   "aboutTitle": "搜索和浏览统一码表情",
-  "aboutDescription": "按本地化名称和关键词、统一码类别和子组、发布版本、修饰符及序列类型浏览数千个表情。"
+  "aboutDescription": "按本地化名称和关键词、统一码类别和子组、发布版本、修饰符及序列类型浏览数千个表情。",
+  "clearAll": "全部清除",
+  "previousVersion": "上一版本",
+  "nextVersion": "下一版本",
+  "noResults": "未找到表情",
+  "noResultsDescription": "请尝试移除搜索词或筛选条件。",
+  "clearSearch": "清除搜索",
+  "resetFilters": "重置筛选",
+  "previousEmoji": "上一个表情",
+  "nextEmoji": "下一个表情",
+  "onlyVersion": "仅",
+  "throughVersion": "截至",
+  "gender": "性别",
+  "male": "男性",
+  "female": "女性",
+  "neutral": "中性"
 }

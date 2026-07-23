@@ -78,5 +78,20 @@
   "loadingLanguage": "Cargando idioma…",
   "offlineStatus": "Sin conexión — mostrando datos guardados",
   "aboutTitle": "Busca y explora emojis de Unicode",
-  "aboutDescription": "Explora miles de emojis por nombres y palabras clave localizados, categorías y subgrupos de Unicode, versión de lanzamiento, modificadores y tipo de secuencia."
+  "aboutDescription": "Explora miles de emojis por nombres y palabras clave localizados, categorías y subgrupos de Unicode, versión de lanzamiento, modificadores y tipo de secuencia.",
+  "clearAll": "Borrar todo",
+  "previousVersion": "Versión anterior",
+  "nextVersion": "Versión siguiente",
+  "noResults": "No se encontraron emojis",
+  "noResultsDescription": "Prueba a eliminar un término de búsqueda o filtro.",
+  "clearSearch": "Borrar búsqueda",
+  "resetFilters": "Restablecer filtros",
+  "previousEmoji": "Emoji anterior",
+  "nextEmoji": "Emoji siguiente",
+  "onlyVersion": "Solo",
+  "throughVersion": "Hasta",
+  "gender": "Género",
+  "male": "Masculino",
+  "female": "Femenino",
+  "neutral": "Neutro"
 }
