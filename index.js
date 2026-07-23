@@ -407,7 +407,7 @@ async function onLoad() {
 }
 
 function upgradeEmojiDialog() {
-  exampleDialog.querySelector('[data-i18n="copiedDescription"]')?.remove();
+  removeLegacyDialogElements();
 
   const eyebrow = exampleDialog.querySelector('.emoji-dialog-eyebrow');
   if (eyebrow) {
@@ -439,6 +439,12 @@ function upgradeEmojiDialog() {
     status.setAttribute('aria-atomic', 'true');
     exampleDialog.querySelector('.dialog-heading')?.after(status);
   }
+}
+
+function removeLegacyDialogElements() {
+  const dialog = document.querySelector('.example-dialog');
+  dialog?.querySelector('[data-i18n="copiedDescription"]')?.remove();
+  dialog?.querySelector('.example-link')?.remove();
 }
 
 function ensureActiveFilterSummary() {
@@ -1832,4 +1838,5 @@ function updateDialogNavigation() {
   if (emojiPrevious) emojiPrevious.disabled = index <= 0;
   if (emojiNext) emojiNext.disabled = index === -1 || index >= displayedKeys.length - 1;
 }
+removeLegacyDialogElements();
 window.addEventListener("load", onLoad);

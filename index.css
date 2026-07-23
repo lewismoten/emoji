@@ -509,8 +509,6 @@ h2 { margin: 0; font-size: 1.15rem; }
 .code .object-key { color: #ffaaa3; }
 .code .emoji-value { font-family: var(--emoji-font); }
 
-.example-link { padding: .55rem 1rem; background: var(--panel-strong); font-size: .8rem; }
-
 .list { display: flex; flex-wrap: wrap; padding: 1rem; }
 .empty-results {
   width: min(32rem, 100%);
