@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "familyName": "Pixel Emoji",
+  "kind": "base-without-skin-or-hair-modifiers",
+  "cellSize": 16,
+  "columns": 16,
+  "rows": 16,
+  "glyphsPerAtlas": 256,
+  "activeGlyphCount": 1902,
+  "assignedGlyphCount": 1902,
+  "excludedGlyphCount": 2051,
+  "sheets": [
+    {
+      "id": "base-000",
+      "image": "base-000.png",
+      "mapping": "base-000.json",
+      "activeCount": 256,
+      "assignedCount": 256,
+      "capacity": 256
+    },
+    {
+      "id": "base-001",
+      "image": "base-001.png",
+      "mapping": "base-001.json",
+      "activeCount": 256,
+      "assignedCount": 256,
+      "capacity": 256
+    },
+    {
+      "id": "base-002",
+      "image": "base-002.png",
+      "mapping": "base-002.json",
+      "activeCount": 256,
+      "assignedCount": 256,
+      "capacity": 256
+    },
+    {
+      "id": "base-003",
+      "image": "base-003.png",
+      "mapping": "base-003.json",
+      "activeCount": 256,
+      "assignedCount": 256,
+      "capacity": 256
+    },
+    {
+      "id": "base-004",
+      "image": "base-004.png",
+      "mapping": "base-004.json",
+      "activeCount": 256,
+      "assignedCount": 256,
+      "capacity": 256
+    },
+    {
+      "id": "base-005",
+      "image": "base-005.png",
+      "mapping": "base-005.json",
+      "activeCount": 256,
+      "assignedCount": 256,
+      "capacity": 256
+    },
+    {
+      "id": "base-006",
+      "image": "base-006.png",
+      "mapping": "base-006.json",
+      "activeCount": 256,
+      "assignedCount": 256,
+      "capacity": 256
+    },
+    {
+      "id": "base-007",
+      "image": "base-007.png",
+      "mapping": "base-007.json",
+      "activeCount": 110,
+      "assignedCount": 110,
+      "capacity": 256
+    }
+  ]
+}
