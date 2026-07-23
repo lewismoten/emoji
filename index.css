@@ -1379,6 +1379,21 @@ button.emoji-composition-part:focus-visible {
 .pixel-editor-swatch.is-skin-tone[hidden] {
   display: none;
 }
+.pixel-editor-swatch.is-skin-tone[data-shade="normal"]::after {
+  content: "✓";
+  position: absolute;
+  inset-inline-end: 0.05rem;
+  bottom: 0.05rem;
+  display: grid;
+  width: 0.7rem;
+  height: 0.7rem;
+  place-items: center;
+  border: 1px solid var(--text);
+  border-radius: 50%;
+  background: var(--panel);
+  color: var(--text);
+  font: 800 0.48rem/1 var(--ui-font);
+}
 .pixel-editor-swatch:hover {
   border-color: var(--text);
 }

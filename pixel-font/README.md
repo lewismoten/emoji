@@ -56,7 +56,10 @@ five-color extension:
 
 Only tones present in the current Unicode sequence are shown. This keeps the
 artwork EGA-inspired while preserving the meaning and visual distinction of
-the standardized skin-tone modifiers.
+the standardized skin-tone modifiers. Clicking an already-selected tone cycles
+through its normal color and the immediately neighboring lighter and darker
+tones. A check marks the normal color; endpoint tones cycle through the one
+neighbor they have.
 
 ## Sequence glyphs
 

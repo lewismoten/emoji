@@ -745,6 +745,16 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
+  /function skinToneCycle\(codePoint\)[\s\S]*SKIN_TONE_COLORS\[index - 1\][\s\S]*SKIN_TONE_COLORS\[index \+ 1\]/,
+  "skin-tone swatches must use their immediate neighboring tones for shading",
+);
+assert.match(
+  pixelEditorScript,
+  /function selectPaletteColor\(button\)[\s\S]*selectedSkinTone === button\.dataset\.skinTone[\s\S]*\(currentIndex \+ 1\) % cycle\.length/,
+  "clicking a selected skin-tone swatch must cycle its available shades",
+);
+assert.match(
+  pixelEditorScript,
   /function nearestPaletteColor[\s\S]*colors\.reduce/,
   "the eyedropper must reduce sampled colors to the active palette",
 );
@@ -757,6 +767,11 @@ assert.match(
   demoStyles,
   /\.pixel-editor-palette[\s\S]*grid-template-columns:\s*repeat\(9,\s*1\.65rem\);[\s\S]*\.pixel-editor-swatch\.is-transparent[\s\S]*grid-column:\s*9;[\s\S]*grid-row:\s*1 \/ span 2;[\s\S]*\.pixel-editor-palette\.has-one-skin-tone[\s\S]*grid-row:\s*1;[\s\S]*\.pixel-editor-swatch\.is-skin-tone[\s\S]*grid-column:\s*9;[\s\S]*grid-row:\s*2;/,
   "one contextual skin tone must appear below a normal-size transparent swatch",
+);
+assert.match(
+  demoStyles,
+  /\.pixel-editor-swatch\.is-skin-tone\[data-shade="normal"\]::after[\s\S]*content:\s*"✓"/,
+  "skin-tone swatches must visibly mark their normal color",
 );
 assert.doesNotMatch(
   pixelEditorScript,

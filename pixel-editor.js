@@ -292,6 +292,7 @@ export function createPixelEditor({
   let atlasHeight = CELL_SIZE * 16;
   let pixels = new Uint8ClampedArray(CELL_SIZE * CELL_SIZE * 4);
   let selectedColor = "#ffff55";
+  let selectedSkinTone = "";
   let artworkClipboard;
   let selection;
   let floatingLayer;
@@ -1006,6 +1007,30 @@ export function createPixelEditor({
       alpha === 0
         ? "transparent"
         : nearestPaletteColor(red, green, blue, activePaletteColors());
+    selectedSkinTone = "";
+    if (selectedColor !== "transparent") {
+      const activeToneButtons = paletteButtons.filter(
+        (button) => button.dataset.skinTone && !button.hidden,
+      );
+      const matchingButton =
+        activeToneButtons.find((button) => {
+          const tone = findSkinTone(button.dataset.skinTone);
+          return tone?.color === selectedColor;
+        }) ??
+        activeToneButtons.find((button) =>
+          skinToneCycle(button.dataset.skinTone).some(
+            (shade) => shade.color === selectedColor,
+          ),
+        );
+      if (matchingButton) {
+        const cycle = skinToneCycle(matchingButton.dataset.skinTone);
+        const cycleIndex = cycle.findIndex(
+          (shade) => shade.color === selectedColor,
+        );
+        selectedSkinTone = matchingButton.dataset.skinTone;
+        setSkinToneShade(matchingButton, Math.max(0, cycleIndex));
+      }
+    }
     updatePaletteSelection();
   }
 
@@ -1013,11 +1038,10 @@ export function createPixelEditor({
     return [
       ...EGA_COLORS,
       ...paletteButtons
-        .filter(
-          (button) =>
-            button.dataset.skinTone && !button.hidden && button.dataset.color,
-        )
-        .map((button) => button.dataset.color),
+        .filter((button) => button.dataset.skinTone && !button.hidden)
+        .flatMap((button) =>
+          skinToneCycle(button.dataset.skinTone).map((shade) => shade.color),
+        ),
     ];
   }
 
@@ -1029,13 +1053,13 @@ export function createPixelEditor({
       if (!button.dataset.skinTone) return false;
       button.hidden = !activeCodePoints.has(button.dataset.skinTone);
       button.style.removeProperty("grid-column");
-      const tone = SKIN_TONE_COLORS.find(
-        (candidate) => candidate.codePoint === button.dataset.skinTone,
-      );
-      if (tone) {
-        const label = translate(tone.translationKey, tone.fallback);
-        button.setAttribute("aria-label", label);
-        button.title = label;
+      if (button.hidden) {
+        setSkinToneShade(button, 0);
+        if (selectedSkinTone === button.dataset.skinTone) {
+          selectedSkinTone = "";
+        }
+      } else {
+        updateSkinToneShadeLabel(button);
       }
       return !button.hidden;
     });
@@ -1061,22 +1085,62 @@ export function createPixelEditor({
   }
 
   function selectPaletteColor(button) {
-    selectedColor =
-      button.dataset.transparent === "true"
-        ? "transparent"
-        : button.dataset.color;
+    if (button.dataset.transparent === "true") {
+      selectedColor = "transparent";
+      selectedSkinTone = "";
+    } else if (button.dataset.skinTone) {
+      const cycle = skinToneCycle(button.dataset.skinTone);
+      const currentIndex = Number(button.dataset.cycleIndex ?? 0);
+      const nextIndex =
+        selectedSkinTone === button.dataset.skinTone
+          ? (currentIndex + 1) % cycle.length
+          : 0;
+      selectedSkinTone = button.dataset.skinTone;
+      setSkinToneShade(button, nextIndex);
+      selectedColor = cycle[nextIndex].color;
+    } else {
+      selectedColor = button.dataset.color;
+      selectedSkinTone = "";
+    }
     updatePaletteSelection();
   }
 
   function updatePaletteSelection() {
     paletteButtons.forEach((button) => {
-      const selected =
-        button.dataset.transparent === "true"
+      const selected = button.dataset.skinTone
+        ? selectedSkinTone === button.dataset.skinTone
+        : button.dataset.transparent === "true"
           ? selectedColor === "transparent"
           : button.dataset.color === selectedColor;
       button.classList.toggle("is-selected", selected);
       button.setAttribute("aria-pressed", String(selected));
     });
+  }
+
+  function setSkinToneShade(button, cycleIndex) {
+    const cycle = skinToneCycle(button.dataset.skinTone);
+    const shade = cycle[cycleIndex] ?? cycle[0];
+    button.dataset.cycleIndex = String(cycleIndex);
+    button.dataset.shade = shade.kind;
+    button.dataset.color = shade.color;
+    button.style.setProperty("--swatch", shade.color);
+    updateSkinToneShadeLabel(button);
+  }
+
+  function updateSkinToneShadeLabel(button) {
+    const tone = findSkinTone(button.dataset.skinTone);
+    const cycle = skinToneCycle(button.dataset.skinTone);
+    const shade = cycle[Number(button.dataset.cycleIndex ?? 0)] ?? cycle[0];
+    if (!tone || !shade) return;
+    const toneLabel = translate(tone.translationKey, tone.fallback);
+    const shadeLabels = {
+      normal: translate("normalColor", "Normal color"),
+      lighter: translate("lighterColor", "Lighter color"),
+      darker: translate("darkerColor", "Darker color"),
+    };
+    const label = `${toneLabel} — ${shadeLabels[shade.kind]}`;
+    button.setAttribute("aria-label", label);
+    button.title = label;
   }
 
   function pushHistory() {
@@ -1724,7 +1788,27 @@ function egaSwatch(color) {
 }
 
 function skinToneSwatch(tone) {
-  return `<button class="pixel-editor-swatch is-skin-tone" type="button" data-color="${tone.color}" data-skin-tone="${tone.codePoint}" aria-label="${tone.fallback}" title="${tone.fallback}" aria-pressed="false" style="--swatch: ${tone.color}" hidden></button>`;
+  return `<button class="pixel-editor-swatch is-skin-tone" type="button" data-color="${tone.color}" data-skin-tone="${tone.codePoint}" data-cycle-index="0" data-shade="normal" aria-label="${tone.fallback} — Normal color" title="${tone.fallback} — Normal color" aria-pressed="false" style="--swatch: ${tone.color}" hidden></button>`;
+}
+
+function findSkinTone(codePoint) {
+  return SKIN_TONE_COLORS.find((tone) => tone.codePoint === codePoint);
+}
+
+function skinToneCycle(codePoint) {
+  const index = SKIN_TONE_COLORS.findIndex(
+    (tone) => tone.codePoint === codePoint,
+  );
+  if (index < 0) return [];
+  return [
+    { kind: "normal", color: SKIN_TONE_COLORS[index].color },
+    index > 0
+      ? { kind: "lighter", color: SKIN_TONE_COLORS[index - 1].color }
+      : undefined,
+    index < SKIN_TONE_COLORS.length - 1
+      ? { kind: "darker", color: SKIN_TONE_COLORS[index + 1].color }
+      : undefined,
+  ].filter(Boolean);
 }
 
 function pixelOffset(x, y) {
