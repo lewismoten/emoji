@@ -60,7 +60,7 @@ assert(
   "Manifest column count differs from config",
 );
 assert(
-  manifest.layout === "grouped-subgroups-v2",
+  manifest.layout === "grouped-subgroups-v3",
   "Manifest does not use grouped subgroup sheets",
 );
 assert(
@@ -125,21 +125,12 @@ for (const sheet of manifest.sheets) {
     `${sheet.mapping} has the wrong subgroup`,
   );
   assert(
-    sidecar.author === config.author,
-    `${sheet.mapping} has the wrong author`,
-  );
-  assert(sidecar.url === config.url, `${sheet.mapping} has the wrong URL`);
-  assert(
     sidecar.rows > 0 && sidecar.rows <= config.maxRows,
     `${sheet.mapping} has an invalid row count`,
   );
   assert(
-    sidecar.entries.length <= sidecar.capacity,
+    sidecar.entries.length <= config.columns * sidecar.rows,
     `${sheet.mapping} exceeds its capacity`,
-  );
-  assert(
-    sidecar.capacity === sidecar.columns * sidecar.rows,
-    `${sheet.mapping} has the wrong capacity`,
   );
   try {
     const image = await fs.readFile(path.join(atlasDirectory, sheet.image));
@@ -171,7 +162,7 @@ for (const sheet of manifest.sheets) {
     );
     indexes.add(entry.index);
     assert(
-      entry.index >= 0 && entry.index < sidecar.capacity,
+      entry.index >= 0 && entry.index < config.columns * sidecar.rows,
       `${entry.key} has an invalid cell`,
     );
     assert(
@@ -185,13 +176,15 @@ for (const sheet of manifest.sheets) {
     assert(
       entry.x ===
         config.outerPadding +
-          entry.column * sidecar.slotSize +
+          entry.column * manifest.slotSize +
           config.cellPadding,
       `${entry.key} has an invalid x coordinate`,
     );
     assert(
       entry.y ===
-        config.headerHeight + entry.row * sidecar.slotSize + config.cellPadding,
+        config.headerHeight +
+          entry.row * manifest.slotSize +
+          config.cellPadding,
       `${entry.key} has an invalid y coordinate`,
     );
     assert(
@@ -211,17 +204,17 @@ for (const sheet of manifest.sheets) {
         `Active atlas entry ${entry.key} is not an eligible emoji`,
       );
       assert(
-        entry.modifierType === getModifierType(entry),
+        sidecar.modifierType === getModifierType(expectedByKey.get(entry.key)),
         `Active atlas entry ${entry.key} has the wrong modifier type`,
       );
       const expected = expectedByKey.get(entry.key);
       assert(
-        (entry.releaseStatus ?? "released") ===
+        (sidecar.releaseStatus ?? "released") ===
           (expected.releaseStatus ?? "released"),
         `${entry.key} has the wrong release status`,
       );
       assert(
-        (entry.unicodeVersion ?? null) ===
+        (sidecar.unicodeVersion ?? null) ===
           (expected.releaseStatus === "proposed"
             ? expected.unicodeVersion
             : null),
@@ -232,11 +225,11 @@ for (const sheet of manifest.sheets) {
         `${entry.key} has the wrong sequence type`,
       );
       assert(
-        entry.group === expected.group,
+        sidecar.group === expected.group,
         `${entry.key} has the wrong group`,
       );
       assert(
-        entry.subGroup === expected.subGroup,
+        sidecar.subGroup === expected.subGroup,
         `${entry.key} has the wrong subgroup`,
       );
       const normalizedLength = entry.codePoints.filter(
@@ -294,11 +287,11 @@ function assert(condition, message) {
 
 function assertCellPaddingTransparent(atlas, sidecar) {
   for (let row = 0; row < sidecar.rows; row += 1) {
-    for (let column = 0; column < sidecar.columns; column += 1) {
-      const slotX = config.outerPadding + column * sidecar.slotSize;
-      const slotY = config.headerHeight + row * sidecar.slotSize;
-      for (let y = 0; y < sidecar.slotSize; y += 1) {
-        for (let x = 0; x < sidecar.slotSize; x += 1) {
+    for (let column = 0; column < config.columns; column += 1) {
+      const slotX = config.outerPadding + column * manifest.slotSize;
+      const slotY = config.headerHeight + row * manifest.slotSize;
+      for (let y = 0; y < manifest.slotSize; y += 1) {
+        for (let x = 0; x < manifest.slotSize; x += 1) {
           const artwork =
             x >= config.cellPadding &&
             x < config.cellPadding + config.cellSize &&

@@ -97,7 +97,6 @@ type PixelAtlasManifest = {
     rows: number;
     imageWidth: number;
     imageHeight: number;
-    capacity: number;
     assignedCount: number;
   }[];
 };
@@ -311,10 +310,47 @@ assert.match(
 for (const sheet of pixelAtlasManifest.sheets) {
   const mappingAsset = `./pixel-font/atlases/${sheet.mapping}`;
   const imageAsset = `./pixel-font/atlases/${sheet.image}`;
+  const sidecar = await readJson<{
+    entries: Record<string, unknown>[];
+    [key: string]: unknown;
+  }>(`pixel-font/atlases/${sheet.mapping}`);
   assert.ok(
     serviceWorker.includes(`"${mappingAsset}"`),
     `service worker must precache ${mappingAsset}`,
   );
+  for (const inheritedField of [
+    "setName",
+    "author",
+    "url",
+    "createdDate",
+    "cellSize",
+    "cellPadding",
+    "slotSize",
+    "columns",
+    "headerHeight",
+    "footerHeight",
+  ]) {
+    assert.ok(
+      !(inheritedField in sidecar),
+      `${sheet.mapping} must inherit ${inheritedField} from the atlas manifest`,
+    );
+  }
+  for (const entry of sidecar.entries) {
+    for (const inheritedField of [
+      "group",
+      "subGroup",
+      "modifierType",
+      "releaseStatus",
+      "unicodeVersion",
+      "proposalStage",
+      "expectedRelease",
+    ]) {
+      assert.ok(
+        !(inheritedField in entry),
+        `${sheet.mapping} entries must inherit ${inheritedField} from their sheet`,
+      );
+    }
+  }
   const imageExists = await fs
     .access(path.join(root, imageAsset))
     .then(() => true)
@@ -1321,7 +1357,7 @@ assert.match(
 );
 assert.equal(
   pixelAtlasManifest.layout,
-  "grouped-subgroups-v2",
+  "grouped-subgroups-v3",
   "pixel atlases must use the grouped subgroup layout",
 );
 assert.equal(
@@ -1414,7 +1450,7 @@ assert.ok(
       sheet.subGroup &&
       sheet.rows >= 1 &&
       sheet.rows <= pixelAtlasManifest.maxRows &&
-      sheet.assignedCount <= sheet.capacity,
+      sheet.assignedCount <= pixelAtlasManifest.columns * sheet.rows,
   ),
   "every pixel atlas sheet must be grouped, labeled, compact, and within capacity",
 );

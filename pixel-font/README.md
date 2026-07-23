@@ -115,8 +115,20 @@ atlases/smileys-and-emotion/face-affection.png
 atlases/smileys-and-emotion/face-affection.json
 ```
 
-The JSON identifies the emoji assigned to every cell, including its key,
-Unicode sequence, row, column, pixel bounds, category, and sequence type.
+The normalized v3 format uses `atlases/manifest.json` as the public authority
+for metadata shared by every sheet: family and set names, author, website,
+creation date, cell layout, padding, columns, and header/footer dimensions.
+Consumers should load that manifest once rather than finding the same values
+repeated in every sidecar. `config.json` remains the authoring source from
+which the public manifest is generated.
+
+Each sidecar contains only its sheet identity, image dimensions, Unicode group
+and subgroup, modifier/proposal classification, part number, and entries. An
+entry inherits that sheet classification and records its key, name, emoji,
+Unicode sequence, order, sequence type, row, column, and pixel bounds. The
+explicit `x`, `y`, `width`, and `height` values remain available so CSS sprite
+consumers do not need to reproduce the atlas-layout calculations.
+
 Assignments are stable: rerunning generation preserves existing cells and
 places newly added Unicode emoji into the next free cells.
 

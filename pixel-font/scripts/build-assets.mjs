@@ -73,14 +73,15 @@ for (const sheet of manifest.sheets) {
       height: entry.height,
       codePoints: entry.codePoints,
       sequenceType: entry.sequenceType,
-      group: entry.group,
-      subGroup: entry.subGroup,
+      group: mapping.group,
+      subGroup: mapping.subGroup,
       part: mapping.part,
       partCount: mapping.partCount,
-      releaseStatus: entry.releaseStatus ?? "released",
-      unicodeVersion: entry.unicodeVersion ?? null,
-      proposalStage: entry.proposalStage ?? null,
-      expectedRelease: entry.expectedRelease ?? null,
+      modifierType: mapping.modifierType,
+      releaseStatus: mapping.releaseStatus ?? "released",
+      unicodeVersion: mapping.unicodeVersion ?? null,
+      proposalStage: mapping.proposalStage ?? null,
+      expectedRelease: mapping.expectedRelease ?? null,
       painted,
     };
     if (!painted) continue;
@@ -96,10 +97,10 @@ for (const sheet of manifest.sheets) {
       emoji: entry.emoji,
       codePoints: entry.codePoints,
       sequenceType: entry.sequenceType,
-      releaseStatus: entry.releaseStatus ?? "released",
-      unicodeVersion: entry.unicodeVersion ?? null,
-      proposalStage: entry.proposalStage ?? null,
-      expectedRelease: entry.expectedRelease ?? null,
+      releaseStatus: mapping.releaseStatus ?? "released",
+      unicodeVersion: mapping.unicodeVersion ?? null,
+      proposalStage: mapping.proposalStage ?? null,
+      expectedRelease: mapping.expectedRelease ?? null,
       atlas: sheet.id,
       index: entry.index,
       row: entry.row,
@@ -112,7 +113,6 @@ for (const sheet of manifest.sheets) {
   if (atlas && paintedCount > 0) {
     paintedAtlasSheets.push({
       ...sheet,
-      setName: mapping.setName,
       paintedCount,
     });
   }

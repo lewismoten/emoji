@@ -66,6 +66,8 @@ for (const item of eligible) {
       modifierType,
       group: item.group,
       subGroup: item.subGroup,
+      proposalStage: item.proposalStage ?? null,
+      expectedRelease: item.expectedRelease ?? null,
       items: [],
     });
   }
@@ -127,22 +129,8 @@ for (const bucket of [...buckets.values()].sort(compareBuckets)) {
         name: item?.shortName ?? previous.name ?? assignment.key,
         emoji: item?.emoji ?? previous.emoji ?? "",
         codePoints: item?.codePoints.split(/\s+/) ?? previous.codePoints ?? [],
-        group: item?.group ?? previous.group ?? bucket.group,
-        subGroup: item?.subGroup ?? previous.subGroup ?? bucket.subGroup,
         order: item?.order ?? previous.order ?? null,
         sequenceType: item?.sequenceType ?? previous.sequenceType ?? "",
-        modifierType:
-          item?.modifierType ?? previous.modifierType ?? bucket.modifierType,
-        ...(bucket.releaseStatus === "proposed"
-          ? {
-              releaseStatus: "proposed",
-              unicodeVersion: bucket.unicodeVersion,
-              proposalStage:
-                item?.proposalStage ?? previous.proposalStage ?? "draft",
-              expectedRelease:
-                item?.expectedRelease ?? previous.expectedRelease ?? null,
-            }
-          : {}),
         active: Boolean(item),
       };
     });
@@ -150,31 +138,22 @@ for (const bucket of [...buckets.values()].sort(compareBuckets)) {
       schemaVersion: config.schemaVersion,
       id,
       image,
-      setName: config.setName,
       modifierType: bucket.modifierType,
       ...(bucket.releaseStatus === "proposed"
         ? {
             releaseStatus: "proposed",
             unicodeVersion: bucket.unicodeVersion,
+            proposalStage: bucket.proposalStage ?? "draft",
+            expectedRelease: bucket.expectedRelease,
           }
         : {}),
       group: bucket.group,
       subGroup: bucket.subGroup,
       part: part + 1,
       partCount,
-      createdDate: config.createdDate,
-      author: config.author,
-      url: config.url,
-      cellSize: config.cellSize,
-      cellPadding: config.cellPadding,
-      slotSize,
-      columns: config.columns,
       rows,
-      capacity: config.columns * rows,
       imageWidth,
       imageHeight,
-      headerHeight: config.headerHeight,
-      footerHeight: config.footerHeight,
       entries,
     };
     await writeJson(path.join(atlasDirectory, mapping), sidecar);
@@ -199,7 +178,6 @@ for (const bucket of [...buckets.values()].sort(compareBuckets)) {
       imageHeight,
       activeCount: entries.filter((entry) => entry.active).length,
       assignedCount: entries.length,
-      capacity: config.columns * rows,
     });
   }
 }
@@ -212,7 +190,7 @@ const manifest = {
   url: config.url,
   createdDate: config.createdDate,
   kind: "grouped-subgroups-with-modifier-atlases",
-  layout: "grouped-subgroups-v2",
+  layout: "grouped-subgroups-v3",
   cellSize: config.cellSize,
   cellPadding: config.cellPadding,
   slotSize,
@@ -263,9 +241,11 @@ async function loadPreviousAssignments() {
       await fs.readFile(path.join(atlasDirectory, "manifest.json"), "utf8"),
     );
     if (
-      !["grouped-subgroups-v1", "grouped-subgroups-v2"].includes(
-        manifest.layout,
-      )
+      ![
+        "grouped-subgroups-v1",
+        "grouped-subgroups-v2",
+        "grouped-subgroups-v3",
+      ].includes(manifest.layout)
     )
       return new Map();
     const assignments = new Map();
