@@ -66,15 +66,18 @@ components manually. During each build, the compiler:
 4. replaces a mask with an exact union of existing masks when that removes
    duplicate geometry;
 5. gives each emoji its own COLR layer recipe referencing the shared masks;
-6. reuses repeated silhouettes as TrueType composite glyphs for compact
-   monochrome fallback rendering.
+6. builds monochrome fallback glyphs as TrueType composites of existing masks,
+   using a single shared silhouette when one is available.
 
 This is lossless. A glyph with a small visual change reuses every unchanged
 mask and stores only its unique masks. Completely unique artwork continues to
 compile normally. The generated build manifest reports the total color layers,
-rendered layers, unique masks, composed masks, and reused layers so binary
-savings can be measured as the artwork grows. Production fonts omit optional
-glyph names and empty component glyphs that are not required by a sequence.
+rendered layers, unique masks, composed masks, reused layers, and fallback
+composite strategies so binary savings can be measured as the artwork grows.
+Production fonts omit optional glyph names and empty component glyphs that are
+not required by a sequence.
+The installable TTF retains both Macintosh and Windows naming records, while
+the web-focused WOFF and WOFF2 files retain only modern Windows records.
 
 ## Commands
 

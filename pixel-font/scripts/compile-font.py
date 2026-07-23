@@ -117,17 +117,6 @@ def main():
 
     for glyph_source in glyph_sources:
         base_name = base_names[glyph_source["key"]]
-        if base_name not in glyphs:
-            silhouette_key = silhouette_mask_key(glyph_source["pixels"])
-            shared_name = shared_silhouette_names.get(silhouette_key)
-            glyphs[base_name] = (
-                component_glyph(shared_name, glyphs)
-                if shared_name
-                else silhouette_glyph(
-                    glyph_source["pixels"], cell_size, pixel_size, ascender
-                )
-            )
-            glyph_order.append(base_name)
         layers = []
         for color, use_silhouette in layer_specs[glyph_source["key"]]:
             key = layer_mask_key(
@@ -137,6 +126,16 @@ def main():
                 (mask_names[rendered_key], palette_indexes[color])
                 for rendered_key in expand_mask_key(key, mask_decompositions)
             )
+        if base_name not in glyphs:
+            silhouette_key = silhouette_mask_key(glyph_source["pixels"])
+            shared_name = shared_silhouette_names.get(silhouette_key)
+            fallback_components = (
+                [shared_name]
+                if shared_name
+                else list(dict.fromkeys(layer_name for layer_name, _color in layers))
+            )
+            glyphs[base_name] = component_glyphs(fallback_components, glyphs)
+            glyph_order.append(base_name)
         color_glyphs[base_name] = layers
 
     builder = FontBuilder(UNITS_PER_EM, isTTF=True)
@@ -189,6 +188,10 @@ def main():
     ttf_path = output_directory / "pixel-emoji.ttf"
     font.save(ttf_path)
 
+    font["name"].names = [
+        record for record in font["name"].names
+        if record.platformID == 3
+    ]
     font.flavor = "woff"
     font.save(output_directory / "pixel-emoji.woff")
     font.flavor = None
@@ -268,9 +271,10 @@ def empty_glyph():
     return TTGlyphPen(None).glyph()
 
 
-def component_glyph(component_name, glyphs):
+def component_glyphs(component_names, glyphs):
     pen = TTGlyphPen(glyphs)
-    pen.addComponent(component_name, (1, 0, 0, 1, 0, 0))
+    for component_name in component_names:
+        pen.addComponent(component_name, (1, 0, 0, 1, 0, 0))
     return pen.glyph()
 
 

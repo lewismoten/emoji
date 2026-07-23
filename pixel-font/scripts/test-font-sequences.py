@@ -106,6 +106,21 @@ def pixels_for_shared_face(eye_x):
     return pixels
 
 
+def pixels_for_unique_fallback():
+    pixels = []
+    for y in range(12):
+        for x in range(12):
+            color = (
+                (255, 255, 0, 255)
+                if x == y
+                else (0, 0, 255, 255)
+                if x + y == 11
+                else (0, 0, 0, 0)
+            )
+            pixels.extend(color)
+    return pixels
+
+
 shared_face_sources = [
     {"key": "faceA", "pixels": pixels_for_shared_face(3)},
     {"key": "faceB", "pixels": pixels_for_shared_face(4)},
@@ -163,6 +178,12 @@ with tempfile.TemporaryDirectory() as temporary_directory:
             "pixels": pixels_for_variation(index % 2),
         }
         for index, glyph in enumerate(glyph_sources)
+    ] + [
+        {
+            "key": "uniqueFallback",
+            "codePoints": ["1FAFF"],
+            "pixels": pixels_for_unique_fallback(),
+        }
     ]
     source_path.write_text(
         json.dumps(
@@ -187,6 +208,7 @@ with tempfile.TemporaryDirectory() as temporary_directory:
     }
     assert feature_tags == {"rlig"}
     assert font["post"].formatType == 3.0
+    assert {record.platformID for record in font["name"].names} == {1, 3}
     cmap = font.getBestCmap()
 
     rules = {}
@@ -234,7 +256,7 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         for layers in font["COLR"].ColorLayers.values()
         for layer in layers
     }
-    assert len(color_layer_names) == 3
+    assert len(color_layer_names) == 5
     unencoded_empty_glyphs = [
         name
         for name in font.getGlyphOrder()
@@ -248,7 +270,22 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         cmap[0x1F468],
         cmap[0x1F469],
         cmap[0x2764],
+        cmap[0x1FAFF],
     }
     assert all(font["glyf"][name].isComposite() for name in base_glyph_names)
+    assert len(font["glyf"][cmap[0x1FAFF]].components) == 2
+    assert {
+        component.glyphName
+        for component in font["glyf"][cmap[0x1FAFF]].components
+    } == {
+        layer.name
+        for layer in font["COLR"].ColorLayers[cmap[0x1FAFF]]
+    }
+
+    for web_font_name in ("pixel-emoji.woff", "pixel-emoji.woff2"):
+        web_font = TTFont(output_directory / web_font_name)
+        assert {
+            record.platformID for record in web_font["name"].names
+        } == {3}
 
 print("Verified required ligature generation for emoji sequences.")

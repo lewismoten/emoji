@@ -378,6 +378,9 @@ function analyzeColorMasks(entries) {
       baseMasks.set(key, (baseMasks.get(key) ?? 0) + 1);
     }
   }
+  const sharedFallbackCompositeCount = [...silhouetteGroups.values()]
+    .filter((group) => group.length > 1)
+    .reduce((total, group) => total + group.length, 0);
   return {
     strategy: "shared-base-color-and-composed-masks",
     colorLayerCount,
@@ -386,6 +389,9 @@ function analyzeColorMasks(entries) {
     reusedLayerCount: renderedLayerCount - masks.size,
     composedMaskCount: maskDecompositions.size,
     composedLayerCount,
+    fallbackCompositeCount: entries.length,
+    sharedFallbackCompositeCount,
+    layerFallbackCompositeCount: entries.length - sharedFallbackCompositeCount,
     baseLayerCount,
     uniqueBaseMaskCount: baseMasks.size,
     reusedBaseLayerCount: [...baseMasks.values()].reduce(
