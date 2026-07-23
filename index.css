@@ -687,7 +687,7 @@ h2 { margin: 0; font-size: 1.15rem; }
 
 @media (max-width: 560px) {
   .toolbar { max-height: 40svh; padding: .5rem .65rem; }
-  .toolbar-heading { align-items: flex-start; flex-direction: column; gap: .35rem; }
+  .toolbar-heading { gap: .5rem; }
   .dialog-heading { gap: .35rem; }
   .search-controls { gap: .35rem; }
   .search-field { max-width: none; }
