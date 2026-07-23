@@ -73,6 +73,8 @@ var currentEmojiKey = '';
 var focusedEmojiKey = '';
 var copyStatus;
 var urlStateReady = false;
+var applyingUrlState = false;
+var suppressDialogCloseSync = false;
 var offlineStatus;
 const languageFlags = {
   'ar': '🇸🇦',
@@ -383,7 +385,7 @@ async function onLoad() {
     const [messageKey, fallback] = messages[button.dataset.copy] ?? ['copiedToClipboard', 'Copied to the clipboard.'];
     if (value !== undefined) copyToClipboard(value, translate(messageKey, fallback));
   });
-  exampleDialog.addEventListener('close', () => setEmojiDialogView(false));
+  exampleDialog.addEventListener('close', onEmojiDialogClose);
   versionModeToggle?.addEventListener('click', toggleVersionMode);
   versionPrevious?.addEventListener('click', () => stepVersion(-1));
   versionNext?.addEventListener('click', () => stepVersion(1));
@@ -419,8 +421,10 @@ async function onLoad() {
   await loadUiTranslations(initialUiLocale, document.documentElement.dir === 'rtl');
   await loadSearchLanguages(initialUiLocale);
   await loadData();
-  urlStateReady = true;
   drawList();
+  applyDialogUrlState();
+  urlStateReady = true;
+  syncUrlState();
 }
 
 function upgradeEmojiDialog() {
@@ -521,7 +525,7 @@ function ensureCodeDialogView() {
   }
 }
 
-function setEmojiDialogView(showCode) {
+function setEmojiDialogView(showCode, updateUrl = true) {
   exampleDialog.classList.toggle('is-code-view', showCode);
   exampleDialog.querySelector('.emoji-dialog-details').hidden = showCode;
   exampleDialog.querySelector('.emoji-metadata').hidden = showCode;
@@ -532,6 +536,7 @@ function setEmojiDialogView(showCode) {
   const fallback = showCode ? 'Code example' : 'Emoji details';
   eyebrow.dataset.i18n = key;
   eyebrow.textContent = translate(key, fallback);
+  if (updateUrl && exampleDialog.open) syncUrlState();
 }
 
 function getCodeExampleText() {
@@ -751,7 +756,9 @@ function getUrlState() {
     skin: (params.get('skin') ?? '').split(',').filter(Boolean),
     hair: (params.get('hair') ?? '').split(',').filter(Boolean),
     gender: (params.get('gender') ?? '').split(',').filter(Boolean),
-    order: ['grouped', 'unicode', 'sequence'].includes(params.get('order')) ? params.get('order') : 'grouped'
+    order: ['grouped', 'unicode', 'sequence'].includes(params.get('order')) ? params.get('order') : 'grouped',
+    emoji: params.get('emoji') ?? '',
+    emojiMode: params.get('emojiMode') === 'code' ? 'code' : 'details'
   };
 }
 
@@ -783,8 +790,23 @@ function applyLoadedUrlState() {
   syncVersionRange();
 }
 
-function syncUrlState() {
-  if (!urlStateReady) return;
+function applyDialogUrlState() {
+  const state = getUrlState();
+  if (state.emoji && emojiByKey[state.emoji] !== undefined) {
+    showEmoji(state.emoji, false);
+    setEmojiDialogView(state.emojiMode === 'code', false);
+    if (!exampleDialog.open) exampleDialog.showModal();
+    return;
+  }
+  if (exampleDialog.open) {
+    suppressDialogCloseSync = true;
+    exampleDialog.close();
+    suppressDialogCloseSync = false;
+  }
+}
+
+function syncUrlState(method = 'replace', historyState = window.history.state) {
+  if (!urlStateReady || applyingUrlState) return;
   const params = new URLSearchParams();
   const search = searchText.value.trim();
   if (search) params.set('q', search);
@@ -802,8 +824,13 @@ function syncUrlState() {
   if (hair.length) params.set('hair', hair.join(','));
   if (gender.length) params.set('gender', gender.join(','));
   if (orderMode !== 'grouped') params.set('order', orderMode);
+  if (exampleDialog.open && currentEmojiKey) {
+    params.set('emoji', currentEmojiKey);
+    if (exampleDialog.classList.contains('is-code-view')) params.set('emojiMode', 'code');
+  }
   const query = params.toString();
-  window.history.replaceState(window.history.state, '', `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`);
+  const url = `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`;
+  window.history[`${method}State`](historyState, '', url);
 }
 
 function resetFilters() {
@@ -1002,9 +1029,16 @@ async function selectLanguageLink(event, locale, href) {
   window.history.pushState({ locale }, '', href);
 }
 
-window.addEventListener('popstate', () => {
-  const locale = window.location.pathname.match(/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/)?.[1] ?? '';
-  if (!locale || searchLocales.some(entry => entry.locale === locale)) setSearchLanguage(locale);
+window.addEventListener('popstate', async () => {
+  applyingUrlState = true;
+  try {
+    const locale = window.location.pathname.match(/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/)?.[1] ?? '';
+    if (!locale || searchLocales.some(entry => entry.locale === locale)) await setSearchLanguage(locale);
+    applyDialogUrlState();
+  } finally {
+    applyingUrlState = false;
+    syncUrlState();
+  }
 });
 
 async function setSearchLanguage(requestedLocale) {
@@ -1946,6 +1980,16 @@ function onClick(e, openDialog = true) {
   showEmoji(id, openDialog);
 }
 
+function onEmojiDialogClose() {
+  setEmojiDialogView(false, false);
+  if (suppressDialogCloseSync || !urlStateReady || applyingUrlState) return;
+  if (window.history.state?.emojiDialogEntry) {
+    window.history.back();
+  } else {
+    syncUrlState();
+  }
+}
+
 function showEmoji(id, openDialog = true) {
   var value = emojiByKey[id];
   if (value === undefined) return;
@@ -2000,8 +2044,9 @@ function showEmoji(id, openDialog = true) {
     normalizeDisplayName(dialogTitle) === normalizeDisplayName(englishName);
   if (openDialog) {
     if (copyStatus) copyStatus.textContent = '';
-    setEmojiDialogView(false);
+    setEmojiDialogView(false, false);
     exampleDialog.showModal();
+    syncUrlState('push', { ...window.history.state, emojiDialogEntry: true });
   }
   updateDialogNavigation();
 }
@@ -2010,7 +2055,10 @@ function navigateEmoji(amount) {
   const index = displayedKeys.indexOf(currentEmojiKey);
   if (index === -1) return;
   const nextKey = displayedKeys[index + amount];
-  if (nextKey) showEmoji(nextKey, false);
+  if (nextKey) {
+    showEmoji(nextKey, false);
+    syncUrlState();
+  }
 }
 
 function updateDialogNavigation() {
