@@ -25,7 +25,21 @@ type ProposedVersion = Version & {
 };
 
 type LocaleManifest = {
-  locales: { locale: string; label: string; nativeLabel: string; rtl: boolean; baseLocale?: string; file: string; count: number; totalCount: number; characterLabelCount: number; totalCharacterLabelCount: number; subgroupLabelCount: number; totalSubgroupLabelCount: number; cldrVersion: string }[];
+  locales: {
+    locale: string;
+    label: string;
+    nativeLabel: string;
+    rtl: boolean;
+    baseLocale?: string;
+    file: string;
+    count: number;
+    totalCount: number;
+    characterLabelCount: number;
+    totalCharacterLabelCount: number;
+    subgroupLabelCount: number;
+    totalSubgroupLabelCount: number;
+    cldrVersion: string;
+  }[];
 };
 
 type LocalePack = {
@@ -50,10 +64,8 @@ type WebAppManifest = {
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const readJson = async <T,>(file: string) => JSON.parse(await fs.readFile(path.join(root, file), 'utf8')) as T;
-const importFileDefault = async (file: string) =>
-  (await import(pathToFileURL(path.join(root, file)).href)).default as Record<string, string>;
-const importPackageDefault = async (specifier: string) =>
-  (await import(specifier)).default as Record<string, string>;
+const importFileDefault = async (file: string) => (await import(pathToFileURL(path.join(root, file)).href)).default as Record<string, string>;
+const importPackageDefault = async (specifier: string) => (await import(specifier)).default as Record<string, string>;
 const require = createRequire(import.meta.url);
 
 const emoji = await readJson<Emoji[]>('emoji.json');
@@ -67,11 +79,20 @@ const packageManifest = await readJson<{
     label: string;
     count: number;
     importPath: string;
-    subcategories: { id: string; label: string; unicodeSubgroup: string; count: number; importPath: string }[];
+    subcategories: {
+      id: string;
+      label: string;
+      unicodeSubgroup: string;
+      count: number;
+      importPath: string;
+    }[];
   }[];
   variations: { id: string; count: number; importPath: string }[];
 }>('manifest.json');
-const manifest = await readJson<{ versions: Version[]; proposed?: ProposedVersion[] }>('versions/manifest.json');
+const manifest = await readJson<{
+  versions: Version[];
+  proposed?: ProposedVersion[];
+}>('versions/manifest.json');
 const webAppManifest = await readJson<WebAppManifest>('manifest.webmanifest');
 const packageJson = await readJson<{ version: string }>('package.json');
 const serviceWorker = await fs.readFile(path.join(root, 'build/demo-pages/service-worker.js'), 'utf8');
@@ -89,16 +110,35 @@ const allTypes = await fs.readFile(path.join(root, 'dist/esm/types/all.d.mts'), 
 const activitiesTypes = await fs.readFile(path.join(root, 'dist/esm/types/categories/activities/arts-and-crafts.d.mts'), 'utf8');
 
 assert.equal(new Set(emoji.map(item => item.key)).size, emoji.length, 'emoji keys must be unique');
-assert.ok(emoji.every(item => Number.isInteger(item.order)), 'every emoji must have a Unicode order');
-assert.ok(emoji.every(item => ['single', 'modifier', 'zwj', 'flag', 'keycap', 'tag'].includes(item.sequenceType)), 'every emoji must have a known sequence type');
-assert.deepEqual(orderManifest.unicode, [...emoji].sort((a, b) => a.order - b.order).map(item => item.key), 'Unicode order manifest must match emoji order metadata');
+assert.ok(
+  emoji.every(item => Number.isInteger(item.order)),
+  'every emoji must have a Unicode order',
+);
+assert.ok(
+  emoji.every(item => ['single', 'modifier', 'zwj', 'flag', 'keycap', 'tag'].includes(item.sequenceType)),
+  'every emoji must have a known sequence type',
+);
+assert.deepEqual(
+  orderManifest.unicode,
+  [...emoji].sort((a, b) => a.order - b.order).map(item => item.key),
+  'Unicode order manifest must match emoji order metadata',
+);
 assert.equal(webAppManifest.id, './', 'web app manifest ID must remain within the GitHub Pages project scope');
 assert.equal(webAppManifest.start_url, './', 'web app must start at the GitHub Pages project root');
 assert.equal(webAppManifest.scope, './', 'web app scope must remain within the GitHub Pages project');
 assert.equal(webAppManifest.display, 'standalone', 'installed web app must use standalone display mode');
 assert.deepEqual(webAppManifest.icons.map(icon => icon.sizes), ['192x192', '512x512', '512x512'], 'web app must provide standard and maskable install icons');
 assert.match(serviceWorker, new RegExp(`const CACHE_NAME = \\\`\\$\\{CACHE_PREFIX\\}${packageJson.version}-[a-f0-9]{12}\\\`;`), 'service-worker cache must use the package version and an asset revision');
-for (const asset of ['./index.ar.html', './emoji.json', './dist/esm/index.js', './offline.html', './versions/manifest.json', './pixel-font/build/font/pixel-emoji.woff2', './pixel-font/build/editor-manifest.json', './pixel-editor.js']) {
+for (const asset of [
+  './index.ar.html',
+  './emoji.json',
+  './dist/esm/index.js',
+  './offline.html',
+  './versions/manifest.json',
+  './pixel-font/build/font/pixel-emoji.woff2',
+  './pixel-font/build/editor-manifest.json',
+  './pixel-editor.js',
+]) {
   assert.ok(serviceWorker.includes(`"${asset}"`), `service worker must precache ${asset}`);
 }
 assert.ok(serviceWorker.includes('"./index.css?direct"'), 'service worker must precache Vite-compatible direct CSS');
@@ -187,13 +227,23 @@ assert.match(demoStyles, /font-family: "Pixel Emoji"/, 'demo must load the gener
 assert.match(demoStyles, /html\[data-emoji-font="system"\]/, 'demo must support the system emoji fallback');
 assert.match(demoStyles, /\.language-picker-flag,[\s\S]*font-family: var\(--system-emoji-font\)/, 'language flags must retain stable system-font metrics');
 assert.match(demoStyles, /\.pixel-editor-canvas/, 'demo must style the pixel-art canvas');
+assert.match(
+  pixelEditorScript,
+  /pixel-editor-workspace[\s\S]*?pixel-editor-stage[\s\S]*?pixel-editor-previews[\s\S]*?pixel-editor-controls/,
+  'pixel editor must keep its actual-size previews beneath the drawing grid',
+);
+assert.match(demoStyles, /@media \(min-width: 561px\) and \(max-height: 560px\)[\s\S]*?calc\(100dvh - 10rem\)/, 'pixel editor must fit its canvas within short landscape viewports');
 assert.match(pixelEditorScript, /const CELL_SIZE = 16/, 'pixel editor must use a 16 by 16 cell');
+assert.match(pixelEditorScript, /const EGA_COLORS = \[/, 'pixel editor must provide the classic EGA palette');
+assert.match(pixelEditorScript, /data-transparent="true"/, 'pixel editor must provide a transparent eraser');
+assert.doesNotMatch(pixelEditorScript, /class="pixel-editor-trace"/, 'trace visibility must be controlled only by opacity');
+assert.match(pixelEditorScript, /fillShapeInteriors/, 'shape filling must explain which interiors it affects');
 assert.match(pixelEditorScript, /CELL_SIZE \/ 2 \+ 2\.5/, 'native emoji trace must use the corrected two-pixel vertical offset');
 for (const preview of ['official', 'font', 'artwork']) {
-  assert.match(pixelEditorScript, new RegExp(`preview\\('${preview}'`), `pixel editor must provide the ${preview} 16-pixel preview`);
+  assert.match(pixelEditorScript, new RegExp(`preview\\(["']${preview}["']`), `pixel editor must provide the ${preview} 16-pixel preview`);
 }
 for (const tool of ['pencil', 'rectangle', 'ellipse', 'bucket', 'eyedropper']) {
-  assert.match(pixelEditorScript, new RegExp(`toolButton\\('${tool}'`), `pixel editor must provide the ${tool} tool`);
+  assert.match(pixelEditorScript, new RegExp(`toolButton\\(["']${tool}["']`), `pixel editor must provide the ${tool} tool`);
 }
 assert.match(pixelEditorScript, /showDirectoryPicker/, 'pixel editor must support direct atlas-directory writes');
 assert.match(pixelEditorScript, /downloadAtlas/, 'pixel editor must provide an atlas download fallback');
@@ -203,12 +253,19 @@ assert.deepEqual(allEmoji, emojiByKey, 'all export must contain every emoji valu
 assert.match(allTypes, /declare const emoji: typeof \S+ & typeof \S+/, 'all merger must preserve the types of its imported category packs');
 assert.match(activitiesTypes, /\*\* artist palette 🎨 \*\//, 'emoji declarations must document the emoji glyph');
 assert.ok(Object.keys(popularEmoji).length > 0, 'popular export must not be empty');
-assert.ok(Object.keys(popularEmoji).every(key => key in emojiByKey), 'popular export must only contain known keys');
+assert.ok(
+  Object.keys(popularEmoji).every(key => key in emojiByKey),
+  'popular export must only contain known keys',
+);
 assert.deepEqual(rootEmoji, popularEmoji, 'root export must resolve to the popular package export');
 assert.deepEqual(require('@lewismoten/emoji/all'), allEmoji, 'CommonJS all export must resolve through package exports');
 assert.deepEqual(require('@lewismoten/emoji/orders/manifest'), orderManifest, 'order manifest must resolve through package exports');
 assert.deepEqual(require('@lewismoten/emoji/locales/manifest'), localeManifest, 'locale manifest must resolve through package exports');
-assert.deepEqual(localeManifest.locales.map(locale => locale.locale), ['ar', 'en', 'en-GB', 'es', 'hi', 'zh'], 'only CLDR locale packs with annotations must be published');
+assert.deepEqual(
+  localeManifest.locales.map(locale => locale.locale),
+  ['ar', 'en', 'en-GB', 'es', 'hi', 'zh'],
+  'only CLDR locale packs with annotations must be published',
+);
 for (const locale of localeManifest.locales) {
   const pack = require(`@lewismoten/emoji/locales/${locale.locale}`) as LocalePack;
   assert.equal(pack.locale, locale.locale, `${locale.locale} pack must identify its locale`);
@@ -223,7 +280,10 @@ for (const locale of localeManifest.locales) {
   assert.equal(Object.keys(pack.subgroups).length, locale.subgroupLabelCount, `${locale.locale} custom subgroup-label count must match its manifest`);
   assert.ok(locale.count > 0 || locale.characterLabelCount > 0, `${locale.locale} packs without locale-specific data must be omitted`);
   if (!locale.baseLocale) assert.ok(locale.characterLabelCount > 0, `${locale.locale} base packs must include localized character labels`);
-  assert.ok(Object.keys(pack.annotations).every(key => key in emojiByKey), `${locale.locale} annotations must only reference known emoji`);
+  assert.ok(
+    Object.keys(pack.annotations).every(key => key in emojiByKey),
+    `${locale.locale} annotations must only reference known emoji`,
+  );
 }
 const { createEmojiSearch, mergeEmojiLocalePacks } = await import('@lewismoten/emoji/search');
 const searchEnglish = createEmojiSearch(require('@lewismoten/emoji/locales/en') as LocalePack);
@@ -242,14 +302,21 @@ assert.equal(packageManifest.categories.length, new Set(emoji.map(item => item.g
 for (const category of packageManifest.categories) {
   assert.equal(category.importPath, `@lewismoten/emoji/categories/${category.id}`, `${category.label} must have a public import path`);
   assert.equal(category.count, emoji.filter(item => item.group === category.label).length, `${category.label} count must match emoji data`);
-  assert.equal(category.subcategories.reduce((count, subcategory) => count + subcategory.count, 0), category.count, `${category.label} subcategories must account for every emoji`);
+  assert.equal(
+    category.subcategories.reduce((count, subcategory) => count + subcategory.count, 0),
+    category.count,
+    `${category.label} subcategories must account for every emoji`,
+  );
   const categoryEmoji = await importPackageDefault(category.importPath);
   assert.equal(Object.keys(categoryEmoji).length, category.count, `${category.label} export count must match its manifest`);
   for (const subcategory of category.subcategories) {
     assert.equal(subcategory.importPath, `@lewismoten/emoji/categories/${category.id}/${subcategory.id}`, `${subcategory.label} must have a public import path`);
     const subcategoryEmoji = await importPackageDefault(subcategory.importPath);
     assert.equal(Object.keys(subcategoryEmoji).length, subcategory.count, `${subcategory.label} export count must match its manifest`);
-    assert.ok(Object.keys(subcategoryEmoji).every(key => key in categoryEmoji), `${subcategory.label} must belong to ${category.label}`);
+    assert.ok(
+      Object.keys(subcategoryEmoji).every(key => key in categoryEmoji),
+      `${subcategory.label} must belong to ${category.label}`,
+    );
   }
 }
 for (const variation of packageManifest.variations) {
@@ -275,12 +342,18 @@ for (const version of manifest.proposed ?? []) {
   assert.equal(version.released, null, `Unicode ${version.version} must not have a release date`);
   const proposal = await readJson<{ count: number; emoji: Emoji[] }>(version.file);
   assert.equal(proposal.count, version.count, `Unicode ${version.version} proposed count must match its manifest`);
-  assert.ok(proposal.emoji.every(item => !releasedCodePoints.has(item.codePoints)), 'proposed emoji must not be released emoji');
+  assert.ok(
+    proposal.emoji.every(item => !releasedCodePoints.has(item.codePoints)),
+    'proposed emoji must not be released emoji',
+  );
 }
 
 for (const variation of ['skin-tones', 'hair', 'families', 'all']) {
   const variationEmoji = await importPackageDefault(`@lewismoten/emoji/variations/${variation}`);
-  assert.ok(Object.keys(variationEmoji).every(key => key in emojiByKey), `${variation} export must only contain known keys`);
+  assert.ok(
+    Object.keys(variationEmoji).every(key => key in emojiByKey),
+    `${variation} export must only contain known keys`,
+  );
 }
 
 for (const item of [emoji[0], emoji.at(Math.floor(emoji.length / 2)), emoji.at(-1)]) {

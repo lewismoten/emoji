@@ -1,6 +1,7 @@
 const CELL_SIZE = 16;
 const DISPLAY_SIZE = 512;
 const TOOLS = ['pencil', 'rectangle', 'ellipse', 'bucket', 'eyedropper'];
+const EGA_COLORS = ['#000000', '#0000aa', '#00aa00', '#00aaaa', '#aa0000', '#aa00aa', '#aa5500', '#aaaaaa', '#555555', '#5555ff', '#55ff55', '#55ffff', '#ff5555', '#ff55ff', '#ffff55', '#ffffff'];
 
 export function createPixelEditor({ dialog, translate, setDialogMode }) {
   const view = document.createElement('section');
@@ -17,36 +18,41 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
         ${toolButton('eyedropper', '⌞', 'eyedropper', 'Eyedropper')}
       </div>
       <div class="pixel-editor-history">
-        <button class="pixel-editor-undo" type="button" data-i18n-aria-label="undo" aria-label="Undo" disabled>↶</button>
-        <button class="pixel-editor-redo" type="button" data-i18n-aria-label="redo" aria-label="Redo" disabled>↷</button>
+        <button class="pixel-editor-undo" type="button" disabled><span aria-hidden="true">↶</span> <span data-i18n="undo">Undo</span></button>
+        <button class="pixel-editor-redo" type="button" disabled><span aria-hidden="true">↷</span> <span data-i18n="redo">Redo</span></button>
       </div>
     </div>
     <div class="pixel-editor-layout">
-      <div class="pixel-editor-stage">
-        <canvas class="pixel-editor-canvas" width="${DISPLAY_SIZE}" height="${DISPLAY_SIZE}" tabindex="0" data-i18n-aria-label="pixelCanvas" aria-label="16 by 16 pixel drawing canvas"></canvas>
-      </div>
-      <div class="pixel-editor-controls">
+      <div class="pixel-editor-workspace">
+        <div class="pixel-editor-stage">
+          <canvas class="pixel-editor-canvas" width="${DISPLAY_SIZE}" height="${DISPLAY_SIZE}" tabindex="0" data-i18n-aria-label="pixelCanvas" aria-label="16 by 16 pixel drawing canvas"></canvas>
+        </div>
         <div class="pixel-editor-previews" data-i18n-aria-label="pixelPreviews" aria-label="Emoji at actual 16 by 16 pixel size">
           ${preview('official', 'officialEmoji', 'Official')}
           ${preview('font', 'customFontEmoji', 'Custom font')}
           ${preview('artwork', 'currentArtwork', 'Current grid')}
         </div>
+      </div>
+      <div class="pixel-editor-controls">
         <fieldset>
           <legend data-i18n="drawingColor">Drawing color</legend>
           <label class="pixel-color-control">
             <span data-i18n="color">Color</span>
-            <input class="pixel-editor-color" type="color" value="#fffa00">
+            <input class="pixel-editor-color" type="color" value="#ffff55">
           </label>
+          <div class="pixel-editor-palette" role="group" data-i18n-aria-label="egaPalette" aria-label="Classic EGA color palette">
+            ${EGA_COLORS.map(egaSwatch).join('')}
+            <button class="pixel-editor-swatch is-transparent" type="button" data-transparent="true" data-i18n-aria-label="transparentEraser" aria-label="Transparent eraser" title="Transparent"><span aria-hidden="true">╱</span></button>
+          </div>
           <label>
             <span data-i18n="opacity">Opacity</span>
             <input class="pixel-editor-alpha" type="range" min="0" max="255" value="255">
             <output class="pixel-editor-alpha-value">100%</output>
           </label>
-          <label><input class="pixel-editor-fill-shapes" type="checkbox"> <span data-i18n="fillShapes">Fill shapes</span></label>
+          <label><input class="pixel-editor-fill-shapes" type="checkbox"> <span data-i18n="fillShapeInteriors">Fill rectangle and ellipse interiors</span></label>
         </fieldset>
         <fieldset>
           <legend data-i18n="tracing">Tracing</legend>
-          <label><input class="pixel-editor-trace" type="checkbox" checked> <span data-i18n="traceEmoji">Trace native emoji</span></label>
           <label>
             <span data-i18n="traceOpacity">Trace opacity</span>
             <input class="pixel-editor-trace-alpha" type="range" min="0" max="100" value="35">
@@ -71,7 +77,6 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   const alphaInput = view.querySelector('.pixel-editor-alpha');
   const alphaOutput = view.querySelector('.pixel-editor-alpha-value');
   const fillShapes = view.querySelector('.pixel-editor-fill-shapes');
-  const traceInput = view.querySelector('.pixel-editor-trace');
   const traceAlpha = view.querySelector('.pixel-editor-trace-alpha');
   const traceOutput = view.querySelector('.pixel-editor-trace-value');
   const officialPreview = view.querySelector('.pixel-editor-preview-official');
@@ -84,6 +89,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   const location = view.querySelector('.pixel-editor-location');
   const status = view.querySelector('.pixel-editor-status');
   const toolButtons = [...view.querySelectorAll('[data-tool]')];
+  const paletteButtons = [...view.querySelectorAll('.pixel-editor-swatch')];
   const traceCanvas = document.createElement('canvas');
   traceCanvas.width = CELL_SIZE;
   traceCanvas.height = CELL_SIZE;
@@ -104,13 +110,17 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
 
   view.querySelector('.pixel-editor-back').addEventListener('click', () => setDialogMode('details'));
   toolButtons.forEach(button => button.addEventListener('click', () => selectTool(button.dataset.tool)));
-  alphaInput.addEventListener('input', updateAlphaOutput);
+  colorInput.addEventListener('input', updatePaletteSelection);
+  alphaInput.addEventListener('input', () => {
+    updateAlphaOutput();
+    updatePaletteSelection();
+  });
   traceAlpha.addEventListener('input', () => {
     traceOutput.value = `${traceAlpha.value}%`;
     draw();
   });
-  traceInput.addEventListener('change', draw);
   fillShapes.addEventListener('change', draw);
+  paletteButtons.forEach(button => button.addEventListener('click', () => selectPaletteColor(button)));
   undoButton.addEventListener('click', undo);
   redoButton.addEventListener('click', redo);
   saveButton.addEventListener('click', saveAtlas);
@@ -120,6 +130,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   canvas.addEventListener('pointerup', onPointerUp);
   canvas.addEventListener('pointercancel', onPointerCancel);
   updateAlphaOutput();
+  updatePaletteSelection();
   draw();
 
   return {
@@ -137,20 +148,16 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
         currentEntry = entry;
         if (!entry) {
           location.textContent = '';
-          status.textContent = translate(
-            'pixelEditorUnavailable',
-            'This modified emoji is not part of the base atlas set.'
-          );
+          status.textContent = translate('pixelEditorUnavailable', 'This modified emoji is not part of the base atlas set.');
           pixels.fill(0);
           renderTrace();
           draw();
           return;
         }
-        const loadedAtlasBlob = await fetch(`pixel-font/atlases/${entry.atlas}`)
-          .then(response => {
-            if (!response.ok) throw new Error(`Unable to load ${entry.atlas}`);
-            return response.blob();
-          });
+        const loadedAtlasBlob = await fetch(`pixel-font/atlases/${entry.atlas}`).then(response => {
+          if (!response.ok) throw new Error(`Unable to load ${entry.atlas}`);
+          return response.blob();
+        });
         if (requestedLoadId !== loadId) return;
         const loadedPixels = await extractCell(loadedAtlasBlob, entry);
         if (requestedLoadId !== loadId) return;
@@ -175,7 +182,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
       if (currentEntry) {
         location.textContent = `${currentEntry.atlas} · ${translate('row', 'row')} ${currentEntry.row + 1} · ${translate('column', 'column')} ${currentEntry.column + 1}`;
       }
-    }
+    },
   };
 
   function loadManifest() {
@@ -197,14 +204,13 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   }
 
   function updateAlphaOutput() {
-    alphaOutput.value = `${Math.round(Number(alphaInput.value) / 255 * 100)}%`;
+    alphaOutput.value = `${Math.round((Number(alphaInput.value) / 255) * 100)}%`;
   }
 
   function renderTrace() {
     const traceContext = traceCanvas.getContext('2d');
     traceContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-    traceContext.font =
-      '14px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+    traceContext.font = '14px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
     traceContext.textAlign = 'center';
     traceContext.textBaseline = 'middle';
     traceContext.fillText(currentEmoji, CELL_SIZE / 2, CELL_SIZE / 2 + 2.5);
@@ -216,7 +222,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     const displayCell = DISPLAY_SIZE / CELL_SIZE;
     context.clearRect(0, 0, DISPLAY_SIZE, DISPLAY_SIZE);
     drawCheckerboard(context, DISPLAY_SIZE);
-    if (traceInput.checked && currentEmoji) {
+    if (Number(traceAlpha.value) > 0 && currentEmoji) {
       context.save();
       context.globalAlpha = Number(traceAlpha.value) / 100;
       context.imageSmoothingEnabled = false;
@@ -228,8 +234,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
         const offset = pixelOffset(x, y);
         const alpha = pixels[offset + 3];
         if (alpha === 0) continue;
-        context.fillStyle =
-          `rgba(${pixels[offset]}, ${pixels[offset + 1]}, ${pixels[offset + 2]}, ${alpha / 255})`;
+        context.fillStyle = `rgba(${pixels[offset]}, ${pixels[offset + 1]}, ${pixels[offset + 2]}, ${alpha / 255})`;
         context.fillRect(x * displayCell, y * displayCell, displayCell, displayCell);
       }
     }
@@ -326,19 +331,14 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   function pointerCell(event) {
     const bounds = canvas.getBoundingClientRect();
     return {
-      x: clamp(Math.floor((event.clientX - bounds.left) / bounds.width * CELL_SIZE), 0, 15),
-      y: clamp(Math.floor((event.clientY - bounds.top) / bounds.height * CELL_SIZE), 0, 15)
+      x: clamp(Math.floor(((event.clientX - bounds.left) / bounds.width) * CELL_SIZE), 0, 15),
+      y: clamp(Math.floor(((event.clientY - bounds.top) / bounds.height) * CELL_SIZE), 0, 15),
     };
   }
 
   function currentColor() {
     const value = colorInput.value.slice(1);
-    return [
-      Number.parseInt(value.slice(0, 2), 16),
-      Number.parseInt(value.slice(2, 4), 16),
-      Number.parseInt(value.slice(4, 6), 16),
-      Number(alphaInput.value)
-    ];
+    return [Number.parseInt(value.slice(0, 2), 16), Number.parseInt(value.slice(2, 4), 16), Number.parseInt(value.slice(4, 6), 16), Number(alphaInput.value)];
   }
 
   function paintPixel(point, color = currentColor()) {
@@ -389,14 +389,10 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     const centerY = (top + bottom + 1) / 2;
     for (let y = top; y <= bottom; y += 1) {
       for (let x = left; x <= right; x += 1) {
-        const outer =
-          ((x + 0.5 - centerX) / radiusX) ** 2
-          + ((y + 0.5 - centerY) / radiusY) ** 2 <= 1;
+        const outer = ((x + 0.5 - centerX) / radiusX) ** 2 + ((y + 0.5 - centerY) / radiusY) ** 2 <= 1;
         const innerRadiusX = radiusX - 1;
         const innerRadiusY = radiusY - 1;
-        const inner = innerRadiusX > 0 && innerRadiusY > 0
-          && ((x + 0.5 - centerX) / innerRadiusX) ** 2
-            + ((y + 0.5 - centerY) / innerRadiusY) ** 2 <= 1;
+        const inner = innerRadiusX > 0 && innerRadiusY > 0 && ((x + 0.5 - centerX) / innerRadiusX) ** 2 + ((y + 0.5 - centerY) / innerRadiusY) ** 2 <= 1;
         if (outer && (fillShapes.checked || !inner)) paintPixel({ x, y });
       }
     }
@@ -427,15 +423,32 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   function pickColor(point) {
     const offset = pixelOffset(point.x, point.y);
     let [red, green, blue, alpha] = pixels.slice(offset, offset + 4);
-    if (alpha === 0 && traceInput.checked) {
-      [red, green, blue, alpha] = traceCanvas
-        .getContext('2d')
-        .getImageData(point.x, point.y, 1, 1)
-        .data;
+    if (alpha === 0 && Number(traceAlpha.value) > 0) {
+      [red, green, blue, alpha] = traceCanvas.getContext('2d').getImageData(point.x, point.y, 1, 1).data;
     }
     colorInput.value = `#${hex(red)}${hex(green)}${hex(blue)}`;
     alphaInput.value = String(alpha);
     updateAlphaOutput();
+    updatePaletteSelection();
+  }
+
+  function selectPaletteColor(button) {
+    if (button.dataset.transparent === 'true') {
+      alphaInput.value = '0';
+    } else {
+      colorInput.value = button.dataset.color;
+      alphaInput.value = '255';
+    }
+    updateAlphaOutput();
+    updatePaletteSelection();
+  }
+
+  function updatePaletteSelection() {
+    paletteButtons.forEach(button => {
+      const selected = button.dataset.transparent === 'true' ? Number(alphaInput.value) === 0 : Number(alphaInput.value) === 255 && button.dataset.color === colorInput.value.toLowerCase();
+      button.classList.toggle('is-selected', selected);
+      button.setAttribute('aria-pressed', String(selected));
+    });
   }
 
   function pushHistory() {
@@ -471,10 +484,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   async function saveAtlas() {
     if (!currentEntry) return;
     if (!window.showDirectoryPicker) {
-      status.textContent = translate(
-        'directoryAccessUnavailable',
-        'Direct folder access is unavailable; downloading the atlas instead.'
-      );
+      status.textContent = translate('directoryAccessUnavailable', 'Direct folder access is unavailable; downloading the atlas instead.');
       await downloadAtlas();
       return;
     }
@@ -482,7 +492,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
       directoryHandle ??= await window.showDirectoryPicker({
         id: 'pixel-emoji-atlases',
         mode: 'readwrite',
-        startIn: 'documents'
+        startIn: 'documents',
       });
       const fileHandle = await directoryHandle.getFileHandle(currentEntry.atlas);
       const sourceFile = await fileHandle.getFile();
@@ -495,10 +505,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     } catch (error) {
       if (error.name === 'AbortError') return;
       console.warn('Unable to save pixel atlas', error);
-      status.textContent = translate(
-        'atlasSaveFailed',
-        `Could not save ${currentEntry.atlas}. Choose the pixel-font/atlases directory.`
-      );
+      status.textContent = translate('atlasSaveFailed', `Could not save ${currentEntry.atlas}. Choose the pixel-font/atlases directory.`);
       directoryHandle = undefined;
     }
   }
@@ -530,7 +537,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     image.close();
     atlasContext.putImageData(new ImageData(pixels.slice(), CELL_SIZE, CELL_SIZE), currentEntry.x, currentEntry.y);
     return new Promise((resolve, reject) => {
-      atlasCanvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('PNG encoding failed')), 'image/png');
+      atlasCanvas.toBlob(blob => (blob ? resolve(blob) : reject(new Error('PNG encoding failed'))), 'image/png');
     });
   }
 }
@@ -557,14 +564,17 @@ function drawCheckerboard(context, size) {
 }
 
 function toolButton(tool, icon, translationKey, fallback, selected = false) {
-  return `<button type="button" data-tool="${tool}" data-i18n-aria-label="${translationKey}" aria-label="${fallback}" aria-pressed="${selected}" class="${selected ? 'is-active' : ''}"><span aria-hidden="true">${icon}</span></button>`;
+  return `<button type="button" data-tool="${tool}" aria-pressed="${selected}" class="${selected ? 'is-active' : ''}"><span aria-hidden="true">${icon}</span><span data-i18n="${translationKey}">${fallback}</span></button>`;
 }
 
 function preview(kind, translationKey, fallback) {
-  return `<figure>
-    <span class="pixel-editor-preview-swatch"><canvas class="pixel-editor-preview-${kind}" width="16" height="16"></canvas></span>
-    <figcaption data-i18n="${translationKey}">${fallback}</figcaption>
+  return `<figure data-i18n-aria-label="${translationKey}" aria-label="${fallback}">
+    <canvas class="pixel-editor-preview-${kind}" width="16" height="16"></canvas>
   </figure>`;
+}
+
+function egaSwatch(color) {
+  return `<button class="pixel-editor-swatch" type="button" data-color="${color}" aria-label="EGA ${color}" title="EGA ${color}" aria-pressed="false" style="--swatch: ${color}"></button>`;
 }
 
 function pixelOffset(x, y) {
