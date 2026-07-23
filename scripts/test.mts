@@ -124,6 +124,7 @@ assert.match(demoHtml, /class="dialog-title-row"[\s\S]*class="toggle-favorite"[\
 assert.match(demoStyles, /\.emoji-dialog-eyebrow \{ display: none; \}/, 'the redundant Emoji details label must remain hidden');
 assert.match(demoScript, /function positionFavoriteButton[\s\S]*matchMedia\('\(max-width: 560px\)'\)\.matches[\s\S]*dialogControls\.querySelector\('form'\)\?\.before\(favoriteButton\)[\s\S]*dialogTitleRow\.prepend\(favoriteButton\)/, 'the favorite star must move between the mobile controls and wide-screen title');
 assert.match(demoStyles, /\.dialog-controls \.toggle-favorite \{[\s\S]*border: 1px solid var\(--border\);[\s\S]*background: var\(--panel\)/, 'the mobile favorite star must look like the neighboring control buttons');
+assert.match(demoStyles, /\.modifier-filters fieldset label \{[\s\S]*width: 2\.65rem;[\s\S]*height: 2\.65rem;/, 'mobile modifier buttons, including gender, must remain square');
 assert.match(demoHtml, /class="emoji-composition"/, 'emoji details must provide a sequence composition section');
 assert.match(demoScript, /function ensureUtilityControls/, 'new utility controls must be restored when cached HTML is stale');
 assert.match(demoScript, /updateEmojiComposition\(item, value\)/, 'emoji details must render multi-code-point compositions');

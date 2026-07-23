@@ -953,7 +953,8 @@ kbd {
     display: grid;
     place-items: center;
     width: 2.65rem;
-    min-height: 2.65rem;
+    height: 2.65rem;
+    min-height: 0;
     padding: .2rem;
     border: 1px solid var(--border);
     border-radius: .55rem;
@@ -1015,7 +1016,7 @@ kbd {
   .compact-subgroup-label,
   .compact-sequence-label { display: inline; }
   .modifier-filters fieldset { gap: .2rem; }
-  .modifier-filters fieldset label { width: 2.35rem; min-height: 2.35rem; padding: .15rem; }
+  .modifier-filters fieldset label { width: 2.35rem; height: 2.35rem; padding: .15rem; }
   .modifier-emoji { font-size: .9rem; }
   .version-mode-toggle { width: 2.35rem; height: 2.35rem; }
   .compact-version { gap: .25rem; }
