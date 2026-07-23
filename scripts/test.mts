@@ -395,8 +395,13 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.modifier-emoji\s*\{\s*display:\s*inline;\s*font-size:\s*1rem;\s*\}/,
-  "modifier buttons must always display their emoji",
+  /\.modifier-emoji\s*\{[\s\S]*font-family:\s*var\(--system-emoji-font\);[\s\S]*font-variant-emoji:\s*emoji;/,
+  "modifier buttons must display native component glyphs instead of blank font components",
+);
+assert.match(
+  demoStyles,
+  /\.emoji-composition-glyph\s*\{[\s\S]*font-family:\s*var\(--system-emoji-font\);[\s\S]*\.emoji-composition-result \.emoji-composition-glyph\s*\{\s*font-family:\s*var\(--emoji-font\);/,
+  "sequence parts must use native glyphs while completed results use the selected emoji font",
 );
 assert.match(
   demoStyles,

@@ -644,9 +644,10 @@ fieldset input {
 }
 .modifier-emoji {
   display: inline;
+  font-family: var(--system-emoji-font);
   font-size: 1rem;
+  font-variant-emoji: emoji;
 }
-.modifier-emoji,
 .emoji-preview,
 .subgroup .emoji > div,
 .sequence-type > .emoji > div {
@@ -1003,9 +1004,13 @@ button.emoji-composition-part:focus-visible {
   outline-offset: 2px;
 }
 .emoji-composition-glyph {
-  font-family: var(--emoji-font);
+  font-family: var(--system-emoji-font);
   font-size: 1.45rem;
+  font-variant-emoji: emoji;
   line-height: 1.1;
+}
+.emoji-composition-result .emoji-composition-glyph {
+  font-family: var(--emoji-font);
 }
 .emoji-composition-glyph.is-symbolic {
   font-family: var(--ui-font);
