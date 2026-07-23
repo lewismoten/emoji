@@ -7,6 +7,17 @@ export const locales = ['en', 'en-GB', 'es', 'hi', 'zh', 'ar'];
 const rtlLocales = new Set(['ar']);
 const template = fs.readFileSync('index.html', 'utf8');
 const english = JSON.parse(fs.readFileSync('demo-locales/en.json', 'utf8'));
+const localeManifest = JSON.parse(fs.readFileSync('locales/manifest.json', 'utf8'));
+const localeMetadata = new Map(localeManifest.locales.map(locale => [locale.locale, locale]));
+const languageFlags = {
+  ar: '🇸🇦',
+  en: '🇺🇸',
+  'en-GB': '🇬🇧',
+  'en-US': '🇺🇸',
+  es: '🇪🇸',
+  hi: '🇮🇳',
+  zh: '🇨🇳'
+};
 
 const pageUrl = locale => `${siteUrl}index.${locale}.html`;
 const escapeHtml = value => value
@@ -35,6 +46,12 @@ export const renderPage = (locale, url, htmlLocale = locale, dataLocale = locale
   const translations = translationsFor(locale);
   const title = `${translations.title} – Unicode Emoji`;
   const description = translations.aboutDescription;
+  const localeDetails = localeMetadata.get(dataLocale) ?? localeMetadata.get(locale);
+  const initialFlag = languageFlags[htmlLocale] ?? languageFlags[dataLocale] ?? '🌐';
+  const initialLanguageLabel = localeDetails?.nativeLabel ?? translations.languageNotLoaded;
+  const initialMatchCount = new Intl.NumberFormat(htmlLocale, htmlLocale.startsWith('ar')
+    ? { numberingSystem: 'arab' }
+    : {}).format(0);
   return template
     .replace(/^  <link rel="alternate" hreflang="[^"]+" href="[^"]+">\n/gm, '')
     .replace('<html lang="en">', `<html lang="${htmlLocale}" dir="${rtlLocales.has(htmlLocale) ? 'rtl' : 'ltr'}" data-locale="${dataLocale}">`)
@@ -54,7 +71,10 @@ export const renderPage = (locale, url, htmlLocale = locale, dataLocale = locale
     .replace(/(<[^>]+data-i18n-placeholder="([^"]+)"[^>]*placeholder=")[^"]*(")/g, (match, opening, key, closing) =>
       `${opening}${escapeHtml(translations[key] ?? '')}${closing}`)
     .replace(/(<[^>]+data-i18n-aria-label="([^"]+)"[^>]*aria-label=")[^"]*(")/g, (match, opening, key, closing) =>
-      `${opening}${escapeHtml(translations[key] ?? '')}${closing}`);
+      `${opening}${escapeHtml(translations[key] ?? '')}${closing}`)
+    .replace(/(<bdi class="match-count">)[^<]*(<\/bdi>)/, `$1${escapeHtml(initialMatchCount)}$2`)
+    .replace(/(<span class="language-picker-flag"[^>]*>)[^<]*(<\/span>)/, `$1${initialFlag}$2`)
+    .replace(/(<span class="language-picker-label">)[^<]*(<\/span>)/, `$1${escapeHtml(initialLanguageLabel)}$2`);
 };
 
 export const generateDemoPages = (outputDirectory = '.') => {
