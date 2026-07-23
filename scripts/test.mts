@@ -874,8 +874,18 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /view\.addEventListener\("keydown", onEditorKeyDown\)[\s\S]*function onEditorKeyDown[\s\S]*event\.ctrlKey \|\| event\.metaKey[\s\S]*copySelection\(\)[\s\S]*pastePixelArt\(\)/,
+  /document\.addEventListener\("keydown", onEditorKeyDown, true\)[\s\S]*function onEditorKeyDown[\s\S]*view\.hidden \|\| !dialog\.open[\s\S]*event\.ctrlKey \|\| event\.metaKey[\s\S]*copySelection\(\)[\s\S]*pastePixelArt\(\)/,
   "selection copy and layer paste must support Ctrl/Cmd keyboard shortcuts throughout the editor",
+);
+assert.match(
+  pixelEditorScript,
+  /function onPointerDown[\s\S]*canvas\.focus\(\{ preventScroll: true \}\)/,
+  "drawing must move keyboard focus to the canvas for immediate shortcuts",
+);
+assert.match(
+  pixelEditorScript,
+  /function onEditorKeyDown[\s\S]*key === "z"[\s\S]*event\.shiftKey[\s\S]*redo\(\)[\s\S]*!event\.shiftKey[\s\S]*undo\(\)[\s\S]*key === "y"[\s\S]*redo\(\)/,
+  "editor history must support Ctrl/Cmd+Z and both common redo shortcuts",
 );
 assert.match(
   pixelEditorScript,

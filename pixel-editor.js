@@ -319,7 +319,7 @@ export function createPixelEditor({
   canvas.addEventListener("pointerup", onPointerUp);
   canvas.addEventListener("pointercancel", onPointerCancel);
   canvas.addEventListener("keydown", onCanvasKeyDown);
-  view.addEventListener("keydown", onEditorKeyDown);
+  document.addEventListener("keydown", onEditorKeyDown, true);
   updatePaletteSelection();
   updateTraceOutput();
   draw();
@@ -639,6 +639,7 @@ export function createPixelEditor({
 
   function onPointerDown(event) {
     if (!currentEntry || !cellLoaded || event.button !== 0) return;
+    canvas.focus({ preventScroll: true });
     const point = pointerCell(event);
     canvas.setPointerCapture(event.pointerId);
     if (floatingLayer) {
@@ -734,9 +735,27 @@ export function createPixelEditor({
   }
 
   function onEditorKeyDown(event) {
+    if (view.hidden || !dialog.open) return;
     if (!(event.ctrlKey || event.metaKey) || event.altKey) return;
     const key = event.key.toLowerCase();
-    if (key === "c" && tool === "select" && !copySelectionButton.disabled) {
+    if (key === "z") {
+      if (event.shiftKey && !redoButton.disabled) {
+        event.preventDefault();
+        redo();
+      } else if (!event.shiftKey && !undoButton.disabled) {
+        event.preventDefault();
+        undo();
+      }
+      return;
+    }
+    if (key === "y" && !redoButton.disabled) {
+      event.preventDefault();
+      redo();
+    } else if (
+      key === "c" &&
+      tool === "select" &&
+      !copySelectionButton.disabled
+    ) {
       event.preventDefault();
       copySelection();
     } else if (key === "c" && !copyArtButton.disabled) {
