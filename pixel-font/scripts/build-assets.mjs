@@ -66,6 +66,7 @@ for (const sheet of manifest.sheets) {
   }
 }
 
+const componentAnalysis = analyzeColorMasks(glyphs);
 const buildManifest = {
   schemaVersion: 1,
   familyName: manifest.familyName,
@@ -73,6 +74,7 @@ const buildManifest = {
   glyphCount: glyphs.length,
   sequenceGlyphCount: glyphs.filter(glyph => glyph.sequenceType !== 'single').length,
   sequenceTypeCounts: countBySequenceType(glyphs),
+  componentOptimization: componentAnalysis,
   glyphs: glyphs.map(({ pixels, ...glyph }) => glyph)
 };
 if (Object.keys(editorGlyphs).length !== manifest.activeGlyphCount) {
@@ -248,6 +250,34 @@ function countBySequenceType(entries) {
       .sort()
       .map(type => [type, entries.filter(entry => entry.sequenceType === type).length])
   );
+}
+
+function analyzeColorMasks(entries) {
+  let colorLayerCount = 0;
+  const masks = new Set();
+  for (const entry of entries) {
+    const colors = new Set();
+    for (let offset = 0; offset < entry.pixels.length; offset += 4) {
+      if (entry.pixels[offset + 3] === 0) continue;
+      colors.add(entry.pixels.slice(offset, offset + 4).join(','));
+    }
+    for (const serializedColor of colors) {
+      colorLayerCount += 1;
+      const color = serializedColor.split(',').map(Number);
+      const mask = Buffer.alloc(entry.pixels.length / 4);
+      for (let offset = 0; offset < entry.pixels.length; offset += 4) {
+        const pixel = entry.pixels.slice(offset, offset + 4);
+        mask[offset / 4] = pixel.every((value, index) => value === color[index]) ? 1 : 0;
+      }
+      masks.add(mask.toString('base64'));
+    }
+  }
+  return {
+    strategy: 'shared-color-masks',
+    colorLayerCount,
+    uniqueMaskCount: masks.size,
+    reusedLayerCount: colorLayerCount - masks.size
+  };
 }
 
 function escapeXml(value) {

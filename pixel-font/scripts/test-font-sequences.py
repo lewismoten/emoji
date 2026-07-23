@@ -74,6 +74,22 @@ assert compiler.is_zero_width_component(0xE0067)
 assert compiler.is_zero_width_component(0xE007F)
 assert not compiler.is_zero_width_component(0x1F1FA)
 
+
+def pixels_for_variation(variation):
+    pixels = []
+    for y in range(16):
+        for x in range(16):
+            color = (
+                (255, 255, 255, 255)
+                if x < 8
+                else (255, 0, 0, 255)
+                if y == 0 and x == 8 + variation
+                else (0, 0, 0, 0)
+            )
+            pixels.extend(color)
+    return pixels
+
+
 with tempfile.TemporaryDirectory() as temporary_directory:
     temporary = Path(temporary_directory)
     source_path = temporary / "font-source.json"
@@ -81,9 +97,9 @@ with tempfile.TemporaryDirectory() as temporary_directory:
     painted_glyphs = [
         {
             **glyph,
-            "pixels": [255, 255, 255, 255] * 16 * 16,
+            "pixels": pixels_for_variation(index % 2),
         }
-        for glyph in glyph_sources
+        for index, glyph in enumerate(glyph_sources)
     ]
     source_path.write_text(
         json.dumps(
@@ -141,5 +157,16 @@ with tempfile.TemporaryDirectory() as temporary_directory:
     assert cmap[0x200D] == "uni200D"
     for codepoint in (0x200D, 0x20E3, 0xE0067, 0xE007F):
         assert font["hmtx"].metrics[cmap[codepoint]][0] == 0
+    color_layer_names = {
+        layer.name
+        for layers in font["COLR"].ColorLayers.values()
+        for layer in layers
+    }
+    assert color_layer_names == {"mask.0000", "mask.0001", "mask.0002"}
+    assert [name for name in font.getGlyphOrder() if name.startswith("mask.")] == [
+        "mask.0000",
+        "mask.0001",
+        "mask.0002",
+    ]
 
 print("Verified required ligature generation for emoji sequences.")

@@ -58,10 +58,27 @@ def main():
     glyphs = {".notdef": empty_glyph()}
     color_glyphs = {}
     glyph_order = [".notdef"]
+    mask_names = {}
+    mask_sources = {}
+    color_layer_count = 0
+
+    for glyph_source in glyph_sources:
+        for color in glyph_colors(glyph_source):
+            color_layer_count += 1
+            key = color_mask_key(glyph_source["pixels"], color)
+            if key not in mask_names:
+                name = f"mask.{len(mask_names):04d}"
+                mask_names[key] = name
+                mask_sources[key] = (glyph_source["pixels"], color)
 
     component_names = sorted(set(codepoint_names.values()) - set(base_names.values()))
     for name in component_names:
         glyphs[name] = empty_glyph()
+        glyph_order.append(name)
+
+    for key, name in mask_names.items():
+        pixels, color = mask_sources[key]
+        glyphs[name] = color_glyph(pixels, color)
         glyph_order.append(name)
 
     for glyph_source in glyph_sources:
@@ -70,18 +87,9 @@ def main():
             glyphs[base_name] = silhouette_glyph(glyph_source["pixels"])
             glyph_order.append(base_name)
         layers = []
-        colors = sorted(
-            {
-                tuple(glyph_source["pixels"][offset : offset + 4])
-                for offset in range(0, len(glyph_source["pixels"]), 4)
-                if glyph_source["pixels"][offset + 3] > 0
-            }
-        )
-        for palette_index, color in enumerate(colors):
-            layer_name = f"{base_name}.color{palette_index}"
-            glyphs[layer_name] = color_glyph(glyph_source["pixels"], color)
-            glyph_order.append(layer_name)
-            layers.append((layer_name, palette_indexes[color]))
+        for color in glyph_colors(glyph_source):
+            key = color_mask_key(glyph_source["pixels"], color)
+            layers.append((mask_names[key], palette_indexes[color]))
         color_glyphs[base_name] = layers
 
     builder = FontBuilder(UNITS_PER_EM, isTTF=True)
@@ -91,7 +99,7 @@ def main():
     builder.setupHorizontalMetrics(
         {
             name: (
-                0 if ".color" in name or name in zero_width_names else UNITS_PER_EM,
+                0 if name.startswith("mask.") or name in zero_width_names else UNITS_PER_EM,
                 getattr(glyphs[name], "xMin", 0),
             )
             for name in glyph_order
@@ -140,6 +148,10 @@ def main():
         font.save(output_directory / "pixel-emoji.woff2")
     except ImportError:
         print("WOFF2 skipped: install the packages in pixel-font/requirements.txt.")
+    print(
+        f"Compiled {len(glyph_sources):,} glyphs with {color_layer_count:,} color layers "
+        f"using {len(mask_names):,} unique pixel masks."
+    )
 
 
 def validate_color_layer_metrics(font, color_glyphs):
@@ -212,6 +224,23 @@ def silhouette_glyph(pixels):
 
 def color_glyph(pixels, color):
     return pixels_for_color(pixels, color)
+
+
+def glyph_colors(glyph):
+    return sorted(
+        {
+            tuple(glyph["pixels"][offset : offset + 4])
+            for offset in range(0, len(glyph["pixels"]), 4)
+            if glyph["pixels"][offset + 3] > 0
+        }
+    )
+
+
+def color_mask_key(pixels, selected_color):
+    return bytes(
+        tuple(pixels[offset : offset + 4]) == selected_color
+        for offset in range(0, len(pixels), 4)
+    )
 
 
 def pixels_for_color(pixels, selected_color):

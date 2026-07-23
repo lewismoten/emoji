@@ -45,6 +45,23 @@ Skin-tone and hair sequences remain intentionally excluded for now. They can
 be introduced later as modifier atlases without splitting the generated font
 into separate files.
 
+## Automatic component reuse
+
+Artwork remains flattened in the PNG atlases; artists do not need to define
+components manually. During each build, the compiler:
+
+1. separates every painted glyph into one monochrome mask per RGBA color;
+2. compares those masks across all painted glyphs;
+3. stores identical geometry once, even when another glyph colors it
+   differently;
+4. gives each emoji its own COLR layer recipe referencing the shared masks.
+
+This is lossless. A glyph with a small visual change reuses every unchanged
+mask and stores only its unique masks. Completely unique artwork continues to
+compile normally. The generated build manifest reports the total color layers,
+unique masks, and number of reused layers so binary savings can be measured as
+the artwork grows.
+
 ## Commands
 
 ```sh
