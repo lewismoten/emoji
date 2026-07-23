@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "familyName": "Pixel Emoji",
+  "cellSize": 16,
+  "columns": 16,
+  "rows": 16,
+  "glyphsPerAtlas": 256,
+  "atlasPrefix": "base",
+  "excludedModifierCodePoints": [
+    "1F3FB",
+    "1F3FC",
+    "1F3FD",
+    "1F3FE",
+    "1F3FF",
+    "1F9B0",
+    "1F9B1",
+    "1F9B2",
+    "1F9B3"
+  ]
+}
