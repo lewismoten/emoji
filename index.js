@@ -1187,12 +1187,13 @@ function onDocumentKeyDown(event) {
     return;
   }
   if (!exampleDialog.open || isTyping) return;
+  const rtl = document.documentElement.dir === 'rtl';
   if (event.key === 'ArrowLeft') {
     event.preventDefault();
-    navigateEmoji(-1);
+    navigateEmoji(rtl ? 1 : -1);
   } else if (event.key === 'ArrowRight') {
     event.preventDefault();
-    navigateEmoji(1);
+    navigateEmoji(rtl ? -1 : 1);
   }
 }
 

@@ -494,6 +494,7 @@ h2 { margin: 0; font-size: 1.15rem; }
   line-height: 1;
 }
 .dialog-navigate { font-size: 1rem; }
+[dir="rtl"] .dialog-navigate { transform: scaleX(-1); }
 .dialog-navigate:disabled { cursor: default; opacity: .35; }
 .dialog-description { margin: .8rem 1rem; color: var(--muted); font-size: .88rem; }
 .emoji-dialog-details { display: flex; align-items: center; gap: 1rem; padding: 0 1rem .85rem; }
@@ -611,6 +612,7 @@ kbd {
   font: 700 .75rem ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   text-align: center;
 }
+[dir="rtl"] .shortcut-list > div:nth-child(2) kbd { transform: scaleX(-1); }
 
 .code {
   direction: ltr;
