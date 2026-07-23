@@ -93,5 +93,18 @@
   "gender": "Género",
   "male": "Masculino",
   "female": "Femenino",
-  "neutral": "Neutro"
+  "neutral": "Neutro",
+  "filterEmoji": "Filtrar emojis",
+  "searchEmoji": "Buscar emojis",
+  "skipToResults": "Saltar a los resultados de emojis",
+  "emojiResults": "Resultados de emojis",
+  "emojiBrowseOrder": "Orden de exploración de emojis",
+  "chooseBrowseOrder": "Elegir el orden de exploración de emojis",
+  "close": "Cerrar",
+  "emojiCopied": "Emoji copiado al portapapeles.",
+  "keyCopied": "Clave del emoji copiada al portapapeles.",
+  "escapeCopied": "Secuencia de escape copiada al portapapeles.",
+  "codePointsCopied": "Puntos de código copiados al portapapeles.",
+  "copiedToClipboard": "Copiado al portapapeles.",
+  "copyFailed": "No se pudo copiar al portapapeles."
 }

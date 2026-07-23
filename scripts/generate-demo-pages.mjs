@@ -52,6 +52,8 @@ export const renderPage = (locale, url, htmlLocale = locale, dataLocale = locale
     .replace(/(<[^>]+data-i18n="([^"]+)"[^>]*>)([^<]*)(<\/[^>]+>)/g, (match, opening, key, contents, closing) =>
       `${opening}${escapeHtml(translations[key] ?? contents)}${closing}`)
     .replace(/(<[^>]+data-i18n-placeholder="([^"]+)"[^>]*placeholder=")[^"]*(")/g, (match, opening, key, closing) =>
+      `${opening}${escapeHtml(translations[key] ?? '')}${closing}`)
+    .replace(/(<[^>]+data-i18n-aria-label="([^"]+)"[^>]*aria-label=")[^"]*(")/g, (match, opening, key, closing) =>
       `${opening}${escapeHtml(translations[key] ?? '')}${closing}`);
 };
 

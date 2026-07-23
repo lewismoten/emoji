@@ -93,5 +93,18 @@
   "gender": "लिंग",
   "male": "पुरुष",
   "female": "महिला",
-  "neutral": "तटस्थ"
+  "neutral": "तटस्थ",
+  "filterEmoji": "इमोजी फ़िल्टर करें",
+  "searchEmoji": "इमोजी खोजें",
+  "skipToResults": "इमोजी परिणामों पर जाएँ",
+  "emojiResults": "इमोजी परिणाम",
+  "emojiBrowseOrder": "इमोजी ब्राउज़ क्रम",
+  "chooseBrowseOrder": "इमोजी ब्राउज़ क्रम चुनें",
+  "close": "बंद करें",
+  "emojiCopied": "इमोजी क्लिपबोर्ड पर कॉपी किया गया।",
+  "keyCopied": "इमोजी कुंजी क्लिपबोर्ड पर कॉपी की गई।",
+  "escapeCopied": "एस्केप अनुक्रम क्लिपबोर्ड पर कॉपी किया गया।",
+  "codePointsCopied": "कोड पॉइंट क्लिपबोर्ड पर कॉपी किए गए।",
+  "copiedToClipboard": "क्लिपबोर्ड पर कॉपी किया गया।",
+  "copyFailed": "क्लिपबोर्ड पर कॉपी नहीं किया जा सका।"
 }

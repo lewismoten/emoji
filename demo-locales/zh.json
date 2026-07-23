@@ -93,5 +93,18 @@
   "gender": "性别",
   "male": "男性",
   "female": "女性",
-  "neutral": "中性"
+  "neutral": "中性",
+  "filterEmoji": "筛选表情",
+  "searchEmoji": "搜索表情",
+  "skipToResults": "跳到表情结果",
+  "emojiResults": "表情结果",
+  "emojiBrowseOrder": "表情浏览顺序",
+  "chooseBrowseOrder": "选择表情浏览顺序",
+  "close": "关闭",
+  "emojiCopied": "表情已复制到剪贴板。",
+  "keyCopied": "表情键名已复制到剪贴板。",
+  "escapeCopied": "转义序列已复制到剪贴板。",
+  "codePointsCopied": "码点已复制到剪贴板。",
+  "copiedToClipboard": "已复制到剪贴板。",
+  "copyFailed": "无法复制到剪贴板。"
 }

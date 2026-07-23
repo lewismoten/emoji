@@ -59,6 +59,7 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#emoji-results-title" data-i18n="skipToResults">Skip to emoji results</a>
   <main>
     <noscript>JavaScript is required to browse the emoji collection.</noscript>
     <div class="offline-status" role="status" aria-live="polite" hidden data-i18n="offlineStatus">Offline — showing saved data</div>
@@ -69,14 +70,15 @@
         <p class="result-count" role="status" aria-live="polite" aria-atomic="true"><bdi class="match-count">0</bdi> <span data-i18n="matches">matches</span></p>
       </div>
 
-      <form class="filters" aria-label="Filter emoji" onsubmit="return false">
+      <form class="filters" data-i18n-aria-label="filterEmoji" aria-label="Filter emoji" onsubmit="return false">
         <div class="search-controls">
           <label class="filter-field search-field">
-            <span class="sr-only">Search emoji</span>
+            <span class="sr-only" data-i18n="searchEmoji">Search emoji</span>
           <input class="text" type="search" data-i18n-placeholder="searchPlaceholder" placeholder="Search emoji, e.g. beer or heart" autocomplete="off">
           </label>
-          <button class="language-picker" type="button" aria-haspopup="dialog" aria-controls="language-dialog">
-            <span class="language-picker-flag">🌐</span>
+          <button class="language-picker" type="button" aria-haspopup="dialog" aria-controls="language-dialog" aria-labelledby="language-picker-accessible-label">
+            <span id="language-picker-accessible-label" class="sr-only" data-i18n="chooseLanguage">Choose a search language</span>
+            <span class="language-picker-flag" aria-hidden="true">🌐</span>
             <span class="language-picker-label" data-i18n="languageNotLoaded">Language not loaded</span>
           </button>
         </div>
@@ -145,7 +147,8 @@
 
     </header>
 
-    <div class="list" data-i18n="loadingEmoji">Loading emoji…</div>
+    <h2 id="emoji-results-title" class="sr-only focus-target" tabindex="-1" data-i18n="emojiResults">Emoji results</h2>
+    <div class="list" aria-labelledby="emoji-results-title" data-i18n="loadingEmoji">Loading emoji…</div>
 
     <section class="about-explorer" aria-labelledby="about-title">
       <h2 id="about-title" data-i18n="aboutTitle">Search and explore Unicode emoji</h2>
@@ -153,9 +156,9 @@
       <p><a href="https://github.com/lewismoten/emoji">GitHub</a> · <a href="https://www.npmjs.com/package/@lewismoten/emoji">npm</a> · <a href="https://unicode.org/emoji/charts/">Unicode Emoji Charts</a></p>
     </section>
 
-    <nav class="order-footer" aria-label="Emoji browse order">
+    <nav class="order-footer" data-i18n-aria-label="emojiBrowseOrder" aria-label="Emoji browse order">
       <span class="order-label" data-i18n="browse">Browse</span>
-      <div class="order-buttons" role="group" aria-label="Choose emoji browse order">
+      <div class="order-buttons" role="group" data-i18n-aria-label="chooseBrowseOrder" aria-label="Choose emoji browse order">
         <button type="button" class="order-mode is-active" data-order="grouped" aria-pressed="true" data-i18n="groups">Groups</button>
         <button type="button" class="order-mode" data-order="unicode" aria-pressed="false" data-i18n="unicode">Unicode</button>
         <button type="button" class="order-mode" data-order="sequence" aria-pressed="false" data-i18n="sequences">Sequences</button>
@@ -171,10 +174,11 @@
         <div class="dialog-controls">
           <button class="dialog-navigate emoji-previous" type="button" data-i18n-aria-label="previousEmoji" aria-label="Previous emoji">←</button>
           <button class="dialog-navigate emoji-next" type="button" data-i18n-aria-label="nextEmoji" aria-label="Next emoji">→</button>
-          <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
+          <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
         </div>
       </div>
       <p class="dialog-description" data-i18n="copiedDescription">The emoji key has been copied to your clipboard.</p>
+      <div class="copy-status sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
         <div class="emoji-dialog-details">
           <div class="emoji-preview" aria-hidden="true">&#x1F37B;</div>
           <div class="localized-emoji-details" hidden>
@@ -210,7 +214,7 @@
           <p class="eyebrow" data-i18n="localizedSearch">Localized search</p>
           <h2 id="language-title" data-i18n="chooseLanguage">Choose a search language</h2>
         </div>
-        <form method="dialog"><button class="dialog-close" aria-label="Close">×</button></form>
+        <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
       </div>
       <p class="dialog-description" data-i18n="chooseLanguageDescription">Choose a language for emoji search.</p>
       <div class="language-list" role="list"></div>

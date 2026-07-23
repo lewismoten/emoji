@@ -70,6 +70,7 @@ var currentEmojiCopies = {};
 var displayedKeys = [];
 var currentEmojiKey = '';
 var focusedEmojiKey = '';
+var copyStatus;
 var urlStateReady = false;
 var offlineStatus;
 const languageFlags = {
@@ -295,6 +296,7 @@ function getSportType(name) {
 
 async function onLoad() {
   offlineStatus = document.getElementsByClassName('offline-status')[0];
+  copyStatus = document.getElementsByClassName('copy-status')[0];
   searchText = document.getElementsByClassName("text")[0];
   languagePicker = document.getElementsByClassName('language-picker')[0];
   languagePickerFlag = document.getElementsByClassName('language-picker-flag')[0];
@@ -332,6 +334,7 @@ async function onLoad() {
   skinToneFieldset = skinToneCheckboxes[0]?.closest('fieldset');
   hairFieldset = hairCheckboxes[0]?.closest('fieldset');
   genderFieldset = genderCheckboxes[0]?.closest('fieldset');
+  document.querySelectorAll('.modifier-emoji').forEach(emoji => emoji.setAttribute('aria-hidden', 'true'));
 
   window.addEventListener('online', updateOnlineStatus);
   window.addEventListener('offline', updateOnlineStatus);
@@ -354,7 +357,14 @@ async function onLoad() {
     const button = event.target.closest('[data-copy]');
     if (!button) return;
     const value = currentEmojiCopies[button.dataset.copy];
-    if (value !== undefined) navigator.clipboard?.writeText(value);
+    const messages = {
+      emoji: ['emojiCopied', 'Emoji copied to the clipboard.'],
+      key: ['keyCopied', 'Emoji key copied to the clipboard.'],
+      escape: ['escapeCopied', 'Escape sequence copied to the clipboard.'],
+      codePoints: ['codePointsCopied', 'Code points copied to the clipboard.']
+    };
+    const [messageKey, fallback] = messages[button.dataset.copy] ?? ['copiedToClipboard', 'Copied to the clipboard.'];
+    if (value !== undefined) copyToClipboard(value, translate(messageKey, fallback));
   });
   versionModeToggle?.addEventListener('click', toggleVersionMode);
   versionPrevious?.addEventListener('click', () => stepVersion(-1));
@@ -783,7 +793,7 @@ function renderSearchLanguages() {
   noLanguage.className = 'language-option';
   noLanguage.classList.toggle('is-selected', selectedSearchLocale === '');
   noLanguage.setAttribute('aria-pressed', String(selectedSearchLocale === ''));
-  noLanguage.innerHTML = `<span class="language-option-flag">🌐</span><span class="language-option-label">${translate('noLanguagePack', 'No language pack')}</span>`;
+  noLanguage.innerHTML = `<span class="language-option-flag" aria-hidden="true">🌐</span><span class="language-option-label">${translate('noLanguagePack', 'No language pack')}</span>`;
   noLanguage.addEventListener('click', event => selectLanguageLink(event, '', noLanguage.href));
   languageList.appendChild(noLanguage);
 
@@ -799,7 +809,7 @@ function renderSearchLanguages() {
     const label = locale.locale === selectedSearchLocale || localizedLabel === locale.nativeLabel
       ? localizedLabel
       : `${localizedLabel} (${locale.nativeLabel})`;
-    option.innerHTML = `<span class="language-option-flag">${flag}</span><span class="language-option-label">${label}</span>`;
+    option.innerHTML = `<span class="language-option-flag" aria-hidden="true">${flag}</span><span class="language-option-label">${label}</span>`;
     option.addEventListener('click', event => selectLanguageLink(event, locale.locale, option.href));
     languageList.appendChild(option);
   });
@@ -1329,9 +1339,9 @@ function displayUnicodeSubGroupName(name) {
 }
 
 const asGroup = (name) => {
-  var div = document.createElement("span");
+  var div = document.createElement("div");
   div.className = 'group';
-  var divName = document.createElement('span');
+  var divName = document.createElement('h3');
   divName.innerText = displayGroupName(name);
   divName.className = 'name';
   div.appendChild(divName);
@@ -1339,25 +1349,25 @@ const asGroup = (name) => {
   return div;
 }
 const asUnicodeSubGroup = name => {
-  var div = document.createElement("section");
+  var div = document.createElement("div");
   div.className = 'unicode-subgroup';
-  var divName = document.createElement('span');
+  var divName = document.createElement('h4');
   divName.innerText = displayUnicodeSubGroupName(name);
   divName.className = 'name';
   div.appendChild(divName);
-  var divSections = document.createElement('span');
+  var divSections = document.createElement('div');
   divSections.className = 'subgroup-list';
   div.appendChild(divSections);
   return div;
 }
 const asSubGroup = (name, direct) => {
-  var div = document.createElement("span");
+  var div = document.createElement("div");
   div.className = direct ? 'subgroup is-direct' : 'subgroup';
-  var divName = document.createElement('span');
+  var divName = document.createElement(direct ? 'span' : 'h5');
   divName.innerText = displayExplorerLabel(name);
   divName.className = 'name';
   div.appendChild(divName);
-  var divEmoji = document.createElement('span');
+  var divEmoji = document.createElement('div');
   divEmoji.className = 'emoji';
   div.appendChild(divEmoji);
   return div;
@@ -1415,10 +1425,11 @@ function asEmojiCell(key, groupId = 0, subGroupId = 0) {
   const div = document.createElement('div');
   div.id = key;
   div.dataset.emojiKey = key;
-  div.title = byId[key]?.shortName ?? key;
+  const accessibleName = searchAnnotations[key]?.[0] ?? byId[key]?.shortName ?? displayEmojiKey(key);
+  div.title = accessibleName;
   div.tabIndex = key === focusedEmojiKey ? 0 : -1;
   div.setAttribute('role', 'button');
-  div.setAttribute('aria-label', byId[key]?.shortName ?? displayEmojiKey(key));
+  div.setAttribute('aria-label', accessibleName);
   div.classList.add(`group-${groupId}`);
   div.classList.add(`sub-group-${subGroupId}`);
   const emojiDiv = document.createElement('span');
@@ -1430,11 +1441,12 @@ function asEmojiCell(key, groupId = 0, subGroupId = 0) {
 function asSequenceItem(state, key) {
   const type = byId[key]?.sequenceType ?? 'single';
   if (state.type !== type) {
-    const section = document.createElement('section');
+    const section = document.createElement('div');
     section.className = 'sequence-type';
-    const name = document.createElement('div');
+    const name = document.createElement('h3');
     name.className = 'name';
-    name.innerText = sequenceTypeLabels[type] ?? type;
+    const fallback = sequenceTypeLabels[type] ?? type;
+    name.innerText = translate(sequenceTranslationKeys[type], fallback);
     const emoji = document.createElement('div');
     emoji.className = 'emoji';
     section.append(name, emoji);
@@ -1628,7 +1640,7 @@ function closestVerticalEmoji(current, cells, direction) {
 function createEmptyResults() {
   const section = document.createElement('section');
   section.className = 'empty-results';
-  const title = document.createElement('h2');
+  const title = document.createElement('h3');
   title.textContent = translate('noResults', 'No emoji found');
   const description = document.createElement('p');
   description.textContent = translate('noResultsDescription', 'Try removing a search term or filter.');
@@ -1683,6 +1695,26 @@ function updateActiveFilterSummary() {
 function displayEmojiKey(key) {
   const words = key.replace(/([a-z0-9])([A-Z])/g, '$1 $2').toLocaleLowerCase();
   return words.charAt(0).toLocaleUpperCase() + words.slice(1);
+}
+
+function announceStatus(message) {
+  if (!copyStatus) return;
+  copyStatus.textContent = '';
+  window.setTimeout(() => {
+    copyStatus.textContent = message;
+  }, 0);
+}
+
+async function copyToClipboard(value, successMessage) {
+  try {
+    if (!navigator.clipboard?.writeText) throw new Error('Clipboard API unavailable');
+    await navigator.clipboard.writeText(value);
+    announceStatus(successMessage);
+    return true;
+  } catch {
+    announceStatus(translate('copyFailed', 'Could not copy to the clipboard.'));
+    return false;
+  }
 }
 
 function getIntroducedVersion(key) {
@@ -1748,7 +1780,13 @@ function showEmoji(id, copy = true) {
     localizedDetails.hidden = true;
   }
   if (copy) {
-    navigator.clipboard?.writeText(id);
+    const description = exampleDialog.querySelector('.dialog-description');
+    description.textContent = translate('copiedDescription', 'The emoji key has been copied to your clipboard.');
+    copyToClipboard(id, translate('keyCopied', 'Emoji key copied to the clipboard.')).then(success => {
+      description.textContent = success
+        ? translate('copiedDescription', 'The emoji key has been copied to your clipboard.')
+        : translate('copyFailed', 'Could not copy to the clipboard.');
+    });
     exampleDialog.showModal();
   }
   updateDialogNavigation();

@@ -93,5 +93,18 @@
   "gender": "Gender",
   "male": "Male",
   "female": "Female",
-  "neutral": "Neutral"
+  "neutral": "Neutral",
+  "filterEmoji": "Filter emoji",
+  "searchEmoji": "Search emoji",
+  "skipToResults": "Skip to emoji results",
+  "emojiResults": "Emoji results",
+  "emojiBrowseOrder": "Emoji browse order",
+  "chooseBrowseOrder": "Choose emoji browse order",
+  "close": "Close",
+  "emojiCopied": "Emoji copied to the clipboard.",
+  "keyCopied": "Emoji key copied to the clipboard.",
+  "escapeCopied": "Escape sequence copied to the clipboard.",
+  "codePointsCopied": "Code points copied to the clipboard.",
+  "copiedToClipboard": "Copied to the clipboard.",
+  "copyFailed": "Could not copy to the clipboard."
 }
