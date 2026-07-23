@@ -84,7 +84,15 @@ def main():
     builder.setupGlyphOrder(glyph_order)
     builder.setupCharacterMap(cmap)
     builder.setupGlyf(glyphs)
-    builder.setupHorizontalMetrics({name: (UNITS_PER_EM, 0) for name in glyph_order})
+    builder.setupHorizontalMetrics(
+        {
+            name: (
+                0 if ".color" in name else UNITS_PER_EM,
+                getattr(glyphs[name], "xMin", 0),
+            )
+            for name in glyph_order
+        }
+    )
     builder.setupHorizontalHeader(ascent=ASCENDER, descent=DESCENDER)
     builder.setupNameTable(
         {
@@ -115,6 +123,8 @@ def main():
     if features:
         addOpenTypeFeaturesFromString(font, features)
 
+    validate_color_layer_metrics(font, color_glyphs)
+
     ttf_path = output_directory / "pixel-emoji.ttf"
     font.save(ttf_path)
 
@@ -126,6 +136,17 @@ def main():
         font.save(output_directory / "pixel-emoji.woff2")
     except ImportError:
         print("WOFF2 skipped: install the packages in pixel-font/requirements.txt.")
+
+
+def validate_color_layer_metrics(font, color_glyphs):
+    for layers in color_glyphs.values():
+        for layer_name, _palette_index in layers:
+            glyph = font["glyf"][layer_name]
+            _advance, left_side_bearing = font["hmtx"].metrics[layer_name]
+            if left_side_bearing != glyph.xMin:
+                raise ValueError(
+                    f"{layer_name} has side-bearing {left_side_bearing}; expected {glyph.xMin}"
+                )
 
 
 def sequence(glyph):
@@ -193,9 +214,9 @@ def pixels_for_color(pixels, selected_color):
             y_max = ASCENDER - y * PIXEL_SIZE
             y_min = y_max - PIXEL_SIZE
             pen.moveTo((x_min, y_min))
-            pen.lineTo((x_max, y_min))
-            pen.lineTo((x_max, y_max))
             pen.lineTo((x_min, y_max))
+            pen.lineTo((x_max, y_max))
+            pen.lineTo((x_max, y_min))
             pen.closePath()
             x += width
     return pen.glyph()
