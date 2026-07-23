@@ -380,7 +380,6 @@ export function createPixelEditor({
       traceOffsetX = 0;
       traceOffsetY = 0;
       currentEntry = undefined;
-      updateSkinTonePalette();
       selection = undefined;
       floatingLayer = undefined;
       atlasBlob = undefined;
@@ -1046,6 +1045,11 @@ export function createPixelEditor({
   }
 
   function updateSkinTonePalette(codePoints = []) {
+    const previousSkinTone = selectedSkinTone;
+    const previousButton = paletteButtons.find(
+      (button) => button.dataset.skinTone === previousSkinTone,
+    );
+    const previousCycleIndex = Number(previousButton?.dataset.cycleIndex ?? 0);
     const activeCodePoints = new Set(
       codePoints.map((codePoint) => codePoint.toUpperCase()),
     );
@@ -1055,9 +1059,6 @@ export function createPixelEditor({
       button.style.removeProperty("grid-column");
       if (button.hidden) {
         setSkinToneShade(button, 0);
-        if (selectedSkinTone === button.dataset.skinTone) {
-          selectedSkinTone = "";
-        }
       } else {
         updateSkinToneShadeLabel(button);
       }
@@ -1075,11 +1076,34 @@ export function createPixelEditor({
         button.style.gridColumn = String(firstColumn + index);
       });
     }
-    if (
+    if (previousSkinTone) {
+      const nextButton =
+        activeButtons.find(
+          (button) => button.dataset.skinTone === previousSkinTone,
+        ) ?? activeButtons[0];
+      if (nextButton) {
+        selectedSkinTone = nextButton.dataset.skinTone;
+        const nextCycleIndex =
+          nextButton.dataset.skinTone === previousSkinTone
+            ? Math.min(
+                previousCycleIndex,
+                skinToneCycle(nextButton.dataset.skinTone).length - 1,
+              )
+            : 0;
+        setSkinToneShade(nextButton, nextCycleIndex);
+        selectedColor = skinToneCycle(nextButton.dataset.skinTone)[
+          nextCycleIndex
+        ].color;
+      } else {
+        // Keep the contextual skin-tone tool ready for the next applicable
+        // emoji, but select the eraser so navigation cannot paint EGA yellow.
+        selectedColor = "transparent";
+      }
+    } else if (
       selectedColor !== "transparent" &&
       !activePaletteColors().includes(selectedColor)
     ) {
-      selectedColor = "#ffff55";
+      selectedColor = "transparent";
     }
     updatePaletteSelection();
   }

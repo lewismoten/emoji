@@ -755,6 +755,16 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
+  /function updateSkinTonePalette\(codePoints = \[\]\)[\s\S]*previousSkinTone[\s\S]*activeButtons\.find[\s\S]*nextCycleIndex[\s\S]*selectedColor = skinToneCycle/,
+  "skin-tone color and shading choices must survive compatible emoji navigation",
+);
+assert.match(
+  pixelEditorScript,
+  /Keep the contextual skin-tone tool ready[\s\S]*selectedColor = "transparent"/,
+  "leaving a skin-tone emoji must select the eraser instead of EGA yellow",
+);
+assert.match(
+  pixelEditorScript,
   /function nearestPaletteColor[\s\S]*colors\.reduce/,
   "the eyedropper must reduce sampled colors to the active palette",
 );
