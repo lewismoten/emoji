@@ -364,14 +364,12 @@ export function createPixelEditor({
   function renderTrace() {
     const traceContext = traceCanvas.getContext("2d");
     traceContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-    traceContext.font =
-      '11px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
-    traceContext.textAlign = "center";
-    traceContext.textBaseline = "middle";
-    traceContext.fillText(
+    drawCenteredEmoji(
+      traceContext,
       currentEmoji,
-      CELL_SIZE / 2 + traceOffsetX,
-      CELL_SIZE / 2 + 2 + traceOffsetY,
+      '11px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif',
+      traceOffsetX,
+      traceOffsetY,
     );
     drawOfficialPreview();
     drawFontPreview();
@@ -431,10 +429,11 @@ export function createPixelEditor({
     if (!currentEntry?.painted) return;
     const render = () => {
       previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-      previewContext.font = `${CELL_SIZE}px "Pixel Emoji"`;
-      previewContext.textAlign = "center";
-      previewContext.textBaseline = "alphabetic";
-      previewContext.fillText(currentEmoji, CELL_SIZE / 2, CELL_SIZE - 1);
+      drawCenteredEmoji(
+        previewContext,
+        currentEmoji,
+        `${CELL_SIZE}px "Pixel Emoji"`,
+      );
     };
     render();
     document.fonts
@@ -950,6 +949,27 @@ function drawCheckerboard(context, size) {
       context.fillRect(x * checker, y * checker, checker, checker);
     }
   }
+}
+
+function drawCenteredEmoji(
+  context,
+  value,
+  font,
+  horizontalOffset = 0,
+  verticalOffset = 0,
+) {
+  context.font = font;
+  context.textAlign = "center";
+  context.textBaseline = "alphabetic";
+  const metrics = context.measureText(value);
+  const ascent = metrics.actualBoundingBoxAscent || CELL_SIZE * 0.8;
+  const descent = metrics.actualBoundingBoxDescent || CELL_SIZE * 0.2;
+  const baseline = (CELL_SIZE - ascent - descent) / 2 + ascent;
+  context.fillText(
+    value,
+    CELL_SIZE / 2 + horizontalOffset,
+    baseline + verticalOffset,
+  );
 }
 
 function toolButton(tool, icon, translationKey, fallback, selected = false) {

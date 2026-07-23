@@ -735,8 +735,13 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /CELL_SIZE \/ 2 \+ 2/,
-  "native emoji trace must use the corrected vertical offset",
+  /function drawCenteredEmoji[\s\S]*actualBoundingBoxAscent[\s\S]*actualBoundingBoxDescent[\s\S]*const baseline = \(CELL_SIZE - ascent - descent\) \/ 2 \+ ascent/,
+  "native and custom-font previews must center their measured bounds without clipping",
+);
+assert.doesNotMatch(
+  pixelEditorScript,
+  /fillText\(currentEmoji, CELL_SIZE \/ 2, CELL_SIZE - 1\)/,
+  "custom-font preview must not use a baseline that clips its descent rows",
 );
 for (const direction of ["Left", "Up", "Down", "Right"]) {
   assert.match(
@@ -869,6 +874,11 @@ for (const preview of ["official", "font", "artwork"]) {
     `pixel editor must provide the ${preview} 12-pixel preview`,
   );
 }
+assert.match(
+  demoStyles,
+  /\.pixel-editor-previews figure[\s\S]*width:\s*12px;[\s\S]*height:\s*12px;[\s\S]*\.pixel-editor-previews canvas[\s\S]*width:\s*12px;[\s\S]*height:\s*12px;/,
+  "actual-size previews must remain 12 by 12 instead of using uneven fractional scaling",
+);
 for (const tool of ["pencil", "rectangle", "ellipse", "bucket", "eyedropper"]) {
   assert.match(
     pixelEditorScript,
