@@ -176,7 +176,12 @@
       <div class="dialog-heading">
         <div>
           <p class="eyebrow emoji-dialog-eyebrow" data-i18n="emojiDetails">Emoji details</p>
-          <h2 id="example-title">Use this emoji</h2>
+          <div class="dialog-title-row">
+            <button class="toggle-favorite" type="button" aria-pressed="false" data-i18n-aria-label="addFavorite" aria-label="Add favorite" title="Add favorite">
+              <span aria-hidden="true">☆</span>
+            </button>
+            <h2 id="example-title">Use this emoji</h2>
+          </div>
         </div>
         <div class="dialog-controls">
           <button class="dialog-navigate emoji-parent" type="button" aria-label="Back to parent emoji" hidden>↩</button>
@@ -210,10 +215,6 @@
           <div><dt data-i18n="qualification">Qualification</dt><dd class="emoji-status"></dd></div>
         </dl>
         <div class="emoji-copy-actions">
-          <button class="toggle-favorite" type="button" aria-pressed="false">
-            <span aria-hidden="true">☆</span>
-            <span class="toggle-favorite-label" data-i18n="addFavorite">Add favorite</span>
-          </button>
           <button type="button" data-copy="key" data-i18n="copyKey">Copy key</button>
           <button type="button" data-copy="escape" data-i18n="copyEscape">Copy escape</button>
           <button type="button" data-copy="codePoints" data-i18n="copyCodePoints">Copy code points</button>

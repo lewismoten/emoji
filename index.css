@@ -476,6 +476,26 @@ fieldset input { width: 1rem; min-height: 1rem; accent-color: var(--accent-stron
   padding: .8rem 1rem;
   background: var(--panel-strong);
 }
+.dialog-title-row { display: flex; align-items: center; gap: .35rem; }
+.emoji-dialog-eyebrow { display: none; }
+.example-dialog.is-code-view .emoji-dialog-eyebrow { display: block; }
+.dialog-title-row .toggle-favorite {
+  display: grid;
+  flex: 0 0 2rem;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font: 700 1.35rem/1 var(--ui-font);
+}
+.dialog-title-row .toggle-favorite:hover,
+.dialog-title-row .toggle-favorite[aria-pressed="true"] { color: var(--accent); }
+.dialog-title-row .toggle-favorite:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.example-dialog.is-code-view .dialog-title-row .toggle-favorite { display: none; }
 .dialog-controls { display: flex; align-items: center; gap: .35rem; }
 .dialog-controls form { margin: 0; }
 h2 { margin: 0; font-size: 1.15rem; }
@@ -628,8 +648,6 @@ button.emoji-composition-part:focus-visible { outline: 2px solid var(--accent); 
 .emoji-copy-actions button:hover,
 .emoji-code-toolbar button:hover { border-color: var(--accent); }
 .toggle-favorite[aria-pressed="true"] {
-  border-color: var(--accent);
-  background: #15384d;
   color: var(--accent);
 }
 .emoji-code-view[hidden] { display: none; }

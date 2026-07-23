@@ -111,6 +111,9 @@ assert.equal(demoHtml.match(/data-copy="link"/g)?.length, 2, 'details and code v
 assert.match(demoHtml, /id="saved-dialog"/, 'demo must provide a saved-emoji dialog');
 assert.match(demoHtml, /id="help-dialog"/, 'demo must provide keyboard-shortcut help');
 assert.match(demoHtml, /class="toggle-favorite"/, 'emoji details must provide a favorite toggle');
+assert.match(demoHtml, /class="dialog-title-row"[\s\S]*class="toggle-favorite"[\s\S]*id="example-title"/, 'the favorite star must precede the emoji dialog title');
+assert.match(demoStyles, /\.emoji-dialog-eyebrow \{ display: none; \}/, 'the redundant Emoji details label must remain hidden');
+assert.match(demoScript, /dialogTitleRow\.prepend\(favoriteButton\)/, 'cached favorite controls must move into the dialog title');
 assert.match(demoHtml, /class="emoji-composition"/, 'emoji details must provide a sequence composition section');
 assert.match(demoScript, /function ensureUtilityControls/, 'new utility controls must be restored when cached HTML is stale');
 assert.match(demoScript, /updateEmojiComposition\(item, value\)/, 'emoji details must render multi-code-point compositions');

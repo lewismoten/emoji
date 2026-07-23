@@ -343,14 +343,29 @@ function ensureUtilityControls() {
     `);
   }
 
-  const actions = document.querySelector('.emoji-copy-actions');
-  if (actions && !actions.querySelector('.toggle-favorite')) {
-    actions.insertAdjacentHTML('afterbegin', `
-      <button class="toggle-favorite" type="button" aria-pressed="false">
-        <span aria-hidden="true">☆</span>
-        <span class="toggle-favorite-label" data-i18n="addFavorite">Add favorite</span>
-      </button>
-    `);
+  const dialogTitle = document.querySelector('.example-dialog .dialog-heading > div:first-child');
+  let dialogTitleRow = dialogTitle?.querySelector('.dialog-title-row');
+  if (dialogTitle && !dialogTitleRow) {
+    dialogTitleRow = document.createElement('div');
+    dialogTitleRow.className = 'dialog-title-row';
+    const title = dialogTitle.querySelector('h2');
+    title?.before(dialogTitleRow);
+    if (title) dialogTitleRow.append(title);
+  }
+  let favoriteButton = document.querySelector('.example-dialog .toggle-favorite');
+  if (dialogTitleRow && !favoriteButton) {
+    favoriteButton = document.createElement('button');
+    favoriteButton.className = 'toggle-favorite';
+    favoriteButton.type = 'button';
+    favoriteButton.setAttribute('aria-pressed', 'false');
+    favoriteButton.innerHTML = '<span aria-hidden="true">☆</span>';
+  }
+  if (dialogTitleRow && favoriteButton) {
+    favoriteButton.querySelector('.toggle-favorite-label')?.remove();
+    favoriteButton.dataset.i18nAriaLabel = 'addFavorite';
+    favoriteButton.setAttribute('aria-label', 'Add favorite');
+    favoriteButton.title = 'Add favorite';
+    dialogTitleRow.prepend(favoriteButton);
   }
   const dialogDetails = document.querySelector('.example-dialog .emoji-dialog-details');
   if (dialogDetails && !document.querySelector('.example-dialog .emoji-composition')) {
@@ -823,11 +838,12 @@ function updateFavoriteButton() {
   const favorite = favoriteEmojiKeys.includes(currentEmojiKey);
   button.setAttribute('aria-pressed', String(favorite));
   button.querySelector('[aria-hidden="true"]').textContent = favorite ? '★' : '☆';
-  const label = button.querySelector('.toggle-favorite-label');
   const key = favorite ? 'removeFavorite' : 'addFavorite';
   const fallback = favorite ? 'Remove favorite' : 'Add favorite';
-  label.dataset.i18n = key;
-  label.textContent = translate(key, fallback);
+  const label = translate(key, fallback);
+  button.dataset.i18nAriaLabel = key;
+  button.setAttribute('aria-label', label);
+  button.title = label;
 }
 
 function toggleFavorite(key) {
