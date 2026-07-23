@@ -7,3 +7,4 @@
 /dist/esm/*
 !/dist/esm/index.js
 /service-worker.js
+.DS_Store

@@ -179,6 +179,7 @@
           <h2 id="example-title">Use this emoji</h2>
         </div>
         <div class="dialog-controls">
+          <button class="dialog-navigate emoji-parent" type="button" aria-label="Back to parent emoji" hidden>↩</button>
           <button class="dialog-navigate emoji-previous" type="button" data-i18n-aria-label="previousEmoji" aria-label="Previous emoji">←</button>
           <button class="dialog-navigate emoji-next" type="button" data-i18n-aria-label="nextEmoji" aria-label="Next emoji">→</button>
           <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
@@ -195,10 +196,13 @@
             <p class="localized-keywords"></p>
           </div>
         </div>
+        <section class="emoji-composition" hidden>
+          <h3 data-i18n="builtFrom">Built from</h3>
+          <div class="emoji-composition-equation" dir="ltr"></div>
+        </section>
         <dl class="emoji-metadata">
           <div class="emoji-english-name-row"><dt data-i18n="englishName">English name</dt><dd class="emoji-english-name"></dd></div>
           <div><dt data-i18n="introduced">Introduced</dt><dd class="emoji-version"></dd></div>
-          <div><dt data-i18n="codePoints">Code points</dt><dd class="emoji-code-points" dir="ltr"></dd></div>
           <div><dt data-i18n="sequenceType">Sequence type</dt><dd class="emoji-sequence-type"></dd></div>
           <div><dt data-i18n="qualification">Qualification</dt><dd class="emoji-status"></dd></div>
         </dl>

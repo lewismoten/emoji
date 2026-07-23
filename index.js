@@ -16,6 +16,7 @@ var allIds = Object.keys(emojiByKey);
 var releasedIds = new Set();
 var groupedKeys = {};
 var byId = {};
+var emojiKeyByCodePoints = new Map();
 
 var searchText;
 var languagePicker;
@@ -49,6 +50,7 @@ var activeFilterText;
 var clearFiltersButton;
 var orderButtons;
 var exampleDialog;
+var emojiParent;
 var emojiPrevious;
 var emojiNext;
 var skinToneCheckboxes;
@@ -349,6 +351,15 @@ function ensureUtilityControls() {
       </button>
     `);
   }
+  const dialogDetails = document.querySelector('.example-dialog .emoji-dialog-details');
+  if (dialogDetails && !document.querySelector('.example-dialog .emoji-composition')) {
+    dialogDetails.insertAdjacentHTML('afterend', `
+      <section class="emoji-composition" hidden>
+        <h3 data-i18n="builtFrom">Built from</h3>
+        <div class="emoji-composition-equation" dir="ltr"></div>
+      </section>
+    `);
+  }
 
   const main = document.querySelector('main');
   if (main && !document.querySelector('.saved-dialog')) {
@@ -477,6 +488,7 @@ async function onLoad() {
   orderButtons = Array.from(document.getElementsByClassName('order-mode'));
   exampleDialog = document.getElementsByClassName('example-dialog')[0];
   upgradeEmojiDialog();
+  emojiParent = document.getElementsByClassName('emoji-parent')[0];
   copyStatus = document.getElementsByClassName('copy-status')[0];
   emojiPrevious = document.getElementsByClassName('emoji-previous')[0];
   emojiNext = document.getElementsByClassName('emoji-next')[0];
@@ -524,6 +536,22 @@ async function onLoad() {
   emojiList.addEventListener('focusin', onEmojiFocus);
   emojiList.addEventListener('keydown', onEmojiKeyDown);
   exampleDialog.addEventListener('click', event => {
+    const compositionButton = event.target.closest('[data-composition-emoji]');
+    if (compositionButton) {
+      const parentEmojiKey = currentEmojiKey;
+      showEmoji(compositionButton.dataset.compositionEmoji, false);
+      syncUrlState('push', {
+        ...window.history.state,
+        emojiDialogEntry: false,
+        compositionParent: parentEmojiKey
+      });
+      updateCompositionBackButton();
+      return;
+    }
+    if (event.target.closest('.emoji-parent')) {
+      window.history.back();
+      return;
+    }
     const favoriteButton = event.target.closest('.toggle-favorite');
     if (favoriteButton) {
       toggleFavorite(currentEmojiKey);
@@ -618,6 +646,16 @@ function upgradeEmojiDialog() {
   removeLegacyDialogElements();
   ensureImportExamples();
   ensureCodeDialogView();
+  const dialogControls = exampleDialog.querySelector('.dialog-controls');
+  if (dialogControls && !dialogControls.querySelector('.emoji-parent')) {
+    const parent = document.createElement('button');
+    parent.className = 'dialog-navigate emoji-parent';
+    parent.type = 'button';
+    parent.hidden = true;
+    parent.textContent = '↩';
+    parent.setAttribute('aria-label', 'Back to parent emoji');
+    dialogControls.prepend(parent);
+  }
 
   const eyebrow = exampleDialog.querySelector('.emoji-dialog-eyebrow');
   if (eyebrow) {
@@ -731,6 +769,8 @@ function ensureCodeDialogView() {
 function setEmojiDialogView(showCode, updateUrl = true) {
   exampleDialog.classList.toggle('is-code-view', showCode);
   exampleDialog.querySelector('.emoji-dialog-details').hidden = showCode;
+  const composition = exampleDialog.querySelector('.emoji-composition');
+  if (composition) composition.hidden = showCode || composition.dataset.available !== 'true';
   exampleDialog.querySelector('.emoji-metadata').hidden = showCode;
   exampleDialog.querySelector('.emoji-copy-actions').hidden = showCode;
   exampleDialog.querySelector('.emoji-code-view').hidden = !showCode;
@@ -856,6 +896,8 @@ function removeLegacyDialogElements() {
   dialog?.querySelector('[data-i18n="copiedDescription"]')?.remove();
   dialog?.querySelector('.example-link')?.remove();
   dialog?.querySelector('.emoji-copy-actions [data-copy="emoji"]')?.remove();
+  dialog?.querySelector('.emoji-code-points')?.closest('div')?.remove();
+  dialog?.querySelector('.emoji-metadata [data-i18n="codePoints"]')?.closest('div')?.remove();
 }
 
 function ensureActiveFilterSummary() {
@@ -1247,6 +1289,13 @@ async function loadData() {
       .size > 1;
   });
       byId = items.reduce((byId, item) => ({ ...byId, [item.key]: item }), {});
+      emojiKeyByCodePoints = items.reduce((lookup, item) => {
+        const codePoints = normalizeCodePoints(item.codePoints);
+        if (codePoints && (!lookup.has(codePoints) || item.status === 'fully-qualified')) {
+          lookup.set(codePoints, item.key);
+        }
+        return lookup;
+      }, new Map());
 
       groups = items
         .reduce((all, item) => all.includes(item.group) ? all : [...all, item.group], [])
@@ -2311,8 +2360,156 @@ function onEmojiDialogClose() {
   if (window.history.state?.emojiDialogEntry) {
     window.history.back();
   } else {
-    syncUrlState();
+    syncUrlState('replace', withoutCompositionParent());
   }
+}
+
+function withoutCompositionParent(state = window.history.state) {
+  const nextState = { ...(state ?? {}) };
+  delete nextState.compositionParent;
+  return nextState;
+}
+
+function updateEmojiComposition(item, value) {
+  const section = exampleDialog.querySelector('.emoji-composition');
+  const equation = section?.querySelector('.emoji-composition-equation');
+  if (!section || !equation) return;
+  const points = (item.codePoints ?? '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(hex => ({ hex: hex.toUpperCase(), point: Number.parseInt(hex, 16) }))
+    .filter(component => Number.isFinite(component.point));
+
+  equation.replaceChildren();
+  section.dataset.available = String(points.length > 1);
+  section.hidden = points.length <= 1;
+  if (points.length <= 1) return;
+
+  points.forEach((component, index) => {
+    const part = createCompositionPart(component);
+    equation.append(index === 0 ? part : createCompositionTerm('+', part));
+  });
+  equation.append(createCompositionTerm('=', createCompositionResult(value, item.shortName)));
+}
+
+function createCompositionPart({ hex, point }) {
+  const linkedEmojiKey = findCompositionEmojiKey(hex);
+  const part = document.createElement(linkedEmojiKey ? 'button' : 'span');
+  const glyph = document.createElement('span');
+  const code = document.createElement('span');
+  const details = describeCompositionPoint(point);
+  part.className = 'emoji-composition-part';
+  if (linkedEmojiKey) {
+    const linkedName = searchAnnotations[linkedEmojiKey]?.[0]
+      ?? byId[linkedEmojiKey]?.shortName
+      ?? displayEmojiKey(linkedEmojiKey);
+    const viewLabel = translate('viewEmoji', 'View emoji');
+    part.type = 'button';
+    part.dataset.compositionEmoji = linkedEmojiKey;
+    part.title = `${details.label} — ${viewLabel}: ${linkedName}`;
+    part.setAttribute('aria-label', `${details.label}, U+${hex}. ${viewLabel}: ${linkedName}`);
+  } else {
+    part.setAttribute('role', 'img');
+    part.title = details.label;
+    part.setAttribute('aria-label', `${details.label}, U+${hex}`);
+  }
+  glyph.className = `emoji-composition-glyph${details.symbolic ? ' is-symbolic' : ''}`;
+  glyph.textContent = details.glyph;
+  code.className = 'emoji-composition-code emoji-composition-code-point';
+  code.textContent = `U+${hex}`;
+  part.append(glyph, code);
+  return part;
+}
+
+function normalizeCodePoints(codePoints) {
+  return (codePoints ?? '').trim().replace(/\s+/g, ' ').toUpperCase();
+}
+
+function findCompositionEmojiKey(hex) {
+  const normalized = normalizeCodePoints(hex);
+  return emojiKeyByCodePoints.get(normalized)
+    ?? emojiKeyByCodePoints.get(`${normalized} FE0F`);
+}
+
+function createCompositionOperator(operator) {
+  const element = document.createElement('span');
+  element.className = 'emoji-composition-operator';
+  element.setAttribute('aria-hidden', 'true');
+  element.textContent = operator;
+  return element;
+}
+
+function createCompositionTerm(operator, part) {
+  const term = document.createElement('span');
+  term.className = 'emoji-composition-term';
+  term.append(createCompositionOperator(operator), part);
+  return term;
+}
+
+function createCompositionResult(value, name) {
+  const result = document.createElement('span');
+  const glyph = document.createElement('span');
+  const label = document.createElement('span');
+  const resultLabel = translate('result', 'Result');
+  result.className = 'emoji-composition-part emoji-composition-result';
+  result.setAttribute('role', 'img');
+  result.setAttribute('aria-label', `${resultLabel}: ${name ?? value}`);
+  glyph.className = 'emoji-composition-glyph';
+  glyph.textContent = value;
+  label.className = 'emoji-composition-code';
+  label.textContent = resultLabel;
+  result.append(glyph, label);
+  return result;
+}
+
+function describeCompositionPoint(point) {
+  const special = {
+    0x200D: ['ZWJ', 'zeroWidthJoiner', 'Zero-width joiner'],
+    0xFE0E: ['VS15', 'textPresentation', 'Text presentation selector'],
+    0xFE0F: ['VS16', 'emojiPresentation', 'Emoji presentation selector'],
+    0x20E3: [null, 'combiningKeycap', 'Combining keycap', 'keycapAbbreviation', 'KEY'],
+    0xE007F: [null, 'cancelTag', 'Cancel tag', 'cancelTagAbbreviation', 'END']
+  }[point];
+  if (special) {
+    const label = translate(special[1], special[2]);
+    const glyph = special[0] ?? translate(special[3], special[4]);
+    return { glyph, label, symbolic: true };
+  }
+  if (point >= 0x1F3FB && point <= 0x1F3FF) {
+    const tones = [
+      ['light', 'Light skin tone'],
+      ['mediumLight', 'Medium-light skin tone'],
+      ['medium', 'Medium skin tone'],
+      ['mediumDark', 'Medium-dark skin tone'],
+      ['dark', 'Dark skin tone']
+    ];
+    const [key, fallback] = tones[point - 0x1F3FB];
+    return { glyph: String.fromCodePoint(point), label: translate(key, fallback), symbolic: false };
+  }
+  if (point >= 0x1F1E6 && point <= 0x1F1FF) {
+    const letter = String.fromCharCode(65 + point - 0x1F1E6);
+    return {
+      glyph: String.fromCodePoint(point),
+      label: `${translate('regionalIndicator', 'Regional indicator')} ${letter}`,
+      symbolic: false
+    };
+  }
+  if (point >= 0xE0020 && point <= 0xE007E) {
+    const character = String.fromCodePoint(point - 0xE0000);
+    const visibleCharacter = character === ' ' ? '␠' : character;
+    const tagLabel = translate('tagCharacter', 'Tag character');
+    const tagAbbreviation = translate('tagAbbreviation', 'TAG');
+    return {
+      glyph: `${tagAbbreviation} ${visibleCharacter}`,
+      label: `${tagLabel} ${visibleCharacter}`,
+      symbolic: true
+    };
+  }
+  return {
+    glyph: String.fromCodePoint(point),
+    label: `U+${point.toString(16).toUpperCase()}`,
+    symbolic: false
+  };
 }
 
 function showEmoji(id, openDialog = true, navigationKeys) {
@@ -2346,12 +2543,12 @@ function showEmoji(id, openDialog = true, navigationKeys) {
   document.getElementsByClassName('emoji-preview-glyph')[0].innerText = value;
   const item = byId[id] ?? {};
   updateEmojiImportExamples(item);
+  updateEmojiComposition(item, value);
   const codePoints = (item.codePoints ?? '').split(/\s+/).filter(Boolean).map(point => `U+${point}`).join(' ');
   const englishName = item.shortName ?? displayEmojiKey(id);
   const englishNameElement = document.getElementsByClassName('emoji-english-name')[0];
   englishNameElement.innerText = englishName;
   document.getElementsByClassName('emoji-version')[0].innerText = getIntroducedVersion(id);
-  document.getElementsByClassName('emoji-code-points')[0].innerText = codePoints;
   const sequenceLabel = sequenceTypeLabels[item.sequenceType] ?? item.sequenceType ?? '—';
   document.getElementsByClassName('emoji-sequence-type')[0].innerText = translate(sequenceTranslationKeys[item.sequenceType], sequenceLabel);
   document.getElementsByClassName('emoji-status')[0].innerText = translate(statusTranslationKeys[item.status], item.status ?? '—');
@@ -2376,7 +2573,10 @@ function showEmoji(id, openDialog = true, navigationKeys) {
     if (copyStatus) copyStatus.textContent = '';
     setEmojiDialogView(false, false);
     exampleDialog.showModal();
-    syncUrlState('push', { ...window.history.state, emojiDialogEntry: true });
+    syncUrlState('push', {
+      ...withoutCompositionParent(),
+      emojiDialogEntry: true
+    });
   }
   updateDialogNavigation();
 }
@@ -2397,6 +2597,21 @@ function updateDialogNavigation() {
   const index = keys.indexOf(currentEmojiKey);
   if (emojiPrevious) emojiPrevious.disabled = index <= 0;
   if (emojiNext) emojiNext.disabled = index === -1 || index >= keys.length - 1;
+  updateCompositionBackButton();
+}
+
+function updateCompositionBackButton() {
+  if (!emojiParent) return;
+  const parentKey = window.history.state?.compositionParent;
+  const available = Boolean(parentKey && emojiByKey[parentKey]);
+  emojiParent.hidden = !available;
+  if (!available) return;
+  const parentName = searchAnnotations[parentKey]?.[0]
+    ?? byId[parentKey]?.shortName
+    ?? displayEmojiKey(parentKey);
+  const label = `${translate('backToEmoji', 'Back to emoji')}: ${parentName}`;
+  emojiParent.title = label;
+  emojiParent.setAttribute('aria-label', label);
 }
 removeLegacyDialogElements();
 window.addEventListener("load", onLoad);

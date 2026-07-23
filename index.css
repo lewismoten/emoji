@@ -494,6 +494,7 @@ h2 { margin: 0; font-size: 1.15rem; }
   line-height: 1;
 }
 .dialog-navigate { font-size: 1rem; }
+.emoji-parent[hidden] { display: none; }
 [dir="rtl"] .dialog-navigate { transform: scaleX(-1); }
 .dialog-navigate:disabled { cursor: default; opacity: .35; }
 .dialog-description { margin: .8rem 1rem; color: var(--muted); font-size: .88rem; }
@@ -538,6 +539,51 @@ h2 { margin: 0; font-size: 1.15rem; }
 .localized-emoji-details { min-width: 0; }
 .localized-language { margin: 0 0 .25rem; color: var(--accent); font-size: .8rem; font-weight: 750; }
 .localized-keywords { margin: 0; color: var(--muted); font-size: .88rem; line-height: 1.5; }
+.emoji-composition {
+  min-width: 0;
+  padding: 0 1rem .85rem;
+}
+.emoji-composition h3 { margin: 0 0 .4rem; color: var(--muted); font-size: .72rem; }
+.emoji-composition-equation {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .25rem;
+  padding: .15rem .1rem;
+}
+[dir="rtl"] .emoji-composition-equation {
+  direction: rtl;
+  justify-content: flex-start;
+}
+.emoji-composition-term { display: inline-flex; flex: 0 0 auto; align-items: center; gap: .25rem; }
+.emoji-composition-part {
+  display: grid;
+  flex: 0 0 auto;
+  min-width: 2.65rem;
+  min-height: 2.85rem;
+  place-items: center;
+  align-content: center;
+  gap: .15rem;
+  padding: .25rem .3rem;
+  border: 1px solid transparent;
+  border-radius: .5rem;
+  background: transparent;
+  color: var(--text);
+}
+button.emoji-composition-part {
+  border-color: var(--border);
+  background: var(--panel-strong);
+  cursor: pointer;
+  font: inherit;
+}
+button.emoji-composition-part:hover { border-color: var(--accent); background: #15384d; }
+button.emoji-composition-part:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.emoji-composition-glyph { font-family: var(--emoji-font); font-size: 1.45rem; line-height: 1; }
+.emoji-composition-glyph.is-symbolic { font-family: var(--ui-font); font-size: .64rem; font-weight: 800; }
+.emoji-composition-code { color: var(--muted); font: 600 .54rem/1.1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.emoji-composition-code-point { direction: ltr; unicode-bidi: isolate; }
+.emoji-composition-operator { flex: 0 0 auto; color: var(--accent); font-size: 1rem; font-weight: 800; }
+.emoji-composition-result { border-color: var(--border); background: var(--panel-strong); }
 .emoji-metadata {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
@@ -546,6 +592,7 @@ h2 { margin: 0; font-size: 1.15rem; }
   padding: 0 1rem .85rem;
 }
 .emoji-metadata > div { padding: .5rem .6rem; border: 1px solid var(--border); border-radius: .5rem; background: var(--panel-strong); }
+.emoji-metadata > div:has(.emoji-code-points) { display: none; }
 .emoji-metadata dt { color: var(--muted); font-size: .7rem; font-weight: 700; }
 .emoji-metadata dd { margin: .2rem 0 0; overflow-wrap: anywhere; font-size: .82rem; }
 .emoji-copy-actions,
@@ -646,6 +693,7 @@ kbd {
     grid-template-areas:
       "heading heading"
       "details metadata"
+      "composition metadata"
       "actions metadata"
       "code code";
     grid-template-columns: minmax(0, 1fr) 16rem;
@@ -658,6 +706,7 @@ kbd {
     align-self: start;
     padding-top: 1rem;
   }
+  .example-dialog > .emoji-composition { grid-area: composition; }
   .example-dialog > .emoji-metadata {
     grid-area: metadata;
     grid-template-columns: 1fr;
