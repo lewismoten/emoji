@@ -110,7 +110,7 @@ export function createPixelEditor({
           </div>
           <label><input class="pixel-editor-fill-shapes" type="checkbox"> <span data-i18n="fillShapeInteriors">Fill rectangle and ellipse interiors</span></label>
         </fieldset>
-        <fieldset>
+        <fieldset class="pixel-editor-tracing">
           <legend data-i18n="tracing">Tracing</legend>
           <label class="pixel-editor-trace-opacity">
             <span class="pixel-editor-trace-opacity-heading">
@@ -120,7 +120,6 @@ export function createPixelEditor({
             <input class="pixel-editor-trace-alpha" type="range" min="0" max="100" value="35">
           </label>
           <div class="pixel-editor-trace-position">
-            <span data-i18n="tracePosition">Position</span>
             <div role="group" data-i18n-aria-label="tracePosition" aria-label="Trace position">
               ${traceNudgeButton("left", -1, 0, "←", "nudgeTraceLeft", "Move trace left one pixel")}
               ${traceNudgeButton("up", 0, -1, "↑", "nudgeTraceUp", "Move trace up one pixel")}

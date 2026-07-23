@@ -787,8 +787,28 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /@media \(max-width: 560px\)[\s\S]*\.pixel-editor-trace-position > span[\s\S]*display:\s*none;[\s\S]*\.pixel-editor-trace-nudge[\s\S]*width:\s*1\.8rem;[\s\S]*height:\s*1\.8rem;/,
-  "narrow pixel editors must hide the position label and compact the trace controls",
+  /\.pixel-editor-tracing[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\) auto;[\s\S]*@media \(max-width: 560px\)[\s\S]*\.pixel-editor-tracing[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\);/,
+  "trace position must sit beside opacity on wide screens and stack on narrow screens",
+);
+assert.match(
+  demoStyles,
+  /\.pixel-editor-trace-position[\s\S]*display:\s*grid;[\s\S]*justify-items:\s*center;/,
+  "trace directional pad must remain centered in its column",
+);
+assert.match(
+  demoStyles,
+  /@media \(max-width: 560px\)[\s\S]*\.pixel-editor-trace-nudge[\s\S]*width:\s*1\.8rem;[\s\S]*height:\s*1\.8rem;/,
+  "narrow pixel editors must compact the trace controls",
+);
+assert.doesNotMatch(
+  pixelEditorScript,
+  /data-i18n="tracePosition">Position/,
+  "trace directional pad must not display a redundant Position label",
+);
+assert.match(
+  pixelEditorScript,
+  /role="group" data-i18n-aria-label="tracePosition" aria-label="Trace position"/,
+  "trace directional pad must retain its localized accessible group name",
 );
 for (const action of ["copyPixelArt", "copyFontGlyph", "pastePixelArt"]) {
   assert.match(
