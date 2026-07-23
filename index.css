@@ -542,6 +542,35 @@ h2 { margin: 0; font-size: 1.15rem; }
 .code .object-key { color: #ffaaa3; }
 .code .emoji-value { font-family: var(--emoji-font); }
 
+@media (min-width: 720px) {
+  .example-dialog[open] {
+    display: grid;
+    grid-template-areas:
+      "heading heading"
+      "details metadata"
+      "actions metadata"
+      "code code";
+    grid-template-columns: minmax(0, 1fr) 16rem;
+    width: min(56rem, calc(100vw - 2rem));
+  }
+
+  .example-dialog > .dialog-heading { grid-area: heading; }
+  .example-dialog > .emoji-dialog-details {
+    grid-area: details;
+    align-self: start;
+    padding-top: 1rem;
+  }
+  .example-dialog > .emoji-metadata {
+    grid-area: metadata;
+    grid-template-columns: 1fr;
+    align-content: start;
+    padding: 1rem 1rem 1rem 0;
+  }
+  [dir="rtl"] .example-dialog > .emoji-metadata { padding: 1rem 0 1rem 1rem; }
+  .example-dialog > .emoji-copy-actions { grid-area: actions; }
+  .example-dialog > .code { grid-area: code; }
+}
+
 .list { display: flex; flex-wrap: wrap; padding: 1rem; }
 .empty-results {
   width: min(32rem, 100%);
