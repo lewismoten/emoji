@@ -3,6 +3,7 @@
   "id": "travel-and-places/transport-air",
   "image": "travel-and-places/transport-air.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "transport-air",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "transport-air",
       "order": 3015,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "transport-air",
       "order": 3016,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "transport-air",
       "order": 3017,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "transport-air",
       "order": 3018,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "transport-air",
       "order": 3019,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "transport-air",
       "order": 3020,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "transport-air",
       "order": 3021,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "transport-air",
       "order": 3022,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "transport-air",
       "order": 3023,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "transport-air",
       "order": 3024,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "transport-air",
       "order": 3025,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "transport-air",
       "order": 3026,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "transport-air",
       "order": 3027,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

@@ -3,6 +3,7 @@
   "id": "flags/subdivision-flag",
   "image": "flags/subdivision-flag.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Flags",
   "subGroup": "subdivision-flag",
   "part": 1,
@@ -45,6 +46,7 @@
       "subGroup": "subdivision-flag",
       "order": 3950,
       "sequenceType": "tag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -71,6 +73,7 @@
       "subGroup": "subdivision-flag",
       "order": 3951,
       "sequenceType": "tag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -97,6 +100,7 @@
       "subGroup": "subdivision-flag",
       "order": 3952,
       "sequenceType": "tag",
+      "modifierType": "base",
       "active": true
     }
   ]

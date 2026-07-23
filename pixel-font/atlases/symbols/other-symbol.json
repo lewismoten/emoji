@@ -3,6 +3,7 @@
   "id": "symbols/other-symbol",
   "image": "symbols/other-symbol.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Symbols",
   "subGroup": "other-symbol",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "other-symbol",
       "order": 3575,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "other-symbol",
       "order": 3576,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "other-symbol",
       "order": 3577,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "other-symbol",
       "order": 3578,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "other-symbol",
       "order": 3579,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "other-symbol",
       "order": 3580,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "other-symbol",
       "order": 3581,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "other-symbol",
       "order": 3582,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "other-symbol",
       "order": 3583,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "other-symbol",
       "order": 3584,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "other-symbol",
       "order": 3585,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "other-symbol",
       "order": 3586,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "other-symbol",
       "order": 3587,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "other-symbol",
       "order": 3588,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "other-symbol",
       "order": 3589,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "other-symbol",
       "order": 3590,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -325,6 +342,7 @@
       "subGroup": "other-symbol",
       "order": 3591,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -343,6 +361,7 @@
       "subGroup": "other-symbol",
       "order": 3592,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -361,6 +380,7 @@
       "subGroup": "other-symbol",
       "order": 3593,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -379,6 +399,7 @@
       "subGroup": "other-symbol",
       "order": 3594,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -397,6 +418,7 @@
       "subGroup": "other-symbol",
       "order": 3595,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -415,6 +437,7 @@
       "subGroup": "other-symbol",
       "order": 3596,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

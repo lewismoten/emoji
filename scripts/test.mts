@@ -71,11 +71,16 @@ type PixelAtlasManifest = {
   slotSize: number;
   columns: number;
   maxRows: number;
+  activeGlyphCount: number;
+  baseGlyphCount: number;
+  modifierGlyphCount: number;
+  modifierTypeCounts: Record<string, number>;
   groupCount: number;
   subGroupCount: number;
   sheets: {
     image: string;
     mapping: string;
+    modifierType: string;
     group: string;
     subGroup: string;
     rows: number;
@@ -1198,7 +1203,7 @@ assert.match(
 );
 assert.equal(
   pixelAtlasManifest.layout,
-  "grouped-subgroups-v1",
+  "grouped-subgroups-v2",
   "pixel atlases must use the grouped subgroup layout",
 );
 assert.equal(
@@ -1233,6 +1238,30 @@ assert.ok(
 assert.ok(
   pixelAtlasManifest.subGroupCount > pixelAtlasManifest.groupCount,
   "pixel atlases must be divided into Unicode subgroups",
+);
+assert.equal(
+  pixelAtlasManifest.activeGlyphCount,
+  emoji.length,
+  "pixel atlases must assign every emoji, including modifier sequences",
+);
+assert.equal(
+  pixelAtlasManifest.baseGlyphCount + pixelAtlasManifest.modifierGlyphCount,
+  emoji.length,
+  "pixel atlas base and modifier counts must cover every emoji",
+);
+assert.ok(
+  pixelAtlasManifest.modifierTypeCounts["skin-tone"] > 0 &&
+    pixelAtlasManifest.modifierTypeCounts.hair > 0 &&
+    pixelAtlasManifest.modifierTypeCounts["skin-and-hair"] > 0,
+  "pixel atlases must provide skin-tone, hair, and combined modifier sets",
+);
+assert.ok(
+  pixelAtlasManifest.sheets.some(
+    (sheet) =>
+      sheet.modifierType === "skin-tone" &&
+      sheet.mapping.startsWith("modifiers/skin-tone/"),
+  ),
+  "skin-tone emoji must use separate modifier atlas paths",
 );
 assert.ok(
   pixelAtlasManifest.sheets.every(

@@ -3,6 +3,7 @@
   "id": "symbols/transport-sign",
   "image": "symbols/transport-sign.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Symbols",
   "subGroup": "transport-sign",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "transport-sign",
       "order": 3459,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "transport-sign",
       "order": 3460,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "transport-sign",
       "order": 3461,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "transport-sign",
       "order": 3462,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "transport-sign",
       "order": 3463,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "transport-sign",
       "order": 3464,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "transport-sign",
       "order": 3465,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "transport-sign",
       "order": 3466,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "transport-sign",
       "order": 3467,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "transport-sign",
       "order": 3468,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "transport-sign",
       "order": 3469,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "transport-sign",
       "order": 3470,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "transport-sign",
       "order": 3471,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

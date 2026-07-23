@@ -3,6 +3,7 @@
   "id": "objects/mail",
   "image": "objects/mail.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Objects",
   "subGroup": "mail",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "mail",
       "order": 3335,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "mail",
       "order": 3336,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "mail",
       "order": 3337,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "mail",
       "order": 3338,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "mail",
       "order": 3339,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "mail",
       "order": 3340,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "mail",
       "order": 3341,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "mail",
       "order": 3342,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "mail",
       "order": 3343,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "mail",
       "order": 3344,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "mail",
       "order": 3345,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "mail",
       "order": 3346,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "mail",
       "order": 3347,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

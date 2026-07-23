@@ -259,6 +259,8 @@ def ligature_features(glyph_sources, base_names, codepoint_names, single_by_code
 def is_zero_width_component(codepoint):
     return (
         codepoint in {0x200D, 0x20E3}
+        or 0x1F3FB <= codepoint <= 0x1F3FF
+        or 0x1F9B0 <= codepoint <= 0x1F9B3
         or 0xE0020 <= codepoint <= 0xE007F
     )
 

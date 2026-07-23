@@ -3,6 +3,7 @@
   "id": "animals-and-nature/animal-reptile",
   "image": "animals-and-nature/animal-reptile.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Animals & Nature",
   "subGroup": "animal-reptile",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "animal-reptile",
       "order": 2687,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "animal-reptile",
       "order": 2688,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "animal-reptile",
       "order": 2689,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "animal-reptile",
       "order": 2690,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "animal-reptile",
       "order": 2691,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "animal-reptile",
       "order": 2692,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "animal-reptile",
       "order": 2693,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "animal-reptile",
       "order": 2694,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

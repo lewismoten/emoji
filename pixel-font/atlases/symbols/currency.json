@@ -3,6 +3,7 @@
   "id": "symbols/currency",
   "image": "symbols/currency.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Symbols",
   "subGroup": "currency",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "currency",
       "order": 3573,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "currency",
       "order": 3574,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

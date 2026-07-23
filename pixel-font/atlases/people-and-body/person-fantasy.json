@@ -3,6 +3,7 @@
   "id": "people-and-body/person-fantasy",
   "image": "people-and-body/person-fantasy.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "People & Body",
   "subGroup": "person-fantasy",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "person-fantasy",
       "order": 1337,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "person-fantasy",
       "order": 1343,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "person-fantasy",
       "order": 1349,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "person-fantasy",
       "order": 1355,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "person-fantasy",
       "order": 1361,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "person-fantasy",
       "order": 1367,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "person-fantasy",
       "order": 1373,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "person-fantasy",
       "order": 1379,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "person-fantasy",
       "order": 1385,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "person-fantasy",
       "order": 1391,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "person-fantasy",
       "order": 1397,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "person-fantasy",
       "order": 1403,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "person-fantasy",
       "order": 1409,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "person-fantasy",
       "order": 1415,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "person-fantasy",
       "order": 1421,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "person-fantasy",
       "order": 1427,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -325,6 +342,7 @@
       "subGroup": "person-fantasy",
       "order": 1433,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -343,6 +361,7 @@
       "subGroup": "person-fantasy",
       "order": 1439,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -361,6 +380,7 @@
       "subGroup": "person-fantasy",
       "order": 1445,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -379,6 +399,7 @@
       "subGroup": "person-fantasy",
       "order": 1451,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -397,6 +418,7 @@
       "subGroup": "person-fantasy",
       "order": 1457,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -415,6 +437,7 @@
       "subGroup": "person-fantasy",
       "order": 1463,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -433,6 +456,7 @@
       "subGroup": "person-fantasy",
       "order": 1469,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -451,6 +475,7 @@
       "subGroup": "person-fantasy",
       "order": 1475,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -469,6 +494,7 @@
       "subGroup": "person-fantasy",
       "order": 1481,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -487,6 +513,7 @@
       "subGroup": "person-fantasy",
       "order": 1487,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -505,6 +532,7 @@
       "subGroup": "person-fantasy",
       "order": 1488,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -523,6 +551,7 @@
       "subGroup": "person-fantasy",
       "order": 1489,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -541,6 +570,7 @@
       "subGroup": "person-fantasy",
       "order": 1490,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -559,6 +589,7 @@
       "subGroup": "person-fantasy",
       "order": 1491,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -577,6 +608,7 @@
       "subGroup": "person-fantasy",
       "order": 1492,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -595,6 +627,7 @@
       "subGroup": "person-fantasy",
       "order": 1493,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -613,6 +646,7 @@
       "subGroup": "person-fantasy",
       "order": 1494,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

@@ -3,6 +3,7 @@
   "id": "smileys-and-emotion/face-unwell",
   "image": "smileys-and-emotion/face-unwell.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-unwell",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "face-unwell",
       "order": 58,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "face-unwell",
       "order": 59,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "face-unwell",
       "order": 60,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "face-unwell",
       "order": 61,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "face-unwell",
       "order": 62,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "face-unwell",
       "order": 63,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "face-unwell",
       "order": 64,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "face-unwell",
       "order": 65,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "face-unwell",
       "order": 66,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "face-unwell",
       "order": 67,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "face-unwell",
       "order": 68,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "face-unwell",
       "order": 69,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

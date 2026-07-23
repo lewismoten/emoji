@@ -3,6 +3,7 @@
   "id": "people-and-body/person-resting",
   "image": "people-and-body/person-resting.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "People & Body",
   "subGroup": "person-resting",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "person-resting",
       "order": 2211,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "person-resting",
       "order": 2217,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "person-resting",
       "order": 2223,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "person-resting",
       "order": 2229,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "person-resting",
       "order": 2235,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

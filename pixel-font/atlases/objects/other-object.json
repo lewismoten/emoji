@@ -3,6 +3,7 @@
   "id": "objects/other-object",
   "image": "objects/other-object.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Objects",
   "subGroup": "other-object",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "other-object",
       "order": 3450,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "other-object",
       "order": 3451,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "other-object",
       "order": 3452,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "other-object",
       "order": 3453,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "other-object",
       "order": 3454,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "other-object",
       "order": 3455,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "other-object",
       "order": 3456,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "other-object",
       "order": 3457,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "other-object",
       "order": 3458,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

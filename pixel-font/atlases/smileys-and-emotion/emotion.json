@@ -3,6 +3,7 @@
   "id": "smileys-and-emotion/emotion",
   "image": "smileys-and-emotion/emotion.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "emotion",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "emotion",
       "order": 156,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "emotion",
       "order": 157,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "emotion",
       "order": 158,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "emotion",
       "order": 159,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "emotion",
       "order": 160,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "emotion",
       "order": 161,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "emotion",
       "order": 162,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "emotion",
       "order": 163,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "emotion",
       "order": 164,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "emotion",
       "order": 165,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "emotion",
       "order": 166,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "emotion",
       "order": 167,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "emotion",
       "order": 168,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "emotion",
       "order": 169,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "emotion",
       "order": 170,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

@@ -3,6 +3,7 @@
   "id": "objects/light-and-video",
   "image": "objects/light-and-video.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Objects",
   "subGroup": "light & video",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "light & video",
       "order": 3291,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "light & video",
       "order": 3292,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "light & video",
       "order": 3293,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "light & video",
       "order": 3294,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "light & video",
       "order": 3295,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "light & video",
       "order": 3296,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "light & video",
       "order": 3297,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "light & video",
       "order": 3298,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "light & video",
       "order": 3299,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "light & video",
       "order": 3300,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "light & video",
       "order": 3301,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "light & video",
       "order": 3302,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "light & video",
       "order": 3303,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "light & video",
       "order": 3304,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "light & video",
       "order": 3305,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "light & video",
       "order": 3306,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

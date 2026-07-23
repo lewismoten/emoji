@@ -3,6 +3,7 @@
   "id": "food-and-drink/food-fruit",
   "image": "food-and-drink/food-fruit.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Food & Drink",
   "subGroup": "food-fruit",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "food-fruit",
       "order": 2758,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "food-fruit",
       "order": 2759,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "food-fruit",
       "order": 2760,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "food-fruit",
       "order": 2761,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "food-fruit",
       "order": 2762,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "food-fruit",
       "order": 2763,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "food-fruit",
       "order": 2764,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "food-fruit",
       "order": 2765,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "food-fruit",
       "order": 2766,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "food-fruit",
       "order": 2767,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "food-fruit",
       "order": 2768,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "food-fruit",
       "order": 2769,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "food-fruit",
       "order": 2770,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "food-fruit",
       "order": 2771,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "food-fruit",
       "order": 2772,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "food-fruit",
       "order": 2773,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -325,6 +342,7 @@
       "subGroup": "food-fruit",
       "order": 2774,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -343,6 +361,7 @@
       "subGroup": "food-fruit",
       "order": 2775,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -361,6 +380,7 @@
       "subGroup": "food-fruit",
       "order": 2776,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -379,6 +399,7 @@
       "subGroup": "food-fruit",
       "order": 2777,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

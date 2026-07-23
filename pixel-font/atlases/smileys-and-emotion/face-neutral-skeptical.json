@@ -3,6 +3,7 @@
   "id": "smileys-and-emotion/face-neutral-skeptical",
   "image": "smileys-and-emotion/face-neutral-skeptical.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-neutral-skeptical",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 36,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 37,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 38,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 39,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 40,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 41,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 42,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 43,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 44,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 45,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 46,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 47,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 48,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 49,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 50,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "face-neutral-skeptical",
       "order": 51,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     }
   ]

@@ -3,6 +3,7 @@
   "id": "food-and-drink/food-sweet",
   "image": "food-and-drink/food-sweet.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Food & Drink",
   "subGroup": "food-sweet",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "food-sweet",
       "order": 2848,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "food-sweet",
       "order": 2849,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "food-sweet",
       "order": 2850,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "food-sweet",
       "order": 2851,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "food-sweet",
       "order": 2852,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "food-sweet",
       "order": 2853,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "food-sweet",
       "order": 2854,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "food-sweet",
       "order": 2855,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "food-sweet",
       "order": 2856,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "food-sweet",
       "order": 2857,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "food-sweet",
       "order": 2858,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "food-sweet",
       "order": 2859,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "food-sweet",
       "order": 2860,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "food-sweet",
       "order": 2861,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

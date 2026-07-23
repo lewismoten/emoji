@@ -3,6 +3,7 @@
   "id": "travel-and-places/time",
   "image": "travel-and-places/time.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "time",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "time",
       "order": 3030,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "time",
       "order": 3031,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "time",
       "order": 3032,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "time",
       "order": 3033,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "time",
       "order": 3034,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "time",
       "order": 3035,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "time",
       "order": 3036,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "time",
       "order": 3037,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "time",
       "order": 3038,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "time",
       "order": 3039,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "time",
       "order": 3040,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "time",
       "order": 3041,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "time",
       "order": 3042,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "time",
       "order": 3043,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "time",
       "order": 3044,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "time",
       "order": 3045,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -325,6 +342,7 @@
       "subGroup": "time",
       "order": 3046,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -343,6 +361,7 @@
       "subGroup": "time",
       "order": 3047,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -361,6 +380,7 @@
       "subGroup": "time",
       "order": 3048,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -379,6 +399,7 @@
       "subGroup": "time",
       "order": 3049,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -397,6 +418,7 @@
       "subGroup": "time",
       "order": 3050,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -415,6 +437,7 @@
       "subGroup": "time",
       "order": 3051,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -433,6 +456,7 @@
       "subGroup": "time",
       "order": 3052,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -451,6 +475,7 @@
       "subGroup": "time",
       "order": 3053,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -469,6 +494,7 @@
       "subGroup": "time",
       "order": 3054,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -487,6 +513,7 @@
       "subGroup": "time",
       "order": 3055,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -505,6 +532,7 @@
       "subGroup": "time",
       "order": 3056,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -523,6 +551,7 @@
       "subGroup": "time",
       "order": 3057,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -541,6 +570,7 @@
       "subGroup": "time",
       "order": 3058,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -559,6 +589,7 @@
       "subGroup": "time",
       "order": 3059,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -577,6 +608,7 @@
       "subGroup": "time",
       "order": 3060,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

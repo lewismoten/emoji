@@ -3,6 +3,7 @@
   "id": "objects/sound",
   "image": "objects/sound.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Objects",
   "subGroup": "sound",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "sound",
       "order": 3240,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "sound",
       "order": 3241,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "sound",
       "order": 3242,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "sound",
       "order": 3243,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "sound",
       "order": 3244,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "sound",
       "order": 3245,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "sound",
       "order": 3246,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "sound",
       "order": 3247,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "sound",
       "order": 3248,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

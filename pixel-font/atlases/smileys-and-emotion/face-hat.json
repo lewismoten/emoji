@@ -3,6 +3,7 @@
   "id": "smileys-and-emotion/face-hat",
   "image": "smileys-and-emotion/face-hat.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-hat",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "face-hat",
       "order": 70,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "face-hat",
       "order": 71,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "face-hat",
       "order": 72,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

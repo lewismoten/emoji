@@ -3,6 +3,7 @@
   "id": "objects/household",
   "image": "objects/household.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Objects",
   "subGroup": "household",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "household",
       "order": 3425,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "household",
       "order": 3426,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "household",
       "order": 3427,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "household",
       "order": 3428,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "household",
       "order": 3429,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "household",
       "order": 3430,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "household",
       "order": 3431,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "household",
       "order": 3432,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "household",
       "order": 3433,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "household",
       "order": 3434,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "household",
       "order": 3435,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "household",
       "order": 3436,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "household",
       "order": 3437,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "household",
       "order": 3438,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "household",
       "order": 3439,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "household",
       "order": 3440,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -325,6 +342,7 @@
       "subGroup": "household",
       "order": 3441,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -343,6 +361,7 @@
       "subGroup": "household",
       "order": 3442,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -361,6 +380,7 @@
       "subGroup": "household",
       "order": 3443,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -379,6 +399,7 @@
       "subGroup": "household",
       "order": 3444,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -397,6 +418,7 @@
       "subGroup": "household",
       "order": 3445,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -415,6 +437,7 @@
       "subGroup": "household",
       "order": 3446,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -433,6 +456,7 @@
       "subGroup": "household",
       "order": 3447,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -451,6 +475,7 @@
       "subGroup": "household",
       "order": 3448,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -469,6 +494,7 @@
       "subGroup": "household",
       "order": 3449,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

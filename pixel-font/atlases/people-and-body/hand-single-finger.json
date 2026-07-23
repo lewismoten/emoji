@@ -3,6 +3,7 @@
   "id": "people-and-body/hand-single-finger",
   "image": "people-and-body/hand-single-finger.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "People & Body",
   "subGroup": "hand-single-finger",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "hand-single-finger",
       "order": 291,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "hand-single-finger",
       "order": 297,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "hand-single-finger",
       "order": 303,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "hand-single-finger",
       "order": 309,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "hand-single-finger",
       "order": 315,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "hand-single-finger",
       "order": 321,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "hand-single-finger",
       "order": 327,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

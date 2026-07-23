@@ -29,10 +29,18 @@ Unicode sequence, row, column, pixel bounds, category, and sequence type.
 Assignments are stable: rerunning generation preserves existing cells and
 places newly added Unicode emoji into the next free cells.
 
-The base atlas set excludes sequences containing skin-tone modifiers
-(`U+1F3FB`–`U+1F3FF`) or hair components (`U+1F9B0`–`U+1F9B3`). Other
-sequences—including flags, keycaps, variation selectors, and unmodified ZWJ
-emoji—remain eligible.
+Unmodified emoji keep the original group/subgroup paths. Sequences containing
+skin-tone modifiers (`U+1F3FB`–`U+1F3FF`) or hair components
+(`U+1F9B0`–`U+1F9B3`) are assigned to separate atlas trees:
+
+```text
+atlases/modifiers/skin-tone/people-and-body/person-activity.png
+atlases/modifiers/hair/people-and-body/person.png
+atlases/modifiers/skin-and-hair/people-and-body/person.png
+```
+
+This keeps the base sheets compact while making every modifier combination
+available to the editor and the same generated font.
 
 ## Sequence glyphs
 
@@ -46,13 +54,9 @@ OpenType ligatures:
 - tag flags retain their tag characters and cancel tag;
 - variation selectors are normalized out of the substitution.
 
-Joiners, combining keycaps, and tag characters receive zero-width component
-glyphs. Ligature rules are emitted longest-first so a shorter known sequence
-cannot consume the beginning of a longer one.
-
-Skin-tone and hair sequences remain intentionally excluded for now. They can
-be introduced later as modifier atlases without splitting the generated font
-into separate files.
+Joiners, combining keycaps, tags, skin tones, and hair components receive
+zero-width component glyphs. Ligature rules are emitted longest-first so a
+shorter known sequence cannot consume the beginning of a longer one.
 
 ## Automatic component reuse
 

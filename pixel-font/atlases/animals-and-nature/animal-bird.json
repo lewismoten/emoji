@@ -3,6 +3,7 @@
   "id": "animals-and-nature/animal-bird",
   "image": "animals-and-nature/animal-bird.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Animals & Nature",
   "subGroup": "animal-bird",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "animal-bird",
       "order": 2664,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "animal-bird",
       "order": 2665,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "animal-bird",
       "order": 2666,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "animal-bird",
       "order": 2667,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "animal-bird",
       "order": 2668,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "animal-bird",
       "order": 2669,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "animal-bird",
       "order": 2670,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "animal-bird",
       "order": 2671,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "animal-bird",
       "order": 2672,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "animal-bird",
       "order": 2673,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "animal-bird",
       "order": 2674,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "animal-bird",
       "order": 2675,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "animal-bird",
       "order": 2676,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "animal-bird",
       "order": 2677,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "animal-bird",
       "order": 2678,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "animal-bird",
       "order": 2679,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -325,6 +342,7 @@
       "subGroup": "animal-bird",
       "order": 2680,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -343,6 +361,7 @@
       "subGroup": "animal-bird",
       "order": 2681,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -361,6 +380,7 @@
       "subGroup": "animal-bird",
       "order": 2682,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -379,6 +399,7 @@
       "subGroup": "animal-bird",
       "order": 2683,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -397,6 +418,7 @@
       "subGroup": "animal-bird",
       "order": 2684,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -415,6 +437,7 @@
       "subGroup": "animal-bird",
       "order": 2685,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     }
   ]

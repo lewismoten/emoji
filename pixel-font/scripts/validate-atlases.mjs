@@ -18,18 +18,17 @@ const manifest = JSON.parse(
 const emoji = JSON.parse(
   await fs.readFile(path.join(root, "emoji.json"), "utf8"),
 );
-const excluded = new Set(
-  config.excludedModifierCodePoints.map((point) => point.toUpperCase()),
+const skinToneModifiers = new Set(
+  config.skinToneModifierCodePoints.map((point) => point.toUpperCase()),
 );
-const eligible = emoji.filter(
-  (item) =>
-    !item.codePoints
-      .split(/\s+/)
-      .some((point) => excluded.has(point.toUpperCase())),
+const hairModifiers = new Set(
+  config.hairModifierCodePoints.map((point) => point.toUpperCase()),
 );
+const eligible = emoji;
 const expectedKeys = new Set(eligible.map((item) => item.key));
 const expectedByKey = new Map(eligible.map((item) => [item.key, item]));
 const expectedSequenceTypeCounts = countBySequenceType(eligible);
+const expectedModifierTypeCounts = countByModifierType(eligible);
 const seenKeys = new Set();
 let activeCount = 0;
 let assignedCount = 0;
@@ -44,7 +43,7 @@ assert(
   "Manifest column count differs from config",
 );
 assert(
-  manifest.layout === "grouped-subgroups-v1",
+  manifest.layout === "grouped-subgroups-v2",
   "Manifest does not use grouped subgroup sheets",
 );
 assert(
@@ -62,12 +61,30 @@ assert(
     JSON.stringify(expectedSequenceTypeCounts),
   "Manifest sequence type counts are incorrect",
 );
+assert(
+  JSON.stringify(manifest.modifierTypeCounts) ===
+    JSON.stringify(expectedModifierTypeCounts),
+  "Manifest modifier type counts are incorrect",
+);
+assert(
+  manifest.baseGlyphCount === expectedModifierTypeCounts.base,
+  "Manifest base glyph count is incorrect",
+);
+assert(
+  manifest.modifierGlyphCount ===
+    eligible.length - expectedModifierTypeCounts.base,
+  "Manifest modifier glyph count is incorrect",
+);
 
 for (const sheet of manifest.sheets) {
   const sidecar = JSON.parse(
     await fs.readFile(path.join(atlasDirectory, sheet.mapping), "utf8"),
   );
   assert(sidecar.id === sheet.id, `${sheet.mapping} has the wrong ID`);
+  assert(
+    sidecar.modifierType === sheet.modifierType,
+    `${sheet.mapping} has the wrong modifier type`,
+  );
   assert(
     sidecar.image === sheet.image,
     `${sheet.mapping} points to the wrong PNG`,
@@ -161,11 +178,11 @@ for (const sheet of manifest.sheets) {
       activeCount += 1;
       assert(
         expectedKeys.has(entry.key),
-        `Active atlas entry ${entry.key} is not an eligible base emoji`,
+        `Active atlas entry ${entry.key} is not an eligible emoji`,
       );
       assert(
-        !entry.codePoints.some((point) => excluded.has(point.toUpperCase())),
-        `Active atlas entry ${entry.key} contains an excluded modifier`,
+        entry.modifierType === getModifierType(entry),
+        `Active atlas entry ${entry.key} has the wrong modifier type`,
       );
       const expected = expectedByKey.get(entry.key);
       assert(
@@ -186,7 +203,9 @@ for (const sheet of manifest.sheets) {
       assert(
         entry.sequenceType === "single"
           ? normalizedLength === 1
-          : normalizedLength > 1,
+          : entry.sequenceType === "modifier"
+            ? normalizedLength >= 1
+            : normalizedLength > 1,
         `${entry.key} has an invalid ${entry.sequenceType} sequence`,
       );
     }
@@ -196,7 +215,7 @@ for (const sheet of manifest.sheets) {
 for (const key of expectedKeys) {
   assert(
     seenKeys.has(key),
-    `Eligible base emoji ${key} is missing from the atlases`,
+    `Eligible emoji ${key} is missing from the atlases`,
   );
 }
 assert(
@@ -209,7 +228,7 @@ assert(
 );
 
 console.log(
-  `Verified ${activeCount.toLocaleString()} active base emoji in ` +
+  `Verified ${activeCount.toLocaleString()} active emoji in ` +
     `${manifest.sheets.length} atlas mappings; ${imageCount.toLocaleString()} PNG ` +
     `${imageCount === 1 ? "file contains" : "files contain"} artwork.`,
 );
@@ -264,5 +283,26 @@ function countBySequenceType(entries) {
         type,
         entries.filter((entry) => entry.sequenceType === type).length,
       ]),
+  );
+}
+
+function getModifierType(item) {
+  const points = Array.isArray(item.codePoints)
+    ? item.codePoints.map((point) => point.toUpperCase())
+    : item.codePoints.split(/\s+/).map((point) => point.toUpperCase());
+  const hasSkinTone = points.some((point) => skinToneModifiers.has(point));
+  const hasHair = points.some((point) => hairModifiers.has(point));
+  if (hasSkinTone && hasHair) return "skin-and-hair";
+  if (hasSkinTone) return "skin-tone";
+  if (hasHair) return "hair";
+  return "base";
+}
+
+function countByModifierType(entries) {
+  return Object.fromEntries(
+    ["base", "skin-tone", "hair", "skin-and-hair"].map((type) => [
+      type,
+      entries.filter((entry) => getModifierType(entry) === type).length,
+    ]),
   );
 }

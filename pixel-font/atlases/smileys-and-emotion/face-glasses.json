@@ -3,6 +3,7 @@
   "id": "smileys-and-emotion/face-glasses",
   "image": "smileys-and-emotion/face-glasses.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-glasses",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "face-glasses",
       "order": 73,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "face-glasses",
       "order": 74,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "face-glasses",
       "order": 75,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

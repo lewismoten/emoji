@@ -3,6 +3,7 @@
   "id": "activities/arts-and-crafts",
   "image": "activities/arts-and-crafts.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Activities",
   "subGroup": "arts & crafts",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "arts & crafts",
       "order": 3186,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "arts & crafts",
       "order": 3187,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "arts & crafts",
       "order": 3188,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "arts & crafts",
       "order": 3189,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "arts & crafts",
       "order": 3190,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "arts & crafts",
       "order": 3191,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "arts & crafts",
       "order": 3192,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

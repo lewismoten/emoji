@@ -3,6 +3,7 @@
   "id": "travel-and-places/place-geographic",
   "image": "travel-and-places/place-geographic.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "place-geographic",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "place-geographic",
       "order": 2896,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "place-geographic",
       "order": 2897,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "place-geographic",
       "order": 2898,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "place-geographic",
       "order": 2899,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "place-geographic",
       "order": 2900,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "place-geographic",
       "order": 2901,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "place-geographic",
       "order": 2902,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "place-geographic",
       "order": 2903,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "place-geographic",
       "order": 2904,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "place-geographic",
       "order": 2905,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

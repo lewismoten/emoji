@@ -3,6 +3,7 @@
   "id": "people-and-body/person-activity",
   "image": "people-and-body/person-activity.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "People & Body",
   "subGroup": "person-activity",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "person-activity",
       "order": 1495,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "person-activity",
       "order": 1501,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "person-activity",
       "order": 1507,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "person-activity",
       "order": 1513,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "person-activity",
       "order": 1519,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "person-activity",
       "order": 1525,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "person-activity",
       "order": 1531,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "person-activity",
       "order": 1537,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "person-activity",
       "order": 1543,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "person-activity",
       "order": 1549,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "person-activity",
       "order": 1555,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "person-activity",
       "order": 1561,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "person-activity",
       "order": 1567,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "person-activity",
       "order": 1573,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "person-activity",
       "order": 1579,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "person-activity",
       "order": 1585,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -325,6 +342,7 @@
       "subGroup": "person-activity",
       "order": 1591,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -343,6 +361,7 @@
       "subGroup": "person-activity",
       "order": 1597,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -361,6 +380,7 @@
       "subGroup": "person-activity",
       "order": 1603,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -379,6 +399,7 @@
       "subGroup": "person-activity",
       "order": 1609,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -397,6 +418,7 @@
       "subGroup": "person-activity",
       "order": 1615,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -415,6 +437,7 @@
       "subGroup": "person-activity",
       "order": 1621,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -433,6 +456,7 @@
       "subGroup": "person-activity",
       "order": 1627,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -451,6 +475,7 @@
       "subGroup": "person-activity",
       "order": 1633,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -469,6 +494,7 @@
       "subGroup": "person-activity",
       "order": 1639,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -487,6 +513,7 @@
       "subGroup": "person-activity",
       "order": 1645,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -505,6 +532,7 @@
       "subGroup": "person-activity",
       "order": 1651,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -523,6 +551,7 @@
       "subGroup": "person-activity",
       "order": 1657,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -541,6 +570,7 @@
       "subGroup": "person-activity",
       "order": 1663,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -559,6 +589,7 @@
       "subGroup": "person-activity",
       "order": 1669,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -577,6 +608,7 @@
       "subGroup": "person-activity",
       "order": 1675,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -595,6 +627,7 @@
       "subGroup": "person-activity",
       "order": 1681,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -613,6 +646,7 @@
       "subGroup": "person-activity",
       "order": 1687,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -631,6 +665,7 @@
       "subGroup": "person-activity",
       "order": 1693,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -649,6 +684,7 @@
       "subGroup": "person-activity",
       "order": 1699,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -667,6 +703,7 @@
       "subGroup": "person-activity",
       "order": 1705,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -685,6 +722,7 @@
       "subGroup": "person-activity",
       "order": 1711,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -703,6 +741,7 @@
       "subGroup": "person-activity",
       "order": 1717,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -721,6 +760,7 @@
       "subGroup": "person-activity",
       "order": 1723,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -739,6 +779,7 @@
       "subGroup": "person-activity",
       "order": 1729,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -757,6 +798,7 @@
       "subGroup": "person-activity",
       "order": 1735,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -775,6 +817,7 @@
       "subGroup": "person-activity",
       "order": 1741,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -793,6 +836,7 @@
       "subGroup": "person-activity",
       "order": 1747,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -811,6 +855,7 @@
       "subGroup": "person-activity",
       "order": 1753,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -829,6 +874,7 @@
       "subGroup": "person-activity",
       "order": 1759,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -847,6 +893,7 @@
       "subGroup": "person-activity",
       "order": 1765,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -865,6 +912,7 @@
       "subGroup": "person-activity",
       "order": 1771,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -883,6 +931,7 @@
       "subGroup": "person-activity",
       "order": 1777,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -901,6 +950,7 @@
       "subGroup": "person-activity",
       "order": 1783,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -919,6 +969,7 @@
       "subGroup": "person-activity",
       "order": 1789,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -937,6 +988,7 @@
       "subGroup": "person-activity",
       "order": 1795,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -955,6 +1007,7 @@
       "subGroup": "person-activity",
       "order": 1801,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -973,6 +1026,7 @@
       "subGroup": "person-activity",
       "order": 1867,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -991,6 +1045,7 @@
       "subGroup": "person-activity",
       "order": 1873,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1009,6 +1064,7 @@
       "subGroup": "person-activity",
       "order": 1879,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1027,6 +1083,7 @@
       "subGroup": "person-activity",
       "order": 1885,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1045,6 +1102,7 @@
       "subGroup": "person-activity",
       "order": 1891,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1063,6 +1121,7 @@
       "subGroup": "person-activity",
       "order": 1897,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     }
   ]

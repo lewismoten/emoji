@@ -3,6 +3,7 @@
   "id": "travel-and-places/transport-water",
   "image": "travel-and-places/transport-water.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "transport-water",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "transport-water",
       "order": 3006,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "transport-water",
       "order": 3007,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "transport-water",
       "order": 3008,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "transport-water",
       "order": 3009,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "transport-water",
       "order": 3010,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "transport-water",
       "order": 3011,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "transport-water",
       "order": 3012,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "transport-water",
       "order": 3013,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "transport-water",
       "order": 3014,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

@@ -3,6 +3,7 @@
   "id": "people-and-body/hands",
   "image": "people-and-body/hands.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "People & Body",
   "subGroup": "hands",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "hands",
       "order": 369,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "hands",
       "order": 375,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "hands",
       "order": 381,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "hands",
       "order": 387,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "hands",
       "order": 393,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "hands",
       "order": 399,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "hands",
       "order": 425,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

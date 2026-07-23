@@ -3,6 +3,7 @@
   "id": "symbols/gender",
   "image": "symbols/gender.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Symbols",
   "subGroup": "gender",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "gender",
       "order": 3557,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "gender",
       "order": 3558,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "gender",
       "order": 3559,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

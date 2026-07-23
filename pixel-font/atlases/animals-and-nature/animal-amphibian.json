@@ -3,6 +3,7 @@
   "id": "animals-and-nature/animal-amphibian",
   "image": "animals-and-nature/animal-amphibian.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Animals & Nature",
   "subGroup": "animal-amphibian",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "animal-amphibian",
       "order": 2686,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

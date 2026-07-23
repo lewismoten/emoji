@@ -3,6 +3,7 @@
   "id": "symbols/alphanum",
   "image": "symbols/alphanum.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Symbols",
   "subGroup": "alphanum",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "alphanum",
       "order": 3610,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "alphanum",
       "order": 3611,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "alphanum",
       "order": 3612,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "alphanum",
       "order": 3613,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "alphanum",
       "order": 3614,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "alphanum",
       "order": 3615,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "alphanum",
       "order": 3616,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "alphanum",
       "order": 3617,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "alphanum",
       "order": 3618,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "alphanum",
       "order": 3619,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "alphanum",
       "order": 3620,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "alphanum",
       "order": 3621,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "alphanum",
       "order": 3622,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "alphanum",
       "order": 3623,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "alphanum",
       "order": 3624,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "alphanum",
       "order": 3625,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -325,6 +342,7 @@
       "subGroup": "alphanum",
       "order": 3626,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -343,6 +361,7 @@
       "subGroup": "alphanum",
       "order": 3627,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -361,6 +380,7 @@
       "subGroup": "alphanum",
       "order": 3628,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -379,6 +399,7 @@
       "subGroup": "alphanum",
       "order": 3629,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -397,6 +418,7 @@
       "subGroup": "alphanum",
       "order": 3630,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -415,6 +437,7 @@
       "subGroup": "alphanum",
       "order": 3631,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -433,6 +456,7 @@
       "subGroup": "alphanum",
       "order": 3632,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -451,6 +475,7 @@
       "subGroup": "alphanum",
       "order": 3633,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -469,6 +494,7 @@
       "subGroup": "alphanum",
       "order": 3634,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -487,6 +513,7 @@
       "subGroup": "alphanum",
       "order": 3635,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -505,6 +532,7 @@
       "subGroup": "alphanum",
       "order": 3636,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -523,6 +551,7 @@
       "subGroup": "alphanum",
       "order": 3637,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -541,6 +570,7 @@
       "subGroup": "alphanum",
       "order": 3638,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -559,6 +589,7 @@
       "subGroup": "alphanum",
       "order": 3639,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -577,6 +608,7 @@
       "subGroup": "alphanum",
       "order": 3640,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -595,6 +627,7 @@
       "subGroup": "alphanum",
       "order": 3641,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -613,6 +646,7 @@
       "subGroup": "alphanum",
       "order": 3642,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -631,6 +665,7 @@
       "subGroup": "alphanum",
       "order": 3643,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -649,6 +684,7 @@
       "subGroup": "alphanum",
       "order": 3644,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -667,6 +703,7 @@
       "subGroup": "alphanum",
       "order": 3645,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -685,6 +722,7 @@
       "subGroup": "alphanum",
       "order": 3646,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -703,6 +741,7 @@
       "subGroup": "alphanum",
       "order": 3647,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -721,6 +760,7 @@
       "subGroup": "alphanum",
       "order": 3648,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

@@ -3,6 +3,7 @@
   "id": "travel-and-places/hotel",
   "image": "travel-and-places/hotel.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "hotel",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "hotel",
       "order": 3028,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "hotel",
       "order": 3029,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

@@ -3,6 +3,7 @@
   "id": "animals-and-nature/plant-flower",
   "image": "animals-and-nature/plant-flower.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Animals & Nature",
   "subGroup": "plant-flower",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "plant-flower",
       "order": 2729,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "plant-flower",
       "order": 2730,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "plant-flower",
       "order": 2731,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "plant-flower",
       "order": 2732,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "plant-flower",
       "order": 2733,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "plant-flower",
       "order": 2734,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "plant-flower",
       "order": 2735,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "plant-flower",
       "order": 2736,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "plant-flower",
       "order": 2737,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "plant-flower",
       "order": 2738,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "plant-flower",
       "order": 2739,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "plant-flower",
       "order": 2740,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

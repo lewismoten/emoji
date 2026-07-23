@@ -3,6 +3,7 @@
   "id": "smileys-and-emotion/face-tongue",
   "image": "smileys-and-emotion/face-tongue.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-tongue",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "face-tongue",
       "order": 23,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "face-tongue",
       "order": 24,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "face-tongue",
       "order": 25,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "face-tongue",
       "order": 26,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "face-tongue",
       "order": 27,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "face-tongue",
       "order": 28,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

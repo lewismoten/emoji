@@ -3,6 +3,7 @@
   "id": "animals-and-nature/animal-mammal",
   "image": "animals-and-nature/animal-mammal.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Animals & Nature",
   "subGroup": "animal-mammal",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "animal-mammal",
       "order": 2598,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "animal-mammal",
       "order": 2599,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "animal-mammal",
       "order": 2600,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "animal-mammal",
       "order": 2601,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "animal-mammal",
       "order": 2602,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "animal-mammal",
       "order": 2603,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "animal-mammal",
       "order": 2604,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "animal-mammal",
       "order": 2605,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "animal-mammal",
       "order": 2606,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "animal-mammal",
       "order": 2607,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "animal-mammal",
       "order": 2608,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "animal-mammal",
       "order": 2609,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "animal-mammal",
       "order": 2610,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "animal-mammal",
       "order": 2611,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "animal-mammal",
       "order": 2612,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "animal-mammal",
       "order": 2613,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -325,6 +342,7 @@
       "subGroup": "animal-mammal",
       "order": 2614,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -343,6 +361,7 @@
       "subGroup": "animal-mammal",
       "order": 2615,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -361,6 +380,7 @@
       "subGroup": "animal-mammal",
       "order": 2616,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -379,6 +399,7 @@
       "subGroup": "animal-mammal",
       "order": 2617,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -397,6 +418,7 @@
       "subGroup": "animal-mammal",
       "order": 2618,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -415,6 +437,7 @@
       "subGroup": "animal-mammal",
       "order": 2619,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -433,6 +456,7 @@
       "subGroup": "animal-mammal",
       "order": 2620,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -451,6 +475,7 @@
       "subGroup": "animal-mammal",
       "order": 2621,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -469,6 +494,7 @@
       "subGroup": "animal-mammal",
       "order": 2622,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -487,6 +513,7 @@
       "subGroup": "animal-mammal",
       "order": 2623,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -505,6 +532,7 @@
       "subGroup": "animal-mammal",
       "order": 2624,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -523,6 +551,7 @@
       "subGroup": "animal-mammal",
       "order": 2625,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -541,6 +570,7 @@
       "subGroup": "animal-mammal",
       "order": 2626,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -559,6 +589,7 @@
       "subGroup": "animal-mammal",
       "order": 2627,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -577,6 +608,7 @@
       "subGroup": "animal-mammal",
       "order": 2628,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -595,6 +627,7 @@
       "subGroup": "animal-mammal",
       "order": 2629,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -613,6 +646,7 @@
       "subGroup": "animal-mammal",
       "order": 2630,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -631,6 +665,7 @@
       "subGroup": "animal-mammal",
       "order": 2631,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -649,6 +684,7 @@
       "subGroup": "animal-mammal",
       "order": 2632,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -667,6 +703,7 @@
       "subGroup": "animal-mammal",
       "order": 2633,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -685,6 +722,7 @@
       "subGroup": "animal-mammal",
       "order": 2634,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -703,6 +741,7 @@
       "subGroup": "animal-mammal",
       "order": 2635,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -721,6 +760,7 @@
       "subGroup": "animal-mammal",
       "order": 2636,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -739,6 +779,7 @@
       "subGroup": "animal-mammal",
       "order": 2637,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -757,6 +798,7 @@
       "subGroup": "animal-mammal",
       "order": 2638,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -775,6 +817,7 @@
       "subGroup": "animal-mammal",
       "order": 2639,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -793,6 +836,7 @@
       "subGroup": "animal-mammal",
       "order": 2640,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -811,6 +855,7 @@
       "subGroup": "animal-mammal",
       "order": 2641,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -829,6 +874,7 @@
       "subGroup": "animal-mammal",
       "order": 2642,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -847,6 +893,7 @@
       "subGroup": "animal-mammal",
       "order": 2643,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -865,6 +912,7 @@
       "subGroup": "animal-mammal",
       "order": 2644,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -883,6 +931,7 @@
       "subGroup": "animal-mammal",
       "order": 2645,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -901,6 +950,7 @@
       "subGroup": "animal-mammal",
       "order": 2646,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -919,6 +969,7 @@
       "subGroup": "animal-mammal",
       "order": 2647,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -937,6 +988,7 @@
       "subGroup": "animal-mammal",
       "order": 2648,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -955,6 +1007,7 @@
       "subGroup": "animal-mammal",
       "order": 2649,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -973,6 +1026,7 @@
       "subGroup": "animal-mammal",
       "order": 2650,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -991,6 +1045,7 @@
       "subGroup": "animal-mammal",
       "order": 2651,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1009,6 +1064,7 @@
       "subGroup": "animal-mammal",
       "order": 2652,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1027,6 +1083,7 @@
       "subGroup": "animal-mammal",
       "order": 2653,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1045,6 +1102,7 @@
       "subGroup": "animal-mammal",
       "order": 2654,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1063,6 +1121,7 @@
       "subGroup": "animal-mammal",
       "order": 2655,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1081,6 +1140,7 @@
       "subGroup": "animal-mammal",
       "order": 2656,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1099,6 +1159,7 @@
       "subGroup": "animal-mammal",
       "order": 2657,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1117,6 +1178,7 @@
       "subGroup": "animal-mammal",
       "order": 2658,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1135,6 +1197,7 @@
       "subGroup": "animal-mammal",
       "order": 2659,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1153,6 +1216,7 @@
       "subGroup": "animal-mammal",
       "order": 2660,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1171,6 +1235,7 @@
       "subGroup": "animal-mammal",
       "order": 2661,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1189,6 +1254,7 @@
       "subGroup": "animal-mammal",
       "order": 2662,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1207,6 +1273,7 @@
       "subGroup": "animal-mammal",
       "order": 2663,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

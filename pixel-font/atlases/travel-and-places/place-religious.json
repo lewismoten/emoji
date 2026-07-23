@@ -3,6 +3,7 @@
   "id": "travel-and-places/place-religious",
   "image": "travel-and-places/place-religious.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "place-religious",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "place-religious",
       "order": 2933,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "place-religious",
       "order": 2934,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "place-religious",
       "order": 2935,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "place-religious",
       "order": 2936,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "place-religious",
       "order": 2937,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "place-religious",
       "order": 2938,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

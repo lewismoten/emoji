@@ -3,6 +3,7 @@
   "id": "travel-and-places/transport-ground",
   "image": "travel-and-places/transport-ground.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "transport-ground",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "transport-ground",
       "order": 2956,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "transport-ground",
       "order": 2957,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "transport-ground",
       "order": 2958,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "transport-ground",
       "order": 2959,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "transport-ground",
       "order": 2960,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "transport-ground",
       "order": 2961,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "transport-ground",
       "order": 2962,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "transport-ground",
       "order": 2963,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "transport-ground",
       "order": 2964,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "transport-ground",
       "order": 2965,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "transport-ground",
       "order": 2966,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "transport-ground",
       "order": 2967,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "transport-ground",
       "order": 2968,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "transport-ground",
       "order": 2969,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "transport-ground",
       "order": 2970,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "transport-ground",
       "order": 2971,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -325,6 +342,7 @@
       "subGroup": "transport-ground",
       "order": 2972,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -343,6 +361,7 @@
       "subGroup": "transport-ground",
       "order": 2973,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -361,6 +380,7 @@
       "subGroup": "transport-ground",
       "order": 2974,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -379,6 +399,7 @@
       "subGroup": "transport-ground",
       "order": 2975,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -397,6 +418,7 @@
       "subGroup": "transport-ground",
       "order": 2976,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -415,6 +437,7 @@
       "subGroup": "transport-ground",
       "order": 2977,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -433,6 +456,7 @@
       "subGroup": "transport-ground",
       "order": 2978,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -451,6 +475,7 @@
       "subGroup": "transport-ground",
       "order": 2979,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -469,6 +494,7 @@
       "subGroup": "transport-ground",
       "order": 2980,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -487,6 +513,7 @@
       "subGroup": "transport-ground",
       "order": 2981,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -505,6 +532,7 @@
       "subGroup": "transport-ground",
       "order": 2982,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -523,6 +551,7 @@
       "subGroup": "transport-ground",
       "order": 2983,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -541,6 +570,7 @@
       "subGroup": "transport-ground",
       "order": 2984,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -559,6 +589,7 @@
       "subGroup": "transport-ground",
       "order": 2985,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -577,6 +608,7 @@
       "subGroup": "transport-ground",
       "order": 2986,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -595,6 +627,7 @@
       "subGroup": "transport-ground",
       "order": 2987,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -613,6 +646,7 @@
       "subGroup": "transport-ground",
       "order": 2988,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -631,6 +665,7 @@
       "subGroup": "transport-ground",
       "order": 2989,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -649,6 +684,7 @@
       "subGroup": "transport-ground",
       "order": 2990,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -667,6 +703,7 @@
       "subGroup": "transport-ground",
       "order": 2991,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -685,6 +722,7 @@
       "subGroup": "transport-ground",
       "order": 2992,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -703,6 +741,7 @@
       "subGroup": "transport-ground",
       "order": 2993,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -721,6 +760,7 @@
       "subGroup": "transport-ground",
       "order": 2994,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -739,6 +779,7 @@
       "subGroup": "transport-ground",
       "order": 2995,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -757,6 +798,7 @@
       "subGroup": "transport-ground",
       "order": 2996,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -775,6 +817,7 @@
       "subGroup": "transport-ground",
       "order": 2997,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -793,6 +836,7 @@
       "subGroup": "transport-ground",
       "order": 2998,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -811,6 +855,7 @@
       "subGroup": "transport-ground",
       "order": 2999,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -829,6 +874,7 @@
       "subGroup": "transport-ground",
       "order": 3000,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -847,6 +893,7 @@
       "subGroup": "transport-ground",
       "order": 3001,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -865,6 +912,7 @@
       "subGroup": "transport-ground",
       "order": 3002,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -883,6 +931,7 @@
       "subGroup": "transport-ground",
       "order": 3003,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -901,6 +950,7 @@
       "subGroup": "transport-ground",
       "order": 3004,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -919,6 +969,7 @@
       "subGroup": "transport-ground",
       "order": 3005,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

@@ -3,6 +3,7 @@
   "id": "travel-and-places/place-map",
   "image": "travel-and-places/place-map.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "place-map",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "place-map",
       "order": 2889,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "place-map",
       "order": 2890,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "place-map",
       "order": 2891,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "place-map",
       "order": 2892,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "place-map",
       "order": 2893,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "place-map",
       "order": 2894,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "place-map",
       "order": 2895,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

@@ -3,6 +3,7 @@
   "id": "flags/country-flag-03",
   "image": "flags/country-flag-03.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Flags",
   "subGroup": "country-flag",
   "part": 3,
@@ -37,6 +38,7 @@
       "subGroup": "country-flag",
       "order": 3947,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "country-flag",
       "order": 3948,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "country-flag",
       "order": 3949,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     }
   ]

@@ -3,6 +3,7 @@
   "id": "objects/lock",
   "image": "objects/lock.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Objects",
   "subGroup": "lock",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "lock",
       "order": 3378,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "lock",
       "order": 3379,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "lock",
       "order": 3380,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "lock",
       "order": 3381,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "lock",
       "order": 3382,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "lock",
       "order": 3383,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

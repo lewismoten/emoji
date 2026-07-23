@@ -3,6 +3,7 @@
   "id": "food-and-drink/dishware",
   "image": "food-and-drink/dishware.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Food & Drink",
   "subGroup": "dishware",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "dishware",
       "order": 2882,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "dishware",
       "order": 2883,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "dishware",
       "order": 2884,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "dishware",
       "order": 2885,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "dishware",
       "order": 2886,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "dishware",
       "order": 2887,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "dishware",
       "order": 2888,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

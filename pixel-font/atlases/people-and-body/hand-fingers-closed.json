@@ -3,6 +3,7 @@
   "id": "people-and-body/hand-fingers-closed",
   "image": "people-and-body/hand-fingers-closed.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "People & Body",
   "subGroup": "hand-fingers-closed",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "hand-fingers-closed",
       "order": 333,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "hand-fingers-closed",
       "order": 339,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "hand-fingers-closed",
       "order": 345,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "hand-fingers-closed",
       "order": 351,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "hand-fingers-closed",
       "order": 357,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "hand-fingers-closed",
       "order": 363,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

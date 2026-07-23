@@ -3,6 +3,7 @@
   "id": "flags/flag",
   "image": "flags/flag.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Flags",
   "subGroup": "flag",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "flag",
       "order": 3683,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "flag",
       "order": 3684,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "flag",
       "order": 3685,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "flag",
       "order": 3686,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "flag",
       "order": 3687,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "flag",
       "order": 3688,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "flag",
       "order": 3689,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "flag",
       "order": 3690,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     }
   ]

@@ -3,6 +3,7 @@
   "id": "people-and-body/person-symbol",
   "image": "people-and-body/person-symbol.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "People & Body",
   "subGroup": "person-symbol",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "person-symbol",
       "order": 2578,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "person-symbol",
       "order": 2579,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "person-symbol",
       "order": 2580,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "person-symbol",
       "order": 2581,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "person-symbol",
       "order": 2582,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "person-symbol",
       "order": 2583,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -153,6 +160,7 @@
       "subGroup": "person-symbol",
       "order": 2584,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -171,6 +179,7 @@
       "subGroup": "person-symbol",
       "order": 2585,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -189,6 +198,7 @@
       "subGroup": "person-symbol",
       "order": 2586,
       "sequenceType": "zwj",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -207,6 +217,7 @@
       "subGroup": "person-symbol",
       "order": 2587,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -225,6 +236,7 @@
       "subGroup": "person-symbol",
       "order": 2588,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

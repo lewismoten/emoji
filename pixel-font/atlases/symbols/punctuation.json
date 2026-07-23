@@ -3,6 +3,7 @@
   "id": "symbols/punctuation",
   "image": "symbols/punctuation.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Symbols",
   "subGroup": "punctuation",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "punctuation",
       "order": 3566,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "punctuation",
       "order": 3567,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "punctuation",
       "order": 3568,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "punctuation",
       "order": 3569,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "punctuation",
       "order": 3570,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "punctuation",
       "order": 3571,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "punctuation",
       "order": 3572,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

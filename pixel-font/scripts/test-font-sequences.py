@@ -72,6 +72,10 @@ assert compiler.is_zero_width_component(0x200D)
 assert compiler.is_zero_width_component(0x20E3)
 assert compiler.is_zero_width_component(0xE0067)
 assert compiler.is_zero_width_component(0xE007F)
+assert compiler.is_zero_width_component(0x1F3FB)
+assert compiler.is_zero_width_component(0x1F3FF)
+assert compiler.is_zero_width_component(0x1F9B0)
+assert compiler.is_zero_width_component(0x1F9B3)
 assert not compiler.is_zero_width_component(0x1F1FA)
 
 

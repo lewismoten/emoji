@@ -3,6 +3,7 @@
   "id": "smileys-and-emotion/face-sleepy",
   "image": "smileys-and-emotion/face-sleepy.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-sleepy",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "face-sleepy",
       "order": 52,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "face-sleepy",
       "order": 53,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "face-sleepy",
       "order": 54,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "face-sleepy",
       "order": 55,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "face-sleepy",
       "order": 56,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "face-sleepy",
       "order": 57,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

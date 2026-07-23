@@ -111,7 +111,7 @@ const buildManifest = {
 };
 if (Object.keys(editorGlyphs).length !== manifest.activeGlyphCount) {
   throw new Error(
-    "Pixel editor manifest does not cover every active base-atlas assignment",
+    "Pixel editor manifest does not cover every active atlas assignment",
   );
 }
 await writeJson(path.join(buildDirectory, "manifest.json"), buildManifest);

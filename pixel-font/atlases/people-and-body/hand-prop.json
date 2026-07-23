@@ -3,6 +3,7 @@
   "id": "people-and-body/hand-prop",
   "image": "people-and-body/hand-prop.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "People & Body",
   "subGroup": "hand-prop",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "hand-prop",
       "order": 431,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "hand-prop",
       "order": 437,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "hand-prop",
       "order": 443,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

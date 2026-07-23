@@ -3,6 +3,7 @@
   "id": "objects/medical",
   "image": "objects/medical.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Objects",
   "subGroup": "medical",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "medical",
       "order": 3418,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "medical",
       "order": 3419,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "medical",
       "order": 3420,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "medical",
       "order": 3421,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "medical",
       "order": 3422,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "medical",
       "order": 3423,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "medical",
       "order": 3424,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

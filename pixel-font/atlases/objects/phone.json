@@ -3,6 +3,7 @@
   "id": "objects/phone",
   "image": "objects/phone.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Objects",
   "subGroup": "phone",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "phone",
       "order": 3271,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "phone",
       "order": 3272,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "phone",
       "order": 3273,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "phone",
       "order": 3274,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "phone",
       "order": 3275,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "phone",
       "order": 3276,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

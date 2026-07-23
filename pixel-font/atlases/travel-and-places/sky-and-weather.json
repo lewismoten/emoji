@@ -3,6 +3,7 @@
   "id": "travel-and-places/sky-and-weather",
   "image": "travel-and-places/sky-and-weather.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Travel & Places",
   "subGroup": "sky & weather",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "sky & weather",
       "order": 3061,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "sky & weather",
       "order": 3062,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "sky & weather",
       "order": 3063,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "sky & weather",
       "order": 3064,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "sky & weather",
       "order": 3065,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "sky & weather",
       "order": 3066,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "sky & weather",
       "order": 3067,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "sky & weather",
       "order": 3068,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "sky & weather",
       "order": 3069,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "sky & weather",
       "order": 3070,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "sky & weather",
       "order": 3071,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "sky & weather",
       "order": 3072,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "sky & weather",
       "order": 3073,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "sky & weather",
       "order": 3074,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "sky & weather",
       "order": 3075,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "sky & weather",
       "order": 3076,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -325,6 +342,7 @@
       "subGroup": "sky & weather",
       "order": 3077,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -343,6 +361,7 @@
       "subGroup": "sky & weather",
       "order": 3078,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -361,6 +380,7 @@
       "subGroup": "sky & weather",
       "order": 3079,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -379,6 +399,7 @@
       "subGroup": "sky & weather",
       "order": 3080,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -397,6 +418,7 @@
       "subGroup": "sky & weather",
       "order": 3081,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -415,6 +437,7 @@
       "subGroup": "sky & weather",
       "order": 3082,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -433,6 +456,7 @@
       "subGroup": "sky & weather",
       "order": 3083,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -451,6 +475,7 @@
       "subGroup": "sky & weather",
       "order": 3084,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -469,6 +494,7 @@
       "subGroup": "sky & weather",
       "order": 3085,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -487,6 +513,7 @@
       "subGroup": "sky & weather",
       "order": 3086,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -505,6 +532,7 @@
       "subGroup": "sky & weather",
       "order": 3087,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -523,6 +551,7 @@
       "subGroup": "sky & weather",
       "order": 3088,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -541,6 +570,7 @@
       "subGroup": "sky & weather",
       "order": 3089,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -559,6 +589,7 @@
       "subGroup": "sky & weather",
       "order": 3090,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -577,6 +608,7 @@
       "subGroup": "sky & weather",
       "order": 3091,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -595,6 +627,7 @@
       "subGroup": "sky & weather",
       "order": 3092,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -613,6 +646,7 @@
       "subGroup": "sky & weather",
       "order": 3093,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -631,6 +665,7 @@
       "subGroup": "sky & weather",
       "order": 3094,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -649,6 +684,7 @@
       "subGroup": "sky & weather",
       "order": 3095,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -667,6 +703,7 @@
       "subGroup": "sky & weather",
       "order": 3096,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -685,6 +722,7 @@
       "subGroup": "sky & weather",
       "order": 3097,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -703,6 +741,7 @@
       "subGroup": "sky & weather",
       "order": 3098,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -721,6 +760,7 @@
       "subGroup": "sky & weather",
       "order": 3099,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -739,6 +779,7 @@
       "subGroup": "sky & weather",
       "order": 3100,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -757,6 +798,7 @@
       "subGroup": "sky & weather",
       "order": 3101,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -775,6 +817,7 @@
       "subGroup": "sky & weather",
       "order": 3102,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -793,6 +836,7 @@
       "subGroup": "sky & weather",
       "order": 3103,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -811,6 +855,7 @@
       "subGroup": "sky & weather",
       "order": 3104,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -829,6 +874,7 @@
       "subGroup": "sky & weather",
       "order": 3105,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -847,6 +893,7 @@
       "subGroup": "sky & weather",
       "order": 3106,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -865,6 +912,7 @@
       "subGroup": "sky & weather",
       "order": 3107,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

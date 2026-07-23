@@ -3,6 +3,7 @@
   "id": "symbols/math",
   "image": "symbols/math.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Symbols",
   "subGroup": "math",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "math",
       "order": 3560,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "math",
       "order": 3561,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "math",
       "order": 3562,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "math",
       "order": 3563,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "math",
       "order": 3564,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "math",
       "order": 3565,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

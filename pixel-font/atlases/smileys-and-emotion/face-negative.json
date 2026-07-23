@@ -3,6 +3,7 @@
   "id": "smileys-and-emotion/face-negative",
   "image": "smileys-and-emotion/face-negative.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-negative",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "face-negative",
       "order": 103,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "face-negative",
       "order": 104,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "face-negative",
       "order": 105,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "face-negative",
       "order": 106,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "face-negative",
       "order": 107,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "face-negative",
       "order": 108,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "face-negative",
       "order": 109,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "face-negative",
       "order": 110,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

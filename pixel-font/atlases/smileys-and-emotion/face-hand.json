@@ -3,6 +3,7 @@
   "id": "smileys-and-emotion/face-hand",
   "image": "smileys-and-emotion/face-hand.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "face-hand",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "face-hand",
       "order": 29,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "face-hand",
       "order": 30,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "face-hand",
       "order": 31,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "face-hand",
       "order": 32,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "face-hand",
       "order": 33,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "face-hand",
       "order": 34,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "face-hand",
       "order": 35,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

@@ -3,6 +3,7 @@
   "id": "people-and-body/hand-fingers-open",
   "image": "people-and-body/hand-fingers-open.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "People & Body",
   "subGroup": "hand-fingers-open",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "hand-fingers-open",
       "order": 171,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "hand-fingers-open",
       "order": 177,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "hand-fingers-open",
       "order": 183,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "hand-fingers-open",
       "order": 189,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "hand-fingers-open",
       "order": 195,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "hand-fingers-open",
       "order": 201,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "hand-fingers-open",
       "order": 207,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "hand-fingers-open",
       "order": 213,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "hand-fingers-open",
       "order": 219,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "hand-fingers-open",
       "order": 225,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "hand-fingers-open",
       "order": 231,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

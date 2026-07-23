@@ -3,6 +3,7 @@
   "id": "activities/award-medal",
   "image": "activities/award-medal.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Activities",
   "subGroup": "award-medal",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "award-medal",
       "order": 3129,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "award-medal",
       "order": 3130,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "award-medal",
       "order": 3131,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "award-medal",
       "order": 3132,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "award-medal",
       "order": 3133,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "award-medal",
       "order": 3134,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

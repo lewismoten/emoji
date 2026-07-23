@@ -3,6 +3,7 @@
   "id": "smileys-and-emotion/monkey-face",
   "image": "smileys-and-emotion/monkey-face.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Smileys & Emotion",
   "subGroup": "monkey-face",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "monkey-face",
       "order": 128,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "monkey-face",
       "order": 129,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "monkey-face",
       "order": 130,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

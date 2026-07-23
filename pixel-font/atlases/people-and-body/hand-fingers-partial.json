@@ -3,6 +3,7 @@
   "id": "people-and-body/hand-fingers-partial",
   "image": "people-and-body/hand-fingers-partial.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "People & Body",
   "subGroup": "hand-fingers-partial",
   "part": 1,
@@ -37,6 +38,7 @@
       "subGroup": "hand-fingers-partial",
       "order": 237,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "hand-fingers-partial",
       "order": 243,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "hand-fingers-partial",
       "order": 249,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "hand-fingers-partial",
       "order": 255,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "hand-fingers-partial",
       "order": 261,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "hand-fingers-partial",
       "order": 267,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "hand-fingers-partial",
       "order": 273,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "hand-fingers-partial",
       "order": 279,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "hand-fingers-partial",
       "order": 285,
       "sequenceType": "single",
+      "modifierType": "base",
       "active": true
     }
   ]

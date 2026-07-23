@@ -3,6 +3,7 @@
   "id": "flags/country-flag-02",
   "image": "flags/country-flag-02.png",
   "setName": "Pixel Emoji Base Set",
+  "modifierType": "base",
   "group": "Flags",
   "subGroup": "country-flag",
   "part": 2,
@@ -37,6 +38,7 @@
       "subGroup": "country-flag",
       "order": 3819,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -55,6 +57,7 @@
       "subGroup": "country-flag",
       "order": 3820,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -73,6 +76,7 @@
       "subGroup": "country-flag",
       "order": 3821,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -91,6 +95,7 @@
       "subGroup": "country-flag",
       "order": 3822,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -109,6 +114,7 @@
       "subGroup": "country-flag",
       "order": 3823,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -127,6 +133,7 @@
       "subGroup": "country-flag",
       "order": 3824,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -145,6 +152,7 @@
       "subGroup": "country-flag",
       "order": 3825,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -163,6 +171,7 @@
       "subGroup": "country-flag",
       "order": 3826,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -181,6 +190,7 @@
       "subGroup": "country-flag",
       "order": 3827,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -199,6 +209,7 @@
       "subGroup": "country-flag",
       "order": 3828,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -217,6 +228,7 @@
       "subGroup": "country-flag",
       "order": 3829,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -235,6 +247,7 @@
       "subGroup": "country-flag",
       "order": 3830,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -253,6 +266,7 @@
       "subGroup": "country-flag",
       "order": 3831,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -271,6 +285,7 @@
       "subGroup": "country-flag",
       "order": 3832,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -289,6 +304,7 @@
       "subGroup": "country-flag",
       "order": 3833,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -307,6 +323,7 @@
       "subGroup": "country-flag",
       "order": 3834,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -325,6 +342,7 @@
       "subGroup": "country-flag",
       "order": 3835,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -343,6 +361,7 @@
       "subGroup": "country-flag",
       "order": 3836,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -361,6 +380,7 @@
       "subGroup": "country-flag",
       "order": 3837,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -379,6 +399,7 @@
       "subGroup": "country-flag",
       "order": 3838,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -397,6 +418,7 @@
       "subGroup": "country-flag",
       "order": 3839,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -415,6 +437,7 @@
       "subGroup": "country-flag",
       "order": 3840,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -433,6 +456,7 @@
       "subGroup": "country-flag",
       "order": 3841,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -451,6 +475,7 @@
       "subGroup": "country-flag",
       "order": 3842,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -469,6 +494,7 @@
       "subGroup": "country-flag",
       "order": 3843,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -487,6 +513,7 @@
       "subGroup": "country-flag",
       "order": 3844,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -505,6 +532,7 @@
       "subGroup": "country-flag",
       "order": 3845,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -523,6 +551,7 @@
       "subGroup": "country-flag",
       "order": 3846,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -541,6 +570,7 @@
       "subGroup": "country-flag",
       "order": 3847,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -559,6 +589,7 @@
       "subGroup": "country-flag",
       "order": 3848,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -577,6 +608,7 @@
       "subGroup": "country-flag",
       "order": 3849,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -595,6 +627,7 @@
       "subGroup": "country-flag",
       "order": 3850,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -613,6 +646,7 @@
       "subGroup": "country-flag",
       "order": 3851,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -631,6 +665,7 @@
       "subGroup": "country-flag",
       "order": 3852,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -649,6 +684,7 @@
       "subGroup": "country-flag",
       "order": 3853,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -667,6 +703,7 @@
       "subGroup": "country-flag",
       "order": 3854,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -685,6 +722,7 @@
       "subGroup": "country-flag",
       "order": 3855,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -703,6 +741,7 @@
       "subGroup": "country-flag",
       "order": 3856,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -721,6 +760,7 @@
       "subGroup": "country-flag",
       "order": 3857,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -739,6 +779,7 @@
       "subGroup": "country-flag",
       "order": 3858,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -757,6 +798,7 @@
       "subGroup": "country-flag",
       "order": 3859,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -775,6 +817,7 @@
       "subGroup": "country-flag",
       "order": 3860,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -793,6 +836,7 @@
       "subGroup": "country-flag",
       "order": 3861,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -811,6 +855,7 @@
       "subGroup": "country-flag",
       "order": 3862,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -829,6 +874,7 @@
       "subGroup": "country-flag",
       "order": 3863,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -847,6 +893,7 @@
       "subGroup": "country-flag",
       "order": 3864,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -865,6 +912,7 @@
       "subGroup": "country-flag",
       "order": 3865,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -883,6 +931,7 @@
       "subGroup": "country-flag",
       "order": 3866,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -901,6 +950,7 @@
       "subGroup": "country-flag",
       "order": 3867,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -919,6 +969,7 @@
       "subGroup": "country-flag",
       "order": 3868,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -937,6 +988,7 @@
       "subGroup": "country-flag",
       "order": 3869,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -955,6 +1007,7 @@
       "subGroup": "country-flag",
       "order": 3870,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -973,6 +1026,7 @@
       "subGroup": "country-flag",
       "order": 3871,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -991,6 +1045,7 @@
       "subGroup": "country-flag",
       "order": 3872,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1009,6 +1064,7 @@
       "subGroup": "country-flag",
       "order": 3873,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1027,6 +1083,7 @@
       "subGroup": "country-flag",
       "order": 3874,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1045,6 +1102,7 @@
       "subGroup": "country-flag",
       "order": 3875,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1063,6 +1121,7 @@
       "subGroup": "country-flag",
       "order": 3876,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1081,6 +1140,7 @@
       "subGroup": "country-flag",
       "order": 3877,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1099,6 +1159,7 @@
       "subGroup": "country-flag",
       "order": 3878,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1117,6 +1178,7 @@
       "subGroup": "country-flag",
       "order": 3879,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1135,6 +1197,7 @@
       "subGroup": "country-flag",
       "order": 3880,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1153,6 +1216,7 @@
       "subGroup": "country-flag",
       "order": 3881,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1171,6 +1235,7 @@
       "subGroup": "country-flag",
       "order": 3882,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1189,6 +1254,7 @@
       "subGroup": "country-flag",
       "order": 3883,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1207,6 +1273,7 @@
       "subGroup": "country-flag",
       "order": 3884,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1225,6 +1292,7 @@
       "subGroup": "country-flag",
       "order": 3885,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1243,6 +1311,7 @@
       "subGroup": "country-flag",
       "order": 3886,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1261,6 +1330,7 @@
       "subGroup": "country-flag",
       "order": 3887,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1279,6 +1349,7 @@
       "subGroup": "country-flag",
       "order": 3888,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1297,6 +1368,7 @@
       "subGroup": "country-flag",
       "order": 3889,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1315,6 +1387,7 @@
       "subGroup": "country-flag",
       "order": 3890,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1333,6 +1406,7 @@
       "subGroup": "country-flag",
       "order": 3891,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1351,6 +1425,7 @@
       "subGroup": "country-flag",
       "order": 3892,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1369,6 +1444,7 @@
       "subGroup": "country-flag",
       "order": 3893,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1387,6 +1463,7 @@
       "subGroup": "country-flag",
       "order": 3894,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1405,6 +1482,7 @@
       "subGroup": "country-flag",
       "order": 3895,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1423,6 +1501,7 @@
       "subGroup": "country-flag",
       "order": 3896,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1441,6 +1520,7 @@
       "subGroup": "country-flag",
       "order": 3897,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1459,6 +1539,7 @@
       "subGroup": "country-flag",
       "order": 3898,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1477,6 +1558,7 @@
       "subGroup": "country-flag",
       "order": 3899,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1495,6 +1577,7 @@
       "subGroup": "country-flag",
       "order": 3900,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1513,6 +1596,7 @@
       "subGroup": "country-flag",
       "order": 3901,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1531,6 +1615,7 @@
       "subGroup": "country-flag",
       "order": 3902,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1549,6 +1634,7 @@
       "subGroup": "country-flag",
       "order": 3903,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1567,6 +1653,7 @@
       "subGroup": "country-flag",
       "order": 3904,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1585,6 +1672,7 @@
       "subGroup": "country-flag",
       "order": 3905,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1603,6 +1691,7 @@
       "subGroup": "country-flag",
       "order": 3906,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1621,6 +1710,7 @@
       "subGroup": "country-flag",
       "order": 3907,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1639,6 +1729,7 @@
       "subGroup": "country-flag",
       "order": 3908,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1657,6 +1748,7 @@
       "subGroup": "country-flag",
       "order": 3909,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1675,6 +1767,7 @@
       "subGroup": "country-flag",
       "order": 3910,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1693,6 +1786,7 @@
       "subGroup": "country-flag",
       "order": 3911,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1711,6 +1805,7 @@
       "subGroup": "country-flag",
       "order": 3912,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1729,6 +1824,7 @@
       "subGroup": "country-flag",
       "order": 3913,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1747,6 +1843,7 @@
       "subGroup": "country-flag",
       "order": 3914,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1765,6 +1862,7 @@
       "subGroup": "country-flag",
       "order": 3915,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1783,6 +1881,7 @@
       "subGroup": "country-flag",
       "order": 3916,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1801,6 +1900,7 @@
       "subGroup": "country-flag",
       "order": 3917,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1819,6 +1919,7 @@
       "subGroup": "country-flag",
       "order": 3918,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1837,6 +1938,7 @@
       "subGroup": "country-flag",
       "order": 3919,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1855,6 +1957,7 @@
       "subGroup": "country-flag",
       "order": 3920,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1873,6 +1976,7 @@
       "subGroup": "country-flag",
       "order": 3921,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1891,6 +1995,7 @@
       "subGroup": "country-flag",
       "order": 3922,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1909,6 +2014,7 @@
       "subGroup": "country-flag",
       "order": 3923,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1927,6 +2033,7 @@
       "subGroup": "country-flag",
       "order": 3924,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1945,6 +2052,7 @@
       "subGroup": "country-flag",
       "order": 3925,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1963,6 +2071,7 @@
       "subGroup": "country-flag",
       "order": 3926,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1981,6 +2090,7 @@
       "subGroup": "country-flag",
       "order": 3927,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -1999,6 +2109,7 @@
       "subGroup": "country-flag",
       "order": 3928,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2017,6 +2128,7 @@
       "subGroup": "country-flag",
       "order": 3929,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2035,6 +2147,7 @@
       "subGroup": "country-flag",
       "order": 3930,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2053,6 +2166,7 @@
       "subGroup": "country-flag",
       "order": 3931,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2071,6 +2185,7 @@
       "subGroup": "country-flag",
       "order": 3932,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2089,6 +2204,7 @@
       "subGroup": "country-flag",
       "order": 3933,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2107,6 +2223,7 @@
       "subGroup": "country-flag",
       "order": 3934,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2125,6 +2242,7 @@
       "subGroup": "country-flag",
       "order": 3935,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2143,6 +2261,7 @@
       "subGroup": "country-flag",
       "order": 3936,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2161,6 +2280,7 @@
       "subGroup": "country-flag",
       "order": 3937,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2179,6 +2299,7 @@
       "subGroup": "country-flag",
       "order": 3938,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2197,6 +2318,7 @@
       "subGroup": "country-flag",
       "order": 3939,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2215,6 +2337,7 @@
       "subGroup": "country-flag",
       "order": 3940,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2233,6 +2356,7 @@
       "subGroup": "country-flag",
       "order": 3941,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2251,6 +2375,7 @@
       "subGroup": "country-flag",
       "order": 3942,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2269,6 +2394,7 @@
       "subGroup": "country-flag",
       "order": 3943,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2287,6 +2413,7 @@
       "subGroup": "country-flag",
       "order": 3944,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2305,6 +2432,7 @@
       "subGroup": "country-flag",
       "order": 3945,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     },
     {
@@ -2323,6 +2451,7 @@
       "subGroup": "country-flag",
       "order": 3946,
       "sequenceType": "flag",
+      "modifierType": "base",
       "active": true
     }
   ]
