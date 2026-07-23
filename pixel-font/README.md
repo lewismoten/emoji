@@ -115,6 +115,10 @@ dialog. Choose **Edit pixel art** to load that emoji's assigned atlas cell.
 The native emoji tracing layer is for reference only and is never written into
 the artwork.
 
+The editor clipboard can copy the current grid—including unsaved changes—or
+the exact PNG source of an already compiled custom-font glyph. Open another
+emoji and choose **Paste** to use those pixels as an undoable edit.
+
 In browsers that support the File System Access API, **Save atlas** asks you
 to select the repository's `pixel-font/atlases/` directory and then updates
 or creates the correct nested subgroup PNG directly. Save and download remain

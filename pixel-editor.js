@@ -121,6 +121,23 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
             </div>
           </div>
         </fieldset>
+        <fieldset class="pixel-editor-transfer">
+          <legend data-i18n="artworkTransfer">Artwork transfer</legend>
+          <div>
+            <button class="pixel-editor-copy-art" type="button">
+              <span aria-hidden="true">▦</span>
+              <span data-i18n="copyPixelArt">Copy art</span>
+            </button>
+            <button class="pixel-editor-copy-font" type="button">
+              <span aria-hidden="true">A</span>
+              <span data-i18n="copyFontGlyph">Copy font</span>
+            </button>
+            <button class="pixel-editor-paste-art" type="button" disabled>
+              <span aria-hidden="true">▣</span>
+              <span data-i18n="pastePixelArt">Paste</span>
+            </button>
+          </div>
+        </fieldset>
         <div class="pixel-editor-file">
           <p class="pixel-editor-location"></p>
           <div>
@@ -143,6 +160,9 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   const artworkPreview = view.querySelector(".pixel-editor-preview-artwork");
   const undoButton = view.querySelector(".pixel-editor-undo");
   const redoButton = view.querySelector(".pixel-editor-redo");
+  const copyArtButton = view.querySelector(".pixel-editor-copy-art");
+  const copyFontButton = view.querySelector(".pixel-editor-copy-font");
+  const pasteArtButton = view.querySelector(".pixel-editor-paste-art");
   const saveButton = view.querySelector(".pixel-editor-save");
   const downloadButton = view.querySelector(".pixel-editor-download");
   const location = view.querySelector(".pixel-editor-location");
@@ -161,10 +181,12 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   let currentEmoji = "";
   let atlasBlob;
   let atlasExists = false;
+  let cellLoaded = false;
   let atlasWidth = CELL_SIZE * 16;
   let atlasHeight = CELL_SIZE * 16;
   let pixels = new Uint8ClampedArray(CELL_SIZE * CELL_SIZE * 4);
   let selectedColor = "#ffff55";
+  let copiedPixels;
   let traceOffsetX = 0;
   let traceOffsetY = 0;
   let tool = "pencil";
@@ -200,6 +222,9 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   );
   undoButton.addEventListener("click", undo);
   redoButton.addEventListener("click", redo);
+  copyArtButton.addEventListener("click", copyPixelArt);
+  copyFontButton.addEventListener("click", copyFontGlyph);
+  pasteArtButton.addEventListener("click", pastePixelArt);
   saveButton.addEventListener("click", saveAtlas);
   downloadButton.addEventListener("click", downloadAtlas);
   canvas.addEventListener("pointerdown", onPointerDown);
@@ -216,6 +241,16 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
       currentEmoji = emoji;
       traceOffsetX = 0;
       traceOffsetY = 0;
+      currentEntry = undefined;
+      atlasBlob = undefined;
+      atlasExists = false;
+      cellLoaded = false;
+      pixels.fill(0);
+      undoStack = [];
+      redoStack = [];
+      renderTrace();
+      updateHistoryButtons();
+      draw();
       status.textContent = translate(
         "pixelEditorLoading",
         "Loading pixel cell…",
@@ -230,6 +265,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
         }
         const entry = manifest.glyphs[key];
         currentEntry = entry;
+        updateTransferButtons();
         if (!entry) {
           location.textContent = "";
           status.textContent = translate(
@@ -257,6 +293,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
         if (requestedLoadId !== loadId) return;
         atlasBlob = loadedAtlasBlob;
         atlasExists = hasPng;
+        cellLoaded = true;
         pixels = loadedPixels;
         undoStack = [];
         redoStack = [];
@@ -356,6 +393,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     context.stroke();
     drawArtworkPreview();
     updateFileButtons();
+    updateTransferButtons();
   }
 
   function drawOfficialPreview() {
@@ -392,7 +430,7 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   }
 
   function onPointerDown(event) {
-    if (!currentEntry || event.button !== 0) return;
+    if (!currentEntry || !cellLoaded || event.button !== 0) return;
     const point = pointerCell(event);
     canvas.setPointerCapture(event.pointerId);
     pointerStart = point;
@@ -625,6 +663,61 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   function updateHistoryButtons() {
     undoButton.disabled = undoStack.length === 0;
     redoButton.disabled = redoStack.length === 0;
+  }
+
+  function copyPixelArt() {
+    if (!currentEntry || !cellLoaded) return;
+    copiedPixels = pixels.slice();
+    updateTransferButtons();
+    status.textContent = translate("pixelArtCopied", "Pixel art copied.");
+  }
+
+  async function copyFontGlyph() {
+    if (!currentEntry?.painted || !cellLoaded) return;
+    copyFontButton.disabled = true;
+    try {
+      const response = await fetch(
+        `pixel-font/build/png/${currentEntry.key}.png`,
+      );
+      if (
+        !response.ok ||
+        !response.headers.get("content-type")?.includes("image/png")
+      ) {
+        throw new Error("Compiled font glyph PNG is unavailable");
+      }
+      copiedPixels = await extractCell(await response.blob(), {
+        x: 0,
+        y: 0,
+      });
+      status.textContent = translate(
+        "fontGlyphCopied",
+        "Custom font glyph copied.",
+      );
+    } catch (error) {
+      console.warn("Unable to copy custom font glyph", error);
+      status.textContent = translate(
+        "fontGlyphCopyFailed",
+        "The custom font glyph could not be copied.",
+      );
+    }
+    updateTransferButtons();
+  }
+
+  function pastePixelArt() {
+    if (!currentEntry || !cellLoaded || !copiedPixels) return;
+    pushHistory();
+    pixels = copiedPixels.slice();
+    draw();
+    status.textContent = translate(
+      "pixelArtPasted",
+      "Pixel art pasted into this emoji.",
+    );
+  }
+
+  function updateTransferButtons() {
+    copyArtButton.disabled = !currentEntry || !cellLoaded;
+    copyFontButton.disabled = !currentEntry?.painted || !cellLoaded;
+    pasteArtButton.disabled = !currentEntry || !cellLoaded || !copiedPixels;
   }
 
   async function saveAtlas() {

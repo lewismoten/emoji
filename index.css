@@ -1309,6 +1309,37 @@ button.emoji-composition-part:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
+.pixel-editor-transfer > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.pixel-editor-transfer button {
+  display: inline-flex;
+  flex: 1 1 auto;
+  min-height: 2rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.35rem;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+}
+.pixel-editor-transfer button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+.pixel-editor-transfer button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.pixel-editor-transfer button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
 .pixel-editor-file {
   padding: 0.65rem;
   border: 1px solid var(--border);

@@ -750,6 +750,28 @@ assert.match(
   /traceOffsetX = 0;[\s\S]*traceOffsetY = 0;[\s\S]*pixelEditorLoading/,
   "trace position must reset when another emoji opens",
 );
+for (const action of ["copyPixelArt", "copyFontGlyph", "pastePixelArt"]) {
+  assert.match(
+    pixelEditorScript,
+    new RegExp(`function ${action}`),
+    `pixel editor must provide ${action}`,
+  );
+}
+assert.match(
+  pixelEditorScript,
+  /pixel-font\/build\/png\/\$\{currentEntry\.key\}\.png/,
+  "copying a custom-font glyph must use its exact compiled pixel PNG",
+);
+assert.match(
+  pixelEditorScript,
+  /function pastePixelArt[\s\S]*pushHistory\(\);[\s\S]*pixels = copiedPixels\.slice\(\)/,
+  "pasted artwork must be undoable and independent of the copied buffer",
+);
+assert.match(
+  pixelEditorScript,
+  /let copiedPixels;/,
+  "the artwork clipboard must persist while browsing between emoji",
+);
 for (const preview of ["official", "font", "artwork"]) {
   assert.match(
     pixelEditorScript,
