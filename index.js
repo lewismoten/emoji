@@ -69,6 +69,7 @@ var searchLoadId = 0;
 var currentEmojiCopies = {};
 var displayedKeys = [];
 var currentEmojiKey = '';
+var focusedEmojiKey = '';
 var urlStateReady = false;
 var offlineStatus;
 const languageFlags = {
@@ -307,6 +308,8 @@ async function onLoad() {
   subGroupSelector = document.getElementsByClassName('select-subgroup')[0];
   compactGroupChoices = ensureChoiceContainer(groupSelector, 'compact-group-choices', 'group-filter-label');
   compactSubGroupChoices = ensureChoiceContainer(subGroupSelector, 'compact-subgroup-choices', 'subgroup-filter-label');
+  compactGroupChoices.addEventListener('keydown', onCompactChoiceKeyDown);
+  compactSubGroupChoices.addEventListener('keydown', onCompactChoiceKeyDown);
   compactGroupLabel = ensureSelectionLabel(groupSelector, 'compact-group-label', 'group-filter-label');
   compactSubGroupLabel = ensureSelectionLabel(subGroupSelector, 'compact-subgroup-label', 'subgroup-filter-label');
   versionModeSelector = document.getElementsByClassName('select-version-mode')[0];
@@ -345,13 +348,8 @@ async function onLoad() {
     languageList.querySelector('.is-selected')?.focus();
   });
   emojiList.addEventListener("click", onClick);
-  emojiList.addEventListener('keydown', event => {
-    if (event.key !== 'Enter' && event.key !== ' ') return;
-    const cell = event.target.closest('[id]');
-    if (!cell || !emojiByKey[cell.id]) return;
-    event.preventDefault();
-    onClick(event);
-  });
+  emojiList.addEventListener('focusin', onEmojiFocus);
+  emojiList.addEventListener('keydown', onEmojiKeyDown);
   exampleDialog.addEventListener('click', event => {
     const button = event.target.closest('[data-copy]');
     if (!button) return;
@@ -403,7 +401,6 @@ function ensureActiveFilterSummary() {
     summary = document.createElement('div');
     summary.className = 'active-filter-summary';
     summary.hidden = true;
-    summary.setAttribute('role', 'status');
     const text = document.createElement('span');
     text.className = 'active-filter-text';
     const clear = document.createElement('button');
@@ -414,6 +411,8 @@ function ensureActiveFilterSummary() {
     summary.append(text, clear);
     document.getElementsByClassName('filter-options')[0]?.appendChild(summary);
   }
+  summary.removeAttribute('role');
+  summary.removeAttribute('aria-live');
   return {
     summary,
     text: summary.querySelector('.active-filter-text'),
@@ -1049,6 +1048,13 @@ function subGroupSelectionKey(group, subGroup) {
 }
 
 function renderCategoryFilters() {
+  const activeChoice = document.activeElement?.closest?.('[role="radio"]');
+  const focusedChoices = activeChoice?.closest('.compact-group-choices')
+    ? 'group'
+    : activeChoice?.closest('.compact-subgroup-choices')
+      ? 'subgroup'
+      : '';
+  const focusedValue = activeChoice?.dataset.value;
   updateAvailableCategories();
   groupSelector.closest('.filter-field')?.classList.toggle('has-choice-buttons', Boolean(compactGroupChoices));
   const subGroupField = subGroupSelector.closest('.filter-field');
@@ -1058,6 +1064,11 @@ function renderCategoryFilters() {
   populateSubGroupFilter();
   renderCompactGroupChoices();
   renderCompactSubGroupChoices();
+  if (focusedChoices === 'group') {
+    focusCompactChoice(compactGroupChoices, focusedValue);
+  } else if (focusedChoices === 'subgroup') {
+    focusCompactChoice(compactSubGroupChoices, focusedValue);
+  }
 }
 
 function updateAvailableCategories() {
@@ -1154,6 +1165,7 @@ function renderCompactGroupChoices() {
       selectedSubGroup = '';
       renderCategoryFilters();
       drawList();
+      focusCompactChoice(compactGroupChoices, name);
     }
   })));
 }
@@ -1178,6 +1190,7 @@ function renderCompactSubGroupChoices() {
       selectedSubGroup = '';
       renderCategoryFilters();
       drawList();
+      focusCompactChoice(compactSubGroupChoices, '');
     }
   });
   compactSubGroupChoices.replaceChildren(allChoice, ...choices.map(({ group, name }) => makeCompactChoice({
@@ -1189,6 +1202,7 @@ function renderCompactSubGroupChoices() {
       selectedSubGroup = subGroupSelectionKey(group, name);
       renderCategoryFilters();
       drawList();
+      focusCompactChoice(compactSubGroupChoices, selectedSubGroup);
     }
   })));
 }
@@ -1200,6 +1214,7 @@ function makeCompactChoice({ value, emoji, label, selected, onSelect }) {
   button.dataset.value = value;
   button.setAttribute('role', 'radio');
   button.setAttribute('aria-checked', String(selected));
+  button.tabIndex = selected ? 0 : -1;
   button.setAttribute('aria-label', label);
   button.title = label;
   const icon = document.createElement('span');
@@ -1212,6 +1227,33 @@ function makeCompactChoice({ value, emoji, label, selected, onSelect }) {
   button.replaceChildren(icon, text);
   button.addEventListener('click', onSelect);
   return button;
+}
+
+function focusCompactChoice(container, value) {
+  const choices = Array.from(container.querySelectorAll('[role="radio"]'));
+  const choice = choices.find(button => button.dataset.value === value)
+    ?? choices.find(button => button.getAttribute('aria-checked') === 'true');
+  choice?.focus();
+}
+
+function onCompactChoiceKeyDown(event) {
+  if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
+  const choices = Array.from(event.currentTarget.querySelectorAll('[role="radio"]'));
+  const currentIndex = choices.indexOf(event.target.closest('[role="radio"]'));
+  if (currentIndex === -1 || choices.length === 0) return;
+  event.preventDefault();
+  let nextIndex;
+  if (event.key === 'Home') {
+    nextIndex = 0;
+  } else if (event.key === 'End') {
+    nextIndex = choices.length - 1;
+  } else {
+    const rtl = document.documentElement.dir === 'rtl';
+    const backwards = event.key === 'ArrowUp'
+      || event.key === (rtl ? 'ArrowRight' : 'ArrowLeft');
+    nextIndex = (currentIndex + (backwards ? -1 : 1) + choices.length) % choices.length;
+  }
+  choices[nextIndex].click();
 }
 
 function refreshLocalizedLabels() {
@@ -1372,8 +1414,9 @@ function asItem(state, key) {
 function asEmojiCell(key, groupId = 0, subGroupId = 0) {
   const div = document.createElement('div');
   div.id = key;
+  div.dataset.emojiKey = key;
   div.title = byId[key]?.shortName ?? key;
-  div.tabIndex = 0;
+  div.tabIndex = key === focusedEmojiKey ? 0 : -1;
   div.setAttribute('role', 'button');
   div.setAttribute('aria-label', byId[key]?.shortName ?? displayEmojiKey(key));
   div.classList.add(`group-${groupId}`);
@@ -1443,6 +1486,8 @@ function getEmojiGenders(item) {
 }
 
 function drawList() {
+  const focusedCell = document.activeElement?.closest?.('[data-emoji-key]');
+  const shouldRestoreEmojiFocus = Boolean(focusedCell);
   var keywords = searchText.value
     .toLocaleLowerCase(selectedSearchLocale || undefined)
     .trim()
@@ -1489,6 +1534,9 @@ function drawList() {
 
   keys = orderedKeys(keys);
   displayedKeys = keys;
+  if (!focusedEmojiKey || !keys.includes(focusedEmojiKey)) {
+    focusedEmojiKey = keys[0] ?? '';
+  }
   const renderer = orderMode === 'sequence' ? asSequenceItem : asItem;
   const initialState = orderMode === 'sequence'
     ? { items: [], type: '', emoji: null }
@@ -1506,12 +1554,75 @@ function drawList() {
   } else {
     emojiList.replaceChildren(...keys.reduce(renderer, initialState).items);
   }
+  if (shouldRestoreEmojiFocus) {
+    document.getElementById(focusedEmojiKey)?.focus();
+  }
   const numberLocale = selectedSearchLocale || undefined;
   const numberOptions = selectedSearchLocale.startsWith('ar') ? { numberingSystem: 'arab' } : {};
   matchCount.innerText = new Intl.NumberFormat(numberLocale, numberOptions).format(keys.length);
   updateActiveFilterSummary();
   updateDialogNavigation();
   syncUrlState();
+}
+
+function onEmojiFocus(event) {
+  const cell = event.target.closest('[data-emoji-key]');
+  if (!cell) return;
+  focusedEmojiKey = cell.dataset.emojiKey;
+  emojiList.querySelectorAll('[data-emoji-key]').forEach(item => {
+    item.tabIndex = item === cell ? 0 : -1;
+  });
+}
+
+function onEmojiKeyDown(event) {
+  const cell = event.target.closest('[data-emoji-key]');
+  if (!cell) return;
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    onClick(event);
+    return;
+  }
+  if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
+  event.preventDefault();
+  const cells = displayedKeys.map(key => document.getElementById(key)).filter(Boolean);
+  if (cells.length === 0) return;
+  let target;
+  if (event.key === 'Home') {
+    target = cells[0];
+  } else if (event.key === 'End') {
+    target = cells.at(-1);
+  } else if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+    target = closestVerticalEmoji(cell, cells, event.key === 'ArrowDown' ? 1 : -1);
+  } else {
+    const rtl = document.documentElement.dir === 'rtl';
+    const direction = event.key === (rtl ? 'ArrowLeft' : 'ArrowRight') ? 1 : -1;
+    const currentIndex = cells.indexOf(cell);
+    target = cells[currentIndex + direction];
+  }
+  target?.focus();
+}
+
+function closestVerticalEmoji(current, cells, direction) {
+  const currentRect = current.getBoundingClientRect();
+  const currentX = currentRect.left + currentRect.width / 2;
+  const currentY = currentRect.top + currentRect.height / 2;
+  return cells
+    .filter(cell => {
+      if (cell === current) return false;
+      const rect = cell.getBoundingClientRect();
+      const centerY = rect.top + rect.height / 2;
+      return direction > 0 ? centerY > currentY + 1 : centerY < currentY - 1;
+    })
+    .map(cell => {
+      const rect = cell.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      return {
+        cell,
+        score: Math.abs(centerY - currentY) * 1000 + Math.abs(centerX - currentX)
+      };
+    })
+    .sort((left, right) => left.score - right.score)[0]?.cell;
 }
 
 function createEmptyResults() {
@@ -1580,10 +1691,11 @@ function getIntroducedVersion(key) {
 }
 
 function onClick(e, copy = true) {
-  const cell = e.target.closest?.('[id]');
+  const cell = e.target.closest?.('[data-emoji-key]');
   var id = cell?.id ?? e.target.id;
   var value = emojiByKey[id];
   if (value === undefined) return;
+  cell?.focus();
   showEmoji(id, copy);
 }
 

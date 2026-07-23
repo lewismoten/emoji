@@ -66,7 +66,7 @@
     <header class="toolbar">
       <div class="toolbar-heading">
         <h1 data-i18n="title">Emoji Explorer</h1>
-        <p class="result-count"><bdi class="match-count">0</bdi> <span data-i18n="matches">matches</span></p>
+        <p class="result-count" role="status" aria-live="polite" aria-atomic="true"><bdi class="match-count">0</bdi> <span data-i18n="matches">matches</span></p>
       </div>
 
       <form class="filters" aria-label="Filter emoji" onsubmit="return false">
@@ -136,7 +136,7 @@
               </fieldset>
             </div>
           </details>
-          <div class="active-filter-summary" role="status" hidden>
+          <div class="active-filter-summary" hidden>
             <span class="active-filter-text"></span>
             <button class="clear-filters" type="button" data-i18n="clearAll">Clear all</button>
           </div>
@@ -145,7 +145,7 @@
 
     </header>
 
-    <div class="list" aria-live="polite" data-i18n="loadingEmoji">Loading emoji…</div>
+    <div class="list" data-i18n="loadingEmoji">Loading emoji…</div>
 
     <section class="about-explorer" aria-labelledby="about-title">
       <h2 id="about-title" data-i18n="aboutTitle">Search and explore Unicode emoji</h2>
