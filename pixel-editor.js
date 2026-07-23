@@ -127,7 +127,6 @@ export function createPixelEditor({
             ${EGA_COLORS.map(egaSwatch).join("")}
             <button class="pixel-editor-swatch is-transparent" type="button" data-transparent="true" data-i18n-aria-label="transparentEraser" aria-label="Transparent eraser" title="Transparent"><span aria-hidden="true">╱</span></button>
           </div>
-          <label><input class="pixel-editor-fill-shapes" type="checkbox"> <span data-i18n="fillShapeInteriors">Fill rectangle and ellipse interiors</span></label>
         </fieldset>
         <fieldset class="pixel-editor-tracing">
           <legend data-i18n="tracing">Tracing</legend>
@@ -203,7 +202,6 @@ export function createPixelEditor({
 
   const canvas = view.querySelector(".pixel-editor-canvas");
   const context = canvas.getContext("2d", { alpha: true });
-  const fillShapes = view.querySelector(".pixel-editor-fill-shapes");
   const traceAlpha = view.querySelector(".pixel-editor-trace-alpha");
   const traceOutput = view.querySelector(".pixel-editor-trace-value");
   const officialPreview = view.querySelector(".pixel-editor-preview-official");
@@ -271,6 +269,7 @@ export function createPixelEditor({
   let traceOffsetX = 0;
   let traceOffsetY = 0;
   let tool = "pencil";
+  let fillShapesEnabled = false;
   let pointerStart;
   let pointerPrevious;
   let shapeBase;
@@ -301,7 +300,6 @@ export function createPixelEditor({
       draw();
     }),
   );
-  fillShapes.addEventListener("change", draw);
   paletteButtons.forEach((button) =>
     button.addEventListener("click", () => selectPaletteColor(button)),
   );
@@ -338,6 +336,7 @@ export function createPixelEditor({
   document.addEventListener("keydown", onEditorKeyDown, true);
   window.addEventListener("beforeunload", warnAboutDirtyArtwork);
   updatePaletteSelection();
+  updateShapeToolButtons();
   updateTraceOutput();
   updatePreviewActionLabels();
   draw();
@@ -434,6 +433,7 @@ export function createPixelEditor({
         updateLocation();
       }
       updateTraceOutput();
+      updateShapeToolButtons();
       updatePreviewActionLabels();
     },
   };
@@ -451,6 +451,15 @@ export function createPixelEditor({
 
   function selectTool(nextTool) {
     if (!TOOLS.includes(nextTool) || floatingLayer) return;
+    if (
+      nextTool === tool &&
+      (nextTool === "rectangle" || nextTool === "ellipse")
+    ) {
+      fillShapesEnabled = !fillShapesEnabled;
+      updateShapeToolButtons();
+      draw();
+      return;
+    }
     if (nextTool !== "select") selection = undefined;
     tool = nextTool;
     toolButtons.forEach((button) => {
@@ -458,7 +467,38 @@ export function createPixelEditor({
       button.setAttribute("aria-pressed", String(selected));
       button.classList.toggle("is-active", selected);
     });
+    updateShapeToolButtons();
     draw();
+  }
+
+  function updateShapeToolButtons() {
+    for (const shape of ["rectangle", "ellipse"]) {
+      const button = toolButtons.find(
+        (candidate) => candidate.dataset.tool === shape,
+      );
+      const filled = fillShapesEnabled;
+      button.querySelector("[aria-hidden]").textContent =
+        shape === "rectangle" ? (filled ? "■" : "□") : filled ? "●" : "○";
+      const key =
+        shape === "rectangle"
+          ? filled
+            ? "filledRectangle"
+            : "outlineRectangle"
+          : filled
+            ? "filledEllipse"
+            : "outlineEllipse";
+      const fallback =
+        shape === "rectangle"
+          ? filled
+            ? "Filled rectangle"
+            : "Outline rectangle"
+          : filled
+            ? "Filled ellipse"
+            : "Outline ellipse";
+      const label = translate(key, fallback);
+      button.setAttribute("aria-label", label);
+      button.title = label;
+    }
   }
 
   function updateTraceOutput() {
@@ -859,7 +899,7 @@ export function createPixelEditor({
       for (let y = top; y <= bottom; y += 1) {
         for (let x = left; x <= right; x += 1) {
           if (
-            fillShapes.checked ||
+            fillShapesEnabled ||
             x === left ||
             x === right ||
             y === top ||
@@ -889,7 +929,7 @@ export function createPixelEditor({
           ((x + 0.5 - centerX) / innerRadiusX) ** 2 +
             ((y + 0.5 - centerY) / innerRadiusY) ** 2 <=
             1;
-        if (outer && (fillShapes.checked || !inner)) paintPixel({ x, y });
+        if (outer && (fillShapesEnabled || !inner)) paintPixel({ x, y });
       }
     }
   }

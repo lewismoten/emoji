@@ -1292,10 +1292,6 @@ button.emoji-composition-part:focus-visible {
   gap: 0.45rem;
   white-space: normal;
 }
-.pixel-editor-controls label:has(input[type="checkbox"]) {
-  display: flex;
-  grid-template-columns: none;
-}
 .pixel-editor-palette {
   display: grid;
   grid-template-columns: repeat(9, 1.65rem);
@@ -2197,9 +2193,6 @@ kbd {
   }
   .pixel-editor-controls label {
     grid-template-columns: 1fr;
-  }
-  .pixel-editor-controls label:has(input[type="checkbox"]) {
-    display: flex;
   }
   .pixel-editor-tracing {
     grid-template-columns: minmax(0, 1fr);

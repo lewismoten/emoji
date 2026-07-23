@@ -733,10 +733,20 @@ assert.doesNotMatch(
   /class="pixel-editor-trace"/,
   "trace visibility must be controlled only by opacity",
 );
+assert.doesNotMatch(
+  pixelEditorScript,
+  /pixel-editor-fill-shapes/,
+  "shape filling must not require a separate checkbox",
+);
 assert.match(
   pixelEditorScript,
-  /fillShapeInteriors/,
-  "shape filling must explain which interiors it affects",
+  /nextTool === tool[\s\S]*nextTool === "rectangle" \|\| nextTool === "ellipse"[\s\S]*fillShapesEnabled = !fillShapesEnabled/,
+  "clicking the selected rectangle or ellipse tool again must toggle shape filling",
+);
+assert.match(
+  pixelEditorScript,
+  /function updateShapeToolButtons[\s\S]*filled \? "■" : "□"[\s\S]*filled \? "●" : "○"/,
+  "rectangle and ellipse icons must represent outline and filled modes",
 );
 assert.match(
   pixelEditorScript,
