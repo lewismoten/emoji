@@ -1794,6 +1794,10 @@ function displayEmojiKey(key) {
   return words.charAt(0).toLocaleUpperCase() + words.slice(1);
 }
 
+function normalizeDisplayName(value) {
+  return value.normalize('NFKC').replace(/\s+/g, ' ').trim().toLocaleLowerCase('en');
+}
+
 function updateEmojiImportExamples(item) {
   const popular = packageManifest.packs.find(pack => pack.id === 'popular');
   const allPath = packageManifest.packs.find(pack => pack.id === 'all')?.importPath
@@ -1887,7 +1891,9 @@ function showEmoji(id, openDialog = true) {
   const item = byId[id] ?? {};
   updateEmojiImportExamples(item);
   const codePoints = (item.codePoints ?? '').split(/\s+/).filter(Boolean).map(point => `U+${point}`).join(' ');
-  document.getElementsByClassName('emoji-english-name')[0].innerText = item.shortName ?? displayEmojiKey(id);
+  const englishName = item.shortName ?? displayEmojiKey(id);
+  const englishNameElement = document.getElementsByClassName('emoji-english-name')[0];
+  englishNameElement.innerText = englishName;
   document.getElementsByClassName('emoji-version')[0].innerText = getIntroducedVersion(id);
   document.getElementsByClassName('emoji-code-points')[0].innerText = codePoints;
   const sequenceLabel = sequenceTypeLabels[item.sequenceType] ?? item.sequenceType ?? '—';
@@ -1906,6 +1912,9 @@ function showEmoji(id, openDialog = true) {
     document.getElementById('example-title').innerText = displayEmojiKey(id);
     localizedDetails.hidden = true;
   }
+  const dialogTitle = document.getElementById('example-title').innerText;
+  englishNameElement.closest('.emoji-english-name-row, div').hidden =
+    normalizeDisplayName(dialogTitle) === normalizeDisplayName(englishName);
   if (openDialog) {
     if (copyStatus) copyStatus.textContent = '';
     exampleDialog.showModal();
