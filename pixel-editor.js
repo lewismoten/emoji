@@ -111,6 +111,15 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
             <input class="pixel-editor-trace-alpha" type="range" min="0" max="100" value="35">
             <output class="pixel-editor-trace-value">35%</output>
           </label>
+          <div class="pixel-editor-trace-position">
+            <span data-i18n="tracePosition">Position</span>
+            <div role="group" data-i18n-aria-label="tracePosition" aria-label="Trace position">
+              ${traceNudgeButton("left", -1, 0, "←", "nudgeTraceLeft", "Move trace left one pixel")}
+              ${traceNudgeButton("up", 0, -1, "↑", "nudgeTraceUp", "Move trace up one pixel")}
+              ${traceNudgeButton("down", 0, 1, "↓", "nudgeTraceDown", "Move trace down one pixel")}
+              ${traceNudgeButton("right", 1, 0, "→", "nudgeTraceRight", "Move trace right one pixel")}
+            </div>
+          </div>
         </fieldset>
         <div class="pixel-editor-file">
           <p class="pixel-editor-location"></p>
@@ -140,6 +149,9 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   const status = view.querySelector(".pixel-editor-status");
   const toolButtons = [...view.querySelectorAll("[data-tool]")];
   const paletteButtons = [...view.querySelectorAll(".pixel-editor-swatch")];
+  const traceNudgeButtons = [
+    ...view.querySelectorAll(".pixel-editor-trace-nudge"),
+  ];
   const traceCanvas = document.createElement("canvas");
   traceCanvas.width = CELL_SIZE;
   traceCanvas.height = CELL_SIZE;
@@ -153,6 +165,8 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
   let atlasHeight = CELL_SIZE * 16;
   let pixels = new Uint8ClampedArray(CELL_SIZE * CELL_SIZE * 4);
   let selectedColor = "#ffff55";
+  let traceOffsetX = 0;
+  let traceOffsetY = 0;
   let tool = "pencil";
   let pointerStart;
   let pointerPrevious;
@@ -172,6 +186,14 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     traceOutput.value = `${traceAlpha.value}%`;
     draw();
   });
+  traceNudgeButtons.forEach((button) =>
+    button.addEventListener("click", () => {
+      traceOffsetX += Number(button.dataset.traceX);
+      traceOffsetY += Number(button.dataset.traceY);
+      renderTrace();
+      draw();
+    }),
+  );
   fillShapes.addEventListener("change", draw);
   paletteButtons.forEach((button) =>
     button.addEventListener("click", () => selectPaletteColor(button)),
@@ -192,6 +214,8 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
     async open(key, emoji) {
       const requestedLoadId = ++loadId;
       currentEmoji = emoji;
+      traceOffsetX = 0;
+      traceOffsetY = 0;
       status.textContent = translate(
         "pixelEditorLoading",
         "Loading pixel cell…",
@@ -285,7 +309,11 @@ export function createPixelEditor({ dialog, translate, setDialogMode }) {
       '11px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
     traceContext.textAlign = "center";
     traceContext.textBaseline = "middle";
-    traceContext.fillText(currentEmoji, CELL_SIZE / 2, CELL_SIZE / 2 + 2);
+    traceContext.fillText(
+      currentEmoji,
+      CELL_SIZE / 2 + traceOffsetX,
+      CELL_SIZE / 2 + 2 + traceOffsetY,
+    );
     drawOfficialPreview();
     drawFontPreview();
   }
@@ -781,6 +809,17 @@ function drawCheckerboard(context, size) {
 
 function toolButton(tool, icon, translationKey, fallback, selected = false) {
   return `<button type="button" data-tool="${tool}" aria-pressed="${selected}" class="${selected ? "is-active" : ""}"><span aria-hidden="true">${icon}</span><span data-i18n="${translationKey}">${fallback}</span></button>`;
+}
+
+function traceNudgeButton(
+  direction,
+  horizontal,
+  vertical,
+  icon,
+  translationKey,
+  fallback,
+) {
+  return `<button class="pixel-editor-trace-nudge" type="button" data-trace-direction="${direction}" data-trace-x="${horizontal}" data-trace-y="${vertical}" data-i18n-aria-label="${translationKey}" aria-label="${fallback}" title="${fallback}"><span aria-hidden="true">${icon}</span></button>`;
 }
 
 function preview(kind, translationKey, fallback) {

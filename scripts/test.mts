@@ -733,6 +733,23 @@ assert.match(
   /CELL_SIZE \/ 2 \+ 2/,
   "native emoji trace must use the corrected vertical offset",
 );
+for (const direction of ["Left", "Up", "Down", "Right"]) {
+  assert.match(
+    pixelEditorScript,
+    new RegExp(`nudgeTrace${direction}`),
+    `pixel editor must provide an accessible ${direction.toLowerCase()} trace nudge`,
+  );
+}
+assert.match(
+  pixelEditorScript,
+  /traceOffsetX \+= Number\(button\.dataset\.traceX\)[\s\S]*traceOffsetY \+= Number\(button\.dataset\.traceY\)/,
+  "trace nudge controls must move the reference by one grid pixel per click",
+);
+assert.match(
+  pixelEditorScript,
+  /traceOffsetX = 0;[\s\S]*traceOffsetY = 0;[\s\S]*pixelEditorLoading/,
+  "trace position must reset when another emoji opens",
+);
 for (const preview of ["official", "font", "artwork"]) {
   assert.match(
     pixelEditorScript,

@@ -1279,6 +1279,36 @@ button.emoji-composition-part:focus-visible {
   font-size: 0.72rem;
   text-align: end;
 }
+.pixel-editor-trace-position {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.pixel-editor-trace-position > div {
+  display: flex;
+  gap: 0.25rem;
+}
+.pixel-editor-trace-nudge {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 0.35rem;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: 700 1rem/1 var(--ui-font);
+}
+.pixel-editor-trace-nudge:hover {
+  border-color: var(--accent);
+}
+.pixel-editor-trace-nudge:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 .pixel-editor-file {
   padding: 0.65rem;
   border: 1px solid var(--border);
