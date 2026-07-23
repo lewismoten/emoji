@@ -96,8 +96,7 @@ assert.equal(webAppManifest.start_url, './', 'web app must start at the GitHub P
 assert.equal(webAppManifest.scope, './', 'web app scope must remain within the GitHub Pages project');
 assert.equal(webAppManifest.display, 'standalone', 'installed web app must use standalone display mode');
 assert.deepEqual(webAppManifest.icons.map(icon => icon.sizes), ['192x192', '512x512', '512x512'], 'web app must provide standard and maskable install icons');
-const expectedCacheName = 'const CACHE_NAME = `${CACHE_PREFIX}' + packageJson.version + '`;';
-assert.ok(serviceWorker.includes(expectedCacheName), 'service-worker cache must use the package version');
+assert.match(serviceWorker, new RegExp(`const CACHE_NAME = \\\`\\$\\{CACHE_PREFIX\\}${packageJson.version}-[a-f0-9]{12}\\\`;`), 'service-worker cache must use the package version and an asset revision');
 for (const asset of ['./index.ar.html', './emoji.json', './dist/esm/index.js', './offline.html', './versions/manifest.json']) {
   assert.ok(serviceWorker.includes(`"${asset}"`), `service worker must precache ${asset}`);
 }
@@ -108,6 +107,12 @@ assert.match(arabicDemo, /نسخ الرابط/, 'Arabic demo must localize the c
 assert.match(arabicDemo, /اختصارات لوحة المفاتيح/, 'Arabic demo must localize keyboard help');
 assert.match(arabicDemo, /الرموز التعبيرية المحفوظة/, 'Arabic demo must localize saved emoji');
 assert.equal(demoHtml.match(/data-copy="link"/g)?.length, 2, 'details and code views must both provide copy-link actions');
+assert.match(demoHtml, /class="copy-action-long"/, 'emoji copy actions must retain their full desktop labels');
+assert.match(demoHtml, /class="copy-action-short"/, 'emoji copy actions must provide compact mobile labels');
+assert.match(demoStyles, /\.copy-action-long \{ display: none; \}[\s\S]*\.copy-action-short \{ display: inline; \}/, 'emoji-dialog copy actions must use compact labels by default');
+assert.match(demoStyles, /\.emoji-copy-actions \.copy-action-short::before \{[\s\S]*content: "⧉"/, 'compact emoji copy actions must share a visible copy icon');
+assert.match(demoStyles, /@media \(min-width: 561px\)[\s\S]*\.example-dialog \.copy-action-long \{ display: inline; \}[\s\S]*\.example-dialog \.copy-action-short \{ display: none; \}/, 'wide emoji dialogs must restore the full copy labels');
+assert.match(demoScript, /function ensureCompactCopyLabels/, 'cached demo HTML must be upgraded with compact copy labels');
 assert.match(demoHtml, /id="saved-dialog"/, 'demo must provide a saved-emoji dialog');
 assert.match(demoHtml, /id="help-dialog"/, 'demo must provide keyboard-shortcut help');
 assert.match(demoHtml, /class="toggle-favorite"/, 'emoji details must provide a favorite toggle');

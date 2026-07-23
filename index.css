@@ -636,6 +636,14 @@ button.emoji-composition-part:focus-visible { outline: 2px solid var(--accent); 
 .emoji-metadata dd { margin: .2rem 0 0; overflow-wrap: anywhere; font-size: .82rem; }
 .emoji-copy-actions,
 .emoji-code-toolbar { display: flex; flex-wrap: wrap; gap: .4rem; }
+.copy-action-long { display: none; }
+.copy-action-short { display: inline; }
+.emoji-copy-actions .copy-action-short::before {
+  content: "⧉";
+  margin-inline-end: .3rem;
+  font-size: 1.05em;
+  line-height: 1;
+}
 .emoji-copy-actions { padding: 0 1rem .85rem; }
 .emoji-code-toolbar { justify-content: space-between; padding: 1rem; }
 .emoji-copy-actions button,
@@ -873,6 +881,11 @@ kbd {
 .sequence-type > .emoji > div:active { background: #07131b; transform: scale(.94); }
 .subgroup .emoji > div span,
 .sequence-type > .emoji > div span { width: 100%; text-align: center; }
+
+@media (min-width: 561px) {
+  .example-dialog .copy-action-long { display: inline; }
+  .example-dialog .copy-action-short { display: none; }
+}
 
 @media (max-width: 560px) {
   .toolbar { max-height: 40svh; padding: .5rem .65rem; }

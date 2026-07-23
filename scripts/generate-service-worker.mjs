@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
@@ -35,8 +36,18 @@ const coreAssets = [
 ];
 
 const template = fs.readFileSync('scripts/service-worker.template.js', 'utf8');
+const assetHash = createHash('sha256');
+for (const asset of coreAssets) {
+  const file = asset.replace(/^\.\//, '').replace(/\?.*$/, '');
+  assetHash.update(asset);
+  if (file && !/^index\.[^.]+(?:-[^.]+)?\.html$/.test(file) && fs.existsSync(file)) {
+    assetHash.update(fs.readFileSync(file));
+  }
+}
+const assetRevision = assetHash.digest('hex').slice(0, 12);
 export const renderServiceWorker = () => template
   .replace('__PACKAGE_VERSION__', packageJson.version)
+  .replace('__ASSET_REVISION__', assetRevision)
   .replace('__CORE_ASSETS__', JSON.stringify(coreAssets, null, 2));
 
 export const generateServiceWorker = (outputFile = 'service-worker.js') => {

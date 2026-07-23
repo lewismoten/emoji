@@ -699,6 +699,7 @@ function upgradeEmojiDialog() {
   removeLegacyDialogElements();
   ensureImportExamples();
   ensureCodeDialogView();
+  ensureCompactCopyLabels();
   const dialogControls = exampleDialog.querySelector('.dialog-controls');
   if (dialogControls && !dialogControls.querySelector('.emoji-parent')) {
     const parent = document.createElement('button');
@@ -817,6 +818,34 @@ function ensureCodeDialogView() {
     copyLink.textContent = 'Copy link';
     actions.querySelector('.show-emoji-code')?.before(copyLink);
   }
+}
+
+function ensureCompactCopyLabels() {
+  const definitions = {
+    key: ['copyKey', 'Copy key', 'keyShort', 'Key'],
+    escape: ['copyEscape', 'Copy escape', 'escapeShort', 'Escape'],
+    codePoints: ['copyCodePoints', 'Copy code points', 'codePoints', 'Code points'],
+    code: ['copyCode', 'Copy code', 'codeShort', 'Code'],
+    link: ['copyLink', 'Copy link', 'linkShort', 'Link']
+  };
+  exampleDialog.querySelectorAll('[data-copy]:not(.emoji-preview)').forEach(button => {
+    const definition = definitions[button.dataset.copy];
+    if (!definition) return;
+    const [longKey, longFallback, shortKey, shortFallback] = definition;
+    if (!button.querySelector('.copy-action-long')) {
+      const longLabel = document.createElement('span');
+      const shortLabel = document.createElement('span');
+      longLabel.className = 'copy-action-long';
+      longLabel.dataset.i18n = longKey;
+      longLabel.textContent = longFallback;
+      shortLabel.className = 'copy-action-short';
+      shortLabel.dataset.i18n = shortKey;
+      shortLabel.textContent = shortFallback;
+      button.replaceChildren(longLabel, shortLabel);
+    }
+    button.dataset.i18nAriaLabel = longKey;
+    button.setAttribute('aria-label', longFallback);
+  });
 }
 
 function setEmojiDialogView(showCode, updateUrl = true) {

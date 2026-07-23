@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'emoji-explorer-';
-const CACHE_NAME = `${CACHE_PREFIX}__PACKAGE_VERSION__`;
+const CACHE_NAME = `${CACHE_PREFIX}__PACKAGE_VERSION__-__ASSET_REVISION__`;
 const CORE_ASSETS = __CORE_ASSETS__;
 const scopedUrl = path => new URL(path, self.registration.scope).href;
 
