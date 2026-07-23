@@ -347,7 +347,7 @@ async function onLoad() {
   applyBasicUrlState();
   skinToneCheckboxes.forEach(checkbox => checkbox.addEventListener('change', drawList));
   hairCheckboxes.forEach(checkbox => checkbox.addEventListener('change', drawList));
-  genderCheckboxes.forEach(checkbox => checkbox.addEventListener('change', drawList));
+  genderCheckboxes.forEach(checkbox => checkbox.addEventListener('change', onGenderChange));
 
   searchText.addEventListener("input", drawList);
   languagePicker.addEventListener('click', () => {
@@ -785,7 +785,10 @@ function applyLoadedUrlState() {
     : '';
   skinToneCheckboxes.forEach(checkbox => { checkbox.checked = state.skin.includes(checkbox.value); });
   hairCheckboxes.forEach(checkbox => { checkbox.checked = state.hair.includes(checkbox.value); });
-  genderCheckboxes.forEach(checkbox => { checkbox.checked = state.gender.includes(checkbox.value); });
+  const selectedGender = state.gender.find(value =>
+    genderCheckboxes.some(checkbox => checkbox.value === value)
+  );
+  genderCheckboxes.forEach(checkbox => { checkbox.checked = checkbox.value === selectedGender; });
   renderVersionModeToggle();
   syncVersionRange();
 }
@@ -848,6 +851,15 @@ function resetFilters() {
   renderCategoryFilters();
   drawList();
   searchText.focus();
+}
+
+function onGenderChange(event) {
+  if (event.currentTarget.checked) {
+    genderCheckboxes.forEach(checkbox => {
+      if (checkbox !== event.currentTarget) checkbox.checked = false;
+    });
+  }
+  drawList();
 }
 
 function stepVersion(amount) {
