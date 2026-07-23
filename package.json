@@ -63,6 +63,7 @@
     "demo:locales": "node ./scripts/generate-demo-pages.mjs",
     "demo:pwa": "node ./scripts/generate-service-worker.mjs",
     "pixel-font:generate": "node ./pixel-font/scripts/generate-atlases.mjs",
+    "pixel-font:build": "node ./pixel-font/scripts/build-assets.mjs",
     "pixel-font:validate": "node ./pixel-font/scripts/validate-atlases.mjs",
     "unicode": "node ./scripts/update-unicode.mjs",
     "unicode:proposed": "node ./scripts/download-proposed-unicode.mjs",

@@ -8,4 +8,5 @@
 !/dist/esm/index.js
 /service-worker.js
 /pixel-font/build/
+/pixel-font/.venv/
 .DS_Store

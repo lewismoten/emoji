@@ -30,11 +30,36 @@ emoji—remain eligible.
 ```sh
 npm run pixel-font:generate
 npm run pixel-font:validate
+npm run pixel-font:build
 ```
 
 Generation creates missing transparent PNG templates but never overwrites an
 existing PNG. This protects hand-edited artwork. Delete a specific atlas PNG
 only when you intentionally want to recreate that blank template.
+
+`pixel-font:build` scans every mapped cell and builds only cells containing at
+least one pixel with nonzero opacity. Fully transparent cells are ignored. Its
+generated output under `pixel-font/build/` includes:
+
+- individual 16×16 PNG files;
+- standalone crisp-edge SVG files;
+- a COLR/CPAL TrueType font;
+- WOFF and WOFF2 web fonts;
+- a machine-readable manifest;
+- an HTML page comparing PNG, SVG, and font rendering.
+
+Font compilation uses FontTools. Create the isolated Python environment once:
+
+```sh
+python3 -m venv pixel-font/.venv
+pixel-font/.venv/bin/pip install -r pixel-font/requirements.txt
+```
+
+The build automatically prefers that environment. Without it, the system
+Python is used and WOFF2 may be skipped if Brotli support is unavailable.
+
+After building, run `npm start` and open
+`http://localhost:5173/pixel-font/build/` to inspect the output.
 
 ## Editing
 
@@ -48,6 +73,10 @@ Open an atlas PNG in a pixel-art editor with:
 
 Do not insert or remove canvas pixels. The JSON sidecar is the authority for
 which emoji belongs in each cell.
+
+A painted pixel may be opaque or partially transparent. The builder preserves
+its exact RGBA value. Avoid editor resampling when you want a smaller, reusable
+palette and hard pixel edges.
 
 ## CSS clipping
 
@@ -68,16 +97,6 @@ CSS font size using a background image:
 
 `image-rendering: pixelated` preserves the pixel-art appearance. Exact physical
 pixel alignment is best at integer multiples of 16px.
-
-## Future font build
-
-The next build stage will:
-
-1. extract each occupied cell;
-2. merge same-color pixels into SVG rectangles;
-3. add `shape-rendering="crispEdges"`;
-4. compile the SVG glyphs into COLR/CPAL and SVG OpenType tables;
-5. emit installable TTF and web WOFF2 files under `pixel-font/build/`.
 
 Compiled font files belong in release artifacts or a separate font package,
 not in the existing emoji-data package.
