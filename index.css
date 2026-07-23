@@ -1361,6 +1361,24 @@ button.emoji-composition-part:focus-visible {
   color: #ff7b7b;
   font: 900 1.2rem/1 sans-serif;
 }
+.pixel-editor-palette.has-one-skin-tone .pixel-editor-swatch.is-transparent {
+  grid-row: 1;
+  height: 1.65rem;
+}
+.pixel-editor-palette.has-one-skin-tone .pixel-editor-swatch.is-skin-tone {
+  grid-column: 9;
+  grid-row: 2;
+}
+.pixel-editor-palette.has-multiple-skin-tones {
+  grid-template-rows: repeat(3, 1.65rem);
+}
+.pixel-editor-palette.has-multiple-skin-tones
+  .pixel-editor-swatch.is-skin-tone {
+  grid-row: 3;
+}
+.pixel-editor-swatch.is-skin-tone[hidden] {
+  display: none;
+}
 .pixel-editor-swatch:hover {
   border-color: var(--text);
 }

@@ -735,8 +735,18 @@ assert.doesNotMatch(
 );
 assert.match(
   pixelEditorScript,
-  /nearestEgaColor/,
-  "the eyedropper must reduce sampled colors to the EGA palette",
+  /const SKIN_TONE_COLORS = \[[\s\S]*1F3FB[\s\S]*1F3FF/,
+  "the pixel editor must define the five Unicode skin-tone colors",
+);
+assert.match(
+  pixelEditorScript,
+  /function activePaletteColors\(\)[\s\S]*EGA_COLORS[\s\S]*button\.dataset\.skinTone/,
+  "the active drawing palette must combine EGA with contextual skin tones",
+);
+assert.match(
+  pixelEditorScript,
+  /function nearestPaletteColor[\s\S]*colors\.reduce/,
+  "the eyedropper must reduce sampled colors to the active palette",
 );
 assert.match(
   pixelEditorScript,
@@ -745,8 +755,8 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.pixel-editor-palette[\s\S]*grid-template-columns:\s*repeat\(9,\s*1\.65rem\);[\s\S]*grid-template-rows:\s*repeat\(2,\s*1\.65rem\);[\s\S]*\.pixel-editor-swatch\.is-transparent[\s\S]*grid-column:\s*9;[\s\S]*grid-row:\s*1 \/ span 2;/,
-  "EGA colors must retain full-size swatches beside the two-row transparent swatch",
+  /\.pixel-editor-palette[\s\S]*grid-template-columns:\s*repeat\(9,\s*1\.65rem\);[\s\S]*\.pixel-editor-swatch\.is-transparent[\s\S]*grid-column:\s*9;[\s\S]*grid-row:\s*1 \/ span 2;[\s\S]*\.pixel-editor-palette\.has-one-skin-tone[\s\S]*grid-row:\s*1;[\s\S]*\.pixel-editor-swatch\.is-skin-tone[\s\S]*grid-column:\s*9;[\s\S]*grid-row:\s*2;/,
+  "one contextual skin tone must appear below a normal-size transparent swatch",
 );
 assert.doesNotMatch(
   pixelEditorScript,
@@ -994,7 +1004,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function bakeFloatingLayer[\s\S]*pushHistory\(\);[\s\S]*compositeLayer\(pixels, \{[\s\S]*effectiveLayerPixels\(floatingLayer\)/,
+  /function bakeFloatingLayer[\s\S]*pushHistory\(\);[\s\S]*compositeLayer\(pixels, \{[\s\S]*effectiveLayerPixels\(\s*floatingLayer,\s*activePaletteColors\(\)/,
   "baking a floating layer must be undoable",
 );
 for (const transform of [
@@ -1011,8 +1021,8 @@ for (const transform of [
 }
 assert.match(
   pixelEditorScript,
-  /class="pixel-editor-invert-layer"[\s\S]*function toggleFloatingLayerInversion[\s\S]*function effectiveLayerPixels[\s\S]*nearestEgaColor/,
-  "floating layers must support non-destructive inversion into the nearest EGA colors",
+  /class="pixel-editor-invert-layer"[\s\S]*function toggleFloatingLayerInversion[\s\S]*function effectiveLayerPixels[\s\S]*nearestPaletteColor/,
+  "floating layers must support non-destructive inversion into the nearest active colors",
 );
 assert.match(
   pixelEditorScript,
@@ -1031,13 +1041,13 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function rotatePixels\(layer, degrees\)[\s\S]*document\.createElement\("canvas"\)[\s\S]*imageSmoothingEnabled = true[\s\S]*imageSmoothingQuality = "high"[\s\S]*translate\(width \/ 2, height \/ 2\)[\s\S]*rotate\(radians\)[\s\S]*drawImage/,
+  /function rotatePixels\(layer, degrees, paletteColors = EGA_COLORS\)[\s\S]*document\.createElement\("canvas"\)[\s\S]*imageSmoothingEnabled = true[\s\S]*imageSmoothingQuality = "high"[\s\S]*translate\(width \/ 2, height \/ 2\)[\s\S]*rotate\(radians\)[\s\S]*drawImage/,
   "floating selections must use an interpolated canvas rotation around their centers",
 );
 assert.match(
   pixelEditorScript,
-  /function quantizeToEga\(source\)[\s\S]*ROTATION_ALPHA_THRESHOLD[\s\S]*nearestEgaColor[\s\S]*result\[offset \+ 3\] = 255/,
-  "canvas-rotated pixels must be reduced to transparency or the nearest opaque EGA color",
+  /function quantizeToPalette\(source, paletteColors = EGA_COLORS\)[\s\S]*ROTATION_ALPHA_THRESHOLD[\s\S]*nearestPaletteColor[\s\S]*result\[offset \+ 3\] = 255/,
+  "canvas-rotated pixels must be reduced to transparency or the nearest active opaque color",
 );
 assert.match(
   pixelEditorScript,
@@ -1051,7 +1061,7 @@ assert.doesNotMatch(
 );
 assert.match(
   pixelEditorScript,
-  /function nextLayerRotation[\s\S]*rotationSource[\s\S]*rotationDegrees[\s\S]*\(clockwise \? 45 : -45\)[\s\S]*rotatePixels\(rotationSource, rotationDegrees\)/,
+  /function nextLayerRotation[\s\S]*rotationSource[\s\S]*rotationDegrees[\s\S]*\(clockwise \? 45 : -45\)[\s\S]*rotatePixels\(rotationSource, rotationDegrees, paletteColors\)/,
   "successive 45-degree turns must render from the original layer instead of degrading the previous raster rotation",
 );
 for (const locale of ["en", "ar", "es", "hi", "zh"]) {

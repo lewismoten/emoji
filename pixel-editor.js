@@ -27,6 +27,38 @@ const EGA_COLORS = [
   "#ffff55",
   "#ffffff",
 ];
+const SKIN_TONE_COLORS = [
+  {
+    codePoint: "1F3FB",
+    color: "#f2d2b6",
+    translationKey: "light",
+    fallback: "Light skin tone",
+  },
+  {
+    codePoint: "1F3FC",
+    color: "#d5a078",
+    translationKey: "mediumLight",
+    fallback: "Medium-light skin tone",
+  },
+  {
+    codePoint: "1F3FD",
+    color: "#a66a45",
+    translationKey: "medium",
+    fallback: "Medium skin tone",
+  },
+  {
+    codePoint: "1F3FE",
+    color: "#70452f",
+    translationKey: "mediumDark",
+    fallback: "Medium-dark skin tone",
+  },
+  {
+    codePoint: "1F3FF",
+    color: "#3b271d",
+    translationKey: "dark",
+    fallback: "Dark skin tone",
+  },
+];
 const BITMAP_FONT = {
   " ": ["00000", "00000", "00000", "00000", "00000", "00000", "00000"],
   A: ["01110", "10001", "10001", "11111", "10001", "10001", "10001"],
@@ -125,6 +157,7 @@ export function createPixelEditor({
           <div class="pixel-editor-palette" role="group" data-i18n-aria-label="egaPalette" aria-label="Classic EGA color palette">
             ${EGA_COLORS.map(egaSwatch).join("")}
             <button class="pixel-editor-swatch is-transparent" type="button" data-transparent="true" data-i18n-aria-label="transparentEraser" aria-label="Transparent eraser" title="Transparent"><span aria-hidden="true">╱</span></button>
+            ${SKIN_TONE_COLORS.map(skinToneSwatch).join("")}
           </div>
         </fieldset>
         <fieldset class="pixel-editor-tracing">
@@ -346,6 +379,7 @@ export function createPixelEditor({
       traceOffsetX = 0;
       traceOffsetY = 0;
       currentEntry = undefined;
+      updateSkinTonePalette();
       selection = undefined;
       floatingLayer = undefined;
       atlasBlob = undefined;
@@ -371,6 +405,7 @@ export function createPixelEditor({
         }
         const entry = manifest.glyphs[key];
         currentEntry = entry;
+        updateSkinTonePalette(entry?.codePoints);
         updateTransferButtons();
         if (!entry) {
           location.textContent = "";
@@ -431,6 +466,7 @@ export function createPixelEditor({
       updateTraceOutput();
       updateShapeToolButtons();
       updatePreviewActionLabels();
+      updateSkinTonePalette(currentEntry?.codePoints);
     },
   };
 
@@ -571,7 +607,10 @@ export function createPixelEditor({
 
   function drawFloatingLayer(targetContext, displayCell) {
     if (!floatingLayer) return;
-    const layerPixels = effectiveLayerPixels(floatingLayer);
+    const layerPixels = effectiveLayerPixels(
+      floatingLayer,
+      activePaletteColors(),
+    );
     for (let y = 0; y < floatingLayer.height; y += 1) {
       for (let x = 0; x < floatingLayer.width; x += 1) {
         const offset = (y * floatingLayer.width + x) * 4;
@@ -692,7 +731,7 @@ export function createPixelEditor({
     });
     if (floatingLayer) {
       const layerCanvas = imageDataCanvas(
-        effectiveLayerPixels(floatingLayer),
+        effectiveLayerPixels(floatingLayer, activePaletteColors()),
         floatingLayer.width,
         floatingLayer.height,
       );
@@ -964,7 +1003,60 @@ export function createPixelEditor({
         .getImageData(point.x, point.y, 1, 1).data;
     }
     selectedColor =
-      alpha === 0 ? "transparent" : nearestEgaColor(red, green, blue);
+      alpha === 0
+        ? "transparent"
+        : nearestPaletteColor(red, green, blue, activePaletteColors());
+    updatePaletteSelection();
+  }
+
+  function activePaletteColors() {
+    return [
+      ...EGA_COLORS,
+      ...paletteButtons
+        .filter(
+          (button) =>
+            button.dataset.skinTone && !button.hidden && button.dataset.color,
+        )
+        .map((button) => button.dataset.color),
+    ];
+  }
+
+  function updateSkinTonePalette(codePoints = []) {
+    const activeCodePoints = new Set(
+      codePoints.map((codePoint) => codePoint.toUpperCase()),
+    );
+    const activeButtons = paletteButtons.filter((button) => {
+      if (!button.dataset.skinTone) return false;
+      button.hidden = !activeCodePoints.has(button.dataset.skinTone);
+      button.style.removeProperty("grid-column");
+      const tone = SKIN_TONE_COLORS.find(
+        (candidate) => candidate.codePoint === button.dataset.skinTone,
+      );
+      if (tone) {
+        const label = translate(tone.translationKey, tone.fallback);
+        button.setAttribute("aria-label", label);
+        button.title = label;
+      }
+      return !button.hidden;
+    });
+    const palette = view.querySelector(".pixel-editor-palette");
+    palette.classList.toggle("has-one-skin-tone", activeButtons.length === 1);
+    palette.classList.toggle(
+      "has-multiple-skin-tones",
+      activeButtons.length > 1,
+    );
+    if (activeButtons.length > 1) {
+      const firstColumn = Math.floor((9 - activeButtons.length) / 2) + 1;
+      activeButtons.forEach((button, index) => {
+        button.style.gridColumn = String(firstColumn + index);
+      });
+    }
+    if (
+      selectedColor !== "transparent" &&
+      !activePaletteColors().includes(selectedColor)
+    ) {
+      selectedColor = "#ffff55";
+    }
     updatePaletteSelection();
   }
 
@@ -1135,6 +1227,7 @@ export function createPixelEditor({
       const rotated = nextLayerRotation(
         floatingLayer,
         transform === "rotate-right",
+        activePaletteColors(),
       );
       if (!layerTransformChangesPixels(floatingLayer, rotated)) return;
       floatingLayer.pixels = rotated.pixels;
@@ -1163,7 +1256,7 @@ export function createPixelEditor({
     pushHistory();
     compositeLayer(pixels, {
       ...floatingLayer,
-      pixels: effectiveLayerPixels(floatingLayer),
+      pixels: effectiveLayerPixels(floatingLayer, activePaletteColors()),
     });
     floatingLayer = undefined;
     draw();
@@ -1252,6 +1345,7 @@ export function createPixelEditor({
         const rotated = nextLayerRotation(
           floatingLayer,
           transform === "rotate-right",
+          activePaletteColors(),
         );
         button.disabled = !layerTransformChangesPixels(floatingLayer, rotated);
       } else {
@@ -1629,6 +1723,10 @@ function egaSwatch(color) {
   return `<button class="pixel-editor-swatch" type="button" data-color="${color}" aria-label="EGA ${color}" title="EGA ${color}" aria-pressed="false" style="--swatch: ${color}"></button>`;
 }
 
+function skinToneSwatch(tone) {
+  return `<button class="pixel-editor-swatch is-skin-tone" type="button" data-color="${tone.color}" data-skin-tone="${tone.codePoint}" aria-label="${tone.fallback}" title="${tone.fallback}" aria-pressed="false" style="--swatch: ${tone.color}" hidden></button>`;
+}
+
 function pixelOffset(x, y) {
   return (y * CELL_SIZE + x) * 4;
 }
@@ -1656,7 +1754,7 @@ function extractPixels(source, sourceWidth, x, y, width, height) {
   return result;
 }
 
-function nextLayerRotation(layer, clockwise) {
+function nextLayerRotation(layer, clockwise, paletteColors = EGA_COLORS) {
   const rotationSource = layer.rotationSource ?? {
     pixels: layer.pixels.slice(),
     width: layer.width,
@@ -1665,7 +1763,7 @@ function nextLayerRotation(layer, clockwise) {
   const rotationDegrees =
     ((layer.rotationDegrees ?? 0) + (clockwise ? 45 : -45) + 360) % 360;
   return {
-    ...rotatePixels(rotationSource, rotationDegrees),
+    ...rotatePixels(rotationSource, rotationDegrees, paletteColors),
     rotationSource,
     rotationDegrees,
   };
@@ -1676,7 +1774,7 @@ function resetLayerRotation(layer) {
   delete layer.rotationDegrees;
 }
 
-function rotatePixels(layer, degrees) {
+function rotatePixels(layer, degrees, paletteColors = EGA_COLORS) {
   const radians = (degrees * Math.PI) / 180;
   const cosine = Math.cos(radians);
   const sine = Math.sin(radians);
@@ -1698,20 +1796,21 @@ function rotatePixels(layer, degrees) {
   rotatedContext.drawImage(sourceCanvas, -layer.width / 2, -layer.height / 2);
   const interpolated = rotatedContext.getImageData(0, 0, width, height).data;
   return {
-    pixels: quantizeToEga(interpolated),
+    pixels: quantizeToPalette(interpolated, paletteColors),
     width,
     height,
   };
 }
 
-function quantizeToEga(source) {
+function quantizeToPalette(source, paletteColors = EGA_COLORS) {
   const result = new Uint8ClampedArray(source.length);
   for (let offset = 0; offset < source.length; offset += 4) {
     if (source[offset + 3] < ROTATION_ALPHA_THRESHOLD) continue;
-    const color = nearestEgaColor(
+    const color = nearestPaletteColor(
       source[offset],
       source[offset + 1],
       source[offset + 2],
+      paletteColors,
     ).slice(1);
     result[offset] = Number.parseInt(color.slice(0, 2), 16);
     result[offset + 1] = Number.parseInt(color.slice(2, 4), 16);
@@ -1807,18 +1906,19 @@ function hasVisiblePixels(value) {
   return value.some((channel, index) => index % 4 === 3 && channel > 0);
 }
 
-function effectiveLayerPixels(layer) {
+function effectiveLayerPixels(layer, paletteColors = EGA_COLORS) {
   if (!layer.inverted) return layer.pixels;
   const result = new Uint8ClampedArray(layer.pixels.length);
   for (let offset = 0; offset < layer.pixels.length; offset += 4) {
     const alpha = layer.pixels[offset + 3];
     if (alpha === 0) continue;
-    const egaColor = nearestEgaColor(
+    const paletteColor = nearestPaletteColor(
       255 - layer.pixels[offset],
       255 - layer.pixels[offset + 1],
       255 - layer.pixels[offset + 2],
+      paletteColors,
     );
-    const value = egaColor.slice(1);
+    const value = paletteColor.slice(1);
     result[offset] = Number.parseInt(value.slice(0, 2), 16);
     result[offset + 1] = Number.parseInt(value.slice(2, 4), 16);
     result[offset + 2] = Number.parseInt(value.slice(4, 6), 16);
@@ -1841,8 +1941,8 @@ function clamp(value, minimum, maximum) {
   return Math.min(Math.max(value, minimum), maximum);
 }
 
-function nearestEgaColor(red, green, blue) {
-  return EGA_COLORS.reduce(
+function nearestPaletteColor(red, green, blue, colors = EGA_COLORS) {
+  return colors.reduce(
     (nearest, color) => {
       const value = color.slice(1);
       const colorRed = Number.parseInt(value.slice(0, 2), 16);
@@ -1854,6 +1954,6 @@ function nearestEgaColor(red, green, blue) {
         (blue - colorBlue) ** 2;
       return distance < nearest.distance ? { color, distance } : nearest;
     },
-    { color: EGA_COLORS[0], distance: Number.POSITIVE_INFINITY },
+    { color: colors[0] ?? EGA_COLORS[0], distance: Number.POSITIVE_INFINITY },
   ).color;
 }

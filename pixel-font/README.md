@@ -42,6 +42,22 @@ atlases/modifiers/skin-and-hair/people-and-body/person.png
 This keeps the base sheets compact while making every modifier combination
 available to the editor and the same generated font.
 
+## Artwork palette
+
+The editor uses the 16 classic EGA colors as its primary palette. Emoji with
+Unicode skin-tone modifiers also expose the applicable colors from this
+five-color extension:
+
+- light `#f2d2b6`;
+- medium-light `#d5a078`;
+- medium `#a66a45`;
+- medium-dark `#70452f`;
+- dark `#3b271d`.
+
+Only tones present in the current Unicode sequence are shown. This keeps the
+artwork EGA-inspired while preserving the meaning and visual distinction of
+the standardized skin-tone modifiers.
+
 ## Sequence glyphs
 
 Paint a sequence in its assigned atlas cell exactly like a single-code-point
