@@ -139,6 +139,7 @@ assert.match(demoScript, /groupField\.hidden = sequenceMode[\s\S]*sequenceField\
 assert.match(demoScript, /orderMode === 'sequence' && selectedSequenceType[\s\S]*sequenceType === selectedSequenceType/, 'sequence-type selections must filter the emoji list');
 assert.match(demoScript, /params\.set\('sequenceType', selectedSequenceType\)/, 'sequence-type filters must persist in the URL');
 assert.match(demoStyles, /\.sequence-type > \.name \{ position: sticky; top: var\(--toolbar-height\);/, 'sequence-type headings must remain sticky below the toolbar');
+assert.match(demoScript, /replace\(\/\[\\p\{P\}\\p\{S\}\]\+\/gu, ' '\)/, 'English-name comparisons must ignore punctuation and symbols');
 assert.match(demoScript, /function condenseCompositionPoints/, 'emoji compositions must detect known nested sequences');
 assert.match(demoScript, /for \(let end = points\.length; end >= start \+ 2; end--\)/, 'composition folding must prefer the longest known sequence');
 assert.match(demoScript, /params\.get\('composition'\) === 'full'/, 'composition mode must load from the URL');

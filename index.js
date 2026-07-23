@@ -2452,7 +2452,12 @@ function displayEmojiKey(key) {
 }
 
 function normalizeDisplayName(value) {
-  return value.normalize('NFKC').replace(/\s+/g, ' ').trim().toLocaleLowerCase('en');
+  return value
+    .normalize('NFKC')
+    .replace(/[\p{P}\p{S}]+/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLocaleLowerCase('en');
 }
 
 function updateEmojiImportExamples(item) {
