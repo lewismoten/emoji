@@ -69,6 +69,8 @@
   "cancelTagAbbreviation": "FIN",
   "keycapAbbreviation": "TECLA",
   "viewEmoji": "Ver emoji",
+  "showFullSequence": "Mostrar secuencia completa",
+  "showCondensedSequence": "Mostrar secuencia condensada",
   "regionalIndicator": "Indicador regional",
   "qualification": "Calificación",
   "copy": "Copiar",

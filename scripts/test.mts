@@ -127,6 +127,14 @@ assert.match(demoHtml, /class="dialog-navigate emoji-parent"/, 'emoji details mu
 assert.match(demoScript, /compositionParent: parentEmojiKey/, 'component navigation must retain its parent in browser history');
 assert.match(demoScript, /event\.target\.closest\('\.emoji-parent'\)[\s\S]*window\.history\.back/, 'parent navigation must use browser history');
 assert.match(demoScript, /delete nextState\.compositionParent/, 'ordinary dialog navigation must clear stale component history');
+assert.match(demoHtml, /class="emoji-composition-mode"/, 'foldable compositions must provide a display-mode toggle');
+assert.match(demoScript, /function condenseCompositionPoints/, 'emoji compositions must detect known nested sequences');
+assert.match(demoScript, /for \(let end = points\.length; end >= start \+ 2; end--\)/, 'composition folding must prefer the longest known sequence');
+assert.match(demoScript, /params\.get\('composition'\) === 'full'/, 'composition mode must load from the URL');
+assert.match(demoScript, /params\.set\('composition', 'full'\)/, 'full composition mode must persist in the URL');
+assert.match(demoScript, /formatCompositionReduction\(components\.length, 1\)/, 'condensed composition counts must use localized direction');
+assert.match(demoScript, /startsWith\('ar'\).*numberingSystem: 'arab'/, 'Arabic UI numbers must use Arabic-Indic digits');
+assert.match(demoScript, /dir === 'rtl'[\s\S]*formatUiNumber\(to\)}←\$\{formatUiNumber\(from\)/, 'RTL composition reductions must begin at the right and point left');
 assert.match(demoStyles, /\[dir="rtl"\] \.emoji-composition-equation \{[\s\S]*direction: rtl;[\s\S]*justify-content: flex-start;/, 'RTL compositions must begin at the right and progress leftward');
 assert.match(demoStyles, /\.emoji-composition-code-point \{ direction: ltr; unicode-bidi: isolate; \}/, 'individual code-point labels must retain LTR ordering');
 assert.doesNotMatch(demoHtml, /class="emoji-code-points"/, 'code points must not be repeated in a metadata card');

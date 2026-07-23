@@ -66,6 +66,7 @@ var versionKeys = new Map();
 var orderManifest = { unicode: [] };
 var packageManifest = { packs: [], categories: [] };
 var orderMode = 'grouped';
+var compositionMode = 'condensed';
 var searchAnnotations = {};
 var searchLabels = {};
 var searchSubgroupLabels = {};
@@ -355,10 +356,31 @@ function ensureUtilityControls() {
   if (dialogDetails && !document.querySelector('.example-dialog .emoji-composition')) {
     dialogDetails.insertAdjacentHTML('afterend', `
       <section class="emoji-composition" hidden>
-        <h3 data-i18n="builtFrom">Built from</h3>
+        <div class="emoji-composition-heading">
+          <h3 data-i18n="builtFrom">Built from</h3>
+          <button class="emoji-composition-mode" type="button" aria-pressed="false" hidden>Show full sequence</button>
+        </div>
         <div class="emoji-composition-equation" dir="ltr"></div>
       </section>
     `);
+  }
+  const composition = document.querySelector('.example-dialog .emoji-composition');
+  if (composition && !composition.querySelector('.emoji-composition-heading')) {
+    const heading = document.createElement('div');
+    const title = composition.querySelector('h3');
+    heading.className = 'emoji-composition-heading';
+    title?.before(heading);
+    if (title) heading.append(title);
+  }
+  const compositionHeading = composition?.querySelector('.emoji-composition-heading');
+  if (compositionHeading && !compositionHeading.querySelector('.emoji-composition-mode')) {
+    const mode = document.createElement('button');
+    mode.className = 'emoji-composition-mode';
+    mode.type = 'button';
+    mode.hidden = true;
+    mode.setAttribute('aria-pressed', 'false');
+    mode.textContent = 'Show full sequence';
+    compositionHeading.append(mode);
   }
 
   const main = document.querySelector('main');
@@ -536,6 +558,12 @@ async function onLoad() {
   emojiList.addEventListener('focusin', onEmojiFocus);
   emojiList.addEventListener('keydown', onEmojiKeyDown);
   exampleDialog.addEventListener('click', event => {
+    if (event.target.closest('.emoji-composition-mode')) {
+      compositionMode = compositionMode === 'full' ? 'condensed' : 'full';
+      updateEmojiComposition(byId[currentEmojiKey] ?? {}, emojiByKey[currentEmojiKey] ?? '');
+      syncUrlState();
+      return;
+    }
     const compositionButton = event.target.closest('[data-composition-emoji]');
     if (compositionButton) {
       const parentEmojiKey = currentEmojiKey;
@@ -1078,6 +1106,7 @@ function getUrlState() {
     hair: (params.get('hair') ?? '').split(',').filter(Boolean),
     gender: (params.get('gender') ?? '').split(',').filter(Boolean),
     order,
+    compositionMode: params.get('composition') === 'full' ? 'full' : 'condensed',
     emoji: params.get('emoji') ?? '',
     emojiMode: params.get('emojiMode') === 'code' ? 'code' : 'details',
     panel: ['favorites', 'help', 'language'].includes(params.get('panel'))
@@ -1090,6 +1119,7 @@ function applyBasicUrlState() {
   const state = getUrlState();
   searchText.value = state.search;
   orderMode = state.order;
+  compositionMode = state.compositionMode;
   orderButtons.forEach(button => {
     const active = button.dataset.order === orderMode;
     button.classList.toggle('is-active', active);
@@ -1119,6 +1149,7 @@ function applyLoadedUrlState() {
 
 function applyDialogUrlState() {
   const state = getUrlState();
+  compositionMode = state.compositionMode;
   if (state.emoji && emojiByKey[state.emoji] !== undefined) {
     closePanelDialog(savedDialog);
     closePanelDialog(helpDialog);
@@ -1163,6 +1194,7 @@ function syncUrlState(method = 'replace', historyState = window.history.state) {
   if (hair.length) params.set('hair', hair.join(','));
   if (gender.length) params.set('gender', gender.join(','));
   if (orderMode !== 'grouped') params.set('order', orderMode);
+  if (compositionMode === 'full') params.set('composition', 'full');
   if (exampleDialog.open && currentEmojiKey) {
     params.set('emoji', currentEmojiKey);
     if (exampleDialog.classList.contains('is-code-view')) params.set('emojiMode', 'code');
@@ -2157,9 +2189,7 @@ function drawList() {
   if (shouldRestoreEmojiFocus) {
     document.getElementById(focusedEmojiKey)?.focus();
   }
-  const numberLocale = selectedSearchLocale || undefined;
-  const numberOptions = selectedSearchLocale.startsWith('ar') ? { numberingSystem: 'arab' } : {};
-  matchCount.innerText = new Intl.NumberFormat(numberLocale, numberOptions).format(keys.length);
+  matchCount.innerText = formatUiNumber(keys.length);
   updateActiveFilterSummary();
   updateDialogNavigation();
   syncUrlState();
@@ -2373,7 +2403,8 @@ function withoutCompositionParent(state = window.history.state) {
 function updateEmojiComposition(item, value) {
   const section = exampleDialog.querySelector('.emoji-composition');
   const equation = section?.querySelector('.emoji-composition-equation');
-  if (!section || !equation) return;
+  const modeButton = section?.querySelector('.emoji-composition-mode');
+  if (!section || !equation || !modeButton) return;
   const points = (item.codePoints ?? '')
     .split(/\s+/)
     .filter(Boolean)
@@ -2383,13 +2414,78 @@ function updateEmojiComposition(item, value) {
   equation.replaceChildren();
   section.dataset.available = String(points.length > 1);
   section.hidden = points.length <= 1;
-  if (points.length <= 1) return;
+  if (points.length <= 1) {
+    modeButton.hidden = true;
+    return;
+  }
 
-  points.forEach((component, index) => {
-    const part = createCompositionPart(component);
+  const condensedParts = condenseCompositionPoints(points, item.key);
+  const canCondense = condensedParts.some(part => part.emojiKey);
+  const displayedParts = compositionMode === 'full' || !canCondense
+    ? points.map(component => ({ component }))
+    : condensedParts;
+  const modeLabel = compositionMode === 'full'
+    ? translate('showCondensedSequence', 'Show condensed sequence')
+    : translate('showFullSequence', 'Show full sequence');
+  modeButton.hidden = !canCondense;
+  modeButton.textContent = modeLabel;
+  modeButton.title = modeLabel;
+  modeButton.setAttribute('aria-label', modeLabel);
+  modeButton.setAttribute('aria-pressed', String(compositionMode === 'full'));
+
+  displayedParts.forEach((displayedPart, index) => {
+    const part = displayedPart.emojiKey
+      ? createCondensedCompositionPart(displayedPart)
+      : createCompositionPart(displayedPart.component);
     equation.append(index === 0 ? part : createCompositionTerm('+', part));
   });
   equation.append(createCompositionTerm('=', createCompositionResult(value, item.shortName)));
+}
+
+function condenseCompositionPoints(points, currentEmojiKey) {
+  const condensed = [];
+  for (let start = 0; start < points.length;) {
+    let match;
+    for (let end = points.length; end >= start + 2; end--) {
+      if (start === 0 && end === points.length) continue;
+      const codePoints = points.slice(start, end).map(component => component.hex).join(' ');
+      const emojiKey = emojiKeyByCodePoints.get(codePoints);
+      if (emojiKey && emojiKey !== currentEmojiKey) {
+        match = { emojiKey, components: points.slice(start, end) };
+        break;
+      }
+    }
+    if (match) {
+      condensed.push(match);
+      start += match.components.length;
+    } else {
+      condensed.push({ component: points[start] });
+      start++;
+    }
+  }
+  return condensed;
+}
+
+function createCondensedCompositionPart({ emojiKey, components }) {
+  const part = document.createElement('button');
+  const glyph = document.createElement('span');
+  const code = document.createElement('span');
+  const linkedName = searchAnnotations[emojiKey]?.[0]
+    ?? byId[emojiKey]?.shortName
+    ?? displayEmojiKey(emojiKey);
+  const viewLabel = translate('viewEmoji', 'View emoji');
+  const codePoints = components.map(component => `U+${component.hex}`).join(' ');
+  part.className = 'emoji-composition-part';
+  part.type = 'button';
+  part.dataset.compositionEmoji = emojiKey;
+  part.title = `${viewLabel}: ${linkedName} — ${codePoints}`;
+  part.setAttribute('aria-label', `${viewLabel}: ${linkedName}. ${codePoints}`);
+  glyph.className = 'emoji-composition-glyph';
+  glyph.textContent = emojiByKey[emojiKey];
+  code.className = 'emoji-composition-code emoji-composition-code-condensed';
+  code.textContent = formatCompositionReduction(components.length, 1);
+  part.append(glyph, code);
+  return part;
 }
 
 function createCompositionPart({ hex, point }) {
@@ -2423,6 +2519,18 @@ function createCompositionPart({ hex, point }) {
 
 function normalizeCodePoints(codePoints) {
   return (codePoints ?? '').trim().replace(/\s+/g, ' ').toUpperCase();
+}
+
+function formatUiNumber(value) {
+  const locale = document.documentElement.lang || selectedSearchLocale || undefined;
+  const options = locale?.startsWith('ar') ? { numberingSystem: 'arab' } : {};
+  return new Intl.NumberFormat(locale, options).format(value);
+}
+
+function formatCompositionReduction(from, to) {
+  return document.documentElement.dir === 'rtl'
+    ? `${formatUiNumber(to)}←${formatUiNumber(from)}`
+    : `${formatUiNumber(from)}→${formatUiNumber(to)}`;
 }
 
 function findCompositionEmojiKey(hex) {

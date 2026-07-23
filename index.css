@@ -543,7 +543,20 @@ h2 { margin: 0; font-size: 1.15rem; }
   min-width: 0;
   padding: 0 1rem .85rem;
 }
-.emoji-composition h3 { margin: 0 0 .4rem; color: var(--muted); font-size: .72rem; }
+.emoji-composition-heading { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .4rem; }
+.emoji-composition h3 { margin: 0; color: var(--muted); font-size: .72rem; }
+.emoji-composition-mode {
+  padding: .2rem .4rem;
+  border: 1px solid var(--border);
+  border-radius: .4rem;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font: 650 .66rem/1.2 var(--ui-font);
+}
+.emoji-composition-mode:hover { border-color: var(--accent); background: #15384d; }
+.emoji-composition-mode:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.emoji-composition-mode[hidden] { display: none; }
 .emoji-composition-equation {
   display: flex;
   flex-wrap: wrap;
@@ -582,6 +595,7 @@ button.emoji-composition-part:focus-visible { outline: 2px solid var(--accent); 
 .emoji-composition-glyph.is-symbolic { font-family: var(--ui-font); font-size: .64rem; font-weight: 800; }
 .emoji-composition-code { color: var(--muted); font: 600 .54rem/1.1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
 .emoji-composition-code-point { direction: ltr; unicode-bidi: isolate; }
+.emoji-composition-code-condensed { direction: ltr; unicode-bidi: isolate; }
 .emoji-composition-operator { flex: 0 0 auto; color: var(--accent); font-size: 1rem; font-weight: 800; }
 .emoji-composition-result { border-color: var(--border); background: var(--panel-strong); }
 .emoji-metadata {

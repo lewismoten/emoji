@@ -69,6 +69,8 @@
   "cancelTagAbbreviation": "نهاية",
   "keycapAbbreviation": "مفتاح",
   "viewEmoji": "عرض الرمز التعبيري",
+  "showFullSequence": "عرض التسلسل الكامل",
+  "showCondensedSequence": "عرض التسلسل المختصر",
   "regionalIndicator": "مؤشر إقليمي",
   "qualification": "حالة التأهيل",
   "copy": "نسخ",

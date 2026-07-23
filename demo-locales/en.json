@@ -69,6 +69,8 @@
   "cancelTagAbbreviation": "END",
   "keycapAbbreviation": "KEY",
   "viewEmoji": "View emoji",
+  "showFullSequence": "Show full sequence",
+  "showCondensedSequence": "Show condensed sequence",
   "regionalIndicator": "Regional indicator",
   "qualification": "Qualification",
   "copy": "Copy",

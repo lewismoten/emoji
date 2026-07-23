@@ -69,6 +69,8 @@
   "cancelTagAbbreviation": "结束",
   "keycapAbbreviation": "键帽",
   "viewEmoji": "查看表情符号",
+  "showFullSequence": "显示完整序列",
+  "showCondensedSequence": "显示精简序列",
   "regionalIndicator": "区域指示符",
   "qualification": "限定状态",
   "copy": "复制",
