@@ -723,6 +723,11 @@ assert.match(
   /data-transparent="true"/,
   "pixel editor must provide a transparent eraser",
 );
+assert.match(
+  demoStyles,
+  /\.pixel-editor-palette[\s\S]*grid-template-columns:\s*repeat\(9,\s*1\.65rem\);[\s\S]*grid-template-rows:\s*repeat\(2,\s*1\.65rem\);[\s\S]*\.pixel-editor-swatch\.is-transparent[\s\S]*grid-column:\s*9;[\s\S]*grid-row:\s*1 \/ span 2;/,
+  "EGA colors must stay in rows of eight beside a two-row transparent swatch",
+);
 assert.doesNotMatch(
   pixelEditorScript,
   /class="pixel-editor-trace"/,
