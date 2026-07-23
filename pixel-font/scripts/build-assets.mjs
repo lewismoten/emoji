@@ -354,7 +354,20 @@ function analyzeColorMasks(entries) {
     }
   }
 
-  const masks = uniqueLayerMasks(entries, specs);
+  const sourceMasks = uniqueLayerMasks(entries, specs);
+  const maskDecompositions = exactMaskUnions(sourceMasks);
+  const masks = new Set();
+  let renderedLayerCount = 0;
+  let composedLayerCount = 0;
+  for (const entry of entries) {
+    for (const { color, useSilhouette } of specs.get(entry.key)) {
+      const sourceMask = layerMask(entry.pixels, color, useSilhouette);
+      const renderedMasks = expandMask(sourceMask, maskDecompositions);
+      renderedLayerCount += renderedMasks.length;
+      if (renderedMasks.length > 1) composedLayerCount += 1;
+      renderedMasks.forEach((mask) => masks.add(mask));
+    }
+  }
   const baseMasks = new Map();
   let baseLayerCount = 0;
   for (const entry of entries) {
@@ -366,10 +379,13 @@ function analyzeColorMasks(entries) {
     }
   }
   return {
-    strategy: "shared-base-and-color-masks",
+    strategy: "shared-base-color-and-composed-masks",
     colorLayerCount,
+    renderedLayerCount,
     uniqueMaskCount: masks.size,
-    reusedLayerCount: colorLayerCount - masks.size,
+    reusedLayerCount: renderedLayerCount - masks.size,
+    composedMaskCount: maskDecompositions.size,
+    composedLayerCount,
     baseLayerCount,
     uniqueBaseMaskCount: baseMasks.size,
     reusedBaseLayerCount: [...baseMasks.values()].reduce(
@@ -411,24 +427,91 @@ function uniqueLayerMasks(entries, specs) {
   const masks = new Set();
   for (const entry of entries) {
     for (const { color, useSilhouette } of specs.get(entry.key)) {
-      if (useSilhouette) {
-        masks.add(silhouetteMask(entry.pixels));
-        continue;
-      }
-      const values = color.split(",").map(Number);
-      const mask = Buffer.alloc(entry.pixels.length / 4);
-      for (let offset = 0; offset < entry.pixels.length; offset += 4) {
-        const pixel = entry.pixels.slice(offset, offset + 4);
-        mask[offset / 4] = pixel.every(
-          (value, index) => value === values[index],
-        )
-          ? 1
-          : 0;
-      }
-      masks.add(mask.toString("base64"));
+      masks.add(layerMask(entry.pixels, color, useSilhouette));
     }
   }
   return masks;
+}
+
+function layerMask(pixels, color, useSilhouette) {
+  if (useSilhouette) return silhouetteMask(pixels);
+  const values = color.split(",").map(Number);
+  const mask = Buffer.alloc(pixels.length / 4);
+  for (let offset = 0; offset < pixels.length; offset += 4) {
+    const pixel = pixels.slice(offset, offset + 4);
+    mask[offset / 4] = pixel.every((value, index) => value === values[index])
+      ? 1
+      : 0;
+  }
+  return mask.toString("base64");
+}
+
+function exactMaskUnions(maskKeys) {
+  const masks = [...maskKeys]
+    .map((key) => ({ key, value: Buffer.from(key, "base64") }))
+    .sort(
+      (left, right) =>
+        countMaskPixels(left.value) - countMaskPixels(right.value) ||
+        left.key.localeCompare(right.key),
+    );
+  const decompositions = new Map();
+  for (const target of masks) {
+    const parts = masks.filter(
+      (candidate) =>
+        candidate.key !== target.key &&
+        maskIsProperSubset(candidate.value, target.value),
+    );
+    let match;
+    for (let leftIndex = 0; leftIndex < parts.length && !match; leftIndex++) {
+      for (
+        let rightIndex = leftIndex;
+        rightIndex < parts.length;
+        rightIndex++
+      ) {
+        if (
+          masksAreDisjoint(parts[leftIndex].value, parts[rightIndex].value) &&
+          maskUnionEquals(
+            parts[leftIndex].value,
+            parts[rightIndex].value,
+            target.value,
+          )
+        ) {
+          match = [parts[leftIndex].key, parts[rightIndex].key];
+          break;
+        }
+      }
+    }
+    if (match) decompositions.set(target.key, match);
+  }
+  return decompositions;
+}
+
+function countMaskPixels(mask) {
+  return mask.reduce((count, value) => count + (value ? 1 : 0), 0);
+}
+
+function maskIsProperSubset(candidate, target) {
+  return (
+    candidate.some((value, index) => value !== target[index]) &&
+    candidate.every((value, index) => !value || target[index])
+  );
+}
+
+function maskUnionEquals(left, right, target) {
+  return target.every(
+    (value, index) => Boolean(value) === Boolean(left[index] || right[index]),
+  );
+}
+
+function masksAreDisjoint(left, right) {
+  return left.every((value, index) => !value || !right[index]);
+}
+
+function expandMask(key, decompositions) {
+  const parts = decompositions.get(key);
+  return parts
+    ? parts.flatMap((part) => expandMask(part, decompositions))
+    : [key];
 }
 
 function escapeXml(value) {

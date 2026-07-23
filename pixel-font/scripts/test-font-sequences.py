@@ -140,6 +140,18 @@ assert all(
     for _color, use_silhouette in layers
 )
 
+left_mask = bytes([1, 1, 0, 0])
+right_mask = bytes([0, 0, 1, 0])
+combined_mask = bytes([1, 1, 1, 0])
+mask_decompositions = compiler.exact_mask_unions(
+    {left_mask, right_mask, combined_mask}
+)
+assert mask_decompositions[combined_mask] == (right_mask, left_mask)
+assert compiler.expand_mask_key(combined_mask, mask_decompositions) == [
+    right_mask,
+    left_mask,
+]
+
 
 with tempfile.TemporaryDirectory() as temporary_directory:
     temporary = Path(temporary_directory)
@@ -174,6 +186,8 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         for record in font["GSUB"].table.FeatureList.FeatureRecord
     }
     assert feature_tags == {"rlig"}
+    assert font["post"].formatType == 3.0
+    cmap = font.getBestCmap()
 
     rules = {}
     man_rule_lengths = []
@@ -183,30 +197,36 @@ with tempfile.TemporaryDirectory() as temporary_directory:
                 for ligature in ligatures:
                     inputs = (first, *ligature.Component)
                     rules[inputs] = ligature.LigGlyph
-                    if first == "emoji.man":
+                    if first == cmap[0x1F468]:
                         man_rule_lengths.append(len(inputs))
 
     assert rules[
-        ("emoji.man", "uni200D", "emoji.heart", "uni200D", "emoji.woman")
-    ] == "emoji.couple"
-    assert rules[("emoji.man", "uni200D", "emoji.woman")] == "emoji.pair"
-    assert rules[("uni1F1FA", "uni1F1F8")] == "emoji.usFlag"
-    assert rules[("uni0031", "uni20E3")] == "emoji.keycapOne"
+        (
+            cmap[0x1F468],
+            cmap[0x200D],
+            cmap[0x2764],
+            cmap[0x200D],
+            cmap[0x1F469],
+        )
+    ] in font.getGlyphOrder()
+    assert rules[
+        (cmap[0x1F468], cmap[0x200D], cmap[0x1F469])
+    ] in font.getGlyphOrder()
+    assert rules[(cmap[0x1F1FA], cmap[0x1F1F8])] in font.getGlyphOrder()
+    assert rules[(cmap[0x31], cmap[0x20E3])] in font.getGlyphOrder()
     assert rules[
         (
-            "uni1F3F4",
-            "uniE0067",
-            "uniE0062",
-            "uniE0065",
-            "uniE006E",
-            "uniE0067",
-            "uniE007F",
+            cmap[0x1F3F4],
+            cmap[0xE0067],
+            cmap[0xE0062],
+            cmap[0xE0065],
+            cmap[0xE006E],
+            cmap[0xE0067],
+            cmap[0xE007F],
         )
-    ] == "emoji.englandFlag"
+    ] in font.getGlyphOrder()
     assert man_rule_lengths == sorted(man_rule_lengths, reverse=True)
 
-    cmap = font.getBestCmap()
-    assert cmap[0x200D] == "uni200D"
     for codepoint in (0x200D, 0x20E3, 0xE0067, 0xE007F):
         assert font["hmtx"].metrics[cmap[codepoint]][0] == 0
     color_layer_names = {
@@ -214,11 +234,21 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         for layers in font["COLR"].ColorLayers.values()
         for layer in layers
     }
-    assert color_layer_names == {"mask.0000", "mask.0001", "mask.0002"}
-    assert [name for name in font.getGlyphOrder() if name.startswith("mask.")] == [
-        "mask.0000",
-        "mask.0001",
-        "mask.0002",
+    assert len(color_layer_names) == 3
+    unencoded_empty_glyphs = [
+        name
+        for name in font.getGlyphOrder()
+        if name not in set(cmap.values())
+        and not font["glyf"][name].isComposite()
+        and font["glyf"][name].numberOfContours == 0
     ]
+    assert unencoded_empty_glyphs == [".notdef"]
+    base_glyph_names = {
+        *rules.values(),
+        cmap[0x1F468],
+        cmap[0x1F469],
+        cmap[0x2764],
+    }
+    assert all(font["glyf"][name].isComposite() for name in base_glyph_names)
 
 print("Verified required ligature generation for emoji sequences.")

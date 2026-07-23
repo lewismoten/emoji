@@ -64,11 +64,10 @@ def main():
     glyphs = {".notdef": empty_glyph()}
     color_glyphs = {}
     glyph_order = [".notdef"]
-    mask_names = {}
-    mask_sources = {}
     color_layer_count = 0
 
     layer_specs = optimized_layer_specs(glyph_sources)
+    source_mask_keys = []
 
     for glyph_source in glyph_sources:
         for color, use_silhouette in layer_specs[glyph_source["key"]]:
@@ -76,29 +75,57 @@ def main():
             key = layer_mask_key(
                 glyph_source["pixels"], color, use_silhouette
             )
-            if key not in mask_names:
-                name = f"mask.{len(mask_names):04d}"
-                mask_names[key] = name
-                mask_sources[key] = (
-                    glyph_source["pixels"],
-                    None if use_silhouette else color,
-                )
+            source_mask_keys.append(key)
 
-    component_names = sorted(set(codepoint_names.values()) - set(base_names.values()))
+    mask_decompositions = exact_mask_unions(set(source_mask_keys))
+    rendered_mask_keys = sorted(
+        {
+            rendered_key
+            for source_key in source_mask_keys
+            for rendered_key in expand_mask_key(source_key, mask_decompositions)
+        }
+    )
+    mask_names = {
+        key: f"mask.{index:04d}"
+        for index, key in enumerate(rendered_mask_keys)
+    }
+
+    component_names = sorted(set(cmap.values()) - set(base_names.values()))
     for name in component_names:
         glyphs[name] = empty_glyph()
         glyph_order.append(name)
 
     for key, name in mask_names.items():
-        pixels, color = mask_sources[key]
-        glyphs[name] = color_glyph(pixels, color, cell_size, pixel_size, ascender)
+        glyphs[name] = mask_glyph(key, cell_size, pixel_size, ascender)
+        glyph_order.append(name)
+
+    silhouette_counts = {}
+    for glyph_source in glyph_sources:
+        key = silhouette_mask_key(glyph_source["pixels"])
+        silhouette_counts[key] = silhouette_counts.get(key, 0) + 1
+    shared_silhouette_names = {}
+    for key, count in sorted(silhouette_counts.items()):
+        if count < 2:
+            continue
+        if key in mask_names:
+            shared_silhouette_names[key] = mask_names[key]
+            continue
+        name = f"fallback.{len(shared_silhouette_names):04d}"
+        shared_silhouette_names[key] = name
+        glyphs[name] = mask_glyph(key, cell_size, pixel_size, ascender)
         glyph_order.append(name)
 
     for glyph_source in glyph_sources:
         base_name = base_names[glyph_source["key"]]
         if base_name not in glyphs:
-            glyphs[base_name] = silhouette_glyph(
-                glyph_source["pixels"], cell_size, pixel_size, ascender
+            silhouette_key = silhouette_mask_key(glyph_source["pixels"])
+            shared_name = shared_silhouette_names.get(silhouette_key)
+            glyphs[base_name] = (
+                component_glyph(shared_name, glyphs)
+                if shared_name
+                else silhouette_glyph(
+                    glyph_source["pixels"], cell_size, pixel_size, ascender
+                )
             )
             glyph_order.append(base_name)
         layers = []
@@ -106,7 +133,10 @@ def main():
             key = layer_mask_key(
                 glyph_source["pixels"], color, use_silhouette
             )
-            layers.append((mask_names[key], palette_indexes[color]))
+            layers.extend(
+                (mask_names[rendered_key], palette_indexes[color])
+                for rendered_key in expand_mask_key(key, mask_decompositions)
+            )
         color_glyphs[base_name] = layers
 
     builder = FontBuilder(UNITS_PER_EM, isTTF=True)
@@ -143,6 +173,7 @@ def main():
     builder.setupMaxp()
 
     font = builder.font
+    font["post"].formatType = 3.0
     if palette:
         font["COLR"] = buildCOLR(color_glyphs, version=0, glyphMap=font.getReverseGlyphMap())
         font["CPAL"] = buildCPAL(
@@ -167,8 +198,9 @@ def main():
     except ImportError:
         print("WOFF2 skipped: install the packages in pixel-font/requirements.txt.")
     print(
-        f"Compiled {len(glyph_sources):,} glyphs with {color_layer_count:,} color layers "
-        f"using {len(mask_names):,} unique pixel masks."
+        f"Compiled {len(glyph_sources):,} glyphs with {color_layer_count:,} source color layers "
+        f"using {len(mask_names):,} rendered pixel masks "
+        f"({len(mask_decompositions):,} composed from existing parts)."
     )
 
 
@@ -234,6 +266,12 @@ def safe_name(key):
 
 def empty_glyph():
     return TTGlyphPen(None).glyph()
+
+
+def component_glyph(component_name, glyphs):
+    pen = TTGlyphPen(glyphs)
+    pen.addComponent(component_name, (1, 0, 0, 1, 0, 0))
+    return pen.glyph()
 
 
 def silhouette_glyph(pixels, cell_size, pixel_size, ascender):
@@ -340,6 +378,81 @@ def color_mask_key(pixels, selected_color):
     )
 
 
+def exact_mask_unions(mask_keys):
+    ordered = sorted(mask_keys, key=lambda key: (sum(key), key))
+    decompositions = {}
+    for target in ordered:
+        parts = [
+            candidate
+            for candidate in ordered
+            if candidate != target and mask_is_proper_subset(candidate, target)
+        ]
+        match = next(
+            (
+                (left, right)
+                for left_index, left in enumerate(parts)
+                for right in parts[left_index:]
+                if masks_are_disjoint(left, right)
+                and mask_union(left, right) == target
+            ),
+            None,
+        )
+        if match:
+            decompositions[target] = match
+    return decompositions
+
+
+def mask_is_proper_subset(candidate, target):
+    return candidate != target and all(
+        not value or target[index]
+        for index, value in enumerate(candidate)
+    )
+
+
+def mask_union(left, right):
+    return bytes(
+        left_value or right[index]
+        for index, left_value in enumerate(left)
+    )
+
+
+def masks_are_disjoint(left, right):
+    return all(
+        not left_value or not right[index]
+        for index, left_value in enumerate(left)
+    )
+
+
+def expand_mask_key(key, decompositions):
+    parts = decompositions.get(key)
+    if not parts:
+        return [key]
+    return [
+        rendered
+        for part in parts
+        for rendered in expand_mask_key(part, decompositions)
+    ]
+
+
+def mask_glyph(mask, cell_size, pixel_size, ascender):
+    pen = TTGlyphPen(None)
+    for y in range(cell_size):
+        x = 0
+        while x < cell_size:
+            if not mask[y * cell_size + x]:
+                x += 1
+                continue
+            width = 1
+            while (
+                x + width < cell_size
+                and mask[y * cell_size + x + width]
+            ):
+                width += 1
+            add_pixel_run(pen, x, y, width, pixel_size, ascender)
+            x += width
+    return pen.glyph()
+
+
 def pixels_for_color(pixels, selected_color, cell_size, pixel_size, ascender):
     pen = TTGlyphPen(None)
     for y in range(cell_size):
@@ -358,17 +471,21 @@ def pixels_for_color(pixels, selected_color, cell_size, pixel_size, ascender):
                 if next_color[3] == 0 or (selected_color is not None and next_color != selected_color):
                     break
                 width += 1
-            x_min = x * pixel_size
-            x_max = (x + width) * pixel_size
-            y_max = ascender - y * pixel_size
-            y_min = y_max - pixel_size
-            pen.moveTo((x_min, y_min))
-            pen.lineTo((x_min, y_max))
-            pen.lineTo((x_max, y_max))
-            pen.lineTo((x_max, y_min))
-            pen.closePath()
+            add_pixel_run(pen, x, y, width, pixel_size, ascender)
             x += width
     return pen.glyph()
+
+
+def add_pixel_run(pen, x, y, width, pixel_size, ascender):
+    x_min = x * pixel_size
+    x_max = (x + width) * pixel_size
+    y_max = ascender - y * pixel_size
+    y_min = y_max - pixel_size
+    pen.moveTo((x_min, y_min))
+    pen.lineTo((x_min, y_max))
+    pen.lineTo((x_max, y_max))
+    pen.lineTo((x_max, y_min))
+    pen.closePath()
 
 
 if __name__ == "__main__":

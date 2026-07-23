@@ -63,13 +63,18 @@ components manually. During each build, the compiler:
 2. compares those masks across all painted glyphs;
 3. stores identical geometry once, even when another glyph colors it
    differently;
-4. gives each emoji its own COLR layer recipe referencing the shared masks.
+4. replaces a mask with an exact union of existing masks when that removes
+   duplicate geometry;
+5. gives each emoji its own COLR layer recipe referencing the shared masks;
+6. reuses repeated silhouettes as TrueType composite glyphs for compact
+   monochrome fallback rendering.
 
 This is lossless. A glyph with a small visual change reuses every unchanged
 mask and stores only its unique masks. Completely unique artwork continues to
 compile normally. The generated build manifest reports the total color layers,
-unique masks, and number of reused layers so binary savings can be measured as
-the artwork grows.
+rendered layers, unique masks, composed masks, and reused layers so binary
+savings can be measured as the artwork grows. Production fonts omit optional
+glyph names and empty component glyphs that are not required by a sequence.
 
 ## Commands
 
