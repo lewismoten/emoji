@@ -425,6 +425,11 @@ assert.match(
 );
 assert.match(
   demoScript,
+  /function updateEmojiComposition[\s\S]*detailsVisible[\s\S]*is-code-view[\s\S]*is-editor-view[\s\S]*section\.hidden = points\.length <= 1 \|\| !detailsVisible/,
+  "sequence composition must remain hidden while navigating in the pixel editor",
+);
+assert.match(
+  demoScript,
   /0x200D[\s\S]*zeroWidthJoiner/,
   "emoji compositions must identify zero-width joiners",
 );

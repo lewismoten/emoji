@@ -2677,7 +2677,10 @@ function updateEmojiComposition(item, value) {
 
   equation.replaceChildren();
   section.dataset.available = String(points.length > 1);
-  section.hidden = points.length <= 1;
+  const detailsVisible =
+    !exampleDialog.classList.contains('is-code-view')
+    && !exampleDialog.classList.contains('is-editor-view');
+  section.hidden = points.length <= 1 || !detailsVisible;
   if (points.length <= 1) {
     modeButton.hidden = true;
     return;
