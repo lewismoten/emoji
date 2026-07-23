@@ -6,8 +6,10 @@ var subGroups = {};
 const UNASSIGNED = '\u0000';
 var selectedGroup = '';
 var selectedSubGroup = '';
+var selectedSequenceType = '';
 var availableGroups = [];
 var availableSubGroups = {};
+var availableSequenceTypes = [];
 var availableCategoryKeys = new Set();
 var groupRepresentativeEmoji = new Map();
 var subGroupRepresentativeEmoji = new Map();
@@ -35,8 +37,11 @@ var groupSelector;
 var subGroupSelector;
 var compactGroupChoices;
 var compactSubGroupChoices;
+var sequenceTypeSelector;
+var compactSequenceChoices;
 var compactGroupLabel;
 var compactSubGroupLabel;
+var compactSequenceLabel;
 var versionModeSelector;
 var versionSelector;
 var versionModeToggle;
@@ -136,6 +141,7 @@ const sequenceTypeLabels = {
 };
 const sequenceTypeOrder = Object.keys(sequenceTypeLabels);
 const sequenceTranslationKeys = { single: 'sequenceSingle', modifier: 'sequenceModifier', zwj: 'sequenceZwj', flag: 'sequenceFlag', keycap: 'sequenceKeycap', tag: 'sequenceTag' };
+const sequenceTypeEmoji = { single: '😀', modifier: '👋🏽', zwj: '👨‍👩‍👧', flag: '🏳️', keycap: '#️⃣', tag: '🏴' };
 const statusTranslationKeys = { 'fully-qualified': 'fullyQualified', 'minimally-qualified': 'minimallyQualified', unqualified: 'unqualified' };
 const explorerLabelKeys = {
   'Africa': 'africa', 'Asia': 'asia', 'Europe': 'europe', 'North America': 'northAmerica', 'South America': 'southAmerica', 'Oceania': 'oceania', 'Other Flags': 'otherFlags',
@@ -509,10 +515,14 @@ async function onLoad() {
   subGroupSelector = document.getElementsByClassName('select-subgroup')[0];
   compactGroupChoices = ensureChoiceContainer(groupSelector, 'compact-group-choices', 'group-filter-label');
   compactSubGroupChoices = ensureChoiceContainer(subGroupSelector, 'compact-subgroup-choices', 'subgroup-filter-label');
+  sequenceTypeSelector = ensureSequenceTypeFilter();
+  compactSequenceChoices = ensureChoiceContainer(sequenceTypeSelector, 'compact-sequence-choices', 'sequence-filter-label');
   compactGroupChoices.addEventListener('keydown', onCompactChoiceKeyDown);
   compactSubGroupChoices.addEventListener('keydown', onCompactChoiceKeyDown);
+  compactSequenceChoices.addEventListener('keydown', onCompactChoiceKeyDown);
   compactGroupLabel = ensureSelectionLabel(groupSelector, 'compact-group-label', 'group-filter-label');
   compactSubGroupLabel = ensureSelectionLabel(subGroupSelector, 'compact-subgroup-label', 'subgroup-filter-label');
+  compactSequenceLabel = ensureSelectionLabel(sequenceTypeSelector, 'compact-sequence-label', 'sequence-filter-label');
   versionModeSelector = document.getElementsByClassName('select-version-mode')[0];
   versionSelector = document.getElementsByClassName('select-version')[0];
   ({ range: versionRange, output: versionRangeValue } = ensureVersionSlider());
@@ -976,6 +986,24 @@ function ensureActiveFilterSummary() {
   };
 }
 
+function ensureSequenceTypeFilter() {
+  const existing = document.getElementsByClassName('select-sequence-type')[0];
+  if (existing) return existing;
+  const field = document.createElement('div');
+  field.className = 'filter-field sequence-filter-field';
+  field.hidden = true;
+  field.innerHTML = `
+    <div class="filter-heading">
+      <span id="sequence-filter-label" data-i18n="sequenceType">Sequence type</span>
+      <span class="compact-sequence-label"></span>
+    </div>
+    <select class="select-sequence-type" aria-labelledby="sequence-filter-label"><option>Not loaded</option></select>
+    <div class="compact-choices compact-sequence-choices" role="radiogroup" aria-labelledby="sequence-filter-label"></div>
+  `;
+  document.querySelector('.filter-grid .version-field')?.before(field);
+  return field.querySelector('.select-sequence-type');
+}
+
 function ensureChoiceContainer(selector, className, labelId) {
   const existing = document.getElementsByClassName(className)[0];
   if (existing) return existing;
@@ -1125,6 +1153,9 @@ function getUrlState() {
     versionMode: params.get('mode') === 'selected' ? 'selected' : 'through',
     group: params.get('group') ?? '',
     subGroup: params.get('subgroup') ?? '',
+    sequenceType: sequenceTypeOrder.includes(params.get('sequenceType'))
+      ? params.get('sequenceType')
+      : '',
     skin: (params.get('skin') ?? '').split(',').filter(Boolean),
     hair: (params.get('hair') ?? '').split(',').filter(Boolean),
     gender: (params.get('gender') ?? '').split(',').filter(Boolean),
@@ -1142,6 +1173,7 @@ function applyBasicUrlState() {
   const state = getUrlState();
   searchText.value = state.search;
   orderMode = state.order;
+  selectedSequenceType = state.sequenceType;
   compositionMode = state.compositionMode;
   orderButtons.forEach(button => {
     const active = button.dataset.order === orderMode;
@@ -1209,8 +1241,13 @@ function syncUrlState(method = 'replace', historyState = window.history.state) {
     params.set('version', versionSelector.value);
   }
   if (versionModeSelector.value === 'selected') params.set('mode', 'selected');
-  if (selectedGroup) params.set('group', selectedGroup);
-  if (selectedSubGroup) params.set('subgroup', selectedSubGroup.split('::').slice(1).join('::'));
+  if (orderMode !== 'sequence' && selectedGroup) params.set('group', selectedGroup);
+  if (orderMode !== 'sequence' && selectedSubGroup) {
+    params.set('subgroup', selectedSubGroup.split('::').slice(1).join('::'));
+  }
+  if (orderMode === 'sequence' && selectedSequenceType) {
+    params.set('sequenceType', selectedSequenceType);
+  }
   const skin = skinToneCheckboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
   const hair = hairCheckboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
   const gender = genderCheckboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
@@ -1235,6 +1272,7 @@ function resetFilters() {
   searchText.value = '';
   selectedGroup = '';
   selectedSubGroup = '';
+  selectedSequenceType = '';
   versionModeSelector.value = 'through';
   const latestReleased = versionManifests.at(-1)?.version;
   if (latestReleased) versionSelector.value = latestReleased;
@@ -1371,6 +1409,7 @@ async function loadData() {
       versionModeSelector.value = 'through';
       groupSelector.addEventListener('change', onGroupSelectorChange);
       subGroupSelector.addEventListener('change', onSubGroupSelectorChange);
+      sequenceTypeSelector.addEventListener('change', onSequenceTypeSelectorChange);
       renderCategoryFilters();
 
       allIds = [];
@@ -1537,6 +1576,7 @@ function onOrderModeChange(event) {
     button.classList.toggle('is-active', active);
     button.setAttribute('aria-pressed', String(active));
   });
+  renderCategoryFilters();
   drawList();
 }
 
@@ -1697,6 +1737,12 @@ function onSubGroupSelectorChange() {
   drawList();
 }
 
+function onSequenceTypeSelectorChange() {
+  selectedSequenceType = sequenceTypeSelector.value;
+  renderCategoryFilters();
+  drawList();
+}
+
 function subGroupSelectionKey(group, subGroup) {
   return `${group}::${subGroup}`;
 }
@@ -1707,21 +1753,33 @@ function renderCategoryFilters() {
     ? 'group'
     : activeChoice?.closest('.compact-subgroup-choices')
       ? 'subgroup'
-      : '';
+      : activeChoice?.closest('.compact-sequence-choices')
+        ? 'sequence'
+        : '';
   const focusedValue = activeChoice?.dataset.value;
   updateAvailableCategories();
-  groupSelector.closest('.filter-field')?.classList.toggle('has-choice-buttons', Boolean(compactGroupChoices));
+  const sequenceMode = orderMode === 'sequence';
+  const groupField = groupSelector.closest('.filter-field');
   const subGroupField = subGroupSelector.closest('.filter-field');
+  const sequenceField = sequenceTypeSelector.closest('.filter-field');
+  groupField?.classList.toggle('has-choice-buttons', Boolean(compactGroupChoices));
   subGroupField?.classList.toggle('has-choice-buttons', Boolean(compactSubGroupChoices));
-  if (subGroupField) subGroupField.hidden = !selectedGroup;
+  sequenceField?.classList.toggle('has-choice-buttons', Boolean(compactSequenceChoices));
+  if (groupField) groupField.hidden = sequenceMode;
+  if (subGroupField) subGroupField.hidden = sequenceMode || !selectedGroup;
+  if (sequenceField) sequenceField.hidden = !sequenceMode;
   populateGroupFilter();
   populateSubGroupFilter();
+  populateSequenceTypeFilter();
   renderCompactGroupChoices();
   renderCompactSubGroupChoices();
+  renderCompactSequenceChoices();
   if (focusedChoices === 'group') {
     focusCompactChoice(compactGroupChoices, focusedValue);
   } else if (focusedChoices === 'subgroup') {
     focusCompactChoice(compactSubGroupChoices, focusedValue);
+  } else if (focusedChoices === 'sequence') {
+    focusCompactChoice(compactSequenceChoices, focusedValue);
   }
 }
 
@@ -1743,6 +1801,12 @@ function updateAvailableCategories() {
     group,
     subGroups[group].filter(subGroup => subgroupNames[group]?.has(subGroup))
   ]));
+  availableSequenceTypes = sequenceTypeOrder.filter(type =>
+    items.some(item => availableCategoryKeys.has(item.key) && item.sequenceType === type)
+  );
+  if (selectedSequenceType && !availableSequenceTypes.includes(selectedSequenceType)) {
+    selectedSequenceType = '';
+  }
 
   if (selectedGroup && !availableGroups.includes(selectedGroup)) {
     selectedGroup = '';
@@ -1791,6 +1855,19 @@ function populateSubGroupFilter() {
   subGroupSelector.replaceChildren(...children);
   subGroupSelector.value = selectedSubGroup;
   subGroupSelector.disabled = false;
+}
+
+function populateSequenceTypeFilter() {
+  const all = document.createElement('option');
+  all.value = '';
+  all.text = `🌐 ${translate('all', 'All')}`;
+  sequenceTypeSelector.replaceChildren(all, ...availableSequenceTypes.map(type => {
+    const option = document.createElement('option');
+    option.value = type;
+    option.text = `${sequenceTypeEmoji[type]} ${translate(sequenceTranslationKeys[type], sequenceTypeLabels[type])}`;
+    return option;
+  }));
+  sequenceTypeSelector.value = selectedSequenceType;
 }
 
 function availableSubGroupParents() {
@@ -1857,6 +1934,34 @@ function renderCompactSubGroupChoices() {
       renderCategoryFilters();
       drawList();
       focusCompactChoice(compactSubGroupChoices, selectedSubGroup);
+    }
+  })));
+}
+
+function renderCompactSequenceChoices() {
+  if (!compactSequenceChoices) return;
+  const selectedLabel = selectedSequenceType
+    ? translate(sequenceTranslationKeys[selectedSequenceType], sequenceTypeLabels[selectedSequenceType])
+    : translate('all', 'All');
+  if (compactSequenceLabel) compactSequenceLabel.textContent = selectedLabel;
+  const choices = [
+    { type: '', emoji: '🌐', label: translate('all', 'All') },
+    ...availableSequenceTypes.map(type => ({
+      type,
+      emoji: sequenceTypeEmoji[type],
+      label: translate(sequenceTranslationKeys[type], sequenceTypeLabels[type])
+    }))
+  ];
+  compactSequenceChoices.replaceChildren(...choices.map(({ type, emoji, label }) => makeCompactChoice({
+    value: type,
+    emoji,
+    label,
+    selected: selectedSequenceType === type,
+    onSelect() {
+      selectedSequenceType = type;
+      renderCategoryFilters();
+      drawList();
+      focusCompactChoice(compactSequenceChoices, type);
     }
   })));
 }
@@ -2162,11 +2267,14 @@ function drawList() {
   if (includedVersionKeys) {
     keys = keys.filter(key => includedVersionKeys.has(key));
   }
-  if (selectedGroup && items.length !== 0) {
+  if (orderMode !== 'sequence' && selectedGroup && items.length !== 0) {
     keys = keys.filter(key => byId[key]?.group === selectedGroup);
   }
-  if (selectedSubGroup && items.length !== 0) {
+  if (orderMode !== 'sequence' && selectedSubGroup && items.length !== 0) {
     keys = keys.filter(key => subGroupSelectionKey(byId[key]?.group, byId[key]?.unicodeSubGroup) === selectedSubGroup);
+  }
+  if (orderMode === 'sequence' && selectedSequenceType) {
+    keys = keys.filter(key => byId[key]?.sequenceType === selectedSequenceType);
   }
   skinToneCheckboxes.filter(check => {
     return check.checked
@@ -2312,8 +2420,12 @@ function updateActiveFilterSummary() {
   if (!activeFilterSummary || !activeFilterText) return;
   const parts = [];
   if (searchText.value.trim()) parts.push(`“${searchText.value.trim()}”`);
-  if (selectedGroup) parts.push(displayGroupName(selectedGroup));
-  if (selectedSubGroup) parts.push(displayUnicodeSubGroupName(selectedSubGroup.split('::').slice(1).join('::')));
+  if (orderMode === 'sequence' && selectedSequenceType) {
+    parts.push(translate(sequenceTranslationKeys[selectedSequenceType], sequenceTypeLabels[selectedSequenceType]));
+  } else {
+    if (selectedGroup) parts.push(displayGroupName(selectedGroup));
+    if (selectedSubGroup) parts.push(displayUnicodeSubGroupName(selectedSubGroup.split('::').slice(1).join('::')));
+  }
   const latestReleased = versionManifests.at(-1)?.version;
   if (versionSelector.value && (versionSelector.value !== latestReleased || versionModeSelector.value === 'selected')) {
     const mode = versionModeSelector.value === 'selected'
