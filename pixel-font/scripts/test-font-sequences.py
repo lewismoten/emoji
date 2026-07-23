@@ -90,6 +90,57 @@ def pixels_for_variation(variation):
     return pixels
 
 
+def pixels_for_shared_face(eye_x):
+    pixels = []
+    for y in range(12):
+        for x in range(12):
+            visible = 1 <= x <= 10 and 1 <= y <= 10
+            color = (
+                (0, 0, 0, 255)
+                if visible and y == 4 and x == eye_x
+                else (255, 255, 0, 255)
+                if visible
+                else (0, 0, 0, 0)
+            )
+            pixels.extend(color)
+    return pixels
+
+
+shared_face_sources = [
+    {"key": "faceA", "pixels": pixels_for_shared_face(3)},
+    {"key": "faceB", "pixels": pixels_for_shared_face(4)},
+]
+shared_face_specs = compiler.optimized_layer_specs(shared_face_sources)
+assert all(layers[0][1] is True for layers in shared_face_specs.values())
+assert compiler.unique_layer_mask_count(
+    shared_face_sources, shared_face_specs
+) == 3
+
+translucent_sources = [
+    {
+        "key": "translucentA",
+        "pixels": [
+            value
+            for _pixel in range(12 * 12)
+            for value in (255, 255, 0, 128)
+        ],
+    },
+    {
+        "key": "translucentB",
+        "pixels": [
+            value
+            for _pixel in range(12 * 12)
+            for value in (255, 255, 0, 128)
+        ],
+    },
+]
+assert all(
+    not use_silhouette
+    for layers in compiler.optimized_layer_specs(translucent_sources).values()
+    for _color, use_silhouette in layers
+)
+
+
 with tempfile.TemporaryDirectory() as temporary_directory:
     temporary = Path(temporary_directory)
     source_path = temporary / "font-source.json"

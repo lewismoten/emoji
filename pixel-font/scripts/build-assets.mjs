@@ -305,32 +305,130 @@ function countBySequenceType(entries) {
 
 function analyzeColorMasks(entries) {
   let colorLayerCount = 0;
+  let specs = new Map();
+  const silhouetteGroups = new Map();
+  for (const entry of entries) {
+    const colors = colorCounts(entry.pixels);
+    colorLayerCount += colors.size;
+    specs.set(
+      entry.key,
+      [...colors.keys()].map((color) => ({ color, useSilhouette: false })),
+    );
+    const silhouette = silhouetteMask(entry.pixels);
+    const group = silhouetteGroups.get(silhouette) ?? [];
+    group.push(entry);
+    silhouetteGroups.set(silhouette, group);
+  }
+
+  let maskCount = uniqueLayerMasks(entries, specs).size;
+  for (const [silhouette, group] of [...silhouetteGroups].sort(
+    ([left], [right]) => left.localeCompare(right),
+  )) {
+    if (group.length < 2) continue;
+    const candidate = new Map(specs);
+    let changed = false;
+    for (const entry of group) {
+      const colors = colorCounts(entry.pixels);
+      const allVisiblePixelsOpaque = [...colors.keys()].every(
+        (color) => Number(color.split(",")[3]) === 255,
+      );
+      if (!colors.size || !allVisiblePixelsOpaque) continue;
+      const baseColor = [...colors].sort(
+        ([leftColor, leftCount], [rightColor, rightCount]) =>
+          rightCount - leftCount ||
+          compareSerializedColors(leftColor, rightColor),
+      )[0][0];
+      candidate.set(entry.key, [
+        { color: baseColor, useSilhouette: true },
+        ...[...colors.keys()]
+          .filter((color) => color !== baseColor)
+          .map((color) => ({ color, useSilhouette: false })),
+      ]);
+      changed = true;
+    }
+    if (!changed) continue;
+    const candidateMaskCount = uniqueLayerMasks(entries, candidate).size;
+    if (candidateMaskCount < maskCount) {
+      specs = candidate;
+      maskCount = candidateMaskCount;
+    }
+  }
+
+  const masks = uniqueLayerMasks(entries, specs);
+  const baseMasks = new Map();
+  let baseLayerCount = 0;
+  for (const entry of entries) {
+    for (const spec of specs.get(entry.key)) {
+      if (!spec.useSilhouette) continue;
+      baseLayerCount += 1;
+      const key = silhouetteMask(entry.pixels);
+      baseMasks.set(key, (baseMasks.get(key) ?? 0) + 1);
+    }
+  }
+  return {
+    strategy: "shared-base-and-color-masks",
+    colorLayerCount,
+    uniqueMaskCount: masks.size,
+    reusedLayerCount: colorLayerCount - masks.size,
+    baseLayerCount,
+    uniqueBaseMaskCount: baseMasks.size,
+    reusedBaseLayerCount: [...baseMasks.values()].reduce(
+      (total, count) => total + Math.max(0, count - 1),
+      0,
+    ),
+  };
+}
+
+function colorCounts(pixels) {
+  const colors = new Map();
+  for (let offset = 0; offset < pixels.length; offset += 4) {
+    if (pixels[offset + 3] === 0) continue;
+    const color = pixels.slice(offset, offset + 4).join(",");
+    colors.set(color, (colors.get(color) ?? 0) + 1);
+  }
+  return colors;
+}
+
+function compareSerializedColors(left, right) {
+  const leftValues = left.split(",").map(Number);
+  const rightValues = right.split(",").map(Number);
+  for (let index = 0; index < leftValues.length; index += 1) {
+    const difference = leftValues[index] - rightValues[index];
+    if (difference) return difference;
+  }
+  return 0;
+}
+
+function silhouetteMask(pixels) {
+  const mask = Buffer.alloc(pixels.length / 4);
+  for (let offset = 0; offset < pixels.length; offset += 4) {
+    mask[offset / 4] = pixels[offset + 3] > 0 ? 1 : 0;
+  }
+  return mask.toString("base64");
+}
+
+function uniqueLayerMasks(entries, specs) {
   const masks = new Set();
   for (const entry of entries) {
-    const colors = new Set();
-    for (let offset = 0; offset < entry.pixels.length; offset += 4) {
-      if (entry.pixels[offset + 3] === 0) continue;
-      colors.add(entry.pixels.slice(offset, offset + 4).join(","));
-    }
-    for (const serializedColor of colors) {
-      colorLayerCount += 1;
-      const color = serializedColor.split(",").map(Number);
+    for (const { color, useSilhouette } of specs.get(entry.key)) {
+      if (useSilhouette) {
+        masks.add(silhouetteMask(entry.pixels));
+        continue;
+      }
+      const values = color.split(",").map(Number);
       const mask = Buffer.alloc(entry.pixels.length / 4);
       for (let offset = 0; offset < entry.pixels.length; offset += 4) {
         const pixel = entry.pixels.slice(offset, offset + 4);
-        mask[offset / 4] = pixel.every((value, index) => value === color[index])
+        mask[offset / 4] = pixel.every(
+          (value, index) => value === values[index],
+        )
           ? 1
           : 0;
       }
       masks.add(mask.toString("base64"));
     }
   }
-  return {
-    strategy: "shared-color-masks",
-    colorLayerCount,
-    uniqueMaskCount: masks.size,
-    reusedLayerCount: colorLayerCount - masks.size,
-  };
+  return masks;
 }
 
 function escapeXml(value) {

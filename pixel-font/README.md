@@ -95,6 +95,14 @@ generated output under `pixel-font/build/` includes:
 - a machine-readable manifest;
 - an HTML page comparing PNG, SVG, and font rendering.
 
+The font compiler also deduplicates reusable pixel geometry. Fully opaque
+glyphs with the same visible silhouette can share one dominant-color base and
+store only their differing overlays, such as eyes and mouths. The optimizer
+uses a candidate only when it reduces the total number of masks, and leaves
+translucent or uniquely shaped artwork in its original color-layer form.
+Optimization counts are recorded in `build/manifest.json` under
+`componentOptimization`.
+
 Font compilation uses FontTools. Create the isolated Python environment once:
 
 ```sh

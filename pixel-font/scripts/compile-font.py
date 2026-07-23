@@ -68,14 +68,21 @@ def main():
     mask_sources = {}
     color_layer_count = 0
 
+    layer_specs = optimized_layer_specs(glyph_sources)
+
     for glyph_source in glyph_sources:
-        for color in glyph_colors(glyph_source):
+        for color, use_silhouette in layer_specs[glyph_source["key"]]:
             color_layer_count += 1
-            key = color_mask_key(glyph_source["pixels"], color)
+            key = layer_mask_key(
+                glyph_source["pixels"], color, use_silhouette
+            )
             if key not in mask_names:
                 name = f"mask.{len(mask_names):04d}"
                 mask_names[key] = name
-                mask_sources[key] = (glyph_source["pixels"], color)
+                mask_sources[key] = (
+                    glyph_source["pixels"],
+                    None if use_silhouette else color,
+                )
 
     component_names = sorted(set(codepoint_names.values()) - set(base_names.values()))
     for name in component_names:
@@ -95,8 +102,10 @@ def main():
             )
             glyph_order.append(base_name)
         layers = []
-        for color in glyph_colors(glyph_source):
-            key = color_mask_key(glyph_source["pixels"], color)
+        for color, use_silhouette in layer_specs[glyph_source["key"]]:
+            key = layer_mask_key(
+                glyph_source["pixels"], color, use_silhouette
+            )
             layers.append((mask_names[key], palette_indexes[color]))
         color_glyphs[base_name] = layers
 
@@ -242,6 +251,85 @@ def glyph_colors(glyph):
             for offset in range(0, len(glyph["pixels"]), 4)
             if glyph["pixels"][offset + 3] > 0
         }
+    )
+
+
+def optimized_layer_specs(glyph_sources):
+    specs = {
+        glyph["key"]: [(color, False) for color in glyph_colors(glyph)]
+        for glyph in glyph_sources
+    }
+    silhouette_groups = {}
+    for glyph in glyph_sources:
+        silhouette_groups.setdefault(
+            silhouette_mask_key(glyph["pixels"]), []
+        ).append(glyph)
+
+    current_mask_count = unique_layer_mask_count(glyph_sources, specs)
+    for silhouette, group in sorted(silhouette_groups.items()):
+        if len(group) < 2:
+            continue
+        candidate = dict(specs)
+        changed = False
+        for glyph in group:
+            layers = silhouette_layer_specs(glyph)
+            if layers is not None:
+                candidate[glyph["key"]] = layers
+                changed = True
+        if not changed:
+            continue
+        candidate_mask_count = unique_layer_mask_count(
+            glyph_sources, candidate
+        )
+        if candidate_mask_count < current_mask_count:
+            specs = candidate
+            current_mask_count = candidate_mask_count
+    return specs
+
+
+def silhouette_layer_specs(glyph):
+    colors = glyph_colors(glyph)
+    pixels = glyph["pixels"]
+    if not colors or any(
+        pixels[offset + 3] != 255
+        for offset in range(0, len(pixels), 4)
+        if pixels[offset + 3] > 0
+    ):
+        return None
+
+    counts = {
+        color: sum(
+            tuple(pixels[offset : offset + 4]) == color
+            for offset in range(0, len(pixels), 4)
+        )
+        for color in colors
+    }
+    base_color = min(colors, key=lambda color: (-counts[color], color))
+    return [(base_color, True)] + [
+        (color, False) for color in colors if color != base_color
+    ]
+
+
+def unique_layer_mask_count(glyph_sources, specs):
+    return len(
+        {
+            layer_mask_key(glyph["pixels"], color, use_silhouette)
+            for glyph in glyph_sources
+            for color, use_silhouette in specs[glyph["key"]]
+        }
+    )
+
+
+def layer_mask_key(pixels, selected_color, use_silhouette):
+    if use_silhouette:
+        return silhouette_mask_key(pixels)
+    return color_mask_key(pixels, selected_color)
+
+
+def silhouette_mask_key(pixels):
+    return bytes(
+        pixels[offset + 3] > 0
+        for offset in range(0, len(pixels), 4)
     )
 
 
