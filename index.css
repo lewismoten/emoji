@@ -1,10 +1,4 @@
-@font-face {
-  font-family: "Pixel Emoji";
-  src:
-    url("./pixel-font/build/font/pixel-emoji.woff2") format("woff2"),
-    url("./pixel-font/build/font/pixel-emoji.woff") format("woff");
-  font-display: swap;
-}
+@import url("./pixel-font/build/font/pixel-emoji.css");
 
 :root {
   color-scheme: dark;

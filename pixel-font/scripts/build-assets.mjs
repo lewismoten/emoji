@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import {
   cropRgba,
@@ -142,6 +143,7 @@ await run(python, [
   path.join(buildDirectory, "font-source.json"),
   fontDirectory,
 ]);
+await writeFontStylesheet();
 await fs.rm(path.join(buildDirectory, "font-source.json"), { force: true });
 await fs.writeFile(
   path.join(buildDirectory, "index.html"),
@@ -152,6 +154,26 @@ console.log(
   `Built ${glyphs.length.toLocaleString()} painted glyph${glyphs.length === 1 ? "" : "s"} ` +
     `from ${manifest.sheets.length} atlases.`,
 );
+
+async function writeFontStylesheet() {
+  const fontFiles = ["pixel-emoji.woff2", "pixel-emoji.woff"];
+  const revision = createHash("sha256");
+  for (const file of fontFiles) {
+    revision.update(await fs.readFile(path.join(fontDirectory, file)));
+  }
+  const value = revision.digest("hex").slice(0, 12);
+  await fs.writeFile(
+    path.join(fontDirectory, "pixel-emoji.css"),
+    `@font-face {
+  font-family: "Pixel Emoji";
+  src:
+    url("./pixel-emoji.woff2?v=${value}") format("woff2"),
+    url("./pixel-emoji.woff?v=${value}") format("woff");
+  font-display: swap;
+}
+`,
+  );
+}
 
 function renderSvg(image, entry) {
   const rectangles = pixelRuns(image)

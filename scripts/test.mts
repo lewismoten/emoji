@@ -156,6 +156,11 @@ const pixelAtlasGeneratorScript = await fs.readFile(
   path.join(root, "pixel-font/scripts/generate-atlases.mjs"),
   "utf8",
 );
+const pixelFontBuildScript = await fs.readFile(
+  path.join(root, "pixel-font/scripts/build-assets.mjs"),
+  "utf8",
+);
+const viteConfig = await fs.readFile(path.join(root, "vite.config.js"), "utf8");
 const demoStyles = await fs.readFile(path.join(root, "index.css"), "utf8");
 const emojiByKey = Object.fromEntries(
   emoji.map((item) => [item.key, item.emoji]),
@@ -233,6 +238,7 @@ for (const asset of [
   "./dist/esm/index.js",
   "./offline.html",
   "./versions/manifest.json",
+  "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
   "./pixel-font/build/editor-manifest.json",
   "./pixel-editor.js",
@@ -245,6 +251,21 @@ for (const asset of [
 assert.ok(
   serviceWorker.includes('"./index.css?direct"'),
   "service worker must precache Vite-compatible direct CSS",
+);
+assert.match(
+  demoStyles,
+  /@import url\("\.\/pixel-font\/build\/font\/pixel-emoji\.css"\);/,
+  "the demo must load the generated revisioned pixel-font stylesheet",
+);
+assert.match(
+  pixelFontBuildScript,
+  /createHash\("sha256"\)[\s\S]*pixel-emoji\.css[\s\S]*pixel-emoji\.woff2\?v=\$\{value\}/,
+  "pixel-font builds must revision their browser font URLs",
+);
+assert.match(
+  viteConfig,
+  /server\.watcher\.add\(pixelFontStylesheet\)[\s\S]*type: 'full-reload'[\s\S]*Cache-Control', 'no-store'/,
+  "Vite must reload completed pixel-font builds without caching old binaries",
 );
 for (const sheet of pixelAtlasManifest.sheets) {
   const mappingAsset = `./pixel-font/atlases/${sheet.mapping}`;
@@ -690,7 +711,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /font-family: "Pixel Emoji"/,
+  /@import url\("\.\/pixel-font\/build\/font\/pixel-emoji\.css"\)/,
   "demo must load the generated pixel font",
 );
 assert.match(
