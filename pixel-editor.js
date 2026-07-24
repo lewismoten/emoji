@@ -719,10 +719,17 @@ export function createPixelEditor({
     const previewContext = fontPreview.getContext("2d");
     previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
     if (!currentEntry?.painted) return;
+    const proposed = currentEntry.releaseStatus === "proposed";
+    const familyProperty = proposed
+      ? "--pixel-emoji-proposed-family"
+      : "--pixel-emoji-released-family";
+    const familyFallback = proposed
+      ? '"Pixel Emoji Proposed"'
+      : '"Pixel Emoji"';
     const family =
       getComputedStyle(document.documentElement)
-        .getPropertyValue("--pixel-emoji-released-family")
-        .trim() || '"Pixel Emoji"';
+        .getPropertyValue(familyProperty)
+        .trim() || familyFallback;
     const render = () => {
       previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
       drawCenteredEmoji(

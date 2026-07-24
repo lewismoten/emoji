@@ -382,7 +382,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /async refreshFontBuild[\s\S]*loadManifest\(true\)[\s\S]*drawFontPreview[\s\S]*--pixel-emoji-released-family/,
+  /async refreshFontBuild[\s\S]*loadManifest\(true\)[\s\S]*drawFontPreview[\s\S]*releaseStatus === "proposed"[\s\S]*--pixel-emoji-proposed-family[\s\S]*--pixel-emoji-released-family/,
   "the open pixel editor must reload build metadata and use the rebuilt font family",
 );
 assert.match(
@@ -907,7 +907,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /html\[data-emoji-font="system"\]\s*\{[\s\S]*--emoji-font:[\s\S]*--installed-emoji-fonts[\s\S]*--pixel-emoji-proposed-family[\s\S]*--pixel-emoji-released-family[\s\S]*sans-serif;/,
+  /html\[data-emoji-font="system"\]\s*\{[\s\S]*--emoji-font:[\s\S]*--installed-emoji-fonts[\s\S]*--pixel-emoji-released-family[\s\S]*--pixel-emoji-proposed-family[\s\S]*sans-serif;/,
   "system mode must retain the pixel font as its final emoji fallback",
 );
 assert.match(
