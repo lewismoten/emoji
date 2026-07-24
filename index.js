@@ -2700,6 +2700,10 @@ async function loadVersionData() {
       applyLoadedUrlState();
       renderCategoryFilters();
       drawList();
+      if (currentEmojiKey) {
+        document.getElementsByClassName('emoji-version')[0].innerText =
+          getIntroducedVersion(currentEmojiKey);
+      }
     } catch (error) {
       console.warn('Version filters unavailable', error);
       versionModeSelector.disabled = true;
@@ -3986,9 +3990,7 @@ function getIntroducedVersion(key) {
   return (
     [...versionManifests, ...proposedVersionManifests].find(version =>
       versionKeys.get(version.version)?.has(key)
-    )?.version ??
-    byId[key]?.introduced ??
-    '—'
+    )?.version ?? '—'
   );
 }
 

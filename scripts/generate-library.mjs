@@ -5,9 +5,6 @@ const sourceDirectory = 'library';
 const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const emoji = JSON.parse(fs.readFileSync('emoji.json', 'utf8'));
 const popular = JSON.parse(fs.readFileSync('popular.json', 'utf8'));
-const versionManifest = JSON.parse(
-  fs.readFileSync('versions/manifest.json', 'utf8')
-);
 
 const clean = directory =>
   fs.rmSync(directory, { recursive: true, force: true });
@@ -229,18 +226,6 @@ write(
   )
 );
 
-const introducedByKey = new Map();
-versionManifest.versions
-  .filter(version => version.released)
-  .sort((left, right) => left.released.localeCompare(right.released))
-  .forEach(version => {
-    const keys = JSON.parse(
-      fs.readFileSync(path.join('versions', version.file), 'utf8')
-    );
-    keys.forEach(key => {
-      if (!introducedByKey.has(key)) introducedByKey.set(key, version.version);
-    });
-  });
 const explorerFields = [
   'key',
   'emoji',
@@ -250,8 +235,7 @@ const explorerFields = [
   'group',
   'subGroup',
   'order',
-  'sequenceType',
-  'introduced'
+  'sequenceType'
 ];
 write(
   'explorer/catalog.json',
@@ -267,8 +251,7 @@ write(
       item.group,
       item.subGroup,
       item.order,
-      item.sequenceType,
-      introducedByKey.get(item.key) ?? null
+      item.sequenceType
     ])
   })
 );

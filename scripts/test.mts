@@ -296,7 +296,6 @@ assert.deepEqual(
     "subGroup",
     "order",
     "sequenceType",
-    "introduced",
   ],
   "the compact Explorer catalog schema must remain explicit",
 );
