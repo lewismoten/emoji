@@ -1,10 +1,19 @@
 import fs from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { availableParallelism } from "node:os";
 
 const root = path.resolve(process.argv[2] ?? "build/tests");
 const testPattern = /\.test\.(?:js|mjs|cjs)$/;
 const maximumDurationMs = 200;
+const requestedConcurrency = Number.parseInt(
+  process.env.TEST_CONCURRENCY ?? "",
+  10,
+);
+const testConcurrency =
+  Number.isInteger(requestedConcurrency) && requestedConcurrency > 0
+    ? requestedConcurrency
+    : Math.min(availableParallelism(), 2);
 
 function findTests(directory) {
   if (!fs.existsSync(directory)) return [];
@@ -26,6 +35,9 @@ if (tests.length === 0) {
   console.error(`No compiled Node tests found under ${root}`);
   process.exitCode = 1;
 } else {
+  console.info(
+    `Running ${tests.length} test files across ${Math.min(testConcurrency, tests.length)} workers.`,
+  );
   const childEnvironment = { ...process.env };
   if (process.stdout.isTTY && childEnvironment.NO_COLOR === undefined) {
     childEnvironment.FORCE_COLOR ??= "1";
@@ -33,7 +45,7 @@ if (tests.length === 0) {
   const result = await new Promise((resolve, reject) => {
     const child = spawn(
       process.execPath,
-      ["--test", "--test-concurrency=1", ...tests],
+      ["--test", `--test-concurrency=${testConcurrency}`, ...tests],
       {
         env: childEnvironment,
         stdio: ["inherit", "pipe", "pipe"],
