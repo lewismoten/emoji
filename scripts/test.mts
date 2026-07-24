@@ -1493,6 +1493,21 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
+  /function drawArtworkPreview[\s\S]*currentArtworkPreviewCanvas\(\)[\s\S]*canvasIsBlackSilhouette[\s\S]*recolorVisibleCanvasPixels[\s\S]*downloadPreview/,
+  "black-only artwork and the download action must preview silhouettes in white",
+);
+assert.match(
+  pixelEditorScript,
+  /function drawFontPreview[\s\S]*currentArtworkIsBlackSilhouette\(\)[\s\S]*#ffffff/,
+  "the small font preview must render black-only artwork in white",
+);
+assert.match(
+  pixelEditorScript,
+  /function canvasIsBlackSilhouette[\s\S]*hasVisiblePixel[\s\S]*function recolorVisibleCanvasPixels[\s\S]*image\.data\[offset \+ 3\] === 0/,
+  "silhouette preview recoloring must ignore transparent pixels and preserve alpha",
+);
+assert.match(
+  pixelEditorScript,
   /const persistedArtwork = new Map\(\)[\s\S]*const dirtyKeys = new Set\(\)[\s\S]*function updateDirtyState[\s\S]*pixelsEqual\(pixels, baseline\)[\s\S]*dirtyIndicator\.hidden = !dirty/,
   "the editor must visibly track artwork that differs from its persisted atlas pixels",
 );

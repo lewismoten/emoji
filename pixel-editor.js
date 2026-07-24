@@ -735,6 +735,9 @@ export function createPixelEditor({
         .trim() || familyFallback;
     const render = () => {
       previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
+      previewContext.fillStyle = currentArtworkIsBlackSilhouette()
+        ? "#ffffff"
+        : "#000000";
       drawCenteredEmoji(
         previewContext,
         currentEmoji,
@@ -748,28 +751,41 @@ export function createPixelEditor({
   }
 
   function drawArtworkPreview() {
+    const renderedArtwork = currentArtworkPreviewCanvas();
+    if (canvasIsBlackSilhouette(renderedArtwork)) {
+      recolorVisibleCanvasPixels(renderedArtwork, 255, 255, 255);
+    }
     const previewContexts = [
       artworkPreview.getContext("2d"),
       downloadPreview.getContext("2d"),
     ];
     previewContexts.forEach((previewContext) => {
       previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-      previewContext.putImageData(
-        new ImageData(pixels.slice(), CELL_SIZE, CELL_SIZE),
-        0,
-        0,
-      );
+      previewContext.drawImage(renderedArtwork, 0, 0);
     });
+  }
+
+  function currentArtworkPreviewCanvas() {
+    const renderedArtwork = imageDataCanvas(
+      pixels,
+      CELL_SIZE,
+      CELL_SIZE,
+    );
     if (floatingLayer) {
       const layerCanvas = imageDataCanvas(
         effectiveLayerPixels(floatingLayer, activePaletteColors()),
         floatingLayer.width,
         floatingLayer.height,
       );
-      previewContexts.forEach((previewContext) =>
-        previewContext.drawImage(layerCanvas, floatingLayer.x, floatingLayer.y),
-      );
+      renderedArtwork
+        .getContext("2d")
+        .drawImage(layerCanvas, floatingLayer.x, floatingLayer.y);
     }
+    return renderedArtwork;
+  }
+
+  function currentArtworkIsBlackSilhouette() {
+    return canvasIsBlackSilhouette(currentArtworkPreviewCanvas());
   }
 
   function onPointerDown(event) {
@@ -1886,6 +1902,32 @@ function drawCheckerboard(context, size) {
       context.fillRect(x * checker, y * checker, checker, checker);
     }
   }
+}
+
+function canvasIsBlackSilhouette(canvas) {
+  const data = canvas
+    .getContext("2d")
+    .getImageData(0, 0, canvas.width, canvas.height).data;
+  let hasVisiblePixel = false;
+  for (let offset = 0; offset < data.length; offset += 4) {
+    if (data[offset + 3] === 0) continue;
+    hasVisiblePixel = true;
+    if (data[offset] !== 0 || data[offset + 1] !== 0 || data[offset + 2] !== 0)
+      return false;
+  }
+  return hasVisiblePixel;
+}
+
+function recolorVisibleCanvasPixels(canvas, red, green, blue) {
+  const context = canvas.getContext("2d");
+  const image = context.getImageData(0, 0, canvas.width, canvas.height);
+  for (let offset = 0; offset < image.data.length; offset += 4) {
+    if (image.data[offset + 3] === 0) continue;
+    image.data[offset] = red;
+    image.data[offset + 1] = green;
+    image.data[offset + 2] = blue;
+  }
+  context.putImageData(image, 0, 0);
 }
 
 function drawCenteredEmoji(
