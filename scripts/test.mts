@@ -923,6 +923,16 @@ assert.match(
 );
 assert.match(
   demoHtml,
+  /class="filter-field has-choice-buttons"[\s\S]*class="select-group"[\s\S]*class="filter-field has-choice-buttons"[\s\S]*class="select-subgroup"/,
+  "initial group controls must reserve their enhanced-picker layout before JavaScript loads",
+);
+assert.match(
+  demoHtml,
+  /class="filter-field version-field developer-only has-version-slider"/,
+  "the initial version control must reserve its enhanced-slider layout before JavaScript loads",
+);
+assert.match(
+  demoHtml,
   /class="show-pixel-editor developer-only"/,
   "emoji details must provide a pixel-editor mode",
 );
@@ -1033,8 +1043,8 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="filter-field sequence-filter-field"/,
-  "sequence browsing must provide a sequence-type filter",
+  /class="filter-field sequence-filter-field has-choice-buttons"/,
+  "sequence browsing must provide an initially enhanced sequence-type filter",
 );
 assert.match(
   demoScript,
@@ -1273,7 +1283,7 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="filter-field version-field developer-only"/,
+  /class="filter-field version-field developer-only has-version-slider"/,
   "the Emoji version filter must be visible only in Developer mode",
 );
 assert.match(

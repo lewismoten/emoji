@@ -223,7 +223,7 @@
           </div>
 
           <div class="basic-filter-grid">
-            <div class="filter-field">
+            <div class="filter-field has-choice-buttons">
               <div class="filter-heading">
                 <span id="group-filter-label" data-i18n="group">Group</span
                 ><span class="compact-group-label"></span>
@@ -242,7 +242,7 @@
                 <span class="filter-picker-value" data-i18n="all">All</span>
               </button>
             </div>
-            <div class="filter-field">
+            <div class="filter-field has-choice-buttons">
               <div class="filter-heading">
                 <span id="subgroup-filter-label" data-i18n="subgroup"
                   >Sub-group</span
@@ -277,7 +277,10 @@
                 ><span class="summary-short" data-i18n="filters">Filters</span>
               </summary>
               <div class="filter-grid">
-                <div class="filter-field sequence-filter-field" hidden>
+                <div
+                  class="filter-field sequence-filter-field has-choice-buttons"
+                  hidden
+                >
                   <div class="filter-heading">
                     <span id="sequence-filter-label" data-i18n="sequenceType"
                       >Sequence type</span
@@ -295,7 +298,9 @@
                     aria-labelledby="sequence-filter-label"
                   ></div>
                 </div>
-                <div class="filter-field version-field developer-only">
+                <div
+                  class="filter-field version-field developer-only has-version-slider"
+                >
                   <span id="version-filter-label" data-i18n="emojiVersion"
                     >Emoji version</span
                   >
