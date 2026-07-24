@@ -2,6 +2,11 @@ const CACHE_PREFIX = 'emoji-explorer-';
 const CACHE_NAME = `${CACHE_PREFIX}__PACKAGE_VERSION__-__ASSET_REVISION__`;
 const CORE_ASSETS = __CORE_ASSETS__;
 const scopedUrl = path => new URL(path, self.registration.scope).href;
+const NETWORK_FIRST_PATHS = new Set([
+  new URL('./index.js', self.registration.scope).pathname,
+  new URL('./pixel-editor.js', self.registration.scope).pathname,
+  new URL('./index.css', self.registration.scope).pathname
+]);
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -46,6 +51,11 @@ const cacheFirst = async request => {
 
 self.addEventListener('fetch', event => {
   const request = event.request;
-  if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
-  event.respondWith(request.mode === 'navigate' ? networkFirst(request) : cacheFirst(request));
+  const url = new URL(request.url);
+  if (request.method !== 'GET' || url.origin !== self.location.origin) return;
+  event.respondWith(
+    request.mode === 'navigate' || NETWORK_FIRST_PATHS.has(url.pathname)
+      ? networkFirst(request)
+      : cacheFirst(request)
+  );
 });

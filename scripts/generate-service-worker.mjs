@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
+const assetVersion = packageJson.version;
 const versionManifest = JSON.parse(
   fs.readFileSync("versions/manifest.json", "utf8"),
 );
@@ -43,8 +44,8 @@ const coreAssets = [
   "./",
   "./index.html",
   ...localizedPages,
-  "./index.css?direct",
-  "./index.js",
+  `./index.css?direct&v=${assetVersion}`,
+  `./index.js?v=${assetVersion}`,
   "./emoji.json",
   "./manifest.json",
   "./dist/esm/index.js",
@@ -55,7 +56,7 @@ const coreAssets = [
   "./pixel-font/build/font/pixel-emoji.woff2",
   ...optionalPixelFontAssets,
   ...pixelAtlasFiles,
-  "./pixel-editor.js",
+  `./pixel-editor.js?v=${assetVersion}`,
   "./favicon.svg",
   "./icons/icon-192.png",
   "./icons/icon-512.png",

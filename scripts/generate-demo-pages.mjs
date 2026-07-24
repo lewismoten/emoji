@@ -6,6 +6,14 @@ const siteUrl = 'https://lewismoten.github.io/emoji/';
 export const locales = ['en', 'en-GB', 'es', 'hi', 'zh', 'ar'];
 const rtlLocales = new Set(['ar']);
 const template = fs.readFileSync('index.html', 'utf8');
+const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+const assetVersion = packageJson.version;
+const deployedScript = fs
+  .readFileSync('index.js', 'utf8')
+  .replace(
+    "from './pixel-editor.js';",
+    `from './pixel-editor.js?v=${assetVersion}';`
+  );
 const english = JSON.parse(fs.readFileSync('demo-locales/en.json', 'utf8'));
 const webAppManifest = JSON.parse(fs.readFileSync('manifest.webmanifest', 'utf8'));
 const localeManifest = JSON.parse(fs.readFileSync('locales/manifest.json', 'utf8'));
@@ -58,6 +66,14 @@ export const renderPage = (locale, url, htmlLocale = locale, dataLocale = locale
     .replace(/^  <link rel="alternate" hreflang="[^"]+" href="[^"]+">\n/gm, '')
     .replace('<html lang="en">', `<html lang="${htmlLocale}" dir="${rtlLocales.has(htmlLocale) ? 'rtl' : 'ltr'}" data-locale="${dataLocale}">`)
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
+    .replace(
+      '<script defer src="./index.js" type="module"></script>',
+      `<script defer src="./index.js?v=${assetVersion}" type="module"></script>`
+    )
+    .replace(
+      '<link rel="stylesheet" href="./index.css?direct">',
+      `<link rel="stylesheet" href="./index.css?direct&v=${assetVersion}">`
+    )
     .replace(/<meta name="application-name" content="[^"]*">/, `<meta name="application-name" content="${escapeHtml(translations.title)}">`)
     .replace(/<meta name="apple-mobile-web-app-title" content="[^"]*">/, `<meta name="apple-mobile-web-app-title" content="${escapeHtml(translations.title)}">`)
     .replace('<link rel="manifest" href="./manifest.webmanifest">', `<link rel="manifest" href="./${manifestFile(manifestLocale)}">`)
@@ -101,6 +117,9 @@ const renderManifest = (locale, startUrl, htmlLocale = locale) => {
 
 export const generateDemoPages = (outputDirectory = '.') => {
   fs.mkdirSync(outputDirectory, { recursive: true });
+  if (path.resolve(outputDirectory) !== process.cwd()) {
+    fs.writeFileSync(path.join(outputDirectory, 'index.js'), deployedScript);
+  }
   fs.writeFileSync(path.join(outputDirectory, 'index.html'), renderPage('en', siteUrl, 'en-US', 'en', ''));
   fs.writeFileSync(path.join(outputDirectory, 'manifest.webmanifest'), renderManifest('en', './', 'en-US'));
   for (const locale of locales) {

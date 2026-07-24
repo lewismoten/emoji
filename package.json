@@ -1,6 +1,6 @@
 {
   "name": "@lewismoten/emoji",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "description": "list of named emoji unicode values",
   "type": "module",
   "main": "./dist/commonjs/popular.min.cjs",
@@ -62,6 +62,7 @@
     "format:check": "prettier --check \"**/*.json\"",
     "demo:locales": "node ./scripts/generate-demo-pages.mjs",
     "demo:pwa": "node ./scripts/generate-service-worker.mjs",
+    "demo:validate": "node ./scripts/validate-pages-site.mjs",
     "pixel-font:generate": "node ./pixel-font/scripts/generate-atlases.mjs",
     "pixel-font:build": "node ./pixel-font/scripts/build-assets.mjs",
     "pixel-font:package": "npm run pixel-font:build -- --fonts-only && node ./pixel-font/scripts/package-font.mjs",

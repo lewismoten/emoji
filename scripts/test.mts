@@ -152,6 +152,10 @@ const serviceWorker = await fs.readFile(
   path.join(root, "build/demo-pages/service-worker.js"),
   "utf8",
 );
+const generatedDemoScript = await fs.readFile(
+  path.join(root, "build/demo-pages/index.js"),
+  "utf8",
+);
 const arabicDemo = await fs.readFile(
   path.join(root, "build/demo-pages/index.ar.html"),
   "utf8",
@@ -214,6 +218,10 @@ const pixelFontConfig = await readJson<{
 }>("pixel-font/config.json");
 const pagesWorkflow = await fs.readFile(
   path.join(root, ".github/workflows/pages.yml"),
+  "utf8",
+);
+const pagesValidator = await fs.readFile(
+  path.join(root, "scripts/validate-pages-site.mjs"),
   "utf8",
 );
 const fontPublishWorkflow = await fs.readFile(
@@ -376,7 +384,6 @@ for (const asset of [
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
   "./pixel-font/build/editor-manifest.json",
-  "./pixel-editor.js",
 ]) {
   assert.ok(
     serviceWorker.includes(`"${asset}"`),
@@ -384,8 +391,28 @@ for (const asset of [
   );
 }
 assert.ok(
-  serviceWorker.includes('"./index.css?direct"'),
-  "service worker must precache Vite-compatible direct CSS",
+  serviceWorker.includes(`"./index.css?direct&v=${packageJson.version}"`),
+  "service worker must precache versioned Vite-compatible direct CSS",
+);
+assert.ok(
+  serviceWorker.includes(`"./index.js?v=${packageJson.version}"`) &&
+    serviceWorker.includes(`"./pixel-editor.js?v=${packageJson.version}"`),
+  "service worker must precache versioned application scripts",
+);
+assert.match(
+  generatedDemoScript,
+  new RegExp(`from './pixel-editor\\.js\\?v=${packageJson.version}'`),
+  "the deployed entry module must version its pixel-editor dependency",
+);
+assert.match(
+  arabicDemo,
+  new RegExp(`src="\\./index\\.js\\?v=${packageJson.version}"`),
+  "localized pages must load the versioned application entry point",
+);
+assert.match(
+  serviceWorker,
+  /NETWORK_FIRST_PATHS[\s\S]*index\.js[\s\S]*pixel-editor\.js[\s\S]*index\.css[\s\S]*NETWORK_FIRST_PATHS\.has\(url\.pathname\)/,
+  "application shell assets must refresh from the network before using an offline cache",
 );
 assert.match(
   demoHtml,
@@ -476,6 +503,16 @@ assert.match(
   pagesWorkflow,
   /npm run pixel-font:build -- --fonts-only/,
   "GitHub Pages deployment must build fonts without individual PNG and SVG glyphs",
+);
+assert.match(
+  pagesWorkflow,
+  /emoji\.json manifest\.json[\s\S]*npm run demo:validate -- _site/,
+  "GitHub Pages must include the package manifest and validate every precache asset",
+);
+assert.match(
+  pagesValidator,
+  /CORE_ASSETS[\s\S]*replace\(\/\\\?[\s\S]*existsSync[\s\S]*Pages site is missing/,
+  "Pages validation must reject a deployment with any missing precache asset",
 );
 assert.match(
   pixelFontBuildScript,

@@ -51,7 +51,7 @@ jobs:
       - name: Assemble Pages site
         run: |
           mkdir _site
-          cp index.html index.js pixel-editor.js index.css emoji.json screenshot.png favicon.svg manifest.webmanifest offline.html robots.txt sitemap.xml _site/
+          cp index.html index.js pixel-editor.js index.css emoji.json manifest.json screenshot.png favicon.svg manifest.webmanifest offline.html robots.txt sitemap.xml _site/
           cp -R icons _site/icons
           cp -R dist _site/dist
           cp -R locales _site/locales
@@ -64,6 +64,7 @@ jobs:
           cp -R pixel-font/atlases _site/pixel-font/atlases
           npm run demo:locales -- _site
           npm run demo:pwa -- _site/service-worker.js
+          npm run demo:validate -- _site
           touch _site/.nojekyll
 
       - name: Configure Pages
