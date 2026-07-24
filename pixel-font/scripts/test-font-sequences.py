@@ -20,6 +20,15 @@ glyph_sources = [
     {"key": "lightSkinTone", "codePoints": ["1F3FB"]},
     {"key": "manLightSkinTone", "codePoints": ["1F468", "1F3FB"]},
     {"key": "woman", "codePoints": ["1F469"]},
+    {"key": "peopleWithBunnyEars", "codePoints": ["1F46F"]},
+    {
+        "key": "peopleWithBunnyEarsLightSkinTone",
+        "codePoints": ["1F46F", "1F3FB"],
+    },
+    {
+        "key": "womenWithBunnyEarsLightSkinTone",
+        "codePoints": ["1F46F", "1F3FB", "200D", "2640", "FE0F"],
+    },
     {"key": "heart", "codePoints": ["2764", "FE0F"]},
     {
         "key": "couple",
@@ -66,6 +75,10 @@ assert features.startswith("feature rlig {")
 assert "sub emoji.man uni200D emoji.heart uni200D emoji.woman by emoji.couple;" in features
 assert "sub emoji.man uni200D emoji.woman by emoji.pair;" in features
 assert "sub emoji.man emoji.lightSkinTone by emoji.manLightSkinTone;" in features
+assert (
+    "sub emoji.peopleWithBunnyEars emoji.lightSkinTone uni200D uni2640 "
+    "by emoji.womenWithBunnyEarsLightSkinTone;"
+) in features
 assert features.index("by emoji.couple;") < features.index("by emoji.pair;")
 assert "sub uni1F1FA uni1F1F8 by emoji.usFlag;" in features
 assert "sub uni0031 uni20E3 by emoji.keycapOne;" in features
@@ -244,6 +257,15 @@ with tempfile.TemporaryDirectory() as temporary_directory:
     } == {"Version 1.0.0"}
     assert {record.platformID for record in font["name"].names} == {1, 3}
     cmap = font.getBestCmap()
+    variation_cmap = next(
+        table
+        for table in font["cmap"].tables
+        if table.format == 14
+    )
+    assert (0x2640, None) in variation_cmap.uvsDict[0xFE0F]
+    assert (0x2764, None) in variation_cmap.uvsDict[0xFE0F]
+    assert (0x31, None) in variation_cmap.uvsDict[0xFE0F]
+    assert 0xFE0F not in cmap
 
     rules = {}
     man_rule_lengths = []
@@ -267,6 +289,14 @@ with tempfile.TemporaryDirectory() as temporary_directory:
     ] in font.getGlyphOrder()
     assert rules[
         (cmap[0x1F468], cmap[0x200D], cmap[0x1F469])
+    ] in font.getGlyphOrder()
+    assert rules[
+        (
+            cmap[0x1F46F],
+            cmap[0x1F3FB],
+            cmap[0x200D],
+            cmap[0x2640],
+        )
     ] in font.getGlyphOrder()
     assert rules[(cmap[0x1F1FA], cmap[0x1F1F8])] in font.getGlyphOrder()
     assert rules[(cmap[0x31], cmap[0x20E3])] in font.getGlyphOrder()

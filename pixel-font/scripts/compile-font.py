@@ -163,7 +163,10 @@ def main():
 
     builder = FontBuilder(UNITS_PER_EM, isTTF=True)
     builder.setupGlyphOrder(glyph_order)
-    builder.setupCharacterMap(cmap)
+    builder.setupCharacterMap(
+        cmap,
+        uvs=variation_sequences(glyph_sources, cmap),
+    )
     builder.setupGlyf(glyphs)
     builder.setupHorizontalMetrics(
         {
@@ -277,6 +280,16 @@ def sequence(glyph):
         for codepoint in glyph["codePoints"]
         if int(codepoint, 16) not in {0xFE0E, 0xFE0F}
     ]
+
+
+def variation_sequences(glyph_sources, cmap):
+    supported = set()
+    for glyph in glyph_sources:
+        codepoints = [int(codepoint, 16) for codepoint in glyph["codePoints"]]
+        for base, selector in zip(codepoints, codepoints[1:]):
+            if selector in {0xFE0E, 0xFE0F} and base in cmap:
+                supported.add((base, selector, cmap[base]))
+    return sorted(supported)
 
 
 def ligature_features(glyph_sources, base_names, codepoint_names, single_by_codepoint):
