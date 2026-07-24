@@ -962,6 +962,31 @@ assert.match(
   "selected modifier buttons must use a filled state distinct from focus",
 );
 assert.match(
+  demoStyles,
+  /--motion-fast: 180ms[\s\S]*--motion-medium: 240ms[\s\S]*dialog\[open\]\s*\{[\s\S]*animation: dialog-enter[\s\S]*@keyframes dialog-enter[\s\S]*transform: translateY\(0\.65rem\) scale\(0\.96\)/,
+  "dialogs must use a short compositor-friendly entrance animation",
+);
+assert.match(
+  demoStyles,
+  /\.compact-choice,[\s\S]*\.modifier-filters fieldset label,[\s\S]*\.order-mode,[\s\S]*transition:[\s\S]*background-color var\(--motion-fast\)[\s\S]*transform var\(--motion-fast\)/,
+  "interactive controls must share short visual-state transitions",
+);
+assert.match(
+  demoStyles,
+  /@media \(prefers-reduced-motion: reduce\)[\s\S]*--motion-fast: 0ms[\s\S]*--motion-medium: 0ms[\s\S]*dialog\[open\],[\s\S]*dialog\[open\]::backdrop[\s\S]*animation: none/,
+  "motion must be disabled when reduced motion is requested",
+);
+assert.match(
+  demoStyles,
+  /\.compact-choice\[aria-checked="true"\],[\s\S]*\.version-mode-toggle\[aria-pressed="true"\],[\s\S]*\.order-mode\.is-active[\s\S]*animation: control-selected[\s\S]*@keyframes control-selected[\s\S]*transform: scale\(0\.9\)[\s\S]*transform: scale\(1\.04\)/,
+  "newly selected controls must provide visible state-change feedback",
+);
+assert.match(
+  demoScript,
+  /if \(button\.matches\('\.emoji-preview'\)\)[\s\S]*animateEmojiCopyConfirmation\(button\)[\s\S]*function animateEmojiCopyConfirmation[\s\S]*prefers-reduced-motion: reduce[\s\S]*emoji-copy-confirmation[\s\S]*transform: 'scale\(0\.9\)'[\s\S]*transform: 'scale\(1\.05\)'/,
+  "successful emoji copies must provide motion-aware visual confirmation",
+);
+assert.match(
   demoHtml,
   /class="show-pixel-editor developer-only"/,
   "emoji details must provide a pixel-editor mode",
@@ -1458,7 +1483,7 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /if \(copied\) recordCopiedEmoji/,
+  /if \(copied\) \{[\s\S]*recordCopiedEmoji\(copiedEmojiKey\)/,
   "successful copy actions must update recently copied emoji",
 );
 assert.doesNotMatch(

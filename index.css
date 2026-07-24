@@ -10,6 +10,9 @@
   --accent-strong: #df9cff;
   --code: #0b2637;
   --toolbar-height: 0px;
+  --motion-fast: 180ms;
+  --motion-medium: 240ms;
+  --motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ui-font:
     system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
@@ -907,6 +910,25 @@ html:not([data-developer-mode]) .developer-only {
 .install-dialog::backdrop {
   background: rgb(0 0 0 / 60%);
   backdrop-filter: blur(3px);
+}
+
+dialog[open] {
+  animation: dialog-enter var(--motion-medium) var(--motion-ease);
+}
+dialog[open]::backdrop {
+  animation: backdrop-enter var(--motion-medium) ease-out;
+}
+@keyframes dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.65rem) scale(0.96);
+  }
+}
+@keyframes backdrop-enter {
+  from {
+    background: rgb(0 0 0 / 0%);
+    backdrop-filter: blur(0);
+  }
 }
 
 .dialog-heading {
@@ -2123,6 +2145,14 @@ kbd {
   }
 }
 @media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion-medium: 0ms;
+  }
+  dialog[open],
+  dialog[open]::backdrop {
+    animation: none;
+  }
   .loading-grid i {
     animation: none;
   }
@@ -2478,6 +2508,72 @@ kbd {
 .sequence-type > .emoji > div span {
   width: 100%;
   text-align: center;
+}
+
+.filter-picker-trigger,
+.compact-choice,
+.version-mode-toggle,
+.version-step,
+.modifier-filters fieldset label,
+.pixel-comparison > button,
+.language-option,
+.language-picker,
+.saved-picker,
+.help-picker,
+.saved-emoji-list button,
+.emoji-copy-actions button,
+.emoji-code-toolbar button,
+.order-mode,
+.subgroup .emoji > div,
+.sequence-type > .emoji > div {
+  transition:
+    background-color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-ease);
+}
+.compact-choice:active,
+.version-mode-toggle:active,
+.modifier-filters fieldset label:active,
+.pixel-comparison > button:active,
+.language-option:active,
+.order-mode:active {
+  transform: scale(0.94);
+}
+.compact-choice[aria-checked="true"],
+.version-mode-toggle[aria-pressed="true"],
+.modifier-filters fieldset label:has(input:checked),
+.pixel-comparison > button[aria-pressed="true"],
+.language-option.is-selected,
+.order-mode.is-active {
+  animation: control-selected var(--motion-medium) var(--motion-ease);
+}
+.active-filter-summary:not([hidden]) {
+  animation: filter-summary-enter var(--motion-medium) var(--motion-ease);
+}
+[dir="rtl"] .active-filter-summary:not([hidden]) {
+  animation-name: filter-summary-enter-rtl;
+}
+@keyframes control-selected {
+  0% {
+    transform: scale(0.9);
+  }
+  60% {
+    transform: scale(1.04);
+  }
+}
+@keyframes filter-summary-enter {
+  from {
+    opacity: 0;
+    transform: translateX(0.4rem);
+  }
+}
+@keyframes filter-summary-enter-rtl {
+  from {
+    opacity: 0;
+    transform: translateX(-0.4rem);
+  }
 }
 
 @media (min-width: 561px) {
