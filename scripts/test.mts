@@ -943,6 +943,16 @@ assert.match(
 );
 assert.match(
   demoScript,
+  /function upgradeEmojiDialog\(\)[\s\S]*ensureRenderingDiagnostic\(\)[\s\S]*function ensureRenderingDiagnostic\(\)[\s\S]*system-render-glyph[\s\S]*pixel-render-glyph[\s\S]*rendering-result/,
+  "cached emoji dialogs must be upgraded with complete rendering diagnostics",
+);
+assert.match(
+  demoScript,
+  /function updateRenderingDiagnostic[\s\S]*if \(!section \|\| !invitation\) return[\s\S]*if \(!systemGlyph \|\| !pixelGlyph \|\| !result\) return/,
+  "rendering diagnostics must tolerate stale cached dialog markup",
+);
+assert.match(
+  demoScript,
   /fontComparison[\s\S]*!fontComparison\.querySelector\('\.emoji-font-choice'\)[\s\S]*preview\.replaceWith\(button\)[\s\S]*querySelector\('\.pixel-font-toggle'\)\?\.remove\(\)/,
   "cached HTML must upgrade its font previews and remove the legacy search toggle",
 );
