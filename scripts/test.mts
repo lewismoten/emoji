@@ -277,6 +277,36 @@ assert.deepEqual(
   "web app must provide standard and maskable install icons",
 );
 assert.match(
+  demoHtml,
+  /class="order-footer"[\s\S]*class="install-app"[^>]*hidden[^>]*data-i18n-aria-label="installApp"[\s\S]*class="order-buttons"/,
+  "the sticky footer must contain an initially hidden accessible install action",
+);
+assert.match(
+  demoScript,
+  /function installApp[\s\S]*promptEvent\.prompt\(\)[\s\S]*promptEvent\.userChoice/,
+  "the install action must invoke the retained browser PWA installation prompt",
+);
+assert.match(
+  demoScript,
+  /beforeinstallprompt[\s\S]*event\.preventDefault\(\)[\s\S]*deferredInstallPrompt = event/,
+  "the browser PWA installation prompt must be retained for the footer action",
+);
+assert.match(
+  demoScript,
+  /function renderInstallAppButton[\s\S]*isInstalledApp\(\)[\s\S]*appinstalled[\s\S]*deferredInstallPrompt = undefined/,
+  "the install action must hide when the app is installed or no prompt is available",
+);
+assert.match(
+  demoScript,
+  /isIosDevice[\s\S]*Add to Home Screen|isIosDevice[\s\S]*installDialog\?\.showModal/,
+  "iOS users must receive manual Add to Home Screen instructions",
+);
+assert.match(
+  demoStyles,
+  /\.install-app\[hidden\]\s*\{\s*display:\s*none;[\s\S]*@media \(max-width: 560px\)[\s\S]*\.install-app-label\s*\{\s*display:\s*none;/,
+  "the footer install action must stay compact on mobile screens",
+);
+assert.match(
   serviceWorker,
   new RegExp(
     `const CACHE_NAME = \\\`\\$\\{CACHE_PREFIX\\}${packageJson.version}-[a-f0-9]{12}\\\`;`,

@@ -189,6 +189,9 @@ var applyingUrlState = false;
 var suppressDialogCloseSync = false;
 var suppressedPanelCloses = new WeakSet();
 var offlineStatus;
+var installAppButton;
+var installDialog;
+var deferredInstallPrompt;
 const explorerPreferencesKey = '@lewismoten/emoji:explorer-preferences';
 var explorerPreferences = loadExplorerPreferences();
 var favoriteEmojiKeys = Array.isArray(explorerPreferences.favorites)
@@ -426,6 +429,43 @@ const updateOnlineStatus = () => {
   );
   offlineStatus.hidden = navigator.onLine;
 };
+const isInstalledApp = () =>
+  window.matchMedia('(display-mode: standalone)').matches ||
+  window.navigator.standalone === true;
+const isIosDevice = () =>
+  /iPad|iPhone|iPod/.test(window.navigator.userAgent) ||
+  (window.navigator.platform === 'MacIntel' &&
+    window.navigator.maxTouchPoints > 1);
+function renderInstallAppButton() {
+  if (!installAppButton) return;
+  installAppButton.hidden =
+    (!deferredInstallPrompt && !isIosDevice()) || isInstalledApp();
+}
+async function installApp(event) {
+  const promptEvent = deferredInstallPrompt;
+  if (!promptEvent) {
+    installDialog?.showModal();
+    return;
+  }
+  deferredInstallPrompt = undefined;
+  renderInstallAppButton();
+  try {
+    await promptEvent.prompt();
+    await promptEvent.userChoice;
+  } catch (error) {
+    console.warn('App installation unavailable', error);
+  }
+  if (event?.detail > 0) event.currentTarget.blur();
+}
+window.addEventListener('beforeinstallprompt', event => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  renderInstallAppButton();
+});
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = undefined;
+  renderInstallAppButton();
+});
 async function loadUiTranslations(locale, rtl = false) {
   const baseLocale = locale.split('-')[0];
   try {
@@ -847,6 +887,8 @@ function onPanelDialogClose(event) {
 async function onLoad() {
   ensureUtilityControls();
   offlineStatus = document.getElementsByClassName('offline-status')[0];
+  installAppButton = document.getElementsByClassName('install-app')[0];
+  installDialog = document.getElementsByClassName('install-dialog')[0];
   searchText = document.getElementsByClassName('text')[0];
   languagePicker = document.getElementsByClassName('language-picker')[0];
   languagePickerFlag = document.getElementsByClassName(
@@ -951,6 +993,7 @@ async function onLoad() {
     .matchMedia('(max-width: 560px)')
     .addEventListener('change', positionFavoriteButton);
   updateOnlineStatus();
+  renderInstallAppButton();
 
   applyBasicUrlState();
   skinToneCheckboxes.forEach(checkbox =>
@@ -968,6 +1011,10 @@ async function onLoad() {
     openPanelDialog('language');
   });
   pixelFontToggle?.addEventListener('click', togglePixelFont);
+  installAppButton?.addEventListener('click', installApp);
+  installDialog
+    ?.querySelector('.install-dialog-close')
+    ?.addEventListener('click', () => installDialog.close());
   savedPicker?.addEventListener('click', () => {
     openPanelDialog('favorites');
   });

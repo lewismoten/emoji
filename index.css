@@ -657,7 +657,8 @@ fieldset input {
 .example-dialog,
 .language-dialog,
 .saved-dialog,
-.help-dialog {
+.help-dialog,
+.install-dialog {
   width: min(42rem, calc(100vw - 2rem));
   max-height: calc(100dvh - 1rem);
   margin: auto;
@@ -670,6 +671,15 @@ fieldset input {
   overflow-y: auto;
   overscroll-behavior: contain;
   box-shadow: 0 1rem 3rem rgb(0 0 0 / 55%);
+}
+.install-dialog {
+  max-width: 28rem;
+}
+.install-dialog > p {
+  margin: 0;
+  padding: 1rem;
+  color: var(--muted);
+  line-height: 1.55;
 }
 
 .language-dialog,
@@ -745,7 +755,8 @@ fieldset input {
 .example-dialog::backdrop,
 .language-dialog::backdrop,
 .saved-dialog::backdrop,
-.help-dialog::backdrop {
+.help-dialog::backdrop,
+.install-dialog::backdrop {
   background: rgb(0 0 0 / 60%);
   backdrop-filter: blur(3px);
 }
@@ -1891,6 +1902,32 @@ kbd {
   display: flex;
   gap: 0.2rem;
 }
+.install-app {
+  display: inline-flex;
+  min-height: 2rem;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.45rem;
+  background: #15384d;
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+.install-app[hidden] {
+  display: none;
+}
+.install-app:hover {
+  border-color: var(--accent-strong);
+  color: var(--text);
+}
+.install-app:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 .order-mode {
   min-height: 2rem;
   padding: 0.25rem 0.5rem;
@@ -2331,6 +2368,14 @@ kbd {
     bottom: max(0.5rem, env(safe-area-inset-bottom));
   }
   .order-label {
+    display: none;
+  }
+  .install-app {
+    width: 2rem;
+    padding: 0;
+    justify-content: center;
+  }
+  .install-app-label {
     display: none;
   }
   .order-mode {

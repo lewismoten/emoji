@@ -180,6 +180,10 @@
     </section>
 
     <nav class="order-footer" data-i18n-aria-label="emojiBrowseOrder" aria-label="Emoji browse order">
+      <button class="install-app" type="button" hidden data-i18n-aria-label="installApp" aria-label="Install Emoji Explorer">
+        <span aria-hidden="true">📲</span>
+        <span class="install-app-label" data-i18n="installApp">Install Emoji Explorer</span>
+      </button>
       <span class="order-label" data-i18n="browse">Browse</span>
       <div class="order-buttons" role="group" data-i18n-aria-label="chooseBrowseOrder" aria-label="Choose emoji browse order">
         <button type="button" class="order-mode is-active" data-order="grouped" aria-pressed="true" data-i18n="groups">Groups</button>
@@ -187,6 +191,14 @@
         <button type="button" class="order-mode" data-order="sequence" aria-pressed="false" data-i18n="sequences">Sequences</button>
       </div>
     </nav>
+
+    <dialog class="install-dialog" aria-labelledby="install-dialog-title">
+      <div class="dialog-heading">
+        <h2 id="install-dialog-title" data-i18n="installInstructionsTitle">Install Emoji Explorer</h2>
+        <button class="dialog-close install-dialog-close" type="button" data-i18n-aria-label="close" aria-label="Close">×</button>
+      </div>
+      <p data-i18n="installInstructionsIos">Open the browser’s Share menu, choose Add to Home Screen, then confirm Add.</p>
+    </dialog>
 
     <dialog class="example-dialog" aria-labelledby="example-title">
       <div class="dialog-heading">
