@@ -211,6 +211,10 @@ const pixelFontPackager = await fs.readFile(
   path.join(root, "pixel-font/scripts/package-font.mjs"),
   "utf8",
 );
+const pixelFontVersionScript = await fs.readFile(
+  path.join(root, "pixel-font/scripts/version-font.mjs"),
+  "utf8",
+);
 const pixelFontConfig = await readJson<{
   fontVersion: string;
   packageName: string;
@@ -498,6 +502,16 @@ assert.match(
   pixelFontPackager,
   /package\.template\.json[\s\S]*buildManifest\.fontVersion[\s\S]*embeddingPermissions[\s\S]*pixel-emoji-proposed-[\s\S]*renderPackageStylesheet/,
   "the font packager must validate metadata and retain separate proposed assets",
+);
+assert.match(
+  pixelFontBuildScript,
+  /config\.json[\s\S]*atlasManifest[\s\S]*\{\s*\.\.\.atlasManifest,\s*\.\.\.config\s*\}/,
+  "font builds must use the central config as the authoritative metadata source",
+);
+assert.match(
+  pixelFontVersionScript,
+  /atlasManifestFile[\s\S]*atlasManifest\.fontVersion = config\.fontVersion[\s\S]*Promise\.all/,
+  "font version bumps must keep the generated atlas manifest synchronized",
 );
 assert.match(
   pixelFontBuildScript,

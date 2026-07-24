@@ -22,9 +22,13 @@ const svgDirectory = path.join(buildDirectory, "svg");
 const fontDirectory = path.join(buildDirectory, "font");
 const proposedFontDirectory = path.join(fontDirectory, "proposed");
 const fontsOnly = process.argv.includes("--fonts-only");
-const manifest = JSON.parse(
+const config = JSON.parse(
+  await fs.readFile(path.join(workspace, "config.json"), "utf8"),
+);
+const atlasManifest = JSON.parse(
   await fs.readFile(path.join(atlasDirectory, "manifest.json"), "utf8"),
 );
+const manifest = { ...atlasManifest, ...config };
 const versionManifest = JSON.parse(
   await fs.readFile(path.join(root, "versions", "manifest.json"), "utf8"),
 );

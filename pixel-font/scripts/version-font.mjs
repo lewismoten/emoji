@@ -7,7 +7,11 @@ const workspace = path.resolve(
   "..",
 );
 const configFile = path.join(workspace, "config.json");
+const atlasManifestFile = path.join(workspace, "atlases", "manifest.json");
 const config = JSON.parse(await fs.readFile(configFile, "utf8"));
+const atlasManifest = JSON.parse(
+  await fs.readFile(atlasManifestFile, "utf8"),
+);
 const requested = process.argv[2];
 
 if (!requested) {
@@ -33,7 +37,14 @@ if (["patch", "minor", "major"].includes(requested)) {
 }
 
 config.fontVersion = `${next.major}.${next.minor}.${next.patch}`;
-await fs.writeFile(configFile, `${JSON.stringify(config, null, 2)}\n`);
+atlasManifest.fontVersion = config.fontVersion;
+await Promise.all([
+  fs.writeFile(configFile, `${JSON.stringify(config, null, 2)}\n`),
+  fs.writeFile(
+    atlasManifestFile,
+    `${JSON.stringify(atlasManifest, null, 2)}\n`,
+  ),
+]);
 console.info(config.fontVersion);
 
 function parseVersion(value) {
