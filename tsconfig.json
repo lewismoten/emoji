@@ -18,5 +18,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "exclude": ["cache", "build", "src", ".type-tests"]
+  "exclude": ["cache", "build", "src", "tests/*.type.mts"]
 }

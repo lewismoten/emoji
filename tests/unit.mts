@@ -123,7 +123,7 @@ const legacyLineBudgets: Record<string, number> = {
   "pixel-font/scripts/build-assets.mjs": 940,
   "pixel-font/scripts/generate-atlases.mjs": 382,
   "pixel-font/scripts/validate-atlases.mjs": 356,
-  "scripts/test.mts": 2959,
+  "tests/unit.mts": 2959,
   "src/index.ts": 4676,
 };
 const legacyFileCountBudgets: Record<string, number> = {
@@ -135,7 +135,7 @@ const legacyFileCountBudgets: Record<string, number> = {
   "pixel-font/atlases/smileys-and-emotion": 20,
   "pixel-font/atlases/symbols": 16,
   "pixel-font/atlases/travel-and-places": 12,
-  scripts: 14,
+  scripts: 13,
   versions: 18,
 };
 const legacyDirectoryCountBudgets: Record<string, number> = {

@@ -9,7 +9,7 @@ from pathlib import Path
 from fontTools.ttLib import TTFont
 
 
-compiler_path = Path(__file__).with_name("compile-font.py")
+compiler_path = Path(__file__).parents[1] / "pixel-font" / "scripts" / "compile-font.py"
 spec = importlib.util.spec_from_file_location("pixel_font_compiler", compiler_path)
 compiler = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(compiler)
