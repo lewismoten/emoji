@@ -907,6 +907,11 @@ assert.match(
 );
 assert.match(
   demoStyles,
+  /html\[data-emoji-font="system"\]\s*\{[\s\S]*--emoji-font:[\s\S]*--installed-emoji-fonts[\s\S]*--pixel-emoji-proposed-family[\s\S]*--pixel-emoji-released-family[\s\S]*sans-serif;/,
+  "system mode must retain the pixel font as its final emoji fallback",
+);
+assert.match(
+  demoStyles,
   /\.language-picker-flag,[\s\S]*font-family: var\(--system-emoji-font\)/,
   "language flags must retain stable system-font metrics",
 );
