@@ -8,8 +8,8 @@ Emoji 17.0. The device was no longer receiving the feature-bearing operating sys
 that normally deliver new system emoji, even though it could continue receiving
 security support. A missing system-font glyph should not make a newer emoji
 unavailable, so I started drawing a backup set for Emoji 17.0 and later
-releases. Pixel Emoji now covers every entry introduced with Emoji 17.0 and
-every entry in the current Emoji 18.0 beta draft.
+releases. Pixel Emoji now covers every entry introduced with Emoji 16.0 and
+17.0, plus every entry in the current Emoji 18.0 beta draft.
 
 A font build includes only emoji whose artwork has been painted. Coverage is
 focused on new emoji that otherwise appear as missing-glyph boxes on older
@@ -22,6 +22,8 @@ font.
 
 ## Coverage status
 
+- **Emoji 16.0:** complete coverage of all 8 entries introduced by the
+  released version.
 - **Emoji 17.0:** complete coverage of all 163 entries introduced by the
   released version, including modifier and ZWJ sequences.
 - **Emoji 18.0 beta draft:** complete coverage of all 19 entries in the
@@ -50,7 +52,7 @@ draft is complete.
 | 14.0 | 1 | 112 | 0.9% |
 | 15.0 | 0 | 31 | 0% |
 | 15.1 | 0 | 118 | 0% |
-| 16.0 | 0 | 8 | 0% |
+| **16.0** | **8** | **8** | **100%** |
 | **17.0** | **163** | **163** | **100%** |
 | **18.0 beta draft** | **19** | **19** | **100%** |
 
