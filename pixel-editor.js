@@ -471,16 +471,30 @@ export function createPixelEditor({
       updatePreviewActionLabels();
       updateSkinTonePalette(currentEntry?.codePoints);
     },
+    async refreshFontBuild() {
+      try {
+        const currentKey = currentEntry?.key;
+        const manifest = await loadManifest(true);
+        if (currentKey) currentEntry = manifest.glyphs[currentKey];
+        drawFontPreview();
+        updateTransferButtons();
+      } catch (error) {
+        console.warn("Pixel font preview refresh unavailable", error);
+      }
+    },
   };
 
-  function loadManifest() {
-    manifestPromise ??= fetch("pixel-font/build/editor-manifest.json").then(
-      (response) => {
-        if (!response.ok)
-          throw new Error("Pixel editor manifest is unavailable");
-        return response.json();
-      },
-    );
+  function loadManifest(refresh = false) {
+    if (refresh) manifestPromise = undefined;
+    const suffix = refresh ? `?v=${Date.now()}` : "";
+    manifestPromise ??= fetch(
+      `pixel-font/build/editor-manifest.json${suffix}`,
+      refresh ? { cache: "no-store" } : undefined,
+    ).then((response) => {
+      if (!response.ok)
+        throw new Error("Pixel editor manifest is unavailable");
+      return response.json();
+    });
     return manifestPromise;
   }
 
@@ -705,17 +719,21 @@ export function createPixelEditor({
     const previewContext = fontPreview.getContext("2d");
     previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
     if (!currentEntry?.painted) return;
+    const family =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--pixel-emoji-released-family")
+        .trim() || '"Pixel Emoji"';
     const render = () => {
       previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
       drawCenteredEmoji(
         previewContext,
         currentEmoji,
-        `${CELL_SIZE}px "Pixel Emoji"`,
+        `${CELL_SIZE}px ${family}`,
       );
     };
     render();
     document.fonts
-      ?.load(`${CELL_SIZE}px "Pixel Emoji"`, currentEmoji)
+      ?.load(`${CELL_SIZE}px ${family}`, currentEmoji)
       .then(render);
   }
 

@@ -16,7 +16,10 @@
   --system-emoji-font:
     "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
     "Twemoji Mozilla", sans-serif;
-  --emoji-font: "Pixel Emoji Proposed", "Pixel Emoji", var(--system-emoji-font);
+  --emoji-font:
+    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"),
+    var(--pixel-emoji-released-family, "Pixel Emoji"),
+    var(--system-emoji-font);
 }
 
 html[data-emoji-font="system"] {

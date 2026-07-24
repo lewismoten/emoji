@@ -2,13 +2,90 @@ import emoji from './dist/esm/index.js';
 import { createPixelEditor } from './pixel-editor.js';
 
 if (import.meta.hot) {
-  import.meta.hot.on('pixel-font:updated', ({ revision } = {}) => {
-    const stylesheet = document.querySelector('#pixel-font-stylesheet');
-    if (!stylesheet) return;
-    const url = new URL(stylesheet.href);
-    url.searchParams.set('v', revision ?? Date.now());
-    stylesheet.href = url.href;
+  let pixelFontRevision;
+  const checkPixelFontRevision = async (refreshInitial = false) => {
+    try {
+      const response = await fetch(
+        `./pixel-font/font-build.revision?cache=${Date.now()}`,
+        { cache: 'no-store' }
+      );
+      if (!response.ok) return;
+      const revision = (await response.text()).trim();
+      if (!revision || revision === pixelFontRevision) return;
+      const initial = pixelFontRevision === undefined;
+      pixelFontRevision = revision;
+      if (!initial || refreshInitial) refreshPixelFontStylesheet(revision);
+    } catch {
+      // The revision file exists only while developing the pixel font.
+    }
+  };
+  import.meta.hot.on('pixel-font:updated', () => {
+    void checkPixelFontRevision(true);
   });
+  void checkPixelFontRevision();
+  window.setInterval(checkPixelFontRevision, 1500);
+}
+
+function refreshPixelFontStylesheet(revision) {
+  const stylesheet = document.querySelector('#pixel-font-stylesheet');
+  if (!stylesheet || stylesheet.dataset.revision === revision) return;
+  const replacement = stylesheet.cloneNode();
+  const url = new URL(stylesheet.href);
+  url.searchParams.set('v', revision);
+  replacement.href = url.href;
+  replacement.dataset.revision = revision;
+  stylesheet.removeAttribute('id');
+  stylesheet.after(replacement);
+  replacement.addEventListener(
+    'load',
+    () => {
+      stylesheet.remove();
+      pixelEditor?.refreshFontBuild();
+      void refreshExplorerPixelFont(revision);
+    },
+    { once: true }
+  );
+}
+
+async function refreshExplorerPixelFont(revision) {
+  try {
+    const response = await fetch(
+      `./pixel-font/build/manifest.json?v=${revision}`,
+      { cache: 'no-store' }
+    );
+    if (!response.ok) throw new Error('Pixel font manifest is unavailable');
+    const manifest = await response.json();
+    paintedPixelEmojiKeys = new Set(
+      (manifest.glyphs ?? []).map(glyph => glyph.key)
+    );
+    document.querySelectorAll('[data-emoji-key]').forEach(cell => {
+      applyPixelArtworkClass(
+        cell.querySelector('.emoji-glyph'),
+        cell.dataset.emojiKey
+      );
+    });
+    applyPixelArtworkClass(
+      exampleDialog?.querySelector('.emoji-preview-glyph'),
+      currentEmojiKey
+    );
+    applyPixelArtworkClass(
+      exampleDialog?.querySelector(
+        '.emoji-composition-result .emoji-composition-glyph'
+      ),
+      currentEmojiKey
+    );
+    exampleDialog
+      ?.querySelectorAll('[data-composition-emoji]')
+      .forEach(part => {
+        applyPixelArtworkClass(
+          part.querySelector('.emoji-composition-glyph'),
+          part.dataset.compositionEmoji
+        );
+      });
+    if (skinToneCheckboxes && hairCheckboxes) updateModifierPixelArtwork();
+  } catch (error) {
+    console.warn('Pixel font result refresh unavailable', error);
+  }
 }
 
 var items = [];

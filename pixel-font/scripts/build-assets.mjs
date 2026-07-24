@@ -259,7 +259,9 @@ async function writeFontStylesheet() {
     revision.update(await fs.readFile(path.join(fontDirectory, file)));
   }
   const value = revision.digest("hex").slice(0, 12);
+  const releasedFamily = `Pixel Emoji ${value}`;
   let proposedRule = "";
+  let proposedProperty = "";
   if (proposedGlyphs.length > 0) {
     const proposedRevision = createHash("sha256");
     for (const file of fontFiles) {
@@ -268,8 +270,10 @@ async function writeFontStylesheet() {
       );
     }
     const proposedValue = proposedRevision.digest("hex").slice(0, 12);
+    const proposedFamily = `Pixel Emoji Proposed ${proposedValue}`;
+    proposedProperty = `  --pixel-emoji-proposed-family: "${proposedFamily}";\n`;
     proposedRule = `@font-face {
-  font-family: "Pixel Emoji Proposed";
+  font-family: "${proposedFamily}";
   src:
     url("./proposed/pixel-emoji.woff2?v=${proposedValue}") format("woff2"),
     url("./proposed/pixel-emoji.woff?v=${proposedValue}") format("woff");
@@ -280,8 +284,12 @@ async function writeFontStylesheet() {
   }
   await fs.writeFile(
     path.join(fontDirectory, "pixel-emoji.css"),
-    `${proposedRule}@font-face {
-  font-family: "Pixel Emoji";
+    `:root {
+  --pixel-emoji-released-family: "${releasedFamily}";
+${proposedProperty}}
+
+${proposedRule}@font-face {
+  font-family: "${releasedFamily}";
   src:
     url("./pixel-emoji.woff2?v=${value}") format("woff2"),
     url("./pixel-emoji.woff?v=${value}") format("woff");

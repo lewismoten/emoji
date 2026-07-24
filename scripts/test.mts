@@ -312,6 +312,11 @@ assert.match(
 );
 assert.match(
   pixelFontBuildScript,
+  /releasedFamily = `Pixel Emoji \$\{value\}`[\s\S]*--pixel-emoji-released-family/,
+  "each rebuilt browser font must receive a unique CSS family",
+);
+assert.match(
+  pixelFontBuildScript,
   /path\.join\(workspace, "ATLASES\.md"\)[\s\S]*renderAtlasMarkdown\(manifest, paintedAtlasSheets\)/,
   "pixel-font builds must write a repository-visible Markdown atlas gallery",
 );
@@ -347,7 +352,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /--emoji-font:[\s\S]*"Pixel Emoji Proposed"[\s\S]*"Pixel Emoji"/,
+  /--emoji-font:[\s\S]*--pixel-emoji-proposed-family[\s\S]*--pixel-emoji-released-family/,
   "the demo must use proposed, released, and system emoji as a fall-forward stack",
 );
 assert.match(
@@ -367,8 +372,18 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /import\.meta\.hot[\s\S]*pixel-font:updated[\s\S]*stylesheet\.href = url\.href/,
+  /import\.meta\.hot[\s\S]*font-build\.revision[\s\S]*setInterval\(checkPixelFontRevision, 1500\)[\s\S]*function refreshPixelFontStylesheet[\s\S]*replacement\.addEventListener[\s\S]*refreshFontBuild[\s\S]*refreshExplorerPixelFont/,
   "the demo must hot-swap rebuilt pixel fonts without refreshing the page",
+);
+assert.match(
+  demoScript,
+  /async function refreshExplorerPixelFont[\s\S]*build\/manifest\.json[\s\S]*paintedPixelEmojiKeys = new Set[\s\S]*querySelectorAll\('\[data-emoji-key\]'\)[\s\S]*applyPixelArtworkClass/,
+  "rebuilt fonts must update existing Emoji Explorer result glyphs",
+);
+assert.match(
+  pixelEditorScript,
+  /async refreshFontBuild[\s\S]*loadManifest\(true\)[\s\S]*drawFontPreview[\s\S]*--pixel-emoji-released-family/,
+  "the open pixel editor must reload build metadata and use the rebuilt font family",
 );
 assert.match(
   pixelFontBuildScript,
