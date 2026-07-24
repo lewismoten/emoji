@@ -1,6 +1,16 @@
 import emoji from './dist/esm/index.js';
 import { createPixelEditor } from './pixel-editor.js';
 
+if (import.meta.hot) {
+  import.meta.hot.on('pixel-font:updated', ({ revision } = {}) => {
+    const stylesheet = document.querySelector('#pixel-font-stylesheet');
+    if (!stylesheet) return;
+    const url = new URL(stylesheet.href);
+    url.searchParams.set('v', revision ?? Date.now());
+    stylesheet.href = url.href;
+  });
+}
+
 var items = [];
 var groups = [];
 var subGroups = {};

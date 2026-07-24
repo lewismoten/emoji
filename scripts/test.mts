@@ -301,8 +301,8 @@ assert.ok(
   "service worker must precache Vite-compatible direct CSS",
 );
 assert.match(
-  demoStyles,
-  /@import url\("\.\/pixel-font\/build\/font\/pixel-emoji\.css"\);/,
+  demoHtml,
+  /href="\.\/pixel-font\/build\/font\/pixel-emoji\.css"/,
   "the demo must load the generated revisioned pixel-font stylesheet",
 );
 assert.match(
@@ -352,8 +352,28 @@ assert.match(
 );
 assert.match(
   viteConfig,
-  /server\.watcher\.add\(pixelFontStylesheet\)[\s\S]*type: 'full-reload'[\s\S]*Cache-Control', 'no-store'/,
-  "Vite must reload completed pixel-font builds without caching old binaries",
+  /ignored: \['\*\*\/pixel-font\/build\/\*\*'\][\s\S]*server\.watcher\.add\(pixelFontRevision\)[\s\S]*pixel-font:updated[\s\S]*Cache-Control', 'no-store'/,
+  "Vite must refresh completed pixel fonts without reloading the page",
+);
+assert.doesNotMatch(
+  viteConfig,
+  /type: 'full-reload'/,
+  "pixel-font builds must not discard in-memory editor permissions",
+);
+assert.match(
+  demoHtml,
+  /id="pixel-font-stylesheet"[^>]*pixel-font\/build\/font\/pixel-emoji\.css/,
+  "the pixel font must use a reloadable standalone stylesheet",
+);
+assert.match(
+  demoScript,
+  /import\.meta\.hot[\s\S]*pixel-font:updated[\s\S]*stylesheet\.href = url\.href/,
+  "the demo must hot-swap rebuilt pixel fonts without refreshing the page",
+);
+assert.match(
+  pixelFontBuildScript,
+  /font-build\.revision[\s\S]*Date\.now\(\)/,
+  "pixel-font builds must notify Vite only after generated files are ready",
 );
 for (const sheet of pixelAtlasManifest.sheets) {
   const mappingAsset = `./pixel-font/atlases/${sheet.mapping}`;
@@ -861,8 +881,8 @@ assert.match(
   "large emoji sections must defer off-screen rendering when supported",
 );
 assert.match(
-  demoStyles,
-  /@import url\("\.\/pixel-font\/build\/font\/pixel-emoji\.css"\)/,
+  demoHtml,
+  /id="pixel-font-stylesheet"/,
   "demo must load the generated pixel font",
 );
 assert.match(

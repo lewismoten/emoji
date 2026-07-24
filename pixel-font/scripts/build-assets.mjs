@@ -242,6 +242,10 @@ await fs.writeFile(
   path.join(workspace, "ATLASES.md"),
   renderAtlasMarkdown(manifest, paintedAtlasSheets),
 );
+await fs.writeFile(
+  path.join(workspace, "font-build.revision"),
+  `${Date.now()}\n`,
+);
 
 console.log(
   `Built ${glyphs.length.toLocaleString()} painted glyph${glyphs.length === 1 ? "" : "s"} ` +

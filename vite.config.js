@@ -5,16 +5,26 @@ import { renderServiceWorker } from './scripts/generate-service-worker.mjs';
 
 const localizedPagePattern = /^\/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/;
 const pixelFontStylesheet = path.resolve('pixel-font/build/font/pixel-emoji.css');
+const pixelFontRevision = path.resolve('pixel-font/font-build.revision');
 
 export default defineConfig({
+  server: {
+    watch: {
+      ignored: ['**/pixel-font/build/**']
+    }
+  },
   plugins: [
     {
       name: 'localized-demo-pages',
       configureServer(server) {
-        server.watcher.add(pixelFontStylesheet);
+        server.watcher.add(pixelFontRevision);
         server.watcher.on('all', (event, file) => {
-          if (file === pixelFontStylesheet && ['add', 'change'].includes(event)) {
-            server.ws.send({ type: 'full-reload', path: '*' });
+          if (file === pixelFontRevision && ['add', 'change'].includes(event)) {
+            server.ws.send({
+              type: 'custom',
+              event: 'pixel-font:updated',
+              data: { revision: Date.now() }
+            });
           }
         });
         server.middlewares.use(async (request, response, next) => {
