@@ -29,6 +29,15 @@ glyph_sources = [
         "key": "womenWithBunnyEarsLightSkinTone",
         "codePoints": ["1F46F", "1F3FB", "200D", "2640", "FE0F"],
     },
+    {"key": "peopleWrestling", "codePoints": ["1F93C"]},
+    {
+        "key": "peopleWrestlingLightSkinTone",
+        "codePoints": ["1F93C", "1F3FB"],
+    },
+    {
+        "key": "womenWrestlingLightSkinTone",
+        "codePoints": ["1F93C", "1F3FB", "200D", "2640", "FE0F"],
+    },
     {"key": "heart", "codePoints": ["2764", "FE0F"]},
     {
         "key": "couple",
@@ -71,13 +80,17 @@ features = compiler.ligature_features(
     single_by_codepoint,
 )
 
-assert features.startswith("feature rlig {")
+assert features.startswith("feature ccmp {")
 assert "sub emoji.man uni200D emoji.heart uni200D emoji.woman by emoji.couple;" in features
 assert "sub emoji.man uni200D emoji.woman by emoji.pair;" in features
 assert "sub emoji.man emoji.lightSkinTone by emoji.manLightSkinTone;" in features
 assert (
     "sub emoji.peopleWithBunnyEars emoji.lightSkinTone uni200D uni2640 "
     "by emoji.womenWithBunnyEarsLightSkinTone;"
+) in features
+assert (
+    "sub emoji.peopleWrestling emoji.lightSkinTone uni200D uni2640 "
+    "by emoji.womenWrestlingLightSkinTone;"
 ) in features
 assert features.index("by emoji.couple;") < features.index("by emoji.pair;")
 assert "sub uni1F1FA uni1F1F8 by emoji.usFlag;" in features
@@ -246,7 +259,7 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         record.FeatureTag
         for record in font["GSUB"].table.FeatureList.FeatureRecord
     }
-    assert feature_tags == {"rlig"}
+    assert feature_tags == {"ccmp"}
     assert font["post"].formatType == 3.0
     assert font["OS/2"].fsType == 0
     assert font["head"].fontRevision == 1.0
@@ -293,6 +306,14 @@ with tempfile.TemporaryDirectory() as temporary_directory:
     assert rules[
         (
             cmap[0x1F46F],
+            cmap[0x1F3FB],
+            cmap[0x200D],
+            cmap[0x2640],
+        )
+    ] in font.getGlyphOrder()
+    assert rules[
+        (
+            cmap[0x1F93C],
             cmap[0x1F3FB],
             cmap[0x200D],
             cmap[0x2640],

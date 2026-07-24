@@ -319,7 +319,7 @@ def ligature_features(glyph_sources, base_names, codepoint_names, single_by_code
             key=lambda item: (-len(item[0]), item[0], item[1]),
         )
     ]
-    return "feature rlig {\n" + "\n".join(rules) + "\n} rlig;\n"
+    return "feature ccmp {\n" + "\n".join(rules) + "\n} ccmp;\n"
 
 
 def is_zero_width_component(codepoint):
