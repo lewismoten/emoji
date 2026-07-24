@@ -25,7 +25,7 @@ const legacyLineBudgets: Record<string, number> = {
   "pixel-font/scripts/build-assets.mjs": 940,
   "pixel-font/scripts/generate-atlases.mjs": 382,
   "pixel-font/scripts/validate-atlases.mjs": 356,
-  "tests/unit.test.mts": 2544,
+  "tests/unit.test.mts": 2119,
   "src/index.ts": 4676,
 };
 const legacyFileCountBudgets: Record<string, number> = {
@@ -70,7 +70,8 @@ const gitFiles = () =>
     .filter(Boolean)
     .filter((file) => existsSync(path.join(root, file)));
 
-const projectFiles = gitFiles().filter(
+const maintainedFiles = gitFiles();
+const projectFiles = maintainedFiles.filter(
   (file) =>
     !generatedStructureFiles.has(file) &&
     !generatedStructurePrefixes.some((prefix) => file.startsWith(prefix)),
@@ -98,12 +99,17 @@ for (const file of projectFiles) {
 }
 
 const structureProblems: string[] = [];
-for (const file of projectFiles.filter((file) =>
+const measuredFiles = projectFiles.filter((file) =>
   /\.(?:js|jsx|mjs|cjs|ts|tsx|mts|cts|css|md|mdx)$/i.test(file),
-)) {
-  const lines = (await fs.readFile(path.join(root, file), "utf8")).split(
-    /\r?\n/,
-  ).length;
+);
+const lineCounts = await Promise.all(
+  measuredFiles.map(async (file) => ({
+    file,
+    lines: (await fs.readFile(path.join(root, file), "utf8")).split(/\r?\n/)
+      .length,
+  })),
+);
+for (const { file, lines } of lineCounts) {
   const budget =
     legacyLineBudgets[file] ?? structureLimits.linesPerScriptOrStylesheet;
   if (lines > budget) {
@@ -152,7 +158,7 @@ for (const [directory, contents] of structureDirectories) {
   }
 }
 
-const uniqueFilenameFiles = gitFiles().filter(
+const uniqueFilenameFiles = maintainedFiles.filter(
   (file) =>
     !generatedStructureFiles.has(file) &&
     !generatedFilenamePrefixes.some((prefix) => file.startsWith(prefix)),
