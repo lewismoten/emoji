@@ -1917,10 +1917,33 @@ button.emoji-composition-part:focus-visible {
   cursor: pointer;
   font-family: var(--emoji-font);
   font-size: 1.4rem;
+  animation: saved-emoji-enter 320ms var(--motion-ease) both;
+  animation-delay: calc(var(--saved-index, 0) * 24ms);
 }
 .saved-emoji-list button:hover {
   border-color: var(--accent);
   background: #15384d;
+}
+.saved-emoji-list button:active {
+  transform: scale(0.9);
+}
+@media (hover: hover) {
+  .saved-emoji-list button:hover {
+    box-shadow: 0 0.45rem 0.9rem rgb(0 0 0 / 30%);
+    transform: translateY(-0.2rem) rotate(-2deg) scale(1.08);
+  }
+  .saved-emoji-list button:nth-child(even):hover {
+    transform: translateY(-0.2rem) rotate(2deg) scale(1.08);
+  }
+}
+@keyframes saved-emoji-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(0.55rem) rotate(-4deg) scale(0.72);
+  }
+  70% {
+    transform: translateY(-0.08rem) rotate(1deg) scale(1.08);
+  }
 }
 .saved-empty {
   margin: 0;
@@ -2151,6 +2174,9 @@ kbd {
   }
   dialog[open],
   dialog[open]::backdrop {
+    animation: none;
+  }
+  .saved-emoji-list button {
     animation: none;
   }
   .loading-grid i {

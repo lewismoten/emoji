@@ -1745,11 +1745,12 @@ function recordCopiedEmoji(key) {
 function renderSavedEmojiList(container, empty, keys, source) {
   const available = keys.filter(key => emojiByKey[key] !== undefined);
   container.replaceChildren(
-    ...available.map(key => {
+    ...available.map((key, index) => {
       const button = document.createElement('button');
       button.type = 'button';
       button.dataset.savedEmoji = key;
       button.dataset.savedSource = source;
+      button.style.setProperty('--saved-index', String(Math.min(index, 12)));
       button.textContent = emojiByKey[key];
       applyPixelArtworkClass(button, key);
       button.setAttribute(

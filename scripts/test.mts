@@ -987,6 +987,16 @@ assert.match(
   "successful emoji copies must provide motion-aware visual confirmation",
 );
 assert.match(
+  demoScript,
+  /available\.map\(\(key, index\)[\s\S]*--saved-index[\s\S]*Math\.min\(index, 12\)/,
+  "saved emoji must receive a capped stagger position",
+);
+assert.match(
+  demoStyles,
+  /\.saved-emoji-list button \{[\s\S]*animation: saved-emoji-enter 320ms[\s\S]*animation-delay: calc\(var\(--saved-index, 0\) \* 24ms\)[\s\S]*@media \(hover: hover\)[\s\S]*translateY\(-0\.2rem\) rotate\(-2deg\) scale\(1\.08\)[\s\S]*@keyframes saved-emoji-enter[\s\S]*scale\(0\.72\)[\s\S]*scale\(1\.08\)/,
+  "saved emoji must enter in a friendly stagger and lift on hover",
+);
+assert.match(
   demoHtml,
   /class="show-pixel-editor developer-only"/,
   "emoji details must provide a pixel-editor mode",
