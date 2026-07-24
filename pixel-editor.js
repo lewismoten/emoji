@@ -1,6 +1,8 @@
 const CELL_SIZE = 12;
 const DISPLAY_SIZE = 384;
 const ROTATION_ALPHA_THRESHOLD = 128;
+const IS_VITE_DEVELOPMENT =
+  typeof import.meta.env !== "undefined" && import.meta.env.DEV === true;
 const TOOLS = [
   "pencil",
   "line",
@@ -486,10 +488,11 @@ export function createPixelEditor({
 
   function loadManifest(refresh = false) {
     if (refresh) manifestPromise = undefined;
-    const suffix = refresh ? `?v=${Date.now()}` : "";
+    const bypassCache = refresh || IS_VITE_DEVELOPMENT;
+    const suffix = bypassCache ? `?v=${Date.now()}` : "";
     manifestPromise ??= fetch(
       `pixel-font/build/editor-manifest.json${suffix}`,
-      refresh ? { cache: "no-store" } : undefined,
+      bypassCache ? { cache: "no-store" } : undefined,
     ).then((response) => {
       if (!response.ok)
         throw new Error("Pixel editor manifest is unavailable");

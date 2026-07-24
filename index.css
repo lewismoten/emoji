@@ -1030,6 +1030,14 @@ button.emoji-composition-part:focus-visible {
   font-variant-emoji: normal;
   line-height: 1;
 }
+.modifier-emoji.has-proposed-pixel-art,
+.emoji-glyph.has-proposed-pixel-art,
+.emoji-preview-glyph.has-proposed-pixel-art,
+.emoji-composition-glyph.has-proposed-pixel-art {
+  font-family:
+    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"),
+    var(--emoji-font);
+}
 .emoji-glyph {
   font-family: var(--system-emoji-font);
   font-variant-emoji: emoji;

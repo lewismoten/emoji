@@ -377,12 +377,17 @@ assert.match(
 );
 assert.match(
   demoScript,
+  /checkPixelFontRevision\(true\)[\s\S]*pixelFontManifestUrl = isViteDevelopment[\s\S]*manifest\.json\?v=\$\{Date\.now\(\)\}/,
+  "initial development loads must bypass stale service-worker font data",
+);
+assert.match(
+  demoScript,
   /async function refreshExplorerPixelFont[\s\S]*build\/manifest\.json[\s\S]*paintedPixelEmojiKeys = new Set[\s\S]*querySelectorAll\('\[data-emoji-key\]'\)[\s\S]*applyPixelArtworkClass/,
   "rebuilt fonts must update existing Emoji Explorer result glyphs",
 );
 assert.match(
   pixelEditorScript,
-  /async refreshFontBuild[\s\S]*loadManifest\(true\)[\s\S]*drawFontPreview[\s\S]*releaseStatus === "proposed"[\s\S]*--pixel-emoji-proposed-family[\s\S]*--pixel-emoji-released-family/,
+  /IS_VITE_DEVELOPMENT[\s\S]*async refreshFontBuild[\s\S]*loadManifest\(true\)[\s\S]*bypassCache = refresh \|\| IS_VITE_DEVELOPMENT[\s\S]*releaseStatus === "proposed"[\s\S]*--pixel-emoji-proposed-family[\s\S]*--pixel-emoji-released-family/,
   "the open pixel editor must reload build metadata and use the rebuilt font family",
 );
 assert.match(
@@ -592,8 +597,18 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /fetch\('pixel-font\/build\/manifest\.json'\)[\s\S]*paintedPixelEmojiKeys = new Set/,
+  /pixelFontManifestUrl[\s\S]*fetch\(\s*pixelFontManifestUrl[\s\S]*paintedPixelEmojiKeys = new Set/,
   "the demo must discover which emoji have painted pixel-font glyphs",
+);
+assert.match(
+  demoScript,
+  /proposedPixelEmojiKeys = new Set[\s\S]*releaseStatus === 'proposed'[\s\S]*has-proposed-pixel-art/,
+  "the demo must distinguish proposed artwork from released pixel glyphs",
+);
+assert.match(
+  demoStyles,
+  /\.emoji-glyph\.has-proposed-pixel-art,[\s\S]*--pixel-emoji-proposed-family[\s\S]*var\(--emoji-font\)/,
+  "painted draft emoji must bypass system fonts that claim unsupported code points",
 );
 assert.match(
   demoScript,

@@ -22,7 +22,7 @@ if (import.meta.hot) {
   import.meta.hot.on('pixel-font:updated', () => {
     void checkPixelFontRevision(true);
   });
-  void checkPixelFontRevision();
+  void checkPixelFontRevision(true);
   window.setInterval(checkPixelFontRevision, 1500);
 }
 
@@ -57,6 +57,11 @@ async function refreshExplorerPixelFont(revision) {
     const manifest = await response.json();
     paintedPixelEmojiKeys = new Set(
       (manifest.glyphs ?? []).map(glyph => glyph.key)
+    );
+    proposedPixelEmojiKeys = new Set(
+      (manifest.glyphs ?? [])
+        .filter(glyph => glyph.releaseStatus === 'proposed')
+        .map(glyph => glyph.key)
     );
     document.querySelectorAll('[data-emoji-key]').forEach(cell => {
       applyPixelArtworkClass(
@@ -108,6 +113,7 @@ var groupedKeys = {};
 var byId = {};
 var emojiKeyByCodePoints = new Map();
 var paintedPixelEmojiKeys = new Set();
+var proposedPixelEmojiKeys = new Set();
 
 var searchText;
 var languagePicker;
@@ -1581,16 +1587,27 @@ if ('serviceWorker' in navigator && window.isSecureContext && isViteDevelopment)
 }
 
 async function loadData() {
+  const pixelFontManifestUrl = isViteDevelopment
+    ? `pixel-font/build/manifest.json?v=${Date.now()}`
+    : 'pixel-font/build/manifest.json';
   const [data, manifest, pixelFontManifest] = await Promise.all([
     fetch('emoji.json').then(response => response.json()),
     fetch('manifest.json').then(response => response.json()).catch(() => ({ packs: [], categories: [] })),
-    fetch('pixel-font/build/manifest.json')
+    fetch(
+      pixelFontManifestUrl,
+      isViteDevelopment ? { cache: 'no-store' } : undefined
+    )
       .then(response => response.ok ? response.json() : { glyphs: [] })
       .catch(() => ({ glyphs: [] }))
   ]);
   packageManifest = manifest;
   paintedPixelEmojiKeys = new Set(
     (pixelFontManifest.glyphs ?? []).map(glyph => glyph.key)
+  );
+  proposedPixelEmojiKeys = new Set(
+    (pixelFontManifest.glyphs ?? [])
+      .filter(glyph => glyph.releaseStatus === 'proposed')
+      .map(glyph => glyph.key)
   );
 
   // Keep Unicode's group/subgroup taxonomy, then add a smaller explorer section
@@ -2986,6 +3003,10 @@ function applyPixelArtworkClass(element, emojiKey) {
   element?.classList.toggle(
     'has-pixel-art',
     Boolean(emojiKey && paintedPixelEmojiKeys.has(emojiKey))
+  );
+  element?.classList.toggle(
+    'has-proposed-pixel-art',
+    Boolean(emojiKey && proposedPixelEmojiKeys.has(emojiKey))
   );
 }
 
