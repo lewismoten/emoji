@@ -67,6 +67,16 @@ def main():
         codepoint: single_by_codepoint.get(codepoint, name)
         for codepoint, name in codepoint_names.items()
     }
+    private_use_cmap = {
+        int(glyph["privateUseCodePoint"], 16): base_names[glyph["key"]]
+        for glyph in glyph_sources
+        if glyph.get("privateUseCodePoint")
+    }
+    if len(private_use_cmap) != sum(
+        1 for glyph in glyph_sources if glyph.get("privateUseCodePoint")
+    ):
+        raise ValueError("Private-use code points must be unique")
+    cmap.update(private_use_cmap)
     silhouette_keys = {
         glyph["key"]
         for glyph in glyph_sources

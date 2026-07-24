@@ -35,6 +35,8 @@ const versionManifest = JSON.parse(
 const glyphs = [];
 const editorGlyphs = {};
 const paintedAtlasSheets = [];
+const PRIVATE_USE_START = 0xf0000;
+const PRIVATE_USE_END = 0xffffd;
 
 await fs.rm(buildDirectory, { recursive: true, force: true });
 await Promise.all([
@@ -142,6 +144,11 @@ for (const sheet of manifest.sheets) {
       paintedCount,
     });
   }
+}
+
+assignPrivateUseCodePoints(glyphs);
+for (const glyph of glyphs) {
+  editorGlyphs[glyph.key].privateUseCodePoint = glyph.privateUseCodePoint;
 }
 
 const componentAnalysis = analyzeColorMasks(glyphs);
@@ -629,6 +636,22 @@ function countBySequenceType(entries) {
         entries.filter((entry) => entry.sequenceType === type).length,
       ]),
   );
+}
+
+function assignPrivateUseCodePoints(entries) {
+  const rangeSize = PRIVATE_USE_END - PRIVATE_USE_START + 1;
+  const assigned = new Set();
+  for (const entry of [...entries].sort((left, right) =>
+    left.key.localeCompare(right.key),
+  )) {
+    const digest = createHash("sha256").update(entry.key).digest();
+    let point = PRIVATE_USE_START + (digest.readUInt32BE(0) % rangeSize);
+    while (assigned.has(point)) {
+      point = point === PRIVATE_USE_END ? PRIVATE_USE_START : point + 1;
+    }
+    assigned.add(point);
+    entry.privateUseCodePoint = point.toString(16).toUpperCase();
+  }
 }
 
 function coverageEntry(version, keys, paintedKeys) {

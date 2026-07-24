@@ -221,6 +221,7 @@ with tempfile.TemporaryDirectory() as temporary_directory:
     painted_glyphs = [
         {
             **glyph,
+            "privateUseCodePoint": f"{0xF0000 + index:X}",
             "pixels": pixels_for_variation(index % 2),
         }
         for index, glyph in enumerate(glyph_sources)
@@ -228,11 +229,13 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         {
             "key": "uniqueFallback",
             "codePoints": ["1FAFF"],
+            "privateUseCodePoint": f"{0xF0000 + len(glyph_sources):X}",
             "pixels": pixels_for_unique_fallback(),
         },
         {
             "key": "blackSilhouette",
             "codePoints": ["25CF"],
+            "privateUseCodePoint": f"{0xF0001 + len(glyph_sources):X}",
             "pixels": pixels_for_black_silhouette(),
         },
     ]
@@ -276,6 +279,8 @@ with tempfile.TemporaryDirectory() as temporary_directory:
     } == {"Version 1.0.0"}
     assert {record.platformID for record in font["name"].names} == {1, 3}
     cmap = font.getBestCmap()
+    assert cmap[0xF0000] == cmap[0x1F468]
+    assert 0xF0006 in cmap
     variation_cmap = next(
         table
         for table in font["cmap"].tables
@@ -321,6 +326,14 @@ with tempfile.TemporaryDirectory() as temporary_directory:
             cmap[0x2640],
         )
     ] in font.getGlyphOrder()
+    assert cmap[0xF0006] == rules[
+        (
+            cmap[0x1F46F],
+            cmap[0x1F3FB],
+            cmap[0x200D],
+            cmap[0x2640],
+        )
+    ]
     assert rules[
         (
             cmap[0x1F93C],

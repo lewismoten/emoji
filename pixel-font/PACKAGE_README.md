@@ -38,6 +38,12 @@ shapers from splitting a released modifier or ZWJ sequence across the released,
 proposed, and system fonts. Put the proposed family first only on text known to
 contain draft emoji.
 
+Each painted entry in `manifest.json` also has a `privateUseCodePoint`. Render
+that single code point with the matching Pixel Emoji font version when a legacy
+text shaper cannot keep the original Unicode sequence together. The alias is a
+presentation fallback only; continue to store, transmit, search, and copy the
+entry's real `emoji` value.
+
 The stable font can also be installed directly from
 `font/pixel-emoji.ttf`. WOFF and WOFF2 files are provided for websites.
 

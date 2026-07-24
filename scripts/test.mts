@@ -498,6 +498,16 @@ assert.match(
   /embedding_permissions[\s\S]*fsType=0[\s\S]*font_revision\(font_version\)/,
   "font compilation must apply installable embedding and the configured semantic version",
 );
+assert.match(
+  pixelFontBuildScript,
+  /assignPrivateUseCodePoints\(glyphs\)[\s\S]*privateUseCodePoint/,
+  "painted glyphs must receive atomic private-use rendering aliases",
+);
+assert.match(
+  pixelFontCompiler,
+  /private_use_cmap[\s\S]*cmap\.update\(private_use_cmap\)/,
+  "the font must map atomic private-use aliases to painted glyphs",
+);
 assert.equal(
   pixelFontConfig.packageName,
   "@lewismoten/pixel-emoji",
@@ -1097,6 +1107,16 @@ assert.match(
   demoScript,
   /explorerPreferences\.pixelFont !== false/,
   "pixel font must be enabled by default",
+);
+assert.match(
+  demoScript,
+  /function renderedPixelEmoji[\s\S]*privateUsePixelEmojiByKey[\s\S]*String\.fromCodePoint\(privateUsePoint\)/,
+  "the explorer must render painted sequences atomically on legacy text shapers",
+);
+assert.match(
+  pixelEditorScript,
+  /currentEntry\.privateUseCodePoint[\s\S]*String\.fromCodePoint/,
+  "the pixel editor font preview must use atomic glyph aliases",
 );
 assert.match(
   demoScript,

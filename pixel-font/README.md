@@ -167,6 +167,13 @@ Do not put the proposed face first globally. It contains component glyphs needed
 by draft sequences, and older text shapers may otherwise split a released
 modifier or ZWJ sequence across the proposed, released, and system fonts.
 
+For text engines that still split a supported sequence, every painted entry in
+the generated `build/manifest.json` includes a `privateUseCodePoint` alias. The
+alias renders the finished artwork as one font character and must be used with
+the matching font version. It is only a presentation fallback: applications
+should preserve the entry's real `emoji` value for storage, interchange, search,
+accessibility, and clipboard operations.
+
 Draft names, sequences, code points, and release plans may change. Proposed
 artwork should therefore be considered experimental. After refreshing draft
 data with `npm run unicode:proposed`, rerun `npm run pixel-font:generate`.

@@ -738,15 +738,23 @@ export function createPixelEditor({
       previewContext.fillStyle = currentArtworkIsBlackSilhouette()
         ? "#ffffff"
         : "#000000";
-      drawCenteredEmoji(
-        previewContext,
-        currentEmoji,
-        `${CELL_SIZE}px ${family}`,
-      );
+      const fontEmoji = currentEntry.privateUseCodePoint
+        ? String.fromCodePoint(
+            Number.parseInt(currentEntry.privateUseCodePoint, 16),
+          )
+        : currentEmoji;
+      drawCenteredEmoji(previewContext, fontEmoji, `${CELL_SIZE}px ${family}`);
     };
     render();
     document.fonts
-      ?.load(`${CELL_SIZE}px ${family}`, currentEmoji)
+      ?.load(
+        `${CELL_SIZE}px ${family}`,
+        currentEntry.privateUseCodePoint
+          ? String.fromCodePoint(
+              Number.parseInt(currentEntry.privateUseCodePoint, 16),
+            )
+          : currentEmoji,
+      )
       .then(render);
   }
 

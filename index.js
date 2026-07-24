@@ -116,6 +116,9 @@ var byId = {};
 var emojiKeyByCodePoints = new Map();
 var paintedPixelEmojiKeys = new Set();
 var proposedPixelEmojiKeys = new Set();
+var privateUsePixelEmojiByKey = new Map();
+var systemEmojiMeasureContext;
+var systemEmojiReferenceWidth;
 
 var searchText;
 var languagePicker;
@@ -392,6 +395,7 @@ function renderPixelFontToggle() {
   pixelFontToggle.setAttribute('aria-pressed', String(enabled));
   pixelFontToggle.setAttribute('aria-label', label);
   pixelFontToggle.title = label;
+  refreshRenderedPixelEmoji();
 }
 function togglePixelFont(event) {
   saveExplorerPreference('pixelFont', explorerPreferences.pixelFont === false);
@@ -1511,6 +1515,7 @@ function renderSavedEmojiList(container, empty, keys, source) {
       button.dataset.savedEmoji = key;
       button.dataset.savedSource = source;
       button.textContent = emojiByKey[key];
+      applyPixelArtworkClass(button, key);
       button.setAttribute(
         'aria-label',
         searchAnnotations[key]?.[0] ??
@@ -3099,8 +3104,8 @@ function asEmojiCell(key, groupId = 0, subGroupId = 0) {
   div.classList.add(`sub-group-${subGroupId}`);
   const emojiDiv = document.createElement('span');
   emojiDiv.className = 'emoji-glyph';
-  applyPixelArtworkClass(emojiDiv, key);
   emojiDiv.innerText = emojiByKey[key];
+  applyPixelArtworkClass(emojiDiv, key);
   div.appendChild(emojiDiv);
   return div;
 }
@@ -3657,8 +3662,8 @@ function createCondensedCompositionPart({ emojiKey, components }) {
   part.title = `${viewLabel}: ${linkedName} — ${codePoints}`;
   part.setAttribute('aria-label', `${viewLabel}: ${linkedName}. ${codePoints}`);
   glyph.className = 'emoji-composition-glyph';
-  applyPixelArtworkClass(glyph, emojiKey);
   glyph.textContent = emojiByKey[emojiKey];
+  applyPixelArtworkClass(glyph, emojiKey);
   code.className = 'emoji-composition-code emoji-composition-code-condensed';
   code.textContent = formatCompositionReduction(components.length, 1);
   part.append(glyph, code);
@@ -3696,8 +3701,8 @@ function createCompositionPart({ hex, point }, currentEmojiKey) {
     part.dataset.compositionPoint = String(point);
   }
   glyph.className = `emoji-composition-glyph${details.symbolic ? ' is-symbolic' : ''}`;
-  applyStandalonePixelArtwork(glyph, artworkEmojiKey, point);
   glyph.textContent = details.glyph;
+  applyStandalonePixelArtwork(glyph, artworkEmojiKey, point);
   code.className = 'emoji-composition-code emoji-composition-code-point';
   code.textContent = `U+${hex}`;
   part.append(glyph, code);
@@ -3786,8 +3791,8 @@ function createCompositionResult(value, name, emojiKey) {
   result.setAttribute('role', 'img');
   result.setAttribute('aria-label', `${resultLabel}: ${name ?? value}`);
   glyph.className = 'emoji-composition-glyph';
-  applyPixelArtworkClass(glyph, emojiKey);
   glyph.textContent = value;
+  applyPixelArtworkClass(glyph, emojiKey);
   label.className = 'emoji-composition-code';
   label.textContent = resultLabel;
   result.append(glyph, label);
@@ -3795,6 +3800,7 @@ function createCompositionResult(value, name, emojiKey) {
 }
 
 function applyPixelArtworkClass(element, emojiKey) {
+  if (!element) return;
   element?.classList.toggle(
     'has-pixel-art',
     Boolean(emojiKey && paintedPixelEmojiKeys.has(emojiKey))
@@ -3803,16 +3809,71 @@ function applyPixelArtworkClass(element, emojiKey) {
     'has-proposed-pixel-art',
     Boolean(emojiKey && proposedPixelEmojiKeys.has(emojiKey))
   );
+  if (emojiKey && paintedPixelEmojiKeys.has(emojiKey)) {
+    element.dataset.pixelEmojiKey = emojiKey;
+    element.textContent = renderedPixelEmoji(emojiKey);
+  } else {
+    delete element.dataset.pixelEmojiKey;
+  }
 }
 
 function updatePixelArtworkManifest(manifest, revision) {
   const glyphs = manifest.glyphs ?? [];
   paintedPixelEmojiKeys = new Set(glyphs.map(glyph => glyph.key));
+  privateUsePixelEmojiByKey = new Map(
+    glyphs
+      .filter(glyph => glyph.privateUseCodePoint)
+      .map(glyph => [glyph.key, Number.parseInt(glyph.privateUseCodePoint, 16)])
+  );
   proposedPixelEmojiKeys = new Set(
     glyphs
       .filter(glyph => glyph.releaseStatus === 'proposed')
       .map(glyph => glyph.key)
   );
+}
+
+function renderedPixelEmoji(emojiKey) {
+  const value = emojiByKey[emojiKey] ?? byId[emojiKey]?.emoji ?? '';
+  const privateUsePoint = privateUsePixelEmojiByKey.get(emojiKey);
+  if (!value || !privateUsePoint) return value;
+  const sequenceLength = (byId[emojiKey]?.codePoints ?? '')
+    .split(/\s+/)
+    .filter(
+      point => point && !['FE0E', 'FE0F'].includes(point.toUpperCase())
+    ).length;
+  if (sequenceLength <= 1) return value;
+  const pixelFontPreferred = explorerPreferences.pixelFont !== false;
+  if (
+    pixelFontPreferred ||
+    proposedPixelEmojiKeys.has(emojiKey) ||
+    systemEmojiAppearsSplit(value)
+  ) {
+    return String.fromCodePoint(privateUsePoint);
+  }
+  return value;
+}
+
+function systemEmojiAppearsSplit(value) {
+  systemEmojiMeasureContext ??= document
+    .createElement('canvas')
+    .getContext('2d');
+  if (!systemEmojiMeasureContext) return false;
+  systemEmojiMeasureContext.font =
+    '32px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif';
+  systemEmojiReferenceWidth ??=
+    systemEmojiMeasureContext.measureText('😀').width;
+  return (
+    systemEmojiReferenceWidth > 0 &&
+    systemEmojiMeasureContext.measureText(value).width >
+      systemEmojiReferenceWidth * 1.45
+  );
+}
+
+function refreshRenderedPixelEmoji() {
+  document.querySelectorAll('[data-pixel-emoji-key]').forEach(element => {
+    applyPixelArtworkClass(element, element.dataset.pixelEmojiKey);
+  });
+  pixelEditor?.refreshFontBuild();
 }
 
 function applyStandalonePixelArtwork(element, emojiKey) {
