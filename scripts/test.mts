@@ -870,7 +870,7 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="emoji-composition"/,
+  /class="emoji-composition developer-only"/,
   "emoji details must provide a sequence composition section",
 );
 assert.match(
@@ -880,7 +880,7 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="show-pixel-editor"/,
+  /class="show-pixel-editor developer-only"/,
   "emoji details must provide a pixel-editor mode",
 );
 assert.match(
@@ -895,7 +895,7 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /function updateEmojiComposition[\s\S]*detailsVisible[\s\S]*is-code-view[\s\S]*is-editor-view[\s\S]*section\.hidden = points\.length <= 1 \|\| !detailsVisible/,
+  /function updateEmojiComposition[\s\S]*detailsVisible[\s\S]*is-code-view[\s\S]*is-editor-view[\s\S]*section\.hidden =[\s\S]*!developerModeEnabled\(\)[\s\S]*points\.length <= 1[\s\S]*!detailsVisible/,
   "sequence composition must remain hidden while navigating in the pixel editor",
 );
 assert.match(
@@ -1095,7 +1095,7 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="rendering-diagnostic"[\s\S]*system-render-glyph[\s\S]*pixel-render-glyph/,
+  /class="rendering-diagnostic developer-only"[\s\S]*system-render-glyph[\s\S]*pixel-render-glyph/,
   "emoji details must compare system and Pixel Emoji rendering",
 );
 assert.match(
@@ -1105,7 +1105,7 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="pixel-design-invitation"[\s\S]*createPixelDesign/,
+  /class="pixel-design-invitation developer-only"[\s\S]*createPixelDesign/,
   "unfinished glyphs must invite visitors into the pixel editor",
 );
 assert.match(
@@ -1172,6 +1172,71 @@ assert.match(
   demoHtml,
   /class="basic-filter-grid"[\s\S]*class="filter-options"[\s\S]*class="advanced-filters"/,
   "category shortcuts must remain available outside Advanced filters",
+);
+assert.match(
+  demoHtml,
+  /class="developer-mode-toggle"[^>]*role="switch"/,
+  "Help and settings must provide an accessible Developer mode switch",
+);
+assert.match(
+  demoScript,
+  /function developerModeEnabled\(\)[\s\S]*developerMode === true[\s\S]*function toggleDeveloperMode[\s\S]*saveExplorerPreference\('developerMode'/,
+  "Developer mode must default off and persist only after explicit selection",
+);
+assert.match(
+  demoScript,
+  /developerModeEnabled\(\) &&[\s\S]*\['code', 'editor'\]\.includes\(params\.get\('emojiMode'\)\)/,
+  "developer-only dialog URL modes must require the local Developer mode setting",
+);
+assert.match(
+  demoStyles,
+  /html:not\(\[data-developer-mode\]\) \.developer-only\s*\{\s*display:\s*none !important;/,
+  "developer-only controls must remain hidden in the default end-user interface",
+);
+assert.match(
+  demoStyles,
+  /html:not\(\[data-developer-mode\]\) \.example-dialog\[open\][\s\S]*grid-template-columns:\s*minmax\(0, 1fr\) 12rem;[\s\S]*width:\s*min\(44rem,/,
+  "wide end-user emoji details must remain compact when developer panels are hidden",
+);
+assert.match(
+  arabicDemo,
+  /المساعدة والإعدادات[\s\S]*وضع المطور/,
+  "localized pages must translate the Developer mode setting",
+);
+assert.match(
+  demoStyles,
+  /\.filter-picker-dialog \.compact-choices\s*\{[^}]*display:\s*grid;[^}]*grid-template-columns:/,
+  "group and subgroup dialogs must use readable wrapping grids",
+);
+assert.doesNotMatch(
+  demoHtml,
+  /class="basic-filter-grid"[\s\S]*class="compact-choices compact-group-choices"[\s\S]*class="filter-options"/,
+  "the sticky filter area must not contain the complete group choice grid",
+);
+assert.match(
+  demoHtml,
+  /class="filter-picker-trigger group-picker-trigger"[\s\S]*id="group-filter-dialog"[\s\S]*class="compact-choices compact-group-choices"[\s\S]*id="subgroup-filter-dialog"/,
+  "compact group and subgroup triggers must open dedicated picker dialogs",
+);
+assert.match(
+  demoScript,
+  /function openFilterPicker[\s\S]*showModal\(\)[\s\S]*function closeFilterPicker[\s\S]*trigger\?\.focus\(\)/,
+  "category picker dialogs must focus the selected choice and return focus after selection",
+);
+assert.match(
+  demoScript,
+  /function renderFilterPickerTrigger[\s\S]*filter-picker-emoji[\s\S]*filter-picker-value[\s\S]*aria-label/,
+  "compact category triggers must expose their selected emoji and readable label",
+);
+assert.match(
+  demoStyles,
+  /\.search-controls\s*\{[^}]*max-width:\s*none;/,
+  "the primary search row must use available wide-screen space",
+);
+assert.match(
+  demoStyles,
+  /\.code\s*\{[^}]*overflow-x:\s*hidden;[^}]*white-space:\s*pre-wrap;/,
+  "developer code examples must wrap instead of introducing horizontal scrolling",
 );
 assert.match(
   demoScript,

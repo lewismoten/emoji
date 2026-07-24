@@ -35,8 +35,11 @@ front end for the data and font projects. It provides:
 - responsive dialogs and an installable offline PWA.
 
 Casual browsing keeps search and category shortcuts immediately available.
-Version, sequence, skin-tone, hair, and gender controls remain under Advanced
-filters.
+Version, skin-tone, hair, and gender controls remain under Advanced filters.
+Developer mode, available from Help and settings, adds sequence construction,
+technical metadata, rendering diagnostics, code tools, sequence browsing, and
+the pixel editor without placing those controls in the default end-user
+interface.
 
 ## Installation
 

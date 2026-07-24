@@ -131,11 +131,16 @@ var savedPicker;
 var savedDialog;
 var helpPicker;
 var helpDialog;
+var developerModeToggle;
 var emojiList;
 var matchCount;
 var toolbar;
 var groupSelector;
 var subGroupSelector;
+var groupPickerTrigger;
+var subGroupPickerTrigger;
+var groupFilterDialog;
+var subGroupFilterDialog;
 var compactGroupChoices;
 var compactSubGroupChoices;
 var sequenceTypeSelector;
@@ -408,6 +413,38 @@ function togglePixelFont(event) {
   renderPixelFontToggle();
   if (event?.detail > 0) event.currentTarget.blur();
 }
+function developerModeEnabled() {
+  return explorerPreferences.developerMode === true;
+}
+function renderDeveloperMode() {
+  const enabled = developerModeEnabled();
+  document.documentElement.toggleAttribute('data-developer-mode', enabled);
+  if (developerModeToggle) {
+    developerModeToggle.checked = enabled;
+    developerModeToggle.setAttribute('aria-checked', String(enabled));
+  }
+}
+function toggleDeveloperMode(event) {
+  const enabled = event.currentTarget.checked;
+  saveExplorerPreference('developerMode', enabled);
+  renderDeveloperMode();
+  if (!enabled && exampleDialog?.open) {
+    setEmojiDialogView('details');
+  }
+  if (!enabled && orderMode === 'sequence') {
+    orderMode = 'grouped';
+    selectedSequenceType = '';
+    orderButtons?.forEach(button => {
+      const active = button.dataset.order === orderMode;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+    if (items.length > 0) {
+      renderCategoryFilters();
+      drawList();
+    }
+  }
+}
 const applyUiTranslations = () => {
   document.querySelectorAll('[data-i18n]').forEach(element => {
     element.textContent = translate(element.dataset.i18n, element.textContent);
@@ -429,6 +466,7 @@ const applyUiTranslations = () => {
   });
   updateOnlineStatus();
   renderPixelFontToggle();
+  renderDeveloperMode();
   pixelEditor?.refreshTranslations();
 };
 const updateOnlineStatus = () => {
@@ -723,7 +761,7 @@ function ensureUtilityControls() {
     searchControls.insertAdjacentHTML(
       'beforeend',
       `
-      <button class="help-picker" type="button" aria-haspopup="dialog" aria-controls="help-dialog" data-i18n-aria-label="keyboardShortcuts" aria-label="Keyboard shortcuts">
+      <button class="help-picker" type="button" aria-haspopup="dialog" aria-controls="help-dialog" data-i18n-aria-label="helpAndSettings" aria-label="Help and settings">
         <span aria-hidden="true">?</span>
       </button>
     `
@@ -838,7 +876,7 @@ function ensureUtilityControls() {
       `
       <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
         <div class="dialog-heading">
-          <h2 id="help-title" data-i18n="keyboardShortcuts">Keyboard shortcuts</h2>
+          <h2 id="help-title" data-i18n="helpAndSettings">Help and settings</h2>
           <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
         </div>
         <section class="help-pixel" aria-labelledby="help-pixel-title">
@@ -846,12 +884,23 @@ function ensureUtilityControls() {
           <p data-i18n="pixelHelpDescription">Pixel font: On uses the original 12×12 font when artwork is available. Turn it off to prefer your system font; Pixel Emoji remains a fallback for unsupported emoji.</p>
           <a href="https://github.com/lewismoten/emoji/tree/main/pixel-font" data-i18n="pixelHelpLink">Learn about and download Pixel Emoji</a>
         </section>
+        <section class="help-settings" aria-labelledby="help-settings-title">
+          <div>
+            <h3 id="help-settings-title" data-i18n="developerMode">Developer mode</h3>
+            <p data-i18n="developerModeDescription">Show sequence construction, technical metadata, code tools, rendering diagnostics, and the pixel editor.</p>
+          </div>
+          <label class="setting-switch">
+            <input class="developer-mode-toggle" type="checkbox" role="switch">
+            <span data-i18n="developerMode">Developer mode</span>
+          </label>
+        </section>
+        <h3 class="shortcut-heading" data-i18n="keyboardShortcuts">Keyboard shortcuts</h3>
         <dl class="shortcut-list">
           <div><dt><kbd>/</kbd></dt><dd data-i18n="shortcutSearch">Focus search</dd></div>
           <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd data-i18n="shortcutNavigate">Navigate emoji</dd></div>
           <div><dt><kbd>Enter</kbd></dt><dd data-i18n="shortcutOpen">Open the selected emoji</dd></div>
           <div><dt><kbd>Esc</kbd></dt><dd data-i18n="shortcutClose">Close a dialog or clear search</dd></div>
-          <div><dt><kbd>?</kbd></dt><dd data-i18n="shortcutHelp">Open keyboard help</dd></div>
+          <div><dt><kbd>?</kbd></dt><dd data-i18n="shortcutHelp">Open Help and settings</dd></div>
         </dl>
       </dialog>
     `
@@ -959,11 +1008,25 @@ async function onLoad() {
   savedDialog = document.getElementsByClassName('saved-dialog')[0];
   helpPicker = document.getElementsByClassName('help-picker')[0];
   helpDialog = document.getElementsByClassName('help-dialog')[0];
+  developerModeToggle = document.getElementsByClassName(
+    'developer-mode-toggle'
+  )[0];
+  renderDeveloperMode();
   emojiList = document.getElementsByClassName('list')[0];
   matchCount = document.getElementsByClassName('match-count')[0];
   toolbar = document.getElementsByClassName('toolbar')[0];
   groupSelector = document.getElementsByClassName('select-group')[0];
   subGroupSelector = document.getElementsByClassName('select-subgroup')[0];
+  groupPickerTrigger = document.getElementsByClassName(
+    'group-picker-trigger'
+  )[0];
+  subGroupPickerTrigger = document.getElementsByClassName(
+    'subgroup-picker-trigger'
+  )[0];
+  groupFilterDialog = document.getElementsByClassName('group-filter-dialog')[0];
+  subGroupFilterDialog = document.getElementsByClassName(
+    'subgroup-filter-dialog'
+  )[0];
   compactGroupChoices = ensureChoiceContainer(
     groupSelector,
     'compact-group-choices',
@@ -983,6 +1046,12 @@ async function onLoad() {
   compactGroupChoices.addEventListener('keydown', onCompactChoiceKeyDown);
   compactSubGroupChoices.addEventListener('keydown', onCompactChoiceKeyDown);
   compactSequenceChoices.addEventListener('keydown', onCompactChoiceKeyDown);
+  groupPickerTrigger?.addEventListener('click', () =>
+    openFilterPicker(groupFilterDialog, compactGroupChoices)
+  );
+  subGroupPickerTrigger?.addEventListener('click', () =>
+    openFilterPicker(subGroupFilterDialog, compactSubGroupChoices)
+  );
   compactGroupLabel = ensureSelectionLabel(
     groupSelector,
     'compact-group-label',
@@ -1079,6 +1148,7 @@ async function onLoad() {
   helpPicker?.addEventListener('click', () => {
     openPanelDialog('help');
   });
+  developerModeToggle?.addEventListener('change', toggleDeveloperMode);
   languageDialog.addEventListener('close', onPanelDialogClose);
   savedDialog?.addEventListener('close', onPanelDialogClose);
   helpDialog?.addEventListener('close', onPanelDialogClose);
@@ -1329,7 +1399,7 @@ function ensureCodeDialogView() {
   const actions = exampleDialog.querySelector('.emoji-copy-actions');
   if (actions && !actions.querySelector('.show-emoji-code')) {
     const showCode = document.createElement('button');
-    showCode.className = 'show-emoji-code';
+    showCode.className = 'show-emoji-code developer-only';
     showCode.type = 'button';
     showCode.dataset.i18n = 'viewCode';
     showCode.textContent = 'View code';
@@ -1337,7 +1407,7 @@ function ensureCodeDialogView() {
   }
   if (actions && !actions.querySelector('.show-pixel-editor')) {
     const showEditor = document.createElement('button');
-    showEditor.className = 'show-pixel-editor';
+    showEditor.className = 'show-pixel-editor developer-only';
     showEditor.type = 'button';
     showEditor.dataset.i18n = 'editPixelArt';
     showEditor.textContent = 'Edit pixel art';
@@ -1399,6 +1469,16 @@ function ensureCodeDialogView() {
     copyLink.textContent = 'Copy link';
     actions.querySelector('.show-emoji-code')?.before(copyLink);
   }
+  actions
+    ?.querySelectorAll(
+      '[data-copy="key"], [data-copy="escape"], [data-copy="codePoints"], .show-emoji-code, .show-pixel-editor'
+    )
+    .forEach(element => element.classList.add('developer-only'));
+  exampleDialog
+    .querySelectorAll(
+      '.rendering-diagnostic, .pixel-design-invitation, .emoji-composition, .emoji-metadata > div:has(.emoji-sequence-type), .emoji-metadata > div:has(.emoji-status)'
+    )
+    .forEach(element => element.classList.add('developer-only'));
 }
 
 function ensureCompactCopyLabels() {
@@ -1437,7 +1517,7 @@ function ensureCompactCopyLabels() {
 }
 
 function setEmojiDialogView(requestedMode, updateUrl = true) {
-  const mode =
+  const normalizedMode =
     requestedMode === true
       ? 'code'
       : requestedMode === false
@@ -1445,6 +1525,10 @@ function setEmojiDialogView(requestedMode, updateUrl = true) {
         : ['details', 'code', 'editor'].includes(requestedMode)
           ? requestedMode
           : 'details';
+  const mode =
+    developerModeEnabled() || normalizedMode === 'details'
+      ? normalizedMode
+      : 'details';
   const showDetails = mode === 'details';
   exampleDialog.classList.toggle('is-code-view', mode === 'code');
   exampleDialog.classList.toggle('is-editor-view', mode === 'editor');
@@ -1452,7 +1536,9 @@ function setEmojiDialogView(requestedMode, updateUrl = true) {
   const composition = exampleDialog.querySelector('.emoji-composition');
   if (composition)
     composition.hidden =
-      !showDetails || composition.dataset.available !== 'true';
+      !showDetails ||
+      !developerModeEnabled() ||
+      composition.dataset.available !== 'true';
   exampleDialog.querySelector('.emoji-metadata').hidden = !showDetails;
   exampleDialog.querySelector('.emoji-copy-actions').hidden = !showDetails;
   const renderingDiagnostic = exampleDialog.querySelector(
@@ -1460,13 +1546,17 @@ function setEmojiDialogView(requestedMode, updateUrl = true) {
   );
   if (renderingDiagnostic)
     renderingDiagnostic.hidden =
-      !showDetails || renderingDiagnostic.dataset.available !== 'true';
+      !showDetails ||
+      !developerModeEnabled() ||
+      renderingDiagnostic.dataset.available !== 'true';
   const pixelInvitation = exampleDialog.querySelector(
     '.pixel-design-invitation'
   );
   if (pixelInvitation)
     pixelInvitation.hidden =
-      !showDetails || pixelInvitation.dataset.available !== 'true';
+      !showDetails ||
+      !developerModeEnabled() ||
+      pixelInvitation.dataset.available !== 'true';
   exampleDialog.querySelector('.emoji-code-view').hidden = mode !== 'code';
   const dialogModeBack = exampleDialog.querySelector('.dialog-mode-back');
   if (dialogModeBack) dialogModeBack.hidden = showDetails;
@@ -1835,9 +1925,17 @@ function getUrlState() {
   const params = new URLSearchParams(window.location.search);
   const requestedOrder = params.get('order');
   const preferredOrder = explorerPreferences.order;
-  const order = ['grouped', 'unicode', 'sequence'].includes(requestedOrder)
+  const requestedOrderValue = [
+    'grouped',
+    'unicode',
+    ...(developerModeEnabled() ? ['sequence'] : [])
+  ].includes(requestedOrder)
     ? requestedOrder
-    : ['grouped', 'unicode', 'sequence'].includes(preferredOrder)
+    : [
+          'grouped',
+          'unicode',
+          ...(developerModeEnabled() ? ['sequence'] : [])
+        ].includes(preferredOrder)
       ? preferredOrder
       : 'grouped';
   return {
@@ -1852,13 +1950,15 @@ function getUrlState() {
     skin: (params.get('skin') ?? '').split(',').filter(Boolean),
     hair: (params.get('hair') ?? '').split(',').filter(Boolean),
     gender: (params.get('gender') ?? '').split(',').filter(Boolean),
-    order,
+    order: requestedOrderValue,
     compositionMode:
       params.get('composition') === 'full' ? 'full' : 'condensed',
     emoji: params.get('emoji') ?? '',
-    emojiMode: ['code', 'editor'].includes(params.get('emojiMode'))
-      ? params.get('emojiMode')
-      : 'details',
+    emojiMode:
+      developerModeEnabled() &&
+      ['code', 'editor'].includes(params.get('emojiMode'))
+        ? params.get('emojiMode')
+        : 'details',
     panel: ['favorites', 'help', 'language'].includes(params.get('panel'))
       ? params.get('panel')
       : ''
@@ -2385,6 +2485,11 @@ async function loadOrderData() {
 }
 
 function onOrderModeChange(event) {
+  if (
+    event.currentTarget.dataset.order === 'sequence' &&
+    !developerModeEnabled()
+  )
+    return;
   orderMode = event.currentTarget.dataset.order;
   saveExplorerPreference('order', orderMode);
   orderButtons.forEach(button => {
@@ -2796,6 +2901,15 @@ function renderCompactGroupChoices() {
       label: displayGroupName(name)
     }))
   ];
+  const selectedGroupLabel = selectedGroup
+    ? displayGroupName(selectedGroup)
+    : translate('all', 'All');
+  renderFilterPickerTrigger(
+    groupPickerTrigger,
+    translate('group', 'Group'),
+    selectedGroup ? getGroupRepresentativeEmoji(selectedGroup) : '🌐',
+    selectedGroupLabel
+  );
   compactGroupChoices.replaceChildren(
     ...choices.map(({ name, emoji, label }) =>
       makeCompactChoice({
@@ -2808,7 +2922,7 @@ function renderCompactGroupChoices() {
           selectedSubGroup = '';
           renderCategoryFilters();
           drawList();
-          focusCompactChoice(compactGroupChoices, name);
+          closeFilterPicker(groupFilterDialog, groupPickerTrigger);
         }
       })
     )
@@ -2828,6 +2942,18 @@ function renderCompactSubGroupChoices() {
   const choices = availableSubGroupParents().flatMap(group =>
     availableSubGroups[group].map(name => ({ group, name }))
   );
+  const selectedSubGroupName = selectedSubGroup.split('::').slice(1).join('::');
+  const selectedSubGroupLabel = selectedSubGroupName
+    ? displayUnicodeSubGroupName(selectedSubGroupName)
+    : translate('all', 'All');
+  renderFilterPickerTrigger(
+    subGroupPickerTrigger,
+    translate('subgroup', 'Sub-group'),
+    selectedSubGroupName
+      ? getSubGroupRepresentativeEmoji(selectedGroup, selectedSubGroupName)
+      : '🌐',
+    selectedSubGroupLabel
+  );
   const allChoice = makeCompactChoice({
     value: '',
     emoji: '🌐',
@@ -2837,7 +2963,7 @@ function renderCompactSubGroupChoices() {
       selectedSubGroup = '';
       renderCategoryFilters();
       drawList();
-      focusCompactChoice(compactSubGroupChoices, '');
+      closeFilterPicker(subGroupFilterDialog, subGroupPickerTrigger);
     }
   });
   compactSubGroupChoices.replaceChildren(
@@ -2846,13 +2972,13 @@ function renderCompactSubGroupChoices() {
       makeCompactChoice({
         value: subGroupSelectionKey(group, name),
         emoji: getSubGroupRepresentativeEmoji(group, name),
-        label: `${displayGroupName(group)}: ${displayUnicodeSubGroupName(name)}`,
+        label: displayUnicodeSubGroupName(name),
         selected: selectedSubGroup === subGroupSelectionKey(group, name),
         onSelect() {
           selectedSubGroup = subGroupSelectionKey(group, name);
           renderCategoryFilters();
           drawList();
-          focusCompactChoice(compactSubGroupChoices, selectedSubGroup);
+          closeFilterPicker(subGroupFilterDialog, subGroupPickerTrigger);
         }
       })
     )
@@ -2914,6 +3040,29 @@ function makeCompactChoice({ value, emoji, label, selected, onSelect }) {
   button.replaceChildren(icon, text);
   button.addEventListener('click', onSelect);
   return button;
+}
+
+function renderFilterPickerTrigger(trigger, kind, emoji, value) {
+  if (!trigger) return;
+  trigger.querySelector('.filter-picker-emoji').textContent = emoji || '•';
+  trigger.querySelector('.filter-picker-value').textContent = value;
+  const label = `${kind}: ${value}`;
+  trigger.setAttribute('aria-label', label);
+  trigger.title = label;
+}
+
+function openFilterPicker(dialog, choices) {
+  if (!dialog || !choices) return;
+  dialog.showModal();
+  window.requestAnimationFrame(() => {
+    const selected = choices.querySelector('[aria-checked="true"]');
+    (selected ?? choices.querySelector('[role="radio"]'))?.focus();
+  });
+}
+
+function closeFilterPicker(dialog, trigger) {
+  if (dialog?.open) dialog.close();
+  trigger?.focus();
 }
 
 function focusCompactChoice(container, value) {
@@ -3618,7 +3767,8 @@ function updateEmojiComposition(item, value) {
   const detailsVisible =
     !exampleDialog.classList.contains('is-code-view') &&
     !exampleDialog.classList.contains('is-editor-view');
-  section.hidden = points.length <= 1 || !detailsVisible;
+  section.hidden =
+    !developerModeEnabled() || points.length <= 1 || !detailsVisible;
   if (points.length <= 1) {
     modeButton.hidden = true;
     return;
@@ -3925,9 +4075,11 @@ function updateRenderingDiagnostic(emojiKey, value) {
   const privateUsePoint = privateUsePixelEmojiByKey.get(emojiKey);
   section.dataset.available = String(painted && Boolean(privateUsePoint));
   invitation.dataset.available = String(!painted);
-  section.hidden = !painted || !privateUsePoint;
-  invitation.hidden = painted;
-  if (regularEditorButton) regularEditorButton.hidden = !painted;
+  const developerMode = developerModeEnabled();
+  section.hidden = !developerMode || !painted || !privateUsePoint;
+  invitation.hidden = !developerMode || painted;
+  if (regularEditorButton)
+    regularEditorButton.hidden = !developerMode || !painted;
   if (!painted || !privateUsePoint) return;
 
   const systemGlyph = section.querySelector('.system-render-glyph');

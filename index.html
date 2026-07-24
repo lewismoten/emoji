@@ -115,7 +115,7 @@
         "description": "Explore Unicode emoji with an original 12×12 Pixel Emoji font, localized search, categories, versions, modifiers, sequence details, and rendering diagnostics.",
         "url": "https://lewismoten.github.io/emoji/",
         "image": "https://lewismoten.github.io/emoji/screenshot.png",
-        "applicationCategory": "DeveloperApplication",
+        "applicationCategory": "UtilitiesApplication",
         "operatingSystem": "Any",
         "codeRepository": "https://github.com/lewismoten/emoji",
         "downloadUrl": "https://www.npmjs.com/package/@lewismoten/emoji",
@@ -240,8 +240,8 @@
               type="button"
               aria-haspopup="dialog"
               aria-controls="help-dialog"
-              data-i18n-aria-label="keyboardShortcuts"
-              aria-label="Keyboard shortcuts"
+              data-i18n-aria-label="helpAndSettings"
+              aria-label="Help and settings"
             >
               <span aria-hidden="true">?</span>
             </button>
@@ -256,11 +256,16 @@
               <select class="select-group" aria-labelledby="group-filter-label">
                 <option>Not loaded</option>
               </select>
-              <div
-                class="compact-choices compact-group-choices"
-                role="radiogroup"
-                aria-labelledby="group-filter-label"
-              ></div>
+              <button
+                class="filter-picker-trigger group-picker-trigger"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="group-filter-dialog"
+              >
+                <span class="filter-picker-kind" data-i18n="group">Group</span>
+                <span class="filter-picker-emoji" aria-hidden="true">🌐</span>
+                <span class="filter-picker-value" data-i18n="all">All</span>
+              </button>
             </div>
             <div class="filter-field">
               <div class="filter-heading">
@@ -274,11 +279,18 @@
               >
                 <option>Not loaded</option>
               </select>
-              <div
-                class="compact-choices compact-subgroup-choices"
-                role="radiogroup"
-                aria-labelledby="subgroup-filter-label"
-              ></div>
+              <button
+                class="filter-picker-trigger subgroup-picker-trigger"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="subgroup-filter-dialog"
+              >
+                <span class="filter-picker-kind" data-i18n="subgroup"
+                  >Sub-group</span
+                >
+                <span class="filter-picker-emoji" aria-hidden="true">🌐</span>
+                <span class="filter-picker-value" data-i18n="all">All</span>
+              </button>
             </div>
           </div>
 
@@ -620,7 +632,7 @@
           </button>
           <button
             type="button"
-            class="order-mode"
+            class="order-mode developer-only"
             data-order="sequence"
             aria-pressed="false"
             data-i18n="sequences"
@@ -660,6 +672,58 @@
           Use your browser’s Install app command, usually available in the
           address bar or browser menu.
         </p>
+      </dialog>
+
+      <dialog
+        class="filter-picker-dialog group-filter-dialog"
+        id="group-filter-dialog"
+        aria-labelledby="group-filter-dialog-title"
+      >
+        <div class="dialog-heading">
+          <h2 id="group-filter-dialog-title" data-i18n="chooseGroup">
+            Choose a group
+          </h2>
+          <form method="dialog">
+            <button
+              class="dialog-close"
+              data-i18n-aria-label="close"
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </form>
+        </div>
+        <div
+          class="compact-choices compact-group-choices"
+          role="radiogroup"
+          aria-labelledby="group-filter-dialog-title"
+        ></div>
+      </dialog>
+
+      <dialog
+        class="filter-picker-dialog subgroup-filter-dialog"
+        id="subgroup-filter-dialog"
+        aria-labelledby="subgroup-filter-dialog-title"
+      >
+        <div class="dialog-heading">
+          <h2 id="subgroup-filter-dialog-title" data-i18n="chooseSubgroup">
+            Choose a sub-group
+          </h2>
+          <form method="dialog">
+            <button
+              class="dialog-close"
+              data-i18n-aria-label="close"
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </form>
+        </div>
+        <div
+          class="compact-choices compact-subgroup-choices"
+          role="radiogroup"
+          aria-labelledby="subgroup-filter-dialog-title"
+        ></div>
       </dialog>
 
       <dialog class="example-dialog" aria-labelledby="example-title">
@@ -749,7 +813,7 @@
           </div>
         </div>
         <section
-          class="rendering-diagnostic"
+          class="rendering-diagnostic developer-only"
           aria-labelledby="rendering-diagnostic-title"
           hidden
         >
@@ -768,7 +832,7 @@
           </div>
           <p class="rendering-result"></p>
         </section>
-        <section class="pixel-design-invitation" hidden>
+        <section class="pixel-design-invitation developer-only" hidden>
           <strong data-i18n="pixelDesignMissing"
             >This emoji has no pixel design yet.</strong
           >
@@ -780,7 +844,7 @@
             Create the 12×12 version
           </button>
         </section>
-        <section class="emoji-composition" hidden>
+        <section class="emoji-composition developer-only" hidden>
           <div class="emoji-composition-heading">
             <h3 data-i18n="builtFrom">Built from</h3>
             <button
@@ -803,17 +867,18 @@
             <dt data-i18n="introduced">Introduced</dt>
             <dd class="emoji-version"></dd>
           </div>
-          <div>
+          <div class="developer-only">
             <dt data-i18n="sequenceType">Sequence type</dt>
             <dd class="emoji-sequence-type"></dd>
           </div>
-          <div>
+          <div class="developer-only">
             <dt data-i18n="qualification">Qualification</dt>
             <dd class="emoji-status"></dd>
           </div>
         </dl>
         <div class="emoji-copy-actions">
           <button
+            class="developer-only"
             type="button"
             data-copy="key"
             data-i18n-aria-label="copyKey"
@@ -823,6 +888,7 @@
             ><span class="copy-action-short" data-i18n="keyShort">Key</span>
           </button>
           <button
+            class="developer-only"
             type="button"
             data-copy="escape"
             data-i18n-aria-label="copyEscape"
@@ -835,6 +901,7 @@
             >
           </button>
           <button
+            class="developer-only"
             type="button"
             data-copy="codePoints"
             data-i18n-aria-label="copyCodePoints"
@@ -855,11 +922,15 @@
             <span class="copy-action-long" data-i18n="copyLink">Copy link</span
             ><span class="copy-action-short" data-i18n="linkShort">Link</span>
           </button>
-          <button class="show-emoji-code" type="button" data-i18n="viewCode">
+          <button
+            class="show-emoji-code developer-only"
+            type="button"
+            data-i18n="viewCode"
+          >
             View code
           </button>
           <button
-            class="show-pixel-editor"
+            class="show-pixel-editor developer-only"
             type="button"
             data-i18n="editPixelArt"
           >
@@ -1001,9 +1072,7 @@
 
       <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
         <div class="dialog-heading">
-          <h2 id="help-title" data-i18n="keyboardShortcuts">
-            Keyboard shortcuts
-          </h2>
+          <h2 id="help-title" data-i18n="helpAndSettings">Help and settings</h2>
           <form method="dialog">
             <button
               class="dialog-close"
@@ -1029,6 +1098,28 @@
             >Learn about and download Pixel Emoji</a
           >
         </section>
+        <section class="help-settings" aria-labelledby="help-settings-title">
+          <div>
+            <h3 id="help-settings-title" data-i18n="developerMode">
+              Developer mode
+            </h3>
+            <p data-i18n="developerModeDescription">
+              Show sequence construction, technical metadata, code tools,
+              rendering diagnostics, and the pixel editor.
+            </p>
+          </div>
+          <label class="setting-switch">
+            <input
+              class="developer-mode-toggle"
+              type="checkbox"
+              role="switch"
+            />
+            <span data-i18n="developerMode">Developer mode</span>
+          </label>
+        </section>
+        <h3 class="shortcut-heading" data-i18n="keyboardShortcuts">
+          Keyboard shortcuts
+        </h3>
         <dl class="shortcut-list">
           <div>
             <dt><kbd>/</kbd></dt>
@@ -1048,7 +1139,7 @@
           </div>
           <div>
             <dt><kbd>?</kbd></dt>
-            <dd data-i18n="shortcutHelp">Open keyboard help</dd>
+            <dd data-i18n="shortcutHelp">Open Help and settings</dd>
           </div>
         </dl>
       </dialog>

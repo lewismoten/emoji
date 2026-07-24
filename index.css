@@ -183,7 +183,7 @@ h1 {
   display: flex;
   align-items: end;
   gap: 0.45rem;
-  max-width: 44rem;
+  max-width: none;
 }
 .search-field {
   flex: 1;
@@ -310,7 +310,7 @@ h1 {
 }
 .basic-filter-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.4rem;
   margin-top: 0.45rem;
 }
@@ -321,17 +321,45 @@ h1 {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
 }
-.basic-filter-grid .compact-choices {
-  flex-wrap: nowrap;
-  padding: 0.1rem 0.15rem 0.2rem;
-  overflow-x: auto;
-  overscroll-behavior-inline: contain;
-  scrollbar-width: thin;
+.filter-picker-trigger {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  text-align: start;
 }
-.basic-filter-grid .compact-choice {
-  flex: 0 0 auto;
-  height: 2.35rem;
-  padding-block: 0.25rem;
+.filter-picker-trigger:hover {
+  border-color: var(--accent);
+}
+.filter-picker-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.filter-picker-kind {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+.filter-picker-emoji {
+  font-family: var(--emoji-font);
+  font-size: 1.1rem;
+}
+.filter-picker-value {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .advanced-filters {
   width: 100%;
@@ -686,6 +714,7 @@ fieldset input {
 .language-dialog,
 .saved-dialog,
 .help-dialog,
+.filter-picker-dialog,
 .install-dialog {
   width: min(42rem, calc(100vw - 2rem));
   max-height: calc(100dvh - 1rem);
@@ -712,8 +741,29 @@ fieldset input {
 
 .language-dialog,
 .saved-dialog,
-.help-dialog {
+.help-dialog,
+.filter-picker-dialog {
   width: min(34rem, calc(100vw - 2rem));
+}
+.filter-picker-dialog .compact-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.45rem;
+  padding: 1rem;
+}
+.filter-picker-dialog .compact-choice {
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+  height: auto;
+  justify-content: flex-start;
+  text-align: start;
+}
+.filter-picker-dialog .compact-choice-label {
+  display: inline;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
 }
 .help-pixel {
   margin: 1rem 1rem 0;
@@ -725,6 +775,51 @@ fieldset input {
 .help-pixel h3,
 .help-pixel p {
   margin: 0;
+}
+.help-settings {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0.75rem 1rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--panel-strong);
+}
+.help-settings h3,
+.help-settings p,
+.shortcut-heading {
+  margin: 0;
+}
+.help-settings p {
+  max-width: 27rem;
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.setting-switch {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.setting-switch input {
+  width: 2.5rem;
+  min-height: 1.4rem;
+  accent-color: var(--accent-strong);
+}
+.shortcut-heading {
+  padding: 1rem 1rem 0;
+  font-size: 0.9rem;
+}
+html:not([data-developer-mode]) .developer-only {
+  display: none !important;
 }
 .help-pixel p {
   margin-block: 0.4rem 0.55rem;
@@ -800,6 +895,7 @@ fieldset input {
 .language-dialog::backdrop,
 .saved-dialog::backdrop,
 .help-dialog::backdrop,
+.filter-picker-dialog::backdrop,
 .install-dialog::backdrop {
   background: rgb(0 0 0 / 60%);
   backdrop-filter: blur(3px);
@@ -1850,18 +1946,19 @@ kbd {
   direction: ltr;
   text-align: left;
   unicode-bidi: isolate;
-  overflow-x: auto;
+  overflow-x: hidden;
   padding: 0.6rem 0.75rem;
   background: var(--code);
   color: #dce9ee;
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: clamp(0.73rem, 2vw, 0.88rem);
   line-height: 1.55;
-  white-space: nowrap;
+  white-space: pre-wrap;
 }
 
 .code .line {
   display: block;
+  overflow-wrap: anywhere;
 }
 .code .line[hidden] {
   display: none;
@@ -1952,6 +2049,14 @@ kbd {
       "heading heading"
       "editor editor";
     width: min(70rem, calc(100vw - 2rem));
+  }
+  html:not([data-developer-mode]) .example-dialog[open] {
+    grid-template-areas:
+      "heading heading"
+      "details metadata"
+      "actions metadata";
+    grid-template-columns: minmax(0, 1fr) 12rem;
+    width: min(44rem, calc(100vw - 2rem));
   }
 }
 
@@ -2368,7 +2473,13 @@ kbd {
     padding: 0.7rem;
   }
   .pixel-hero p:not(.eyebrow) {
-    font-size: 0.75rem;
+    display: none;
+  }
+  .pixel-hero .eyebrow {
+    display: none;
+  }
+  .pixel-hero h2 {
+    font-size: 0.9rem;
   }
   .pixel-comparison > span {
     min-width: 2.8rem;
@@ -2671,8 +2782,16 @@ kbd {
   }
   .subgroup .emoji > div,
   .sequence-type > .emoji > div {
-    width: 2.7rem;
-    height: 2.7rem;
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+  .help-settings {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+  .setting-switch {
+    min-height: 2.75rem;
   }
 }
 
@@ -2779,9 +2898,16 @@ kbd {
     gap: 0.2rem;
   }
   .compact-choice {
-    width: 2.35rem;
-    height: 2.35rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    min-height: 2.75rem;
     padding: 0.15rem;
+  }
+  .filter-picker-dialog .compact-choice {
+    width: 100%;
+  }
+  .filter-picker-dialog .compact-choices {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .compact-choice-emoji {
     font-size: 1.1rem;
