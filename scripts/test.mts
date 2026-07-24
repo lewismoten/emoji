@@ -338,6 +338,16 @@ assert.match(
 );
 assert.match(
   demoScript,
+  /const trigger = event\?\.currentTarget[\s\S]*await promptEvent\.userChoice[\s\S]*trigger\?\.blur\?\.\(\)/,
+  "the install action must retain its trigger before awaiting the browser prompt",
+);
+assert.match(
+  demoScript,
+  /ResizeObserver\(\(\[entry\]\)[\s\S]*borderBoxSize[\s\S]*contentRect\.height[\s\S]*requestAnimationFrame/,
+  "toolbar sizing must avoid a synchronous startup layout measurement",
+);
+assert.match(
+  demoScript,
   /beforeinstallprompt[\s\S]*event\.preventDefault\(\)[\s\S]*deferredInstallPrompt = event/,
   "the browser PWA installation prompt must be retained for the footer action",
 );

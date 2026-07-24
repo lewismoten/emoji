@@ -457,6 +457,8 @@ function updateWebAppManifest(locale = '') {
   if (manifest.getAttribute('href') !== href) manifest.setAttribute('href', href);
 }
 async function installApp(event) {
+  const trigger = event?.currentTarget;
+  const releaseTriggerFocus = event?.detail > 0;
   const promptEvent = deferredInstallPrompt;
   if (!promptEvent) {
     const ios = isIosDevice();
@@ -479,7 +481,7 @@ async function installApp(event) {
   } catch (error) {
     console.warn('App installation unavailable', error);
   }
-  if (event?.detail > 0) event.currentTarget.blur();
+  if (releaseTriggerFocus) trigger?.blur?.();
 }
 window.addEventListener('beforeinstallprompt', event => {
   event.preventDefault();
@@ -1170,17 +1172,24 @@ async function onLoad() {
   renderVersionModeToggle();
   renderPixelFontToggle();
 
-  const setToolbarHeight = () => {
+  const setToolbarHeight = height => {
     document.documentElement.style.setProperty(
       '--toolbar-height',
-      `${toolbar.offsetHeight}px`
+      `${height}px`
     );
   };
-  setToolbarHeight();
   if (window.ResizeObserver) {
-    new window.ResizeObserver(setToolbarHeight).observe(toolbar);
+    new window.ResizeObserver(([entry]) => {
+      const borderBox = Array.isArray(entry.borderBoxSize)
+        ? entry.borderBoxSize[0]
+        : entry.borderBoxSize;
+      setToolbarHeight(borderBox?.blockSize ?? entry.contentRect.height);
+    }).observe(toolbar);
   } else {
-    window.addEventListener('resize', setToolbarHeight);
+    const measureToolbar = () =>
+      window.requestAnimationFrame(() => setToolbarHeight(toolbar.offsetHeight));
+    measureToolbar();
+    window.addEventListener('resize', measureToolbar);
   }
 
   if (typeof explorerPreferences.filtersOpen === 'boolean') {
