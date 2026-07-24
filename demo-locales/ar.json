@@ -24,6 +24,7 @@
   "pixel": "بكسل",
   "pixelFontOn": "خط البكسل: مفعّل",
   "pixelFontOff": "خط البكسل: متوقف",
+  "emojiStyle": "نمط الرموز التعبيرية",
   "pixelHelpTitle": "Pixel Emoji في المستكشف",
   "pixelHelpDescription": "عند تفعيل خط البكسل يُستخدم الخط الأصلي 12×12 حيث يتوفر تصميم. أوقفه لتفضيل خط النظام؛ وسيبقى Pixel Emoji خطًا احتياطيًا للرموز غير المدعومة.",
   "pixelHelpLink": "تعرّف على Pixel Emoji ونزّله",

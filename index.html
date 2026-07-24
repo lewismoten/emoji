@@ -193,18 +193,6 @@
               />
             </label>
             <button
-              class="pixel-font-toggle"
-              type="button"
-              aria-pressed="true"
-              data-i18n-aria-label="pixelEmoji"
-              aria-label="Pixel emoji"
-            >
-              <span class="pixel-font-toggle-icon" aria-hidden="true">▦</span>
-              <span class="pixel-font-toggle-label" data-i18n="pixelFontOn"
-                >Pixel font: On</span
-              >
-            </button>
-            <button
               class="saved-picker"
               type="button"
               aria-haspopup="dialog"
@@ -516,15 +504,30 @@
             rendering with Pixel Emoji by Lewis Moten.
           </p>
         </div>
-        <div class="pixel-comparison">
-          <span
-            ><small data-i18n="system">System</small
-            ><b class="pixel-comparison-system" aria-hidden="true">😀</b></span
+        <div
+          class="pixel-comparison"
+          role="group"
+          data-i18n-aria-label="emojiStyle"
+          aria-label="Emoji style"
+        >
+          <button
+            class="emoji-font-choice emoji-font-choice-system"
+            type="button"
+            data-emoji-font="system"
+            aria-pressed="false"
           >
-          <span
-            ><small data-i18n="pixel">Pixel</small
-            ><b class="pixel-comparison-custom" aria-hidden="true">😀</b></span
+            <small data-i18n="system">System</small
+            ><b class="pixel-comparison-system" aria-hidden="true">😀</b>
+          </button>
+          <button
+            class="emoji-font-choice emoji-font-choice-pixel"
+            type="button"
+            data-emoji-font="pixel"
+            aria-pressed="true"
           >
+            <small data-i18n="pixel">Pixel</small
+            ><b class="pixel-comparison-custom" aria-hidden="true">😀</b>
+          </button>
         </div>
       </section>
 

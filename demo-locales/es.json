@@ -24,6 +24,7 @@
   "pixel": "Píxel",
   "pixelFontOn": "Fuente de píxeles: activada",
   "pixelFontOff": "Fuente de píxeles: desactivada",
+  "emojiStyle": "Estilo de emoji",
   "pixelHelpTitle": "Pixel Emoji en el Explorador",
   "pixelHelpDescription": "Fuente de píxeles: activada usa la fuente original de 12×12 cuando hay un diseño disponible. Desactívala para dar preferencia a la fuente del sistema; Pixel Emoji seguirá siendo la alternativa para los emojis no compatibles.",
   "pixelHelpLink": "Más información y descarga de Pixel Emoji",

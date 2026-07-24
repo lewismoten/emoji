@@ -904,8 +904,8 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="pixel-font-toggle"/,
-  "demo must provide a pixel-font toggle",
+  /class="pixel-comparison"[\s\S]*role="group"[\s\S]*class="emoji-font-choice emoji-font-choice-system"[\s\S]*class="emoji-font-choice emoji-font-choice-pixel"/,
+  "demo must provide system and pixel font choices in the comparison",
 );
 assert.match(
   demoHtml,
@@ -916,6 +916,11 @@ assert.match(
   demoScript,
   /function ensureUtilityControls/,
   "new utility controls must be restored when cached HTML is stale",
+);
+assert.match(
+  demoScript,
+  /fontComparison[\s\S]*!fontComparison\.querySelector\('\.emoji-font-choice'\)[\s\S]*preview\.replaceWith\(button\)[\s\S]*querySelector\('\.pixel-font-toggle'\)\?\.remove\(\)/,
+  "cached HTML must upgrade its font previews and remove the legacy search toggle",
 );
 assert.match(
   demoScript,
@@ -1164,8 +1169,8 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="pixel-font-toggle"/,
-  "demo must provide a pixel-font toggle",
+  /class="pixel-comparison"[\s\S]*data-emoji-font="system"[\s\S]*data-emoji-font="pixel"/,
+  "demo must let the comparison previews select the preferred emoji font",
 );
 assert.match(
   demoHtml,
@@ -1269,13 +1274,13 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /function togglePixelFont/,
-  "pixel-font preference must be toggleable",
+  /function selectEmojiFont[\s\S]*dataset\.emojiFont[\s\S]*saveExplorerPreference\('pixelFont'/,
+  "the system and pixel previews must control the font preference",
 );
 assert.match(
-  demoScript,
-  /pixelFontOn[\s\S]*pixelFontOff[\s\S]*pixel-font-toggle-label/,
-  "the pixel-font toggle must expose its current state",
+  demoHtml,
+  /class="pixel-comparison"[\s\S]*class="emoji-font-choice emoji-font-choice-system"[\s\S]*data-emoji-font="system"[\s\S]*class="emoji-font-choice emoji-font-choice-pixel"[\s\S]*data-emoji-font="pixel"/,
+  "the font comparison must expose system and pixel choices",
 );
 assert.match(
   demoScript,

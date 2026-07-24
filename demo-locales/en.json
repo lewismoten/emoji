@@ -24,6 +24,7 @@
   "pixel": "Pixel",
   "pixelFontOn": "Pixel font: On",
   "pixelFontOff": "Pixel font: Off",
+  "emojiStyle": "Emoji style",
   "pixelHelpTitle": "Pixel Emoji in the Explorer",
   "pixelHelpDescription": "Pixel font: On uses the original 12×12 font when artwork is available. Turn it off to prefer your system font; Pixel Emoji remains a fallback for unsupported emoji.",
   "pixelHelpLink": "Learn about and download Pixel Emoji",

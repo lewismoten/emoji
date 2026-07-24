@@ -205,7 +205,6 @@ h1 {
   font: inherit;
   text-align: left;
 }
-.pixel-font-toggle,
 .saved-picker,
 .help-picker {
   display: inline-flex;
@@ -220,28 +219,6 @@ h1 {
   color: var(--text);
   cursor: pointer;
   font: inherit;
-}
-.pixel-font-toggle {
-  gap: 0.3rem;
-  max-width: 8rem;
-  padding: 0 0.55rem;
-}
-.pixel-font-toggle-icon {
-  font:
-    700 1.15rem/1 ui-monospace,
-    monospace;
-}
-.pixel-font-toggle-label {
-  overflow: hidden;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.pixel-font-toggle[aria-pressed="true"] {
-  border-color: var(--accent);
-  background: #15384d;
-  color: var(--accent);
 }
 .saved-picker {
   max-width: 7rem;
@@ -265,7 +242,6 @@ h1 {
   border-color: var(--accent);
 }
 .language-picker:focus-visible,
-.pixel-font-toggle:focus-visible,
 .saved-picker:focus-visible,
 .help-picker:focus-visible {
   outline: 2px solid var(--accent);
@@ -2163,7 +2139,7 @@ kbd {
   flex: none;
   gap: 0.45rem;
 }
-.pixel-comparison > span {
+.pixel-comparison > button {
   display: grid;
   min-width: 4rem;
   place-items: center;
@@ -2172,6 +2148,24 @@ kbd {
   border: 1px solid var(--border);
   border-radius: 0.55rem;
   background: var(--panel-strong);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+}
+.pixel-comparison > button:hover {
+  border-color: var(--accent);
+}
+.pixel-comparison > button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: #15384d;
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.pixel-comparison > button[aria-pressed="true"] small {
+  color: var(--accent);
+}
+.pixel-comparison > button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 .pixel-comparison small {
   color: var(--muted);
@@ -2506,7 +2500,7 @@ kbd {
   .pixel-hero h2 {
     font-size: 0.9rem;
   }
-  .pixel-comparison > span {
+  .pixel-comparison > button {
     min-width: 2.8rem;
     padding: 0.25rem;
   }
@@ -2600,14 +2594,6 @@ kbd {
     flex-basis: 2.25rem;
     width: 2.25rem;
     padding: 0;
-  }
-  .pixel-font-toggle {
-    flex-basis: 2.25rem;
-    width: 2.25rem;
-    padding: 0;
-  }
-  .pixel-font-toggle-label {
-    display: none;
   }
   .saved-picker-label {
     display: none;

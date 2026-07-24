@@ -124,7 +124,7 @@ var searchText;
 var languagePicker;
 var languagePickerFlag;
 var languagePickerLabel;
-var pixelFontToggle;
+var emojiFontChoices = [];
 var languageDialog;
 var languageList;
 var savedPicker;
@@ -395,21 +395,16 @@ function renderPixelFontToggle() {
   } else {
     document.documentElement.dataset.emojiFont = 'system';
   }
-  if (!pixelFontToggle) return;
-  const label = enabled
-    ? translate('pixelFontOn', 'Pixel font: On')
-    : translate('pixelFontOff', 'Pixel font: Off');
-  pixelFontToggle.setAttribute('aria-pressed', String(enabled));
-  pixelFontToggle.setAttribute('aria-label', label);
-  pixelFontToggle.title = label;
-  const visibleLabel = pixelFontToggle.querySelector(
-    '.pixel-font-toggle-label'
-  );
-  if (visibleLabel) visibleLabel.textContent = label;
+  emojiFontChoices.forEach(choice => {
+    const selected =
+      choice.dataset.emojiFont === (enabled ? 'pixel' : 'system');
+    choice.setAttribute('aria-pressed', String(selected));
+  });
   refreshRenderedPixelEmoji();
 }
-function togglePixelFont(event) {
-  saveExplorerPreference('pixelFont', explorerPreferences.pixelFont === false);
+function selectEmojiFont(event) {
+  const usePixelFont = event.currentTarget.dataset.emojiFont === 'pixel';
+  saveExplorerPreference('pixelFont', usePixelFont);
   renderPixelFontToggle();
   if (event?.detail > 0) event.currentTarget.blur();
 }
@@ -734,6 +729,25 @@ function getSportType(name) {
 
 function ensureUtilityControls() {
   const searchControls = document.querySelector('.search-controls');
+  const fontComparison = document.querySelector('.pixel-comparison');
+  if (
+    fontComparison &&
+    !fontComparison.querySelector('.emoji-font-choice')
+  ) {
+    fontComparison.setAttribute('role', 'group');
+    fontComparison.dataset.i18nAriaLabel = 'emojiStyle';
+    fontComparison.setAttribute('aria-label', 'Emoji style');
+    Array.from(fontComparison.children).forEach((preview, index) => {
+      const button = document.createElement('button');
+      const font = index === 0 ? 'system' : 'pixel';
+      button.className = `emoji-font-choice emoji-font-choice-${font}`;
+      button.type = 'button';
+      button.dataset.emojiFont = font;
+      button.setAttribute('aria-pressed', String(font === 'pixel'));
+      button.append(...preview.childNodes);
+      preview.replaceWith(button);
+    });
+  }
   if (searchControls && !searchControls.querySelector('.saved-picker')) {
     searchControls.insertAdjacentHTML(
       'beforeend',
@@ -745,18 +759,7 @@ function ensureUtilityControls() {
     `
     );
   }
-  if (searchControls && !searchControls.querySelector('.pixel-font-toggle')) {
-    const searchField = searchControls.querySelector('.search-field');
-    searchField?.insertAdjacentHTML(
-      'afterend',
-      `
-      <button class="pixel-font-toggle" type="button" aria-pressed="true" data-i18n-aria-label="pixelEmoji" aria-label="Pixel emoji">
-        <span class="pixel-font-toggle-icon" aria-hidden="true">▦</span>
-        <span class="pixel-font-toggle-label" data-i18n="pixelEmoji">Pixel emoji</span>
-      </button>
-    `
-    );
-  }
+  searchControls?.querySelector('.pixel-font-toggle')?.remove();
   if (searchControls && !searchControls.querySelector('.help-picker')) {
     searchControls.insertAdjacentHTML(
       'beforeend',
@@ -1025,7 +1028,9 @@ async function onLoad() {
       `language-picker-accessible-label ${languagePickerLabel.id}`
     );
   }
-  pixelFontToggle = document.getElementsByClassName('pixel-font-toggle')[0];
+  emojiFontChoices = Array.from(
+    document.getElementsByClassName('emoji-font-choice')
+  );
   languageDialog = document.getElementsByClassName('language-dialog')[0];
   languageList = document.getElementsByClassName('language-list')[0];
   savedPicker = document.getElementsByClassName('saved-picker')[0];
@@ -1159,7 +1164,9 @@ async function onLoad() {
     if (helpDialog?.open) closePanelDialog(helpDialog);
     openPanelDialog('language');
   });
-  pixelFontToggle?.addEventListener('click', togglePixelFont);
+  emojiFontChoices.forEach(choice =>
+    choice.addEventListener('click', selectEmojiFont)
+  );
   installAppButton?.addEventListener('click', installApp);
   installedDisplayQueries.forEach(query =>
     query.addEventListener?.('change', renderInstallAppButton)
