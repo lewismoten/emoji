@@ -1223,8 +1223,8 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /function renderEmojiList[\s\S]*listRenderGeneration[\s\S]*aria-busy[\s\S]*performance\.now\(\) \+ 6[\s\S]*Math\.min\(keyIndex \+ 120[\s\S]*requestAnimationFrame\(renderChunk\)[\s\S]*function finishEmojiListRender/,
-  "large emoji result sets must render in cancellable, paint-friendly chunks",
+  /function renderEmojiList[\s\S]*renderRoot = document\.createDocumentFragment\(\)[\s\S]*aria-busy[\s\S]*performance\.now\(\) \+ 6[\s\S]*Math\.min\(keyIndex \+ 120[\s\S]*renderRoot\.appendChild\(fragment\)[\s\S]*yieldForListRender\(\)\.then\(renderChunk\)[\s\S]*function finishEmojiListRender[\s\S]*replaceChildren\(renderRoot\)/,
+  "large emoji result sets must build in cancellable, off-document chunks before one stable swap",
 );
 assert.match(
   demoScript,
@@ -1235,6 +1235,11 @@ assert.match(
   demoStyles,
   /\.list\s*\{[^}]*contain:\s*layout style;/,
   "emoji result layout must be contained from the surrounding interface",
+);
+assert.match(
+  demoStyles,
+  /\.pixel-hero\s*\{[^}]*min-height:\s*7rem;[^}]*contain:\s*layout style;[\s\S]*\.pixel-comparison > button\s*\{[^}]*width:\s*4rem;/,
+  "the Pixel Emoji introduction must reserve stable dimensions while fonts load",
 );
 assert.match(
   demoHtml,

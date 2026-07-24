@@ -1371,9 +1371,10 @@ async function onLoad() {
 
 function finishExplorerLoading() {
   document.documentElement.classList.remove('app-loading');
-  emojiList.classList.remove('is-loading');
-  if (emojiList.dataset.rendering !== 'true')
+  if (emojiList.dataset.rendering !== 'true') {
+    emojiList.classList.remove('is-loading');
     emojiList.setAttribute('aria-busy', 'false');
+  }
   matchCount.closest('.result-count').hidden = false;
   const comparison = document.querySelector('.pixel-comparison-custom');
   if (comparison) {
@@ -3547,12 +3548,16 @@ function drawList() {
 
 function renderEmojiList(keys, shouldRestoreEmojiFocus) {
   const generation = ++listRenderGeneration;
+  const renderRoot = document.createDocumentFragment();
   emojiList.dataset.rendering = 'true';
   emojiList.setAttribute('aria-busy', 'true');
-  emojiList.replaceChildren();
   if (keys.length === 0) {
-    emojiList.appendChild(createEmptyResults());
-    finishEmojiListRender(generation, shouldRestoreEmojiFocus);
+    renderRoot.appendChild(createEmptyResults());
+    finishEmojiListRender(
+      generation,
+      shouldRestoreEmojiFocus,
+      renderRoot
+    );
     return;
   }
 
@@ -3595,20 +3600,35 @@ function renderEmojiList(keys, shouldRestoreEmojiFocus) {
       while (appendedItemCount < state.items.length) {
         fragment.appendChild(state.items[appendedItemCount++]);
       }
-      emojiList.appendChild(fragment);
+      renderRoot.appendChild(fragment);
     }
 
     if (keyIndex < keys.length) {
-      window.requestAnimationFrame(renderChunk);
+      yieldForListRender().then(renderChunk);
     } else {
-      finishEmojiListRender(generation, shouldRestoreEmojiFocus);
+      finishEmojiListRender(
+        generation,
+        shouldRestoreEmojiFocus,
+        renderRoot
+      );
     }
   };
   renderChunk();
 }
 
-function finishEmojiListRender(generation, shouldRestoreEmojiFocus) {
+function yieldForListRender() {
+  if (window.scheduler?.yield) return window.scheduler.yield();
+  return new Promise(resolve => window.setTimeout(resolve, 0));
+}
+
+function finishEmojiListRender(
+  generation,
+  shouldRestoreEmojiFocus,
+  renderRoot
+) {
   if (generation !== listRenderGeneration) return;
+  emojiList.replaceChildren(renderRoot);
+  emojiList.classList.remove('is-loading');
   delete emojiList.dataset.rendering;
   emojiList.setAttribute('aria-busy', 'false');
   if (shouldRestoreEmojiFocus) {
