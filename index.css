@@ -2066,19 +2066,27 @@ kbd {
 }
 
 .list {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   padding: 1rem;
   contain: layout style;
 }
 .list.is-loading {
-  min-height: 18rem;
+  min-height: max(
+    18rem,
+    calc(100svh - var(--toolbar-height) - 9rem)
+  );
 }
 .loading-state {
-  width: min(34rem, 100%);
-  margin: 2rem auto;
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  width: min(34rem, calc(100% - 2rem));
+  margin: 0;
   color: var(--muted);
   text-align: center;
+  transform: translateX(-50%);
 }
 .loading-state strong {
   color: var(--text);

@@ -1222,6 +1222,16 @@ assert.match(
   "initial loading must reserve toolbar geometry without positioning About beneath the skeleton",
 );
 assert.match(
+  demoHtml,
+  /initialPreferences\.developerMode === true[\s\S]*URLSearchParams\(location\.search\)[\s\S]*data-developer-mode/,
+  "Developer mode must be applied before the fixed browse footer is painted",
+);
+assert.match(
+  demoStyles,
+  /\.list\s*\{[^}]*position:\s*relative;[\s\S]*\.list\.is-loading\s*\{[^}]*100svh[\s\S]*\.loading-state\s*\{[^}]*position:\s*absolute;/,
+  "the initial loading presentation must overlay a viewport-sized result region",
+);
+assert.match(
   demoStyles,
   /\.install-app\s*\{[^}]*position:\s*absolute;[^}]*right:\s*calc\(100% \+ 0\.45rem\);/,
   "the deferred PWA install action must not resize the fixed browse footer",
