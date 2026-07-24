@@ -8,15 +8,30 @@ Emoji 17.0. The device was no longer receiving the feature-bearing operating sys
 that normally deliver new system emoji, even though it could continue receiving
 security support. A missing system-font glyph should not make a newer emoji
 unavailable, so I started drawing a backup set for Emoji 17.0 and later
-releases.
+releases. Pixel Emoji now covers every entry introduced with Emoji 17.0 and
+every entry in the current Emoji 18.0 beta draft.
 
-The project is a work in progress. A font build includes only emoji whose
-artwork has been painted; the long-term goal is fallback coverage for new emoji
-that otherwise appear as missing-glyph boxes on older systems.
+A font build includes only emoji whose artwork has been painted. Coverage is
+focused on new emoji that otherwise appear as missing-glyph boxes on older
+systems; it is not intended to replace the operating system's complete emoji
+font.
 
 [Open Emoji Explorer](https://lewismoten.github.io/emoji/) ·
 [Browse the font preview](https://lewismoten.github.io/emoji/pixel-font/build/) ·
 [Browse the PNG atlas gallery](ATLASES.md)
+
+## Coverage status
+
+- **Emoji 17.0:** complete coverage of all 163 entries introduced by the
+  released version, including modifier and ZWJ sequences.
+- **Emoji 18.0 beta draft:** complete coverage of all 19 entries in the
+  currently tracked draft, including every proposed skin-tone sequence.
+
+“Complete” refers to the entries introduced by those versions, not all emoji
+from earlier Unicode versions. Emoji 18.0 names, sequences, code points, and
+membership can still change before release. Refreshing the proposal data may
+therefore introduce new artwork requirements even though the currently tracked
+draft is complete.
 
 ## Design
 
@@ -76,6 +91,10 @@ These JSON mappings are generated immediately, but an atlas PNG is not created
 until artwork is saved from Emoji Explorer. Proposed cells are marked with
 their Unicode version, proposal stage, and expected release date so they remain
 distinguishable from released characters.
+
+The currently tracked Emoji 18.0 proposal is at the **beta** stage, with an
+expected release in September 2026. All 19 entries in that draft have painted
+artwork and are included in the proposed font build.
 
 Painted proposed glyphs never enter the stable **Pixel Emoji** font. The build
 places them in the separate **Pixel Emoji Proposed** font under
