@@ -860,7 +860,7 @@ h2 {
 }
 .emoji-preview {
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr) 1.5rem;
   flex: 0 0 8rem;
   width: 8rem;
   height: 8rem;
@@ -880,6 +880,10 @@ h2 {
   font-size: 5.4rem;
   font-variant-emoji: emoji;
   line-height: 1.1;
+}
+.emoji-preview-glyph.has-pixel-art {
+  font-size: 6rem;
+  line-height: 1;
 }
 .emoji-preview-copy-label {
   align-self: stretch;
@@ -984,6 +988,10 @@ h2 {
   background: transparent;
   color: var(--text);
 }
+.emoji-composition-part:has(.emoji-composition-glyph.has-pixel-art) {
+  min-width: 3rem;
+  padding-inline: 0.25rem;
+}
 button.emoji-composition-part {
   border-color: var(--border);
   background: var(--panel-strong);
@@ -1012,6 +1020,9 @@ button.emoji-composition-part:focus-visible {
 .emoji-preview-glyph.has-pixel-art,
 .emoji-composition-glyph.has-pixel-art {
   font-family: var(--emoji-font);
+  font-size: 1.5rem;
+  font-variant-emoji: normal;
+  line-height: 1;
 }
 .emoji-glyph {
   font-family: var(--system-emoji-font);
@@ -2222,6 +2233,9 @@ kbd {
   }
   .emoji-preview-glyph {
     font-size: 3.8rem;
+  }
+  .emoji-preview-glyph.has-pixel-art {
+    font-size: 3.75rem;
   }
   .pixel-editor-view {
     padding: 0.6rem;

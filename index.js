@@ -2709,10 +2709,16 @@ function updateEmojiComposition(item, value) {
   }
 
   const condensedParts = condenseCompositionPoints(points, item.key);
-  const canCondense = condensedParts.some(part => part.emojiKey);
+  const hasHiddenSequenceControl = points.some(component =>
+    isCondensedSequenceControl(component.point)
+  );
+  const canCondense =
+    hasHiddenSequenceControl || condensedParts.some(part => part.emojiKey);
   const displayedParts = compositionMode === 'full' || !canCondense
     ? points.map(component => ({ component }))
-    : condensedParts;
+    : condensedParts.filter(part =>
+        !part.component || !isCondensedSequenceControl(part.component.point)
+      );
   const modeLabel = compositionMode === 'full'
     ? translate('showCondensedSequence', 'Show condensed sequence')
     : translate('showFullSequence', 'Show full sequence');
@@ -2785,6 +2791,7 @@ function createCondensedCompositionPart({ emojiKey, components }) {
 
 function createCompositionPart({ hex, point }, currentEmojiKey) {
   const linkedEmojiKey = findCompositionEmojiKey(hex, currentEmojiKey);
+  const artworkEmojiKey = findCompositionArtworkKey(hex);
   const part = document.createElement(linkedEmojiKey ? 'button' : 'span');
   const glyph = document.createElement('span');
   const code = document.createElement('span');
@@ -2805,7 +2812,7 @@ function createCompositionPart({ hex, point }, currentEmojiKey) {
     part.setAttribute('aria-label', `${details.label}, U+${hex}`);
   }
   glyph.className = `emoji-composition-glyph${details.symbolic ? ' is-symbolic' : ''}`;
-  applyPixelArtworkClass(glyph, linkedEmojiKey);
+  applyPixelArtworkClass(glyph, artworkEmojiKey);
   glyph.textContent = details.glyph;
   code.className = 'emoji-composition-code emoji-composition-code-point';
   code.textContent = `U+${hex}`;
@@ -2840,11 +2847,20 @@ function formatCompositionReduction(from, to) {
 }
 
 function findCompositionEmojiKey(hex, excludedEmojiKey) {
+  const emojiKey = findCompositionArtworkKey(hex);
+  return emojiKey && emojiKey !== excludedEmojiKey ? emojiKey : undefined;
+}
+
+function findCompositionArtworkKey(hex) {
   const normalized = normalizeCodePoints(hex);
   return [
     emojiKeyByCodePoints.get(normalized),
     emojiKeyByCodePoints.get(`${normalized} FE0F`)
-  ].find(emojiKey => emojiKey && emojiKey !== excludedEmojiKey);
+  ].find(Boolean);
+}
+
+function isCondensedSequenceControl(point) {
+  return point === 0x200D || point === 0xFE0E || point === 0xFE0F;
 }
 
 function createCompositionOperator(operator) {

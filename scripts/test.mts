@@ -632,7 +632,7 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /emojiKeyByCodePoints\.get\(`\$\{normalized\} FE0F`\)[\s\S]*emojiKey !== excludedEmojiKey/,
+  /function findCompositionEmojiKey[\s\S]*findCompositionArtworkKey\(hex\)[\s\S]*emojiKey !== excludedEmojiKey[\s\S]*function findCompositionArtworkKey[\s\S]*emojiKeyByCodePoints\.get\(`\$\{normalized\} FE0F`\)/,
   "composition links must recognize presentation variants without linking to the current emoji",
 );
 assert.match(
@@ -717,6 +717,21 @@ assert.match(
 );
 assert.match(
   demoScript,
+  /hasHiddenSequenceControl[\s\S]*isCondensedSequenceControl[\s\S]*condensedParts\.filter/,
+  "condensed compositions must hide structural controls until full mode",
+);
+assert.match(
+  demoScript,
+  /return point === 0x200D \|\| point === 0xFE0E \|\| point === 0xFE0F/,
+  "condensed compositions must hide ZWJ and presentation selectors",
+);
+assert.match(
+  demoScript,
+  /function createCompositionPart[\s\S]*findCompositionArtworkKey\(hex\)[\s\S]*applyPixelArtworkClass\(glyph, artworkEmojiKey\)/,
+  "composition components must use painted artwork even when linking to themselves is suppressed",
+);
+assert.match(
+  demoScript,
   /for \(let end = points\.length; end >= start \+ 2; end--\)/,
   "composition folding must prefer the longest known sequence",
 );
@@ -754,6 +769,11 @@ assert.match(
   demoStyles,
   /\.emoji-composition-code-point\s*\{\s*direction:\s*ltr;\s*unicode-bidi:\s*isolate;\s*\}/,
   "individual code-point labels must retain LTR ordering",
+);
+assert.match(
+  demoStyles,
+  /\.emoji-preview-glyph\.has-pixel-art\s*\{[\s\S]*font-size:\s*6rem;[\s\S]*\.emoji-composition-glyph\.has-pixel-art[\s\S]*font-size:\s*1\.5rem;[\s\S]*@media \(max-width: 560px\)[\s\S]*\.emoji-preview-glyph\.has-pixel-art[\s\S]*font-size:\s*3\.75rem;/,
+  "dialog pixel-font previews must use crisp multiples of the 12-pixel grid",
 );
 assert.doesNotMatch(
   demoHtml,
