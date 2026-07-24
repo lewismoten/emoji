@@ -429,9 +429,16 @@ const updateOnlineStatus = () => {
   );
   offlineStatus.hidden = navigator.onLine;
 };
+const installedDisplayQueries = [
+  'standalone',
+  'fullscreen',
+  'minimal-ui',
+  'window-controls-overlay'
+].map(mode => window.matchMedia(`(display-mode: ${mode})`));
 const isInstalledApp = () =>
-  window.matchMedia('(display-mode: standalone)').matches ||
-  window.navigator.standalone === true;
+  installedDisplayQueries.some(query => query.matches) ||
+  window.navigator.standalone === true ||
+  document.referrer.startsWith('android-app://');
 const isIosDevice = () => {
   const navigator = window.navigator;
   const userAgent = navigator.userAgent;
@@ -490,7 +497,7 @@ window.addEventListener('beforeinstallprompt', event => {
 });
 window.addEventListener('appinstalled', () => {
   deferredInstallPrompt = undefined;
-  renderInstallAppButton();
+  if (installAppButton) installAppButton.hidden = true;
 });
 async function loadUiTranslations(locale, rtl = false) {
   const baseLocale = locale.split('-')[0];
@@ -1044,6 +1051,9 @@ async function onLoad() {
   });
   pixelFontToggle?.addEventListener('click', togglePixelFont);
   installAppButton?.addEventListener('click', installApp);
+  installedDisplayQueries.forEach(query =>
+    query.addEventListener?.('change', renderInstallAppButton)
+  );
   installDialog
     ?.querySelector('.install-dialog-close')
     ?.addEventListener('click', () => installDialog.close());

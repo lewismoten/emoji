@@ -358,6 +358,21 @@ assert.match(
 );
 assert.match(
   demoScript,
+  /installedDisplayQueries[\s\S]*standalone[\s\S]*fullscreen[\s\S]*minimal-ui[\s\S]*window-controls-overlay[\s\S]*android-app:\/\//,
+  "installed app detection must cover supported standalone display contexts",
+);
+assert.match(
+  demoScript,
+  /appinstalled[\s\S]*installAppButton\.hidden = true[\s\S]*installedDisplayQueries\.forEach[\s\S]*change/,
+  "installation and display-mode changes must immediately hide the install action",
+);
+assert.match(
+  demoStyles,
+  /@media \(display-mode: standalone\)[\s\S]*window-controls-overlay[\s\S]*\.install-app\s*\{\s*display:\s*none !important;/,
+  "installed display modes must hide the install action independently of JavaScript",
+);
+assert.match(
+  demoScript,
   /isIosDevice[\s\S]*Add to Home Screen|isIosDevice[\s\S]*installDialog\?\.showModal/,
   "iOS users must receive manual Add to Home Screen instructions",
 );

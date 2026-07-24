@@ -1920,6 +1920,11 @@ kbd {
 .install-app[hidden] {
   display: none;
 }
+@media (display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui), (display-mode: window-controls-overlay) {
+  .install-app {
+    display: none !important;
+  }
+}
 .install-app:hover {
   border-color: var(--accent-strong);
   color: var(--text);
