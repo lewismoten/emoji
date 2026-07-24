@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
+import { spawn } from "node:child_process";
 
 const root = path.resolve(process.argv[2] ?? "build/tests");
 const testPattern = /\.test\.(?:js|mjs|cjs)$/;
@@ -26,29 +26,49 @@ if (tests.length === 0) {
   console.error(`No compiled Node tests found under ${root}`);
   process.exitCode = 1;
 } else {
-  const failures = [];
-  for (const test of tests) {
-    const result = spawnSync(process.execPath, ["--test", test], {
-      encoding: "utf8",
+  const childEnvironment = { ...process.env };
+  if (process.stdout.isTTY && childEnvironment.NO_COLOR === undefined) {
+    childEnvironment.FORCE_COLOR ??= "1";
+  }
+  const result = await new Promise((resolve, reject) => {
+    const child = spawn(
+      process.execPath,
+      ["--test", "--test-concurrency=1", ...tests],
+      {
+        env: childEnvironment,
+        stdio: ["inherit", "pipe", "pipe"],
+      },
+    );
+    let output = "";
+    child.stdout.on("data", (chunk) => {
+      output += chunk;
+      process.stdout.write(chunk);
     });
-    if (result.error) throw result.error;
-    process.stdout.write(result.stdout);
-    process.stderr.write(result.stderr);
-    if (result.status !== 0) {
-      failures.push(`${test} failed`);
-      continue;
-    }
-    const durationMatches = [
-      ...result.stdout.matchAll(/^ℹ duration_ms ([\d.]+)$/gm),
-    ];
-    const duration = Number(durationMatches.at(-1)?.[1]);
-    if (!Number.isFinite(duration)) {
-      failures.push(`${test} did not report its duration`);
-    } else if (duration > maximumDurationMs) {
-      failures.push(
+    child.stderr.on("data", (chunk) => process.stderr.write(chunk));
+    child.on("error", reject);
+    child.on("close", (status) => resolve({ output, status }));
+  });
+  const plainOutput = result.output.replace(
+    // eslint-disable-next-line no-control-regex
+    /\u001B\[[0-?]*[ -/]*[@-~]/g,
+    "",
+  );
+  const durations = [...plainOutput.matchAll(/^✔ (.+) \(([\d.]+)ms\)$/gm)].map(
+    (match) => ({ test: match[1], duration: Number(match[2]) }),
+  );
+  const failures = durations
+    .filter(({ duration }) => duration > maximumDurationMs)
+    .map(
+      ({ test, duration }) =>
         `${test} took ${duration.toFixed(1)} ms; limit is ${maximumDurationMs} ms`,
-      );
-    }
+    );
+  if (result.status !== 0) {
+    process.exitCode = result.status ?? 1;
+  } else if (durations.length !== tests.length) {
+    console.error(
+      `Expected timing data for ${tests.length} tests; received ${durations.length}`,
+    );
+    process.exitCode = 1;
   }
   if (failures.length > 0) {
     console.error(`Node test limits failed:\n${failures.join("\n")}`);
