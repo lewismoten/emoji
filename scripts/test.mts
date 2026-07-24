@@ -1208,6 +1208,11 @@ assert.match(
   "rapid search input must coalesce expensive emoji-list renders",
 );
 assert.match(
+  demoScript,
+  /function renderEmojiList[\s\S]*listRenderGeneration[\s\S]*aria-busy[\s\S]*performance\.now\(\) \+ 6[\s\S]*Math\.min\(keyIndex \+ 120[\s\S]*requestAnimationFrame\(renderChunk\)[\s\S]*function finishEmojiListRender/,
+  "large emoji result sets must render in cancellable, paint-friendly chunks",
+);
+assert.match(
   demoHtml,
   /class="basic-filter-grid"[\s\S]*class="filter-options"[\s\S]*class="advanced-filters"/,
   "category shortcuts must remain available outside Advanced filters",

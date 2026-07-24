@@ -191,6 +191,7 @@ var dialogNavigationKeys = [];
 var currentEmojiKey = '';
 var focusedEmojiKey = '';
 var searchDrawTimer;
+var listRenderGeneration = 0;
 var copyStatus;
 var pixelEditor;
 var urlStateReady = false;
@@ -1371,7 +1372,8 @@ async function onLoad() {
 function finishExplorerLoading() {
   document.documentElement.classList.remove('app-loading');
   emojiList.classList.remove('is-loading');
-  emojiList.setAttribute('aria-busy', 'false');
+  if (emojiList.dataset.rendering !== 'true')
+    emojiList.setAttribute('aria-busy', 'false');
   matchCount.closest('.result-count').hidden = false;
   const comparison = document.querySelector('.pixel-comparison-custom');
   if (comparison) {
@@ -3439,6 +3441,7 @@ function getEmojiGenders(item) {
 }
 
 function scheduleSearchDraw() {
+  listRenderGeneration++;
   if (searchDrawTimer !== undefined) window.clearTimeout(searchDrawTimer);
   searchDrawTimer = window.setTimeout(() => {
     searchDrawTimer = undefined;
@@ -3525,8 +3528,26 @@ function drawList() {
   if (!focusedEmojiKey || !keys.includes(focusedEmojiKey)) {
     focusedEmojiKey = keys[0] ?? '';
   }
+  renderEmojiList(keys, shouldRestoreEmojiFocus);
+  matchCount.innerText = formatUiNumber(keys.length);
+  updateActiveFilterSummary();
+  updateDialogNavigation();
+  syncUrlState();
+}
+
+function renderEmojiList(keys, shouldRestoreEmojiFocus) {
+  const generation = ++listRenderGeneration;
+  emojiList.dataset.rendering = 'true';
+  emojiList.setAttribute('aria-busy', 'true');
+  emojiList.replaceChildren();
+  if (keys.length === 0) {
+    emojiList.appendChild(createEmptyResults());
+    finishEmojiListRender(generation, shouldRestoreEmojiFocus);
+    return;
+  }
+
   const renderer = orderMode === 'sequence' ? asSequenceItem : asItem;
-  const initialState =
+  const state =
     orderMode === 'sequence'
       ? { items: [], type: '', emoji: null }
       : {
@@ -3538,18 +3559,44 @@ function drawList() {
           unicodeSubGroupElement: null,
           subGroupElement: null
         };
-  if (keys.length === 0) {
-    emojiList.replaceChildren(createEmptyResults());
-  } else {
-    emojiList.replaceChildren(...keys.reduce(renderer, initialState).items);
-  }
+  let keyIndex = 0;
+  let appendedItemCount = 0;
+  const renderChunk = () => {
+    if (generation !== listRenderGeneration) return;
+    const deadline = performance.now() + 6;
+    const chunkEnd = Math.min(keyIndex + 120, keys.length);
+    do {
+      renderer(state, keys[keyIndex++]);
+    } while (
+      keyIndex < chunkEnd &&
+      keyIndex < keys.length &&
+      performance.now() < deadline
+    );
+
+    if (appendedItemCount < state.items.length) {
+      const fragment = document.createDocumentFragment();
+      while (appendedItemCount < state.items.length) {
+        fragment.appendChild(state.items[appendedItemCount++]);
+      }
+      emojiList.appendChild(fragment);
+    }
+
+    if (keyIndex < keys.length) {
+      window.requestAnimationFrame(renderChunk);
+    } else {
+      finishEmojiListRender(generation, shouldRestoreEmojiFocus);
+    }
+  };
+  renderChunk();
+}
+
+function finishEmojiListRender(generation, shouldRestoreEmojiFocus) {
+  if (generation !== listRenderGeneration) return;
+  delete emojiList.dataset.rendering;
+  emojiList.setAttribute('aria-busy', 'false');
   if (shouldRestoreEmojiFocus) {
     document.getElementById(focusedEmojiKey)?.focus();
   }
-  matchCount.innerText = formatUiNumber(keys.length);
-  updateActiveFilterSummary();
-  updateDialogNavigation();
-  syncUrlState();
 }
 
 function onEmojiFocus(event) {
