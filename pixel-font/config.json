@@ -1,7 +1,7 @@
 {
   "schemaVersion": 3,
   "familyName": "Pixel Emoji",
-  "fontVersion": "1.0.0",
+  "fontVersion": "1.0.1",
   "packageName": "@lewismoten/pixel-emoji",
   "setName": "Pixel Emoji Base Set",
   "author": "Lewis Moten",
@@ -18,6 +18,17 @@
   "outerPadding": 8,
   "headerHeight": 40,
   "footerHeight": 24,
-  "skinToneModifierCodePoints": ["1F3FB", "1F3FC", "1F3FD", "1F3FE", "1F3FF"],
-  "hairModifierCodePoints": ["1F9B0", "1F9B1", "1F9B2", "1F9B3"]
+  "skinToneModifierCodePoints": [
+    "1F3FB",
+    "1F3FC",
+    "1F3FD",
+    "1F3FE",
+    "1F3FF"
+  ],
+  "hairModifierCodePoints": [
+    "1F9B0",
+    "1F9B1",
+    "1F9B2",
+    "1F9B3"
+  ]
 }
