@@ -1203,6 +1203,11 @@ assert.match(
   "loading controls and result counts must be revealed only after data is ready",
 );
 assert.match(
+  demoScript,
+  /searchText\.addEventListener\('input', scheduleSearchDraw\)[\s\S]*function scheduleSearchDraw\(\)[\s\S]*clearTimeout\(searchDrawTimer\)[\s\S]*setTimeout\([\s\S]*drawList\(\)[\s\S]*200\)/,
+  "rapid search input must coalesce expensive emoji-list renders",
+);
+assert.match(
   demoHtml,
   /class="basic-filter-grid"[\s\S]*class="filter-options"[\s\S]*class="advanced-filters"/,
   "category shortcuts must remain available outside Advanced filters",

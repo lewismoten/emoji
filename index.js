@@ -190,6 +190,7 @@ var displayedKeys = [];
 var dialogNavigationKeys = [];
 var currentEmojiKey = '';
 var focusedEmojiKey = '';
+var searchDrawTimer;
 var copyStatus;
 var pixelEditor;
 var urlStateReady = false;
@@ -1175,7 +1176,7 @@ async function onLoad() {
     checkbox.addEventListener('change', onGenderChange)
   );
 
-  searchText.addEventListener('input', drawList);
+  searchText.addEventListener('input', scheduleSearchDraw);
   languagePicker.addEventListener('click', () => {
     if (helpDialog?.open) closePanelDialog(helpDialog);
     openPanelDialog('language');
@@ -3437,7 +3438,19 @@ function getEmojiGenders(item) {
   return genders;
 }
 
+function scheduleSearchDraw() {
+  if (searchDrawTimer !== undefined) window.clearTimeout(searchDrawTimer);
+  searchDrawTimer = window.setTimeout(() => {
+    searchDrawTimer = undefined;
+    drawList();
+  }, 200);
+}
+
 function drawList() {
+  if (searchDrawTimer !== undefined) {
+    window.clearTimeout(searchDrawTimer);
+    searchDrawTimer = undefined;
+  }
   const focusedCell = document.activeElement?.closest?.('[data-emoji-key]');
   const shouldRestoreEmojiFocus = Boolean(focusedCell);
   var keywords = searchText.value
