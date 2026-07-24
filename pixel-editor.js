@@ -219,7 +219,7 @@ export function createPixelEditor({
               </button>
             </div>
             <div class="pixel-editor-layer-actions">
-              <button class="pixel-editor-bake-layer" type="button" data-i18n="bakeLayer">Bake</button>
+              <button class="pixel-editor-bake-layer" type="button" data-i18n="bakeLayer">Merge</button>
               <button class="pixel-editor-cancel-layer" type="button" data-i18n="cancelLayer">Cancel</button>
             </div>
           </div>
@@ -1390,7 +1390,7 @@ export function createPixelEditor({
     draw();
     status.textContent = translate(
       "layerBaked",
-      "Floating layer baked into the artwork.",
+      "Floating layer merged into the artwork.",
     );
   }
 
