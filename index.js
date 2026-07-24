@@ -4321,8 +4321,12 @@ function updateRenderingDiagnostic(emojiKey, value) {
   section.dataset.available = String(painted && Boolean(privateUsePoint));
   invitation.dataset.available = String(!painted);
   const developerMode = developerModeEnabled();
-  section.hidden = !developerMode || !painted || !privateUsePoint;
-  invitation.hidden = !developerMode || painted;
+  const detailsVisible =
+    !exampleDialog.classList.contains('is-code-view') &&
+    !exampleDialog.classList.contains('is-editor-view');
+  section.hidden =
+    !detailsVisible || !developerMode || !painted || !privateUsePoint;
+  invitation.hidden = !detailsVisible || !developerMode || painted;
   if (regularEditorButton)
     regularEditorButton.hidden = !developerMode || !painted;
   if (!painted || !privateUsePoint) return;

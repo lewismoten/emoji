@@ -1018,6 +1018,11 @@ assert.match(
 );
 assert.match(
   demoScript,
+  /function updateRenderingDiagnostic[\s\S]*detailsVisible[\s\S]*is-code-view[\s\S]*is-editor-view[\s\S]*section\.hidden =[\s\S]*!detailsVisible[\s\S]*invitation\.hidden = !detailsVisible/,
+  "rendering diagnostics and pixel invitations must remain details-only during editor navigation",
+);
+assert.match(
+  demoScript,
   /fontComparison[\s\S]*!fontComparison\.querySelector\('\.emoji-font-choice'\)[\s\S]*preview\.replaceWith\(button\)[\s\S]*querySelector\('\.pixel-font-toggle'\)\?\.remove\(\)/,
   "cached HTML must upgrade its font previews and remove the legacy search toggle",
 );
