@@ -7,7 +7,7 @@ const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const assetVersion = packageJson.version;
 const coreAssets = [
   "./",
-  `./index.css?direct&v=${assetVersion}`,
+  `./explorer/index.css?v=${assetVersion}`,
   `./index.js?v=${assetVersion}`,
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",

@@ -486,8 +486,10 @@ for (const asset of [
   );
 }
 assert.ok(
-  serviceWorker.includes(`"./index.css?direct&v=${packageJson.version}"`),
-  "service worker must precache versioned Vite-compatible direct CSS",
+  serviceWorker.includes(
+    `"./explorer/index.css?v=${packageJson.version}"`,
+  ),
+  "service worker must precache the versioned core stylesheet",
 );
 assert.ok(
   serviceWorker.includes(`"./index.js?v=${packageJson.version}"`) &&
@@ -498,6 +500,13 @@ assert.match(
   generatedDemoScript,
   new RegExp(`import\\('./pixel-editor\\.js\\?v=${packageJson.version}'\\)`),
   "the deployed entry module must lazy-load a versioned pixel editor",
+);
+assert.match(
+  generatedDemoScript,
+  new RegExp(
+    `'\\./explorer/pixel-editor\\.css\\?v=${packageJson.version}'`,
+  ),
+  "the deployed entry module must lazy-load versioned pixel-editor styles",
 );
 assert.match(
   demoScript,
@@ -526,7 +535,7 @@ assert.match(
 );
 assert.match(
   serviceWorker,
-  /NETWORK_FIRST_PATHS[\s\S]*index\.js[\s\S]*pixel-editor\.js[\s\S]*index\.css[\s\S]*NETWORK_FIRST_PATHS\.has\(url\.pathname\)/,
+  /NETWORK_FIRST_PATHS[\s\S]*index\.js[\s\S]*pixel-editor\.js[\s\S]*explorer\/index\.css[\s\S]*explorer\/pixel-editor\.css[\s\S]*NETWORK_FIRST_PATHS\.has\(url\.pathname\)/,
   "application shell assets must refresh from the network before using an offline cache",
 );
 assert.match(

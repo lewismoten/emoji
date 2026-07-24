@@ -173,6 +173,7 @@ var proposedVersionManifests = [];
 var versionKeys = new Map();
 var versionDataPromise;
 var packageManifest = { packs: [], categories: [] };
+var packageManifestPromise;
 var orderMode = 'grouped';
 var compositionMode = 'condensed';
 var searchAnnotations = {};
@@ -1655,6 +1656,17 @@ function setEmojiDialogView(requestedMode, updateUrl = true) {
       !developerModeEnabled() ||
       pixelInvitation.dataset.available !== 'true';
   exampleDialog.querySelector('.emoji-code-view').hidden = mode !== 'code';
+  if (mode === 'code' && currentEmojiKey) {
+    updateEmojiImportExamples(byId[currentEmojiKey] ?? {});
+    void loadPackageManifest().then(() => {
+      if (
+        currentEmojiKey &&
+        exampleDialog.classList.contains('is-code-view')
+      ) {
+        updateEmojiImportExamples(byId[currentEmojiKey] ?? {});
+      }
+    });
+  }
   const dialogModeBack = exampleDialog.querySelector('.dialog-mode-back');
   if (dialogModeBack) dialogModeBack.hidden = showDetails;
   if (!showDetails && emojiParent) {
@@ -1684,8 +1696,14 @@ function setEmojiDialogView(requestedMode, updateUrl = true) {
 
 async function ensurePixelEditor() {
   if (pixelEditor) return pixelEditor;
-  pixelEditorPromise ??= import('./pixel-editor.js')
-    .then(({ createPixelEditor }) => {
+  pixelEditorPromise ??= Promise.all([
+    loadStylesheet(
+      './explorer/pixel-editor.css',
+      'pixel-editor-stylesheet'
+    ),
+    import('./pixel-editor.js')
+  ])
+    .then(([, { createPixelEditor }]) => {
       pixelEditor = createPixelEditor({
         dialog: exampleDialog,
         translate,
@@ -1711,6 +1729,30 @@ async function ensurePixelEditor() {
       ?.focus({ preventScroll: true });
   }
   return editor;
+}
+
+function loadStylesheet(href, id) {
+  const existing = document.getElementById(id);
+  if (existing) {
+    return existing.sheet
+      ? Promise.resolve(existing)
+      : new Promise(resolve =>
+          existing.addEventListener('load', () => resolve(existing), {
+            once: true
+          })
+        );
+  }
+  const stylesheet = document.createElement('link');
+  stylesheet.id = id;
+  stylesheet.rel = 'stylesheet';
+  stylesheet.href = href;
+  document.head.appendChild(stylesheet);
+  return new Promise((resolve, reject) => {
+    stylesheet.addEventListener('load', () => resolve(stylesheet), {
+      once: true
+    });
+    stylesheet.addEventListener('error', reject, { once: true });
+  });
 }
 
 function focusInitialEmojiDialogAction() {
@@ -2349,11 +2391,8 @@ async function loadData() {
   const pixelFontManifestUrl = isViteDevelopment
     ? `pixel-font/build/explorer-manifest.json?v=${Date.now()}`
     : 'pixel-font/build/explorer-manifest.json';
-  const [catalog, manifest, pixelFontManifest] = await Promise.all([
+  const [catalog, pixelFontManifest] = await Promise.all([
     fetch('explorer/catalog.json').then(response => response.json()),
-    fetch('manifest.json')
-      .then(response => response.json())
-      .catch(() => ({ packs: [], categories: [] })),
     fetch(
       pixelFontManifestUrl,
       isViteDevelopment ? { cache: 'no-store' } : undefined
@@ -2366,7 +2405,6 @@ async function loadData() {
       catalog.fields.map((field, index) => [field, row[index]])
     )
   );
-  packageManifest = manifest;
   updatePixelArtworkManifest(pixelFontManifest);
   emojiByKey = Object.fromEntries(data.map(item => [item.key, item.emoji]));
   allIds = Object.keys(emojiByKey);
@@ -3935,6 +3973,24 @@ function updateEmojiImportExamples(item) {
   }
 }
 
+async function loadPackageManifest() {
+  if (packageManifestPromise) return packageManifestPromise;
+  packageManifestPromise = fetch('manifest.json')
+    .then(response => {
+      if (!response.ok) throw new Error('Package manifest is unavailable');
+      return response.json();
+    })
+    .then(manifest => {
+      packageManifest = manifest;
+      return manifest;
+    })
+    .catch(error => {
+      console.warn('Package import options unavailable', error);
+      return packageManifest;
+    });
+  return packageManifestPromise;
+}
+
 function announceStatus(message) {
   if (!copyStatus) return;
   copyStatus.textContent = '';
@@ -4515,7 +4571,6 @@ function showEmoji(id, openDialog = true, navigationKeys) {
   applyPixelArtworkClass(previewGlyph, id);
   const item = byId[id] ?? {};
   updateRenderingDiagnostic(id, value);
-  updateEmojiImportExamples(item);
   updateEmojiComposition(item, value);
   const codePoints = (item.codePoints ?? '')
     .split(/\s+/)

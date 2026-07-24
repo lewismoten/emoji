@@ -17,6 +17,10 @@ const deployedScript = fs
   .replace(
     "import('./pixel-editor.js')",
     `import('./pixel-editor.js?v=${assetVersion}')`
+  )
+  .replace(
+    "'./explorer/pixel-editor.css'",
+    `'./explorer/pixel-editor.css?v=${assetVersion}'`
   );
 const english = JSON.parse(fs.readFileSync('demo-locales/en.json', 'utf8'));
 const webAppManifest = JSON.parse(
@@ -105,8 +109,8 @@ export const renderPage = (
       `<script defer src="./index.js?v=${assetVersion}" type="module"></script>`
     )
     .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/index\.css\?direct")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./index.css?direct&v=${assetVersion}">`
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/index\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/index.css?v=${assetVersion}">`
     )
     .replace(
       /<meta\b(?=[^>]*\bname="application-name")[^>]*\/?>/,
@@ -186,7 +190,9 @@ export const renderPage = (
     .replace(
       /(<span\b(?=[^>]*\bclass="language-picker-label")[^>]*>)[^<]*(<\/span>)/,
       `$1${escapeHtml(initialLanguageLabel)}$2`
-    );
+    )
+    .replace(/>\s+</g, '><')
+    .trim();
 };
 
 export const renderManifest = (locale, startUrl, htmlLocale = locale) => {

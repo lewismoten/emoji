@@ -132,7 +132,6 @@ const files = [
   'index.html',
   'index.js',
   'pixel-editor.js',
-  'index.css',
   'emoji.json',
   'manifest.json',
   'screenshot.png',
