@@ -464,7 +464,7 @@ function renderAtlasMarkdown(build, sheets) {
     const label = `${sheet.group}, ${sheet.subGroup}${part}`;
     sections.push(`#### ${sheet.subGroup}${part}
 
-${sheet.paintedCount.toLocaleString()} painted glyph${sheet.paintedCount === 1 ? "" : "s"} · [PNG](atlases/${sheet.image}) · [JSON cell map](atlases/${sheet.mapping})
+[PNG](atlases/${sheet.image}) · [JSON cell map](atlases/${sheet.mapping})
 
 [![${label}](atlases/${sheet.image})](atlases/${sheet.image})`);
   }
