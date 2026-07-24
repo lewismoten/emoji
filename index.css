@@ -2419,7 +2419,7 @@ kbd {
 
 @media (max-width: 399px) {
   .pixel-editor-tools {
-    grid-template-columns: repeat(6, 2.35rem);
+    grid-template-columns: repeat(7, 2.35rem);
     justify-content: center;
     width: auto;
   }

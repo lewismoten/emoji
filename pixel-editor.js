@@ -3,6 +3,7 @@ const DISPLAY_SIZE = 384;
 const ROTATION_ALPHA_THRESHOLD = 128;
 const TOOLS = [
   "pencil",
+  "line",
   "rectangle",
   "ellipse",
   "bucket",
@@ -117,11 +118,12 @@ export function createPixelEditor({
   view.innerHTML = `
     <div class="pixel-editor-toolbar">
       <div class="pixel-editor-tools" role="toolbar" data-i18n-aria-label="drawingTools" aria-label="Drawing tools">
-        ${toolButton("pencil", "✎", "pencil", "Pencil", true)}
-        ${toolButton("rectangle", "□", "rectangle", "Rectangle")}
-        ${toolButton("ellipse", "○", "ellipse", "Ellipse")}
-        ${toolButton("bucket", "▰", "paintBucket", "Paint bucket")}
-        ${toolButton("eyedropper", "⌞", "eyedropper", "Eyedropper")}
+        ${toolButton("pencil", "✏️", "pencil", "Pencil", true)}
+        ${toolButton("line", "╱", "line", "Line")}
+        ${toolButton("rectangle", "🔲", "rectangle", "Rectangle")}
+        ${toolButton("ellipse", "⭕", "ellipse", "Ellipse")}
+        ${toolButton("bucket", "🫟", "paintBucket", "Paint bucket")}
+        ${toolButton("eyedropper", "👀", "eyedropper", "Eyedropper")}
         ${toolButton("select", "⌗", "selectRegion", "Select")}
       </div>
       <div class="pixel-editor-history">
@@ -511,7 +513,7 @@ export function createPixelEditor({
       );
       const filled = fillShapesEnabled;
       button.querySelector("[aria-hidden]").textContent =
-        shape === "rectangle" ? (filled ? "■" : "□") : filled ? "●" : "○";
+        shape === "rectangle" ? (filled ? "⬛" : "🔲") : filled ? "🔴" : "⭕";
       const key =
         shape === "rectangle"
           ? filled
@@ -774,6 +776,7 @@ export function createPixelEditor({
     }
     shapeBase = pixels.slice();
     if (tool === "pencil") paintPixel(point);
+    if (tool === "line") drawLine(point, point);
     if (tool === "rectangle" || tool === "ellipse")
       drawShape(point, point, tool);
     draw();
@@ -795,6 +798,9 @@ export function createPixelEditor({
     } else if (tool === "pencil") {
       drawLine(pointerPrevious, point);
       pointerPrevious = point;
+    } else if (tool === "line") {
+      pixels.set(shapeBase);
+      drawLine(pointerStart, point);
     } else if (tool === "rectangle" || tool === "ellipse") {
       pixels.set(shapeBase);
       drawShape(pointerStart, point, tool);

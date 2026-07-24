@@ -1071,7 +1071,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function updateShapeToolButtons[\s\S]*filled \? "■" : "□"[\s\S]*filled \? "●" : "○"/,
+  /function updateShapeToolButtons[\s\S]*filled \? "⬛" : "🔲"[\s\S]*filled \? "🔴" : "⭕"/,
   "rectangle and ellipse icons must represent outline and filled modes",
 );
 assert.match(
@@ -1465,6 +1465,7 @@ assert.match(
 );
 for (const tool of [
   "pencil",
+  "line",
   "rectangle",
   "ellipse",
   "bucket",
@@ -1479,13 +1480,28 @@ for (const tool of [
 }
 assert.match(
   pixelEditorScript,
+  /toolButton\("bucket", "🫟"[\s\S]*toolButton\("eyedropper", "👀"/,
+  "paint and color-picker tools must use recognizable emoji icons",
+);
+assert.match(
+  pixelEditorScript,
+  /toolButton\("pencil", "✏️"[\s\S]*toolButton\("rectangle", "🔲"[\s\S]*toolButton\("ellipse", "⭕"/,
+  "pencil and outline shape tools must use their requested emoji icons",
+);
+assert.match(
+  pixelEditorScript,
+  /tool === "line"[\s\S]*pixels\.set\(shapeBase\);[\s\S]*drawLine\(pointerStart, point\)/,
+  "the line tool must preview a straight line from its starting point",
+);
+assert.match(
+  pixelEditorScript,
   /data-tool="\$\{tool\}" data-i18n-aria-label="\$\{translationKey\}" aria-label="\$\{fallback\}"/,
   "icon-only drawing tools must retain localized accessible names",
 );
 assert.match(
   demoStyles,
-  /@media \(max-width: 399px\)[\s\S]*\.pixel-editor-tools[\s\S]*grid-template-columns:\s*repeat\(6,\s*2\.35rem\);[\s\S]*\.pixel-editor-tools button > span:last-child[\s\S]*display:\s*none;/,
-  "skinny screens must show six compact icon-only drawing tools in one row",
+  /@media \(max-width: 399px\)[\s\S]*\.pixel-editor-tools[\s\S]*grid-template-columns:\s*repeat\(7,\s*2\.35rem\);[\s\S]*\.pixel-editor-tools button > span:last-child[\s\S]*display:\s*none;/,
+  "skinny screens must show seven compact icon-only drawing tools in one row",
 );
 assert.match(
   pixelEditorScript,
