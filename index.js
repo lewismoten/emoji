@@ -202,6 +202,8 @@ var installDialog;
 var deferredInstallPrompt;
 const explorerPreferencesKey = '@lewismoten/emoji:explorer-preferences';
 var explorerPreferences = loadExplorerPreferences();
+var developerModeFromUrl =
+  new URLSearchParams(window.location.search).get('developer') === '1';
 var favoriteEmojiKeys = Array.isArray(explorerPreferences.favorites)
   ? explorerPreferences.favorites
   : [];
@@ -409,7 +411,9 @@ function selectEmojiFont(event) {
   if (event?.detail > 0) event.currentTarget.blur();
 }
 function developerModeEnabled() {
-  return explorerPreferences.developerMode === true;
+  return (
+    developerModeFromUrl || explorerPreferences.developerMode === true
+  );
 }
 function renderDeveloperMode() {
   const enabled = developerModeEnabled();
@@ -421,6 +425,7 @@ function renderDeveloperMode() {
 }
 function toggleDeveloperMode(event) {
   const enabled = event.currentTarget.checked;
+  developerModeFromUrl = false;
   saveExplorerPreference('developerMode', enabled);
   renderDeveloperMode();
   if (!enabled && exampleDialog?.open) {
@@ -439,6 +444,7 @@ function toggleDeveloperMode(event) {
       drawList();
     }
   }
+  syncUrlState();
 }
 const applyUiTranslations = () => {
   document.querySelectorAll('[data-i18n]').forEach(element => {
@@ -2105,6 +2111,7 @@ function syncUrlState(method = 'replace', historyState = window.history.state) {
   if (skin.length) params.set('skin', skin.join(','));
   if (hair.length) params.set('hair', hair.join(','));
   if (gender.length) params.set('gender', gender.join(','));
+  if (developerModeEnabled()) params.set('developer', '1');
   if (orderMode !== 'grouped') params.set('order', orderMode);
   if (compositionMode === 'full') params.set('composition', 'full');
   if (exampleDialog.open && currentEmojiKey) {
@@ -2417,6 +2424,9 @@ async function selectLanguageLink(event, locale, href) {
 window.addEventListener('popstate', async () => {
   applyingUrlState = true;
   try {
+    developerModeFromUrl =
+      new URLSearchParams(window.location.search).get('developer') === '1';
+    renderDeveloperMode();
     const locale =
       window.location.pathname.match(
         /index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/

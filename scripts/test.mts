@@ -1214,13 +1214,18 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /function developerModeEnabled\(\)[\s\S]*developerMode === true[\s\S]*function toggleDeveloperMode[\s\S]*saveExplorerPreference\('developerMode'/,
-  "Developer mode must default off and persist only after explicit selection",
+  /developerModeFromUrl[\s\S]*get\('developer'\) === '1'[\s\S]*function developerModeEnabled\(\)[\s\S]*developerModeFromUrl[\s\S]*developerMode === true[\s\S]*function toggleDeveloperMode[\s\S]*developerModeFromUrl = false[\s\S]*saveExplorerPreference\('developerMode'/,
+  "Developer mode must support shared URL activation and persist explicit selection",
 );
 assert.match(
   demoScript,
-  /developerModeEnabled\(\) &&[\s\S]*\['code', 'editor'\]\.includes\(params\.get\('emojiMode'\)\)/,
-  "developer-only dialog URL modes must require the local Developer mode setting",
+  /if \(developerModeEnabled\(\)\) params\.set\('developer', '1'\)[\s\S]*params\.set\('emojiMode', 'editor'\)/,
+  "shared developer-only dialog URLs must preserve Developer mode",
+);
+assert.match(
+  demoScript,
+  /popstate[\s\S]*developerModeFromUrl =[\s\S]*get\('developer'\) === '1'[\s\S]*renderDeveloperMode\(\)[\s\S]*applyDialogUrlState\(\)/,
+  "browser navigation must restore Developer mode before applying dialog URL state",
 );
 assert.match(
   demoStyles,
