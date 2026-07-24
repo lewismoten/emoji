@@ -454,7 +454,7 @@ assert.match(
 );
 assert.match(
   fontPublishWorkflow,
-  /pixel-emoji-v\*[\s\S]*npm run pixel-font:package[\s\S]*npm publish \.\/pixel-font\/build\/package[\s\S]*gh release create/,
+  /pixel-emoji-v\*[\s\S]*npm run pixel-font:package[\s\S]*npm view[\s\S]*outputs\.publish == 'true'[\s\S]*npm publish \.\/pixel-font\/build\/package[\s\S]*gh release create/,
   "font tags must publish both the standalone npm package and GitHub Release assets",
 );
 assert.match(

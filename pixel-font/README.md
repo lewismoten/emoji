@@ -201,6 +201,20 @@ verifies that the tag matches `fontVersion`, publishes
 `@lewismoten/pixel-emoji`, and attaches the TTF, WOFF, WOFF2, CSS, manifest,
 and ZIP archive to a GitHub Release.
 
+Because npm cannot configure trusted publishing before a package exists, the
+first version is published once from a trusted local npm session:
+
+```sh
+npm run pixel-font:package
+npm publish ./pixel-font/build/package --access public
+```
+
+After that first publication, configure `publish-font.yml` as the package's
+trusted publisher and push the matching font tag. The workflow detects that
+the initial version already exists and skips republishing it while still
+creating the GitHub Release and deploying the updated font. Later font tags
+publish normally through trusted publishing.
+
 Bump the independent font version without changing `@lewismoten/emoji`:
 
 ```sh
