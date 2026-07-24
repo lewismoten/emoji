@@ -125,6 +125,19 @@ def pixels_for_unique_fallback():
     return pixels
 
 
+def pixels_for_black_silhouette():
+    return [
+        value
+        for y in range(12)
+        for x in range(12)
+        for value in (
+            (0, 0, 0, 255)
+            if 2 <= x <= 9 and 2 <= y <= 9
+            else (0, 0, 0, 0)
+        )
+    ]
+
+
 shared_face_sources = [
     {"key": "faceA", "pixels": pixels_for_shared_face(3)},
     {"key": "faceB", "pixels": pixels_for_shared_face(4)},
@@ -187,8 +200,15 @@ with tempfile.TemporaryDirectory() as temporary_directory:
             "key": "uniqueFallback",
             "codePoints": ["1FAFF"],
             "pixels": pixels_for_unique_fallback(),
-        }
+        },
+        {
+            "key": "blackSilhouette",
+            "codePoints": ["25CF"],
+            "pixels": pixels_for_black_silhouette(),
+        },
     ]
+    assert compiler.is_black_silhouette(painted_glyphs[-1]["pixels"])
+    assert not compiler.is_black_silhouette(painted_glyphs[-2]["pixels"])
     source_path.write_text(
         json.dumps(
             {
@@ -261,6 +281,7 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         for layer in layers
     }
     assert len(color_layer_names) == 5
+    assert cmap[0x25CF] not in font["COLR"].ColorLayers
     unencoded_empty_glyphs = [
         name
         for name in font.getGlyphOrder()
@@ -275,6 +296,7 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         cmap[0x1F469],
         cmap[0x2764],
         cmap[0x1FAFF],
+        cmap[0x25CF],
     }
     assert all(font["glyf"][name].isComposite() for name in base_glyph_names)
     assert len(font["glyf"][cmap[0x1FAFF]].components) == 2

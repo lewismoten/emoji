@@ -51,6 +51,11 @@ def main():
         codepoint: single_by_codepoint.get(codepoint, name)
         for codepoint, name in codepoint_names.items()
     }
+    silhouette_keys = {
+        glyph["key"]
+        for glyph in glyph_sources
+        if is_black_silhouette(glyph["pixels"])
+    }
 
     palette = sorted(
         {
@@ -71,7 +76,8 @@ def main():
 
     for glyph_source in glyph_sources:
         for color, use_silhouette in layer_specs[glyph_source["key"]]:
-            color_layer_count += 1
+            if glyph_source["key"] not in silhouette_keys:
+                color_layer_count += 1
             key = layer_mask_key(
                 glyph_source["pixels"], color, use_silhouette
             )
@@ -136,7 +142,8 @@ def main():
             )
             glyphs[base_name] = component_glyphs(fallback_components, glyphs)
             glyph_order.append(base_name)
-        color_glyphs[base_name] = layers
+        if glyph_source["key"] not in silhouette_keys:
+            color_glyphs[base_name] = layers
 
     builder = FontBuilder(UNITS_PER_EM, isTTF=True)
     builder.setupGlyphOrder(glyph_order)
@@ -173,7 +180,7 @@ def main():
 
     font = builder.font
     font["post"].formatType = 3.0
-    if palette:
+    if color_glyphs:
         font["COLR"] = buildCOLR(color_glyphs, version=0, glyphMap=font.getReverseGlyphMap())
         font["CPAL"] = buildCPAL(
             [[(red / 255, green / 255, blue / 255, alpha / 255) for red, green, blue, alpha in palette]]
@@ -203,8 +210,19 @@ def main():
     print(
         f"Compiled {len(glyph_sources):,} glyphs with {color_layer_count:,} source color layers "
         f"using {len(mask_names):,} rendered pixel masks "
-        f"({len(mask_decompositions):,} composed from existing parts)."
+        f"({len(mask_decompositions):,} composed from existing parts); "
+        f"{len(silhouette_keys):,} monochrome silhouette "
+        f"{'glyph' if len(silhouette_keys) == 1 else 'glyphs'}."
     )
+
+
+def is_black_silhouette(pixels):
+    visible = [
+        pixels[offset : offset + 4]
+        for offset in range(0, len(pixels), 4)
+        if pixels[offset + 3] > 0
+    ]
+    return bool(visible) and all(pixel[0:3] == [0, 0, 0] for pixel in visible)
 
 
 def validate_color_layer_metrics(font, color_glyphs):

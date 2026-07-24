@@ -89,8 +89,12 @@ for (const sheet of manifest.sheets) {
 
     const png = `${entry.key}.png`;
     const svg = `${entry.key}.svg`;
+    const rendering = isBlackSilhouette(cell) ? "silhouette" : "color";
     await fs.writeFile(path.join(pngDirectory, png), encodeRgbaPng(cell));
-    await fs.writeFile(path.join(svgDirectory, svg), renderSvg(cell, entry));
+    await fs.writeFile(
+      path.join(svgDirectory, svg),
+      renderSvg(cell, entry, rendering),
+    );
     glyphs.push({
       key: entry.key,
       name: entry.name,
@@ -101,6 +105,7 @@ for (const sheet of manifest.sheets) {
       unicodeVersion: mapping.unicodeVersion ?? null,
       proposalStage: mapping.proposalStage ?? null,
       expectedRelease: mapping.expectedRelease ?? null,
+      rendering,
       atlas: sheet.id,
       index: entry.index,
       row: entry.row,
@@ -133,6 +138,9 @@ const buildManifest = {
   releasedGlyphCount: releasedGlyphs.length,
   proposedGlyphCount: proposedGlyphs.length,
   proposedVersions: manifest.proposedVersions ?? [],
+  silhouetteGlyphCount: glyphs.filter(
+    (glyph) => glyph.rendering === "silhouette",
+  ).length,
   sequenceGlyphCount: glyphs.filter((glyph) => glyph.sequenceType !== "single")
     .length,
   sequenceTypeCounts: countBySequenceType(glyphs),
@@ -279,14 +287,15 @@ async function writeFontStylesheet() {
   );
 }
 
-function renderSvg(image, entry) {
+function renderSvg(image, entry, rendering) {
   const rectangles = pixelRuns(image)
     .map((run) => {
       const opacity =
         run.alpha === 255
           ? ""
           : ` fill-opacity="${trimNumber(run.alpha / 255)}"`;
-      return `  <rect x="${run.x}" y="${run.y}" width="${run.width}" height="1" fill="${run.color}"${opacity}/>`;
+      const fill = rendering === "silhouette" ? "currentColor" : run.color;
+      return `  <rect x="${run.x}" y="${run.y}" width="${run.width}" height="1" fill="${fill}"${opacity}/>`;
     })
     .join("\n");
   return [
@@ -526,11 +535,16 @@ function countBySequenceType(entries) {
 
 function analyzeColorMasks(entries) {
   let colorLayerCount = 0;
+  let silhouetteGlyphCount = 0;
   let specs = new Map();
   const silhouetteGroups = new Map();
   for (const entry of entries) {
     const colors = colorCounts(entry.pixels);
-    colorLayerCount += colors.size;
+    if (isBlackSilhouette({ pixels: entry.pixels })) {
+      silhouetteGlyphCount += 1;
+    } else {
+      colorLayerCount += colors.size;
+    }
     specs.set(
       entry.key,
       [...colors.keys()].map((color) => ({ color, useSilhouette: false })),
@@ -604,6 +618,7 @@ function analyzeColorMasks(entries) {
     .reduce((total, group) => total + group.length, 0);
   return {
     strategy: "shared-base-color-and-composed-masks",
+    silhouetteGlyphCount,
     colorLayerCount,
     renderedLayerCount,
     uniqueMaskCount: masks.size,
@@ -630,6 +645,21 @@ function colorCounts(pixels) {
     colors.set(color, (colors.get(color) ?? 0) + 1);
   }
   return colors;
+}
+
+function isBlackSilhouette(image) {
+  let visible = false;
+  for (let offset = 0; offset < image.pixels.length; offset += 4) {
+    if (image.pixels[offset + 3] === 0) continue;
+    visible = true;
+    if (
+      image.pixels[offset] !== 0 ||
+      image.pixels[offset + 1] !== 0 ||
+      image.pixels[offset + 2] !== 0
+    )
+      return false;
+  }
+  return visible;
 }
 
 function compareSerializedColors(left, right) {

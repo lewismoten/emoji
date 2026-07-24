@@ -35,6 +35,19 @@ an emoji containing a skin-tone modifier may use a five-color skin ramp in
 addition to EGA. Those colors are contextual: they are available only when the
 modifier is part of that emoji's Unicode sequence.
 
+Artwork whose visible pixels are entirely black is treated as a monochrome
+silhouette rather than a fixed black color glyph. The font compiler leaves it
+out of COLR/CPAL so browsers can recolor it with the surrounding CSS `color`.
+Its generated SVG likewise uses `fill="currentColor"`. The corresponding PNG
+remains black because a raster image cannot inherit CSS text color directly.
+
+```css
+.pixel-symbol {
+  color: rebeccapurple;
+  font-family: "Pixel Emoji", sans-serif;
+}
+```
+
 ## What the build provides
 
 - installable COLR/CPAL TrueType font;
