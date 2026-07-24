@@ -1144,8 +1144,8 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /@media \(max-width: 560px\)[\s\S]*\.example-dialog\[open\][\s\S]*margin:\s*auto 0 0;[\s\S]*safe-area-inset-bottom/,
-  "mobile emoji details must use a safe-area-aware bottom sheet",
+  /@media \(max-width: 560px\)[\s\S]*\.example-dialog\[open\][\s\S]*position:\s*fixed;[\s\S]*inset:\s*max\(0\.5rem, env\(safe-area-inset-top\)\) 0\.5rem auto;[\s\S]*height:\s*auto;[\s\S]*max-height:\s*calc\([\s\S]*safe-area-inset-bottom/,
+  "mobile emoji details must use its natural height within a safe-area-aware fixed sheet",
 );
 assert.match(
   demoStyles,
