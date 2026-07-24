@@ -193,24 +193,6 @@
               />
             </label>
             <button
-              class="language-picker"
-              type="button"
-              aria-haspopup="dialog"
-              aria-controls="language-dialog"
-              aria-labelledby="language-picker-accessible-label"
-            >
-              <span
-                id="language-picker-accessible-label"
-                class="sr-only"
-                data-i18n="chooseLanguage"
-                >Choose a search language</span
-              >
-              <span class="language-picker-flag" aria-hidden="true">🌐</span>
-              <span class="language-picker-label" data-i18n="language"
-                >Language</span
-              >
-            </button>
-            <button
               class="pixel-font-toggle"
               type="button"
               aria-pressed="true"
@@ -1099,23 +1081,55 @@
           >
         </section>
         <section class="help-settings" aria-labelledby="help-settings-title">
-          <div>
-            <h3 id="help-settings-title" data-i18n="developerMode">
-              Developer mode
-            </h3>
-            <p data-i18n="developerModeDescription">
-              Show sequence construction, technical metadata, code tools,
-              rendering diagnostics, and the pixel editor.
-            </p>
+          <h3 id="help-settings-title" data-i18n="settings">Settings</h3>
+          <div class="setting-row">
+            <div>
+              <h4 data-i18n="language">Language</h4>
+              <p data-i18n="chooseLanguageDescription">
+                Choose a language for emoji search.
+              </p>
+            </div>
+            <div class="help-language-control">
+              <button
+                class="language-picker"
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="language-dialog"
+                aria-labelledby="language-picker-accessible-label language-picker-current-label"
+              >
+                <span
+                  id="language-picker-accessible-label"
+                  class="sr-only"
+                  data-i18n="chooseLanguage"
+                  >Choose a search language</span
+                >
+                <span class="language-picker-flag" aria-hidden="true">🌐</span>
+                <span
+                  id="language-picker-current-label"
+                  class="language-picker-label"
+                  data-i18n="language"
+                  >Language</span
+                >
+              </button>
+            </div>
           </div>
-          <label class="setting-switch">
-            <input
-              class="developer-mode-toggle"
-              type="checkbox"
-              role="switch"
-            />
-            <span data-i18n="developerMode">Developer mode</span>
-          </label>
+          <div class="setting-row">
+            <div>
+              <h4 data-i18n="developerMode">Developer mode</h4>
+              <p data-i18n="developerModeDescription">
+                Show sequence construction, technical metadata, code tools,
+                rendering diagnostics, and the pixel editor.
+              </p>
+            </div>
+            <label class="setting-switch">
+              <input
+                class="developer-mode-toggle"
+                type="checkbox"
+                role="switch"
+              />
+              <span data-i18n="developerMode">Developer mode</span>
+            </label>
+          </div>
         </section>
         <h3 class="shortcut-heading" data-i18n="keyboardShortcuts">
           Keyboard shortcuts

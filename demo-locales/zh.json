@@ -122,6 +122,7 @@
   "removeFavorite": "取消收藏",
   "keyboardShortcuts": "键盘快捷键",
   "helpAndSettings": "帮助和设置",
+  "settings": "设置",
   "developerMode": "开发者模式",
   "developerModeDescription": "显示序列构成、技术元数据、代码工具、显示诊断和像素编辑器。",
   "shortcutSearch": "聚焦搜索框",

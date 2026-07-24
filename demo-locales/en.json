@@ -122,6 +122,7 @@
   "removeFavorite": "Remove favorite",
   "keyboardShortcuts": "Keyboard shortcuts",
   "helpAndSettings": "Help and settings",
+  "settings": "Settings",
   "developerMode": "Developer mode",
   "developerModeDescription": "Show sequence construction, technical metadata, code tools, rendering diagnostics, and the pixel editor.",
   "shortcutSearch": "Focus search",

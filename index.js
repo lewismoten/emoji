@@ -746,8 +746,8 @@ function ensureUtilityControls() {
     );
   }
   if (searchControls && !searchControls.querySelector('.pixel-font-toggle')) {
-    const languageButton = searchControls.querySelector('.language-picker');
-    languageButton?.insertAdjacentHTML(
+    const searchField = searchControls.querySelector('.search-field');
+    searchField?.insertAdjacentHTML(
       'afterend',
       `
       <button class="pixel-font-toggle" type="button" aria-pressed="true" data-i18n-aria-label="pixelEmoji" aria-label="Pixel emoji">
@@ -885,14 +885,24 @@ function ensureUtilityControls() {
           <a href="https://github.com/lewismoten/emoji/tree/main/pixel-font" data-i18n="pixelHelpLink">Learn about and download Pixel Emoji</a>
         </section>
         <section class="help-settings" aria-labelledby="help-settings-title">
-          <div>
-            <h3 id="help-settings-title" data-i18n="developerMode">Developer mode</h3>
-            <p data-i18n="developerModeDescription">Show sequence construction, technical metadata, code tools, rendering diagnostics, and the pixel editor.</p>
+          <h3 id="help-settings-title" data-i18n="settings">Settings</h3>
+          <div class="setting-row">
+            <div>
+              <h4 data-i18n="language">Language</h4>
+              <p data-i18n="chooseLanguageDescription">Choose a language for emoji search.</p>
+            </div>
+            <div class="help-language-control"></div>
           </div>
-          <label class="setting-switch">
-            <input class="developer-mode-toggle" type="checkbox" role="switch">
-            <span data-i18n="developerMode">Developer mode</span>
-          </label>
+          <div class="setting-row">
+            <div>
+              <h4 data-i18n="developerMode">Developer mode</h4>
+              <p data-i18n="developerModeDescription">Show sequence construction, technical metadata, code tools, rendering diagnostics, and the pixel editor.</p>
+            </div>
+            <label class="setting-switch">
+              <input class="developer-mode-toggle" type="checkbox" role="switch">
+              <span data-i18n="developerMode">Developer mode</span>
+            </label>
+          </div>
         </section>
         <h3 class="shortcut-heading" data-i18n="keyboardShortcuts">Keyboard shortcuts</h3>
         <dl class="shortcut-list">
@@ -905,6 +915,13 @@ function ensureUtilityControls() {
       </dialog>
     `
     );
+  }
+  const helpLanguageControl = document.querySelector(
+    '.help-dialog .help-language-control'
+  );
+  const languagePicker = document.querySelector('.language-picker');
+  if (helpLanguageControl && languagePicker) {
+    helpLanguageControl.append(languagePicker);
   }
 }
 
@@ -1001,6 +1018,13 @@ async function onLoad() {
   languagePickerLabel = document.getElementsByClassName(
     'language-picker-label'
   )[0];
+  if (languagePickerLabel) {
+    languagePickerLabel.id ||= 'language-picker-current-label';
+    languagePicker.setAttribute(
+      'aria-labelledby',
+      `language-picker-accessible-label ${languagePickerLabel.id}`
+    );
+  }
   pixelFontToggle = document.getElementsByClassName('pixel-font-toggle')[0];
   languageDialog = document.getElementsByClassName('language-dialog')[0];
   languageList = document.getElementsByClassName('language-list')[0];
@@ -1132,6 +1156,7 @@ async function onLoad() {
 
   searchText.addEventListener('input', drawList);
   languagePicker.addEventListener('click', () => {
+    if (helpDialog?.open) closePanelDialog(helpDialog);
     openPanelDialog('language');
   });
   pixelFontToggle?.addEventListener('click', togglePixelFont);

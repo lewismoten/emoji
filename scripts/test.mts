@@ -798,6 +798,35 @@ assert.match(
   /class="help-pixel"[\s\S]*data-i18n="pixelHelpDescription"[\s\S]*pixel-font/,
   "help must explain the Pixel Emoji rendering preference and link to the font",
 );
+const searchControlsMarkup =
+  /<div class="search-controls">([\s\S]*?)<\/div>\s*<div class="basic-filter-grid">/.exec(
+    demoHtml,
+  )?.[1] ?? "";
+assert.doesNotMatch(
+  searchControlsMarkup,
+  /class="language-picker"/,
+  "the language picker must not occupy the primary search row",
+);
+assert.match(
+  demoHtml,
+  /class="help-settings"[\s\S]*class="help-language-control"[\s\S]*class="language-picker"[\s\S]*class="developer-mode-toggle"/,
+  "Help and settings must contain both language and Developer mode preferences",
+);
+assert.match(
+  demoHtml,
+  /aria-labelledby="language-picker-accessible-label language-picker-current-label"[\s\S]*id="language-picker-current-label"/,
+  "the language setting must expose its action and current native language as its accessible name",
+);
+assert.match(
+  demoScript,
+  /languagePicker\.addEventListener\('click'[\s\S]*helpDialog\?\.open[\s\S]*closePanelDialog\(helpDialog\)[\s\S]*openPanelDialog\('language'\)/,
+  "opening the language picker from Help must transition between modal dialogs",
+);
+assert.match(
+  demoScript,
+  /helpLanguageControl[\s\S]*document\.querySelector\('\.language-picker'\)[\s\S]*helpLanguageControl\.append\(languagePicker\)/,
+  "cached pages must move an older toolbar language control into Help and settings",
+);
 assert.match(
   demoHtml,
   /class="toggle-favorite"/,

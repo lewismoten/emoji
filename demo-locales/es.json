@@ -122,6 +122,7 @@
   "removeFavorite": "Quitar de favoritos",
   "keyboardShortcuts": "Atajos de teclado",
   "helpAndSettings": "Ayuda y configuración",
+  "settings": "Configuración",
   "developerMode": "Modo de desarrollador",
   "developerModeDescription": "Muestra la construcción de secuencias, los metadatos técnicos, las herramientas de código, el diagnóstico de representación y el editor de píxeles.",
   "shortcutSearch": "Enfocar la búsqueda",
