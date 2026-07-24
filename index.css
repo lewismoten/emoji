@@ -177,6 +177,10 @@ h1 {
 .app-loading .result-count,
 .app-loading .basic-filter-grid,
 .app-loading .filter-options {
+  visibility: hidden;
+  pointer-events: none;
+}
+.app-loading .about-explorer {
   display: none;
 }
 .search-controls {
@@ -2276,6 +2280,9 @@ kbd {
   gap: 0.2rem;
 }
 .install-app {
+  position: absolute;
+  right: calc(100% + 0.45rem);
+  bottom: 0;
   display: inline-flex;
   min-height: 2rem;
   align-items: center;
@@ -2289,6 +2296,7 @@ kbd {
   font: inherit;
   font-size: 0.75rem;
   font-weight: 700;
+  white-space: nowrap;
 }
 .install-app[hidden] {
   display: none;

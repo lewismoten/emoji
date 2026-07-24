@@ -1213,8 +1213,18 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /function finishExplorerLoading[\s\S]*classList\.remove\('app-loading'\)[\s\S]*aria-busy[\s\S]*result-count/,
-  "loading controls and result counts must be revealed only after data is ready",
+  /function finishExplorerLoading[\s\S]*revealExplorer\(\)[\s\S]*function revealExplorer[\s\S]*classList\.remove\('app-loading'\)[\s\S]*aria-busy[\s\S]*function finishEmojiListRender[\s\S]*revealExplorer\(\)/,
+  "loading controls and below-list content must be revealed only after the first result tree is ready",
+);
+assert.match(
+  demoStyles,
+  /\.app-loading \.result-count,[\s\S]*visibility:\s*hidden;[\s\S]*\.app-loading \.about-explorer\s*\{\s*display:\s*none;/,
+  "initial loading must reserve toolbar geometry without positioning About beneath the skeleton",
+);
+assert.match(
+  demoStyles,
+  /\.install-app\s*\{[^}]*position:\s*absolute;[^}]*right:\s*calc\(100% \+ 0\.45rem\);/,
+  "the deferred PWA install action must not resize the fixed browse footer",
 );
 assert.match(
   demoScript,

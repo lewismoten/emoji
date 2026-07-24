@@ -1370,10 +1370,8 @@ async function onLoad() {
 }
 
 function finishExplorerLoading() {
-  document.documentElement.classList.remove('app-loading');
   if (emojiList.dataset.rendering !== 'true') {
-    emojiList.classList.remove('is-loading');
-    emojiList.setAttribute('aria-busy', 'false');
+    revealExplorer();
   }
   matchCount.closest('.result-count').hidden = false;
   const comparison = document.querySelector('.pixel-comparison-custom');
@@ -1381,6 +1379,13 @@ function finishExplorerLoading() {
     comparison.textContent = emojiByKey.grinningFace ?? '😀';
     applyPixelArtworkClass(comparison, 'grinningFace');
   }
+}
+
+function revealExplorer() {
+  document.documentElement.classList.remove('app-loading');
+  emojiList.classList.remove('is-loading');
+  emojiList.setAttribute('aria-busy', 'false');
+  matchCount.closest('.result-count').hidden = false;
 }
 
 function upgradeEmojiDialog() {
@@ -3628,9 +3633,8 @@ function finishEmojiListRender(
 ) {
   if (generation !== listRenderGeneration) return;
   emojiList.replaceChildren(renderRoot);
-  emojiList.classList.remove('is-loading');
   delete emojiList.dataset.rendering;
-  emojiList.setAttribute('aria-busy', 'false');
+  revealExplorer();
   if (shouldRestoreEmojiFocus) {
     document.getElementById(focusedEmojiKey)?.focus();
   }
