@@ -432,18 +432,42 @@ const updateOnlineStatus = () => {
 const isInstalledApp = () =>
   window.matchMedia('(display-mode: standalone)').matches ||
   window.navigator.standalone === true;
-const isIosDevice = () =>
-  /iPad|iPhone|iPod/.test(window.navigator.userAgent) ||
-  (window.navigator.platform === 'MacIntel' &&
-    window.navigator.maxTouchPoints > 1);
+const isIosDevice = () => {
+  const navigator = window.navigator;
+  const userAgent = navigator.userAgent;
+  const clientPlatform = navigator.userAgentData?.platform;
+  if (clientPlatform?.toLowerCase() === 'macos') return false;
+  return (
+    /iPad|iPhone|iPod/.test(userAgent) ||
+    (/Macintosh/.test(userAgent) &&
+      /Mobile/.test(userAgent) &&
+      navigator.maxTouchPoints > 1)
+  );
+};
 function renderInstallAppButton() {
   if (!installAppButton) return;
-  installAppButton.hidden =
-    (!deferredInstallPrompt && !isIosDevice()) || isInstalledApp();
+  installAppButton.hidden = isInstalledApp();
+}
+function updateWebAppManifest(locale = '') {
+  const manifest = document.querySelector('link[rel="manifest"]');
+  if (!manifest) return;
+  const href = locale
+    ? `./manifest.${locale}.webmanifest`
+    : './manifest.webmanifest';
+  if (manifest.getAttribute('href') !== href) manifest.setAttribute('href', href);
 }
 async function installApp(event) {
   const promptEvent = deferredInstallPrompt;
   if (!promptEvent) {
+    const ios = isIosDevice();
+    const iosInstructions = installDialog?.querySelector(
+      '.install-instructions-ios'
+    );
+    const browserInstructions = installDialog?.querySelector(
+      '.install-instructions-browser'
+    );
+    if (iosInstructions) iosInstructions.hidden = !ios;
+    if (browserInstructions) browserInstructions.hidden = ios;
     installDialog?.showModal();
     return;
   }
@@ -484,6 +508,12 @@ async function loadUiTranslations(locale, rtl = false) {
     uiStrings = {};
     document.documentElement.lang = 'en';
     document.documentElement.dir = 'ltr';
+  }
+  const applicationName = translate('title', 'Emoji Explorer');
+  document.title = `${applicationName} – Unicode Emoji`;
+  for (const name of ['application-name', 'apple-mobile-web-app-title']) {
+    const meta = document.querySelector(`meta[name="${name}"]`);
+    if (meta) meta.content = applicationName;
   }
   applyUiTranslations();
   renderVersionModeToggle();
@@ -2208,6 +2238,7 @@ window.addEventListener('popstate', async () => {
 async function setSearchLanguage(requestedLocale) {
   const loadId = ++searchLoadId;
   if (!requestedLocale) {
+    updateWebAppManifest();
     selectedSearchLocale = '';
     searchAnnotations = {};
     searchLabels = {};
@@ -2226,6 +2257,7 @@ async function setSearchLanguage(requestedLocale) {
 
   const locale = searchLocales.find(entry => entry.locale === requestedLocale);
   if (!locale) return;
+  updateWebAppManifest(locale.locale);
   languagePicker.disabled = true;
   languagePickerLabel.textContent = translate(
     'loadingLanguage',

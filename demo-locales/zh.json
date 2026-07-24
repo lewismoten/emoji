@@ -119,6 +119,7 @@
   "installApp": "安装表情符号浏览器",
   "installInstructionsTitle": "安装表情符号浏览器",
   "installInstructionsIos": "打开浏览器的共享菜单，选择“添加到主屏幕”，然后确认添加。",
+  "installInstructionsBrowser": "使用浏览器的“安装应用”命令；它通常位于地址栏或浏览器菜单中。",
   "aboutTitle": "搜索和浏览统一码表情",
   "aboutDescription": "按本地化名称和关键词、统一码类别和子组、发布版本、修饰符及序列类型浏览数千个表情。",
   "pixelFontCredit": "表情符号可能会使用 Pixel Emoji 显示；这是 Lewis Moten 创建的自定义 12×12 后备字体。",

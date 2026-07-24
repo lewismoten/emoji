@@ -14,6 +14,9 @@ const demoLocales = fs
 const localizedPages = ["en", "en-GB", "es", "hi", "zh", "ar"].map(
   (locale) => `./index.${locale}.html`,
 );
+const localizedManifests = ["en", "en-GB", "es", "hi", "zh", "ar"].map(
+  (locale) => `./manifest.${locale}.webmanifest`,
+);
 const versionFiles = versionManifest.versions.map(
   (version) => `./versions/${version.file}`,
 );
@@ -58,6 +61,7 @@ const coreAssets = [
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
   "./manifest.webmanifest",
+  ...localizedManifests,
   "./offline.html",
   "./locales/manifest.json",
   "./orders/manifest.json",

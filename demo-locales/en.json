@@ -119,6 +119,7 @@
   "installApp": "Install Emoji Explorer",
   "installInstructionsTitle": "Install Emoji Explorer",
   "installInstructionsIos": "Open the browser’s Share menu, choose Add to Home Screen, then confirm Add.",
+  "installInstructionsBrowser": "Use your browser’s Install app command, usually available in the address bar or browser menu.",
   "aboutTitle": "Search and explore Unicode emoji",
   "aboutDescription": "Browse thousands of emoji by localized names and keywords, Unicode categories and subgroups, release version, modifiers, and sequence type.",
   "pixelFontCredit": "Emoji may be displayed using Pixel Emoji, a custom 12×12 fallback font created by Lewis Moten.",

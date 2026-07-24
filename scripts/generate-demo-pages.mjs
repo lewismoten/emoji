@@ -7,6 +7,7 @@ export const locales = ['en', 'en-GB', 'es', 'hi', 'zh', 'ar'];
 const rtlLocales = new Set(['ar']);
 const template = fs.readFileSync('index.html', 'utf8');
 const english = JSON.parse(fs.readFileSync('demo-locales/en.json', 'utf8'));
+const webAppManifest = JSON.parse(fs.readFileSync('manifest.webmanifest', 'utf8'));
 const localeManifest = JSON.parse(fs.readFileSync('locales/manifest.json', 'utf8'));
 const localeMetadata = new Map(localeManifest.locales.map(locale => [locale.locale, locale]));
 const languageFlags = {
@@ -20,6 +21,7 @@ const languageFlags = {
 };
 
 const pageUrl = locale => `${siteUrl}index.${locale}.html`;
+const manifestFile = locale => locale ? `manifest.${locale}.webmanifest` : 'manifest.webmanifest';
 const escapeHtml = value => value
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
@@ -42,7 +44,7 @@ const alternates = [
   ...locales.map(locale => `  <link rel="alternate" hreflang="${locale}" href="${pageUrl(locale)}">`)
 ].join('\n');
 
-export const renderPage = (locale, url, htmlLocale = locale, dataLocale = locale) => {
+export const renderPage = (locale, url, htmlLocale = locale, dataLocale = locale, manifestLocale = locale) => {
   const translations = translationsFor(locale);
   const title = `${translations.title} – Unicode Emoji`;
   const description = translations.aboutDescription;
@@ -56,6 +58,9 @@ export const renderPage = (locale, url, htmlLocale = locale, dataLocale = locale
     .replace(/^  <link rel="alternate" hreflang="[^"]+" href="[^"]+">\n/gm, '')
     .replace('<html lang="en">', `<html lang="${htmlLocale}" dir="${rtlLocales.has(htmlLocale) ? 'rtl' : 'ltr'}" data-locale="${dataLocale}">`)
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
+    .replace(/<meta name="application-name" content="[^"]*">/, `<meta name="application-name" content="${escapeHtml(translations.title)}">`)
+    .replace(/<meta name="apple-mobile-web-app-title" content="[^"]*">/, `<meta name="apple-mobile-web-app-title" content="${escapeHtml(translations.title)}">`)
+    .replace('<link rel="manifest" href="./manifest.webmanifest">', `<link rel="manifest" href="./${manifestFile(manifestLocale)}">`)
     .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${escapeHtml(description)}">`)
     .replace(/<link rel="canonical" href="[^"]*">/, `<link rel="canonical" href="${url}">\n${alternates}`)
     .replace(/<meta property="og:title" content="[^"]*">/, `<meta property="og:title" content="${escapeHtml(title)}">`)
@@ -77,11 +82,33 @@ export const renderPage = (locale, url, htmlLocale = locale, dataLocale = locale
     .replace(/(<span class="language-picker-label">)[^<]*(<\/span>)/, `$1${escapeHtml(initialLanguageLabel)}$2`);
 };
 
+const renderManifest = (locale, startUrl, htmlLocale = locale) => {
+  const translations = translationsFor(locale);
+  return `${JSON.stringify({
+    ...webAppManifest,
+    name: translations.title,
+    short_name: translations.title,
+    description: translations.aboutDescription,
+    lang: htmlLocale,
+    dir: rtlLocales.has(htmlLocale) ? 'rtl' : 'ltr',
+    start_url: startUrl,
+    screenshots: webAppManifest.screenshots?.map(screenshot => ({
+      ...screenshot,
+      label: translations.aboutTitle
+    }))
+  }, null, 2)}\n`;
+};
+
 export const generateDemoPages = (outputDirectory = '.') => {
   fs.mkdirSync(outputDirectory, { recursive: true });
-  fs.writeFileSync(path.join(outputDirectory, 'index.html'), renderPage('en', siteUrl, 'en-US', 'en'));
+  fs.writeFileSync(path.join(outputDirectory, 'index.html'), renderPage('en', siteUrl, 'en-US', 'en', ''));
+  fs.writeFileSync(path.join(outputDirectory, 'manifest.webmanifest'), renderManifest('en', './', 'en-US'));
   for (const locale of locales) {
     fs.writeFileSync(path.join(outputDirectory, `index.${locale}.html`), renderPage(locale, pageUrl(locale)));
+    fs.writeFileSync(
+      path.join(outputDirectory, manifestFile(locale)),
+      renderManifest(locale, `./index.${locale}.html`)
+    );
   }
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

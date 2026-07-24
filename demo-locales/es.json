@@ -119,6 +119,7 @@
   "installApp": "Instalar Emoji Explorer",
   "installInstructionsTitle": "Instalar Emoji Explorer",
   "installInstructionsIos": "Abre el menú Compartir del navegador, elige Añadir a pantalla de inicio y confirma Añadir.",
+  "installInstructionsBrowser": "Usa el comando Instalar aplicación del navegador, normalmente disponible en la barra de direcciones o en el menú del navegador.",
   "aboutTitle": "Busca y explora emojis de Unicode",
   "aboutDescription": "Explora miles de emojis por nombres y palabras clave localizados, categorías y subgrupos de Unicode, versión de lanzamiento, modificadores y tipo de secuencia.",
   "pixelFontCredit": "Los emojis pueden mostrarse con Pixel Emoji, una fuente alternativa personalizada de 12×12 creada por Lewis Moten.",

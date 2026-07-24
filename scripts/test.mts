@@ -271,6 +271,35 @@ assert.equal(
   "standalone",
   "installed web app must use standalone display mode",
 );
+const arabicWebAppManifest = await readJson<{
+  id: string;
+  name: string;
+  lang: string;
+  dir: string;
+  start_url: string;
+}>("build/demo-pages/manifest.ar.webmanifest");
+assert.equal(
+  arabicWebAppManifest.id,
+  "./",
+  "localized manifests must identify the same installed application",
+);
+assert.equal(
+  arabicWebAppManifest.name,
+  "مستكشف الرموز التعبيرية",
+  "localized manifests must use the selected language application name",
+);
+assert.equal(arabicWebAppManifest.lang, "ar");
+assert.equal(arabicWebAppManifest.dir, "rtl");
+assert.equal(
+  arabicWebAppManifest.start_url,
+  "./index.ar.html",
+  "a localized installation must launch in its selected language",
+);
+assert.match(
+  arabicDemo,
+  /<link rel="manifest" href="\.\/manifest\.ar\.webmanifest">/,
+  "localized pages must advertise their localized installation manifest",
+);
 assert.deepEqual(
   webAppManifest.icons.map((icon) => icon.sizes),
   ["192x192", "512x512", "512x512"],
@@ -294,12 +323,22 @@ assert.match(
 assert.match(
   demoScript,
   /function renderInstallAppButton[\s\S]*isInstalledApp\(\)[\s\S]*appinstalled[\s\S]*deferredInstallPrompt = undefined/,
-  "the install action must hide when the app is installed or no prompt is available",
+  "the install action must hide after the app is installed",
 );
 assert.match(
   demoScript,
   /isIosDevice[\s\S]*Add to Home Screen|isIosDevice[\s\S]*installDialog\?\.showModal/,
   "iOS users must receive manual Add to Home Screen instructions",
+);
+assert.match(
+  demoScript,
+  /userAgentData\?\.platform[\s\S]*toLowerCase\(\) === 'macos'[\s\S]*return false/,
+  "macOS device emulation must not be mistaken for a real iOS installation",
+);
+assert.match(
+  demoScript,
+  /install-instructions-ios[\s\S]*install-instructions-browser[\s\S]*browserInstructions\.hidden = ios/,
+  "browsers without a native prompt must receive platform-appropriate installation instructions",
 );
 assert.match(
   demoStyles,
@@ -315,6 +354,7 @@ assert.match(
 );
 for (const asset of [
   "./index.ar.html",
+  "./manifest.ar.webmanifest",
   "./emoji.json",
   "./dist/esm/index.js",
   "./offline.html",
