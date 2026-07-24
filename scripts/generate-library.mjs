@@ -5,26 +5,40 @@ const sourceDirectory = 'library';
 const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 const emoji = JSON.parse(fs.readFileSync('emoji.json', 'utf8'));
 const popular = JSON.parse(fs.readFileSync('popular.json', 'utf8'));
+const versionManifest = JSON.parse(
+  fs.readFileSync('versions/manifest.json', 'utf8')
+);
 
-const clean = directory => fs.rmSync(directory, { recursive: true, force: true });
+const clean = directory =>
+  fs.rmSync(directory, { recursive: true, force: true });
 const write = (file, contents) => {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, `${contents}\n`, 'utf8');
 };
-const slug = text => text.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-const formatLabel = text => text.replace(/-/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
+const slug = text =>
+  text
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+const formatLabel = text =>
+  text.replace(/-/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
 const pack = (file, items) => {
   const lines = [
     'export default {',
-    ...items.map(item => `  /** ${item.shortName} ${item.emoji} */\n  ${JSON.stringify(item.key)}: "${item.value}" as const,`),
+    ...items.map(
+      item =>
+        `  /** ${item.shortName} ${item.emoji} */\n  ${JSON.stringify(item.key)}: "${item.value}" as const,`
+    ),
     '} as const;'
   ];
   write(file, lines.join('\n'));
 };
 const mergedPack = (file, packs) => {
-  const packType = packs.length === 0
-    ? 'Readonly<Record<string, string>>'
-    : packs.map((_, index) => `typeof pack${index}`).join(' & ');
+  const packType =
+    packs.length === 0
+      ? 'Readonly<Record<string, string>>'
+      : packs.map((_, index) => `typeof pack${index}`).join(' & ');
   const lines = [
     ...packs.map(({ id }, index) => `import pack${index} from "./${id}";`),
     '',
@@ -75,8 +89,16 @@ write(path.join(sourceDirectory, 'search.ts'), searchModule.trim());
 
 const byKey = new Map(emoji.map(item => [item.key, item]));
 const sequenceTypes = ['single', 'modifier', 'zwj', 'flag', 'keycap', 'tag'];
-if (emoji.some(item => !Number.isInteger(item.order) || !sequenceTypes.includes(item.sequenceType))) {
-  throw new Error('emoji.json must contain an integer order and a valid sequenceType for every emoji. Run npm run unicode -- 17.0.');
+if (
+  emoji.some(
+    item =>
+      !Number.isInteger(item.order) ||
+      !sequenceTypes.includes(item.sequenceType)
+  )
+) {
+  throw new Error(
+    'emoji.json must contain an integer order and a valid sequenceType for every emoji. Run npm run unicode -- 17.0.'
+  );
 }
 const popularItems = popular.map(key => {
   const item = byKey.get(key);
@@ -85,33 +107,42 @@ const popularItems = popular.map(key => {
 });
 pack(path.join(sourceDirectory, 'popular.ts'), popularItems);
 
-const categories = [...new Set(emoji.map(item => item.group))].map(groupLabel => {
-  const id = slug(groupLabel);
-  const items = emoji.filter(item => item.group === groupLabel);
-  const subcategories = [...new Set(items.map(item => item.subGroup))].map(subGroup => {
-    const subcategoryId = slug(subGroup);
-    const subcategoryItems = items.filter(item => item.subGroup === subGroup);
-    pack(path.join(sourceDirectory, 'categories', id, `${subcategoryId}.ts`), subcategoryItems);
+const categories = [...new Set(emoji.map(item => item.group))].map(
+  groupLabel => {
+    const id = slug(groupLabel);
+    const items = emoji.filter(item => item.group === groupLabel);
+    const subcategories = [...new Set(items.map(item => item.subGroup))].map(
+      subGroup => {
+        const subcategoryId = slug(subGroup);
+        const subcategoryItems = items.filter(
+          item => item.subGroup === subGroup
+        );
+        pack(
+          path.join(sourceDirectory, 'categories', id, `${subcategoryId}.ts`),
+          subcategoryItems
+        );
+        return {
+          id: subcategoryId,
+          label: formatLabel(subGroup),
+          unicodeSubgroup: subGroup,
+          count: subcategoryItems.length,
+          importPath: `${packageJson.name}/categories/${id}/${subcategoryId}`
+        };
+      }
+    );
+    mergedPack(
+      path.join(sourceDirectory, 'categories', `${id}.ts`),
+      subcategories.map(subcategory => ({ id: `${id}/${subcategory.id}` }))
+    );
     return {
-      id: subcategoryId,
-      label: formatLabel(subGroup),
-      unicodeSubgroup: subGroup,
-      count: subcategoryItems.length,
-      importPath: `${packageJson.name}/categories/${id}/${subcategoryId}`
+      id,
+      label: groupLabel,
+      count: items.length,
+      importPath: `${packageJson.name}/categories/${id}`,
+      subcategories
     };
-  });
-  mergedPack(
-    path.join(sourceDirectory, 'categories', `${id}.ts`),
-    subcategories.map(subcategory => ({ id: `${id}/${subcategory.id}` }))
-  );
-  return {
-    id,
-    label: groupLabel,
-    count: items.length,
-    importPath: `${packageJson.name}/categories/${id}`,
-    subcategories
-  };
-});
+  }
+);
 
 // Keep the package's all entry point small and typed while preserving the
 // standalone browser index generated by generate-browser.mjs as one full object.
@@ -133,24 +164,115 @@ for (const [name, items] of Object.entries(variationPacks)) {
   pack(path.join(sourceDirectory, 'variations', `${name}.ts`), items);
 }
 
-write('manifest.json', JSON.stringify({
-  name: packageJson.name,
-  packs: [
-    { id: 'popular', label: 'Popular', count: popularItems.length, importPath: packageJson.name, keys: popular },
-    { id: 'all', label: 'All emoji', count: emoji.length, importPath: `${packageJson.name}/all` }
-  ],
-  categories,
-  variations: [
-    { id: 'skin-tones', label: 'Skin tones', count: variationPacks['skin-tones'].length, importPath: `${packageJson.name}/variations/skin-tones` },
-    { id: 'hair', label: 'Hair styles', count: variationPacks.hair.length, importPath: `${packageJson.name}/variations/hair` },
-    { id: 'families', label: 'Families', count: variationPacks.families.length, importPath: `${packageJson.name}/variations/families` },
-    { id: 'all', label: 'All variations', count: variationPacks.all.length, importPath: `${packageJson.name}/variations/all` }
-  ]
-}, null, 2));
+write(
+  'manifest.json',
+  JSON.stringify(
+    {
+      name: packageJson.name,
+      packs: [
+        {
+          id: 'popular',
+          label: 'Popular',
+          count: popularItems.length,
+          importPath: packageJson.name,
+          keys: popular
+        },
+        {
+          id: 'all',
+          label: 'All emoji',
+          count: emoji.length,
+          importPath: `${packageJson.name}/all`
+        }
+      ],
+      categories,
+      variations: [
+        {
+          id: 'skin-tones',
+          label: 'Skin tones',
+          count: variationPacks['skin-tones'].length,
+          importPath: `${packageJson.name}/variations/skin-tones`
+        },
+        {
+          id: 'hair',
+          label: 'Hair styles',
+          count: variationPacks.hair.length,
+          importPath: `${packageJson.name}/variations/hair`
+        },
+        {
+          id: 'families',
+          label: 'Families',
+          count: variationPacks.families.length,
+          importPath: `${packageJson.name}/variations/families`
+        },
+        {
+          id: 'all',
+          label: 'All variations',
+          count: variationPacks.all.length,
+          importPath: `${packageJson.name}/variations/all`
+        }
+      ]
+    },
+    null,
+    2
+  )
+);
 
 const unicodeOrder = [...emoji].sort((a, b) => a.order - b.order);
-write('orders/manifest.json', JSON.stringify({
-  unicode: unicodeOrder.map(item => item.key)
-}, null, 2));
+write(
+  'orders/manifest.json',
+  JSON.stringify(
+    {
+      unicode: unicodeOrder.map(item => item.key)
+    },
+    null,
+    2
+  )
+);
 
-console.log(`Generated ${emoji.length} emoji across popular, all, ${categories.length} categories, ${categories.reduce((count, category) => count + category.subcategories.length, 0)} category subpacks, and ${Object.keys(variationPacks).length} variation packs.`);
+const introducedByKey = new Map();
+versionManifest.versions
+  .filter(version => version.released)
+  .sort((left, right) => left.released.localeCompare(right.released))
+  .forEach(version => {
+    const keys = JSON.parse(
+      fs.readFileSync(path.join('versions', version.file), 'utf8')
+    );
+    keys.forEach(key => {
+      if (!introducedByKey.has(key)) introducedByKey.set(key, version.version);
+    });
+  });
+const explorerFields = [
+  'key',
+  'emoji',
+  'codePoints',
+  'status',
+  'shortName',
+  'group',
+  'subGroup',
+  'order',
+  'sequenceType',
+  'introduced'
+];
+write(
+  'explorer/catalog.json',
+  JSON.stringify({
+    schemaVersion: 1,
+    fields: explorerFields,
+    emoji: emoji.map(item => [
+      item.key,
+      item.emoji,
+      item.codePoints,
+      item.status,
+      item.shortName,
+      item.group,
+      item.subGroup,
+      item.order,
+      item.sequenceType,
+      introducedByKey.get(item.key) ?? null
+    ])
+  })
+);
+
+console.log(
+  `Generated ${emoji.length} emoji across popular, all, ${categories.length} categories, ${categories.reduce((count, category) => count + category.subcategories.length, 0)} category subpacks, and ${Object.keys(variationPacks).length} variation packs.`
+);

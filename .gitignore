@@ -6,6 +6,7 @@
 !/dist/esm/
 /dist/esm/*
 !/dist/esm/index.js
+/explorer/
 /service-worker.js
 /pixel-font/build/
 /pixel-font/font-build.revision

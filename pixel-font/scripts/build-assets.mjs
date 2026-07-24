@@ -255,6 +255,19 @@ if (Object.keys(editorGlyphs).length !== manifest.activeGlyphCount) {
   );
 }
 await writeJson(path.join(buildDirectory, "manifest.json"), buildManifest);
+await fs.writeFile(
+  path.join(buildDirectory, "explorer-manifest.json"),
+  `${JSON.stringify({
+    schemaVersion: 1,
+    fields: ["key", "privateUseCodePoint", "releaseStatus"],
+    glyphs: buildManifest.glyphs.map((glyph) => [
+      glyph.key,
+      glyph.privateUseCodePoint,
+      glyph.releaseStatus,
+    ]),
+  })}\n`,
+  "utf8",
+);
 await writeJson(path.join(buildDirectory, "editor-manifest.json"), {
   schemaVersion: 1,
   setName: manifest.setName,

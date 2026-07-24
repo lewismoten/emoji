@@ -21,6 +21,15 @@ if (missing.length > 0) {
   );
 }
 
+for (const asset of [
+  "explorer/catalog.json",
+  "pixel-font/build/explorer-manifest.json",
+]) {
+  if (!fs.existsSync(path.join(siteDirectory, asset))) {
+    throw new Error(`Pages site is missing on-demand Explorer asset: ${asset}`);
+  }
+}
+
 const manifestFiles = fs
   .readdirSync(siteDirectory)
   .filter((file) => /^manifest(?:\.[\w-]+)?\.webmanifest$/.test(file));

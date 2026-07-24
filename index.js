@@ -171,7 +171,7 @@ var genderFieldset;
 var versionManifests = [];
 var proposedVersionManifests = [];
 var versionKeys = new Map();
-var orderManifest = { unicode: [] };
+var versionDataPromise;
 var packageManifest = { packs: [], categories: [] };
 var orderMode = 'grouped';
 var compositionMode = 'condensed';
@@ -431,6 +431,7 @@ function toggleDeveloperMode(event) {
   developerModeFromUrl = false;
   saveExplorerPreference('developerMode', enabled);
   renderDeveloperMode();
+  if (enabled) void loadVersionData();
   if (!enabled && exampleDialog?.open) {
     setEmojiDialogView('details');
   }
@@ -746,10 +747,7 @@ function getSportType(name) {
 function ensureUtilityControls() {
   const searchControls = document.querySelector('.search-controls');
   const fontComparison = document.querySelector('.pixel-comparison');
-  if (
-    fontComparison &&
-    !fontComparison.querySelector('.emoji-font-choice')
-  ) {
+  if (fontComparison && !fontComparison.querySelector('.emoji-font-choice')) {
     fontComparison.setAttribute('role', 'group');
     fontComparison.dataset.i18nAriaLabel = 'emojiStyle';
     fontComparison.setAttribute('aria-label', 'Emoji style');
@@ -2349,10 +2347,10 @@ if (
 
 async function loadData() {
   const pixelFontManifestUrl = isViteDevelopment
-    ? `pixel-font/build/manifest.json?v=${Date.now()}`
-    : 'pixel-font/build/manifest.json';
-  const [data, manifest, pixelFontManifest] = await Promise.all([
-    fetch('emoji.json').then(response => response.json()),
+    ? `pixel-font/build/explorer-manifest.json?v=${Date.now()}`
+    : 'pixel-font/build/explorer-manifest.json';
+  const [catalog, manifest, pixelFontManifest] = await Promise.all([
+    fetch('explorer/catalog.json').then(response => response.json()),
     fetch('manifest.json')
       .then(response => response.json())
       .catch(() => ({ packs: [], categories: [] })),
@@ -2363,6 +2361,11 @@ async function loadData() {
       .then(response => (response.ok ? response.json() : { glyphs: [] }))
       .catch(() => ({ glyphs: [] }))
   ]);
+  const data = catalog.emoji.map(row =>
+    Object.fromEntries(
+      catalog.fields.map((field, index) => [field, row[index]])
+    )
+  );
   packageManifest = manifest;
   updatePixelArtworkManifest(pixelFontManifest);
   emojiByKey = Object.fromEntries(data.map(item => [item.key, item.emoji]));
@@ -2441,8 +2444,8 @@ async function loadData() {
   // loadVersionData(), so the default version filter stays released-only.
   releasedIds = new Set(allIds);
   onClick({ target: { id: 'clinkingBeerMugs' } }, false);
-  await loadVersionData();
-  await loadOrderData();
+  applyLoadedUrlState();
+  if (developerModeEnabled()) await loadVersionData();
 }
 
 async function loadSearchLanguages(initialLocale = '') {
@@ -2622,17 +2625,6 @@ async function setSearchLanguage(requestedLocale) {
   }
 }
 
-async function loadOrderData() {
-  try {
-    orderManifest = await fetch('orders/manifest.json').then(response =>
-      response.json()
-    );
-    drawList();
-  } catch (error) {
-    console.warn('Unicode order data unavailable', error);
-  }
-}
-
 function onOrderModeChange(event) {
   if (
     event.currentTarget.dataset.order === 'sequence' &&
@@ -2651,63 +2643,70 @@ function onOrderModeChange(event) {
 }
 
 async function loadVersionData() {
-  try {
-    const manifest = await fetch('versions/manifest.json').then(response =>
-      response.json()
-    );
-    const manifests = manifest.versions
-      .filter(version => version.released)
-      .sort((a, b) => a.released.localeCompare(b.released));
-    const keys = await Promise.all(
-      manifests.map(async version => [
-        version.version,
-        new Set(
-          await fetch(`versions/${version.file}`).then(response =>
-            response.json()
+  if (versionDataPromise) return versionDataPromise;
+  versionDataPromise = (async () => {
+    try {
+      const manifest = await fetch('versions/manifest.json').then(response =>
+        response.json()
+      );
+      const manifests = manifest.versions
+        .filter(version => version.released)
+        .sort((a, b) => a.released.localeCompare(b.released));
+      const keys = await Promise.all(
+        manifests.map(async version => [
+          version.version,
+          new Set(
+            await fetch(`versions/${version.file}`).then(response =>
+              response.json()
+            )
           )
-        )
-      ])
-    );
-    const proposed = (manifest.proposed ?? []).sort((a, b) =>
-      a.version.localeCompare(b.version, undefined, { numeric: true })
-    );
-    const proposedKeys = await Promise.all(
-      proposed.map(async version => {
-        const proposal = await fetch(version.file).then(response =>
-          response.json()
-        );
-        const proposalItems = proposal.emoji ?? [];
-        proposalItems.forEach(item => {
-          if (emojiByKey[item.key]) return;
-          const explorerItem = {
-            ...item,
-            unicodeSubGroup: item.subGroup,
-            subGroup: getExplorerSubGroup(item)
-          };
-          items.push(explorerItem);
-          byId[item.key] = explorerItem;
-          emojiByKey[item.key] = item.emoji;
-          allIds.push(item.key);
-        });
-        return [version.version, new Set(proposalItems.map(item => item.key))];
-      })
-    );
+        ])
+      );
+      const proposed = (manifest.proposed ?? []).sort((a, b) =>
+        a.version.localeCompare(b.version, undefined, { numeric: true })
+      );
+      const proposedKeys = await Promise.all(
+        proposed.map(async version => {
+          const proposal = await fetch(version.file).then(response =>
+            response.json()
+          );
+          const proposalItems = proposal.emoji ?? [];
+          proposalItems.forEach(item => {
+            if (emojiByKey[item.key]) return;
+            const explorerItem = {
+              ...item,
+              unicodeSubGroup: item.subGroup,
+              subGroup: getExplorerSubGroup(item)
+            };
+            items.push(explorerItem);
+            byId[item.key] = explorerItem;
+            emojiByKey[item.key] = item.emoji;
+            allIds.push(item.key);
+          });
+          return [
+            version.version,
+            new Set(proposalItems.map(item => item.key))
+          ];
+        })
+      );
 
-    versionManifests = manifests;
-    proposedVersionManifests = proposed;
-    versionKeys = new Map([...keys, ...proposedKeys]);
-    rebuildEmojiCodePointLookup();
-    updateModifierPixelArtwork();
-    buildCategoryRepresentatives();
-    populateVersionSelector();
-    applyLoadedUrlState();
-    renderCategoryFilters();
-    drawList();
-  } catch (error) {
-    console.warn('Version filters unavailable', error);
-    versionModeSelector.disabled = true;
-    versionSelector.disabled = true;
-  }
+      versionManifests = manifests;
+      proposedVersionManifests = proposed;
+      versionKeys = new Map([...keys, ...proposedKeys]);
+      rebuildEmojiCodePointLookup();
+      updateModifierPixelArtwork();
+      buildCategoryRepresentatives();
+      populateVersionSelector();
+      applyLoadedUrlState();
+      renderCategoryFilters();
+      drawList();
+    } catch (error) {
+      console.warn('Version filters unavailable', error);
+      versionModeSelector.disabled = true;
+      versionSelector.disabled = true;
+    }
+  })();
+  return versionDataPromise;
 }
 
 function populateVersionSelector() {
@@ -2790,6 +2789,16 @@ function onVersionRangeInput() {
 }
 
 function updateModifierAvailability() {
+  if (versionKeys.size === 0) {
+    if (skinToneFieldset) skinToneFieldset.hidden = false;
+    if (hairFieldset) hairFieldset.hidden = false;
+    if (genderFieldset) genderFieldset.hidden = false;
+    if (modifierFilters) {
+      modifierFilters.hidden = false;
+      modifierFilters.classList.remove('has-single');
+    }
+    return;
+  }
   const manifests = [...versionManifests, ...proposedVersionManifests];
   const selectedIndex = manifests.findIndex(
     version => version.version === versionSelector.value
@@ -3484,15 +3493,7 @@ function asSequenceItem(state, key) {
 
 function orderedKeys(keys) {
   if (orderMode === 'grouped') return keys;
-  const preferred =
-    orderMode === 'unicode'
-      ? orderManifest.unicode
-      : sequenceTypeOrder.flatMap(type =>
-          orderManifest.unicode.filter(key => byId[key]?.sequenceType === type)
-        );
-  const included = new Set(keys);
-  const ordered = preferred.filter(key => included.delete(key));
-  return [...ordered, ...included].sort((left, right) => {
+  return [...keys].sort((left, right) => {
     if (orderMode === 'sequence') {
       const typeDifference =
         sequenceTypeOrder.indexOf(byId[left]?.sequenceType ?? 'single') -
@@ -3637,11 +3638,7 @@ function renderEmojiList(keys, shouldRestoreEmojiFocus) {
   emojiList.setAttribute('aria-busy', 'true');
   if (keys.length === 0) {
     renderRoot.appendChild(createEmptyResults());
-    finishEmojiListRender(
-      generation,
-      shouldRestoreEmojiFocus,
-      renderRoot
-    );
+    finishEmojiListRender(generation, shouldRestoreEmojiFocus, renderRoot);
     return;
   }
 
@@ -3690,11 +3687,7 @@ function renderEmojiList(keys, shouldRestoreEmojiFocus) {
     if (keyIndex < keys.length) {
       yieldForListRender().then(renderChunk);
     } else {
-      finishEmojiListRender(
-        generation,
-        shouldRestoreEmojiFocus,
-        renderRoot
-      );
+      finishEmojiListRender(generation, shouldRestoreEmojiFocus, renderRoot);
     }
   };
   renderChunk();
@@ -3993,7 +3986,9 @@ function getIntroducedVersion(key) {
   return (
     [...versionManifests, ...proposedVersionManifests].find(version =>
       versionKeys.get(version.version)?.has(key)
-    )?.version ?? '—'
+    )?.version ??
+    byId[key]?.introduced ??
+    '—'
   );
 }
 
@@ -4283,7 +4278,13 @@ function applyPixelArtworkClass(element, emojiKey) {
 }
 
 function updatePixelArtworkManifest(manifest, revision) {
-  const glyphs = manifest.glyphs ?? [];
+  const glyphs = manifest.fields
+    ? (manifest.glyphs ?? []).map(row =>
+        Object.fromEntries(
+          manifest.fields.map((field, index) => [field, row[index]])
+        )
+      )
+    : (manifest.glyphs ?? []);
   paintedPixelEmojiKeys = new Set(glyphs.map(glyph => glyph.key));
   privateUsePixelEmojiByKey = new Map(
     glyphs

@@ -36,9 +36,7 @@ const identityOption = option(
   '--identity',
   process.env.EMOJI_SSH_IDENTITY ?? ''
 );
-const identity = identityOption
-  ? path.resolve(expandHome(identityOption))
-  : '';
+const identity = identityOption ? path.resolve(expandHome(identityOption)) : '';
 const transport = option(
   '--transport',
   process.env.EMOJI_DEPLOY_TRANSPORT ?? 'auto'
@@ -57,8 +55,7 @@ const run = (command, commandArgs, extra = {}, allowFailure = false) => {
     ...extra
   });
   if (result.error) {
-    if (allowFailure && result.error.code === 'ENOENT')
-      return { status: 127 };
+    if (allowFailure && result.error.code === 'ENOENT') return { status: 127 };
     throw result.error;
   }
   if (!allowFailure && result.status !== 0)
@@ -90,20 +87,15 @@ const publishWithTar = async destination => {
   const tarArgs = ['-C', outputDirectory];
   if (process.platform === 'darwin') tarArgs.push('--no-xattrs');
   tarArgs.push('-czf', '-', '.');
-  const archive = spawn(
-    'tar',
-    tarArgs,
-    {
-      cwd: root,
-      env: { ...process.env, COPYFILE_DISABLE: '1' },
-      stdio: ['ignore', 'pipe', 'inherit']
-    }
-  );
-  const ssh = spawn(
-    'ssh',
-    [...sshIdentityArgs, host, remoteCommand],
-    { cwd: root, stdio: ['pipe', 'inherit', 'inherit'] }
-  );
+  const archive = spawn('tar', tarArgs, {
+    cwd: root,
+    env: { ...process.env, COPYFILE_DISABLE: '1' },
+    stdio: ['ignore', 'pipe', 'inherit']
+  });
+  const ssh = spawn('ssh', [...sshIdentityArgs, host, remoteCommand], {
+    cwd: root,
+    stdio: ['pipe', 'inherit', 'inherit']
+  });
   archive.stdout.pipe(ssh.stdin);
   const waitFor = (child, name) =>
     new Promise((resolve, reject) => {
@@ -128,7 +120,9 @@ const forbiddenOutputs = new Set([
   os.homedir()
 ]);
 if (forbiddenOutputs.has(outputDirectory)) {
-  throw new Error(`Refusing to replace unsafe output directory: ${outputDirectory}`);
+  throw new Error(
+    `Refusing to replace unsafe output directory: ${outputDirectory}`
+  );
 }
 
 fs.rmSync(outputDirectory, { recursive: true, force: true });
@@ -153,6 +147,7 @@ const directories = [
   'dist',
   'locales',
   'demo-locales',
+  'explorer',
   'orders',
   'versions',
   'proposed'

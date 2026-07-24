@@ -117,6 +117,10 @@ const importPackageDefault = async (specifier: string) =>
 const require = createRequire(import.meta.url);
 
 const emoji = await readJson<Emoji[]>("emoji.json");
+const explorerCatalog = await readJson<{
+  fields: string[];
+  emoji: unknown[][];
+}>("explorer/catalog.json");
 const orderManifest = await readJson<{ unicode: string[] }>(
   "orders/manifest.json",
 );
@@ -274,6 +278,32 @@ assert.ok(
     ),
   ),
   "every emoji must have a known sequence type",
+);
+assert.equal(
+  explorerCatalog.emoji.length,
+  emoji.length,
+  "the compact Explorer catalog must contain every released emoji",
+);
+assert.deepEqual(
+  explorerCatalog.fields,
+  [
+    "key",
+    "emoji",
+    "codePoints",
+    "status",
+    "shortName",
+    "group",
+    "subGroup",
+    "order",
+    "sequenceType",
+    "introduced",
+  ],
+  "the compact Explorer catalog schema must remain explicit",
+);
+assert.ok(
+  (await fs.stat(path.join(root, "explorer/catalog.json"))).size <
+    (await fs.stat(path.join(root, "emoji.json"))).size / 2,
+  "the Explorer catalog must remain less than half the verbose public dataset",
 );
 assert.deepEqual(
   orderManifest.unicode,
@@ -471,6 +501,26 @@ assert.match(
   "the deployed entry module must lazy-load a versioned pixel editor",
 );
 assert.match(
+  demoScript,
+  /fetch\('explorer\/catalog\.json'\)/,
+  "the Explorer must load its compact runtime catalog",
+);
+assert.match(
+  demoScript,
+  /pixel-font\/build\/explorer-manifest\.json/,
+  "the Explorer must load compact pixel-font metadata",
+);
+assert.doesNotMatch(
+  demoScript,
+  /fetch\('emoji\.json'\)|fetch\('orders\/manifest\.json'\)/,
+  "the Explorer must not download duplicate public emoji or ordering data",
+);
+assert.match(
+  demoScript,
+  /if \(developerModeEnabled\(\)\) await loadVersionData\(\)/,
+  "release datasets must load on demand for developer mode",
+);
+assert.match(
   arabicDemo,
   new RegExp(`src="\\./index\\.js\\?v=${packageJson.version}"`),
   "localized pages must load the versioned application entry point",
@@ -564,6 +614,11 @@ assert.match(
   pixelFontBuildScript,
   /releasedCoverage[\s\S]*proposedCoverage[\s\S]*paintedGlyphCount[\s\S]*trackedGlyphCount[\s\S]*complete/,
   "the published font manifest must report released and proposed coverage by Unicode version",
+);
+assert.match(
+  pixelFontBuildScript,
+  /explorer-manifest\.json[\s\S]*fields:\s*\["key", "privateUseCodePoint", "releaseStatus"\][\s\S]*buildManifest\.glyphs\.map/,
+  "font builds must emit a compact runtime manifest for the Explorer",
 );
 assert.match(
   fontPublishWorkflow,
