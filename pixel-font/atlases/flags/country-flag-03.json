@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 3,
+  "id": "flags/country-flag-03",
+  "image": "flags/country-flag-03.png",
+  "modifierType": "base",
+  "group": "Flags",
+  "subGroup": "country-flag",
+  "part": 3,
+  "partCount": 3,
+  "rows": 1,
+  "imageWidth": 272,
+  "imageHeight": 80,
+  "entries": [
+    {
+      "index": 0,
+      "row": 0,
+      "column": 0,
+      "x": 10,
+      "y": 42,
+      "width": 12,
+      "height": 12,
+      "key": "flagSouthAfrica",
+      "name": "flag: South Africa",
+      "emoji": "🇿🇦",
+      "codePoints": ["1F1FF", "1F1E6"],
+      "order": 3947,
+      "sequenceType": "flag",
+      "active": true
+    },
+    {
+      "index": 1,
+      "row": 0,
+      "column": 1,
+      "x": 26,
+      "y": 42,
+      "width": 12,
+      "height": 12,
+      "key": "flagZambia",
+      "name": "flag: Zambia",
+      "emoji": "🇿🇲",
+      "codePoints": ["1F1FF", "1F1F2"],
+      "order": 3948,
+      "sequenceType": "flag",
+      "active": true
+    },
+    {
+      "index": 2,
+      "row": 0,
+      "column": 2,
+      "x": 42,
+      "y": 42,
+      "width": 12,
+      "height": 12,
+      "key": "flagZimbabwe",
+      "name": "flag: Zimbabwe",
+      "emoji": "🇿🇼",
+      "codePoints": ["1F1FF", "1F1FC"],
+      "order": 3949,
+      "sequenceType": "flag",
+      "active": true
+    }
+  ]
+}

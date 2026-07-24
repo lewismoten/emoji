@@ -25,6 +25,12 @@
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
   <link rel="manifest" href="./manifest.webmanifest">
+  <script>
+    try {
+      const preferences = JSON.parse(localStorage.getItem('@lewismoten/emoji:explorer-preferences') ?? '{}');
+      if (preferences.pixelFont === false) document.documentElement.dataset.emojiFont = 'system';
+    } catch {}
+  </script>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Emoji Explorer">
   <meta property="og:title" content="Emoji Explorer – Search and Browse Unicode Emoji">
@@ -55,6 +61,7 @@
     }
   </script>
   <script defer src="./index.js" type="module"></script>
+  <link id="pixel-font-stylesheet" rel="stylesheet" href="./pixel-font/build/font/pixel-emoji.css">
   <link rel="stylesheet" href="./index.css?direct">
 </head>
 
@@ -80,6 +87,10 @@
             <span id="language-picker-accessible-label" class="sr-only" data-i18n="chooseLanguage">Choose a search language</span>
             <span class="language-picker-flag" aria-hidden="true">🌐</span>
             <span class="language-picker-label">Language not loaded</span>
+          </button>
+          <button class="pixel-font-toggle" type="button" aria-pressed="true" data-i18n-aria-label="pixelEmoji" aria-label="Pixel emoji">
+            <span class="pixel-font-toggle-icon" aria-hidden="true">▦</span>
+            <span class="pixel-font-toggle-label" data-i18n="pixelEmoji">Pixel emoji</span>
           </button>
           <button class="saved-picker" type="button" aria-haspopup="dialog" aria-controls="saved-dialog" data-i18n-aria-label="savedEmoji" aria-label="Saved emoji">
             <span aria-hidden="true">⭐</span>
@@ -189,6 +200,7 @@
           </div>
         </div>
         <div class="dialog-controls">
+          <button class="dialog-mode-back" type="button" data-i18n="pixelEditorBack" hidden>Back</button>
           <button class="dialog-navigate emoji-parent" type="button" aria-label="Back to parent emoji" hidden>↩</button>
           <button class="dialog-navigate emoji-previous" type="button" data-i18n-aria-label="previousEmoji" aria-label="Previous emoji">←</button>
           <button class="dialog-navigate emoji-next" type="button" data-i18n-aria-label="nextEmoji" aria-label="Next emoji">→</button>
@@ -225,13 +237,9 @@
           <button type="button" data-copy="codePoints" data-i18n-aria-label="copyCodePoints" aria-label="Copy code points"><span class="copy-action-long" data-i18n="copyCodePoints">Copy code points</span><span class="copy-action-short" data-i18n="codePoints">Code points</span></button>
           <button type="button" data-copy="link" data-i18n-aria-label="copyLink" aria-label="Copy link"><span class="copy-action-long" data-i18n="copyLink">Copy link</span><span class="copy-action-short" data-i18n="linkShort">Link</span></button>
           <button class="show-emoji-code" type="button" data-i18n="viewCode">View code</button>
+          <button class="show-pixel-editor" type="button" data-i18n="editPixelArt">Edit pixel art</button>
         </div>
         <div class="emoji-code-view" hidden>
-          <div class="emoji-code-toolbar">
-            <button class="back-to-emoji" type="button" data-i18n="backToEmoji">Back to emoji</button>
-            <button type="button" data-copy="code" data-i18n-aria-label="copyCode" aria-label="Copy code"><span class="copy-action-long" data-i18n="copyCode">Copy code</span><span class="copy-action-short" data-i18n="codeShort">Code</span></button>
-            <button type="button" data-copy="link" data-i18n-aria-label="copyLink" aria-label="Copy link"><span class="copy-action-long" data-i18n="copyLink">Copy link</span><span class="copy-action-short" data-i18n="linkShort">Link</span></button>
-          </div>
           <div class="code" dir="ltr">
             <span class="line"><span class="keyword">import</span> <span class="variable">emoji</span> <span class="keyword">from</span> <span class="string">"<span class="emoji-import-path">@lewismoten/emoji/all</span>"</span>;</span>
             <span class="line comment emoji-popular-import" hidden>// import emoji from "<span class="emoji-popular-import-path"></span>";</span>
@@ -240,6 +248,10 @@
             <span class="line"><span class="native-object">console</span>.<span class="native-function">log</span>(<span class="object">emoji</span>.<span class="object-key emoji-key">clinkingBeerMugs</span>);</span>
             <span class="line comment">// <span class="emoji-value">&#x1F37B;</span> <span class="emoji-encoded">\u{1f37b}</span></span>
             <span class="line comment">// <bdi class="emoji-group"></bdi> · <bdi class="emoji-subgroup"></bdi></span>
+          </div>
+          <div class="emoji-code-toolbar">
+            <button class="emoji-code-link" type="button" data-copy="link" data-i18n-aria-label="copyLink" aria-label="Copy link"><span class="copy-action-long" aria-hidden="true">🔗</span><span class="copy-action-short" aria-hidden="true">🔗</span></button>
+            <button class="emoji-code-copy" type="button" data-copy="code" data-i18n-aria-label="copyCode" aria-label="Copy code"><span class="copy-action-long" data-i18n="copy">Copy</span><span class="copy-action-short" data-i18n="copy">Copy</span></button>
           </div>
         </div>
     </dialog>

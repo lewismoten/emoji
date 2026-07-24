@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 3,
+  "id": "smileys-and-emotion/face-glasses",
+  "image": "smileys-and-emotion/face-glasses.png",
+  "modifierType": "base",
+  "group": "Smileys & Emotion",
+  "subGroup": "face-glasses",
+  "part": 1,
+  "partCount": 1,
+  "rows": 1,
+  "imageWidth": 272,
+  "imageHeight": 80,
+  "entries": [
+    {
+      "index": 0,
+      "row": 0,
+      "column": 0,
+      "x": 10,
+      "y": 42,
+      "width": 12,
+      "height": 12,
+      "key": "smilingFaceWithSunglasses",
+      "name": "smiling face with sunglasses",
+      "emoji": "😎",
+      "codePoints": ["1F60E"],
+      "order": 73,
+      "sequenceType": "single",
+      "active": true
+    },
+    {
+      "index": 1,
+      "row": 0,
+      "column": 1,
+      "x": 26,
+      "y": 42,
+      "width": 12,
+      "height": 12,
+      "key": "nerdFace",
+      "name": "nerd face",
+      "emoji": "🤓",
+      "codePoints": ["1F913"],
+      "order": 74,
+      "sequenceType": "single",
+      "active": true
+    },
+    {
+      "index": 2,
+      "row": 0,
+      "column": 2,
+      "x": 42,
+      "y": 42,
+      "width": 12,
+      "height": 12,
+      "key": "faceWithMonocle",
+      "name": "face with monocle",
+      "emoji": "🧐",
+      "codePoints": ["1F9D0"],
+      "order": 75,
+      "sequenceType": "single",
+      "active": true
+    }
+  ]
+}

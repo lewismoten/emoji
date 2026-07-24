@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "id": "proposed/18.0/smileys-and-emotion/face-smiling",
+  "image": "proposed/18.0/smileys-and-emotion/face-smiling.png",
+  "modifierType": "base",
+  "releaseStatus": "proposed",
+  "unicodeVersion": "18.0",
+  "proposalStage": "beta",
+  "expectedRelease": "2026-09",
+  "group": "Smileys & Emotion",
+  "subGroup": "face-smiling",
+  "part": 1,
+  "partCount": 1,
+  "rows": 1,
+  "imageWidth": 272,
+  "imageHeight": 80,
+  "entries": [
+    {
+      "index": 0,
+      "row": 0,
+      "column": 0,
+      "x": 10,
+      "y": 42,
+      "width": 12,
+      "height": 12,
+      "key": "crackingFace",
+      "name": "cracking face",
+      "emoji": "🫫",
+      "codePoints": ["1FAEB"],
+      "order": 11,
+      "sequenceType": "single",
+      "active": true
+    }
+  ]
+}

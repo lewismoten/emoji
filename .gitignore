@@ -7,4 +7,8 @@
 /dist/esm/*
 !/dist/esm/index.js
 /service-worker.js
+/pixel-font/build/
+/pixel-font/font-build.revision
+/pixel-font/.venv/
+/pixel-font/scripts/__pycache__/
 .DS_Store

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 3,
+  "id": "proposed/18.0/objects/writing",
+  "image": "proposed/18.0/objects/writing.png",
+  "modifierType": "base",
+  "releaseStatus": "proposed",
+  "unicodeVersion": "18.0",
+  "proposalStage": "beta",
+  "expectedRelease": "2026-09",
+  "group": "Objects",
+  "subGroup": "writing",
+  "part": 1,
+  "partCount": 1,
+  "rows": 1,
+  "imageWidth": 272,
+  "imageHeight": 80,
+  "entries": [
+    {
+      "index": 0,
+      "row": 0,
+      "column": 0,
+      "x": 10,
+      "y": 42,
+      "width": 12,
+      "height": 12,
+      "key": "eraser",
+      "name": "eraser",
+      "emoji": "🪌",
+      "codePoints": ["1FA8C"],
+      "order": 3372,
+      "sequenceType": "single",
+      "active": true
+    }
+  ]
+}

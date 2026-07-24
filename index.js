@@ -1,4 +1,99 @@
 import emoji from './dist/esm/index.js';
+import { createPixelEditor } from './pixel-editor.js';
+
+if (import.meta.hot) {
+  let pixelFontRevision;
+  const checkPixelFontRevision = async (refreshInitial = false) => {
+    try {
+      const response = await fetch(
+        `./pixel-font/font-build.revision?cache=${Date.now()}`,
+        { cache: 'no-store' }
+      );
+      if (!response.ok) return;
+      const revision = (await response.text()).trim();
+      if (!revision || revision === pixelFontRevision) return;
+      const initial = pixelFontRevision === undefined;
+      pixelFontRevision = revision;
+      if (!initial || refreshInitial) refreshPixelFontStylesheet(revision);
+    } catch {
+      // The revision file exists only while developing the pixel font.
+    }
+  };
+  import.meta.hot.on('pixel-font:updated', () => {
+    void checkPixelFontRevision(true);
+  });
+  void checkPixelFontRevision(true);
+  window.setInterval(checkPixelFontRevision, 1500);
+}
+
+function refreshPixelFontStylesheet(revision) {
+  const stylesheet = document.querySelector('#pixel-font-stylesheet');
+  if (!stylesheet || stylesheet.dataset.revision === revision) return;
+  const replacement = stylesheet.cloneNode();
+  const url = new URL(stylesheet.href);
+  url.searchParams.set('v', revision);
+  replacement.href = url.href;
+  replacement.dataset.revision = revision;
+  stylesheet.removeAttribute('id');
+  stylesheet.after(replacement);
+  replacement.addEventListener(
+    'load',
+    () => {
+      stylesheet.remove();
+      pixelEditor?.refreshFontBuild();
+      void refreshExplorerPixelFont(revision);
+    },
+    { once: true }
+  );
+}
+
+async function refreshExplorerPixelFont(revision) {
+  try {
+    const response = await fetch(
+      `./pixel-font/build/manifest.json?v=${revision}`,
+      { cache: 'no-store' }
+    );
+    if (!response.ok) throw new Error('Pixel font manifest is unavailable');
+    const manifest = await response.json();
+    updatePixelArtworkManifest(manifest, revision);
+    document.querySelectorAll('[data-emoji-key]').forEach(cell => {
+      applyPixelArtworkClass(
+        cell.querySelector('.emoji-glyph'),
+        cell.dataset.emojiKey
+      );
+    });
+    applyPixelArtworkClass(
+      exampleDialog?.querySelector('.emoji-preview-glyph'),
+      currentEmojiKey
+    );
+    applyPixelArtworkClass(
+      exampleDialog?.querySelector(
+        '.emoji-composition-result .emoji-composition-glyph'
+      ),
+      currentEmojiKey
+    );
+    exampleDialog
+      ?.querySelectorAll('[data-composition-emoji]')
+      .forEach(part => {
+        applyPixelArtworkClass(
+          part.querySelector('.emoji-composition-glyph'),
+          part.dataset.compositionEmoji
+        );
+      });
+    exampleDialog
+      ?.querySelectorAll('[data-composition-artwork]')
+      .forEach(part => {
+        applyStandalonePixelArtwork(
+          part.querySelector('.emoji-composition-glyph'),
+          part.dataset.compositionArtwork,
+          Number(part.dataset.compositionPoint)
+        );
+      });
+    if (skinToneCheckboxes && hairCheckboxes) updateModifierPixelArtwork();
+  } catch (error) {
+    console.warn('Pixel font result refresh unavailable', error);
+  }
+}
 
 var items = [];
 var groups = [];
@@ -19,11 +114,14 @@ var releasedIds = new Set();
 var groupedKeys = {};
 var byId = {};
 var emojiKeyByCodePoints = new Map();
+var paintedPixelEmojiKeys = new Set();
+var proposedPixelEmojiKeys = new Set();
 
 var searchText;
 var languagePicker;
 var languagePickerFlag;
 var languagePickerLabel;
+var pixelFontToggle;
 var languageDialog;
 var languageList;
 var savedPicker;
@@ -85,6 +183,7 @@ var dialogNavigationKeys = [];
 var currentEmojiKey = '';
 var focusedEmojiKey = '';
 var copyStatus;
+var pixelEditor;
 var urlStateReady = false;
 var applyingUrlState = false;
 var suppressDialogCloseSync = false;
@@ -92,44 +191,105 @@ var suppressedPanelCloses = new WeakSet();
 var offlineStatus;
 const explorerPreferencesKey = '@lewismoten/emoji:explorer-preferences';
 var explorerPreferences = loadExplorerPreferences();
-var favoriteEmojiKeys = Array.isArray(explorerPreferences.favorites) ? explorerPreferences.favorites : [];
-var copiedEmojiKeys = Array.isArray(explorerPreferences.recentCopied) ? explorerPreferences.recentCopied : [];
+var favoriteEmojiKeys = Array.isArray(explorerPreferences.favorites)
+  ? explorerPreferences.favorites
+  : [];
+var copiedEmojiKeys = Array.isArray(explorerPreferences.recentCopied)
+  ? explorerPreferences.recentCopied
+  : [];
 const languageFlags = {
-  'ar': '🇸🇦',
-  'en': '🇺🇸',
+  ar: '🇸🇦',
+  en: '🇺🇸',
   'en-GB': '🇬🇧',
   'en-US': '🇺🇸',
-  'es': '🇪🇸',
-  'hi': '🇮🇳',
+  es: '🇪🇸',
+  hi: '🇮🇳',
   'hi-IN': '🇮🇳',
-  'zh': '🇨🇳',
+  zh: '🇨🇳',
   'zh-CN': '🇨🇳'
 };
 const unicodeGroupLabelKeys = {
-  'Activities': 'activities',
+  Activities: 'activities',
   'Animals & Nature': 'animals_nature',
-  'Component': 'emoji',
-  'Flags': 'flags',
+  Component: 'emoji',
+  Flags: 'flags',
   'Food & Drink': 'food_drink',
-  'Objects': 'objects',
+  Objects: 'objects',
   'People & Body': 'person',
   'Smileys & Emotion': 'smileys_people',
-  'Symbols': 'symbols',
+  Symbols: 'symbols',
   'Travel & Places': 'travel_places'
 };
 const unicodeSubgroupLabelKeys = {
-  'animal-amphibian': 'animal', 'animal-bird': 'animal', 'animal-bug': 'animal', 'animal-mammal': 'animal', 'animal-marine': 'animal', 'animal-reptile': 'animal',
-  'arrow': 'arrows', 'arts & crafts': 'activities', 'award-medal': 'activities',
-  'body-parts': 'body', 'cat-face': 'smiley', 'clothing': 'person',
-  'country-flag': 'flags', 'drink': 'food_drink', 'emotion': 'heart',
-  'face-affection': 'smiley', 'face-concerned': 'smiley', 'face-costume': 'smiley', 'face-glasses': 'smiley', 'face-hand': 'smiley', 'face-hat': 'smiley', 'face-negative': 'smiley', 'face-neutral-skeptical': 'smiley', 'face-sleepy': 'smiley', 'face-smiling': 'smiley', 'face-tongue': 'smiley', 'face-unwell': 'smiley',
-  'flag': 'flags', 'food-asian': 'food_drink', 'food-fruit': 'food_drink', 'food-prepared': 'food_drink', 'food-sweet': 'food_drink', 'food-vegetable': 'food_drink',
-  'game': 'sport', 'geometric': 'geometric_shapes', 'hand-fingers-closed': 'body', 'hand-fingers-open': 'body', 'hand-fingers-partial': 'body', 'hand-prop': 'body', 'hand-single-finger': 'body', 'hands': 'body',
-  'hair-style': 'person', 'heart': 'heart', 'keycap': 'keycap', 'monkey-face': 'animal', 'music': 'musical_symbols', 'musical-instrument': 'musical_symbols',
-  'person': 'person', 'person-activity': 'person', 'person-fantasy': 'person', 'person-gesture': 'person', 'person-resting': 'person', 'person-role': 'person', 'person-sport': 'person',
-  'place-building': 'place', 'place-geographic': 'place', 'place-map': 'place', 'place-other': 'place', 'place-religious': 'place', 'plant-flower': 'plant', 'plant-other': 'plant',
-  'skin-tone': 'modifier', 'sky & weather': 'weather', 'sport': 'sport', 'subdivision-flag': 'flags',
-  'transport-air': 'travel', 'transport-ground': 'travel', 'transport-sign': 'travel', 'transport-water': 'travel'
+  'animal-amphibian': 'animal',
+  'animal-bird': 'animal',
+  'animal-bug': 'animal',
+  'animal-mammal': 'animal',
+  'animal-marine': 'animal',
+  'animal-reptile': 'animal',
+  arrow: 'arrows',
+  'arts & crafts': 'activities',
+  'award-medal': 'activities',
+  'body-parts': 'body',
+  'cat-face': 'smiley',
+  clothing: 'person',
+  'country-flag': 'flags',
+  drink: 'food_drink',
+  emotion: 'heart',
+  'face-affection': 'smiley',
+  'face-concerned': 'smiley',
+  'face-costume': 'smiley',
+  'face-glasses': 'smiley',
+  'face-hand': 'smiley',
+  'face-hat': 'smiley',
+  'face-negative': 'smiley',
+  'face-neutral-skeptical': 'smiley',
+  'face-sleepy': 'smiley',
+  'face-smiling': 'smiley',
+  'face-tongue': 'smiley',
+  'face-unwell': 'smiley',
+  flag: 'flags',
+  'food-asian': 'food_drink',
+  'food-fruit': 'food_drink',
+  'food-prepared': 'food_drink',
+  'food-sweet': 'food_drink',
+  'food-vegetable': 'food_drink',
+  game: 'sport',
+  geometric: 'geometric_shapes',
+  'hand-fingers-closed': 'body',
+  'hand-fingers-open': 'body',
+  'hand-fingers-partial': 'body',
+  'hand-prop': 'body',
+  'hand-single-finger': 'body',
+  hands: 'body',
+  'hair-style': 'person',
+  heart: 'heart',
+  keycap: 'keycap',
+  'monkey-face': 'animal',
+  music: 'musical_symbols',
+  'musical-instrument': 'musical_symbols',
+  person: 'person',
+  'person-activity': 'person',
+  'person-fantasy': 'person',
+  'person-gesture': 'person',
+  'person-resting': 'person',
+  'person-role': 'person',
+  'person-sport': 'person',
+  'place-building': 'place',
+  'place-geographic': 'place',
+  'place-map': 'place',
+  'place-other': 'place',
+  'place-religious': 'place',
+  'plant-flower': 'plant',
+  'plant-other': 'plant',
+  'skin-tone': 'modifier',
+  'sky & weather': 'weather',
+  sport: 'sport',
+  'subdivision-flag': 'flags',
+  'transport-air': 'travel',
+  'transport-ground': 'travel',
+  'transport-sign': 'travel',
+  'transport-water': 'travel'
 };
 const sequenceTypeLabels = {
   single: 'Single emoji',
@@ -140,24 +300,67 @@ const sequenceTypeLabels = {
   tag: 'Tag sequences'
 };
 const sequenceTypeOrder = Object.keys(sequenceTypeLabels);
-const sequenceTranslationKeys = { single: 'sequenceSingle', modifier: 'sequenceModifier', zwj: 'sequenceZwj', flag: 'sequenceFlag', keycap: 'sequenceKeycap', tag: 'sequenceTag' };
-const sequenceTypeEmoji = { single: '😀', modifier: '👋🏽', zwj: '👨‍👩‍👧', flag: '🏳️', keycap: '#️⃣', tag: '🏴' };
-const statusTranslationKeys = { 'fully-qualified': 'fullyQualified', 'minimally-qualified': 'minimallyQualified', unqualified: 'unqualified' };
+const sequenceTranslationKeys = {
+  single: 'sequenceSingle',
+  modifier: 'sequenceModifier',
+  zwj: 'sequenceZwj',
+  flag: 'sequenceFlag',
+  keycap: 'sequenceKeycap',
+  tag: 'sequenceTag'
+};
+const sequenceTypeEmoji = {
+  single: '😀',
+  modifier: '👋🏽',
+  zwj: '👨‍👩‍👧',
+  flag: '🏳️',
+  keycap: '#️⃣',
+  tag: '🏴'
+};
+const statusTranslationKeys = {
+  'fully-qualified': 'fullyQualified',
+  'minimally-qualified': 'minimallyQualified',
+  unqualified: 'unqualified'
+};
 const explorerLabelKeys = {
-  'Africa': 'africa', 'Asia': 'asia', 'Europe': 'europe', 'North America': 'northAmerica', 'South America': 'southAmerica', 'Oceania': 'oceania', 'Other Flags': 'otherFlags',
-  'Accessories': 'accessories', 'Clothing': 'clothing', 'Hats & Headwear': 'hatsHeadwear', 'Shoes': 'shoes',
-  'Couples with Heart': 'couplesWithHeart', 'Families': 'families', 'Holding Hands': 'holdingHands', 'Kissing Couples': 'kissingCouples', 'Adults': 'adults', 'Children': 'children'
+  Africa: 'africa',
+  Asia: 'asia',
+  Europe: 'europe',
+  'North America': 'northAmerica',
+  'South America': 'southAmerica',
+  Oceania: 'oceania',
+  'Other Flags': 'otherFlags',
+  Accessories: 'accessories',
+  Clothing: 'clothing',
+  'Hats & Headwear': 'hatsHeadwear',
+  Shoes: 'shoes',
+  'Couples with Heart': 'couplesWithHeart',
+  Families: 'families',
+  'Holding Hands': 'holdingHands',
+  'Kissing Couples': 'kissingCouples',
+  Adults: 'adults',
+  Children: 'children'
 };
 
 const translate = (key, fallback) => uiStrings[key] ?? fallback;
 const versionModeDefinitions = [
-  { value: 'through', key: 'throughSelectedVersion', fallback: 'All up to selected version' },
-  { value: 'selected', key: 'selectedVersionOnly', fallback: 'Selected version only' }
+  {
+    value: 'through',
+    key: 'throughSelectedVersion',
+    fallback: 'All up to selected version'
+  },
+  {
+    value: 'selected',
+    key: 'selectedVersionOnly',
+    fallback: 'Selected version only'
+  }
 ];
-const displayExplorerLabel = label => translate(explorerLabelKeys[label], label);
+const displayExplorerLabel = label =>
+  translate(explorerLabelKeys[label], label);
 function loadExplorerPreferences() {
   try {
-    return JSON.parse(window.localStorage.getItem(explorerPreferencesKey) ?? '{}');
+    return JSON.parse(
+      window.localStorage.getItem(explorerPreferencesKey) ?? '{}'
+    );
   } catch {
     return {};
   }
@@ -165,39 +368,75 @@ function loadExplorerPreferences() {
 function saveExplorerPreference(key, value) {
   explorerPreferences[key] = value;
   try {
-    window.localStorage.setItem(explorerPreferencesKey, JSON.stringify(explorerPreferences));
+    window.localStorage.setItem(
+      explorerPreferencesKey,
+      JSON.stringify(explorerPreferences)
+    );
   } catch {
     // Preferences are optional when storage is unavailable or blocked.
   }
+}
+function renderPixelFontToggle() {
+  const enabled = explorerPreferences.pixelFont !== false;
+  document.documentElement.toggleAttribute('data-pixel-font', enabled);
+  if (enabled) {
+    delete document.documentElement.dataset.emojiFont;
+  } else {
+    document.documentElement.dataset.emojiFont = 'system';
+  }
+  if (!pixelFontToggle) return;
+  const label = translate('pixelEmoji', 'Pixel emoji');
+  pixelFontToggle.setAttribute('aria-pressed', String(enabled));
+  pixelFontToggle.setAttribute('aria-label', label);
+  pixelFontToggle.title = label;
+}
+function togglePixelFont(event) {
+  saveExplorerPreference('pixelFont', explorerPreferences.pixelFont === false);
+  renderPixelFontToggle();
+  if (event?.detail > 0) event.currentTarget.blur();
 }
 const applyUiTranslations = () => {
   document.querySelectorAll('[data-i18n]').forEach(element => {
     element.textContent = translate(element.dataset.i18n, element.textContent);
   });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
-    element.placeholder = translate(element.dataset.i18nPlaceholder, element.placeholder);
+    element.placeholder = translate(
+      element.dataset.i18nPlaceholder,
+      element.placeholder
+    );
   });
   document.querySelectorAll('[data-i18n-aria-label]').forEach(element => {
-    element.setAttribute('aria-label', translate(element.dataset.i18nAriaLabel, element.getAttribute('aria-label')));
+    element.setAttribute(
+      'aria-label',
+      translate(
+        element.dataset.i18nAriaLabel,
+        element.getAttribute('aria-label')
+      )
+    );
   });
   updateOnlineStatus();
+  renderPixelFontToggle();
+  pixelEditor?.refreshTranslations();
 };
 const updateOnlineStatus = () => {
   if (!offlineStatus) return;
-  offlineStatus.textContent = translate('offlineStatus', 'Offline — showing saved data');
+  offlineStatus.textContent = translate(
+    'offlineStatus',
+    'Offline — showing saved data'
+  );
   offlineStatus.hidden = navigator.onLine;
 };
 async function loadUiTranslations(locale, rtl = false) {
   const baseLocale = locale.split('-')[0];
   try {
-    const files = locale === baseLocale
-      ? [baseLocale]
-      : [baseLocale, locale];
-    const packs = await Promise.all(files.map(async code => {
-      const response = await fetch(`demo-locales/${code}.json`);
-      if (!response.ok) throw new Error(`No demo locale for ${code}`);
-      return response.json();
-    }));
+    const files = locale === baseLocale ? [baseLocale] : [baseLocale, locale];
+    const packs = await Promise.all(
+      files.map(async code => {
+        const response = await fetch(`demo-locales/${code}.json`);
+        if (!response.ok) throw new Error(`No demo locale for ${code}`);
+        return response.json();
+      })
+    );
     uiStrings = Object.assign({}, ...packs);
     document.documentElement.lang = locale;
     document.documentElement.dir = rtl ? 'rtl' : 'ltr';
@@ -212,10 +451,26 @@ async function loadUiTranslations(locale, rtl = false) {
 }
 
 const countryContinents = {
-  Africa: new Set('DZ AO BJ BW BF BI CV CM CF TD KM CD CG CI DJ EG GQ ER SZ ET GA GM GH GN GW KE LS LR LY MG MW ML MR MU MA MZ NA NE NG RW ST SN SC SL SO ZA SS SD TZ TG TN UG ZM ZW'.split(' ')),
-  Asia: new Set('AF AM AZ BH BD BT BN KH CN CY GE IN ID IR IQ IL JP JO KZ KW KG LA LB MY MV MN MM NP KP OM PK PH QA SA SG KR LK SY TW TJ TH TL TR TM AE UZ VN YE'.split(' ')),
-  Europe: new Set('AL AD AT BY BE BA BG HR CZ DK EE FI FR DE GR HU IS IE IT XK LV LI LT LU MT MD MC ME NL MK NO PL PT RO RU SM RS SK SI ES SE CH UA GB VA'.split(' ')),
-  'North America': new Set('AG BS BB BZ CA CR CU DM DO SV GD GT HT HN JM MX NI PA KN LC VC TT US'.split(' ')),
+  Africa: new Set(
+    'DZ AO BJ BW BF BI CV CM CF TD KM CD CG CI DJ EG GQ ER SZ ET GA GM GH GN GW KE LS LR LY MG MW ML MR MU MA MZ NA NE NG RW ST SN SC SL SO ZA SS SD TZ TG TN UG ZM ZW'.split(
+      ' '
+    )
+  ),
+  Asia: new Set(
+    'AF AM AZ BH BD BT BN KH CN CY GE IN ID IR IQ IL JP JO KZ KW KG LA LB MY MV MN MM NP KP OM PK PH QA SA SG KR LK SY TW TJ TH TL TR TM AE UZ VN YE'.split(
+      ' '
+    )
+  ),
+  Europe: new Set(
+    'AL AD AT BY BE BA BG HR CZ DK EE FI FR DE GR HU IS IE IT XK LV LI LT LU MT MD MC ME NL MK NO PL PT RO RU SM RS SK SI ES SE CH UA GB VA'.split(
+      ' '
+    )
+  ),
+  'North America': new Set(
+    'AG BS BB BZ CA CR CU DM DO SV GD GT HT HN JM MX NI PA KN LC VC TT US'.split(
+      ' '
+    )
+  ),
   'South America': new Set('AR BO BR CL CO EC GY PY PE SR UY VE'.split(' ')),
   Oceania: new Set('AU FJ KI MH FM NR NZ PW PG WS SB TO TV VU'.split(' '))
 };
@@ -239,7 +494,8 @@ function getExplorerSubGroup(item) {
   if (raw === 'clothing') return getClothingType(name);
   if (raw === 'geometric') return getGeometricShape(name);
   if (raw === 'family') return getFamilyType(name);
-  if (raw === 'person') return /baby|boy|girl|child/.test(name) ? 'Children' : 'Adults';
+  if (raw === 'person')
+    return /baby|boy|girl|child/.test(name) ? 'Children' : 'Adults';
   if (raw === 'person-role') return getPersonRoleType(name);
   if (raw === 'person-activity') return getActivityType(name);
   if (raw === 'person-fantasy') return getFantasyType(name);
@@ -250,25 +506,36 @@ function getExplorerSubGroup(item) {
 }
 
 function titleCase(value) {
-  return value.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  return value
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 }
 
 function getFlagContinent(item) {
   const code = [...item.emoji]
     .filter(character => {
       const point = character.codePointAt(0);
-      return point >= 0x1F1E6 && point <= 0x1F1FF;
+      return point >= 0x1f1e6 && point <= 0x1f1ff;
     })
-    .map(character => String.fromCharCode(65 + character.codePointAt(0) - 0x1F1E6))
+    .map(character =>
+      String.fromCharCode(65 + character.codePointAt(0) - 0x1f1e6)
+    )
     .join('');
 
-  return Object.entries(countryContinents).find(([, countries]) => countries.has(code))?.[0];
+  return Object.entries(countryContinents).find(([, countries]) =>
+    countries.has(code)
+  )?.[0];
 }
 
 function getClothingType(name) {
   if (/shoe|boot|sandal|slipper/.test(name)) return 'Shoes';
-  if (/cap|crown|helmet|hat|headscarf|hair pick/.test(name)) return 'Hats & Headwear';
-  if (/bag|purse|glasses|goggles|gloves|necktie|lipstick|fan|beads|gem/.test(name)) return 'Accessories';
+  if (/cap|crown|helmet|hat|headscarf|hair pick/.test(name))
+    return 'Hats & Headwear';
+  if (
+    /bag|purse|glasses|goggles|gloves|necktie|lipstick|fan|beads|gem/.test(name)
+  )
+    return 'Accessories';
   return 'Clothing';
 }
 
@@ -288,11 +555,15 @@ function getFamilyType(name) {
 }
 
 function getPersonRoleType(name) {
-  if (/health worker|feeding baby|pregnant|breast-feeding/.test(name)) return 'Care & Health';
-  if (/artist|singer|scientist|technologist/.test(name)) return 'Creative & Technical';
+  if (/health worker|feeding baby|pregnant|breast-feeding/.test(name))
+    return 'Care & Health';
+  if (/artist|singer|scientist|technologist/.test(name))
+    return 'Creative & Technical';
   if (/student|teacher|office worker/.test(name)) return 'Education & Office';
-  if (/detective|firefighter|guard|judge|police officer|ninja/.test(name)) return 'Safety & Justice';
-  if (/construction|cook|factory|farmer|mechanic/.test(name)) return 'Trades & Service';
+  if (/detective|firefighter|guard|judge|police officer|ninja/.test(name))
+    return 'Safety & Justice';
+  if (/construction|cook|factory|farmer|mechanic/.test(name))
+    return 'Trades & Service';
   if (/astronaut|pilot/.test(name)) return 'Travel & Space';
   if (/prince|princess|crown/.test(name)) return 'Royalty';
   return 'Cultural & Formal Wear';
@@ -316,7 +587,8 @@ function getFantasyType(name) {
 
 function getGestureType(name) {
   if (name.startsWith('deaf')) return 'Accessibility';
-  if (/raising hand|gesturing|tipping hand/.test(name)) return 'Signals & Greetings';
+  if (/raising hand|gesturing|tipping hand/.test(name))
+    return 'Signals & Greetings';
   if (/facepalming|frowning|pouting|shrugging/.test(name)) return 'Reactions';
   return 'Respect & Apology';
 }
@@ -325,7 +597,8 @@ function getSportType(name) {
   if (/swimming|surfing|rowing|water polo/.test(name)) return 'Water Sports';
   if (/biking|mountain biking/.test(name)) return 'Cycling';
   if (/bouncing ball|handball|golfing/.test(name)) return 'Ball Sports';
-  if (/lifting weights|cartwheeling|juggling/.test(name)) return 'Fitness & Skills';
+  if (/lifting weights|cartwheeling|juggling/.test(name))
+    return 'Fitness & Skills';
   if (/ski|snowboard/.test(name)) return 'Winter Sports';
   if (/wrestling|fencing|horse racing/.test(name)) return 'Competition';
   return 'Running & Movement';
@@ -334,22 +607,42 @@ function getSportType(name) {
 function ensureUtilityControls() {
   const searchControls = document.querySelector('.search-controls');
   if (searchControls && !searchControls.querySelector('.saved-picker')) {
-    searchControls.insertAdjacentHTML('beforeend', `
+    searchControls.insertAdjacentHTML(
+      'beforeend',
+      `
       <button class="saved-picker" type="button" aria-haspopup="dialog" aria-controls="saved-dialog" data-i18n-aria-label="savedEmoji" aria-label="Saved emoji">
         <span aria-hidden="true">⭐</span>
         <span class="saved-picker-label" data-i18n="favorites">Favorites</span>
       </button>
-    `);
+    `
+    );
+  }
+  if (searchControls && !searchControls.querySelector('.pixel-font-toggle')) {
+    const languageButton = searchControls.querySelector('.language-picker');
+    languageButton?.insertAdjacentHTML(
+      'afterend',
+      `
+      <button class="pixel-font-toggle" type="button" aria-pressed="true" data-i18n-aria-label="pixelEmoji" aria-label="Pixel emoji">
+        <span class="pixel-font-toggle-icon" aria-hidden="true">▦</span>
+        <span class="pixel-font-toggle-label" data-i18n="pixelEmoji">Pixel emoji</span>
+      </button>
+    `
+    );
   }
   if (searchControls && !searchControls.querySelector('.help-picker')) {
-    searchControls.insertAdjacentHTML('beforeend', `
+    searchControls.insertAdjacentHTML(
+      'beforeend',
+      `
       <button class="help-picker" type="button" aria-haspopup="dialog" aria-controls="help-dialog" data-i18n-aria-label="keyboardShortcuts" aria-label="Keyboard shortcuts">
         <span aria-hidden="true">?</span>
       </button>
-    `);
+    `
+    );
   }
 
-  const dialogTitle = document.querySelector('.example-dialog .dialog-heading > div:first-child');
+  const dialogTitle = document.querySelector(
+    '.example-dialog .dialog-heading > div:first-child'
+  );
   let dialogTitleRow = dialogTitle?.querySelector('.dialog-title-row');
   if (dialogTitle && !dialogTitleRow) {
     dialogTitleRow = document.createElement('div');
@@ -358,8 +651,12 @@ function ensureUtilityControls() {
     title?.before(dialogTitleRow);
     if (title) dialogTitleRow.append(title);
   }
-  let favoriteButton = document.querySelector('.example-dialog .toggle-favorite');
-  const dialogControls = document.querySelector('.example-dialog .dialog-controls');
+  let favoriteButton = document.querySelector(
+    '.example-dialog .toggle-favorite'
+  );
+  const dialogControls = document.querySelector(
+    '.example-dialog .dialog-controls'
+  );
   if (dialogControls && !favoriteButton) {
     favoriteButton = document.createElement('button');
     favoriteButton.className = 'toggle-favorite';
@@ -375,9 +672,16 @@ function ensureUtilityControls() {
     favoriteButton.title = 'Add favorite';
     positionFavoriteButton();
   }
-  const dialogDetails = document.querySelector('.example-dialog .emoji-dialog-details');
-  if (dialogDetails && !document.querySelector('.example-dialog .emoji-composition')) {
-    dialogDetails.insertAdjacentHTML('afterend', `
+  const dialogDetails = document.querySelector(
+    '.example-dialog .emoji-dialog-details'
+  );
+  if (
+    dialogDetails &&
+    !document.querySelector('.example-dialog .emoji-composition')
+  ) {
+    dialogDetails.insertAdjacentHTML(
+      'afterend',
+      `
       <section class="emoji-composition" hidden>
         <div class="emoji-composition-heading">
           <h3 data-i18n="builtFrom">Built from</h3>
@@ -385,9 +689,12 @@ function ensureUtilityControls() {
         </div>
         <div class="emoji-composition-equation" dir="ltr"></div>
       </section>
-    `);
+    `
+    );
   }
-  const composition = document.querySelector('.example-dialog .emoji-composition');
+  const composition = document.querySelector(
+    '.example-dialog .emoji-composition'
+  );
   if (composition && !composition.querySelector('.emoji-composition-heading')) {
     const heading = document.createElement('div');
     const title = composition.querySelector('h3');
@@ -395,8 +702,13 @@ function ensureUtilityControls() {
     title?.before(heading);
     if (title) heading.append(title);
   }
-  const compositionHeading = composition?.querySelector('.emoji-composition-heading');
-  if (compositionHeading && !compositionHeading.querySelector('.emoji-composition-mode')) {
+  const compositionHeading = composition?.querySelector(
+    '.emoji-composition-heading'
+  );
+  if (
+    compositionHeading &&
+    !compositionHeading.querySelector('.emoji-composition-mode')
+  ) {
     const mode = document.createElement('button');
     mode.className = 'emoji-composition-mode';
     mode.type = 'button';
@@ -408,7 +720,9 @@ function ensureUtilityControls() {
 
   const main = document.querySelector('main');
   if (main && !document.querySelector('.saved-dialog')) {
-    main.insertAdjacentHTML('beforeend', `
+    main.insertAdjacentHTML(
+      'beforeend',
+      `
       <dialog class="saved-dialog" id="saved-dialog" aria-labelledby="saved-title">
         <div class="dialog-heading">
           <h2 id="saved-title" data-i18n="savedEmoji">Saved emoji</h2>
@@ -425,10 +739,13 @@ function ensureUtilityControls() {
           <p class="saved-empty copied-empty" data-i18n="noRecentlyCopied">Copied emoji will appear here.</p>
         </section>
       </dialog>
-    `);
+    `
+    );
   }
   if (main && !document.querySelector('.help-dialog')) {
-    main.insertAdjacentHTML('beforeend', `
+    main.insertAdjacentHTML(
+      'beforeend',
+      `
       <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
         <div class="dialog-heading">
           <h2 id="help-title" data-i18n="keyboardShortcuts">Keyboard shortcuts</h2>
@@ -442,14 +759,21 @@ function ensureUtilityControls() {
           <div><dt><kbd>?</kbd></dt><dd data-i18n="shortcutHelp">Open keyboard help</dd></div>
         </dl>
       </dialog>
-    `);
+    `
+    );
   }
 }
 
 function positionFavoriteButton() {
-  const favoriteButton = document.querySelector('.example-dialog .toggle-favorite');
-  const dialogTitleRow = document.querySelector('.example-dialog .dialog-title-row');
-  const dialogControls = document.querySelector('.example-dialog .dialog-controls');
+  const favoriteButton = document.querySelector(
+    '.example-dialog .toggle-favorite'
+  );
+  const dialogTitleRow = document.querySelector(
+    '.example-dialog .dialog-title-row'
+  );
+  const dialogControls = document.querySelector(
+    '.example-dialog .dialog-controls'
+  );
   if (!favoriteButton || !dialogTitleRow || !dialogControls) return;
   if (window.matchMedia('(max-width: 560px)').matches) {
     dialogControls.querySelector('form')?.before(favoriteButton);
@@ -476,9 +800,15 @@ function getOpenPanel() {
 function focusPanelDialog(panel, dialog) {
   if (panel === 'favorites') {
     renderSavedEmoji();
-    (dialog.querySelector('.saved-emoji-list button') ?? dialog.querySelector('.dialog-close'))?.focus();
+    (
+      dialog.querySelector('.saved-emoji-list button') ??
+      dialog.querySelector('.dialog-close')
+    )?.focus();
   } else if (panel === 'language') {
-    (languageList.querySelector('.is-selected') ?? dialog.querySelector('.dialog-close'))?.focus();
+    (
+      languageList.querySelector('.is-selected') ??
+      dialog.querySelector('.dialog-close')
+    )?.focus();
   } else {
     dialog.querySelector('.dialog-close')?.focus();
   }
@@ -501,7 +831,12 @@ function closePanelDialog(dialog) {
 }
 
 function onPanelDialogClose(event) {
-  if (suppressedPanelCloses.delete(event.currentTarget) || !urlStateReady || applyingUrlState) return;
+  if (
+    suppressedPanelCloses.delete(event.currentTarget) ||
+    !urlStateReady ||
+    applyingUrlState
+  )
+    return;
   if (window.history.state?.panelDialogEntry) {
     window.history.back();
   } else {
@@ -512,44 +847,90 @@ function onPanelDialogClose(event) {
 async function onLoad() {
   ensureUtilityControls();
   offlineStatus = document.getElementsByClassName('offline-status')[0];
-  searchText = document.getElementsByClassName("text")[0];
+  searchText = document.getElementsByClassName('text')[0];
   languagePicker = document.getElementsByClassName('language-picker')[0];
-  languagePickerFlag = document.getElementsByClassName('language-picker-flag')[0];
-  languagePickerLabel = document.getElementsByClassName('language-picker-label')[0];
+  languagePickerFlag = document.getElementsByClassName(
+    'language-picker-flag'
+  )[0];
+  languagePickerLabel = document.getElementsByClassName(
+    'language-picker-label'
+  )[0];
+  pixelFontToggle = document.getElementsByClassName('pixel-font-toggle')[0];
   languageDialog = document.getElementsByClassName('language-dialog')[0];
   languageList = document.getElementsByClassName('language-list')[0];
   savedPicker = document.getElementsByClassName('saved-picker')[0];
   savedDialog = document.getElementsByClassName('saved-dialog')[0];
   helpPicker = document.getElementsByClassName('help-picker')[0];
   helpDialog = document.getElementsByClassName('help-dialog')[0];
-  emojiList = document.getElementsByClassName("list")[0];
+  emojiList = document.getElementsByClassName('list')[0];
   matchCount = document.getElementsByClassName('match-count')[0];
   toolbar = document.getElementsByClassName('toolbar')[0];
   groupSelector = document.getElementsByClassName('select-group')[0];
   subGroupSelector = document.getElementsByClassName('select-subgroup')[0];
-  compactGroupChoices = ensureChoiceContainer(groupSelector, 'compact-group-choices', 'group-filter-label');
-  compactSubGroupChoices = ensureChoiceContainer(subGroupSelector, 'compact-subgroup-choices', 'subgroup-filter-label');
+  compactGroupChoices = ensureChoiceContainer(
+    groupSelector,
+    'compact-group-choices',
+    'group-filter-label'
+  );
+  compactSubGroupChoices = ensureChoiceContainer(
+    subGroupSelector,
+    'compact-subgroup-choices',
+    'subgroup-filter-label'
+  );
   sequenceTypeSelector = ensureSequenceTypeFilter();
-  compactSequenceChoices = ensureChoiceContainer(sequenceTypeSelector, 'compact-sequence-choices', 'sequence-filter-label');
+  compactSequenceChoices = ensureChoiceContainer(
+    sequenceTypeSelector,
+    'compact-sequence-choices',
+    'sequence-filter-label'
+  );
   compactGroupChoices.addEventListener('keydown', onCompactChoiceKeyDown);
   compactSubGroupChoices.addEventListener('keydown', onCompactChoiceKeyDown);
   compactSequenceChoices.addEventListener('keydown', onCompactChoiceKeyDown);
-  compactGroupLabel = ensureSelectionLabel(groupSelector, 'compact-group-label', 'group-filter-label');
-  compactSubGroupLabel = ensureSelectionLabel(subGroupSelector, 'compact-subgroup-label', 'subgroup-filter-label');
-  compactSequenceLabel = ensureSelectionLabel(sequenceTypeSelector, 'compact-sequence-label', 'sequence-filter-label');
-  versionModeSelector = document.getElementsByClassName('select-version-mode')[0];
+  compactGroupLabel = ensureSelectionLabel(
+    groupSelector,
+    'compact-group-label',
+    'group-filter-label'
+  );
+  compactSubGroupLabel = ensureSelectionLabel(
+    subGroupSelector,
+    'compact-subgroup-label',
+    'subgroup-filter-label'
+  );
+  compactSequenceLabel = ensureSelectionLabel(
+    sequenceTypeSelector,
+    'compact-sequence-label',
+    'sequence-filter-label'
+  );
+  versionModeSelector = document.getElementsByClassName(
+    'select-version-mode'
+  )[0];
   versionSelector = document.getElementsByClassName('select-version')[0];
   ({ range: versionRange, output: versionRangeValue } = ensureVersionSlider());
   versionModeToggle = ensureVersionModeToggle();
   versionPrevious = document.getElementsByClassName('version-previous')[0];
   versionNext = document.getElementsByClassName('version-next')[0];
-  versionSelector.closest('.filter-field')?.classList.toggle('has-version-slider', Boolean(versionRange && versionRangeValue));
+  versionSelector
+    .closest('.filter-field')
+    ?.classList.toggle(
+      'has-version-slider',
+      Boolean(versionRange && versionRangeValue)
+    );
   advancedFilters = document.getElementsByClassName('advanced-filters')[0];
-  ({ summary: activeFilterSummary, text: activeFilterText, clear: clearFiltersButton } = ensureActiveFilterSummary());
+  ({
+    summary: activeFilterSummary,
+    text: activeFilterText,
+    clear: clearFiltersButton
+  } = ensureActiveFilterSummary());
   orderButtons = Array.from(document.getElementsByClassName('order-mode'));
   exampleDialog = document.getElementsByClassName('example-dialog')[0];
   upgradeEmojiDialog();
   emojiParent = document.getElementsByClassName('emoji-parent')[0];
+  pixelEditor = createPixelEditor({
+    dialog: exampleDialog,
+    translate,
+    formatNumber: formatUiNumber,
+    formatPercent: formatUiPercent
+  });
   copyStatus = document.getElementsByClassName('copy-status')[0];
   emojiPrevious = document.getElementsByClassName('emoji-previous')[0];
   emojiNext = document.getElementsByClassName('emoji-next')[0];
@@ -560,22 +941,33 @@ async function onLoad() {
   skinToneFieldset = skinToneCheckboxes[0]?.closest('fieldset');
   hairFieldset = hairCheckboxes[0]?.closest('fieldset');
   genderFieldset = genderCheckboxes[0]?.closest('fieldset');
-  document.querySelectorAll('.modifier-emoji').forEach(emoji => emoji.setAttribute('aria-hidden', 'true'));
+  document
+    .querySelectorAll('.modifier-emoji')
+    .forEach(emoji => emoji.setAttribute('aria-hidden', 'true'));
 
   window.addEventListener('online', updateOnlineStatus);
   window.addEventListener('offline', updateOnlineStatus);
-  window.matchMedia('(max-width: 560px)').addEventListener('change', positionFavoriteButton);
+  window
+    .matchMedia('(max-width: 560px)')
+    .addEventListener('change', positionFavoriteButton);
   updateOnlineStatus();
 
   applyBasicUrlState();
-  skinToneCheckboxes.forEach(checkbox => checkbox.addEventListener('change', drawList));
-  hairCheckboxes.forEach(checkbox => checkbox.addEventListener('change', drawList));
-  genderCheckboxes.forEach(checkbox => checkbox.addEventListener('change', onGenderChange));
+  skinToneCheckboxes.forEach(checkbox =>
+    checkbox.addEventListener('change', drawList)
+  );
+  hairCheckboxes.forEach(checkbox =>
+    checkbox.addEventListener('change', drawList)
+  );
+  genderCheckboxes.forEach(checkbox =>
+    checkbox.addEventListener('change', onGenderChange)
+  );
 
-  searchText.addEventListener("input", drawList);
+  searchText.addEventListener('input', drawList);
   languagePicker.addEventListener('click', () => {
     openPanelDialog('language');
   });
+  pixelFontToggle?.addEventListener('click', togglePixelFont);
   savedPicker?.addEventListener('click', () => {
     openPanelDialog('favorites');
   });
@@ -588,19 +980,23 @@ async function onLoad() {
   savedDialog?.addEventListener('click', event => {
     const button = event.target.closest('[data-saved-emoji]');
     if (!button) return;
-    const navigationKeys = button.dataset.savedSource === 'favorites'
-      ? favoriteEmojiKeys
-      : copiedEmojiKeys;
+    const navigationKeys =
+      button.dataset.savedSource === 'favorites'
+        ? favoriteEmojiKeys
+        : copiedEmojiKeys;
     closePanelDialog(savedDialog);
     showEmoji(button.dataset.savedEmoji, true, navigationKeys);
   });
-  emojiList.addEventListener("click", onClick);
+  emojiList.addEventListener('click', onClick);
   emojiList.addEventListener('focusin', onEmojiFocus);
   emojiList.addEventListener('keydown', onEmojiKeyDown);
   exampleDialog.addEventListener('click', event => {
     if (event.target.closest('.emoji-composition-mode')) {
       compositionMode = compositionMode === 'full' ? 'condensed' : 'full';
-      updateEmojiComposition(byId[currentEmojiKey] ?? {}, emojiByKey[currentEmojiKey] ?? '');
+      updateEmojiComposition(
+        byId[currentEmojiKey] ?? {},
+        emojiByKey[currentEmojiKey] ?? ''
+      );
       syncUrlState();
       return;
     }
@@ -627,23 +1023,35 @@ async function onLoad() {
     }
     const showCodeButton = event.target.closest('.show-emoji-code');
     if (showCodeButton) {
-      setEmojiDialogView(true);
-      exampleDialog.querySelector('.back-to-emoji')?.focus();
+      setEmojiDialogView('code');
+      exampleDialog.querySelector('.dialog-mode-back:not([hidden])')?.focus();
       return;
     }
-    const backButton = event.target.closest('.back-to-emoji');
+    const showEditorButton = event.target.closest('.show-pixel-editor');
+    if (showEditorButton) {
+      setEmojiDialogView('editor');
+      exampleDialog.querySelector('.pixel-editor-canvas')?.focus();
+      return;
+    }
+    const backButton = event.target.closest(
+      '.dialog-mode-back, .back-to-emoji'
+    );
     if (backButton) {
-      setEmojiDialogView(false);
-      exampleDialog.querySelector('.show-emoji-code')?.focus();
+      const returnTarget = exampleDialog.classList.contains('is-editor-view')
+        ? '.show-pixel-editor'
+        : '.show-emoji-code';
+      setEmojiDialogView('details');
+      exampleDialog.querySelector(returnTarget)?.focus();
       return;
     }
     const button = event.target.closest('[data-copy]');
     if (!button) return;
-    const value = button.dataset.copy === 'code'
-      ? getCodeExampleText()
-      : button.dataset.copy === 'link'
-        ? window.location.href
-        : currentEmojiCopies[button.dataset.copy];
+    const value =
+      button.dataset.copy === 'code'
+        ? getCodeExampleText()
+        : button.dataset.copy === 'link'
+          ? window.location.href
+          : currentEmojiCopies[button.dataset.copy];
     const messages = {
       emoji: ['emojiCopied', 'Emoji copied to the clipboard.'],
       key: ['keyCopied', 'Emoji key copied to the clipboard.'],
@@ -652,7 +1060,10 @@ async function onLoad() {
       code: ['codeCopied', 'Code copied to the clipboard.'],
       link: ['linkCopied', 'Link copied to the clipboard.']
     };
-    const [messageKey, fallback] = messages[button.dataset.copy] ?? ['copiedToClipboard', 'Copied to the clipboard.'];
+    const [messageKey, fallback] = messages[button.dataset.copy] ?? [
+      'copiedToClipboard',
+      'Copied to the clipboard.'
+    ];
     if (value !== undefined) {
       const copiedEmojiKey = currentEmojiKey;
       copyToClipboard(value, translate(messageKey, fallback)).then(copied => {
@@ -672,15 +1083,21 @@ async function onLoad() {
     drawList();
   });
   versionRange?.addEventListener('input', onVersionRangeInput);
-  orderButtons.forEach(button => button.addEventListener('click', onOrderModeChange));
+  orderButtons.forEach(button =>
+    button.addEventListener('click', onOrderModeChange)
+  );
   advancedFilters.addEventListener('toggle', () => {
     saveExplorerPreference('filtersOpen', advancedFilters.open);
   });
   document.addEventListener('keydown', onDocumentKeyDown);
   renderVersionModeToggle();
+  renderPixelFontToggle();
 
   const setToolbarHeight = () => {
-    document.documentElement.style.setProperty('--toolbar-height', `${toolbar.offsetHeight}px`);
+    document.documentElement.style.setProperty(
+      '--toolbar-height',
+      `${toolbar.offsetHeight}px`
+    );
   };
   setToolbarHeight();
   if (window.ResizeObserver) {
@@ -695,13 +1112,20 @@ async function onLoad() {
     advancedFilters.open = false;
   }
 
-  const routeLocale = window.location.pathname.match(/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/)?.[1];
-  const initialUiLocale = routeLocale
-    ?? document.documentElement.dataset.locale
-    ?? 'en';
-  const initialSearchLocale = routeLocale
-    ?? (Object.hasOwn(explorerPreferences, 'locale') ? explorerPreferences.locale : initialUiLocale);
-  await loadUiTranslations(initialUiLocale, document.documentElement.dir === 'rtl');
+  const routeLocale = window.location.pathname.match(
+    /index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/
+  )?.[1];
+  const initialUiLocale =
+    routeLocale ?? document.documentElement.dataset.locale ?? 'en';
+  const initialSearchLocale =
+    routeLocale ??
+    (Object.hasOwn(explorerPreferences, 'locale')
+      ? explorerPreferences.locale
+      : initialUiLocale);
+  await loadUiTranslations(
+    initialUiLocale,
+    document.documentElement.dir === 'rtl'
+  );
   await loadSearchLanguages(initialSearchLocale);
   await loadData();
   drawList();
@@ -742,9 +1166,10 @@ function upgradeEmojiDialog() {
     preview = button;
   }
   if (preview) {
-    const previewValue = preview.querySelector('.emoji-preview-glyph')?.textContent
-      ?? preview.textContent.trim()
-      ?? '🍻';
+    const previewValue =
+      preview.querySelector('.emoji-preview-glyph')?.textContent ??
+      preview.textContent.trim() ??
+      '🍻';
     let glyph = preview.querySelector('.emoji-preview-glyph');
     let copyLabel = preview.querySelector('.emoji-preview-copy-label');
     if (!glyph || !copyLabel) {
@@ -783,6 +1208,14 @@ function ensureCodeDialogView() {
     showCode.textContent = 'View code';
     actions.append(showCode);
   }
+  if (actions && !actions.querySelector('.show-pixel-editor')) {
+    const showEditor = document.createElement('button');
+    showEditor.className = 'show-pixel-editor';
+    showEditor.type = 'button';
+    showEditor.dataset.i18n = 'editPixelArt';
+    showEditor.textContent = 'Edit pixel art';
+    actions.append(showEditor);
+  }
 
   const code = exampleDialog.querySelector('.code');
   if (!code) return;
@@ -801,14 +1234,6 @@ function ensureCodeDialogView() {
     toolbar.className = 'emoji-code-toolbar';
     codeView.prepend(toolbar);
   }
-  if (!toolbar.querySelector('.back-to-emoji')) {
-    const back = document.createElement('button');
-    back.className = 'back-to-emoji';
-    back.type = 'button';
-    back.dataset.i18n = 'backToEmoji';
-    back.textContent = 'Back to emoji';
-    toolbar.append(back);
-  }
   if (!toolbar.querySelector('[data-copy="code"]')) {
     const copy = document.createElement('button');
     copy.type = 'button';
@@ -825,6 +1250,20 @@ function ensureCodeDialogView() {
     copyLink.textContent = 'Copy link';
     toolbar.append(copyLink);
   }
+  const codeCopy = toolbar.querySelector('[data-copy="code"]');
+  const codeLink = toolbar.querySelector('[data-copy="link"]');
+  if (codeCopy) {
+    codeCopy.className = 'emoji-code-copy';
+    codeCopy.innerHTML =
+      '<span class="copy-action-long" data-i18n="copy">Copy</span><span class="copy-action-short" data-i18n="copy">Copy</span>';
+  }
+  if (codeLink) {
+    codeLink.className = 'emoji-code-link';
+    codeLink.innerHTML =
+      '<span class="copy-action-long" aria-hidden="true">🔗</span><span class="copy-action-short" aria-hidden="true">🔗</span>';
+  }
+  if (codeLink && codeCopy) toolbar.append(codeLink, codeCopy);
+  code.after(toolbar);
   if (actions && !actions.querySelector('[data-copy="link"]')) {
     const copyLink = document.createElement('button');
     copyLink.type = 'button';
@@ -839,41 +1278,77 @@ function ensureCompactCopyLabels() {
   const definitions = {
     key: ['copyKey', 'Copy key', 'keyShort', 'Key'],
     escape: ['copyEscape', 'Copy escape', 'escapeShort', 'Escape'],
-    codePoints: ['copyCodePoints', 'Copy code points', 'codePoints', 'Code points'],
+    codePoints: [
+      'copyCodePoints',
+      'Copy code points',
+      'codePoints',
+      'Code points'
+    ],
     code: ['copyCode', 'Copy code', 'codeShort', 'Code'],
     link: ['copyLink', 'Copy link', 'linkShort', 'Link']
   };
-  exampleDialog.querySelectorAll('[data-copy]:not(.emoji-preview)').forEach(button => {
-    const definition = definitions[button.dataset.copy];
-    if (!definition) return;
-    const [longKey, longFallback, shortKey, shortFallback] = definition;
-    if (!button.querySelector('.copy-action-long')) {
-      const longLabel = document.createElement('span');
-      const shortLabel = document.createElement('span');
-      longLabel.className = 'copy-action-long';
-      longLabel.dataset.i18n = longKey;
-      longLabel.textContent = longFallback;
-      shortLabel.className = 'copy-action-short';
-      shortLabel.dataset.i18n = shortKey;
-      shortLabel.textContent = shortFallback;
-      button.replaceChildren(longLabel, shortLabel);
-    }
-    button.dataset.i18nAriaLabel = longKey;
-    button.setAttribute('aria-label', longFallback);
-  });
+  exampleDialog
+    .querySelectorAll('[data-copy]:not(.emoji-preview)')
+    .forEach(button => {
+      const definition = definitions[button.dataset.copy];
+      if (!definition) return;
+      const [longKey, longFallback, shortKey, shortFallback] = definition;
+      if (!button.querySelector('.copy-action-long')) {
+        const longLabel = document.createElement('span');
+        const shortLabel = document.createElement('span');
+        longLabel.className = 'copy-action-long';
+        longLabel.dataset.i18n = longKey;
+        longLabel.textContent = longFallback;
+        shortLabel.className = 'copy-action-short';
+        shortLabel.dataset.i18n = shortKey;
+        shortLabel.textContent = shortFallback;
+        button.replaceChildren(longLabel, shortLabel);
+      }
+      button.dataset.i18nAriaLabel = longKey;
+      button.setAttribute('aria-label', longFallback);
+    });
 }
 
-function setEmojiDialogView(showCode, updateUrl = true) {
-  exampleDialog.classList.toggle('is-code-view', showCode);
-  exampleDialog.querySelector('.emoji-dialog-details').hidden = showCode;
+function setEmojiDialogView(requestedMode, updateUrl = true) {
+  const mode =
+    requestedMode === true
+      ? 'code'
+      : requestedMode === false
+        ? 'details'
+        : ['details', 'code', 'editor'].includes(requestedMode)
+          ? requestedMode
+          : 'details';
+  const showDetails = mode === 'details';
+  exampleDialog.classList.toggle('is-code-view', mode === 'code');
+  exampleDialog.classList.toggle('is-editor-view', mode === 'editor');
+  exampleDialog.querySelector('.emoji-dialog-details').hidden = !showDetails;
   const composition = exampleDialog.querySelector('.emoji-composition');
-  if (composition) composition.hidden = showCode || composition.dataset.available !== 'true';
-  exampleDialog.querySelector('.emoji-metadata').hidden = showCode;
-  exampleDialog.querySelector('.emoji-copy-actions').hidden = showCode;
-  exampleDialog.querySelector('.emoji-code-view').hidden = !showCode;
+  if (composition)
+    composition.hidden =
+      !showDetails || composition.dataset.available !== 'true';
+  exampleDialog.querySelector('.emoji-metadata').hidden = !showDetails;
+  exampleDialog.querySelector('.emoji-copy-actions').hidden = !showDetails;
+  exampleDialog.querySelector('.emoji-code-view').hidden = mode !== 'code';
+  const dialogModeBack = exampleDialog.querySelector('.dialog-mode-back');
+  if (dialogModeBack) dialogModeBack.hidden = showDetails;
+  if (!showDetails && emojiParent) {
+    emojiParent.hidden = true;
+  } else if (showDetails) {
+    updateCompositionBackButton();
+  }
+  if (pixelEditor) {
+    pixelEditor.element.hidden = mode !== 'editor';
+    if (mode === 'editor' && currentEmojiKey) {
+      pixelEditor.open(currentEmojiKey, emojiByKey[currentEmojiKey]);
+    }
+  }
   const eyebrow = exampleDialog.querySelector('.emoji-dialog-eyebrow');
-  const key = showCode ? 'codeExample' : 'emojiDetails';
-  const fallback = showCode ? 'Code example' : 'Emoji details';
+  const [key, fallback] =
+    mode === 'code'
+      ? ['codeExample', 'Code example']
+      : mode === 'editor'
+        ? ['pixelEditor', 'Pixel editor']
+        : ['emojiDetails', 'Emoji details'];
   eyebrow.dataset.i18n = key;
   eyebrow.textContent = translate(key, fallback);
   if (updateUrl && exampleDialog.open) syncUrlState();
@@ -891,7 +1366,9 @@ function updateFavoriteButton() {
   if (!button) return;
   const favorite = favoriteEmojiKeys.includes(currentEmojiKey);
   button.setAttribute('aria-pressed', String(favorite));
-  button.querySelector('[aria-hidden="true"]').textContent = favorite ? '★' : '☆';
+  button.querySelector('[aria-hidden="true"]').textContent = favorite
+    ? '★'
+    : '☆';
   const key = favorite ? 'removeFavorite' : 'addFavorite';
   const fallback = favorite ? 'Remove favorite' : 'Add favorite';
   const label = translate(key, fallback);
@@ -922,21 +1399,31 @@ function addFavorite(key) {
 
 function recordCopiedEmoji(key) {
   if (!key) return;
-  copiedEmojiKeys = [key, ...copiedEmojiKeys.filter(candidate => candidate !== key)].slice(0, 24);
+  copiedEmojiKeys = [
+    key,
+    ...copiedEmojiKeys.filter(candidate => candidate !== key)
+  ].slice(0, 24);
   saveExplorerPreference('recentCopied', copiedEmojiKeys);
 }
 
 function renderSavedEmojiList(container, empty, keys, source) {
   const available = keys.filter(key => emojiByKey[key] !== undefined);
-  container.replaceChildren(...available.map(key => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.dataset.savedEmoji = key;
-    button.dataset.savedSource = source;
-    button.textContent = emojiByKey[key];
-    button.setAttribute('aria-label', searchAnnotations[key]?.[0] ?? byId[key]?.shortName ?? displayEmojiKey(key));
-    return button;
-  }));
+  container.replaceChildren(
+    ...available.map(key => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.dataset.savedEmoji = key;
+      button.dataset.savedSource = source;
+      button.textContent = emojiByKey[key];
+      button.setAttribute(
+        'aria-label',
+        searchAnnotations[key]?.[0] ??
+          byId[key]?.shortName ??
+          displayEmojiKey(key)
+      );
+      return button;
+    })
+  );
   empty.hidden = available.length > 0;
 }
 
@@ -989,7 +1476,11 @@ function ensureImportExamples() {
       line = document.createElement('span');
       line.className = `line comment ${lineClass}`;
       line.hidden = true;
-      line.append('// import emoji from "', Object.assign(document.createElement('span'), { className: pathClass }), '";');
+      line.append(
+        '// import emoji from "',
+        Object.assign(document.createElement('span'), { className: pathClass }),
+        '";'
+      );
       after.after(line);
     }
     after = line;
@@ -1002,7 +1493,10 @@ function removeLegacyDialogElements() {
   dialog?.querySelector('.example-link')?.remove();
   dialog?.querySelector('.emoji-copy-actions [data-copy="emoji"]')?.remove();
   dialog?.querySelector('.emoji-code-points')?.closest('div')?.remove();
-  dialog?.querySelector('.emoji-metadata [data-i18n="codePoints"]')?.closest('div')?.remove();
+  dialog
+    ?.querySelector('.emoji-metadata [data-i18n="codePoints"]')
+    ?.closest('div')
+    ?.remove();
 }
 
 function ensureActiveFilterSummary() {
@@ -1077,7 +1571,8 @@ function ensureSelectionLabel(selector, className, labelId) {
   if (existing) return existing;
 
   const field = selector.closest('.filter-field');
-  const label = document.getElementById(labelId) ?? field?.querySelector('span');
+  const label =
+    document.getElementById(labelId) ?? field?.querySelector('span');
   if (!field || !label) return undefined;
   let heading = label.closest('.filter-heading');
   if (!heading) {
@@ -1094,8 +1589,11 @@ function ensureSelectionLabel(selector, className, labelId) {
 
 function ensureVersionSlider() {
   const existingRange = document.getElementsByClassName('version-range')[0];
-  const existingOutput = document.getElementsByClassName('version-range-value')[0];
-  if (existingRange && existingOutput) return { range: existingRange, output: existingOutput };
+  const existingOutput = document.getElementsByClassName(
+    'version-range-value'
+  )[0];
+  if (existingRange && existingOutput)
+    return { range: existingRange, output: existingOutput };
 
   let field = versionSelector.closest('.filter-field');
   if (field?.tagName === 'LABEL') {
@@ -1107,7 +1605,10 @@ function ensureVersionSlider() {
   }
   const label = field?.querySelector('span');
   if (label && !label.id) label.id = 'version-filter-label';
-  versionSelector.setAttribute('aria-labelledby', label?.id || 'version-filter-label');
+  versionSelector.setAttribute(
+    'aria-labelledby',
+    label?.id || 'version-filter-label'
+  );
 
   const wrapper = document.createElement('div');
   wrapper.className = 'compact-version';
@@ -1154,15 +1655,19 @@ function ensureVersionModeToggle() {
 }
 
 function populateVersionModeOptions() {
-  const previousValue = versionModeDefinitions.some(mode => mode.value === versionModeSelector.value)
+  const previousValue = versionModeDefinitions.some(
+    mode => mode.value === versionModeSelector.value
+  )
     ? versionModeSelector.value
     : 'through';
-  versionModeSelector.replaceChildren(...versionModeDefinitions.map(mode => {
-    const option = document.createElement('option');
-    option.value = mode.value;
-    option.textContent = translate(mode.key, mode.fallback);
-    return option;
-  }));
+  versionModeSelector.replaceChildren(
+    ...versionModeDefinitions.map(mode => {
+      const option = document.createElement('option');
+      option.value = mode.value;
+      option.textContent = translate(mode.key, mode.fallback);
+      return option;
+    })
+  );
   versionModeSelector.value = previousValue;
 }
 
@@ -1170,13 +1675,17 @@ function renderVersionModeToggle() {
   if (!versionModeToggle) return;
   populateVersionModeOptions();
   const label = translate('selectedVersionOnly', 'Selected version only');
-  versionModeToggle.setAttribute('aria-pressed', String(versionModeSelector.value === 'selected'));
+  versionModeToggle.setAttribute(
+    'aria-pressed',
+    String(versionModeSelector.value === 'selected')
+  );
   versionModeToggle.setAttribute('aria-label', label);
   versionModeToggle.title = label;
 }
 
 function toggleVersionMode() {
-  versionModeSelector.value = versionModeSelector.value === 'selected' ? 'through' : 'selected';
+  versionModeSelector.value =
+    versionModeSelector.value === 'selected' ? 'through' : 'selected';
   renderVersionModeToggle();
   renderCategoryFilters();
   drawList();
@@ -1204,9 +1713,12 @@ function getUrlState() {
     hair: (params.get('hair') ?? '').split(',').filter(Boolean),
     gender: (params.get('gender') ?? '').split(',').filter(Boolean),
     order,
-    compositionMode: params.get('composition') === 'full' ? 'full' : 'condensed',
+    compositionMode:
+      params.get('composition') === 'full' ? 'full' : 'condensed',
     emoji: params.get('emoji') ?? '',
-    emojiMode: params.get('emojiMode') === 'code' ? 'code' : 'details',
+    emojiMode: ['code', 'editor'].includes(params.get('emojiMode'))
+      ? params.get('emojiMode')
+      : 'details',
     panel: ['favorites', 'help', 'language'].includes(params.get('panel'))
       ? params.get('panel')
       : ''
@@ -1228,20 +1740,32 @@ function applyBasicUrlState() {
 
 function applyLoadedUrlState() {
   const state = getUrlState();
-  if (state.version && Array.from(versionSelector.options).some(option => option.value === state.version)) {
+  if (
+    state.version &&
+    Array.from(versionSelector.options).some(
+      option => option.value === state.version
+    )
+  ) {
     versionSelector.value = state.version;
   }
   versionModeSelector.value = state.versionMode;
   selectedGroup = groups.includes(state.group) ? state.group : '';
-  selectedSubGroup = selectedGroup && subGroups[selectedGroup]?.includes(state.subGroup)
-    ? subGroupSelectionKey(selectedGroup, state.subGroup)
-    : '';
-  skinToneCheckboxes.forEach(checkbox => { checkbox.checked = state.skin.includes(checkbox.value); });
-  hairCheckboxes.forEach(checkbox => { checkbox.checked = state.hair.includes(checkbox.value); });
+  selectedSubGroup =
+    selectedGroup && subGroups[selectedGroup]?.includes(state.subGroup)
+      ? subGroupSelectionKey(selectedGroup, state.subGroup)
+      : '';
+  skinToneCheckboxes.forEach(checkbox => {
+    checkbox.checked = state.skin.includes(checkbox.value);
+  });
+  hairCheckboxes.forEach(checkbox => {
+    checkbox.checked = state.hair.includes(checkbox.value);
+  });
   const selectedGender = state.gender.find(value =>
     genderCheckboxes.some(checkbox => checkbox.value === value)
   );
-  genderCheckboxes.forEach(checkbox => { checkbox.checked = checkbox.value === selectedGender; });
+  genderCheckboxes.forEach(checkbox => {
+    checkbox.checked = checkbox.value === selectedGender;
+  });
   renderVersionModeToggle();
   syncVersionRange();
 }
@@ -1254,7 +1778,7 @@ function applyDialogUrlState() {
     closePanelDialog(helpDialog);
     closePanelDialog(languageDialog);
     showEmoji(state.emoji, false, displayedKeys);
-    setEmojiDialogView(state.emojiMode === 'code', false);
+    setEmojiDialogView(state.emojiMode, false);
     if (!exampleDialog.open) {
       exampleDialog.showModal();
       focusInitialEmojiDialogAction();
@@ -1281,20 +1805,31 @@ function syncUrlState(method = 'replace', historyState = window.history.state) {
   const search = searchText.value.trim();
   if (search) params.set('q', search);
   const latestReleased = versionManifests.at(-1)?.version;
-  if (versionSelector.value && (versionSelector.value !== latestReleased || versionModeSelector.value === 'selected')) {
+  if (
+    versionSelector.value &&
+    (versionSelector.value !== latestReleased ||
+      versionModeSelector.value === 'selected')
+  ) {
     params.set('version', versionSelector.value);
   }
   if (versionModeSelector.value === 'selected') params.set('mode', 'selected');
-  if (orderMode !== 'sequence' && selectedGroup) params.set('group', selectedGroup);
+  if (orderMode !== 'sequence' && selectedGroup)
+    params.set('group', selectedGroup);
   if (orderMode !== 'sequence' && selectedSubGroup) {
     params.set('subgroup', selectedSubGroup.split('::').slice(1).join('::'));
   }
   if (orderMode === 'sequence' && selectedSequenceType) {
     params.set('sequenceType', selectedSequenceType);
   }
-  const skin = skinToneCheckboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
-  const hair = hairCheckboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
-  const gender = genderCheckboxes.filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+  const skin = skinToneCheckboxes
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value);
+  const hair = hairCheckboxes
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value);
+  const gender = genderCheckboxes
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value);
   if (skin.length) params.set('skin', skin.join(','));
   if (hair.length) params.set('hair', hair.join(','));
   if (gender.length) params.set('gender', gender.join(','));
@@ -1302,7 +1837,10 @@ function syncUrlState(method = 'replace', historyState = window.history.state) {
   if (compositionMode === 'full') params.set('composition', 'full');
   if (exampleDialog.open && currentEmojiKey) {
     params.set('emoji', currentEmojiKey);
-    if (exampleDialog.classList.contains('is-code-view')) params.set('emojiMode', 'code');
+    if (exampleDialog.classList.contains('is-code-view'))
+      params.set('emojiMode', 'code');
+    if (exampleDialog.classList.contains('is-editor-view'))
+      params.set('emojiMode', 'editor');
   } else {
     const panel = getOpenPanel();
     if (panel) params.set('panel', panel);
@@ -1320,9 +1858,15 @@ function resetFilters() {
   versionModeSelector.value = 'through';
   const latestReleased = versionManifests.at(-1)?.version;
   if (latestReleased) versionSelector.value = latestReleased;
-  skinToneCheckboxes.forEach(checkbox => { checkbox.checked = false; });
-  hairCheckboxes.forEach(checkbox => { checkbox.checked = false; });
-  genderCheckboxes.forEach(checkbox => { checkbox.checked = false; });
+  skinToneCheckboxes.forEach(checkbox => {
+    checkbox.checked = false;
+  });
+  hairCheckboxes.forEach(checkbox => {
+    checkbox.checked = false;
+  });
+  genderCheckboxes.forEach(checkbox => {
+    checkbox.checked = false;
+  });
   renderVersionModeToggle();
   syncVersionRange();
   renderCategoryFilters();
@@ -1340,7 +1884,13 @@ function onGenderChange(event) {
 }
 
 function stepVersion(amount) {
-  const nextIndex = Math.max(0, Math.min(versionSelector.options.length - 1, Number(versionRange.value) + amount));
+  const nextIndex = Math.max(
+    0,
+    Math.min(
+      versionSelector.options.length - 1,
+      Number(versionRange.value) + amount
+    )
+  );
   if (nextIndex === Number(versionRange.value)) return;
   versionRange.value = String(nextIndex);
   onVersionRangeInput();
@@ -1348,7 +1898,8 @@ function stepVersion(amount) {
 
 function onDocumentKeyDown(event) {
   const activeTag = document.activeElement?.tagName;
-  const isTyping = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT';
+  const isTyping =
+    activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT';
   const hasOpenDialog = Boolean(document.querySelector('dialog[open]'));
   if (event.key === '?' && !isTyping && !hasOpenDialog && helpDialog) {
     event.preventDefault();
@@ -1377,18 +1928,29 @@ function onDocumentKeyDown(event) {
   }
 }
 
-const isViteDevelopment = typeof import.meta.env !== 'undefined' && import.meta.env.DEV === true;
-if ('serviceWorker' in navigator && window.isSecureContext && isViteDevelopment) {
+const isViteDevelopment =
+  typeof import.meta.env !== 'undefined' && import.meta.env.DEV === true;
+if (
+  'serviceWorker' in navigator &&
+  window.isSecureContext &&
+  isViteDevelopment
+) {
   window.addEventListener('load', async () => {
     try {
       const registrations = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(registrations
-        .filter(registration => registration.scope.startsWith(window.location.origin))
-        .map(registration => registration.unregister()));
+      await Promise.all(
+        registrations
+          .filter(registration =>
+            registration.scope.startsWith(window.location.origin)
+          )
+          .map(registration => registration.unregister())
+      );
       const cacheNames = await caches.keys();
-      await Promise.all(cacheNames
-        .filter(name => name.startsWith('emoji-explorer-'))
-        .map(name => caches.delete(name)));
+      await Promise.all(
+        cacheNames
+          .filter(name => name.startsWith('emoji-explorer-'))
+          .map(name => caches.delete(name))
+      );
     } catch (error) {
       console.warn('Could not clear local offline cache', error);
     }
@@ -1402,11 +1964,23 @@ if ('serviceWorker' in navigator && window.isSecureContext && isViteDevelopment)
 }
 
 async function loadData() {
-  const [data, manifest] = await Promise.all([
+  const pixelFontManifestUrl = isViteDevelopment
+    ? `pixel-font/build/manifest.json?v=${Date.now()}`
+    : 'pixel-font/build/manifest.json';
+  const [data, manifest, pixelFontManifest] = await Promise.all([
     fetch('emoji.json').then(response => response.json()),
-    fetch('manifest.json').then(response => response.json()).catch(() => ({ packs: [], categories: [] }))
+    fetch('manifest.json')
+      .then(response => response.json())
+      .catch(() => ({ packs: [], categories: [] })),
+    fetch(
+      pixelFontManifestUrl,
+      isViteDevelopment ? { cache: 'no-store' } : undefined
+    )
+      .then(response => (response.ok ? response.json() : { glyphs: [] }))
+      .catch(() => ({ glyphs: [] }))
   ]);
   packageManifest = manifest;
+  updatePixelArtworkManifest(pixelFontManifest);
 
   // Keep Unicode's group/subgroup taxonomy, then add a smaller explorer section
   // inside each Unicode subgroup for large collections.
@@ -1422,73 +1996,80 @@ async function loadData() {
     return counts;
   }, new Map());
   items.forEach(item => {
-    item.hasExplorerSections = explorerSectionCounts
-      .get(`${item.group}:${item.unicodeSubGroup}`)
-      .size > 1;
+    item.hasExplorerSections =
+      explorerSectionCounts.get(`${item.group}:${item.unicodeSubGroup}`).size >
+      1;
   });
-      byId = items.reduce((byId, item) => ({ ...byId, [item.key]: item }), {});
-      emojiKeyByCodePoints = items.reduce((lookup, item) => {
-        const codePoints = normalizeCodePoints(item.codePoints);
-        if (codePoints && (!lookup.has(codePoints) || item.status === 'fully-qualified')) {
-          lookup.set(codePoints, item.key);
-        }
-        return lookup;
-      }, new Map());
+  byId = items.reduce((byId, item) => ({ ...byId, [item.key]: item }), {});
+  rebuildEmojiCodePointLookup();
+  updateModifierPixelArtwork();
 
-      groups = items
-        .reduce((all, item) => all.includes(item.group) ? all : [...all, item.group], [])
-        .sort();
+  groups = items
+    .reduce(
+      (all, item) => (all.includes(item.group) ? all : [...all, item.group]),
+      []
+    )
+    .sort();
 
-      subGroups = items.reduce((all, { group, unicodeSubGroup }) => {
-        if (!all[group]) all[group] = [];
-        if (!all[group].includes(unicodeSubGroup)) {
-          all[group].push(unicodeSubGroup);
-          all[group].sort();
-        }
-        return all;
-      }, {});
-      groups.forEach(group => subGroups[group].sort());
-      buildCategoryRepresentatives();
+  subGroups = items.reduce((all, { group, unicodeSubGroup }) => {
+    if (!all[group]) all[group] = [];
+    if (!all[group].includes(unicodeSubGroup)) {
+      all[group].push(unicodeSubGroup);
+      all[group].sort();
+    }
+    return all;
+  }, {});
+  groups.forEach(group => subGroups[group].sort());
+  buildCategoryRepresentatives();
 
-      versionModeSelector.value = 'through';
-      groupSelector.addEventListener('change', onGroupSelectorChange);
-      subGroupSelector.addEventListener('change', onSubGroupSelectorChange);
-      sequenceTypeSelector.addEventListener('change', onSequenceTypeSelectorChange);
-      renderCategoryFilters();
+  versionModeSelector.value = 'through';
+  groupSelector.addEventListener('change', onGroupSelectorChange);
+  subGroupSelector.addEventListener('change', onSubGroupSelectorChange);
+  sequenceTypeSelector.addEventListener('change', onSequenceTypeSelectorChange);
+  renderCategoryFilters();
 
-      allIds = [];
-      // Sort keys by Unicode group and subgroup, then by explorer section.
-      groups.forEach(group => {
-        groupedKeys[group] = {};
-        subGroups[group].forEach(unicodeSubGroup => {
-          groupedKeys[group][unicodeSubGroup] = [];
-          const subgroupItems = items.filter(item =>
-            item.group === group && item.unicodeSubGroup === unicodeSubGroup
-          );
-          const explorerSections = [...new Set(subgroupItems.map(item => item.subGroup))].sort();
-          explorerSections.forEach(section => {
-            subgroupItems.filter(item => item.subGroup === section).forEach(item => {
-              allIds.push(item.key);
-              groupedKeys[group][unicodeSubGroup].push(item.key);
-            });
+  allIds = [];
+  // Sort keys by Unicode group and subgroup, then by explorer section.
+  groups.forEach(group => {
+    groupedKeys[group] = {};
+    subGroups[group].forEach(unicodeSubGroup => {
+      groupedKeys[group][unicodeSubGroup] = [];
+      const subgroupItems = items.filter(
+        item => item.group === group && item.unicodeSubGroup === unicodeSubGroup
+      );
+      const explorerSections = [
+        ...new Set(subgroupItems.map(item => item.subGroup))
+      ].sort();
+      explorerSections.forEach(section => {
+        subgroupItems
+          .filter(item => item.subGroup === section)
+          .forEach(item => {
+            allIds.push(item.key);
+            groupedKeys[group][unicodeSubGroup].push(item.key);
           });
-        })
-      })
+      });
+    });
+  });
 
-      // Keep this snapshot before draft candidates are appended in
-      // loadVersionData(), so the default version filter stays released-only.
-      releasedIds = new Set(allIds);
-      onClick({ target: { id: 'clinkingBeerMugs' } }, false)
-      await loadVersionData();
-      await loadOrderData();
+  // Keep this snapshot before draft candidates are appended in
+  // loadVersionData(), so the default version filter stays released-only.
+  releasedIds = new Set(allIds);
+  onClick({ target: { id: 'clinkingBeerMugs' } }, false);
+  await loadVersionData();
+  await loadOrderData();
 }
 
 async function loadSearchLanguages(initialLocale = '') {
   try {
-    const manifest = await fetch('locales/manifest.json').then(response => response.json());
+    const manifest = await fetch('locales/manifest.json').then(response =>
+      response.json()
+    );
     searchLocales = manifest.locales ?? [];
     renderSearchLanguages();
-    if (initialLocale && searchLocales.some(locale => locale.locale === initialLocale)) {
+    if (
+      initialLocale &&
+      searchLocales.some(locale => locale.locale === initialLocale)
+    ) {
       await setSearchLanguage(initialLocale);
     }
   } catch (error) {
@@ -1511,7 +2092,9 @@ function renderSearchLanguages() {
   noLanguage.classList.toggle('is-selected', selectedSearchLocale === '');
   noLanguage.setAttribute('aria-pressed', String(selectedSearchLocale === ''));
   noLanguage.innerHTML = `<span class="language-option-flag" aria-hidden="true">🌐</span><span class="language-option-label">${translate('noLanguagePack', 'No language pack')}</span>`;
-  noLanguage.addEventListener('click', event => selectLanguageLink(event, '', noLanguage.href));
+  noLanguage.addEventListener('click', event =>
+    selectLanguageLink(event, '', noLanguage.href)
+  );
   languageList.appendChild(noLanguage);
 
   searchLocales.forEach(locale => {
@@ -1519,21 +2102,41 @@ function renderSearchLanguages() {
     const flag = languageFlags[locale.locale] ?? '🌐';
     option.href = `./index.${locale.locale}.html${navigationSearch}`;
     option.className = 'language-option';
-    option.classList.toggle('is-selected', locale.locale === selectedSearchLocale);
-    option.setAttribute('aria-pressed', String(locale.locale === selectedSearchLocale));
+    option.classList.toggle(
+      'is-selected',
+      locale.locale === selectedSearchLocale
+    );
+    option.setAttribute(
+      'aria-pressed',
+      String(locale.locale === selectedSearchLocale)
+    );
     const uiLocale = document.documentElement.lang || 'en';
-    const localizedLabel = new Intl.DisplayNames([uiLocale], { type: 'language' }).of(locale.locale) ?? locale.label;
-    const label = locale.locale === selectedSearchLocale || localizedLabel === locale.nativeLabel
-      ? localizedLabel
-      : `${localizedLabel} (${locale.nativeLabel})`;
+    const localizedLabel =
+      new Intl.DisplayNames([uiLocale], { type: 'language' }).of(
+        locale.locale
+      ) ?? locale.label;
+    const label =
+      locale.locale === selectedSearchLocale ||
+      localizedLabel === locale.nativeLabel
+        ? localizedLabel
+        : `${localizedLabel} (${locale.nativeLabel})`;
     option.innerHTML = `<span class="language-option-flag" aria-hidden="true">${flag}</span><span class="language-option-label">${label}</span>`;
-    option.addEventListener('click', event => selectLanguageLink(event, locale.locale, option.href));
+    option.addEventListener('click', event =>
+      selectLanguageLink(event, locale.locale, option.href)
+    );
     languageList.appendChild(option);
   });
 }
 
 async function selectLanguageLink(event, locale, href) {
-  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  if (
+    event.button !== 0 ||
+    event.metaKey ||
+    event.ctrlKey ||
+    event.shiftKey ||
+    event.altKey
+  )
+    return;
   event.preventDefault();
   await setSearchLanguage(locale);
   window.history.pushState({ locale }, '', href);
@@ -1542,8 +2145,12 @@ async function selectLanguageLink(event, locale, href) {
 window.addEventListener('popstate', async () => {
   applyingUrlState = true;
   try {
-    const locale = window.location.pathname.match(/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/)?.[1] ?? '';
-    if (!locale || searchLocales.some(entry => entry.locale === locale)) await setSearchLanguage(locale);
+    const locale =
+      window.location.pathname.match(
+        /index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/
+      )?.[1] ?? '';
+    if (!locale || searchLocales.some(entry => entry.locale === locale))
+      await setSearchLanguage(locale);
     applyDialogUrlState();
   } finally {
     applyingUrlState = false;
@@ -1559,7 +2166,10 @@ async function setSearchLanguage(requestedLocale) {
     searchLabels = {};
     searchSubgroupLabels = {};
     languagePickerFlag.textContent = '🌐';
-    languagePickerLabel.textContent = translate('languageNotLoaded', 'Language not loaded');
+    languagePickerLabel.textContent = translate(
+      'languageNotLoaded',
+      'Language not loaded'
+    );
     closePanelDialog(languageDialog);
     await loadUiTranslations('en');
     saveExplorerPreference('locale', '');
@@ -1570,16 +2180,31 @@ async function setSearchLanguage(requestedLocale) {
   const locale = searchLocales.find(entry => entry.locale === requestedLocale);
   if (!locale) return;
   languagePicker.disabled = true;
-  languagePickerLabel.textContent = translate('loadingLanguage', 'Loading language…');
+  languagePickerLabel.textContent = translate(
+    'loadingLanguage',
+    'Loading language…'
+  );
   try {
     const packs = await Promise.all([
-      ...(locale.baseLocale ? [fetch(`locales/${locale.baseLocale}.json`).then(response => response.json())] : []),
+      ...(locale.baseLocale
+        ? [
+            fetch(`locales/${locale.baseLocale}.json`).then(response =>
+              response.json()
+            )
+          ]
+        : []),
       fetch(`locales/${locale.file}`).then(response => response.json())
     ]);
     if (loadId !== searchLoadId) return;
-    searchAnnotations = Object.assign({}, ...packs.map(pack => pack.annotations ?? {}));
+    searchAnnotations = Object.assign(
+      {},
+      ...packs.map(pack => pack.annotations ?? {})
+    );
     searchLabels = Object.assign({}, ...packs.map(pack => pack.labels ?? {}));
-    searchSubgroupLabels = Object.assign({}, ...packs.map(pack => pack.subgroups ?? {}));
+    searchSubgroupLabels = Object.assign(
+      {},
+      ...packs.map(pack => pack.subgroups ?? {})
+    );
     selectedSearchLocale = locale.locale;
     await loadUiTranslations(locale.locale, locale.rtl);
     languagePickerFlag.textContent = languageFlags[locale.locale] ?? '🌐';
@@ -1595,7 +2220,10 @@ async function setSearchLanguage(requestedLocale) {
       searchLabels = {};
       searchSubgroupLabels = {};
       languagePickerFlag.textContent = '🌐';
-      languagePickerLabel.textContent = translate('languageNotLoaded', 'Language not loaded');
+      languagePickerLabel.textContent = translate(
+        'languageNotLoaded',
+        'Language not loaded'
+      );
       refreshLocalizedLabels();
     }
   } finally {
@@ -1605,7 +2233,9 @@ async function setSearchLanguage(requestedLocale) {
 
 async function loadOrderData() {
   try {
-    orderManifest = await fetch('orders/manifest.json').then(response => response.json());
+    orderManifest = await fetch('orders/manifest.json').then(response =>
+      response.json()
+    );
     drawList();
   } catch (error) {
     console.warn('Unicode order data unavailable', error);
@@ -1626,36 +2256,52 @@ function onOrderModeChange(event) {
 
 async function loadVersionData() {
   try {
-    const manifest = await fetch('versions/manifest.json').then(response => response.json());
+    const manifest = await fetch('versions/manifest.json').then(response =>
+      response.json()
+    );
     const manifests = manifest.versions
       .filter(version => version.released)
       .sort((a, b) => a.released.localeCompare(b.released));
-    const keys = await Promise.all(manifests.map(async version => [
-      version.version,
-      new Set(await fetch(`versions/${version.file}`).then(response => response.json()))
-    ]));
-    const proposed = (manifest.proposed ?? []).sort((a, b) => a.version.localeCompare(b.version, undefined, { numeric: true }));
-    const proposedKeys = await Promise.all(proposed.map(async version => {
-      const proposal = await fetch(version.file).then(response => response.json());
-      const proposalItems = proposal.emoji ?? [];
-      proposalItems.forEach(item => {
-        if (emojiByKey[item.key]) return;
-        const explorerItem = {
-          ...item,
-          unicodeSubGroup: item.subGroup,
-          subGroup: getExplorerSubGroup(item)
-        };
-        items.push(explorerItem);
-        byId[item.key] = explorerItem;
-        emojiByKey[item.key] = item.emoji;
-        allIds.push(item.key);
-      });
-      return [version.version, new Set(proposalItems.map(item => item.key))];
-    }));
+    const keys = await Promise.all(
+      manifests.map(async version => [
+        version.version,
+        new Set(
+          await fetch(`versions/${version.file}`).then(response =>
+            response.json()
+          )
+        )
+      ])
+    );
+    const proposed = (manifest.proposed ?? []).sort((a, b) =>
+      a.version.localeCompare(b.version, undefined, { numeric: true })
+    );
+    const proposedKeys = await Promise.all(
+      proposed.map(async version => {
+        const proposal = await fetch(version.file).then(response =>
+          response.json()
+        );
+        const proposalItems = proposal.emoji ?? [];
+        proposalItems.forEach(item => {
+          if (emojiByKey[item.key]) return;
+          const explorerItem = {
+            ...item,
+            unicodeSubGroup: item.subGroup,
+            subGroup: getExplorerSubGroup(item)
+          };
+          items.push(explorerItem);
+          byId[item.key] = explorerItem;
+          emojiByKey[item.key] = item.emoji;
+          allIds.push(item.key);
+        });
+        return [version.version, new Set(proposalItems.map(item => item.key))];
+      })
+    );
 
     versionManifests = manifests;
     proposedVersionManifests = proposed;
     versionKeys = new Map([...keys, ...proposedKeys]);
+    rebuildEmojiCodePointLookup();
+    updateModifierPixelArtwork();
     buildCategoryRepresentatives();
     populateVersionSelector();
     applyLoadedUrlState();
@@ -1686,8 +2332,11 @@ function populateVersionSelector() {
     }
     versionSelector.appendChild(option);
   });
-  const defaultVersion = versionManifests.at(-1)?.version ?? manifests.at(-1)?.version ?? '';
-  versionSelector.value = manifests.some(version => version.version === previousValue)
+  const defaultVersion =
+    versionManifests.at(-1)?.version ?? manifests.at(-1)?.version ?? '';
+  versionSelector.value = manifests.some(
+    version => version.version === previousValue
+  )
     ? previousValue
     : defaultVersion;
   versionSelector.disabled = manifests.length === 0;
@@ -1695,7 +2344,9 @@ function populateVersionSelector() {
 }
 
 function versionSliderLabel(version) {
-  const proposed = proposedVersionManifests.find(item => item.version === version);
+  const proposed = proposedVersionManifests.find(
+    item => item.version === version
+  );
   if (!proposed) return `Emoji ${version}`;
   return `✨ Emoji ${version} ${proposed.stage ?? proposed.status ?? 'draft'}`;
 }
@@ -1704,16 +2355,32 @@ function syncVersionRange() {
   if (!versionRange || !versionRangeValue) return;
   versionSelector.closest('.filter-field')?.classList.add('has-version-slider');
   const options = Array.from(versionSelector.options);
-  const selectedIndex = Math.max(0, options.findIndex(option => option.value === versionSelector.value));
+  const selectedIndex = Math.max(
+    0,
+    options.findIndex(option => option.value === versionSelector.value)
+  );
   versionRange.max = String(Math.max(0, options.length - 1));
   versionRange.value = String(selectedIndex);
   versionRange.disabled = versionSelector.disabled || options.length === 0;
   const selectedVersion = options[selectedIndex]?.value ?? '';
-  versionRangeValue.value = selectedVersion ? versionSliderLabel(selectedVersion) : '—';
-  versionRangeValue.classList.toggle('is-future', proposedVersionManifests.some(version => version.version === selectedVersion));
-  versionRange.setAttribute('aria-valuetext', options[selectedIndex]?.text ?? '—');
-  if (versionPrevious) versionPrevious.disabled = versionRange.disabled || selectedIndex === 0;
-  if (versionNext) versionNext.disabled = versionRange.disabled || selectedIndex === options.length - 1;
+  versionRangeValue.value = selectedVersion
+    ? versionSliderLabel(selectedVersion)
+    : '—';
+  versionRangeValue.classList.toggle(
+    'is-future',
+    proposedVersionManifests.some(
+      version => version.version === selectedVersion
+    )
+  );
+  versionRange.setAttribute(
+    'aria-valuetext',
+    options[selectedIndex]?.text ?? '—'
+  );
+  if (versionPrevious)
+    versionPrevious.disabled = versionRange.disabled || selectedIndex === 0;
+  if (versionNext)
+    versionNext.disabled =
+      versionRange.disabled || selectedIndex === options.length - 1;
   updateModifierAvailability();
 }
 
@@ -1728,29 +2395,49 @@ function onVersionRangeInput() {
 
 function updateModifierAvailability() {
   const manifests = [...versionManifests, ...proposedVersionManifests];
-  const selectedIndex = manifests.findIndex(version => version.version === versionSelector.value);
+  const selectedIndex = manifests.findIndex(
+    version => version.version === versionSelector.value
+  );
   const skinToneIndex = manifests.findIndex(version =>
-    [...(versionKeys.get(version.version) ?? [])].some(key => key.endsWith('SkinTone'))
+    [...(versionKeys.get(version.version) ?? [])].some(key =>
+      key.endsWith('SkinTone')
+    )
   );
   const hairKeys = new Set(['redHair', 'curlyHair', 'bald', 'whiteHair']);
   const hairIndex = manifests.findIndex(version =>
     [...(versionKeys.get(version.version) ?? [])].some(key => hairKeys.has(key))
   );
   const genderIndex = manifests.findIndex(version =>
-    [...(versionKeys.get(version.version) ?? [])].some(key => getEmojiGenders(byId[key] ?? {}).size > 0)
+    [...(versionKeys.get(version.version) ?? [])].some(
+      key => getEmojiGenders(byId[key] ?? {}).size > 0
+    )
   );
-  const skinToneAvailable = selectedIndex >= skinToneIndex && skinToneIndex !== -1;
+  const skinToneAvailable =
+    selectedIndex >= skinToneIndex && skinToneIndex !== -1;
   const hairAvailable = selectedIndex >= hairIndex && hairIndex !== -1;
   const genderAvailable = selectedIndex >= genderIndex && genderIndex !== -1;
 
   if (skinToneFieldset) skinToneFieldset.hidden = !skinToneAvailable;
   if (hairFieldset) hairFieldset.hidden = !hairAvailable;
   if (genderFieldset) genderFieldset.hidden = !genderAvailable;
-  if (!skinToneAvailable) skinToneCheckboxes.forEach(checkbox => { checkbox.checked = false; });
-  if (!hairAvailable) hairCheckboxes.forEach(checkbox => { checkbox.checked = false; });
-  if (!genderAvailable) genderCheckboxes.forEach(checkbox => { checkbox.checked = false; });
+  if (!skinToneAvailable)
+    skinToneCheckboxes.forEach(checkbox => {
+      checkbox.checked = false;
+    });
+  if (!hairAvailable)
+    hairCheckboxes.forEach(checkbox => {
+      checkbox.checked = false;
+    });
+  if (!genderAvailable)
+    genderCheckboxes.forEach(checkbox => {
+      checkbox.checked = false;
+    });
   if (modifierFilters) {
-    const availableCount = [skinToneAvailable, hairAvailable, genderAvailable].filter(Boolean).length;
+    const availableCount = [
+      skinToneAvailable,
+      hairAvailable,
+      genderAvailable
+    ].filter(Boolean).length;
     modifierFilters.hidden = availableCount === 0;
     modifierFilters.classList.toggle('has-single', availableCount === 1);
   }
@@ -1763,10 +2450,14 @@ function getVersionKeys() {
   }
 
   const manifests = [...versionManifests, ...proposedVersionManifests];
-  const selectedIndex = manifests.findIndex(version => version.version === versionSelector.value);
-  return new Set(manifests
-    .slice(0, selectedIndex + 1)
-    .flatMap(version => [...(versionKeys.get(version.version) ?? [])]));
+  const selectedIndex = manifests.findIndex(
+    version => version.version === versionSelector.value
+  );
+  return new Set(
+    manifests
+      .slice(0, selectedIndex + 1)
+      .flatMap(version => [...(versionKeys.get(version.version) ?? [])])
+  );
 }
 function onGroupSelectorChange() {
   selectedGroup = groupSelector.value;
@@ -1806,9 +2497,18 @@ function renderCategoryFilters() {
   const groupField = groupSelector.closest('.filter-field');
   const subGroupField = subGroupSelector.closest('.filter-field');
   const sequenceField = sequenceTypeSelector.closest('.filter-field');
-  groupField?.classList.toggle('has-choice-buttons', Boolean(compactGroupChoices));
-  subGroupField?.classList.toggle('has-choice-buttons', Boolean(compactSubGroupChoices));
-  sequenceField?.classList.toggle('has-choice-buttons', Boolean(compactSequenceChoices));
+  groupField?.classList.toggle(
+    'has-choice-buttons',
+    Boolean(compactGroupChoices)
+  );
+  subGroupField?.classList.toggle(
+    'has-choice-buttons',
+    Boolean(compactSubGroupChoices)
+  );
+  sequenceField?.classList.toggle(
+    'has-choice-buttons',
+    Boolean(compactSequenceChoices)
+  );
   if (groupField) groupField.hidden = sequenceMode;
   if (subGroupField) subGroupField.hidden = sequenceMode || !selectedGroup;
   if (sequenceField) sequenceField.hidden = !sequenceMode;
@@ -1829,9 +2529,10 @@ function renderCategoryFilters() {
 
 function updateAvailableCategories() {
   const includedVersionKeys = getVersionKeys();
-  availableCategoryKeys = includedVersionKeys.size === 0 && versionKeys.size === 0
-    ? new Set(items.map(item => item.key))
-    : includedVersionKeys;
+  availableCategoryKeys =
+    includedVersionKeys.size === 0 && versionKeys.size === 0
+      ? new Set(items.map(item => item.key))
+      : includedVersionKeys;
   const groupNames = new Set();
   const subgroupNames = {};
   items.forEach(item => {
@@ -1841,14 +2542,21 @@ function updateAvailableCategories() {
     subgroupNames[item.group].add(item.unicodeSubGroup);
   });
   availableGroups = groups.filter(group => groupNames.has(group));
-  availableSubGroups = Object.fromEntries(availableGroups.map(group => [
-    group,
-    subGroups[group].filter(subGroup => subgroupNames[group]?.has(subGroup))
-  ]));
-  availableSequenceTypes = sequenceTypeOrder.filter(type =>
-    items.some(item => availableCategoryKeys.has(item.key) && item.sequenceType === type)
+  availableSubGroups = Object.fromEntries(
+    availableGroups.map(group => [
+      group,
+      subGroups[group].filter(subGroup => subgroupNames[group]?.has(subGroup))
+    ])
   );
-  if (selectedSequenceType && !availableSequenceTypes.includes(selectedSequenceType)) {
+  availableSequenceTypes = sequenceTypeOrder.filter(type =>
+    items.some(
+      item => availableCategoryKeys.has(item.key) && item.sequenceType === type
+    )
+  );
+  if (
+    selectedSequenceType &&
+    !availableSequenceTypes.includes(selectedSequenceType)
+  ) {
     selectedSequenceType = '';
   }
 
@@ -1857,9 +2565,14 @@ function updateAvailableCategories() {
     selectedSubGroup = '';
   } else if (selectedSubGroup) {
     const separatorIndex = selectedSubGroup.indexOf('::');
-    const group = separatorIndex === -1 ? '' : selectedSubGroup.slice(0, separatorIndex);
-    const subGroup = separatorIndex === -1 ? '' : selectedSubGroup.slice(separatorIndex + 2);
-    if (group !== selectedGroup || !availableSubGroups[group]?.includes(subGroup)) {
+    const group =
+      separatorIndex === -1 ? '' : selectedSubGroup.slice(0, separatorIndex);
+    const subGroup =
+      separatorIndex === -1 ? '' : selectedSubGroup.slice(separatorIndex + 2);
+    if (
+      group !== selectedGroup ||
+      !availableSubGroups[group]?.includes(subGroup)
+    ) {
       selectedSubGroup = '';
     }
   }
@@ -1869,12 +2582,15 @@ function populateGroupFilter() {
   const all = document.createElement('option');
   all.value = '';
   all.text = `🌐 ${translate('all', 'All')}`;
-  groupSelector.replaceChildren(all, ...availableGroups.map(name => {
-    const option = document.createElement('option');
-    option.value = name;
-    option.text = `${getGroupRepresentativeEmoji(name)} ${displayGroupName(name)}`;
-    return option;
-  }));
+  groupSelector.replaceChildren(
+    all,
+    ...availableGroups.map(name => {
+      const option = document.createElement('option');
+      option.value = name;
+      option.text = `${getGroupRepresentativeEmoji(name)} ${displayGroupName(name)}`;
+      return option;
+    })
+  );
   groupSelector.value = selectedGroup;
 }
 
@@ -1905,17 +2621,22 @@ function populateSequenceTypeFilter() {
   const all = document.createElement('option');
   all.value = '';
   all.text = `🌐 ${translate('all', 'All')}`;
-  sequenceTypeSelector.replaceChildren(all, ...availableSequenceTypes.map(type => {
-    const option = document.createElement('option');
-    option.value = type;
-    option.text = `${sequenceTypeEmoji[type]} ${translate(sequenceTranslationKeys[type], sequenceTypeLabels[type])}`;
-    return option;
-  }));
+  sequenceTypeSelector.replaceChildren(
+    all,
+    ...availableSequenceTypes.map(type => {
+      const option = document.createElement('option');
+      option.value = type;
+      option.text = `${sequenceTypeEmoji[type]} ${translate(sequenceTranslationKeys[type], sequenceTypeLabels[type])}`;
+      return option;
+    })
+  );
   sequenceTypeSelector.value = selectedSequenceType;
 }
 
 function availableSubGroupParents() {
-  return selectedGroup && availableGroups.includes(selectedGroup) ? [selectedGroup] : [];
+  return selectedGroup && availableGroups.includes(selectedGroup)
+    ? [selectedGroup]
+    : [];
 }
 
 function renderCompactGroupChoices() {
@@ -1925,37 +2646,46 @@ function renderCompactGroupChoices() {
       ? displayGroupName(selectedGroup)
       : translate('all', 'All');
   }
-  const choices = [{ name: '', emoji: '🌐', label: translate('all', 'All') }, ...availableGroups.map(name => ({
-    name,
-    emoji: getGroupRepresentativeEmoji(name),
-    label: displayGroupName(name)
-  }))];
-  compactGroupChoices.replaceChildren(...choices.map(({ name, emoji, label }) => makeCompactChoice({
-    value: name,
-    emoji,
-    label,
-    selected: selectedGroup === name,
-    onSelect() {
-      selectedGroup = name;
-      selectedSubGroup = '';
-      renderCategoryFilters();
-      drawList();
-      focusCompactChoice(compactGroupChoices, name);
-    }
-  })));
+  const choices = [
+    { name: '', emoji: '🌐', label: translate('all', 'All') },
+    ...availableGroups.map(name => ({
+      name,
+      emoji: getGroupRepresentativeEmoji(name),
+      label: displayGroupName(name)
+    }))
+  ];
+  compactGroupChoices.replaceChildren(
+    ...choices.map(({ name, emoji, label }) =>
+      makeCompactChoice({
+        value: name,
+        emoji,
+        label,
+        selected: selectedGroup === name,
+        onSelect() {
+          selectedGroup = name;
+          selectedSubGroup = '';
+          renderCategoryFilters();
+          drawList();
+          focusCompactChoice(compactGroupChoices, name);
+        }
+      })
+    )
+  );
 }
 
 function renderCompactSubGroupChoices() {
   if (!compactSubGroupChoices) return;
   if (compactSubGroupLabel) {
     const separatorIndex = selectedSubGroup.indexOf('::');
-    const name = separatorIndex === -1 ? '' : selectedSubGroup.slice(separatorIndex + 2);
+    const name =
+      separatorIndex === -1 ? '' : selectedSubGroup.slice(separatorIndex + 2);
     compactSubGroupLabel.textContent = name
       ? displayUnicodeSubGroupName(name)
       : translate('all', 'All');
   }
-  const choices = availableSubGroupParents()
-    .flatMap(group => availableSubGroups[group].map(name => ({ group, name })));
+  const choices = availableSubGroupParents().flatMap(group =>
+    availableSubGroups[group].map(name => ({ group, name }))
+  );
   const allChoice = makeCompactChoice({
     value: '',
     emoji: '🌐',
@@ -1968,24 +2698,32 @@ function renderCompactSubGroupChoices() {
       focusCompactChoice(compactSubGroupChoices, '');
     }
   });
-  compactSubGroupChoices.replaceChildren(allChoice, ...choices.map(({ group, name }) => makeCompactChoice({
-    value: subGroupSelectionKey(group, name),
-    emoji: getSubGroupRepresentativeEmoji(group, name),
-    label: `${displayGroupName(group)}: ${displayUnicodeSubGroupName(name)}`,
-    selected: selectedSubGroup === subGroupSelectionKey(group, name),
-    onSelect() {
-      selectedSubGroup = subGroupSelectionKey(group, name);
-      renderCategoryFilters();
-      drawList();
-      focusCompactChoice(compactSubGroupChoices, selectedSubGroup);
-    }
-  })));
+  compactSubGroupChoices.replaceChildren(
+    allChoice,
+    ...choices.map(({ group, name }) =>
+      makeCompactChoice({
+        value: subGroupSelectionKey(group, name),
+        emoji: getSubGroupRepresentativeEmoji(group, name),
+        label: `${displayGroupName(group)}: ${displayUnicodeSubGroupName(name)}`,
+        selected: selectedSubGroup === subGroupSelectionKey(group, name),
+        onSelect() {
+          selectedSubGroup = subGroupSelectionKey(group, name);
+          renderCategoryFilters();
+          drawList();
+          focusCompactChoice(compactSubGroupChoices, selectedSubGroup);
+        }
+      })
+    )
+  );
 }
 
 function renderCompactSequenceChoices() {
   if (!compactSequenceChoices) return;
   const selectedLabel = selectedSequenceType
-    ? translate(sequenceTranslationKeys[selectedSequenceType], sequenceTypeLabels[selectedSequenceType])
+    ? translate(
+        sequenceTranslationKeys[selectedSequenceType],
+        sequenceTypeLabels[selectedSequenceType]
+      )
     : translate('all', 'All');
   if (compactSequenceLabel) compactSequenceLabel.textContent = selectedLabel;
   const choices = [
@@ -1996,18 +2734,22 @@ function renderCompactSequenceChoices() {
       label: translate(sequenceTranslationKeys[type], sequenceTypeLabels[type])
     }))
   ];
-  compactSequenceChoices.replaceChildren(...choices.map(({ type, emoji, label }) => makeCompactChoice({
-    value: type,
-    emoji,
-    label,
-    selected: selectedSequenceType === type,
-    onSelect() {
-      selectedSequenceType = type;
-      renderCategoryFilters();
-      drawList();
-      focusCompactChoice(compactSequenceChoices, type);
-    }
-  })));
+  compactSequenceChoices.replaceChildren(
+    ...choices.map(({ type, emoji, label }) =>
+      makeCompactChoice({
+        value: type,
+        emoji,
+        label,
+        selected: selectedSequenceType === type,
+        onSelect() {
+          selectedSequenceType = type;
+          renderCategoryFilters();
+          drawList();
+          focusCompactChoice(compactSequenceChoices, type);
+        }
+      })
+    )
+  );
 }
 
 function makeCompactChoice({ value, emoji, label, selected, onSelect }) {
@@ -2034,14 +2776,27 @@ function makeCompactChoice({ value, emoji, label, selected, onSelect }) {
 
 function focusCompactChoice(container, value) {
   const choices = Array.from(container.querySelectorAll('[role="radio"]'));
-  const choice = choices.find(button => button.dataset.value === value)
-    ?? choices.find(button => button.getAttribute('aria-checked') === 'true');
+  const choice =
+    choices.find(button => button.dataset.value === value) ??
+    choices.find(button => button.getAttribute('aria-checked') === 'true');
   choice?.focus();
 }
 
 function onCompactChoiceKeyDown(event) {
-  if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
-  const choices = Array.from(event.currentTarget.querySelectorAll('[role="radio"]'));
+  if (
+    ![
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowUp',
+      'ArrowDown',
+      'Home',
+      'End'
+    ].includes(event.key)
+  )
+    return;
+  const choices = Array.from(
+    event.currentTarget.querySelectorAll('[role="radio"]')
+  );
   const currentIndex = choices.indexOf(event.target.closest('[role="radio"]'));
   if (currentIndex === -1 || choices.length === 0) return;
   event.preventDefault();
@@ -2052,9 +2807,11 @@ function onCompactChoiceKeyDown(event) {
     nextIndex = choices.length - 1;
   } else {
     const rtl = document.documentElement.dir === 'rtl';
-    const backwards = event.key === 'ArrowUp'
-      || event.key === (rtl ? 'ArrowRight' : 'ArrowLeft');
-    nextIndex = (currentIndex + (backwards ? -1 : 1) + choices.length) % choices.length;
+    const backwards =
+      event.key === 'ArrowUp' ||
+      event.key === (rtl ? 'ArrowRight' : 'ArrowLeft');
+    nextIndex =
+      (currentIndex + (backwards ? -1 : 1) + choices.length) % choices.length;
   }
   choices[nextIndex].click();
 }
@@ -2078,11 +2835,14 @@ function buildCategoryRepresentatives() {
       if (!versionOrder.has(key)) versionOrder.set(key, index);
     }
   });
-  const itemOrder = new Map(items.map((item, index) => [item.key, item.order ?? index]));
+  const itemOrder = new Map(
+    items.map((item, index) => [item.key, item.order ?? index])
+  );
   const byIntroduction = (left, right) =>
-    (versionOrder.get(left.key) ?? Infinity) - (versionOrder.get(right.key) ?? Infinity)
-    || itemOrder.get(left.key) - itemOrder.get(right.key)
-    || left.key.localeCompare(right.key);
+    (versionOrder.get(left.key) ?? Infinity) -
+      (versionOrder.get(right.key) ?? Infinity) ||
+    itemOrder.get(left.key) - itemOrder.get(right.key) ||
+    left.key.localeCompare(right.key);
 
   groupRepresentativeEmoji = new Map();
   subGroupRepresentativeEmoji = new Map();
@@ -2090,17 +2850,28 @@ function buildCategoryRepresentatives() {
     const subgroupRepresentatives = new Set();
     subGroups[group].forEach(subGroup => {
       const representative = items
-        .filter(item => item.group === group && item.unicodeSubGroup === subGroup)
+        .filter(
+          item => item.group === group && item.unicodeSubGroup === subGroup
+        )
         .sort(byIntroduction)[0];
       if (!representative) return;
-      subGroupRepresentativeEmoji.set(subGroupSelectionKey(group, subGroup), representative.emoji);
+      subGroupRepresentativeEmoji.set(
+        subGroupSelectionKey(group, subGroup),
+        representative.emoji
+      );
       subgroupRepresentatives.add(representative.key);
     });
 
-    const candidates = items.filter(item => item.group === group).sort(byIntroduction);
-    const representative = candidates.find(item => !subgroupRepresentatives.has(item.key))
-      ?? (subGroups[group].length === 1 && candidates.length === 1 ? candidates[0] : undefined);
-    if (representative) groupRepresentativeEmoji.set(group, representative.emoji);
+    const candidates = items
+      .filter(item => item.group === group)
+      .sort(byIntroduction);
+    const representative =
+      candidates.find(item => !subgroupRepresentatives.has(item.key)) ??
+      (subGroups[group].length === 1 && candidates.length === 1
+        ? candidates[0]
+        : undefined);
+    if (representative)
+      groupRepresentativeEmoji.set(group, representative.emoji);
   });
 }
 
@@ -2109,12 +2880,15 @@ function getGroupRepresentativeEmoji(group) {
 }
 
 function getSubGroupRepresentativeEmoji(group, subGroup) {
-  return subGroupRepresentativeEmoji.get(subGroupSelectionKey(group, subGroup)) ?? '';
+  return (
+    subGroupRepresentativeEmoji.get(subGroupSelectionKey(group, subGroup)) ?? ''
+  );
 }
 
 function displayUnicodeSubGroupName(name) {
   if (searchSubgroupLabels[name]) return searchSubgroupLabels[name];
-  if (searchLabels[unicodeSubgroupLabelKeys[name]]) return searchLabels[unicodeSubgroupLabelKeys[name]];
+  if (searchLabels[unicodeSubgroupLabelKeys[name]])
+    return searchLabels[unicodeSubgroupLabelKeys[name]];
   const conciseNames = {
     'animal-amphibian': 'Amphibians',
     'animal-bird': 'Birds',
@@ -2131,8 +2905,8 @@ function displayUnicodeSubGroupName(name) {
   return titleCase(name);
 }
 
-const asGroup = (name) => {
-  var div = document.createElement("div");
+const asGroup = name => {
+  var div = document.createElement('div');
   div.className = 'group';
   var divName = document.createElement('h3');
   divName.innerText = displayGroupName(name);
@@ -2140,9 +2914,9 @@ const asGroup = (name) => {
   div.appendChild(divName);
 
   return div;
-}
+};
 const asUnicodeSubGroup = name => {
-  var div = document.createElement("div");
+  var div = document.createElement('div');
   div.className = 'unicode-subgroup';
   var divName = document.createElement('h4');
   divName.innerText = displayUnicodeSubGroupName(name);
@@ -2152,9 +2926,9 @@ const asUnicodeSubGroup = name => {
   divSections.className = 'subgroup-list';
   div.appendChild(divSections);
   return div;
-}
+};
 const asSubGroup = (name, direct) => {
-  var div = document.createElement("div");
+  var div = document.createElement('div');
   div.className = direct ? 'subgroup is-direct' : 'subgroup';
   var divName = document.createElement(direct ? 'span' : 'h5');
   divName.innerText = displayExplorerLabel(name);
@@ -2164,17 +2938,17 @@ const asSubGroup = (name, direct) => {
   divEmoji.className = 'emoji';
   div.appendChild(divEmoji);
   return div;
-}
+};
 function asItem(state, key) {
-  var meta = byId[key] ?? { group: UNASSIGNED, subGroups: UNASSIGNED }
-  const displaySubGroup = orderMode === 'unicode' ? meta.unicodeSubGroup : meta.subGroup;
+  var meta = byId[key] ?? { group: UNASSIGNED, subGroups: UNASSIGNED };
+  const displaySubGroup =
+    orderMode === 'unicode' ? meta.unicodeSubGroup : meta.subGroup;
   const directSubGroup = orderMode === 'unicode' || !meta.hasExplorerSections;
   var groupId = 0;
   var subGroupId = 0;
   const hasGroups = meta && groups.length !== 0;
 
   if (hasGroups) {
-
     if (state.group !== meta.group) {
       state.groupElement = asGroup(meta.group);
       state.items.push(state.groupElement);
@@ -2202,7 +2976,6 @@ function asItem(state, key) {
     subGroupId = subGroups[meta.group]?.indexOf(meta.unicodeSubGroup) ?? 0;
   }
 
-
   var div = asEmojiCell(key, groupId, subGroupId);
 
   if (hasGroups) {
@@ -2218,7 +2991,8 @@ function asEmojiCell(key, groupId = 0, subGroupId = 0) {
   const div = document.createElement('div');
   div.id = key;
   div.dataset.emojiKey = key;
-  const accessibleName = searchAnnotations[key]?.[0] ?? byId[key]?.shortName ?? displayEmojiKey(key);
+  const accessibleName =
+    searchAnnotations[key]?.[0] ?? byId[key]?.shortName ?? displayEmojiKey(key);
   div.title = accessibleName;
   div.tabIndex = key === focusedEmojiKey ? 0 : -1;
   div.setAttribute('role', 'button');
@@ -2226,6 +3000,8 @@ function asEmojiCell(key, groupId = 0, subGroupId = 0) {
   div.classList.add(`group-${groupId}`);
   div.classList.add(`sub-group-${subGroupId}`);
   const emojiDiv = document.createElement('span');
+  emojiDiv.className = 'emoji-glyph';
+  applyPixelArtworkClass(emojiDiv, key);
   emojiDiv.innerText = emojiByKey[key];
   div.appendChild(emojiDiv);
   return div;
@@ -2253,14 +3029,19 @@ function asSequenceItem(state, key) {
 
 function orderedKeys(keys) {
   if (orderMode === 'grouped') return keys;
-  const preferred = orderMode === 'unicode'
-    ? orderManifest.unicode
-    : sequenceTypeOrder.flatMap(type => orderManifest.unicode.filter(key => byId[key]?.sequenceType === type));
+  const preferred =
+    orderMode === 'unicode'
+      ? orderManifest.unicode
+      : sequenceTypeOrder.flatMap(type =>
+          orderManifest.unicode.filter(key => byId[key]?.sequenceType === type)
+        );
   const included = new Set(keys);
   const ordered = preferred.filter(key => included.delete(key));
   return [...ordered, ...included].sort((left, right) => {
     if (orderMode === 'sequence') {
-      const typeDifference = sequenceTypeOrder.indexOf(byId[left]?.sequenceType ?? 'single') - sequenceTypeOrder.indexOf(byId[right]?.sequenceType ?? 'single');
+      const typeDifference =
+        sequenceTypeOrder.indexOf(byId[left]?.sequenceType ?? 'single') -
+        sequenceTypeOrder.indexOf(byId[right]?.sequenceType ?? 'single');
       if (typeDifference !== 0) return typeDifference;
     }
     return (byId[left]?.order ?? Infinity) - (byId[right]?.order ?? Infinity);
@@ -2271,10 +3052,16 @@ function getEmojiGenders(item) {
   const genders = new Set();
   const name = item.shortName?.toLocaleLowerCase() ?? '';
   const points = ` ${item.codePoints ?? ''} `;
-  if (points.includes(' 2642 ') || /\b(man|men|boy|boys|father|prince|king|groom|male)\b/.test(name)) {
+  if (
+    points.includes(' 2642 ') ||
+    /\b(man|men|boy|boys|father|prince|king|groom|male)\b/.test(name)
+  ) {
     genders.add('male');
   }
-  if (points.includes(' 2640 ') || /\b(woman|women|girl|girls|mother|princess|queen|bride|female)\b/.test(name)) {
+  if (
+    points.includes(' 2640 ') ||
+    /\b(woman|women|girl|girls|mother|princess|queen|bride|female)\b/.test(name)
+  ) {
     genders.add('female');
   }
   if (/\b(person|people|adult|adults|child|children)\b/.test(name)) {
@@ -2283,7 +3070,10 @@ function getEmojiGenders(item) {
   if (genders.size === 0) {
     const key = item.key ?? '';
     const capitalizedKey = key.charAt(0).toLocaleUpperCase() + key.slice(1);
-    if (emojiByKey[`man${capitalizedKey}`] && emojiByKey[`woman${capitalizedKey}`]) {
+    if (
+      emojiByKey[`man${capitalizedKey}`] &&
+      emojiByKey[`woman${capitalizedKey}`]
+    ) {
       genders.add('neutral');
     }
   }
@@ -2300,10 +3090,16 @@ function drawList() {
     .filter(Boolean);
 
   function hasKeyword(emojiKey) {
-    const searchableFields = [emojiKey, byId[emojiKey]?.shortName, ...(searchAnnotations[emojiKey] ?? [])]
+    const searchableFields = [
+      emojiKey,
+      byId[emojiKey]?.shortName,
+      ...(searchAnnotations[emojiKey] ?? [])
+    ]
       .filter(Boolean)
       .map(field => field.toLocaleLowerCase(selectedSearchLocale || undefined));
-    return keywords.every(keyword => searchableFields.some(field => field.includes(keyword)));
+    return keywords.every(keyword =>
+      searchableFields.some(field => field.includes(keyword))
+    );
   }
 
   var keys = allIds.filter(hasKeyword);
@@ -2315,29 +3111,43 @@ function drawList() {
     keys = keys.filter(key => byId[key]?.group === selectedGroup);
   }
   if (orderMode !== 'sequence' && selectedSubGroup && items.length !== 0) {
-    keys = keys.filter(key => subGroupSelectionKey(byId[key]?.group, byId[key]?.unicodeSubGroup) === selectedSubGroup);
+    keys = keys.filter(
+      key =>
+        subGroupSelectionKey(byId[key]?.group, byId[key]?.unicodeSubGroup) ===
+        selectedSubGroup
+    );
   }
   if (orderMode === 'sequence' && selectedSequenceType) {
     keys = keys.filter(key => byId[key]?.sequenceType === selectedSequenceType);
   }
-  skinToneCheckboxes.filter(check => {
-    return check.checked
-  }).forEach(check => {
-    keys = keys.filter(key => items.find(
-      item => item.key === key
-    )?.codePoints.includes(check.value))
-  });
+  skinToneCheckboxes
+    .filter(check => {
+      return check.checked;
+    })
+    .forEach(check => {
+      keys = keys.filter(key =>
+        items.find(item => item.key === key)?.codePoints.includes(check.value)
+      );
+    });
 
-  hairCheckboxes.filter(check => {
-    return check.checked
-  }).forEach(check => {
-    keys = keys.filter(key => items.find(
-      item => item.key === key
-    )?.codePoints.includes(check.value))
-  });
-  const selectedGenders = genderCheckboxes.filter(check => check.checked).map(check => check.value);
+  hairCheckboxes
+    .filter(check => {
+      return check.checked;
+    })
+    .forEach(check => {
+      keys = keys.filter(key =>
+        items.find(item => item.key === key)?.codePoints.includes(check.value)
+      );
+    });
+  const selectedGenders = genderCheckboxes
+    .filter(check => check.checked)
+    .map(check => check.value);
   if (selectedGenders.length > 0) {
-    keys = keys.filter(key => selectedGenders.some(gender => getEmojiGenders(byId[key] ?? {}).has(gender)));
+    keys = keys.filter(key =>
+      selectedGenders.some(gender =>
+        getEmojiGenders(byId[key] ?? {}).has(gender)
+      )
+    );
   }
 
   keys = orderedKeys(keys);
@@ -2346,17 +3156,18 @@ function drawList() {
     focusedEmojiKey = keys[0] ?? '';
   }
   const renderer = orderMode === 'sequence' ? asSequenceItem : asItem;
-  const initialState = orderMode === 'sequence'
-    ? { items: [], type: '', emoji: null }
-    : {
-    items: [],
-    group: UNASSIGNED,
-    unicodeSubGroup: UNASSIGNED,
-    subGroup: UNASSIGNED,
-    groupElement: null,
-    unicodeSubGroupElement: null,
-      subGroupElement: null
-    };
+  const initialState =
+    orderMode === 'sequence'
+      ? { items: [], type: '', emoji: null }
+      : {
+          items: [],
+          group: UNASSIGNED,
+          unicodeSubGroup: UNASSIGNED,
+          subGroup: UNASSIGNED,
+          groupElement: null,
+          unicodeSubGroupElement: null,
+          subGroupElement: null
+        };
   if (keys.length === 0) {
     emojiList.replaceChildren(createEmptyResults());
   } else {
@@ -2388,9 +3199,21 @@ function onEmojiKeyDown(event) {
     onClick(event);
     return;
   }
-  if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) return;
+  if (
+    ![
+      'ArrowLeft',
+      'ArrowRight',
+      'ArrowUp',
+      'ArrowDown',
+      'Home',
+      'End'
+    ].includes(event.key)
+  )
+    return;
   event.preventDefault();
-  const cells = displayedKeys.map(key => document.getElementById(key)).filter(Boolean);
+  const cells = displayedKeys
+    .map(key => document.getElementById(key))
+    .filter(Boolean);
   if (cells.length === 0) return;
   let target;
   if (event.key === 'Home') {
@@ -2398,7 +3221,11 @@ function onEmojiKeyDown(event) {
   } else if (event.key === 'End') {
     target = cells.at(-1);
   } else if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-    target = closestVerticalEmoji(cell, cells, event.key === 'ArrowDown' ? 1 : -1);
+    target = closestVerticalEmoji(
+      cell,
+      cells,
+      event.key === 'ArrowDown' ? 1 : -1
+    );
   } else {
     const rtl = document.documentElement.dir === 'rtl';
     const direction = event.key === (rtl ? 'ArrowLeft' : 'ArrowRight') ? 1 : -1;
@@ -2425,7 +3252,8 @@ function closestVerticalEmoji(current, cells, direction) {
       const centerY = rect.top + rect.height / 2;
       return {
         cell,
-        score: Math.abs(centerY - currentY) * 1000 + Math.abs(centerX - currentX)
+        score:
+          Math.abs(centerY - currentY) * 1000 + Math.abs(centerX - currentX)
       };
     })
     .sort((left, right) => left.score - right.score)[0]?.cell;
@@ -2437,7 +3265,10 @@ function createEmptyResults() {
   const title = document.createElement('h3');
   title.textContent = translate('noResults', 'No emoji found');
   const description = document.createElement('p');
-  description.textContent = translate('noResultsDescription', 'Try removing a search term or filter.');
+  description.textContent = translate(
+    'noResultsDescription',
+    'Try removing a search term or filter.'
+  );
   const actions = document.createElement('div');
   actions.className = 'empty-actions';
   if (searchText.value.trim()) {
@@ -2465,27 +3296,57 @@ function updateActiveFilterSummary() {
   const parts = [];
   if (searchText.value.trim()) parts.push(`“${searchText.value.trim()}”`);
   if (orderMode === 'sequence' && selectedSequenceType) {
-    parts.push(translate(sequenceTranslationKeys[selectedSequenceType], sequenceTypeLabels[selectedSequenceType]));
+    parts.push(
+      translate(
+        sequenceTranslationKeys[selectedSequenceType],
+        sequenceTypeLabels[selectedSequenceType]
+      )
+    );
   } else {
     if (selectedGroup) parts.push(displayGroupName(selectedGroup));
-    if (selectedSubGroup) parts.push(displayUnicodeSubGroupName(selectedSubGroup.split('::').slice(1).join('::')));
+    if (selectedSubGroup)
+      parts.push(
+        displayUnicodeSubGroupName(
+          selectedSubGroup.split('::').slice(1).join('::')
+        )
+      );
   }
   const latestReleased = versionManifests.at(-1)?.version;
-  if (versionSelector.value && (versionSelector.value !== latestReleased || versionModeSelector.value === 'selected')) {
-    const mode = versionModeSelector.value === 'selected'
-      ? translate('onlyVersion', 'Only')
-      : translate('throughVersion', 'Through');
+  if (
+    versionSelector.value &&
+    (versionSelector.value !== latestReleased ||
+      versionModeSelector.value === 'selected')
+  ) {
+    const mode =
+      versionModeSelector.value === 'selected'
+        ? translate('onlyVersion', 'Only')
+        : translate('throughVersion', 'Through');
     parts.push(`${mode} ${versionSliderLabel(versionSelector.value)}`);
   }
-  skinToneCheckboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
-    parts.push(checkbox.closest('label')?.querySelector('.modifier-emoji')?.textContent ?? checkbox.value);
-  });
-  hairCheckboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
-    parts.push(checkbox.closest('label')?.querySelector('.modifier-emoji')?.textContent ?? checkbox.value);
-  });
-  genderCheckboxes.filter(checkbox => checkbox.checked).forEach(checkbox => {
-    parts.push(checkbox.closest('label')?.querySelector('.modifier-emoji')?.textContent ?? checkbox.value);
-  });
+  skinToneCheckboxes
+    .filter(checkbox => checkbox.checked)
+    .forEach(checkbox => {
+      parts.push(
+        checkbox.closest('label')?.querySelector('.modifier-emoji')
+          ?.textContent ?? checkbox.value
+      );
+    });
+  hairCheckboxes
+    .filter(checkbox => checkbox.checked)
+    .forEach(checkbox => {
+      parts.push(
+        checkbox.closest('label')?.querySelector('.modifier-emoji')
+          ?.textContent ?? checkbox.value
+      );
+    });
+  genderCheckboxes
+    .filter(checkbox => checkbox.checked)
+    .forEach(checkbox => {
+      parts.push(
+        checkbox.closest('label')?.querySelector('.modifier-emoji')
+          ?.textContent ?? checkbox.value
+      );
+    });
   activeFilterSummary.hidden = parts.length === 0;
   activeFilterText.textContent = parts.join(' · ');
 }
@@ -2506,10 +3367,15 @@ function normalizeDisplayName(value) {
 
 function updateEmojiImportExamples(item) {
   const popular = packageManifest.packs.find(pack => pack.id === 'popular');
-  const allPath = packageManifest.packs.find(pack => pack.id === 'all')?.importPath
-    ?? '@lewismoten/emoji/all';
-  const category = packageManifest.categories.find(entry => entry.label === item.group);
-  const subcategory = category?.subcategories.find(entry => entry.unicodeSubgroup === item.unicodeSubGroup);
+  const allPath =
+    packageManifest.packs.find(pack => pack.id === 'all')?.importPath ??
+    '@lewismoten/emoji/all';
+  const category = packageManifest.categories.find(
+    entry => entry.label === item.group
+  );
+  const subcategory = category?.subcategories.find(
+    entry => entry.unicodeSubgroup === item.unicodeSubGroup
+  );
   document.querySelector('.emoji-import-path').textContent = allPath;
 
   const popularLine = document.querySelector('.emoji-popular-import');
@@ -2545,7 +3411,8 @@ function announceStatus(message) {
 
 async function copyToClipboard(value, successMessage) {
   try {
-    if (!navigator.clipboard?.writeText) throw new Error('Clipboard API unavailable');
+    if (!navigator.clipboard?.writeText)
+      throw new Error('Clipboard API unavailable');
     await navigator.clipboard.writeText(value);
     announceStatus(successMessage);
     return true;
@@ -2556,8 +3423,11 @@ async function copyToClipboard(value, successMessage) {
 }
 
 function getIntroducedVersion(key) {
-  return [...versionManifests, ...proposedVersionManifests]
-    .find(version => versionKeys.get(version.version)?.has(key))?.version ?? '—';
+  return (
+    [...versionManifests, ...proposedVersionManifests].find(version =>
+      versionKeys.get(version.version)?.has(key)
+    )?.version ?? '—'
+  );
 }
 
 function onClick(e, openDialog = true) {
@@ -2570,7 +3440,7 @@ function onClick(e, openDialog = true) {
 }
 
 function onEmojiDialogClose() {
-  setEmojiDialogView(false, false);
+  setEmojiDialogView('details', false);
   if (suppressDialogCloseSync || !urlStateReady || applyingUrlState) return;
   if (window.history.state?.emojiDialogEntry) {
     window.history.back();
@@ -2598,20 +3468,32 @@ function updateEmojiComposition(item, value) {
 
   equation.replaceChildren();
   section.dataset.available = String(points.length > 1);
-  section.hidden = points.length <= 1;
+  const detailsVisible =
+    !exampleDialog.classList.contains('is-code-view') &&
+    !exampleDialog.classList.contains('is-editor-view');
+  section.hidden = points.length <= 1 || !detailsVisible;
   if (points.length <= 1) {
     modeButton.hidden = true;
     return;
   }
 
   const condensedParts = condenseCompositionPoints(points, item.key);
-  const canCondense = condensedParts.some(part => part.emojiKey);
-  const displayedParts = compositionMode === 'full' || !canCondense
-    ? points.map(component => ({ component }))
-    : condensedParts;
-  const modeLabel = compositionMode === 'full'
-    ? translate('showCondensedSequence', 'Show condensed sequence')
-    : translate('showFullSequence', 'Show full sequence');
+  const hasHiddenSequenceControl = points.some(component =>
+    isCondensedSequenceControl(component.point)
+  );
+  const canCondense =
+    hasHiddenSequenceControl || condensedParts.some(part => part.emojiKey);
+  const displayedParts =
+    compositionMode === 'full' || !canCondense
+      ? points.map(component => ({ component }))
+      : condensedParts.filter(
+          part =>
+            !part.component || !isCondensedSequenceControl(part.component.point)
+        );
+  const modeLabel =
+    compositionMode === 'full'
+      ? translate('showCondensedSequence', 'Show condensed sequence')
+      : translate('showFullSequence', 'Show full sequence');
   modeButton.hidden = !canCondense;
   modeButton.textContent = modeLabel;
   modeButton.title = modeLabel;
@@ -2624,7 +3506,12 @@ function updateEmojiComposition(item, value) {
       : createCompositionPart(displayedPart.component, item.key);
     equation.append(index === 0 ? part : createCompositionTerm('+', part));
   });
-  equation.append(createCompositionTerm('=', createCompositionResult(value, item.shortName)));
+  equation.append(
+    createCompositionTerm(
+      '=',
+      createCompositionResult(value, item.shortName, item.key)
+    )
+  );
 }
 
 function condenseCompositionPoints(points, currentEmojiKey) {
@@ -2633,7 +3520,10 @@ function condenseCompositionPoints(points, currentEmojiKey) {
     let match;
     for (let end = points.length; end >= start + 2; end--) {
       if (start === 0 && end === points.length) continue;
-      const codePoints = points.slice(start, end).map(component => component.hex).join(' ');
+      const codePoints = points
+        .slice(start, end)
+        .map(component => component.hex)
+        .join(' ');
       const emojiKey = emojiKeyByCodePoints.get(codePoints);
       if (emojiKey && emojiKey !== currentEmojiKey) {
         match = { emojiKey, components: points.slice(start, end) };
@@ -2655,17 +3545,21 @@ function createCondensedCompositionPart({ emojiKey, components }) {
   const part = document.createElement('button');
   const glyph = document.createElement('span');
   const code = document.createElement('span');
-  const linkedName = searchAnnotations[emojiKey]?.[0]
-    ?? byId[emojiKey]?.shortName
-    ?? displayEmojiKey(emojiKey);
+  const linkedName =
+    searchAnnotations[emojiKey]?.[0] ??
+    byId[emojiKey]?.shortName ??
+    displayEmojiKey(emojiKey);
   const viewLabel = translate('viewEmoji', 'View emoji');
-  const codePoints = components.map(component => `U+${component.hex}`).join(' ');
+  const codePoints = components
+    .map(component => `U+${component.hex}`)
+    .join(' ');
   part.className = 'emoji-composition-part';
   part.type = 'button';
   part.dataset.compositionEmoji = emojiKey;
   part.title = `${viewLabel}: ${linkedName} — ${codePoints}`;
   part.setAttribute('aria-label', `${viewLabel}: ${linkedName}. ${codePoints}`);
   glyph.className = 'emoji-composition-glyph';
+  applyPixelArtworkClass(glyph, emojiKey);
   glyph.textContent = emojiByKey[emojiKey];
   code.className = 'emoji-composition-code emoji-composition-code-condensed';
   code.textContent = formatCompositionReduction(components.length, 1);
@@ -2675,26 +3569,36 @@ function createCondensedCompositionPart({ emojiKey, components }) {
 
 function createCompositionPart({ hex, point }, currentEmojiKey) {
   const linkedEmojiKey = findCompositionEmojiKey(hex, currentEmojiKey);
+  const artworkEmojiKey = findCompositionArtworkKey(hex);
   const part = document.createElement(linkedEmojiKey ? 'button' : 'span');
   const glyph = document.createElement('span');
   const code = document.createElement('span');
   const details = describeCompositionPoint(point);
   part.className = 'emoji-composition-part';
   if (linkedEmojiKey) {
-    const linkedName = searchAnnotations[linkedEmojiKey]?.[0]
-      ?? byId[linkedEmojiKey]?.shortName
-      ?? displayEmojiKey(linkedEmojiKey);
+    const linkedName =
+      searchAnnotations[linkedEmojiKey]?.[0] ??
+      byId[linkedEmojiKey]?.shortName ??
+      displayEmojiKey(linkedEmojiKey);
     const viewLabel = translate('viewEmoji', 'View emoji');
     part.type = 'button';
     part.dataset.compositionEmoji = linkedEmojiKey;
     part.title = `${details.label} — ${viewLabel}: ${linkedName}`;
-    part.setAttribute('aria-label', `${details.label}, U+${hex}. ${viewLabel}: ${linkedName}`);
+    part.setAttribute(
+      'aria-label',
+      `${details.label}, U+${hex}. ${viewLabel}: ${linkedName}`
+    );
   } else {
     part.setAttribute('role', 'img');
     part.title = details.label;
     part.setAttribute('aria-label', `${details.label}, U+${hex}`);
   }
+  if (artworkEmojiKey) {
+    part.dataset.compositionArtwork = artworkEmojiKey;
+    part.dataset.compositionPoint = String(point);
+  }
   glyph.className = `emoji-composition-glyph${details.symbolic ? ' is-symbolic' : ''}`;
+  applyStandalonePixelArtwork(glyph, artworkEmojiKey, point);
   glyph.textContent = details.glyph;
   code.className = 'emoji-composition-code emoji-composition-code-point';
   code.textContent = `U+${hex}`;
@@ -2706,10 +3610,35 @@ function normalizeCodePoints(codePoints) {
   return (codePoints ?? '').trim().replace(/\s+/g, ' ').toUpperCase();
 }
 
+function rebuildEmojiCodePointLookup() {
+  emojiKeyByCodePoints = items.reduce((lookup, item) => {
+    const codePoints = normalizeCodePoints(item.codePoints);
+    if (
+      codePoints &&
+      (!lookup.has(codePoints) || item.status === 'fully-qualified')
+    ) {
+      lookup.set(codePoints, item.key);
+    }
+    return lookup;
+  }, new Map());
+}
+
 function formatUiNumber(value) {
-  const locale = document.documentElement.lang || selectedSearchLocale || undefined;
+  const locale =
+    document.documentElement.lang || selectedSearchLocale || undefined;
   const options = locale?.startsWith('ar') ? { numberingSystem: 'arab' } : {};
   return new Intl.NumberFormat(locale, options).format(value);
+}
+
+function formatUiPercent(value) {
+  const locale =
+    document.documentElement.lang || selectedSearchLocale || undefined;
+  const options = locale?.startsWith('ar') ? { numberingSystem: 'arab' } : {};
+  return new Intl.NumberFormat(locale, {
+    ...options,
+    style: 'percent',
+    maximumFractionDigits: 0
+  }).format(value);
 }
 
 function formatCompositionReduction(from, to) {
@@ -2719,11 +3648,20 @@ function formatCompositionReduction(from, to) {
 }
 
 function findCompositionEmojiKey(hex, excludedEmojiKey) {
+  const emojiKey = findCompositionArtworkKey(hex);
+  return emojiKey && emojiKey !== excludedEmojiKey ? emojiKey : undefined;
+}
+
+function findCompositionArtworkKey(hex) {
   const normalized = normalizeCodePoints(hex);
   return [
     emojiKeyByCodePoints.get(normalized),
     emojiKeyByCodePoints.get(`${normalized} FE0F`)
-  ].find(emojiKey => emojiKey && emojiKey !== excludedEmojiKey);
+  ].find(Boolean);
+}
+
+function isCondensedSequenceControl(point) {
+  return point === 0x200d || point === 0xfe0e || point === 0xfe0f;
 }
 
 function createCompositionOperator(operator) {
@@ -2741,7 +3679,7 @@ function createCompositionTerm(operator, part) {
   return term;
 }
 
-function createCompositionResult(value, name) {
+function createCompositionResult(value, name, emojiKey) {
   const result = document.createElement('span');
   const glyph = document.createElement('span');
   const label = document.createElement('span');
@@ -2750,6 +3688,7 @@ function createCompositionResult(value, name) {
   result.setAttribute('role', 'img');
   result.setAttribute('aria-label', `${resultLabel}: ${name ?? value}`);
   glyph.className = 'emoji-composition-glyph';
+  applyPixelArtworkClass(glyph, emojiKey);
   glyph.textContent = value;
   label.className = 'emoji-composition-code';
   label.textContent = resultLabel;
@@ -2757,20 +3696,65 @@ function createCompositionResult(value, name) {
   return result;
 }
 
+function applyPixelArtworkClass(element, emojiKey) {
+  element?.classList.toggle(
+    'has-pixel-art',
+    Boolean(emojiKey && paintedPixelEmojiKeys.has(emojiKey))
+  );
+  element?.classList.toggle(
+    'has-proposed-pixel-art',
+    Boolean(emojiKey && proposedPixelEmojiKeys.has(emojiKey))
+  );
+}
+
+function updatePixelArtworkManifest(manifest, revision) {
+  const glyphs = manifest.glyphs ?? [];
+  paintedPixelEmojiKeys = new Set(glyphs.map(glyph => glyph.key));
+  proposedPixelEmojiKeys = new Set(
+    glyphs
+      .filter(glyph => glyph.releaseStatus === 'proposed')
+      .map(glyph => glyph.key)
+  );
+}
+
+function applyStandalonePixelArtwork(element, emojiKey) {
+  applyPixelArtworkClass(element, emojiKey);
+}
+
+function updateModifierPixelArtwork() {
+  [...skinToneCheckboxes, ...hairCheckboxes].forEach(checkbox => {
+    const point = Number.parseInt(normalizeCodePoints(checkbox.value), 16);
+    const emojiKey = emojiKeyByCodePoints.get(
+      normalizeCodePoints(checkbox.value)
+    );
+    applyStandalonePixelArtwork(
+      checkbox.closest('label')?.querySelector('.modifier-emoji'),
+      emojiKey,
+      point
+    );
+  });
+}
+
 function describeCompositionPoint(point) {
   const special = {
-    0x200D: ['ZWJ', 'zeroWidthJoiner', 'Zero-width joiner'],
-    0xFE0E: ['VS15', 'textPresentation', 'Text presentation selector'],
-    0xFE0F: ['VS16', 'emojiPresentation', 'Emoji presentation selector'],
-    0x20E3: [null, 'combiningKeycap', 'Combining keycap', 'keycapAbbreviation', 'KEY'],
-    0xE007F: [null, 'cancelTag', 'Cancel tag', 'cancelTagAbbreviation', 'END']
+    0x200d: ['ZWJ', 'zeroWidthJoiner', 'Zero-width joiner'],
+    0xfe0e: ['VS15', 'textPresentation', 'Text presentation selector'],
+    0xfe0f: ['VS16', 'emojiPresentation', 'Emoji presentation selector'],
+    0x20e3: [
+      null,
+      'combiningKeycap',
+      'Combining keycap',
+      'keycapAbbreviation',
+      'KEY'
+    ],
+    0xe007f: [null, 'cancelTag', 'Cancel tag', 'cancelTagAbbreviation', 'END']
   }[point];
   if (special) {
     const label = translate(special[1], special[2]);
     const glyph = special[0] ?? translate(special[3], special[4]);
     return { glyph, label, symbolic: true };
   }
-  if (point >= 0x1F3FB && point <= 0x1F3FF) {
+  if (point >= 0x1f3fb && point <= 0x1f3ff) {
     const tones = [
       ['light', 'Light skin tone'],
       ['mediumLight', 'Medium-light skin tone'],
@@ -2778,19 +3762,23 @@ function describeCompositionPoint(point) {
       ['mediumDark', 'Medium-dark skin tone'],
       ['dark', 'Dark skin tone']
     ];
-    const [key, fallback] = tones[point - 0x1F3FB];
-    return { glyph: String.fromCodePoint(point), label: translate(key, fallback), symbolic: false };
+    const [key, fallback] = tones[point - 0x1f3fb];
+    return {
+      glyph: String.fromCodePoint(point),
+      label: translate(key, fallback),
+      symbolic: false
+    };
   }
-  if (point >= 0x1F1E6 && point <= 0x1F1FF) {
-    const letter = String.fromCharCode(65 + point - 0x1F1E6);
+  if (point >= 0x1f1e6 && point <= 0x1f1ff) {
+    const letter = String.fromCharCode(65 + point - 0x1f1e6);
     return {
       glyph: String.fromCodePoint(point),
       label: `${translate('regionalIndicator', 'Regional indicator')} ${letter}`,
       symbolic: false
     };
   }
-  if (point >= 0xE0020 && point <= 0xE007E) {
-    const character = String.fromCodePoint(point - 0xE0000);
+  if (point >= 0xe0020 && point <= 0xe007e) {
+    const character = String.fromCodePoint(point - 0xe0000);
     const visibleCharacter = character === ' ' ? '␠' : character;
     const tagLabel = translate('tagCharacter', 'Tag character');
     const tagAbbreviation = translate('tagAbbreviation', 'TAG');
@@ -2811,8 +3799,9 @@ function showEmoji(id, openDialog = true, navigationKeys) {
   var value = emojiByKey[id];
   if (value === undefined) return;
   if (navigationKeys || openDialog) {
-    dialogNavigationKeys = [...(navigationKeys ?? displayedKeys)]
-      .filter(key => emojiByKey[key] !== undefined);
+    dialogNavigationKeys = [...(navigationKeys ?? displayedKeys)].filter(
+      key => emojiByKey[key] !== undefined
+    );
   }
   currentEmojiKey = id;
   var bits = [];
@@ -2820,41 +3809,68 @@ function showEmoji(id, openDialog = true, navigationKeys) {
   for (i = 0; i < value.length; i++) {
     const hex = value.codePointAt(i).toString(16);
     if (hex.length <= 4) {
-      bits.push("\\u" + hex);
+      bits.push('\\u' + hex);
     } else {
-      bits.push("\\u{" + hex + "}");
+      bits.push('\\u{' + hex + '}');
       i++; // skip next code as this one overlaps into it
     }
   }
   var group = items.find(item => item.key === id)?.group ?? '(none)';
-  document.getElementsByClassName('emoji-group')[0].innerText = displayGroupName(group);
+  document.getElementsByClassName('emoji-group')[0].innerText =
+    displayGroupName(group);
 
-  var subGroup = items.find(item => item.key === id)?.unicodeSubGroup ?? '(none)';
-  document.getElementsByClassName('emoji-subgroup')[0].innerText = displayUnicodeSubGroupName(subGroup);
+  var subGroup =
+    items.find(item => item.key === id)?.unicodeSubGroup ?? '(none)';
+  document.getElementsByClassName('emoji-subgroup')[0].innerText =
+    displayUnicodeSubGroupName(subGroup);
 
-  document.getElementsByClassName("emoji-key")[0].innerText = id;
-  document.getElementsByClassName("emoji-value")[0].innerText = value;
-  document.getElementsByClassName("emoji-encoded")[0].innerText = bits.join("");
-  document.getElementsByClassName('emoji-preview-glyph')[0].innerText = value;
+  document.getElementsByClassName('emoji-key')[0].innerText = id;
+  document.getElementsByClassName('emoji-value')[0].innerText = value;
+  document.getElementsByClassName('emoji-encoded')[0].innerText = bits.join('');
+  const previewGlyph = document.getElementsByClassName(
+    'emoji-preview-glyph'
+  )[0];
+  previewGlyph.innerText = value;
+  applyPixelArtworkClass(previewGlyph, id);
   const item = byId[id] ?? {};
   updateEmojiImportExamples(item);
   updateEmojiComposition(item, value);
-  const codePoints = (item.codePoints ?? '').split(/\s+/).filter(Boolean).map(point => `U+${point}`).join(' ');
+  const codePoints = (item.codePoints ?? '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(point => `U+${point}`)
+    .join(' ');
   const englishName = item.shortName ?? displayEmojiKey(id);
-  const englishNameElement = document.getElementsByClassName('emoji-english-name')[0];
+  const englishNameElement =
+    document.getElementsByClassName('emoji-english-name')[0];
   englishNameElement.innerText = englishName;
-  document.getElementsByClassName('emoji-version')[0].innerText = getIntroducedVersion(id);
-  const sequenceLabel = sequenceTypeLabels[item.sequenceType] ?? item.sequenceType ?? '—';
-  document.getElementsByClassName('emoji-sequence-type')[0].innerText = translate(sequenceTranslationKeys[item.sequenceType], sequenceLabel);
-  document.getElementsByClassName('emoji-status')[0].innerText = translate(statusTranslationKeys[item.status], item.status ?? '—');
-  currentEmojiCopies = { emoji: value, key: id, escape: bits.join(''), codePoints };
+  document.getElementsByClassName('emoji-version')[0].innerText =
+    getIntroducedVersion(id);
+  const sequenceLabel =
+    sequenceTypeLabels[item.sequenceType] ?? item.sequenceType ?? '—';
+  document.getElementsByClassName('emoji-sequence-type')[0].innerText =
+    translate(sequenceTranslationKeys[item.sequenceType], sequenceLabel);
+  document.getElementsByClassName('emoji-status')[0].innerText = translate(
+    statusTranslationKeys[item.status],
+    item.status ?? '—'
+  );
+  currentEmojiCopies = {
+    emoji: value,
+    key: id,
+    escape: bits.join(''),
+    codePoints
+  };
 
-  const localizedDetails = document.getElementsByClassName('localized-emoji-details')[0];
+  const localizedDetails = document.getElementsByClassName(
+    'localized-emoji-details'
+  )[0];
   const annotations = searchAnnotations[id] ?? [];
   if (selectedSearchLocale && annotations.length > 0) {
     document.getElementById('example-title').innerText = annotations[0];
-    document.getElementsByClassName('localized-language')[0].innerText = translate('keywords', 'keywords');
-    document.getElementsByClassName('localized-keywords')[0].innerText = annotations.slice(1).join(' · ');
+    document.getElementsByClassName('localized-language')[0].innerText =
+      translate('keywords', 'keywords');
+    document.getElementsByClassName('localized-keywords')[0].innerText =
+      annotations.slice(1).join(' · ');
     localizedDetails.hidden = false;
   } else {
     document.getElementById('example-title').innerText = displayEmojiKey(id);
@@ -2868,7 +3884,7 @@ function showEmoji(id, openDialog = true, navigationKeys) {
   updateFavoriteButton();
   if (openDialog) {
     if (copyStatus) copyStatus.textContent = '';
-    setEmojiDialogView(false, false);
+    setEmojiDialogView('details', false);
     exampleDialog.showModal();
     focusInitialEmojiDialogAction();
     syncUrlState('push', {
@@ -2877,10 +3893,14 @@ function showEmoji(id, openDialog = true, navigationKeys) {
     });
   }
   updateDialogNavigation();
+  if (exampleDialog.classList.contains('is-editor-view')) {
+    pixelEditor?.open(id, value);
+  }
 }
 
 function navigateEmoji(amount) {
-  const keys = dialogNavigationKeys.length > 0 ? dialogNavigationKeys : displayedKeys;
+  const keys =
+    dialogNavigationKeys.length > 0 ? dialogNavigationKeys : displayedKeys;
   const index = keys.indexOf(currentEmojiKey);
   if (index === -1) return;
   const nextKey = keys[index + amount];
@@ -2891,7 +3911,8 @@ function navigateEmoji(amount) {
 }
 
 function updateDialogNavigation() {
-  const keys = dialogNavigationKeys.length > 0 ? dialogNavigationKeys : displayedKeys;
+  const keys =
+    dialogNavigationKeys.length > 0 ? dialogNavigationKeys : displayedKeys;
   const index = keys.indexOf(currentEmojiKey);
   if (emojiPrevious) emojiPrevious.disabled = index <= 0;
   if (emojiNext) emojiNext.disabled = index === -1 || index >= keys.length - 1;
@@ -2904,12 +3925,13 @@ function updateCompositionBackButton() {
   const available = Boolean(parentKey && emojiByKey[parentKey]);
   emojiParent.hidden = !available;
   if (!available) return;
-  const parentName = searchAnnotations[parentKey]?.[0]
-    ?? byId[parentKey]?.shortName
-    ?? displayEmojiKey(parentKey);
+  const parentName =
+    searchAnnotations[parentKey]?.[0] ??
+    byId[parentKey]?.shortName ??
+    displayEmojiKey(parentKey);
   const label = `${translate('backToEmoji', 'Back to emoji')}: ${parentName}`;
   emojiParent.title = label;
   emojiParent.setAttribute('aria-label', label);
 }
 removeLegacyDialogElements();
-window.addEventListener("load", onLoad);
+window.addEventListener('load', onLoad);

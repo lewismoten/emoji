@@ -1,17 +1,38 @@
 import { defineConfig } from 'vite';
+import path from 'node:path';
 import { locales, renderPage } from './scripts/generate-demo-pages.mjs';
 import { renderServiceWorker } from './scripts/generate-service-worker.mjs';
 
 const localizedPagePattern = /^\/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/;
+const pixelFontStylesheet = path.resolve('pixel-font/build/font/pixel-emoji.css');
+const pixelFontRevision = path.resolve('pixel-font/font-build.revision');
 
 export default defineConfig({
+  server: {
+    watch: {
+      ignored: ['**/pixel-font/build/**']
+    }
+  },
   plugins: [
     {
       name: 'localized-demo-pages',
       configureServer(server) {
+        server.watcher.add(pixelFontRevision);
+        server.watcher.on('all', (event, file) => {
+          if (file === pixelFontRevision && ['add', 'change'].includes(event)) {
+            server.ws.send({
+              type: 'custom',
+              event: 'pixel-font:updated',
+              data: { revision: Date.now() }
+            });
+          }
+        });
         server.middlewares.use(async (request, response, next) => {
           const pathname = new URL(request.url ?? '/', 'http://localhost').pathname;
           const method = request.method ?? 'GET';
+          if (pathname.startsWith('/pixel-font/build/font/')) {
+            response.setHeader('Cache-Control', 'no-store');
+          }
           if (pathname === '/service-worker.js' && ['GET', 'HEAD'].includes(method)) {
             response.statusCode = 200;
             response.setHeader('Content-Type', 'text/javascript; charset=utf-8');

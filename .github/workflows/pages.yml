@@ -30,16 +30,28 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: pixel-font/requirements.txt
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build package
         run: npm run bundle
 
+      - name: Build pixel font
+        run: |
+          python -m pip install -r pixel-font/requirements.txt
+          npm run pixel-font:build -- --fonts-only
+
       - name: Assemble Pages site
         run: |
           mkdir _site
-          cp index.html index.js index.css emoji.json screenshot.png favicon.svg manifest.webmanifest offline.html robots.txt sitemap.xml _site/
+          cp index.html index.js pixel-editor.js index.css emoji.json screenshot.png favicon.svg manifest.webmanifest offline.html robots.txt sitemap.xml _site/
           cp -R icons _site/icons
           cp -R dist _site/dist
           cp -R locales _site/locales
@@ -47,6 +59,9 @@ jobs:
           cp -R orders _site/orders
           cp -R versions _site/versions
           cp -R proposed _site/proposed
+          mkdir -p _site/pixel-font
+          cp -R pixel-font/build _site/pixel-font/build
+          cp -R pixel-font/atlases _site/pixel-font/atlases
           npm run demo:locales -- _site
           npm run demo:pwa -- _site/service-worker.js
           touch _site/.nojekyll

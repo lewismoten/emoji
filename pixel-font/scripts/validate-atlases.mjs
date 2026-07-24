@@ -1,0 +1,343 @@
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { decodeRgbaPng } from "./png.mjs";
+
+const workspace = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+);
+const root = path.resolve(workspace, "..");
+const atlasDirectory = path.join(workspace, "atlases");
+const config = JSON.parse(
+  await fs.readFile(path.join(workspace, "config.json"), "utf8"),
+);
+const manifest = JSON.parse(
+  await fs.readFile(path.join(atlasDirectory, "manifest.json"), "utf8"),
+);
+const emoji = JSON.parse(
+  await fs.readFile(path.join(root, "emoji.json"), "utf8"),
+);
+const versionManifest = JSON.parse(
+  await fs.readFile(path.join(root, "versions", "manifest.json"), "utf8"),
+);
+const proposedEmoji = (
+  await Promise.all(
+    (versionManifest.proposed ?? []).map(async (version) => {
+      const proposal = JSON.parse(
+        await fs.readFile(path.join(root, version.file), "utf8"),
+      );
+      return (proposal.emoji ?? []).map((item) => ({
+        ...item,
+        releaseStatus: "proposed",
+        unicodeVersion: version.version,
+      }));
+    }),
+  )
+).flat();
+const skinToneModifiers = new Set(
+  config.skinToneModifierCodePoints.map((point) => point.toUpperCase()),
+);
+const hairModifiers = new Set(
+  config.hairModifierCodePoints.map((point) => point.toUpperCase()),
+);
+const eligible = [...emoji, ...proposedEmoji];
+const expectedKeys = new Set(eligible.map((item) => item.key));
+const expectedByKey = new Map(eligible.map((item) => [item.key, item]));
+const expectedSequenceTypeCounts = countBySequenceType(eligible);
+const expectedModifierTypeCounts = countByModifierType(eligible);
+const seenKeys = new Set();
+let activeCount = 0;
+let assignedCount = 0;
+let imageCount = 0;
+
+assert(
+  manifest.cellSize === config.cellSize,
+  "Manifest cell size differs from config",
+);
+assert(
+  manifest.columns === config.columns,
+  "Manifest column count differs from config",
+);
+assert(
+  manifest.layout === "grouped-subgroups-v3",
+  "Manifest does not use grouped subgroup sheets",
+);
+assert(
+  manifest.author === config.author,
+  "Manifest author differs from config",
+);
+assert(manifest.url === config.url, "Manifest URL differs from config");
+assert(
+  manifest.sequenceGlyphCount ===
+    eligible.filter((item) => item.sequenceType !== "single").length,
+  "Manifest sequence glyph count is incorrect",
+);
+assert(
+  JSON.stringify(manifest.sequenceTypeCounts) ===
+    JSON.stringify(expectedSequenceTypeCounts),
+  "Manifest sequence type counts are incorrect",
+);
+assert(
+  JSON.stringify(manifest.modifierTypeCounts) ===
+    JSON.stringify(expectedModifierTypeCounts),
+  "Manifest modifier type counts are incorrect",
+);
+assert(
+  manifest.baseGlyphCount === expectedModifierTypeCounts.base,
+  "Manifest base glyph count is incorrect",
+);
+assert(
+  manifest.modifierGlyphCount ===
+    eligible.length - expectedModifierTypeCounts.base,
+  "Manifest modifier glyph count is incorrect",
+);
+assert(
+  manifest.releasedGlyphCount === emoji.length,
+  "Manifest released glyph count is incorrect",
+);
+assert(
+  manifest.proposedGlyphCount === proposedEmoji.length,
+  "Manifest proposed glyph count is incorrect",
+);
+
+for (const sheet of manifest.sheets) {
+  const sidecar = JSON.parse(
+    await fs.readFile(path.join(atlasDirectory, sheet.mapping), "utf8"),
+  );
+  assert(sidecar.id === sheet.id, `${sheet.mapping} has the wrong ID`);
+  assert(
+    sidecar.modifierType === sheet.modifierType,
+    `${sheet.mapping} has the wrong modifier type`,
+  );
+  assert(
+    (sidecar.releaseStatus ?? "released") ===
+      (sheet.releaseStatus ?? "released"),
+    `${sheet.mapping} has the wrong release status`,
+  );
+  assert(
+    sidecar.image === sheet.image,
+    `${sheet.mapping} points to the wrong PNG`,
+  );
+  assert(sidecar.group === sheet.group, `${sheet.mapping} has the wrong group`);
+  assert(
+    sidecar.subGroup === sheet.subGroup,
+    `${sheet.mapping} has the wrong subgroup`,
+  );
+  assert(
+    sidecar.rows > 0 && sidecar.rows <= config.maxRows,
+    `${sheet.mapping} has an invalid row count`,
+  );
+  assert(
+    sidecar.entries.length <= config.columns * sidecar.rows,
+    `${sheet.mapping} exceeds its capacity`,
+  );
+  try {
+    const image = await fs.readFile(path.join(atlasDirectory, sheet.image));
+    const dimensions = readPngDimensions(image);
+    const atlas = decodeRgbaPng(image);
+    assert(
+      dimensions.width === sidecar.imageWidth,
+      `${sheet.image} has the wrong width`,
+    );
+    assert(
+      dimensions.height === sidecar.imageHeight,
+      `${sheet.image} has the wrong height`,
+    );
+    assert(
+      atlas.pixels[3] === 255,
+      `${sheet.image} must display an opaque branded header`,
+    );
+    assertCellPaddingTransparent(atlas, sidecar);
+    imageCount += 1;
+  } catch (error) {
+    if (error.code !== "ENOENT") throw error;
+  }
+
+  const indexes = new Set();
+  for (const entry of sidecar.entries) {
+    assert(
+      !indexes.has(entry.index),
+      `${sheet.mapping} repeats cell ${entry.index}`,
+    );
+    indexes.add(entry.index);
+    assert(
+      entry.index >= 0 && entry.index < config.columns * sidecar.rows,
+      `${entry.key} has an invalid cell`,
+    );
+    assert(
+      entry.row === Math.floor(entry.index / config.columns),
+      `${entry.key} has an invalid row`,
+    );
+    assert(
+      entry.column === entry.index % config.columns,
+      `${entry.key} has an invalid column`,
+    );
+    assert(
+      entry.x ===
+        config.outerPadding +
+          entry.column * manifest.slotSize +
+          config.cellPadding,
+      `${entry.key} has an invalid x coordinate`,
+    );
+    assert(
+      entry.y ===
+        config.headerHeight +
+          entry.row * manifest.slotSize +
+          config.cellPadding,
+      `${entry.key} has an invalid y coordinate`,
+    );
+    assert(
+      entry.width === config.cellSize && entry.height === config.cellSize,
+      `${entry.key} has invalid bounds`,
+    );
+    assert(
+      !seenKeys.has(entry.key),
+      `Emoji ${entry.key} is assigned more than once`,
+    );
+    seenKeys.add(entry.key);
+    assignedCount += 1;
+    if (entry.active) {
+      activeCount += 1;
+      assert(
+        expectedKeys.has(entry.key),
+        `Active atlas entry ${entry.key} is not an eligible emoji`,
+      );
+      assert(
+        sidecar.modifierType === getModifierType(expectedByKey.get(entry.key)),
+        `Active atlas entry ${entry.key} has the wrong modifier type`,
+      );
+      const expected = expectedByKey.get(entry.key);
+      assert(
+        (sidecar.releaseStatus ?? "released") ===
+          (expected.releaseStatus ?? "released"),
+        `${entry.key} has the wrong release status`,
+      );
+      assert(
+        (sidecar.unicodeVersion ?? null) ===
+          (expected.releaseStatus === "proposed"
+            ? expected.unicodeVersion
+            : null),
+        `${entry.key} has the wrong proposed Unicode version`,
+      );
+      assert(
+        entry.sequenceType === expected.sequenceType,
+        `${entry.key} has the wrong sequence type`,
+      );
+      assert(
+        sidecar.group === expected.group,
+        `${entry.key} has the wrong group`,
+      );
+      assert(
+        sidecar.subGroup === expected.subGroup,
+        `${entry.key} has the wrong subgroup`,
+      );
+      const normalizedLength = entry.codePoints.filter(
+        (point) => !["FE0E", "FE0F"].includes(point.toUpperCase()),
+      ).length;
+      assert(
+        entry.sequenceType === "single"
+          ? normalizedLength === 1
+          : entry.sequenceType === "modifier"
+            ? normalizedLength >= 1
+            : normalizedLength > 1,
+        `${entry.key} has an invalid ${entry.sequenceType} sequence`,
+      );
+    }
+  }
+}
+
+for (const key of expectedKeys) {
+  assert(
+    seenKeys.has(key),
+    `Eligible emoji ${key} is missing from the atlases`,
+  );
+}
+assert(
+  activeCount === manifest.activeGlyphCount,
+  "Manifest active glyph count is incorrect",
+);
+assert(
+  assignedCount === manifest.assignedGlyphCount,
+  "Manifest assigned glyph count is incorrect",
+);
+
+console.log(
+  `Verified ${activeCount.toLocaleString()} active emoji in ` +
+    `${manifest.sheets.length} atlas mappings; ${imageCount.toLocaleString()} PNG ` +
+    `${imageCount === 1 ? "file contains" : "files contain"} artwork.`,
+);
+
+function readPngDimensions(buffer) {
+  const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+  assert(buffer.subarray(0, 8).equals(signature), "Atlas is not a PNG");
+  assert(
+    buffer.subarray(12, 16).toString("ascii") === "IHDR",
+    "PNG is missing its IHDR chunk",
+  );
+  return {
+    width: buffer.readUInt32BE(16),
+    height: buffer.readUInt32BE(20),
+  };
+}
+
+function assert(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+function assertCellPaddingTransparent(atlas, sidecar) {
+  for (let row = 0; row < sidecar.rows; row += 1) {
+    for (let column = 0; column < config.columns; column += 1) {
+      const slotX = config.outerPadding + column * manifest.slotSize;
+      const slotY = config.headerHeight + row * manifest.slotSize;
+      for (let y = 0; y < manifest.slotSize; y += 1) {
+        for (let x = 0; x < manifest.slotSize; x += 1) {
+          const artwork =
+            x >= config.cellPadding &&
+            x < config.cellPadding + config.cellSize &&
+            y >= config.cellPadding &&
+            y < config.cellPadding + config.cellSize;
+          if (artwork) continue;
+          const alpha =
+            atlas.pixels[((slotY + y) * atlas.width + slotX + x) * 4 + 3];
+          assert(
+            alpha === 0,
+            `${sidecar.image} has artwork in transparent cell padding`,
+          );
+        }
+      }
+    }
+  }
+}
+
+function countBySequenceType(entries) {
+  return Object.fromEntries(
+    [...new Set(entries.map((entry) => entry.sequenceType))]
+      .sort()
+      .map((type) => [
+        type,
+        entries.filter((entry) => entry.sequenceType === type).length,
+      ]),
+  );
+}
+
+function getModifierType(item) {
+  const points = Array.isArray(item.codePoints)
+    ? item.codePoints.map((point) => point.toUpperCase())
+    : item.codePoints.split(/\s+/).map((point) => point.toUpperCase());
+  const hasSkinTone = points.some((point) => skinToneModifiers.has(point));
+  const hasHair = points.some((point) => hairModifiers.has(point));
+  if (hasSkinTone && hasHair) return "skin-and-hair";
+  if (hasSkinTone) return "skin-tone";
+  if (hasHair) return "hair";
+  return "base";
+}
+
+function countByModifierType(entries) {
+  return Object.fromEntries(
+    ["base", "skin-tone", "hair", "skin-and-hair"].map((type) => [
+      type,
+      entries.filter((entry) => getModifierType(entry) === type).length,
+    ]),
+  );
+}
