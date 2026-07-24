@@ -33,6 +33,33 @@ membership can still change before release. Refreshing the proposal data may
 therefore introduce new artwork requirements even though the currently tracked
 draft is complete.
 
+| Emoji release | Painted entries | Tracked entries | Coverage |
+| --- | ---: | ---: | ---: |
+| 0.6 | 12 | 719 | 1.7% |
+| 0.7 | 0 | 139 | 0% |
+| 1.0 | 19 | 490 | 3.9% |
+| 2.0 | 0 | 286 | 0% |
+| 3.0 | 2 | 157 | 1.3% |
+| 4.0 | 2 | 598 | 0.3% |
+| 5.0 | 6 | 239 | 2.5% |
+| 11.0 | 0 | 161 | 0% |
+| 12.0 | 1 | 230 | 0.4% |
+| 12.1 | 0 | 168 | 0% |
+| 13.0 | 0 | 117 | 0% |
+| 13.1 | 0 | 217 | 0% |
+| 14.0 | 1 | 112 | 0.9% |
+| 15.0 | 0 | 31 | 0% |
+| 15.1 | 0 | 118 | 0% |
+| 16.0 | 0 | 8 | 0% |
+| **17.0** | **163** | **163** | **100%** |
+| **18.0 beta draft** | **19** | **19** | **100%** |
+
+Released coverage is calculated by comparing the painted glyphs in
+`build/manifest.json` with the keys introduced by each file under `versions/`.
+The Emoji 18.0 row compares the proposed font with `proposed/18.0.json`.
+An uncovered entry can still render through the operating system's emoji font;
+the table measures custom Pixel Emoji artwork only.
+
 ## Design
 
 The artwork is inspired by the compact 12×12 pixel emoji used by early mobile
