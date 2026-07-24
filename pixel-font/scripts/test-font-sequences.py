@@ -260,6 +260,12 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         for record in font["GSUB"].table.FeatureList.FeatureRecord
     }
     assert feature_tags == {"ccmp"}
+    ccmp_feature = next(
+        record.Feature
+        for record in font["GSUB"].table.FeatureList.FeatureRecord
+        if record.FeatureTag == "ccmp"
+    )
+    assert ccmp_feature.LookupCount == 2
     assert font["post"].formatType == 3.0
     assert font["OS/2"].fsType == 0
     assert font["head"].fontRevision == 1.0
@@ -281,15 +287,19 @@ with tempfile.TemporaryDirectory() as temporary_directory:
     assert 0xFE0F not in cmap
 
     rules = {}
+    lookup_rules = []
     man_rule_lengths = []
     for lookup in font["GSUB"].table.LookupList.Lookup:
+        current_rules = {}
         for subtable in lookup.SubTable:
             for first, ligatures in getattr(subtable, "ligatures", {}).items():
                 for ligature in ligatures:
                     inputs = (first, *ligature.Component)
                     rules[inputs] = ligature.LigGlyph
+                    current_rules[inputs] = ligature.LigGlyph
                     if first == cmap[0x1F468]:
                         man_rule_lengths.append(len(inputs))
+        lookup_rules.append(current_rules)
 
     assert rules[
         (
@@ -319,6 +329,32 @@ with tempfile.TemporaryDirectory() as temporary_directory:
             cmap[0x2640],
         )
     ] in font.getGlyphOrder()
+    bunny_tone = lookup_rules[0][
+        (cmap[0x1F46F], cmap[0x1F3FB])
+    ]
+    assert lookup_rules[1][
+        (bunny_tone, cmap[0x200D], cmap[0x2640])
+    ] == rules[
+        (
+            cmap[0x1F46F],
+            cmap[0x1F3FB],
+            cmap[0x200D],
+            cmap[0x2640],
+        )
+    ]
+    wrestling_tone = lookup_rules[0][
+        (cmap[0x1F93C], cmap[0x1F3FB])
+    ]
+    assert lookup_rules[1][
+        (wrestling_tone, cmap[0x200D], cmap[0x2640])
+    ] == rules[
+        (
+            cmap[0x1F93C],
+            cmap[0x1F3FB],
+            cmap[0x200D],
+            cmap[0x2640],
+        )
+    ]
     assert rules[(cmap[0x1F1FA], cmap[0x1F1F8])] in font.getGlyphOrder()
     assert rules[(cmap[0x31], cmap[0x20E3])] in font.getGlyphOrder()
     assert rules[

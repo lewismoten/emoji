@@ -312,14 +312,41 @@ def ligature_features(glyph_sources, base_names, codepoint_names, single_by_code
             substitutions[inputs] = output
     if not substitutions:
         return ""
-    rules = [
+    primary_rules = [
         f"  sub {' '.join(inputs)} by {output};"
         for inputs, output in sorted(
             substitutions.items(),
             key=lambda item: (-len(item[0]), item[0], item[1]),
         )
     ]
-    return "feature ccmp {\n" + "\n".join(rules) + "\n} ccmp;\n"
+    bridge_substitutions = {}
+    for inputs, output in substitutions.items():
+        for prefix_length in range(2, len(inputs)):
+            prefix_output = substitutions.get(inputs[:prefix_length])
+            if prefix_output is None:
+                continue
+            bridge_inputs = (prefix_output, *inputs[prefix_length:])
+            previous = bridge_substitutions.get(bridge_inputs)
+            if previous is not None and previous != output:
+                raise ValueError(
+                    f"Conflicting composed sequence for {previous} and {output}"
+                )
+            bridge_substitutions[bridge_inputs] = output
+    bridge_rules = [
+        f"  sub {' '.join(inputs)} by {output};"
+        for inputs, output in sorted(
+            bridge_substitutions.items(),
+            key=lambda item: (-len(item[0]), item[0], item[1]),
+        )
+    ]
+    features = "feature ccmp {\n" + "\n".join(primary_rules) + "\n} ccmp;\n"
+    if bridge_rules:
+        features += (
+            "feature ccmp {\n"
+            + "\n".join(bridge_rules)
+            + "\n} ccmp;\n"
+        )
+    return features
 
 
 def is_zero_width_component(codepoint):
