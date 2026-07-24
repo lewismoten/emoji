@@ -1,6 +1,3 @@
-import emoji from './dist/esm/index.js';
-import { createPixelEditor } from './pixel-editor.js';
-
 if (import.meta.hot) {
   let pixelFontRevision;
   const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -108,8 +105,8 @@ var availableSequenceTypes = [];
 var availableCategoryKeys = new Set();
 var groupRepresentativeEmoji = new Map();
 var subGroupRepresentativeEmoji = new Map();
-var emojiByKey = { ...emoji };
-var allIds = Object.keys(emojiByKey);
+var emojiByKey = {};
+var allIds = [];
 var releasedIds = new Set();
 var groupedKeys = {};
 var byId = {};
@@ -194,6 +191,7 @@ var searchDrawTimer;
 var listRenderGeneration = 0;
 var copyStatus;
 var pixelEditor;
+var pixelEditorPromise;
 var urlStateReady = false;
 var applyingUrlState = false;
 var suppressDialogCloseSync = false;
@@ -1138,12 +1136,6 @@ async function onLoad() {
   exampleDialog = document.getElementsByClassName('example-dialog')[0];
   upgradeEmojiDialog();
   emojiParent = document.getElementsByClassName('emoji-parent')[0];
-  pixelEditor = createPixelEditor({
-    dialog: exampleDialog,
-    translate,
-    formatNumber: formatUiNumber,
-    formatPercent: formatUiPercent
-  });
   copyStatus = document.getElementsByClassName('copy-status')[0];
   emojiPrevious = document.getElementsByClassName('emoji-previous')[0];
   emojiNext = document.getElementsByClassName('emoji-next')[0];
@@ -1677,6 +1669,8 @@ function setEmojiDialogView(requestedMode, updateUrl = true) {
     if (mode === 'editor' && currentEmojiKey) {
       pixelEditor.open(currentEmojiKey, emojiByKey[currentEmojiKey]);
     }
+  } else if (mode === 'editor') {
+    void ensurePixelEditor();
   }
   const eyebrow = exampleDialog.querySelector('.emoji-dialog-eyebrow');
   const [key, fallback] =
@@ -1688,6 +1682,37 @@ function setEmojiDialogView(requestedMode, updateUrl = true) {
   eyebrow.dataset.i18n = key;
   eyebrow.textContent = translate(key, fallback);
   if (updateUrl && exampleDialog.open) syncUrlState();
+}
+
+async function ensurePixelEditor() {
+  if (pixelEditor) return pixelEditor;
+  pixelEditorPromise ??= import('./pixel-editor.js')
+    .then(({ createPixelEditor }) => {
+      pixelEditor = createPixelEditor({
+        dialog: exampleDialog,
+        translate,
+        formatNumber: formatUiNumber,
+        formatPercent: formatUiPercent
+      });
+      pixelEditor.refreshTranslations();
+      return pixelEditor;
+    })
+    .catch(error => {
+      pixelEditorPromise = undefined;
+      console.warn('Pixel editor unavailable', error);
+      return undefined;
+    });
+  const editor = await pixelEditorPromise;
+  if (!editor) return undefined;
+  if (exampleDialog.classList.contains('is-editor-view')) {
+    editor.element.hidden = false;
+    if (currentEmojiKey)
+      await editor.open(currentEmojiKey, emojiByKey[currentEmojiKey]);
+    editor.element
+      .querySelector('.pixel-editor-canvas')
+      ?.focus({ preventScroll: true });
+  }
+  return editor;
 }
 
 function focusInitialEmojiDialogAction() {
@@ -2340,6 +2365,8 @@ async function loadData() {
   ]);
   packageManifest = manifest;
   updatePixelArtworkManifest(pixelFontManifest);
+  emojiByKey = Object.fromEntries(data.map(item => [item.key, item.emoji]));
+  allIds = Object.keys(emojiByKey);
 
   // Keep Unicode's group/subgroup taxonomy, then add a smaller explorer section
   // inside each Unicode subgroup for large collections.
@@ -4364,7 +4391,8 @@ function refreshRenderedPixelEmoji() {
   document.querySelectorAll('[data-pixel-emoji-key]').forEach(element => {
     applyPixelArtworkClass(element, element.dataset.pixelEmojiKey);
   });
-  pixelEditor?.refreshFontBuild();
+  if (exampleDialog?.classList.contains('is-editor-view'))
+    pixelEditor?.refreshFontBuild();
 }
 
 function applyStandalonePixelArtwork(element, emojiKey) {

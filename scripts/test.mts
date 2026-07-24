@@ -432,20 +432,28 @@ assert.doesNotMatch(
   "service-worker installation must not use an all-or-nothing precache transaction",
 );
 for (const asset of [
-  "./index.ar.html",
-  "./manifest.ar.webmanifest",
-  "./emoji.json",
-  "./dist/esm/index.js",
   "./offline.html",
-  "./versions/manifest.json",
-  "./pixel-font/build/atlases.html",
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
-  "./pixel-font/build/editor-manifest.json",
 ]) {
   assert.ok(
     serviceWorker.includes(`"${asset}"`),
     `service worker must precache ${asset}`,
+  );
+}
+for (const asset of [
+  "./index.ar.html",
+  "./manifest.ar.webmanifest",
+  "./emoji.json",
+  "./versions/manifest.json",
+  "./pixel-font/build/atlases.html",
+  "./pixel-font/build/editor-manifest.json",
+  "./locales/en.json",
+  "./dist/esm/index.js",
+]) {
+  assert.ok(
+    !serviceWorker.includes(`"${asset}"`),
+    `service worker must load ${asset} on demand`,
   );
 }
 assert.ok(
@@ -454,13 +462,13 @@ assert.ok(
 );
 assert.ok(
   serviceWorker.includes(`"./index.js?v=${packageJson.version}"`) &&
-    serviceWorker.includes(`"./pixel-editor.js?v=${packageJson.version}"`),
-  "service worker must precache versioned application scripts",
+    !serviceWorker.includes(`"./pixel-editor.js?v=${packageJson.version}"`),
+  "service worker must precache only the versioned application entry script",
 );
 assert.match(
   generatedDemoScript,
-  new RegExp(`from './pixel-editor\\.js\\?v=${packageJson.version}'`),
-  "the deployed entry module must version its pixel-editor dependency",
+  new RegExp(`import\\('./pixel-editor\\.js\\?v=${packageJson.version}'\\)`),
+  "the deployed entry module must lazy-load a versioned pixel editor",
 );
 assert.match(
   arabicDemo,
@@ -675,8 +683,8 @@ for (const sheet of pixelAtlasManifest.sheets) {
     [key: string]: unknown;
   }>(`pixel-font/atlases/${sheet.mapping}`);
   assert.ok(
-    serviceWorker.includes(`"${mappingAsset}"`),
-    `service worker must precache ${mappingAsset}`,
+    !serviceWorker.includes(`"${mappingAsset}"`),
+    `service worker must load ${mappingAsset} on demand`,
   );
   for (const inheritedField of [
     "setName",
@@ -715,10 +723,9 @@ for (const sheet of pixelAtlasManifest.sheets) {
     .access(path.join(root, imageAsset))
     .then(() => true)
     .catch(() => false);
-  assert.equal(
-    serviceWorker.includes(`"${imageAsset}"`),
-    imageExists,
-    `service worker must only precache ${imageAsset} when it exists`,
+  assert.ok(
+    !serviceWorker.includes(`"${imageAsset}"`),
+    `service worker must load ${imageAsset} on demand`,
   );
   if (imageExists) {
     assert.ok(
@@ -1473,8 +1480,28 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /createPixelEditor/,
-  "demo must initialize the pixel-art editor",
+  /function ensurePixelEditor[\s\S]*import\('\.\/pixel-editor\.js'\)[\s\S]*createPixelEditor[\s\S]*is-editor-view/,
+  "demo must initialize the pixel-art editor only when editor mode is opened",
+);
+assert.doesNotMatch(
+  demoScript,
+  /^import .*pixel-editor\.js/m,
+  "the application entry must not eagerly import the developer-only pixel editor",
+);
+assert.doesNotMatch(
+  demoScript,
+  /^import emoji from ['"]\.\/dist\/esm\/index\.js['"]/m,
+  "the Explorer must not download the all-emoji package bundle in addition to emoji metadata",
+);
+assert.match(
+  demoScript,
+  /emojiByKey = Object\.fromEntries\(data\.map\(item => \[item\.key, item\.emoji\]\)\)/,
+  "the Explorer must derive its emoji lookup from the metadata it already downloads",
+);
+assert.match(
+  demoScript,
+  /function refreshRenderedPixelEmoji[\s\S]*is-editor-view[\s\S]*pixelEditor\?\.refreshFontBuild/,
+  "font toggles must refresh editor metadata only while the editor is open",
 );
 assert.match(
   demoScript,

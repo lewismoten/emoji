@@ -15,8 +15,8 @@ const assetVersion = packageJson.version;
 const deployedScript = fs
   .readFileSync('index.js', 'utf8')
   .replace(
-    "from './pixel-editor.js';",
-    `from './pixel-editor.js?v=${assetVersion}';`
+    "import('./pixel-editor.js')",
+    `import('./pixel-editor.js?v=${assetVersion}')`
   );
 const english = JSON.parse(fs.readFileSync('demo-locales/en.json', 'utf8'));
 const webAppManifest = JSON.parse(

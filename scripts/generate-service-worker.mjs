@@ -5,71 +5,18 @@ import { fileURLToPath } from "node:url";
 
 const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const assetVersion = packageJson.version;
-const versionManifest = JSON.parse(
-  fs.readFileSync("versions/manifest.json", "utf8"),
-);
-const demoLocales = fs
-  .readdirSync("demo-locales")
-  .filter((file) => file.endsWith(".json"))
-  .map((file) => `./demo-locales/${file}`);
-const localizedPages = ["en", "en-GB", "es", "hi", "zh", "ar"].map(
-  (locale) => `./index.${locale}.html`,
-);
-const localizedManifests = ["en", "en-GB", "es", "hi", "zh", "ar"].map(
-  (locale) => `./manifest.${locale}.webmanifest`,
-);
-const versionFiles = versionManifest.versions.map(
-  (version) => `./versions/${version.file}`,
-);
-const proposedFiles = (versionManifest.proposed ?? []).map(
-  (version) => `./${version.file}`,
-);
-const pixelAtlasManifest = JSON.parse(
-  fs.readFileSync("pixel-font/atlases/manifest.json", "utf8"),
-);
-const pixelAtlasFiles = pixelAtlasManifest.sheets.flatMap((sheet) => {
-  const image = `./pixel-font/atlases/${sheet.image}`;
-  return [
-    `./pixel-font/atlases/${sheet.mapping}`,
-    ...(fs.existsSync(image.replace(/^\.\//, "")) ? [image] : []),
-  ];
-});
-const proposedPixelFont = "./pixel-font/build/font/proposed/pixel-emoji.woff2";
-const optionalPixelFontAssets = fs.existsSync(
-  proposedPixelFont.replace(/^\.\//, ""),
-)
-  ? [proposedPixelFont]
-  : [];
 const coreAssets = [
   "./",
-  "./index.html",
-  ...localizedPages,
   `./index.css?direct&v=${assetVersion}`,
   `./index.js?v=${assetVersion}`,
-  "./emoji.json",
-  "./manifest.json",
-  "./dist/esm/index.js",
-  "./pixel-font/build/manifest.json",
-  "./pixel-font/build/editor-manifest.json",
-  "./pixel-font/build/atlases.html",
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
-  ...optionalPixelFontAssets,
-  ...pixelAtlasFiles,
-  `./pixel-editor.js?v=${assetVersion}`,
   "./favicon.svg",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
   "./manifest.webmanifest",
-  ...localizedManifests,
   "./offline.html",
-  "./locales/manifest.json",
-  "./orders/manifest.json",
-  "./versions/manifest.json",
-  ...demoLocales,
-  ...versionFiles,
-  ...proposedFiles,
 ];
 
 const template = fs.readFileSync("scripts/service-worker.template.js", "utf8");
