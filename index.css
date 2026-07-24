@@ -18,8 +18,8 @@
     "Twemoji Mozilla";
   --system-emoji-font: var(--installed-emoji-fonts), sans-serif;
   --emoji-font:
-    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"),
     var(--pixel-emoji-released-family, "Pixel Emoji"),
+    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"),
     var(--system-emoji-font);
 }
 

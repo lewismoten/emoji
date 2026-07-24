@@ -22,13 +22,21 @@ Load both families with the packaged stylesheet:
 
 .emoji {
   font-family:
-    var(--pixel-emoji-proposed-family),
-    var(--pixel-emoji-released-family),
-    "Apple Color Emoji",
-    "Segoe UI Emoji",
+    var(--pixel-emoji-released-family), "Apple Color Emoji", "Segoe UI Emoji",
     sans-serif;
 }
+
+.emoji--proposed {
+  font-family:
+    var(--pixel-emoji-proposed-family), var(--pixel-emoji-released-family),
+    "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+}
 ```
+
+Keep the released family first for ordinary emoji. This prevents older text
+shapers from splitting a released modifier or ZWJ sequence across the released,
+proposed, and system fonts. Put the proposed family first only on text known to
+contain draft emoji.
 
 The stable font can also be installed directly from
 `font/pixel-emoji.ttf`. WOFF and WOFF2 files are provided for websites.

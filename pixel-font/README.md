@@ -52,26 +52,26 @@ membership can still change before release. Refreshing the proposal data may
 therefore introduce new artwork requirements even though the currently tracked
 draft is complete.
 
-| Emoji release | Painted entries | Tracked entries | Coverage |
-| --- | ---: | ---: | ---: |
-| 0.6 | 12 | 719 | 1.7% |
-| 0.7 | 0 | 139 | 0% |
-| 1.0 | 19 | 490 | 3.9% |
-| 2.0 | 0 | 286 | 0% |
-| 3.0 | 2 | 157 | 1.3% |
-| 4.0 | 2 | 598 | 0.3% |
-| 5.0 | 6 | 239 | 2.5% |
-| 11.0 | 0 | 161 | 0% |
-| 12.0 | 1 | 230 | 0.4% |
-| 12.1 | 0 | 168 | 0% |
-| 13.0 | 0 | 117 | 0% |
-| 13.1 | 0 | 217 | 0% |
-| 14.0 | 1 | 112 | 0.9% |
-| 15.0 | 0 | 31 | 0% |
-| 15.1 | 0 | 118 | 0% |
-| **16.0** | **8** | **8** | **100%** |
-| **17.0** | **163** | **163** | **100%** |
-| **18.0 beta draft** | **19** | **19** | **100%** |
+| Emoji release       | Painted entries | Tracked entries | Coverage |
+| ------------------- | --------------: | --------------: | -------: |
+| 0.6                 |              12 |             719 |     1.7% |
+| 0.7                 |               0 |             139 |       0% |
+| 1.0                 |              19 |             490 |     3.9% |
+| 2.0                 |               0 |             286 |       0% |
+| 3.0                 |               2 |             157 |     1.3% |
+| 4.0                 |               2 |             598 |     0.3% |
+| 5.0                 |               6 |             239 |     2.5% |
+| 11.0                |               0 |             161 |       0% |
+| 12.0                |               1 |             230 |     0.4% |
+| 12.1                |               0 |             168 |       0% |
+| 13.0                |               0 |             117 |       0% |
+| 13.1                |               0 |             217 |       0% |
+| 14.0                |               1 |             112 |     0.9% |
+| 15.0                |               0 |              31 |       0% |
+| 15.1                |               0 |             118 |       0% |
+| **16.0**            |           **8** |           **8** | **100%** |
+| **17.0**            |         **163** |         **163** | **100%** |
+| **18.0 beta draft** |          **19** |          **19** | **100%** |
 
 Released coverage is calculated by comparing the painted glyphs in
 `build/manifest.json` with the keys introduced by each file under `versions/`.
@@ -145,14 +145,27 @@ artwork and are included in the proposed font build.
 Painted proposed glyphs never enter the stable **Pixel Emoji** font. The build
 places them in the separate **Pixel Emoji Proposed** font under
 `build/font/proposed/` and writes both font faces into
-`build/font/pixel-emoji.css`. Use the proposed face first to fall forward for
-draft characters and then fall back through the stable and system fonts:
+`build/font/pixel-emoji.css`.
+
+Keep the released face first for ordinary emoji:
 
 ```css
-font-family:
-  "Pixel Emoji Proposed", "Pixel Emoji", "Apple Color Emoji", "Segoe UI Emoji",
-  sans-serif;
+font-family: "Pixel Emoji", "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
 ```
+
+Promote the proposed face only for text known to contain draft emoji:
+
+```css
+.emoji--proposed {
+  font-family:
+    "Pixel Emoji Proposed", "Pixel Emoji", "Apple Color Emoji",
+    "Segoe UI Emoji", sans-serif;
+}
+```
+
+Do not put the proposed face first globally. It contains component glyphs needed
+by draft sequences, and older text shapers may otherwise split a released
+modifier or ZWJ sequence across the proposed, released, and system fonts.
 
 Draft names, sequences, code points, and release plans may change. Proposed
 artwork should therefore be considered experimental. After refreshing draft

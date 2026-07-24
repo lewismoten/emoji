@@ -376,6 +376,11 @@ assert.match(
   "installed display modes must hide the install action independently of JavaScript",
 );
 assert.match(
+  demoStyles,
+  /--emoji-font:\s*var\(--pixel-emoji-released-family[\s\S]*var\(--pixel-emoji-proposed-family[\s\S]*\.has-proposed-pixel-art[\s\S]*var\(--pixel-emoji-proposed-family/,
+  "released artwork must prefer the released font while proposed artwork explicitly promotes the proposed font",
+);
+assert.match(
   demoScript,
   /isIosDevice[\s\S]*Add to Home Screen|isIosDevice[\s\S]*installDialog\?\.showModal/,
   "iOS users must receive manual Add to Home Screen instructions",
