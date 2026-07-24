@@ -257,16 +257,26 @@ write(
   })
 );
 
-const explorerSource = fs.readFileSync('src/index.ts', 'utf8');
-const explorerBuild = ts.transpileModule(explorerSource, {
-  compilerOptions: {
-    target: ts.ScriptTarget.ESNext,
-    module: ts.ModuleKind.ESNext,
-    sourceMap: false
-  },
-  fileName: 'src/index.ts'
-});
-write('index.js', explorerBuild.outputText.trimEnd());
+const transpileExplorerModule = (sourceFile, outputFile) => {
+  const source = fs.readFileSync(sourceFile, 'utf8');
+  const build = ts.transpileModule(source, {
+    compilerOptions: {
+      target: ts.ScriptTarget.ESNext,
+      module: ts.ModuleKind.ESNext,
+      sourceMap: false
+    },
+    fileName: sourceFile
+  });
+  write(outputFile, build.outputText.trimEnd());
+};
+transpileExplorerModule('src/index.ts', 'index.js');
+for (const file of fs.readdirSync('src/explorer')) {
+  if (!file.endsWith('.ts')) continue;
+  transpileExplorerModule(
+    `src/explorer/${file}`,
+    `explorer/${file.replace(/\.ts$/, '.js')}`
+  );
+}
 
 console.log(
   `Generated ${emoji.length} emoji across popular, all, ${categories.length} categories, ${categories.reduce((count, category) => count + category.subcategories.length, 0)} category subpacks, and ${Object.keys(variationPacks).length} variation packs.`

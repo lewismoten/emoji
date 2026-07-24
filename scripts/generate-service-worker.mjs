@@ -5,10 +5,15 @@ import { fileURLToPath } from "node:url";
 
 const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const assetVersion = packageJson.version;
+const explorerModules = fs
+  .readdirSync("src/explorer")
+  .filter((file) => file.endsWith(".ts"))
+  .map((file) => `./explorer/${file.replace(/\.ts$/, ".js")}`);
 const coreAssets = [
   "./",
   `./explorer/index.css?v=${assetVersion}`,
   `./index.js?v=${assetVersion}`,
+  ...explorerModules,
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
   "./favicon.svg",

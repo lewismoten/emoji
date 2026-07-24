@@ -37,6 +37,8 @@ assert.doesNotMatch(
 );
 for (const asset of [
   "./offline.html",
+  "./explorer/category-rules.js",
+  "./explorer/explorer-labels.js",
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
 ]) {

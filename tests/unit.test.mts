@@ -191,8 +191,13 @@ assert.match(
 );
 assert.match(
   explorerGeneratorScript,
-  /readFileSync\('src\/index\.ts'[\s\S]*ts\.transpileModule[\s\S]*write\('index\.js'/,
+  /transpileExplorerModule\('src\/index\.ts', 'index\.js'\)/,
   "the deployment entry point must be generated from TypeScript",
+);
+assert.match(
+  explorerGeneratorScript,
+  /readdirSync\('src\/explorer'\)[\s\S]*`explorer\/\$\{file\.replace\(\/\\\.ts\$\/, '\.js'\)\}`/,
+  "the deployment build must generate imported Explorer modules",
 );
 assert.match(
   packageJson.scripts.build,
