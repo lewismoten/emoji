@@ -19,7 +19,7 @@ the package, Explorer, and font.
 
 [Explore the emoji](https://lewismoten.github.io/emoji/) ·
 [View the package on npm](https://www.npmjs.com/package/@lewismoten/emoji) ·
-[Download the Pixel Emoji fallback font](pixel-font/README.md)
+[Download the Pixel Emoji fallback font](pixel-font/PIXEL_EMOJI.md)
 
 ## Emoji Explorer
 
@@ -255,7 +255,7 @@ Or copy `dist/esm/index.js` and serve it with an application:
 
 ## Pixel Emoji fallback font
 
-[Pixel Emoji](pixel-font/README.md) is a compact 12×12 color fallback font for
+[Pixel Emoji](pixel-font/PIXEL_EMOJI.md) is a compact 12×12 color fallback font for
 new emoji that older operating-system fonts cannot display. Its custom artwork
 currently covers every entry introduced with Emoji 16.0 and 17.0, plus every
 entry in the currently tracked Emoji 18.0 beta draft. The current set contains
@@ -283,7 +283,7 @@ npm install @lewismoten/pixel-emoji
 [WOFF2](https://lewismoten.github.io/emoji/pixel-font/build/font/proposed/pixel-emoji.woff2) ·
 [Web-font CSS](https://lewismoten.github.io/emoji/pixel-font/build/font/pixel-emoji.css)
 
-See the [font documentation and complete coverage table](pixel-font/README.md)
+See the [font documentation and complete coverage table](pixel-font/PIXEL_EMOJI.md)
 for WOFF downloads, design constraints, atlas details, sequence handling, and
 local build instructions.
 

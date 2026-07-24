@@ -1,6 +1,6 @@
 # Pixel Emoji atlas gallery
 
-[Back to the font README](README.md)
+[Back to the Pixel Emoji documentation](PIXEL_EMOJI.md)
 
 This generated gallery lists every source atlas PNG that currently contains
 painted artwork. The font build reads these sheets and compiles only their
