@@ -1411,10 +1411,10 @@ assert.match(
   /panelDialogEntry/,
   "utility dialogs must participate in browser history",
 );
-assert.match(
+assert.doesNotMatch(
   demoStyles,
-  /content-visibility: auto/,
-  "large emoji sections must defer off-screen rendering when supported",
+  /content-visibility:\s*auto|contain-intrinsic-size/,
+  "emoji subgroups must not use estimated off-screen sizes that cause layout shifts",
 );
 assert.match(
   demoStyles,

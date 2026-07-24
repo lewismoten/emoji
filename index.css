@@ -2428,22 +2428,6 @@ kbd {
   padding: 0.35rem;
 }
 
-@supports (content-visibility: auto) {
-  .unicode-subgroup,
-  .subgroup,
-  .sequence-type {
-    content-visibility: auto;
-  }
-
-  .unicode-subgroup,
-  .sequence-type {
-    contain-intrinsic-size: auto 12rem;
-  }
-  .subgroup {
-    contain-intrinsic-size: auto 8rem;
-  }
-}
-
 .subgroup .emoji > div,
 .sequence-type > .emoji > div {
   display: grid;
