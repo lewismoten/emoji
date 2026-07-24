@@ -421,6 +421,16 @@ assert.match(
   ),
   "service-worker cache must use the package version and an asset revision",
 );
+assert.match(
+  serviceWorker,
+  /const precacheCoreAssets = async cache[\s\S]*batchSize = 12[\s\S]*Promise\.allSettled[\s\S]*cache\.add\(url\)[\s\S]*Precache asset unavailable[\s\S]*\.then\(precacheCoreAssets\)/,
+  "one unavailable precache asset must not prevent the service worker from installing",
+);
+assert.doesNotMatch(
+  serviceWorker,
+  /cache\.addAll\(/,
+  "service-worker installation must not use an all-or-nothing precache transaction",
+);
 for (const asset of [
   "./index.ar.html",
   "./manifest.ar.webmanifest",
@@ -586,6 +596,11 @@ assert.match(
   websitePublisher,
   /EMOJI_DEPLOY_TARGET[\s\S]*EMOJI_SSH_IDENTITY[\s\S]*EMOJI_DEPLOY_TRANSPORT[\s\S]*publishWithTar[\s\S]*tar -xzf - -C[\s\S]*--no-xattrs[\s\S]*COPYFILE_DISABLE[\s\S]*rsyncArgs[\s\S]*--checksum[\s\S]*IdentitiesOnly=yes[\s\S]*--delete-delay[\s\S]*result\.status !== 127[\s\S]*publishWithTar/,
   "website publishing must support rsync and tar-over-SSH fallback with an explicit identity",
+);
+assert.match(
+  websitePublisher,
+  /normalizeWebsitePermissions[\s\S]*chmodSync\(directory, 0o755\)[\s\S]*entry\.isDirectory\(\)[\s\S]*chmodSync\(targetPath, 0o644\)[\s\S]*normalizeWebsitePermissions\(outputDirectory\)/,
+  "website publishing must make deployed directories traversable and files web-readable",
 );
 assert.match(
   pagesValidator,

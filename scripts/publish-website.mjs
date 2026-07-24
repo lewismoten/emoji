@@ -186,6 +186,20 @@ run(process.execPath, [
   path.join(root, 'scripts', 'generate-service-worker.mjs'),
   path.join(outputDirectory, 'service-worker.js')
 ]);
+
+const normalizeWebsitePermissions = directory => {
+  fs.chmodSync(directory, 0o755);
+  for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+    const targetPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) {
+      normalizeWebsitePermissions(targetPath);
+    } else if (entry.isFile()) {
+      fs.chmodSync(targetPath, 0o644);
+    }
+  }
+};
+normalizeWebsitePermissions(outputDirectory);
+
 run(process.execPath, [
   path.join(root, 'scripts', 'validate-pages-site.mjs'),
   outputDirectory

@@ -8,10 +8,30 @@ const NETWORK_FIRST_PATHS = new Set([
   new URL('./index.css', self.registration.scope).pathname
 ]);
 
+const precacheCoreAssets = async cache => {
+  const urls = CORE_ASSETS.map(scopedUrl);
+  const batchSize = 12;
+  for (let index = 0; index < urls.length; index += batchSize) {
+    const batch = urls.slice(index, index + batchSize);
+    const results = await Promise.allSettled(
+      batch.map(url => cache.add(url))
+    );
+    results.forEach((result, resultIndex) => {
+      if (result.status === 'rejected') {
+        console.warn(
+          'Precache asset unavailable',
+          batch[resultIndex],
+          result.reason
+        );
+      }
+    });
+  }
+};
+
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(CORE_ASSETS.map(scopedUrl)))
+      .then(precacheCoreAssets)
       .then(() => self.skipWaiting())
   );
 });
