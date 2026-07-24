@@ -46,7 +46,7 @@ jobs:
       - name: Build pixel font
         run: |
           python -m pip install -r pixel-font/requirements.txt
-          npm run pixel-font:build
+          npm run pixel-font:build -- --fonts-only
 
       - name: Assemble Pages site
         run: |

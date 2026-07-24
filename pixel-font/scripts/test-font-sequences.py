@@ -17,6 +17,8 @@ spec.loader.exec_module(compiler)
 
 glyph_sources = [
     {"key": "man", "codePoints": ["1F468"]},
+    {"key": "lightSkinTone", "codePoints": ["1F3FB"]},
+    {"key": "manLightSkinTone", "codePoints": ["1F468", "1F3FB"]},
     {"key": "woman", "codePoints": ["1F469"]},
     {"key": "heart", "codePoints": ["2764", "FE0F"]},
     {
@@ -63,6 +65,7 @@ features = compiler.ligature_features(
 assert features.startswith("feature rlig {")
 assert "sub emoji.man uni200D emoji.heart uni200D emoji.woman by emoji.couple;" in features
 assert "sub emoji.man uni200D emoji.woman by emoji.pair;" in features
+assert "sub emoji.man emoji.lightSkinTone by emoji.manLightSkinTone;" in features
 assert features.index("by emoji.couple;") < features.index("by emoji.pair;")
 assert "sub uni1F1FA uni1F1F8 by emoji.usFlag;" in features
 assert "sub uni0031 uni20E3 by emoji.keycapOne;" in features
@@ -275,6 +278,8 @@ with tempfile.TemporaryDirectory() as temporary_directory:
 
     for codepoint in (0x200D, 0x20E3, 0xE0067, 0xE007F):
         assert font["hmtx"].metrics[cmap[codepoint]][0] == 0
+    assert font["hmtx"].metrics[cmap[0x1F3FB]][0] == compiler.UNITS_PER_EM
+    assert cmap[0x1F3FB] in font["COLR"].ColorLayers
     color_layer_names = {
         layer.name
         for layers in font["COLR"].ColorLayers.values()
@@ -293,6 +298,7 @@ with tempfile.TemporaryDirectory() as temporary_directory:
     base_glyph_names = {
         *rules.values(),
         cmap[0x1F468],
+        cmap[0x1F3FB],
         cmap[0x1F469],
         cmap[0x2764],
         cmap[0x1FAFF],

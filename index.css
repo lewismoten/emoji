@@ -1038,15 +1038,6 @@ button.emoji-composition-part:focus-visible {
     var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"),
     var(--emoji-font);
 }
-html[data-pixel-font] .modifier-emoji.has-standalone-pixel-art,
-html[data-pixel-font] .emoji-composition-glyph.has-standalone-pixel-art {
-  display: inline-block;
-  width: 1.5rem;
-  height: 1.5rem;
-  background: var(--standalone-pixel-art) center / contain no-repeat;
-  font-size: 0;
-  image-rendering: pixelated;
-}
 .emoji-glyph {
   font-family: var(--system-emoji-font);
   font-variant-emoji: emoji;

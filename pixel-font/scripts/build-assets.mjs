@@ -20,6 +20,7 @@ const pngDirectory = path.join(buildDirectory, "png");
 const svgDirectory = path.join(buildDirectory, "svg");
 const fontDirectory = path.join(buildDirectory, "font");
 const proposedFontDirectory = path.join(fontDirectory, "proposed");
+const fontsOnly = process.argv.includes("--fonts-only");
 const manifest = JSON.parse(
   await fs.readFile(path.join(atlasDirectory, "manifest.json"), "utf8"),
 );
@@ -29,8 +30,12 @@ const paintedAtlasSheets = [];
 
 await fs.rm(buildDirectory, { recursive: true, force: true });
 await Promise.all([
-  fs.mkdir(pngDirectory, { recursive: true }),
-  fs.mkdir(svgDirectory, { recursive: true }),
+  ...(!fontsOnly
+    ? [
+        fs.mkdir(pngDirectory, { recursive: true }),
+        fs.mkdir(svgDirectory, { recursive: true }),
+      ]
+    : []),
   fs.mkdir(fontDirectory, { recursive: true }),
   fs.mkdir(proposedFontDirectory, { recursive: true }),
 ]);
@@ -87,14 +92,16 @@ for (const sheet of manifest.sheets) {
     if (!painted) continue;
     paintedCount += 1;
 
+    const rendering = isBlackSilhouette(cell) ? "silhouette" : "color";
     const png = `${entry.key}.png`;
     const svg = `${entry.key}.svg`;
-    const rendering = isBlackSilhouette(cell) ? "silhouette" : "color";
-    await fs.writeFile(path.join(pngDirectory, png), encodeRgbaPng(cell));
-    await fs.writeFile(
-      path.join(svgDirectory, svg),
-      renderSvg(cell, entry, rendering),
-    );
+    if (!fontsOnly) {
+      await fs.writeFile(path.join(pngDirectory, png), encodeRgbaPng(cell));
+      await fs.writeFile(
+        path.join(svgDirectory, svg),
+        renderSvg(cell, entry, rendering),
+      );
+    }
     glyphs.push({
       key: entry.key,
       name: entry.name,
@@ -107,11 +114,17 @@ for (const sheet of manifest.sheets) {
       expectedRelease: mapping.expectedRelease ?? null,
       rendering,
       atlas: sheet.id,
+      atlasImage: sheet.image,
+      atlasWidth: mapping.imageWidth,
+      atlasHeight: mapping.imageHeight,
       index: entry.index,
       row: entry.row,
       column: entry.column,
-      png: `png/${png}`,
-      svg: `svg/${svg}`,
+      x: entry.x,
+      y: entry.y,
+      width: entry.width,
+      height: entry.height,
+      ...(!fontsOnly ? { png: `png/${png}`, svg: `svg/${svg}` } : {}),
       pixels: [...cell.pixels],
     });
   }
@@ -130,6 +143,18 @@ const releasedGlyphs = glyphs.filter(
 const proposedGlyphs = glyphs.filter(
   (glyph) => glyph.releaseStatus === "proposed",
 );
+const proposedSequenceCodePoints = new Set(
+  proposedGlyphs
+    .filter((glyph) => normalizedCodePoints(glyph).length > 1)
+    .flatMap(normalizedCodePoints),
+);
+const proposedSupportGlyphs = releasedGlyphs.filter((glyph) => {
+  const codePoints = normalizedCodePoints(glyph);
+  return (
+    codePoints.length === 1 && proposedSequenceCodePoints.has(codePoints[0])
+  );
+});
+const proposedFontGlyphs = [...proposedSupportGlyphs, ...proposedGlyphs];
 const buildManifest = {
   schemaVersion: 1,
   familyName: manifest.familyName,
@@ -159,6 +184,7 @@ const buildManifest = {
     proposed: {
       familyName: `${manifest.familyName} Proposed`,
       glyphCount: proposedGlyphs.length,
+      supportGlyphCount: proposedSupportGlyphs.length,
       versions: [
         ...new Set(
           proposedGlyphs.map((glyph) => glyph.unicodeVersion).filter(Boolean),
@@ -205,7 +231,7 @@ if (proposedGlyphs.length > 0) {
   await writeJson(path.join(buildDirectory, "proposed-font-source.json"), {
     familyName: `${manifest.familyName} Proposed`,
     cellSize: manifest.cellSize,
-    glyphs: proposedGlyphs,
+    glyphs: proposedFontGlyphs,
   });
 }
 
@@ -248,7 +274,7 @@ await fs.writeFile(
 );
 
 console.log(
-  `Built ${glyphs.length.toLocaleString()} painted glyph${glyphs.length === 1 ? "" : "s"} ` +
+  `Built ${glyphs.length.toLocaleString()} painted glyph${glyphs.length === 1 ? "" : "s"}${fontsOnly ? " in fonts-only mode" : ""} ` +
     `from ${manifest.sheets.length} atlases.`,
 );
 
@@ -319,6 +345,12 @@ function renderSvg(image, entry, rendering) {
   ].join("\n");
 }
 
+function normalizedCodePoints(glyph) {
+  return glyph.codePoints.filter(
+    (codePoint) => codePoint !== "FE0E" && codePoint !== "FE0F",
+  );
+}
+
 function pixelRuns(image) {
   const runs = [];
   for (let y = 0; y < image.height; y += 1) {
@@ -363,8 +395,8 @@ function renderPreview(build) {
       (glyph) => `<article>
   <h2>${escapeXml(glyph.emoji)} ${escapeXml(glyph.name)}</h2>
   <div class="samples">
-    <figure><img src="${glyph.png}" alt=""><figcaption>PNG</figcaption></figure>
-    <figure><img src="${glyph.svg}" alt=""><figcaption>SVG</figcaption></figure>
+    ${glyph.png ? `<figure><img src="${glyph.png}" alt=""><figcaption>PNG</figcaption></figure>` : ""}
+    ${glyph.svg ? `<figure><img src="${glyph.svg}" alt=""><figcaption>SVG</figcaption></figure>` : ""}
     <figure><span class="font">${escapeXml(glyph.emoji)}</span><figcaption>Font</figcaption></figure>
   </div>
   <code>${glyph.codePoints.map((point) => `U+${point}`).join(" ")}</code>

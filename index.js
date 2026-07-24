@@ -116,7 +116,6 @@ var byId = {};
 var emojiKeyByCodePoints = new Map();
 var paintedPixelEmojiKeys = new Set();
 var proposedPixelEmojiKeys = new Set();
-var pixelArtworkUrlByEmojiKey = new Map();
 
 var searchText;
 var languagePicker;
@@ -3665,13 +3664,6 @@ function isCondensedSequenceControl(point) {
   return point === 0x200d || point === 0xfe0e || point === 0xfe0f;
 }
 
-function isZeroWidthEmojiComponent(point) {
-  return (
-    (point >= 0x1f3fb && point <= 0x1f3ff) ||
-    (point >= 0x1f9b0 && point <= 0x1f9b3)
-  );
-}
-
 function createCompositionOperator(operator) {
   const element = document.createElement('span');
   element.className = 'emoji-composition-operator';
@@ -3723,32 +3715,10 @@ function updatePixelArtworkManifest(manifest, revision) {
       .filter(glyph => glyph.releaseStatus === 'proposed')
       .map(glyph => glyph.key)
   );
-  pixelArtworkUrlByEmojiKey = new Map(
-    glyphs
-      .filter(glyph => glyph.png)
-      .map(glyph => {
-        const url = new URL(`pixel-font/build/${glyph.png}`, document.baseURI);
-        if (revision) url.searchParams.set('v', revision);
-        return [glyph.key, url.href];
-      })
-  );
 }
 
-function applyStandalonePixelArtwork(element, emojiKey, point) {
-  const component = isZeroWidthEmojiComponent(point);
-  const artworkUrl = component
-    ? pixelArtworkUrlByEmojiKey.get(emojiKey)
-    : undefined;
-  applyPixelArtworkClass(element, component ? undefined : emojiKey);
-  element?.classList.toggle(
-    'has-standalone-pixel-art',
-    Boolean(artworkUrl)
-  );
-  if (artworkUrl) {
-    element.style.setProperty('--standalone-pixel-art', `url("${artworkUrl}")`);
-  } else {
-    element?.style.removeProperty('--standalone-pixel-art');
-  }
+function applyStandalonePixelArtwork(element, emojiKey) {
+  applyPixelArtworkClass(element, emojiKey);
 }
 
 function updateModifierPixelArtwork() {

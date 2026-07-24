@@ -245,9 +245,13 @@ OpenType ligatures:
 - tag flags retain their tag characters and cancel tag;
 - variation selectors are normalized out of the substitution.
 
-Joiners, combining keycaps, tags, skin tones, and hair components receive
-zero-width component glyphs. Ligature rules are emitted longest-first so a
-shorter known sequence cannot consume the beginning of a longer one.
+Joiners, combining keycaps, tags, and component code points without painted
+standalone artwork receive zero-width glyphs. Painted skin-tone and hair
+components remain visible, full-width emoji on their own. The proposed font
+also embeds any painted released components required by its sequences, so it
+cannot intercept a visible modifier with an empty shaping glyph. Ligature rules
+are emitted longest-first so a shorter known sequence cannot consume the
+beginning of a longer one.
 
 ## Automatic component reuse
 
@@ -280,6 +284,7 @@ the web-focused WOFF and WOFF2 files retain only modern Windows records.
 npm run pixel-font:generate
 npm run pixel-font:validate
 npm run pixel-font:build
+npm run pixel-font:build -- --fonts-only
 ```
 
 Generation creates the JSON assignments but does not create empty PNG
@@ -298,6 +303,13 @@ generated output under `pixel-font/build/` includes:
 - a separate proposed TTF, WOFF, and WOFF2 set when proposed artwork exists;
 - a machine-readable manifest;
 - an HTML page comparing PNG, SVG, and font rendering.
+
+The `--fonts-only` mode is used by the GitHub Pages deployment. It still emits
+the released and proposed TTF, WOFF, and WOFF2 files, their shared CSS, the
+machine-readable manifests, and a font-only preview, but skips all individual
+PNG and SVG glyph files. Emoji Explorer crops the original source atlases when
+it needs standalone pixel artwork, so its modifier previews and artwork-copy
+tools do not depend on those generated glyph images.
 
 The font compiler also deduplicates reusable pixel geometry. Fully opaque
 glyphs with the same visible silhouette can share one dominant-color base and

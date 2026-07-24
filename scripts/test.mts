@@ -203,6 +203,10 @@ const pixelFontCompiler = await fs.readFile(
   path.join(root, "pixel-font/scripts/compile-font.py"),
   "utf8",
 );
+const pagesWorkflow = await fs.readFile(
+  path.join(root, ".github/workflows/pages.yml"),
+  "utf8",
+);
 const pixelAtlasReadme = await fs.readFile(
   path.join(root, "pixel-font/ATLASES.md"),
   "utf8",
@@ -344,6 +348,26 @@ assert.match(
   pixelFontBuildScript,
   /releasedGlyphs[\s\S]*proposedGlyphs[\s\S]*Pixel Emoji Proposed/,
   "pixel-font builds must isolate proposed artwork in a separate font",
+);
+assert.match(
+  pixelFontBuildScript,
+  /proposedSequenceCodePoints[\s\S]*proposedSupportGlyphs[\s\S]*codePoints\.length === 1[\s\S]*proposedFontGlyphs[\s\S]*glyphs:\s*proposedFontGlyphs/,
+  "proposed fonts must embed visible released components required by draft sequences",
+);
+assert.match(
+  pixelFontBuildScript,
+  /process\.argv\.includes\("--fonts-only"\)[\s\S]*if \(!fontsOnly\)[\s\S]*encodeRgbaPng[\s\S]*renderSvg/,
+  "font-only builds must skip individual PNG and SVG glyph output",
+);
+assert.match(
+  pagesWorkflow,
+  /npm run pixel-font:build -- --fonts-only/,
+  "GitHub Pages deployment must build fonts without individual PNG and SVG glyphs",
+);
+assert.match(
+  pixelFontBuildScript,
+  /atlasImage:\s*sheet\.image[\s\S]*atlasWidth:\s*mapping\.imageWidth[\s\S]*x:\s*entry\.x/,
+  "font manifests must retain source atlas coordinates for browser previews",
 );
 assert.match(
   pixelFontBuildScript,
@@ -792,23 +816,13 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /function isZeroWidthEmojiComponent[\s\S]*0x1F3FB[\s\S]*0x1F9B3/i,
-  "font shaping components must include skin-tone and hair modifiers",
-);
-assert.match(
-  demoScript,
-  /function applyStandalonePixelArtwork[\s\S]*isZeroWidthEmojiComponent\(point\)[\s\S]*pixelArtworkUrlByEmojiKey/,
-  "standalone sequence components must use generated artwork instead of zero-width shaping glyphs",
+  /function applyStandalonePixelArtwork\(element, emojiKey\)[\s\S]*applyPixelArtworkClass\(element, emojiKey\)/,
+  "standalone sequence components must use their painted font glyphs",
 );
 assert.match(
   demoScript,
   /function updateModifierPixelArtwork[\s\S]*applyStandalonePixelArtwork/,
   "modifier filter swatches must use standalone generated artwork",
-);
-assert.match(
-  demoStyles,
-  /html\[data-pixel-font\][\s\S]*has-standalone-pixel-art[\s\S]*--standalone-pixel-art[\s\S]*image-rendering:\s*pixelated/,
-  "standalone component artwork must only replace native emoji in pixel-font mode",
 );
 assert.match(
   demoScript,
@@ -1325,8 +1339,8 @@ for (const action of ["copyPixelArt", "copyFontGlyph", "pastePixelArt"]) {
 }
 assert.match(
   pixelEditorScript,
-  /pixel-font\/build\/png\/\$\{currentEntry\.key\}\.png/,
-  "copying a custom-font glyph must use its exact compiled pixel PNG",
+  /function copyFontGlyph[\s\S]*pixel-font\/atlases\/\$\{currentEntry\.atlas\}[\s\S]*extractCell\(await response\.blob\(\), currentEntry\)/,
+  "copying a custom-font glyph must crop its exact source atlas cell",
 );
 assert.match(
   pixelEditorScript,

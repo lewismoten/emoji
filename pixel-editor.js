@@ -1299,17 +1299,17 @@ export function createPixelEditor({
     copyFontButton.disabled = true;
     try {
       const response = await fetch(
-        `pixel-font/build/png/${currentEntry.key}.png`,
+        `pixel-font/atlases/${currentEntry.atlas}`,
       );
       if (
         !response.ok ||
         !response.headers.get("content-type")?.includes("image/png")
       ) {
-        throw new Error("Compiled font glyph PNG is unavailable");
+        throw new Error("Pixel font source atlas is unavailable");
       }
       artworkClipboard = {
         kind: "font",
-        pixels: await extractCell(await response.blob(), { x: 0, y: 0 }),
+        pixels: await extractCell(await response.blob(), currentEntry),
         width: CELL_SIZE,
         height: CELL_SIZE,
         x: 0,
