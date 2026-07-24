@@ -204,6 +204,7 @@ const explorerPreferencesKey = '@lewismoten/emoji:explorer-preferences';
 var explorerPreferences = loadExplorerPreferences();
 var developerModeFromUrl =
   new URLSearchParams(window.location.search).get('developer') === '1';
+var developerModeUrlDismissed = false;
 var favoriteEmojiKeys = Array.isArray(explorerPreferences.favorites)
   ? explorerPreferences.favorites
   : [];
@@ -412,7 +413,8 @@ function selectEmojiFont(event) {
 }
 function developerModeEnabled() {
   return (
-    developerModeFromUrl || explorerPreferences.developerMode === true
+    (developerModeFromUrl && !developerModeUrlDismissed) ||
+    explorerPreferences.developerMode === true
   );
 }
 function renderDeveloperMode() {
@@ -425,6 +427,7 @@ function renderDeveloperMode() {
 }
 function toggleDeveloperMode(event) {
   const enabled = event.currentTarget.checked;
+  developerModeUrlDismissed = !enabled;
   developerModeFromUrl = false;
   saveExplorerPreference('developerMode', enabled);
   renderDeveloperMode();

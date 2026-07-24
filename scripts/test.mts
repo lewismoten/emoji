@@ -1224,7 +1224,7 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /developerModeFromUrl[\s\S]*get\('developer'\) === '1'[\s\S]*function developerModeEnabled\(\)[\s\S]*developerModeFromUrl[\s\S]*developerMode === true[\s\S]*function toggleDeveloperMode[\s\S]*developerModeFromUrl = false[\s\S]*saveExplorerPreference\('developerMode'/,
+  /developerModeFromUrl[\s\S]*get\('developer'\) === '1'[\s\S]*developerModeUrlDismissed = false[\s\S]*function developerModeEnabled\(\)[\s\S]*developerModeFromUrl && !developerModeUrlDismissed[\s\S]*developerMode === true[\s\S]*function toggleDeveloperMode[\s\S]*developerModeUrlDismissed = !enabled[\s\S]*developerModeFromUrl = false[\s\S]*saveExplorerPreference\('developerMode'/,
   "Developer mode must support shared URL activation and persist explicit selection",
 );
 assert.match(
@@ -1236,6 +1236,11 @@ assert.match(
   demoScript,
   /popstate[\s\S]*developerModeFromUrl =[\s\S]*get\('developer'\) === '1'[\s\S]*renderDeveloperMode\(\)[\s\S]*applyDialogUrlState\(\)/,
   "browser navigation must restore Developer mode before applying dialog URL state",
+);
+assert.match(
+  demoScript,
+  /developerModeUrlDismissed = !enabled[\s\S]*syncUrlState\(\)[\s\S]*popstate[\s\S]*renderDeveloperMode\(\)[\s\S]*syncUrlState\(\)/,
+  "turning Developer mode off must override and clean older URL history entries",
 );
 assert.match(
   demoScript,
