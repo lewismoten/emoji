@@ -2019,12 +2019,13 @@ function renderVersionModeToggle() {
   versionModeToggle.title = label;
 }
 
-function toggleVersionMode() {
+function toggleVersionMode(event) {
   versionModeSelector.value =
     versionModeSelector.value === 'selected' ? 'through' : 'selected';
   renderVersionModeToggle();
   renderCategoryFilters();
   drawList();
+  if (event?.detail > 0) event.currentTarget.blur();
 }
 
 function getUrlState() {

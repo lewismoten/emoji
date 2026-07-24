@@ -942,6 +942,26 @@ assert.match(
   "sequence-order URLs must not reserve the grouped-filter row while loading",
 );
 assert.match(
+  demoStyles,
+  /\.version-mode-toggle:hover\s*\{[\s\S]*background:[\s\S]*\}[\s\S]*\.version-mode-toggle\[aria-pressed="true"\]\s*\{[\s\S]*background: #15384d[\s\S]*color: var\(--accent\)[\s\S]*\}[\s\S]*\.version-mode-toggle:focus-visible\s*\{[\s\S]*outline: 2px dashed/,
+  "the version target must visually distinguish hover, selection, and keyboard focus",
+);
+assert.match(
+  demoScript,
+  /function toggleVersionMode\(event\)[\s\S]*event\?\.detail > 0[\s\S]*event\.currentTarget\.blur\(\)/,
+  "pointer toggles must not retain a misleading focus treatment",
+);
+assert.match(
+  demoStyles,
+  /\.compact-choice\[aria-checked="true"\]\s*\{[\s\S]*background: #15384d[\s\S]*color: var\(--accent\)[\s\S]*\}[\s\S]*\.compact-choice:focus-visible\s*\{[\s\S]*outline: 2px dashed/,
+  "selected group and subgroup choices must use a filled state distinct from focus",
+);
+assert.match(
+  demoStyles,
+  /\.modifier-filters fieldset label:has\(input:checked\)\s*\{[\s\S]*background: #15384d[\s\S]*color: var\(--accent\)[\s\S]*\}[\s\S]*\.modifier-filters fieldset label:has\(input:focus-visible\)\s*\{[\s\S]*outline: 2px dashed/,
+  "selected modifier buttons must use a filled state distinct from focus",
+);
+assert.match(
   demoHtml,
   /class="show-pixel-editor developer-only"/,
   "emoji details must provide a pixel-editor mode",
