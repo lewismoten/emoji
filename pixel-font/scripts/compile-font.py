@@ -173,10 +173,14 @@ def main():
 
     builder = FontBuilder(UNITS_PER_EM, isTTF=True)
     builder.setupGlyphOrder(glyph_order)
-    builder.setupCharacterMap(
-        cmap,
-        uvs=variation_sequences(glyph_sources, cmap),
-    )
+    supported_variation_sequences = variation_sequences(glyph_sources, cmap)
+    if supported_variation_sequences:
+        builder.setupCharacterMap(
+            cmap,
+            uvs=supported_variation_sequences,
+        )
+    else:
+        builder.setupCharacterMap(cmap)
     builder.setupGlyf(glyphs)
     builder.setupHorizontalMetrics(
         {

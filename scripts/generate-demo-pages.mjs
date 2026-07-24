@@ -73,8 +73,8 @@ export const renderPage = (
   manifestLocale = locale
 ) => {
   const translations = translationsFor(locale);
-  const title = `${translations.title} – Unicode Emoji`;
-  const description = translations.aboutDescription;
+  const title = `${translations.title} – Pixel Emoji & Unicode`;
+  const description = `${translations.pixelHeroDescription} ${translations.aboutDescription}`;
   const localeDetails =
     localeMetadata.get(dataLocale) ?? localeMetadata.get(locale);
   const initialFlag =
@@ -152,8 +152,8 @@ export const renderPage = (
       `"name": ${JSON.stringify(translations.title)}`
     )
     .replace(
-      /"description": "A localized Unicode emoji explorer[^"]*"/,
-      `"description": ${JSON.stringify(description)}`
+      /("alternateName": "@lewismoten\/emoji",[\s\S]*?"description": )"[^"]*"/,
+      `$1${JSON.stringify(description)}`
     )
     .replace(
       /(<[^>]+data-i18n="([^"]+)"[^>]*>)([^<]*)(<\/[^>]+>)/g,
@@ -184,7 +184,7 @@ export const renderPage = (
     );
 };
 
-const renderManifest = (locale, startUrl, htmlLocale = locale) => {
+export const renderManifest = (locale, startUrl, htmlLocale = locale) => {
   const translations = translationsFor(locale);
   return `${JSON.stringify(
     {

@@ -21,8 +21,6 @@ the package, Explorer, and font.
 [View the package on npm](https://www.npmjs.com/package/@lewismoten/emoji) ·
 [Download the Pixel Emoji fallback font](pixel-font/README.md)
 
-![Current Emoji Explorer showing searchable Unicode and Pixel Emoji](https://raw.githubusercontent.com/lewismoten/emoji/main/screenshot.png)
-
 ## Emoji Explorer
 
 The [live Emoji Explorer](https://lewismoten.github.io/emoji/) is the visual

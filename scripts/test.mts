@@ -396,6 +396,16 @@ assert.match(
   "browsers without a native prompt must receive platform-appropriate installation instructions",
 );
 assert.match(
+  viteConfig,
+  /localizedManifestPattern[\s\S]*application\/manifest\+json[\s\S]*renderManifest\(/,
+  "the Vite development server must return JSON for localized web app manifests",
+);
+assert.match(
+  pixelFontCompiler,
+  /supported_variation_sequences = variation_sequences[\s\S]*if supported_variation_sequences:[\s\S]*uvs=supported_variation_sequences[\s\S]*else:[\s\S]*setupCharacterMap\(cmap\)/,
+  "font compilation must not emit an invalid empty format-14 cmap table",
+);
+assert.match(
   demoStyles,
   /\.install-app\[hidden\]\s*\{\s*display:\s*none;[\s\S]*@media \(max-width: 560px\)[\s\S]*\.install-app-label\s*\{\s*display:\s*none;/,
   "the footer install action must stay compact on mobile screens",
@@ -780,6 +790,11 @@ assert.match(
 );
 assert.match(
   demoHtml,
+  /class="help-pixel"[\s\S]*data-i18n="pixelHelpDescription"[\s\S]*pixel-font/,
+  "help must explain the Pixel Emoji rendering preference and link to the font",
+);
+assert.match(
+  demoHtml,
   /class="toggle-favorite"/,
   "emoji details must provide a favorite toggle",
 );
@@ -1122,6 +1137,21 @@ assert.match(
   demoHtml,
   /class="pixel-hero"[\s\S]*pixel-comparison-system[\s\S]*pixel-comparison-custom/,
   "the Explorer must introduce Pixel Emoji with a system comparison",
+);
+assert.match(
+  demoHtml,
+  /name="description"[\s\S]*original 12×12 Pixel Emoji font/,
+  "search metadata must identify the original Pixel Emoji font",
+);
+assert.match(
+  demoHtml,
+  /"featureList":\s*\[[\s\S]*"Original 12×12 Pixel Emoji font"[\s\S]*"System-versus-pixel rendering diagnostics"/,
+  "structured metadata must expose the Explorer's distinguishing Pixel Emoji features",
+);
+assert.match(
+  arabicDemo,
+  /Pixel Emoji[\s\S]*تصفح آلاف الرموز التعبيرية/,
+  "localized metadata must combine the Pixel Emoji introduction with localized browsing details",
 );
 assert.match(
   demoHtml,

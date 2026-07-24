@@ -715,6 +715,22 @@ fieldset input {
 .help-dialog {
   width: min(34rem, calc(100vw - 2rem));
 }
+.help-pixel {
+  margin: 1rem 1rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--panel-strong);
+}
+.help-pixel h3,
+.help-pixel p {
+  margin: 0;
+}
+.help-pixel p {
+  margin-block: 0.4rem 0.55rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
 .language-list {
   display: grid;
   gap: 0.5rem;

@@ -841,6 +841,11 @@ function ensureUtilityControls() {
           <h2 id="help-title" data-i18n="keyboardShortcuts">Keyboard shortcuts</h2>
           <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
         </div>
+        <section class="help-pixel" aria-labelledby="help-pixel-title">
+          <h3 id="help-pixel-title" data-i18n="pixelHelpTitle">Pixel Emoji in the Explorer</h3>
+          <p data-i18n="pixelHelpDescription">Pixel font: On uses the original 12×12 font when artwork is available. Turn it off to prefer your system font; Pixel Emoji remains a fallback for unsupported emoji.</p>
+          <a href="https://github.com/lewismoten/emoji/tree/main/pixel-font" data-i18n="pixelHelpLink">Learn about and download Pixel Emoji</a>
+        </section>
         <dl class="shortcut-list">
           <div><dt><kbd>/</kbd></dt><dd data-i18n="shortcutSearch">Focus search</dd></div>
           <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd data-i18n="shortcutNavigate">Navigate emoji</dd></div>

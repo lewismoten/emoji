@@ -8,7 +8,7 @@
     </title>
     <meta
       name="description"
-      content="Search and browse thousands of Unicode emoji by localized name, keyword, category, subgroup, version, skin tone, hair style, and sequence type."
+      content="Explore Unicode emoji with an original 12×12 Pixel Emoji font, localized search, categories, versions, modifiers, sequence details, and rendering diagnostics."
     />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#160622" />
@@ -78,11 +78,11 @@
     <meta property="og:site_name" content="Emoji Explorer" />
     <meta
       property="og:title"
-      content="Emoji Explorer – Search and Browse Unicode Emoji"
+      content="Emoji Explorer – Pixel Emoji Font & Unicode Search"
     />
     <meta
       property="og:description"
-      content="Explore Unicode emoji by localized name, keyword, category, version, modifiers, and sequence type."
+      content="Compare system emoji with an original 12×12 pixel font while searching Unicode emoji by localized name, category, version, modifier, and sequence."
     />
     <meta property="og:url" content="https://lewismoten.github.io/emoji/" />
     <meta
@@ -91,16 +91,16 @@
     />
     <meta
       property="og:image:alt"
-      content="Emoji Explorer showing a searchable collection of Unicode emoji"
+      content="Emoji Explorer and the original 12×12 Pixel Emoji font"
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta
       name="twitter:title"
-      content="Emoji Explorer – Search and Browse Unicode Emoji"
+      content="Emoji Explorer – Pixel Emoji Font & Unicode Search"
     />
     <meta
       name="twitter:description"
-      content="Explore Unicode emoji by localized name, keyword, category, version, modifiers, and sequence type."
+      content="Compare system emoji with an original 12×12 pixel font while searching Unicode emoji by localized name, category, version, modifier, and sequence."
     />
     <meta
       name="twitter:image"
@@ -112,13 +112,22 @@
         "@type": "SoftwareApplication",
         "name": "Emoji Explorer",
         "alternateName": "@lewismoten/emoji",
-        "description": "A localized Unicode emoji explorer and JavaScript package with searchable emoji names, keywords, categories, versions, modifiers, and sequence metadata.",
+        "description": "Explore Unicode emoji with an original 12×12 Pixel Emoji font, localized search, categories, versions, modifiers, sequence details, and rendering diagnostics.",
         "url": "https://lewismoten.github.io/emoji/",
         "image": "https://lewismoten.github.io/emoji/screenshot.png",
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "Any",
         "codeRepository": "https://github.com/lewismoten/emoji",
         "downloadUrl": "https://www.npmjs.com/package/@lewismoten/emoji",
+        "keywords": "emoji, Unicode, pixel font, 12x12 pixel art, emoji search, emoji sequences",
+        "featureList": [
+          "Original 12×12 Pixel Emoji font",
+          "System-versus-pixel rendering diagnostics",
+          "Localized emoji search",
+          "Unicode version and sequence browsing",
+          "Offline Progressive Web App",
+          "Pixel-art editor"
+        ],
         "license": "https://github.com/lewismoten/emoji/blob/main/LICENSE.md",
         "author": { "@type": "Person", "name": "Lewis Moten" },
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
@@ -1005,6 +1014,21 @@
             </button>
           </form>
         </div>
+        <section class="help-pixel" aria-labelledby="help-pixel-title">
+          <h3 id="help-pixel-title" data-i18n="pixelHelpTitle">
+            Pixel Emoji in the Explorer
+          </h3>
+          <p data-i18n="pixelHelpDescription">
+            Pixel font: On uses the original 12×12 font when artwork is
+            available. Turn it off to prefer your system font; Pixel Emoji
+            remains a fallback for unsupported emoji.
+          </p>
+          <a
+            href="https://github.com/lewismoten/emoji/tree/main/pixel-font"
+            data-i18n="pixelHelpLink"
+            >Learn about and download Pixel Emoji</a
+          >
+        </section>
         <dl class="shortcut-list">
           <div>
             <dt><kbd>/</kbd></dt>
