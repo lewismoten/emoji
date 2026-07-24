@@ -270,6 +270,16 @@ The editor clipboard can copy the current grid—including unsaved changes—or
 the exact PNG source of an already compiled custom-font glyph. Open another
 emoji and choose **Paste** to use those pixels as an undoable edit.
 
+When artwork is pasted between skin-tone variants, the editor converts normal,
+highlight, and shadow colors to the destination modifiers. For an emoji with
+multiple people, it looks for a painted variant of the same modifier-free
+Unicode sequence whose people have distinct tones. It prefers middle tones,
+uses that artwork to infer each person's region, and then converts ambiguous
+colors by position. If no reliable helper is painted, conversion falls back to
+the common two-person layout—first modifier on the left, second modifier on the
+right—before using modifier order alone for other layouts. The lightest
+highlight and darkest shadow extend to EGA white and black respectively.
+
 In browsers that support the File System Access API, **Save atlas** asks you
 to select the repository's `pixel-font/atlases/` directory and then updates
 or creates the correct nested subgroup PNG directly. Save and download remain

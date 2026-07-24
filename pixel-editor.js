@@ -294,6 +294,7 @@ export function createPixelEditor({
   let selectedColor = "#ffff55";
   let selectedSkinTone = "";
   let artworkClipboard;
+  let pastePending = false;
   let selection;
   let floatingLayer;
   const artworkDrafts = new Map();
@@ -1207,6 +1208,8 @@ export function createPixelEditor({
       x: 0,
       y: 0,
       skinTones: skinToneSequence(currentEntry.codePoints),
+      baseSequence: skinToneBaseSequence(currentEntry.codePoints),
+      sourceKey: currentEntry.key,
     };
     updateTransferButtons();
     status.textContent = translate("pixelArtCopied", "Pixel art copied.");
@@ -1231,6 +1234,8 @@ export function createPixelEditor({
       x: selection.x,
       y: selection.y,
       skinTones: skinToneSequence(currentEntry.codePoints),
+      baseSequence: skinToneBaseSequence(currentEntry.codePoints),
+      sourceKey: currentEntry.key,
     };
     updateTransferButtons();
     status.textContent = translate(
@@ -1260,6 +1265,8 @@ export function createPixelEditor({
         x: 0,
         y: 0,
         skinTones: skinToneSequence(currentEntry.codePoints),
+        baseSequence: skinToneBaseSequence(currentEntry.codePoints),
+        sourceKey: currentEntry.key,
       };
       status.textContent = translate(
         "fontGlyphCopied",
@@ -1275,19 +1282,44 @@ export function createPixelEditor({
     updateTransferButtons();
   }
 
-  function pastePixelArt() {
+  async function pastePixelArt() {
     if (
       !currentEntry ||
       !cellLoaded ||
       !artworkClipboard ||
+      pastePending ||
       (tool === "select" && artworkClipboard.kind !== "selection")
     )
       return;
-    floatingLayer = cloneFloatingLayer(artworkClipboard);
+    const targetEntry = currentEntry;
+    const clipboard = cloneFloatingLayer(artworkClipboard);
+    pastePending = true;
+    updateTransferButtons();
+    const helper = await findSkinTonePasteHelper(clipboard, targetEntry).catch(
+      (error) => {
+        console.warn("Unable to load skin-tone paste helper", error);
+        return undefined;
+      },
+    );
+    pastePending = false;
+    if (currentEntry !== targetEntry) {
+      updateTransferButtons();
+      return;
+    }
+    floatingLayer = clipboard;
     floatingLayer.pixels = remapSkinTonePixels(
       floatingLayer.pixels,
-      artworkClipboard.skinTones,
-      skinToneSequence(currentEntry.codePoints),
+      clipboard.skinTones,
+      skinToneSequence(targetEntry.codePoints),
+      helper
+        ? {
+            ownership: helper.ownership,
+            ownershipWidth: CELL_SIZE,
+            width: clipboard.width,
+            offsetX: clipboard.x,
+            offsetY: clipboard.y,
+          }
+        : undefined,
     );
     floatingLayer.inverted = false;
     selection = undefined;
@@ -1393,8 +1425,68 @@ export function createPixelEditor({
       !currentEntry ||
       !cellLoaded ||
       !artworkClipboard ||
+      pastePending ||
       Boolean(floatingLayer) ||
       (tool === "select" && artworkClipboard.kind !== "selection");
+  }
+
+  async function findSkinTonePasteHelper(clipboard, targetEntry) {
+    const sourceTones = clipboard.skinTones ?? [];
+    const targetTones = skinToneSequence(targetEntry.codePoints);
+    if (
+      sourceTones.length < 2 ||
+      sourceTones.length !== targetTones.length ||
+      clipboard.baseSequence !== skinToneBaseSequence(targetEntry.codePoints)
+    )
+      return undefined;
+
+    const manifest = await loadManifest();
+    const candidates = Object.values(manifest.glyphs)
+      .filter((entry) => {
+        const tones = skinToneSequence(entry.codePoints);
+        return (
+          entry.key !== clipboard.sourceKey &&
+          entry.key !== targetEntry.key &&
+          skinToneBaseSequence(entry.codePoints) === clipboard.baseSequence &&
+          tones.length === sourceTones.length &&
+          new Set(tones).size === tones.length &&
+          (entry.painted || artworkDrafts.has(entry.key))
+        );
+      })
+      .sort(compareSkinToneHelpers);
+
+    for (const entry of candidates) {
+      const helperPixels = await loadHelperPixels(entry);
+      if (!helperPixels) continue;
+      const ownership = buildSkinToneOwnership(
+        helperPixels,
+        skinToneSequence(entry.codePoints),
+      );
+      if (ownership) return { entry, ownership };
+    }
+    if (sourceTones.length === 2) {
+      return {
+        entry: undefined,
+        ownership: buildTwoPersonOwnership(),
+      };
+    }
+    return undefined;
+  }
+
+  async function loadHelperPixels(entry) {
+    const draft = artworkDrafts.get(entry.key);
+    if (draft?.pixels && hasVisiblePixels(draft.pixels))
+      return draft.pixels.slice();
+    const response = await fetch(`pixel-font/atlases/${entry.atlas}`).catch(
+      () => undefined,
+    );
+    if (
+      !response?.ok ||
+      !response.headers.get("content-type")?.includes("image/png")
+    )
+      return undefined;
+    const helperPixels = await extractCell(await response.blob(), entry);
+    return hasVisiblePixels(helperPixels) ? helperPixels : undefined;
   }
 
   function updateEditorModePanels() {
@@ -1846,14 +1938,23 @@ function skinToneCycle(codePoint) {
 export function skinToneSequence(codePoints = []) {
   const skinTones = new Set(SKIN_TONE_COLORS.map((tone) => tone.codePoint));
   return codePoints
-    .map((codePoint) => codePoint.toUpperCase())
+    .map((codePoint) => String(codePoint).toUpperCase())
     .filter((codePoint) => skinTones.has(codePoint));
+}
+
+export function skinToneBaseSequence(codePoints = []) {
+  const skinTones = new Set(SKIN_TONE_COLORS.map((tone) => tone.codePoint));
+  return codePoints
+    .map((codePoint) => String(codePoint).toUpperCase())
+    .filter((codePoint) => !skinTones.has(codePoint))
+    .join(" ");
 }
 
 export function remapSkinTonePixels(
   pixels,
   sourceTones = [],
   targetTones = [],
+  helper,
 ) {
   const result = pixels.slice();
   if (
@@ -1868,6 +1969,9 @@ export function remapSkinTonePixels(
     sourceTone,
     targetTone: targetTones[Math.min(index, targetTones.length - 1)],
   }));
+  const pairColors = pairs.map(({ sourceTone, targetTone }) =>
+    skinToneColorMap(sourceTone, targetTone),
+  );
   const colors = new Map();
 
   // A normal color can also be a neighboring tone's highlight or shadow.
@@ -1882,18 +1986,13 @@ export function remapSkinTonePixels(
   }
 
   for (const { sourceTone, targetTone } of pairs) {
-    const sourceCycle = skinToneCycle(sourceTone);
-    const targetCycle = skinToneCycle(targetTone);
-    for (const sourceShade of sourceCycle.filter(
-      (shade) => shade.kind !== "normal",
+    for (const [sourceColor, targetColor] of skinToneColorMap(
+      sourceTone,
+      targetTone,
     )) {
-      if (colors.has(sourceShade.color)) continue;
-      const targetShade =
-        targetCycle.find((shade) => shade.kind === sourceShade.kind) ??
-        endpointSkinToneShade(targetTone, sourceShade.kind) ??
-        targetCycle.find((shade) => shade.kind !== "normal") ??
-        targetCycle[0];
-      if (targetShade) colors.set(sourceShade.color, targetShade.color);
+      if (!colors.has(sourceColor)) {
+        colors.set(sourceColor, targetColor);
+      }
     }
   }
 
@@ -1904,7 +2003,22 @@ export function remapSkinTonePixels(
       result[offset + 1],
       result[offset + 2],
     );
-    const targetColor = colors.get(sourceColor);
+    const pixelIndex = offset / 4;
+    let owner = -1;
+    if (helper?.ownership) {
+      const localX = pixelIndex % helper.width;
+      const localY = Math.floor(pixelIndex / helper.width);
+      owner =
+        helper.ownership[
+          (localY + (helper.offsetY ?? 0)) * helper.ownershipWidth +
+            localX +
+            (helper.offsetX ?? 0)
+        ] ?? -1;
+    }
+    const targetColor =
+      owner >= 0
+        ? pairColors[owner]?.get(sourceColor)
+        : colors.get(sourceColor);
     if (!targetColor) continue;
     const value = targetColor.slice(1);
     result[offset] = Number.parseInt(value.slice(0, 2), 16);
@@ -1912,6 +2026,98 @@ export function remapSkinTonePixels(
     result[offset + 2] = Number.parseInt(value.slice(4, 6), 16);
   }
   return result;
+}
+
+function skinToneColorMap(sourceTone, targetTone) {
+  const colors = new Map();
+  const source = findSkinTone(sourceTone);
+  const target = findSkinTone(targetTone);
+  if (!source || !target) return colors;
+  colors.set(source.color, target.color);
+  const targetCycle = skinToneCycle(targetTone);
+  for (const sourceShade of skinToneCycle(sourceTone).filter(
+    (shade) => shade.kind !== "normal",
+  )) {
+    const targetShade =
+      targetCycle.find((shade) => shade.kind === sourceShade.kind) ??
+      endpointSkinToneShade(targetTone, sourceShade.kind) ??
+      targetCycle.find((shade) => shade.kind !== "normal") ??
+      targetCycle[0];
+    if (targetShade) colors.set(sourceShade.color, targetShade.color);
+  }
+  return colors;
+}
+
+export function buildSkinToneOwnership(
+  pixels,
+  tones,
+  width = CELL_SIZE,
+  height = CELL_SIZE,
+) {
+  if (new Set(tones).size !== tones.length || tones.length < 2)
+    return undefined;
+  const normalOwners = new Map(
+    tones.map((tone, index) => [findSkinTone(tone)?.color, index]),
+  );
+  normalOwners.delete(undefined);
+  const seeds = [];
+  const ownersWithSeeds = new Set();
+  for (let index = 0; index < pixels.length / 4; index += 1) {
+    const offset = index * 4;
+    if (pixels[offset + 3] === 0) continue;
+    const owner = normalOwners.get(
+      rgbHex(pixels[offset], pixels[offset + 1], pixels[offset + 2]),
+    );
+    if (owner === undefined) continue;
+    seeds.push({ x: index % width, y: Math.floor(index / width), owner });
+    ownersWithSeeds.add(owner);
+  }
+  if (ownersWithSeeds.size !== tones.length) return undefined;
+
+  const ownership = new Int8Array(width * height);
+  ownership.fill(-1);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      let nearest;
+      for (const seed of seeds) {
+        const distance = (x - seed.x) ** 2 + (y - seed.y) ** 2;
+        if (
+          !nearest ||
+          distance < nearest.distance ||
+          (distance === nearest.distance && seed.owner < nearest.owner)
+        ) {
+          nearest = { distance, owner: seed.owner };
+        }
+      }
+      ownership[y * width + x] = nearest.owner;
+    }
+  }
+  return ownership;
+}
+
+export function buildTwoPersonOwnership(width = CELL_SIZE, height = CELL_SIZE) {
+  const ownership = new Int8Array(width * height);
+  const dividingColumn = Math.ceil(width / 2);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      ownership[y * width + x] = x < dividingColumn ? 0 : 1;
+    }
+  }
+  return ownership;
+}
+
+function compareSkinToneHelpers(left, right) {
+  const endpointTones = new Set([
+    SKIN_TONE_COLORS[0].codePoint,
+    SKIN_TONE_COLORS.at(-1).codePoint,
+  ]);
+  const endpointCount = (entry) =>
+    skinToneSequence(entry.codePoints).filter((tone) => endpointTones.has(tone))
+      .length;
+  return (
+    endpointCount(left) - endpointCount(right) ||
+    left.key.localeCompare(right.key)
+  );
 }
 
 function endpointSkinToneShade(codePoint, shadeKind) {

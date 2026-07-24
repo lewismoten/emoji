@@ -162,14 +162,33 @@ const pixelEditorScript = await fs.readFile(
   path.join(root, "pixel-editor.js"),
   "utf8",
 );
-const { remapSkinTonePixels, skinToneSequence } = (await import(
-  pathToFileURL(path.join(root, "pixel-editor.js")).href
-)) as {
+const {
+  buildSkinToneOwnership,
+  buildTwoPersonOwnership,
+  remapSkinTonePixels,
+  skinToneBaseSequence,
+  skinToneSequence,
+} = (await import(pathToFileURL(path.join(root, "pixel-editor.js")).href)) as {
+  buildSkinToneOwnership: (
+    pixels: Uint8ClampedArray,
+    tones: string[],
+    width?: number,
+    height?: number,
+  ) => Int8Array | undefined;
+  buildTwoPersonOwnership: (width?: number, height?: number) => Int8Array;
   remapSkinTonePixels: (
     pixels: Uint8ClampedArray,
     sourceTones: string[],
     targetTones: string[],
+    helper?: {
+      ownership: Int8Array;
+      ownershipWidth: number;
+      width: number;
+      offsetX: number;
+      offsetY: number;
+    },
   ) => Uint8ClampedArray;
+  skinToneBaseSequence: (codePoints: string[]) => string;
   skinToneSequence: (codePoints: string[]) => string[];
 };
 const pixelAtlasGeneratorScript = await fs.readFile(
@@ -882,6 +901,11 @@ assert.deepEqual(
   ["1F3FB", "1F3FF"],
   "skin-tone extraction must preserve modifier order and repeated people",
 );
+assert.equal(
+  skinToneBaseSequence(["1F469", "1F3FB", "200D", "1F468", "1F3FF"]),
+  "1F469 200D 1F468",
+  "skin-tone variants must share a modifier-free helper signature",
+);
 const rgbaPixels = (...colors: string[]) =>
   new Uint8ClampedArray(
     colors.flatMap((color) => [
@@ -937,6 +961,44 @@ assert.deepEqual(
   ),
   ["#70452f", "#3b271d"],
   "explicit normal tones must win over ambiguous neighboring shades",
+);
+const helperOwnership = buildSkinToneOwnership(
+  rgbaPixels("#d5a078", "#000000", "#000000", "#70452f"),
+  ["1F3FC", "1F3FE"],
+  4,
+  1,
+);
+assert.ok(
+  helperOwnership,
+  "a uniquely toned helper must identify every person's region",
+);
+assert.deepEqual(
+  pixelColors(
+    remapSkinTonePixels(
+      rgbaPixels("#d5a078", "#d5a078", "#d5a078", "#d5a078"),
+      ["1F3FB", "1F3FC"],
+      ["1F3FB", "1F3FF"],
+      {
+        ownership: helperOwnership,
+        ownershipWidth: 4,
+        width: 4,
+        offsetX: 0,
+        offsetY: 0,
+      },
+    ),
+  ),
+  ["#d5a078", "#d5a078", "#3b271d", "#3b271d"],
+  "helper regions must disambiguate the same source color for different people",
+);
+assert.deepEqual(
+  [...buildTwoPersonOwnership(4, 2)],
+  [0, 0, 1, 1, 0, 0, 1, 1],
+  "two-person fallback must assign the left half first and right half second",
+);
+assert.match(
+  pixelEditorScript,
+  /if \(sourceTones\.length === 2\)[\s\S]*buildTwoPersonOwnership/,
+  "two-tone paste must fall back to left-to-right person ownership",
 );
 assert.match(
   pixelEditorScript,
@@ -1144,7 +1206,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function pastePixelArt[\s\S]*floatingLayer = cloneFloatingLayer\(artworkClipboard\)[\s\S]*remapSkinTonePixels[\s\S]*skinToneSequence\(currentEntry\.codePoints\)/,
+  /async function pastePixelArt[\s\S]*clipboard = cloneFloatingLayer\(artworkClipboard\)[\s\S]*findSkinTonePasteHelper[\s\S]*floatingLayer = clipboard[\s\S]*remapSkinTonePixels[\s\S]*skinToneSequence\(targetEntry\.codePoints\)/,
   "pasted artwork must remain independent and adapt to the destination skin tones",
 );
 assert.match(
