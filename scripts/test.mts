@@ -1213,6 +1213,16 @@ assert.match(
   "Help and settings must provide an accessible Developer mode switch",
 );
 assert.match(
+  demoHtml,
+  /class="filter-field version-field developer-only"/,
+  "the Emoji version filter must be visible only in Developer mode",
+);
+assert.match(
+  demoScript,
+  /function ensureVersionSlider[\s\S]*classList\.add\('developer-only'\)/,
+  "cached version filters must also become developer-only",
+);
+assert.match(
   demoScript,
   /developerModeFromUrl[\s\S]*get\('developer'\) === '1'[\s\S]*function developerModeEnabled\(\)[\s\S]*developerModeFromUrl[\s\S]*developerMode === true[\s\S]*function toggleDeveloperMode[\s\S]*developerModeFromUrl = false[\s\S]*saveExplorerPreference\('developerMode'/,
   "Developer mode must support shared URL activation and persist explicit selection",
@@ -1226,6 +1236,11 @@ assert.match(
   demoScript,
   /popstate[\s\S]*developerModeFromUrl =[\s\S]*get\('developer'\) === '1'[\s\S]*renderDeveloperMode\(\)[\s\S]*applyDialogUrlState\(\)/,
   "browser navigation must restore Developer mode before applying dialog URL state",
+);
+assert.match(
+  demoScript,
+  /version:\s*developerModeEnabled\(\)[\s\S]*versionMode:[\s\S]*developerModeEnabled\(\)[\s\S]*if \(developerModeEnabled\(\)\) \{[\s\S]*params\.set\('version'/,
+  "version-specific URL state must remain visible through Developer mode",
 );
 assert.match(
   demoStyles,

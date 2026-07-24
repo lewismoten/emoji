@@ -431,14 +431,21 @@ function toggleDeveloperMode(event) {
   if (!enabled && exampleDialog?.open) {
     setEmojiDialogView('details');
   }
-  if (!enabled && orderMode === 'sequence') {
-    orderMode = 'grouped';
-    selectedSequenceType = '';
-    orderButtons?.forEach(button => {
-      const active = button.dataset.order === orderMode;
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed', String(active));
-    });
+  if (!enabled) {
+    versionModeSelector.value = 'through';
+    const latestReleased = versionManifests.at(-1)?.version;
+    if (latestReleased) versionSelector.value = latestReleased;
+    renderVersionModeToggle();
+    syncVersionRange();
+    if (orderMode === 'sequence') {
+      orderMode = 'grouped';
+      selectedSequenceType = '';
+      orderButtons?.forEach(button => {
+        const active = button.dataset.order === orderMode;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', String(active));
+      });
+    }
     if (items.length > 0) {
       renderCategoryFilters();
       drawList();
@@ -1860,10 +1867,13 @@ function ensureVersionSlider() {
   const existingOutput = document.getElementsByClassName(
     'version-range-value'
   )[0];
+  const existingField = existingRange?.closest('.version-field');
+  existingField?.classList.add('developer-only');
   if (existingRange && existingOutput)
     return { range: existingRange, output: existingOutput };
 
   let field = versionSelector.closest('.filter-field');
+  field?.classList.add('developer-only');
   if (field?.tagName === 'LABEL') {
     const replacement = document.createElement('div');
     replacement.className = `${field.className} version-field`;
@@ -1978,8 +1988,11 @@ function getUrlState() {
       : 'grouped';
   return {
     search: params.get('q') ?? '',
-    version: params.get('version') ?? '',
-    versionMode: params.get('mode') === 'selected' ? 'selected' : 'through',
+    version: developerModeEnabled() ? (params.get('version') ?? '') : '',
+    versionMode:
+      developerModeEnabled() && params.get('mode') === 'selected'
+        ? 'selected'
+        : 'through',
     group: params.get('group') ?? '',
     subGroup: params.get('subgroup') ?? '',
     sequenceType: sequenceTypeOrder.includes(params.get('sequenceType'))
@@ -2083,14 +2096,17 @@ function syncUrlState(method = 'replace', historyState = window.history.state) {
   const search = searchText.value.trim();
   if (search) params.set('q', search);
   const latestReleased = versionManifests.at(-1)?.version;
-  if (
-    versionSelector.value &&
-    (versionSelector.value !== latestReleased ||
-      versionModeSelector.value === 'selected')
-  ) {
-    params.set('version', versionSelector.value);
+  if (developerModeEnabled()) {
+    if (
+      versionSelector.value &&
+      (versionSelector.value !== latestReleased ||
+        versionModeSelector.value === 'selected')
+    ) {
+      params.set('version', versionSelector.value);
+    }
+    if (versionModeSelector.value === 'selected')
+      params.set('mode', 'selected');
   }
-  if (versionModeSelector.value === 'selected') params.set('mode', 'selected');
   if (orderMode !== 'sequence' && selectedGroup)
     params.set('group', selectedGroup);
   if (orderMode !== 'sequence' && selectedSubGroup) {
