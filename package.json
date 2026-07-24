@@ -63,6 +63,8 @@
     "demo:locales": "node ./scripts/generate-demo-pages.mjs",
     "demo:pwa": "node ./scripts/generate-service-worker.mjs",
     "demo:validate": "node ./scripts/validate-pages-site.mjs",
+    "website:build": "node ./scripts/publish-website.mjs",
+    "website:publish": "node ./scripts/publish-website.mjs --publish",
     "pixel-font:generate": "node ./pixel-font/scripts/generate-atlases.mjs",
     "pixel-font:build": "node ./pixel-font/scripts/build-assets.mjs",
     "pixel-font:package": "npm run pixel-font:build -- --fonts-only && node ./pixel-font/scripts/package-font.mjs",

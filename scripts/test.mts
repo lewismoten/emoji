@@ -228,6 +228,10 @@ const pagesValidator = await fs.readFile(
   path.join(root, "scripts/validate-pages-site.mjs"),
   "utf8",
 );
+const websitePublisher = await fs.readFile(
+  path.join(root, "scripts/publish-website.mjs"),
+  "utf8",
+);
 const fontPublishWorkflow = await fs.readFile(
   path.join(root, ".github/workflows/publish-font.yml"),
   "utf8",
@@ -570,8 +574,18 @@ assert.match(
 );
 assert.match(
   pagesWorkflow,
-  /emoji\.json manifest\.json[\s\S]*npm run demo:validate -- _site/,
-  "GitHub Pages must include the package manifest and validate every precache asset",
+  /npm run website:build -- --skip-build --url https:\/\/lewismoten\.github\.io\/emoji\/ --output _site/,
+  "GitHub Pages must reuse the validated website builder with its project URL",
+);
+assert.match(
+  websitePublisher,
+  /https:\/\/emoji\.lewismoten\.com\/[\s\S]*npm[\s\S]*bundle[\s\S]*pixel-font:build[\s\S]*--fonts-only[\s\S]*generate-demo-pages[\s\S]*generate-service-worker[\s\S]*validate-pages-site/,
+  "the custom-domain website builder must compile and validate the Explorer and fonts",
+);
+assert.match(
+  websitePublisher,
+  /EMOJI_DEPLOY_TARGET[\s\S]*EMOJI_SSH_IDENTITY[\s\S]*EMOJI_DEPLOY_TRANSPORT[\s\S]*publishWithTar[\s\S]*tar -xzf - -C[\s\S]*--no-xattrs[\s\S]*COPYFILE_DISABLE[\s\S]*rsyncArgs[\s\S]*--checksum[\s\S]*IdentitiesOnly=yes[\s\S]*--delete-delay[\s\S]*result\.status !== 127[\s\S]*publishWithTar/,
+  "website publishing must support rsync and tar-over-SSH fallback with an explicit identity",
 );
 assert.match(
   pagesValidator,

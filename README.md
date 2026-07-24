@@ -302,6 +302,48 @@ npm start
 Then open <http://localhost:5173/>. Localized routes such as
 <http://localhost:5173/index.ar.html> are generated in memory by Vite.
 
+## Publishing the website
+
+Build a complete, validated copy of the Emoji Explorer and Pixel Emoji fonts
+for <https://emoji.lewismoten.com/>:
+
+```bash
+npm run website:build
+```
+
+The deployable files are written to `build/website`. The command builds the
+package and fonts, generates every localized page and PWA manifest with the
+custom domain’s canonical URLs, creates the service worker, and verifies its
+precache assets and browser fonts.
+
+Publish over SSH with `rsync` by supplying your server destination:
+
+```bash
+npm run website:publish -- --target user@example.com:/var/www/emoji/
+```
+
+The current custom-domain server can be published with:
+
+```bash
+npm run website:publish -- \
+  --identity ~/.ssh/id_rsa \
+  --transport tar \
+  --target {username}@{host}:{path}
+```
+
+The SSH key’s passphrase prompt remains interactive. Set
+`EMOJI_DEPLOY_TARGET`, `EMOJI_SSH_IDENTITY`, and
+`EMOJI_DEPLOY_TRANSPORT=tar` to avoid repeating the destination, identity, and
+transport. The automatic transport also falls back to `tar` over SSH when the
+server does not have `rsync`. The tar stream excludes macOS extended attributes
+and provenance metadata. Existing remote files are preserved by default;
+`--delete` requires `rsync` and should only be used when the target directory
+is dedicated to this site. Use `--skip-build` to redeploy existing compiled
+assets, or override the canonical origin with `--url`.
+
+DNS, HTTPS certificates, and the web server’s document-root configuration are
+managed by the hosting provider and are intentionally outside this script.
+
 ## Data attribution and license
 
 The package source code is distributed under the [ISC license](LICENSE.md).
@@ -322,6 +364,10 @@ are not used to endorse this package.
 - `npm test` builds the package and verifies Unicode releases, public package
   specifiers, TypeScript declarations, localized demo pages, and PWA assets.
 - `npm start` runs the local Emoji Explorer.
+- `npm run website:build` creates and validates `build/website` for
+  `emoji.lewismoten.com`.
+- `npm run website:publish -- --target <destination>` builds and uploads the
+  site over `rsync`.
 - `npm run format` formats repository JSON files with Prettier.
 - `npm run cldr -- <locale>` downloads CLDR annotations and regenerates locale
   packs. A regional locale automatically generates its base language first.

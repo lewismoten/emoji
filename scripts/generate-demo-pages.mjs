@@ -2,7 +2,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const siteUrl = 'https://lewismoten.github.io/emoji/';
+const defaultSiteUrl = 'https://lewismoten.github.io/emoji/';
+const normalizeSiteUrl = value => `${value.replace(/\/+$/, '')}/`;
+const siteUrl = normalizeSiteUrl(
+  process.env.EMOJI_SITE_URL ?? defaultSiteUrl
+);
 export const locales = ['en', 'en-GB', 'es', 'hi', 'zh', 'ar'];
 const rtlLocales = new Set(['ar']);
 const template = fs.readFileSync('index.html', 'utf8');
@@ -86,6 +90,7 @@ export const renderPage = (
     htmlLocale.startsWith('ar') ? { numberingSystem: 'arab' } : {}
   ).format(0);
   return template
+    .replaceAll(defaultSiteUrl, siteUrl)
     .replace(
       /<link\b(?=[^>]*\brel="alternate")(?=[^>]*\bhreflang="[^"]+")[^>]*\/?>\s*/g,
       ''
@@ -235,6 +240,10 @@ export const generateDemoPages = (outputDirectory = '.') => {
 ${locales.map(locale => `  <url><loc>${pageUrl(locale)}</loc></url>`).join('\n')}
 </urlset>\n`;
   fs.writeFileSync(path.join(outputDirectory, 'sitemap.xml'), sitemap);
+  fs.writeFileSync(
+    path.join(outputDirectory, 'robots.txt'),
+    `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}sitemap.xml\n`
+  );
 
   console.info(
     `Generated the en-US root and ${locales.length} localized demo pages in ${outputDirectory}.`
