@@ -597,12 +597,12 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /pixelFontManifestUrl[\s\S]*fetch\(\s*pixelFontManifestUrl[\s\S]*paintedPixelEmojiKeys = new Set/,
+  /pixelFontManifestUrl[\s\S]*fetch\(\s*pixelFontManifestUrl[\s\S]*updatePixelArtworkManifest\(pixelFontManifest\)/,
   "the demo must discover which emoji have painted pixel-font glyphs",
 );
 assert.match(
   demoScript,
-  /proposedPixelEmojiKeys = new Set[\s\S]*releaseStatus === 'proposed'[\s\S]*has-proposed-pixel-art/,
+  /function updatePixelArtworkManifest[\s\S]*proposedPixelEmojiKeys = new Set[\s\S]*releaseStatus === 'proposed'/,
   "the demo must distinguish proposed artwork from released pixel glyphs",
 );
 assert.match(
@@ -652,7 +652,7 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /0x200D[\s\S]*zeroWidthJoiner/,
+  /0x200D[\s\S]*zeroWidthJoiner/i,
   "emoji compositions must identify zero-width joiners",
 );
 assert.match(
@@ -777,13 +777,38 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /return point === 0x200D \|\| point === 0xFE0E \|\| point === 0xFE0F/,
+  /return point === 0x200D \|\| point === 0xFE0E \|\| point === 0xFE0F/i,
   "condensed compositions must hide ZWJ and presentation selectors",
 );
 assert.match(
   demoScript,
-  /function createCompositionPart[\s\S]*findCompositionArtworkKey\(hex\)[\s\S]*applyPixelArtworkClass\(glyph, artworkEmojiKey\)/,
+  /function createCompositionPart[\s\S]*findCompositionArtworkKey\(hex\)[\s\S]*applyStandalonePixelArtwork\(glyph, artworkEmojiKey, point\)/,
   "composition components must use painted artwork even when linking to themselves is suppressed",
+);
+assert.match(
+  demoScript,
+  /versionKeys = new Map\(\[\.\.\.keys, \.\.\.proposedKeys\]\);[\s\S]*rebuildEmojiCodePointLookup\(\);/,
+  "proposed emoji must be added to the sequence artwork lookup",
+);
+assert.match(
+  demoScript,
+  /function isZeroWidthEmojiComponent[\s\S]*0x1F3FB[\s\S]*0x1F9B3/i,
+  "font shaping components must include skin-tone and hair modifiers",
+);
+assert.match(
+  demoScript,
+  /function applyStandalonePixelArtwork[\s\S]*isZeroWidthEmojiComponent\(point\)[\s\S]*pixelArtworkUrlByEmojiKey/,
+  "standalone sequence components must use generated artwork instead of zero-width shaping glyphs",
+);
+assert.match(
+  demoScript,
+  /function updateModifierPixelArtwork[\s\S]*applyStandalonePixelArtwork/,
+  "modifier filter swatches must use standalone generated artwork",
+);
+assert.match(
+  demoStyles,
+  /html\[data-pixel-font\][\s\S]*has-standalone-pixel-art[\s\S]*--standalone-pixel-art[\s\S]*image-rendering:\s*pixelated/,
+  "standalone component artwork must only replace native emoji in pixel-font mode",
 );
 assert.match(
   demoScript,
