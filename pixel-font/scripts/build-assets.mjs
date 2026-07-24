@@ -310,7 +310,7 @@ if (proposedGlyphs.length > 0) {
 }
 
 const python = await pythonCommand();
-await run(python, [path.join(root, "tests", "font-sequences.py")]);
+await run(python, [path.join(root, "tests", "font-sequences.test.py")]);
 await run(python, [
   path.join(workspace, "scripts", "compile-font.py"),
   path.join(buildDirectory, "font-source.json"),
