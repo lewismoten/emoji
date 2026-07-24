@@ -53,7 +53,7 @@
   "scripts": {
     "clean": "rm -rf build && rm -rf dist",
     "generate": "node ./scripts/generate-library.mjs && node ./scripts/generate-explorer-css.mjs",
-    "build": "npm run clean && npm run generate && tsc",
+    "build": "npm run clean && npm run generate && tsc && tsc -p src/explorer.tsconfig.json",
     "bundle": "npm run build && node ./scripts/generate-browser.mjs && npx rollup -c ./build/rollup.config.js --silent",
     "prepublishOnly": "npm run bundle",
     "start": "vite",

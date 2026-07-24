@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import ts from 'typescript';
 
 const sourceDirectory = 'library';
 const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
@@ -255,6 +256,17 @@ write(
     ])
   })
 );
+
+const explorerSource = fs.readFileSync('src/index.ts', 'utf8');
+const explorerBuild = ts.transpileModule(explorerSource, {
+  compilerOptions: {
+    target: ts.ScriptTarget.ESNext,
+    module: ts.ModuleKind.ESNext,
+    sourceMap: false
+  },
+  fileName: 'src/index.ts'
+});
+write('index.js', explorerBuild.outputText.trimEnd());
 
 console.log(
   `Generated ${emoji.length} emoji across popular, all, ${categories.length} categories, ${categories.reduce((count, category) => count + category.subcategories.length, 0)} category subpacks, and ${Object.keys(variationPacks).length} variation packs.`

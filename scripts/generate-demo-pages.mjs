@@ -105,7 +105,7 @@ export const renderPage = (
     )
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
     .replace(
-      /<script\b(?=[^>]*\bsrc="\.\/index\.js")[^>]*><\/script>/,
+      /<script\b(?=[^>]*\bsrc="\.\/src\/index\.ts")[^>]*><\/script>/,
       `<script defer src="./index.js?v=${assetVersion}" type="module"></script>`
     )
     .replace(

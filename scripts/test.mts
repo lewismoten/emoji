@@ -118,16 +118,16 @@ const structureLimits = {
 const legacyLineBudgets: Record<string, number> = {
   "README.md": 410,
   "index.css": 3113,
-  "index.js": 4675,
   "pixel-editor.js": 2455,
   "pixel-font/PIXEL_EMOJI.md": 504,
   "pixel-font/scripts/build-assets.mjs": 940,
   "pixel-font/scripts/generate-atlases.mjs": 382,
   "pixel-font/scripts/validate-atlases.mjs": 356,
-  "scripts/test.mts": 2936,
+  "scripts/test.mts": 2959,
+  "src/index.ts": 4676,
 };
 const legacyFileCountBudgets: Record<string, number> = {
-  ".": 25,
+  ".": 24,
   "pixel-font/atlases/animals-and-nature": 11,
   "pixel-font/atlases/modifiers/skin-tone/people-and-body": 29,
   "pixel-font/atlases/objects": 23,
@@ -139,13 +139,14 @@ const legacyFileCountBudgets: Record<string, number> = {
   versions: 18,
 };
 const legacyDirectoryCountBudgets: Record<string, number> = {
-  ".": 11,
+  ".": 12,
   "pixel-font/atlases": 11,
 };
 const generatedStructurePrefixes = ["dist/", "explorer/", "library/"];
 const generatedStructureFiles = new Set([
   "emoji.json",
   "emoji.ts",
+  "index.js",
   "pixel-font/ATLASES.md",
 ]);
 const generatedFilenamePrefixes = [
@@ -329,7 +330,10 @@ const webAppManifest = await readJson<WebAppManifest>("manifest.webmanifest");
 const pixelAtlasManifest = await readJson<PixelAtlasManifest>(
   "pixel-font/atlases/manifest.json",
 );
-const packageJson = await readJson<{ version: string }>("package.json");
+const packageJson = await readJson<{
+  version: string;
+  scripts: Record<string, string>;
+}>("package.json");
 const serviceWorker = await fs.readFile(
   path.join(root, "build/demo-pages/service-worker.js"),
   "utf8",
@@ -343,7 +347,11 @@ const arabicDemo = await fs.readFile(
   "utf8",
 );
 const demoHtml = await fs.readFile(path.join(root, "index.html"), "utf8");
-const demoScript = await fs.readFile(path.join(root, "index.js"), "utf8");
+const demoScript = await fs.readFile(path.join(root, "src/index.ts"), "utf8");
+const explorerGeneratorScript = await fs.readFile(
+  path.join(root, "scripts/generate-library.mjs"),
+  "utf8",
+);
 const pixelEditorScript = await fs.readFile(
   path.join(root, "pixel-editor.js"),
   "utf8",
@@ -444,6 +452,21 @@ assert.equal(
   new Set(emoji.map((item) => item.key)).size,
   emoji.length,
   "emoji keys must be unique",
+);
+assert.match(
+  demoHtml,
+  /src="\.\/src\/index\.ts"/,
+  "Vite must use the TypeScript Explorer entry point",
+);
+assert.match(
+  explorerGeneratorScript,
+  /readFileSync\('src\/index\.ts'[\s\S]*ts\.transpileModule[\s\S]*write\('index\.js'/,
+  "the deployment entry point must be generated from TypeScript",
+);
+assert.match(
+  packageJson.scripts.build,
+  /tsc -p src\/explorer\.tsconfig\.json/,
+  "package builds must type-check the Explorer source",
 );
 assert.ok(
   emoji.every((item) => Number.isInteger(item.order)),
