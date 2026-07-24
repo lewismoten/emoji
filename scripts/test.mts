@@ -579,6 +579,11 @@ assert.match(
   "Pages validation must reject a deployment with any missing precache asset",
 );
 assert.match(
+  pagesValidator,
+  /manifestFiles[\s\S]*JSON\.parse[\s\S]*has no web app manifest link[\s\S]*fontSignatures[\s\S]*wOF2/,
+  "Pages validation must parse localized manifests and verify deployed web-font signatures",
+);
+assert.match(
   pixelFontBuildScript,
   /atlasImage:\s*sheet\.image[\s\S]*atlasWidth:\s*mapping\.imageWidth[\s\S]*x:\s*entry\.x/,
   "font manifests must retain source atlas coordinates for browser previews",

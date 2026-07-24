@@ -426,5 +426,52 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         assert {
             record.platformID for record in web_font["name"].names
         } == {3}
+        web_variation_cmap = next(
+            table
+            for table in web_font["cmap"].tables
+            if table.format == 14
+        )
+        assert web_variation_cmap.uvsDict[0xFE0F]
+
+    no_variation_source_path = temporary / "no-variation-font-source.json"
+    no_variation_output_directory = temporary / "no-variation-font"
+    no_variation_source_path.write_text(
+        json.dumps(
+            {
+                "familyName": "Pixel Emoji No Variation Test",
+                "cellSize": 12,
+                "glyphs": [
+                    {
+                        "key": "testEmoji",
+                        "codePoints": ["1FAE8"],
+                        "privateUseCodePoint": "F0000",
+                        "pixels": pixels_for_variation(0),
+                    }
+                ],
+            }
+        )
+    )
+    try:
+        sys.argv = [
+            str(compiler_path),
+            str(no_variation_source_path),
+            str(no_variation_output_directory),
+        ]
+        compiler.main()
+    finally:
+        sys.argv = original_arguments
+
+    for font_name in (
+        "pixel-emoji.ttf",
+        "pixel-emoji.woff",
+        "pixel-emoji.woff2",
+    ):
+        no_variation_font = TTFont(
+            no_variation_output_directory / font_name
+        )
+        assert all(
+            table.format != 14
+            for table in no_variation_font["cmap"].tables
+        )
 
 print("Verified required ligature generation for emoji sequences.")
