@@ -1,0 +1,33 @@
+{
+  "description": "A compact 12×12 color fallback font for newer Unicode emoji",
+  "license": "ISC",
+  "author": "Lewis Moten",
+  "homepage": "https://github.com/lewismoten/emoji/tree/main/pixel-font",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lewismoten/emoji.git",
+    "directory": "pixel-font"
+  },
+  "keywords": [
+    "emoji",
+    "font",
+    "pixel",
+    "unicode",
+    "woff2",
+    "color-font",
+    "fallback"
+  ],
+  "style": "./font/pixel-emoji.css",
+  "exports": {
+    ".": "./font/pixel-emoji.css",
+    "./css": "./font/pixel-emoji.css",
+    "./manifest": "./manifest.json",
+    "./manifest.json": "./manifest.json",
+    "./font/*": "./font/*",
+    "./proposed/*": "./font/proposed/*"
+  },
+  "files": ["font", "manifest.json", "README.md", "LICENSE.md", "NOTICE.md"],
+  "publishConfig": {
+    "access": "public"
+  }
+}

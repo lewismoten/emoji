@@ -14,6 +14,7 @@ const workspace = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "..",
 );
+const root = path.resolve(workspace, "..");
 const atlasDirectory = path.join(workspace, "atlases");
 const buildDirectory = path.join(workspace, "build");
 const pngDirectory = path.join(buildDirectory, "png");
@@ -23,6 +24,9 @@ const proposedFontDirectory = path.join(fontDirectory, "proposed");
 const fontsOnly = process.argv.includes("--fonts-only");
 const manifest = JSON.parse(
   await fs.readFile(path.join(atlasDirectory, "manifest.json"), "utf8"),
+);
+const versionManifest = JSON.parse(
+  await fs.readFile(path.join(root, "versions", "manifest.json"), "utf8"),
 );
 const glyphs = [];
 const editorGlyphs = {};
@@ -155,9 +159,41 @@ const proposedSupportGlyphs = releasedGlyphs.filter((glyph) => {
   );
 });
 const proposedFontGlyphs = [...proposedSupportGlyphs, ...proposedGlyphs];
+const releasedPaintedKeys = new Set(releasedGlyphs.map((glyph) => glyph.key));
+const proposedPaintedKeys = new Set(proposedGlyphs.map((glyph) => glyph.key));
+const releasedCoverage = await Promise.all(
+  versionManifest.versions.map(async (version) => {
+    const keys = JSON.parse(
+      await fs.readFile(path.join(root, "versions", version.file), "utf8"),
+    );
+    return coverageEntry(version, keys, releasedPaintedKeys);
+  }),
+);
+const proposedCoverage = await Promise.all(
+  (versionManifest.proposed ?? []).map(async (version) => {
+    const proposal = JSON.parse(
+      await fs.readFile(path.join(root, version.file), "utf8"),
+    );
+    return coverageEntry(
+      version,
+      (proposal.emoji ?? []).map((emoji) => emoji.key),
+      proposedPaintedKeys,
+    );
+  }),
+);
 const buildManifest = {
   schemaVersion: 1,
   familyName: manifest.familyName,
+  fontVersion: manifest.fontVersion,
+  packageName: manifest.packageName,
+  author: manifest.author,
+  url: manifest.url,
+  copyright: manifest.copyright,
+  license: manifest.license,
+  licenseUrl: manifest.licenseUrl,
+  embeddingPermissions: manifest.embeddingPermissions,
+  releasedCoverage,
+  proposedCoverage,
   cellSize: manifest.cellSize,
   glyphCount: glyphs.length,
   releasedGlyphCount: releasedGlyphs.length,
@@ -224,12 +260,26 @@ await writeJson(path.join(buildDirectory, "editor-manifest.json"), {
 });
 await writeJson(path.join(buildDirectory, "font-source.json"), {
   familyName: manifest.familyName,
+  fontVersion: manifest.fontVersion,
+  author: manifest.author,
+  url: manifest.url,
+  copyright: manifest.copyright,
+  license: manifest.license,
+  licenseUrl: manifest.licenseUrl,
+  embeddingPermissions: manifest.embeddingPermissions,
   cellSize: manifest.cellSize,
   glyphs: releasedGlyphs,
 });
 if (proposedGlyphs.length > 0) {
   await writeJson(path.join(buildDirectory, "proposed-font-source.json"), {
     familyName: `${manifest.familyName} Proposed`,
+    fontVersion: manifest.fontVersion,
+    author: manifest.author,
+    url: manifest.url,
+    copyright: manifest.copyright,
+    license: manifest.license,
+    licenseUrl: manifest.licenseUrl,
+    embeddingPermissions: manifest.embeddingPermissions,
     cellSize: manifest.cellSize,
     glyphs: proposedFontGlyphs,
   });
@@ -575,6 +625,27 @@ function countBySequenceType(entries) {
         entries.filter((entry) => entry.sequenceType === type).length,
       ]),
   );
+}
+
+function coverageEntry(version, keys, paintedKeys) {
+  const paintedGlyphCount = keys.filter((key) => paintedKeys.has(key)).length;
+  const trackedGlyphCount = keys.length;
+  return {
+    version: version.version,
+    ...(version.released ? { released: version.released } : {}),
+    ...(version.status ? { status: version.status } : {}),
+    ...(version.stage ? { stage: version.stage } : {}),
+    ...(version.expectedRelease
+      ? { expectedRelease: version.expectedRelease }
+      : {}),
+    trackedGlyphCount,
+    paintedGlyphCount,
+    coverage:
+      trackedGlyphCount === 0
+        ? 0
+        : Number(((paintedGlyphCount / trackedGlyphCount) * 100).toFixed(1)),
+    complete: paintedGlyphCount === trackedGlyphCount,
+  };
 }
 
 function analyzeColorMasks(entries) {

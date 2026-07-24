@@ -1,0 +1,82 @@
+name: Publish Pixel Emoji font
+
+on:
+  push:
+    tags: ["pixel-emoji-v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Confirm tag is on main
+        if: github.ref_type == 'tag'
+        run: git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: pixel-font/requirements.txt
+      - run: npm ci
+      - run: python -m pip install -r pixel-font/requirements.txt
+      - run: npm run pixel-font:package
+      - name: Confirm tag matches font version
+        if: github.ref_type == 'tag'
+        run: node -e "const fs=require('fs');const version=JSON.parse(fs.readFileSync('pixel-font/config.json')).fontVersion;const expected='pixel-emoji-v'+version;if(process.env.GITHUB_REF_NAME!==expected)throw new Error('Expected tag '+expected)"
+      - name: Validate npm package
+        run: npm pack --dry-run ./pixel-font/build/package
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pixel-emoji-package
+          path: |
+            pixel-font/build/package
+            pixel-font/build/release
+
+  publish-npm:
+    if: github.ref_type == 'tag'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: pixel-emoji-package
+          path: pixel-font/build
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org/
+      - name: Install npm with trusted-publishing support
+        run: npm install --global npm@11.5.1
+      - run: npm publish ./pixel-font/build/package --access public
+
+  publish-github:
+    if: github.ref_type == 'tag'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: pixel-emoji-package
+          path: pixel-font/build
+      - name: Create release archive
+        working-directory: pixel-font/build/package
+        run: zip -r "../release/pixel-emoji-${GITHUB_REF_NAME#pixel-emoji-v}.zip" .
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" pixel-font/build/release/* --generate-notes --title "Pixel Emoji ${GITHUB_REF_NAME#pixel-emoji-v}"

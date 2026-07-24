@@ -235,6 +235,13 @@ with tempfile.TemporaryDirectory() as temporary_directory:
     }
     assert feature_tags == {"rlig"}
     assert font["post"].formatType == 3.0
+    assert font["OS/2"].fsType == 0
+    assert font["head"].fontRevision == 1.0
+    assert {
+        record.toUnicode()
+        for record in font["name"].names
+        if record.nameID == 5
+    } == {"Version 1.0.0"}
     assert {record.platformID for record in font["name"].names} == {1, 3}
     cmap = font.getBestCmap()
 

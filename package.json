@@ -64,6 +64,8 @@
     "demo:pwa": "node ./scripts/generate-service-worker.mjs",
     "pixel-font:generate": "node ./pixel-font/scripts/generate-atlases.mjs",
     "pixel-font:build": "node ./pixel-font/scripts/build-assets.mjs",
+    "pixel-font:package": "npm run pixel-font:build -- --fonts-only && node ./pixel-font/scripts/package-font.mjs",
+    "pixel-font:version": "node ./pixel-font/scripts/version-font.mjs",
     "pixel-font:validate": "node ./pixel-font/scripts/validate-atlases.mjs",
     "unicode": "node ./scripts/update-unicode.mjs",
     "unicode:proposed": "node ./scripts/download-proposed-unicode.mjs",

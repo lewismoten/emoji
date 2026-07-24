@@ -69,6 +69,18 @@ assert(
 );
 assert(manifest.url === config.url, "Manifest URL differs from config");
 assert(
+  manifest.fontVersion === config.fontVersion,
+  "Manifest font version differs from config",
+);
+assert(
+  manifest.packageName === config.packageName,
+  "Manifest package name differs from config",
+);
+assert(
+  manifest.embeddingPermissions === "installable",
+  "Font embedding permissions must remain installable",
+);
+assert(
   manifest.sequenceGlyphCount ===
     eligible.filter((item) => item.sequenceType !== "single").length,
   "Manifest sequence glyph count is incorrect",

@@ -247,7 +247,18 @@ entry in the currently tracked Emoji 18.0 beta draft.
 Released and proposed characters are kept in separate font families so
 applications can opt into draft coverage without treating it as stable. The
 GitHub Pages workflow builds the fonts from the source atlases; compiled fonts
-are not included in the npm package or committed under `pixel-font/build/`.
+are not included in the `@lewismoten/emoji` data package or committed under
+`pixel-font/build/`.
+
+For websites, install the dedicated font package:
+
+```bash
+npm install @lewismoten/pixel-emoji
+```
+
+```css
+@import "@lewismoten/pixel-emoji";
+```
 
 **Released:** [TTF](https://lewismoten.github.io/emoji/pixel-font/build/font/pixel-emoji.ttf) ·
 [WOFF2](https://lewismoten.github.io/emoji/pixel-font/build/font/pixel-emoji.woff2) ·
@@ -314,6 +325,10 @@ are not used to endorse this package.
   manifest, and preview output.
 - `npm run pixel-font:build -- --fonts-only` creates the deployment font files
   and manifests without individual PNG or SVG glyph output.
+- `npm run pixel-font:package` creates the fonts-only build, standalone npm
+  package, and versioned GitHub Release assets.
+- `npm run pixel-font:version -- patch` bumps the independent font version
+  without changing the JavaScript package version.
 
 Update to a future released version with:
 

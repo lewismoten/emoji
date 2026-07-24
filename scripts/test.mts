@@ -203,8 +203,21 @@ const pixelFontCompiler = await fs.readFile(
   path.join(root, "pixel-font/scripts/compile-font.py"),
   "utf8",
 );
+const pixelFontPackager = await fs.readFile(
+  path.join(root, "pixel-font/scripts/package-font.mjs"),
+  "utf8",
+);
+const pixelFontConfig = await readJson<{
+  fontVersion: string;
+  packageName: string;
+  embeddingPermissions: string;
+}>("pixel-font/config.json");
 const pagesWorkflow = await fs.readFile(
   path.join(root, ".github/workflows/pages.yml"),
+  "utf8",
+);
+const fontPublishWorkflow = await fs.readFile(
+  path.join(root, ".github/workflows/publish-font.yml"),
   "utf8",
 );
 const pixelAtlasReadme = await fs.readFile(
@@ -413,6 +426,36 @@ assert.match(
   pixelFontCompiler,
   /silhouette_keys[\s\S]*if glyph_source\["key"\] not in silhouette_keys:[\s\S]*color_glyphs\[base_name\] = layers[\s\S]*if color_glyphs:/,
   "black-only font glyphs must remain monochrome outlines outside COLR",
+);
+assert.equal(
+  pixelFontConfig.embeddingPermissions,
+  "installable",
+  "Pixel Emoji must permit installable and editable document embedding",
+);
+assert.match(
+  pixelFontCompiler,
+  /embedding_permissions[\s\S]*fsType=0[\s\S]*font_revision\(font_version\)/,
+  "font compilation must apply installable embedding and the configured semantic version",
+);
+assert.equal(
+  pixelFontConfig.packageName,
+  "@lewismoten/pixel-emoji",
+  "Pixel Emoji must publish independently from the emoji data package",
+);
+assert.match(
+  pixelFontPackager,
+  /package\.template\.json[\s\S]*buildManifest\.fontVersion[\s\S]*embeddingPermissions[\s\S]*pixel-emoji-proposed-[\s\S]*renderPackageStylesheet/,
+  "the font packager must validate metadata and retain separate proposed assets",
+);
+assert.match(
+  pixelFontBuildScript,
+  /releasedCoverage[\s\S]*proposedCoverage[\s\S]*paintedGlyphCount[\s\S]*trackedGlyphCount[\s\S]*complete/,
+  "the published font manifest must report released and proposed coverage by Unicode version",
+);
+assert.match(
+  fontPublishWorkflow,
+  /pixel-emoji-v\*[\s\S]*npm run pixel-font:package[\s\S]*npm publish \.\/pixel-font\/build\/package[\s\S]*gh release create/,
+  "font tags must publish both the standalone npm package and GitHub Release assets",
 );
 assert.match(
   pixelFontBuildScript,

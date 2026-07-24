@@ -21,6 +21,22 @@ def main():
     output_directory.mkdir(parents=True, exist_ok=True)
 
     family_name = source["familyName"]
+    font_version = source.get("fontVersion", "1.0.0")
+    author = source.get("author", "Lewis Moten")
+    author_url = source.get("url", "https://lewismoten.com")
+    copyright_notice = source.get(
+        "copyright", f"Copyright (c) 2026, {author}"
+    )
+    license_name = source.get("license", "ISC")
+    license_url = source.get(
+        "licenseUrl",
+        "https://github.com/lewismoten/emoji/blob/main/LICENSE.md",
+    )
+    embedding_permissions = source.get("embeddingPermissions", "installable")
+    if embedding_permissions != "installable":
+        raise ValueError(
+            "Pixel Emoji must use installable embedding permissions"
+        )
     cell_size = source["cellSize"]
     if UNITS_PER_EM % cell_size != 0:
         raise ValueError(f"{cell_size}-pixel cells do not divide {UNITS_PER_EM} font units")
@@ -163,10 +179,17 @@ def main():
         {
             "familyName": family_name,
             "styleName": "Regular",
-            "uniqueFontIdentifier": f"{family_name} Regular 1.000",
+            "uniqueFontIdentifier": f"{family_name} Regular {font_version}",
             "fullName": f"{family_name} Regular",
             "psName": re.sub(r"[^A-Za-z0-9-]", "", family_name.replace(" ", "-")) + "-Regular",
-            "version": "Version 1.000",
+            "version": f"Version {font_version}",
+            "copyright": copyright_notice,
+            "manufacturer": author,
+            "designer": author,
+            "vendorURL": author_url,
+            "designerURL": author_url,
+            "licenseDescription": license_name,
+            "licenseInfoURL": license_url,
         }
     )
     builder.setupOS2(
@@ -174,11 +197,13 @@ def main():
         sTypoDescender=descender,
         usWinAscent=ascender,
         usWinDescent=abs(descender),
+        fsType=0,
     )
     builder.setupPost()
     builder.setupMaxp()
 
     font = builder.font
+    font["head"].fontRevision = font_revision(font_version)
     font["post"].formatType = 3.0
     if color_glyphs:
         font["COLR"] = buildCOLR(color_glyphs, version=0, glyphMap=font.getReverseGlyphMap())
@@ -223,6 +248,16 @@ def is_black_silhouette(pixels):
         if pixels[offset + 3] > 0
     ]
     return bool(visible) and all(pixel[0:3] == [0, 0, 0] for pixel in visible)
+
+
+def font_revision(version):
+    match = re.fullmatch(r"(\d+)\.(\d+)\.(\d+)", version)
+    if not match:
+        raise ValueError(f"Invalid semantic font version: {version}")
+    major, minor, patch = (int(value) for value in match.groups())
+    if minor > 99 or patch > 99:
+        raise ValueError("Font version minor and patch values must be at most 99")
+    return major + minor / 100 + patch / 10000
 
 
 def validate_color_layer_metrics(font, color_glyphs):
