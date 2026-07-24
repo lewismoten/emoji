@@ -896,6 +896,16 @@ assert.match(
   "large emoji sections must defer off-screen rendering when supported",
 );
 assert.match(
+  demoStyles,
+  /html:has\(dialog:modal\),[\s\S]*body:has\(dialog:modal\)[\s\S]*overflow:\s*hidden;/,
+  "page scrolling must lock only while a true modal dialog is active",
+);
+assert.doesNotMatch(
+  demoStyles,
+  /html:has\(dialog\[open\]\)/,
+  "a stale dialog open attribute must not disable main-list scrolling",
+);
+assert.match(
   demoHtml,
   /id="pixel-font-stylesheet"/,
   "demo must load the generated pixel font",
