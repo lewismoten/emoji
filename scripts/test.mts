@@ -933,6 +933,16 @@ assert.match(
 );
 assert.match(
   demoHtml,
+  /initialDeveloperMode &&[\s\S]*initialUrlParams\.get\("order"\) === "sequence"[\s\S]*dataset\.initialOrder = "sequence"/,
+  "sequence-order URLs must be identified before the first paint",
+);
+assert.match(
+  demoStyles,
+  /\.app-loading\[data-initial-order="sequence"\][\s\S]*\.basic-filter-grid[\s\S]*> \.filter-field[\s\S]*display: none/,
+  "sequence-order URLs must not reserve the grouped-filter row while loading",
+);
+assert.match(
+  demoHtml,
   /class="show-pixel-editor developer-only"/,
   "emoji details must provide a pixel-editor mode",
 );
@@ -1243,7 +1253,7 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /initialPreferences\.developerMode === true[\s\S]*URLSearchParams\(location\.search\)[\s\S]*data-developer-mode/,
+  /initialUrlParams = new URLSearchParams\(location\.search\)[\s\S]*initialDeveloperMode[\s\S]*initialPreferences\.developerMode === true[\s\S]*initialUrlParams\.get\("developer"\)[\s\S]*data-developer-mode/,
   "Developer mode must be applied before the fixed browse footer is painted",
 );
 assert.match(

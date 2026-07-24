@@ -180,6 +180,9 @@ h1 {
   visibility: hidden;
   pointer-events: none;
 }
+.app-loading[data-initial-order="sequence"] .basic-filter-grid > .filter-field {
+  display: none;
+}
 .app-loading .about-explorer {
   display: none;
 }

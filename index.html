@@ -72,13 +72,19 @@
             "{}",
         );
       } catch {}
+      const initialUrlParams = new URLSearchParams(location.search);
       if (initialPreferences.pixelFont === false)
         document.documentElement.dataset.emojiFont = "system";
-      if (
+      const initialDeveloperMode =
         initialPreferences.developerMode === true ||
-        new URLSearchParams(location.search).get("developer") === "1"
-      )
+        initialUrlParams.get("developer") === "1";
+      if (initialDeveloperMode)
         document.documentElement.setAttribute("data-developer-mode", "");
+      if (
+        initialDeveloperMode &&
+        initialUrlParams.get("order") === "sequence"
+      )
+        document.documentElement.dataset.initialOrder = "sequence";
     </script>
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Emoji Explorer" />
