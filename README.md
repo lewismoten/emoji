@@ -12,8 +12,7 @@ Emoji 18.0 candidates are kept separate from released emoji.
 
 [Explore the emoji](https://lewismoten.github.io/emoji/) ·
 [View the package on npm](https://www.npmjs.com/package/@lewismoten/emoji) ·
-[Follow the Pixel Emoji fallback font](pixel-font/README.md), including its
-separate fall-forward coverage for proposed Unicode versions.
+[Download the Pixel Emoji fallback font](pixel-font/README.md)
 
 ## Installation
 
@@ -238,6 +237,28 @@ Or copy `dist/esm/index.js` and serve it with an application:
 </script>
 ```
 
+## Pixel Emoji fallback font
+
+[Pixel Emoji](pixel-font/README.md) is a compact 12×12 color fallback font for
+new emoji that older operating-system fonts cannot display. Its custom artwork
+currently covers every entry introduced with Emoji 16.0 and 17.0, plus every
+entry in the currently tracked Emoji 18.0 beta draft.
+
+Released and proposed characters are kept in separate font families so
+applications can opt into draft coverage without treating it as stable. The
+GitHub Pages workflow builds the fonts from the source atlases; compiled fonts
+are not included in the npm package or committed under `pixel-font/build/`.
+
+**Released:** [TTF](https://lewismoten.github.io/emoji/pixel-font/build/font/pixel-emoji.ttf) ·
+[WOFF2](https://lewismoten.github.io/emoji/pixel-font/build/font/pixel-emoji.woff2) ·
+**Proposed:** [TTF](https://lewismoten.github.io/emoji/pixel-font/build/font/proposed/pixel-emoji.ttf) ·
+[WOFF2](https://lewismoten.github.io/emoji/pixel-font/build/font/proposed/pixel-emoji.woff2) ·
+[Web-font CSS](https://lewismoten.github.io/emoji/pixel-font/build/font/pixel-emoji.css)
+
+See the [font documentation and complete coverage table](pixel-font/README.md)
+for WOFF downloads, design constraints, atlas details, sequence handling, and
+local build instructions.
+
 ## Emoji Explorer demo
 
 The [live Emoji Explorer](https://lewismoten.github.io/emoji/) demonstrates
@@ -286,6 +307,13 @@ are not used to endorse this package.
 - `npm run unicode -- <version>` downloads a released Unicode Emoji version and
   regenerates the library data.
 - `npm run unicode:proposed` downloads the current official Unicode draft data.
+- `npm run pixel-font:generate` updates pixel-font atlas assignments without
+  creating empty PNG sheets.
+- `npm run pixel-font:validate` verifies every active atlas assignment.
+- `npm run pixel-font:build` creates the complete local font, glyph-image,
+  manifest, and preview output.
+- `npm run pixel-font:build -- --fonts-only` creates the deployment font files
+  and manifests without individual PNG or SVG glyph output.
 
 Update to a future released version with:
 
