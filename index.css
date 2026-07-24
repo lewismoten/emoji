@@ -2065,6 +2065,7 @@ kbd {
   display: flex;
   flex-wrap: wrap;
   padding: 1rem;
+  contain: layout style;
 }
 .list.is-loading {
   min-height: 18rem;

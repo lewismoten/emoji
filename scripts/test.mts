@@ -1227,6 +1227,16 @@ assert.match(
   "large emoji result sets must render in cancellable, paint-friendly chunks",
 );
 assert.match(
+  demoScript,
+  /function flushEmojiCellFragment[\s\S]*DocumentFragment[\s\S]*function asItem[\s\S]*flushEmojiCellFragment\(state\)[\s\S]*state\.cellFragment\.appendChild\(div\)[\s\S]*function asSequenceItem[\s\S]*state\.cellFragment\.appendChild/,
+  "incremental result chunks must batch emoji cells outside the live document",
+);
+assert.match(
+  demoStyles,
+  /\.list\s*\{[^}]*contain:\s*layout style;/,
+  "emoji result layout must be contained from the surrounding interface",
+);
+assert.match(
   demoHtml,
   /class="basic-filter-grid"[\s\S]*class="filter-options"[\s\S]*class="advanced-filters"/,
   "category shortcuts must remain available outside Advanced filters",

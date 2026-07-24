@@ -3294,6 +3294,12 @@ const asSubGroup = (name, direct) => {
   div.appendChild(divEmoji);
   return div;
 };
+function flushEmojiCellFragment(state) {
+  if (!state.cellFragment?.hasChildNodes()) return;
+  const target = state.emoji ?? state.subGroupElement?.lastElementChild;
+  target?.appendChild(state.cellFragment);
+  state.cellFragment = document.createDocumentFragment();
+}
 function asItem(state, key) {
   var meta = byId[key] ?? { group: UNASSIGNED, subGroups: UNASSIGNED };
   const displaySubGroup =
@@ -3305,6 +3311,7 @@ function asItem(state, key) {
 
   if (hasGroups) {
     if (state.group !== meta.group) {
+      flushEmojiCellFragment(state);
       state.groupElement = asGroup(meta.group);
       state.items.push(state.groupElement);
       state.unicodeSubGroupElement = asUnicodeSubGroup(meta.unicodeSubGroup);
@@ -3315,6 +3322,7 @@ function asItem(state, key) {
       state.unicodeSubGroup = meta.unicodeSubGroup;
       state.subGroup = displaySubGroup;
     } else if (state.unicodeSubGroup !== meta.unicodeSubGroup) {
+      flushEmojiCellFragment(state);
       state.unicodeSubGroupElement = asUnicodeSubGroup(meta.unicodeSubGroup);
       state.groupElement.appendChild(state.unicodeSubGroupElement);
       state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
@@ -3322,6 +3330,7 @@ function asItem(state, key) {
       state.unicodeSubGroup = meta.unicodeSubGroup;
       state.subGroup = displaySubGroup;
     } else if (state.subGroup !== displaySubGroup) {
+      flushEmojiCellFragment(state);
       state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
       state.unicodeSubGroupElement.lastChild.appendChild(state.subGroupElement);
       state.subGroup = displaySubGroup;
@@ -3334,7 +3343,7 @@ function asItem(state, key) {
   var div = asEmojiCell(key, groupId, subGroupId);
 
   if (hasGroups) {
-    state.subGroupElement.lastChild.appendChild(div);
+    state.cellFragment.appendChild(div);
   } else {
     state.items.push(div);
   }
@@ -3370,6 +3379,7 @@ function asEmojiCell(key, groupId = 0, subGroupId = 0) {
 function asSequenceItem(state, key) {
   const type = byId[key]?.sequenceType ?? 'single';
   if (state.type !== type) {
+    flushEmojiCellFragment(state);
     const section = document.createElement('div');
     section.className = 'sequence-type';
     const name = document.createElement('h3');
@@ -3383,7 +3393,7 @@ function asSequenceItem(state, key) {
     state.emoji = emoji;
     state.type = type;
   }
-  state.emoji.appendChild(asEmojiCell(key));
+  state.cellFragment.appendChild(asEmojiCell(key));
   return state;
 }
 
@@ -3549,7 +3559,12 @@ function renderEmojiList(keys, shouldRestoreEmojiFocus) {
   const renderer = orderMode === 'sequence' ? asSequenceItem : asItem;
   const state =
     orderMode === 'sequence'
-      ? { items: [], type: '', emoji: null }
+      ? {
+          items: [],
+          type: '',
+          emoji: null,
+          cellFragment: document.createDocumentFragment()
+        }
       : {
           items: [],
           group: UNASSIGNED,
@@ -3557,7 +3572,8 @@ function renderEmojiList(keys, shouldRestoreEmojiFocus) {
           subGroup: UNASSIGNED,
           groupElement: null,
           unicodeSubGroupElement: null,
-          subGroupElement: null
+          subGroupElement: null,
+          cellFragment: document.createDocumentFragment()
         };
   let keyIndex = 0;
   let appendedItemCount = 0;
@@ -3572,6 +3588,7 @@ function renderEmojiList(keys, shouldRestoreEmojiFocus) {
       keyIndex < keys.length &&
       performance.now() < deadline
     );
+    flushEmojiCellFragment(state);
 
     if (appendedItemCount < state.items.length) {
       const fragment = document.createDocumentFragment();
