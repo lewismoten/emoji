@@ -685,12 +685,12 @@ for (const sheet of pixelAtlasManifest.sheets) {
 }
 assert.match(
   arabicDemo,
-  /<html lang="ar" dir="rtl" data-locale="ar">/,
+  /<html\b(?=[^>]*\blang="ar")(?=[^>]*\bdir="rtl")(?=[^>]*\bdata-locale="ar")[^>]*>/,
   "Arabic demo page must start in Arabic and RTL",
 );
 assert.match(
   arabicDemo,
-  /جارٍ تحميل الرموز التعبيرية/,
+  /جارٍ تحميل مستكشف الرموز التعبيرية/,
   "Arabic demo loading state must be localized before JavaScript runs",
 );
 assert.match(
@@ -1073,6 +1073,36 @@ assert.match(
   /\.emoji-preview-glyph\.has-pixel-art\s*\{[\s\S]*font-size:\s*6rem;[\s\S]*\.emoji-composition-glyph\.has-pixel-art[\s\S]*font-size:\s*1\.5rem;[\s\S]*@media \(max-width: 560px\)[\s\S]*\.emoji-preview-glyph\.has-pixel-art[\s\S]*font-size:\s*3\.75rem;/,
   "dialog pixel-font previews must use crisp multiples of the 12-pixel grid",
 );
+assert.match(
+  demoHtml,
+  /class="rendering-diagnostic"[\s\S]*system-render-glyph[\s\S]*pixel-render-glyph/,
+  "emoji details must compare system and Pixel Emoji rendering",
+);
+assert.match(
+  demoScript,
+  /function updateRenderingDiagnostic[\s\S]*systemEmojiAppearsSplit[\s\S]*systemRenderingSplit/,
+  "emoji details must report split system sequences",
+);
+assert.match(
+  demoHtml,
+  /class="pixel-design-invitation"[\s\S]*createPixelDesign/,
+  "unfinished glyphs must invite visitors into the pixel editor",
+);
+assert.match(
+  demoStyles,
+  /@media \(max-width: 560px\)[\s\S]*\.example-dialog\[open\][\s\S]*margin:\s*auto 0 0;[\s\S]*safe-area-inset-bottom/,
+  "mobile emoji details must use a safe-area-aware bottom sheet",
+);
+assert.match(
+  demoStyles,
+  /\.subgroup \.emoji > div,[\s\S]*width:\s*2\.75rem;[\s\S]*height:\s*2\.75rem;/,
+  "emoji results must provide 44 CSS-pixel pointer targets",
+);
+assert.match(
+  demoScript,
+  /versionDescription[\s\S]*setAttribute\('aria-label', `\$\{accessibleName\}\$\{versionDescription\}`\)/,
+  "emoji result labels must include their introduction version",
+);
 assert.doesNotMatch(
   demoHtml,
   /class="emoji-code-points"/,
@@ -1089,9 +1119,34 @@ assert.match(
   "demo must provide a pixel-font toggle",
 );
 assert.match(
+  demoHtml,
+  /class="pixel-hero"[\s\S]*pixel-comparison-system[\s\S]*pixel-comparison-custom/,
+  "the Explorer must introduce Pixel Emoji with a system comparison",
+);
+assert.match(
+  demoHtml,
+  /class="list is-loading"[\s\S]*data-i18n="loadingExplorer"[\s\S]*class="loading-grid"/,
+  "the initial page must present an intentional loading state",
+);
+assert.match(
+  demoScript,
+  /function finishExplorerLoading[\s\S]*classList\.remove\('app-loading'\)[\s\S]*aria-busy[\s\S]*result-count/,
+  "loading controls and result counts must be revealed only after data is ready",
+);
+assert.match(
+  demoHtml,
+  /class="basic-filter-grid"[\s\S]*class="filter-options"[\s\S]*class="advanced-filters"/,
+  "category shortcuts must remain available outside Advanced filters",
+);
+assert.match(
   demoScript,
   /function togglePixelFont/,
   "pixel-font preference must be toggleable",
+);
+assert.match(
+  demoScript,
+  /pixelFontOn[\s\S]*pixelFontOff[\s\S]*pixel-font-toggle-label/,
+  "the pixel-font toggle must expose its current state",
 );
 assert.match(
   demoScript,
@@ -1486,7 +1541,7 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="dialog-mode-back"[^>]*data-i18n="pixelEditorBack"[^>]*>Back<\/button>/,
+  /class="dialog-mode-back"[^>]*data-i18n="pixelEditorBack"[^>]*>\s*Back\s*<\/button>/,
   "the compact shared Back action must live in the dialog controls",
 );
 assert.match(

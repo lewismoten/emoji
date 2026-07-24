@@ -2,17 +2,43 @@
 
 [![Emoji Explorer — Unicode emoji for JavaScript](https://raw.githubusercontent.com/lewismoten/emoji/main/social-preview.svg)](https://lewismoten.github.io/emoji/)
 
-Named Unicode Emoji 17.0 lookup packs for JavaScript and TypeScript. Import a
-small popular set, the complete collection, a Unicode category or subgroup, or
-a modifier-focused variation pack.
+This repository brings together three connected projects:
 
-The generated dataset contains every Unicode-recommended fully-qualified emoji
-sequence, including skin-tone, hair, gender, family, and ZWJ variants. Proposed
-Emoji 18.0 candidates are kept separate from released emoji.
+- **Emoji Explorer:** a localized, installable Unicode research and discovery
+  app with search, filters, sequence visualization, rendering diagnostics,
+  favorites, and offline support.
+- **Pixel Emoji:** an original 12×12 color font and pixel-art editor designed to
+  provide newer emoji on devices whose operating-system fonts are no longer
+  updated.
+- **`@lewismoten/emoji`:** typed JavaScript lookup packs containing every
+  Unicode-recommended fully-qualified sequence, including skin-tone, hair,
+  gender, family, and ZWJ variants.
+
+Proposed Emoji 18.0 candidates remain separate from released emoji throughout
+the package, Explorer, and font.
 
 [Explore the emoji](https://lewismoten.github.io/emoji/) ·
 [View the package on npm](https://www.npmjs.com/package/@lewismoten/emoji) ·
 [Download the Pixel Emoji fallback font](pixel-font/README.md)
+
+![Current Emoji Explorer showing searchable Unicode and Pixel Emoji](https://raw.githubusercontent.com/lewismoten/emoji/main/screenshot.png)
+
+## Emoji Explorer
+
+The [live Emoji Explorer](https://lewismoten.github.io/emoji/) is the visual
+front end for the data and font projects. It provides:
+
+- localized names, keywords, group labels, and subgroup labels;
+- browsing by Unicode group, subgroup, release, modifier, and sequence type;
+- system-versus-Pixel Emoji comparisons and split-sequence diagnostics;
+- visual explanations of ZWJ, modifier, flag, keycap, and tag sequences;
+- favorites, recently copied emoji, keyboard navigation, and shareable URLs;
+- an integrated 12×12 pixel-art editor;
+- responsive dialogs and an installable offline PWA.
+
+Casual browsing keeps search and category shortcuts immediately available.
+Version, sequence, skin-tone, hair, and gender controls remain under Advanced
+filters.
 
 ## Installation
 
@@ -73,9 +99,8 @@ Categories are separate modules and can be imported normally or lazy-loaded:
 ```js
 import objects from "@lewismoten/emoji/categories/objects";
 
-const { default: people } = await import(
-  "@lewismoten/emoji/categories/people-and-body"
-);
+const { default: people } =
+  await import("@lewismoten/emoji/categories/people-and-body");
 ```
 
 Each category is composed from smaller Unicode subgroup modules. For example,
@@ -139,9 +164,7 @@ import {
   mergeEmojiLocalePacks,
 } from "@lewismoten/emoji/search";
 import english from "@lewismoten/emoji/locales/en" with { type: "json" };
-import britishEnglish from "@lewismoten/emoji/locales/en-GB" with {
-  type: "json",
-};
+import britishEnglish from "@lewismoten/emoji/locales/en-GB" with { type: "json" };
 
 const locale = mergeEmojiLocalePacks(english, britishEnglish);
 const search = createEmojiSearch(locale);
@@ -152,9 +175,7 @@ name, native name, text direction, base locale, CLDR version, and stored and
 inherited entry counts:
 
 ```js
-import locales from "@lewismoten/emoji/locales/manifest" with {
-  type: "json",
-};
+import locales from "@lewismoten/emoji/locales/manifest" with { type: "json" };
 
 console.log(locales.locales);
 ```
@@ -183,16 +204,12 @@ in that Unicode Emoji version. The version manifest lists every file, official
 release date, and entry count:
 
 ```js
-import versions from "@lewismoten/emoji/versions/manifest" with {
-  type: "json",
-};
-import introducedIn17 from "@lewismoten/emoji/versions/17.0" with {
-  type: "json",
-};
+import versions from "@lewismoten/emoji/versions/manifest" with { type: "json" };
+import introducedIn17 from "@lewismoten/emoji/versions/17.0" with { type: "json" };
 
 const releasesAvailableBy2025 = versions.versions
-  .filter(release => release.released <= "2025-12-31")
-  .map(release => release.version);
+  .filter((release) => release.released <= "2025-12-31")
+  .map((release) => release.version);
 
 console.log(introducedIn17);
 ```
@@ -202,9 +219,7 @@ version metadata only when they use it. Proposed candidates are likewise
 separate from released data:
 
 ```js
-import proposed18 from "@lewismoten/emoji/proposed/18.0" with {
-  type: "json",
-};
+import proposed18 from "@lewismoten/emoji/proposed/18.0" with { type: "json" };
 
 console.log(proposed18.status); // "draft"
 ```
@@ -242,7 +257,8 @@ Or copy `dist/esm/index.js` and serve it with an application:
 [Pixel Emoji](pixel-font/README.md) is a compact 12×12 color fallback font for
 new emoji that older operating-system fonts cannot display. Its custom artwork
 currently covers every entry introduced with Emoji 16.0 and 17.0, plus every
-entry in the currently tracked Emoji 18.0 beta draft.
+entry in the currently tracked Emoji 18.0 beta draft. The current set contains
+233 painted glyphs: 214 released glyphs and 19 proposed glyphs.
 
 Released and proposed characters are kept in separate font families so
 applications can opt into draft coverage without treating it as stable. The
@@ -270,15 +286,10 @@ See the [font documentation and complete coverage table](pixel-font/README.md)
 for WOFF downloads, design constraints, atlas details, sequence handling, and
 local build instructions.
 
-## Emoji Explorer demo
+## Running Emoji Explorer locally
 
-The [live Emoji Explorer](https://lewismoten.github.io/emoji/) demonstrates
-search, localization, category and subgroup browsing, release filtering,
-modifier filtering, and Unicode and sequence ordering.
-
-It is an installable web app. After the first visit, the explorer and its core
-Unicode data work offline. Search-language packs are cached for offline use
-after they are selected once.
+After the first successful visit, the Explorer and its core Unicode data work
+offline. Search-language packs are cached after they are selected once.
 
 Run the demo locally with Vite:
 
@@ -289,8 +300,6 @@ npm start
 
 Then open <http://localhost:5173/>. Localized routes such as
 <http://localhost:5173/index.ar.html> are generated in memory by Vite.
-
-![Emoji Explorer screenshot](https://raw.githubusercontent.com/lewismoten/emoji/main/screenshot.png)
 
 ## Data attribution and license
 

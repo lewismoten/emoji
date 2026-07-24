@@ -391,10 +391,16 @@ function renderPixelFontToggle() {
     document.documentElement.dataset.emojiFont = 'system';
   }
   if (!pixelFontToggle) return;
-  const label = translate('pixelEmoji', 'Pixel emoji');
+  const label = enabled
+    ? translate('pixelFontOn', 'Pixel font: On')
+    : translate('pixelFontOff', 'Pixel font: Off');
   pixelFontToggle.setAttribute('aria-pressed', String(enabled));
   pixelFontToggle.setAttribute('aria-label', label);
   pixelFontToggle.title = label;
+  const visibleLabel = pixelFontToggle.querySelector(
+    '.pixel-font-toggle-label'
+  );
+  if (visibleLabel) visibleLabel.textContent = label;
   refreshRenderedPixelEmoji();
 }
 function togglePixelFont(event) {
@@ -465,7 +471,8 @@ function updateWebAppManifest(locale = '') {
   const href = locale
     ? `./manifest.${locale}.webmanifest`
     : './manifest.webmanifest';
-  if (manifest.getAttribute('href') !== href) manifest.setAttribute('href', href);
+  if (manifest.getAttribute('href') !== href)
+    manifest.setAttribute('href', href);
 }
 async function installApp(event) {
   const trigger = event?.currentTarget;
@@ -1201,7 +1208,9 @@ async function onLoad() {
     }).observe(toolbar);
   } else {
     const measureToolbar = () =>
-      window.requestAnimationFrame(() => setToolbarHeight(toolbar.offsetHeight));
+      window.requestAnimationFrame(() =>
+        setToolbarHeight(toolbar.offsetHeight)
+      );
     measureToolbar();
     window.addEventListener('resize', measureToolbar);
   }
@@ -1229,9 +1238,22 @@ async function onLoad() {
   await loadSearchLanguages(initialSearchLocale);
   await loadData();
   drawList();
+  finishExplorerLoading();
   applyDialogUrlState();
   urlStateReady = true;
   syncUrlState();
+}
+
+function finishExplorerLoading() {
+  document.documentElement.classList.remove('app-loading');
+  emojiList.classList.remove('is-loading');
+  emojiList.setAttribute('aria-busy', 'false');
+  matchCount.closest('.result-count').hidden = false;
+  const comparison = document.querySelector('.pixel-comparison-custom');
+  if (comparison) {
+    comparison.textContent = emojiByKey.grinningFace ?? '😀';
+    applyPixelArtworkClass(comparison, 'grinningFace');
+  }
 }
 
 function upgradeEmojiDialog() {
@@ -1428,6 +1450,18 @@ function setEmojiDialogView(requestedMode, updateUrl = true) {
       !showDetails || composition.dataset.available !== 'true';
   exampleDialog.querySelector('.emoji-metadata').hidden = !showDetails;
   exampleDialog.querySelector('.emoji-copy-actions').hidden = !showDetails;
+  const renderingDiagnostic = exampleDialog.querySelector(
+    '.rendering-diagnostic'
+  );
+  if (renderingDiagnostic)
+    renderingDiagnostic.hidden =
+      !showDetails || renderingDiagnostic.dataset.available !== 'true';
+  const pixelInvitation = exampleDialog.querySelector(
+    '.pixel-design-invitation'
+  );
+  if (pixelInvitation)
+    pixelInvitation.hidden =
+      !showDetails || pixelInvitation.dataset.available !== 'true';
   exampleDialog.querySelector('.emoji-code-view').hidden = mode !== 'code';
   const dialogModeBack = exampleDialog.querySelector('.dialog-mode-back');
   if (dialogModeBack) dialogModeBack.hidden = showDetails;
@@ -3099,7 +3133,12 @@ function asEmojiCell(key, groupId = 0, subGroupId = 0) {
   div.title = accessibleName;
   div.tabIndex = key === focusedEmojiKey ? 0 : -1;
   div.setAttribute('role', 'button');
-  div.setAttribute('aria-label', accessibleName);
+  const introduced = getIntroducedVersion(key);
+  const versionDescription =
+    introduced === '—'
+      ? ''
+      : `, ${translate('emojiVersion', 'Emoji version')} ${introduced}`;
+  div.setAttribute('aria-label', `${accessibleName}${versionDescription}`);
   div.classList.add(`group-${groupId}`);
   div.classList.add(`sub-group-${subGroupId}`);
   const emojiDiv = document.createElement('span');
@@ -3830,6 +3869,8 @@ function updatePixelArtworkManifest(manifest, revision) {
       .filter(glyph => glyph.releaseStatus === 'proposed')
       .map(glyph => glyph.key)
   );
+  const comparison = document.querySelector('.pixel-comparison-custom');
+  if (comparison) applyPixelArtworkClass(comparison, 'grinningFace');
 }
 
 function renderedPixelEmoji(emojiKey) {
@@ -3867,6 +3908,49 @@ function systemEmojiAppearsSplit(value) {
     systemEmojiMeasureContext.measureText(value).width >
       systemEmojiReferenceWidth * 1.45
   );
+}
+
+function updateRenderingDiagnostic(emojiKey, value) {
+  const section = exampleDialog.querySelector('.rendering-diagnostic');
+  const invitation = exampleDialog.querySelector('.pixel-design-invitation');
+  const regularEditorButton = exampleDialog.querySelector(
+    '.emoji-copy-actions .show-pixel-editor'
+  );
+  const painted = paintedPixelEmojiKeys.has(emojiKey);
+  const privateUsePoint = privateUsePixelEmojiByKey.get(emojiKey);
+  section.dataset.available = String(painted && Boolean(privateUsePoint));
+  invitation.dataset.available = String(!painted);
+  section.hidden = !painted || !privateUsePoint;
+  invitation.hidden = painted;
+  if (regularEditorButton) regularEditorButton.hidden = !painted;
+  if (!painted || !privateUsePoint) return;
+
+  const systemGlyph = section.querySelector('.system-render-glyph');
+  const pixelGlyph = section.querySelector('.pixel-render-glyph');
+  systemGlyph.textContent = value;
+  pixelGlyph.textContent = String.fromCodePoint(privateUsePoint);
+  section.dataset.pixelEmojiKey = emojiKey;
+
+  const points = (byId[emojiKey]?.codePoints ?? '')
+    .split(/\s+/)
+    .filter(point => point && !['FE0E', 'FE0F'].includes(point.toUpperCase()));
+  const result = section.querySelector('.rendering-result');
+  const split = points.length > 1 && systemEmojiAppearsSplit(value);
+  result.classList.toggle('is-warning', split);
+  result.textContent = split
+    ? translate(
+        'systemRenderingSplit',
+        '⚠ The system displayed separate components; Pixel Emoji keeps the sequence together.'
+      )
+    : points.length > 1
+      ? translate(
+          'systemRenderingComposed',
+          '✓ The system displayed one composed emoji.'
+        )
+      : translate(
+          'systemRenderingSingle',
+          'The system and Pixel Emoji renderings are shown above.'
+        );
 }
 
 function refreshRenderedPixelEmoji() {
@@ -3992,6 +4076,7 @@ function showEmoji(id, openDialog = true, navigationKeys) {
   previewGlyph.innerText = value;
   applyPixelArtworkClass(previewGlyph, id);
   const item = byId[id] ?? {};
+  updateRenderingDiagnostic(id, value);
   updateEmojiImportExamples(item);
   updateEmojiComposition(item, value);
   const codePoints = (item.codePoints ?? '')

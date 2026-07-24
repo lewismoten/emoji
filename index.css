@@ -14,8 +14,7 @@
     system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   --installed-emoji-fonts:
-    "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji",
-    "Twemoji Mozilla";
+    "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla";
   --system-emoji-font: var(--installed-emoji-fonts), sans-serif;
   --emoji-font:
     var(--pixel-emoji-released-family, "Pixel Emoji"),
@@ -27,8 +26,7 @@ html[data-emoji-font="system"] {
   --emoji-font:
     var(--installed-emoji-fonts),
     var(--pixel-emoji-released-family, "Pixel Emoji"),
-    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"),
-    sans-serif;
+    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"), sans-serif;
 }
 
 :lang(ar) {
@@ -176,6 +174,11 @@ h1 {
 .filters {
   margin-top: 0.45rem;
 }
+.app-loading .result-count,
+.app-loading .basic-filter-grid,
+.app-loading .filter-options {
+  display: none;
+}
 .search-controls {
   display: flex;
   align-items: end;
@@ -304,6 +307,31 @@ h1 {
 .filter-options {
   position: relative;
   margin-top: 0.4rem;
+}
+.basic-filter-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.4rem;
+  margin-top: 0.45rem;
+}
+.basic-filter-grid .filter-heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+.basic-filter-grid .compact-choices {
+  flex-wrap: nowrap;
+  padding: 0.1rem 0.15rem 0.2rem;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+}
+.basic-filter-grid .compact-choice {
+  flex: 0 0 auto;
+  height: 2.35rem;
+  padding-block: 0.25rem;
 }
 .advanced-filters {
   width: 100%;
@@ -874,6 +902,92 @@ h2 {
 }
 .emoji-dialog-details:has(.localized-emoji-details[hidden]) {
   justify-content: center;
+}
+.rendering-diagnostic {
+  padding: 0 1rem 0.85rem;
+}
+.rendering-diagnostic h3 {
+  margin: 0 0 0.45rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+.rendering-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+.rendering-comparison > div {
+  display: grid;
+  min-width: 0;
+  place-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--panel-strong);
+}
+.rendering-comparison span {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+.system-render-glyph,
+.pixel-render-glyph {
+  display: grid;
+  min-height: 3rem;
+  place-items: center;
+  font-size: 2.5rem;
+  line-height: 1;
+}
+.system-render-glyph {
+  font-family: var(--system-emoji-font);
+  font-variant-emoji: emoji;
+}
+.pixel-render-glyph {
+  font-family:
+    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"),
+    var(--pixel-emoji-released-family, "Pixel Emoji"), sans-serif;
+  font-variant-emoji: normal;
+}
+.rendering-result {
+  margin: 0.45rem 0 0;
+  color: var(--muted);
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+.rendering-result.is-warning {
+  color: #ffe28e;
+}
+.pixel-design-invitation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  margin: 0 1rem 0.85rem;
+  padding: 0.7rem;
+  border: 1px dashed var(--accent);
+  border-radius: 0.55rem;
+  background: #15384d;
+}
+.rendering-diagnostic[hidden],
+.pixel-design-invitation[hidden] {
+  display: none;
+}
+.pixel-design-invitation strong {
+  font-size: 0.78rem;
+}
+.pixel-design-invitation button {
+  flex: none;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.45rem;
+  background: var(--panel);
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 .emoji-preview {
   display: grid;
@@ -1768,6 +1882,8 @@ kbd {
     grid-template-areas:
       "heading heading"
       "details metadata"
+      "diagnostic metadata"
+      "invitation metadata"
       "composition metadata"
       "actions metadata"
       "code code";
@@ -1782,6 +1898,12 @@ kbd {
     grid-area: details;
     align-self: start;
     padding-top: 1rem;
+  }
+  .example-dialog > .rendering-diagnostic {
+    grid-area: diagnostic;
+  }
+  .example-dialog > .pixel-design-invitation {
+    grid-area: invitation;
   }
   .example-dialog > .emoji-composition {
     grid-area: composition;
@@ -1821,6 +1943,109 @@ kbd {
   display: flex;
   flex-wrap: wrap;
   padding: 1rem;
+}
+.list.is-loading {
+  min-height: 18rem;
+}
+.loading-state {
+  width: min(34rem, 100%);
+  margin: 2rem auto;
+  color: var(--muted);
+  text-align: center;
+}
+.loading-state strong {
+  color: var(--text);
+  font-size: 1rem;
+}
+.loading-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 2.75rem);
+  justify-content: center;
+  gap: 0.4rem;
+  max-width: 24rem;
+  margin-top: 1rem;
+  margin-inline: auto;
+}
+.loading-grid i {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.45rem;
+  background: linear-gradient(
+    100deg,
+    var(--panel) 20%,
+    var(--panel-strong) 45%,
+    var(--panel) 70%
+  );
+  background-size: 220% 100%;
+  animation: loading-shimmer 1.25s linear infinite;
+}
+@keyframes loading-shimmer {
+  to {
+    background-position-x: -220%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loading-grid i {
+    animation: none;
+  }
+}
+.pixel-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.7rem;
+  background:
+    linear-gradient(120deg, rgb(127 216 255 / 8%), transparent 55%),
+    var(--panel);
+}
+.pixel-hero h2 {
+  font-size: clamp(1rem, 2.4vw, 1.3rem);
+}
+.pixel-hero p:not(.eyebrow) {
+  max-width: 52rem;
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.pixel-comparison {
+  display: flex;
+  flex: none;
+  gap: 0.45rem;
+}
+.pixel-comparison > span {
+  display: grid;
+  min-width: 4rem;
+  place-items: center;
+  gap: 0.15rem;
+  padding: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--panel-strong);
+}
+.pixel-comparison small {
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+.pixel-comparison b {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  font-size: 2rem;
+  line-height: 1;
+}
+.pixel-comparison-system {
+  font-family: var(--system-emoji-font);
+}
+.pixel-comparison-custom {
+  font-family:
+    var(--pixel-emoji-released-family, "Pixel Emoji"), var(--system-emoji-font);
 }
 .empty-results {
   width: min(32rem, 100%);
@@ -1920,7 +2145,10 @@ kbd {
 .install-app[hidden] {
   display: none;
 }
-@media (display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui), (display-mode: window-controls-overlay) {
+@media (display-mode: standalone),
+  (display-mode: fullscreen),
+  (display-mode: minimal-ui),
+  (display-mode: window-controls-overlay) {
   .install-app {
     display: none !important;
   }
@@ -2071,8 +2299,8 @@ kbd {
 .subgroup .emoji > div,
 .sequence-type > .emoji > div {
   display: grid;
-  width: 2.55rem;
-  height: 2.55rem;
+  width: 2.75rem;
+  height: 2.75rem;
   place-items: center;
   border: 1px solid transparent;
   border-radius: 0.4rem;
@@ -2117,6 +2345,33 @@ kbd {
   }
   .toolbar-heading {
     gap: 0.5rem;
+  }
+  .pixel-hero {
+    align-items: flex-start;
+    margin: 0.65rem;
+    padding: 0.7rem;
+  }
+  .pixel-hero p:not(.eyebrow) {
+    font-size: 0.75rem;
+  }
+  .pixel-comparison > span {
+    min-width: 2.8rem;
+    padding: 0.25rem;
+  }
+  .pixel-comparison b {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1.65rem;
+  }
+  .example-dialog[open] {
+    width: 100vw;
+    max-height: calc(100dvh - max(0.5rem, env(safe-area-inset-top)));
+    margin: auto 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
+    border-radius: 0.85rem 0.85rem 0 0;
   }
   .example-dialog > .dialog-heading {
     display: grid;
@@ -2281,6 +2536,14 @@ kbd {
   }
   .emoji-dialog-details {
     gap: 0.7rem;
+  }
+  .rendering-diagnostic {
+    padding-inline: 0.7rem;
+  }
+  .pixel-design-invitation {
+    align-items: stretch;
+    flex-direction: column;
+    margin-inline: 0.7rem;
   }
   .emoji-preview {
     flex-basis: 6rem;
