@@ -97,6 +97,7 @@ import {
   getEmojiGenders as getEmojiGendersHelper
 } from './explorer/emoji-filter.js';
 import { updateActiveFilterSummary as updateActiveFilterSummaryHelper } from './explorer/filter-summary.js';
+import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from './explorer/dialog-upgrade.js';
 
 if (import.meta.hot) {
   let pixelFontRevision;
@@ -895,68 +896,10 @@ function revealExplorer() {
 }
 
 function upgradeEmojiDialog() {
-  removeLegacyDialogElements();
-  ensureImportExampleLines(exampleDialog);
-  ensureCodeDialogView();
-  ensureCompactCopyLabels();
-  ensureRenderingDiagnostic();
-  const dialogControls = exampleDialog.querySelector('.dialog-controls');
-  if (dialogControls && !dialogControls.querySelector('.emoji-parent')) {
-    const parent = document.createElement('button');
-    parent.className = 'dialog-navigate emoji-parent';
-    parent.type = 'button';
-    parent.hidden = true;
-    parent.textContent = '↩';
-    parent.setAttribute('aria-label', 'Back to parent emoji');
-    dialogControls.prepend(parent);
-  }
-
-  const eyebrow = exampleDialog.querySelector('.emoji-dialog-eyebrow');
-  if (eyebrow) {
-    eyebrow.dataset.i18n = 'emojiDetails';
-    eyebrow.textContent = 'Emoji details';
-  }
-
-  let preview = exampleDialog.querySelector('.emoji-preview');
-  if (preview?.tagName !== 'BUTTON') {
-    const button = document.createElement('button');
-    button.className = 'emoji-preview';
-    button.type = 'button';
-    button.textContent = preview?.textContent ?? '🍻';
-    preview?.replaceWith(button);
-    preview = button;
-  }
-  if (preview) {
-    const previewValue =
-      preview.querySelector('.emoji-preview-glyph')?.textContent ??
-      preview.textContent.trim() ??
-      '🍻';
-    let glyph = preview.querySelector('.emoji-preview-glyph');
-    let copyLabel = preview.querySelector('.emoji-preview-copy-label');
-    if (!glyph || !copyLabel) {
-      glyph = document.createElement('span');
-      glyph.className = 'emoji-preview-glyph';
-      glyph.textContent = previewValue;
-      copyLabel = document.createElement('span');
-      copyLabel.className = 'emoji-preview-copy-label';
-      copyLabel.dataset.i18n = 'copy';
-      copyLabel.textContent = 'Copy';
-      preview.replaceChildren(glyph, copyLabel);
-    }
-    preview.removeAttribute('aria-hidden');
-    preview.dataset.copy = 'emoji';
-    preview.dataset.i18nAriaLabel = 'copyEmoji';
-    preview.setAttribute('aria-label', 'Copy emoji');
-  }
-
-  if (!exampleDialog.querySelector('.copy-status')) {
-    const status = document.createElement('div');
-    status.className = 'copy-status sr-only';
-    status.setAttribute('role', 'status');
-    status.setAttribute('aria-live', 'polite');
-    status.setAttribute('aria-atomic', 'true');
-    exampleDialog.querySelector('.dialog-heading')?.after(status);
-  }
+  upgradeEmojiDialogHelper({
+    ensureImportExamples: ensureImportExampleLines,
+    exampleDialog
+  });
 }
 
 function ensureRenderingDiagnostic() {

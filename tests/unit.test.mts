@@ -107,6 +107,10 @@ const emojiFilterHelper = await fs.readFile(
   path.join(root, 'src/explorer/emoji-filter.ts'),
   'utf8'
 );
+const dialogUpgradeHelper = await fs.readFile(
+  path.join(root, 'src/explorer/dialog-upgrade.ts'),
+  'utf8'
+);
 const emojiListSources = `${demoScript}\n${emojiListInteractionHelper}`;
 const utilityControlsHelper = await fs.readFile(
   path.join(root, 'src/explorer/utility-controls.ts'),
@@ -841,8 +845,8 @@ assert.match(
   'new utility controls must be restored when cached HTML is stale'
 );
 assert.match(
-  demoScript,
-  /function upgradeEmojiDialog\(\)[\s\S]*ensureRenderingDiagnostic\(\)[\s\S]*function ensureRenderingDiagnostic\(\)[\s\S]*system-render-glyph[\s\S]*pixel-render-glyph[\s\S]*rendering-result/,
+  dialogUpgradeHelper,
+  /function upgradeEmojiDialog[\s\S]*ensureRenderingDiagnostic\(options\.exampleDialog\)[\s\S]*function ensureRenderingDiagnostic[\s\S]*system-render-glyph[\s\S]*pixel-render-glyph[\s\S]*rendering-result/,
   'cached emoji dialogs must be upgraded with complete rendering diagnostics'
 );
 assert.match(
