@@ -1,7 +1,6 @@
 // @ts-nocheck -- Transitional entry point; remove as features move into typed modules.
 import { explorerLabelKeys, languageFlags, sequenceTranslationKeys, sequenceTypeEmoji, sequenceTypeLabels, sequenceTypeOrder, statusTranslationKeys, unicodeGroupLabelKeys, unicodeSubgroupLabelKeys, versionModeDefinitions } from './explorer/explorer-labels.js';
 import { getExplorerSubGroup, titleCase } from './explorer/category-rules.js';
-import { compositionReductionLabel, compositionTitle, describeCompositionPoint, findCompositionArtworkKey, findCompositionEmojiKey, isCondensedSequenceControl } from './explorer/composition-helpers.js';
 import { displayEmojiKey, formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints } from './explorer/emoji-format.js';
 import { copyToClipboard as copyToClipboardHelper, nextCopiedEmojiKeys, nextFavoriteEmojiKeys, renderSavedEmojiList as renderSavedEmojiListHelper, updateFavoriteToggleButton } from './explorer/saved-emoji.js';
 import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, resolveImportExamples } from './explorer/import-examples.js';
@@ -9,6 +8,7 @@ import { buildExplorerUrlQuery, parseExplorerUrlState } from './explorer/url-sta
 import { applyBasicUrlStateToControls, applyExclusiveCheckboxSelection, applyLoadedUrlStateToControls, resetFilterControls, stepVersionIndex } from './explorer/filter-controls.js';
 import { resolveCompositionParentLabel, resolveEmojiDialogDisplay, resolveDialogNavigationState } from './explorer/dialog-state.js';
 import { resolveRenderingDiagnostic } from './explorer/rendering-diagnostic.js';
+import { renderEmojiComposition } from './explorer/emoji-composition.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -3098,133 +3098,29 @@ function updateEmojiComposition(item, value) {
     const section = exampleDialog.querySelector('.emoji-composition');
     const equation = section?.querySelector('.emoji-composition-equation');
     const modeButton = section?.querySelector('.emoji-composition-mode');
-    if (!section || !equation || !modeButton)
-        return;
-    const points = (item.codePoints ?? '')
-        .split(/\s+/)
-        .filter(Boolean)
-        .map(hex => ({ hex: hex.toUpperCase(), point: Number.parseInt(hex, 16) }))
-        .filter(component => Number.isFinite(component.point));
-    equation.replaceChildren();
-    section.dataset.available = String(points.length > 1);
-    const detailsVisible = !exampleDialog.classList.contains('is-code-view') &&
-        !exampleDialog.classList.contains('is-editor-view');
-    section.hidden =
-        !developerModeEnabled() || points.length <= 1 || !detailsVisible;
-    if (points.length <= 1) {
-        modeButton.hidden = true;
-        return;
-    }
-    const condensedParts = condenseCompositionPoints(points, item.key, emojiKeyByCodePoints);
-    const hasHiddenSequenceControl = points.some(component => isCondensedSequenceControl(component.point));
-    const canCondense = hasHiddenSequenceControl || condensedParts.some(part => part.emojiKey);
-    const displayedParts = compositionMode === 'full' || !canCondense
-        ? points.map(component => ({ component }))
-        : condensedParts.filter(part => !part.component || !isCondensedSequenceControl(part.component.point));
-    const modeLabel = compositionMode === 'full'
-        ? translate('showCondensedSequence', 'Show condensed sequence')
-        : translate('showFullSequence', 'Show full sequence');
-    modeButton.hidden = !canCondense;
-    modeButton.textContent = modeLabel;
-    modeButton.title = modeLabel;
-    modeButton.setAttribute('aria-label', modeLabel);
-    modeButton.setAttribute('aria-pressed', String(compositionMode === 'full'));
-    displayedParts.forEach((displayedPart, index) => {
-        const part = displayedPart.emojiKey
-            ? createCondensedCompositionPart(displayedPart)
-            : createCompositionPart(displayedPart.component, item.key);
-        equation.append(index === 0 ? part : createCompositionTerm('+', part));
-    });
-    equation.append(createCompositionTerm('=', createCompositionResult(value, item.shortName, item.key)));
-}
-function condenseCompositionPoints(points, currentEmojiKey) {
-    const condensed = [];
-    for (let start = 0; start < points.length;) {
-        let match;
-        for (let end = points.length; end >= start + 2; end--) {
-            if (start === 0 && end === points.length)
-                continue;
-            const codePoints = points
-                .slice(start, end)
-                .map(component => component.hex)
-                .join(' ');
-            const emojiKey = emojiKeyByCodePoints.get(codePoints);
-            if (emojiKey && emojiKey !== currentEmojiKey) {
-                match = { emojiKey, components: points.slice(start, end) };
-                break;
-            }
-        }
-        if (match) {
-            condensed.push(match);
-            start += match.components.length;
-        }
-        else {
-            condensed.push({ component: points[start] });
-            start++;
-        }
-    }
-    return condensed;
-}
-function createCondensedCompositionPart({ emojiKey, components }) {
-    const part = document.createElement('button');
-    const glyph = document.createElement('span');
-    const code = document.createElement('span');
-    const linkedName = compositionTitle(emojiKey, searchAnnotations, byId);
-    const viewLabel = translate('viewEmoji', 'View emoji');
-    const codePoints = components
-        .map(component => `U+${component.hex}`)
-        .join(' ');
-    part.className = 'emoji-composition-part';
-    part.type = 'button';
-    part.dataset.compositionEmoji = emojiKey;
-    part.title = `${viewLabel}: ${linkedName} — ${codePoints}`;
-    part.setAttribute('aria-label', `${viewLabel}: ${linkedName}. ${codePoints}`);
-    glyph.className = 'emoji-composition-glyph';
-    glyph.textContent = emojiByKey[emojiKey];
-    applyPixelArtworkClass(glyph, emojiKey);
-    code.className = 'emoji-composition-code emoji-composition-code-condensed';
-    code.textContent = compositionReductionLabel(components.length, 1, {
+    renderEmojiComposition({
+        section,
+        equation,
+        modeButton,
+        item,
+        value,
+        developerMode: developerModeEnabled(),
+        detailsVisible: !exampleDialog.classList.contains('is-code-view') &&
+            !exampleDialog.classList.contains('is-editor-view'),
+        compositionMode,
+        emojiKeyByCodePoints,
+        emojiByKey,
+        searchAnnotations,
+        byId,
+        translate,
+        applyPixelArtworkClass,
+        applyStandalonePixelArtwork,
         dir: document.documentElement.dir,
         locale: document.documentElement.lang || selectedSearchLocale || undefined,
         numberingSystem: document.documentElement.lang?.startsWith('ar')
             ? 'arab'
             : undefined
     });
-    part.append(glyph, code);
-    return part;
-}
-function createCompositionPart({ hex, point }, currentEmojiKey) {
-    const linkedEmojiKey = findCompositionEmojiKey(hex, currentEmojiKey, emojiKeyByCodePoints);
-    const artworkEmojiKey = findCompositionArtworkKey(hex, emojiKeyByCodePoints);
-    const part = document.createElement(linkedEmojiKey ? 'button' : 'span');
-    const glyph = document.createElement('span');
-    const code = document.createElement('span');
-    const details = describeCompositionPoint(point, translate);
-    part.className = 'emoji-composition-part';
-    if (linkedEmojiKey) {
-        const linkedName = compositionTitle(linkedEmojiKey, searchAnnotations, byId);
-        const viewLabel = translate('viewEmoji', 'View emoji');
-        part.type = 'button';
-        part.dataset.compositionEmoji = linkedEmojiKey;
-        part.title = `${details.label} — ${viewLabel}: ${linkedName}`;
-        part.setAttribute('aria-label', `${details.label}, U+${hex}. ${viewLabel}: ${linkedName}`);
-    }
-    else {
-        part.setAttribute('role', 'img');
-        part.title = details.label;
-        part.setAttribute('aria-label', `${details.label}, U+${hex}`);
-    }
-    if (artworkEmojiKey) {
-        part.dataset.compositionArtwork = artworkEmojiKey;
-        part.dataset.compositionPoint = String(point);
-    }
-    glyph.className = `emoji-composition-glyph${details.symbolic ? ' is-symbolic' : ''}`;
-    glyph.textContent = details.glyph;
-    applyStandalonePixelArtwork(glyph, artworkEmojiKey, point);
-    code.className = 'emoji-composition-code emoji-composition-code-point';
-    code.textContent = `U+${hex}`;
-    part.append(glyph, code);
-    return part;
 }
 function rebuildEmojiCodePointLookup() {
     emojiKeyByCodePoints = items.reduce((lookup, item) => {
@@ -3243,35 +3139,6 @@ function formatUiNumber(value) {
 function formatUiPercent(value) {
     const locale = document.documentElement.lang || selectedSearchLocale || undefined;
     return formatUiPercentValue(value, locale, locale?.startsWith('ar') ? 'arab' : undefined);
-}
-function createCompositionOperator(operator) {
-    const element = document.createElement('span');
-    element.className = 'emoji-composition-operator';
-    element.setAttribute('aria-hidden', 'true');
-    element.textContent = operator;
-    return element;
-}
-function createCompositionTerm(operator, part) {
-    const term = document.createElement('span');
-    term.className = 'emoji-composition-term';
-    term.append(createCompositionOperator(operator), part);
-    return term;
-}
-function createCompositionResult(value, name, emojiKey) {
-    const result = document.createElement('span');
-    const glyph = document.createElement('span');
-    const label = document.createElement('span');
-    const resultLabel = translate('result', 'Result');
-    result.className = 'emoji-composition-part emoji-composition-result';
-    result.setAttribute('role', 'img');
-    result.setAttribute('aria-label', `${resultLabel}: ${name ?? value}`);
-    glyph.className = 'emoji-composition-glyph';
-    glyph.textContent = value;
-    applyPixelArtworkClass(glyph, emojiKey);
-    label.className = 'emoji-composition-code';
-    label.textContent = resultLabel;
-    result.append(glyph, label);
-    return result;
 }
 function applyPixelArtworkClass(element, emojiKey) {
     if (!element)
