@@ -7,7 +7,11 @@ export function createPixelArtworkManager(options: any) {
   const modifierEmojiKeys: Record<string, string> = {
     male: 'man',
     female: 'woman',
-    neutral: 'person'
+    neutral: 'person',
+    '1F9B0': 'personRedHair',
+    '1F9B1': 'personCurlyHair',
+    '1F9B2': 'person',
+    '1F9B3': 'personWhiteHair'
   };
 
   const systemEmojiAppearsSplit = (value: string) => {
