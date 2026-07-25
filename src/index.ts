@@ -93,6 +93,7 @@ import {
   revealExplorer as revealExplorerHelper
 } from './explorer/loading-state.js';
 import { createEmojiDialogClickHandler } from './explorer/emoji-dialog-events.js';
+import { createListController } from './explorer/list-controller.js';
 
 if (import.meta.hot) {
   let pixelFontRevision;
@@ -1598,58 +1599,36 @@ const {
 
 const getEmojiGenders = item => getEmojiGendersHelper(item, emojiByKey);
 
-function scheduleSearchDraw() {
-  listRenderGeneration++;
-  if (searchDrawTimer !== undefined) window.clearTimeout(searchDrawTimer);
-  searchDrawTimer = window.setTimeout(() => {
-    searchDrawTimer = undefined;
-    drawList();
-  }, 200);
-}
-
-function drawList() {
-  if (searchDrawTimer !== undefined) {
-    window.clearTimeout(searchDrawTimer);
-    searchDrawTimer = undefined;
-  }
-  const focusedCell = document.activeElement?.closest?.('[data-emoji-key]');
-  const shouldRestoreEmojiFocus = Boolean(focusedCell);
-  let keys = filterEmojiKeys({
-    allIds,
-    byId,
-    emojiByKey,
-    hairModifiers: hairCheckboxes
-      .filter(check => check.checked)
-      .map(check => check.value),
-    includedVersionKeys: getVersionKeys(),
-    items,
-    locale: selectedSearchLocale || undefined,
-    orderMode,
-    searchAnnotations,
-    searchText: searchText.value,
-    selectedGenders: genderCheckboxes
-      .filter(check => check.checked)
-      .map(check => check.value),
-    selectedGroup: items.length === 0 ? '' : selectedGroup,
-    selectedSequenceType,
-    selectedSubGroup: items.length === 0 ? '' : selectedSubGroup,
-    skinToneModifiers: skinToneCheckboxes
-      .filter(check => check.checked)
-      .map(check => check.value),
-    subGroupSelectionKey
-  });
-
-  keys = orderedKeys(keys);
-  displayedKeys = keys;
-  if (!focusedEmojiKey || !keys.includes(focusedEmojiKey)) {
-    focusedEmojiKey = keys[0] ?? '';
-  }
-  renderEmojiList(keys, shouldRestoreEmojiFocus);
-  matchCount.innerText = formatUiNumber(keys.length);
-  updateActiveFilterSummary();
-  updateDialogNavigation();
-  syncUrlState();
-}
+const listController = createListController({
+  allIds: () => allIds,
+  byId: () => byId,
+  emojiByKey: () => emojiByKey,
+  focusedEmojiKey: () => focusedEmojiKey,
+  formatNumber: formatUiNumber,
+  genderCheckboxes: () => genderCheckboxes,
+  getVersionKeys,
+  hairCheckboxes: () => hairCheckboxes,
+  items: () => items,
+  matchCount: () => matchCount,
+  nextRenderGeneration: () => ++listRenderGeneration,
+  orderMode: () => orderMode,
+  orderedKeys,
+  renderEmojiList: (...args) => renderEmojiList(...args),
+  searchAnnotations: () => searchAnnotations,
+  searchText: () => searchText,
+  selectedGroup: () => selectedGroup,
+  selectedSearchLocale: () => selectedSearchLocale,
+  selectedSequenceType: () => selectedSequenceType,
+  selectedSubGroup: () => selectedSubGroup,
+  setDisplayedKeys: keys => (displayedKeys = keys),
+  setFocusedEmojiKey: key => (focusedEmojiKey = key),
+  skinToneCheckboxes: () => skinToneCheckboxes,
+  subGroupSelectionKey,
+  syncUrlState,
+  updateDialogNavigation,
+  updateFilterSummary: updateActiveFilterSummary
+});
+const { draw: drawList, schedule: scheduleSearchDraw } = listController;
 
 const { onEmojiFocus, onEmojiKeyDown, renderEmojiList } =
   createEmojiListInteraction({
