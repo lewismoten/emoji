@@ -411,10 +411,10 @@ const {
   skinToneCheckboxes: () => skinToneCheckboxes,
   state: () => explorerState,
   subGroupSelectionKey,
-  syncUrlState,
+  syncUrlState: () => syncUrlState(),
   translate,
   unassigned: UNASSIGNED,
-  updateDialogNavigation,
+  updateDialogNavigation: () => updateDialogNavigation(),
   versionModeSelector: () => versionModeSelector,
   versionSelector: () => versionSelector,
   versionSliderLabel
