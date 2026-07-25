@@ -104,6 +104,7 @@ import {
   initializeExplorerControls
 } from './explorer-app.js';
 import { createExplorerState } from './explorer-state.js';
+import { createExplorerUiController } from './explorer-ui.js';
 import {
   installPixelFontHotReload,
   refreshExplorerPixelFont,
@@ -356,7 +357,7 @@ window.addEventListener('appinstalled', () => {
   deferredInstallPrompt = undefined;
   if (installAppButton) installAppButton.hidden = true;
 });
-async function loadUiTranslations(locale, rtl = false) {
+async function loadUiTranslationsLegacy(locale, rtl = false) {
   const baseLocale = locale.split('-')[0];
   try {
     const files = locale === baseLocale ? [baseLocale] : [baseLocale, locale];
@@ -385,6 +386,23 @@ async function loadUiTranslations(locale, rtl = false) {
   renderVersionModeToggle();
   renderSearchLanguages();
 }
+
+const explorerUi = createExplorerUiController({
+  deferredInstallPrompt: () => deferredInstallPrompt,
+  installAppButton: () => installAppButton,
+  installDialog: () => installDialog,
+  installWebApp,
+  offlineStatus: () => offlineStatus,
+  pixelEditor: () => pixelEditor,
+  renderDeveloperMode,
+  renderInstallAppButton: renderInstallAppButtonHelper,
+  renderPixelFontToggle,
+  renderSearchLanguages: () => renderSearchLanguages(),
+  renderVersionModeToggle,
+  setDeferredInstallPrompt: value => (deferredInstallPrompt = value),
+  state: () => explorerState
+});
+const { loadUiTranslations } = explorerUi;
 
 const onEmojiDialogClick = createEmojiDialogClickHandler({
   animateCopy: animateEmojiCopyConfirmation,
