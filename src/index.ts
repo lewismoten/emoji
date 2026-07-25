@@ -104,51 +104,7 @@ import {
   initializeExplorerControls
 } from './explorer-app.js';
 import { createExplorerState } from './explorer-state.js';
-if (import.meta.hot) {
-  let pixelFontRevision;
-  const checkPixelFontRevision = async (refreshInitial = false) => {
-    try {
-      const response = await fetch(
-        `./pixel-font/font-build.revision?cache=${Date.now()}`,
-        { cache: 'no-store' }
-      );
-      if (!response.ok) return;
-      const revision = (await response.text()).trim();
-      if (!revision || revision === pixelFontRevision) return;
-      const initial = pixelFontRevision === undefined;
-      pixelFontRevision = revision;
-      if (!initial || refreshInitial) refreshPixelFontStylesheet(revision);
-    } catch {
-      // The revision file exists only while developing the pixel font.
-    }
-  };
-  import.meta.hot.on('pixel-font:updated', () => {
-    void checkPixelFontRevision(true);
-  });
-  void checkPixelFontRevision(true);
-  window.setInterval(checkPixelFontRevision, 1500);
-}
-
-function refreshPixelFontStylesheet(revision) {
-  const stylesheet = document.querySelector('#pixel-font-stylesheet');
-  if (!stylesheet || stylesheet.dataset.revision === revision) return;
-  const replacement = stylesheet.cloneNode();
-  const url = new URL(stylesheet.href);
-  url.searchParams.set('v', revision);
-  replacement.href = url.href;
-  replacement.dataset.revision = revision;
-  stylesheet.removeAttribute('id');
-  stylesheet.after(replacement);
-  replacement.addEventListener(
-    'load',
-    () => {
-      stylesheet.remove();
-      pixelEditor?.refreshFontBuild();
-      void refreshExplorerPixelFont(revision);
-    },
-    { once: true }
-  );
-}
+import { installPixelFontHotReload, refreshPixelFontStylesheet } from './pixel-font-hot-reload.js';
 
 async function refreshExplorerPixelFont(revision) {
   try {
@@ -1445,6 +1401,18 @@ const {
   updateRenderingDiagnostic
 } = pixelArtwork;
 const applyStandalonePixelArtwork = applyPixelArtworkClass;
+installPixelFontHotReload({
+  refreshStylesheet: revision =>
+    refreshPixelFontStylesheet(
+      {
+        onStylesheetLoaded: loadedRevision => {
+          pixelEditor?.refreshFontBuild();
+          void refreshExplorerPixelFont(loadedRevision);
+        }
+      },
+      revision
+    )
+});
 
 function showEmoji(id, openDialog = true, navigationKeys) {
   return showEmojiSession({
