@@ -6,7 +6,9 @@ import { displayEmojiKey, formatUiNumber as formatUiNumberValue, formatUiPercent
 import { copyToClipboard as copyToClipboardHelper, nextCopiedEmojiKeys, nextFavoriteEmojiKeys, renderSavedEmojiList as renderSavedEmojiListHelper, updateFavoriteToggleButton } from './explorer/saved-emoji.js';
 import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, resolveImportExamples } from './explorer/import-examples.js';
 import { buildExplorerUrlQuery, parseExplorerUrlState } from './explorer/url-state.js';
+import { applyBasicUrlStateToControls, applyExclusiveCheckboxSelection, applyLoadedUrlStateToControls, resetFilterControls, stepVersionIndex } from './explorer/filter-controls.js';
 import { buildDialogCopyValues, resolveCompositionParentLabel, resolveDialogNavigationState, resolveDialogTitle, shouldHideEnglishName } from './explorer/dialog-state.js';
+import { resolveRenderingDiagnostic } from './explorer/rendering-diagnostic.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -1514,38 +1516,30 @@ function getUrlState() {
 }
 function applyBasicUrlState() {
     const state = getUrlState();
-    searchText.value = state.search;
-    orderMode = state.order;
-    selectedSequenceType = state.sequenceType;
-    compositionMode = state.compositionMode;
-    orderButtons.forEach(button => {
-        const active = button.dataset.order === orderMode;
-        button.classList.toggle('is-active', active);
-        button.setAttribute('aria-pressed', String(active));
+    const nextState = applyBasicUrlStateToControls({
+        state,
+        searchText,
+        orderButtons
     });
+    orderMode = nextState.orderMode;
+    selectedSequenceType = nextState.selectedSequenceType;
+    compositionMode = nextState.compositionMode;
 }
 function applyLoadedUrlState() {
     const state = getUrlState();
-    if (state.version &&
-        Array.from(versionSelector.options).some(option => option.value === state.version)) {
-        versionSelector.value = state.version;
-    }
-    versionModeSelector.value = state.versionMode;
-    selectedGroup = groups.includes(state.group) ? state.group : '';
-    selectedSubGroup =
-        selectedGroup && subGroups[selectedGroup]?.includes(state.subGroup)
-            ? subGroupSelectionKey(selectedGroup, state.subGroup)
-            : '';
-    skinToneCheckboxes.forEach(checkbox => {
-        checkbox.checked = state.skin.includes(checkbox.value);
+    const selections = applyLoadedUrlStateToControls({
+        state,
+        versionSelector,
+        versionModeSelector,
+        groups,
+        subGroups,
+        skinToneCheckboxes,
+        hairCheckboxes,
+        genderCheckboxes,
+        subGroupSelectionKey
     });
-    hairCheckboxes.forEach(checkbox => {
-        checkbox.checked = state.hair.includes(checkbox.value);
-    });
-    const selectedGender = state.gender.find(value => genderCheckboxes.some(checkbox => checkbox.value === value));
-    genderCheckboxes.forEach(checkbox => {
-        checkbox.checked = checkbox.value === selectedGender;
-    });
+    selectedGroup = selections.selectedGroup;
+    selectedSubGroup = selections.selectedSubGroup;
     renderVersionModeToggle();
     syncVersionRange();
 }
@@ -1617,23 +1611,18 @@ function syncUrlState(method = 'replace', historyState = window.history.state) {
     window.history[`${method}State`](historyState, '', url);
 }
 function resetFilters() {
-    searchText.value = '';
+    resetFilterControls({
+        searchText,
+        versionModeSelector,
+        versionSelector,
+        latestReleasedVersion: versionManifests.at(-1)?.version,
+        skinToneCheckboxes,
+        hairCheckboxes,
+        genderCheckboxes
+    });
     selectedGroup = '';
     selectedSubGroup = '';
     selectedSequenceType = '';
-    versionModeSelector.value = 'through';
-    const latestReleased = versionManifests.at(-1)?.version;
-    if (latestReleased)
-        versionSelector.value = latestReleased;
-    skinToneCheckboxes.forEach(checkbox => {
-        checkbox.checked = false;
-    });
-    hairCheckboxes.forEach(checkbox => {
-        checkbox.checked = false;
-    });
-    genderCheckboxes.forEach(checkbox => {
-        checkbox.checked = false;
-    });
     renderVersionModeToggle();
     syncVersionRange();
     renderCategoryFilters();
@@ -1641,16 +1630,11 @@ function resetFilters() {
     searchText.focus();
 }
 function onGenderChange(event) {
-    if (event.currentTarget.checked) {
-        genderCheckboxes.forEach(checkbox => {
-            if (checkbox !== event.currentTarget)
-                checkbox.checked = false;
-        });
-    }
+    applyExclusiveCheckboxSelection(genderCheckboxes, event.currentTarget);
     drawList();
 }
 function stepVersion(amount) {
-    const nextIndex = Math.max(0, Math.min(versionSelector.options.length - 1, Number(versionRange.value) + amount));
+    const nextIndex = stepVersionIndex(Number(versionRange.value), versionSelector.options.length, amount);
     if (nextIndex === Number(versionRange.value))
         return;
     versionRange.value = String(nextIndex);
@@ -3357,16 +3341,23 @@ function updateRenderingDiagnostic(emojiKey, value) {
     const privateUsePoint = privateUsePixelEmojiByKey.get(emojiKey);
     if (!section || !invitation)
         return;
-    section.dataset.available = String(painted && Boolean(privateUsePoint));
-    invitation.dataset.available = String(!painted);
-    const developerMode = developerModeEnabled();
-    const detailsVisible = !exampleDialog.classList.contains('is-code-view') &&
-        !exampleDialog.classList.contains('is-editor-view');
-    section.hidden =
-        !detailsVisible || !developerMode || !painted || !privateUsePoint;
-    invitation.hidden = !detailsVisible || !developerMode || painted;
+    const diagnostic = resolveRenderingDiagnostic({
+        codePoints: byId[emojiKey]?.codePoints,
+        emojiValue: value,
+        painted,
+        privateUsePoint,
+        developerMode: developerModeEnabled(),
+        detailsVisible: !exampleDialog.classList.contains('is-code-view') &&
+            !exampleDialog.classList.contains('is-editor-view'),
+        systemEmojiAppearsSplit,
+        translate
+    });
+    section.dataset.available = String(diagnostic.sectionAvailable);
+    invitation.dataset.available = String(diagnostic.invitationAvailable);
+    section.hidden = diagnostic.sectionHidden;
+    invitation.hidden = diagnostic.invitationHidden;
     if (regularEditorButton)
-        regularEditorButton.hidden = !developerMode || !painted;
+        regularEditorButton.hidden = diagnostic.regularEditorHidden;
     if (!painted || !privateUsePoint)
         return;
     const systemGlyph = section.querySelector('.system-render-glyph');
@@ -3377,16 +3368,8 @@ function updateRenderingDiagnostic(emojiKey, value) {
     systemGlyph.textContent = value;
     pixelGlyph.textContent = String.fromCodePoint(privateUsePoint);
     section.dataset.pixelEmojiKey = emojiKey;
-    const points = (byId[emojiKey]?.codePoints ?? '')
-        .split(/\s+/)
-        .filter(point => point && !['FE0E', 'FE0F'].includes(point.toUpperCase()));
-    const split = points.length > 1 && systemEmojiAppearsSplit(value);
-    result.classList.toggle('is-warning', split);
-    result.textContent = split
-        ? translate('systemRenderingSplit', '⚠ The system displayed separate components; Pixel Emoji keeps the sequence together.')
-        : points.length > 1
-            ? translate('systemRenderingComposed', '✓ The system displayed one composed emoji.')
-            : translate('systemRenderingSingle', 'The system and Pixel Emoji renderings are shown above.');
+    result.classList.toggle('is-warning', diagnostic.split);
+    result.textContent = diagnostic.resultText;
 }
 function refreshRenderedPixelEmoji() {
     document.querySelectorAll('[data-pixel-emoji-key]').forEach(element => {
