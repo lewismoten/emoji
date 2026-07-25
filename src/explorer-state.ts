@@ -6,13 +6,18 @@ export type ExplorerState = {
   availableSubGroups: Record<string, string[]>;
   byId: Record<string, any>;
   compositionMode: 'condensed' | 'full';
+  copiedEmojiKeys: string[];
   currentEmojiCopies: Record<string, string>;
   currentEmojiKey: string;
+  developerModeFromUrl: boolean;
+  developerModeUrlDismissed: boolean;
   emojiByKey: Record<string, string>;
   emojiKeyByCodePoints: Map<string, string>;
   dialogNavigationKeys: string[];
   displayedKeys: string[];
   focusedEmojiKey: string;
+  explorerPreferences: Record<string, any>;
+  favoriteEmojiKeys: string[];
   groupRepresentativeEmoji: Map<string, string>;
   groupedKeys: Record<string, string[]>;
   groups: string[];
@@ -46,13 +51,18 @@ export function createExplorerState(): ExplorerState {
     availableSubGroups: {},
     byId: {},
     compositionMode: 'condensed',
+    copiedEmojiKeys: [],
     currentEmojiCopies: {},
     currentEmojiKey: '',
+    developerModeFromUrl: false,
+    developerModeUrlDismissed: false,
     emojiByKey: {},
     emojiKeyByCodePoints: new Map(),
     dialogNavigationKeys: [],
     displayedKeys: [],
     focusedEmojiKey: '',
+    explorerPreferences: {},
+    favoriteEmojiKeys: [],
     groupRepresentativeEmoji: new Map(),
     groupedKeys: {},
     groups: [],

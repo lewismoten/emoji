@@ -268,15 +268,14 @@ var installAppButton;
 var installDialog;
 var deferredInstallPrompt;
 const explorerPreferencesKey = '@lewismoten/emoji:explorer-preferences';
-var explorerPreferences = loadExplorerPreferences();
-var developerModeFromUrl =
+explorerState.explorerPreferences = loadExplorerPreferences();
+explorerState.developerModeFromUrl =
   new URLSearchParams(window.location.search).get('developer') === '1';
-var developerModeUrlDismissed = false;
-var favoriteEmojiKeys = Array.isArray(explorerPreferences.favorites)
-  ? explorerPreferences.favorites
+explorerState.favoriteEmojiKeys = Array.isArray(explorerState.explorerPreferences.favorites)
+  ? explorerState.explorerPreferences.favorites
   : [];
-var copiedEmojiKeys = Array.isArray(explorerPreferences.recentCopied)
-  ? explorerPreferences.recentCopied
+explorerState.copiedEmojiKeys = Array.isArray(explorerState.explorerPreferences.recentCopied)
+  ? explorerState.explorerPreferences.recentCopied
   : [];
 const translate = (key, fallback) => explorerState.uiStrings[key] ?? fallback;
 const displayExplorerLabel = label =>
@@ -296,11 +295,11 @@ function loadExplorerPreferences() {
   }
 }
 function saveExplorerPreference(key, value) {
-  explorerPreferences[key] = value;
+  explorerState.explorerPreferences[key] = value;
   try {
     window.localStorage.setItem(
       explorerPreferencesKey,
-      JSON.stringify(explorerPreferences)
+      JSON.stringify(explorerState.explorerPreferences)
     );
   } catch {
     // Preferences are optional when storage is unavailable or blocked.
@@ -316,19 +315,19 @@ const {
 } = createSavedEmojiController({
   applyPixelArtworkClass: () => applyPixelArtworkClass,
   byId: () => explorerState.byId,
-  copiedEmojiKeys: () => copiedEmojiKeys,
+  copiedEmojiKeys: () => explorerState.copiedEmojiKeys,
   currentEmojiKey: () => explorerState.currentEmojiKey,
   emojiByKey: () => explorerState.emojiByKey,
-  favoriteEmojiKeys: () => favoriteEmojiKeys,
+  favoriteEmojiKeys: () => explorerState.favoriteEmojiKeys,
   savePreference: saveExplorerPreference,
   savedDialog: () => savedDialog,
   searchAnnotations: () => explorerState.searchAnnotations,
-  setCopiedEmojiKeys: keys => (copiedEmojiKeys = keys),
-  setFavoriteEmojiKeys: keys => (favoriteEmojiKeys = keys),
+  setCopiedEmojiKeys: keys => (explorerState.copiedEmojiKeys = keys),
+  setFavoriteEmojiKeys: keys => (explorerState.favoriteEmojiKeys = keys),
   translate
 });
 function renderPixelFontToggle() {
-  const enabled = explorerPreferences.pixelFont !== false;
+  const enabled = explorerState.explorerPreferences.pixelFont !== false;
   document.documentElement.toggleAttribute('data-pixel-font', enabled);
   if (enabled) {
     delete document.documentElement.dataset.emojiFont;
@@ -350,8 +349,8 @@ function selectEmojiFont(event) {
 }
 function developerModeEnabled() {
   return (
-    (developerModeFromUrl && !developerModeUrlDismissed) ||
-    explorerPreferences.developerMode === true
+    (explorerState.developerModeFromUrl && !explorerState.developerModeUrlDismissed) ||
+    explorerState.explorerPreferences.developerMode === true
   );
 }
 function renderDeveloperMode() {
@@ -364,8 +363,8 @@ function renderDeveloperMode() {
 }
 function toggleDeveloperMode(event) {
   const enabled = event.currentTarget.checked;
-  developerModeUrlDismissed = !enabled;
-  developerModeFromUrl = false;
+  explorerState.developerModeUrlDismissed = !enabled;
+  explorerState.developerModeFromUrl = false;
   saveExplorerPreference('developerMode', enabled);
   renderDeveloperMode();
   if (enabled) void loadVersionData();
@@ -585,9 +584,9 @@ async function onLoad() {
 
   bindExplorerEvents({
     advancedFilters, applyingUrlState: () => applyingUrlState, applyBasicUrlState,
-    clearFiltersButton, closePanel: closePanelDialog, copiedEmojiKeys: () => copiedEmojiKeys,
+    clearFiltersButton, closePanel: closePanelDialog, copiedEmojiKeys: () => explorerState.copiedEmojiKeys,
     developerModeToggle, drawList, emojiFontChoices, emojiList, emojiNext, emojiPrevious,
-    exampleDialog, favoriteEmojiKeys: () => favoriteEmojiKeys, genderCheckboxes,
+    exampleDialog, favoriteEmojiKeys: () => explorerState.favoriteEmojiKeys, genderCheckboxes,
     hairCheckboxes, helpDialog, helpPicker, installApp, installAppButton, installDialog,
     installedDisplayQueries, languageDialog, languageList, languagePicker, navigateEmoji,
     onClick, onDocumentKeyDown, onEmojiDialogClick, onEmojiDialogClose, onEmojiFocus,
@@ -601,9 +600,9 @@ async function onLoad() {
     versionModeToggle, versionNext, versionPrevious, versionRange, versionSelector
   });
   await finalizeExplorerStartup({
-    advancedFilters, applyDialogUrlState, drawList, explorerPreferences,
+    advancedFilters, applyDialogUrlState, drawList,
     filters: advancedFilters, finishExplorerLoading, loadData, loadSearchLanguages,
-    loadUiTranslations, observeToolbarHeight, preferences: explorerPreferences,
+    loadUiTranslations, observeToolbarHeight, preferences: explorerState.explorerPreferences,
     renderPixelFontToggle, renderVersionModeToggle, setUrlStateReady: value => (urlStateReady = value),
     syncUrlState, toolbar
   });
@@ -751,7 +750,7 @@ const explorerNavigation = createExplorerNavigation({
   openEmoji: key => showEmoji(key, false, explorerState.displayedKeys),
   orderButtons: () => orderButtons,
   panelDialogs,
-  preferredOrder: () => explorerPreferences.order,
+  preferredOrder: () => explorerState.explorerPreferences.order,
   renderCategoryFilters,
   renderSavedEmoji,
   renderVersionModeToggle,
@@ -857,7 +856,7 @@ const searchLanguageLifecycle = createSearchLanguageLifecycle({
   nextLoadId: () => ++explorerState.searchLoadId,
   refreshLocalizedLabels,
   restoreDeveloperMode: () => {
-    developerModeFromUrl =
+    explorerState.developerModeFromUrl =
       new URLSearchParams(window.location.search).get('developer') === '1';
     renderDeveloperMode();
   },
@@ -1420,7 +1419,7 @@ const pixelArtwork = createPixelArtworkManager({
   emojiKeyByCodePoints: () => explorerState.emojiKeyByCodePoints,
   hairCheckboxes: () => hairCheckboxes,
   normalizeCodePoints,
-  pixelFontPreferred: () => explorerPreferences.pixelFont !== false,
+  pixelFontPreferred: () => explorerState.explorerPreferences.pixelFont !== false,
   refreshEditor: () => {
     if (exampleDialog?.classList.contains('is-editor-view'))
       pixelEditor?.refreshFontBuild();
