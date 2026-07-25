@@ -22,7 +22,8 @@ import { finishExplorerLoading as finishExplorerLoadingHelper, revealExplorer as
 import { createEmojiDialogClickHandler } from './explorer/emoji-dialog-events.js';
 import { createListOrchestration } from './app/list-orchestration.js';
 import { createDialogNavigationController } from './explorer/dialog-navigation-controller.js';
-import { showEmojiSession } from './explorer/emoji-session.js';
+import { createEmojiSessionController } from './app/emoji-session-controller.js';
+import { initializeExplorerPreferences } from './app/explorer-preferences.js';
 import { createFilterControlSetup } from './explorer/filter-controls.js';
 import { bindExplorerEvents, createExplorerApp, finalizeExplorerStartup, initializeExplorerControls } from './explorer-app.js';
 import { createExplorerState } from './explorer-state.js';
@@ -94,16 +95,7 @@ var offlineStatus;
 var installAppButton;
 var installDialog;
 var deferredInstallPrompt;
-const explorerPreferencesKey = '@lewismoten/emoji:explorer-preferences';
-explorerState.explorerPreferences = loadExplorerPreferences();
-explorerState.developerModeFromUrl =
-    new URLSearchParams(window.location.search).get('developer') === '1';
-explorerState.favoriteEmojiKeys = Array.isArray(explorerState.explorerPreferences.favorites)
-    ? explorerState.explorerPreferences.favorites
-    : [];
-explorerState.copiedEmojiKeys = Array.isArray(explorerState.explorerPreferences.recentCopied)
-    ? explorerState.explorerPreferences.recentCopied
-    : [];
+const { save: saveExplorerPreference } = initializeExplorerPreferences(explorerState);
 const translate = (key, fallback) => explorerState.uiStrings[key] ?? fallback;
 const displayExplorerLabel = label => translate(explorerLabelKeys[label], label);
 const panelDialogs = () => ({
@@ -111,23 +103,6 @@ const panelDialogs = () => ({
     help: helpDialog,
     language: languageDialog
 });
-function loadExplorerPreferences() {
-    try {
-        return JSON.parse(window.localStorage.getItem(explorerPreferencesKey) ?? '{}');
-    }
-    catch {
-        return {};
-    }
-}
-function saveExplorerPreference(key, value) {
-    explorerState.explorerPreferences[key] = value;
-    try {
-        window.localStorage.setItem(explorerPreferencesKey, JSON.stringify(explorerState.explorerPreferences));
-    }
-    catch {
-        // Preferences are optional when storage is unavailable or blocked.
-    }
-}
 const { addFavorite, recordCopiedEmoji, renderList: renderSavedEmojiList, renderSavedEmoji, toggleFavorite, updateFavoriteButton } = createSavedEmojiController({
     applyPixelArtworkClass: () => applyPixelArtworkClass,
     byId: () => explorerState.byId,
@@ -705,47 +680,36 @@ installPixelFontHotReload({
         }
     }, revision)
 });
-function showEmoji(id, openDialog = true, navigationKeys) {
-    return showEmojiSession({
-        applyPixelArtworkClass,
-        applyStandalonePixelArtwork,
-        byId: explorerState.byId,
-        compositionMode: explorerState.compositionMode,
-        currentEmojiCopies: { get value() { return explorerState.currentEmojiCopies; }, set value(value) { explorerState.currentEmojiCopies = value; } },
-        currentEmojiKey: { get value() { return explorerState.currentEmojiKey; }, set value(value) { explorerState.currentEmojiKey = value; } },
-        developerMode: developerModeEnabled(),
-        dialog: explorerRuntime.get('exampleDialog'),
-        dialogNavigationKeys: { get value() { return explorerState.dialogNavigationKeys; }, set value(value) { explorerState.dialogNavigationKeys = value; } },
-        displayGroupName,
-        displayUnicodeSubGroupName,
-        displayedKeys: { value: explorerState.displayedKeys },
-        emojiByKey: explorerState.emojiByKey,
-        getIntroducedVersion,
-        id,
-        items: explorerState.items,
-        navigationKeys,
-        openDialog,
-        openDialogAction() {
-            if (copyStatus)
-                copyStatus.textContent = '';
-            setEmojiDialogView('details', false);
-            explorerRuntime.get('exampleDialog').showModal();
-            focusInitialEmojiDialogAction();
-            syncUrlState('push', { ...withoutCompositionParent(), emojiDialogEntry: true });
-        },
-        openEditor: (key, value) => pixelEditor?.open(key, value),
-        searchAnnotations: explorerState.searchAnnotations,
-        selectedSearchLocale: explorerState.selectedSearchLocale,
-        sequenceTranslationKeys,
-        sequenceTypeLabels,
-        statusTranslationKeys,
-        translate,
-        updateDialogNavigation,
-        updateEmojiComposition,
-        updateFavoriteButton,
-        updateRenderingDiagnostic
-    });
-}
+const { showEmoji } = createEmojiSessionController({
+    applyPixelArtworkClass,
+    applyStandalonePixelArtwork,
+    developerModeEnabled,
+    dialog: () => explorerRuntime.get('exampleDialog'),
+    displayGroupName,
+    displayUnicodeSubGroupName,
+    getIntroducedVersion,
+    openDialogAction() {
+        if (copyStatus)
+            copyStatus.textContent = '';
+        setEmojiDialogView('details', false);
+        explorerRuntime.get('exampleDialog').showModal();
+        focusInitialEmojiDialogAction();
+        syncUrlState('push', {
+            ...withoutCompositionParent(window.history.state),
+            emojiDialogEntry: true
+        });
+    },
+    openEditor: (key, value) => pixelEditor?.open(key, value),
+    sequenceTranslationKeys,
+    sequenceTypeLabels,
+    state: () => explorerState,
+    statusTranslationKeys,
+    translate,
+    updateDialogNavigation,
+    updateEmojiComposition,
+    updateFavoriteButton,
+    updateRenderingDiagnostic
+});
 const dialogNavigation = createDialogNavigationController({
     byId: () => explorerState.byId,
     currentEmojiKey: () => explorerState.currentEmojiKey,
