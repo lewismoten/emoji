@@ -27,6 +27,14 @@ export function buildDialogCopyValues(options: {
   };
 }
 
+export function formatEmojiCodePoints(codePoints?: string) {
+  return (codePoints ?? '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(point => `U+${point}`)
+    .join(' ');
+}
+
 export function resolveDialogTitle(options: {
   emojiKey: string;
   selectedSearchLocale: string;
@@ -79,4 +87,61 @@ export function resolveCompositionParentLabel(options: {
     options.byId[options.parentKey]?.shortName ??
     displayEmojiKey(options.parentKey);
   return `${options.translate('backToEmoji', 'Back to emoji')}: ${parentName}`;
+}
+
+export function resolveEmojiDialogDisplay(options: {
+  emojiKey: string;
+  emojiValue: string;
+  item: {
+    shortName?: string;
+    codePoints?: string;
+    sequenceType?: string;
+    status?: string;
+  };
+  groupText: string;
+  subGroupText: string;
+  introducedVersion: string;
+  selectedSearchLocale: string;
+  annotations: string[];
+  sequenceTypeLabels: Record<string, string>;
+  sequenceTranslationKeys: Record<string, string>;
+  statusTranslationKeys: Record<string, string>;
+  translate: (key: string, fallback: string) => string;
+}) {
+  const codePoints = formatEmojiCodePoints(options.item.codePoints);
+  const englishName =
+    options.item.shortName ?? displayEmojiKey(options.emojiKey);
+  const sequenceLabel =
+    options.sequenceTypeLabels[options.item.sequenceType ?? ''] ??
+    options.item.sequenceType ??
+    '—';
+  const dialogTitle = resolveDialogTitle({
+    emojiKey: options.emojiKey,
+    selectedSearchLocale: options.selectedSearchLocale,
+    annotations: options.annotations
+  });
+  return {
+    groupText: options.groupText,
+    subGroupText: options.subGroupText,
+    keyText: options.emojiKey,
+    valueText: options.emojiValue,
+    encodedText: buildEscapeSequence(options.emojiValue),
+    englishName,
+    versionText: options.introducedVersion,
+    sequenceTypeText: options.translate(
+      options.sequenceTranslationKeys[options.item.sequenceType ?? ''],
+      sequenceLabel
+    ),
+    statusText: options.translate(
+      options.statusTranslationKeys[options.item.status ?? ''],
+      options.item.status ?? '—'
+    ),
+    dialogTitle,
+    hideEnglishName: shouldHideEnglishName(dialogTitle.title, englishName),
+    copyValues: buildDialogCopyValues({
+      emoji: options.emojiValue,
+      key: options.emojiKey,
+      codePoints
+    })
+  };
 }

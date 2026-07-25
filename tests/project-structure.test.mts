@@ -26,7 +26,7 @@ const legacyLineBudgets: Record<string, number> = {
   'pixel-font/scripts/generate-atlases.mjs': 382,
   'pixel-font/scripts/validate-atlases.mjs': 356,
   'tests/unit.test.mts': 2124,
-  'src/index.ts': 4145
+  'src/index.ts': 4143
 };
 const legacyFileCountBudgets: Record<string, number> = {
   '.': 24,

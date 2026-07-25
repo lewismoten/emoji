@@ -52,11 +52,9 @@ import {
   stepVersionIndex
 } from './explorer/filter-controls.js';
 import {
-  buildDialogCopyValues,
   resolveCompositionParentLabel,
-  resolveDialogNavigationState,
-  resolveDialogTitle,
-  shouldHideEnglishName
+  resolveEmojiDialogDisplay,
+  resolveDialogNavigationState
 } from './explorer/dialog-state.js';
 import { resolveRenderingDiagnostic } from './explorer/rendering-diagnostic.js';
 
@@ -4020,75 +4018,75 @@ function showEmoji(id, openDialog = true, navigationKeys) {
     );
   }
   currentEmojiKey = id;
+  const item = byId[id] ?? {};
   var group = items.find(item => item.key === id)?.group ?? '(none)';
-  document.getElementsByClassName('emoji-group')[0].innerText =
-    displayGroupName(group);
-
   var subGroup =
     items.find(item => item.key === id)?.unicodeSubGroup ?? '(none)';
-  document.getElementsByClassName('emoji-subgroup')[0].innerText =
-    displayUnicodeSubGroupName(subGroup);
+  const annotations = searchAnnotations[id] ?? [];
+  const dialogDisplay = resolveEmojiDialogDisplay({
+    emojiKey: id,
+    emojiValue: value,
+    item,
+    groupText: displayGroupName(group),
+    subGroupText: displayUnicodeSubGroupName(subGroup),
+    introducedVersion: getIntroducedVersion(id),
+    selectedSearchLocale,
+    annotations,
+    sequenceTypeLabels,
+    sequenceTranslationKeys,
+    statusTranslationKeys,
+    translate
+  });
 
-  document.getElementsByClassName('emoji-key')[0].innerText = id;
-  document.getElementsByClassName('emoji-value')[0].innerText = value;
-  document.getElementsByClassName('emoji-encoded')[0].innerText = bits.join('');
+  document.getElementsByClassName('emoji-group')[0].innerText =
+    dialogDisplay.groupText;
+  document.getElementsByClassName('emoji-subgroup')[0].innerText =
+    dialogDisplay.subGroupText;
+
+  document.getElementsByClassName('emoji-key')[0].innerText =
+    dialogDisplay.keyText;
+  document.getElementsByClassName('emoji-value')[0].innerText =
+    dialogDisplay.valueText;
+  document.getElementsByClassName('emoji-encoded')[0].innerText =
+    dialogDisplay.encodedText;
   const previewGlyph = document.getElementsByClassName(
     'emoji-preview-glyph'
   )[0];
   previewGlyph.innerText = value;
   applyPixelArtworkClass(previewGlyph, id);
-  const item = byId[id] ?? {};
   updateRenderingDiagnostic(id, value);
   updateEmojiComposition(item, value);
-  const codePoints = (item.codePoints ?? '')
-    .split(/\s+/)
-    .filter(Boolean)
-    .map(point => `U+${point}`)
-    .join(' ');
-  const englishName = item.shortName ?? displayEmojiKey(id);
   const englishNameElement =
     document.getElementsByClassName('emoji-english-name')[0];
-  englishNameElement.innerText = englishName;
+  englishNameElement.innerText = dialogDisplay.englishName;
   document.getElementsByClassName('emoji-version')[0].innerText =
-    getIntroducedVersion(id);
-  const sequenceLabel =
-    sequenceTypeLabels[item.sequenceType] ?? item.sequenceType ?? '—';
+    dialogDisplay.versionText;
   document.getElementsByClassName('emoji-sequence-type')[0].innerText =
-    translate(sequenceTranslationKeys[item.sequenceType], sequenceLabel);
-  document.getElementsByClassName('emoji-status')[0].innerText = translate(
-    statusTranslationKeys[item.status],
-    item.status ?? '—'
-  );
-  currentEmojiCopies = buildDialogCopyValues({
-    emoji: value,
-    key: id,
-    codePoints
-  });
+    dialogDisplay.sequenceTypeText;
+  document.getElementsByClassName('emoji-status')[0].innerText =
+    dialogDisplay.statusText;
+  currentEmojiCopies = dialogDisplay.copyValues;
 
   const localizedDetails = document.getElementsByClassName(
     'localized-emoji-details'
   )[0];
-  const annotations = searchAnnotations[id] ?? [];
-  const dialogTitle = resolveDialogTitle({
-    emojiKey: id,
-    selectedSearchLocale,
-    annotations
-  });
-  if (dialogTitle.showLocalized) {
-    document.getElementById('example-title').innerText = dialogTitle.title;
+  if (dialogDisplay.dialogTitle.showLocalized) {
+    document.getElementById('example-title').innerText =
+      dialogDisplay.dialogTitle.title;
     document.getElementsByClassName('localized-language')[0].innerText =
       translate('keywords', 'keywords');
     document.getElementsByClassName('localized-keywords')[0].innerText =
-      dialogTitle.localizedKeywords;
+      dialogDisplay.dialogTitle.localizedKeywords;
     localizedDetails.hidden = false;
   } else {
-    document.getElementById('example-title').innerText = dialogTitle.title;
+    document.getElementById('example-title').innerText =
+      dialogDisplay.dialogTitle.title;
     localizedDetails.hidden = true;
   }
   const dialogTitleElement = document.getElementById('example-title');
-  dialogTitleElement.title = dialogTitle.title;
+  dialogTitleElement.title = dialogDisplay.dialogTitle.title;
   englishNameElement.closest('.emoji-english-name-row, div').hidden =
-    shouldHideEnglishName(dialogTitle.title, englishName);
+    dialogDisplay.hideEnglishName;
   updateFavoriteButton();
   if (openDialog) {
     if (copyStatus) copyStatus.textContent = '';

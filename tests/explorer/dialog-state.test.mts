@@ -2,7 +2,9 @@ import assert from 'node:assert/strict';
 import {
   buildDialogCopyValues,
   buildEscapeSequence,
+  formatEmojiCodePoints,
   resolveCompositionParentLabel,
+  resolveEmojiDialogDisplay,
   resolveDialogNavigationState,
   resolveDialogTitle,
   shouldHideEnglishName
@@ -22,6 +24,11 @@ assert.deepEqual(
     escape: '\\u{1f381}',
     codePoints: 'U+1F381'
   }
+);
+
+assert.equal(
+  formatEmojiCodePoints('1F469 200D 1F52C'),
+  'U+1F469 U+200D U+1F52C'
 );
 
 assert.deepEqual(
@@ -73,4 +80,49 @@ assert.equal(
       key === 'backToEmoji' ? 'Back to emoji' : fallback
   }),
   'Back to emoji: Black flag'
+);
+
+assert.deepEqual(
+  resolveEmojiDialogDisplay({
+    emojiKey: 'wrappedGift',
+    emojiValue: '🎁',
+    item: {
+      shortName: 'Wrapped gift',
+      codePoints: '1F381',
+      sequenceType: 'single',
+      status: 'fully-qualified'
+    },
+    groupText: 'Objects',
+    subGroupText: 'Celebration',
+    introducedVersion: '6.0',
+    selectedSearchLocale: '',
+    annotations: [],
+    sequenceTypeLabels: { single: 'Single' },
+    sequenceTranslationKeys: { single: 'single' },
+    statusTranslationKeys: { 'fully-qualified': 'fullyQualified' },
+    translate: (key, fallback) => `${key}:${fallback}`
+  }),
+  {
+    groupText: 'Objects',
+    subGroupText: 'Celebration',
+    keyText: 'wrappedGift',
+    valueText: '🎁',
+    encodedText: '\\u{1f381}',
+    englishName: 'Wrapped gift',
+    versionText: '6.0',
+    sequenceTypeText: 'single:Single',
+    statusText: 'fullyQualified:fully-qualified',
+    dialogTitle: {
+      title: 'Wrapped gift',
+      showLocalized: false,
+      localizedKeywords: ''
+    },
+    hideEnglishName: true,
+    copyValues: {
+      emoji: '🎁',
+      key: 'wrappedGift',
+      escape: '\\u{1f381}',
+      codePoints: 'U+1F381'
+    }
+  }
 );
