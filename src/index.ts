@@ -464,13 +464,13 @@ function revealExplorer() {
 function upgradeEmojiDialog() {
   upgradeEmojiDialogHelper({
     ensureImportExamples: ensureImportExampleLines,
-    exampleDialog
+    exampleDialog: explorerRuntime.get('exampleDialog')
   });
 }
 
 const loadPixelEditor = createPixelEditorLoader({
   currentEmojiKey: () => explorerState.currentEmojiKey,
-  dialog: () => exampleDialog,
+  dialog: () => explorerRuntime.get('exampleDialog'),
   emojiByKey: () => explorerState.emojiByKey,
   formatNumber: formatUiNumber,
   formatPercent: formatUiPercent,
@@ -499,9 +499,9 @@ const {
   byId: () => explorerState.byId,
   currentEmojiKey: () => explorerState.currentEmojiKey,
   developerModeEnabled,
-  dialog: () => exampleDialog,
+  dialog: () => explorerRuntime.get('exampleDialog'),
   emojiByKey: () => explorerState.emojiByKey,
-  emojiParent: () => emojiParent,
+  emojiParent: () => explorerRuntime.get('emojiParent'),
   ensurePixelEditor,
   getPixelEditor: () => pixelEditor,
   loadPackageManifest,
@@ -566,12 +566,12 @@ const explorerNavigation = createExplorerNavigation({
   applyingUrlState: () => applyingUrlState,
   closeEmojiDialog: () => {
     suppressDialogCloseSync = true;
-    exampleDialog.close();
+    explorerRuntime.get('exampleDialog').close();
     suppressDialogCloseSync = false;
   },
   compositionMode: () => explorerState.compositionMode,
   developerModeEnabled,
-  dialog: () => exampleDialog,
+  dialog: () => explorerRuntime.get('exampleDialog'),
   currentEmojiKey: () => explorerState.currentEmojiKey,
   drawList,
   emojiByKey: () => explorerState.emojiByKey,
@@ -601,7 +601,7 @@ const explorerNavigation = createExplorerNavigation({
   setSelectedSequenceType: value => (explorerState.selectedSequenceType = value),
   setSelectedSubGroup: value => (explorerState.selectedSubGroup = value),
   showEmojiDialog: () => {
-    exampleDialog.showModal();
+    explorerRuntime.get('exampleDialog').showModal();
     focusInitialEmojiDialogAction();
   },
   skinToneCheckboxes: () => skinToneCheckboxes,
@@ -1229,7 +1229,7 @@ function showEmoji(id, openDialog = true, navigationKeys) {
     currentEmojiCopies: { get value() { return explorerState.currentEmojiCopies; }, set value(value) { explorerState.currentEmojiCopies = value; } },
     currentEmojiKey: { get value() { return explorerState.currentEmojiKey; }, set value(value) { explorerState.currentEmojiKey = value; } },
     developerMode: developerModeEnabled(),
-    dialog: exampleDialog,
+    dialog: explorerRuntime.get('exampleDialog'),
     dialogNavigationKeys: { get value() { return explorerState.dialogNavigationKeys; }, set value(value) { explorerState.dialogNavigationKeys = value; } },
     displayGroupName,
     displayUnicodeSubGroupName,
@@ -1243,7 +1243,7 @@ function showEmoji(id, openDialog = true, navigationKeys) {
     openDialogAction() {
       if (copyStatus) copyStatus.textContent = '';
       setEmojiDialogView('details', false);
-      exampleDialog.showModal();
+      explorerRuntime.get('exampleDialog').showModal();
       focusInitialEmojiDialogAction();
       syncUrlState('push', { ...withoutCompositionParent(), emojiDialogEntry: true });
     },
@@ -1267,9 +1267,9 @@ const dialogNavigation = createDialogNavigationController({
   dialogNavigationKeys: () => explorerState.dialogNavigationKeys,
   displayedKeys: () => explorerState.displayedKeys,
   emojiByKey: () => explorerState.emojiByKey,
-  emojiNext: () => emojiNext,
-  emojiParent: () => emojiParent,
-  emojiPrevious: () => emojiPrevious,
+  emojiNext: () => explorerRuntime.get('emojiNext'),
+  emojiParent: () => explorerRuntime.get('emojiParent'),
+  emojiPrevious: () => explorerRuntime.get('emojiPrevious'),
   resolveNavigation: resolveDialogNavigationState,
   searchAnnotations: () => explorerState.searchAnnotations,
   showEmoji,
