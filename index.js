@@ -30,7 +30,7 @@ import { createListController } from './explorer/list-controller.js';
 import { createDialogNavigationController } from './explorer/dialog-navigation-controller.js';
 import { showEmojiSession } from './explorer/emoji-session.js';
 import { createFilterControlSetup } from './explorer/filter-controls.js';
-import { bindExplorerEvents, createExplorerApp, initializeExplorerControls } from './explorer-app.js';
+import { bindExplorerEvents, createExplorerApp, finalizeExplorerStartup, initializeExplorerControls } from './explorer-app.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -505,29 +505,13 @@ async function onLoad() {
         toggleVersionMode, updateOnlineStatus, urlStateReady: () => urlStateReady,
         versionModeToggle, versionNext, versionPrevious, versionRange, versionSelector
     });
-    renderVersionModeToggle();
-    renderPixelFontToggle();
-    observeToolbarHeight(toolbar);
-    if (typeof explorerPreferences.filtersOpen === 'boolean') {
-        advancedFilters.open = explorerPreferences.filtersOpen;
-    }
-    else if (window.matchMedia('(max-width: 560px)').matches) {
-        advancedFilters.open = false;
-    }
-    const routeLocale = window.location.pathname.match(/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/)?.[1];
-    const initialUiLocale = routeLocale ?? document.documentElement.dataset.locale ?? 'en';
-    const initialSearchLocale = routeLocale ??
-        (Object.hasOwn(explorerPreferences, 'locale')
-            ? explorerPreferences.locale
-            : initialUiLocale);
-    await loadUiTranslations(initialUiLocale, document.documentElement.dir === 'rtl');
-    await loadSearchLanguages(initialSearchLocale);
-    await loadData();
-    drawList();
-    finishExplorerLoading();
-    applyDialogUrlState();
-    urlStateReady = true;
-    syncUrlState();
+    await finalizeExplorerStartup({
+        advancedFilters, applyDialogUrlState, drawList, explorerPreferences,
+        filters: advancedFilters, finishExplorerLoading, loadData, loadSearchLanguages,
+        loadUiTranslations, observeToolbarHeight, preferences: explorerPreferences,
+        renderPixelFontToggle, renderVersionModeToggle, setUrlStateReady: value => (urlStateReady = value),
+        syncUrlState, toolbar
+    });
 }
 function finishExplorerLoading() {
     finishExplorerLoadingHelper({

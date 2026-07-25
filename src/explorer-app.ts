@@ -199,3 +199,36 @@ export function initializeExplorerControls(options: any) {
     versionRangeValue
   };
 }
+
+/** Complete the asynchronous page startup once controls and events exist. */
+export async function finalizeExplorerStartup(options: any) {
+  options.renderVersionModeToggle();
+  options.renderPixelFontToggle();
+  options.observeToolbarHeight(options.toolbar);
+  if (typeof options.preferences.filtersOpen === 'boolean') {
+    options.advancedFilters.open = options.preferences.filtersOpen;
+  } else if (window.matchMedia('(max-width: 560px)').matches) {
+    options.advancedFilters.open = false;
+  }
+  const routeLocale = window.location.pathname.match(
+    /index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/
+  )?.[1];
+  const initialUiLocale =
+    routeLocale ?? document.documentElement.dataset.locale ?? 'en';
+  const initialSearchLocale =
+    routeLocale ??
+    (Object.hasOwn(options.preferences, 'locale')
+      ? options.preferences.locale
+      : initialUiLocale);
+  await options.loadUiTranslations(
+    initialUiLocale,
+    document.documentElement.dir === 'rtl'
+  );
+  await options.loadSearchLanguages(initialSearchLocale);
+  await options.loadData();
+  options.drawList();
+  options.finishExplorerLoading();
+  options.applyDialogUrlState();
+  options.setUrlStateReady(true);
+  options.syncUrlState();
+}
