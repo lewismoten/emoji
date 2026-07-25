@@ -24,6 +24,7 @@ import { loadVersionCatalog, populateVersionSelector as populateVersionSelectorH
 import { createSearchLanguageLifecycle } from './explorer/search-language-lifecycle.js';
 import { getExplorerElements } from './explorer/explorer-dom.js';
 import { observeToolbarHeight } from './explorer/toolbar-layout.js';
+import { finishExplorerLoading as finishExplorerLoadingHelper, revealExplorer as revealExplorerHelper } from './explorer/loading-state.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -655,21 +656,16 @@ async function onLoad() {
     syncUrlState();
 }
 function finishExplorerLoading() {
-    if (emojiList.dataset.rendering !== 'true') {
-        revealExplorer();
-    }
-    matchCount.closest('.result-count').hidden = false;
-    const comparison = document.querySelector('.pixel-comparison-custom');
-    if (comparison) {
-        comparison.textContent = emojiByKey.grinningFace ?? '😀';
-        applyPixelArtworkClass(comparison, 'grinningFace');
-    }
+    finishExplorerLoadingHelper({
+        applyPixelArtworkClass,
+        emojiByKey,
+        emojiList,
+        matchCount,
+        revealExplorer
+    });
 }
 function revealExplorer() {
-    document.documentElement.classList.remove('app-loading');
-    emojiList.classList.remove('is-loading');
-    emojiList.setAttribute('aria-busy', 'false');
-    matchCount.closest('.result-count').hidden = false;
+    revealExplorerHelper(emojiList, matchCount);
 }
 function upgradeEmojiDialog() {
     upgradeEmojiDialogHelper({
