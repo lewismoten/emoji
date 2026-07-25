@@ -86,6 +86,10 @@ import { createExplorerNavigation } from './explorer/explorer-navigation.js';
 import { createCategoryFilterRenderer } from './explorer/category-filter-render.js';
 import { loadExplorerCatalog } from './explorer/catalog-loader.js';
 import { createPixelArtworkManager } from './explorer/pixel-artwork.js';
+import {
+  loadVersionCatalog,
+  populateVersionSelector as populateVersionSelectorHelper
+} from './explorer/version-data.js';
 
 if (import.meta.hot) {
   let pixelFontRevision;
@@ -1436,53 +1440,16 @@ async function loadVersionData() {
   if (versionDataPromise) return versionDataPromise;
   versionDataPromise = (async () => {
     try {
-      const manifest = await fetch('versions/manifest.json').then(response =>
-        response.json()
-      );
-      const manifests = manifest.versions
-        .filter(version => version.released)
-        .sort((a, b) => a.released.localeCompare(b.released));
-      const keys = await Promise.all(
-        manifests.map(async version => [
-          version.version,
-          new Set(
-            await fetch(`versions/${version.file}`).then(response =>
-              response.json()
-            )
-          )
-        ])
-      );
-      const proposed = (manifest.proposed ?? []).sort((a, b) =>
-        a.version.localeCompare(b.version, undefined, { numeric: true })
-      );
-      const proposedKeys = await Promise.all(
-        proposed.map(async version => {
-          const proposal = await fetch(version.file).then(response =>
-            response.json()
-          );
-          const proposalItems = proposal.emoji ?? [];
-          proposalItems.forEach(item => {
-            if (emojiByKey[item.key]) return;
-            const explorerItem = {
-              ...item,
-              unicodeSubGroup: item.subGroup,
-              subGroup: getExplorerSubGroup(item)
-            };
-            items.push(explorerItem);
-            byId[item.key] = explorerItem;
-            emojiByKey[item.key] = item.emoji;
-            allIds.push(item.key);
-          });
-          return [
-            version.version,
-            new Set(proposalItems.map(item => item.key))
-          ];
-        })
-      );
-
-      versionManifests = manifests;
-      proposedVersionManifests = proposed;
-      versionKeys = new Map([...keys, ...proposedKeys]);
+      const versions = await loadVersionCatalog({
+        allIds: () => allIds,
+        byId: () => byId,
+        emojiByKey: () => emojiByKey,
+        getExplorerSubGroup,
+        items: () => items
+      });
+      versionManifests = versions.released;
+      proposedVersionManifests = versions.proposed;
+      versionKeys = versions.versionKeys;
       rebuildEmojiCodePointLookup();
       updateModifierPixelArtwork();
       buildCategoryRepresentatives();
@@ -1504,32 +1471,14 @@ async function loadVersionData() {
 }
 
 function populateVersionSelector() {
-  const previousValue = versionSelector.value;
-  versionSelector.replaceChildren();
-  const manifests = [...versionManifests, ...proposedVersionManifests];
-  manifests.forEach(version => {
-    const option = document.createElement('option');
-    option.value = version.version;
-    if (!version.released) {
-      const stage = version.stage ?? version.status ?? 'draft';
-      const timing = version.expectedRelease
-        ? `${translate('expected', 'expected')} ${version.expectedRelease}`
-        : `${translate('updated', 'updated')} ${new Date(version.retrieved).toLocaleDateString(selectedSearchLocale || undefined)}`;
-      option.text = `Emoji ${version.version} (${stage} · ${timing})`;
-    } else {
-      option.text = `Emoji ${version.version} (${translate('released', 'released')} ${version.released})`;
-    }
-    versionSelector.appendChild(option);
+  populateVersionSelectorHelper({
+    proposed: proposedVersionManifests,
+    released: versionManifests,
+    selectedLocale: selectedSearchLocale,
+    selector: versionSelector,
+    syncRange: syncVersionRange,
+    translate
   });
-  const defaultVersion =
-    versionManifests.at(-1)?.version ?? manifests.at(-1)?.version ?? '';
-  versionSelector.value = manifests.some(
-    version => version.version === previousValue
-  )
-    ? previousValue
-    : defaultVersion;
-  versionSelector.disabled = manifests.length === 0;
-  syncVersionRange();
 }
 
 function versionSliderLabel(version) {

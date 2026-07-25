@@ -119,6 +119,10 @@ const pixelArtwork = await fs.readFile(
   path.join(root, 'src/explorer/pixel-artwork.ts'),
   'utf8'
 );
+const versionData = await fs.readFile(
+  path.join(root, 'src/explorer/version-data.ts'),
+  'utf8'
+);
 const emojiListSources = `${demoScript}\n${emojiListInteractionHelper}`;
 const utilityControlsHelper = await fs.readFile(
   path.join(root, 'src/explorer/utility-controls.ts'),
@@ -1018,8 +1022,8 @@ assert.match(
   'composition components must use painted artwork even when linking to themselves is suppressed'
 );
 assert.match(
-  demoScript,
-  /versionKeys = new Map\(\[\.\.\.keys, \.\.\.proposedKeys\]\);[\s\S]*rebuildEmojiCodePointLookup\(\);/,
+  `${versionData}\n${demoScript}`,
+  /versionKeys: new Map\(\[\.\.\.releasedKeys, \.\.\.proposedKeys\]\)[\s\S]*versionKeys = versions\.versionKeys;[\s\S]*rebuildEmojiCodePointLookup\(\);/,
   'proposed emoji must be added to the sequence artwork lookup'
 );
 assert.match(
