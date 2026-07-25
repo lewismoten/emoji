@@ -91,3 +91,30 @@ export function selectEmojiFont(options: any, event: any) {
   options.renderPixelFontToggle();
   if (event?.detail > 0) event.currentTarget.blur();
 }
+
+export function createDeveloperModeController(options: any) {
+  const enabled = () =>
+    (options.state().developerModeFromUrl && !options.state().developerModeUrlDismissed) ||
+    options.state().explorerPreferences.developerMode === true;
+  function render() {
+    const active = enabled();
+    document.documentElement.toggleAttribute('data-developer-mode', active);
+    const toggle = options.toggle();
+    if (toggle) {
+      toggle.checked = active;
+      toggle.setAttribute('aria-checked', String(active));
+    }
+  }
+  function change(event: any) {
+    const active = event.currentTarget.checked;
+    options.state().developerModeUrlDismissed = !active;
+    options.state().developerModeFromUrl = false;
+    options.savePreference('developerMode', active);
+    render();
+    if (active) void options.loadVersionData();
+    if (!active && options.dialog()?.open) options.setDialogView('details');
+    if (!active) options.disableDeveloperFeatures();
+    options.syncUrlState();
+  }
+  return { enabled, render, change };
+}

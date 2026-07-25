@@ -33,7 +33,7 @@ import { createFilterControlSetup } from './explorer/filter-controls.js';
 import { bindExplorerEvents, createExplorerApp, finalizeExplorerStartup, initializeExplorerControls } from './explorer-app.js';
 import { createExplorerState } from './explorer-state.js';
 import { buildCategoryRepresentatives as buildCategoryRepresentativesHelper } from './category-representatives.js';
-import { createExplorerUiController, renderPixelFontToggle as renderPixelFontToggleHelper, selectEmojiFont as selectEmojiFontHelper } from './explorer-ui.js';
+import { createExplorerUiController, createDeveloperModeController, renderPixelFontToggle as renderPixelFontToggleHelper, selectEmojiFont as selectEmojiFontHelper } from './explorer-ui.js';
 import { installPixelFontHotReload, refreshExplorerPixelFont, refreshPixelFontStylesheet } from './pixel-font-hot-reload.js';
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
@@ -159,34 +159,13 @@ function renderPixelFontToggle() {
 function selectEmojiFont(event) {
     selectEmojiFontHelper({ renderPixelFontToggle, savePreference: saveExplorerPreference }, event);
 }
-function developerModeEnabled() {
-    return ((explorerState.developerModeFromUrl && !explorerState.developerModeUrlDismissed) ||
-        explorerState.explorerPreferences.developerMode === true);
-}
-function renderDeveloperMode() {
-    const enabled = developerModeEnabled();
-    document.documentElement.toggleAttribute('data-developer-mode', enabled);
-    if (developerModeToggle) {
-        developerModeToggle.checked = enabled;
-        developerModeToggle.setAttribute('aria-checked', String(enabled));
-    }
-}
-function toggleDeveloperMode(event) {
-    const enabled = event.currentTarget.checked;
-    explorerState.developerModeUrlDismissed = !enabled;
-    explorerState.developerModeFromUrl = false;
-    saveExplorerPreference('developerMode', enabled);
-    renderDeveloperMode();
-    if (enabled)
-        void loadVersionData();
-    if (!enabled && exampleDialog?.open) {
-        setEmojiDialogView('details');
-    }
-    if (!enabled) {
+const developerMode = createDeveloperModeController({
+    dialog: () => exampleDialog,
+    disableDeveloperFeatures() {
         versionModeSelector.value = 'through';
-        const latestReleased = explorerState.versionManifests.at(-1)?.version;
-        if (latestReleased)
-            versionSelector.value = latestReleased;
+        const latest = explorerState.versionManifests.at(-1)?.version;
+        if (latest)
+            versionSelector.value = latest;
         renderVersionModeToggle();
         syncVersionRange();
         if (explorerState.orderMode === 'sequence') {
@@ -202,9 +181,13 @@ function toggleDeveloperMode(event) {
             renderCategoryFilters();
             drawList();
         }
-    }
-    syncUrlState();
-}
+    },
+    loadVersionData, savePreference: saveExplorerPreference,
+    setDialogView: (...args) => setEmojiDialogView(...args),
+    state: () => explorerState, syncUrlState: () => syncUrlState(),
+    toggle: () => developerModeToggle
+});
+const { change: toggleDeveloperMode, enabled: developerModeEnabled, render: renderDeveloperMode } = developerMode;
 window.addEventListener('beforeinstallprompt', event => {
     event.preventDefault();
     deferredInstallPrompt = event;
