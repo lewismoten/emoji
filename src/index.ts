@@ -902,51 +902,6 @@ function upgradeEmojiDialog() {
   });
 }
 
-function ensureRenderingDiagnostic() {
-  const details = exampleDialog.querySelector('.emoji-dialog-details');
-  let section = exampleDialog.querySelector('.rendering-diagnostic');
-  if (!section && details) {
-    section = document.createElement('section');
-    section.className = 'rendering-diagnostic developer-only';
-    section.hidden = true;
-    details.after(section);
-  }
-  if (
-    section &&
-    (!section.querySelector('.system-render-glyph') ||
-      !section.querySelector('.pixel-render-glyph') ||
-      !section.querySelector('.rendering-result'))
-  ) {
-    section.setAttribute('aria-labelledby', 'rendering-diagnostic-title');
-    section.innerHTML = `
-      <h3 id="rendering-diagnostic-title" data-i18n="deviceRendering">Rendering on this device</h3>
-      <div class="rendering-comparison">
-        <div>
-          <span data-i18n="systemRendering">System rendering</span>
-          <b class="system-render-glyph"></b>
-        </div>
-        <div>
-          <span data-i18n="pixelRendering">Pixel rendering</span>
-          <b class="pixel-render-glyph"></b>
-        </div>
-      </div>
-      <p class="rendering-result"></p>
-    `;
-  }
-
-  let invitation = exampleDialog.querySelector('.pixel-design-invitation');
-  if (!invitation && section) {
-    invitation = document.createElement('section');
-    invitation.className = 'pixel-design-invitation developer-only';
-    invitation.hidden = true;
-    invitation.innerHTML = `
-      <strong data-i18n="pixelDesignMissing">This emoji has no pixel design yet.</strong>
-      <button class="show-pixel-editor" type="button" data-i18n="createPixelDesign">Create the 12×12 version</button>
-    `;
-    section.after(invitation);
-  }
-}
-
 function ensureCodeDialogView() {
   const actions = exampleDialog.querySelector('.emoji-copy-actions');
   if (actions && !actions.querySelector('.show-emoji-code')) {
