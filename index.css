@@ -74,6 +74,10 @@ html[data-theme="retro"] {
   --page: #0000aa;
   --panel: #000000;
   --panel-strong: #000000;
+  --frame-bg: #555555;
+  --control-bg: #0000aa;
+  --dialog-header-bg: #000000;
+  --dialog-body-bg: #555555;
   --border: #55ffff;
   --text: #ffffff;
   --muted: #aaaaaa;
@@ -85,15 +89,15 @@ html[data-theme="retro"] {
   --selected-control-bg: #aa00aa;
   --selected-control-text: #ffffff;
   --section-header-bg: #000000;
-  --code: #000000;
+  --code: #555555;
   --code-text: #ffffff;
-  --code-keyword: #ff55ff;
+  --code-keyword: #ffff55;
   --code-variable: #ffffff;
   --code-native-function: #55ffff;
   --code-string: #55ff55;
-  --code-comment: #aaaaaa;
-  --code-native-object: #ffff55;
-  --code-object: #ff5555;
+  --code-comment: #000000;
+  --code-native-object: #ff55ff;
+  --code-object: #55ffff;
   --ui-font: var(--retro-ui-font);
 }
 
@@ -263,6 +267,57 @@ html[data-theme="retro"] .unicode-subgroup {
   border-width: 2px;
 }
 
+html[data-theme="retro"] .help-pixel,
+html[data-theme="retro"] .help-settings,
+html[data-theme="retro"] .saved-section,
+html[data-theme="retro"] .shortcut-list > div,
+html[data-theme="retro"] .rendering-comparison > div,
+html[data-theme="retro"] .pixel-design-invitation,
+html[data-theme="retro"] .emoji-preview,
+html[data-theme="retro"] .emoji-composition-part,
+html[data-theme="retro"] .emoji-metadata > div,
+html[data-theme="retro"] .pixel-editor-file,
+html[data-theme="retro"] fieldset,
+html[data-theme="retro"] .modifier-filters fieldset,
+html[data-theme="retro"] .group,
+html[data-theme="retro"] .subgroup,
+html[data-theme="retro"] .sequence-type,
+html[data-theme="retro"] .unicode-subgroup {
+  background: var(--frame-bg);
+}
+
+html[data-theme="retro"] .example-dialog {
+  background: var(--dialog-body-bg);
+}
+
+html[data-theme="retro"] .example-dialog .dialog-heading {
+  background: var(--dialog-header-bg);
+  border-bottom: 2px solid var(--border);
+}
+
+html[data-theme="retro"] .subgroup-list,
+html[data-theme="retro"] .emoji-dialog-details,
+html[data-theme="retro"] .rendering-diagnostic,
+html[data-theme="retro"] .dialog-description,
+html[data-theme="retro"] .emoji-composition,
+html[data-theme="retro"] .emoji-metadata,
+html[data-theme="retro"] .emoji-copy-actions,
+html[data-theme="retro"] .emoji-code-view,
+html[data-theme="retro"] .pixel-editor-view,
+html[data-theme="retro"] .pixel-editor-controls,
+html[data-theme="retro"] .pixel-editor-layout,
+html[data-theme="retro"] .pixel-editor-transfer > div,
+html[data-theme="retro"] .pixel-editor-layer-controls,
+html[data-theme="retro"] .pixel-editor-layer-actions,
+html[data-theme="retro"] .pixel-editor-layer-transform {
+  background: var(--dialog-body-bg);
+}
+
+html[data-theme="retro"] .emoji-code-toolbar {
+  background: var(--dialog-header-bg);
+  border-top: 2px solid var(--border);
+}
+
 html[data-theme="retro"] .setting-choice,
 html[data-theme="retro"] .language-option,
 html[data-theme="retro"] .pixel-comparison > button,
@@ -289,7 +344,7 @@ html[data-theme="retro"] .pixel-editor-transfer button,
 html[data-theme="retro"] .pixel-editor-layer button,
 html[data-theme="retro"] .pixel-editor-trace-nudge {
   border-width: 2px;
-  background: #0000aa;
+  background: var(--control-bg);
   color: #ffffff;
 }
 
