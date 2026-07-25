@@ -104,6 +104,7 @@ import {
   initializeExplorerControls
 } from './explorer-app.js';
 import { createExplorerState } from './explorer-state.js';
+import { buildCategoryRepresentatives as buildCategoryRepresentativesHelper } from './category-representatives.js';
 import {
   createExplorerUiController,
   renderPixelFontToggle as renderPixelFontToggleHelper,
@@ -951,51 +952,17 @@ function displayGroupName(name) {
 }
 
 function buildCategoryRepresentatives() {
-  const manifests = [...explorerState.versionManifests, ...explorerState.proposedVersionManifests];
-  const versionOrder = new Map();
-  manifests.forEach((version, index) => {
-    for (const key of explorerState.versionKeys.get(version.version) ?? []) {
-      if (!versionOrder.has(key)) versionOrder.set(key, index);
-    }
+  const representatives = buildCategoryRepresentativesHelper({
+    groups: explorerState.groups,
+    items: explorerState.items,
+    proposedVersions: explorerState.proposedVersionManifests,
+    releasedVersions: explorerState.versionManifests,
+    subGroupKey: subGroupSelectionKey,
+    subGroups: explorerState.subGroups,
+    versionKeys: explorerState.versionKeys
   });
-  const itemOrder = new Map(
-    explorerState.items.map((item, index) => [item.key, item.order ?? index])
-  );
-  const byIntroduction = (left, right) =>
-    (versionOrder.get(left.key) ?? Infinity) -
-      (versionOrder.get(right.key) ?? Infinity) ||
-    itemOrder.get(left.key) - itemOrder.get(right.key) ||
-    left.key.localeCompare(right.key);
-
-  explorerState.groupRepresentativeEmoji = new Map();
-  explorerState.subGroupRepresentativeEmoji = new Map();
-  explorerState.groups.forEach(group => {
-    const subgroupRepresentatives = new Set();
-    explorerState.subGroups[group].forEach(subGroup => {
-      const representative = explorerState.items
-        .filter(
-          item => item.group === group && item.unicodeSubGroup === subGroup
-        )
-        .sort(byIntroduction)[0];
-      if (!representative) return;
-      explorerState.subGroupRepresentativeEmoji.set(
-        subGroupSelectionKey(group, subGroup),
-        representative.emoji
-      );
-      subgroupRepresentatives.add(representative.key);
-    });
-
-    const candidates = explorerState.items
-      .filter(item => item.group === group)
-      .sort(byIntroduction);
-    const representative =
-      candidates.find(item => !subgroupRepresentatives.has(item.key)) ??
-      (explorerState.subGroups[group].length === 1 && candidates.length === 1
-        ? candidates[0]
-        : undefined);
-    if (representative)
-      explorerState.groupRepresentativeEmoji.set(group, representative.emoji);
-  });
+  explorerState.groupRepresentativeEmoji = representatives.groups;
+  explorerState.subGroupRepresentativeEmoji = representatives.subGroups;
 }
 
 function getGroupRepresentativeEmoji(group) {
