@@ -10,7 +10,7 @@ export function createPixelArtworkManager(options: any) {
     neutral: 'person',
     '1F9B0': 'personRedHair',
     '1F9B1': 'personCurlyHair',
-    '1F9B2': 'person',
+    '1F9B2': 'personBald',
     '1F9B3': 'personWhiteHair'
   };
 
