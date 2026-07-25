@@ -9,6 +9,11 @@ import {
   encodeRgbaPng,
   hasVisiblePixels,
 } from "./png.mjs";
+import {
+  canReuseFontBuild,
+  getFontBuildFingerprint,
+  writeFontBuildState,
+} from "./font-build-cache.mjs";
 
 const workspace = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -22,6 +27,19 @@ const svgDirectory = path.join(buildDirectory, "svg");
 const fontDirectory = path.join(buildDirectory, "font");
 const proposedFontDirectory = path.join(fontDirectory, "proposed");
 const fontsOnly = process.argv.includes("--fonts-only");
+const buildFingerprint = await getFontBuildFingerprint({ root, workspace });
+if (
+  await canReuseFontBuild({
+    buildDirectory,
+    fingerprint: buildFingerprint,
+    fontsOnly,
+  })
+) {
+  console.log(
+    `Pixel font sources are unchanged; reused existing ${fontsOnly ? "font-only" : "full"} build.`,
+  );
+  process.exit(0);
+}
 const config = JSON.parse(
   await fs.readFile(path.join(workspace, "config.json"), "utf8"),
 );
@@ -346,6 +364,11 @@ await fs.writeFile(
   path.join(workspace, "font-build.revision"),
   `${Date.now()}\n`,
 );
+await writeFontBuildState({
+  buildDirectory,
+  fingerprint: buildFingerprint,
+  fontsOnly,
+});
 
 console.log(
   `Built ${glyphs.length.toLocaleString()} painted glyph${glyphs.length === 1 ? "" : "s"}${fontsOnly ? " in fonts-only mode" : ""} ` +

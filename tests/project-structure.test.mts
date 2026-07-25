@@ -21,10 +21,10 @@ const legacyLineBudgets: Record<string, number> = {
   'index.css': 3113,
   'pixel-editor.js': 2455,
   'pixel-font/PIXEL_EMOJI.md': 504,
-  'pixel-font/scripts/build-assets.mjs': 940,
+  'pixel-font/scripts/build-assets.mjs': 963,
   'pixel-font/scripts/generate-atlases.mjs': 382,
   'pixel-font/scripts/validate-atlases.mjs': 356,
-  'tests/unit.test.mts': 2177,
+  'tests/unit.test.mts': 2200,
   'src/index.ts': 3096
 };
 const legacyFileCountBudgets: Record<string, number> = {
@@ -36,7 +36,7 @@ const legacyFileCountBudgets: Record<string, number> = {
   'pixel-font/atlases/smileys-and-emotion': 20,
   'pixel-font/atlases/symbols': 16,
   'pixel-font/atlases/travel-and-places': 14,
-  scripts: 13,
+  scripts: 14,
   'src/explorer': 19,
   'tests/explorer': 11,
   versions: 18

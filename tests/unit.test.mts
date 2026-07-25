@@ -169,6 +169,14 @@ const pixelFontBuildScript = await fs.readFile(
   path.join(root, 'pixel-font/scripts/build-assets.mjs'),
   'utf8'
 );
+const pixelFontBuildCache = await fs.readFile(
+  path.join(root, 'pixel-font/scripts/font-build-cache.mjs'),
+  'utf8'
+);
+const testBundleCache = await fs.readFile(
+  path.join(root, 'scripts/ensure-test-bundle.mjs'),
+  'utf8'
+);
 const pixelFontCompiler = await fs.readFile(
   path.join(root, 'pixel-font/scripts/compile-font.py'),
   'utf8'
@@ -413,6 +421,21 @@ assert.match(
   pixelFontBuildScript,
   /process\.argv\.includes\("--fonts-only"\)[\s\S]*if \(!fontsOnly\)[\s\S]*encodeRgbaPng[\s\S]*renderSvg/,
   'font-only builds must skip individual PNG and SVG glyph output'
+);
+assert.match(
+  pixelFontBuildScript,
+  /getFontBuildFingerprint[\s\S]*canReuseFontBuild[\s\S]*process\.exit\(0\)[\s\S]*writeFontBuildState/,
+  'unchanged pixel-font sources must reuse existing build outputs before recompiling'
+);
+assert.match(
+  pixelFontBuildCache,
+  /config\.json[\s\S]*atlases[\s\S]*scripts[\s\S]*font-sequences\.test\.py[\s\S]*versions[\s\S]*state\.fingerprint !== fingerprint/,
+  'pixel-font build reuse must include atlas, generator, validation, and Unicode-version inputs'
+);
+assert.match(
+  testBundleCache,
+  /build\/tests\/unit\.test\.mjs[\s\S]*dist\/esm\/popular\.min\.js[\s\S]*getFingerprint[\s\S]*hasCurrentBundle[\s\S]*spawnSync\(npm, \['run', 'bundle'\]/,
+  'tests must reuse a complete current package build instead of regenerating it every run'
 );
 assert.match(
   pagesWorkflow,
