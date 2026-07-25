@@ -97,7 +97,7 @@ import { createListController } from './explorer/list-controller.js';
 import { createDialogNavigationController } from './explorer/dialog-navigation-controller.js';
 import { showEmojiSession } from './explorer/emoji-session.js';
 import { createFilterControlSetup } from './explorer/filter-controls.js';
-
+import { createExplorerApp } from './explorer-app.js';
 if (import.meta.hot) {
   let pixelFontRevision;
   const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -1722,4 +1722,4 @@ const {
   updateBack: updateCompositionBackButton
 } = dialogNavigation;
 removeLegacyDialogElements();
-window.addEventListener('load', onLoad);
+createExplorerApp({ window, start: onLoad }).startWhenReady();
