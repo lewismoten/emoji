@@ -8,7 +8,7 @@ import { ensureUtilityControls, positionFavoriteButton } from './explorer/utilit
 import { closePanelDialog, installApp as installWebApp, installedDisplayQueries, onPanelDialogClose, openPanelDialog, renderInstallAppButton as renderInstallAppButtonHelper, updateWebAppManifest } from './explorer/pwa-panels.js';
 import { closeFilterPicker as closeFilterPickerHelper, displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper, focusCompactChoice as focusCompactChoiceHelper, onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper, openFilterPicker as openFilterPickerHelper } from './explorer/filter-picker.js';
 import { getVersionKeys as getVersionKeysHelper, syncVersionRange as syncVersionRangeHelper, updateModifierAvailability as updateModifierAvailabilityHelper, versionSliderLabel as versionSliderLabelHelper } from './explorer/category-version.js';
-import { getIntroducedVersion as getIntroducedVersionHelper, updateEmojiComposition as updateEmojiCompositionHelper, updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutCompositionParent } from './explorer/dialog-render.js';
+import { getIntroducedVersion as getIntroducedVersionHelper, updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutCompositionParent } from './explorer/dialog-render.js';
 import { createEmojiListRenderers } from './explorer/emoji-list-render.js';
 import { createEmojiListInteraction } from './explorer/emoji-list-interaction.js';
 import { getEmojiGenders as getEmojiGendersHelper } from './explorer/emoji-filter.js';
@@ -34,6 +34,7 @@ import { bindExplorerEvents, createExplorerApp, finalizeExplorerStartup, initial
 import { createExplorerState } from './explorer-state.js';
 import { buildCategoryRepresentatives as buildCategoryRepresentativesHelper } from './category-representatives.js';
 import { createExplorerRuntime } from './explorer-runtime.js';
+import { updateExplorerComposition } from './explorer-composition-controller.js';
 import { createExplorerUiController, createDeveloperModeController, renderPixelFontToggle as renderPixelFontToggleHelper, selectEmojiFont as selectEmojiFontHelper } from './explorer-ui.js';
 import { installPixelFontHotReload, refreshExplorerPixelFont, refreshPixelFontStylesheet } from './pixel-font-hot-reload.js';
 const UNASSIGNED = '\u0000';
@@ -926,27 +927,19 @@ function onEmojiDialogClose() {
     }
 }
 function updateEmojiComposition(item, value) {
-    updateEmojiCompositionHelper({
+    return updateExplorerComposition({
         applyPixelArtworkClass,
         applyStandalonePixelArtwork,
-        byId: explorerState.byId,
-        compositionMode: explorerState.compositionMode,
-        developerMode: developerModeEnabled(),
-        detailsVisible: !exampleDialog.classList.contains('is-code-view') &&
-            !exampleDialog.classList.contains('is-editor-view'),
-        dir: document.documentElement.dir,
-        emojiByKey: explorerState.emojiByKey,
-        emojiKeyByCodePoints: explorerState.emojiKeyByCodePoints,
-        exampleDialog,
-        item,
-        locale: document.documentElement.lang || explorerState.selectedSearchLocale || undefined,
-        numberingSystem: document.documentElement.lang?.startsWith('ar')
-            ? 'arab'
-            : undefined,
-        searchAnnotations: explorerState.searchAnnotations,
-        translate,
-        value
-    });
+        byId: () => explorerState.byId,
+        compositionMode: () => explorerState.compositionMode,
+        developerModeEnabled,
+        dialog: () => exampleDialog,
+        emojiByKey: () => explorerState.emojiByKey,
+        emojiKeyByCodePoints: () => explorerState.emojiKeyByCodePoints,
+        searchAnnotations: () => explorerState.searchAnnotations,
+        selectedLocale: () => explorerState.selectedSearchLocale,
+        translate
+    }, item, value);
 }
 function rebuildEmojiCodePointLookup() {
     explorerState.emojiKeyByCodePoints = explorerState.items.reduce((lookup, item) => {

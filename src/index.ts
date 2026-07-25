@@ -108,6 +108,7 @@ import {
 import { createExplorerState } from './explorer-state.js';
 import { buildCategoryRepresentatives as buildCategoryRepresentativesHelper } from './category-representatives.js';
 import { createExplorerRuntime } from './explorer-runtime.js';
+import { updateExplorerComposition } from './explorer-composition-controller.js';
 import {
   createExplorerUiController,
   createDeveloperModeController,
@@ -1120,28 +1121,23 @@ function onEmojiDialogClose() {
 }
 
 function updateEmojiComposition(item, value) {
-  updateEmojiCompositionHelper({
-    applyPixelArtworkClass,
-    applyStandalonePixelArtwork,
-    byId: explorerState.byId,
-    compositionMode: explorerState.compositionMode,
-    developerMode: developerModeEnabled(),
-    detailsVisible:
-      !exampleDialog.classList.contains('is-code-view') &&
-      !exampleDialog.classList.contains('is-editor-view'),
-    dir: document.documentElement.dir,
-    emojiByKey: explorerState.emojiByKey,
-    emojiKeyByCodePoints: explorerState.emojiKeyByCodePoints,
-    exampleDialog,
+  return updateExplorerComposition(
+    {
+      applyPixelArtworkClass,
+      applyStandalonePixelArtwork,
+      byId: () => explorerState.byId,
+      compositionMode: () => explorerState.compositionMode,
+      developerModeEnabled,
+      dialog: () => exampleDialog,
+      emojiByKey: () => explorerState.emojiByKey,
+      emojiKeyByCodePoints: () => explorerState.emojiKeyByCodePoints,
+      searchAnnotations: () => explorerState.searchAnnotations,
+      selectedLocale: () => explorerState.selectedSearchLocale,
+      translate
+    },
     item,
-    locale: document.documentElement.lang || explorerState.selectedSearchLocale || undefined,
-    numberingSystem: document.documentElement.lang?.startsWith('ar')
-      ? 'arab'
-      : undefined,
-    searchAnnotations: explorerState.searchAnnotations,
-    translate,
     value
-  });
+  );
 }
 
 function rebuildEmojiCodePointLookup() {
