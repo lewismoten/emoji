@@ -35,6 +35,8 @@
   "localizedSearch": "بحث مترجم",
   "chooseLanguage": "اختر لغة البحث",
   "chooseLanguageDescription": "اختر لغة للبحث عن الرموز التعبيرية.",
+  "theme": "السمة",
+  "themeDescription": "بدّل بين السمة الداكنة الحالية وسمة فاتحة.",
   "throughSelectedVersion": "كل الإصدارات حتى الإصدار المحدد",
   "selectedVersionOnly": "الإصدار المحدد فقط",
   "dark": "داكن",

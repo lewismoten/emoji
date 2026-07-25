@@ -48,6 +48,7 @@ var savedPicker;
 var savedDialog;
 var helpPicker;
 var helpDialog;
+var themeChoices = [];
 var developerModeToggle;
 var emojiList;
 var matchCount;
@@ -149,11 +150,12 @@ const explorerShell = createExplorerShell({
     state: () => explorerState,
     syncUrlState: () => syncUrlState(),
     syncVersionRange: () => syncVersionRange(),
+    themeChoices: () => themeChoices,
     translate,
     versionModeSelector: () => versionModeSelector,
     versionSelector: () => versionSelector
 });
-const { applyUiTranslations, recordCopiedEmoji, renderList: renderSavedEmojiList, renderSavedEmoji, toggleFavorite, updateFavoriteButton, developerModeEnabled, installApp, loadUiTranslations, renderDeveloperMode, renderInstallAppButton, renderPixelFontToggle, selectEmojiFont, toggleDeveloperMode, updateOnlineStatus } = explorerShell;
+const { applyUiTranslations, recordCopiedEmoji, renderList: renderSavedEmojiList, renderSavedEmoji, toggleFavorite, updateFavoriteButton, developerModeEnabled, installApp, loadUiTranslations, renderDeveloperMode, renderInstallAppButton, renderPixelFontToggle, renderThemeToggle, selectEmojiFont, selectTheme, toggleDeveloperMode, updateOnlineStatus } = explorerShell;
 const emojiActions = createEmojiActions({
     applyingUrlState: () => applyingUrlState,
     applyPixelArtworkClass: () => applyPixelArtworkClass,
@@ -418,6 +420,7 @@ async function onLoad() {
         subGroupFilterDialog,
         subGroupPickerTrigger,
         subGroupSelector,
+        themeChoices,
         toolbar,
         versionModeSelector,
         versionNext,
@@ -454,9 +457,9 @@ async function onLoad() {
         onVersionRangeInput, openPanel: openPanelDialog, orderButtons, panelDialogs,
         positionFavoriteButton, renderInstallAppButton, renderSavedEmoji, resetFilters,
         savePreference: saveExplorerPreference, savedDialog, savedPicker, scheduleSearchDraw,
-        searchText, selectEmojiFont, showEmoji, skinToneCheckboxes, stepVersion,
+        searchText, selectEmojiFont, selectTheme, showEmoji, skinToneCheckboxes, stepVersion,
         suppressedPanelCloses, syncUrlState, syncVersionRange, toggleDeveloperMode,
-        toggleVersionMode, updateOnlineStatus, urlStateReady: () => urlStateReady,
+        toggleVersionMode, themeChoices, updateOnlineStatus, urlStateReady: () => urlStateReady,
         versionModeToggle, versionNext, versionPrevious, versionRange, versionSelector,
         emojiNext: explorerRuntime.get('emojiNext'),
         emojiPrevious: explorerRuntime.get('emojiPrevious'),
@@ -466,7 +469,7 @@ async function onLoad() {
         advancedFilters, applyDialogUrlState, drawList,
         filters: advancedFilters, finishExplorerLoading, loadData, loadSearchLanguages,
         loadUiTranslations, observeToolbarHeight, preferences: explorerState.explorerPreferences,
-        renderPixelFontToggle, renderVersionModeToggle, setUrlStateReady: value => (urlStateReady = value),
+        renderPixelFontToggle, renderThemeToggle, renderVersionModeToggle, setUrlStateReady: value => (urlStateReady = value),
         syncUrlState, toolbar
     });
 }

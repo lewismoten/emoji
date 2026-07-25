@@ -35,6 +35,8 @@
   "localizedSearch": "Búsqueda localizada",
   "chooseLanguage": "Elige un idioma de búsqueda",
   "chooseLanguageDescription": "Elige un idioma para buscar emoji.",
+  "theme": "Tema",
+  "themeDescription": "Cambia entre el tema oscuro actual y un tema claro.",
   "throughSelectedVersion": "Todas hasta la versión seleccionada",
   "selectedVersionOnly": "Solo la versión seleccionada",
   "dark": "Oscuro",

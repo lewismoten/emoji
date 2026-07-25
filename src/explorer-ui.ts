@@ -73,6 +73,34 @@ export function createExplorerUiController(options: any) {
   return { applyTranslations, installApp, loadUiTranslations, renderInstallAppButton, updateOnlineStatus };
 }
 
+function updateThemeColor() {
+  const meta = document.querySelector(
+    'meta[name="theme-color"]'
+  ) as HTMLMetaElement | null;
+  if (!meta) return;
+  meta.content =
+    document.documentElement.dataset.theme === 'light' ? '#f6efe4' : '#160622';
+}
+
+export function renderThemeToggle(options: any) {
+  const theme =
+    options.state().explorerPreferences.theme === 'light' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = theme;
+  options.choices().forEach((choice: any) => {
+    const selected = choice.dataset.theme === theme;
+    choice.classList.toggle('is-active', selected);
+    choice.setAttribute('aria-pressed', String(selected));
+  });
+  updateThemeColor();
+}
+
+export function selectTheme(options: any, event: any) {
+  const theme = event.currentTarget.dataset.theme === 'light' ? 'light' : 'dark';
+  options.savePreference('theme', theme);
+  options.renderThemeToggle();
+  if (event?.detail > 0) event.currentTarget.blur();
+}
+
 export function renderPixelFontToggle(options: any) {
   const enabled = options.state().explorerPreferences.pixelFont !== false;
   document.documentElement.toggleAttribute('data-pixel-font', enabled);

@@ -78,6 +78,9 @@ export function bindExplorerEvents(options: any) {
   options.emojiFontChoices.forEach((choice: any) =>
     choice.addEventListener('click', options.selectEmojiFont)
   );
+  options.themeChoices?.forEach((choice: any) =>
+    choice.addEventListener('click', options.selectTheme)
+  );
   options.installAppButton?.addEventListener('click', options.installApp);
   options.installedDisplayQueries.forEach((query: any) =>
     query.addEventListener?.('change', options.renderInstallAppButton)
@@ -203,6 +206,7 @@ export function initializeExplorerControls(options: any) {
 /** Complete the asynchronous page startup once controls and events exist. */
 export async function finalizeExplorerStartup(options: any) {
   options.renderVersionModeToggle();
+  options.renderThemeToggle();
   options.renderPixelFontToggle();
   options.observeToolbarHeight(options.toolbar);
   if (typeof options.preferences.filtersOpen === 'boolean') {

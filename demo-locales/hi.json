@@ -35,6 +35,8 @@
   "localizedSearch": "स्थानीयकृत खोज",
   "chooseLanguage": "खोज की भाषा चुनें",
   "chooseLanguageDescription": "इमोजी खोजने के लिए भाषा चुनें।",
+  "theme": "रंग रूप",
+  "themeDescription": "मौजूदा गहरे रूप और हल्के रूप के बीच बदलें।",
   "throughSelectedVersion": "चुने गए संस्करण तक सभी",
   "selectedVersionOnly": "केवल चुना गया संस्करण",
   "dark": "गहरा",

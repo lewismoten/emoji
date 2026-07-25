@@ -75,6 +75,16 @@
       const initialUrlParams = new URLSearchParams(location.search);
       if (initialPreferences.pixelFont === false)
         document.documentElement.dataset.emojiFont = "system";
+      const initialTheme =
+        initialPreferences.theme === "light" ? "light" : "dark";
+      document.documentElement.dataset.theme = initialTheme;
+      const initialThemeColor =
+        document.querySelector('meta[name="theme-color"]');
+      if (initialThemeColor)
+        initialThemeColor.setAttribute(
+          "content",
+          initialTheme === "light" ? "#f6efe4" : "#160622",
+        );
       const initialDeveloperMode =
         initialPreferences.developerMode === true ||
         initialUrlParams.get("developer") === "1";
@@ -1130,6 +1140,39 @@
                   data-i18n="language"
                   >Language</span
                 >
+              </button>
+            </div>
+          </div>
+          <div class="setting-row">
+            <div>
+              <h4 data-i18n="theme">Theme</h4>
+              <p data-i18n="themeDescription">
+                Switch between the current dark theme and a light theme.
+              </p>
+            </div>
+            <div
+              class="setting-choice-group theme-choices"
+              role="group"
+              data-i18n-aria-label="theme"
+              aria-label="Theme"
+            >
+              <button
+                class="setting-choice theme-choice"
+                type="button"
+                data-theme="dark"
+                aria-pressed="true"
+              >
+                <span aria-hidden="true">🌙</span>
+                <span data-i18n="dark">Dark</span>
+              </button>
+              <button
+                class="setting-choice theme-choice"
+                type="button"
+                data-theme="light"
+                aria-pressed="false"
+              >
+                <span aria-hidden="true">☀️</span>
+                <span data-i18n="light">Light</span>
               </button>
             </div>
           </div>

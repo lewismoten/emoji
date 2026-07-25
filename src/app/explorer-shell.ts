@@ -7,7 +7,9 @@ import {
   createDeveloperModeController,
   createExplorerUiController,
   renderPixelFontToggle as renderPixelFontToggleHelper,
-  selectEmojiFont as selectEmojiFontHelper
+  renderThemeToggle as renderThemeToggleHelper,
+  selectEmojiFont as selectEmojiFontHelper,
+  selectTheme as selectThemeHelper
 } from '../explorer-ui.js';
 
 export function createExplorerShell(options: any) {
@@ -37,6 +39,20 @@ export function createExplorerShell(options: any) {
   function selectEmojiFont(event: Event) {
     selectEmojiFontHelper(
       { renderPixelFontToggle, savePreference: options.savePreference },
+      event
+    );
+  }
+
+  function renderThemeToggle() {
+    renderThemeToggleHelper({
+      choices: options.themeChoices,
+      state: options.state
+    });
+  }
+
+  function selectTheme(event: Event) {
+    selectThemeHelper(
+      { renderThemeToggle, savePreference: options.savePreference },
       event
     );
   }
@@ -97,6 +113,7 @@ export function createExplorerShell(options: any) {
     renderDeveloperMode: developerMode.render,
     renderInstallAppButton: renderInstallAppButtonHelper,
     renderPixelFontToggle,
+    renderThemeToggle,
     renderSearchLanguages: options.renderSearchLanguages,
     renderVersionModeToggle: options.renderVersionModeToggle,
     setDeferredInstallPrompt: (value: Event | undefined) =>
@@ -112,7 +129,9 @@ export function createExplorerShell(options: any) {
     renderDeveloperMode: developerMode.render,
     renderInstallAppButton: explorerUi.renderInstallAppButton,
     renderPixelFontToggle,
+    renderThemeToggle,
     selectEmojiFont,
+    selectTheme,
     toggleDeveloperMode: developerMode.change,
     updateOnlineStatus: explorerUi.updateOnlineStatus,
     applyUiTranslations: explorerUi.applyTranslations

@@ -39,6 +39,7 @@ export function getExplorerElements() {
     subGroupFilterDialog: first<HTMLDialogElement>('subgroup-filter-dialog'),
     subGroupPickerTrigger: first<HTMLButtonElement>('subgroup-picker-trigger'),
     subGroupSelector: first<HTMLSelectElement>('select-subgroup'),
+    themeChoices: all<HTMLButtonElement>('theme-choice'),
     toolbar: first('toolbar'),
     versionModeSelector: first<HTMLSelectElement>('select-version-mode'),
     versionNext: first<HTMLButtonElement>('version-next'),

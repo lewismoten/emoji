@@ -35,6 +35,8 @@
   "localizedSearch": "本地化搜索",
   "chooseLanguage": "选择搜索语言",
   "chooseLanguageDescription": "选择一种语言来搜索表情。",
+  "theme": "主题",
+  "themeDescription": "在当前深色主题和浅色主题之间切换。",
   "throughSelectedVersion": "截至所选版本的全部版本",
   "selectedVersionOnly": "仅所选版本",
   "dark": "深色",
