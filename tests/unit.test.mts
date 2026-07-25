@@ -616,7 +616,7 @@ assert.match(
   'emoji-dialog titles must also expose the complete name as a tooltip'
 );
 assert.match(
-  demoScript,
+  dialogUpgradeHelper,
   /function ensureCompactCopyLabels/,
   'cached demo HTML must be upgraded with compact copy labels'
 );
@@ -1746,7 +1746,7 @@ assert.match(
   'the code panel must put code first and finish with compact link and Copy actions'
 );
 assert.match(
-  demoScript,
+  dialogUpgradeHelper,
   /if \(codeLink && codeCopy\) toolbar\.append\(codeLink, codeCopy\);\s*code\.after\(toolbar\)/,
   'cached code dialogs must move their actions beneath the code in link-and-copy order'
 );
