@@ -216,39 +216,6 @@ function toggleDeveloperMode(event) {
     }
     syncUrlState();
 }
-const applyUiTranslations = () => {
-    document.querySelectorAll('[data-i18n]').forEach(element => {
-        element.textContent = translate(element.dataset.i18n, element.textContent);
-    });
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
-        element.placeholder = translate(element.dataset.i18nPlaceholder, element.placeholder);
-    });
-    document.querySelectorAll('[data-i18n-aria-label]').forEach(element => {
-        element.setAttribute('aria-label', translate(element.dataset.i18nAriaLabel, element.getAttribute('aria-label')));
-    });
-    updateOnlineStatus();
-    renderPixelFontToggle();
-    renderDeveloperMode();
-    pixelEditor?.refreshTranslations();
-};
-const updateOnlineStatus = () => {
-    if (!offlineStatus)
-        return;
-    offlineStatus.textContent = translate('offlineStatus', 'Offline — showing saved data');
-    offlineStatus.hidden = navigator.onLine;
-};
-function renderInstallAppButton() {
-    renderInstallAppButtonHelper(installAppButton);
-}
-async function installApp(event) {
-    const next = await installWebApp({
-        deferredInstallPrompt,
-        event,
-        installDialog,
-        renderInstallAppButton
-    });
-    deferredInstallPrompt = next.deferredInstallPrompt;
-}
 window.addEventListener('beforeinstallprompt', event => {
     event.preventDefault();
     deferredInstallPrompt = event;
@@ -274,7 +241,7 @@ const explorerUi = createExplorerUiController({
     setDeferredInstallPrompt: value => (deferredInstallPrompt = value),
     state: () => explorerState
 });
-const { loadUiTranslations } = explorerUi;
+const { applyTranslations: applyUiTranslations, installApp, loadUiTranslations, renderInstallAppButton, updateOnlineStatus } = explorerUi;
 const onEmojiDialogClick = createEmojiDialogClickHandler({
     animateCopy: animateEmojiCopyConfirmation,
     copy: copyToClipboardValue,
