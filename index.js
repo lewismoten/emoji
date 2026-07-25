@@ -30,7 +30,7 @@ import { createListController } from './explorer/list-controller.js';
 import { createDialogNavigationController } from './explorer/dialog-navigation-controller.js';
 import { showEmojiSession } from './explorer/emoji-session.js';
 import { createFilterControlSetup } from './explorer/filter-controls.js';
-import { bindExplorerEvents, createExplorerApp } from './explorer-app.js';
+import { bindExplorerEvents, createExplorerApp, initializeExplorerControls } from './explorer-app.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -470,36 +470,17 @@ async function onLoad() {
         languagePickerLabel.id ||= 'language-picker-current-label';
         languagePicker.setAttribute('aria-labelledby', `language-picker-accessible-label ${languagePickerLabel.id}`);
     }
-    const { ensureActiveFilterSummary, ensureChoiceContainer, ensureSelectionLabel, ensureSequenceTypeFilter, ensureVersionModeToggle, ensureVersionSlider } = createFilterControlSetup({
-        document,
-        versionModeSelector,
-        versionRange: () => versionRange,
-        versionSelector
-    });
-    renderDeveloperMode();
-    compactGroupChoices = ensureChoiceContainer(groupSelector, 'compact-group-choices', 'group-filter-label');
-    compactSubGroupChoices = ensureChoiceContainer(subGroupSelector, 'compact-subgroup-choices', 'subgroup-filter-label');
-    sequenceTypeSelector = ensureSequenceTypeFilter();
-    compactSequenceChoices = ensureChoiceContainer(sequenceTypeSelector, 'compact-sequence-choices', 'sequence-filter-label');
-    compactGroupChoices.addEventListener('keydown', onCompactChoiceKeyDown);
-    compactSubGroupChoices.addEventListener('keydown', onCompactChoiceKeyDown);
-    compactSequenceChoices.addEventListener('keydown', onCompactChoiceKeyDown);
-    groupPickerTrigger?.addEventListener('click', () => openFilterPicker(groupFilterDialog, compactGroupChoices));
-    subGroupPickerTrigger?.addEventListener('click', () => openFilterPicker(subGroupFilterDialog, compactSubGroupChoices));
-    compactGroupLabel = ensureSelectionLabel(groupSelector, 'compact-group-label', 'group-filter-label');
-    compactSubGroupLabel = ensureSelectionLabel(subGroupSelector, 'compact-subgroup-label', 'subgroup-filter-label');
-    compactSequenceLabel = ensureSelectionLabel(sequenceTypeSelector, 'compact-sequence-label', 'sequence-filter-label');
-    ({ range: versionRange, output: versionRangeValue } = ensureVersionSlider());
-    populateVersionModeOptions();
-    versionModeToggle = ensureVersionModeToggle();
-    versionSelector
-        .closest('.filter-field')
-        ?.classList.toggle('has-version-slider', Boolean(versionRange && versionRangeValue));
     ({
-        summary: activeFilterSummary,
-        text: activeFilterText,
-        clear: clearFiltersButton
-    } = ensureActiveFilterSummary());
+        activeFilterSummary, activeFilterText, clearFiltersButton,
+        compactGroupChoices, compactGroupLabel, compactSequenceChoices,
+        compactSequenceLabel, compactSubGroupChoices, compactSubGroupLabel,
+        sequenceTypeSelector, versionModeToggle, versionRange, versionRangeValue
+    } = initializeExplorerControls({
+        createFilterControlSetup, groupFilterDialog, groupPickerTrigger,
+        groupSelector, onCompactChoiceKeyDown, openFilterPicker, populateVersionModeOptions,
+        renderDeveloperMode, subGroupFilterDialog, subGroupPickerTrigger, subGroupSelector,
+        versionModeSelector, versionRange: () => versionRange, versionSelector
+    }));
     upgradeEmojiDialog();
     skinToneFieldset = skinToneCheckboxes[0]?.closest('fieldset');
     hairFieldset = hairCheckboxes[0]?.closest('fieldset');
