@@ -25,11 +25,12 @@ const arabicWebAppManifest = await readJson<{
   dir: string;
   start_url: string;
 }>("build/demo-pages/manifest.ar.webmanifest");
-const [demoHtml, demoScript, explorerApp, pwaPanelsHelper, demoStyles, arabicDemo, viteConfig, toolbarLayout] =
+const [demoHtml, demoScript, explorerApp, explorerShell, pwaPanelsHelper, demoStyles, arabicDemo, viteConfig, toolbarLayout] =
   await Promise.all([
     read("index.html"),
     read("src/index.ts"),
     read("src/explorer-app.ts"),
+    read("src/app/explorer-shell.ts"),
     read("src/explorer/pwa-panels.ts"),
     read("index.css"),
     read("build/demo-pages/index.ar.html"),
@@ -105,7 +106,7 @@ assert.match(
   "toolbar sizing must avoid a synchronous startup layout measurement",
 );
 assert.match(
-  `${demoScript}\n${explorerApp}`,
+  `${demoScript}\n${explorerShell}\n${explorerApp}`,
   /beforeinstallprompt[\s\S]*event\.preventDefault\(\)[\s\S]*deferredInstallPrompt = event/,
   "the browser PWA installation prompt must be retained for the footer action",
 );
@@ -115,7 +116,7 @@ assert.match(
   "the install action must derive its visibility from installed-app detection",
 );
 assert.match(
-  `${demoScript}\n${explorerApp}`,
+  `${demoScript}\n${explorerShell}\n${explorerApp}`,
   /appinstalled[\s\S]*deferredInstallPrompt = undefined/,
   "the install action must clear the retained prompt after the app is installed",
 );
@@ -125,7 +126,7 @@ assert.match(
   "installed app detection must cover supported standalone display contexts",
 );
 assert.match(
-  `${demoScript}\n${explorerApp}`,
+  `${demoScript}\n${explorerShell}\n${explorerApp}`,
   /appinstalled[\s\S]*installAppButton\.hidden = true[\s\S]*installedDisplayQueries\.forEach[\s\S]*change/,
   "installation and display-mode changes must immediately hide the install action",
 );

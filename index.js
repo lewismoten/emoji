@@ -2,10 +2,10 @@
 import { explorerLabelKeys, languageFlags, sequenceTranslationKeys, sequenceTypeEmoji, sequenceTypeLabels, sequenceTypeOrder, statusTranslationKeys, unicodeGroupLabelKeys, unicodeSubgroupLabelKeys, versionModeDefinitions } from './explorer/explorer-labels.js';
 import { getExplorerSubGroup } from './explorer/category-rules.js';
 import { formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints } from './explorer/emoji-format.js';
-import { createSavedEmojiController, animateCopyConfirmation as animateEmojiCopyConfirmation, } from './explorer/saved-emoji.js';
+import { animateCopyConfirmation as animateEmojiCopyConfirmation } from './explorer/saved-emoji.js';
 import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue } from './explorer/import-examples.js';
 import { ensureUtilityControls, positionFavoriteButton } from './explorer/utility-controls.js';
-import { closePanelDialog, installApp as installWebApp, installedDisplayQueries, onPanelDialogClose, openPanelDialog, renderInstallAppButton as renderInstallAppButtonHelper, updateWebAppManifest } from './explorer/pwa-panels.js';
+import { closePanelDialog, installedDisplayQueries, onPanelDialogClose, openPanelDialog, updateWebAppManifest } from './explorer/pwa-panels.js';
 import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutCompositionParent } from './explorer/dialog-render.js';
 import { getEmojiGenders as getEmojiGendersHelper } from './explorer/emoji-filter.js';
 import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from './explorer/dialog-upgrade.js';
@@ -31,7 +31,7 @@ import { createCategoryController } from './app/category-controller.js';
 import { createExplorerRuntime } from './explorer-runtime.js';
 import { createEmojiActions } from './app/emoji-actions.js';
 import { createVersionController } from './app/version-controller.js';
-import { createExplorerUiController, createDeveloperModeController, renderPixelFontToggle as renderPixelFontToggleHelper, selectEmojiFont as selectEmojiFontHelper } from './explorer-ui.js';
+import { createExplorerShell } from './app/explorer-shell.js';
 import { installPixelFontHotReload, refreshExplorerPixelFont, refreshPixelFontStylesheet } from './pixel-font-hot-reload.js';
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
@@ -94,7 +94,6 @@ var suppressedPanelCloses = new WeakSet();
 var offlineStatus;
 var installAppButton;
 var installDialog;
-var deferredInstallPrompt;
 const { save: saveExplorerPreference } = initializeExplorerPreferences(explorerState);
 const translate = (key, fallback) => explorerState.uiStrings[key] ?? fallback;
 const displayExplorerLabel = label => translate(explorerLabelKeys[label], label);
@@ -103,85 +102,33 @@ const panelDialogs = () => ({
     help: helpDialog,
     language: languageDialog
 });
-const { addFavorite, recordCopiedEmoji, renderList: renderSavedEmojiList, renderSavedEmoji, toggleFavorite, updateFavoriteButton } = createSavedEmojiController({
+const explorerShell = createExplorerShell({
     applyPixelArtworkClass: () => applyPixelArtworkClass,
-    byId: () => explorerState.byId,
-    copiedEmojiKeys: () => explorerState.copiedEmojiKeys,
-    currentEmojiKey: () => explorerState.currentEmojiKey,
-    emojiByKey: () => explorerState.emojiByKey,
-    favoriteEmojiKeys: () => explorerState.favoriteEmojiKeys,
-    savePreference: saveExplorerPreference,
-    savedDialog: () => savedDialog,
-    searchAnnotations: () => explorerState.searchAnnotations,
-    setCopiedEmojiKeys: keys => (explorerState.copiedEmojiKeys = keys),
-    setFavoriteEmojiKeys: keys => (explorerState.favoriteEmojiKeys = keys),
-    translate
-});
-function renderPixelFontToggle() {
-    renderPixelFontToggleHelper({
-        choices: () => emojiFontChoices,
-        refreshRenderedPixelEmoji,
-        state: () => explorerState
-    });
-}
-function selectEmojiFont(event) {
-    selectEmojiFontHelper({ renderPixelFontToggle, savePreference: saveExplorerPreference }, event);
-}
-const developerMode = createDeveloperModeController({
+    developerModeToggle: () => developerModeToggle,
     dialog: () => explorerRuntime.get('exampleDialog'),
-    disableDeveloperFeatures() {
-        versionModeSelector.value = 'through';
-        const latest = explorerState.versionManifests.at(-1)?.version;
-        if (latest)
-            versionSelector.value = latest;
-        renderVersionModeToggle();
-        syncVersionRange();
-        if (explorerState.orderMode === 'sequence') {
-            explorerState.orderMode = 'grouped';
-            explorerState.selectedSequenceType = '';
-            orderButtons?.forEach(button => {
-                const active = button.dataset.order === explorerState.orderMode;
-                button.classList.toggle('is-active', active);
-                button.setAttribute('aria-pressed', String(active));
-            });
-        }
-        if (explorerState.items.length > 0) {
-            renderCategoryFilters();
-            drawList();
-        }
-    },
-    loadVersionData, savePreference: saveExplorerPreference,
-    setDialogView: (...args) => setEmojiDialogView(...args),
-    state: () => explorerState, syncUrlState: () => syncUrlState(),
-    toggle: () => developerModeToggle
-});
-const { change: toggleDeveloperMode, enabled: developerModeEnabled, render: renderDeveloperMode } = developerMode;
-window.addEventListener('beforeinstallprompt', event => {
-    event.preventDefault();
-    deferredInstallPrompt = event;
-    renderInstallAppButton();
-});
-window.addEventListener('appinstalled', () => {
-    deferredInstallPrompt = undefined;
-    if (installAppButton)
-        installAppButton.hidden = true;
-});
-const explorerUi = createExplorerUiController({
-    deferredInstallPrompt: () => deferredInstallPrompt,
+    drawList: () => drawList(),
+    emojiFontChoices: () => emojiFontChoices,
     installAppButton: () => installAppButton,
     installDialog: () => installDialog,
-    installWebApp,
+    loadVersionData: () => loadVersionData(),
     offlineStatus: () => offlineStatus,
+    orderButtons: () => orderButtons,
     pixelEditor: () => pixelEditor,
-    renderDeveloperMode,
-    renderInstallAppButton: renderInstallAppButtonHelper,
-    renderPixelFontToggle,
+    refreshRenderedPixelEmoji,
+    renderCategoryFilters: () => renderCategoryFilters(),
     renderSearchLanguages: () => renderSearchLanguages(),
-    renderVersionModeToggle,
-    setDeferredInstallPrompt: value => (deferredInstallPrompt = value),
-    state: () => explorerState
+    renderVersionModeToggle: () => renderVersionModeToggle(),
+    savedDialog: () => savedDialog,
+    savePreference: saveExplorerPreference,
+    setDialogView: (...args) => setEmojiDialogView(...args),
+    state: () => explorerState,
+    syncUrlState: () => syncUrlState(),
+    syncVersionRange: () => syncVersionRange(),
+    translate,
+    versionModeSelector: () => versionModeSelector,
+    versionSelector: () => versionSelector
 });
-const { applyTranslations: applyUiTranslations, installApp, loadUiTranslations, renderInstallAppButton, updateOnlineStatus } = explorerUi;
+const { applyUiTranslations, recordCopiedEmoji, renderList: renderSavedEmojiList, renderSavedEmoji, toggleFavorite, updateFavoriteButton, developerModeEnabled, installApp, loadUiTranslations, renderDeveloperMode, renderInstallAppButton, renderPixelFontToggle, selectEmojiFont, toggleDeveloperMode, updateOnlineStatus } = explorerShell;
 const emojiActions = createEmojiActions({
     applyingUrlState: () => applyingUrlState,
     applyPixelArtworkClass: () => applyPixelArtworkClass,
