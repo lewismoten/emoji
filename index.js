@@ -161,7 +161,6 @@ var packageManifestPromise;
 var searchAnnotations = {};
 var searchLabels = {};
 var searchSubgroupLabels = {};
-var uiStrings = {};
 var searchLocales = [];
 var selectedSearchLocale = '';
 var searchLoadId = 0;
@@ -188,7 +187,7 @@ var favoriteEmojiKeys = Array.isArray(explorerPreferences.favorites)
 var copiedEmojiKeys = Array.isArray(explorerPreferences.recentCopied)
     ? explorerPreferences.recentCopied
     : [];
-const translate = (key, fallback) => uiStrings[key] ?? fallback;
+const translate = (key, fallback) => explorerState.uiStrings[key] ?? fallback;
 const displayExplorerLabel = label => translate(explorerLabelKeys[label], label);
 const panelDialogs = () => ({
     favorites: savedDialog,
@@ -347,12 +346,12 @@ async function loadUiTranslations(locale, rtl = false) {
                 throw new Error(`No demo locale for ${code}`);
             return response.json();
         }));
-        uiStrings = Object.assign({}, ...packs);
+        explorerState.uiStrings = Object.assign({}, ...packs);
         document.documentElement.lang = locale;
         document.documentElement.dir = rtl ? 'rtl' : 'ltr';
     }
     catch {
-        uiStrings = {};
+        explorerState.uiStrings = {};
         document.documentElement.lang = 'en';
         document.documentElement.dir = 'ltr';
     }
