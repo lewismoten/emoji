@@ -167,13 +167,13 @@ async function refreshExplorerPixelFont(revision) {
     });
     applyPixelArtworkClass(
       exampleDialog?.querySelector('.emoji-preview-glyph'),
-      currentEmojiKey
+      explorerState.currentEmojiKey
     );
     applyPixelArtworkClass(
       exampleDialog?.querySelector(
         '.emoji-composition-result .emoji-composition-glyph'
       ),
-      currentEmojiKey
+      explorerState.currentEmojiKey
     );
     exampleDialog
       ?.querySelectorAll('[data-composition-emoji]')
@@ -280,11 +280,6 @@ var uiStrings = {};
 var searchLocales = [];
 var selectedSearchLocale = '';
 var searchLoadId = 0;
-var currentEmojiCopies = {};
-var displayedKeys = [];
-var dialogNavigationKeys = [];
-var currentEmojiKey = '';
-var focusedEmojiKey = '';
 var searchDrawTimer;
 var listRenderGeneration = 0;
 var copyStatus;
@@ -348,7 +343,7 @@ const {
   applyPixelArtworkClass: () => applyPixelArtworkClass,
   byId: () => byId,
   copiedEmojiKeys: () => copiedEmojiKeys,
-  currentEmojiKey: () => currentEmojiKey,
+  currentEmojiKey: () => explorerState.currentEmojiKey,
   emojiByKey: () => emojiByKey,
   favoriteEmojiKeys: () => favoriteEmojiKeys,
   savePreference: saveExplorerPreference,
@@ -516,11 +511,11 @@ const onEmojiDialogClick = createEmojiDialogClickHandler({
       ? getCodeExampleTextValue(exampleDialog)
       : kind === 'link'
         ? window.location.href
-        : currentEmojiCopies[kind],
-  currentEmojiKey: () => currentEmojiKey,
+        : explorerState.currentEmojiCopies[kind],
+  currentEmojiKey: () => explorerState.currentEmojiKey,
   dialog: () => exampleDialog,
   openComposition: key => {
-    const parentEmojiKey = currentEmojiKey;
+    const parentEmojiKey = explorerState.currentEmojiKey;
     showEmoji(key, false);
     syncUrlState('push', {
       ...window.history.state,
@@ -532,15 +527,15 @@ const onEmojiDialogClick = createEmojiDialogClickHandler({
   recordCopiedEmoji,
   refreshComposition: () =>
     updateEmojiComposition(
-      byId[currentEmojiKey] ?? {},
-      emojiByKey[currentEmojiKey] ?? ''
+      byId[explorerState.currentEmojiKey] ?? {},
+      emojiByKey[explorerState.currentEmojiKey] ?? ''
     ),
   setView: setEmojiDialogView,
   syncUrlState: () => syncUrlState(),
   toggleComposition: () =>
     (explorerState.compositionMode =
       explorerState.compositionMode === 'full' ? 'condensed' : 'full'),
-  toggleFavorite: () => toggleFavorite(currentEmojiKey),
+  toggleFavorite: () => toggleFavorite(explorerState.currentEmojiKey),
   translate
 });
 
@@ -662,7 +657,7 @@ function upgradeEmojiDialog() {
 }
 
 const loadPixelEditor = createPixelEditorLoader({
-  currentEmojiKey: () => currentEmojiKey,
+  currentEmojiKey: () => explorerState.currentEmojiKey,
   dialog: () => exampleDialog,
   emojiByKey: () => emojiByKey,
   formatNumber: formatUiNumber,
@@ -690,7 +685,7 @@ const {
   setView: setEmojiDialogView
 } = createEmojiDialogViewController({
   byId: () => byId,
-  currentEmojiKey: () => currentEmojiKey,
+  currentEmojiKey: () => explorerState.currentEmojiKey,
   developerModeEnabled,
   dialog: () => exampleDialog,
   emojiByKey: () => emojiByKey,
@@ -765,7 +760,7 @@ const explorerNavigation = createExplorerNavigation({
   compositionMode: () => explorerState.compositionMode,
   developerModeEnabled,
   dialog: () => exampleDialog,
-  currentEmojiKey: () => currentEmojiKey,
+  currentEmojiKey: () => explorerState.currentEmojiKey,
   drawList,
   emojiByKey: () => emojiByKey,
   genderCheckboxes: () => genderCheckboxes,
@@ -779,7 +774,7 @@ const explorerNavigation = createExplorerNavigation({
   languageList: () => languageList,
   latestReleasedVersion: () => versionManifests.at(-1)?.version,
   navigateEmoji,
-  openEmoji: key => showEmoji(key, false, displayedKeys),
+  openEmoji: key => showEmoji(key, false, explorerState.displayedKeys),
   orderButtons: () => orderButtons,
   panelDialogs,
   preferredOrder: () => explorerPreferences.order,
@@ -952,9 +947,9 @@ async function loadVersionData() {
       applyLoadedUrlState();
       renderCategoryFilters();
       drawList();
-      if (currentEmojiKey) {
+      if (explorerState.currentEmojiKey) {
         document.getElementsByClassName('emoji-version')[0].innerText =
-          getIntroducedVersion(currentEmojiKey);
+          getIntroducedVersion(explorerState.currentEmojiKey);
       }
     } catch (error) {
       console.warn('Version filters unavailable', error);
@@ -1204,7 +1199,7 @@ const {
   displayGroupName,
   displayUnicodeSubGroupName,
   emojiByKey: () => emojiByKey,
-  focusedEmojiKey: () => focusedEmojiKey,
+  focusedEmojiKey: () => explorerState.focusedEmojiKey,
   getIntroducedVersion,
   groups: () => groups,
   orderMode: () => explorerState.orderMode,
@@ -1223,7 +1218,7 @@ const listController = createListController({
   allIds: () => allIds,
   byId: () => byId,
   emojiByKey: () => emojiByKey,
-  focusedEmojiKey: () => focusedEmojiKey,
+  focusedEmojiKey: () => explorerState.focusedEmojiKey,
   formatNumber: formatUiNumber,
   genderCheckboxes: () => genderCheckboxes,
   getVersionKeys,
@@ -1240,8 +1235,8 @@ const listController = createListController({
   selectedSearchLocale: () => selectedSearchLocale,
   selectedSequenceType: () => explorerState.selectedSequenceType,
   selectedSubGroup: () => explorerState.selectedSubGroup,
-  setDisplayedKeys: keys => (displayedKeys = keys),
-  setFocusedEmojiKey: key => (focusedEmojiKey = key),
+  setDisplayedKeys: keys => (explorerState.displayedKeys = keys),
+  setFocusedEmojiKey: key => (explorerState.focusedEmojiKey = key),
   skinToneCheckboxes: () => skinToneCheckboxes,
   subGroupSelectionKey,
   syncUrlState,
@@ -1257,8 +1252,8 @@ const { onEmojiFocus, onEmojiKeyDown, renderEmojiList } =
     drawList,
     emojiList: () => emojiList,
     flushEmojiCellFragment,
-    focusedEmojiKey: () => focusedEmojiKey,
-    getDisplayedKeys: () => displayedKeys,
+    focusedEmojiKey: () => explorerState.focusedEmojiKey,
+    getDisplayedKeys: () => explorerState.displayedKeys,
     nextRenderGeneration: () => ++listRenderGeneration,
     onClick,
     orderMode: () => explorerState.orderMode,
@@ -1267,7 +1262,7 @@ const { onEmojiFocus, onEmojiKeyDown, renderEmojiList } =
     revealExplorer,
     searchText: () => searchText,
     setFocusedEmojiKey: key => {
-      focusedEmojiKey = key;
+      explorerState.focusedEmojiKey = key;
     },
     translate,
     unassigned: UNASSIGNED
@@ -1485,14 +1480,14 @@ function showEmoji(id, openDialog = true, navigationKeys) {
     applyStandalonePixelArtwork,
     byId,
     compositionMode: explorerState.compositionMode,
-    currentEmojiCopies: { get value() { return currentEmojiCopies; }, set value(value) { currentEmojiCopies = value; } },
-    currentEmojiKey: { get value() { return currentEmojiKey; }, set value(value) { currentEmojiKey = value; } },
+    currentEmojiCopies: { get value() { return explorerState.currentEmojiCopies; }, set value(value) { explorerState.currentEmojiCopies = value; } },
+    currentEmojiKey: { get value() { return explorerState.currentEmojiKey; }, set value(value) { explorerState.currentEmojiKey = value; } },
     developerMode: developerModeEnabled(),
     dialog: exampleDialog,
-    dialogNavigationKeys: { get value() { return dialogNavigationKeys; }, set value(value) { dialogNavigationKeys = value; } },
+    dialogNavigationKeys: { get value() { return explorerState.dialogNavigationKeys; }, set value(value) { explorerState.dialogNavigationKeys = value; } },
     displayGroupName,
     displayUnicodeSubGroupName,
-    displayedKeys: { value: displayedKeys },
+    displayedKeys: { value: explorerState.displayedKeys },
     emojiByKey,
     getIntroducedVersion,
     id,
@@ -1522,9 +1517,9 @@ function showEmoji(id, openDialog = true, navigationKeys) {
 
 const dialogNavigation = createDialogNavigationController({
   byId: () => byId,
-  currentEmojiKey: () => currentEmojiKey,
-  dialogNavigationKeys: () => dialogNavigationKeys,
-  displayedKeys: () => displayedKeys,
+  currentEmojiKey: () => explorerState.currentEmojiKey,
+  dialogNavigationKeys: () => explorerState.dialogNavigationKeys,
+  displayedKeys: () => explorerState.displayedKeys,
   emojiByKey: () => emojiByKey,
   emojiNext: () => emojiNext,
   emojiParent: () => emojiParent,
