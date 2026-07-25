@@ -3,7 +3,7 @@ import { explorerLabelKeys, languageFlags, sequenceTranslationKeys, sequenceType
 import { getExplorerSubGroup } from './explorer/category-rules.js';
 import { formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints } from './explorer/emoji-format.js';
 import { createSavedEmojiController, copyToClipboard as copyToClipboardHelper, } from './explorer/saved-emoji.js';
-import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, renderImportExamples as renderImportExamplesHelper } from './explorer/import-examples.js';
+import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, loadPackageManifest as loadPackageManifestHelper, renderImportExamples as renderImportExamplesHelper } from './explorer/import-examples.js';
 import { ensureUtilityControls, positionFavoriteButton } from './explorer/utility-controls.js';
 import { closePanelDialog, installApp as installWebApp, installedDisplayQueries, onPanelDialogClose, openPanelDialog, renderInstallAppButton as renderInstallAppButtonHelper, updateWebAppManifest } from './explorer/pwa-panels.js';
 import { closeFilterPicker as closeFilterPickerHelper, displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper, focusCompactChoice as focusCompactChoiceHelper, onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper, openFilterPicker as openFilterPickerHelper } from './explorer/filter-picker.js';
@@ -882,23 +882,12 @@ function updateEmojiImportExamples(item) {
     renderImportExamplesHelper(explorerState.packageManifest, item);
 }
 async function loadPackageManifest() {
-    if (explorerState.packageManifestPromise)
-        return explorerState.packageManifestPromise;
-    explorerState.packageManifestPromise = fetch('manifest.json')
-        .then(response => {
-        if (!response.ok)
-            throw new Error('Package manifest is unavailable');
-        return response.json();
-    })
-        .then(manifest => {
-        explorerState.packageManifest = manifest;
-        return manifest;
-    })
-        .catch(error => {
-        console.warn('Package import options unavailable', error);
-        return explorerState.packageManifest;
+    return loadPackageManifestHelper({
+        getManifest: () => explorerState.packageManifest,
+        getPromise: () => explorerState.packageManifestPromise,
+        setManifest: manifest => (explorerState.packageManifest = manifest),
+        setPromise: promise => (explorerState.packageManifestPromise = promise)
     });
-    return explorerState.packageManifestPromise;
 }
 async function copyToClipboardValue(value, successMessage) {
     return copyToClipboardHelper({

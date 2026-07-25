@@ -25,6 +25,7 @@ import {
 import {
   ensureImportExamples as ensureImportExampleLines,
   getCodeExampleText as getCodeExampleTextValue,
+  loadPackageManifest as loadPackageManifestHelper,
   renderImportExamples as renderImportExamplesHelper
 } from './explorer/import-examples.js';
 import {
@@ -1072,21 +1073,12 @@ function updateEmojiImportExamples(item) {
 }
 
 async function loadPackageManifest() {
-  if (explorerState.packageManifestPromise) return explorerState.packageManifestPromise;
-  explorerState.packageManifestPromise = fetch('manifest.json')
-    .then(response => {
-      if (!response.ok) throw new Error('Package manifest is unavailable');
-      return response.json();
-    })
-    .then(manifest => {
-      explorerState.packageManifest = manifest;
-      return manifest;
-    })
-    .catch(error => {
-      console.warn('Package import options unavailable', error);
-      return explorerState.packageManifest;
-    });
-  return explorerState.packageManifestPromise;
+  return loadPackageManifestHelper({
+    getManifest: () => explorerState.packageManifest,
+    getPromise: () => explorerState.packageManifestPromise,
+    setManifest: manifest => (explorerState.packageManifest = manifest),
+    setPromise: promise => (explorerState.packageManifestPromise = promise)
+  });
 }
 
 async function copyToClipboardValue(value, successMessage) {

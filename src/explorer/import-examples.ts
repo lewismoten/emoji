@@ -138,6 +138,32 @@ export function renderImportExamples(
   );
 }
 
+export function loadPackageManifest(options: {
+  getManifest: () => PackageManifest;
+  getPromise: () => Promise<unknown> | undefined;
+  setManifest: (manifest: PackageManifest) => void;
+  setPromise: (promise: Promise<unknown>) => void;
+}) {
+  const existing = options.getPromise();
+  if (existing) return existing;
+  const promise = fetch('manifest.json')
+    .then(response => {
+      if (!response.ok) throw new Error('Package manifest is unavailable');
+      return response.json();
+    })
+    .then(manifest => {
+      const typedManifest = manifest as PackageManifest;
+      options.setManifest(typedManifest);
+      return typedManifest;
+    })
+    .catch(error => {
+      console.warn('Package import options unavailable', error);
+      return options.getManifest();
+    });
+  options.setPromise(promise);
+  return promise;
+}
+
 export function ensureImportExamples(dialog: MinimalNode) {
   const code = dialog.querySelector('.code');
   const importLine = code?.querySelector('.line');
