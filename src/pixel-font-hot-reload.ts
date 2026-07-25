@@ -37,3 +37,37 @@ export function refreshPixelFontStylesheet(options: any, revision: string) {
     options.onStylesheetLoaded(revision);
   }, { once: true });
 }
+
+export async function refreshExplorerPixelFont(options: any, revision: string) {
+  try {
+    const response = await fetch(`./pixel-font/build/manifest.json?v=${revision}`, {
+      cache: 'no-store'
+    });
+    if (!response.ok) throw new Error('Pixel font manifest is unavailable');
+    options.updateManifest(await response.json(), revision);
+    document.querySelectorAll('[data-emoji-key]').forEach((cell: any) =>
+      options.applyArtwork(cell.querySelector('.emoji-glyph'), cell.dataset.emojiKey)
+    );
+    options.applyArtwork(
+      options.dialog()?.querySelector('.emoji-preview-glyph'),
+      options.currentEmojiKey()
+    );
+    options.applyArtwork(
+      options.dialog()?.querySelector('.emoji-composition-result .emoji-composition-glyph'),
+      options.currentEmojiKey()
+    );
+    options.dialog()?.querySelectorAll('[data-composition-emoji]').forEach((part: any) =>
+      options.applyArtwork(part.querySelector('.emoji-composition-glyph'), part.dataset.compositionEmoji)
+    );
+    options.dialog()?.querySelectorAll('[data-composition-artwork]').forEach((part: any) =>
+      options.applyStandaloneArtwork(
+        part.querySelector('.emoji-composition-glyph'),
+        part.dataset.compositionArtwork,
+        Number(part.dataset.compositionPoint)
+      )
+    );
+    options.updateModifierArtwork();
+  } catch (error) {
+    console.warn('Pixel font result refresh unavailable', error);
+  }
+}

@@ -32,36 +32,7 @@ import { showEmojiSession } from './explorer/emoji-session.js';
 import { createFilterControlSetup } from './explorer/filter-controls.js';
 import { bindExplorerEvents, createExplorerApp, finalizeExplorerStartup, initializeExplorerControls } from './explorer-app.js';
 import { createExplorerState } from './explorer-state.js';
-import { installPixelFontHotReload, refreshPixelFontStylesheet } from './pixel-font-hot-reload.js';
-async function refreshExplorerPixelFont(revision) {
-    try {
-        const response = await fetch(`./pixel-font/build/manifest.json?v=${revision}`, { cache: 'no-store' });
-        if (!response.ok)
-            throw new Error('Pixel font manifest is unavailable');
-        const manifest = await response.json();
-        updatePixelArtworkManifest(manifest, revision);
-        document.querySelectorAll('[data-emoji-key]').forEach(cell => {
-            applyPixelArtworkClass(cell.querySelector('.emoji-glyph'), cell.dataset.emojiKey);
-        });
-        applyPixelArtworkClass(exampleDialog?.querySelector('.emoji-preview-glyph'), explorerState.currentEmojiKey);
-        applyPixelArtworkClass(exampleDialog?.querySelector('.emoji-composition-result .emoji-composition-glyph'), explorerState.currentEmojiKey);
-        exampleDialog
-            ?.querySelectorAll('[data-composition-emoji]')
-            .forEach(part => {
-            applyPixelArtworkClass(part.querySelector('.emoji-composition-glyph'), part.dataset.compositionEmoji);
-        });
-        exampleDialog
-            ?.querySelectorAll('[data-composition-artwork]')
-            .forEach(part => {
-            applyStandalonePixelArtwork(part.querySelector('.emoji-composition-glyph'), part.dataset.compositionArtwork, Number(part.dataset.compositionPoint));
-        });
-        if (skinToneCheckboxes && hairCheckboxes)
-            updateModifierPixelArtwork();
-    }
-    catch (error) {
-        console.warn('Pixel font result refresh unavailable', error);
-    }
-}
+import { installPixelFontHotReload, refreshExplorerPixelFont, refreshPixelFontStylesheet } from './pixel-font-hot-reload.js';
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
 var searchText;
@@ -1157,7 +1128,17 @@ installPixelFontHotReload({
     refreshStylesheet: revision => refreshPixelFontStylesheet({
         onStylesheetLoaded: loadedRevision => {
             pixelEditor?.refreshFontBuild();
-            void refreshExplorerPixelFont(loadedRevision);
+            void refreshExplorerPixelFont({
+                applyArtwork: applyPixelArtworkClass,
+                applyStandaloneArtwork: applyStandalonePixelArtwork,
+                currentEmojiKey: () => explorerState.currentEmojiKey,
+                dialog: () => exampleDialog,
+                updateManifest: updatePixelArtworkManifest,
+                updateModifierArtwork: () => {
+                    if (skinToneCheckboxes && hairCheckboxes)
+                        updateModifierPixelArtwork();
+                }
+            }, loadedRevision);
         }
     }, revision)
 });
