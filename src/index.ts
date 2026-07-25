@@ -99,6 +99,7 @@ import {
 import { updateActiveFilterSummary as updateActiveFilterSummaryHelper } from './explorer/filter-summary.js';
 import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from './explorer/dialog-upgrade.js';
 import { applyDialogView, loadStylesheet } from './explorer/dialog-view.js';
+import { createPixelEditorLoader } from './explorer/pixel-editor-loader.js';
 
 if (import.meta.hot) {
   let pixelFontRevision;
@@ -936,38 +937,27 @@ function setEmojiDialogView(requestedMode, updateUrl = true) {
   if (updateUrl && exampleDialog.open) syncUrlState();
 }
 
-async function ensurePixelEditor() {
-  if (pixelEditor) return pixelEditor;
-  pixelEditorPromise ??= Promise.all([
-    loadStylesheet('./explorer/pixel-editor.css', 'pixel-editor-stylesheet'),
-    import('./pixel-editor.js')
-  ])
-    .then(([, { createPixelEditor }]) => {
-      pixelEditor = createPixelEditor({
-        dialog: exampleDialog,
-        translate,
-        formatNumber: formatUiNumber,
-        formatPercent: formatUiPercent
-      });
-      pixelEditor.refreshTranslations();
-      return pixelEditor;
-    })
-    .catch(error => {
-      pixelEditorPromise = undefined;
-      console.warn('Pixel editor unavailable', error);
-      return undefined;
-    });
-  const editor = await pixelEditorPromise;
-  if (!editor) return undefined;
-  if (exampleDialog.classList.contains('is-editor-view')) {
-    editor.element.hidden = false;
-    if (currentEmojiKey)
-      await editor.open(currentEmojiKey, emojiByKey[currentEmojiKey]);
-    editor.element
-      .querySelector('.pixel-editor-canvas')
-      ?.focus({ preventScroll: true });
-  }
-  return editor;
+const loadPixelEditor = createPixelEditorLoader({
+  currentEmojiKey: () => currentEmojiKey,
+  dialog: () => exampleDialog,
+  emojiByKey: () => emojiByKey,
+  formatNumber: formatUiNumber,
+  formatPercent: formatUiPercent,
+  getEditor: () => pixelEditor,
+  getPromise: () => pixelEditorPromise,
+  loadEditor: () => import('./pixel-editor.js'),
+  loadStylesheet,
+  setEditor: editor => {
+    pixelEditor = editor;
+  },
+  setPromise: promise => {
+    pixelEditorPromise = promise;
+  },
+  translate
+});
+
+function ensurePixelEditor() {
+  return loadPixelEditor();
 }
 
 function focusInitialEmojiDialogAction() {
