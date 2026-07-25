@@ -23,6 +23,8 @@ export type ExplorerState = {
   groups: string[];
   items: any[];
   orderMode: 'grouped' | 'sequence';
+  packageManifest: { packs: any[]; categories: any[] };
+  packageManifestPromise?: Promise<unknown>;
   releasedIds: Set<string>;
   proposedVersionManifests: any[];
   selectedGroup: string;
@@ -68,6 +70,7 @@ export function createExplorerState(): ExplorerState {
     groups: [],
     items: [],
     orderMode: 'grouped',
+    packageManifest: { packs: [], categories: [] },
     releasedIds: new Set(),
     proposedVersionManifests: [],
     selectedGroup: '',

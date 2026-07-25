@@ -156,8 +156,6 @@ var modifierFilters;
 var skinToneFieldset;
 var hairFieldset;
 var genderFieldset;
-var packageManifest = { packs: [], categories: [] };
-var packageManifestPromise;
 var searchDrawTimer;
 var listRenderGeneration = 0;
 var copyStatus;
@@ -1050,26 +1048,26 @@ function updateActiveFilterSummary() {
     });
 }
 function updateEmojiImportExamples(item) {
-    renderImportExamplesHelper(packageManifest, item);
+    renderImportExamplesHelper(explorerState.packageManifest, item);
 }
 async function loadPackageManifest() {
-    if (packageManifestPromise)
-        return packageManifestPromise;
-    packageManifestPromise = fetch('manifest.json')
+    if (explorerState.packageManifestPromise)
+        return explorerState.packageManifestPromise;
+    explorerState.packageManifestPromise = fetch('manifest.json')
         .then(response => {
         if (!response.ok)
             throw new Error('Package manifest is unavailable');
         return response.json();
     })
         .then(manifest => {
-        packageManifest = manifest;
+        explorerState.packageManifest = manifest;
         return manifest;
     })
         .catch(error => {
         console.warn('Package import options unavailable', error);
-        return packageManifest;
+        return explorerState.packageManifest;
     });
-    return packageManifestPromise;
+    return explorerState.packageManifestPromise;
 }
 async function copyToClipboardValue(value, successMessage) {
     return copyToClipboardHelper({
