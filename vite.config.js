@@ -91,9 +91,16 @@ export default defineConfig({
           }
 
           try {
+            const developmentPage = renderPage(
+              locale,
+              `http://localhost${pathname}`
+            ).replace(
+              /<script defer src="\.\/index\.js\?v=[^"]+" type="module"><\/script>/,
+              '<script defer src="./src/index.ts" type="module"></script>'
+            );
             const html = await server.transformIndexHtml(
               pathname,
-              renderPage(locale, `http://localhost${pathname}`)
+              developmentPage
             );
             response.statusCode = 200;
             response.setHeader('Content-Type', 'text/html; charset=utf-8');
