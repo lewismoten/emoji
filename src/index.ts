@@ -254,12 +254,6 @@ var hairFieldset;
 var genderFieldset;
 var packageManifest = { packs: [], categories: [] };
 var packageManifestPromise;
-var searchAnnotations = {};
-var searchLabels = {};
-var searchSubgroupLabels = {};
-var searchLocales = [];
-var selectedSearchLocale = '';
-var searchLoadId = 0;
 var searchDrawTimer;
 var listRenderGeneration = 0;
 var copyStatus;
@@ -328,7 +322,7 @@ const {
   favoriteEmojiKeys: () => favoriteEmojiKeys,
   savePreference: saveExplorerPreference,
   savedDialog: () => savedDialog,
-  searchAnnotations: () => searchAnnotations,
+  searchAnnotations: () => explorerState.searchAnnotations,
   setCopiedEmojiKeys: keys => (copiedEmojiKeys = keys),
   setFavoriteEmojiKeys: keys => (favoriteEmojiKeys = keys),
   translate
@@ -853,14 +847,14 @@ async function loadData() {
 const searchLanguageLifecycle = createSearchLanguageLifecycle({
   applyDialogUrlState,
   closeLanguageDialog: () => closePanelDialog(languageDialog, suppressedPanelCloses),
-  currentLoadId: () => searchLoadId,
+  currentLoadId: () => explorerState.searchLoadId,
   languageFlags,
   languageList: () => languageList,
   languagePicker: () => languagePicker,
   languagePickerFlag: () => languagePickerFlag,
   languagePickerLabel: () => languagePickerLabel,
   loadUiTranslations,
-  nextLoadId: () => ++searchLoadId,
+  nextLoadId: () => ++explorerState.searchLoadId,
   refreshLocalizedLabels,
   restoreDeveloperMode: () => {
     developerModeFromUrl =
@@ -868,14 +862,14 @@ const searchLanguageLifecycle = createSearchLanguageLifecycle({
     renderDeveloperMode();
   },
   saveExplorerPreference,
-  searchLocales: () => searchLocales,
-  selectedSearchLocale: () => selectedSearchLocale,
+  searchLocales: () => explorerState.searchLocales,
+  selectedSearchLocale: () => explorerState.selectedSearchLocale,
   setApplyingUrlState: value => (applyingUrlState = value),
-  setSearchAnnotations: value => (searchAnnotations = value),
-  setSearchLabels: value => (searchLabels = value),
-  setSearchLocales: value => (searchLocales = value),
-  setSearchSubgroupLabels: value => (searchSubgroupLabels = value),
-  setSelectedLocale: value => (selectedSearchLocale = value),
+  setSearchAnnotations: value => (explorerState.searchAnnotations = value),
+  setSearchLabels: value => (explorerState.searchLabels = value),
+  setSearchLocales: value => (explorerState.searchLocales = value),
+  setSearchSubgroupLabels: value => (explorerState.searchSubgroupLabels = value),
+  setSelectedLocale: value => (explorerState.selectedSearchLocale = value),
   syncUrlState,
   translate,
   updateWebAppManifest
@@ -944,7 +938,7 @@ function populateVersionSelector() {
   populateVersionSelectorHelper({
     proposed: explorerState.proposedVersionManifests,
     released: explorerState.versionManifests,
-    selectedLocale: selectedSearchLocale,
+    selectedLocale: explorerState.selectedSearchLocale,
     selector: versionSelector,
     syncRange: syncVersionRange,
     translate
@@ -1098,7 +1092,7 @@ function refreshLocalizedLabels() {
 }
 
 function displayGroupName(name) {
-  return searchLabels[unicodeGroupLabelKeys[name]] ?? name;
+  return explorerState.searchLabels[unicodeGroupLabelKeys[name]] ?? name;
 }
 
 function buildCategoryRepresentatives() {
@@ -1161,8 +1155,8 @@ function getSubGroupRepresentativeEmoji(group, subGroup) {
 
 function displayUnicodeSubGroupName(name) {
   return displayUnicodeSubGroupNameHelper(name, {
-    searchSubgroupLabels,
-    searchLabels,
+    searchSubgroupLabels: explorerState.searchSubgroupLabels,
+    searchLabels: explorerState.searchLabels,
     unicodeSubgroupLabelKeys
   });
 }
@@ -1183,7 +1177,7 @@ const {
   getIntroducedVersion,
   groups: () => explorerState.groups,
   orderMode: () => explorerState.orderMode,
-  searchAnnotations: () => searchAnnotations,
+  searchAnnotations: () => explorerState.searchAnnotations,
   sequenceTranslationKeys,
   sequenceTypeLabels,
   sequenceTypeOrder,
@@ -1210,10 +1204,10 @@ const listController = createListController({
   orderMode: () => explorerState.orderMode,
   orderedKeys,
   renderEmojiList: (...args) => renderEmojiList(...args),
-  searchAnnotations: () => searchAnnotations,
+  searchAnnotations: () => explorerState.searchAnnotations,
   searchText: () => searchText,
   selectedGroup: () => explorerState.selectedGroup,
-  selectedSearchLocale: () => selectedSearchLocale,
+  selectedSearchLocale: () => explorerState.selectedSearchLocale,
   selectedSequenceType: () => explorerState.selectedSequenceType,
   selectedSubGroup: () => explorerState.selectedSubGroup,
   setDisplayedKeys: keys => (explorerState.displayedKeys = keys),
@@ -1377,11 +1371,11 @@ function updateEmojiComposition(item, value) {
     emojiKeyByCodePoints: explorerState.emojiKeyByCodePoints,
     exampleDialog,
     item,
-    locale: document.documentElement.lang || selectedSearchLocale || undefined,
+    locale: document.documentElement.lang || explorerState.selectedSearchLocale || undefined,
     numberingSystem: document.documentElement.lang?.startsWith('ar')
       ? 'arab'
       : undefined,
-    searchAnnotations,
+    searchAnnotations: explorerState.searchAnnotations,
     translate,
     value
   });
@@ -1402,7 +1396,7 @@ function rebuildEmojiCodePointLookup() {
 
 function formatUiNumber(value) {
   const locale =
-    document.documentElement.lang || selectedSearchLocale || undefined;
+    document.documentElement.lang || explorerState.selectedSearchLocale || undefined;
   return formatUiNumberValue(
     value,
     locale,
@@ -1412,7 +1406,7 @@ function formatUiNumber(value) {
 
 function formatUiPercent(value) {
   const locale =
-    document.documentElement.lang || selectedSearchLocale || undefined;
+    document.documentElement.lang || explorerState.selectedSearchLocale || undefined;
   return formatUiPercentValue(
     value,
     locale,
@@ -1483,8 +1477,8 @@ function showEmoji(id, openDialog = true, navigationKeys) {
       syncUrlState('push', { ...withoutCompositionParent(), emojiDialogEntry: true });
     },
     openEditor: (key, value) => pixelEditor?.open(key, value),
-    searchAnnotations,
-    selectedSearchLocale,
+    searchAnnotations: explorerState.searchAnnotations,
+    selectedSearchLocale: explorerState.selectedSearchLocale,
     sequenceTranslationKeys,
     sequenceTypeLabels,
     statusTranslationKeys,
@@ -1506,7 +1500,7 @@ const dialogNavigation = createDialogNavigationController({
   emojiParent: () => emojiParent,
   emojiPrevious: () => emojiPrevious,
   resolveNavigation: resolveDialogNavigationState,
-  searchAnnotations: () => searchAnnotations,
+  searchAnnotations: () => explorerState.searchAnnotations,
   showEmoji,
   syncUrlState,
   translate

@@ -23,6 +23,12 @@ export type ExplorerState = {
   selectedGroup: string;
   selectedSequenceType: string;
   selectedSubGroup: string;
+  searchAnnotations: Record<string, string[]>;
+  searchLabels: Record<string, string>;
+  searchLoadId: number;
+  searchLocales: any[];
+  searchSubgroupLabels: Record<string, string>;
+  selectedSearchLocale: string;
   subGroups: Record<string, string[]>;
   subGroupRepresentativeEmoji: Map<string, string>;
   versionDataPromise?: Promise<unknown>;
@@ -57,6 +63,12 @@ export function createExplorerState(): ExplorerState {
     selectedGroup: '',
     selectedSequenceType: '',
     selectedSubGroup: '',
+    searchAnnotations: {},
+    searchLabels: {},
+    searchLoadId: 0,
+    searchLocales: [],
+    searchSubgroupLabels: {},
+    selectedSearchLocale: '',
     subGroups: {},
     subGroupRepresentativeEmoji: new Map(),
     versionKeys: new Map(),
