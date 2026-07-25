@@ -11,9 +11,7 @@ import { renderSearchLanguages as renderSearchLanguagesHelper, selectLanguageLin
 import { applyBasicUrlStateToControls, applyExclusiveCheckboxSelection, applyLoadedUrlStateToControls, resetFilterControls, stepVersionIndex } from './explorer/filter-controls.js';
 import { closeFilterPicker as closeFilterPickerHelper, displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper, focusCompactChoice as focusCompactChoiceHelper, makeCompactChoice as makeCompactChoiceHelper, onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper, openFilterPicker as openFilterPickerHelper, populateGroupFilter as populateGroupFilterHelper, populateSequenceTypeFilter as populateSequenceTypeFilterHelper, populateSubGroupFilter as populateSubGroupFilterHelper, renderFilterPickerTrigger as renderFilterPickerTriggerHelper } from './explorer/filter-picker.js';
 import { getVersionKeys as getVersionKeysHelper, renderCategoryFilterLayout, syncVersionRange as syncVersionRangeHelper, updateAvailableCategories as updateAvailableCategoriesHelper, updateModifierAvailability as updateModifierAvailabilityHelper, versionSliderLabel as versionSliderLabelHelper } from './explorer/category-version.js';
-import { resolveCompositionParentLabel, resolveEmojiDialogDisplay, resolveDialogNavigationState } from './explorer/dialog-state.js';
-import { resolveRenderingDiagnostic } from './explorer/rendering-diagnostic.js';
-import { renderEmojiComposition } from './explorer/emoji-composition.js';
+import { getIntroducedVersion as getIntroducedVersionHelper, renderEmojiDialog, updateCompositionBackButton as updateCompositionBackButtonHelper, updateDialogNavigation as updateDialogNavigationHelper, updateEmojiComposition as updateEmojiCompositionHelper, updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutCompositionParent } from './explorer/dialog-render.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -2619,7 +2617,12 @@ function animateEmojiCopyConfirmation(button) {
     animation.id = 'emoji-copy-confirmation';
 }
 function getIntroducedVersion(key) {
-    return ([...versionManifests, ...proposedVersionManifests].find(version => versionKeys.get(version.version)?.has(key))?.version ?? '—');
+    return getIntroducedVersionHelper({
+        key,
+        versionKeys,
+        versionManifests,
+        proposedVersionManifests
+    });
 }
 function onClick(e, openDialog = true) {
     const cell = e.target.closest?.('[data-emoji-key]');
@@ -2641,37 +2644,27 @@ function onEmojiDialogClose() {
         syncUrlState('replace', withoutCompositionParent());
     }
 }
-function withoutCompositionParent(state = window.history.state) {
-    const nextState = { ...(state ?? {}) };
-    delete nextState.compositionParent;
-    return nextState;
-}
 function updateEmojiComposition(item, value) {
-    const section = exampleDialog.querySelector('.emoji-composition');
-    const equation = section?.querySelector('.emoji-composition-equation');
-    const modeButton = section?.querySelector('.emoji-composition-mode');
-    renderEmojiComposition({
-        section,
-        equation,
-        modeButton,
-        item,
-        value,
+    updateEmojiCompositionHelper({
+        applyPixelArtworkClass,
+        applyStandalonePixelArtwork,
+        byId,
+        compositionMode,
         developerMode: developerModeEnabled(),
         detailsVisible: !exampleDialog.classList.contains('is-code-view') &&
             !exampleDialog.classList.contains('is-editor-view'),
-        compositionMode,
-        emojiKeyByCodePoints,
-        emojiByKey,
-        searchAnnotations,
-        byId,
-        translate,
-        applyPixelArtworkClass,
-        applyStandalonePixelArtwork,
         dir: document.documentElement.dir,
+        emojiByKey,
+        emojiKeyByCodePoints,
+        exampleDialog,
+        item,
         locale: document.documentElement.lang || selectedSearchLocale || undefined,
         numberingSystem: document.documentElement.lang?.startsWith('ar')
             ? 'arab'
-            : undefined
+            : undefined,
+        searchAnnotations,
+        translate,
+        value
     });
 }
 function rebuildEmojiCodePointLookup() {
@@ -2753,42 +2746,20 @@ function systemEmojiAppearsSplit(value) {
             systemEmojiReferenceWidth * 1.45);
 }
 function updateRenderingDiagnostic(emojiKey, value) {
-    const section = exampleDialog.querySelector('.rendering-diagnostic');
-    const invitation = exampleDialog.querySelector('.pixel-design-invitation');
-    const regularEditorButton = exampleDialog.querySelector('.emoji-copy-actions .show-pixel-editor');
-    const painted = paintedPixelEmojiKeys.has(emojiKey);
-    const privateUsePoint = privateUsePixelEmojiByKey.get(emojiKey);
-    if (!section || !invitation)
-        return;
-    const diagnostic = resolveRenderingDiagnostic({
-        codePoints: byId[emojiKey]?.codePoints,
-        emojiValue: value,
-        painted,
-        privateUsePoint,
+    updateRenderingDiagnosticHelper({
+        applyPixelArtworkClass,
+        byId,
         developerMode: developerModeEnabled(),
         detailsVisible: !exampleDialog.classList.contains('is-code-view') &&
             !exampleDialog.classList.contains('is-editor-view'),
+        emojiKey,
+        emojiValue: value,
+        exampleDialog,
+        painted: paintedPixelEmojiKeys.has(emojiKey),
+        privateUsePoint: privateUsePixelEmojiByKey.get(emojiKey),
         systemEmojiAppearsSplit,
         translate
     });
-    section.dataset.available = String(diagnostic.sectionAvailable);
-    invitation.dataset.available = String(diagnostic.invitationAvailable);
-    section.hidden = diagnostic.sectionHidden;
-    invitation.hidden = diagnostic.invitationHidden;
-    if (regularEditorButton)
-        regularEditorButton.hidden = diagnostic.regularEditorHidden;
-    if (!painted || !privateUsePoint)
-        return;
-    const systemGlyph = section.querySelector('.system-render-glyph');
-    const pixelGlyph = section.querySelector('.pixel-render-glyph');
-    const result = section.querySelector('.rendering-result');
-    if (!systemGlyph || !pixelGlyph || !result)
-        return;
-    systemGlyph.textContent = value;
-    pixelGlyph.textContent = String.fromCodePoint(privateUsePoint);
-    section.dataset.pixelEmojiKey = emojiKey;
-    result.classList.toggle('is-warning', diagnostic.split);
-    result.textContent = diagnostic.resultText;
 }
 function refreshRenderedPixelEmoji() {
     document.querySelectorAll('[data-pixel-emoji-key]').forEach(element => {
@@ -2819,64 +2790,40 @@ function showEmoji(id, openDialog = true, navigationKeys) {
     var group = items.find(item => item.key === id)?.group ?? '(none)';
     var subGroup = items.find(item => item.key === id)?.unicodeSubGroup ?? '(none)';
     const annotations = searchAnnotations[id] ?? [];
-    const dialogDisplay = resolveEmojiDialogDisplay({
-        emojiKey: id,
-        emojiValue: value,
-        item,
-        groupText: displayGroupName(group),
-        subGroupText: displayUnicodeSubGroupName(subGroup),
-        introducedVersion: getIntroducedVersion(id),
-        selectedSearchLocale,
+    const dialogDisplay = renderEmojiDialog({
         annotations,
-        sequenceTypeLabels,
+        applyPixelArtworkClass,
+        applyStandalonePixelArtwork,
+        byId,
+        compositionMode,
+        currentEmojiKey,
+        developerMode: developerModeEnabled(),
+        dialogNavigationKeys,
+        displayGroupName,
+        displayUnicodeSubGroupName,
+        emojiByKey,
+        exampleDialog,
+        getIntroducedVersion,
+        group,
+        id,
+        item,
+        locale: document.documentElement.lang || selectedSearchLocale || undefined,
+        numberingSystem: document.documentElement.lang?.startsWith('ar')
+            ? 'arab'
+            : undefined,
+        searchAnnotations,
+        selectedSearchLocale,
         sequenceTranslationKeys,
+        sequenceTypeLabels,
         statusTranslationKeys,
-        translate
+        subGroup,
+        translate,
+        updateFavoriteButton,
+        updateRenderingDiagnostic,
+        updateEmojiComposition,
+        value
     });
-    document.getElementsByClassName('emoji-group')[0].innerText =
-        dialogDisplay.groupText;
-    document.getElementsByClassName('emoji-subgroup')[0].innerText =
-        dialogDisplay.subGroupText;
-    document.getElementsByClassName('emoji-key')[0].innerText =
-        dialogDisplay.keyText;
-    document.getElementsByClassName('emoji-value')[0].innerText =
-        dialogDisplay.valueText;
-    document.getElementsByClassName('emoji-encoded')[0].innerText =
-        dialogDisplay.encodedText;
-    const previewGlyph = document.getElementsByClassName('emoji-preview-glyph')[0];
-    previewGlyph.innerText = value;
-    applyPixelArtworkClass(previewGlyph, id);
-    updateRenderingDiagnostic(id, value);
-    updateEmojiComposition(item, value);
-    const englishNameElement = document.getElementsByClassName('emoji-english-name')[0];
-    englishNameElement.innerText = dialogDisplay.englishName;
-    document.getElementsByClassName('emoji-version')[0].innerText =
-        dialogDisplay.versionText;
-    document.getElementsByClassName('emoji-sequence-type')[0].innerText =
-        dialogDisplay.sequenceTypeText;
-    document.getElementsByClassName('emoji-status')[0].innerText =
-        dialogDisplay.statusText;
     currentEmojiCopies = dialogDisplay.copyValues;
-    const localizedDetails = document.getElementsByClassName('localized-emoji-details')[0];
-    if (dialogDisplay.dialogTitle.showLocalized) {
-        document.getElementById('example-title').innerText =
-            dialogDisplay.dialogTitle.title;
-        document.getElementsByClassName('localized-language')[0].innerText =
-            translate('keywords', 'keywords');
-        document.getElementsByClassName('localized-keywords')[0].innerText =
-            dialogDisplay.dialogTitle.localizedKeywords;
-        localizedDetails.hidden = false;
-    }
-    else {
-        document.getElementById('example-title').innerText =
-            dialogDisplay.dialogTitle.title;
-        localizedDetails.hidden = true;
-    }
-    const dialogTitleElement = document.getElementById('example-title');
-    dialogTitleElement.title = dialogDisplay.dialogTitle.title;
-    englishNameElement.closest('.emoji-english-name-row, div').hidden =
-        dialogDisplay.hideEnglishName;
-    updateFavoriteButton();
     if (openDialog) {
         if (copyStatus)
             copyStatus.textContent = '';
@@ -2903,30 +2850,24 @@ function navigateEmoji(amount) {
     }
 }
 function updateDialogNavigation() {
-    const keys = dialogNavigationKeys.length > 0 ? dialogNavigationKeys : displayedKeys;
-    const navigation = resolveDialogNavigationState(keys, currentEmojiKey);
-    if (emojiPrevious)
-        emojiPrevious.disabled = navigation.previousDisabled;
-    if (emojiNext)
-        emojiNext.disabled = navigation.nextDisabled;
-    updateCompositionBackButton();
+    updateDialogNavigationHelper({
+        currentEmojiKey,
+        dialogNavigationKeys,
+        displayedKeys,
+        emojiNext,
+        emojiPrevious,
+        updateCompositionBackButton
+    });
 }
 function updateCompositionBackButton() {
-    if (!emojiParent)
-        return;
-    const parentKey = window.history.state?.compositionParent;
-    const available = Boolean(parentKey && emojiByKey[parentKey]);
-    emojiParent.hidden = !available;
-    if (!available)
-        return;
-    const label = resolveCompositionParentLabel({
-        parentKey,
-        searchAnnotations,
+    updateCompositionBackButtonHelper({
         byId,
+        emojiByKey,
+        emojiParent,
+        historyState: window.history.state,
+        searchAnnotations,
         translate
     });
-    emojiParent.title = label;
-    emojiParent.setAttribute('aria-label', label);
 }
 removeLegacyDialogElements();
 window.addEventListener('load', onLoad);

@@ -107,6 +107,10 @@ const categoryVersionHelper = await fs.readFile(
   path.join(root, 'src/explorer/category-version.ts'),
   'utf8'
 );
+const dialogRenderHelper = await fs.readFile(
+  path.join(root, 'src/explorer/dialog-render.ts'),
+  'utf8'
+);
 const pwaPanelsHelper = await fs.readFile(
   path.join(root, 'src/explorer/pwa-panels.ts'),
   'utf8'
@@ -567,7 +571,7 @@ assert.doesNotMatch(
   'emoji-dialog titles must not visually truncate long names'
 );
 assert.match(
-  demoScript,
+  dialogRenderHelper,
   /dialogTitleElement\.title = dialogDisplay\.dialogTitle\.title/,
   'emoji-dialog titles must also expose the complete name as a tooltip'
 );
@@ -806,7 +810,7 @@ assert.match(
   'cached emoji dialogs must be upgraded with complete rendering diagnostics'
 );
 assert.match(
-  demoScript,
+  dialogRenderHelper,
   /function updateRenderingDiagnostic[\s\S]*if \(!section \|\| !invitation\) return[\s\S]*if \(!systemGlyph \|\| !pixelGlyph \|\| !result\) return/,
   'rendering diagnostics must tolerate stale cached dialog markup'
 );
@@ -891,7 +895,7 @@ assert.match(
   'parent navigation must use browser history'
 );
 assert.match(
-  demoScript,
+  dialogRenderHelper,
   /delete nextState\.compositionParent/,
   'ordinary dialog navigation must clear stale component history'
 );
