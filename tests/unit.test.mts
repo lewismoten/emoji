@@ -111,6 +111,14 @@ const dialogUpgradeHelper = await fs.readFile(
   path.join(root, 'src/explorer/dialog-upgrade.ts'),
   'utf8'
 );
+const catalogLoader = await fs.readFile(
+  path.join(root, 'src/explorer/catalog-loader.ts'),
+  'utf8'
+);
+const pixelArtwork = await fs.readFile(
+  path.join(root, 'src/explorer/pixel-artwork.ts'),
+  'utf8'
+);
 const emojiListSources = `${demoScript}\n${emojiListInteractionHelper}`;
 const utilityControlsHelper = await fs.readFile(
   path.join(root, 'src/explorer/utility-controls.ts'),
@@ -511,13 +519,13 @@ assert.match(
   'the pixel font must use a reloadable standalone stylesheet'
 );
 assert.match(
-  demoScript,
+  `${demoScript}\n${catalogLoader}`,
   /import\.meta\.hot[\s\S]*font-build\.revision[\s\S]*setInterval\(checkPixelFontRevision, 1500\)[\s\S]*function refreshPixelFontStylesheet[\s\S]*replacement\.addEventListener[\s\S]*refreshFontBuild[\s\S]*refreshExplorerPixelFont/,
   'the demo must hot-swap rebuilt pixel fonts without refreshing the page'
 );
 assert.match(
-  demoScript,
-  /checkPixelFontRevision\(true\)[\s\S]*pixelFontManifestUrl = isViteDevelopment[\s\S]*manifest\.json\?v=\$\{Date\.now\(\)\}/,
+  `${demoScript}\n${catalogLoader}`,
+  /checkPixelFontRevision\(true\)[\s\S]*pixelFontManifestUrl = options\.isViteDevelopment[\s\S]*manifest\.json\?v=\$\{Date\.now\(\)\}/,
   'initial development loads must bypass stale service-worker font data'
 );
 assert.match(
@@ -710,13 +718,13 @@ assert.match(
   'sequence parts must use native glyphs unless painted artwork is available'
 );
 assert.match(
-  demoScript,
+  catalogLoader,
   /pixelFontManifestUrl[\s\S]*fetch\(\s*pixelFontManifestUrl[\s\S]*updatePixelArtworkManifest\(pixelFontManifest\)/,
   'the demo must discover which emoji have painted pixel-font glyphs'
 );
 assert.match(
-  demoScript,
-  /function updatePixelArtworkManifest[\s\S]*proposedPixelEmojiKeys = new Set[\s\S]*releaseStatus === 'proposed'/,
+  pixelArtwork,
+  /const updatePixelArtworkManifest[\s\S]*proposedKeys = new Set[\s\S]*releaseStatus === 'proposed'/,
   'the demo must distinguish proposed artwork from released pixel glyphs'
 );
 assert.match(
@@ -725,8 +733,8 @@ assert.match(
   'painted draft emoji must bypass system fonts that claim unsupported code points'
 );
 assert.match(
-  demoScript,
-  /function updateModifierPixelArtwork\(\)[\s\S]*applyPixelArtworkClass/,
+  pixelArtwork,
+  /const updateModifierPixelArtwork[\s\S]*applyPixelArtworkClass/,
   'painted modifier swatches must opt into the pixel font'
 );
 assert.match(
@@ -1016,12 +1024,12 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /function applyStandalonePixelArtwork\(element, emojiKey\)[\s\S]*applyPixelArtworkClass\(element, emojiKey\)/,
+  /const applyStandalonePixelArtwork = applyPixelArtworkClass/,
   'standalone sequence components must use their painted font glyphs'
 );
 assert.match(
-  demoScript,
-  /function updateModifierPixelArtwork[\s\S]*applyStandalonePixelArtwork/,
+  pixelArtwork,
+  /const updateModifierPixelArtwork[\s\S]*applyPixelArtworkClass/,
   'modifier filter swatches must use standalone generated artwork'
 );
 assert.match(
@@ -1310,13 +1318,13 @@ assert.doesNotMatch(
   'the Explorer must not download the all-emoji package bundle in addition to emoji metadata'
 );
 assert.match(
-  demoScript,
-  /emojiByKey = Object\.fromEntries\(data\.map\(item => \[item\.key, item\.emoji\]\)\)/,
+  catalogLoader,
+  /emojiByKey[^=]*= Object\.fromEntries\([\s\S]*item\.key, item\.emoji/,
   'the Explorer must derive its emoji lookup from the metadata it already downloads'
 );
 assert.match(
-  demoScript,
-  /function refreshRenderedPixelEmoji[\s\S]*is-editor-view[\s\S]*pixelEditor\?\.refreshFontBuild/,
+  `${pixelArtwork}\n${demoScript}`,
+  /const refreshRenderedPixelEmoji[\s\S]*options\.refreshEditor\(\)[\s\S]*refreshEditor: \(\) => \{[\s\S]*is-editor-view[\s\S]*pixelEditor\?\.refreshFontBuild/,
   'font toggles must refresh editor metadata only while the editor is open'
 );
 assert.match(
@@ -1330,8 +1338,8 @@ assert.match(
   'pixel font must be enabled by default'
 );
 assert.match(
-  demoScript,
-  /function renderedPixelEmoji[\s\S]*privateUsePixelEmojiByKey[\s\S]*String\.fromCodePoint\(privateUsePoint\)/,
+  pixelArtwork,
+  /const renderedPixelEmoji[\s\S]*privateUseByKey[\s\S]*String\.fromCodePoint\(privateUsePoint\)/,
   'the explorer must render painted sequences atomically on legacy text shapers'
 );
 assert.match(

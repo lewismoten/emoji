@@ -10,12 +10,13 @@ const root = path.resolve(
 const read = (file: string) => fs.readFile(path.join(root, file), "utf8");
 const readJson = async <T,>(file: string) => JSON.parse(await read(file)) as T;
 const packageJson = await readJson<{ version: string }>("package.json");
-const [serviceWorker, generatedDemoScript, arabicDemo, demoScript] =
+const [serviceWorker, generatedDemoScript, arabicDemo, demoScript, catalogLoader] =
   await Promise.all([
     read("build/demo-pages/service-worker.js"),
     read("build/demo-pages/index.js"),
     read("build/demo-pages/index.ar.html"),
     read("src/index.ts"),
+    read("src/explorer/catalog-loader.ts"),
   ]);
 
 assert.match(
@@ -82,12 +83,12 @@ assert.match(
   "the deployed entry module must lazy-load versioned pixel-editor styles",
 );
 assert.match(
-  demoScript,
+  catalogLoader,
   /fetch\('explorer\/catalog\.json'\)/,
   "the Explorer must load its compact runtime catalog",
 );
 assert.match(
-  demoScript,
+  catalogLoader,
   /pixel-font\/build\/explorer-manifest\.json/,
   "the Explorer must load compact pixel-font metadata",
 );
