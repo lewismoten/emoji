@@ -1295,8 +1295,8 @@ assert.match(
   'the font comparison must expose system and pixel choices'
 );
 assert.match(
-  demoScript,
-  /function ensurePixelEditor[\s\S]*import\('\.\/pixel-editor\.js'\)[\s\S]*createPixelEditor[\s\S]*is-editor-view/,
+  await fs.readFile(path.join(root, 'src/explorer/pixel-editor-loader.ts'), 'utf8'),
+  /createPixelEditor[\s\S]*is-editor-view/,
   'demo must initialize the pixel-art editor only when editor mode is opened'
 );
 assert.doesNotMatch(

@@ -733,7 +733,8 @@ const loadPixelEditor = createPixelEditorLoader({
     formatPercent: formatUiPercent,
     getEditor: () => pixelEditor,
     getPromise: () => pixelEditorPromise,
-    loadStylesheet,
+    loadEditor: () => import('./pixel-editor.js'),
+    loadStylesheet: () => loadStylesheet('./explorer/pixel-editor.css', 'pixel-editor-stylesheet'),
     setEditor: editor => {
         pixelEditor = editor;
     },

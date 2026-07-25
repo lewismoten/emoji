@@ -6,7 +6,7 @@ export function createPixelEditorLoader(options: {
   formatPercent: (value: number) => string;
   getEditor: () => any;
   getPromise: () => Promise<any> | undefined;
-  loadStylesheet: (href: string, id: string) => Promise<unknown>;
+  loadStylesheet: () => Promise<unknown>;
   loadEditor: () => Promise<{ createPixelEditor: (options: any) => any }>;
   setEditor: (editor: any) => void;
   setPromise: (promise: Promise<any> | undefined) => void;
@@ -18,7 +18,7 @@ export function createPixelEditorLoader(options: {
     let promise = options.getPromise();
     if (!promise) {
       promise = Promise.all([
-        options.loadStylesheet('./explorer/pixel-editor.css', 'pixel-editor-stylesheet'),
+        options.loadStylesheet(),
         options.loadEditor()
       ])
         .then(([, { createPixelEditor }]) => {

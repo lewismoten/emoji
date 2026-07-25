@@ -946,7 +946,8 @@ const loadPixelEditor = createPixelEditorLoader({
   getEditor: () => pixelEditor,
   getPromise: () => pixelEditorPromise,
   loadEditor: () => import('./pixel-editor.js'),
-  loadStylesheet,
+  loadStylesheet: () =>
+    loadStylesheet('./explorer/pixel-editor.css', 'pixel-editor-stylesheet'),
   setEditor: editor => {
     pixelEditor = editor;
   },
