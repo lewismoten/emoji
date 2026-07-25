@@ -99,6 +99,10 @@ const utilityControlsHelper = await fs.readFile(
   path.join(root, 'src/explorer/utility-controls.ts'),
   'utf8'
 );
+const filterPickerHelper = await fs.readFile(
+  path.join(root, 'src/explorer/filter-picker.ts'),
+  'utf8'
+);
 const pwaPanelsHelper = await fs.readFile(
   path.join(root, 'src/explorer/pwa-panels.ts'),
   'utf8'
@@ -1213,12 +1217,12 @@ assert.match(
   'compact group and subgroup triggers must open dedicated picker dialogs'
 );
 assert.match(
-  demoScript,
+  filterPickerHelper,
   /function openFilterPicker[\s\S]*showModal\(\)[\s\S]*function closeFilterPicker[\s\S]*trigger\?\.focus\(\)/,
   'category picker dialogs must focus the selected choice and return focus after selection'
 );
 assert.match(
-  demoScript,
+  filterPickerHelper,
   /function renderFilterPickerTrigger[\s\S]*filter-picker-emoji[\s\S]*filter-picker-value[\s\S]*aria-label/,
   'compact category triggers must expose their selected emoji and readable label'
 );

@@ -1,6 +1,6 @@
 // @ts-nocheck -- Transitional entry point; remove as features move into typed modules.
 import { explorerLabelKeys, languageFlags, sequenceTranslationKeys, sequenceTypeEmoji, sequenceTypeLabels, sequenceTypeOrder, statusTranslationKeys, unicodeGroupLabelKeys, unicodeSubgroupLabelKeys, versionModeDefinitions } from './explorer/explorer-labels.js';
-import { getExplorerSubGroup, titleCase } from './explorer/category-rules.js';
+import { getExplorerSubGroup } from './explorer/category-rules.js';
 import { displayEmojiKey, formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints } from './explorer/emoji-format.js';
 import { copyToClipboard as copyToClipboardHelper, nextCopiedEmojiKeys, nextFavoriteEmojiKeys, renderSavedEmojiList as renderSavedEmojiListHelper, updateFavoriteToggleButton } from './explorer/saved-emoji.js';
 import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, resolveImportExamples } from './explorer/import-examples.js';
@@ -9,6 +9,7 @@ import { ensureUtilityControls, positionFavoriteButton } from './explorer/utilit
 import { closePanelDialog, getOpenPanel, getPanelDialog, installApp as installWebApp, installedDisplayQueries, onPanelDialogClose, openPanelDialog, renderInstallAppButton as renderInstallAppButtonHelper, updateWebAppManifest } from './explorer/pwa-panels.js';
 import { renderSearchLanguages as renderSearchLanguagesHelper, selectLanguageLink as selectLanguageLinkHelper, setSearchLanguage as setSearchLanguageHelper } from './explorer/language-picker.js';
 import { applyBasicUrlStateToControls, applyExclusiveCheckboxSelection, applyLoadedUrlStateToControls, resetFilterControls, stepVersionIndex } from './explorer/filter-controls.js';
+import { closeFilterPicker as closeFilterPickerHelper, displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper, focusCompactChoice as focusCompactChoiceHelper, makeCompactChoice as makeCompactChoiceHelper, onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper, openFilterPicker as openFilterPickerHelper, populateGroupFilter as populateGroupFilterHelper, populateSequenceTypeFilter as populateSequenceTypeFilterHelper, populateSubGroupFilter as populateSubGroupFilterHelper, renderFilterPickerTrigger as renderFilterPickerTriggerHelper } from './explorer/filter-picker.js';
 import { resolveCompositionParentLabel, resolveEmojiDialogDisplay, resolveDialogNavigationState } from './explorer/dialog-state.js';
 import { resolveRenderingDiagnostic } from './explorer/rendering-diagnostic.js';
 import { renderEmojiComposition } from './explorer/emoji-composition.js';
@@ -1919,50 +1920,38 @@ function updateAvailableCategories() {
     }
 }
 function populateGroupFilter() {
-    const all = document.createElement('option');
-    all.value = '';
-    all.text = `🌐 ${translate('all', 'All')}`;
-    groupSelector.replaceChildren(all, ...availableGroups.map(name => {
-        const option = document.createElement('option');
-        option.value = name;
-        option.text = `${getGroupRepresentativeEmoji(name)} ${displayGroupName(name)}`;
-        return option;
-    }));
-    groupSelector.value = selectedGroup;
+    populateGroupFilterHelper({
+        availableGroups,
+        displayGroupName,
+        getGroupRepresentativeEmoji,
+        groupSelector,
+        selectedGroup,
+        translate
+    });
 }
 function populateSubGroupFilter() {
-    const all = document.createElement('option');
-    all.value = '';
-    all.text = `🌐 ${translate('all', 'All')}`;
-    const children = [all];
-    availableSubGroupParents().forEach(group => {
-        const optionGroup = document.createElement('optgroup');
-        optionGroup.label = displayGroupName(group);
-        availableSubGroups[group].forEach(name => {
-            const option = document.createElement('option');
-            option.value = subGroupSelectionKey(group, name);
-            option.dataset.group = group;
-            option.dataset.subgroup = name;
-            option.text = `${getSubGroupRepresentativeEmoji(group, name)} ${displayUnicodeSubGroupName(name)}`;
-            optionGroup.appendChild(option);
-        });
-        children.push(optionGroup);
+    populateSubGroupFilterHelper({
+        availableSubGroupParents: availableSubGroupParents(),
+        availableSubGroups,
+        displayGroupName,
+        displayUnicodeSubGroupName,
+        getSubGroupRepresentativeEmoji,
+        selectedSubGroup,
+        subGroupSelectionKey,
+        subGroupSelector,
+        translate
     });
-    subGroupSelector.replaceChildren(...children);
-    subGroupSelector.value = selectedSubGroup;
-    subGroupSelector.disabled = false;
 }
 function populateSequenceTypeFilter() {
-    const all = document.createElement('option');
-    all.value = '';
-    all.text = `🌐 ${translate('all', 'All')}`;
-    sequenceTypeSelector.replaceChildren(all, ...availableSequenceTypes.map(type => {
-        const option = document.createElement('option');
-        option.value = type;
-        option.text = `${sequenceTypeEmoji[type]} ${translate(sequenceTranslationKeys[type], sequenceTypeLabels[type])}`;
-        return option;
-    }));
-    sequenceTypeSelector.value = selectedSequenceType;
+    populateSequenceTypeFilterHelper({
+        availableSequenceTypes,
+        selectedSequenceType,
+        sequenceTranslationKeys,
+        sequenceTypeEmoji,
+        sequenceTypeLabels,
+        sequenceTypeSelector,
+        translate
+    });
 }
 function availableSubGroupParents() {
     return selectedGroup && availableGroups.includes(selectedGroup)
@@ -2076,85 +2065,28 @@ function renderCompactSequenceChoices() {
     })));
 }
 function makeCompactChoice({ value, emoji, label, selected, onSelect }) {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'compact-choice';
-    button.dataset.value = value;
-    button.setAttribute('role', 'radio');
-    button.setAttribute('aria-checked', String(selected));
-    button.tabIndex = selected ? 0 : -1;
-    button.setAttribute('aria-label', label);
-    button.title = label;
-    const icon = document.createElement('span');
-    icon.className = 'compact-choice-emoji';
-    icon.setAttribute('aria-hidden', 'true');
-    icon.textContent = emoji;
-    const text = document.createElement('span');
-    text.className = 'compact-choice-label';
-    text.textContent = label;
-    button.replaceChildren(icon, text);
-    button.addEventListener('click', onSelect);
-    return button;
-}
-function renderFilterPickerTrigger(trigger, kind, emoji, value) {
-    if (!trigger)
-        return;
-    trigger.querySelector('.filter-picker-emoji').textContent = emoji || '•';
-    trigger.querySelector('.filter-picker-value').textContent = value;
-    const label = `${kind}: ${value}`;
-    trigger.setAttribute('aria-label', label);
-    trigger.title = label;
-}
-function openFilterPicker(dialog, choices) {
-    if (!dialog || !choices)
-        return;
-    dialog.showModal();
-    window.requestAnimationFrame(() => {
-        const selected = choices.querySelector('[aria-checked="true"]');
-        (selected ?? choices.querySelector('[role="radio"]'))?.focus();
+    return makeCompactChoiceHelper({
+        value,
+        emoji,
+        label,
+        selected,
+        onSelect
     });
 }
+function renderFilterPickerTrigger(trigger, kind, emoji, value) {
+    return renderFilterPickerTriggerHelper(trigger, kind, emoji, value);
+}
+function openFilterPicker(dialog, choices) {
+    return openFilterPickerHelper(dialog, choices);
+}
 function closeFilterPicker(dialog, trigger) {
-    if (dialog?.open)
-        dialog.close();
-    trigger?.focus();
+    return closeFilterPickerHelper(dialog, trigger);
 }
 function focusCompactChoice(container, value) {
-    const choices = Array.from(container.querySelectorAll('[role="radio"]'));
-    const choice = choices.find(button => button.dataset.value === value) ??
-        choices.find(button => button.getAttribute('aria-checked') === 'true');
-    choice?.focus();
+    return focusCompactChoiceHelper(container, value);
 }
 function onCompactChoiceKeyDown(event) {
-    if (![
-        'ArrowLeft',
-        'ArrowRight',
-        'ArrowUp',
-        'ArrowDown',
-        'Home',
-        'End'
-    ].includes(event.key))
-        return;
-    const choices = Array.from(event.currentTarget.querySelectorAll('[role="radio"]'));
-    const currentIndex = choices.indexOf(event.target.closest('[role="radio"]'));
-    if (currentIndex === -1 || choices.length === 0)
-        return;
-    event.preventDefault();
-    let nextIndex;
-    if (event.key === 'Home') {
-        nextIndex = 0;
-    }
-    else if (event.key === 'End') {
-        nextIndex = choices.length - 1;
-    }
-    else {
-        const rtl = document.documentElement.dir === 'rtl';
-        const backwards = event.key === 'ArrowUp' ||
-            event.key === (rtl ? 'ArrowRight' : 'ArrowLeft');
-        nextIndex =
-            (currentIndex + (backwards ? -1 : 1) + choices.length) % choices.length;
-    }
-    choices[nextIndex].click();
+    return onCompactChoiceKeyDownHelper(event);
 }
 function refreshLocalizedLabels() {
     if (groups.length === 0)
@@ -2211,26 +2143,11 @@ function getSubGroupRepresentativeEmoji(group, subGroup) {
     return (subGroupRepresentativeEmoji.get(subGroupSelectionKey(group, subGroup)) ?? '');
 }
 function displayUnicodeSubGroupName(name) {
-    if (searchSubgroupLabels[name])
-        return searchSubgroupLabels[name];
-    if (searchLabels[unicodeSubgroupLabelKeys[name]])
-        return searchLabels[unicodeSubgroupLabelKeys[name]];
-    const conciseNames = {
-        'animal-amphibian': 'Amphibians',
-        'animal-bird': 'Birds',
-        'animal-bug': 'Bugs',
-        'animal-mammal': 'Mammals',
-        'animal-marine': 'Marine Animals',
-        'animal-reptile': 'Reptiles',
-        'plant-flower': 'Flowers',
-        'plant-other': 'Other Plants',
-        'book-paper': 'Books & Paper'
-    };
-    if (name.startsWith('food-'))
-        return titleCase(name.slice(5));
-    if (conciseNames[name])
-        return conciseNames[name];
-    return titleCase(name);
+    return displayUnicodeSubGroupNameHelper(name, {
+        searchSubgroupLabels,
+        searchLabels,
+        unicodeSubgroupLabelKeys
+    });
 }
 const asGroup = name => {
     var div = document.createElement('div');
