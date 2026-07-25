@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -26,6 +27,11 @@ const english = JSON.parse(fs.readFileSync('demo-locales/en.json', 'utf8'));
 const webAppManifest = JSON.parse(
   fs.readFileSync('manifest.webmanifest', 'utf8')
 );
+const pixelFontRevision = createHash('sha256')
+  .update(fs.readFileSync('pixel-font/build/font/pixel-emoji.css'))
+  .update(fs.readFileSync('pixel-font/build/explorer-manifest.json'))
+  .digest('hex')
+  .slice(0, 12);
 const localeManifest = JSON.parse(
   fs.readFileSync('locales/manifest.json', 'utf8')
 );
@@ -107,6 +113,10 @@ export const renderPage = (
     .replace(
       /<script\b(?=[^>]*\bsrc="\.\/src\/index\.ts")[^>]*><\/script>/,
       `<script defer src="./index.js?v=${assetVersion}" type="module"></script>`
+    )
+    .replace(
+      /<link\b(?=[^>]*\bid="pixel-font-stylesheet")[^>]*\/?>/,
+      `<link id="pixel-font-stylesheet" rel="stylesheet" href="./pixel-font/build/font/pixel-emoji.css?v=${pixelFontRevision}" data-font-revision="${pixelFontRevision}">`
     )
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/index\.css")[^>]*\/?>/,

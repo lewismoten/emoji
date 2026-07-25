@@ -14,9 +14,21 @@ export async function loadExplorerCatalog(options: {
   isViteDevelopment: boolean;
   updatePixelArtworkManifest: (manifest: any) => void;
 }): Promise<CatalogState> {
+  const pixelFontRevision =
+    document
+      .querySelector<HTMLLinkElement>('#pixel-font-stylesheet')
+      ?.dataset.fontRevision ??
+    (() => {
+      const href =
+        document.querySelector<HTMLLinkElement>('#pixel-font-stylesheet')?.href;
+      if (!href) return '';
+      return new URL(href, window.location.href).searchParams.get('v') ?? '';
+    })();
   const pixelFontManifestUrl = options.isViteDevelopment
     ? `pixel-font/build/explorer-manifest.json?v=${Date.now()}`
-    : 'pixel-font/build/explorer-manifest.json';
+    : pixelFontRevision
+      ? `pixel-font/build/explorer-manifest.json?v=${pixelFontRevision}`
+      : 'pixel-font/build/explorer-manifest.json';
   const [catalog, pixelFontManifest] = await Promise.all([
     fetch('explorer/catalog.json').then(response => response.json()),
     fetch(

@@ -369,7 +369,7 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /href="\.\/pixel-font\/build\/font\/pixel-emoji\.css"/,
+  /href="\.\/pixel-font\/build\/font\/pixel-emoji\.css\?v=[^"]+"[\s\S]*data-font-revision="/,
   'the demo must load the generated revisioned pixel-font stylesheet'
 );
 assert.match(
@@ -554,7 +554,7 @@ assert.doesNotMatch(
 );
 assert.match(
   demoHtml,
-  /id="pixel-font-stylesheet"[^>]*pixel-font\/build\/font\/pixel-emoji\.css/,
+  /id="pixel-font-stylesheet"[^>]*pixel-font\/build\/font\/pixel-emoji\.css\?v=[^"]+[^>]*data-font-revision="/,
   'the pixel font must use a reloadable standalone stylesheet'
 );
 assert.match(
@@ -564,8 +564,8 @@ assert.match(
 );
 assert.match(
   `${catalogLoader}\n${pixelFontHotReload}`,
-  /pixelFontManifestUrl = options\.isViteDevelopment[\s\S]*explorer-manifest\.json\?v=\$\{Date\.now\(\)\}[\s\S]*font-build\.revision[\s\S]*cache: 'no-store'/,
-  'initial development loads must bypass stale service-worker font data'
+  /pixelFontManifestUrl = options\.isViteDevelopment[\s\S]*explorer-manifest\.json\?v=\$\{Date\.now\(\)\}[\s\S]*pixelFontRevision[\s\S]*explorer-manifest\.json\?v=\$\{pixelFontRevision\}[\s\S]*font-build\.revision[\s\S]*cache: 'no-store'/,
+  'pixel font metadata loads must bypass stale development and production cache data'
 );
 assert.match(
   pixelFontHotReload,
