@@ -189,6 +189,10 @@ const urlStateHelper = await fs.readFile(
   path.join(root, 'src/explorer/url-state.ts'),
   'utf8'
 );
+const emojiFormatHelper = await fs.readFile(
+  path.join(root, 'src/explorer/emoji-format.ts'),
+  'utf8'
+);
 const fontPublishWorkflow = await fs.readFile(
   path.join(root, '.github/workflows/publish-font.yml'),
   'utf8'
@@ -921,28 +925,28 @@ assert.match(
   'sequence-type headings must remain sticky below the toolbar'
 );
 assert.match(
-  demoScript,
+  emojiFormatHelper,
   /replace\(\/\[\\p\{P\}\\p\{S\}\]\+\/gu, ' '\)/,
   'English-name comparisons must ignore punctuation and symbols'
 );
 assert.match(
-  demoScript,
+  compositionHelpers,
   /function condenseCompositionPoints/,
   'emoji compositions must detect known nested sequences'
 );
 assert.match(
-  demoScript,
+  emojiCompositionHelper,
   /hasHiddenSequenceControl[\s\S]*isCondensedSequenceControl[\s\S]*condensedParts\.filter/,
   'condensed compositions must hide structural controls until full mode'
 );
 assert.match(
-  demoScript,
-  /return point === 0x200D \|\| point === 0xFE0E \|\| point === 0xFE0F/i,
+  compositionHelpers,
+  /return point === 0x200d \|\| point === 0xfe0e \|\| point === 0xfe0f/i,
   'condensed compositions must hide ZWJ and presentation selectors'
 );
 assert.match(
-  demoScript,
-  /function createCompositionPart[\s\S]*findCompositionArtworkKey\(hex\)[\s\S]*applyStandalonePixelArtwork\(glyph, artworkEmojiKey, point\)/,
+  emojiCompositionHelper,
+  /function createCompositionPart[\s\S]*findCompositionArtworkKey\([\s\S]*applyStandalonePixelArtwork\(glyph, artworkEmojiKey\)/,
   'composition components must use painted artwork even when linking to themselves is suppressed'
 );
 assert.match(
@@ -961,28 +965,28 @@ assert.match(
   'modifier filter swatches must use standalone generated artwork'
 );
 assert.match(
-  demoScript,
+  compositionHelpers,
   /for \(let end = points\.length; end >= start \+ 2; end--\)/,
   'composition folding must prefer the longest known sequence'
 );
 assert.match(
-  demoScript,
+  urlStateHelper,
   /params\.get\('composition'\) === 'full'/,
   'composition mode must load from the URL'
 );
 assert.match(
-  demoScript,
+  urlStateHelper,
   /params\.set\('composition', 'full'\)/,
   'full composition mode must persist in the URL'
 );
 assert.match(
-  demoScript,
-  /formatCompositionReduction\(components\.length, 1\)/,
+  emojiCompositionHelper,
+  /compositionReductionLabel\(partData\.components\.length, 1,/,
   'condensed composition counts must use localized direction'
 );
 assert.match(
   demoScript,
-  /startsWith\('ar'\).*numberingSystem: 'arab'/,
+  /startsWith\('ar'\)[\s\S]*\? 'arab' : undefined/,
   'Arabic UI numbers must use Arabic-Indic digits'
 );
 assert.match(
