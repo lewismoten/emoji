@@ -1,7 +1,7 @@
-import assert from "node:assert/strict";
-import fs from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 type Emoji = {
   key: string;
@@ -19,7 +19,7 @@ type Version = {
 };
 
 type ProposedVersion = Version & {
-  status: "draft";
+  status: 'draft';
   released: null;
 };
 
@@ -64,57 +64,57 @@ type PixelAtlasManifest = {
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
-  "../..",
+  '../..'
 );
 
 const readJson = async <T,>(file: string) =>
-  JSON.parse(await fs.readFile(path.join(root, file), "utf8")) as T;
+  JSON.parse(await fs.readFile(path.join(root, file), 'utf8')) as T;
 
-const emoji = await readJson<Emoji[]>("emoji.json");
+const emoji = await readJson<Emoji[]>('emoji.json');
 const explorerCatalog = await readJson<{
   fields: string[];
   emoji: unknown[][];
-}>("explorer/catalog.json");
+}>('explorer/catalog.json');
 const orderManifest = await readJson<{ unicode: string[] }>(
-  "orders/manifest.json",
+  'orders/manifest.json'
 );
 const manifest = await readJson<{
   versions: Version[];
   proposed?: ProposedVersion[];
-}>("versions/manifest.json");
+}>('versions/manifest.json');
 const pixelAtlasManifest = await readJson<PixelAtlasManifest>(
-  "pixel-font/atlases/manifest.json",
+  'pixel-font/atlases/manifest.json'
 );
 const packageJson = await readJson<{
   version: string;
   scripts: Record<string, string>;
-}>("package.json");
+}>('package.json');
 const arabicDemo = await fs.readFile(
-  path.join(root, "build/demo-pages/index.ar.html"),
-  "utf8",
+  path.join(root, 'build/demo-pages/index.ar.html'),
+  'utf8'
 );
-const demoHtml = await fs.readFile(path.join(root, "index.html"), "utf8");
-const demoScript = await fs.readFile(path.join(root, "src/index.ts"), "utf8");
+const demoHtml = await fs.readFile(path.join(root, 'index.html'), 'utf8');
+const demoScript = await fs.readFile(path.join(root, 'src/index.ts'), 'utf8');
 const explorerGeneratorScript = await fs.readFile(
-  path.join(root, "scripts/generate-library.mjs"),
-  "utf8",
+  path.join(root, 'scripts/generate-library.mjs'),
+  'utf8'
 );
 const pixelEditorScript = await fs.readFile(
-  path.join(root, "pixel-editor.js"),
-  "utf8",
+  path.join(root, 'pixel-editor.js'),
+  'utf8'
 );
 const {
   buildSkinToneOwnership,
   buildTwoPersonOwnership,
   remapSkinTonePixels,
   skinToneBaseSequence,
-  skinToneSequence,
-} = (await import(pathToFileURL(path.join(root, "pixel-editor.js")).href)) as {
+  skinToneSequence
+} = (await import(pathToFileURL(path.join(root, 'pixel-editor.js')).href)) as {
   buildSkinToneOwnership: (
     pixels: Uint8ClampedArray,
     tones: string[],
     width?: number,
-    height?: number,
+    height?: number
   ) => Int8Array | undefined;
   buildTwoPersonOwnership: (width?: number, height?: number) => Int8Array;
   remapSkinTonePixels: (
@@ -127,1997 +127,2017 @@ const {
       width: number;
       offsetX: number;
       offsetY: number;
-    },
+    }
   ) => Uint8ClampedArray;
   skinToneBaseSequence: (codePoints: string[]) => string;
   skinToneSequence: (codePoints: string[]) => string[];
 };
 const pixelAtlasGeneratorScript = await fs.readFile(
-  path.join(root, "pixel-font/scripts/generate-atlases.mjs"),
-  "utf8",
+  path.join(root, 'pixel-font/scripts/generate-atlases.mjs'),
+  'utf8'
 );
 const pixelFontBuildScript = await fs.readFile(
-  path.join(root, "pixel-font/scripts/build-assets.mjs"),
-  "utf8",
+  path.join(root, 'pixel-font/scripts/build-assets.mjs'),
+  'utf8'
 );
 const pixelFontCompiler = await fs.readFile(
-  path.join(root, "pixel-font/scripts/compile-font.py"),
-  "utf8",
+  path.join(root, 'pixel-font/scripts/compile-font.py'),
+  'utf8'
 );
 const pixelFontPackager = await fs.readFile(
-  path.join(root, "pixel-font/scripts/package-font.mjs"),
-  "utf8",
+  path.join(root, 'pixel-font/scripts/package-font.mjs'),
+  'utf8'
 );
 const pixelFontVersionScript = await fs.readFile(
-  path.join(root, "pixel-font/scripts/version-font.mjs"),
-  "utf8",
+  path.join(root, 'pixel-font/scripts/version-font.mjs'),
+  'utf8'
 );
 const pixelFontConfig = await readJson<{
   fontVersion: string;
   packageName: string;
   embeddingPermissions: string;
-}>("pixel-font/config.json");
+}>('pixel-font/config.json');
 const pagesWorkflow = await fs.readFile(
-  path.join(root, ".github/workflows/pages.yml"),
-  "utf8",
+  path.join(root, '.github/workflows/pages.yml'),
+  'utf8'
 );
 const pagesValidator = await fs.readFile(
-  path.join(root, "scripts/validate-pages-site.mjs"),
-  "utf8",
+  path.join(root, 'scripts/validate-pages-site.mjs'),
+  'utf8'
 );
 const websitePublisher = await fs.readFile(
-  path.join(root, "scripts/publish-website.mjs"),
-  "utf8",
+  path.join(root, 'scripts/publish-website.mjs'),
+  'utf8'
+);
+const savedEmojiHelper = await fs.readFile(
+  path.join(root, 'src/explorer/saved-emoji.ts'),
+  'utf8'
+);
+const renderingDiagnosticHelper = await fs.readFile(
+  path.join(root, 'src/explorer/rendering-diagnostic.ts'),
+  'utf8'
+);
+const emojiCompositionHelper = await fs.readFile(
+  path.join(root, 'src/explorer/emoji-composition.ts'),
+  'utf8'
+);
+const compositionHelpers = await fs.readFile(
+  path.join(root, 'src/explorer/composition-helpers.ts'),
+  'utf8'
+);
+const urlStateHelper = await fs.readFile(
+  path.join(root, 'src/explorer/url-state.ts'),
+  'utf8'
 );
 const fontPublishWorkflow = await fs.readFile(
-  path.join(root, ".github/workflows/publish-font.yml"),
-  "utf8",
+  path.join(root, '.github/workflows/publish-font.yml'),
+  'utf8'
 );
 const pixelAtlasReadme = await fs.readFile(
-  path.join(root, "pixel-font/ATLASES.md"),
-  "utf8",
+  path.join(root, 'pixel-font/ATLASES.md'),
+  'utf8'
 );
-const viteConfig = await fs.readFile(path.join(root, "vite.config.js"), "utf8");
-const demoStyles = await fs.readFile(path.join(root, "index.css"), "utf8");
+const viteConfig = await fs.readFile(path.join(root, 'vite.config.js'), 'utf8');
+const demoStyles = await fs.readFile(path.join(root, 'index.css'), 'utf8');
 assert.equal(
-  new Set(emoji.map((item) => item.key)).size,
+  new Set(emoji.map(item => item.key)).size,
   emoji.length,
-  "emoji keys must be unique",
+  'emoji keys must be unique'
 );
 assert.match(
   demoHtml,
   /src="\.\/src\/index\.ts"/,
-  "Vite must use the TypeScript Explorer entry point",
+  'Vite must use the TypeScript Explorer entry point'
 );
 assert.match(
   explorerGeneratorScript,
   /transpileExplorerModule\('src\/index\.ts', 'index\.js'\)/,
-  "the deployment entry point must be generated from TypeScript",
+  'the deployment entry point must be generated from TypeScript'
 );
 assert.match(
   explorerGeneratorScript,
   /readdirSync\('src\/explorer'\)[\s\S]*`explorer\/\$\{file\.replace\(\/\\\.ts\$\/, '\.js'\)\}`/,
-  "the deployment build must generate imported Explorer modules",
+  'the deployment build must generate imported Explorer modules'
 );
 assert.match(
   packageJson.scripts.build,
   /tsc -p src\/explorer\.tsconfig\.json/,
-  "package builds must type-check the Explorer source",
+  'package builds must type-check the Explorer source'
 );
 assert.ok(
-  emoji.every((item) => Number.isInteger(item.order)),
-  "every emoji must have a Unicode order",
+  emoji.every(item => Number.isInteger(item.order)),
+  'every emoji must have a Unicode order'
 );
 assert.ok(
-  emoji.every((item) =>
-    ["single", "modifier", "zwj", "flag", "keycap", "tag"].includes(
-      item.sequenceType,
-    ),
+  emoji.every(item =>
+    ['single', 'modifier', 'zwj', 'flag', 'keycap', 'tag'].includes(
+      item.sequenceType
+    )
   ),
-  "every emoji must have a known sequence type",
+  'every emoji must have a known sequence type'
 );
 assert.equal(
   explorerCatalog.emoji.length,
   emoji.length,
-  "the compact Explorer catalog must contain every released emoji",
+  'the compact Explorer catalog must contain every released emoji'
 );
 assert.deepEqual(
   explorerCatalog.fields,
   [
-    "key",
-    "emoji",
-    "codePoints",
-    "status",
-    "shortName",
-    "group",
-    "subGroup",
-    "order",
-    "sequenceType",
+    'key',
+    'emoji',
+    'codePoints',
+    'status',
+    'shortName',
+    'group',
+    'subGroup',
+    'order',
+    'sequenceType'
   ],
-  "the compact Explorer catalog schema must remain explicit",
+  'the compact Explorer catalog schema must remain explicit'
 );
 assert.ok(
-  (await fs.stat(path.join(root, "explorer/catalog.json"))).size <
-    (await fs.stat(path.join(root, "emoji.json"))).size / 2,
-  "the Explorer catalog must remain less than half the verbose public dataset",
+  (await fs.stat(path.join(root, 'explorer/catalog.json'))).size <
+    (await fs.stat(path.join(root, 'emoji.json'))).size / 2,
+  'the Explorer catalog must remain less than half the verbose public dataset'
 );
 assert.deepEqual(
   orderManifest.unicode,
-  [...emoji].sort((a, b) => a.order - b.order).map((item) => item.key),
-  "Unicode order manifest must match emoji order metadata",
+  [...emoji].sort((a, b) => a.order - b.order).map(item => item.key),
+  'Unicode order manifest must match emoji order metadata'
 );
 assert.match(
   pixelFontCompiler,
   /supported_variation_sequences = variation_sequences[\s\S]*if supported_variation_sequences:[\s\S]*uvs=supported_variation_sequences[\s\S]*else:[\s\S]*setupCharacterMap\(cmap\)/,
-  "font compilation must not emit an invalid empty format-14 cmap table",
+  'font compilation must not emit an invalid empty format-14 cmap table'
 );
 assert.match(
   demoHtml,
   /href="\.\/pixel-font\/build\/font\/pixel-emoji\.css"/,
-  "the demo must load the generated revisioned pixel-font stylesheet",
+  'the demo must load the generated revisioned pixel-font stylesheet'
 );
 assert.match(
   pixelFontBuildScript,
   /createHash\("sha256"\)[\s\S]*pixel-emoji\.css[\s\S]*pixel-emoji\.woff2\?v=\$\{value\}/,
-  "pixel-font builds must revision their browser font URLs",
+  'pixel-font builds must revision their browser font URLs'
 );
 assert.match(
   pixelFontBuildScript,
   /releasedFamily = `Pixel Emoji \$\{value\}`[\s\S]*--pixel-emoji-released-family/,
-  "each rebuilt browser font must receive a unique CSS family",
+  'each rebuilt browser font must receive a unique CSS family'
 );
 assert.match(
   pixelFontBuildScript,
   /path\.join\(workspace, "ATLASES\.md"\)[\s\S]*renderAtlasMarkdown\(manifest, paintedAtlasSheets\)/,
-  "pixel-font builds must write a repository-visible Markdown atlas gallery",
+  'pixel-font builds must write a repository-visible Markdown atlas gallery'
 );
 assert.match(
   pixelFontBuildScript,
   /function renderAtlasMarkdown[\s\S]*Generated by/,
-  "pixel-font builds must identify the Markdown atlas gallery as generated",
+  'pixel-font builds must identify the Markdown atlas gallery as generated'
 );
 assert.doesNotMatch(
   pixelAtlasReadme,
   /\d[\d,]* painted glyphs? ·/,
-  "the Markdown gallery must not change whenever an existing atlas gains artwork",
+  'the Markdown gallery must not change whenever an existing atlas gains artwork'
 );
 assert.match(
   pixelFontBuildScript,
   /isBlackSilhouette[\s\S]*rendering === "silhouette" \? "currentColor"[\s\S]*silhouetteGlyphCount/,
-  "black-only artwork must emit currentColor SVG silhouettes and manifest metadata",
+  'black-only artwork must emit currentColor SVG silhouettes and manifest metadata'
 );
 assert.match(
   pixelFontCompiler,
   /silhouette_keys[\s\S]*if glyph_source\["key"\] not in silhouette_keys:[\s\S]*color_glyphs\[base_name\] = layers[\s\S]*if color_glyphs:/,
-  "black-only font glyphs must remain monochrome outlines outside COLR",
+  'black-only font glyphs must remain monochrome outlines outside COLR'
 );
 assert.equal(
   pixelFontConfig.embeddingPermissions,
-  "installable",
-  "Pixel Emoji must permit installable and editable document embedding",
+  'installable',
+  'Pixel Emoji must permit installable and editable document embedding'
 );
 assert.match(
   pixelFontCompiler,
   /embedding_permissions[\s\S]*fsType=0[\s\S]*font_revision\(font_version\)/,
-  "font compilation must apply installable embedding and the configured semantic version",
+  'font compilation must apply installable embedding and the configured semantic version'
 );
 assert.match(
   pixelFontBuildScript,
   /assignPrivateUseCodePoints\(glyphs\)[\s\S]*privateUseCodePoint/,
-  "painted glyphs must receive atomic private-use rendering aliases",
+  'painted glyphs must receive atomic private-use rendering aliases'
 );
 assert.match(
   pixelFontCompiler,
   /private_use_cmap[\s\S]*cmap\.update\(private_use_cmap\)/,
-  "the font must map atomic private-use aliases to painted glyphs",
+  'the font must map atomic private-use aliases to painted glyphs'
 );
 assert.equal(
   pixelFontConfig.packageName,
-  "@lewismoten/pixel-emoji",
-  "Pixel Emoji must publish independently from the emoji data package",
+  '@lewismoten/pixel-emoji',
+  'Pixel Emoji must publish independently from the emoji data package'
 );
 assert.match(
   pixelFontPackager,
   /package\.template\.json[\s\S]*buildManifest\.fontVersion[\s\S]*embeddingPermissions[\s\S]*pixel-emoji-proposed-[\s\S]*renderPackageStylesheet/,
-  "the font packager must validate metadata and retain separate proposed assets",
+  'the font packager must validate metadata and retain separate proposed assets'
 );
 assert.match(
   pixelFontBuildScript,
   /config\.json[\s\S]*atlasManifest[\s\S]*\{\s*\.\.\.atlasManifest,\s*\.\.\.config\s*\}/,
-  "font builds must use the central config as the authoritative metadata source",
+  'font builds must use the central config as the authoritative metadata source'
 );
 assert.match(
   pixelFontVersionScript,
   /atlasManifestFile[\s\S]*atlasManifest\.fontVersion = config\.fontVersion[\s\S]*Promise\.all/,
-  "font version bumps must keep the generated atlas manifest synchronized",
+  'font version bumps must keep the generated atlas manifest synchronized'
 );
 assert.match(
   pixelFontBuildScript,
   /releasedCoverage[\s\S]*proposedCoverage[\s\S]*paintedGlyphCount[\s\S]*trackedGlyphCount[\s\S]*complete/,
-  "the published font manifest must report released and proposed coverage by Unicode version",
+  'the published font manifest must report released and proposed coverage by Unicode version'
 );
 assert.match(
   pixelFontBuildScript,
   /explorer-manifest\.json[\s\S]*fields:\s*\["key", "privateUseCodePoint", "releaseStatus"\][\s\S]*buildManifest\.glyphs\.map/,
-  "font builds must emit a compact runtime manifest for the Explorer",
+  'font builds must emit a compact runtime manifest for the Explorer'
 );
 assert.match(
   fontPublishWorkflow,
   /pixel-emoji-v\*[\s\S]*npm run pixel-font:package[\s\S]*npm view[\s\S]*outputs\.publish == 'true'[\s\S]*npm publish \.\/pixel-font\/build\/package[\s\S]*gh release create[\s\S]*--repo "\$GITHUB_REPOSITORY"/,
-  "font tags must publish both the standalone npm package and GitHub Release assets",
+  'font tags must publish both the standalone npm package and GitHub Release assets'
 );
 assert.match(
   pixelFontBuildScript,
   /releasedGlyphs[\s\S]*proposedGlyphs[\s\S]*Pixel Emoji Proposed/,
-  "pixel-font builds must isolate proposed artwork in a separate font",
+  'pixel-font builds must isolate proposed artwork in a separate font'
 );
 assert.match(
   pixelFontBuildScript,
   /proposedSequenceCodePoints[\s\S]*proposedSupportGlyphs[\s\S]*codePoints\.length === 1[\s\S]*proposedFontGlyphs[\s\S]*glyphs:\s*proposedFontGlyphs/,
-  "proposed fonts must embed visible released components required by draft sequences",
+  'proposed fonts must embed visible released components required by draft sequences'
 );
 assert.match(
   pixelFontBuildScript,
   /process\.argv\.includes\("--fonts-only"\)[\s\S]*if \(!fontsOnly\)[\s\S]*encodeRgbaPng[\s\S]*renderSvg/,
-  "font-only builds must skip individual PNG and SVG glyph output",
+  'font-only builds must skip individual PNG and SVG glyph output'
 );
 assert.match(
   pagesWorkflow,
   /npm run pixel-font:build -- --fonts-only/,
-  "GitHub Pages deployment must build fonts without individual PNG and SVG glyphs",
+  'GitHub Pages deployment must build fonts without individual PNG and SVG glyphs'
 );
 assert.match(
   pagesWorkflow,
   /npm run website:build -- --skip-build --url https:\/\/lewismoten\.github\.io\/emoji\/ --output _site/,
-  "GitHub Pages must reuse the validated website builder with its project URL",
+  'GitHub Pages must reuse the validated website builder with its project URL'
 );
 assert.match(
   websitePublisher,
   /https:\/\/emoji\.lewismoten\.com\/[\s\S]*npm[\s\S]*bundle[\s\S]*pixel-font:build[\s\S]*--fonts-only[\s\S]*generate-demo-pages[\s\S]*generate-service-worker[\s\S]*validate-pages-site/,
-  "the custom-domain website builder must compile and validate the Explorer and fonts",
+  'the custom-domain website builder must compile and validate the Explorer and fonts'
 );
 assert.match(
   websitePublisher,
   /EMOJI_DEPLOY_TARGET[\s\S]*EMOJI_SSH_IDENTITY[\s\S]*EMOJI_DEPLOY_TRANSPORT[\s\S]*publishWithTar[\s\S]*tar -xzf - -C[\s\S]*--no-xattrs[\s\S]*COPYFILE_DISABLE[\s\S]*rsyncArgs[\s\S]*--checksum[\s\S]*IdentitiesOnly=yes[\s\S]*--delete-delay[\s\S]*result\.status !== 127[\s\S]*publishWithTar/,
-  "website publishing must support rsync and tar-over-SSH fallback with an explicit identity",
+  'website publishing must support rsync and tar-over-SSH fallback with an explicit identity'
 );
 assert.match(
   websitePublisher,
   /normalizeWebsitePermissions[\s\S]*chmodSync\(directory, 0o755\)[\s\S]*entry\.isDirectory\(\)[\s\S]*chmodSync\(targetPath, 0o644\)[\s\S]*normalizeWebsitePermissions\(outputDirectory\)/,
-  "website publishing must make deployed directories traversable and files web-readable",
+  'website publishing must make deployed directories traversable and files web-readable'
 );
 assert.match(
   pagesValidator,
   /CORE_ASSETS[\s\S]*replace\(\/\\\?[\s\S]*existsSync[\s\S]*Pages site is missing/,
-  "Pages validation must reject a deployment with any missing precache asset",
+  'Pages validation must reject a deployment with any missing precache asset'
 );
 assert.match(
   pagesValidator,
   /manifestFiles[\s\S]*JSON\.parse[\s\S]*has no web app manifest link[\s\S]*fontSignatures[\s\S]*wOF2/,
-  "Pages validation must parse localized manifests and verify deployed web-font signatures",
+  'Pages validation must parse localized manifests and verify deployed web-font signatures'
 );
 assert.match(
   pixelFontBuildScript,
   /atlasImage:\s*sheet\.image[\s\S]*atlasWidth:\s*mapping\.imageWidth[\s\S]*x:\s*entry\.x/,
-  "font manifests must retain source atlas coordinates for browser previews",
+  'font manifests must retain source atlas coordinates for browser previews'
 );
 assert.match(
   pixelFontBuildScript,
   /proposedFontDirectory[\s\S]*proposed-font-source\.json/,
-  "proposed font files must use a separate build directory and source",
+  'proposed font files must use a separate build directory and source'
 );
 assert.match(
   demoStyles,
   /--emoji-font:[\s\S]*--pixel-emoji-proposed-family[\s\S]*--pixel-emoji-released-family/,
-  "the demo must use proposed, released, and system emoji as a fall-forward stack",
+  'the demo must use proposed, released, and system emoji as a fall-forward stack'
 );
 assert.match(
   viteConfig,
   /ignored: \['\*\*\/pixel-font\/build\/\*\*'\][\s\S]*server\.watcher\.add\(pixelFontRevision\)[\s\S]*pixel-font:updated[\s\S]*Cache-Control', 'no-store'/,
-  "Vite must refresh completed pixel fonts without reloading the page",
+  'Vite must refresh completed pixel fonts without reloading the page'
 );
 assert.doesNotMatch(
   viteConfig,
   /type: 'full-reload'/,
-  "pixel-font builds must not discard in-memory editor permissions",
+  'pixel-font builds must not discard in-memory editor permissions'
 );
 assert.match(
   demoHtml,
   /id="pixel-font-stylesheet"[^>]*pixel-font\/build\/font\/pixel-emoji\.css/,
-  "the pixel font must use a reloadable standalone stylesheet",
+  'the pixel font must use a reloadable standalone stylesheet'
 );
 assert.match(
   demoScript,
   /import\.meta\.hot[\s\S]*font-build\.revision[\s\S]*setInterval\(checkPixelFontRevision, 1500\)[\s\S]*function refreshPixelFontStylesheet[\s\S]*replacement\.addEventListener[\s\S]*refreshFontBuild[\s\S]*refreshExplorerPixelFont/,
-  "the demo must hot-swap rebuilt pixel fonts without refreshing the page",
+  'the demo must hot-swap rebuilt pixel fonts without refreshing the page'
 );
 assert.match(
   demoScript,
   /checkPixelFontRevision\(true\)[\s\S]*pixelFontManifestUrl = isViteDevelopment[\s\S]*manifest\.json\?v=\$\{Date\.now\(\)\}/,
-  "initial development loads must bypass stale service-worker font data",
+  'initial development loads must bypass stale service-worker font data'
 );
 assert.match(
   demoScript,
   /async function refreshExplorerPixelFont[\s\S]*build\/manifest\.json[\s\S]*paintedPixelEmojiKeys = new Set[\s\S]*querySelectorAll\('\[data-emoji-key\]'\)[\s\S]*applyPixelArtworkClass/,
-  "rebuilt fonts must update existing Emoji Explorer result glyphs",
+  'rebuilt fonts must update existing Emoji Explorer result glyphs'
 );
 assert.match(
   pixelEditorScript,
   /IS_VITE_DEVELOPMENT[\s\S]*async refreshFontBuild[\s\S]*loadManifest\(true\)[\s\S]*bypassCache = refresh \|\| IS_VITE_DEVELOPMENT[\s\S]*releaseStatus === "proposed"[\s\S]*--pixel-emoji-proposed-family[\s\S]*--pixel-emoji-released-family/,
-  "the open pixel editor must reload build metadata and use the rebuilt font family",
+  'the open pixel editor must reload build metadata and use the rebuilt font family'
 );
 assert.match(
   pixelFontBuildScript,
   /font-build\.revision[\s\S]*Date\.now\(\)/,
-  "pixel-font builds must notify Vite only after generated files are ready",
+  'pixel-font builds must notify Vite only after generated files are ready'
 );
 assert.match(
   arabicDemo,
   /<html\b(?=[^>]*\blang="ar")(?=[^>]*\bdir="rtl")(?=[^>]*\bdata-locale="ar")[^>]*>/,
-  "Arabic demo page must start in Arabic and RTL",
+  'Arabic demo page must start in Arabic and RTL'
 );
 assert.match(
   arabicDemo,
   /جارٍ تحميل مستكشف الرموز التعبيرية/,
-  "Arabic demo loading state must be localized before JavaScript runs",
+  'Arabic demo loading state must be localized before JavaScript runs'
 );
 assert.match(
   arabicDemo,
   /نسخ الرابط/,
-  "Arabic demo must localize the copy-link action",
+  'Arabic demo must localize the copy-link action'
 );
 assert.match(
   arabicDemo,
   /اختصارات لوحة المفاتيح/,
-  "Arabic demo must localize keyboard help",
+  'Arabic demo must localize keyboard help'
 );
 assert.match(
   arabicDemo,
   /الرموز التعبيرية المحفوظة/,
-  "Arabic demo must localize saved emoji",
+  'Arabic demo must localize saved emoji'
 );
 assert.match(
   arabicDemo,
   /تحرير الرسم بالبكسل/,
-  "Arabic demo must localize the pixel editor",
+  'Arabic demo must localize the pixel editor'
 );
 assert.equal(
   demoHtml.match(/data-copy="link"/g)?.length,
   2,
-  "details and code views must both provide copy-link actions",
+  'details and code views must both provide copy-link actions'
 );
 assert.match(
   demoHtml,
   /class="copy-action-long"/,
-  "emoji copy actions must retain their full desktop labels",
+  'emoji copy actions must retain their full desktop labels'
 );
 assert.match(
   demoHtml,
   /class="copy-action-short"/,
-  "emoji copy actions must provide compact mobile labels",
+  'emoji copy actions must provide compact mobile labels'
 );
 assert.match(
   demoStyles,
   /\.copy-action-long\s*\{\s*display:\s*none;\s*\}[\s\S]*\.copy-action-short\s*\{\s*display:\s*inline;\s*\}/,
-  "emoji-dialog copy actions must use compact labels by default",
+  'emoji-dialog copy actions must use compact labels by default'
 );
 assert.match(
   demoStyles,
   /\.emoji-copy-actions \.copy-action-short::before \{[\s\S]*content: "⧉"/,
-  "compact emoji copy actions must share a visible copy icon",
+  'compact emoji copy actions must share a visible copy icon'
 );
 assert.match(
   demoStyles,
   /@media \(min-width: 561px\)[\s\S]*\.example-dialog \.copy-action-long\s*\{\s*display:\s*inline;\s*\}[\s\S]*\.example-dialog \.copy-action-short\s*\{\s*display:\s*none;\s*\}/,
-  "wide emoji dialogs must restore the full copy labels",
+  'wide emoji dialogs must restore the full copy labels'
 );
 assert.match(
   demoStyles,
   /@media \(max-width: 560px\)[\s\S]*\.example-dialog > \.dialog-heading \{[\s\S]*grid-template-columns: minmax\(0, 1fr\) repeat\(2, 2rem\)/,
-  "mobile emoji-dialog headings must use a compact two-by-two control grid beside the title",
+  'mobile emoji-dialog headings must use a compact two-by-two control grid beside the title'
 );
 assert.match(
   demoStyles,
   /\.example-dialog \.emoji-previous\s*\{[\s\S]*grid-row:\s*2;[\s\S]*\.example-dialog \.emoji-next\s*\{[\s\S]*grid-row:\s*2;/,
-  "mobile emoji navigation must move below the complete title",
+  'mobile emoji navigation must move below the complete title'
 );
 assert.doesNotMatch(
   demoStyles,
   /line-clamp/,
-  "emoji-dialog titles must not visually truncate long names",
+  'emoji-dialog titles must not visually truncate long names'
 );
 assert.match(
   demoScript,
-  /dialogTitleElement\.title = dialogTitle/,
-  "emoji-dialog titles must also expose the complete name as a tooltip",
+  /dialogTitleElement\.title = dialogDisplay\.dialogTitle\.title/,
+  'emoji-dialog titles must also expose the complete name as a tooltip'
 );
 assert.match(
   demoScript,
   /function ensureCompactCopyLabels/,
-  "cached demo HTML must be upgraded with compact copy labels",
+  'cached demo HTML must be upgraded with compact copy labels'
 );
 assert.match(
   demoHtml,
   /id="saved-dialog"/,
-  "demo must provide a saved-emoji dialog",
+  'demo must provide a saved-emoji dialog'
 );
 assert.match(
   demoHtml,
   /id="help-dialog"/,
-  "demo must provide keyboard-shortcut help",
+  'demo must provide keyboard-shortcut help'
 );
 assert.match(
   demoHtml,
   /class="help-pixel"[\s\S]*data-i18n="pixelHelpDescription"[\s\S]*pixel-font/,
-  "help must explain the Pixel Emoji rendering preference and link to the font",
+  'help must explain the Pixel Emoji rendering preference and link to the font'
 );
 const searchControlsMarkup =
   /<div class="search-controls">([\s\S]*?)<\/div>\s*<div class="basic-filter-grid">/.exec(
-    demoHtml,
-  )?.[1] ?? "";
+    demoHtml
+  )?.[1] ?? '';
 assert.doesNotMatch(
   searchControlsMarkup,
   /class="language-picker"/,
-  "the language picker must not occupy the primary search row",
+  'the language picker must not occupy the primary search row'
 );
 assert.match(
   demoHtml,
   /class="help-settings"[\s\S]*class="help-language-control"[\s\S]*class="language-picker"[\s\S]*class="developer-mode-toggle"/,
-  "Help and settings must contain both language and Developer mode preferences",
+  'Help and settings must contain both language and Developer mode preferences'
 );
 assert.match(
   demoHtml,
   /aria-labelledby="language-picker-accessible-label language-picker-current-label"[\s\S]*id="language-picker-current-label"/,
-  "the language setting must expose its action and current native language as its accessible name",
+  'the language setting must expose its action and current native language as its accessible name'
 );
 assert.match(
   demoScript,
   /languagePicker\.addEventListener\('click'[\s\S]*helpDialog\?\.open[\s\S]*closePanelDialog\(helpDialog\)[\s\S]*openPanelDialog\('language'\)/,
-  "opening the language picker from Help must transition between modal dialogs",
+  'opening the language picker from Help must transition between modal dialogs'
 );
 assert.match(
   demoScript,
   /helpLanguageControl[\s\S]*document\.querySelector\('\.language-picker'\)[\s\S]*helpLanguageControl\.append\(languagePicker\)/,
-  "cached pages must move an older toolbar language control into Help and settings",
+  'cached pages must move an older toolbar language control into Help and settings'
 );
 assert.match(
   demoHtml,
   /class="toggle-favorite"/,
-  "emoji details must provide a favorite toggle",
+  'emoji details must provide a favorite toggle'
 );
 assert.match(
   demoHtml,
   /class="dialog-title-row"[\s\S]*class="toggle-favorite"[\s\S]*id="example-title"/,
-  "the favorite star must appear beside the title by default",
+  'the favorite star must appear beside the title by default'
 );
 assert.match(
   demoStyles,
   /\.emoji-dialog-eyebrow\s*\{\s*display:\s*none;\s*\}/,
-  "the redundant Emoji details label must remain hidden",
+  'the redundant Emoji details label must remain hidden'
 );
 assert.match(
   demoScript,
   /function positionFavoriteButton[\s\S]*matchMedia\('\(max-width: 560px\)'\)\.matches[\s\S]*dialogControls\.querySelector\('form'\)\?\.before\(favoriteButton\)[\s\S]*dialogTitleRow\.prepend\(favoriteButton\)/,
-  "the favorite star must move between the mobile controls and wide-screen title",
+  'the favorite star must move between the mobile controls and wide-screen title'
 );
 assert.match(
   demoStyles,
   /\.dialog-controls \.toggle-favorite \{[\s\S]*border: 1px solid var\(--border\);[\s\S]*background: var\(--panel\)/,
-  "the mobile favorite star must look like the neighboring control buttons",
+  'the mobile favorite star must look like the neighboring control buttons'
 );
 assert.match(
   demoStyles,
   /\.modifier-filters fieldset label \{[\s\S]*width: 2\.65rem;[\s\S]*height: 2\.65rem;/,
-  "mobile modifier buttons, including gender, must remain square",
+  'mobile modifier buttons, including gender, must remain square'
 );
 assert.match(
   demoStyles,
   /\.modifier-filters fieldset label \{[\s\S]*min-height: 2\.25rem;[\s\S]*border: 1px solid var\(--border\)/,
-  "modifier filters must remain button-like on wide screens",
+  'modifier filters must remain button-like on wide screens'
 );
 assert.match(
   demoStyles,
   /\.modifier-emoji\s*\{[\s\S]*font-family:\s*var\(--system-emoji-font\);[\s\S]*font-variant-emoji:\s*emoji;/,
-  "modifier buttons must display native component glyphs instead of blank font components",
+  'modifier buttons must display native component glyphs instead of blank font components'
 );
 assert.match(
   demoStyles,
   /\.emoji-composition-glyph\s*\{[\s\S]*font-family:\s*var\(--system-emoji-font\);[\s\S]*\.emoji-composition-glyph\.has-pixel-art\s*\{[\s\S]*font-family:\s*var\(--emoji-font\);/,
-  "sequence parts must use native glyphs unless painted artwork is available",
+  'sequence parts must use native glyphs unless painted artwork is available'
 );
 assert.match(
   demoScript,
   /pixelFontManifestUrl[\s\S]*fetch\(\s*pixelFontManifestUrl[\s\S]*updatePixelArtworkManifest\(pixelFontManifest\)/,
-  "the demo must discover which emoji have painted pixel-font glyphs",
+  'the demo must discover which emoji have painted pixel-font glyphs'
 );
 assert.match(
   demoScript,
   /function updatePixelArtworkManifest[\s\S]*proposedPixelEmojiKeys = new Set[\s\S]*releaseStatus === 'proposed'/,
-  "the demo must distinguish proposed artwork from released pixel glyphs",
+  'the demo must distinguish proposed artwork from released pixel glyphs'
 );
 assert.match(
   demoStyles,
   /\.emoji-glyph\.has-proposed-pixel-art,[\s\S]*--pixel-emoji-proposed-family[\s\S]*var\(--emoji-font\)/,
-  "painted draft emoji must bypass system fonts that claim unsupported code points",
+  'painted draft emoji must bypass system fonts that claim unsupported code points'
 );
 assert.match(
   demoScript,
   /function updateModifierPixelArtwork\(\)[\s\S]*applyPixelArtworkClass/,
-  "painted modifier swatches must opt into the pixel font",
+  'painted modifier swatches must opt into the pixel font'
 );
 assert.match(
   demoStyles,
   /\.modifier-filters fieldset input \{[\s\S]*clip: rect\(0, 0, 0, 0\)/,
-  "modifier checkboxes must remain accessible without being visually exposed",
+  'modifier checkboxes must remain accessible without being visually exposed'
 );
 assert.match(
   demoHtml,
   /class="emoji-composition developer-only"/,
-  "emoji details must provide a sequence composition section",
+  'emoji details must provide a sequence composition section'
 );
 assert.match(
   demoHtml,
   /class="pixel-comparison"[\s\S]*role="group"[\s\S]*class="emoji-font-choice emoji-font-choice-system"[\s\S]*class="emoji-font-choice emoji-font-choice-pixel"/,
-  "demo must provide system and pixel font choices in the comparison",
+  'demo must provide system and pixel font choices in the comparison'
 );
 assert.match(
   demoHtml,
   /class="filter-field has-choice-buttons"[\s\S]*class="select-group"[\s\S]*class="filter-field has-choice-buttons"[\s\S]*class="select-subgroup"/,
-  "initial group controls must reserve their enhanced-picker layout before JavaScript loads",
+  'initial group controls must reserve their enhanced-picker layout before JavaScript loads'
 );
 assert.match(
   demoHtml,
   /class="filter-field version-field developer-only has-version-slider"/,
-  "the initial version control must reserve its enhanced-slider layout before JavaScript loads",
+  'the initial version control must reserve its enhanced-slider layout before JavaScript loads'
 );
 assert.match(
   demoHtml,
   /initialDeveloperMode &&[\s\S]*initialUrlParams\.get\("order"\) === "sequence"[\s\S]*dataset\.initialOrder = "sequence"/,
-  "sequence-order URLs must be identified before the first paint",
+  'sequence-order URLs must be identified before the first paint'
 );
 assert.match(
   demoStyles,
   /\.app-loading\[data-initial-order="sequence"\][\s\S]*\.basic-filter-grid[\s\S]*> \.filter-field[\s\S]*display: none/,
-  "sequence-order URLs must not reserve the grouped-filter row while loading",
+  'sequence-order URLs must not reserve the grouped-filter row while loading'
 );
 assert.match(
   demoStyles,
   /\.version-mode-toggle:hover\s*\{[^}]*background:/,
-  "the version target must visually distinguish hover, selection, and keyboard focus",
+  'the version target must visually distinguish hover, selection, and keyboard focus'
 );
 assert.match(
   demoStyles,
   /\.version-mode-toggle\[aria-pressed="true"\]\s*\{[^}]*background: #15384d[^}]*color: var\(--accent\)/,
-  "the selected version target must use a filled state",
+  'the selected version target must use a filled state'
 );
 assert.match(
   demoStyles,
   /\.version-mode-toggle:focus-visible\s*\{[^}]*outline: 2px dashed/,
-  "the version target must reserve its outline for keyboard focus",
+  'the version target must reserve its outline for keyboard focus'
 );
 assert.match(
   demoScript,
   /function toggleVersionMode\(event\)[\s\S]*event\?\.detail > 0[\s\S]*event\.currentTarget\.blur\(\)/,
-  "pointer toggles must not retain a misleading focus treatment",
+  'pointer toggles must not retain a misleading focus treatment'
 );
 assert.match(
   demoStyles,
   /\.compact-choice\[aria-checked="true"\]\s*\{[^}]*background: #15384d[^}]*color: var\(--accent\)/,
-  "selected group and subgroup choices must use a filled state distinct from focus",
+  'selected group and subgroup choices must use a filled state distinct from focus'
 );
 assert.match(
   demoStyles,
   /\.compact-choice:focus-visible\s*\{[^}]*outline: 2px dashed/,
-  "group and subgroup choices must reserve their outline for keyboard focus",
+  'group and subgroup choices must reserve their outline for keyboard focus'
 );
 assert.match(
   demoStyles,
   /\.modifier-filters fieldset label:has\(input:checked\)\s*\{[\s\S]*background: #15384d[\s\S]*color: var\(--accent\)[\s\S]*\}[\s\S]*\.modifier-filters fieldset label:has\(input:focus-visible\)\s*\{[\s\S]*outline: 2px dashed/,
-  "selected modifier buttons must use a filled state distinct from focus",
+  'selected modifier buttons must use a filled state distinct from focus'
 );
 assert.match(
   demoStyles,
   /--motion-fast: 180ms[\s\S]*--motion-medium: 240ms[\s\S]*dialog\[open\]\s*\{[\s\S]*animation: dialog-enter[\s\S]*@keyframes dialog-enter[\s\S]*transform: translateY\(0\.65rem\) scale\(0\.96\)/,
-  "dialogs must use a short compositor-friendly entrance animation",
+  'dialogs must use a short compositor-friendly entrance animation'
 );
 assert.match(
   demoStyles,
   /\.compact-choice,[\s\S]*\.modifier-filters fieldset label,[\s\S]*\.order-mode,[\s\S]*transition:[\s\S]*background-color var\(--motion-fast\)[\s\S]*transform var\(--motion-fast\)/,
-  "interactive controls must share short visual-state transitions",
+  'interactive controls must share short visual-state transitions'
 );
 assert.match(
   demoStyles,
   /@media \(prefers-reduced-motion: reduce\)[\s\S]*--motion-fast: 0ms[\s\S]*--motion-medium: 0ms[\s\S]*dialog\[open\],[\s\S]*dialog\[open\]::backdrop[\s\S]*animation: none/,
-  "motion must be disabled when reduced motion is requested",
+  'motion must be disabled when reduced motion is requested'
 );
 assert.match(
   demoStyles,
   /\.compact-choice\[aria-checked="true"\],[\s\S]*\.version-mode-toggle\[aria-pressed="true"\],[\s\S]*\.order-mode\.is-active[\s\S]*animation: control-selected[\s\S]*@keyframes control-selected[\s\S]*transform: scale\(0\.9\)[\s\S]*transform: scale\(1\.04\)/,
-  "newly selected controls must provide visible state-change feedback",
+  'newly selected controls must provide visible state-change feedback'
 );
 assert.match(
   demoScript,
   /if \(button\.matches\('\.emoji-preview'\)\)[\s\S]*animateEmojiCopyConfirmation\(button\)[\s\S]*function animateEmojiCopyConfirmation[\s\S]*prefers-reduced-motion: reduce[\s\S]*emoji-copy-confirmation[\s\S]*transform: 'scale\(0\.9\)'[\s\S]*transform: 'scale\(1\.05\)'/,
-  "successful emoji copies must provide motion-aware visual confirmation",
+  'successful emoji copies must provide motion-aware visual confirmation'
 );
 assert.match(
-  demoScript,
+  savedEmojiHelper,
   /available\.map\(\(key, index\)[\s\S]*--saved-index[\s\S]*Math\.min\(index, 12\)/,
-  "saved emoji must receive a capped stagger position",
+  'saved emoji must receive a capped stagger position'
 );
 assert.match(
   demoStyles,
   /\.saved-emoji-list button \{[\s\S]*animation: saved-emoji-enter 320ms[\s\S]*animation-delay: calc\(var\(--saved-index, 0\) \* 24ms\)[\s\S]*@media \(hover: hover\)[\s\S]*translateY\(-0\.2rem\) rotate\(-2deg\) scale\(1\.08\)[\s\S]*@keyframes saved-emoji-enter[\s\S]*scale\(0\.72\)[\s\S]*scale\(1\.08\)/,
-  "saved emoji must enter in a friendly stagger and lift on hover",
+  'saved emoji must enter in a friendly stagger and lift on hover'
 );
 assert.match(
   demoHtml,
   /class="show-pixel-editor developer-only"/,
-  "emoji details must provide a pixel-editor mode",
+  'emoji details must provide a pixel-editor mode'
 );
 assert.match(
   demoScript,
   /function ensureUtilityControls/,
-  "new utility controls must be restored when cached HTML is stale",
+  'new utility controls must be restored when cached HTML is stale'
 );
 assert.match(
   demoScript,
   /function upgradeEmojiDialog\(\)[\s\S]*ensureRenderingDiagnostic\(\)[\s\S]*function ensureRenderingDiagnostic\(\)[\s\S]*system-render-glyph[\s\S]*pixel-render-glyph[\s\S]*rendering-result/,
-  "cached emoji dialogs must be upgraded with complete rendering diagnostics",
+  'cached emoji dialogs must be upgraded with complete rendering diagnostics'
 );
 assert.match(
   demoScript,
   /function updateRenderingDiagnostic[\s\S]*if \(!section \|\| !invitation\) return[\s\S]*if \(!systemGlyph \|\| !pixelGlyph \|\| !result\) return/,
-  "rendering diagnostics must tolerate stale cached dialog markup",
+  'rendering diagnostics must tolerate stale cached dialog markup'
 );
 assert.match(
-  demoScript,
-  /function updateRenderingDiagnostic[\s\S]*detailsVisible[\s\S]*is-code-view[\s\S]*is-editor-view[\s\S]*section\.hidden =[\s\S]*!detailsVisible[\s\S]*invitation\.hidden = !detailsVisible/,
-  "rendering diagnostics and pixel invitations must remain details-only during editor navigation",
+  renderingDiagnosticHelper,
+  /detailsVisible[\s\S]*sectionHidden:[\s\S]*!options\.detailsVisible[\s\S]*invitationHidden:[\s\S]*!options\.detailsVisible/,
+  'rendering diagnostics and pixel invitations must remain details-only during editor navigation'
 );
 assert.match(
   demoScript,
   /fontComparison[\s\S]*!fontComparison\.querySelector\('\.emoji-font-choice'\)[\s\S]*preview\.replaceWith\(button\)[\s\S]*querySelector\('\.pixel-font-toggle'\)\?\.remove\(\)/,
-  "cached HTML must upgrade its font previews and remove the legacy search toggle",
+  'cached HTML must upgrade its font previews and remove the legacy search toggle'
 );
 assert.match(
   demoScript,
   /updateEmojiComposition\(item, value\)/,
-  "emoji details must render multi-code-point compositions",
+  'emoji details must render multi-code-point compositions'
 );
 assert.match(
-  demoScript,
-  /function updateEmojiComposition[\s\S]*detailsVisible[\s\S]*is-code-view[\s\S]*is-editor-view[\s\S]*section\.hidden =[\s\S]*!developerModeEnabled\(\)[\s\S]*points\.length <= 1[\s\S]*!detailsVisible/,
-  "sequence composition must remain hidden while navigating in the pixel editor",
+  emojiCompositionHelper,
+  /detailsVisible[\s\S]*section\.hidden =[\s\S]*!options\.developerMode[\s\S]*points\.length <= 1[\s\S]*!options\.detailsVisible/,
+  'sequence composition must remain hidden while navigating in the pixel editor'
 );
 assert.match(
-  demoScript,
+  compositionHelpers,
   /0x200D[\s\S]*zeroWidthJoiner/i,
-  "emoji compositions must identify zero-width joiners",
+  'emoji compositions must identify zero-width joiners'
 );
 assert.match(
   demoStyles,
   /\.emoji-composition-equation[\s\S]*flex-wrap: wrap/,
-  "long emoji compositions must wrap",
+  'long emoji compositions must wrap'
 );
 assert.match(
-  demoScript,
+  emojiCompositionHelper,
   /createCompositionTerm\('\+', part\)/,
-  "composition operators must wrap with their following component",
+  'composition operators must wrap with their following component'
 );
 assert.doesNotMatch(
   demoScript,
   /glyph: `TAG |glyph: 'END'|glyph: 'SPACE'/,
-  "tag-sequence labels must not display hard-coded English",
+  'tag-sequence labels must not display hard-coded English'
 );
 assert.match(
-  demoScript,
+  compositionHelpers,
   /translate\('tagAbbreviation', 'TAG'\)/,
-  "tag characters must use compact localized labels",
+  'tag characters must use compact localized labels'
 );
 assert.match(
-  demoScript,
+  compositionHelpers,
   /cancelTagAbbreviation[\s\S]*'END'/,
-  "tag endings must use compact localized labels",
+  'tag endings must use compact localized labels'
 );
 assert.match(
   demoScript,
   /dataset\.compositionEmoji/,
-  "composition parts must navigate to matching library emoji",
+  'composition parts must navigate to matching library emoji'
 );
 assert.match(
-  demoScript,
-  /function findCompositionEmojiKey[\s\S]*findCompositionArtworkKey\(hex\)[\s\S]*emojiKey !== excludedEmojiKey[\s\S]*function findCompositionArtworkKey[\s\S]*emojiKeyByCodePoints\.get\(`\$\{normalized\} FE0F`\)/,
-  "composition links must recognize presentation variants without linking to the current emoji",
+  compositionHelpers,
+  /function findCompositionArtworkKey[\s\S]*emojiKeyByCodePoints\.get\(`\$\{normalized\} FE0F`\)[\s\S]*function findCompositionEmojiKey[\s\S]*findCompositionArtworkKey\(hex, emojiKeyByCodePoints\)[\s\S]*emojiKey !== excludedEmojiKey/,
+  'composition links must recognize presentation variants without linking to the current emoji'
 );
 assert.match(
   demoStyles,
   /button\.emoji-composition-part:hover/,
-  "linked composition parts must appear interactive",
+  'linked composition parts must appear interactive'
 );
 assert.match(
   demoHtml,
   /class="dialog-navigate emoji-parent"/,
-  "emoji details must provide parent-sequence navigation",
+  'emoji details must provide parent-sequence navigation'
 );
 assert.match(
   demoScript,
   /compositionParent: parentEmojiKey/,
-  "component navigation must retain its parent in browser history",
+  'component navigation must retain its parent in browser history'
 );
 assert.match(
   demoScript,
   /event\.target\.closest\('\.emoji-parent'\)[\s\S]*window\.history\.back/,
-  "parent navigation must use browser history",
+  'parent navigation must use browser history'
 );
 assert.match(
   demoScript,
   /delete nextState\.compositionParent/,
-  "ordinary dialog navigation must clear stale component history",
+  'ordinary dialog navigation must clear stale component history'
 );
 assert.match(
   demoScript,
   /showModal\(\);[\s\S]*focusInitialEmojiDialogAction\(\)/,
-  "newly opened emoji dialogs must focus their primary copy action",
+  'newly opened emoji dialogs must focus their primary copy action'
 );
 assert.match(
   demoScript,
   /querySelector\('\.emoji-preview'\)[\s\S]*focus\(\{ preventScroll: true \}\)/,
-  "emoji details must initially focus the large copy button",
+  'emoji details must initially focus the large copy button'
 );
 assert.match(
   demoStyles,
   /\.emoji-preview:focus-visible\s*\{\s*outline:\s*2px solid var\(--accent\);\s*outline-offset:\s*-3px;\s*\}/,
-  "the initial copy focus ring must remain inside the sticky dialog header boundary",
+  'the initial copy focus ring must remain inside the sticky dialog header boundary'
 );
 assert.match(
   demoHtml,
   /class="emoji-composition-mode"/,
-  "foldable compositions must provide a display-mode toggle",
+  'foldable compositions must provide a display-mode toggle'
 );
 assert.match(
   demoHtml,
   /class="filter-field sequence-filter-field has-choice-buttons"/,
-  "sequence browsing must provide an initially enhanced sequence-type filter",
+  'sequence browsing must provide an initially enhanced sequence-type filter'
 );
 assert.match(
   demoScript,
   /groupField\.hidden = sequenceMode[\s\S]*sequenceField\.hidden = !sequenceMode/,
-  "sequence browsing must replace group filters with sequence types",
+  'sequence browsing must replace group filters with sequence types'
 );
 assert.match(
   demoScript,
   /orderMode === 'sequence' && selectedSequenceType[\s\S]*sequenceType === selectedSequenceType/,
-  "sequence-type selections must filter the emoji list",
+  'sequence-type selections must filter the emoji list'
 );
 assert.match(
-  demoScript,
-  /params\.set\('sequenceType', selectedSequenceType\)/,
-  "sequence-type filters must persist in the URL",
+  urlStateHelper,
+  /params\.set\('sequenceType', options\.sequenceType\)/,
+  'sequence-type filters must persist in the URL'
 );
 assert.match(
   demoStyles,
   /\.sequence-type > \.name\s*\{[\s\S]*position:\s*sticky;[\s\S]*top:\s*var\(--toolbar-height\);/,
-  "sequence-type headings must remain sticky below the toolbar",
+  'sequence-type headings must remain sticky below the toolbar'
 );
 assert.match(
   demoScript,
   /replace\(\/\[\\p\{P\}\\p\{S\}\]\+\/gu, ' '\)/,
-  "English-name comparisons must ignore punctuation and symbols",
+  'English-name comparisons must ignore punctuation and symbols'
 );
 assert.match(
   demoScript,
   /function condenseCompositionPoints/,
-  "emoji compositions must detect known nested sequences",
+  'emoji compositions must detect known nested sequences'
 );
 assert.match(
   demoScript,
   /hasHiddenSequenceControl[\s\S]*isCondensedSequenceControl[\s\S]*condensedParts\.filter/,
-  "condensed compositions must hide structural controls until full mode",
+  'condensed compositions must hide structural controls until full mode'
 );
 assert.match(
   demoScript,
   /return point === 0x200D \|\| point === 0xFE0E \|\| point === 0xFE0F/i,
-  "condensed compositions must hide ZWJ and presentation selectors",
+  'condensed compositions must hide ZWJ and presentation selectors'
 );
 assert.match(
   demoScript,
   /function createCompositionPart[\s\S]*findCompositionArtworkKey\(hex\)[\s\S]*applyStandalonePixelArtwork\(glyph, artworkEmojiKey, point\)/,
-  "composition components must use painted artwork even when linking to themselves is suppressed",
+  'composition components must use painted artwork even when linking to themselves is suppressed'
 );
 assert.match(
   demoScript,
   /versionKeys = new Map\(\[\.\.\.keys, \.\.\.proposedKeys\]\);[\s\S]*rebuildEmojiCodePointLookup\(\);/,
-  "proposed emoji must be added to the sequence artwork lookup",
+  'proposed emoji must be added to the sequence artwork lookup'
 );
 assert.match(
   demoScript,
   /function applyStandalonePixelArtwork\(element, emojiKey\)[\s\S]*applyPixelArtworkClass\(element, emojiKey\)/,
-  "standalone sequence components must use their painted font glyphs",
+  'standalone sequence components must use their painted font glyphs'
 );
 assert.match(
   demoScript,
   /function updateModifierPixelArtwork[\s\S]*applyStandalonePixelArtwork/,
-  "modifier filter swatches must use standalone generated artwork",
+  'modifier filter swatches must use standalone generated artwork'
 );
 assert.match(
   demoScript,
   /for \(let end = points\.length; end >= start \+ 2; end--\)/,
-  "composition folding must prefer the longest known sequence",
+  'composition folding must prefer the longest known sequence'
 );
 assert.match(
   demoScript,
   /params\.get\('composition'\) === 'full'/,
-  "composition mode must load from the URL",
+  'composition mode must load from the URL'
 );
 assert.match(
   demoScript,
   /params\.set\('composition', 'full'\)/,
-  "full composition mode must persist in the URL",
+  'full composition mode must persist in the URL'
 );
 assert.match(
   demoScript,
   /formatCompositionReduction\(components\.length, 1\)/,
-  "condensed composition counts must use localized direction",
+  'condensed composition counts must use localized direction'
 );
 assert.match(
   demoScript,
   /startsWith\('ar'\).*numberingSystem: 'arab'/,
-  "Arabic UI numbers must use Arabic-Indic digits",
+  'Arabic UI numbers must use Arabic-Indic digits'
 );
 assert.match(
   demoScript,
   /dir === 'rtl'[\s\S]*formatUiNumber\(to\)}←\$\{formatUiNumber\(from\)/,
-  "RTL composition reductions must begin at the right and point left",
+  'RTL composition reductions must begin at the right and point left'
 );
 assert.match(
   demoStyles,
   /\[dir="rtl"\] \.emoji-composition-equation \{[\s\S]*direction: rtl;[\s\S]*justify-content: flex-start;/,
-  "RTL compositions must begin at the right and progress leftward",
+  'RTL compositions must begin at the right and progress leftward'
 );
 assert.match(
   demoStyles,
   /\.emoji-composition-code-point\s*\{\s*direction:\s*ltr;\s*unicode-bidi:\s*isolate;\s*\}/,
-  "individual code-point labels must retain LTR ordering",
+  'individual code-point labels must retain LTR ordering'
 );
 assert.match(
   demoStyles,
   /\.emoji-preview-glyph\.has-pixel-art\s*\{[\s\S]*font-size:\s*6rem;[\s\S]*\.emoji-composition-glyph\.has-pixel-art[\s\S]*font-size:\s*1\.5rem;[\s\S]*@media \(max-width: 560px\)[\s\S]*\.emoji-preview-glyph\.has-pixel-art[\s\S]*font-size:\s*3\.75rem;/,
-  "dialog pixel-font previews must use crisp multiples of the 12-pixel grid",
+  'dialog pixel-font previews must use crisp multiples of the 12-pixel grid'
 );
 assert.match(
   demoHtml,
   /class="rendering-diagnostic developer-only"[\s\S]*system-render-glyph[\s\S]*pixel-render-glyph/,
-  "emoji details must compare system and Pixel Emoji rendering",
+  'emoji details must compare system and Pixel Emoji rendering'
 );
 assert.match(
   demoScript,
   /function updateRenderingDiagnostic[\s\S]*systemEmojiAppearsSplit[\s\S]*systemRenderingSplit/,
-  "emoji details must report split system sequences",
+  'emoji details must report split system sequences'
 );
 assert.match(
   demoHtml,
   /class="pixel-design-invitation developer-only"[\s\S]*createPixelDesign/,
-  "unfinished glyphs must invite visitors into the pixel editor",
+  'unfinished glyphs must invite visitors into the pixel editor'
 );
 assert.match(
   demoStyles,
   /@media \(max-width: 560px\)[\s\S]*\.example-dialog\[open\][\s\S]*position:\s*fixed;[\s\S]*inset:\s*max\(0\.5rem, env\(safe-area-inset-top\)\) 0\.5rem auto;[\s\S]*height:\s*auto;[\s\S]*max-height:\s*calc\([\s\S]*safe-area-inset-bottom/,
-  "mobile emoji details must use its natural height within a safe-area-aware fixed sheet",
+  'mobile emoji details must use its natural height within a safe-area-aware fixed sheet'
 );
 assert.match(
   demoStyles,
   /\.subgroup \.emoji > div,[\s\S]*width:\s*2\.75rem;[\s\S]*height:\s*2\.75rem;/,
-  "emoji results must provide 44 CSS-pixel pointer targets",
+  'emoji results must provide 44 CSS-pixel pointer targets'
 );
 assert.match(
   demoScript,
   /versionDescription[\s\S]*setAttribute\('aria-label', `\$\{accessibleName\}\$\{versionDescription\}`\)/,
-  "emoji result labels must include their introduction version",
+  'emoji result labels must include their introduction version'
 );
 assert.doesNotMatch(
   demoHtml,
   /class="emoji-code-points"/,
-  "code points must not be repeated in a metadata card",
+  'code points must not be repeated in a metadata card'
 );
 assert.match(
   demoScript,
   /\.emoji-code-points'\)\?\.closest\('div'\)\?\.remove/,
-  "cached code-point metadata rows must be removed",
+  'cached code-point metadata rows must be removed'
 );
 assert.match(
   demoHtml,
   /class="pixel-comparison"[\s\S]*data-emoji-font="system"[\s\S]*data-emoji-font="pixel"/,
-  "demo must let the comparison previews select the preferred emoji font",
+  'demo must let the comparison previews select the preferred emoji font'
 );
 assert.match(
   demoHtml,
   /class="pixel-hero"[\s\S]*pixel-comparison-system[\s\S]*pixel-comparison-custom/,
-  "the Explorer must introduce Pixel Emoji with a system comparison",
+  'the Explorer must introduce Pixel Emoji with a system comparison'
 );
 assert.match(
   demoHtml,
   /name="description"[\s\S]*original 12×12 Pixel Emoji font/,
-  "search metadata must identify the original Pixel Emoji font",
+  'search metadata must identify the original Pixel Emoji font'
 );
 assert.match(
   demoHtml,
   /"featureList":\s*\[[\s\S]*"Original 12×12 Pixel Emoji font"[\s\S]*"System-versus-pixel rendering diagnostics"/,
-  "structured metadata must expose the Explorer's distinguishing Pixel Emoji features",
+  "structured metadata must expose the Explorer's distinguishing Pixel Emoji features"
 );
 assert.match(
   arabicDemo,
   /Pixel Emoji[\s\S]*تصفح آلاف الرموز التعبيرية/,
-  "localized metadata must combine the Pixel Emoji introduction with localized browsing details",
+  'localized metadata must combine the Pixel Emoji introduction with localized browsing details'
 );
 assert.match(
   demoHtml,
   /class="list is-loading"[\s\S]*data-i18n="loadingExplorer"[\s\S]*class="loading-grid"/,
-  "the initial page must present an intentional loading state",
+  'the initial page must present an intentional loading state'
 );
 assert.match(
   demoScript,
   /function finishExplorerLoading[\s\S]*revealExplorer\(\)[\s\S]*function revealExplorer[\s\S]*classList\.remove\('app-loading'\)[\s\S]*aria-busy[\s\S]*function finishEmojiListRender[\s\S]*revealExplorer\(\)/,
-  "loading controls and below-list content must be revealed only after the first result tree is ready",
+  'loading controls and below-list content must be revealed only after the first result tree is ready'
 );
 assert.match(
   demoStyles,
   /\.app-loading \.result-count,[\s\S]*visibility:\s*hidden;[\s\S]*\.app-loading \.about-explorer\s*\{\s*display:\s*none;/,
-  "initial loading must reserve toolbar geometry without positioning About beneath the skeleton",
+  'initial loading must reserve toolbar geometry without positioning About beneath the skeleton'
 );
 assert.match(
   demoHtml,
   /initialUrlParams = new URLSearchParams\(location\.search\)[\s\S]*initialDeveloperMode[\s\S]*initialPreferences\.developerMode === true[\s\S]*initialUrlParams\.get\("developer"\)[\s\S]*data-developer-mode/,
-  "Developer mode must be applied before the fixed browse footer is painted",
+  'Developer mode must be applied before the fixed browse footer is painted'
 );
 assert.match(
   demoStyles,
   /\.list\s*\{[^}]*position:\s*relative;[\s\S]*\.list\.is-loading\s*\{[^}]*100svh[\s\S]*\.loading-state\s*\{[^}]*position:\s*absolute;/,
-  "the initial loading presentation must overlay a viewport-sized result region",
+  'the initial loading presentation must overlay a viewport-sized result region'
 );
 assert.match(
   demoStyles,
   /\.install-app\s*\{[^}]*position:\s*absolute;[^}]*right:\s*calc\(100% \+ 0\.45rem\);/,
-  "the deferred PWA install action must not resize the fixed browse footer",
+  'the deferred PWA install action must not resize the fixed browse footer'
 );
 assert.match(
   demoScript,
   /searchText\.addEventListener\('input', scheduleSearchDraw\)[\s\S]*function scheduleSearchDraw\(\)[\s\S]*clearTimeout\(searchDrawTimer\)[\s\S]*setTimeout\([\s\S]*drawList\(\)[\s\S]*200\)/,
-  "rapid search input must coalesce expensive emoji-list renders",
+  'rapid search input must coalesce expensive emoji-list renders'
 );
 assert.match(
   demoScript,
   /function renderEmojiList[\s\S]*renderRoot = document\.createDocumentFragment\(\)[\s\S]*aria-busy[\s\S]*performance\.now\(\) \+ 6[\s\S]*Math\.min\(keyIndex \+ 120[\s\S]*renderRoot\.appendChild\(fragment\)[\s\S]*yieldForListRender\(\)\.then\(renderChunk\)[\s\S]*function finishEmojiListRender[\s\S]*replaceChildren\(renderRoot\)/,
-  "large emoji result sets must build in cancellable, off-document chunks before one stable swap",
+  'large emoji result sets must build in cancellable, off-document chunks before one stable swap'
 );
 assert.match(
   demoScript,
   /function flushEmojiCellFragment[\s\S]*DocumentFragment[\s\S]*function asItem[\s\S]*flushEmojiCellFragment\(state\)[\s\S]*state\.cellFragment\.appendChild\(div\)[\s\S]*function asSequenceItem[\s\S]*state\.cellFragment\.appendChild/,
-  "incremental result chunks must batch emoji cells outside the live document",
+  'incremental result chunks must batch emoji cells outside the live document'
 );
 assert.match(
   demoStyles,
   /\.list\s*\{[^}]*contain:\s*layout style;/,
-  "emoji result layout must be contained from the surrounding interface",
+  'emoji result layout must be contained from the surrounding interface'
 );
 assert.match(
   demoStyles,
   /\.pixel-hero\s*\{[^}]*min-height:\s*7rem;[^}]*contain:\s*layout style;[\s\S]*\.pixel-comparison > button\s*\{[^}]*width:\s*4rem;/,
-  "the Pixel Emoji introduction must reserve stable dimensions while fonts load",
+  'the Pixel Emoji introduction must reserve stable dimensions while fonts load'
 );
 assert.match(
   demoHtml,
   /class="basic-filter-grid"[\s\S]*class="filter-options"[\s\S]*class="advanced-filters"/,
-  "category shortcuts must remain available outside Advanced filters",
+  'category shortcuts must remain available outside Advanced filters'
 );
 assert.match(
   demoHtml,
   /class="developer-mode-toggle"[^>]*role="switch"/,
-  "Help and settings must provide an accessible Developer mode switch",
+  'Help and settings must provide an accessible Developer mode switch'
 );
 assert.match(
   demoHtml,
   /class="filter-field version-field developer-only has-version-slider"/,
-  "the Emoji version filter must be visible only in Developer mode",
+  'the Emoji version filter must be visible only in Developer mode'
 );
 assert.match(
   demoScript,
   /function ensureVersionSlider[\s\S]*classList\.add\('developer-only'\)/,
-  "cached version filters must also become developer-only",
+  'cached version filters must also become developer-only'
 );
 assert.match(
   demoScript,
   /developerModeFromUrl[\s\S]*get\('developer'\) === '1'[\s\S]*developerModeUrlDismissed = false[\s\S]*function developerModeEnabled\(\)[\s\S]*developerModeFromUrl && !developerModeUrlDismissed[\s\S]*developerMode === true[\s\S]*function toggleDeveloperMode[\s\S]*developerModeUrlDismissed = !enabled[\s\S]*developerModeFromUrl = false[\s\S]*saveExplorerPreference\('developerMode'/,
-  "Developer mode must support shared URL activation and persist explicit selection",
+  'Developer mode must support shared URL activation and persist explicit selection'
 );
 assert.match(
   demoScript,
   /if \(developerModeEnabled\(\)\) params\.set\('developer', '1'\)[\s\S]*params\.set\('emojiMode', 'editor'\)/,
-  "shared developer-only dialog URLs must preserve Developer mode",
+  'shared developer-only dialog URLs must preserve Developer mode'
 );
 assert.match(
   demoScript,
   /popstate[\s\S]*developerModeFromUrl =[\s\S]*get\('developer'\) === '1'[\s\S]*renderDeveloperMode\(\)[\s\S]*applyDialogUrlState\(\)/,
-  "browser navigation must restore Developer mode before applying dialog URL state",
+  'browser navigation must restore Developer mode before applying dialog URL state'
 );
 assert.match(
   demoScript,
   /developerModeUrlDismissed = !enabled[\s\S]*syncUrlState\(\)[\s\S]*popstate[\s\S]*renderDeveloperMode\(\)[\s\S]*syncUrlState\(\)/,
-  "turning Developer mode off must override and clean older URL history entries",
+  'turning Developer mode off must override and clean older URL history entries'
 );
 assert.match(
   demoScript,
   /version:\s*developerModeEnabled\(\)[\s\S]*versionMode:[\s\S]*developerModeEnabled\(\)[\s\S]*if \(developerModeEnabled\(\)\) \{[\s\S]*params\.set\('version'/,
-  "version-specific URL state must remain visible through Developer mode",
+  'version-specific URL state must remain visible through Developer mode'
 );
 assert.match(
   demoStyles,
   /html:not\(\[data-developer-mode\]\) \.developer-only\s*\{\s*display:\s*none !important;/,
-  "developer-only controls must remain hidden in the default end-user interface",
+  'developer-only controls must remain hidden in the default end-user interface'
 );
 assert.match(
   demoStyles,
   /html:not\(\[data-developer-mode\]\) \.example-dialog\[open\][\s\S]*grid-template-columns:\s*minmax\(0, 1fr\) 12rem;[\s\S]*width:\s*min\(44rem,/,
-  "wide end-user emoji details must remain compact when developer panels are hidden",
+  'wide end-user emoji details must remain compact when developer panels are hidden'
 );
 assert.match(
   arabicDemo,
   /المساعدة والإعدادات[\s\S]*وضع المطور/,
-  "localized pages must translate the Developer mode setting",
+  'localized pages must translate the Developer mode setting'
 );
 assert.match(
   demoStyles,
   /\.filter-picker-dialog \.compact-choices\s*\{[^}]*display:\s*grid;[^}]*grid-template-columns:/,
-  "group and subgroup dialogs must use readable wrapping grids",
+  'group and subgroup dialogs must use readable wrapping grids'
 );
 assert.doesNotMatch(
   demoHtml,
   /class="basic-filter-grid"[\s\S]*class="compact-choices compact-group-choices"[\s\S]*class="filter-options"/,
-  "the sticky filter area must not contain the complete group choice grid",
+  'the sticky filter area must not contain the complete group choice grid'
 );
 assert.match(
   demoHtml,
   /class="filter-picker-trigger group-picker-trigger"[\s\S]*id="group-filter-dialog"[\s\S]*class="compact-choices compact-group-choices"[\s\S]*id="subgroup-filter-dialog"/,
-  "compact group and subgroup triggers must open dedicated picker dialogs",
+  'compact group and subgroup triggers must open dedicated picker dialogs'
 );
 assert.match(
   demoScript,
   /function openFilterPicker[\s\S]*showModal\(\)[\s\S]*function closeFilterPicker[\s\S]*trigger\?\.focus\(\)/,
-  "category picker dialogs must focus the selected choice and return focus after selection",
+  'category picker dialogs must focus the selected choice and return focus after selection'
 );
 assert.match(
   demoScript,
   /function renderFilterPickerTrigger[\s\S]*filter-picker-emoji[\s\S]*filter-picker-value[\s\S]*aria-label/,
-  "compact category triggers must expose their selected emoji and readable label",
+  'compact category triggers must expose their selected emoji and readable label'
 );
 assert.match(
   demoStyles,
   /\.search-controls\s*\{[^}]*max-width:\s*none;/,
-  "the primary search row must use available wide-screen space",
+  'the primary search row must use available wide-screen space'
 );
 assert.match(
   demoStyles,
   /\.code\s*\{[^}]*overflow-x:\s*hidden;[^}]*white-space:\s*pre-wrap;/,
-  "developer code examples must wrap instead of introducing horizontal scrolling",
+  'developer code examples must wrap instead of introducing horizontal scrolling'
 );
 assert.match(
   demoScript,
   /function selectEmojiFont[\s\S]*dataset\.emojiFont[\s\S]*saveExplorerPreference\('pixelFont'/,
-  "the system and pixel previews must control the font preference",
+  'the system and pixel previews must control the font preference'
 );
 assert.match(
   demoHtml,
   /class="pixel-comparison"[\s\S]*class="emoji-font-choice emoji-font-choice-system"[\s\S]*data-emoji-font="system"[\s\S]*class="emoji-font-choice emoji-font-choice-pixel"[\s\S]*data-emoji-font="pixel"/,
-  "the font comparison must expose system and pixel choices",
+  'the font comparison must expose system and pixel choices'
 );
 assert.match(
   demoScript,
   /function ensurePixelEditor[\s\S]*import\('\.\/pixel-editor\.js'\)[\s\S]*createPixelEditor[\s\S]*is-editor-view/,
-  "demo must initialize the pixel-art editor only when editor mode is opened",
+  'demo must initialize the pixel-art editor only when editor mode is opened'
 );
 assert.doesNotMatch(
   demoScript,
   /^import .*pixel-editor\.js/m,
-  "the application entry must not eagerly import the developer-only pixel editor",
+  'the application entry must not eagerly import the developer-only pixel editor'
 );
 assert.doesNotMatch(
   demoScript,
   /^import emoji from ['"]\.\/dist\/esm\/index\.js['"]/m,
-  "the Explorer must not download the all-emoji package bundle in addition to emoji metadata",
+  'the Explorer must not download the all-emoji package bundle in addition to emoji metadata'
 );
 assert.match(
   demoScript,
   /emojiByKey = Object\.fromEntries\(data\.map\(item => \[item\.key, item\.emoji\]\)\)/,
-  "the Explorer must derive its emoji lookup from the metadata it already downloads",
+  'the Explorer must derive its emoji lookup from the metadata it already downloads'
 );
 assert.match(
   demoScript,
   /function refreshRenderedPixelEmoji[\s\S]*is-editor-view[\s\S]*pixelEditor\?\.refreshFontBuild/,
-  "font toggles must refresh editor metadata only while the editor is open",
+  'font toggles must refresh editor metadata only while the editor is open'
 );
 assert.match(
   demoScript,
   /emojiMode.*editor|is-editor-view/,
-  "pixel-editor mode must participate in URL state",
+  'pixel-editor mode must participate in URL state'
 );
 assert.match(
   demoScript,
   /explorerPreferences\.pixelFont !== false/,
-  "pixel font must be enabled by default",
+  'pixel font must be enabled by default'
 );
 assert.match(
   demoScript,
   /function renderedPixelEmoji[\s\S]*privateUsePixelEmojiByKey[\s\S]*String\.fromCodePoint\(privateUsePoint\)/,
-  "the explorer must render painted sequences atomically on legacy text shapers",
+  'the explorer must render painted sequences atomically on legacy text shapers'
 );
 assert.match(
   pixelEditorScript,
   /currentEntry\.privateUseCodePoint[\s\S]*String\.fromCodePoint/,
-  "the pixel editor font preview must use atomic glyph aliases",
+  'the pixel editor font preview must use atomic glyph aliases'
 );
 assert.match(
   demoScript,
   /event\?\.detail > 0/,
-  "pointer toggles must release their active focus state",
+  'pointer toggles must release their active focus state'
 );
 assert.match(
   demoScript,
   /explorer-preferences/,
-  "demo preferences must use a stable local-storage key",
+  'demo preferences must use a stable local-storage key'
 );
 assert.match(
   demoScript,
   /recordCopiedEmoji/,
-  "demo must retain recently copied emoji",
+  'demo must retain recently copied emoji'
 );
 assert.match(
   demoScript,
   /if \(copied\) \{[\s\S]*recordCopiedEmoji\(copiedEmojiKey\)/,
-  "successful copy actions must update recently copied emoji",
+  'successful copy actions must update recently copied emoji'
 );
 assert.doesNotMatch(
   demoScript,
   /if \(copied\) addFavorite/,
-  "copy actions must not implicitly add favorites",
+  'copy actions must not implicitly add favorites'
 );
 assert.match(
   demoScript,
   /dialogNavigationKeys/,
-  "saved emoji must retain their own dialog navigation context",
+  'saved emoji must retain their own dialog navigation context'
 );
 assert.match(
   demoScript,
   /\['favorites', 'help', 'language'\]\.includes/,
-  "utility dialogs must support direct URL panel state",
+  'utility dialogs must support direct URL panel state'
 );
 assert.match(
   demoScript,
   /panelDialogEntry/,
-  "utility dialogs must participate in browser history",
+  'utility dialogs must participate in browser history'
 );
 assert.doesNotMatch(
   demoStyles,
   /content-visibility:\s*auto|contain-intrinsic-size/,
-  "emoji subgroups must not use estimated off-screen sizes that cause layout shifts",
+  'emoji subgroups must not use estimated off-screen sizes that cause layout shifts'
 );
 assert.match(
   demoStyles,
   /html:has\(dialog:modal\),[\s\S]*body:has\(dialog:modal\)[\s\S]*overflow:\s*hidden;/,
-  "page scrolling must lock only while a true modal dialog is active",
+  'page scrolling must lock only while a true modal dialog is active'
 );
 assert.doesNotMatch(
   demoStyles,
   /html:has\(dialog\[open\]\)/,
-  "a stale dialog open attribute must not disable main-list scrolling",
+  'a stale dialog open attribute must not disable main-list scrolling'
 );
 assert.match(
   demoHtml,
   /id="pixel-font-stylesheet"/,
-  "demo must load the generated pixel font",
+  'demo must load the generated pixel font'
 );
 assert.match(
   demoStyles,
   /html\[data-emoji-font="system"\]/,
-  "demo must support the system emoji fallback",
+  'demo must support the system emoji fallback'
 );
 assert.match(
   demoStyles,
   /html\[data-emoji-font="system"\]\s*\{[\s\S]*--emoji-font:[\s\S]*--installed-emoji-fonts[\s\S]*--pixel-emoji-released-family[\s\S]*--pixel-emoji-proposed-family[\s\S]*sans-serif;/,
-  "system mode must retain the pixel font as its final emoji fallback",
+  'system mode must retain the pixel font as its final emoji fallback'
 );
 assert.match(
   demoStyles,
   /\.language-picker-flag,[\s\S]*font-family: var\(--system-emoji-font\)/,
-  "language flags must retain stable system-font metrics",
+  'language flags must retain stable system-font metrics'
 );
 assert.match(
   demoStyles,
   /\.pixel-editor-canvas/,
-  "demo must style the pixel-art canvas",
+  'demo must style the pixel-art canvas'
 );
 assert.match(
   pixelEditorScript,
   /pixel-editor-workspace[\s\S]*?pixel-editor-stage[\s\S]*?pixel-editor-previews[\s\S]*?pixel-editor-controls/,
-  "pixel editor must keep its actual-size previews beneath the drawing grid",
+  'pixel editor must keep its actual-size previews beneath the drawing grid'
 );
 assert.match(
   demoStyles,
   /@media \(min-width: 561px\) and \(max-height: 560px\)[\s\S]*?calc\(100dvh - 10rem\)/,
-  "pixel editor must fit its canvas within short landscape viewports",
+  'pixel editor must fit its canvas within short landscape viewports'
 );
 assert.match(
   pixelEditorScript,
   /const CELL_SIZE = 12/,
-  "pixel editor must use a 12 by 12 cell",
+  'pixel editor must use a 12 by 12 cell'
 );
 assert.match(
   pixelEditorScript,
   /const EGA_COLORS = \[/,
-  "pixel editor must provide the classic EGA palette",
+  'pixel editor must provide the classic EGA palette'
 );
 assert.doesNotMatch(
   pixelEditorScript,
   /type="color"|class="pixel-editor-alpha"/,
-  "pixel editor must not expose custom colors or artwork opacity",
+  'pixel editor must not expose custom colors or artwork opacity'
 );
 assert.match(
   pixelEditorScript,
   /const SKIN_TONE_COLORS = \[[\s\S]*1F3FB[\s\S]*1F3FF/,
-  "the pixel editor must define the five Unicode skin-tone colors",
+  'the pixel editor must define the five Unicode skin-tone colors'
 );
 assert.match(
   pixelEditorScript,
   /function activePaletteColors\(\)[\s\S]*EGA_COLORS[\s\S]*button\.dataset\.skinTone/,
-  "the active drawing palette must combine EGA with contextual skin tones",
+  'the active drawing palette must combine EGA with contextual skin tones'
 );
 assert.match(
   pixelEditorScript,
   /function skinToneCycle\(codePoint\)[\s\S]*SKIN_TONE_COLORS\[index - 1\][\s\S]*SKIN_TONE_COLORS\[index \+ 1\]/,
-  "skin-tone swatches must use their immediate neighboring tones for shading",
+  'skin-tone swatches must use their immediate neighboring tones for shading'
 );
 assert.match(
   pixelEditorScript,
   /function selectPaletteColor\(button\)[\s\S]*selectedSkinTone === button\.dataset\.skinTone[\s\S]*\(currentIndex \+ 1\) % cycle\.length/,
-  "clicking a selected skin-tone swatch must cycle its available shades",
+  'clicking a selected skin-tone swatch must cycle its available shades'
 );
 assert.match(
   pixelEditorScript,
   /function updateSkinTonePalette\(codePoints = \[\]\)[\s\S]*previousSkinTone[\s\S]*activeButtons\.find[\s\S]*nextCycleIndex[\s\S]*selectedColor = skinToneCycle/,
-  "skin-tone color and shading choices must survive compatible emoji navigation",
+  'skin-tone color and shading choices must survive compatible emoji navigation'
 );
 assert.match(
   pixelEditorScript,
   /Keep the contextual skin-tone tool ready[\s\S]*selectedColor = "transparent"/,
-  "leaving a skin-tone emoji must select the eraser instead of EGA yellow",
+  'leaving a skin-tone emoji must select the eraser instead of EGA yellow'
 );
 assert.deepEqual(
-  skinToneSequence(["1F469", "1F3FB", "200D", "1F468", "1F3FF"]),
-  ["1F3FB", "1F3FF"],
-  "skin-tone extraction must preserve modifier order and repeated people",
+  skinToneSequence(['1F469', '1F3FB', '200D', '1F468', '1F3FF']),
+  ['1F3FB', '1F3FF'],
+  'skin-tone extraction must preserve modifier order and repeated people'
 );
 assert.equal(
-  skinToneBaseSequence(["1F469", "1F3FB", "200D", "1F468", "1F3FF"]),
-  "1F469 200D 1F468",
-  "skin-tone variants must share a modifier-free helper signature",
+  skinToneBaseSequence(['1F469', '1F3FB', '200D', '1F468', '1F3FF']),
+  '1F469 200D 1F468',
+  'skin-tone variants must share a modifier-free helper signature'
 );
 const rgbaPixels = (...colors: string[]) =>
   new Uint8ClampedArray(
-    colors.flatMap((color) => [
+    colors.flatMap(color => [
       Number.parseInt(color.slice(1, 3), 16),
       Number.parseInt(color.slice(3, 5), 16),
       Number.parseInt(color.slice(5, 7), 16),
-      255,
-    ]),
+      255
+    ])
   );
 const pixelColors = (pixels: Uint8ClampedArray) =>
   Array.from({ length: pixels.length / 4 }, (_value, index) => {
     const offset = index * 4;
     return `#${[pixels[offset], pixels[offset + 1], pixels[offset + 2]]
-      .map((channel) => channel.toString(16).padStart(2, "0"))
-      .join("")}`;
+      .map(channel => channel.toString(16).padStart(2, '0'))
+      .join('')}`;
   });
 assert.deepEqual(
   pixelColors(
     remapSkinTonePixels(
-      rgbaPixels("#f2d2b6", "#d5a078", "#000000"),
-      ["1F3FB"],
-      ["1F3FF"],
-    ),
+      rgbaPixels('#f2d2b6', '#d5a078', '#000000'),
+      ['1F3FB'],
+      ['1F3FF']
+    )
   ),
-  ["#3b271d", "#000000", "#000000"],
-  "pasting to the darkest tone must extend its shadow to EGA black",
+  ['#3b271d', '#000000', '#000000'],
+  'pasting to the darkest tone must extend its shadow to EGA black'
 );
 assert.deepEqual(
   pixelColors(
-    remapSkinTonePixels(rgbaPixels("#3b271d", "#70452f"), ["1F3FF"], ["1F3FB"]),
+    remapSkinTonePixels(rgbaPixels('#3b271d', '#70452f'), ['1F3FF'], ['1F3FB'])
   ),
-  ["#f2d2b6", "#ffffff"],
-  "pasting to the lightest tone must extend its highlight to EGA white",
-);
-assert.deepEqual(
-  pixelColors(
-    remapSkinTonePixels(
-      rgbaPixels("#f2d2b6", "#d5a078", "#3b271d"),
-      ["1F3FB", "1F3FF"],
-      ["1F3FC", "1F3FE"],
-    ),
-  ),
-  ["#d5a078", "#a66a45", "#70452f"],
-  "multi-tone paste must map modifiers in Unicode sequence order",
+  ['#f2d2b6', '#ffffff'],
+  'pasting to the lightest tone must extend its highlight to EGA white'
 );
 assert.deepEqual(
   pixelColors(
     remapSkinTonePixels(
-      rgbaPixels("#f2d2b6", "#d5a078"),
-      ["1F3FB", "1F3FC"],
-      ["1F3FE", "1F3FF"],
-    ),
+      rgbaPixels('#f2d2b6', '#d5a078', '#3b271d'),
+      ['1F3FB', '1F3FF'],
+      ['1F3FC', '1F3FE']
+    )
   ),
-  ["#70452f", "#3b271d"],
-  "explicit normal tones must win over ambiguous neighboring shades",
+  ['#d5a078', '#a66a45', '#70452f'],
+  'multi-tone paste must map modifiers in Unicode sequence order'
+);
+assert.deepEqual(
+  pixelColors(
+    remapSkinTonePixels(
+      rgbaPixels('#f2d2b6', '#d5a078'),
+      ['1F3FB', '1F3FC'],
+      ['1F3FE', '1F3FF']
+    )
+  ),
+  ['#70452f', '#3b271d'],
+  'explicit normal tones must win over ambiguous neighboring shades'
 );
 const helperOwnership = buildSkinToneOwnership(
-  rgbaPixels("#d5a078", "#000000", "#000000", "#70452f"),
-  ["1F3FC", "1F3FE"],
+  rgbaPixels('#d5a078', '#000000', '#000000', '#70452f'),
+  ['1F3FC', '1F3FE'],
   4,
-  1,
+  1
 );
 assert.ok(
   helperOwnership,
-  "a uniquely toned helper must identify every person's region",
+  "a uniquely toned helper must identify every person's region"
 );
 assert.deepEqual(
   pixelColors(
     remapSkinTonePixels(
-      rgbaPixels("#d5a078", "#d5a078", "#d5a078", "#d5a078"),
-      ["1F3FB", "1F3FC"],
-      ["1F3FB", "1F3FF"],
+      rgbaPixels('#d5a078', '#d5a078', '#d5a078', '#d5a078'),
+      ['1F3FB', '1F3FC'],
+      ['1F3FB', '1F3FF'],
       {
         ownership: helperOwnership,
         ownershipWidth: 4,
         width: 4,
         offsetX: 0,
-        offsetY: 0,
-      },
-    ),
+        offsetY: 0
+      }
+    )
   ),
-  ["#d5a078", "#d5a078", "#3b271d", "#3b271d"],
-  "helper regions must disambiguate the same source color for different people",
+  ['#d5a078', '#d5a078', '#3b271d', '#3b271d'],
+  'helper regions must disambiguate the same source color for different people'
 );
 assert.deepEqual(
   [...buildTwoPersonOwnership(4, 2)],
   [0, 0, 1, 1, 0, 0, 1, 1],
-  "two-person fallback must assign the left half first and right half second",
+  'two-person fallback must assign the left half first and right half second'
 );
 assert.match(
   pixelEditorScript,
   /if \(sourceTones\.length === 2\)[\s\S]*buildTwoPersonOwnership/,
-  "two-tone paste must fall back to left-to-right person ownership",
+  'two-tone paste must fall back to left-to-right person ownership'
 );
 assert.match(
   pixelEditorScript,
   /function nearestPaletteColor[\s\S]*colors\.reduce/,
-  "the eyedropper must reduce sampled colors to the active palette",
+  'the eyedropper must reduce sampled colors to the active palette'
 );
 assert.match(
   pixelEditorScript,
   /data-transparent="true"/,
-  "pixel editor must provide a transparent eraser",
+  'pixel editor must provide a transparent eraser'
 );
 assert.match(
   demoStyles,
   /\.pixel-editor-palette[\s\S]*grid-template-columns:\s*repeat\(9,\s*1\.65rem\);[\s\S]*\.pixel-editor-swatch\.is-transparent[\s\S]*grid-column:\s*9;[\s\S]*grid-row:\s*1 \/ span 2;[\s\S]*\.pixel-editor-palette\.has-one-skin-tone[\s\S]*grid-row:\s*1;[\s\S]*\.pixel-editor-swatch\.is-skin-tone[\s\S]*grid-column:\s*9;[\s\S]*grid-row:\s*2;/,
-  "one contextual skin tone must appear below a normal-size transparent swatch",
+  'one contextual skin tone must appear below a normal-size transparent swatch'
 );
 assert.match(
   demoStyles,
   /\.pixel-editor-swatch\.is-skin-tone\[data-shade="normal"\]::after[\s\S]*content:\s*"✓"/,
-  "skin-tone swatches must visibly mark their normal color",
+  'skin-tone swatches must visibly mark their normal color'
 );
 assert.doesNotMatch(
   pixelEditorScript,
   /class="pixel-editor-trace"/,
-  "trace visibility must be controlled only by opacity",
+  'trace visibility must be controlled only by opacity'
 );
 assert.doesNotMatch(
   pixelEditorScript,
   /pixel-editor-fill-shapes/,
-  "shape filling must not require a separate checkbox",
+  'shape filling must not require a separate checkbox'
 );
 assert.match(
   pixelEditorScript,
   /nextTool === tool[\s\S]*nextTool === "rectangle" \|\| nextTool === "ellipse"[\s\S]*fillShapesEnabled = !fillShapesEnabled/,
-  "clicking the selected rectangle or ellipse tool again must toggle shape filling",
+  'clicking the selected rectangle or ellipse tool again must toggle shape filling'
 );
 assert.match(
   pixelEditorScript,
   /function updateShapeToolButtons[\s\S]*filled \? "⬛" : "🔲"[\s\S]*filled \? "🔴" : "⭕"/,
-  "rectangle and ellipse icons must represent outline and filled modes",
+  'rectangle and ellipse icons must represent outline and filled modes'
 );
 assert.match(
   pixelEditorScript,
   /function drawCenteredEmoji[\s\S]*actualBoundingBoxAscent[\s\S]*actualBoundingBoxDescent[\s\S]*const baseline = \(CELL_SIZE - ascent - descent\) \/ 2 \+ ascent/,
-  "native and custom-font previews must center their measured bounds without clipping",
+  'native and custom-font previews must center their measured bounds without clipping'
 );
 assert.doesNotMatch(
   pixelEditorScript,
   /fillText\(currentEmoji, CELL_SIZE \/ 2, CELL_SIZE - 1\)/,
-  "custom-font preview must not use a baseline that clips its descent rows",
+  'custom-font preview must not use a baseline that clips its descent rows'
 );
-for (const direction of ["Left", "Up", "Down", "Right"]) {
+for (const direction of ['Left', 'Up', 'Down', 'Right']) {
   assert.match(
     pixelEditorScript,
     new RegExp(`nudgeTrace${direction}`),
-    `pixel editor must provide an accessible ${direction.toLowerCase()} trace nudge`,
+    `pixel editor must provide an accessible ${direction.toLowerCase()} trace nudge`
   );
 }
 assert.match(
   pixelEditorScript,
   /traceOffsetX \+= Number\(button\.dataset\.traceX\)[\s\S]*traceOffsetY \+= Number\(button\.dataset\.traceY\)/,
-  "trace nudge controls must move the reference by one grid pixel per click",
+  'trace nudge controls must move the reference by one grid pixel per click'
 );
 assert.match(
   pixelEditorScript,
   /traceOffsetX = 0;[\s\S]*traceOffsetY = 0;[\s\S]*pixelEditorLoading/,
-  "trace position must reset when another emoji opens",
+  'trace position must reset when another emoji opens'
 );
 assert.match(
   pixelEditorScript,
   /formatPercent\(Number\(traceAlpha\.value\) \/ 100\)/,
-  "trace opacity must use the active locale's percentage formatter",
+  "trace opacity must use the active locale's percentage formatter"
 );
 assert.match(
   pixelEditorScript,
   /formatNumber\(currentEntry\.row \+ 1\)[\s\S]*formatNumber\(currentEntry\.column \+ 1\)/,
-  "pixel atlas row and column numbers must use the active locale",
+  'pixel atlas row and column numbers must use the active locale'
 );
 assert.match(
   demoScript,
   /function formatUiPercent[\s\S]*numberingSystem: 'arab'[\s\S]*style: 'percent'/,
-  "Arabic percentages must use Arabic digits and percent formatting",
+  'Arabic percentages must use Arabic digits and percent formatting'
 );
 assert.match(
   demoStyles,
   /\.pixel-editor-trace-nudge\[data-trace-direction="up"\][\s\S]*grid-column:\s*2;[\s\S]*grid-row:\s*1;[\s\S]*\.pixel-editor-trace-nudge\[data-trace-direction="down"\][\s\S]*grid-column:\s*2;[\s\S]*grid-row:\s*2;/,
-  "trace arrows must form a directional pad with up above centered down",
+  'trace arrows must form a directional pad with up above centered down'
 );
 assert.match(
   demoStyles,
   /\.pixel-editor-trace-position > div[\s\S]*direction:\s*ltr;/,
-  "trace arrows must retain physical left and right positions in RTL locales",
+  'trace arrows must retain physical left and right positions in RTL locales'
 );
 assert.match(
   demoStyles,
   /\.pixel-editor-trace-opacity-heading[\s\S]*display:\s*flex;[\s\S]*justify-content:\s*space-between;/,
-  "trace opacity value must share the label row and leave the slider its own row",
+  'trace opacity value must share the label row and leave the slider its own row'
 );
 assert.match(
   demoStyles,
   /\.pixel-editor-tracing[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\) auto;[\s\S]*@media \(max-width: 560px\)[\s\S]*\.pixel-editor-tracing[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\);/,
-  "trace position must sit beside opacity on wide screens and stack on narrow screens",
+  'trace position must sit beside opacity on wide screens and stack on narrow screens'
 );
 assert.match(
   demoStyles,
   /\.pixel-editor-trace-position[\s\S]*display:\s*grid;[\s\S]*justify-items:\s*center;/,
-  "trace directional pad must remain centered in its column",
+  'trace directional pad must remain centered in its column'
 );
 assert.match(
   demoStyles,
   /@media \(max-width: 560px\)[\s\S]*\.pixel-editor-trace-nudge[\s\S]*width:\s*1\.8rem;[\s\S]*height:\s*1\.8rem;/,
-  "narrow pixel editors must compact the trace controls",
+  'narrow pixel editors must compact the trace controls'
 );
 assert.match(
   demoStyles,
   /@media \(max-width: 560px\)[\s\S]*\.pixel-editor-palette[\s\S]*justify-content:\s*center;/,
-  "small screens must center the fixed-width EGA palette",
+  'small screens must center the fixed-width EGA palette'
 );
 assert.match(
   demoStyles,
   /@media \(min-width: 700px\) and \(max-height: 399px\)[\s\S]*\.pixel-editor-layout[\s\S]*grid-template-columns:[\s\S]*minmax\(18rem,\s*1fr\)[\s\S]*minmax\(10rem,\s*1fr\)[\s\S]*\.pixel-editor-drawing[\s\S]*grid-column:\s*2;[\s\S]*\.pixel-editor-tracing[\s\S]*grid-column:\s*2;[\s\S]*\.pixel-editor-transfer[\s\S]*grid-column:\s*3;[\s\S]*\.pixel-editor-file[\s\S]*grid-column:\s*3;/,
-  "wide screens under 400 pixels high must use canvas, drawing, and target columns",
+  'wide screens under 400 pixels high must use canvas, drawing, and target columns'
 );
 assert.match(
   demoStyles,
   /\.pixel-editor-trace-opacity[\s\S]*grid-template-columns:\s*minmax\(0,\s*1fr\);[\s\S]*@media \(min-width: 700px\) and \(max-height: 399px\)[\s\S]*\.example-dialog\.is-editor-view \.pixel-editor-trace-opacity[\s\S]*display:\s*flex;[\s\S]*flex-direction:\s*column;[\s\S]*gap:\s*0\.15rem;[\s\S]*\.example-dialog\.is-editor-view \.pixel-editor-trace-alpha[\s\S]*width:\s*100%;[\s\S]*min-height:\s*1\.25rem;[\s\S]*\.example-dialog\.is-editor-view \.pixel-editor-trace-position[\s\S]*grid-column:\s*2;[\s\S]*grid-row:\s*1;/,
-  "wide, short screens must keep trace transparency stacked beneath its label beside the arrows",
+  'wide, short screens must keep trace transparency stacked beneath its label beside the arrows'
 );
 assert.match(
   demoHtml,
   /class="dialog-mode-back"[^>]*data-i18n="pixelEditorBack"[^>]*>\s*Back\s*<\/button>/,
-  "the compact shared Back action must live in the dialog controls",
+  'the compact shared Back action must live in the dialog controls'
 );
 assert.match(
   pixelEditorScript,
   /toolButton\("select", "⌗", "selectRegion", "Select"\)/,
-  "pixel editor must use the compact Select label",
+  'pixel editor must use the compact Select label'
 );
 assert.match(
   demoScript,
   /const dialogModeBack = exampleDialog\.querySelector\('\.dialog-mode-back'\)[\s\S]*dialogModeBack\.hidden = showDetails/,
-  "the dialog Back action must appear outside the main details view",
+  'the dialog Back action must appear outside the main details view'
 );
 assert.match(
   demoScript,
   /if \(!showDetails && emojiParent\) \{\s*emojiParent\.hidden = true;[\s\S]*else if \(showDetails\) \{\s*updateCompositionBackButton\(\)/,
-  "nested dialog modes must hide the composition-parent control to preserve the compact control grid",
+  'nested dialog modes must hide the composition-parent control to preserve the compact control grid'
 );
 assert.match(
   demoStyles,
   /@media \(max-width: 560px\)[\s\S]*\.example-dialog \.dialog-mode-back:not\(\[hidden\]\) \{[\s\S]*grid-row:\s*1;[\s\S]*grid-column:\s*2;[\s\S]*\.example-dialog \.dialog-mode-back:not\(\[hidden\]\)::before \{[\s\S]*content:\s*"↩"/,
-  "narrow emoji dialogs must place an icon-only Back action in the favorite control slot",
+  'narrow emoji dialogs must place an icon-only Back action in the favorite control slot'
 );
 assert.match(
   demoStyles,
   /\.example-dialog\.is-code-view \.toggle-favorite,[\s\S]*\.example-dialog\.is-editor-view \.toggle-favorite \{\s*display:\s*none;/,
-  "Favorites must only appear in the main emoji details view",
+  'Favorites must only appear in the main emoji details view'
 );
 assert.doesNotMatch(
   demoHtml,
   /class="back-to-emoji"/,
-  "the code panel must not duplicate the dialog-level Back action",
+  'the code panel must not duplicate the dialog-level Back action'
 );
 assert.match(
   demoHtml,
   /class="emoji-code-view"[\s\S]*class="code"[\s\S]*class="emoji-code-toolbar"[\s\S]*class="emoji-code-link"[\s\S]*>🔗<\/span>[\s\S]*class="emoji-code-copy"[\s\S]*data-i18n="copy">Copy/,
-  "the code panel must put code first and finish with compact link and Copy actions",
+  'the code panel must put code first and finish with compact link and Copy actions'
 );
 assert.match(
   demoScript,
   /if \(codeLink && codeCopy\) toolbar\.append\(codeLink, codeCopy\);\s*code\.after\(toolbar\)/,
-  "cached code dialogs must move their actions beneath the code in link-and-copy order",
+  'cached code dialogs must move their actions beneath the code in link-and-copy order'
 );
 assert.match(
   demoStyles,
   /\.emoji-code-toolbar \{[\s\S]*direction:\s*ltr;[\s\S]*justify-content:\s*flex-end;[\s\S]*background:\s*var\(--code\);[\s\S]*\.emoji-code-view \{[\s\S]*background:\s*var\(--code\)/,
-  "the bottom code actions must remain right-aligned on the code-colored background",
+  'the bottom code actions must remain right-aligned on the code-colored background'
 );
 assert.doesNotMatch(
   pixelEditorScript,
   /data-i18n="tracePosition">Position/,
-  "trace directional pad must not display a redundant Position label",
+  'trace directional pad must not display a redundant Position label'
 );
 assert.match(
   pixelEditorScript,
   /role="group" data-i18n-aria-label="tracePosition" aria-label="Trace position"/,
-  "trace directional pad must retain its localized accessible group name",
+  'trace directional pad must retain its localized accessible group name'
 );
-for (const action of ["copyPixelArt", "copyFontGlyph", "pastePixelArt"]) {
+for (const action of ['copyPixelArt', 'copyFontGlyph', 'pastePixelArt']) {
   assert.match(
     pixelEditorScript,
     new RegExp(`function ${action}`),
-    `pixel editor must provide ${action}`,
+    `pixel editor must provide ${action}`
   );
 }
 assert.match(
   pixelEditorScript,
   /function copyFontGlyph[\s\S]*pixel-font\/atlases\/\$\{currentEntry\.atlas\}[\s\S]*extractCell\(await response\.blob\(\), currentEntry\)/,
-  "copying a custom-font glyph must crop its exact source atlas cell",
+  'copying a custom-font glyph must crop its exact source atlas cell'
 );
 assert.match(
   pixelEditorScript,
   /class="pixel-editor-transfer-icon" aria-hidden="true">🔠<\/span>/,
-  "copy-font action must use the input Latin uppercase emoji",
+  'copy-font action must use the input Latin uppercase emoji'
 );
 assert.match(
   pixelEditorScript,
   /async function pastePixelArt[\s\S]*clipboard = cloneFloatingLayer\(artworkClipboard\)[\s\S]*findSkinTonePasteHelper[\s\S]*floatingLayer = clipboard[\s\S]*remapSkinTonePixels[\s\S]*skinToneSequence\(targetEntry\.codePoints\)/,
-  "pasted artwork must remain independent and adapt to the destination skin tones",
+  'pasted artwork must remain independent and adapt to the destination skin tones'
 );
 assert.match(
   pixelEditorScript,
   /function copyPixelArt[\s\S]*skinTones: skinToneSequence\(currentEntry\.codePoints\)[\s\S]*function copySelection[\s\S]*skinTones: skinToneSequence\(currentEntry\.codePoints\)[\s\S]*function copyFontGlyph[\s\S]*skinTones: skinToneSequence\(currentEntry\.codePoints\)/,
-  "every artwork-copy path must retain ordered source skin tones",
+  'every artwork-copy path must retain ordered source skin tones'
 );
 assert.match(
   pixelEditorScript,
   /let artworkClipboard;/,
-  "the artwork clipboard must persist while browsing between emoji",
+  'the artwork clipboard must persist while browsing between emoji'
 );
 assert.match(
   pixelEditorScript,
   /toolButton\(["']select["'][\s\S]*function copySelection[\s\S]*extractPixels/,
-  "pixel editor must select and copy a rectangular subsection",
+  'pixel editor must select and copy a rectangular subsection'
 );
 assert.match(
   pixelEditorScript,
   /function selectTool[\s\S]*nextTool !== "select"\) selection = undefined/,
-  "leaving the selection tool must clear its selection",
+  'leaving the selection tool must clear its selection'
 );
 assert.match(
   pixelEditorScript,
   /function drawSelectionOutline[\s\S]*setLineDash[\s\S]*lineDashOffset[\s\S]*function animateSelectionOutline[\s\S]*draw\(false\)/,
-  "the selection frame must use animated marching ants",
+  'the selection frame must use animated marching ants'
 );
 assert.match(
   pixelEditorScript,
   /function updateEditorModePanels[\s\S]*copyArtButton\.hidden = selectionMode[\s\S]*copyFontButton\.hidden = selectionMode[\s\S]*copySelectionButton\.hidden = !selectionMode/,
-  "selection mode must show selection-specific transfer actions",
+  'selection mode must show selection-specific transfer actions'
 );
 assert.match(
   demoStyles,
   /\.pixel-editor-transfer button\[hidden\][\s\S]*display:\s*none;/,
-  "explicit transfer-button layout must not override hidden selection actions",
+  'explicit transfer-button layout must not override hidden selection actions'
 );
 assert.match(
   pixelEditorScript,
   /tool === "select" && artworkClipboard\.kind !== "selection"/,
-  "selection mode must paste only a copied selection",
+  'selection mode must paste only a copied selection'
 );
 assert.match(
   pixelEditorScript,
   /document\.addEventListener\("keydown", onEditorKeyDown, true\)[\s\S]*function onEditorKeyDown[\s\S]*view\.hidden \|\| !dialog\.open[\s\S]*event\.ctrlKey \|\| event\.metaKey[\s\S]*copySelection\(\)[\s\S]*pastePixelArt\(\)/,
-  "selection copy and layer paste must support Ctrl/Cmd keyboard shortcuts throughout the editor",
+  'selection copy and layer paste must support Ctrl/Cmd keyboard shortcuts throughout the editor'
 );
 assert.match(
   pixelEditorScript,
   /function onPointerDown[\s\S]*canvas\.focus\(\{ preventScroll: true \}\)/,
-  "drawing must move keyboard focus to the canvas for immediate shortcuts",
+  'drawing must move keyboard focus to the canvas for immediate shortcuts'
 );
 assert.match(
   pixelEditorScript,
   /function onEditorKeyDown[\s\S]*key === "z"[\s\S]*event\.shiftKey[\s\S]*redo\(\)[\s\S]*!event\.shiftKey[\s\S]*undo\(\)[\s\S]*key === "y"[\s\S]*redo\(\)/,
-  "editor history must support Ctrl/Cmd+Z and both common redo shortcuts",
+  'editor history must support Ctrl/Cmd+Z and both common redo shortcuts'
 );
 assert.match(
   pixelEditorScript,
   /function updateEditorModePanels[\s\S]*layerPanel\.hidden = !layerMode[\s\S]*filePanel\.hidden = layerMode \|\| selectionMode/,
-  "floating-layer mode must hide competing editor panels",
+  'floating-layer mode must hide competing editor panels'
 );
 assert.match(
   pixelEditorScript,
   /function bakeFloatingLayer[\s\S]*pushHistory\(\);[\s\S]*compositeLayer\(pixels, \{[\s\S]*effectiveLayerPixels\(\s*floatingLayer,\s*activePaletteColors\(\)/,
-  "baking a floating layer must be undoable",
+  'baking a floating layer must be undoable'
 );
 for (const transform of [
-  "rotate-left",
-  "rotate-right",
-  "flip-horizontal",
-  "flip-vertical",
+  'rotate-left',
+  'rotate-right',
+  'flip-horizontal',
+  'flip-vertical'
 ]) {
   assert.match(
     pixelEditorScript,
     new RegExp(`data-layer-transform="${transform}"`),
-    `floating layers must support ${transform}`,
+    `floating layers must support ${transform}`
   );
 }
 assert.match(
   pixelEditorScript,
   /class="pixel-editor-invert-layer"[\s\S]*function toggleFloatingLayerInversion[\s\S]*function effectiveLayerPixels[\s\S]*nearestPaletteColor/,
-  "floating layers must support non-destructive inversion into the nearest active colors",
+  'floating layers must support non-destructive inversion into the nearest active colors'
 );
 assert.match(
   pixelEditorScript,
   /function updateLayerControlStates[\s\S]*layerNudgeButtons\.forEach[\s\S]*layerPositionAllowed\(floatingLayer, nextX, nextY\)/,
-  "layer nudge controls must disable at canvas boundaries",
+  'layer nudge controls must disable at canvas boundaries'
 );
 assert.match(
   pixelEditorScript,
   /function setFloatingLayerPosition[\s\S]*layerAxisBounds\(floatingLayer\.width\)[\s\S]*layerAxisBounds\(floatingLayer\.height\)[\s\S]*clamp\(x, minimumX, maximumX\)[\s\S]*clamp\(y, minimumY, maximumY\)/,
-  "dragged layers must stay within the valid positioning range",
+  'dragged layers must stay within the valid positioning range'
 );
 assert.match(
   pixelEditorScript,
   /layerTransformButtons\.forEach[\s\S]*layerTransformChangesPixels[\s\S]*pixelsEqual/,
-  "rotation and flip controls must disable when they would not alter the layer",
+  'rotation and flip controls must disable when they would not alter the layer'
 );
 assert.match(
   pixelEditorScript,
   /function rotatePixels\(layer, degrees, paletteColors = EGA_COLORS\)[\s\S]*document\.createElement\("canvas"\)[\s\S]*imageSmoothingEnabled = true[\s\S]*imageSmoothingQuality = "high"[\s\S]*translate\(width \/ 2, height \/ 2\)[\s\S]*rotate\(radians\)[\s\S]*drawImage/,
-  "floating selections must use an interpolated canvas rotation around their centers",
+  'floating selections must use an interpolated canvas rotation around their centers'
 );
 assert.match(
   pixelEditorScript,
   /function quantizeToPalette\(source, paletteColors = EGA_COLORS\)[\s\S]*ROTATION_ALPHA_THRESHOLD[\s\S]*nearestPaletteColor[\s\S]*result\[offset \+ 3\] = 255/,
-  "canvas-rotated pixels must be reduced to transparency or the nearest active opaque color",
+  'canvas-rotated pixels must be reduced to transparency or the nearest active opaque color'
 );
 assert.match(
   pixelEditorScript,
   /function layerAxisBounds\(size\)[\s\S]*size <= CELL_SIZE \? \[0, CELL_SIZE - size\] : \[CELL_SIZE - size, 0\]/,
-  "oversized rotated selections must support safe negative positioning across the canvas",
+  'oversized rotated selections must support safe negative positioning across the canvas'
 );
 assert.doesNotMatch(
   pixelEditorScript,
   /rotated\.width > CELL_SIZE|rotated\.height > CELL_SIZE/,
-  "45-degree rotation must not be blocked when its bounding box exceeds the canvas",
+  '45-degree rotation must not be blocked when its bounding box exceeds the canvas'
 );
 assert.match(
   pixelEditorScript,
   /function nextLayerRotation[\s\S]*rotationSource[\s\S]*rotationDegrees[\s\S]*\(clockwise \? 45 : -45\)[\s\S]*rotatePixels\(rotationSource, rotationDegrees, paletteColors\)/,
-  "successive 45-degree turns must render from the original layer instead of degrading the previous raster rotation",
+  'successive 45-degree turns must render from the original layer instead of degrading the previous raster rotation'
 );
-for (const locale of ["en", "ar", "es", "hi", "zh"]) {
+for (const locale of ['en', 'ar', 'es', 'hi', 'zh']) {
   assert.match(
     await fs.readFile(
-      path.join(root, "demo-locales", `${locale}.json`),
-      "utf8",
+      path.join(root, 'demo-locales', `${locale}.json`),
+      'utf8'
     ),
     /"rotateLayerLeft": ".*45.*"[\s\S]*"rotateLayerRight": ".*45.*"/,
-    `${locale} must explain that layer rotation uses 45-degree increments`,
+    `${locale} must explain that layer rotation uses 45-degree increments`
   );
 }
 for (const action of [
-  "pixel-editor-save",
-  "pixel-editor-download",
-  "pixel-editor-download-emoji",
+  'pixel-editor-save',
+  'pixel-editor-download',
+  'pixel-editor-download-emoji'
 ]) {
   assert.match(
     pixelEditorScript,
     new RegExp(`class="${action}"`),
-    `pixel previews must provide ${action}`,
+    `pixel previews must provide ${action}`
   );
 }
 assert.match(
   pixelEditorScript,
   /function downloadEmojiPng[\s\S]*imageDataCanvas\(pixels, CELL_SIZE, CELL_SIZE\)[\s\S]*currentEntry\.key\}\.png/,
-  "the current 12 by 12 artwork must be downloadable as its own PNG",
+  'the current 12 by 12 artwork must be downloadable as its own PNG'
 );
 assert.match(
   pixelEditorScript,
   /class="pixel-editor-download-emoji-icon"[\s\S]*class="pixel-editor-download-preview"[\s\S]*const downloadPreview[\s\S]*downloadPreview\.getContext/,
-  "the individual PNG action must preview the current pixel artwork instead of showing a 12 label",
+  'the individual PNG action must preview the current pixel artwork instead of showing a 12 label'
 );
 assert.match(
   pixelEditorScript,
   /function drawArtworkPreview[\s\S]*currentArtworkPreviewCanvas\(\)[\s\S]*canvasIsBlackSilhouette[\s\S]*recolorVisibleCanvasPixels[\s\S]*downloadPreview/,
-  "black-only artwork and the download action must preview silhouettes in white",
+  'black-only artwork and the download action must preview silhouettes in white'
 );
 assert.match(
   pixelEditorScript,
   /function drawFontPreview[\s\S]*currentArtworkIsBlackSilhouette\(\)[\s\S]*#ffffff/,
-  "the small font preview must render black-only artwork in white",
+  'the small font preview must render black-only artwork in white'
 );
 assert.match(
   pixelEditorScript,
   /function canvasIsBlackSilhouette[\s\S]*hasVisiblePixel[\s\S]*function recolorVisibleCanvasPixels[\s\S]*image\.data\[offset \+ 3\] === 0/,
-  "silhouette preview recoloring must ignore transparent pixels and preserve alpha",
+  'silhouette preview recoloring must ignore transparent pixels and preserve alpha'
 );
 assert.match(
   pixelEditorScript,
   /const persistedArtwork = new Map\(\)[\s\S]*const dirtyKeys = new Set\(\)[\s\S]*function updateDirtyState[\s\S]*pixelsEqual\(pixels, baseline\)[\s\S]*dirtyIndicator\.hidden = !dirty/,
-  "the editor must visibly track artwork that differs from its persisted atlas pixels",
+  'the editor must visibly track artwork that differs from its persisted atlas pixels'
 );
 assert.match(
   pixelEditorScript,
   /window\.addEventListener\("beforeunload", warnAboutDirtyArtwork\)[\s\S]*function warnAboutDirtyArtwork[\s\S]*dirtyKeys\.size === 0[\s\S]*event\.returnValue/,
-  "leaving the page must warn when any emoji artwork remains dirty",
+  'leaving the page must warn when any emoji artwork remains dirty'
 );
 assert.match(
   pixelEditorScript,
   /function markAtlasClean[\s\S]*persistedArtwork\.set[\s\S]*dirtyKeys\.delete/,
-  "saving or downloading an atlas must clear its saved emoji drafts",
+  'saving or downloading an atlas must clear its saved emoji drafts'
 );
 assert.match(
   demoStyles,
   /\.pixel-editor-preview-actions[\s\S]*display:\s*flex;[\s\S]*\.pixel-editor-dirty[\s\S]*display:\s*inline-flex;/,
-  "preview save actions and the dirty indicator must sit with the actual-size previews",
+  'preview save actions and the dirty indicator must sit with the actual-size previews'
 );
 assert.match(
   pixelEditorScript,
   /function onCanvasKeyDown[\s\S]*ArrowLeft[\s\S]*ArrowUp[\s\S]*ArrowDown[\s\S]*ArrowRight[\s\S]*Enter[\s\S]*bakeFloatingLayer/,
-  "floating layers must support keyboard movement and baking",
+  'floating layers must support keyboard movement and baking'
 );
 assert.match(
   pixelEditorScript,
   /selection: cloneSelection\(selection\)[\s\S]*floatingLayer: cloneFloatingLayer\(floatingLayer\)/,
-  "selection and floating-layer drafts must survive emoji navigation",
+  'selection and floating-layer drafts must survive emoji navigation'
 );
 assert.match(
   pixelEditorScript,
   /const artworkDrafts = new Map\(\)/,
-  "pixel editor must retain an in-memory artwork draft for each emoji",
+  'pixel editor must retain an in-memory artwork draft for each emoji'
 );
 assert.match(
   pixelEditorScript,
   /rememberCurrentDraft\(\);[\s\S]*currentEmoji = emoji/,
-  "pixel editor must retain the current draft before navigating to another emoji",
+  'pixel editor must retain the current draft before navigating to another emoji'
 );
 assert.match(
   pixelEditorScript,
   /const draft = artworkDrafts\.get\(entry\.key\)[\s\S]*pixels = draft\?\.pixels\.slice\(\) \?\? loadedPixels[\s\S]*traceOffsetX = draft\?\.traceOffsetX \?\? 0[\s\S]*traceOffsetY = draft\?\.traceOffsetY \?\? 0/,
-  "pixel editor must restore artwork and trace position when returning to an emoji",
+  'pixel editor must restore artwork and trace position when returning to an emoji'
 );
 assert.match(
   pixelEditorScript,
   /for \(const draft of artworkDrafts\.values\(\)\)[\s\S]*draft\.entry\.atlas !== currentEntry\.atlas[\s\S]*draft\.entry\.x[\s\S]*draft\.entry\.y/,
-  "saving must merge every retained draft belonging to the current atlas",
+  'saving must merge every retained draft belonging to the current atlas'
 );
 assert.match(
   pixelEditorScript,
   /function updateTransferButtons[\s\S]*copyArtButton\.disabled =[\s\S]*!hasVisibleArtwork\(\)/,
-  "copy-art action must be disabled while every artwork pixel is transparent",
+  'copy-art action must be disabled while every artwork pixel is transparent'
 );
-for (const preview of ["official", "font", "artwork"]) {
+for (const preview of ['official', 'font', 'artwork']) {
   assert.match(
     pixelEditorScript,
     new RegExp(`preview\\(["']${preview}["']`),
-    `pixel editor must provide the ${preview} 12-pixel preview`,
+    `pixel editor must provide the ${preview} 12-pixel preview`
   );
 }
 assert.match(
   demoStyles,
   /\.pixel-editor-previews figure[\s\S]*width:\s*12px;[\s\S]*height:\s*12px;[\s\S]*\.pixel-editor-previews canvas[\s\S]*width:\s*12px;[\s\S]*height:\s*12px;/,
-  "actual-size previews must remain 12 by 12 instead of using uneven fractional scaling",
+  'actual-size previews must remain 12 by 12 instead of using uneven fractional scaling'
 );
 for (const tool of [
-  "pencil",
-  "line",
-  "rectangle",
-  "ellipse",
-  "bucket",
-  "eyedropper",
-  "select",
+  'pencil',
+  'line',
+  'rectangle',
+  'ellipse',
+  'bucket',
+  'eyedropper',
+  'select'
 ]) {
   assert.match(
     pixelEditorScript,
     new RegExp(`toolButton\\(["']${tool}["']`),
-    `pixel editor must provide the ${tool} tool`,
+    `pixel editor must provide the ${tool} tool`
   );
 }
 assert.match(
   pixelEditorScript,
   /toolButton\("bucket", "🫟"[\s\S]*toolButton\("eyedropper", "👀"/,
-  "paint and color-picker tools must use recognizable emoji icons",
+  'paint and color-picker tools must use recognizable emoji icons'
 );
 assert.match(
   pixelEditorScript,
   /toolButton\("pencil", "✏️"[\s\S]*toolButton\("rectangle", "🔲"[\s\S]*toolButton\("ellipse", "⭕"/,
-  "pencil and outline shape tools must use their requested emoji icons",
+  'pencil and outline shape tools must use their requested emoji icons'
 );
 assert.match(
   pixelEditorScript,
   /tool === "line"[\s\S]*pixels\.set\(shapeBase\);[\s\S]*drawLine\(pointerStart, point\)/,
-  "the line tool must preview a straight line from its starting point",
+  'the line tool must preview a straight line from its starting point'
 );
 assert.match(
   pixelEditorScript,
   /data-tool="\$\{tool\}" data-i18n-aria-label="\$\{translationKey\}" aria-label="\$\{fallback\}"/,
-  "icon-only drawing tools must retain localized accessible names",
+  'icon-only drawing tools must retain localized accessible names'
 );
 assert.match(
   demoStyles,
   /@media \(max-width: 399px\)[\s\S]*\.pixel-editor-tools[\s\S]*grid-template-columns:\s*repeat\(7,\s*2\.35rem\);[\s\S]*\.pixel-editor-tools button > span:last-child[\s\S]*display:\s*none;/,
-  "skinny screens must show seven compact icon-only drawing tools in one row",
+  'skinny screens must show seven compact icon-only drawing tools in one row'
 );
 assert.match(
   pixelEditorScript,
   /showDirectoryPicker/,
-  "pixel editor must support direct atlas-directory writes",
+  'pixel editor must support direct atlas-directory writes'
 );
 assert.match(
   pixelEditorScript,
   /getNestedFileHandle/,
-  "pixel editor must save grouped atlases into nested directories",
+  'pixel editor must save grouped atlases into nested directories'
 );
 assert.match(
   pixelEditorScript,
   /createBlankAtlas/,
-  "pixel editor must construct missing atlas sheets in memory",
+  'pixel editor must construct missing atlas sheets in memory'
 );
 assert.match(
   pixelEditorScript,
   /content-type[\s\S]*image\/png/,
-  "pixel editor must distinguish a PNG from a development-server fallback page",
+  'pixel editor must distinguish a PNG from a development-server fallback page'
 );
 assert.match(
   pixelEditorScript,
   /atlasExists \|\| hasVisibleAtlasDraft\(\)/,
-  "a missing atlas must not be writable until visible artwork is added",
+  'a missing atlas must not be writable until visible artwork is added'
 );
 assert.doesNotMatch(
   pixelAtlasGeneratorScript,
   /renderBlankSheet|writeFile\(imagePath/,
-  "atlas generation must not create empty PNG templates",
+  'atlas generation must not create empty PNG templates'
 );
 assert.match(
   pixelEditorScript,
   /downloadAtlas/,
-  "pixel editor must provide an atlas download fallback",
+  'pixel editor must provide an atlas download fallback'
 );
 assert.match(
   pixelEditorScript,
   /alpha === 0/,
-  "pixel editor must preserve transparent pixels",
+  'pixel editor must preserve transparent pixels'
 );
 assert.equal(
   pixelAtlasManifest.layout,
-  "grouped-subgroups-v3",
-  "pixel atlases must use the grouped subgroup layout",
+  'grouped-subgroups-v3',
+  'pixel atlases must use the grouped subgroup layout'
 );
 assert.equal(
   pixelAtlasManifest.author,
-  "Lewis Moten",
-  "pixel atlas metadata must identify its author",
+  'Lewis Moten',
+  'pixel atlas metadata must identify its author'
 );
 assert.equal(
   pixelAtlasManifest.url,
-  "https://lewismoten.com",
-  "pixel atlas metadata must identify its source URL",
+  'https://lewismoten.com',
+  'pixel atlas metadata must identify its source URL'
 );
 assert.equal(
   pixelAtlasManifest.cellSize,
   12,
-  "pixel atlas artwork must use 12-pixel cells",
+  'pixel atlas artwork must use 12-pixel cells'
 );
 assert.equal(
   pixelAtlasManifest.cellPadding,
   2,
-  "pixel atlas cells must have two transparent pixels of padding per side",
+  'pixel atlas cells must have two transparent pixels of padding per side'
 );
 assert.equal(
   pixelAtlasManifest.slotSize,
   pixelAtlasManifest.cellSize + pixelAtlasManifest.cellPadding * 2,
-  "pixel atlas slot size must include transparent padding on both sides",
+  'pixel atlas slot size must include transparent padding on both sides'
 );
 assert.ok(
   pixelAtlasManifest.groupCount > 1,
-  "pixel atlases must be divided into Unicode groups",
+  'pixel atlases must be divided into Unicode groups'
 );
 assert.ok(
   pixelAtlasManifest.subGroupCount > pixelAtlasManifest.groupCount,
-  "pixel atlases must be divided into Unicode subgroups",
+  'pixel atlases must be divided into Unicode subgroups'
 );
 assert.equal(
   pixelAtlasManifest.activeGlyphCount,
   emoji.length + pixelAtlasManifest.proposedGlyphCount,
-  "pixel atlases must assign released and proposed emoji",
+  'pixel atlases must assign released and proposed emoji'
 );
 assert.equal(
   pixelAtlasManifest.releasedGlyphCount,
   emoji.length,
-  "pixel atlases must distinguish released emoji",
+  'pixel atlases must distinguish released emoji'
 );
 assert.equal(
   pixelAtlasManifest.proposedGlyphCount,
   (manifest.proposed ?? []).reduce(
     (count, version) => count + version.count,
-    0,
+    0
   ),
-  "pixel atlases must distinguish every proposed emoji",
+  'pixel atlases must distinguish every proposed emoji'
 );
 assert.equal(
   pixelAtlasManifest.baseGlyphCount + pixelAtlasManifest.modifierGlyphCount,
   pixelAtlasManifest.activeGlyphCount,
-  "pixel atlas base and modifier counts must cover every emoji",
+  'pixel atlas base and modifier counts must cover every emoji'
 );
 assert.ok(
-  pixelAtlasManifest.modifierTypeCounts["skin-tone"] > 0 &&
+  pixelAtlasManifest.modifierTypeCounts['skin-tone'] > 0 &&
     pixelAtlasManifest.modifierTypeCounts.hair > 0 &&
-    pixelAtlasManifest.modifierTypeCounts["skin-and-hair"] > 0,
-  "pixel atlases must provide skin-tone, hair, and combined modifier sets",
+    pixelAtlasManifest.modifierTypeCounts['skin-and-hair'] > 0,
+  'pixel atlases must provide skin-tone, hair, and combined modifier sets'
 );
 assert.ok(
   pixelAtlasManifest.sheets.some(
-    (sheet) =>
-      sheet.modifierType === "skin-tone" &&
-      sheet.mapping.startsWith("modifiers/skin-tone/"),
+    sheet =>
+      sheet.modifierType === 'skin-tone' &&
+      sheet.mapping.startsWith('modifiers/skin-tone/')
   ),
-  "skin-tone emoji must use separate modifier atlas paths",
+  'skin-tone emoji must use separate modifier atlas paths'
 );
 for (const version of manifest.proposed ?? []) {
   assert.ok(
     pixelAtlasManifest.sheets.some(
-      (sheet) =>
-        sheet.releaseStatus === "proposed" &&
+      sheet =>
+        sheet.releaseStatus === 'proposed' &&
         sheet.unicodeVersion === version.version &&
-        sheet.mapping.startsWith(`proposed/${version.version}/`),
+        sheet.mapping.startsWith(`proposed/${version.version}/`)
     ),
-    `proposed Emoji ${version.version} must use versioned atlas paths`,
+    `proposed Emoji ${version.version} must use versioned atlas paths`
   );
 }
 assert.ok(
   pixelAtlasManifest.sheets.every(
-    (sheet) =>
-      sheet.image.includes("/") &&
-      sheet.mapping.includes("/") &&
+    sheet =>
+      sheet.image.includes('/') &&
+      sheet.mapping.includes('/') &&
       sheet.group &&
       sheet.subGroup &&
       sheet.rows >= 1 &&
       sheet.rows <= pixelAtlasManifest.maxRows &&
-      sheet.assignedCount <= pixelAtlasManifest.columns * sheet.rows,
+      sheet.assignedCount <= pixelAtlasManifest.columns * sheet.rows
   ),
-  "every pixel atlas sheet must be grouped, labeled, compact, and within capacity",
+  'every pixel atlas sheet must be grouped, labeled, compact, and within capacity'
 );
 assert.ok(
-  new Set(pixelAtlasManifest.sheets.map((sheet) => sheet.imageHeight)).size > 1,
-  "pixel atlas sheets must use variable heights instead of a fixed 16-row canvas",
+  new Set(pixelAtlasManifest.sheets.map(sheet => sheet.imageHeight)).size > 1,
+  'pixel atlas sheets must use variable heights instead of a fixed 16-row canvas'
 );
