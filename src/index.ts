@@ -94,6 +94,7 @@ import {
 } from './explorer/loading-state.js';
 import { createEmojiDialogClickHandler } from './explorer/emoji-dialog-events.js';
 import { createListController } from './explorer/list-controller.js';
+import { createDialogNavigationController } from './explorer/dialog-navigation-controller.js';
 
 if (import.meta.hot) {
   let pixelFontRevision;
@@ -1945,37 +1946,25 @@ function showEmoji(id, openDialog = true, navigationKeys) {
   }
 }
 
-function navigateEmoji(amount) {
-  const keys =
-    dialogNavigationKeys.length > 0 ? dialogNavigationKeys : displayedKeys;
-  const navigation = resolveDialogNavigationState(keys, currentEmojiKey);
-  const nextKey = amount < 0 ? navigation.previousKey : navigation.nextKey;
-  if (nextKey) {
-    showEmoji(nextKey, false);
-    syncUrlState();
-  }
-}
-
-function updateDialogNavigation() {
-  updateDialogNavigationHelper({
-    currentEmojiKey,
-    dialogNavigationKeys,
-    displayedKeys,
-    emojiNext,
-    emojiPrevious,
-    updateCompositionBackButton
-  });
-}
-
-function updateCompositionBackButton() {
-  updateCompositionBackButtonHelper({
-    byId,
-    emojiByKey,
-    emojiParent,
-    historyState: window.history.state,
-    searchAnnotations,
-    translate
-  });
-}
+const dialogNavigation = createDialogNavigationController({
+  byId: () => byId,
+  currentEmojiKey: () => currentEmojiKey,
+  dialogNavigationKeys: () => dialogNavigationKeys,
+  displayedKeys: () => displayedKeys,
+  emojiByKey: () => emojiByKey,
+  emojiNext: () => emojiNext,
+  emojiParent: () => emojiParent,
+  emojiPrevious: () => emojiPrevious,
+  resolveNavigation: resolveDialogNavigationState,
+  searchAnnotations: () => searchAnnotations,
+  showEmoji,
+  syncUrlState,
+  translate
+});
+const {
+  navigate: navigateEmoji,
+  update: updateDialogNavigation,
+  updateBack: updateCompositionBackButton
+} = dialogNavigation;
 removeLegacyDialogElements();
 window.addEventListener('load', onLoad);

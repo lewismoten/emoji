@@ -8,7 +8,7 @@ import { ensureUtilityControls, positionFavoriteButton } from './explorer/utilit
 import { closePanelDialog, installApp as installWebApp, installedDisplayQueries, onPanelDialogClose, openPanelDialog, renderInstallAppButton as renderInstallAppButtonHelper, updateWebAppManifest } from './explorer/pwa-panels.js';
 import { closeFilterPicker as closeFilterPickerHelper, displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper, focusCompactChoice as focusCompactChoiceHelper, onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper, openFilterPicker as openFilterPickerHelper } from './explorer/filter-picker.js';
 import { getVersionKeys as getVersionKeysHelper, syncVersionRange as syncVersionRangeHelper, updateModifierAvailability as updateModifierAvailabilityHelper, versionSliderLabel as versionSliderLabelHelper } from './explorer/category-version.js';
-import { getIntroducedVersion as getIntroducedVersionHelper, renderEmojiDialog, updateCompositionBackButton as updateCompositionBackButtonHelper, updateDialogNavigation as updateDialogNavigationHelper, updateEmojiComposition as updateEmojiCompositionHelper, updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutCompositionParent } from './explorer/dialog-render.js';
+import { getIntroducedVersion as getIntroducedVersionHelper, renderEmojiDialog, updateEmojiComposition as updateEmojiCompositionHelper, updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutCompositionParent } from './explorer/dialog-render.js';
 import { createEmojiListRenderers } from './explorer/emoji-list-render.js';
 import { createEmojiListInteraction } from './explorer/emoji-list-interaction.js';
 import { getEmojiGenders as getEmojiGendersHelper } from './explorer/emoji-filter.js';
@@ -27,6 +27,7 @@ import { observeToolbarHeight } from './explorer/toolbar-layout.js';
 import { finishExplorerLoading as finishExplorerLoadingHelper, revealExplorer as revealExplorerHelper } from './explorer/loading-state.js';
 import { createEmojiDialogClickHandler } from './explorer/emoji-dialog-events.js';
 import { createListController } from './explorer/list-controller.js';
+import { createDialogNavigationController } from './explorer/dialog-navigation-controller.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -1625,34 +1626,21 @@ function showEmoji(id, openDialog = true, navigationKeys) {
         pixelEditor?.open(id, value);
     }
 }
-function navigateEmoji(amount) {
-    const keys = dialogNavigationKeys.length > 0 ? dialogNavigationKeys : displayedKeys;
-    const navigation = resolveDialogNavigationState(keys, currentEmojiKey);
-    const nextKey = amount < 0 ? navigation.previousKey : navigation.nextKey;
-    if (nextKey) {
-        showEmoji(nextKey, false);
-        syncUrlState();
-    }
-}
-function updateDialogNavigation() {
-    updateDialogNavigationHelper({
-        currentEmojiKey,
-        dialogNavigationKeys,
-        displayedKeys,
-        emojiNext,
-        emojiPrevious,
-        updateCompositionBackButton
-    });
-}
-function updateCompositionBackButton() {
-    updateCompositionBackButtonHelper({
-        byId,
-        emojiByKey,
-        emojiParent,
-        historyState: window.history.state,
-        searchAnnotations,
-        translate
-    });
-}
+const dialogNavigation = createDialogNavigationController({
+    byId: () => byId,
+    currentEmojiKey: () => currentEmojiKey,
+    dialogNavigationKeys: () => dialogNavigationKeys,
+    displayedKeys: () => displayedKeys,
+    emojiByKey: () => emojiByKey,
+    emojiNext: () => emojiNext,
+    emojiParent: () => emojiParent,
+    emojiPrevious: () => emojiPrevious,
+    resolveNavigation: resolveDialogNavigationState,
+    searchAnnotations: () => searchAnnotations,
+    showEmoji,
+    syncUrlState,
+    translate
+});
+const { navigate: navigateEmoji, update: updateDialogNavigation, updateBack: updateCompositionBackButton } = dialogNavigation;
 removeLegacyDialogElements();
 window.addEventListener('load', onLoad);
