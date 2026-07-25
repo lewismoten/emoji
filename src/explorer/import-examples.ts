@@ -37,6 +37,7 @@ type MinimalNode = {
 
 declare const document: {
   createElement(tagName: string): MinimalNode;
+  querySelector(selector: string): MinimalNode | null;
 };
 
 function createSpan(className: string) {
@@ -96,6 +97,45 @@ export function getCodeExampleText(dialog: MinimalNode) {
     .filter(line => !(line as { hidden?: boolean }).hidden)
     .map(line => line.textContent)
     .join('\n');
+}
+
+export function renderImportExamples(
+  packageManifest: PackageManifest,
+  item: { key: string; group: string; unicodeSubGroup: string }
+) {
+  const examples = resolveImportExamples(packageManifest, item);
+  const set = (
+    lineClass: string,
+    pathClass: string,
+    visible: boolean,
+    value: string
+  ) => {
+    const line = document.querySelector(`.${lineClass}`);
+    const path = document.querySelector(`.${pathClass}`);
+    if (!line || !path) return;
+    line.hidden = !visible;
+    path.textContent = value;
+  };
+  const allPath = document.querySelector('.emoji-import-path');
+  if (allPath) allPath.textContent = examples.allPath;
+  set(
+    'emoji-popular-import',
+    'emoji-popular-import-path',
+    examples.showPopular,
+    examples.popularPath
+  );
+  set(
+    'emoji-category-import',
+    'emoji-category-import-path',
+    examples.showCategory,
+    examples.categoryPath
+  );
+  set(
+    'emoji-subgroup-import',
+    'emoji-subgroup-import-path',
+    examples.showSubgroup,
+    examples.subgroupPath
+  );
 }
 
 export function ensureImportExamples(dialog: MinimalNode) {

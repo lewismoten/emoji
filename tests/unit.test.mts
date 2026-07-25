@@ -148,10 +148,8 @@ const filterPickerHelper = await fs.readFile(
   path.join(root, 'src/explorer/filter-picker.ts'),
   'utf8'
 );
-const categoryVersionHelper = await fs.readFile(
-  path.join(root, 'src/explorer/category-version.ts'),
-  'utf8'
-);
+const categoryVersionHelper = await fs.readFile(path.join(root, 'src/explorer/category-version.ts'), 'utf8');
+const filterControlsHelper = await fs.readFile(path.join(root, 'src/explorer/filter-controls.ts'), 'utf8');
 const dialogRenderHelper = await fs.readFile(
   path.join(root, 'src/explorer/dialog-render.ts'),
   'utf8'
@@ -1233,7 +1231,7 @@ assert.match(
   'the Emoji version filter must be visible only in Developer mode'
 );
 assert.match(
-  demoScript,
+  filterControlsHelper,
   /function ensureVersionSlider[\s\S]*classList\.add\('developer-only'\)/,
   'cached version filters must also become developer-only'
 );

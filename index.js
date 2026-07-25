@@ -2,8 +2,8 @@
 import { explorerLabelKeys, languageFlags, sequenceTranslationKeys, sequenceTypeEmoji, sequenceTypeLabels, sequenceTypeOrder, statusTranslationKeys, unicodeGroupLabelKeys, unicodeSubgroupLabelKeys, versionModeDefinitions } from './explorer/explorer-labels.js';
 import { getExplorerSubGroup } from './explorer/category-rules.js';
 import { formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints } from './explorer/emoji-format.js';
-import { copyToClipboard as copyToClipboardHelper, nextCopiedEmojiKeys, nextFavoriteEmojiKeys, renderSavedEmojiList as renderSavedEmojiListHelper, updateFavoriteToggleButton } from './explorer/saved-emoji.js';
-import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, resolveImportExamples } from './explorer/import-examples.js';
+import { createSavedEmojiController, copyToClipboard as copyToClipboardHelper, } from './explorer/saved-emoji.js';
+import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, renderImportExamples as renderImportExamplesHelper } from './explorer/import-examples.js';
 import { ensureUtilityControls, positionFavoriteButton } from './explorer/utility-controls.js';
 import { closePanelDialog, installApp as installWebApp, installedDisplayQueries, onPanelDialogClose, openPanelDialog, renderInstallAppButton as renderInstallAppButtonHelper, updateWebAppManifest } from './explorer/pwa-panels.js';
 import { closeFilterPicker as closeFilterPickerHelper, displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper, focusCompactChoice as focusCompactChoiceHelper, onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper, openFilterPicker as openFilterPickerHelper } from './explorer/filter-picker.js';
@@ -29,6 +29,7 @@ import { createEmojiDialogClickHandler } from './explorer/emoji-dialog-events.js
 import { createListController } from './explorer/list-controller.js';
 import { createDialogNavigationController } from './explorer/dialog-navigation-controller.js';
 import { showEmojiSession } from './explorer/emoji-session.js';
+import { createFilterControlSetup } from './explorer/filter-controls.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -237,6 +238,20 @@ function saveExplorerPreference(key, value) {
         // Preferences are optional when storage is unavailable or blocked.
     }
 }
+const { addFavorite, recordCopiedEmoji, renderList: renderSavedEmojiList, renderSavedEmoji, toggleFavorite, updateFavoriteButton } = createSavedEmojiController({
+    applyPixelArtworkClass: () => applyPixelArtworkClass,
+    byId: () => byId,
+    copiedEmojiKeys: () => copiedEmojiKeys,
+    currentEmojiKey: () => currentEmojiKey,
+    emojiByKey: () => emojiByKey,
+    favoriteEmojiKeys: () => favoriteEmojiKeys,
+    savePreference: saveExplorerPreference,
+    savedDialog: () => savedDialog,
+    searchAnnotations: () => searchAnnotations,
+    setCopiedEmojiKeys: keys => (copiedEmojiKeys = keys),
+    setFavoriteEmojiKeys: keys => (favoriteEmojiKeys = keys),
+    translate
+});
 function renderPixelFontToggle() {
     const enabled = explorerPreferences.pixelFont !== false;
     document.documentElement.toggleAttribute('data-pixel-font', enabled);
@@ -454,6 +469,12 @@ async function onLoad() {
         languagePickerLabel.id ||= 'language-picker-current-label';
         languagePicker.setAttribute('aria-labelledby', `language-picker-accessible-label ${languagePickerLabel.id}`);
     }
+    const { ensureActiveFilterSummary, ensureChoiceContainer, ensureSelectionLabel, ensureSequenceTypeFilter, ensureVersionModeToggle, ensureVersionSlider } = createFilterControlSetup({
+        document,
+        versionModeSelector,
+        versionRange: () => versionRange,
+        versionSelector
+    });
     renderDeveloperMode();
     compactGroupChoices = ensureChoiceContainer(groupSelector, 'compact-group-choices', 'group-filter-label');
     compactSubGroupChoices = ensureChoiceContainer(subGroupSelector, 'compact-subgroup-choices', 'subgroup-filter-label');
@@ -468,6 +489,7 @@ async function onLoad() {
     compactSubGroupLabel = ensureSelectionLabel(subGroupSelector, 'compact-subgroup-label', 'subgroup-filter-label');
     compactSequenceLabel = ensureSelectionLabel(sequenceTypeSelector, 'compact-sequence-label', 'sequence-filter-label');
     ({ range: versionRange, output: versionRangeValue } = ensureVersionSlider());
+    populateVersionModeOptions();
     versionModeToggle = ensureVersionModeToggle();
     versionSelector
         .closest('.filter-field')
@@ -689,53 +711,6 @@ function focusInitialEmojiDialogAction() {
         : exampleDialog.querySelector('.emoji-preview');
     target?.focus({ preventScroll: true });
 }
-function updateFavoriteButton() {
-    updateFavoriteToggleButton(exampleDialog.querySelector('.toggle-favorite'), {
-        favoriteEmojiKeys,
-        currentEmojiKey,
-        translate
-    });
-}
-function toggleFavorite(key) {
-    if (!key)
-        return;
-    favoriteEmojiKeys = nextFavoriteEmojiKeys(favoriteEmojiKeys, key);
-    saveExplorerPreference('favorites', favoriteEmojiKeys);
-    updateFavoriteButton();
-    if (savedDialog?.open)
-        renderSavedEmoji();
-}
-function addFavorite(key) {
-    if (!key || favoriteEmojiKeys.includes(key))
-        return;
-    favoriteEmojiKeys = nextFavoriteEmojiKeys(favoriteEmojiKeys, key);
-    saveExplorerPreference('favorites', favoriteEmojiKeys);
-    updateFavoriteButton();
-    if (savedDialog?.open)
-        renderSavedEmoji();
-}
-function recordCopiedEmoji(key) {
-    copiedEmojiKeys = nextCopiedEmojiKeys(copiedEmojiKeys, key);
-    saveExplorerPreference('recentCopied', copiedEmojiKeys);
-}
-function renderSavedEmojiList(container, empty, keys, source) {
-    renderSavedEmojiListHelper({
-        container,
-        empty,
-        keys,
-        source,
-        emojiByKey,
-        searchAnnotations,
-        byId,
-        applyPixelArtworkClass
-    });
-}
-function renderSavedEmoji() {
-    if (!savedDialog)
-        return;
-    renderSavedEmojiList(savedDialog.querySelector('.favorites-list'), savedDialog.querySelector('.favorites-empty'), favoriteEmojiKeys, 'favorites');
-    renderSavedEmojiList(savedDialog.querySelector('.copied-list'), savedDialog.querySelector('.copied-empty'), copiedEmojiKeys, 'copied');
-}
 function removeLegacyDialogElements() {
     const dialog = document.querySelector('.example-dialog');
     dialog?.querySelector('[data-i18n="copiedDescription"]')?.remove();
@@ -746,154 +721,6 @@ function removeLegacyDialogElements() {
         ?.querySelector('.emoji-metadata [data-i18n="codePoints"]')
         ?.closest('div')
         ?.remove();
-}
-function ensureActiveFilterSummary() {
-    let summary = document.getElementsByClassName('active-filter-summary')[0];
-    if (!summary) {
-        summary = document.createElement('div');
-        summary.className = 'active-filter-summary';
-        summary.hidden = true;
-        const text = document.createElement('span');
-        text.className = 'active-filter-text';
-        const clear = document.createElement('button');
-        clear.type = 'button';
-        clear.className = 'clear-filters';
-        clear.dataset.i18n = 'clearAll';
-        clear.textContent = 'Clear all';
-        summary.append(text, clear);
-        document.getElementsByClassName('filter-options')[0]?.appendChild(summary);
-    }
-    summary.removeAttribute('role');
-    summary.removeAttribute('aria-live');
-    return {
-        summary,
-        text: summary.querySelector('.active-filter-text'),
-        clear: summary.querySelector('.clear-filters')
-    };
-}
-function ensureSequenceTypeFilter() {
-    const existing = document.getElementsByClassName('select-sequence-type')[0];
-    if (existing)
-        return existing;
-    const field = document.createElement('div');
-    field.className = 'filter-field sequence-filter-field';
-    field.hidden = true;
-    field.innerHTML = `
-    <div class="filter-heading">
-      <span id="sequence-filter-label" data-i18n="sequenceType">Sequence type</span>
-      <span class="compact-sequence-label"></span>
-    </div>
-    <select class="select-sequence-type" aria-labelledby="sequence-filter-label"><option>Not loaded</option></select>
-    <div class="compact-choices compact-sequence-choices" role="radiogroup" aria-labelledby="sequence-filter-label"></div>
-  `;
-    document.querySelector('.filter-grid .version-field')?.before(field);
-    return field.querySelector('.select-sequence-type');
-}
-function ensureChoiceContainer(selector, className, labelId) {
-    const existing = document.getElementsByClassName(className)[0];
-    if (existing)
-        return existing;
-    let field = selector.closest('.filter-field');
-    if (field?.tagName === 'LABEL') {
-        const replacement = document.createElement('div');
-        replacement.className = field.className;
-        replacement.append(...field.childNodes);
-        field.replaceWith(replacement);
-        field = replacement;
-    }
-    const label = field?.querySelector('span');
-    if (label && !label.id)
-        label.id = labelId;
-    selector.setAttribute('aria-labelledby', label?.id || labelId);
-    const choices = document.createElement('div');
-    choices.className = `compact-choices ${className}`;
-    choices.setAttribute('role', 'radiogroup');
-    choices.setAttribute('aria-labelledby', label?.id || labelId);
-    field?.appendChild(choices);
-    return choices;
-}
-function ensureSelectionLabel(selector, className, labelId) {
-    const existing = document.getElementsByClassName(className)[0];
-    if (existing)
-        return existing;
-    const field = selector.closest('.filter-field');
-    const label = document.getElementById(labelId) ?? field?.querySelector('span');
-    if (!field || !label)
-        return undefined;
-    let heading = label.closest('.filter-heading');
-    if (!heading) {
-        heading = document.createElement('div');
-        heading.className = 'filter-heading';
-        label.before(heading);
-        heading.appendChild(label);
-    }
-    const selection = document.createElement('span');
-    selection.className = className;
-    heading.appendChild(selection);
-    return selection;
-}
-function ensureVersionSlider() {
-    const existingRange = document.getElementsByClassName('version-range')[0];
-    const existingOutput = document.getElementsByClassName('version-range-value')[0];
-    const existingField = existingRange?.closest('.version-field');
-    existingField?.classList.add('developer-only');
-    if (existingRange && existingOutput)
-        return { range: existingRange, output: existingOutput };
-    let field = versionSelector.closest('.filter-field');
-    field?.classList.add('developer-only');
-    if (field?.tagName === 'LABEL') {
-        const replacement = document.createElement('div');
-        replacement.className = `${field.className} version-field`;
-        replacement.append(...field.childNodes);
-        field.replaceWith(replacement);
-        field = replacement;
-    }
-    const label = field?.querySelector('span');
-    if (label && !label.id)
-        label.id = 'version-filter-label';
-    versionSelector.setAttribute('aria-labelledby', label?.id || 'version-filter-label');
-    const wrapper = document.createElement('div');
-    wrapper.className = 'compact-version';
-    const range = document.createElement('input');
-    range.id = 'version-range';
-    range.className = 'version-range';
-    range.type = 'range';
-    range.min = '0';
-    range.max = '0';
-    range.step = '1';
-    range.value = '0';
-    range.disabled = true;
-    range.setAttribute('aria-labelledby', label?.id || 'version-filter-label');
-    range.setAttribute('aria-describedby', 'version-range-value');
-    const output = document.createElement('output');
-    output.id = 'version-range-value';
-    output.className = 'version-range-value';
-    output.setAttribute('for', 'version-range');
-    output.setAttribute('aria-live', 'polite');
-    output.value = '—';
-    wrapper.append(range, output);
-    field?.appendChild(wrapper);
-    return { range, output };
-}
-function ensureVersionModeToggle() {
-    populateVersionModeOptions();
-    const versionField = versionSelector.closest('.filter-field');
-    const oldModeField = versionModeSelector.closest('.filter-field');
-    if (oldModeField && oldModeField !== versionField)
-        oldModeField.hidden = true;
-    versionModeSelector.hidden = true;
-    const existing = document.getElementsByClassName('version-mode-toggle')[0];
-    if (existing)
-        return existing;
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'version-mode-toggle';
-    const icon = document.createElement('span');
-    icon.setAttribute('aria-hidden', 'true');
-    icon.textContent = '🎯';
-    button.appendChild(icon);
-    versionRange.closest('.compact-version')?.prepend(button);
-    return button;
 }
 function populateVersionModeOptions() {
     const previousValue = versionModeDefinitions.some(mode => mode.value === versionModeSelector.value)
@@ -1400,26 +1227,7 @@ function updateActiveFilterSummary() {
     });
 }
 function updateEmojiImportExamples(item) {
-    const examples = resolveImportExamples(packageManifest, item);
-    document.querySelector('.emoji-import-path').textContent = examples.allPath;
-    const popularLine = document.querySelector('.emoji-popular-import');
-    const popularPath = document.querySelector('.emoji-popular-import-path');
-    if (popularLine && popularPath) {
-        popularLine.hidden = !examples.showPopular;
-        popularPath.textContent = examples.popularPath;
-    }
-    const categoryLine = document.querySelector('.emoji-category-import');
-    const categoryPath = document.querySelector('.emoji-category-import-path');
-    if (categoryLine && categoryPath) {
-        categoryLine.hidden = !examples.showCategory;
-        categoryPath.textContent = examples.categoryPath;
-    }
-    const subgroupLine = document.querySelector('.emoji-subgroup-import');
-    const subgroupPath = document.querySelector('.emoji-subgroup-import-path');
-    if (subgroupLine && subgroupPath) {
-        subgroupLine.hidden = !examples.showSubgroup;
-        subgroupPath.textContent = examples.subgroupPath;
-    }
+    renderImportExamplesHelper(packageManifest, item);
 }
 async function loadPackageManifest() {
     if (packageManifestPromise)

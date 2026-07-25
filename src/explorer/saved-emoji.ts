@@ -3,6 +3,7 @@ import { displayEmojiKey } from './emoji-format.js';
 type MinimalElement = {
   dataset: Record<string, string | undefined>;
   hidden: boolean;
+  open?: boolean;
   querySelector(selector: string): MinimalElement | null;
   replaceChildren(...nodes: unknown[]): void;
   setAttribute(name: string, value: string): void;
@@ -141,4 +142,95 @@ export async function copyToClipboard(options: {
     );
     return false;
   }
+}
+
+export function createSavedEmojiController(options: {
+  applyPixelArtworkClass: () => (element: MinimalElement, emojiKey: string) => void;
+  byId: () => Record<string, { shortName?: string }>;
+  copiedEmojiKeys: () => string[];
+  currentEmojiKey: () => string;
+  favoriteEmojiKeys: () => string[];
+  savePreference: (key: string, value: string[]) => void;
+  savedDialog: () => MinimalElement | undefined;
+  searchAnnotations: () => Record<string, string[]>;
+  setCopiedEmojiKeys: (keys: string[]) => void;
+  setFavoriteEmojiKeys: (keys: string[]) => void;
+  translate: (key: string, fallback: string) => string;
+  emojiByKey: () => Record<string, string>;
+}) {
+  function updateFavoriteButton() {
+    updateFavoriteToggleButton(
+      options.savedDialog()?.querySelector('.toggle-favorite') ?? null,
+      {
+        favoriteEmojiKeys: options.favoriteEmojiKeys(),
+        currentEmojiKey: options.currentEmojiKey(),
+        translate: options.translate
+      }
+    );
+  }
+
+  function renderList(
+    container: MinimalElement | null,
+    empty: MinimalElement | null,
+    keys: string[],
+    source: string
+  ) {
+    if (!container || !empty) return;
+    renderSavedEmojiList({
+      container,
+      empty,
+      keys,
+      source,
+      emojiByKey: options.emojiByKey(),
+      searchAnnotations: options.searchAnnotations(),
+      byId: options.byId(),
+      applyPixelArtworkClass: options.applyPixelArtworkClass()
+    });
+  }
+
+  function renderSavedEmoji() {
+    const dialog = options.savedDialog();
+    if (!dialog) return;
+    renderList(
+      dialog.querySelector('.favorites-list'),
+      dialog.querySelector('.favorites-empty'),
+      options.favoriteEmojiKeys(),
+      'favorites'
+    );
+    renderList(
+      dialog.querySelector('.copied-list'),
+      dialog.querySelector('.copied-empty'),
+      options.copiedEmojiKeys(),
+      'copied'
+    );
+  }
+
+  function toggleFavorite(key: string) {
+    if (!key) return;
+    const keys = nextFavoriteEmojiKeys(options.favoriteEmojiKeys(), key);
+    options.setFavoriteEmojiKeys(keys);
+    options.savePreference('favorites', keys);
+    updateFavoriteButton();
+    if (options.savedDialog()?.open) renderSavedEmoji();
+  }
+
+  function addFavorite(key: string) {
+    if (!key || options.favoriteEmojiKeys().includes(key)) return;
+    toggleFavorite(key);
+  }
+
+  function recordCopiedEmoji(key: string) {
+    const keys = nextCopiedEmojiKeys(options.copiedEmojiKeys(), key);
+    options.setCopiedEmojiKeys(keys);
+    options.savePreference('recentCopied', keys);
+  }
+
+  return {
+    addFavorite,
+    recordCopiedEmoji,
+    renderList,
+    renderSavedEmoji,
+    toggleFavorite,
+    updateFavoriteButton
+  };
 }

@@ -24,8 +24,8 @@ const legacyLineBudgets: Record<string, number> = {
   'pixel-font/scripts/build-assets.mjs': 963,
   'pixel-font/scripts/generate-atlases.mjs': 382,
   'pixel-font/scripts/validate-atlases.mjs': 356,
-  'tests/unit.test.mts': 2236,
-  'src/index.ts': 1949
+  'tests/unit.test.mts': 2234,
+  'src/index.ts': 1744
 };
 const legacyFileCountBudgets: Record<string, number> = {
   '.': 24,
@@ -42,7 +42,7 @@ const legacyFileCountBudgets: Record<string, number> = {
   versions: 18
 };
 const legacyDirectoryCountBudgets: Record<string, number> = {
-  '.': 12,
+  '.': 8,
   'pixel-font/atlases': 11
 };
 const generatedStructurePrefixes = ['dist/', 'explorer/', 'library/'];
@@ -63,7 +63,17 @@ const generatedFilenamePrefixes = [
 const gitFiles = () =>
   execFileSync(
     'git',
-    ['ls-files', '--cached', '--others', '--exclude-standard', '-z'],
+    [
+      'ls-files',
+      '--cached',
+      '--others',
+      '--exclude-standard',
+      '-z',
+      '--',
+      '.',
+      ...generatedStructurePrefixes.map(prefix => `:(exclude)${prefix}**`),
+      ...generatedFilenamePrefixes.map(prefix => `:(exclude)${prefix}**`)
+    ],
     { cwd: root }
   )
     .toString()
