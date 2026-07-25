@@ -111,7 +111,7 @@ const publishWithTar = async destination => {
 const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 if (!skipBuild) {
   run(npm, ['run', 'bundle']);
-  run(npm, ['run', 'pixel-font:build', '--', '--fonts-only']);
+  run(npm, ['run', 'pixel-font:build', '--', '--fonts-only', '--optimize']);
 }
 
 const forbiddenOutputs = new Set([

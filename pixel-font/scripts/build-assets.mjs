@@ -27,16 +27,18 @@ const svgDirectory = path.join(buildDirectory, "svg");
 const fontDirectory = path.join(buildDirectory, "font");
 const proposedFontDirectory = path.join(fontDirectory, "proposed");
 const fontsOnly = process.argv.includes("--fonts-only");
+const optimize = process.argv.includes("--optimize");
 const buildFingerprint = await getFontBuildFingerprint({ root, workspace });
 if (
   await canReuseFontBuild({
     buildDirectory,
     fingerprint: buildFingerprint,
     fontsOnly,
+    optimize,
   })
 ) {
   console.log(
-    `Pixel font sources are unchanged; reused existing ${fontsOnly ? "font-only" : "full"} build.`,
+    `Pixel font sources are unchanged; reused existing ${fontsOnly ? "font-only" : "full"} ${optimize ? "optimized " : ""}build.`,
   );
   process.exit(0);
 }
@@ -169,7 +171,7 @@ for (const glyph of glyphs) {
   editorGlyphs[glyph.key].privateUseCodePoint = glyph.privateUseCodePoint;
 }
 
-const componentAnalysis = analyzeColorMasks(glyphs);
+const componentAnalysis = analyzeColorMasks(glyphs, optimize);
 const releasedGlyphs = glyphs.filter(
   (glyph) => glyph.releaseStatus !== "proposed",
 );
@@ -333,12 +335,14 @@ await run(python, [
   path.join(workspace, "scripts", "compile-font.py"),
   path.join(buildDirectory, "font-source.json"),
   fontDirectory,
+  ...(optimize ? ["--optimize"] : []),
 ]);
 if (proposedGlyphs.length > 0) {
   await run(python, [
     path.join(workspace, "scripts", "compile-font.py"),
     path.join(buildDirectory, "proposed-font-source.json"),
     proposedFontDirectory,
+    ...(optimize ? ["--optimize"] : []),
   ]);
 }
 await writeFontStylesheet();
@@ -368,11 +372,12 @@ await writeFontBuildState({
   buildDirectory,
   fingerprint: buildFingerprint,
   fontsOnly,
+  optimize,
 });
 
 console.log(
   `Built ${glyphs.length.toLocaleString()} painted glyph${glyphs.length === 1 ? "" : "s"}${fontsOnly ? " in fonts-only mode" : ""} ` +
-    `from ${manifest.sheets.length} atlases.`,
+    `${optimize ? "with optimization " : "without optimization "}from ${manifest.sheets.length} atlases.`,
 );
 
 async function writeFontStylesheet() {
@@ -711,7 +716,7 @@ function coverageEntry(version, keys, paintedKeys) {
   };
 }
 
-function analyzeColorMasks(entries) {
+function analyzeColorMasks(entries, optimizeMasks = false) {
   let colorLayerCount = 0;
   let silhouetteGlyphCount = 0;
   let specs = new Map();
@@ -734,41 +739,43 @@ function analyzeColorMasks(entries) {
   }
 
   let maskCount = uniqueLayerMasks(entries, specs).size;
-  for (const [silhouette, group] of [...silhouetteGroups].sort(
-    ([left], [right]) => left.localeCompare(right),
-  )) {
-    if (group.length < 2) continue;
-    const candidate = new Map(specs);
-    let changed = false;
-    for (const entry of group) {
-      const colors = colorCounts(entry.pixels);
-      const allVisiblePixelsOpaque = [...colors.keys()].every(
-        (color) => Number(color.split(",")[3]) === 255,
-      );
-      if (!colors.size || !allVisiblePixelsOpaque) continue;
-      const baseColor = [...colors].sort(
-        ([leftColor, leftCount], [rightColor, rightCount]) =>
-          rightCount - leftCount ||
-          compareSerializedColors(leftColor, rightColor),
-      )[0][0];
-      candidate.set(entry.key, [
-        { color: baseColor, useSilhouette: true },
-        ...[...colors.keys()]
-          .filter((color) => color !== baseColor)
-          .map((color) => ({ color, useSilhouette: false })),
-      ]);
-      changed = true;
-    }
-    if (!changed) continue;
-    const candidateMaskCount = uniqueLayerMasks(entries, candidate).size;
-    if (candidateMaskCount < maskCount) {
-      specs = candidate;
-      maskCount = candidateMaskCount;
+  if (optimizeMasks) {
+    for (const [silhouette, group] of [...silhouetteGroups].sort(
+      ([left], [right]) => left.localeCompare(right),
+    )) {
+      if (group.length < 2) continue;
+      const candidate = new Map(specs);
+      let changed = false;
+      for (const entry of group) {
+        const colors = colorCounts(entry.pixels);
+        const allVisiblePixelsOpaque = [...colors.keys()].every(
+          (color) => Number(color.split(",")[3]) === 255,
+        );
+        if (!colors.size || !allVisiblePixelsOpaque) continue;
+        const baseColor = [...colors].sort(
+          ([leftColor, leftCount], [rightColor, rightCount]) =>
+            rightCount - leftCount ||
+            compareSerializedColors(leftColor, rightColor),
+        )[0][0];
+        candidate.set(entry.key, [
+          { color: baseColor, useSilhouette: true },
+          ...[...colors.keys()]
+            .filter((color) => color !== baseColor)
+            .map((color) => ({ color, useSilhouette: false })),
+        ]);
+        changed = true;
+      }
+      if (!changed) continue;
+      const candidateMaskCount = uniqueLayerMasks(entries, candidate).size;
+      if (candidateMaskCount < maskCount) {
+        specs = candidate;
+        maskCount = candidateMaskCount;
+      }
     }
   }
 
   const sourceMasks = uniqueLayerMasks(entries, specs);
-  const maskDecompositions = exactMaskUnions(sourceMasks);
+  const maskDecompositions = optimizeMasks ? exactMaskUnions(sourceMasks) : new Map();
   const masks = new Set();
   let renderedLayerCount = 0;
   let composedLayerCount = 0;
@@ -791,11 +798,15 @@ function analyzeColorMasks(entries) {
       baseMasks.set(key, (baseMasks.get(key) ?? 0) + 1);
     }
   }
-  const sharedFallbackCompositeCount = [...silhouetteGroups.values()]
-    .filter((group) => group.length > 1)
-    .reduce((total, group) => total + group.length, 0);
+  const sharedFallbackCompositeCount = optimizeMasks
+    ? [...silhouetteGroups.values()]
+        .filter((group) => group.length > 1)
+        .reduce((total, group) => total + group.length, 0)
+    : 0;
   return {
-    strategy: "shared-base-color-and-composed-masks",
+    strategy: optimizeMasks
+      ? "shared-base-color-and-composed-masks"
+      : "direct-color-layers",
     silhouetteGlyphCount,
     colorLayerCount,
     renderedLayerCount,

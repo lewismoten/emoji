@@ -479,12 +479,12 @@ assert.match(
 );
 assert.match(
   pixelFontBuildScript,
-  /getFontBuildFingerprint[\s\S]*canReuseFontBuild[\s\S]*process\.exit\(0\)[\s\S]*writeFontBuildState/,
+  /process\.argv\.includes\("--optimize"\)[\s\S]*getFontBuildFingerprint[\s\S]*canReuseFontBuild[\s\S]*process\.exit\(0\)[\s\S]*writeFontBuildState/,
   'unchanged pixel-font sources must reuse existing build outputs before recompiling'
 );
 assert.match(
   pixelFontBuildCache,
-  /config\.json[\s\S]*atlases[\s\S]*scripts[\s\S]*font-sequences\.test\.py[\s\S]*versions[\s\S]*state\.fingerprint !== fingerprint/,
+  /config\.json[\s\S]*atlases[\s\S]*scripts[\s\S]*font-sequences\.test\.py[\s\S]*versions[\s\S]*state\.fingerprint !== fingerprint[\s\S]*state\.mode !== "full"[\s\S]*state\.optimize\) !== Boolean\(optimize\)/,
   'pixel-font build reuse must include atlas, generator, validation, and Unicode-version inputs'
 );
 assert.match(
@@ -494,8 +494,8 @@ assert.match(
 );
 assert.match(
   pagesWorkflow,
-  /npm run pixel-font:build -- --fonts-only/,
-  'GitHub Pages deployment must build fonts without individual PNG and SVG glyphs'
+  /npm run pixel-font:build -- --fonts-only --optimize/,
+  'GitHub Pages deployment must build optimized fonts without individual PNG and SVG glyphs'
 );
 assert.match(
   pagesWorkflow,
@@ -504,8 +504,8 @@ assert.match(
 );
 assert.match(
   websitePublisher,
-  /https:\/\/emoji\.lewismoten\.com\/[\s\S]*npm[\s\S]*bundle[\s\S]*pixel-font:build[\s\S]*--fonts-only[\s\S]*generate-demo-pages[\s\S]*generate-service-worker[\s\S]*validate-pages-site/,
-  'the custom-domain website builder must compile and validate the Explorer and fonts'
+  /https:\/\/emoji\.lewismoten\.com\/[\s\S]*npm[\s\S]*bundle[\s\S]*pixel-font:build[\s\S]*--fonts-only[\s\S]*--optimize[\s\S]*generate-demo-pages[\s\S]*generate-service-worker[\s\S]*validate-pages-site/,
+  'the custom-domain website builder must compile optimized fonts and validate the Explorer'
 );
 assert.match(
   websitePublisher,

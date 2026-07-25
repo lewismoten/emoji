@@ -30,6 +30,7 @@ export async function canReuseFontBuild({
   buildDirectory,
   fingerprint,
   fontsOnly,
+  optimize,
 }) {
   try {
     const state = JSON.parse(
@@ -37,6 +38,7 @@ export async function canReuseFontBuild({
     );
     if (state.fingerprint !== fingerprint) return false;
     if (!fontsOnly && state.mode !== "full") return false;
+    if (Boolean(state.optimize) !== Boolean(optimize)) return false;
     const requiredFiles = [
       "manifest.json",
       "explorer-manifest.json",
@@ -62,12 +64,14 @@ export async function writeFontBuildState({
   buildDirectory,
   fingerprint,
   fontsOnly,
+  optimize,
 }) {
   await fs.writeFile(
     path.join(buildDirectory, buildStateFile),
     `${JSON.stringify({
       fingerprint,
       mode: fontsOnly ? "fonts-only" : "full",
+      optimize: Boolean(optimize),
     })}\n`,
   );
 }

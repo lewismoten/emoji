@@ -46,7 +46,7 @@ jobs:
       - name: Build pixel font
         run: |
           python -m pip install -r pixel-font/requirements.txt
-          npm run pixel-font:build -- --fonts-only
+          npm run pixel-font:build -- --fonts-only --optimize
 
       - name: Assemble Pages site
         run: npm run website:build -- --skip-build --url https://lewismoten.github.io/emoji/ --output _site

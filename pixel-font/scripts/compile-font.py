@@ -17,6 +17,7 @@ UNITS_PER_EM = 960
 def main():
     source_path = Path(sys.argv[1])
     output_directory = Path(sys.argv[2])
+    optimize = "--optimize" in sys.argv[3:]
     source = json.loads(source_path.read_text())
     output_directory.mkdir(parents=True, exist_ok=True)
 
@@ -97,7 +98,14 @@ def main():
     glyph_order = [".notdef"]
     color_layer_count = 0
 
-    layer_specs = optimized_layer_specs(glyph_sources)
+    layer_specs = (
+        optimized_layer_specs(glyph_sources)
+        if optimize
+        else {
+            glyph["key"]: [(color, False) for color in glyph_colors(glyph)]
+            for glyph in glyph_sources
+        }
+    )
     source_mask_keys = []
 
     for glyph_source in glyph_sources:
@@ -109,7 +117,9 @@ def main():
             )
             source_mask_keys.append(key)
 
-    mask_decompositions = exact_mask_unions(set(source_mask_keys))
+    mask_decompositions = (
+        exact_mask_unions(set(source_mask_keys)) if optimize else {}
+    )
     rendered_mask_keys = sorted(
         {
             rendered_key
@@ -131,21 +141,22 @@ def main():
         glyphs[name] = mask_glyph(key, cell_size, pixel_size, ascender)
         glyph_order.append(name)
 
-    silhouette_counts = {}
-    for glyph_source in glyph_sources:
-        key = silhouette_mask_key(glyph_source["pixels"])
-        silhouette_counts[key] = silhouette_counts.get(key, 0) + 1
     shared_silhouette_names = {}
-    for key, count in sorted(silhouette_counts.items()):
-        if count < 2:
-            continue
-        if key in mask_names:
-            shared_silhouette_names[key] = mask_names[key]
-            continue
-        name = f"fallback.{len(shared_silhouette_names):04d}"
-        shared_silhouette_names[key] = name
-        glyphs[name] = mask_glyph(key, cell_size, pixel_size, ascender)
-        glyph_order.append(name)
+    if optimize:
+        silhouette_counts = {}
+        for glyph_source in glyph_sources:
+            key = silhouette_mask_key(glyph_source["pixels"])
+            silhouette_counts[key] = silhouette_counts.get(key, 0) + 1
+        for key, count in sorted(silhouette_counts.items()):
+            if count < 2:
+                continue
+            if key in mask_names:
+                shared_silhouette_names[key] = mask_names[key]
+                continue
+            name = f"fallback.{len(shared_silhouette_names):04d}"
+            shared_silhouette_names[key] = name
+            glyphs[name] = mask_glyph(key, cell_size, pixel_size, ascender)
+            glyph_order.append(name)
 
     for glyph_source in glyph_sources:
         base_name = base_names[glyph_source["key"]]
@@ -252,7 +263,7 @@ def main():
     print(
         f"Compiled {len(glyph_sources):,} glyphs with {color_layer_count:,} source color layers "
         f"using {len(mask_names):,} rendered pixel masks "
-        f"({len(mask_decompositions):,} composed from existing parts); "
+        f"({len(mask_decompositions):,} composed from existing parts){' with optimization' if optimize else ' without optimization'}; "
         f"{len(silhouette_keys):,} monochrome silhouette "
         f"{'glyph' if len(silhouette_keys) == 1 else 'glyphs'}."
     )
