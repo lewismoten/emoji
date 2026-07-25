@@ -10,6 +10,7 @@ import { closePanelDialog, getOpenPanel, getPanelDialog, installApp as installWe
 import { renderSearchLanguages as renderSearchLanguagesHelper, selectLanguageLink as selectLanguageLinkHelper, setSearchLanguage as setSearchLanguageHelper } from './explorer/language-picker.js';
 import { applyBasicUrlStateToControls, applyExclusiveCheckboxSelection, applyLoadedUrlStateToControls, resetFilterControls, stepVersionIndex } from './explorer/filter-controls.js';
 import { closeFilterPicker as closeFilterPickerHelper, displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper, focusCompactChoice as focusCompactChoiceHelper, makeCompactChoice as makeCompactChoiceHelper, onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper, openFilterPicker as openFilterPickerHelper, populateGroupFilter as populateGroupFilterHelper, populateSequenceTypeFilter as populateSequenceTypeFilterHelper, populateSubGroupFilter as populateSubGroupFilterHelper, renderFilterPickerTrigger as renderFilterPickerTriggerHelper } from './explorer/filter-picker.js';
+import { getVersionKeys as getVersionKeysHelper, renderCategoryFilterLayout, syncVersionRange as syncVersionRangeHelper, updateAvailableCategories as updateAvailableCategoriesHelper, updateModifierAvailability as updateModifierAvailabilityHelper, versionSliderLabel as versionSliderLabelHelper } from './explorer/category-version.js';
 import { resolveCompositionParentLabel, resolveEmojiDialogDisplay, resolveDialogNavigationState } from './explorer/dialog-state.js';
 import { resolveRenderingDiagnostic } from './explorer/rendering-diagnostic.js';
 import { renderEmojiComposition } from './explorer/emoji-composition.js';
@@ -1721,32 +1722,18 @@ function populateVersionSelector() {
     syncVersionRange();
 }
 function versionSliderLabel(version) {
-    const proposed = proposedVersionManifests.find(item => item.version === version);
-    if (!proposed)
-        return `Emoji ${version}`;
-    return `✨ Emoji ${version} ${proposed.stage ?? proposed.status ?? 'draft'}`;
+    return versionSliderLabelHelper(version, proposedVersionManifests);
 }
 function syncVersionRange() {
-    if (!versionRange || !versionRangeValue)
-        return;
-    versionSelector.closest('.filter-field')?.classList.add('has-version-slider');
-    const options = Array.from(versionSelector.options);
-    const selectedIndex = Math.max(0, options.findIndex(option => option.value === versionSelector.value));
-    versionRange.max = String(Math.max(0, options.length - 1));
-    versionRange.value = String(selectedIndex);
-    versionRange.disabled = versionSelector.disabled || options.length === 0;
-    const selectedVersion = options[selectedIndex]?.value ?? '';
-    versionRangeValue.value = selectedVersion
-        ? versionSliderLabel(selectedVersion)
-        : '—';
-    versionRangeValue.classList.toggle('is-future', proposedVersionManifests.some(version => version.version === selectedVersion));
-    versionRange.setAttribute('aria-valuetext', options[selectedIndex]?.text ?? '—');
-    if (versionPrevious)
-        versionPrevious.disabled = versionRange.disabled || selectedIndex === 0;
-    if (versionNext)
-        versionNext.disabled =
-            versionRange.disabled || selectedIndex === options.length - 1;
-    updateModifierAvailability();
+    syncVersionRangeHelper({
+        proposedVersionManifests,
+        updateModifierAvailability,
+        versionNext,
+        versionPrevious,
+        versionRange,
+        versionRangeValue,
+        versionSelector
+    });
 }
 function onVersionRangeInput() {
     const option = versionSelector.options[Number(versionRange.value)];
@@ -1758,67 +1745,31 @@ function onVersionRangeInput() {
     drawList();
 }
 function updateModifierAvailability() {
-    if (versionKeys.size === 0) {
-        if (skinToneFieldset)
-            skinToneFieldset.hidden = false;
-        if (hairFieldset)
-            hairFieldset.hidden = false;
-        if (genderFieldset)
-            genderFieldset.hidden = false;
-        if (modifierFilters) {
-            modifierFilters.hidden = false;
-            modifierFilters.classList.remove('has-single');
-        }
-        return;
-    }
-    const manifests = [...versionManifests, ...proposedVersionManifests];
-    const selectedIndex = manifests.findIndex(version => version.version === versionSelector.value);
-    const skinToneIndex = manifests.findIndex(version => [...(versionKeys.get(version.version) ?? [])].some(key => key.endsWith('SkinTone')));
-    const hairKeys = new Set(['redHair', 'curlyHair', 'bald', 'whiteHair']);
-    const hairIndex = manifests.findIndex(version => [...(versionKeys.get(version.version) ?? [])].some(key => hairKeys.has(key)));
-    const genderIndex = manifests.findIndex(version => [...(versionKeys.get(version.version) ?? [])].some(key => getEmojiGenders(byId[key] ?? {}).size > 0));
-    const skinToneAvailable = selectedIndex >= skinToneIndex && skinToneIndex !== -1;
-    const hairAvailable = selectedIndex >= hairIndex && hairIndex !== -1;
-    const genderAvailable = selectedIndex >= genderIndex && genderIndex !== -1;
-    if (skinToneFieldset)
-        skinToneFieldset.hidden = !skinToneAvailable;
-    if (hairFieldset)
-        hairFieldset.hidden = !hairAvailable;
-    if (genderFieldset)
-        genderFieldset.hidden = !genderAvailable;
-    if (!skinToneAvailable)
-        skinToneCheckboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-    if (!hairAvailable)
-        hairCheckboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-    if (!genderAvailable)
-        genderCheckboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
-    if (modifierFilters) {
-        const availableCount = [
-            skinToneAvailable,
-            hairAvailable,
-            genderAvailable
-        ].filter(Boolean).length;
-        modifierFilters.hidden = availableCount === 0;
-        modifierFilters.classList.toggle('has-single', availableCount === 1);
-    }
+    updateModifierAvailabilityHelper({
+        byId,
+        genderCheckboxes,
+        genderFieldset,
+        getEmojiGenders,
+        hairCheckboxes,
+        hairFieldset,
+        modifierFilters,
+        proposedVersionManifests,
+        skinToneCheckboxes,
+        skinToneFieldset,
+        versionKeys,
+        versionManifests,
+        versionValue: versionSelector.value
+    });
 }
 function getVersionKeys() {
-    if (versionKeys.size === 0)
-        return releasedIds;
-    if (versionModeSelector.value === 'selected') {
-        return versionKeys.get(versionSelector.value) ?? new Set();
-    }
-    const manifests = [...versionManifests, ...proposedVersionManifests];
-    const selectedIndex = manifests.findIndex(version => version.version === versionSelector.value);
-    return new Set(manifests
-        .slice(0, selectedIndex + 1)
-        .flatMap(version => [...(versionKeys.get(version.version) ?? [])]));
+    return getVersionKeysHelper({
+        proposedVersionManifests,
+        releasedIds,
+        versionKeys,
+        versionManifests,
+        versionMode: versionModeSelector.value,
+        versionValue: versionSelector.value
+    });
 }
 function onGroupSelectorChange() {
     selectedGroup = groupSelector.value;
@@ -1854,15 +1805,16 @@ function renderCategoryFilters() {
     const groupField = groupSelector.closest('.filter-field');
     const subGroupField = subGroupSelector.closest('.filter-field');
     const sequenceField = sequenceTypeSelector.closest('.filter-field');
-    groupField?.classList.toggle('has-choice-buttons', Boolean(compactGroupChoices));
-    subGroupField?.classList.toggle('has-choice-buttons', Boolean(compactSubGroupChoices));
-    sequenceField?.classList.toggle('has-choice-buttons', Boolean(compactSequenceChoices));
-    if (groupField)
-        groupField.hidden = sequenceMode;
-    if (subGroupField)
-        subGroupField.hidden = sequenceMode || !selectedGroup;
-    if (sequenceField)
-        sequenceField.hidden = !sequenceMode;
+    renderCategoryFilterLayout({
+        compactGroupChoices,
+        compactSequenceChoices,
+        compactSubGroupChoices,
+        groupField,
+        selectedGroup,
+        sequenceField,
+        sequenceMode,
+        subGroupField
+    });
     populateGroupFilter();
     populateSubGroupFilter();
     populateSequenceTypeFilter();
@@ -1880,44 +1832,25 @@ function renderCategoryFilters() {
     }
 }
 function updateAvailableCategories() {
-    const includedVersionKeys = getVersionKeys();
-    availableCategoryKeys =
-        includedVersionKeys.size === 0 && versionKeys.size === 0
-            ? new Set(items.map(item => item.key))
-            : includedVersionKeys;
-    const groupNames = new Set();
-    const subgroupNames = {};
-    items.forEach(item => {
-        if (!availableCategoryKeys.has(item.key))
-            return;
-        groupNames.add(item.group);
-        if (!subgroupNames[item.group])
-            subgroupNames[item.group] = new Set();
-        subgroupNames[item.group].add(item.unicodeSubGroup);
+    const next = updateAvailableCategoriesHelper({
+        groups,
+        includedVersionKeys: getVersionKeys(),
+        items,
+        selectedGroup,
+        selectedSequenceType,
+        selectedSubGroup,
+        sequenceTypeOrder,
+        subGroupSelectionKey,
+        subGroups,
+        versionKeys
     });
-    availableGroups = groups.filter(group => groupNames.has(group));
-    availableSubGroups = Object.fromEntries(availableGroups.map(group => [
-        group,
-        subGroups[group].filter(subGroup => subgroupNames[group]?.has(subGroup))
-    ]));
-    availableSequenceTypes = sequenceTypeOrder.filter(type => items.some(item => availableCategoryKeys.has(item.key) && item.sequenceType === type));
-    if (selectedSequenceType &&
-        !availableSequenceTypes.includes(selectedSequenceType)) {
-        selectedSequenceType = '';
-    }
-    if (selectedGroup && !availableGroups.includes(selectedGroup)) {
-        selectedGroup = '';
-        selectedSubGroup = '';
-    }
-    else if (selectedSubGroup) {
-        const separatorIndex = selectedSubGroup.indexOf('::');
-        const group = separatorIndex === -1 ? '' : selectedSubGroup.slice(0, separatorIndex);
-        const subGroup = separatorIndex === -1 ? '' : selectedSubGroup.slice(separatorIndex + 2);
-        if (group !== selectedGroup ||
-            !availableSubGroups[group]?.includes(subGroup)) {
-            selectedSubGroup = '';
-        }
-    }
+    availableCategoryKeys = next.availableCategoryKeys;
+    availableGroups = next.availableGroups;
+    availableSubGroups = next.availableSubGroups;
+    availableSequenceTypes = next.availableSequenceTypes;
+    selectedGroup = next.selectedGroup;
+    selectedSequenceType = next.selectedSequenceType;
+    selectedSubGroup = next.selectedSubGroup;
 }
 function populateGroupFilter() {
     populateGroupFilterHelper({

@@ -103,6 +103,10 @@ const filterPickerHelper = await fs.readFile(
   path.join(root, 'src/explorer/filter-picker.ts'),
   'utf8'
 );
+const categoryVersionHelper = await fs.readFile(
+  path.join(root, 'src/explorer/category-version.ts'),
+  'utf8'
+);
 const pwaPanelsHelper = await fs.readFile(
   path.join(root, 'src/explorer/pwa-panels.ts'),
   'utf8'
@@ -917,8 +921,8 @@ assert.match(
   'sequence browsing must provide an initially enhanced sequence-type filter'
 );
 assert.match(
-  demoScript,
-  /groupField\.hidden = sequenceMode[\s\S]*sequenceField\.hidden = !sequenceMode/,
+  categoryVersionHelper,
+  /groupField[\s\S]*hidden = options\.sequenceMode[\s\S]*sequenceField[\s\S]*hidden = !options\.sequenceMode/,
   'sequence browsing must replace group filters with sequence types'
 );
 assert.match(
