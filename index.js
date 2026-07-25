@@ -259,36 +259,6 @@ window.addEventListener('appinstalled', () => {
     if (installAppButton)
         installAppButton.hidden = true;
 });
-async function loadUiTranslationsLegacy(locale, rtl = false) {
-    const baseLocale = locale.split('-')[0];
-    try {
-        const files = locale === baseLocale ? [baseLocale] : [baseLocale, locale];
-        const packs = await Promise.all(files.map(async (code) => {
-            const response = await fetch(`demo-locales/${code}.json`);
-            if (!response.ok)
-                throw new Error(`No demo locale for ${code}`);
-            return response.json();
-        }));
-        explorerState.uiStrings = Object.assign({}, ...packs);
-        document.documentElement.lang = locale;
-        document.documentElement.dir = rtl ? 'rtl' : 'ltr';
-    }
-    catch {
-        explorerState.uiStrings = {};
-        document.documentElement.lang = 'en';
-        document.documentElement.dir = 'ltr';
-    }
-    const applicationName = translate('title', 'Emoji Explorer');
-    document.title = `${applicationName} – Unicode Emoji`;
-    for (const name of ['application-name', 'apple-mobile-web-app-title']) {
-        const meta = document.querySelector(`meta[name="${name}"]`);
-        if (meta)
-            meta.content = applicationName;
-    }
-    applyUiTranslations();
-    renderVersionModeToggle();
-    renderSearchLanguages();
-}
 const explorerUi = createExplorerUiController({
     deferredInstallPrompt: () => deferredInstallPrompt,
     installAppButton: () => installAppButton,
