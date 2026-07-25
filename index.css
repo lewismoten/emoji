@@ -13,6 +13,7 @@
   --accent-text: var(--accent);
   --selected-control-bg: color-mix(in srgb, var(--accent-strong) 42%, var(--panel-strong) 58%);
   --selected-control-text: #fff7ff;
+  --section-header-bg: #0a0711;
   --code: #0b2637;
   --code-text: #dce9ee;
   --code-keyword: #ed9cff;
@@ -53,6 +54,7 @@ html[data-theme="light"] {
   --accent-text: #0e405d;
   --selected-control-bg: color-mix(in srgb, var(--accent) 18%, #ffffff 82%);
   --selected-control-text: #173548;
+  --section-header-bg: #f3e8da;
   --code: #e3f0f8;
   --code-text: #173548;
   --code-keyword: #8f2b73;
@@ -2539,7 +2541,7 @@ kbd {
   width: 100%;
   margin: 0;
   padding: 0.45rem 0.7rem;
-  background: #0a0711;
+  background: var(--section-header-bg);
   color: var(--text);
   font-size: 0.88rem;
   font-weight: 700;
@@ -2607,7 +2609,7 @@ kbd {
   width: 100%;
   margin: 0;
   padding: 0.45rem 0.7rem;
-  background: #0a0711;
+  background: var(--section-header-bg);
   color: var(--accent);
   font-size: 0.85rem;
   font-weight: 700;
