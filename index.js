@@ -1,6 +1,8 @@
 // @ts-nocheck -- Transitional entry point; remove as features move into typed modules.
 import { explorerLabelKeys, languageFlags, sequenceTranslationKeys, sequenceTypeEmoji, sequenceTypeLabels, sequenceTypeOrder, statusTranslationKeys, unicodeGroupLabelKeys, unicodeSubgroupLabelKeys, versionModeDefinitions } from './explorer/explorer-labels.js';
 import { getExplorerSubGroup, titleCase } from './explorer/category-rules.js';
+import { compositionReductionLabel, compositionTitle, describeCompositionPoint, findCompositionArtworkKey, findCompositionEmojiKey, isCondensedSequenceControl } from './explorer/composition-helpers.js';
+import { displayEmojiKey, formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints, normalizeDisplayName } from './explorer/emoji-format.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -3122,18 +3124,6 @@ function updateActiveFilterSummary() {
     activeFilterSummary.hidden = parts.length === 0;
     activeFilterText.textContent = parts.join(' · ');
 }
-function displayEmojiKey(key) {
-    const words = key.replace(/([a-z0-9])([A-Z])/g, '$1 $2').toLocaleLowerCase();
-    return words.charAt(0).toLocaleUpperCase() + words.slice(1);
-}
-function normalizeDisplayName(value) {
-    return value
-        .normalize('NFKC')
-        .replace(/[\p{P}\p{S}]+/gu, ' ')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .toLocaleLowerCase('en');
-}
 function updateEmojiImportExamples(item) {
     const popular = packageManifest.packs.find(pack => pack.id === 'popular');
     const allPath = packageManifest.packs.find(pack => pack.id === 'all')?.importPath ??
@@ -3274,7 +3264,7 @@ function updateEmojiComposition(item, value) {
         modeButton.hidden = true;
         return;
     }
-    const condensedParts = condenseCompositionPoints(points, item.key);
+    const condensedParts = condenseCompositionPoints(points, item.key, emojiKeyByCodePoints);
     const hasHiddenSequenceControl = points.some(component => isCondensedSequenceControl(component.point));
     const canCondense = hasHiddenSequenceControl || condensedParts.some(part => part.emojiKey);
     const displayedParts = compositionMode === 'full' || !canCondense
@@ -3328,9 +3318,7 @@ function createCondensedCompositionPart({ emojiKey, components }) {
     const part = document.createElement('button');
     const glyph = document.createElement('span');
     const code = document.createElement('span');
-    const linkedName = searchAnnotations[emojiKey]?.[0] ??
-        byId[emojiKey]?.shortName ??
-        displayEmojiKey(emojiKey);
+    const linkedName = compositionTitle(emojiKey, searchAnnotations, byId);
     const viewLabel = translate('viewEmoji', 'View emoji');
     const codePoints = components
         .map(component => `U+${component.hex}`)
@@ -3344,22 +3332,26 @@ function createCondensedCompositionPart({ emojiKey, components }) {
     glyph.textContent = emojiByKey[emojiKey];
     applyPixelArtworkClass(glyph, emojiKey);
     code.className = 'emoji-composition-code emoji-composition-code-condensed';
-    code.textContent = formatCompositionReduction(components.length, 1);
+    code.textContent = compositionReductionLabel(components.length, 1, {
+        dir: document.documentElement.dir,
+        locale: document.documentElement.lang || selectedSearchLocale || undefined,
+        numberingSystem: document.documentElement.lang?.startsWith('ar')
+            ? 'arab'
+            : undefined
+    });
     part.append(glyph, code);
     return part;
 }
 function createCompositionPart({ hex, point }, currentEmojiKey) {
-    const linkedEmojiKey = findCompositionEmojiKey(hex, currentEmojiKey);
-    const artworkEmojiKey = findCompositionArtworkKey(hex);
+    const linkedEmojiKey = findCompositionEmojiKey(hex, currentEmojiKey, emojiKeyByCodePoints);
+    const artworkEmojiKey = findCompositionArtworkKey(hex, emojiKeyByCodePoints);
     const part = document.createElement(linkedEmojiKey ? 'button' : 'span');
     const glyph = document.createElement('span');
     const code = document.createElement('span');
-    const details = describeCompositionPoint(point);
+    const details = describeCompositionPoint(point, translate);
     part.className = 'emoji-composition-part';
     if (linkedEmojiKey) {
-        const linkedName = searchAnnotations[linkedEmojiKey]?.[0] ??
-            byId[linkedEmojiKey]?.shortName ??
-            displayEmojiKey(linkedEmojiKey);
+        const linkedName = compositionTitle(linkedEmojiKey, searchAnnotations, byId);
         const viewLabel = translate('viewEmoji', 'View emoji');
         part.type = 'button';
         part.dataset.compositionEmoji = linkedEmojiKey;
@@ -3383,9 +3375,6 @@ function createCompositionPart({ hex, point }, currentEmojiKey) {
     part.append(glyph, code);
     return part;
 }
-function normalizeCodePoints(codePoints) {
-    return (codePoints ?? '').trim().replace(/\s+/g, ' ').toUpperCase();
-}
 function rebuildEmojiCodePointLookup() {
     emojiKeyByCodePoints = items.reduce((lookup, item) => {
         const codePoints = normalizeCodePoints(item.codePoints);
@@ -3398,36 +3387,11 @@ function rebuildEmojiCodePointLookup() {
 }
 function formatUiNumber(value) {
     const locale = document.documentElement.lang || selectedSearchLocale || undefined;
-    const options = locale?.startsWith('ar') ? { numberingSystem: 'arab' } : {};
-    return new Intl.NumberFormat(locale, options).format(value);
+    return formatUiNumberValue(value, locale, locale?.startsWith('ar') ? 'arab' : undefined);
 }
 function formatUiPercent(value) {
     const locale = document.documentElement.lang || selectedSearchLocale || undefined;
-    const options = locale?.startsWith('ar') ? { numberingSystem: 'arab' } : {};
-    return new Intl.NumberFormat(locale, {
-        ...options,
-        style: 'percent',
-        maximumFractionDigits: 0
-    }).format(value);
-}
-function formatCompositionReduction(from, to) {
-    return document.documentElement.dir === 'rtl'
-        ? `${formatUiNumber(to)}←${formatUiNumber(from)}`
-        : `${formatUiNumber(from)}→${formatUiNumber(to)}`;
-}
-function findCompositionEmojiKey(hex, excludedEmojiKey) {
-    const emojiKey = findCompositionArtworkKey(hex);
-    return emojiKey && emojiKey !== excludedEmojiKey ? emojiKey : undefined;
-}
-function findCompositionArtworkKey(hex) {
-    const normalized = normalizeCodePoints(hex);
-    return [
-        emojiKeyByCodePoints.get(normalized),
-        emojiKeyByCodePoints.get(`${normalized} FE0F`)
-    ].find(Boolean);
-}
-function isCondensedSequenceControl(point) {
-    return point === 0x200d || point === 0xfe0e || point === 0xfe0f;
+    return formatUiPercentValue(value, locale, locale?.startsWith('ar') ? 'arab' : undefined);
 }
 function createCompositionOperator(operator) {
     const element = document.createElement('span');
@@ -3573,65 +3537,6 @@ function updateModifierPixelArtwork() {
         const emojiKey = emojiKeyByCodePoints.get(normalizeCodePoints(checkbox.value));
         applyStandalonePixelArtwork(checkbox.closest('label')?.querySelector('.modifier-emoji'), emojiKey, point);
     });
-}
-function describeCompositionPoint(point) {
-    const special = {
-        0x200d: ['ZWJ', 'zeroWidthJoiner', 'Zero-width joiner'],
-        0xfe0e: ['VS15', 'textPresentation', 'Text presentation selector'],
-        0xfe0f: ['VS16', 'emojiPresentation', 'Emoji presentation selector'],
-        0x20e3: [
-            null,
-            'combiningKeycap',
-            'Combining keycap',
-            'keycapAbbreviation',
-            'KEY'
-        ],
-        0xe007f: [null, 'cancelTag', 'Cancel tag', 'cancelTagAbbreviation', 'END']
-    }[point];
-    if (special) {
-        const label = translate(special[1], special[2]);
-        const glyph = special[0] ?? translate(special[3], special[4]);
-        return { glyph, label, symbolic: true };
-    }
-    if (point >= 0x1f3fb && point <= 0x1f3ff) {
-        const tones = [
-            ['light', 'Light skin tone'],
-            ['mediumLight', 'Medium-light skin tone'],
-            ['medium', 'Medium skin tone'],
-            ['mediumDark', 'Medium-dark skin tone'],
-            ['dark', 'Dark skin tone']
-        ];
-        const [key, fallback] = tones[point - 0x1f3fb];
-        return {
-            glyph: String.fromCodePoint(point),
-            label: translate(key, fallback),
-            symbolic: false
-        };
-    }
-    if (point >= 0x1f1e6 && point <= 0x1f1ff) {
-        const letter = String.fromCharCode(65 + point - 0x1f1e6);
-        return {
-            glyph: String.fromCodePoint(point),
-            label: `${translate('regionalIndicator', 'Regional indicator')} ${letter}`,
-            symbolic: false
-        };
-    }
-    if (point >= 0xe0020 && point <= 0xe007e) {
-        const character = String.fromCodePoint(point - 0xe0000);
-        const visibleCharacter = character === ' ' ? '␠' : character;
-        const tagLabel = translate('tagCharacter', 'Tag character');
-        const tagAbbreviation = translate('tagAbbreviation', 'TAG');
-        return {
-            glyph: `${tagAbbreviation} ${visibleCharacter}`,
-            label: `${tagLabel} ${visibleCharacter}`,
-            symbolic: true
-        };
-    }
-    return {
-        glyph: String.fromCodePoint(point),
-        label: `U+${point.toString(16).toUpperCase()}`,
-        symbolic: false
-    };
 }
 function showEmoji(id, openDialog = true, navigationKeys) {
     var value = emojiByKey[id];

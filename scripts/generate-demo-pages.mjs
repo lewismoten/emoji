@@ -15,11 +15,11 @@ const assetVersion = packageJson.version;
 const deployedScript = fs
   .readFileSync('index.js', 'utf8')
   .replace(
-    "import('./pixel-editor.js')",
+    /import\((['"])\.\/pixel-editor\.js\1\)/,
     `import('./pixel-editor.js?v=${assetVersion}')`
   )
   .replace(
-    "'./explorer/pixel-editor.css'",
+    /(['"])\.\/explorer\/pixel-editor\.css\1/,
     `'./explorer/pixel-editor.css?v=${assetVersion}'`
   );
 const english = JSON.parse(fs.readFileSync('demo-locales/en.json', 'utf8'));
