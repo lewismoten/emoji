@@ -89,6 +89,9 @@ import {
   refreshExplorerPixelFont,
   refreshPixelFontStylesheet
 } from './pixel-font-hot-reload.js';
+import {
+  resolveDialogNavigationState,
+} from './explorer/dialog-state.js';
 
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
@@ -364,6 +367,12 @@ const {
 } = versionController;
 
 let resetFilters = () => {};
+let syncUrlState = () => {};
+let updateDialogNavigation = () => {};
+let navigateEmoji = (amount:number) => {}
+let renderVersionModeToggle = () => {};
+let setEmojiDialogView = () => {};
+let updateCompositionBackButton = () => {};
 
 const {
   drawList, //used by createExplorerNavigation
@@ -413,7 +422,7 @@ const {
   onGenderChange,
   resetFilters: resetFiltersController,
   stepVersion,
-  syncUrlState
+  syncUrlState: syncUrlStateController
 } = createExplorerNavigation({
   allowedSequenceTypes: sequenceTypeOrder,
   applyingUrlState: () => applyingUrlState,
@@ -468,10 +477,11 @@ const {
   versionSelector: () => versionSelector
 });
 resetFilters = resetFiltersController;
+syncUrlState = syncUrlStateController;
 
 const {
   focusInitialAction: focusInitialEmojiDialogAction,
-  setView: setEmojiDialogView
+  setView: setEmojiDialogViewController
 } = createEmojiDialogViewController({
   byId: () => explorerState.byId,
   currentEmojiKey: () => explorerState.currentEmojiKey,
@@ -487,7 +497,7 @@ const {
   updateCompositionBackButton,
   updateImportExamples: updateEmojiImportExamples
 });
-
+setEmojiDialogView = setEmojiDialogViewController;
 
 const onEmojiDialogClick = createEmojiDialogClickHandler({
   animateCopy: animateEmojiCopyConfirmation,
@@ -684,11 +694,11 @@ const versionModeController = createVersionModeController({
 });
 const {
   populateOptions: populateVersionModeOptions,
-  render: renderVersionModeToggle,
+  render: renderVersionModeToggleController,
   toggle: toggleVersionMode
 } = versionModeController;
 
-
+renderVersionModeToggle = renderVersionModeToggleController;
 
 
 const isViteDevelopment =
@@ -865,9 +875,12 @@ const dialogNavigation = createDialogNavigationController({
   translate
 });
 const {
-  navigate: navigateEmoji,
-  update: updateDialogNavigation,
-  updateBack: updateCompositionBackButton
+  navigate: navigateEmojiController,
+  update: updateDialogNavigationController,
+  updateBack: updateCompositionBackButtonController
 } = dialogNavigation;
+updateDialogNavigation = updateDialogNavigationController;
+navigateEmoji = navigateEmojiController;
+updateCompositionBackButton = updateCompositionBackButtonController;
 removeLegacyDialogElements();
 createExplorerApp({ window, start: onLoad }).startWhenReady();
