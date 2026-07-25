@@ -25,7 +25,7 @@ const arabicWebAppManifest = await readJson<{
   dir: string;
   start_url: string;
 }>("build/demo-pages/manifest.ar.webmanifest");
-const [demoHtml, demoScript, pwaPanelsHelper, demoStyles, arabicDemo, viteConfig] =
+const [demoHtml, demoScript, pwaPanelsHelper, demoStyles, arabicDemo, viteConfig, toolbarLayout] =
   await Promise.all([
     read("index.html"),
     read("src/index.ts"),
@@ -33,6 +33,7 @@ const [demoHtml, demoScript, pwaPanelsHelper, demoStyles, arabicDemo, viteConfig
     read("index.css"),
     read("build/demo-pages/index.ar.html"),
     read("vite.config.js"),
+    read("src/explorer/toolbar-layout.ts"),
   ]);
 
 assert.equal(
@@ -98,7 +99,7 @@ assert.match(
   "the install action must retain its trigger before awaiting the browser prompt",
 );
 assert.match(
-  demoScript,
+  toolbarLayout,
   /ResizeObserver\(\(\[entry\]\)[\s\S]*borderBoxSize[\s\S]*contentRect\.height[\s\S]*requestAnimationFrame/,
   "toolbar sizing must avoid a synchronous startup layout measurement",
 );

@@ -127,6 +127,10 @@ const searchLanguageLifecycle = await fs.readFile(
   path.join(root, 'src/explorer/search-language-lifecycle.ts'),
   'utf8'
 );
+const emojiDialogEvents = await fs.readFile(
+  path.join(root, 'src/explorer/emoji-dialog-events.ts'),
+  'utf8'
+);
 const emojiListSources = `${demoScript}\n${emojiListInteractionHelper}`;
 const utilityControlsHelper = await fs.readFile(
   path.join(root, 'src/explorer/utility-controls.ts'),
@@ -836,8 +840,8 @@ assert.match(
   'newly selected controls must provide visible state-change feedback'
 );
 assert.match(
-  demoScript,
-  /if \(button\.matches\('\.emoji-preview'\)\)[\s\S]*animateEmojiCopyConfirmation\(button\)[\s\S]*function animateEmojiCopyConfirmation[\s\S]*prefers-reduced-motion: reduce[\s\S]*emoji-copy-confirmation[\s\S]*transform: 'scale\(0\.9\)'[\s\S]*transform: 'scale\(1\.05\)'/,
+  `${emojiDialogEvents}\n${demoScript}`,
+  /if \(button\.matches\('\.emoji-preview'\)\) options\.animateCopy\(button\)[\s\S]*function animateEmojiCopyConfirmation[\s\S]*prefers-reduced-motion: reduce[\s\S]*emoji-copy-confirmation[\s\S]*transform: 'scale\(0\.9\)'[\s\S]*transform: 'scale\(1\.05\)'/,
   'successful emoji copies must provide motion-aware visual confirmation'
 );
 assert.match(
