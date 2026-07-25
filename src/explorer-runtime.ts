@@ -26,5 +26,10 @@ export function createExplorerRuntime(options: {
     return elements?.[name];
   }
 
-  return { get, resolveElements };
+  function all() {
+    if (!elements) throw new Error('Explorer runtime has not been initialized');
+    return elements;
+  }
+
+  return { all, get, resolveElements };
 }
