@@ -2426,19 +2426,27 @@ kbd {
   direction: ltr;
   text-align: left;
   unicode-bidi: isolate;
-  overflow-x: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding: 0.6rem 0.75rem;
   background: var(--code);
   color: var(--code-text);
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   font-size: clamp(0.73rem, 2vw, 0.88rem);
   line-height: 1.55;
-  white-space: pre-wrap;
+  white-space: pre;
+  tab-size: 4;
 }
 
 .code .line {
   display: block;
-  overflow-wrap: anywhere;
+  min-width: max-content;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.code-space {
+  display: inline-block;
+  width: 0.6ch;
 }
 .code .line[hidden] {
   display: none;
