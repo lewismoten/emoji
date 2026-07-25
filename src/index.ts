@@ -363,6 +363,8 @@ const {
   versionSliderLabel
 } = versionController;
 
+let resetFilters = () => {};
+
 const {
   drawList, //used by createExplorerNavigation
   onEmojiFocus,
@@ -386,7 +388,7 @@ const {
   nextRenderGeneration: () => ++listRenderGeneration,
   onClick,
   renderGeneration: () => listRenderGeneration,
-  resetFilters,
+  resetFilters: () => resetFilters(),
   revealExplorer,
   searchText: () => searchText,
   sequenceTranslationKeys,
@@ -409,7 +411,7 @@ const {
   applyLoadedUrlState,
   onDocumentKeyDown,
   onGenderChange,
-  resetFilters,//used by createListOrchestration
+  resetFilters: resetFiltersController,
   stepVersion,
   syncUrlState
 } = createExplorerNavigation({
@@ -465,6 +467,7 @@ const {
   versionRange: () => versionRange,
   versionSelector: () => versionSelector
 });
+resetFilters = resetFiltersController;
 
 const {
   focusInitialAction: focusInitialEmojiDialogAction,
