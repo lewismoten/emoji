@@ -102,8 +102,17 @@ const structureProblems: string[] = [];
 const measuredFiles = projectFiles.filter(file =>
   /\.(?:js|jsx|mjs|cjs|ts|tsx|mts|cts|css|md|mdx)$/i.test(file)
 );
+
+const countLines = (text: string) => {
+  let lines = 1;
+  for (let index = 0; index < text.length; index += 1) {
+    if (text.charCodeAt(index) === 10) lines += 1;
+  }
+  return lines;
+};
+
 for (const file of measuredFiles) {
-  const lines = readFileSync(path.join(root, file), 'utf8').split(/\r?\n/).length;
+  const lines = countLines(readFileSync(path.join(root, file), 'utf8'));
   const budget =
     legacyLineBudgets[file] ?? structureLimits.linesPerScriptOrStylesheet;
   if (lines > budget) {

@@ -990,8 +990,8 @@ assert.match(
   'Arabic UI numbers must use Arabic-Indic digits'
 );
 assert.match(
-  demoScript,
-  /dir === 'rtl'[\s\S]*formatUiNumber\(to\)}←\$\{formatUiNumber\(from\)/,
+  emojiFormatHelper,
+  /options\.dir === 'rtl'[\s\S]*\? `\$\{toLabel\}\\u2190\$\{fromLabel\}`/,
   'RTL composition reductions must begin at the right and point left'
 );
 assert.match(
@@ -1015,8 +1015,8 @@ assert.match(
   'emoji details must compare system and Pixel Emoji rendering'
 );
 assert.match(
-  demoScript,
-  /function updateRenderingDiagnostic[\s\S]*systemEmojiAppearsSplit[\s\S]*systemRenderingSplit/,
+  renderingDiagnosticHelper,
+  /systemEmojiAppearsSplit[\s\S]*systemRenderingSplit/,
   'emoji details must report split system sequences'
 );
 assert.match(
@@ -1155,8 +1155,8 @@ assert.match(
   'Developer mode must support shared URL activation and persist explicit selection'
 );
 assert.match(
-  demoScript,
-  /if \(developerModeEnabled\(\)\) params\.set\('developer', '1'\)[\s\S]*params\.set\('emojiMode', 'editor'\)/,
+  urlStateHelper,
+  /if \(options\.developerMode\)[\s\S]*params\.set\('developer', '1'\)[\s\S]*if \(options\.emojiMode === 'editor'\) params\.set\('emojiMode', 'editor'\)/,
   'shared developer-only dialog URLs must preserve Developer mode'
 );
 assert.match(
@@ -1170,8 +1170,8 @@ assert.match(
   'turning Developer mode off must override and clean older URL history entries'
 );
 assert.match(
-  demoScript,
-  /version:\s*developerModeEnabled\(\)[\s\S]*versionMode:[\s\S]*developerModeEnabled\(\)[\s\S]*if \(developerModeEnabled\(\)\) \{[\s\S]*params\.set\('version'/,
+  urlStateHelper,
+  /version:\s*options\.developerMode[\s\S]*versionMode:[\s\S]*options\.developerMode[\s\S]*if \(options\.developerMode\) \{[\s\S]*params\.set\('version'/,
   'version-specific URL state must remain visible through Developer mode'
 );
 assert.match(
@@ -1310,7 +1310,7 @@ assert.match(
   'saved emoji must retain their own dialog navigation context'
 );
 assert.match(
-  demoScript,
+  urlStateHelper,
   /\['favorites', 'help', 'language'\]\.includes/,
   'utility dialogs must support direct URL panel state'
 );
@@ -1596,8 +1596,8 @@ assert.match(
   'pixel atlas row and column numbers must use the active locale'
 );
 assert.match(
-  demoScript,
-  /function formatUiPercent[\s\S]*numberingSystem: 'arab'[\s\S]*style: 'percent'/,
+  emojiFormatHelper,
+  /export function formatUiPercent[\s\S]*numberingSystem\?: string[\s\S]*style: 'percent'/,
   'Arabic percentages must use Arabic digits and percent formatting'
 );
 assert.match(
