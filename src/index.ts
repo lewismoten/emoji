@@ -200,16 +200,6 @@ async function refreshExplorerPixelFont(revision) {
 
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
-// Temporary catalog compatibility bindings; remaining consumers migrate next.
-var items = explorerState.items;
-var groups = explorerState.groups;
-var subGroups = explorerState.subGroups;
-var emojiByKey = explorerState.emojiByKey;
-var allIds = explorerState.allIds;
-var releasedIds = explorerState.releasedIds;
-var groupedKeys = explorerState.groupedKeys;
-var byId = explorerState.byId;
-var emojiKeyByCodePoints = explorerState.emojiKeyByCodePoints;
 
 var searchText;
 var languagePicker;
@@ -633,7 +623,7 @@ async function onLoad() {
 function finishExplorerLoading() {
   finishExplorerLoadingHelper({
     applyPixelArtworkClass,
-    emojiByKey,
+    emojiByKey: explorerState.emojiByKey,
     emojiList,
     matchCount,
     revealExplorer
@@ -654,7 +644,7 @@ function upgradeEmojiDialog() {
 const loadPixelEditor = createPixelEditorLoader({
   currentEmojiKey: () => explorerState.currentEmojiKey,
   dialog: () => exampleDialog,
-  emojiByKey: () => emojiByKey,
+  emojiByKey: () => explorerState.emojiByKey,
   formatNumber: formatUiNumber,
   formatPercent: formatUiPercent,
   getEditor: () => pixelEditor,
@@ -679,11 +669,11 @@ const {
   focusInitialAction: focusInitialEmojiDialogAction,
   setView: setEmojiDialogView
 } = createEmojiDialogViewController({
-  byId: () => byId,
+  byId: () => explorerState.byId,
   currentEmojiKey: () => explorerState.currentEmojiKey,
   developerModeEnabled,
   dialog: () => exampleDialog,
-  emojiByKey: () => emojiByKey,
+  emojiByKey: () => explorerState.emojiByKey,
   emojiParent: () => emojiParent,
   ensurePixelEditor,
   getPixelEditor: () => pixelEditor,
@@ -757,13 +747,13 @@ const explorerNavigation = createExplorerNavigation({
   dialog: () => exampleDialog,
   currentEmojiKey: () => explorerState.currentEmojiKey,
   drawList,
-  emojiByKey: () => emojiByKey,
+  emojiByKey: () => explorerState.emojiByKey,
   genderCheckboxes: () => genderCheckboxes,
   getOrderMode: () => explorerState.orderMode,
   getSelectedGroup: () => explorerState.selectedGroup,
   getSelectedSequenceType: () => explorerState.selectedSequenceType,
   getSelectedSubGroup: () => explorerState.selectedSubGroup,
-  groups: () => groups,
+  groups: () => explorerState.groups,
   hairCheckboxes: () => hairCheckboxes,
   helpDialog: () => helpDialog,
   languageList: () => languageList,
@@ -789,7 +779,7 @@ const explorerNavigation = createExplorerNavigation({
   },
   skinToneCheckboxes: () => skinToneCheckboxes,
   subGroupSelectionKey,
-  subGroups: () => subGroups,
+  subGroups: () => explorerState.subGroups,
   suppressedPanelCloses: () => suppressedPanelCloses,
   syncVersionRange,
   urlStateReady: () => urlStateReady,
@@ -850,7 +840,6 @@ async function loadData() {
     updatePixelArtworkManifest
   });
   Object.assign(explorerState, catalog);
-  ({ allIds, byId, emojiByKey, groupedKeys, groups, items, releasedIds, subGroups } = catalog);
   rebuildEmojiCodePointLookup();
   updateModifierPixelArtwork();
   buildCategoryRepresentatives();
@@ -994,7 +983,7 @@ function onVersionRangeInput() {
 
 function updateModifierAvailability() {
   updateModifierAvailabilityHelper({
-    byId,
+    byId: explorerState.byId,
     genderCheckboxes,
     genderFieldset,
     getEmojiGenders,
@@ -1013,7 +1002,7 @@ function updateModifierAvailability() {
 function getVersionKeys() {
   return getVersionKeysHelper({
     proposedVersionManifests,
-    releasedIds,
+    releasedIds: explorerState.releasedIds,
     versionKeys,
     versionManifests,
     versionMode: versionModeSelector.value,
@@ -1063,8 +1052,8 @@ const categoryFilterRenderer = createCategoryFilterRenderer({
   groupFilterDialog: () => groupFilterDialog,
   groupPickerTrigger: () => groupPickerTrigger,
   groupSelector: () => groupSelector,
-  groups: () => groups,
-  items: () => items,
+  groups: () => explorerState.groups,
+  items: () => explorerState.items,
   selectedGroup: () => explorerState.selectedGroup,
   selectedSequenceType: () => explorerState.selectedSequenceType,
   selectedSubGroup: () => explorerState.selectedSubGroup,
@@ -1084,7 +1073,7 @@ const categoryFilterRenderer = createCategoryFilterRenderer({
   subGroupPickerTrigger: () => subGroupPickerTrigger,
   subGroupSelectionKey,
   subGroupSelector: () => subGroupSelector,
-  subGroups: () => subGroups,
+  subGroups: () => explorerState.subGroups,
   translate,
   versionKeys: () => versionKeys
 });
@@ -1190,36 +1179,37 @@ const {
   orderedKeys
 } = createEmojiListRenderers({
   applyPixelArtworkClass,
-  byId: () => byId,
+  byId: () => explorerState.byId,
   displayExplorerLabel,
   displayGroupName,
   displayUnicodeSubGroupName,
-  emojiByKey: () => emojiByKey,
+  emojiByKey: () => explorerState.emojiByKey,
   focusedEmojiKey: () => explorerState.focusedEmojiKey,
   getIntroducedVersion,
-  groups: () => groups,
+  groups: () => explorerState.groups,
   orderMode: () => explorerState.orderMode,
   searchAnnotations: () => searchAnnotations,
   sequenceTranslationKeys,
   sequenceTypeLabels,
   sequenceTypeOrder,
-  subGroups: () => subGroups,
+  subGroups: () => explorerState.subGroups,
   translate,
   unassigned: UNASSIGNED
 });
 
-const getEmojiGenders = item => getEmojiGendersHelper(item, emojiByKey);
+const getEmojiGenders = item =>
+  getEmojiGendersHelper(item, explorerState.emojiByKey);
 
 const listController = createListController({
-  allIds: () => allIds,
-  byId: () => byId,
-  emojiByKey: () => emojiByKey,
+  allIds: () => explorerState.allIds,
+  byId: () => explorerState.byId,
+  emojiByKey: () => explorerState.emojiByKey,
   focusedEmojiKey: () => explorerState.focusedEmojiKey,
   formatNumber: formatUiNumber,
   genderCheckboxes: () => genderCheckboxes,
   getVersionKeys,
   hairCheckboxes: () => hairCheckboxes,
-  items: () => items,
+  items: () => explorerState.items,
   matchCount: () => matchCount,
   nextRenderGeneration: () => ++listRenderGeneration,
   orderMode: () => explorerState.orderMode,
@@ -1361,7 +1351,7 @@ function getIntroducedVersion(key) {
 function onClick(e, openDialog = true) {
   const cell = e.target.closest?.('[data-emoji-key]');
   var id = cell?.id ?? e.target.id;
-  var value = emojiByKey[id];
+  var value = explorerState.emojiByKey[id];
   if (value === undefined) return;
   cell?.focus();
   showEmoji(id, openDialog);
@@ -1381,15 +1371,15 @@ function updateEmojiComposition(item, value) {
   updateEmojiCompositionHelper({
     applyPixelArtworkClass,
     applyStandalonePixelArtwork,
-    byId,
+    byId: explorerState.byId,
     compositionMode: explorerState.compositionMode,
     developerMode: developerModeEnabled(),
     detailsVisible:
       !exampleDialog.classList.contains('is-code-view') &&
       !exampleDialog.classList.contains('is-editor-view'),
     dir: document.documentElement.dir,
-    emojiByKey,
-    emojiKeyByCodePoints,
+    emojiByKey: explorerState.emojiByKey,
+    emojiKeyByCodePoints: explorerState.emojiKeyByCodePoints,
     exampleDialog,
     item,
     locale: document.documentElement.lang || selectedSearchLocale || undefined,
@@ -1403,7 +1393,7 @@ function updateEmojiComposition(item, value) {
 }
 
 function rebuildEmojiCodePointLookup() {
-  emojiKeyByCodePoints = items.reduce((lookup, item) => {
+  explorerState.emojiKeyByCodePoints = explorerState.items.reduce((lookup, item) => {
     const codePoints = normalizeCodePoints(item.codePoints);
     if (
       codePoints &&
@@ -1436,9 +1426,9 @@ function formatUiPercent(value) {
 }
 
 const pixelArtwork = createPixelArtworkManager({
-  byId: () => byId,
-  emojiByKey: () => emojiByKey,
-  emojiKeyByCodePoints: () => emojiKeyByCodePoints,
+  byId: () => explorerState.byId,
+  emojiByKey: () => explorerState.emojiByKey,
+  emojiKeyByCodePoints: () => explorerState.emojiKeyByCodePoints,
   hairCheckboxes: () => hairCheckboxes,
   normalizeCodePoints,
   pixelFontPreferred: () => explorerPreferences.pixelFont !== false,
@@ -1450,7 +1440,7 @@ const pixelArtwork = createPixelArtworkManager({
   updateRenderingDiagnostic: values =>
     updateRenderingDiagnosticHelper({
       ...values,
-      byId,
+      byId: explorerState.byId,
       developerMode: developerModeEnabled(),
       detailsVisible:
         !exampleDialog.classList.contains('is-code-view') &&
@@ -1474,7 +1464,7 @@ function showEmoji(id, openDialog = true, navigationKeys) {
   return showEmojiSession({
     applyPixelArtworkClass,
     applyStandalonePixelArtwork,
-    byId,
+    byId: explorerState.byId,
     compositionMode: explorerState.compositionMode,
     currentEmojiCopies: { get value() { return explorerState.currentEmojiCopies; }, set value(value) { explorerState.currentEmojiCopies = value; } },
     currentEmojiKey: { get value() { return explorerState.currentEmojiKey; }, set value(value) { explorerState.currentEmojiKey = value; } },
@@ -1484,10 +1474,10 @@ function showEmoji(id, openDialog = true, navigationKeys) {
     displayGroupName,
     displayUnicodeSubGroupName,
     displayedKeys: { value: explorerState.displayedKeys },
-    emojiByKey,
+    emojiByKey: explorerState.emojiByKey,
     getIntroducedVersion,
     id,
-    items,
+    items: explorerState.items,
     navigationKeys,
     openDialog,
     openDialogAction() {
@@ -1512,11 +1502,11 @@ function showEmoji(id, openDialog = true, navigationKeys) {
 }
 
 const dialogNavigation = createDialogNavigationController({
-  byId: () => byId,
+  byId: () => explorerState.byId,
   currentEmojiKey: () => explorerState.currentEmojiKey,
   dialogNavigationKeys: () => explorerState.dialogNavigationKeys,
   displayedKeys: () => explorerState.displayedKeys,
-  emojiByKey: () => emojiByKey,
+  emojiByKey: () => explorerState.emojiByKey,
   emojiNext: () => emojiNext,
   emojiParent: () => emojiParent,
   emojiPrevious: () => emojiPrevious,
