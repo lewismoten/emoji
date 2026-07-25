@@ -105,6 +105,7 @@ import {
 } from './explorer-app.js';
 import { createExplorerState } from './explorer-state.js';
 import { buildCategoryRepresentatives as buildCategoryRepresentativesHelper } from './category-representatives.js';
+import { createExplorerRuntime } from './explorer-runtime.js';
 import {
   createExplorerUiController,
   createDeveloperModeController,
@@ -349,9 +350,13 @@ const onEmojiDialogClick = createEmojiDialogClickHandler({
   translate
 });
 
+const explorerRuntime = createExplorerRuntime({
+  ensureUtilityControls,
+  getElements: getExplorerElements
+});
+
 async function onLoad() {
-  ensureUtilityControls();
-  const elements = getExplorerElements();
+  const elements = explorerRuntime.resolveElements();
   ({
     advancedFilters,
     copyStatus,
@@ -393,13 +398,6 @@ async function onLoad() {
     versionPrevious,
     versionSelector
   } = elements);
-  if (languagePickerLabel) {
-    languagePickerLabel.id ||= 'language-picker-current-label';
-    languagePicker.setAttribute(
-      'aria-labelledby',
-      `language-picker-accessible-label ${languagePickerLabel.id}`
-    );
-  }
   ({
     activeFilterSummary, activeFilterText, clearFiltersButton,
     compactGroupChoices, compactGroupLabel, compactSequenceChoices,

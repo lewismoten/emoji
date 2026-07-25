@@ -33,6 +33,7 @@ import { createFilterControlSetup } from './explorer/filter-controls.js';
 import { bindExplorerEvents, createExplorerApp, finalizeExplorerStartup, initializeExplorerControls } from './explorer-app.js';
 import { createExplorerState } from './explorer-state.js';
 import { buildCategoryRepresentatives as buildCategoryRepresentativesHelper } from './category-representatives.js';
+import { createExplorerRuntime } from './explorer-runtime.js';
 import { createExplorerUiController, createDeveloperModeController, renderPixelFontToggle as renderPixelFontToggleHelper, selectEmojiFont as selectEmojiFontHelper } from './explorer-ui.js';
 import { installPixelFontHotReload, refreshExplorerPixelFont, refreshPixelFontStylesheet } from './pixel-font-hot-reload.js';
 const UNASSIGNED = '\u0000';
@@ -243,9 +244,12 @@ const onEmojiDialogClick = createEmojiDialogClickHandler({
     toggleFavorite: () => toggleFavorite(explorerState.currentEmojiKey),
     translate
 });
+const explorerRuntime = createExplorerRuntime({
+    ensureUtilityControls,
+    getElements: getExplorerElements
+});
 async function onLoad() {
-    ensureUtilityControls();
-    const elements = getExplorerElements();
+    const elements = explorerRuntime.resolveElements();
     ({
         advancedFilters,
         copyStatus,
@@ -287,10 +291,6 @@ async function onLoad() {
         versionPrevious,
         versionSelector
     } = elements);
-    if (languagePickerLabel) {
-        languagePickerLabel.id ||= 'language-picker-current-label';
-        languagePicker.setAttribute('aria-labelledby', `language-picker-accessible-label ${languagePickerLabel.id}`);
-    }
     ({
         activeFilterSummary, activeFilterText, clearFiltersButton,
         compactGroupChoices, compactGroupLabel, compactSequenceChoices,
