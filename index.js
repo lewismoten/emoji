@@ -14,7 +14,7 @@ import { createEmojiListInteraction } from './explorer/emoji-list-interaction.js
 import { getEmojiGenders as getEmojiGendersHelper } from './explorer/emoji-filter.js';
 import { updateActiveFilterSummary as updateActiveFilterSummaryHelper } from './explorer/filter-summary.js';
 import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from './explorer/dialog-upgrade.js';
-import { applyDialogView, loadStylesheet } from './explorer/dialog-view.js';
+import { createEmojiDialogViewController, loadStylesheet } from './explorer/dialog-view.js';
 import { createPixelEditorLoader } from './explorer/pixel-editor-loader.js';
 import { createExplorerNavigation } from './explorer/explorer-navigation.js';
 import { createCategoryFilterRenderer } from './explorer/category-filter-render.js';
@@ -416,7 +416,7 @@ const onEmojiDialogClick = createEmojiDialogClickHandler({
     recordCopiedEmoji,
     refreshComposition: () => updateEmojiComposition(byId[currentEmojiKey] ?? {}, emojiByKey[currentEmojiKey] ?? ''),
     setView: setEmojiDialogView,
-    syncUrlState,
+    syncUrlState: () => syncUrlState(),
     toggleComposition: () => (compositionMode = compositionMode === 'full' ? 'condensed' : 'full'),
     toggleFavorite: () => toggleFavorite(currentEmojiKey),
     translate
@@ -648,42 +648,6 @@ function upgradeEmojiDialog() {
         exampleDialog
     });
 }
-function setEmojiDialogView(requestedMode, updateUrl = true) {
-    const { mode, showDetails } = applyDialogView({
-        developerMode: developerModeEnabled(),
-        dialog: exampleDialog,
-        requestedMode,
-        translate
-    });
-    if (mode === 'code' && currentEmojiKey) {
-        updateEmojiImportExamples(byId[currentEmojiKey] ?? {});
-        void loadPackageManifest().then(() => {
-            if (currentEmojiKey && exampleDialog.classList.contains('is-code-view')) {
-                updateEmojiImportExamples(byId[currentEmojiKey] ?? {});
-            }
-        });
-    }
-    const dialogModeBack = exampleDialog.querySelector('.dialog-mode-back');
-    if (dialogModeBack)
-        dialogModeBack.hidden = showDetails;
-    if (!showDetails && emojiParent) {
-        emojiParent.hidden = true;
-    }
-    else if (showDetails) {
-        updateCompositionBackButton();
-    }
-    if (pixelEditor) {
-        pixelEditor.element.hidden = mode !== 'editor';
-        if (mode === 'editor' && currentEmojiKey) {
-            pixelEditor.open(currentEmojiKey, emojiByKey[currentEmojiKey]);
-        }
-    }
-    else if (mode === 'editor') {
-        void ensurePixelEditor();
-    }
-    if (updateUrl && exampleDialog.open)
-        syncUrlState();
-}
 const loadPixelEditor = createPixelEditorLoader({
     currentEmojiKey: () => currentEmojiKey,
     dialog: () => exampleDialog,
@@ -705,12 +669,21 @@ const loadPixelEditor = createPixelEditorLoader({
 function ensurePixelEditor() {
     return loadPixelEditor();
 }
-function focusInitialEmojiDialogAction() {
-    const target = exampleDialog.classList.contains('is-code-view')
-        ? exampleDialog.querySelector('[data-copy="code"]')
-        : exampleDialog.querySelector('.emoji-preview');
-    target?.focus({ preventScroll: true });
-}
+const { focusInitialAction: focusInitialEmojiDialogAction, setView: setEmojiDialogView } = createEmojiDialogViewController({
+    byId: () => byId,
+    currentEmojiKey: () => currentEmojiKey,
+    developerModeEnabled,
+    dialog: () => exampleDialog,
+    emojiByKey: () => emojiByKey,
+    emojiParent: () => emojiParent,
+    ensurePixelEditor,
+    getPixelEditor: () => pixelEditor,
+    loadPackageManifest,
+    syncUrlState,
+    translate,
+    updateCompositionBackButton,
+    updateImportExamples: updateEmojiImportExamples
+});
 function removeLegacyDialogElements() {
     const dialog = document.querySelector('.example-dialog');
     dialog?.querySelector('[data-i18n="copiedDescription"]')?.remove();

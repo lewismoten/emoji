@@ -72,3 +72,64 @@ export function loadStylesheet(href: string, id: string) {
     stylesheet.addEventListener('error', reject, { once: true });
   });
 }
+
+export function createEmojiDialogViewController(options: {
+  currentEmojiKey: () => string;
+  developerModeEnabled: () => boolean;
+  dialog: () => any;
+  emojiByKey: () => Record<string, string>;
+  emojiParent: () => HTMLElement | undefined;
+  ensurePixelEditor: () => Promise<unknown>;
+  getPixelEditor: () => any;
+  loadPackageManifest: () => Promise<unknown>;
+  syncUrlState: () => void;
+  translate: (key: string, fallback: string) => string;
+  updateCompositionBackButton: () => void;
+  updateImportExamples: (item: unknown) => void;
+  byId: () => Record<string, unknown>;
+}) {
+  function setView(requestedMode: unknown, updateUrl = true) {
+    const dialog = options.dialog();
+    const { mode, showDetails } = applyDialogView({
+      developerMode: options.developerModeEnabled(),
+      dialog,
+      requestedMode,
+      translate: options.translate
+    });
+    const key = options.currentEmojiKey();
+    if (mode === 'code' && key) {
+      options.updateImportExamples(options.byId()[key] ?? {});
+      void options.loadPackageManifest().then(() => {
+        if (
+          options.currentEmojiKey() &&
+          dialog.classList.contains('is-code-view')
+        ) {
+          options.updateImportExamples(options.byId()[options.currentEmojiKey()] ?? {});
+        }
+      });
+    }
+    const modeBack = dialog.querySelector('.dialog-mode-back') as HTMLElement | null;
+    if (modeBack) modeBack.hidden = showDetails;
+    const parent = options.emojiParent();
+    if (!showDetails && parent) parent.hidden = true;
+    else if (showDetails) options.updateCompositionBackButton();
+    const editor = options.getPixelEditor();
+    if (editor) {
+      editor.element.hidden = mode !== 'editor';
+      if (mode === 'editor' && key) editor.open(key, options.emojiByKey()[key]);
+    } else if (mode === 'editor') {
+      void options.ensurePixelEditor();
+    }
+    if (updateUrl && dialog.open) options.syncUrlState();
+  }
+
+  function focusInitialAction() {
+    const dialog = options.dialog();
+    const target = dialog.classList.contains('is-code-view')
+      ? dialog.querySelector('[data-copy="code"]')
+      : dialog.querySelector('.emoji-preview');
+    target?.focus({ preventScroll: true });
+  }
+
+  return { focusInitialAction, setView };
+}

@@ -154,6 +154,7 @@ const dialogRenderHelper = await fs.readFile(
   path.join(root, 'src/explorer/dialog-render.ts'),
   'utf8'
 );
+const dialogViewHelper = await fs.readFile(path.join(root, 'src/explorer/dialog-view.ts'), 'utf8');
 const pwaPanelsHelper = await fs.readFile(
   path.join(root, 'src/explorer/pwa-panels.ts'),
   'utf8'
@@ -971,7 +972,7 @@ assert.match(
   'newly opened emoji dialogs must focus their primary copy action'
 );
 assert.match(
-  demoScript,
+  dialogViewHelper,
   /querySelector\('\.emoji-preview'\)[\s\S]*focus\(\{ preventScroll: true \}\)/,
   'emoji details must initially focus the large copy button'
 );
@@ -1742,8 +1743,8 @@ assert.match(
   'pixel editor must use the compact Select label'
 );
 assert.match(
-  demoScript,
-  /const dialogModeBack = exampleDialog\.querySelector\('\.dialog-mode-back'\)[\s\S]*dialogModeBack\.hidden = showDetails/,
+  dialogViewHelper,
+  /const modeBack = dialog\.querySelector\('\.dialog-mode-back'\)[\s\S]*modeBack\.hidden = showDetails/,
   'the dialog Back action must appear outside the main details view'
 );
 assert.match(
