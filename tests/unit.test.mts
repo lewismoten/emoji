@@ -135,6 +135,10 @@ const loadingState = await fs.readFile(
   path.join(root, 'src/explorer/loading-state.ts'),
   'utf8'
 );
+const listController = await fs.readFile(
+  path.join(root, 'src/explorer/list-controller.ts'),
+  'utf8'
+);
 const emojiListSources = `${demoScript}\n${loadingState}\n${emojiListInteractionHelper}`;
 const utilityControlsHelper = await fs.readFile(
   path.join(root, 'src/explorer/utility-controls.ts'),
@@ -1189,8 +1193,8 @@ assert.match(
   'the deferred PWA install action must not resize the fixed browse footer'
 );
 assert.match(
-  demoScript,
-  /searchText\.addEventListener\('input', scheduleSearchDraw\)[\s\S]*function scheduleSearchDraw\(\)[\s\S]*clearTimeout\(searchDrawTimer\)[\s\S]*setTimeout\([\s\S]*drawList\(\)[\s\S]*200\)/,
+  `${demoScript}\n${listController}`,
+  /searchText\.addEventListener\('input', scheduleSearchDraw\)[\s\S]*const schedule[\s\S]*clearTimeout\(timer\)[\s\S]*setTimeout\([\s\S]*draw\(\)[\s\S]*200\)/,
   'rapid search input must coalesce expensive emoji-list renders'
 );
 assert.match(
