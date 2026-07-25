@@ -35,6 +35,7 @@ import { createExplorerState } from './explorer-state.js';
 import { buildCategoryRepresentatives as buildCategoryRepresentativesHelper } from './category-representatives.js';
 import { createExplorerRuntime } from './explorer-runtime.js';
 import { updateExplorerComposition } from './explorer-composition-controller.js';
+import { createExplorerDataController } from './explorer-data-controller.js';
 import { createExplorerUiController, createDeveloperModeController, renderPixelFontToggle as renderPixelFontToggleHelper, selectEmojiFont as selectEmojiFontHelper } from './explorer-ui.js';
 import { installPixelFontHotReload, refreshExplorerPixelFont, refreshPixelFontStylesheet } from './pixel-font-hot-reload.js';
 const UNASSIGNED = '\u0000';
@@ -511,7 +512,7 @@ else if ('serviceWorker' in navigator && window.isSecureContext) {
         });
     });
 }
-async function loadData() {
+async function loadDataLegacy() {
     const catalog = await loadExplorerCatalog({
         getExplorerSubGroup,
         isViteDevelopment,
@@ -577,7 +578,7 @@ function onOrderModeChange(event) {
     renderCategoryFilters();
     drawList();
 }
-async function loadVersionData() {
+async function loadVersionDataLegacy() {
     if (explorerState.versionDataPromise)
         return explorerState.versionDataPromise;
     explorerState.versionDataPromise = (async () => {
@@ -672,6 +673,49 @@ function getVersionKeys() {
         versionValue: versionSelector.value
     });
 }
+const explorerData = createExplorerDataController({
+    applyLoadedUrlState: () => applyLoadedUrlState(),
+    buildRepresentatives: buildCategoryRepresentatives,
+    developerModeEnabled,
+    drawList: () => drawList(),
+    getEmojiGenders,
+    getIntroducedVersion,
+    getVersionKeys: getVersionKeysHelper,
+    groupSelector: () => groupSelector,
+    genderCheckboxes: () => genderCheckboxes,
+    genderFieldset: () => genderFieldset,
+    hairCheckboxes: () => hairCheckboxes,
+    hairFieldset: () => hairFieldset,
+    loadCatalog: () => loadExplorerCatalog({ getExplorerSubGroup, isViteDevelopment, updatePixelArtworkManifest }),
+    loadVersionCatalog: () => loadVersionCatalog({ allIds: () => explorerState.allIds, byId: () => explorerState.byId, emojiByKey: () => explorerState.emojiByKey, getExplorerSubGroup, items: () => explorerState.items }),
+    modifierFilters: () => modifierFilters,
+    onGroupChange: onGroupSelectorChange,
+    onSequenceTypeChange: onSequenceTypeSelectorChange,
+    onSubGroupChange: onSubGroupSelectorChange,
+    openEmoji: (key, open) => onClick({ target: { id: key } }, open),
+    populateVersionSelector: populateVersionSelectorHelper,
+    proposedVersionManifests: () => explorerState.proposedVersionManifests,
+    rebuildCodePointLookup: rebuildEmojiCodePointLookup,
+    renderCategoryFilters: () => renderCategoryFilters(),
+    setIntroducedVersion: value => { const node = document.getElementsByClassName('emoji-version')[0]; if (node)
+        node.innerText = value; },
+    sequenceTypeSelector: () => sequenceTypeSelector,
+    skinToneCheckboxes: () => skinToneCheckboxes,
+    skinToneFieldset: () => skinToneFieldset,
+    state: () => explorerState,
+    subGroupSelector: () => subGroupSelector,
+    syncVersionRange: syncVersionRangeHelper,
+    translate,
+    updateModifierArtwork: () => updateModifierPixelArtwork(),
+    updateModifierAvailability: updateModifierAvailabilityHelper,
+    versionModeSelector: () => versionModeSelector,
+    versionNext: () => versionNext,
+    versionPrevious: () => versionPrevious,
+    versionRange: () => versionRange,
+    versionRangeValue: () => versionRangeValue,
+    versionSelector: () => versionSelector
+});
+const { loadData, loadVersionData } = explorerData;
 function onGroupSelectorChange() {
     explorerState.selectedGroup = groupSelector.value;
     explorerState.selectedSubGroup = '';
