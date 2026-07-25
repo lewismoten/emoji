@@ -123,6 +123,10 @@ const versionData = await fs.readFile(
   path.join(root, 'src/explorer/version-data.ts'),
   'utf8'
 );
+const searchLanguageLifecycle = await fs.readFile(
+  path.join(root, 'src/explorer/search-language-lifecycle.ts'),
+  'utf8'
+);
 const emojiListSources = `${demoScript}\n${emojiListInteractionHelper}`;
 const utilityControlsHelper = await fs.readFile(
   path.join(root, 'src/explorer/utility-controls.ts'),
@@ -1232,13 +1236,13 @@ assert.match(
   'shared developer-only dialog URLs must preserve Developer mode'
 );
 assert.match(
-  demoScript,
-  /popstate[\s\S]*developerModeFromUrl =[\s\S]*get\('developer'\) === '1'[\s\S]*renderDeveloperMode\(\)[\s\S]*applyDialogUrlState\(\)/,
+  `${demoScript}\n${searchLanguageLifecycle}`,
+  /restoreDeveloperMode: \(\) => \{[\s\S]*developerModeFromUrl =[\s\S]*get\('developer'\) === '1'[\s\S]*renderDeveloperMode\(\)[\s\S]*const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.applyDialogUrlState\(\)/,
   'browser navigation must restore Developer mode before applying dialog URL state'
 );
 assert.match(
-  demoScript,
-  /developerModeUrlDismissed = !enabled[\s\S]*syncUrlState\(\)[\s\S]*popstate[\s\S]*renderDeveloperMode\(\)[\s\S]*syncUrlState\(\)/,
+  `${demoScript}\n${searchLanguageLifecycle}`,
+  /developerModeUrlDismissed = !enabled[\s\S]*syncUrlState\(\)[\s\S]*window\.addEventListener\('popstate', onPopState\)[\s\S]*const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.syncUrlState\(\)/,
   'turning Developer mode off must override and clean older URL history entries'
 );
 assert.match(

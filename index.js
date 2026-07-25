@@ -6,7 +6,6 @@ import { copyToClipboard as copyToClipboardHelper, nextCopiedEmojiKeys, nextFavo
 import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, resolveImportExamples } from './explorer/import-examples.js';
 import { ensureUtilityControls, positionFavoriteButton } from './explorer/utility-controls.js';
 import { closePanelDialog, installApp as installWebApp, installedDisplayQueries, onPanelDialogClose, openPanelDialog, renderInstallAppButton as renderInstallAppButtonHelper, updateWebAppManifest } from './explorer/pwa-panels.js';
-import { renderSearchLanguages as renderSearchLanguagesHelper, selectLanguageLink as selectLanguageLinkHelper, setSearchLanguage as setSearchLanguageHelper } from './explorer/language-picker.js';
 import { closeFilterPicker as closeFilterPickerHelper, displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper, focusCompactChoice as focusCompactChoiceHelper, onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper, openFilterPicker as openFilterPickerHelper } from './explorer/filter-picker.js';
 import { getVersionKeys as getVersionKeysHelper, syncVersionRange as syncVersionRangeHelper, updateModifierAvailability as updateModifierAvailabilityHelper, versionSliderLabel as versionSliderLabelHelper } from './explorer/category-version.js';
 import { getIntroducedVersion as getIntroducedVersionHelper, renderEmojiDialog, updateCompositionBackButton as updateCompositionBackButtonHelper, updateDialogNavigation as updateDialogNavigationHelper, updateEmojiComposition as updateEmojiCompositionHelper, updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutCompositionParent } from './explorer/dialog-render.js';
@@ -22,6 +21,7 @@ import { createCategoryFilterRenderer } from './explorer/category-filter-render.
 import { loadExplorerCatalog } from './explorer/catalog-loader.js';
 import { createPixelArtworkManager } from './explorer/pixel-artwork.js';
 import { loadVersionCatalog, populateVersionSelector as populateVersionSelectorHelper } from './explorer/version-data.js';
+import { createSearchLanguageLifecycle } from './explorer/search-language-lifecycle.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -1087,74 +1087,38 @@ async function loadData() {
     if (developerModeEnabled())
         await loadVersionData();
 }
-async function loadSearchLanguages(initialLocale = '') {
-    try {
-        const manifest = await fetch('locales/manifest.json').then(response => response.json());
-        searchLocales = manifest.locales ?? [];
-        renderSearchLanguages();
-        if (initialLocale &&
-            searchLocales.some(locale => locale.locale === initialLocale)) {
-            await setSearchLanguage(initialLocale);
-        }
-    }
-    catch (error) {
-        console.warn('Search language packs unavailable', error);
-        languagePicker.disabled = true;
-    }
-}
-function renderSearchLanguages() {
-    renderSearchLanguagesHelper({
-        languageFlags,
-        languageList,
-        searchLocales,
-        selectedSearchLocale,
-        translate,
-        onSelectLanguageLink: (event, locale, href) => selectLanguageLink(event, locale, href)
-    });
-}
-async function selectLanguageLink(event, locale, href) {
-    await selectLanguageLinkHelper(event, locale, href, setSearchLanguage);
-}
-window.addEventListener('popstate', async () => {
-    applyingUrlState = true;
-    try {
+const searchLanguageLifecycle = createSearchLanguageLifecycle({
+    applyDialogUrlState,
+    closeLanguageDialog: () => closePanelDialog(languageDialog, suppressedPanelCloses),
+    currentLoadId: () => searchLoadId,
+    languageFlags,
+    languageList: () => languageList,
+    languagePicker: () => languagePicker,
+    languagePickerFlag: () => languagePickerFlag,
+    languagePickerLabel: () => languagePickerLabel,
+    loadUiTranslations,
+    nextLoadId: () => ++searchLoadId,
+    refreshLocalizedLabels,
+    restoreDeveloperMode: () => {
         developerModeFromUrl =
             new URLSearchParams(window.location.search).get('developer') === '1';
         renderDeveloperMode();
-        const locale = window.location.pathname.match(/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/)?.[1] ?? '';
-        if (!locale || searchLocales.some(entry => entry.locale === locale))
-            await setSearchLanguage(locale);
-        applyDialogUrlState();
-    }
-    finally {
-        applyingUrlState = false;
-        syncUrlState();
-    }
+    },
+    saveExplorerPreference,
+    searchLocales: () => searchLocales,
+    selectedSearchLocale: () => selectedSearchLocale,
+    setApplyingUrlState: value => (applyingUrlState = value),
+    setSearchAnnotations: value => (searchAnnotations = value),
+    setSearchLabels: value => (searchLabels = value),
+    setSearchLocales: value => (searchLocales = value),
+    setSearchSubgroupLabels: value => (searchSubgroupLabels = value),
+    setSelectedLocale: value => (selectedSearchLocale = value),
+    syncUrlState,
+    translate,
+    updateWebAppManifest
 });
-async function setSearchLanguage(requestedLocale) {
-    const loadId = ++searchLoadId;
-    const result = await setSearchLanguageHelper({
-        requestedLocale,
-        searchLoadId: loadId,
-        searchLocales,
-        languagePicker,
-        languagePickerFlag,
-        languagePickerLabel,
-        languageFlags,
-        translate,
-        loadUiTranslations,
-        updateWebAppManifest,
-        closeLanguageDialog: () => closePanelDialog(languageDialog, suppressedPanelCloses),
-        saveExplorerPreference,
-        refreshLocalizedLabels
-    });
-    if (result.loadId !== searchLoadId)
-        return;
-    selectedSearchLocale = result.selectedSearchLocale;
-    searchAnnotations = result.searchAnnotations;
-    searchLabels = result.searchLabels;
-    searchSubgroupLabels = result.searchSubgroupLabels;
-}
+const { load: loadSearchLanguages, onPopState, render: renderSearchLanguages, select: selectLanguageLink, set: setSearchLanguage } = searchLanguageLifecycle;
+window.addEventListener('popstate', onPopState);
 function onOrderModeChange(event) {
     if (event.currentTarget.dataset.order === 'sequence' &&
         !developerModeEnabled())
