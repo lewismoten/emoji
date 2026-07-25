@@ -660,28 +660,6 @@ if (
   });
 }
 
-async function loadDataLegacy() {
-  const catalog = await loadExplorerCatalog({
-    getExplorerSubGroup,
-    isViteDevelopment,
-    updatePixelArtworkManifest
-  });
-  Object.assign(explorerState, catalog);
-  rebuildEmojiCodePointLookup();
-  updateModifierPixelArtwork();
-  buildCategoryRepresentatives();
-
-  versionModeSelector.value = 'through';
-  groupSelector.addEventListener('change', onGroupSelectorChange);
-  subGroupSelector.addEventListener('change', onSubGroupSelectorChange);
-  sequenceTypeSelector.addEventListener('change', onSequenceTypeSelectorChange);
-  renderCategoryFilters();
-
-  onClick({ target: { id: 'clinkingBeerMugs' } }, false);
-  applyLoadedUrlState();
-  if (developerModeEnabled()) await loadVersionData();
-}
-
 const searchLanguageLifecycle = createSearchLanguageLifecycle({
   applyDialogUrlState,
   closeLanguageDialog: () => closePanelDialog(languageDialog, suppressedPanelCloses),
@@ -736,40 +714,6 @@ function onOrderModeChange(event) {
   });
   renderCategoryFilters();
   drawList();
-}
-
-async function loadVersionDataLegacy() {
-  if (explorerState.versionDataPromise) return explorerState.versionDataPromise;
-  explorerState.versionDataPromise = (async () => {
-    try {
-      const versions = await loadVersionCatalog({
-        allIds: () => explorerState.allIds,
-        byId: () => explorerState.byId,
-        emojiByKey: () => explorerState.emojiByKey,
-        getExplorerSubGroup,
-        items: () => explorerState.items
-      });
-      explorerState.versionManifests = versions.released;
-      explorerState.proposedVersionManifests = versions.proposed;
-      explorerState.versionKeys = versions.versionKeys;
-      rebuildEmojiCodePointLookup();
-      updateModifierPixelArtwork();
-      buildCategoryRepresentatives();
-      populateVersionSelector();
-      applyLoadedUrlState();
-      renderCategoryFilters();
-      drawList();
-      if (explorerState.currentEmojiKey) {
-        document.getElementsByClassName('emoji-version')[0].innerText =
-          getIntroducedVersion(explorerState.currentEmojiKey);
-      }
-    } catch (error) {
-      console.warn('Version filters unavailable', error);
-      versionModeSelector.disabled = true;
-      versionSelector.disabled = true;
-    }
-  })();
-  return explorerState.versionDataPromise;
 }
 
 function populateVersionSelector() {
