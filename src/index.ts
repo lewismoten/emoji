@@ -92,6 +92,7 @@ import {
   finishExplorerLoading as finishExplorerLoadingHelper,
   revealExplorer as revealExplorerHelper
 } from './explorer/loading-state.js';
+import { createEmojiDialogClickHandler } from './explorer/emoji-dialog-events.js';
 
 if (import.meta.hot) {
   let pixelFontRevision;
@@ -480,6 +481,41 @@ async function loadUiTranslations(locale, rtl = false) {
   renderSearchLanguages();
 }
 
+const onEmojiDialogClick = createEmojiDialogClickHandler({
+  animateCopy: animateEmojiCopyConfirmation,
+  copy: copyToClipboardValue,
+  copyValue: kind =>
+    kind === 'code'
+      ? getCodeExampleTextValue(exampleDialog)
+      : kind === 'link'
+        ? window.location.href
+        : currentEmojiCopies[kind],
+  currentEmojiKey: () => currentEmojiKey,
+  dialog: () => exampleDialog,
+  openComposition: key => {
+    const parentEmojiKey = currentEmojiKey;
+    showEmoji(key, false);
+    syncUrlState('push', {
+      ...window.history.state,
+      emojiDialogEntry: false,
+      compositionParent: parentEmojiKey
+    });
+    updateCompositionBackButton();
+  },
+  recordCopiedEmoji,
+  refreshComposition: () =>
+    updateEmojiComposition(
+      byId[currentEmojiKey] ?? {},
+      emojiByKey[currentEmojiKey] ?? ''
+    ),
+  setView: setEmojiDialogView,
+  syncUrlState,
+  toggleComposition: () =>
+    (compositionMode = compositionMode === 'full' ? 'condensed' : 'full'),
+  toggleFavorite: () => toggleFavorite(currentEmojiKey),
+  translate
+});
+
 async function onLoad() {
   ensureUtilityControls();
   const elements = getExplorerElements();
@@ -692,93 +728,7 @@ async function onLoad() {
   emojiList.addEventListener('click', onClick);
   emojiList.addEventListener('focusin', onEmojiFocus);
   emojiList.addEventListener('keydown', onEmojiKeyDown);
-  exampleDialog.addEventListener('click', event => {
-    if (event.target.closest('.emoji-composition-mode')) {
-      compositionMode = compositionMode === 'full' ? 'condensed' : 'full';
-      updateEmojiComposition(
-        byId[currentEmojiKey] ?? {},
-        emojiByKey[currentEmojiKey] ?? ''
-      );
-      syncUrlState();
-      return;
-    }
-    const compositionButton = event.target.closest('[data-composition-emoji]');
-    if (compositionButton) {
-      const parentEmojiKey = currentEmojiKey;
-      showEmoji(compositionButton.dataset.compositionEmoji, false);
-      syncUrlState('push', {
-        ...window.history.state,
-        emojiDialogEntry: false,
-        compositionParent: parentEmojiKey
-      });
-      updateCompositionBackButton();
-      return;
-    }
-    if (event.target.closest('.emoji-parent')) {
-      window.history.back();
-      return;
-    }
-    const favoriteButton = event.target.closest('.toggle-favorite');
-    if (favoriteButton) {
-      toggleFavorite(currentEmojiKey);
-      return;
-    }
-    const showCodeButton = event.target.closest('.show-emoji-code');
-    if (showCodeButton) {
-      setEmojiDialogView('code');
-      exampleDialog.querySelector('.dialog-mode-back:not([hidden])')?.focus();
-      return;
-    }
-    const showEditorButton = event.target.closest('.show-pixel-editor');
-    if (showEditorButton) {
-      setEmojiDialogView('editor');
-      exampleDialog.querySelector('.pixel-editor-canvas')?.focus();
-      return;
-    }
-    const backButton = event.target.closest(
-      '.dialog-mode-back, .back-to-emoji'
-    );
-    if (backButton) {
-      const returnTarget = exampleDialog.classList.contains('is-editor-view')
-        ? '.show-pixel-editor'
-        : '.show-emoji-code';
-      setEmojiDialogView('details');
-      exampleDialog.querySelector(returnTarget)?.focus();
-      return;
-    }
-    const button = event.target.closest('[data-copy]');
-    if (!button) return;
-    const value =
-      button.dataset.copy === 'code'
-        ? getCodeExampleTextValue(exampleDialog)
-        : button.dataset.copy === 'link'
-          ? window.location.href
-          : currentEmojiCopies[button.dataset.copy];
-    const messages = {
-      emoji: ['emojiCopied', 'Emoji copied to the clipboard.'],
-      key: ['keyCopied', 'Emoji key copied to the clipboard.'],
-      escape: ['escapeCopied', 'Escape sequence copied to the clipboard.'],
-      codePoints: ['codePointsCopied', 'Code points copied to the clipboard.'],
-      code: ['codeCopied', 'Code copied to the clipboard.'],
-      link: ['linkCopied', 'Link copied to the clipboard.']
-    };
-    const [messageKey, fallback] = messages[button.dataset.copy] ?? [
-      'copiedToClipboard',
-      'Copied to the clipboard.'
-    ];
-    if (value !== undefined) {
-      const copiedEmojiKey = currentEmojiKey;
-      copyToClipboardValue(value, translate(messageKey, fallback)).then(
-        copied => {
-          if (copied) {
-            recordCopiedEmoji(copiedEmojiKey);
-            if (button.matches('.emoji-preview'))
-              animateEmojiCopyConfirmation(button);
-          }
-        }
-      );
-    }
-  });
+  exampleDialog.addEventListener('click', onEmojiDialogClick);
   exampleDialog.addEventListener('close', onEmojiDialogClose);
   versionModeToggle?.addEventListener('click', toggleVersionMode);
   versionPrevious?.addEventListener('click', () => stepVersion(-1));
