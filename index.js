@@ -109,6 +109,7 @@ const pixelArtwork = createPixelArtworkManager({
     byId: () => explorerState.byId,
     emojiByKey: () => explorerState.emojiByKey,
     emojiKeyByCodePoints: () => explorerState.emojiKeyByCodePoints,
+    genderCheckboxes: () => genderCheckboxes,
     hairCheckboxes: () => hairCheckboxes,
     normalizeCodePoints,
     pixelFontPreferred: () => explorerState.explorerPreferences.pixelFont !== false,

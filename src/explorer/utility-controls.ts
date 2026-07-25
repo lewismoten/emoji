@@ -70,7 +70,7 @@ export function ensureUtilityControls() {
       'beforeend',
       `
       <button class="saved-picker" type="button" aria-haspopup="dialog" aria-controls="saved-dialog" data-i18n-aria-label="savedEmoji" aria-label="Saved emoji">
-        <span aria-hidden="true">⭐</span>
+        <span class="modifier-emoji favorite-glyph" aria-hidden="true">⭐</span>
         <span class="saved-picker-label" data-i18n="favorites">Favorites</span>
       </button>
     `
@@ -110,7 +110,8 @@ export function ensureUtilityControls() {
     favoriteButton.className = 'toggle-favorite';
     favoriteButton.type = 'button';
     favoriteButton.setAttribute('aria-pressed', 'false');
-    favoriteButton.innerHTML = '<span aria-hidden="true">☆</span>';
+    favoriteButton.innerHTML =
+      '<span class="modifier-emoji favorite-glyph" aria-hidden="true">⭐</span>';
     dialogControls.querySelector('form')?.before(favoriteButton);
   }
   if (dialogControls && favoriteButton) {

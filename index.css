@@ -11,6 +11,8 @@
   --accent-surface: #15384d;
   --accent-surface-strong: #07131b;
   --accent-text: var(--accent);
+  --selected-control-bg: color-mix(in srgb, var(--accent-strong) 42%, var(--panel-strong) 58%);
+  --selected-control-text: #fff7ff;
   --code: #0b2637;
   --code-text: #dce9ee;
   --code-keyword: #ed9cff;
@@ -49,6 +51,8 @@ html[data-theme="light"] {
   --accent-surface: #d7eef8;
   --accent-surface-strong: #bddceb;
   --accent-text: #0e405d;
+  --selected-control-bg: color-mix(in srgb, var(--accent) 18%, #ffffff 82%);
+  --selected-control-text: #173548;
   --code: #e3f0f8;
   --code-text: #173548;
   --code-keyword: #8f2b73;
@@ -531,8 +535,9 @@ h1 {
 }
 .compact-choice[aria-checked="true"] {
   border-color: var(--accent);
-  background: var(--accent-surface);
-  color: var(--accent-text);
+  background: var(--selected-control-bg);
+  color: var(--selected-control-text);
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 .compact-choice:focus-visible {
   outline: 2px dashed var(--accent-strong);
@@ -571,8 +576,9 @@ h1 {
 }
 .version-mode-toggle[aria-pressed="true"] {
   border-color: var(--accent);
-  background: var(--accent-surface);
-  color: var(--accent-text);
+  background: var(--selected-control-bg);
+  color: var(--selected-control-text);
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 .version-mode-toggle:focus-visible {
   outline: 2px dashed var(--accent-strong);
@@ -709,8 +715,9 @@ fieldset input {
 }
 .modifier-filters fieldset label:has(input:checked) {
   border-color: var(--accent);
-  background: var(--accent-surface);
-  color: var(--accent-text);
+  background: var(--selected-control-bg);
+  color: var(--selected-control-text);
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 .modifier-filters fieldset label:has(input:focus-visible) {
   outline: 2px dashed var(--accent-strong);
@@ -886,8 +893,9 @@ fieldset input {
 .setting-choice.is-active,
 .setting-choice[aria-pressed="true"] {
   border-color: color-mix(in srgb, var(--accent) 50%, var(--accent-strong) 50%);
-  background: color-mix(in srgb, var(--accent) 24%, var(--panel-strong) 76%);
-  color: var(--text);
+  background: var(--selected-control-bg);
+  color: var(--selected-control-text);
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 .setting-choice:focus-visible {
   outline: 2px solid var(--accent);
@@ -948,12 +956,13 @@ html:not([data-developer-mode]) .developer-only {
 }
 .language-option.is-selected {
   border-color: var(--accent);
-  background: var(--accent-surface);
+  background: var(--selected-control-bg);
   box-shadow: inset 0 0 0 1px var(--accent);
+  color: var(--selected-control-text);
 }
 .language-option.is-selected::after {
   content: "✓";
-  color: var(--accent-text);
+  color: inherit;
   font-weight: 800;
 }
 .language-option.is-selected {
@@ -1049,7 +1058,14 @@ dialog[open]::backdrop {
   background: transparent;
   color: var(--muted);
   cursor: pointer;
-  font: 700 1.35rem/1 var(--ui-font);
+  font: inherit;
+}
+.favorite-glyph {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1em;
+  line-height: 1;
+  font-size: 1.2rem;
 }
 .example-dialog .toggle-favorite:hover,
 .example-dialog .toggle-favorite[aria-pressed="true"] {
@@ -1584,8 +1600,9 @@ button.emoji-composition-part:focus-visible {
 }
 .pixel-editor-tools button[aria-pressed="true"] {
   border-color: var(--accent);
-  background: var(--accent-surface);
-  color: var(--accent-text);
+  background: var(--selected-control-bg);
+  color: var(--selected-control-text);
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 .pixel-editor-toolbar button:disabled {
   cursor: default;
@@ -1942,8 +1959,9 @@ button.emoji-composition-part:focus-visible {
 }
 .pixel-editor-layer-transform button[aria-pressed="true"] {
   border-color: var(--accent);
-  background: var(--accent-surface);
-  color: var(--accent-text);
+  background: var(--selected-control-bg);
+  color: var(--selected-control-text);
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 .pixel-editor-layer-actions {
   grid-column: 1 / -1;
@@ -2286,6 +2304,9 @@ kbd {
 .pixel-hero h2 {
   font-size: clamp(1rem, 2.4vw, 1.3rem);
 }
+.pixel-hero .eyebrow {
+  color: var(--muted);
+}
 .pixel-hero p:not(.eyebrow) {
   max-width: 52rem;
   margin: 0.35rem 0 0;
@@ -2317,11 +2338,12 @@ kbd {
 }
 .pixel-comparison > button[aria-pressed="true"] {
   border-color: var(--accent);
-  background: var(--accent-surface);
+  background: var(--selected-control-bg);
   box-shadow: inset 0 0 0 1px var(--accent);
+  color: var(--selected-control-text);
 }
 .pixel-comparison > button[aria-pressed="true"] small {
-  color: var(--accent-text);
+  color: inherit;
 }
 .pixel-comparison > button:focus-visible {
   outline: 2px solid var(--accent);
@@ -2493,8 +2515,9 @@ kbd {
 }
 .order-mode.is-active {
   border-color: var(--accent);
-  background: var(--accent-surface);
-  color: var(--accent-text);
+  background: var(--selected-control-bg);
+  color: var(--selected-control-text);
+  box-shadow: inset 0 0 0 1px var(--accent);
 }
 .order-mode:focus-visible {
   outline: 2px solid var(--accent);
@@ -2868,8 +2891,9 @@ kbd {
   }
   .modifier-filters fieldset label:has(input:checked) {
     border-color: var(--accent);
-    background: var(--accent-surface);
-    color: var(--accent-text);
+    background: var(--selected-control-bg);
+    color: var(--selected-control-text);
+    box-shadow: inset 0 0 0 1px var(--accent);
   }
   .modifier-filters fieldset label:has(input:focus-visible) {
     outline: 2px dashed var(--accent-strong);

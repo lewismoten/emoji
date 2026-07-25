@@ -15,6 +15,7 @@ type MinimalElement = {
 
 declare const document: {
   createElement(tagName: string): MinimalElement;
+  querySelector(selector: string): MinimalElement | null;
 };
 declare const window: {
   matchMedia(query: string): { matches: boolean };
@@ -30,6 +31,18 @@ function createButton() {
   const button = document.createElement('button');
   button.type = 'button';
   return button;
+}
+
+const FAVORITE_EMOJI_KEY = 'glowingStar';
+const FAVORITE_EMOJI_FALLBACK = '⭐';
+
+function updateFavoriteGlyph(
+  element: MinimalElement | null,
+  applyPixelArtworkClass: (element: MinimalElement, emojiKey: string) => void
+) {
+  if (!element) return;
+  element.textContent = FAVORITE_EMOJI_FALLBACK;
+  applyPixelArtworkClass(element, FAVORITE_EMOJI_KEY);
 }
 
 export function nextFavoriteEmojiKeys(
@@ -63,6 +76,7 @@ export function savedEmojiLabel(
 export function updateFavoriteToggleButton(
   button: MinimalElement | null,
   options: {
+    applyPixelArtworkClass: (element: MinimalElement, emojiKey: string) => void;
     favoriteEmojiKeys: string[];
     currentEmojiKey: string;
     translate: (key: string, fallback: string) => string;
@@ -71,9 +85,10 @@ export function updateFavoriteToggleButton(
   if (!button) return;
   const favorite = options.favoriteEmojiKeys.includes(options.currentEmojiKey);
   button.setAttribute('aria-pressed', String(favorite));
-  button.querySelector('[aria-hidden="true"]')!.textContent = favorite
-    ? '★'
-    : '☆';
+  updateFavoriteGlyph(
+    button.querySelector('.favorite-glyph') ?? button.querySelector('[aria-hidden="true"]'),
+    options.applyPixelArtworkClass
+  );
   const key = favorite ? 'removeFavorite' : 'addFavorite';
   const fallback = favorite ? 'Remove favorite' : 'Add favorite';
   const label = options.translate(key, fallback);
@@ -187,9 +202,14 @@ export function createSavedEmojiController(options: {
   emojiByKey: () => Record<string, string>;
 }) {
   function updateFavoriteButton() {
+    updateFavoriteGlyph(
+      document.querySelector('.saved-picker .favorite-glyph'),
+      options.applyPixelArtworkClass()
+    );
     updateFavoriteToggleButton(
       options.savedDialog()?.querySelector('.toggle-favorite') ?? null,
       {
+        applyPixelArtworkClass: options.applyPixelArtworkClass(),
         favoriteEmojiKeys: options.favoriteEmojiKeys(),
         currentEmojiKey: options.currentEmojiKey(),
         translate: options.translate

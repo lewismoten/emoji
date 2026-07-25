@@ -4,6 +4,11 @@ export function createPixelArtworkManager(options: any) {
   let privateUseByKey = new Map<string, number>();
   let measureContext: CanvasRenderingContext2D | null | undefined;
   let referenceWidth: number | undefined;
+  const modifierEmojiKeys: Record<string, string> = {
+    male: 'man',
+    female: 'woman',
+    neutral: 'person'
+  };
 
   const systemEmojiAppearsSplit = (value: string) => {
     measureContext ??= document.createElement('canvas').getContext('2d');
@@ -92,11 +97,26 @@ export function createPixelArtworkManager(options: any) {
     options.refreshEditor();
   };
 
+  const resolveModifierEmojiKey = (value: string) => {
+    const semanticKey = modifierEmojiKeys[value];
+    if (semanticKey) return semanticKey;
+    const normalized = options.normalizeCodePoints(value);
+    return (
+      options.emojiKeyByCodePoints().get(normalized) ??
+      options.emojiKeyByCodePoints().get(`${normalized} FE0F`) ??
+      options.emojiKeyByCodePoints().get(normalized.replace(/ FE0F$/u, '')) ??
+      ''
+    );
+  };
+
   const updateModifierPixelArtwork = () => {
-    [...options.skinToneCheckboxes(), ...options.hairCheckboxes()].forEach(
+    [
+      ...options.skinToneCheckboxes(),
+      ...options.hairCheckboxes(),
+      ...options.genderCheckboxes()
+    ].forEach(
       (checkbox: HTMLInputElement) => {
-        const normalized = options.normalizeCodePoints(checkbox.value);
-        const emojiKey = options.emojiKeyByCodePoints().get(normalized);
+        const emojiKey = resolveModifierEmojiKey(checkbox.value);
         applyPixelArtworkClass(
           checkbox
             .closest('label')
