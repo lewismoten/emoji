@@ -23,6 +23,7 @@
   --code-comment: #99afba;
   --code-native-object: #ffe28e;
   --code-object: #ffaaa3;
+  --code-object-key: #ffaaa3;
   --toolbar-height: 0px;
   --motion-fast: 180ms;
   --motion-medium: 240ms;
@@ -67,6 +68,7 @@ html[data-theme="light"] {
   --code-comment: #6c7f8a;
   --code-native-object: #8a5a00;
   --code-object: #a33b32;
+  --code-object-key: #a33b32;
 }
 
 html[data-theme="retro"] {
@@ -76,6 +78,7 @@ html[data-theme="retro"] {
   --panel-strong: #000000;
   --frame-bg: #555555;
   --control-bg: #0000aa;
+  --dialog-frame-border: #555555;
   --dialog-header-bg: #000000;
   --dialog-body-bg: #555555;
   --border: #55ffff;
@@ -89,15 +92,16 @@ html[data-theme="retro"] {
   --selected-control-bg: #aa00aa;
   --selected-control-text: #ffffff;
   --section-header-bg: #000000;
-  --code: #555555;
-  --code-text: #ffffff;
-  --code-keyword: #ffff55;
-  --code-variable: #ffffff;
-  --code-native-function: #55ffff;
-  --code-string: #55ff55;
-  --code-comment: #000000;
-  --code-native-object: #ff55ff;
-  --code-object: #55ffff;
+  --code: #aaaaaa;
+  --code-text: #000000;
+  --code-keyword: #0000aa;
+  --code-variable: #000000;
+  --code-native-function: #aa0000;
+  --code-string: #aa0000;
+  --code-comment: #555555;
+  --code-native-object: #aa00aa;
+  --code-object: #000000;
+  --code-object-key: #0055aa;
   --ui-font: var(--retro-ui-font);
 }
 
@@ -267,6 +271,15 @@ html[data-theme="retro"] .unicode-subgroup {
   border-width: 2px;
 }
 
+html[data-theme="retro"] .example-dialog,
+html[data-theme="retro"] .language-dialog,
+html[data-theme="retro"] .saved-dialog,
+html[data-theme="retro"] .help-dialog,
+html[data-theme="retro"] .filter-picker-dialog,
+html[data-theme="retro"] .install-dialog {
+  border-color: var(--dialog-frame-border);
+}
+
 html[data-theme="retro"] .help-pixel,
 html[data-theme="retro"] .help-settings,
 html[data-theme="retro"] .saved-section,
@@ -292,7 +305,7 @@ html[data-theme="retro"] .example-dialog {
 
 html[data-theme="retro"] .example-dialog .dialog-heading {
   background: var(--dialog-header-bg);
-  border-bottom: 2px solid var(--border);
+  border-bottom: 2px solid var(--dialog-frame-border);
 }
 
 html[data-theme="retro"] .subgroup-list,
@@ -315,7 +328,7 @@ html[data-theme="retro"] .pixel-editor-layer-transform {
 
 html[data-theme="retro"] .emoji-code-toolbar {
   background: var(--dialog-header-bg);
-  border-top: 2px solid var(--border);
+  border-top: 2px solid var(--dialog-frame-border);
 }
 
 html[data-theme="retro"] .setting-choice,
@@ -2471,6 +2484,12 @@ kbd {
 }
 .code .object,
 .code .object-key {
+  color: var(--code-object);
+}
+.code .object-key {
+  color: var(--code-object-key);
+}
+.code .object {
   color: var(--code-object);
 }
 .code .emoji-value {
