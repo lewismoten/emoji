@@ -23,6 +23,7 @@ import { createPixelArtworkManager } from './explorer/pixel-artwork.js';
 import { loadVersionCatalog, populateVersionSelector as populateVersionSelectorHelper } from './explorer/version-data.js';
 import { createSearchLanguageLifecycle } from './explorer/search-language-lifecycle.js';
 import { getExplorerElements } from './explorer/explorer-dom.js';
+import { observeToolbarHeight } from './explorer/toolbar-layout.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -631,22 +632,7 @@ async function onLoad() {
     document.addEventListener('keydown', onDocumentKeyDown);
     renderVersionModeToggle();
     renderPixelFontToggle();
-    const setToolbarHeight = height => {
-        document.documentElement.style.setProperty('--toolbar-height', `${height}px`);
-    };
-    if (window.ResizeObserver) {
-        new window.ResizeObserver(([entry]) => {
-            const borderBox = Array.isArray(entry.borderBoxSize)
-                ? entry.borderBoxSize[0]
-                : entry.borderBoxSize;
-            setToolbarHeight(borderBox?.blockSize ?? entry.contentRect.height);
-        }).observe(toolbar);
-    }
-    else {
-        const measureToolbar = () => window.requestAnimationFrame(() => setToolbarHeight(toolbar.offsetHeight));
-        measureToolbar();
-        window.addEventListener('resize', measureToolbar);
-    }
+    observeToolbarHeight(toolbar);
     if (typeof explorerPreferences.filtersOpen === 'boolean') {
         advancedFilters.open = explorerPreferences.filtersOpen;
     }
