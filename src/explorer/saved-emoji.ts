@@ -24,6 +24,12 @@ declare const navigator: {
   };
 };
 
+function createButton() {
+  const button = document.createElement('button');
+  button.type = 'button';
+  return button;
+}
+
 export function nextFavoriteEmojiKeys(
   favoriteEmojiKeys: string[],
   key: string
@@ -89,8 +95,7 @@ export function renderSavedEmojiList(options: {
   );
   options.container.replaceChildren(
     ...available.map((key, index) => {
-      const button = document.createElement('button');
-      button.type = 'button';
+      const button = createButton();
       button.dataset.savedEmoji = key;
       button.dataset.savedSource = options.source;
       button.style.setProperty('--saved-index', String(Math.min(index, 12)));

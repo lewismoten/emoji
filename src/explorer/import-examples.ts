@@ -39,6 +39,28 @@ declare const document: {
   createElement(tagName: string): MinimalNode;
 };
 
+function createSpan(className: string) {
+  const span = document.createElement('span');
+  span.className = className;
+  return span;
+}
+
+function ensureImportExampleLine(
+  code: MinimalNode,
+  after: MinimalNode,
+  lineClass: string,
+  pathClass: string
+) {
+  let line = code.querySelector(`.${lineClass}`);
+  if (!line) {
+    line = createSpan(`line comment ${lineClass}`);
+    line.hidden = true;
+    line.append('// import emoji from "', createSpan(pathClass), '";');
+    after.after(line);
+  }
+  return line;
+}
+
 export function resolveImportExamples(
   packageManifest: PackageManifest,
   item: {
@@ -84,8 +106,7 @@ export function ensureImportExamples(dialog: MinimalNode) {
 
   let allPath = importString.querySelector('.emoji-import-path');
   if (!allPath) {
-    allPath = document.createElement('span');
-    allPath.className = 'emoji-import-path';
+    allPath = createSpan('emoji-import-path');
     importString.replaceChildren('"', allPath, '"');
   }
   allPath.textContent = '@lewismoten/emoji/all';
@@ -97,18 +118,6 @@ export function ensureImportExamples(dialog: MinimalNode) {
   ];
   let after = importLine;
   alternatives.forEach(([lineClass, pathClass]) => {
-    let line = code.querySelector(`.${lineClass}`);
-    if (!line) {
-      line = document.createElement('span');
-      line.className = `line comment ${lineClass}`;
-      line.hidden = true;
-      line.append(
-        '// import emoji from "',
-        Object.assign(document.createElement('span'), { className: pathClass }),
-        '";'
-      );
-      after.after(line);
-    }
-    after = line;
+    after = ensureImportExampleLine(code, after, lineClass, pathClass);
   });
 }
