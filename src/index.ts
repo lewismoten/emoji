@@ -97,7 +97,7 @@ import { createListController } from './explorer/list-controller.js';
 import { createDialogNavigationController } from './explorer/dialog-navigation-controller.js';
 import { showEmojiSession } from './explorer/emoji-session.js';
 import { createFilterControlSetup } from './explorer/filter-controls.js';
-import { createExplorerApp } from './explorer-app.js';
+import { bindExplorerEvents, createExplorerApp } from './explorer-app.js';
 if (import.meta.hot) {
   let pixelFontRevision;
   const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -668,125 +668,23 @@ async function onLoad() {
     .querySelectorAll('.modifier-emoji')
     .forEach(emoji => emoji.setAttribute('aria-hidden', 'true'));
 
-  window.addEventListener('online', updateOnlineStatus);
-  window.addEventListener('offline', updateOnlineStatus);
-  window
-    .matchMedia('(max-width: 560px)')
-    .addEventListener('change', positionFavoriteButton);
-  updateOnlineStatus();
-  renderInstallAppButton();
-
-  applyBasicUrlState();
-  skinToneCheckboxes.forEach(checkbox =>
-    checkbox.addEventListener('change', drawList)
-  );
-  hairCheckboxes.forEach(checkbox =>
-    checkbox.addEventListener('change', drawList)
-  );
-  genderCheckboxes.forEach(checkbox =>
-    checkbox.addEventListener('change', onGenderChange)
-  );
-
-  searchText.addEventListener('input', scheduleSearchDraw);
-  languagePicker.addEventListener('click', () => {
-    if (helpDialog?.open) closePanelDialog(helpDialog, suppressedPanelCloses);
-    openPanelDialog({
-      panel: 'language',
-      dialogs: panelDialogs(),
-      languageList,
-      renderSavedEmoji,
-      syncUrlState
-    });
+  bindExplorerEvents({
+    advancedFilters, applyingUrlState: () => applyingUrlState, applyBasicUrlState,
+    clearFiltersButton, closePanel: closePanelDialog, copiedEmojiKeys: () => copiedEmojiKeys,
+    developerModeToggle, drawList, emojiFontChoices, emojiList, emojiNext, emojiPrevious,
+    exampleDialog, favoriteEmojiKeys: () => favoriteEmojiKeys, genderCheckboxes,
+    hairCheckboxes, helpDialog, helpPicker, installApp, installAppButton, installDialog,
+    installedDisplayQueries, languageDialog, languageList, languagePicker, navigateEmoji,
+    onClick, onDocumentKeyDown, onEmojiDialogClick, onEmojiDialogClose, onEmojiFocus,
+    onEmojiKeyDown, onGenderChange, onOrderModeChange, onPanelClose: onPanelDialogClose,
+    onVersionRangeInput, openPanel: openPanelDialog, orderButtons, panelDialogs,
+    positionFavoriteButton, renderInstallAppButton, renderSavedEmoji, resetFilters,
+    savePreference: saveExplorerPreference, savedDialog, savedPicker, scheduleSearchDraw,
+    searchText, selectEmojiFont, showEmoji, skinToneCheckboxes, stepVersion,
+    suppressedPanelCloses, syncUrlState, syncVersionRange, toggleDeveloperMode,
+    toggleVersionMode, updateOnlineStatus, urlStateReady: () => urlStateReady,
+    versionModeToggle, versionNext, versionPrevious, versionRange, versionSelector
   });
-  emojiFontChoices.forEach(choice =>
-    choice.addEventListener('click', selectEmojiFont)
-  );
-  installAppButton?.addEventListener('click', installApp);
-  installedDisplayQueries.forEach(query =>
-    query.addEventListener?.('change', renderInstallAppButton)
-  );
-  installDialog
-    ?.querySelector('.install-dialog-close')
-    ?.addEventListener('click', () => installDialog.close());
-  savedPicker?.addEventListener('click', () => {
-    openPanelDialog({
-      panel: 'favorites',
-      dialogs: panelDialogs(),
-      languageList,
-      renderSavedEmoji,
-      syncUrlState
-    });
-  });
-  helpPicker?.addEventListener('click', () => {
-    openPanelDialog({
-      panel: 'help',
-      dialogs: panelDialogs(),
-      languageList,
-      renderSavedEmoji,
-      syncUrlState
-    });
-  });
-  developerModeToggle?.addEventListener('change', toggleDeveloperMode);
-  languageDialog.addEventListener('close', event =>
-    onPanelDialogClose({
-      event,
-      suppressedPanelCloses,
-      urlStateReady,
-      applyingUrlState,
-      syncUrlState
-    })
-  );
-  savedDialog?.addEventListener('close', event =>
-    onPanelDialogClose({
-      event,
-      suppressedPanelCloses,
-      urlStateReady,
-      applyingUrlState,
-      syncUrlState
-    })
-  );
-  helpDialog?.addEventListener('close', event =>
-    onPanelDialogClose({
-      event,
-      suppressedPanelCloses,
-      urlStateReady,
-      applyingUrlState,
-      syncUrlState
-    })
-  );
-  savedDialog?.addEventListener('click', event => {
-    const button = event.target.closest('[data-saved-emoji]');
-    if (!button) return;
-    const navigationKeys =
-      button.dataset.savedSource === 'favorites'
-        ? favoriteEmojiKeys
-        : copiedEmojiKeys;
-    closePanelDialog(savedDialog, suppressedPanelCloses);
-    showEmoji(button.dataset.savedEmoji, true, navigationKeys);
-  });
-  emojiList.addEventListener('click', onClick);
-  emojiList.addEventListener('focusin', onEmojiFocus);
-  emojiList.addEventListener('keydown', onEmojiKeyDown);
-  exampleDialog.addEventListener('click', onEmojiDialogClick);
-  exampleDialog.addEventListener('close', onEmojiDialogClose);
-  versionModeToggle?.addEventListener('click', toggleVersionMode);
-  versionPrevious?.addEventListener('click', () => stepVersion(-1));
-  versionNext?.addEventListener('click', () => stepVersion(1));
-  clearFiltersButton?.addEventListener('click', resetFilters);
-  emojiPrevious?.addEventListener('click', () => navigateEmoji(-1));
-  emojiNext?.addEventListener('click', () => navigateEmoji(1));
-  versionSelector.addEventListener('change', () => {
-    syncVersionRange();
-    drawList();
-  });
-  versionRange?.addEventListener('input', onVersionRangeInput);
-  orderButtons.forEach(button =>
-    button.addEventListener('click', onOrderModeChange)
-  );
-  advancedFilters.addEventListener('toggle', () => {
-    saveExplorerPreference('filtersOpen', advancedFilters.open);
-  });
-  document.addEventListener('keydown', onDocumentKeyDown);
   renderVersionModeToggle();
   renderPixelFontToggle();
 
