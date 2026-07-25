@@ -15,8 +15,8 @@ const assetVersion = packageJson.version;
 const deployedScript = fs
   .readFileSync('index.js', 'utf8')
   .replace(
-    /import\((['"])\.\/pixel-editor\.js\1\)/,
-    `import('./pixel-editor.js?v=${assetVersion}')`
+    /import\((['"])(\.+)\/pixel-editor\.js\1\)/,
+    `import('$2/pixel-editor.js?v=${assetVersion}')`
   )
   .replace(
     /(['"])\.\/explorer\/pixel-editor\.css\1/,

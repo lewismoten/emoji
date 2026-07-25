@@ -75,7 +75,7 @@ assert.ok(
 );
 assert.match(
   generatedDemoScript,
-  new RegExp(`import\\('./pixel-editor\\.js\\?v=${packageJson.version}'\\)`),
+  new RegExp(`import\\('../pixel-editor\\.js\\?v=${packageJson.version}'\\)`),
   "the deployed entry module must lazy-load a versioned pixel editor",
 );
 assert.match(
