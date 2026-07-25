@@ -82,6 +82,7 @@ import { createCategoryController } from './app/category-controller.js';
 import { createExplorerRuntime } from './explorer-runtime.js';
 import { createEmojiActions } from './app/emoji-actions.js';
 import { createVersionController } from './app/version-controller.js';
+import { createVersionModeController } from './app/version-mode-controller.js';
 import { createExplorerShell } from './app/explorer-shell.js';
 import {
   installPixelFontHotReload,
@@ -434,43 +435,19 @@ function removeLegacyDialogElements() {
     ?.remove();
 }
 
-function populateVersionModeOptions() {
-  const previousValue = versionModeDefinitions.some(
-    mode => mode.value === versionModeSelector.value
-  )
-    ? versionModeSelector.value
-    : 'through';
-  versionModeSelector.replaceChildren(
-    ...versionModeDefinitions.map(mode => {
-      const option = document.createElement('option');
-      option.value = mode.value;
-      option.textContent = translate(mode.key, mode.fallback);
-      return option;
-    })
-  );
-  versionModeSelector.value = previousValue;
-}
-
-function renderVersionModeToggle() {
-  if (!versionModeToggle) return;
-  populateVersionModeOptions();
-  const label = translate('selectedVersionOnly', 'Selected version only');
-  versionModeToggle.setAttribute(
-    'aria-pressed',
-    String(versionModeSelector.value === 'selected')
-  );
-  versionModeToggle.setAttribute('aria-label', label);
-  versionModeToggle.title = label;
-}
-
-function toggleVersionMode(event) {
-  versionModeSelector.value =
-    versionModeSelector.value === 'selected' ? 'through' : 'selected';
-  renderVersionModeToggle();
-  renderCategoryFilters();
-  drawList();
-  if (event?.detail > 0) event.currentTarget.blur();
-}
+const versionModeController = createVersionModeController({
+  definitions: versionModeDefinitions,
+  drawList: () => drawList(),
+  renderCategoryFilters: () => renderCategoryFilters(),
+  selector: () => versionModeSelector,
+  toggle: () => versionModeToggle,
+  translate
+});
+const {
+  populateOptions: populateVersionModeOptions,
+  render: renderVersionModeToggle,
+  toggle: toggleVersionMode
+} = versionModeController;
 
 const explorerNavigation = createExplorerNavigation({
   allowedSequenceTypes: sequenceTypeOrder,

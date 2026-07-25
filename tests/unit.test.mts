@@ -143,6 +143,10 @@ const explorerUi = await fs.readFile(
   path.join(root, 'src/explorer-ui.ts'),
   'utf8'
 );
+const versionModeController = await fs.readFile(
+  path.join(root, 'src/app/version-mode-controller.ts'),
+  'utf8'
+);
 const emojiDialogEvents = await fs.readFile(
   path.join(root, 'src/explorer/emoji-dialog-events.ts'),
   'utf8'
@@ -823,8 +827,8 @@ assert.match(
   'the version target must reserve its outline for keyboard focus'
 );
 assert.match(
-  demoScript,
-  /function toggleVersionMode\(event\)[\s\S]*event\?\.detail > 0[\s\S]*event\.currentTarget\.blur\(\)/,
+  `${demoScript}\n${versionModeController}`,
+  /function toggleVersionMode\(event(?:: any)?\)[\s\S]*event\?\.detail > 0[\s\S]*event\.currentTarget\.blur\(\)/,
   'pointer toggles must not retain a misleading focus treatment'
 );
 assert.match(
@@ -1383,7 +1387,7 @@ assert.match(
   'the pixel editor font preview must use atomic glyph aliases'
 );
 assert.match(
-  demoScript,
+  `${demoScript}\n${versionModeController}`,
   /event\?\.detail > 0/,
   'pointer toggles must release their active focus state'
 );
