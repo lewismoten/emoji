@@ -98,6 +98,7 @@ import {
 } from './explorer/emoji-filter.js';
 import { updateActiveFilterSummary as updateActiveFilterSummaryHelper } from './explorer/filter-summary.js';
 import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from './explorer/dialog-upgrade.js';
+import { applyDialogView } from './explorer/dialog-view.js';
 
 if (import.meta.hot) {
   let pixelFontRevision;
@@ -903,47 +904,12 @@ function upgradeEmojiDialog() {
 }
 
 function setEmojiDialogView(requestedMode, updateUrl = true) {
-  const normalizedMode =
-    requestedMode === true
-      ? 'code'
-      : requestedMode === false
-        ? 'details'
-        : ['details', 'code', 'editor'].includes(requestedMode)
-          ? requestedMode
-          : 'details';
-  const mode =
-    developerModeEnabled() || normalizedMode === 'details'
-      ? normalizedMode
-      : 'details';
-  const showDetails = mode === 'details';
-  exampleDialog.classList.toggle('is-code-view', mode === 'code');
-  exampleDialog.classList.toggle('is-editor-view', mode === 'editor');
-  exampleDialog.querySelector('.emoji-dialog-details').hidden = !showDetails;
-  const composition = exampleDialog.querySelector('.emoji-composition');
-  if (composition)
-    composition.hidden =
-      !showDetails ||
-      !developerModeEnabled() ||
-      composition.dataset.available !== 'true';
-  exampleDialog.querySelector('.emoji-metadata').hidden = !showDetails;
-  exampleDialog.querySelector('.emoji-copy-actions').hidden = !showDetails;
-  const renderingDiagnostic = exampleDialog.querySelector(
-    '.rendering-diagnostic'
-  );
-  if (renderingDiagnostic)
-    renderingDiagnostic.hidden =
-      !showDetails ||
-      !developerModeEnabled() ||
-      renderingDiagnostic.dataset.available !== 'true';
-  const pixelInvitation = exampleDialog.querySelector(
-    '.pixel-design-invitation'
-  );
-  if (pixelInvitation)
-    pixelInvitation.hidden =
-      !showDetails ||
-      !developerModeEnabled() ||
-      pixelInvitation.dataset.available !== 'true';
-  exampleDialog.querySelector('.emoji-code-view').hidden = mode !== 'code';
+  const { mode, showDetails } = applyDialogView({
+    developerMode: developerModeEnabled(),
+    dialog: exampleDialog,
+    requestedMode,
+    translate
+  });
   if (mode === 'code' && currentEmojiKey) {
     updateEmojiImportExamples(byId[currentEmojiKey] ?? {});
     void loadPackageManifest().then(() => {
@@ -967,15 +933,6 @@ function setEmojiDialogView(requestedMode, updateUrl = true) {
   } else if (mode === 'editor') {
     void ensurePixelEditor();
   }
-  const eyebrow = exampleDialog.querySelector('.emoji-dialog-eyebrow');
-  const [key, fallback] =
-    mode === 'code'
-      ? ['codeExample', 'Code example']
-      : mode === 'editor'
-        ? ['pixelEditor', 'Pixel editor']
-        : ['emojiDetails', 'Emoji details'];
-  eyebrow.dataset.i18n = key;
-  eyebrow.textContent = translate(key, fallback);
   if (updateUrl && exampleDialog.open) syncUrlState();
 }
 
