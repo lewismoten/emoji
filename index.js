@@ -17,7 +17,7 @@ import { createEmojiListInteraction } from './explorer/emoji-list-interaction.js
 import { filterEmojiKeys, getEmojiGenders as getEmojiGendersHelper } from './explorer/emoji-filter.js';
 import { updateActiveFilterSummary as updateActiveFilterSummaryHelper } from './explorer/filter-summary.js';
 import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from './explorer/dialog-upgrade.js';
-import { applyDialogView } from './explorer/dialog-view.js';
+import { applyDialogView, loadStylesheet } from './explorer/dialog-view.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -758,27 +758,6 @@ async function ensurePixelEditor() {
             ?.focus({ preventScroll: true });
     }
     return editor;
-}
-function loadStylesheet(href, id) {
-    const existing = document.getElementById(id);
-    if (existing) {
-        return existing.sheet
-            ? Promise.resolve(existing)
-            : new Promise(resolve => existing.addEventListener('load', () => resolve(existing), {
-                once: true
-            }));
-    }
-    const stylesheet = document.createElement('link');
-    stylesheet.id = id;
-    stylesheet.rel = 'stylesheet';
-    stylesheet.href = href;
-    document.head.appendChild(stylesheet);
-    return new Promise((resolve, reject) => {
-        stylesheet.addEventListener('load', () => resolve(stylesheet), {
-            once: true
-        });
-        stylesheet.addEventListener('error', reject, { once: true });
-    });
 }
 function focusInitialEmojiDialogAction() {
     const target = exampleDialog.classList.contains('is-code-view')

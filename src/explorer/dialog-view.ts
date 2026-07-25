@@ -48,3 +48,27 @@ export function applyDialogView(options: {
   }
   return { mode, showDetails: details };
 }
+
+export function loadStylesheet(href: string, id: string) {
+  const existing = document.getElementById(id) as HTMLLinkElement | null;
+  if (existing) {
+    return existing.sheet
+      ? Promise.resolve(existing)
+      : new Promise(resolve =>
+          existing.addEventListener('load', () => resolve(existing), {
+            once: true
+          })
+        );
+  }
+  const stylesheet = document.createElement('link');
+  stylesheet.id = id;
+  stylesheet.rel = 'stylesheet';
+  stylesheet.href = href;
+  document.head.appendChild(stylesheet);
+  return new Promise((resolve, reject) => {
+    stylesheet.addEventListener('load', () => resolve(stylesheet), {
+      once: true
+    });
+    stylesheet.addEventListener('error', reject, { once: true });
+  });
+}
