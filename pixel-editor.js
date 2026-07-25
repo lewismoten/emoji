@@ -62,7 +62,7 @@ const SKIN_TONE_COLORS = [
     fallback: "Dark skin tone",
   },
 ];
-const BITMAP_FONT = {
+const BITMAP_FONT_5X7 = {
   " ": "00000000000000000000000000000000000",
   A: "01110100011000111111100011000110001",
   B: "11110100011000111110100011000111110",
@@ -1862,7 +1862,7 @@ async function createBlankAtlas(manifest, entry) {
 function drawBitmapText(context, x, y, value, color) {
   context.fillStyle = color;
   for (const [index, character] of [...value.toUpperCase()].entries()) {
-    const glyph = BITMAP_FONT[character] ?? BITMAP_FONT["?"];
+    const glyph = BITMAP_FONT_5X7[character] ?? BITMAP_FONT_5X7["?"];
     for(let rowIndex = 0; rowIndex < 7; rowIndex++) {
       for(let columnIndex = 0; columnIndex < 5; columnIndex++) {
         const pixel = glyph[(rowIndex * 5) + columnIndex];
