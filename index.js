@@ -2,10 +2,11 @@
 import { explorerLabelKeys, languageFlags, sequenceTranslationKeys, sequenceTypeEmoji, sequenceTypeLabels, sequenceTypeOrder, statusTranslationKeys, unicodeGroupLabelKeys, unicodeSubgroupLabelKeys, versionModeDefinitions } from './explorer/explorer-labels.js';
 import { getExplorerSubGroup, titleCase } from './explorer/category-rules.js';
 import { compositionReductionLabel, compositionTitle, describeCompositionPoint, findCompositionArtworkKey, findCompositionEmojiKey, isCondensedSequenceControl } from './explorer/composition-helpers.js';
-import { displayEmojiKey, formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints, normalizeDisplayName } from './explorer/emoji-format.js';
+import { displayEmojiKey, formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints } from './explorer/emoji-format.js';
 import { copyToClipboard as copyToClipboardHelper, nextCopiedEmojiKeys, nextFavoriteEmojiKeys, renderSavedEmojiList as renderSavedEmojiListHelper, updateFavoriteToggleButton } from './explorer/saved-emoji.js';
 import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, resolveImportExamples } from './explorer/import-examples.js';
 import { buildExplorerUrlQuery, parseExplorerUrlState } from './explorer/url-state.js';
+import { buildDialogCopyValues, resolveCompositionParentLabel, resolveDialogNavigationState, resolveDialogTitle, shouldHideEnglishName } from './explorer/dialog-state.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -3412,18 +3413,6 @@ function showEmoji(id, openDialog = true, navigationKeys) {
         dialogNavigationKeys = [...(navigationKeys ?? displayedKeys)].filter(key => emojiByKey[key] !== undefined);
     }
     currentEmojiKey = id;
-    var bits = [];
-    var i;
-    for (i = 0; i < value.length; i++) {
-        const hex = value.codePointAt(i).toString(16);
-        if (hex.length <= 4) {
-            bits.push('\\u' + hex);
-        }
-        else {
-            bits.push('\\u{' + hex + '}');
-            i++; // skip next code as this one overlaps into it
-        }
-    }
     var group = items.find(item => item.key === id)?.group ?? '(none)';
     document.getElementsByClassName('emoji-group')[0].innerText =
         displayGroupName(group);
@@ -3453,31 +3442,34 @@ function showEmoji(id, openDialog = true, navigationKeys) {
     document.getElementsByClassName('emoji-sequence-type')[0].innerText =
         translate(sequenceTranslationKeys[item.sequenceType], sequenceLabel);
     document.getElementsByClassName('emoji-status')[0].innerText = translate(statusTranslationKeys[item.status], item.status ?? '—');
-    currentEmojiCopies = {
+    currentEmojiCopies = buildDialogCopyValues({
         emoji: value,
         key: id,
-        escape: bits.join(''),
         codePoints
-    };
+    });
     const localizedDetails = document.getElementsByClassName('localized-emoji-details')[0];
     const annotations = searchAnnotations[id] ?? [];
-    if (selectedSearchLocale && annotations.length > 0) {
-        document.getElementById('example-title').innerText = annotations[0];
+    const dialogTitle = resolveDialogTitle({
+        emojiKey: id,
+        selectedSearchLocale,
+        annotations
+    });
+    if (dialogTitle.showLocalized) {
+        document.getElementById('example-title').innerText = dialogTitle.title;
         document.getElementsByClassName('localized-language')[0].innerText =
             translate('keywords', 'keywords');
         document.getElementsByClassName('localized-keywords')[0].innerText =
-            annotations.slice(1).join(' · ');
+            dialogTitle.localizedKeywords;
         localizedDetails.hidden = false;
     }
     else {
-        document.getElementById('example-title').innerText = displayEmojiKey(id);
+        document.getElementById('example-title').innerText = dialogTitle.title;
         localizedDetails.hidden = true;
     }
     const dialogTitleElement = document.getElementById('example-title');
-    const dialogTitle = dialogTitleElement.innerText;
-    dialogTitleElement.title = dialogTitle;
+    dialogTitleElement.title = dialogTitle.title;
     englishNameElement.closest('.emoji-english-name-row, div').hidden =
-        normalizeDisplayName(dialogTitle) === normalizeDisplayName(englishName);
+        shouldHideEnglishName(dialogTitle.title, englishName);
     updateFavoriteButton();
     if (openDialog) {
         if (copyStatus)
@@ -3497,10 +3489,8 @@ function showEmoji(id, openDialog = true, navigationKeys) {
 }
 function navigateEmoji(amount) {
     const keys = dialogNavigationKeys.length > 0 ? dialogNavigationKeys : displayedKeys;
-    const index = keys.indexOf(currentEmojiKey);
-    if (index === -1)
-        return;
-    const nextKey = keys[index + amount];
+    const navigation = resolveDialogNavigationState(keys, currentEmojiKey);
+    const nextKey = amount < 0 ? navigation.previousKey : navigation.nextKey;
     if (nextKey) {
         showEmoji(nextKey, false);
         syncUrlState();
@@ -3508,11 +3498,11 @@ function navigateEmoji(amount) {
 }
 function updateDialogNavigation() {
     const keys = dialogNavigationKeys.length > 0 ? dialogNavigationKeys : displayedKeys;
-    const index = keys.indexOf(currentEmojiKey);
+    const navigation = resolveDialogNavigationState(keys, currentEmojiKey);
     if (emojiPrevious)
-        emojiPrevious.disabled = index <= 0;
+        emojiPrevious.disabled = navigation.previousDisabled;
     if (emojiNext)
-        emojiNext.disabled = index === -1 || index >= keys.length - 1;
+        emojiNext.disabled = navigation.nextDisabled;
     updateCompositionBackButton();
 }
 function updateCompositionBackButton() {
@@ -3523,10 +3513,12 @@ function updateCompositionBackButton() {
     emojiParent.hidden = !available;
     if (!available)
         return;
-    const parentName = searchAnnotations[parentKey]?.[0] ??
-        byId[parentKey]?.shortName ??
-        displayEmojiKey(parentKey);
-    const label = `${translate('backToEmoji', 'Back to emoji')}: ${parentName}`;
+    const label = resolveCompositionParentLabel({
+        parentKey,
+        searchAnnotations,
+        byId,
+        translate
+    });
     emojiParent.title = label;
     emojiParent.setAttribute('aria-label', label);
 }
