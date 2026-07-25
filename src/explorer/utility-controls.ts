@@ -217,7 +217,7 @@ export function ensureUtilityControls() {
           <div class="setting-row">
             <div>
               <h4 data-i18n="theme">Theme</h4>
-              <p data-i18n="themeDescription">Switch between the current dark theme and a light theme.</p>
+              <p data-i18n="themeDescription">Switch between dark, light, and retro themes.</p>
             </div>
             <div class="setting-choice-group theme-choices" role="group" data-i18n-aria-label="theme" aria-label="Theme">
               <button class="setting-choice theme-choice" type="button" data-theme="dark" aria-pressed="true">
@@ -227,6 +227,10 @@ export function ensureUtilityControls() {
               <button class="setting-choice theme-choice" type="button" data-theme="light" aria-pressed="false">
                 <span aria-hidden="true">☀️</span>
                 <span data-i18n="light">Light</span>
+              </button>
+              <button class="setting-choice theme-choice" type="button" data-theme="retro" aria-pressed="false">
+                <span aria-hidden="true">🕹️</span>
+                <span data-i18n="retro">Retro</span>
               </button>
             </div>
           </div>

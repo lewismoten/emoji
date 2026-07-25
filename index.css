@@ -30,6 +30,9 @@
   --ui-font:
     system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
+  --retro-ui-font:
+    "Press Start 2P", "Silkscreen", "Perfect DOS VGA 437",
+    "Px437 IBM VGA 8x16", "Courier New", monospace;
   --installed-emoji-fonts:
     "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla";
   --system-emoji-font: var(--installed-emoji-fonts), sans-serif;
@@ -66,6 +69,40 @@ html[data-theme="light"] {
   --code-object: #a33b32;
 }
 
+html[data-theme="retro"] {
+  color-scheme: dark;
+  --page: #0000aa;
+  --panel: #000000;
+  --panel-strong: #000000;
+  --border: #55ffff;
+  --text: #ffffff;
+  --muted: #aaaaaa;
+  --accent: #55ffff;
+  --accent-strong: #ff55ff;
+  --accent-surface: #aa00aa;
+  --accent-surface-strong: #550055;
+  --accent-text: #ffffff;
+  --selected-control-bg: #aa00aa;
+  --selected-control-text: #ffffff;
+  --section-header-bg: #000000;
+  --code: #000000;
+  --code-text: #ffffff;
+  --code-keyword: #ff55ff;
+  --code-variable: #ffffff;
+  --code-native-function: #55ffff;
+  --code-string: #55ff55;
+  --code-comment: #aaaaaa;
+  --code-native-object: #ffff55;
+  --code-object: #ff5555;
+  --ui-font: var(--retro-ui-font);
+}
+
+html[data-theme="retro"] .offline-status {
+  border-color: #ffff55;
+  background: #000000;
+  color: #ffff55;
+}
+
 html[data-emoji-font="system"] {
   --emoji-font:
     var(--installed-emoji-fonts),
@@ -77,18 +114,27 @@ html[data-emoji-font="system"] {
   --ui-font:
     "Noto Sans Arabic", "Noto Naskh Arabic", "Geeza Pro", Tahoma, "Segoe UI",
     Arial, sans-serif;
+  --retro-ui-font:
+    "Noto Kufi Arabic", "Noto Sans Arabic", "Noto Naskh Arabic", Tahoma,
+    "Courier New", monospace;
 }
 
 :lang(hi) {
   --ui-font:
     "Noto Sans Devanagari", "Kohinoor Devanagari", "Nirmala UI", Mangal,
     system-ui, sans-serif;
+  --retro-ui-font:
+    "Noto Sans Devanagari", "Kohinoor Devanagari", "Nirmala UI", Mangal,
+    "Courier New", monospace;
 }
 
 :lang(zh) {
   --ui-font:
     "Noto Sans CJK SC", "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
     "Heiti SC", system-ui, sans-serif;
+  --retro-ui-font:
+    "Noto Sans Mono CJK SC", "Noto Sans CJK SC", "Noto Sans SC",
+    "PingFang SC", "Microsoft YaHei", "Courier New", monospace;
 }
 
 * {
@@ -107,6 +153,224 @@ body {
   background: var(--page);
   color: var(--text);
   font-family: var(--ui-font);
+}
+
+html[data-theme="retro"] * {
+  box-shadow: none !important;
+  text-shadow: none;
+  backdrop-filter: none !important;
+  background-image: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+html[data-theme="retro"] .toolbar,
+html[data-theme="retro"] .offline-status,
+html[data-theme="retro"] .pixel-hero,
+html[data-theme="retro"] .about-explorer,
+html[data-theme="retro"] .loading-grid i,
+html[data-theme="retro"] .order-footer,
+html[data-theme="retro"] .empty-results,
+html[data-theme="retro"] .help-pixel,
+html[data-theme="retro"] .help-settings,
+html[data-theme="retro"] .saved-section,
+html[data-theme="retro"] .shortcut-list > div,
+html[data-theme="retro"] .rendering-comparison > div,
+html[data-theme="retro"] .pixel-design-invitation,
+html[data-theme="retro"] .emoji-preview,
+html[data-theme="retro"] .emoji-composition-part,
+html[data-theme="retro"] .emoji-metadata > div,
+html[data-theme="retro"] .pixel-editor-file,
+html[data-theme="retro"] .example-dialog,
+html[data-theme="retro"] .language-dialog,
+html[data-theme="retro"] .saved-dialog,
+html[data-theme="retro"] .help-dialog,
+html[data-theme="retro"] .filter-picker-dialog,
+html[data-theme="retro"] .install-dialog,
+html[data-theme="retro"] .text,
+html[data-theme="retro"] fieldset,
+html[data-theme="retro"] .modifier-filters fieldset,
+html[data-theme="retro"] .group,
+html[data-theme="retro"] .subgroup-list,
+html[data-theme="retro"] .unicode-subgroup,
+html[data-theme="retro"] .setting-choice,
+html[data-theme="retro"] .language-option,
+html[data-theme="retro"] .pixel-comparison > button,
+html[data-theme="retro"] .modifier-filters fieldset label,
+html[data-theme="retro"] .filter-picker-trigger,
+html[data-theme="retro"] .compact-choice,
+html[data-theme="retro"] .version-mode-toggle,
+html[data-theme="retro"] .version-step,
+html[data-theme="retro"] .dialog-close,
+html[data-theme="retro"] .dialog-navigate,
+html[data-theme="retro"] .dialog-mode-back,
+html[data-theme="retro"] .saved-picker,
+html[data-theme="retro"] .help-picker,
+html[data-theme="retro"] .language-picker,
+html[data-theme="retro"] .order-mode,
+html[data-theme="retro"] .install-app,
+html[data-theme="retro"] .empty-actions button,
+html[data-theme="retro"] .saved-emoji-list button,
+html[data-theme="retro"] kbd,
+html[data-theme="retro"] .emoji-composition-mode,
+html[data-theme="retro"] .pixel-design-invitation button,
+html[data-theme="retro"] .emoji-copy-actions button,
+html[data-theme="retro"] .emoji-code-toolbar button,
+html[data-theme="retro"] .pixel-editor-transfer button,
+html[data-theme="retro"] .pixel-editor-layer button,
+html[data-theme="retro"] .pixel-editor-trace-nudge,
+html[data-theme="retro"] .subgroup,
+html[data-theme="retro"] .sequence-type,
+html[data-theme="retro"] .subgroup .emoji > div,
+html[data-theme="retro"] .sequence-type > .emoji > div,
+html[data-theme="retro"] .pixel-editor-toolbar button,
+html[data-theme="retro"] .pixel-editor-file button,
+html[data-theme="retro"] .pixel-editor-preview-actions button,
+html[data-theme="retro"] .pixel-editor-canvas,
+html[data-theme="retro"] .pixel-editor-workspace,
+html[data-theme="retro"] .pixel-editor-panel,
+html[data-theme="retro"] .pixel-editor-preview,
+html[data-theme="retro"] .pixel-editor-swatch {
+  border-radius: 0 !important;
+}
+
+html[data-theme="retro"] .toolbar,
+html[data-theme="retro"] .pixel-hero,
+html[data-theme="retro"] .about-explorer,
+html[data-theme="retro"] .order-footer,
+html[data-theme="retro"] .empty-results,
+html[data-theme="retro"] .help-pixel,
+html[data-theme="retro"] .help-settings,
+html[data-theme="retro"] .saved-section,
+html[data-theme="retro"] .shortcut-list > div,
+html[data-theme="retro"] .rendering-comparison > div,
+html[data-theme="retro"] .pixel-design-invitation,
+html[data-theme="retro"] .emoji-metadata > div,
+html[data-theme="retro"] .pixel-editor-file,
+html[data-theme="retro"] .example-dialog,
+html[data-theme="retro"] .language-dialog,
+html[data-theme="retro"] .saved-dialog,
+html[data-theme="retro"] .help-dialog,
+html[data-theme="retro"] .filter-picker-dialog,
+html[data-theme="retro"] .install-dialog,
+html[data-theme="retro"] fieldset,
+html[data-theme="retro"] .modifier-filters fieldset,
+html[data-theme="retro"] .group,
+html[data-theme="retro"] .subgroup-list,
+html[data-theme="retro"] .subgroup,
+html[data-theme="retro"] .sequence-type,
+html[data-theme="retro"] .unicode-subgroup {
+  border-width: 2px;
+}
+
+html[data-theme="retro"] .setting-choice,
+html[data-theme="retro"] .language-option,
+html[data-theme="retro"] .pixel-comparison > button,
+html[data-theme="retro"] .modifier-filters fieldset label,
+html[data-theme="retro"] .filter-picker-trigger,
+html[data-theme="retro"] .compact-choice,
+html[data-theme="retro"] .version-mode-toggle,
+html[data-theme="retro"] .version-step,
+html[data-theme="retro"] .saved-picker,
+html[data-theme="retro"] .help-picker,
+html[data-theme="retro"] .language-picker,
+html[data-theme="retro"] .order-mode,
+html[data-theme="retro"] .install-app,
+html[data-theme="retro"] .emoji-copy-actions button,
+html[data-theme="retro"] .emoji-code-toolbar button,
+html[data-theme="retro"] .dialog-close,
+html[data-theme="retro"] .dialog-navigate,
+html[data-theme="retro"] .dialog-mode-back,
+html[data-theme="retro"] .pixel-editor-toolbar button,
+html[data-theme="retro"] .pixel-editor-file button,
+html[data-theme="retro"] .pixel-editor-preview-actions button,
+html[data-theme="retro"] .pixel-editor-transfer button,
+html[data-theme="retro"] .pixel-editor-layer button,
+html[data-theme="retro"] .pixel-editor-trace-nudge {
+  border-width: 2px;
+}
+
+html[data-theme="retro"] .setting-choice:hover,
+html[data-theme="retro"] .language-option:hover,
+html[data-theme="retro"] .pixel-comparison > button:hover,
+html[data-theme="retro"] .modifier-filters fieldset label:hover,
+html[data-theme="retro"] .filter-picker-trigger:hover,
+html[data-theme="retro"] .compact-choice:hover,
+html[data-theme="retro"] .version-mode-toggle:hover,
+html[data-theme="retro"] .version-step:hover:not(:disabled),
+html[data-theme="retro"] .saved-picker:hover,
+html[data-theme="retro"] .help-picker:hover,
+html[data-theme="retro"] .language-picker:hover,
+html[data-theme="retro"] .order-mode:hover,
+html[data-theme="retro"] .emoji-copy-actions button:hover,
+html[data-theme="retro"] .emoji-code-toolbar button:hover,
+html[data-theme="retro"] .saved-emoji-list button:hover,
+html[data-theme="retro"] .subgroup .emoji > div:hover,
+html[data-theme="retro"] .sequence-type > .emoji > div:hover,
+html[data-theme="retro"] .pixel-editor-toolbar button:hover,
+html[data-theme="retro"] .pixel-editor-file button:hover,
+html[data-theme="retro"] .pixel-editor-preview-actions button:hover:not(:disabled),
+html[data-theme="retro"] .pixel-editor-transfer button:hover:not(:disabled),
+html[data-theme="retro"] .pixel-editor-layer button:hover:not(:disabled),
+html[data-theme="retro"] .pixel-editor-trace-nudge:hover {
+  background: #5555ff;
+  color: #ffffff;
+  transform: translate(-1px, -1px);
+}
+
+html[data-theme="retro"] .setting-choice.is-active,
+html[data-theme="retro"] .setting-choice[aria-pressed="true"],
+html[data-theme="retro"] .compact-choice[aria-checked="true"],
+html[data-theme="retro"] .version-mode-toggle[aria-pressed="true"],
+html[data-theme="retro"] .modifier-filters fieldset label:has(input:checked),
+html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"],
+html[data-theme="retro"] .language-option.is-selected,
+html[data-theme="retro"] .order-mode.is-active,
+html[data-theme="retro"] .pixel-editor-tools button[aria-pressed="true"],
+html[data-theme="retro"] .pixel-editor-layer-transform button[aria-pressed="true"] {
+  border-color: #55ffff;
+  background: #aa00aa;
+  color: #ffffff;
+}
+
+html[data-theme="retro"] .setting-choice:active,
+html[data-theme="retro"] .language-option:active,
+html[data-theme="retro"] .pixel-comparison > button:active,
+html[data-theme="retro"] .modifier-filters fieldset label:active,
+html[data-theme="retro"] .filter-picker-trigger:active,
+html[data-theme="retro"] .compact-choice:active,
+html[data-theme="retro"] .version-mode-toggle:active,
+html[data-theme="retro"] .version-step:active,
+html[data-theme="retro"] .saved-picker:active,
+html[data-theme="retro"] .help-picker:active,
+html[data-theme="retro"] .language-picker:active,
+html[data-theme="retro"] .order-mode:active,
+html[data-theme="retro"] .install-app:active,
+html[data-theme="retro"] .empty-actions button:active,
+html[data-theme="retro"] .saved-emoji-list button:active,
+html[data-theme="retro"] .emoji-copy-actions button:active,
+html[data-theme="retro"] .emoji-code-toolbar button:active,
+html[data-theme="retro"] .dialog-close:active,
+html[data-theme="retro"] .dialog-navigate:active,
+html[data-theme="retro"] .dialog-mode-back:active,
+html[data-theme="retro"] .subgroup .emoji > div:active,
+html[data-theme="retro"] .sequence-type > .emoji > div:active,
+html[data-theme="retro"] .pixel-editor-toolbar button:active,
+html[data-theme="retro"] .pixel-editor-file button:active,
+html[data-theme="retro"] .pixel-editor-preview-actions button:active,
+html[data-theme="retro"] .pixel-editor-transfer button:active,
+html[data-theme="retro"] .pixel-editor-layer button:active,
+html[data-theme="retro"] .pixel-editor-trace-nudge:active {
+  transform: translate(1px, 1px) scale(0.96);
+}
+
+html[data-theme="retro"] .setting-switch input {
+  width: 1.5rem;
+  min-height: 1.5rem;
+  border: 2px solid #55ffff;
+  border-radius: 0 !important;
+  background: #000000;
+  accent-color: #ff55ff;
 }
 
 html:has(dialog:modal),

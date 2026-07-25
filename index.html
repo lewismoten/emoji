@@ -76,14 +76,21 @@
       if (initialPreferences.pixelFont === false)
         document.documentElement.dataset.emojiFont = "system";
       const initialTheme =
-        initialPreferences.theme === "light" ? "light" : "dark";
+        initialPreferences.theme === "light" ||
+        initialPreferences.theme === "retro"
+          ? initialPreferences.theme
+          : "dark";
       document.documentElement.dataset.theme = initialTheme;
       const initialThemeColor =
         document.querySelector('meta[name="theme-color"]');
       if (initialThemeColor)
         initialThemeColor.setAttribute(
           "content",
-          initialTheme === "light" ? "#f6efe4" : "#160622",
+          initialTheme === "light"
+            ? "#f6efe4"
+            : initialTheme === "retro"
+              ? "#0000aa"
+              : "#160622",
         );
       const initialDeveloperMode =
         initialPreferences.developerMode === true ||
@@ -1151,7 +1158,7 @@
             <div>
               <h4 data-i18n="theme">Theme</h4>
               <p data-i18n="themeDescription">
-                Switch between the current dark theme and a light theme.
+                Switch between dark, light, and retro themes.
               </p>
             </div>
             <div
@@ -1177,6 +1184,15 @@
               >
                 <span aria-hidden="true">☀️</span>
                 <span data-i18n="light">Light</span>
+              </button>
+              <button
+                class="setting-choice theme-choice"
+                type="button"
+                data-theme="retro"
+                aria-pressed="false"
+              >
+                <span aria-hidden="true">🕹️</span>
+                <span data-i18n="retro">Retro</span>
               </button>
             </div>
           </div>

@@ -79,12 +79,18 @@ function updateThemeColor() {
   ) as HTMLMetaElement | null;
   if (!meta) return;
   meta.content =
-    document.documentElement.dataset.theme === 'light' ? '#f6efe4' : '#160622';
+    document.documentElement.dataset.theme === 'light'
+      ? '#f6efe4'
+      : document.documentElement.dataset.theme === 'retro'
+        ? '#0000aa'
+        : '#160622';
 }
 
 export function renderThemeToggle(options: any) {
   const theme =
-    options.state().explorerPreferences.theme === 'light' ? 'light' : 'dark';
+    ['light', 'retro'].includes(options.state().explorerPreferences.theme)
+      ? options.state().explorerPreferences.theme
+      : 'dark';
   document.documentElement.dataset.theme = theme;
   options.choices().forEach((choice: any) => {
     const selected = choice.dataset.theme === theme;
@@ -95,7 +101,9 @@ export function renderThemeToggle(options: any) {
 }
 
 export function selectTheme(options: any, event: any) {
-  const theme = event.currentTarget.dataset.theme === 'light' ? 'light' : 'dark';
+  const theme = ['light', 'retro'].includes(event.currentTarget.dataset.theme)
+    ? event.currentTarget.dataset.theme
+    : 'dark';
   options.savePreference('theme', theme);
   options.renderThemeToggle();
   if (event?.detail > 0) event.currentTarget.blur();

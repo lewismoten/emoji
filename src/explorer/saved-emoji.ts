@@ -15,6 +15,7 @@ type MinimalElement = {
 
 declare const document: {
   createElement(tagName: string): MinimalElement;
+  documentElement: { dataset: Record<string, string | undefined> };
   querySelector(selector: string): MinimalElement | null;
 };
 declare const window: {
@@ -161,6 +162,39 @@ export async function copyToClipboard(options: {
 }
 
 export function animateCopyConfirmation(button: any) {
+  if (document.documentElement.dataset.theme === 'retro') {
+    if (!button?.animate) return;
+    button
+      .getAnimations()
+      .find((animation: any) => animation.id === 'emoji-copy-confirmation')
+      ?.cancel();
+    const animation = button.animate(
+      [
+        {
+          transform: 'translate(0, 0)',
+          backgroundColor: '#000000',
+          color: '#ffffff'
+        },
+        {
+          transform: 'translate(1px, 1px)',
+          backgroundColor: '#55ffff',
+          color: '#000000',
+          offset: 0.45
+        },
+        {
+          transform: 'translate(0, 0)',
+          backgroundColor: '#000000',
+          color: '#ffffff'
+        }
+      ],
+      {
+        duration: 160,
+        easing: 'steps(2, end)'
+      }
+    );
+    animation.id = 'emoji-copy-confirmation';
+    return;
+  }
   if (
     !button?.animate ||
     window.matchMedia('(prefers-reduced-motion: reduce)').matches
