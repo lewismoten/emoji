@@ -19,11 +19,15 @@ export type ExplorerState = {
   items: any[];
   orderMode: 'grouped' | 'sequence';
   releasedIds: Set<string>;
+  proposedVersionManifests: any[];
   selectedGroup: string;
   selectedSequenceType: string;
   selectedSubGroup: string;
   subGroups: Record<string, string[]>;
   subGroupRepresentativeEmoji: Map<string, string>;
+  versionDataPromise?: Promise<unknown>;
+  versionKeys: Map<string, Set<string>>;
+  versionManifests: any[];
 };
 
 export function createExplorerState(): ExplorerState {
@@ -48,10 +52,13 @@ export function createExplorerState(): ExplorerState {
     items: [],
     orderMode: 'grouped',
     releasedIds: new Set(),
+    proposedVersionManifests: [],
     selectedGroup: '',
     selectedSequenceType: '',
     selectedSubGroup: '',
     subGroups: {},
-    subGroupRepresentativeEmoji: new Map()
+    subGroupRepresentativeEmoji: new Map(),
+    versionKeys: new Map(),
+    versionManifests: []
   };
 }

@@ -252,10 +252,6 @@ var modifierFilters;
 var skinToneFieldset;
 var hairFieldset;
 var genderFieldset;
-var versionManifests = [];
-var proposedVersionManifests = [];
-var versionKeys = new Map();
-var versionDataPromise;
 var packageManifest = { packs: [], categories: [] };
 var packageManifestPromise;
 var searchAnnotations = {};
@@ -385,7 +381,7 @@ function toggleDeveloperMode(event) {
   }
   if (!enabled) {
     versionModeSelector.value = 'through';
-    const latestReleased = versionManifests.at(-1)?.version;
+    const latestReleased = explorerState.versionManifests.at(-1)?.version;
     if (latestReleased) versionSelector.value = latestReleased;
     renderVersionModeToggle();
     syncVersionRange();
@@ -757,7 +753,7 @@ const explorerNavigation = createExplorerNavigation({
   hairCheckboxes: () => hairCheckboxes,
   helpDialog: () => helpDialog,
   languageList: () => languageList,
-  latestReleasedVersion: () => versionManifests.at(-1)?.version,
+  latestReleasedVersion: () => explorerState.versionManifests.at(-1)?.version,
   navigateEmoji,
   openEmoji: key => showEmoji(key, false, explorerState.displayedKeys),
   orderButtons: () => orderButtons,
@@ -912,8 +908,8 @@ function onOrderModeChange(event) {
 }
 
 async function loadVersionData() {
-  if (versionDataPromise) return versionDataPromise;
-  versionDataPromise = (async () => {
+  if (explorerState.versionDataPromise) return explorerState.versionDataPromise;
+  explorerState.versionDataPromise = (async () => {
     try {
       const versions = await loadVersionCatalog({
         allIds: () => explorerState.allIds,
@@ -922,9 +918,9 @@ async function loadVersionData() {
         getExplorerSubGroup,
         items: () => explorerState.items
       });
-      versionManifests = versions.released;
-      proposedVersionManifests = versions.proposed;
-      versionKeys = versions.versionKeys;
+      explorerState.versionManifests = versions.released;
+      explorerState.proposedVersionManifests = versions.proposed;
+      explorerState.versionKeys = versions.versionKeys;
       rebuildEmojiCodePointLookup();
       updateModifierPixelArtwork();
       buildCategoryRepresentatives();
@@ -942,13 +938,13 @@ async function loadVersionData() {
       versionSelector.disabled = true;
     }
   })();
-  return versionDataPromise;
+  return explorerState.versionDataPromise;
 }
 
 function populateVersionSelector() {
   populateVersionSelectorHelper({
-    proposed: proposedVersionManifests,
-    released: versionManifests,
+    proposed: explorerState.proposedVersionManifests,
+    released: explorerState.versionManifests,
     selectedLocale: selectedSearchLocale,
     selector: versionSelector,
     syncRange: syncVersionRange,
@@ -957,12 +953,12 @@ function populateVersionSelector() {
 }
 
 function versionSliderLabel(version) {
-  return versionSliderLabelHelper(version, proposedVersionManifests);
+  return versionSliderLabelHelper(version, explorerState.proposedVersionManifests);
 }
 
 function syncVersionRange() {
   syncVersionRangeHelper({
-    proposedVersionManifests,
+    proposedVersionManifests: explorerState.proposedVersionManifests,
     updateModifierAvailability,
     versionNext,
     versionPrevious,
@@ -990,21 +986,21 @@ function updateModifierAvailability() {
     hairCheckboxes,
     hairFieldset,
     modifierFilters,
-    proposedVersionManifests,
+    proposedVersionManifests: explorerState.proposedVersionManifests,
     skinToneCheckboxes,
     skinToneFieldset,
-    versionKeys,
-    versionManifests,
+    versionKeys: explorerState.versionKeys,
+    versionManifests: explorerState.versionManifests,
     versionValue: versionSelector.value
   });
 }
 
 function getVersionKeys() {
   return getVersionKeysHelper({
-    proposedVersionManifests,
+    proposedVersionManifests: explorerState.proposedVersionManifests,
     releasedIds: explorerState.releasedIds,
-    versionKeys,
-    versionManifests,
+    versionKeys: explorerState.versionKeys,
+    versionManifests: explorerState.versionManifests,
     versionMode: versionModeSelector.value,
     versionValue: versionSelector.value
   });
@@ -1075,7 +1071,7 @@ const categoryFilterRenderer = createCategoryFilterRenderer({
   subGroupSelector: () => subGroupSelector,
   subGroups: () => explorerState.subGroups,
   translate,
-  versionKeys: () => versionKeys
+  versionKeys: () => explorerState.versionKeys
 });
 const { renderCategoryFilters, updateAvailableCategories } = categoryFilterRenderer;
 
@@ -1107,10 +1103,10 @@ function displayGroupName(name) {
 }
 
 function buildCategoryRepresentatives() {
-  const manifests = [...versionManifests, ...proposedVersionManifests];
+  const manifests = [...explorerState.versionManifests, ...explorerState.proposedVersionManifests];
   const versionOrder = new Map();
   manifests.forEach((version, index) => {
-    for (const key of versionKeys.get(version.version) ?? []) {
+    for (const key of explorerState.versionKeys.get(version.version) ?? []) {
       if (!versionOrder.has(key)) versionOrder.set(key, index);
     }
   });
@@ -1262,7 +1258,7 @@ function updateActiveFilterSummary() {
     displayUnicodeSubGroupName,
     genderCheckboxes,
     hairCheckboxes,
-    latestReleased: versionManifests.at(-1)?.version,
+    latestReleased: explorerState.versionManifests.at(-1)?.version,
     orderMode: explorerState.orderMode,
     searchText: searchText.value,
     selectedGroup: explorerState.selectedGroup,
@@ -1342,9 +1338,9 @@ function animateEmojiCopyConfirmation(button) {
 function getIntroducedVersion(key) {
   return getIntroducedVersionHelper({
     key,
-    versionKeys,
-    versionManifests,
-    proposedVersionManifests
+    versionKeys: explorerState.versionKeys,
+    versionManifests: explorerState.versionManifests,
+    proposedVersionManifests: explorerState.proposedVersionManifests
   });
 }
 
