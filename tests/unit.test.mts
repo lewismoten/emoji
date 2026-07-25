@@ -131,7 +131,11 @@ const emojiDialogEvents = await fs.readFile(
   path.join(root, 'src/explorer/emoji-dialog-events.ts'),
   'utf8'
 );
-const emojiListSources = `${demoScript}\n${emojiListInteractionHelper}`;
+const loadingState = await fs.readFile(
+  path.join(root, 'src/explorer/loading-state.ts'),
+  'utf8'
+);
+const emojiListSources = `${demoScript}\n${loadingState}\n${emojiListInteractionHelper}`;
 const utilityControlsHelper = await fs.readFile(
   path.join(root, 'src/explorer/utility-controls.ts'),
   'utf8'
@@ -950,8 +954,8 @@ assert.match(
   'component navigation must retain its parent in browser history'
 );
 assert.match(
-  demoScript,
-  /event\.target\.closest\('\.emoji-parent'\)[\s\S]*window\.history\.back/,
+  emojiDialogEvents,
+  /target\.closest\('\.emoji-parent'\)[\s\S]*window\.history\.back/,
   'parent navigation must use browser history'
 );
 assert.match(
@@ -1161,7 +1165,7 @@ assert.match(
 );
 assert.match(
   emojiListSources,
-  /function finishExplorerLoading[\s\S]*revealExplorer\(\)[\s\S]*function revealExplorer[\s\S]*classList\.remove\('app-loading'\)[\s\S]*aria-busy[\s\S]*const finishEmojiListRender[\s\S]*options\.revealExplorer\(\)/,
+  /function finishExplorerLoading[\s\S]*finishExplorerLoadingHelper[\s\S]*function revealExplorer[\s\S]*revealExplorerHelper[\s\S]*classList\.remove\('app-loading'\)[\s\S]*aria-busy[\s\S]*const finishEmojiListRender[\s\S]*options\.revealExplorer\(\)/,
   'loading controls and below-list content must be revealed only after the first result tree is ready'
 );
 assert.match(
@@ -1375,8 +1379,8 @@ assert.match(
   'demo must retain recently copied emoji'
 );
 assert.match(
-  demoScript,
-  /if \(copied\) \{[\s\S]*recordCopiedEmoji\(copiedEmojiKey\)/,
+  emojiDialogEvents,
+  /if \(!copied\) return;[\s\S]*options\.recordCopiedEmoji\(emojiKey\)/,
   'successful copy actions must update recently copied emoji'
 );
 assert.doesNotMatch(
