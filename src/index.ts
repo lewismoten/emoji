@@ -36,6 +36,21 @@ import {
   parseExplorerUrlState
 } from './explorer/url-state.js';
 import {
+  ensureUtilityControls,
+  positionFavoriteButton
+} from './explorer/utility-controls.js';
+import {
+  closePanelDialog,
+  getOpenPanel,
+  getPanelDialog,
+  installApp as installWebApp,
+  installedDisplayQueries,
+  onPanelDialogClose,
+  openPanelDialog,
+  renderInstallAppButton as renderInstallAppButtonHelper,
+  updateWebAppManifest
+} from './explorer/pwa-panels.js';
+import {
   applyBasicUrlStateToControls,
   applyExclusiveCheckboxSelection,
   applyLoadedUrlStateToControls,
@@ -267,6 +282,11 @@ var copiedEmojiKeys = Array.isArray(explorerPreferences.recentCopied)
 const translate = (key, fallback) => uiStrings[key] ?? fallback;
 const displayExplorerLabel = label =>
   translate(explorerLabelKeys[label], label);
+const panelDialogs = () => ({
+  favorites: savedDialog,
+  help: helpDialog,
+  language: languageDialog
+});
 function loadExplorerPreferences() {
   try {
     return JSON.parse(
@@ -386,67 +406,17 @@ const updateOnlineStatus = () => {
   );
   offlineStatus.hidden = navigator.onLine;
 };
-const installedDisplayQueries = [
-  'standalone',
-  'fullscreen',
-  'minimal-ui',
-  'window-controls-overlay'
-].map(mode => window.matchMedia(`(display-mode: ${mode})`));
-const isInstalledApp = () =>
-  installedDisplayQueries.some(query => query.matches) ||
-  window.navigator.standalone === true ||
-  document.referrer.startsWith('android-app://');
-const isIosDevice = () => {
-  const navigator = window.navigator;
-  const userAgent = navigator.userAgent;
-  const clientPlatform = navigator.userAgentData?.platform;
-  if (clientPlatform?.toLowerCase() === 'macos') return false;
-  return (
-    /iPad|iPhone|iPod/.test(userAgent) ||
-    (/Macintosh/.test(userAgent) &&
-      /Mobile/.test(userAgent) &&
-      navigator.maxTouchPoints > 1)
-  );
-};
 function renderInstallAppButton() {
-  if (!installAppButton) return;
-  installAppButton.hidden = isInstalledApp();
-}
-function updateWebAppManifest(locale = '') {
-  const manifest = document.querySelector('link[rel="manifest"]');
-  if (!manifest) return;
-  const href = locale
-    ? `./manifest.${locale}.webmanifest`
-    : './manifest.webmanifest';
-  if (manifest.getAttribute('href') !== href)
-    manifest.setAttribute('href', href);
+  renderInstallAppButtonHelper(installAppButton);
 }
 async function installApp(event) {
-  const trigger = event?.currentTarget;
-  const releaseTriggerFocus = event?.detail > 0;
-  const promptEvent = deferredInstallPrompt;
-  if (!promptEvent) {
-    const ios = isIosDevice();
-    const iosInstructions = installDialog?.querySelector(
-      '.install-instructions-ios'
-    );
-    const browserInstructions = installDialog?.querySelector(
-      '.install-instructions-browser'
-    );
-    if (iosInstructions) iosInstructions.hidden = !ios;
-    if (browserInstructions) browserInstructions.hidden = ios;
-    installDialog?.showModal();
-    return;
-  }
-  deferredInstallPrompt = undefined;
-  renderInstallAppButton();
-  try {
-    await promptEvent.prompt();
-    await promptEvent.userChoice;
-  } catch (error) {
-    console.warn('App installation unavailable', error);
-  }
-  if (releaseTriggerFocus) trigger?.blur?.();
+  const next = await installWebApp({
+    deferredInstallPrompt,
+    event,
+    installDialog,
+    renderInstallAppButton
+  });
+  deferredInstallPrompt = next.deferredInstallPrompt;
 }
 window.addEventListener('beforeinstallprompt', event => {
   event.preventDefault();
@@ -485,284 +455,6 @@ async function loadUiTranslations(locale, rtl = false) {
   applyUiTranslations();
   renderVersionModeToggle();
   renderSearchLanguages();
-}
-
-function ensureUtilityControls() {
-  const searchControls = document.querySelector('.search-controls');
-  const fontComparison = document.querySelector('.pixel-comparison');
-  if (fontComparison && !fontComparison.querySelector('.emoji-font-choice')) {
-    fontComparison.setAttribute('role', 'group');
-    fontComparison.dataset.i18nAriaLabel = 'emojiStyle';
-    fontComparison.setAttribute('aria-label', 'Emoji style');
-    Array.from(fontComparison.children).forEach((preview, index) => {
-      const button = document.createElement('button');
-      const font = index === 0 ? 'system' : 'pixel';
-      button.className = `emoji-font-choice emoji-font-choice-${font}`;
-      button.type = 'button';
-      button.dataset.emojiFont = font;
-      button.setAttribute('aria-pressed', String(font === 'pixel'));
-      button.append(...preview.childNodes);
-      preview.replaceWith(button);
-    });
-  }
-  if (searchControls && !searchControls.querySelector('.saved-picker')) {
-    searchControls.insertAdjacentHTML(
-      'beforeend',
-      `
-      <button class="saved-picker" type="button" aria-haspopup="dialog" aria-controls="saved-dialog" data-i18n-aria-label="savedEmoji" aria-label="Saved emoji">
-        <span aria-hidden="true">⭐</span>
-        <span class="saved-picker-label" data-i18n="favorites">Favorites</span>
-      </button>
-    `
-    );
-  }
-  searchControls?.querySelector('.pixel-font-toggle')?.remove();
-  if (searchControls && !searchControls.querySelector('.help-picker')) {
-    searchControls.insertAdjacentHTML(
-      'beforeend',
-      `
-      <button class="help-picker" type="button" aria-haspopup="dialog" aria-controls="help-dialog" data-i18n-aria-label="helpAndSettings" aria-label="Help and settings">
-        <span aria-hidden="true">?</span>
-      </button>
-    `
-    );
-  }
-
-  const dialogTitle = document.querySelector(
-    '.example-dialog .dialog-heading > div:first-child'
-  );
-  let dialogTitleRow = dialogTitle?.querySelector('.dialog-title-row');
-  if (dialogTitle && !dialogTitleRow) {
-    dialogTitleRow = document.createElement('div');
-    dialogTitleRow.className = 'dialog-title-row';
-    const title = dialogTitle.querySelector('h2');
-    title?.before(dialogTitleRow);
-    if (title) dialogTitleRow.append(title);
-  }
-  let favoriteButton = document.querySelector(
-    '.example-dialog .toggle-favorite'
-  );
-  const dialogControls = document.querySelector(
-    '.example-dialog .dialog-controls'
-  );
-  if (dialogControls && !favoriteButton) {
-    favoriteButton = document.createElement('button');
-    favoriteButton.className = 'toggle-favorite';
-    favoriteButton.type = 'button';
-    favoriteButton.setAttribute('aria-pressed', 'false');
-    favoriteButton.innerHTML = '<span aria-hidden="true">☆</span>';
-    dialogControls.querySelector('form')?.before(favoriteButton);
-  }
-  if (dialogControls && favoriteButton) {
-    favoriteButton.querySelector('.toggle-favorite-label')?.remove();
-    favoriteButton.dataset.i18nAriaLabel = 'addFavorite';
-    favoriteButton.setAttribute('aria-label', 'Add favorite');
-    favoriteButton.title = 'Add favorite';
-    positionFavoriteButton();
-  }
-  const dialogDetails = document.querySelector(
-    '.example-dialog .emoji-dialog-details'
-  );
-  if (
-    dialogDetails &&
-    !document.querySelector('.example-dialog .emoji-composition')
-  ) {
-    dialogDetails.insertAdjacentHTML(
-      'afterend',
-      `
-      <section class="emoji-composition" hidden>
-        <div class="emoji-composition-heading">
-          <h3 data-i18n="builtFrom">Built from</h3>
-          <button class="emoji-composition-mode" type="button" aria-pressed="false" hidden>Show full sequence</button>
-        </div>
-        <div class="emoji-composition-equation" dir="ltr"></div>
-      </section>
-    `
-    );
-  }
-  const composition = document.querySelector(
-    '.example-dialog .emoji-composition'
-  );
-  if (composition && !composition.querySelector('.emoji-composition-heading')) {
-    const heading = document.createElement('div');
-    const title = composition.querySelector('h3');
-    heading.className = 'emoji-composition-heading';
-    title?.before(heading);
-    if (title) heading.append(title);
-  }
-  const compositionHeading = composition?.querySelector(
-    '.emoji-composition-heading'
-  );
-  if (
-    compositionHeading &&
-    !compositionHeading.querySelector('.emoji-composition-mode')
-  ) {
-    const mode = document.createElement('button');
-    mode.className = 'emoji-composition-mode';
-    mode.type = 'button';
-    mode.hidden = true;
-    mode.setAttribute('aria-pressed', 'false');
-    mode.textContent = 'Show full sequence';
-    compositionHeading.append(mode);
-  }
-
-  const main = document.querySelector('main');
-  if (main && !document.querySelector('.saved-dialog')) {
-    main.insertAdjacentHTML(
-      'beforeend',
-      `
-      <dialog class="saved-dialog" id="saved-dialog" aria-labelledby="saved-title">
-        <div class="dialog-heading">
-          <h2 id="saved-title" data-i18n="savedEmoji">Saved emoji</h2>
-          <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
-        </div>
-        <section class="saved-section" aria-labelledby="favorites-title">
-          <h3 id="favorites-title" data-i18n="favorites">Favorites</h3>
-          <div class="saved-emoji-list favorites-list"></div>
-          <p class="saved-empty favorites-empty" data-i18n="noFavorites">Favorite emoji will appear here.</p>
-        </section>
-        <section class="saved-section" aria-labelledby="copied-title">
-          <h3 id="copied-title" data-i18n="recentlyCopied">Recently Copied</h3>
-          <div class="saved-emoji-list copied-list"></div>
-          <p class="saved-empty copied-empty" data-i18n="noRecentlyCopied">Copied emoji will appear here.</p>
-        </section>
-      </dialog>
-    `
-    );
-  }
-  if (main && !document.querySelector('.help-dialog')) {
-    main.insertAdjacentHTML(
-      'beforeend',
-      `
-      <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
-        <div class="dialog-heading">
-          <h2 id="help-title" data-i18n="helpAndSettings">Help and settings</h2>
-          <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
-        </div>
-        <section class="help-pixel" aria-labelledby="help-pixel-title">
-          <h3 id="help-pixel-title" data-i18n="pixelHelpTitle">Pixel Emoji in the Explorer</h3>
-          <p data-i18n="pixelHelpDescription">Pixel font: On uses the original 12×12 font when artwork is available. Turn it off to prefer your system font; Pixel Emoji remains a fallback for unsupported emoji.</p>
-          <a href="https://github.com/lewismoten/emoji/tree/main/pixel-font" data-i18n="pixelHelpLink">Learn about and download Pixel Emoji</a>
-        </section>
-        <section class="help-settings" aria-labelledby="help-settings-title">
-          <h3 id="help-settings-title" data-i18n="settings">Settings</h3>
-          <div class="setting-row">
-            <div>
-              <h4 data-i18n="language">Language</h4>
-              <p data-i18n="chooseLanguageDescription">Choose a language for emoji search.</p>
-            </div>
-            <div class="help-language-control"></div>
-          </div>
-          <div class="setting-row">
-            <div>
-              <h4 data-i18n="developerMode">Developer mode</h4>
-              <p data-i18n="developerModeDescription">Show sequence construction, technical metadata, code tools, rendering diagnostics, and the pixel editor.</p>
-            </div>
-            <label class="setting-switch">
-              <input class="developer-mode-toggle" type="checkbox" role="switch">
-              <span data-i18n="developerMode">Developer mode</span>
-            </label>
-          </div>
-        </section>
-        <h3 class="shortcut-heading" data-i18n="keyboardShortcuts">Keyboard shortcuts</h3>
-        <dl class="shortcut-list">
-          <div><dt><kbd>/</kbd></dt><dd data-i18n="shortcutSearch">Focus search</dd></div>
-          <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd data-i18n="shortcutNavigate">Navigate emoji</dd></div>
-          <div><dt><kbd>Enter</kbd></dt><dd data-i18n="shortcutOpen">Open the selected emoji</dd></div>
-          <div><dt><kbd>Esc</kbd></dt><dd data-i18n="shortcutClose">Close a dialog or clear search</dd></div>
-          <div><dt><kbd>?</kbd></dt><dd data-i18n="shortcutHelp">Open Help and settings</dd></div>
-        </dl>
-      </dialog>
-    `
-    );
-  }
-  const helpLanguageControl = document.querySelector(
-    '.help-dialog .help-language-control'
-  );
-  const languagePicker = document.querySelector('.language-picker');
-  if (helpLanguageControl && languagePicker) {
-    helpLanguageControl.append(languagePicker);
-  }
-}
-
-function positionFavoriteButton() {
-  const favoriteButton = document.querySelector(
-    '.example-dialog .toggle-favorite'
-  );
-  const dialogTitleRow = document.querySelector(
-    '.example-dialog .dialog-title-row'
-  );
-  const dialogControls = document.querySelector(
-    '.example-dialog .dialog-controls'
-  );
-  if (!favoriteButton || !dialogTitleRow || !dialogControls) return;
-  if (window.matchMedia('(max-width: 560px)').matches) {
-    dialogControls.querySelector('form')?.before(favoriteButton);
-  } else {
-    dialogTitleRow.prepend(favoriteButton);
-  }
-}
-
-function getPanelDialog(panel) {
-  return {
-    favorites: savedDialog,
-    help: helpDialog,
-    language: languageDialog
-  }[panel];
-}
-
-function getOpenPanel() {
-  if (savedDialog?.open) return 'favorites';
-  if (helpDialog?.open) return 'help';
-  if (languageDialog?.open) return 'language';
-  return '';
-}
-
-function focusPanelDialog(panel, dialog) {
-  if (panel === 'favorites') {
-    renderSavedEmoji();
-    (
-      dialog.querySelector('.saved-emoji-list button') ??
-      dialog.querySelector('.dialog-close')
-    )?.focus();
-  } else if (panel === 'language') {
-    (
-      languageList.querySelector('.is-selected') ??
-      dialog.querySelector('.dialog-close')
-    )?.focus();
-  } else {
-    dialog.querySelector('.dialog-close')?.focus();
-  }
-}
-
-function openPanelDialog(panel, addHistory = true) {
-  const dialog = getPanelDialog(panel);
-  if (!dialog) return;
-  if (!dialog.open) dialog.showModal();
-  focusPanelDialog(panel, dialog);
-  if (addHistory) {
-    syncUrlState('push', { ...window.history.state, panelDialogEntry: true });
-  }
-}
-
-function closePanelDialog(dialog) {
-  if (!dialog?.open) return;
-  suppressedPanelCloses.add(dialog);
-  dialog.close();
-}
-
-function onPanelDialogClose(event) {
-  if (
-    suppressedPanelCloses.delete(event.currentTarget) ||
-    !urlStateReady ||
-    applyingUrlState
-  )
-    return;
-  if (window.history.state?.panelDialogEntry) {
-    window.history.back();
-  } else {
-    syncUrlState();
-  }
 }
 
 async function onLoad() {
@@ -912,8 +604,14 @@ async function onLoad() {
 
   searchText.addEventListener('input', scheduleSearchDraw);
   languagePicker.addEventListener('click', () => {
-    if (helpDialog?.open) closePanelDialog(helpDialog);
-    openPanelDialog('language');
+    if (helpDialog?.open) closePanelDialog(helpDialog, suppressedPanelCloses);
+    openPanelDialog({
+      panel: 'language',
+      dialogs: panelDialogs(),
+      languageList,
+      renderSavedEmoji,
+      syncUrlState
+    });
   });
   emojiFontChoices.forEach(choice =>
     choice.addEventListener('click', selectEmojiFont)
@@ -926,15 +624,51 @@ async function onLoad() {
     ?.querySelector('.install-dialog-close')
     ?.addEventListener('click', () => installDialog.close());
   savedPicker?.addEventListener('click', () => {
-    openPanelDialog('favorites');
+    openPanelDialog({
+      panel: 'favorites',
+      dialogs: panelDialogs(),
+      languageList,
+      renderSavedEmoji,
+      syncUrlState
+    });
   });
   helpPicker?.addEventListener('click', () => {
-    openPanelDialog('help');
+    openPanelDialog({
+      panel: 'help',
+      dialogs: panelDialogs(),
+      languageList,
+      renderSavedEmoji,
+      syncUrlState
+    });
   });
   developerModeToggle?.addEventListener('change', toggleDeveloperMode);
-  languageDialog.addEventListener('close', onPanelDialogClose);
-  savedDialog?.addEventListener('close', onPanelDialogClose);
-  helpDialog?.addEventListener('close', onPanelDialogClose);
+  languageDialog.addEventListener('close', event =>
+    onPanelDialogClose({
+      event,
+      suppressedPanelCloses,
+      urlStateReady,
+      applyingUrlState,
+      syncUrlState
+    })
+  );
+  savedDialog?.addEventListener('close', event =>
+    onPanelDialogClose({
+      event,
+      suppressedPanelCloses,
+      urlStateReady,
+      applyingUrlState,
+      syncUrlState
+    })
+  );
+  helpDialog?.addEventListener('close', event =>
+    onPanelDialogClose({
+      event,
+      suppressedPanelCloses,
+      urlStateReady,
+      applyingUrlState,
+      syncUrlState
+    })
+  );
   savedDialog?.addEventListener('click', event => {
     const button = event.target.closest('[data-saved-emoji]');
     if (!button) return;
@@ -942,7 +676,7 @@ async function onLoad() {
       button.dataset.savedSource === 'favorites'
         ? favoriteEmojiKeys
         : copiedEmojiKeys;
-    closePanelDialog(savedDialog);
+    closePanelDialog(savedDialog, suppressedPanelCloses);
     showEmoji(button.dataset.savedEmoji, true, navigationKeys);
   });
   emojiList.addEventListener('click', onClick);
@@ -1810,9 +1544,9 @@ function applyDialogUrlState() {
   const state = getUrlState();
   compositionMode = state.compositionMode;
   if (state.emoji && emojiByKey[state.emoji] !== undefined) {
-    closePanelDialog(savedDialog);
-    closePanelDialog(helpDialog);
-    closePanelDialog(languageDialog);
+    closePanelDialog(savedDialog, suppressedPanelCloses);
+    closePanelDialog(helpDialog, suppressedPanelCloses);
+    closePanelDialog(languageDialog, suppressedPanelCloses);
     showEmoji(state.emoji, false, displayedKeys);
     setEmojiDialogView(state.emojiMode, false);
     if (!exampleDialog.open) {
@@ -1826,12 +1560,20 @@ function applyDialogUrlState() {
     exampleDialog.close();
     suppressDialogCloseSync = false;
   }
-  const desiredPanelDialog = getPanelDialog(state.panel);
+  const desiredPanelDialog = getPanelDialog(state.panel, panelDialogs());
   [savedDialog, helpDialog, languageDialog].forEach(dialog => {
-    if (dialog !== desiredPanelDialog) closePanelDialog(dialog);
+    if (dialog !== desiredPanelDialog)
+      closePanelDialog(dialog, suppressedPanelCloses);
   });
   if (desiredPanelDialog && !desiredPanelDialog.open) {
-    openPanelDialog(state.panel, false);
+    openPanelDialog({
+      panel: state.panel,
+      addHistory: false,
+      dialogs: panelDialogs(),
+      languageList,
+      renderSavedEmoji,
+      syncUrlState
+    });
   }
 }
 
@@ -1866,7 +1608,7 @@ function syncUrlState(method = 'replace', historyState = window.history.state) {
       : exampleDialog.classList.contains('is-code-view')
         ? 'code'
         : 'details',
-    panel: getOpenPanel(),
+    panel: getOpenPanel(panelDialogs()),
     dialogOpen: exampleDialog.open
   });
   const url = `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`;
@@ -1916,7 +1658,13 @@ function onDocumentKeyDown(event) {
   const hasOpenDialog = Boolean(document.querySelector('dialog[open]'));
   if (event.key === '?' && !isTyping && !hasOpenDialog && helpDialog) {
     event.preventDefault();
-    openPanelDialog('help');
+    openPanelDialog({
+      panel: 'help',
+      dialogs: panelDialogs(),
+      languageList,
+      renderSavedEmoji,
+      syncUrlState
+    });
     return;
   }
   if (event.key === '/' && !isTyping && !hasOpenDialog) {
@@ -2190,7 +1938,7 @@ async function setSearchLanguage(requestedLocale) {
       'languageNotLoaded',
       'Language not loaded'
     );
-    closePanelDialog(languageDialog);
+    closePanelDialog(languageDialog, suppressedPanelCloses);
     await loadUiTranslations('en');
     saveExplorerPreference('locale', '');
     refreshLocalizedLabels();
@@ -2230,7 +1978,7 @@ async function setSearchLanguage(requestedLocale) {
     await loadUiTranslations(locale.locale, locale.rtl);
     languagePickerFlag.textContent = languageFlags[locale.locale] ?? '🌐';
     languagePickerLabel.textContent = locale.nativeLabel;
-    closePanelDialog(languageDialog);
+    closePanelDialog(languageDialog, suppressedPanelCloses);
     saveExplorerPreference('locale', locale.locale);
     refreshLocalizedLabels();
   } catch (error) {

@@ -25,10 +25,11 @@ const arabicWebAppManifest = await readJson<{
   dir: string;
   start_url: string;
 }>("build/demo-pages/manifest.ar.webmanifest");
-const [demoHtml, demoScript, demoStyles, arabicDemo, viteConfig] =
+const [demoHtml, demoScript, pwaPanelsHelper, demoStyles, arabicDemo, viteConfig] =
   await Promise.all([
     read("index.html"),
     read("src/index.ts"),
+    read("src/explorer/pwa-panels.ts"),
     read("index.css"),
     read("build/demo-pages/index.ar.html"),
     read("vite.config.js"),
@@ -87,13 +88,13 @@ assert.match(
   "the sticky footer must contain an initially hidden accessible install action",
 );
 assert.match(
-  demoScript,
+  pwaPanelsHelper,
   /function installApp[\s\S]*promptEvent\.prompt\(\)[\s\S]*promptEvent\.userChoice/,
   "the install action must invoke the retained browser PWA installation prompt",
 );
 assert.match(
-  demoScript,
-  /const trigger = event\?\.currentTarget[\s\S]*await promptEvent\.userChoice[\s\S]*trigger\?\.blur\?\.\(\)/,
+  pwaPanelsHelper,
+  /const trigger =[\s\S]*event\?\.currentTarget[\s\S]*await promptEvent\.userChoice[\s\S]*trigger\?\.blur\?\.\(\)/,
   "the install action must retain its trigger before awaiting the browser prompt",
 );
 assert.match(
@@ -107,12 +108,17 @@ assert.match(
   "the browser PWA installation prompt must be retained for the footer action",
 );
 assert.match(
-  demoScript,
-  /function renderInstallAppButton[\s\S]*isInstalledApp\(\)[\s\S]*appinstalled[\s\S]*deferredInstallPrompt = undefined/,
-  "the install action must hide after the app is installed",
+  pwaPanelsHelper,
+  /function renderInstallAppButton[\s\S]*isInstalledApp\(\)/,
+  "the install action must derive its visibility from installed-app detection",
 );
 assert.match(
   demoScript,
+  /appinstalled[\s\S]*deferredInstallPrompt = undefined/,
+  "the install action must clear the retained prompt after the app is installed",
+);
+assert.match(
+  pwaPanelsHelper,
   /installedDisplayQueries[\s\S]*standalone[\s\S]*fullscreen[\s\S]*minimal-ui[\s\S]*window-controls-overlay[\s\S]*android-app:\/\//,
   "installed app detection must cover supported standalone display contexts",
 );
@@ -132,17 +138,17 @@ assert.match(
   "released artwork must prefer the released font while proposed artwork explicitly promotes the proposed font",
 );
 assert.match(
-  demoScript,
+  pwaPanelsHelper,
   /isIosDevice[\s\S]*Add to Home Screen|isIosDevice[\s\S]*installDialog\?\.showModal/,
   "iOS users must receive manual Add to Home Screen instructions",
 );
 assert.match(
-  demoScript,
+  pwaPanelsHelper,
   /userAgentData\?\.platform[\s\S]*toLowerCase\(\) === 'macos'[\s\S]*return false/,
   "macOS device emulation must not be mistaken for a real iOS installation",
 );
 assert.match(
-  demoScript,
+  pwaPanelsHelper,
   /install-instructions-ios[\s\S]*install-instructions-browser[\s\S]*browserInstructions\.hidden = ios/,
   "browsers without a native prompt must receive platform-appropriate installation instructions",
 );

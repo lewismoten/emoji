@@ -95,6 +95,14 @@ const arabicDemo = await fs.readFile(
 );
 const demoHtml = await fs.readFile(path.join(root, 'index.html'), 'utf8');
 const demoScript = await fs.readFile(path.join(root, 'src/index.ts'), 'utf8');
+const utilityControlsHelper = await fs.readFile(
+  path.join(root, 'src/explorer/utility-controls.ts'),
+  'utf8'
+);
+const pwaPanelsHelper = await fs.readFile(
+  path.join(root, 'src/explorer/pwa-panels.ts'),
+  'utf8'
+);
 const explorerGeneratorScript = await fs.readFile(
   path.join(root, 'scripts/generate-library.mjs'),
   'utf8'
@@ -596,11 +604,11 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /languagePicker\.addEventListener\('click'[\s\S]*helpDialog\?\.open[\s\S]*closePanelDialog\(helpDialog\)[\s\S]*openPanelDialog\('language'\)/,
+  /languagePicker\.addEventListener\('click'[\s\S]*helpDialog\?\.open[\s\S]*closePanelDialog\(helpDialog,\s*suppressedPanelCloses\)[\s\S]*openPanelDialog\(\{[\s\S]*panel:\s*'language'/,
   'opening the language picker from Help must transition between modal dialogs'
 );
 assert.match(
-  demoScript,
+  utilityControlsHelper,
   /helpLanguageControl[\s\S]*document\.querySelector\('\.language-picker'\)[\s\S]*helpLanguageControl\.append\(languagePicker\)/,
   'cached pages must move an older toolbar language control into Help and settings'
 );
@@ -620,7 +628,7 @@ assert.match(
   'the redundant Emoji details label must remain hidden'
 );
 assert.match(
-  demoScript,
+  utilityControlsHelper,
   /function positionFavoriteButton[\s\S]*matchMedia\('\(max-width: 560px\)'\)\.matches[\s\S]*dialogControls\.querySelector\('form'\)\?\.before\(favoriteButton\)[\s\S]*dialogTitleRow\.prepend\(favoriteButton\)/,
   'the favorite star must move between the mobile controls and wide-screen title'
 );
@@ -780,7 +788,7 @@ assert.match(
   'emoji details must provide a pixel-editor mode'
 );
 assert.match(
-  demoScript,
+  utilityControlsHelper,
   /function ensureUtilityControls/,
   'new utility controls must be restored when cached HTML is stale'
 );
@@ -800,8 +808,8 @@ assert.match(
   'rendering diagnostics and pixel invitations must remain details-only during editor navigation'
 );
 assert.match(
-  demoScript,
-  /fontComparison[\s\S]*!fontComparison\.querySelector\('\.emoji-font-choice'\)[\s\S]*preview\.replaceWith\(button\)[\s\S]*querySelector\('\.pixel-font-toggle'\)\?\.remove\(\)/,
+  utilityControlsHelper,
+  /fontComparison[\s\S]*!fontComparison\.querySelector\('\.emoji-font-choice'\)[\s\S]*replaceWith\(button\)[\s\S]*querySelector\('\.pixel-font-toggle'\)\?\.remove\(\)/,
   'cached HTML must upgrade its font previews and remove the legacy search toggle'
 );
 assert.match(
@@ -1315,7 +1323,7 @@ assert.match(
   'utility dialogs must support direct URL panel state'
 );
 assert.match(
-  demoScript,
+  pwaPanelsHelper,
   /panelDialogEntry/,
   'utility dialogs must participate in browser history'
 );
