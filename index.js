@@ -8,7 +8,7 @@ import { ensureUtilityControls, positionFavoriteButton } from './explorer/utilit
 import { closePanelDialog, installApp as installWebApp, installedDisplayQueries, onPanelDialogClose, openPanelDialog, renderInstallAppButton as renderInstallAppButtonHelper, updateWebAppManifest } from './explorer/pwa-panels.js';
 import { closeFilterPicker as closeFilterPickerHelper, displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper, focusCompactChoice as focusCompactChoiceHelper, onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper, openFilterPicker as openFilterPickerHelper } from './explorer/filter-picker.js';
 import { getVersionKeys as getVersionKeysHelper, syncVersionRange as syncVersionRangeHelper, updateModifierAvailability as updateModifierAvailabilityHelper, versionSliderLabel as versionSliderLabelHelper } from './explorer/category-version.js';
-import { getIntroducedVersion as getIntroducedVersionHelper, renderEmojiDialog, updateEmojiComposition as updateEmojiCompositionHelper, updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutCompositionParent } from './explorer/dialog-render.js';
+import { getIntroducedVersion as getIntroducedVersionHelper, updateEmojiComposition as updateEmojiCompositionHelper, updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutCompositionParent } from './explorer/dialog-render.js';
 import { createEmojiListRenderers } from './explorer/emoji-list-render.js';
 import { createEmojiListInteraction } from './explorer/emoji-list-interaction.js';
 import { getEmojiGenders as getEmojiGendersHelper } from './explorer/emoji-filter.js';
@@ -28,6 +28,7 @@ import { finishExplorerLoading as finishExplorerLoadingHelper, revealExplorer as
 import { createEmojiDialogClickHandler } from './explorer/emoji-dialog-events.js';
 import { createListController } from './explorer/list-controller.js';
 import { createDialogNavigationController } from './explorer/dialog-navigation-controller.js';
+import { showEmojiSession } from './explorer/emoji-session.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -1565,66 +1566,45 @@ const pixelArtwork = createPixelArtworkManager({
 const { applyPixelArtworkClass, refreshRenderedPixelEmoji, renderedPixelEmoji, systemEmojiAppearsSplit, updateModifierPixelArtwork, updatePixelArtworkManifest, updateRenderingDiagnostic } = pixelArtwork;
 const applyStandalonePixelArtwork = applyPixelArtworkClass;
 function showEmoji(id, openDialog = true, navigationKeys) {
-    var value = emojiByKey[id];
-    if (value === undefined)
-        return;
-    if (navigationKeys || openDialog) {
-        dialogNavigationKeys = [...(navigationKeys ?? displayedKeys)].filter(key => emojiByKey[key] !== undefined);
-    }
-    currentEmojiKey = id;
-    const item = byId[id] ?? {};
-    var group = items.find(item => item.key === id)?.group ?? '(none)';
-    var subGroup = items.find(item => item.key === id)?.unicodeSubGroup ?? '(none)';
-    const annotations = searchAnnotations[id] ?? [];
-    const dialogDisplay = renderEmojiDialog({
-        annotations,
+    return showEmojiSession({
         applyPixelArtworkClass,
         applyStandalonePixelArtwork,
         byId,
         compositionMode,
-        currentEmojiKey,
+        currentEmojiCopies: { get value() { return currentEmojiCopies; }, set value(value) { currentEmojiCopies = value; } },
+        currentEmojiKey: { get value() { return currentEmojiKey; }, set value(value) { currentEmojiKey = value; } },
         developerMode: developerModeEnabled(),
-        dialogNavigationKeys,
+        dialog: exampleDialog,
+        dialogNavigationKeys: { get value() { return dialogNavigationKeys; }, set value(value) { dialogNavigationKeys = value; } },
         displayGroupName,
         displayUnicodeSubGroupName,
+        displayedKeys: { value: displayedKeys },
         emojiByKey,
-        exampleDialog,
         getIntroducedVersion,
-        group,
         id,
-        item,
-        locale: document.documentElement.lang || selectedSearchLocale || undefined,
-        numberingSystem: document.documentElement.lang?.startsWith('ar')
-            ? 'arab'
-            : undefined,
+        items,
+        navigationKeys,
+        openDialog,
+        openDialogAction() {
+            if (copyStatus)
+                copyStatus.textContent = '';
+            setEmojiDialogView('details', false);
+            exampleDialog.showModal();
+            focusInitialEmojiDialogAction();
+            syncUrlState('push', { ...withoutCompositionParent(), emojiDialogEntry: true });
+        },
+        openEditor: (key, value) => pixelEditor?.open(key, value),
         searchAnnotations,
         selectedSearchLocale,
         sequenceTranslationKeys,
         sequenceTypeLabels,
         statusTranslationKeys,
-        subGroup,
         translate,
-        updateFavoriteButton,
-        updateRenderingDiagnostic,
+        updateDialogNavigation,
         updateEmojiComposition,
-        value
+        updateFavoriteButton,
+        updateRenderingDiagnostic
     });
-    currentEmojiCopies = dialogDisplay.copyValues;
-    if (openDialog) {
-        if (copyStatus)
-            copyStatus.textContent = '';
-        setEmojiDialogView('details', false);
-        exampleDialog.showModal();
-        focusInitialEmojiDialogAction();
-        syncUrlState('push', {
-            ...withoutCompositionParent(),
-            emojiDialogEntry: true
-        });
-    }
-    updateDialogNavigation();
-    if (exampleDialog.classList.contains('is-editor-view')) {
-        pixelEditor?.open(id, value);
-    }
 }
 const dialogNavigation = createDialogNavigationController({
     byId: () => byId,
