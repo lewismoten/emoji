@@ -1,0 +1,48 @@
+const first = <T extends Element = HTMLElement>(className: string) =>
+  document.getElementsByClassName(className)[0] as T;
+const all = <T extends Element = HTMLElement>(className: string) =>
+  Array.from(document.getElementsByClassName(className)) as T[];
+
+export function getExplorerElements() {
+  return {
+    advancedFilters: first<HTMLDetailsElement>('advanced-filters'),
+    copyStatus: first('copy-status'),
+    developerModeToggle: first<HTMLInputElement>('developer-mode-toggle'),
+    emojiFontChoices: all<HTMLButtonElement>('emoji-font-choice'),
+    emojiList: first('list'),
+    emojiNext: first<HTMLButtonElement>('emoji-next'),
+    emojiParent: first<HTMLButtonElement>('emoji-parent'),
+    emojiPrevious: first<HTMLButtonElement>('emoji-previous'),
+    exampleDialog: first<HTMLDialogElement>('example-dialog'),
+    genderCheckboxes: all<HTMLInputElement>('gender'),
+    groupFilterDialog: first<HTMLDialogElement>('group-filter-dialog'),
+    groupPickerTrigger: first<HTMLButtonElement>('group-picker-trigger'),
+    groupSelector: first<HTMLSelectElement>('select-group'),
+    hairCheckboxes: all<HTMLInputElement>('hair'),
+    helpDialog: first<HTMLDialogElement>('help-dialog'),
+    helpPicker: first<HTMLButtonElement>('help-picker'),
+    installAppButton: first<HTMLButtonElement>('install-app'),
+    installDialog: first<HTMLDialogElement>('install-dialog'),
+    languageDialog: first<HTMLDialogElement>('language-dialog'),
+    languageList: first('language-list'),
+    languagePicker: first<HTMLButtonElement>('language-picker'),
+    languagePickerFlag: first('language-picker-flag'),
+    languagePickerLabel: first('language-picker-label'),
+    matchCount: first('match-count'),
+    modifierFilters: first('modifier-filters'),
+    offlineStatus: first('offline-status'),
+    orderButtons: all<HTMLButtonElement>('order-mode'),
+    savedDialog: first<HTMLDialogElement>('saved-dialog'),
+    savedPicker: first<HTMLButtonElement>('saved-picker'),
+    searchText: first<HTMLInputElement>('text'),
+    skinToneCheckboxes: all<HTMLInputElement>('skin-tone'),
+    subGroupFilterDialog: first<HTMLDialogElement>('subgroup-filter-dialog'),
+    subGroupPickerTrigger: first<HTMLButtonElement>('subgroup-picker-trigger'),
+    subGroupSelector: first<HTMLSelectElement>('select-subgroup'),
+    toolbar: first('toolbar'),
+    versionModeSelector: first<HTMLSelectElement>('select-version-mode'),
+    versionNext: first<HTMLButtonElement>('version-next'),
+    versionPrevious: first<HTMLButtonElement>('version-previous'),
+    versionSelector: first<HTMLSelectElement>('select-version')
+  };
+}

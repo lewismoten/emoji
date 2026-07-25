@@ -22,6 +22,7 @@ import { loadExplorerCatalog } from './explorer/catalog-loader.js';
 import { createPixelArtworkManager } from './explorer/pixel-artwork.js';
 import { loadVersionCatalog, populateVersionSelector as populateVersionSelectorHelper } from './explorer/version-data.js';
 import { createSearchLanguageLifecycle } from './explorer/search-language-lifecycle.js';
+import { getExplorerElements } from './explorer/explorer-dom.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -373,35 +374,53 @@ async function loadUiTranslations(locale, rtl = false) {
 }
 async function onLoad() {
     ensureUtilityControls();
-    offlineStatus = document.getElementsByClassName('offline-status')[0];
-    installAppButton = document.getElementsByClassName('install-app')[0];
-    installDialog = document.getElementsByClassName('install-dialog')[0];
-    searchText = document.getElementsByClassName('text')[0];
-    languagePicker = document.getElementsByClassName('language-picker')[0];
-    languagePickerFlag = document.getElementsByClassName('language-picker-flag')[0];
-    languagePickerLabel = document.getElementsByClassName('language-picker-label')[0];
+    const elements = getExplorerElements();
+    ({
+        advancedFilters,
+        copyStatus,
+        developerModeToggle,
+        emojiFontChoices,
+        emojiList,
+        emojiNext,
+        emojiParent,
+        emojiPrevious,
+        exampleDialog,
+        genderCheckboxes,
+        groupFilterDialog,
+        groupPickerTrigger,
+        groupSelector,
+        hairCheckboxes,
+        helpDialog,
+        helpPicker,
+        installAppButton,
+        installDialog,
+        languageDialog,
+        languageList,
+        languagePicker,
+        languagePickerFlag,
+        languagePickerLabel,
+        matchCount,
+        modifierFilters,
+        offlineStatus,
+        orderButtons,
+        savedDialog,
+        savedPicker,
+        searchText,
+        skinToneCheckboxes,
+        subGroupFilterDialog,
+        subGroupPickerTrigger,
+        subGroupSelector,
+        toolbar,
+        versionModeSelector,
+        versionNext,
+        versionPrevious,
+        versionSelector
+    } = elements);
     if (languagePickerLabel) {
         languagePickerLabel.id ||= 'language-picker-current-label';
         languagePicker.setAttribute('aria-labelledby', `language-picker-accessible-label ${languagePickerLabel.id}`);
     }
-    emojiFontChoices = Array.from(document.getElementsByClassName('emoji-font-choice'));
-    languageDialog = document.getElementsByClassName('language-dialog')[0];
-    languageList = document.getElementsByClassName('language-list')[0];
-    savedPicker = document.getElementsByClassName('saved-picker')[0];
-    savedDialog = document.getElementsByClassName('saved-dialog')[0];
-    helpPicker = document.getElementsByClassName('help-picker')[0];
-    helpDialog = document.getElementsByClassName('help-dialog')[0];
-    developerModeToggle = document.getElementsByClassName('developer-mode-toggle')[0];
     renderDeveloperMode();
-    emojiList = document.getElementsByClassName('list')[0];
-    matchCount = document.getElementsByClassName('match-count')[0];
-    toolbar = document.getElementsByClassName('toolbar')[0];
-    groupSelector = document.getElementsByClassName('select-group')[0];
-    subGroupSelector = document.getElementsByClassName('select-subgroup')[0];
-    groupPickerTrigger = document.getElementsByClassName('group-picker-trigger')[0];
-    subGroupPickerTrigger = document.getElementsByClassName('subgroup-picker-trigger')[0];
-    groupFilterDialog = document.getElementsByClassName('group-filter-dialog')[0];
-    subGroupFilterDialog = document.getElementsByClassName('subgroup-filter-dialog')[0];
     compactGroupChoices = ensureChoiceContainer(groupSelector, 'compact-group-choices', 'group-filter-label');
     compactSubGroupChoices = ensureChoiceContainer(subGroupSelector, 'compact-subgroup-choices', 'subgroup-filter-label');
     sequenceTypeSelector = ensureSequenceTypeFilter();
@@ -414,32 +433,17 @@ async function onLoad() {
     compactGroupLabel = ensureSelectionLabel(groupSelector, 'compact-group-label', 'group-filter-label');
     compactSubGroupLabel = ensureSelectionLabel(subGroupSelector, 'compact-subgroup-label', 'subgroup-filter-label');
     compactSequenceLabel = ensureSelectionLabel(sequenceTypeSelector, 'compact-sequence-label', 'sequence-filter-label');
-    versionModeSelector = document.getElementsByClassName('select-version-mode')[0];
-    versionSelector = document.getElementsByClassName('select-version')[0];
     ({ range: versionRange, output: versionRangeValue } = ensureVersionSlider());
     versionModeToggle = ensureVersionModeToggle();
-    versionPrevious = document.getElementsByClassName('version-previous')[0];
-    versionNext = document.getElementsByClassName('version-next')[0];
     versionSelector
         .closest('.filter-field')
         ?.classList.toggle('has-version-slider', Boolean(versionRange && versionRangeValue));
-    advancedFilters = document.getElementsByClassName('advanced-filters')[0];
     ({
         summary: activeFilterSummary,
         text: activeFilterText,
         clear: clearFiltersButton
     } = ensureActiveFilterSummary());
-    orderButtons = Array.from(document.getElementsByClassName('order-mode'));
-    exampleDialog = document.getElementsByClassName('example-dialog')[0];
     upgradeEmojiDialog();
-    emojiParent = document.getElementsByClassName('emoji-parent')[0];
-    copyStatus = document.getElementsByClassName('copy-status')[0];
-    emojiPrevious = document.getElementsByClassName('emoji-previous')[0];
-    emojiNext = document.getElementsByClassName('emoji-next')[0];
-    skinToneCheckboxes = Array.from(document.getElementsByClassName('skin-tone'));
-    hairCheckboxes = Array.from(document.getElementsByClassName('hair'));
-    genderCheckboxes = Array.from(document.getElementsByClassName('gender'));
-    modifierFilters = document.getElementsByClassName('modifier-filters')[0];
     skinToneFieldset = skinToneCheckboxes[0]?.closest('fieldset');
     hairFieldset = hairCheckboxes[0]?.closest('fieldset');
     genderFieldset = genderCheckboxes[0]?.closest('fieldset');
