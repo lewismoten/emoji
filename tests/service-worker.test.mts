@@ -10,13 +10,14 @@ const root = path.resolve(
 const read = (file: string) => fs.readFile(path.join(root, file), "utf8");
 const readJson = async <T,>(file: string) => JSON.parse(await read(file)) as T;
 const packageJson = await readJson<{ version: string }>("package.json");
-const [serviceWorker, generatedDemoScript, arabicDemo, demoScript, catalogLoader] =
+const [serviceWorker, generatedDemoScript, arabicDemo, demoScript, catalogLoader, explorerDataController] =
   await Promise.all([
     read("build/demo-pages/service-worker.js"),
     read("build/demo-pages/index.js"),
     read("build/demo-pages/index.ar.html"),
     read("src/index.ts"),
     read("src/explorer/catalog-loader.ts"),
+    read("src/explorer-data-controller.ts"),
   ]);
 
 assert.match(
@@ -93,13 +94,13 @@ assert.match(
   "the Explorer must load compact pixel-font metadata",
 );
 assert.doesNotMatch(
-  demoScript,
+  `${demoScript}\n${explorerDataController}`,
   /fetch\('emoji\.json'\)|fetch\('orders\/manifest\.json'\)/,
   "the Explorer must not download duplicate public emoji or ordering data",
 );
 assert.match(
-  demoScript,
-  /if \(developerModeEnabled\(\)\) await loadVersionData\(\)/,
+  `${demoScript}\n${explorerDataController}`,
+  /if \(options\.developerModeEnabled\(\)\) await loadVersionData\(\)/,
   "release datasets must load on demand for developer mode",
 );
 assert.match(

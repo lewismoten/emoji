@@ -95,6 +95,14 @@ const arabicDemo = await fs.readFile(
 );
 const demoHtml = await fs.readFile(path.join(root, 'index.html'), 'utf8');
 const demoScript = await fs.readFile(path.join(root, 'src/index.ts'), 'utf8');
+const explorerApp = await fs.readFile(
+  path.join(root, 'src/explorer-app.ts'),
+  'utf8'
+);
+const pixelFontHotReload = await fs.readFile(
+  path.join(root, 'src/pixel-font-hot-reload.ts'),
+  'utf8'
+);
 const emojiListRenderHelper = await fs.readFile(
   path.join(root, 'src/explorer/emoji-list-render.ts'),
   'utf8'
@@ -123,12 +131,24 @@ const versionData = await fs.readFile(
   path.join(root, 'src/explorer/version-data.ts'),
   'utf8'
 );
+const explorerDataController = await fs.readFile(
+  path.join(root, 'src/explorer-data-controller.ts'),
+  'utf8'
+);
 const searchLanguageLifecycle = await fs.readFile(
   path.join(root, 'src/explorer/search-language-lifecycle.ts'),
   'utf8'
 );
+const explorerUi = await fs.readFile(
+  path.join(root, 'src/explorer-ui.ts'),
+  'utf8'
+);
 const emojiDialogEvents = await fs.readFile(
   path.join(root, 'src/explorer/emoji-dialog-events.ts'),
+  'utf8'
+);
+const savedEmojiHelper = await fs.readFile(
+  path.join(root, 'src/explorer/saved-emoji.ts'),
   'utf8'
 );
 const loadingState = await fs.readFile(
@@ -239,10 +259,6 @@ const pagesValidator = await fs.readFile(
 );
 const websitePublisher = await fs.readFile(
   path.join(root, 'scripts/publish-website.mjs'),
-  'utf8'
-);
-const savedEmojiHelper = await fs.readFile(
-  path.join(root, 'src/explorer/saved-emoji.ts'),
   'utf8'
 );
 const renderingDiagnosticHelper = await fs.readFile(
@@ -538,18 +554,18 @@ assert.match(
   'the pixel font must use a reloadable standalone stylesheet'
 );
 assert.match(
-  `${demoScript}\n${catalogLoader}`,
-  /import\.meta\.hot[\s\S]*font-build\.revision[\s\S]*setInterval\(checkPixelFontRevision, 1500\)[\s\S]*function refreshPixelFontStylesheet[\s\S]*replacement\.addEventListener[\s\S]*refreshFontBuild[\s\S]*refreshExplorerPixelFont/,
+  `${pixelFontHotReload}\n${demoScript}\n${catalogLoader}`,
+  /import\.meta\.hot[\s\S]*pixel-font\/font-build\.revision[\s\S]*window\.setInterval\(refresh, 1500\)[\s\S]*function refreshPixelFontStylesheet[\s\S]*replacement\.addEventListener[\s\S]*refreshFontBuild[\s\S]*refreshExplorerPixelFont/,
   'the demo must hot-swap rebuilt pixel fonts without refreshing the page'
 );
 assert.match(
-  `${demoScript}\n${catalogLoader}`,
-  /checkPixelFontRevision\(true\)[\s\S]*pixelFontManifestUrl = options\.isViteDevelopment[\s\S]*manifest\.json\?v=\$\{Date\.now\(\)\}/,
+  `${catalogLoader}\n${pixelFontHotReload}`,
+  /pixelFontManifestUrl = options\.isViteDevelopment[\s\S]*explorer-manifest\.json\?v=\$\{Date\.now\(\)\}[\s\S]*font-build\.revision[\s\S]*cache: 'no-store'/,
   'initial development loads must bypass stale service-worker font data'
 );
 assert.match(
-  demoScript,
-  /async function refreshExplorerPixelFont[\s\S]*build\/manifest\.json[\s\S]*updatePixelArtworkManifest\(manifest, revision\)[\s\S]*querySelectorAll\('\[data-emoji-key\]'\)[\s\S]*applyPixelArtworkClass/,
+  pixelFontHotReload,
+  /export async function refreshExplorerPixelFont[\s\S]*build\/manifest\.json[\s\S]*options\.updateManifest\(await response\.json\(\), revision\)[\s\S]*querySelectorAll\('\[data-emoji-key\]'\)[\s\S]*options\.applyArtwork/,
   'rebuilt fonts must update existing Emoji Explorer result glyphs'
 );
 assert.match(
@@ -682,8 +698,8 @@ assert.match(
   'the language setting must expose its action and current native language as its accessible name'
 );
 assert.match(
-  demoScript,
-  /languagePicker\.addEventListener\('click'[\s\S]*helpDialog\?\.open[\s\S]*closePanelDialog\(helpDialog,\s*suppressedPanelCloses\)[\s\S]*openPanelDialog\(\{[\s\S]*panel:\s*'language'/,
+  explorerApp,
+  /options\.languagePicker\.addEventListener\('click'[\s\S]*options\.helpDialog\?\.open[\s\S]*options\.closePanel\(options\.helpDialog[\s\S]*panel\('language'\)/,
   'opening the language picker from Help must transition between modal dialogs'
 );
 assert.match(
@@ -847,8 +863,8 @@ assert.match(
   'newly selected controls must provide visible state-change feedback'
 );
 assert.match(
-  `${emojiDialogEvents}\n${demoScript}`,
-  /if \(button\.matches\('\.emoji-preview'\)\) options\.animateCopy\(button\)[\s\S]*function animateEmojiCopyConfirmation[\s\S]*prefers-reduced-motion: reduce[\s\S]*emoji-copy-confirmation[\s\S]*transform: 'scale\(0\.9\)'[\s\S]*transform: 'scale\(1\.05\)'/,
+  `${emojiDialogEvents}\n${savedEmojiHelper}`,
+  /if \(button\.matches\('\.emoji-preview'\)\) options\.animateCopy\(button\)[\s\S]*export function animateCopyConfirmation[\s\S]*prefers-reduced-motion: reduce[\s\S]*emoji-copy-confirmation[\s\S]*transform: 'scale\(0\.9\)'[\s\S]*transform: 'scale\(1\.05\)'/,
   'successful emoji copies must provide motion-aware visual confirmation'
 );
 assert.match(
@@ -892,8 +908,8 @@ assert.match(
   'cached HTML must upgrade its font previews and remove the legacy search toggle'
 );
 assert.match(
-  demoScript,
-  /updateEmojiComposition\(item, value\)/,
+  dialogRenderHelper,
+  /options\.updateEmojiComposition\(options\.item, options\.value\)/,
   'emoji details must render multi-code-point compositions'
 );
 assert.match(
@@ -932,7 +948,7 @@ assert.match(
   'tag endings must use compact localized labels'
 );
 assert.match(
-  demoScript,
+  emojiDialogEvents,
   /dataset\.compositionEmoji/,
   'composition parts must navigate to matching library emoji'
 );
@@ -1037,8 +1053,8 @@ assert.match(
   'composition components must use painted artwork even when linking to themselves is suppressed'
 );
 assert.match(
-  `${versionData}\n${demoScript}`,
-  /versionKeys: new Map\(\[\.\.\.releasedKeys, \.\.\.proposedKeys\]\)[\s\S]*versionKeys = versions\.versionKeys;[\s\S]*rebuildEmojiCodePointLookup\(\);/,
+  `${versionData}\n${explorerDataController}`,
+  /versionKeys: new Map\(\[\.\.\.releasedKeys, \.\.\.proposedKeys\]\)[\s\S]*options\.state\(\)\.versionKeys = versions\.versionKeys;[\s\S]*options\.rebuildCodePointLookup\(\);/,
   'proposed emoji must be added to the sequence artwork lookup'
 );
 assert.match(
@@ -1192,8 +1208,8 @@ assert.match(
   'the deferred PWA install action must not resize the fixed browse footer'
 );
 assert.match(
-  `${demoScript}\n${listController}`,
-  /searchText\.addEventListener\('input', scheduleSearchDraw\)[\s\S]*const schedule[\s\S]*clearTimeout\(timer\)[\s\S]*setTimeout\([\s\S]*draw\(\)[\s\S]*200\)/,
+  `${explorerApp}\n${listController}`,
+  /options\.searchText\.addEventListener\('input', options\.scheduleSearchDraw\)[\s\S]*const schedule[\s\S]*window\.clearTimeout\(timer\)[\s\S]*window\.setTimeout\([\s\S]*draw\(\)[\s\S]*200\)/,
   'rapid search input must coalesce expensive emoji-list renders'
 );
 assert.match(
@@ -1237,8 +1253,8 @@ assert.match(
   'cached version filters must also become developer-only'
 );
 assert.match(
-  demoScript,
-  /developerModeFromUrl[\s\S]*get\('developer'\) === '1'[\s\S]*developerModeUrlDismissed = false[\s\S]*function developerModeEnabled\(\)[\s\S]*developerModeFromUrl && !developerModeUrlDismissed[\s\S]*developerMode === true[\s\S]*function toggleDeveloperMode[\s\S]*developerModeUrlDismissed = !enabled[\s\S]*developerModeFromUrl = false[\s\S]*saveExplorerPreference\('developerMode'/,
+  `${demoScript}\n${explorerUi}`,
+  /developerModeFromUrl[\s\S]*get\('developer'\) === '1'[\s\S]*const enabled = \(\) =>[\s\S]*developerModeFromUrl && !options\.state\(\)\.developerModeUrlDismissed[\s\S]*developerMode === true[\s\S]*function change[\s\S]*developerModeUrlDismissed = !active[\s\S]*developerModeFromUrl = false[\s\S]*savePreference\('developerMode'/,
   'Developer mode must support shared URL activation and persist explicit selection'
 );
 assert.match(
@@ -1252,8 +1268,8 @@ assert.match(
   'browser navigation must restore Developer mode before applying dialog URL state'
 );
 assert.match(
-  `${demoScript}\n${searchLanguageLifecycle}`,
-  /developerModeUrlDismissed = !enabled[\s\S]*syncUrlState\(\)[\s\S]*window\.addEventListener\('popstate', onPopState\)[\s\S]*const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.syncUrlState\(\)/,
+  `${explorerUi}\n${demoScript}\n${searchLanguageLifecycle}`,
+  /developerModeUrlDismissed = !active[\s\S]*options\.syncUrlState\(\)[\s\S]*window\.addEventListener\('popstate', onPopState\)[\s\S]*const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.syncUrlState\(\)/,
   'turning Developer mode off must override and clean older URL history entries'
 );
 assert.match(
@@ -1312,8 +1328,8 @@ assert.match(
   'developer code examples must wrap instead of introducing horizontal scrolling'
 );
 assert.match(
-  demoScript,
-  /function selectEmojiFont[\s\S]*dataset\.emojiFont[\s\S]*saveExplorerPreference\('pixelFont'/,
+  explorerUi,
+  /export function selectEmojiFont[\s\S]*dataset\.emojiFont[\s\S]*options\.savePreference\('pixelFont'/,
   'the system and pixel previews must control the font preference'
 );
 assert.match(
@@ -1748,8 +1764,8 @@ assert.match(
   'the dialog Back action must appear outside the main details view'
 );
 assert.match(
-  demoScript,
-  /if \(!showDetails && emojiParent\) \{\s*emojiParent\.hidden = true;[\s\S]*else if \(showDetails\) \{\s*updateCompositionBackButton\(\)/,
+  dialogViewHelper,
+  /if \(!showDetails && parent\) parent\.hidden = true;[\s\S]*else if \(showDetails\) options\.updateCompositionBackButton\(\)/,
   'nested dialog modes must hide the composition-parent control to preserve the compact control grid'
 );
 assert.match(
