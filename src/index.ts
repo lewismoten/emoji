@@ -92,6 +92,11 @@ import {
 } from './explorer/dialog-render.js';
 import { createEmojiListRenderers } from './explorer/emoji-list-render.js';
 import { createEmojiListInteraction } from './explorer/emoji-list-interaction.js';
+import {
+  filterEmojiKeys,
+  getEmojiGenders as getEmojiGendersHelper
+} from './explorer/emoji-filter.js';
+import { updateActiveFilterSummary as updateActiveFilterSummaryHelper } from './explorer/filter-summary.js';
 
 if (import.meta.hot) {
   let pixelFontRevision;
@@ -2494,37 +2499,7 @@ const {
   unassigned: UNASSIGNED
 });
 
-function getEmojiGenders(item) {
-  const genders = new Set();
-  const name = item.shortName?.toLocaleLowerCase() ?? '';
-  const points = ` ${item.codePoints ?? ''} `;
-  if (
-    points.includes(' 2642 ') ||
-    /\b(man|men|boy|boys|father|prince|king|groom|male)\b/.test(name)
-  ) {
-    genders.add('male');
-  }
-  if (
-    points.includes(' 2640 ') ||
-    /\b(woman|women|girl|girls|mother|princess|queen|bride|female)\b/.test(name)
-  ) {
-    genders.add('female');
-  }
-  if (/\b(person|people|adult|adults|child|children)\b/.test(name)) {
-    genders.add('neutral');
-  }
-  if (genders.size === 0) {
-    const key = item.key ?? '';
-    const capitalizedKey = key.charAt(0).toLocaleUpperCase() + key.slice(1);
-    if (
-      emojiByKey[`man${capitalizedKey}`] &&
-      emojiByKey[`woman${capitalizedKey}`]
-    ) {
-      genders.add('neutral');
-    }
-  }
-  return genders;
-}
+const getEmojiGenders = item => getEmojiGendersHelper(item, emojiByKey);
 
 function scheduleSearchDraw() {
   listRenderGeneration++;
@@ -2542,72 +2517,30 @@ function drawList() {
   }
   const focusedCell = document.activeElement?.closest?.('[data-emoji-key]');
   const shouldRestoreEmojiFocus = Boolean(focusedCell);
-  var keywords = searchText.value
-    .toLocaleLowerCase(selectedSearchLocale || undefined)
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean);
-
-  function hasKeyword(emojiKey) {
-    const searchableFields = [
-      emojiKey,
-      byId[emojiKey]?.shortName,
-      ...(searchAnnotations[emojiKey] ?? [])
-    ]
-      .filter(Boolean)
-      .map(field => field.toLocaleLowerCase(selectedSearchLocale || undefined));
-    return keywords.every(keyword =>
-      searchableFields.some(field => field.includes(keyword))
-    );
-  }
-
-  var keys = allIds.filter(hasKeyword);
-  const includedVersionKeys = getVersionKeys();
-  if (includedVersionKeys) {
-    keys = keys.filter(key => includedVersionKeys.has(key));
-  }
-  if (orderMode !== 'sequence' && selectedGroup && items.length !== 0) {
-    keys = keys.filter(key => byId[key]?.group === selectedGroup);
-  }
-  if (orderMode !== 'sequence' && selectedSubGroup && items.length !== 0) {
-    keys = keys.filter(
-      key =>
-        subGroupSelectionKey(byId[key]?.group, byId[key]?.unicodeSubGroup) ===
-        selectedSubGroup
-    );
-  }
-  if (orderMode === 'sequence' && selectedSequenceType) {
-    keys = keys.filter(key => byId[key]?.sequenceType === selectedSequenceType);
-  }
-  skinToneCheckboxes
-    .filter(check => {
-      return check.checked;
-    })
-    .forEach(check => {
-      keys = keys.filter(key =>
-        items.find(item => item.key === key)?.codePoints.includes(check.value)
-      );
-    });
-
-  hairCheckboxes
-    .filter(check => {
-      return check.checked;
-    })
-    .forEach(check => {
-      keys = keys.filter(key =>
-        items.find(item => item.key === key)?.codePoints.includes(check.value)
-      );
-    });
-  const selectedGenders = genderCheckboxes
-    .filter(check => check.checked)
-    .map(check => check.value);
-  if (selectedGenders.length > 0) {
-    keys = keys.filter(key =>
-      selectedGenders.some(gender =>
-        getEmojiGenders(byId[key] ?? {}).has(gender)
-      )
-    );
-  }
+  let keys = filterEmojiKeys({
+    allIds,
+    byId,
+    emojiByKey,
+    hairModifiers: hairCheckboxes
+      .filter(check => check.checked)
+      .map(check => check.value),
+    includedVersionKeys: getVersionKeys(),
+    items,
+    locale: selectedSearchLocale || undefined,
+    orderMode,
+    searchAnnotations,
+    searchText: searchText.value,
+    selectedGenders: genderCheckboxes
+      .filter(check => check.checked)
+      .map(check => check.value),
+    selectedGroup: items.length === 0 ? '' : selectedGroup,
+    selectedSequenceType,
+    selectedSubGroup: items.length === 0 ? '' : selectedSubGroup,
+    skinToneModifiers: skinToneCheckboxes
+      .filter(check => check.checked)
+      .map(check => check.value),
+    subGroupSelectionKey
+  });
 
   keys = orderedKeys(keys);
   displayedKeys = keys;
@@ -2645,63 +2578,27 @@ const { onEmojiFocus, onEmojiKeyDown, renderEmojiList } =
   });
 
 function updateActiveFilterSummary() {
-  if (!activeFilterSummary || !activeFilterText) return;
-  const parts = [];
-  if (searchText.value.trim()) parts.push(`“${searchText.value.trim()}”`);
-  if (orderMode === 'sequence' && selectedSequenceType) {
-    parts.push(
-      translate(
-        sequenceTranslationKeys[selectedSequenceType],
-        sequenceTypeLabels[selectedSequenceType]
-      )
-    );
-  } else {
-    if (selectedGroup) parts.push(displayGroupName(selectedGroup));
-    if (selectedSubGroup)
-      parts.push(
-        displayUnicodeSubGroupName(
-          selectedSubGroup.split('::').slice(1).join('::')
-        )
-      );
-  }
-  const latestReleased = versionManifests.at(-1)?.version;
-  if (
-    versionSelector.value &&
-    (versionSelector.value !== latestReleased ||
-      versionModeSelector.value === 'selected')
-  ) {
-    const mode =
-      versionModeSelector.value === 'selected'
-        ? translate('onlyVersion', 'Only')
-        : translate('throughVersion', 'Through');
-    parts.push(`${mode} ${versionSliderLabel(versionSelector.value)}`);
-  }
-  skinToneCheckboxes
-    .filter(checkbox => checkbox.checked)
-    .forEach(checkbox => {
-      parts.push(
-        checkbox.closest('label')?.querySelector('.modifier-emoji')
-          ?.textContent ?? checkbox.value
-      );
-    });
-  hairCheckboxes
-    .filter(checkbox => checkbox.checked)
-    .forEach(checkbox => {
-      parts.push(
-        checkbox.closest('label')?.querySelector('.modifier-emoji')
-          ?.textContent ?? checkbox.value
-      );
-    });
-  genderCheckboxes
-    .filter(checkbox => checkbox.checked)
-    .forEach(checkbox => {
-      parts.push(
-        checkbox.closest('label')?.querySelector('.modifier-emoji')
-          ?.textContent ?? checkbox.value
-      );
-    });
-  activeFilterSummary.hidden = parts.length === 0;
-  activeFilterText.textContent = parts.join(' · ');
+  updateActiveFilterSummaryHelper({
+    activeFilterSummary,
+    activeFilterText,
+    displayGroupName,
+    displayUnicodeSubGroupName,
+    genderCheckboxes,
+    hairCheckboxes,
+    latestReleased: versionManifests.at(-1)?.version,
+    orderMode,
+    searchText: searchText.value,
+    selectedGroup,
+    selectedSequenceType,
+    selectedSubGroup,
+    sequenceTranslationKeys,
+    sequenceTypeLabels,
+    skinToneCheckboxes,
+    translate,
+    versionMode: versionModeSelector.value,
+    versionSliderLabel,
+    versionValue: versionSelector.value
+  });
 }
 
 function updateEmojiImportExamples(item) {

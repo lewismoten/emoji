@@ -103,6 +103,10 @@ const emojiListInteractionHelper = await fs.readFile(
   path.join(root, 'src/explorer/emoji-list-interaction.ts'),
   'utf8'
 );
+const emojiFilterHelper = await fs.readFile(
+  path.join(root, 'src/explorer/emoji-filter.ts'),
+  'utf8'
+);
 const emojiListSources = `${demoScript}\n${emojiListInteractionHelper}`;
 const utilityControlsHelper = await fs.readFile(
   path.join(root, 'src/explorer/utility-controls.ts'),
@@ -962,8 +966,8 @@ assert.match(
   'sequence browsing must replace group filters with sequence types'
 );
 assert.match(
-  demoScript,
-  /orderMode === 'sequence' && selectedSequenceType[\s\S]*sequenceType === selectedSequenceType/,
+  emojiFilterHelper,
+  /options\.orderMode === 'sequence' && options\.selectedSequenceType[\s\S]*sequenceType === options\.selectedSequenceType/,
   'sequence-type selections must filter the emoji list'
 );
 assert.match(
