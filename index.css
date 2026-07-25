@@ -278,6 +278,7 @@ html[data-theme="retro"] .order-mode,
 html[data-theme="retro"] .install-app,
 html[data-theme="retro"] .emoji-copy-actions button,
 html[data-theme="retro"] .emoji-code-toolbar button,
+html[data-theme="retro"] .emoji-preview-copy-label,
 html[data-theme="retro"] .dialog-close,
 html[data-theme="retro"] .dialog-navigate,
 html[data-theme="retro"] .dialog-mode-back,
@@ -288,6 +289,8 @@ html[data-theme="retro"] .pixel-editor-transfer button,
 html[data-theme="retro"] .pixel-editor-layer button,
 html[data-theme="retro"] .pixel-editor-trace-nudge {
   border-width: 2px;
+  background: #0000aa;
+  color: #ffffff;
 }
 
 html[data-theme="retro"] .setting-choice:hover,
