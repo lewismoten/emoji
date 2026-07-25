@@ -31,6 +31,7 @@ import { createDialogNavigationController } from './explorer/dialog-navigation-c
 import { showEmojiSession } from './explorer/emoji-session.js';
 import { createFilterControlSetup } from './explorer/filter-controls.js';
 import { bindExplorerEvents, createExplorerApp, finalizeExplorerStartup, initializeExplorerControls } from './explorer-app.js';
+import { createExplorerState } from './explorer-state.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -106,9 +107,7 @@ var items = [];
 var groups = [];
 var subGroups = {};
 const UNASSIGNED = '\u0000';
-var selectedGroup = '';
-var selectedSubGroup = '';
-var selectedSequenceType = '';
+const explorerState = createExplorerState();
 var availableGroups = [];
 var availableSubGroups = {};
 var availableSequenceTypes = [];
@@ -178,8 +177,6 @@ var versionKeys = new Map();
 var versionDataPromise;
 var packageManifest = { packs: [], categories: [] };
 var packageManifestPromise;
-var orderMode = 'grouped';
-var compositionMode = 'condensed';
 var searchAnnotations = {};
 var searchLabels = {};
 var searchSubgroupLabels = {};
@@ -305,11 +302,11 @@ function toggleDeveloperMode(event) {
             versionSelector.value = latestReleased;
         renderVersionModeToggle();
         syncVersionRange();
-        if (orderMode === 'sequence') {
-            orderMode = 'grouped';
-            selectedSequenceType = '';
+        if (explorerState.orderMode === 'sequence') {
+            explorerState.orderMode = 'grouped';
+            explorerState.selectedSequenceType = '';
             orderButtons?.forEach(button => {
-                const active = button.dataset.order === orderMode;
+                const active = button.dataset.order === explorerState.orderMode;
                 button.classList.toggle('is-active', active);
                 button.setAttribute('aria-pressed', String(active));
             });
@@ -418,7 +415,8 @@ const onEmojiDialogClick = createEmojiDialogClickHandler({
     refreshComposition: () => updateEmojiComposition(byId[currentEmojiKey] ?? {}, emojiByKey[currentEmojiKey] ?? ''),
     setView: setEmojiDialogView,
     syncUrlState: () => syncUrlState(),
-    toggleComposition: () => (compositionMode = compositionMode === 'full' ? 'condensed' : 'full'),
+    toggleComposition: () => (explorerState.compositionMode =
+        explorerState.compositionMode === 'full' ? 'condensed' : 'full'),
     toggleFavorite: () => toggleFavorite(currentEmojiKey),
     translate
 });
@@ -616,17 +614,17 @@ const explorerNavigation = createExplorerNavigation({
         exampleDialog.close();
         suppressDialogCloseSync = false;
     },
-    compositionMode: () => compositionMode,
+    compositionMode: () => explorerState.compositionMode,
     developerModeEnabled,
     dialog: () => exampleDialog,
     currentEmojiKey: () => currentEmojiKey,
     drawList,
     emojiByKey: () => emojiByKey,
     genderCheckboxes: () => genderCheckboxes,
-    getOrderMode: () => orderMode,
-    getSelectedGroup: () => selectedGroup,
-    getSelectedSequenceType: () => selectedSequenceType,
-    getSelectedSubGroup: () => selectedSubGroup,
+    getOrderMode: () => explorerState.orderMode,
+    getSelectedGroup: () => explorerState.selectedGroup,
+    getSelectedSequenceType: () => explorerState.selectedSequenceType,
+    getSelectedSubGroup: () => explorerState.selectedSubGroup,
     groups: () => groups,
     hairCheckboxes: () => hairCheckboxes,
     helpDialog: () => helpDialog,
@@ -641,12 +639,12 @@ const explorerNavigation = createExplorerNavigation({
     renderSavedEmoji,
     renderVersionModeToggle,
     searchText: () => searchText,
-    setCompositionMode: value => (compositionMode = value),
+    setCompositionMode: value => (explorerState.compositionMode = value),
     setDialogView: setEmojiDialogView,
-    setOrderMode: value => (orderMode = value),
-    setSelectedGroup: value => (selectedGroup = value),
-    setSelectedSequenceType: value => (selectedSequenceType = value),
-    setSelectedSubGroup: value => (selectedSubGroup = value),
+    setOrderMode: value => (explorerState.orderMode = value),
+    setSelectedGroup: value => (explorerState.selectedGroup = value),
+    setSelectedSequenceType: value => (explorerState.selectedSequenceType = value),
+    setSelectedSubGroup: value => (explorerState.selectedSubGroup = value),
     showEmojiDialog: () => {
         exampleDialog.showModal();
         focusInitialEmojiDialogAction();
@@ -745,10 +743,10 @@ function onOrderModeChange(event) {
     if (event.currentTarget.dataset.order === 'sequence' &&
         !developerModeEnabled())
         return;
-    orderMode = event.currentTarget.dataset.order;
-    saveExplorerPreference('order', orderMode);
+    explorerState.orderMode = event.currentTarget.dataset.order;
+    saveExplorerPreference('order', explorerState.orderMode);
     orderButtons.forEach(button => {
-        const active = button.dataset.order === orderMode;
+        const active = button.dataset.order === explorerState.orderMode;
         button.classList.toggle('is-active', active);
         button.setAttribute('aria-pressed', String(active));
     });
@@ -851,18 +849,18 @@ function getVersionKeys() {
     });
 }
 function onGroupSelectorChange() {
-    selectedGroup = groupSelector.value;
-    selectedSubGroup = '';
+    explorerState.selectedGroup = groupSelector.value;
+    explorerState.selectedSubGroup = '';
     renderCategoryFilters();
     drawList();
 }
 function onSubGroupSelectorChange() {
-    selectedSubGroup = subGroupSelector.value;
+    explorerState.selectedSubGroup = subGroupSelector.value;
     renderCategoryFilters();
     drawList();
 }
 function onSequenceTypeSelectorChange() {
-    selectedSequenceType = sequenceTypeSelector.value;
+    explorerState.selectedSequenceType = sequenceTypeSelector.value;
     renderCategoryFilters();
     drawList();
 }
@@ -884,16 +882,16 @@ const categoryFilterRenderer = createCategoryFilterRenderer({
     drawList,
     getGroupRepresentativeEmoji,
     getSubGroupRepresentativeEmoji,
-    getOrderMode: () => orderMode,
+    getOrderMode: () => explorerState.orderMode,
     getVersionKeys,
     groupFilterDialog: () => groupFilterDialog,
     groupPickerTrigger: () => groupPickerTrigger,
     groupSelector: () => groupSelector,
     groups: () => groups,
     items: () => items,
-    selectedGroup: () => selectedGroup,
-    selectedSequenceType: () => selectedSequenceType,
-    selectedSubGroup: () => selectedSubGroup,
+    selectedGroup: () => explorerState.selectedGroup,
+    selectedSequenceType: () => explorerState.selectedSequenceType,
+    selectedSubGroup: () => explorerState.selectedSubGroup,
     sequenceTranslationKeys,
     sequenceTypeEmoji,
     sequenceTypeLabels,
@@ -903,9 +901,9 @@ const categoryFilterRenderer = createCategoryFilterRenderer({
     setAvailableGroups: value => (availableGroups = value),
     setAvailableSequenceTypes: value => (availableSequenceTypes = value),
     setAvailableSubGroups: value => (availableSubGroups = value),
-    setSelectedGroup: value => (selectedGroup = value),
-    setSelectedSequenceType: value => (selectedSequenceType = value),
-    setSelectedSubGroup: value => (selectedSubGroup = value),
+    setSelectedGroup: value => (explorerState.selectedGroup = value),
+    setSelectedSequenceType: value => (explorerState.selectedSequenceType = value),
+    setSelectedSubGroup: value => (explorerState.selectedSubGroup = value),
     subGroupFilterDialog: () => subGroupFilterDialog,
     subGroupPickerTrigger: () => subGroupPickerTrigger,
     subGroupSelectionKey,
@@ -998,7 +996,7 @@ const { asEmojiCell, asItem, asSequenceItem, flushEmojiCellFragment, orderedKeys
     focusedEmojiKey: () => focusedEmojiKey,
     getIntroducedVersion,
     groups: () => groups,
-    orderMode: () => orderMode,
+    orderMode: () => explorerState.orderMode,
     searchAnnotations: () => searchAnnotations,
     sequenceTranslationKeys,
     sequenceTypeLabels,
@@ -1020,15 +1018,15 @@ const listController = createListController({
     items: () => items,
     matchCount: () => matchCount,
     nextRenderGeneration: () => ++listRenderGeneration,
-    orderMode: () => orderMode,
+    orderMode: () => explorerState.orderMode,
     orderedKeys,
     renderEmojiList: (...args) => renderEmojiList(...args),
     searchAnnotations: () => searchAnnotations,
     searchText: () => searchText,
-    selectedGroup: () => selectedGroup,
+    selectedGroup: () => explorerState.selectedGroup,
     selectedSearchLocale: () => selectedSearchLocale,
-    selectedSequenceType: () => selectedSequenceType,
-    selectedSubGroup: () => selectedSubGroup,
+    selectedSequenceType: () => explorerState.selectedSequenceType,
+    selectedSubGroup: () => explorerState.selectedSubGroup,
     setDisplayedKeys: keys => (displayedKeys = keys),
     setFocusedEmojiKey: key => (focusedEmojiKey = key),
     skinToneCheckboxes: () => skinToneCheckboxes,
@@ -1048,7 +1046,7 @@ const { onEmojiFocus, onEmojiKeyDown, renderEmojiList } = createEmojiListInterac
     getDisplayedKeys: () => displayedKeys,
     nextRenderGeneration: () => ++listRenderGeneration,
     onClick,
-    orderMode: () => orderMode,
+    orderMode: () => explorerState.orderMode,
     renderGeneration: () => listRenderGeneration,
     resetFilters,
     revealExplorer,
@@ -1068,11 +1066,11 @@ function updateActiveFilterSummary() {
         genderCheckboxes,
         hairCheckboxes,
         latestReleased: versionManifests.at(-1)?.version,
-        orderMode,
+        orderMode: explorerState.orderMode,
         searchText: searchText.value,
-        selectedGroup,
-        selectedSequenceType,
-        selectedSubGroup,
+        selectedGroup: explorerState.selectedGroup,
+        selectedSequenceType: explorerState.selectedSequenceType,
+        selectedSubGroup: explorerState.selectedSubGroup,
         sequenceTranslationKeys,
         sequenceTypeLabels,
         skinToneCheckboxes,
@@ -1169,7 +1167,7 @@ function updateEmojiComposition(item, value) {
         applyPixelArtworkClass,
         applyStandalonePixelArtwork,
         byId,
-        compositionMode,
+        compositionMode: explorerState.compositionMode,
         developerMode: developerModeEnabled(),
         detailsVisible: !exampleDialog.classList.contains('is-code-view') &&
             !exampleDialog.classList.contains('is-editor-view'),
@@ -1234,7 +1232,7 @@ function showEmoji(id, openDialog = true, navigationKeys) {
         applyPixelArtworkClass,
         applyStandalonePixelArtwork,
         byId,
-        compositionMode,
+        compositionMode: explorerState.compositionMode,
         currentEmojiCopies: { get value() { return currentEmojiCopies; }, set value(value) { currentEmojiCopies = value; } },
         currentEmojiKey: { get value() { return currentEmojiKey; }, set value(value) { currentEmojiKey = value; } },
         developerMode: developerModeEnabled(),
