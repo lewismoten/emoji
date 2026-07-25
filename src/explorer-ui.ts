@@ -72,3 +72,22 @@ export function createExplorerUiController(options: any) {
 
   return { applyTranslations, installApp, loadUiTranslations, renderInstallAppButton, updateOnlineStatus };
 }
+
+export function renderPixelFontToggle(options: any) {
+  const enabled = options.state().explorerPreferences.pixelFont !== false;
+  document.documentElement.toggleAttribute('data-pixel-font', enabled);
+  if (enabled) delete document.documentElement.dataset.emojiFont;
+  else document.documentElement.dataset.emojiFont = 'system';
+  options.choices().forEach((choice: any) => {
+    const selected = choice.dataset.emojiFont === (enabled ? 'pixel' : 'system');
+    choice.setAttribute('aria-pressed', String(selected));
+  });
+  options.refreshRenderedPixelEmoji();
+}
+
+export function selectEmojiFont(options: any, event: any) {
+  const pixelFont = event.currentTarget.dataset.emojiFont === 'pixel';
+  options.savePreference('pixelFont', pixelFont);
+  options.renderPixelFontToggle();
+  if (event?.detail > 0) event.currentTarget.blur();
+}

@@ -104,7 +104,11 @@ import {
   initializeExplorerControls
 } from './explorer-app.js';
 import { createExplorerState } from './explorer-state.js';
-import { createExplorerUiController } from './explorer-ui.js';
+import {
+  createExplorerUiController,
+  renderPixelFontToggle as renderPixelFontToggleHelper,
+  selectEmojiFont as selectEmojiFontHelper
+} from './explorer-ui.js';
 import {
   installPixelFontHotReload,
   refreshExplorerPixelFont,
@@ -238,25 +242,17 @@ const {
   translate
 });
 function renderPixelFontToggle() {
-  const enabled = explorerState.explorerPreferences.pixelFont !== false;
-  document.documentElement.toggleAttribute('data-pixel-font', enabled);
-  if (enabled) {
-    delete document.documentElement.dataset.emojiFont;
-  } else {
-    document.documentElement.dataset.emojiFont = 'system';
-  }
-  emojiFontChoices.forEach(choice => {
-    const selected =
-      choice.dataset.emojiFont === (enabled ? 'pixel' : 'system');
-    choice.setAttribute('aria-pressed', String(selected));
+  renderPixelFontToggleHelper({
+    choices: () => emojiFontChoices,
+    refreshRenderedPixelEmoji,
+    state: () => explorerState
   });
-  refreshRenderedPixelEmoji();
 }
 function selectEmojiFont(event) {
-  const usePixelFont = event.currentTarget.dataset.emojiFont === 'pixel';
-  saveExplorerPreference('pixelFont', usePixelFont);
-  renderPixelFontToggle();
-  if (event?.detail > 0) event.currentTarget.blur();
+  selectEmojiFontHelper(
+    { renderPixelFontToggle, savePreference: saveExplorerPreference },
+    event
+  );
 }
 function developerModeEnabled() {
   return (
