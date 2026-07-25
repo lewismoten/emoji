@@ -5,6 +5,7 @@ import { compositionReductionLabel, compositionTitle, describeCompositionPoint, 
 import { displayEmojiKey, formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints, normalizeDisplayName } from './explorer/emoji-format.js';
 import { copyToClipboard as copyToClipboardHelper, nextCopiedEmojiKeys, nextFavoriteEmojiKeys, renderSavedEmojiList as renderSavedEmojiListHelper, updateFavoriteToggleButton } from './explorer/saved-emoji.js';
 import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, resolveImportExamples } from './explorer/import-examples.js';
+import { buildExplorerUrlQuery, parseExplorerUrlState } from './explorer/url-state.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -1503,47 +1504,12 @@ function toggleVersionMode(event) {
         event.currentTarget.blur();
 }
 function getUrlState() {
-    const params = new URLSearchParams(window.location.search);
-    const requestedOrder = params.get('order');
-    const preferredOrder = explorerPreferences.order;
-    const requestedOrderValue = [
-        'grouped',
-        'unicode',
-        ...(developerModeEnabled() ? ['sequence'] : [])
-    ].includes(requestedOrder)
-        ? requestedOrder
-        : [
-            'grouped',
-            'unicode',
-            ...(developerModeEnabled() ? ['sequence'] : [])
-        ].includes(preferredOrder)
-            ? preferredOrder
-            : 'grouped';
-    return {
-        search: params.get('q') ?? '',
-        version: developerModeEnabled() ? (params.get('version') ?? '') : '',
-        versionMode: developerModeEnabled() && params.get('mode') === 'selected'
-            ? 'selected'
-            : 'through',
-        group: params.get('group') ?? '',
-        subGroup: params.get('subgroup') ?? '',
-        sequenceType: sequenceTypeOrder.includes(params.get('sequenceType'))
-            ? params.get('sequenceType')
-            : '',
-        skin: (params.get('skin') ?? '').split(',').filter(Boolean),
-        hair: (params.get('hair') ?? '').split(',').filter(Boolean),
-        gender: (params.get('gender') ?? '').split(',').filter(Boolean),
-        order: requestedOrderValue,
-        compositionMode: params.get('composition') === 'full' ? 'full' : 'condensed',
-        emoji: params.get('emoji') ?? '',
-        emojiMode: developerModeEnabled() &&
-            ['code', 'editor'].includes(params.get('emojiMode'))
-            ? params.get('emojiMode')
-            : 'details',
-        panel: ['favorites', 'help', 'language'].includes(params.get('panel'))
-            ? params.get('panel')
-            : ''
-    };
+    return parseExplorerUrlState({
+        search: window.location.search,
+        developerMode: developerModeEnabled(),
+        preferredOrder: explorerPreferences.order,
+        allowedSequenceTypes: sequenceTypeOrder
+    });
 }
 function applyBasicUrlState() {
     const state = getUrlState();
@@ -1614,28 +1580,6 @@ function applyDialogUrlState() {
 function syncUrlState(method = 'replace', historyState = window.history.state) {
     if (!urlStateReady || applyingUrlState)
         return;
-    const params = new URLSearchParams();
-    const search = searchText.value.trim();
-    if (search)
-        params.set('q', search);
-    const latestReleased = versionManifests.at(-1)?.version;
-    if (developerModeEnabled()) {
-        if (versionSelector.value &&
-            (versionSelector.value !== latestReleased ||
-                versionModeSelector.value === 'selected')) {
-            params.set('version', versionSelector.value);
-        }
-        if (versionModeSelector.value === 'selected')
-            params.set('mode', 'selected');
-    }
-    if (orderMode !== 'sequence' && selectedGroup)
-        params.set('group', selectedGroup);
-    if (orderMode !== 'sequence' && selectedSubGroup) {
-        params.set('subgroup', selectedSubGroup.split('::').slice(1).join('::'));
-    }
-    if (orderMode === 'sequence' && selectedSequenceType) {
-        params.set('sequenceType', selectedSequenceType);
-    }
     const skin = skinToneCheckboxes
         .filter(checkbox => checkbox.checked)
         .map(checkbox => checkbox.value);
@@ -1645,31 +1589,29 @@ function syncUrlState(method = 'replace', historyState = window.history.state) {
     const gender = genderCheckboxes
         .filter(checkbox => checkbox.checked)
         .map(checkbox => checkbox.value);
-    if (skin.length)
-        params.set('skin', skin.join(','));
-    if (hair.length)
-        params.set('hair', hair.join(','));
-    if (gender.length)
-        params.set('gender', gender.join(','));
-    if (developerModeEnabled())
-        params.set('developer', '1');
-    if (orderMode !== 'grouped')
-        params.set('order', orderMode);
-    if (compositionMode === 'full')
-        params.set('composition', 'full');
-    if (exampleDialog.open && currentEmojiKey) {
-        params.set('emoji', currentEmojiKey);
-        if (exampleDialog.classList.contains('is-code-view'))
-            params.set('emojiMode', 'code');
-        if (exampleDialog.classList.contains('is-editor-view'))
-            params.set('emojiMode', 'editor');
-    }
-    else {
-        const panel = getOpenPanel();
-        if (panel)
-            params.set('panel', panel);
-    }
-    const query = params.toString();
+    const query = buildExplorerUrlQuery({
+        search: searchText.value,
+        developerMode: developerModeEnabled(),
+        latestReleasedVersion: versionManifests.at(-1)?.version,
+        version: versionSelector.value,
+        versionMode: versionModeSelector.value,
+        order: orderMode,
+        group: selectedGroup,
+        subGroup: selectedSubGroup,
+        sequenceType: selectedSequenceType,
+        skin,
+        hair,
+        gender,
+        compositionMode,
+        currentEmojiKey,
+        emojiMode: exampleDialog.classList.contains('is-editor-view')
+            ? 'editor'
+            : exampleDialog.classList.contains('is-code-view')
+                ? 'code'
+                : 'details',
+        panel: getOpenPanel(),
+        dialogOpen: exampleDialog.open
+    });
     const url = `${window.location.pathname}${query ? `?${query}` : ''}${window.location.hash}`;
     window.history[`${method}State`](historyState, '', url);
 }
