@@ -1,0 +1,207 @@
+import { displayEmojiKey } from './emoji-format.js';
+
+type RenderState = {
+  cellFragment?: DocumentFragment;
+  emoji?: HTMLElement;
+  group?: string;
+  groupElement?: HTMLElement;
+  items: HTMLElement[];
+  subGroup?: string;
+  subGroupElement?: HTMLElement;
+  type?: string;
+  unicodeSubGroup?: string;
+  unicodeSubGroupElement?: HTMLElement;
+};
+
+export function createEmojiListRenderers(options: {
+  applyPixelArtworkClass: (element: Element | null, key: string) => void;
+  byId: () => Record<string, any>;
+  displayExplorerLabel: (name: string) => string;
+  displayGroupName: (name: string) => string;
+  displayUnicodeSubGroupName: (name: string) => string;
+  emojiByKey: () => Record<string, string>;
+  focusedEmojiKey: () => string;
+  getIntroducedVersion: (key: string) => string;
+  groups: () => string[];
+  orderMode: () => string;
+  searchAnnotations: () => Record<string, string[]>;
+  sequenceTranslationKeys: Record<string, string>;
+  sequenceTypeLabels: Record<string, string>;
+  sequenceTypeOrder: string[];
+  subGroups: () => Record<string, string[]>;
+  translate: (key: string, fallback: string) => string;
+  unassigned: string;
+}) {
+  const asGroup = (name: string) => {
+    const element = document.createElement('div');
+    element.className = 'group';
+    const heading = document.createElement('h3');
+    heading.innerText = options.displayGroupName(name);
+    heading.className = 'name';
+    element.appendChild(heading);
+    return element;
+  };
+
+  const asUnicodeSubGroup = (name: string) => {
+    const element = document.createElement('div');
+    element.className = 'unicode-subgroup';
+    const heading = document.createElement('h4');
+    heading.innerText = options.displayUnicodeSubGroupName(name);
+    heading.className = 'name';
+    element.appendChild(heading);
+    const sections = document.createElement('div');
+    sections.className = 'subgroup-list';
+    element.appendChild(sections);
+    return element;
+  };
+
+  const asSubGroup = (name: string, direct: boolean) => {
+    const element = document.createElement('div');
+    element.className = direct ? 'subgroup is-direct' : 'subgroup';
+    const heading = document.createElement(direct ? 'span' : 'h5');
+    heading.innerText = options.displayExplorerLabel(name);
+    heading.className = 'name';
+    element.appendChild(heading);
+    const emoji = document.createElement('div');
+    emoji.className = 'emoji';
+    element.appendChild(emoji);
+    return element;
+  };
+
+  const flushEmojiCellFragment = (state: RenderState) => {
+    if (!state.cellFragment?.hasChildNodes()) return;
+    const target = state.emoji ?? state.subGroupElement?.lastElementChild;
+    target?.appendChild(state.cellFragment);
+    state.cellFragment = document.createDocumentFragment();
+  };
+
+  const asEmojiCell = (key: string, groupId = 0, subGroupId = 0) => {
+    const element = document.createElement('div');
+    const byId = options.byId();
+    element.id = key;
+    element.dataset.emojiKey = key;
+    const accessibleName =
+      options.searchAnnotations()[key]?.[0] ??
+      byId[key]?.shortName ??
+      displayEmojiKey(key);
+    element.title = accessibleName;
+    element.tabIndex = key === options.focusedEmojiKey() ? 0 : -1;
+    element.setAttribute('role', 'button');
+    const introduced = options.getIntroducedVersion(key);
+    const versionDescription =
+      introduced === '—'
+        ? ''
+        : `, ${options.translate('emojiVersion', 'Emoji version')} ${introduced}`;
+    element.setAttribute('aria-label', `${accessibleName}${versionDescription}`);
+    element.classList.add(`group-${groupId}`);
+    element.classList.add(`sub-group-${subGroupId}`);
+    const glyph = document.createElement('span');
+    glyph.className = 'emoji-glyph';
+    glyph.innerText = options.emojiByKey()[key];
+    options.applyPixelArtworkClass(glyph, key);
+    element.appendChild(glyph);
+    return element;
+  };
+
+  const asItem = (state: RenderState, key: string) => {
+    const byId = options.byId();
+    const groups = options.groups();
+    const subGroups = options.subGroups();
+    const orderMode = options.orderMode();
+    const meta = byId[key] ?? {
+      group: options.unassigned,
+      subGroups: options.unassigned
+    };
+    const displaySubGroup =
+      orderMode === 'unicode' ? meta.unicodeSubGroup : meta.subGroup;
+    const directSubGroup = orderMode === 'unicode' || !meta.hasExplorerSections;
+    let groupId = 0;
+    let subGroupId = 0;
+    const hasGroups = groups.length !== 0;
+
+    if (hasGroups) {
+      if (state.group !== meta.group) {
+        flushEmojiCellFragment(state);
+        state.groupElement = asGroup(meta.group);
+        state.items.push(state.groupElement);
+        state.unicodeSubGroupElement = asUnicodeSubGroup(meta.unicodeSubGroup);
+        state.groupElement.appendChild(state.unicodeSubGroupElement);
+        state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
+        state.unicodeSubGroupElement.lastChild?.appendChild(state.subGroupElement);
+        state.group = meta.group;
+        state.unicodeSubGroup = meta.unicodeSubGroup;
+        state.subGroup = displaySubGroup;
+      } else if (state.unicodeSubGroup !== meta.unicodeSubGroup) {
+        flushEmojiCellFragment(state);
+        state.unicodeSubGroupElement = asUnicodeSubGroup(meta.unicodeSubGroup);
+        state.groupElement?.appendChild(state.unicodeSubGroupElement);
+        state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
+        state.unicodeSubGroupElement.lastChild?.appendChild(state.subGroupElement);
+        state.unicodeSubGroup = meta.unicodeSubGroup;
+        state.subGroup = displaySubGroup;
+      } else if (state.subGroup !== displaySubGroup) {
+        flushEmojiCellFragment(state);
+        state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
+        state.unicodeSubGroupElement?.lastChild?.appendChild(state.subGroupElement);
+        state.subGroup = displaySubGroup;
+      }
+      groupId = groups.indexOf(meta.group);
+      subGroupId = subGroups[meta.group]?.indexOf(meta.unicodeSubGroup) ?? 0;
+    }
+
+    const cell = asEmojiCell(key, groupId, subGroupId);
+    if (hasGroups) state.cellFragment?.appendChild(cell);
+    else state.items.push(cell);
+    return state;
+  };
+
+  const asSequenceItem = (state: RenderState, key: string) => {
+    const type = options.byId()[key]?.sequenceType ?? 'single';
+    if (state.type !== type) {
+      flushEmojiCellFragment(state);
+      const section = document.createElement('div');
+      section.className = 'sequence-type';
+      const heading = document.createElement('h3');
+      heading.className = 'name';
+      const fallback = options.sequenceTypeLabels[type] ?? type;
+      heading.innerText = options.translate(
+        options.sequenceTranslationKeys[type],
+        fallback
+      );
+      const emoji = document.createElement('div');
+      emoji.className = 'emoji';
+      section.append(heading, emoji);
+      state.items.push(section);
+      state.emoji = emoji;
+      state.type = type;
+    }
+    state.cellFragment?.appendChild(asEmojiCell(key));
+    return state;
+  };
+
+  const orderedKeys = (keys: string[]) => {
+    const orderMode = options.orderMode();
+    if (orderMode === 'grouped') return keys;
+    const byId = options.byId();
+    return [...keys].sort((left, right) => {
+      if (orderMode === 'sequence') {
+        const typeDifference =
+          options.sequenceTypeOrder.indexOf(byId[left]?.sequenceType ?? 'single') -
+          options.sequenceTypeOrder.indexOf(byId[right]?.sequenceType ?? 'single');
+        if (typeDifference !== 0) return typeDifference;
+      }
+      return (byId[left]?.order ?? Infinity) - (byId[right]?.order ?? Infinity);
+    });
+  };
+
+  return {
+    asEmojiCell,
+    asGroup,
+    asItem,
+    asSequenceItem,
+    asSubGroup,
+    asUnicodeSubGroup,
+    flushEmojiCellFragment,
+    orderedKeys
+  };
+}

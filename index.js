@@ -1,7 +1,7 @@
 // @ts-nocheck -- Transitional entry point; remove as features move into typed modules.
 import { explorerLabelKeys, languageFlags, sequenceTranslationKeys, sequenceTypeEmoji, sequenceTypeLabels, sequenceTypeOrder, statusTranslationKeys, unicodeGroupLabelKeys, unicodeSubgroupLabelKeys, versionModeDefinitions } from './explorer/explorer-labels.js';
 import { getExplorerSubGroup } from './explorer/category-rules.js';
-import { displayEmojiKey, formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints } from './explorer/emoji-format.js';
+import { formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints } from './explorer/emoji-format.js';
 import { copyToClipboard as copyToClipboardHelper, nextCopiedEmojiKeys, nextFavoriteEmojiKeys, renderSavedEmojiList as renderSavedEmojiListHelper, updateFavoriteToggleButton } from './explorer/saved-emoji.js';
 import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, resolveImportExamples } from './explorer/import-examples.js';
 import { buildExplorerUrlQuery, parseExplorerUrlState } from './explorer/url-state.js';
@@ -12,6 +12,8 @@ import { applyBasicUrlStateToControls, applyExclusiveCheckboxSelection, applyLoa
 import { closeFilterPicker as closeFilterPickerHelper, displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper, focusCompactChoice as focusCompactChoiceHelper, makeCompactChoice as makeCompactChoiceHelper, onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper, openFilterPicker as openFilterPickerHelper, populateGroupFilter as populateGroupFilterHelper, populateSequenceTypeFilter as populateSequenceTypeFilterHelper, populateSubGroupFilter as populateSubGroupFilterHelper, renderFilterPickerTrigger as renderFilterPickerTriggerHelper } from './explorer/filter-picker.js';
 import { getVersionKeys as getVersionKeysHelper, renderCategoryFilterLayout, syncVersionRange as syncVersionRangeHelper, updateAvailableCategories as updateAvailableCategoriesHelper, updateModifierAvailability as updateModifierAvailabilityHelper, versionSliderLabel as versionSliderLabelHelper } from './explorer/category-version.js';
 import { getIntroducedVersion as getIntroducedVersionHelper, renderEmojiDialog, updateCompositionBackButton as updateCompositionBackButtonHelper, updateDialogNavigation as updateDialogNavigationHelper, updateEmojiComposition as updateEmojiCompositionHelper, updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutCompositionParent } from './explorer/dialog-render.js';
+import { createEmojiListRenderers } from './explorer/emoji-list-render.js';
+import { createEmojiListInteraction } from './explorer/emoji-list-interaction.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -2080,148 +2082,25 @@ function displayUnicodeSubGroupName(name) {
         unicodeSubgroupLabelKeys
     });
 }
-const asGroup = name => {
-    var div = document.createElement('div');
-    div.className = 'group';
-    var divName = document.createElement('h3');
-    divName.innerText = displayGroupName(name);
-    divName.className = 'name';
-    div.appendChild(divName);
-    return div;
-};
-const asUnicodeSubGroup = name => {
-    var div = document.createElement('div');
-    div.className = 'unicode-subgroup';
-    var divName = document.createElement('h4');
-    divName.innerText = displayUnicodeSubGroupName(name);
-    divName.className = 'name';
-    div.appendChild(divName);
-    var divSections = document.createElement('div');
-    divSections.className = 'subgroup-list';
-    div.appendChild(divSections);
-    return div;
-};
-const asSubGroup = (name, direct) => {
-    var div = document.createElement('div');
-    div.className = direct ? 'subgroup is-direct' : 'subgroup';
-    var divName = document.createElement(direct ? 'span' : 'h5');
-    divName.innerText = displayExplorerLabel(name);
-    divName.className = 'name';
-    div.appendChild(divName);
-    var divEmoji = document.createElement('div');
-    divEmoji.className = 'emoji';
-    div.appendChild(divEmoji);
-    return div;
-};
-function flushEmojiCellFragment(state) {
-    if (!state.cellFragment?.hasChildNodes())
-        return;
-    const target = state.emoji ?? state.subGroupElement?.lastElementChild;
-    target?.appendChild(state.cellFragment);
-    state.cellFragment = document.createDocumentFragment();
-}
-function asItem(state, key) {
-    var meta = byId[key] ?? { group: UNASSIGNED, subGroups: UNASSIGNED };
-    const displaySubGroup = orderMode === 'unicode' ? meta.unicodeSubGroup : meta.subGroup;
-    const directSubGroup = orderMode === 'unicode' || !meta.hasExplorerSections;
-    var groupId = 0;
-    var subGroupId = 0;
-    const hasGroups = meta && groups.length !== 0;
-    if (hasGroups) {
-        if (state.group !== meta.group) {
-            flushEmojiCellFragment(state);
-            state.groupElement = asGroup(meta.group);
-            state.items.push(state.groupElement);
-            state.unicodeSubGroupElement = asUnicodeSubGroup(meta.unicodeSubGroup);
-            state.groupElement.appendChild(state.unicodeSubGroupElement);
-            state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
-            state.unicodeSubGroupElement.lastChild.appendChild(state.subGroupElement);
-            state.group = meta.group;
-            state.unicodeSubGroup = meta.unicodeSubGroup;
-            state.subGroup = displaySubGroup;
-        }
-        else if (state.unicodeSubGroup !== meta.unicodeSubGroup) {
-            flushEmojiCellFragment(state);
-            state.unicodeSubGroupElement = asUnicodeSubGroup(meta.unicodeSubGroup);
-            state.groupElement.appendChild(state.unicodeSubGroupElement);
-            state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
-            state.unicodeSubGroupElement.lastChild.appendChild(state.subGroupElement);
-            state.unicodeSubGroup = meta.unicodeSubGroup;
-            state.subGroup = displaySubGroup;
-        }
-        else if (state.subGroup !== displaySubGroup) {
-            flushEmojiCellFragment(state);
-            state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
-            state.unicodeSubGroupElement.lastChild.appendChild(state.subGroupElement);
-            state.subGroup = displaySubGroup;
-        }
-        groupId = groups.indexOf(meta.group);
-        subGroupId = subGroups[meta.group]?.indexOf(meta.unicodeSubGroup) ?? 0;
-    }
-    var div = asEmojiCell(key, groupId, subGroupId);
-    if (hasGroups) {
-        state.cellFragment.appendChild(div);
-    }
-    else {
-        state.items.push(div);
-    }
-    return state;
-}
-function asEmojiCell(key, groupId = 0, subGroupId = 0) {
-    const div = document.createElement('div');
-    div.id = key;
-    div.dataset.emojiKey = key;
-    const accessibleName = searchAnnotations[key]?.[0] ?? byId[key]?.shortName ?? displayEmojiKey(key);
-    div.title = accessibleName;
-    div.tabIndex = key === focusedEmojiKey ? 0 : -1;
-    div.setAttribute('role', 'button');
-    const introduced = getIntroducedVersion(key);
-    const versionDescription = introduced === '—'
-        ? ''
-        : `, ${translate('emojiVersion', 'Emoji version')} ${introduced}`;
-    div.setAttribute('aria-label', `${accessibleName}${versionDescription}`);
-    div.classList.add(`group-${groupId}`);
-    div.classList.add(`sub-group-${subGroupId}`);
-    const emojiDiv = document.createElement('span');
-    emojiDiv.className = 'emoji-glyph';
-    emojiDiv.innerText = emojiByKey[key];
-    applyPixelArtworkClass(emojiDiv, key);
-    div.appendChild(emojiDiv);
-    return div;
-}
-function asSequenceItem(state, key) {
-    const type = byId[key]?.sequenceType ?? 'single';
-    if (state.type !== type) {
-        flushEmojiCellFragment(state);
-        const section = document.createElement('div');
-        section.className = 'sequence-type';
-        const name = document.createElement('h3');
-        name.className = 'name';
-        const fallback = sequenceTypeLabels[type] ?? type;
-        name.innerText = translate(sequenceTranslationKeys[type], fallback);
-        const emoji = document.createElement('div');
-        emoji.className = 'emoji';
-        section.append(name, emoji);
-        state.items.push(section);
-        state.emoji = emoji;
-        state.type = type;
-    }
-    state.cellFragment.appendChild(asEmojiCell(key));
-    return state;
-}
-function orderedKeys(keys) {
-    if (orderMode === 'grouped')
-        return keys;
-    return [...keys].sort((left, right) => {
-        if (orderMode === 'sequence') {
-            const typeDifference = sequenceTypeOrder.indexOf(byId[left]?.sequenceType ?? 'single') -
-                sequenceTypeOrder.indexOf(byId[right]?.sequenceType ?? 'single');
-            if (typeDifference !== 0)
-                return typeDifference;
-        }
-        return (byId[left]?.order ?? Infinity) - (byId[right]?.order ?? Infinity);
-    });
-}
+const { asEmojiCell, asItem, asSequenceItem, flushEmojiCellFragment, orderedKeys } = createEmojiListRenderers({
+    applyPixelArtworkClass,
+    byId: () => byId,
+    displayExplorerLabel,
+    displayGroupName,
+    displayUnicodeSubGroupName,
+    emojiByKey: () => emojiByKey,
+    focusedEmojiKey: () => focusedEmojiKey,
+    getIntroducedVersion,
+    groups: () => groups,
+    orderMode: () => orderMode,
+    searchAnnotations: () => searchAnnotations,
+    sequenceTranslationKeys,
+    sequenceTypeLabels,
+    sequenceTypeOrder,
+    subGroups: () => subGroups,
+    translate,
+    unassigned: UNASSIGNED
+});
 function getEmojiGenders(item) {
     const genders = new Set();
     const name = item.shortName?.toLocaleLowerCase() ?? '';
@@ -2324,180 +2203,27 @@ function drawList() {
     updateDialogNavigation();
     syncUrlState();
 }
-function renderEmojiList(keys, shouldRestoreEmojiFocus) {
-    const generation = ++listRenderGeneration;
-    const renderRoot = document.createDocumentFragment();
-    emojiList.dataset.rendering = 'true';
-    emojiList.setAttribute('aria-busy', 'true');
-    if (keys.length === 0) {
-        renderRoot.appendChild(createEmptyResults());
-        finishEmojiListRender(generation, shouldRestoreEmojiFocus, renderRoot);
-        return;
-    }
-    const renderer = orderMode === 'sequence' ? asSequenceItem : asItem;
-    const state = orderMode === 'sequence'
-        ? {
-            items: [],
-            type: '',
-            emoji: null,
-            cellFragment: document.createDocumentFragment()
-        }
-        : {
-            items: [],
-            group: UNASSIGNED,
-            unicodeSubGroup: UNASSIGNED,
-            subGroup: UNASSIGNED,
-            groupElement: null,
-            unicodeSubGroupElement: null,
-            subGroupElement: null,
-            cellFragment: document.createDocumentFragment()
-        };
-    let keyIndex = 0;
-    let appendedItemCount = 0;
-    const renderChunk = () => {
-        if (generation !== listRenderGeneration)
-            return;
-        const deadline = performance.now() + 6;
-        const chunkEnd = Math.min(keyIndex + 120, keys.length);
-        do {
-            renderer(state, keys[keyIndex++]);
-        } while (keyIndex < chunkEnd &&
-            keyIndex < keys.length &&
-            performance.now() < deadline);
-        flushEmojiCellFragment(state);
-        if (appendedItemCount < state.items.length) {
-            const fragment = document.createDocumentFragment();
-            while (appendedItemCount < state.items.length) {
-                fragment.appendChild(state.items[appendedItemCount++]);
-            }
-            renderRoot.appendChild(fragment);
-        }
-        if (keyIndex < keys.length) {
-            yieldForListRender().then(renderChunk);
-        }
-        else {
-            finishEmojiListRender(generation, shouldRestoreEmojiFocus, renderRoot);
-        }
-    };
-    renderChunk();
-}
-function yieldForListRender() {
-    if (window.scheduler?.yield)
-        return window.scheduler.yield();
-    return new Promise(resolve => window.setTimeout(resolve, 0));
-}
-function finishEmojiListRender(generation, shouldRestoreEmojiFocus, renderRoot) {
-    if (generation !== listRenderGeneration)
-        return;
-    emojiList.replaceChildren(renderRoot);
-    delete emojiList.dataset.rendering;
-    revealExplorer();
-    if (shouldRestoreEmojiFocus) {
-        document.getElementById(focusedEmojiKey)?.focus();
-    }
-}
-function onEmojiFocus(event) {
-    const cell = event.target.closest('[data-emoji-key]');
-    if (!cell)
-        return;
-    focusedEmojiKey = cell.dataset.emojiKey;
-    emojiList.querySelectorAll('[data-emoji-key]').forEach(item => {
-        item.tabIndex = item === cell ? 0 : -1;
-    });
-}
-function onEmojiKeyDown(event) {
-    const cell = event.target.closest('[data-emoji-key]');
-    if (!cell)
-        return;
-    if (event.key === 'Enter' || event.key === ' ') {
-        event.preventDefault();
-        onClick(event);
-        return;
-    }
-    if (![
-        'ArrowLeft',
-        'ArrowRight',
-        'ArrowUp',
-        'ArrowDown',
-        'Home',
-        'End'
-    ].includes(event.key))
-        return;
-    event.preventDefault();
-    const cells = displayedKeys
-        .map(key => document.getElementById(key))
-        .filter(Boolean);
-    if (cells.length === 0)
-        return;
-    let target;
-    if (event.key === 'Home') {
-        target = cells[0];
-    }
-    else if (event.key === 'End') {
-        target = cells.at(-1);
-    }
-    else if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-        target = closestVerticalEmoji(cell, cells, event.key === 'ArrowDown' ? 1 : -1);
-    }
-    else {
-        const rtl = document.documentElement.dir === 'rtl';
-        const direction = event.key === (rtl ? 'ArrowLeft' : 'ArrowRight') ? 1 : -1;
-        const currentIndex = cells.indexOf(cell);
-        target = cells[currentIndex + direction];
-    }
-    target?.focus();
-}
-function closestVerticalEmoji(current, cells, direction) {
-    const currentRect = current.getBoundingClientRect();
-    const currentX = currentRect.left + currentRect.width / 2;
-    const currentY = currentRect.top + currentRect.height / 2;
-    return cells
-        .filter(cell => {
-        if (cell === current)
-            return false;
-        const rect = cell.getBoundingClientRect();
-        const centerY = rect.top + rect.height / 2;
-        return direction > 0 ? centerY > currentY + 1 : centerY < currentY - 1;
-    })
-        .map(cell => {
-        const rect = cell.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        return {
-            cell,
-            score: Math.abs(centerY - currentY) * 1000 + Math.abs(centerX - currentX)
-        };
-    })
-        .sort((left, right) => left.score - right.score)[0]?.cell;
-}
-function createEmptyResults() {
-    const section = document.createElement('section');
-    section.className = 'empty-results';
-    const title = document.createElement('h3');
-    title.textContent = translate('noResults', 'No emoji found');
-    const description = document.createElement('p');
-    description.textContent = translate('noResultsDescription', 'Try removing a search term or filter.');
-    const actions = document.createElement('div');
-    actions.className = 'empty-actions';
-    if (searchText.value.trim()) {
-        const clearSearch = document.createElement('button');
-        clearSearch.type = 'button';
-        clearSearch.textContent = translate('clearSearch', 'Clear search');
-        clearSearch.addEventListener('click', () => {
-            searchText.value = '';
-            drawList();
-            searchText.focus();
-        });
-        actions.appendChild(clearSearch);
-    }
-    const reset = document.createElement('button');
-    reset.type = 'button';
-    reset.textContent = translate('resetFilters', 'Reset filters');
-    reset.addEventListener('click', resetFilters);
-    actions.appendChild(reset);
-    section.append(title, description, actions);
-    return section;
-}
+const { onEmojiFocus, onEmojiKeyDown, renderEmojiList } = createEmojiListInteraction({
+    asItem,
+    asSequenceItem,
+    drawList,
+    emojiList: () => emojiList,
+    flushEmojiCellFragment,
+    focusedEmojiKey: () => focusedEmojiKey,
+    getDisplayedKeys: () => displayedKeys,
+    nextRenderGeneration: () => ++listRenderGeneration,
+    onClick,
+    orderMode: () => orderMode,
+    renderGeneration: () => listRenderGeneration,
+    resetFilters,
+    revealExplorer,
+    searchText: () => searchText,
+    setFocusedEmojiKey: key => {
+        focusedEmojiKey = key;
+    },
+    translate,
+    unassigned: UNASSIGNED
+});
 function updateActiveFilterSummary() {
     if (!activeFilterSummary || !activeFilterText)
         return;

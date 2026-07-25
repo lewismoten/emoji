@@ -95,6 +95,15 @@ const arabicDemo = await fs.readFile(
 );
 const demoHtml = await fs.readFile(path.join(root, 'index.html'), 'utf8');
 const demoScript = await fs.readFile(path.join(root, 'src/index.ts'), 'utf8');
+const emojiListRenderHelper = await fs.readFile(
+  path.join(root, 'src/explorer/emoji-list-render.ts'),
+  'utf8'
+);
+const emojiListInteractionHelper = await fs.readFile(
+  path.join(root, 'src/explorer/emoji-list-interaction.ts'),
+  'utf8'
+);
+const emojiListSources = `${demoScript}\n${emojiListInteractionHelper}`;
 const utilityControlsHelper = await fs.readFile(
   path.join(root, 'src/explorer/utility-controls.ts'),
   'utf8'
@@ -482,7 +491,7 @@ assert.match(
 );
 assert.match(
   demoScript,
-  /async function refreshExplorerPixelFont[\s\S]*build\/manifest\.json[\s\S]*paintedPixelEmojiKeys = new Set[\s\S]*querySelectorAll\('\[data-emoji-key\]'\)[\s\S]*applyPixelArtworkClass/,
+  /async function refreshExplorerPixelFont[\s\S]*build\/manifest\.json[\s\S]*updatePixelArtworkManifest\(manifest, revision\)[\s\S]*querySelectorAll\('\[data-emoji-key\]'\)[\s\S]*applyPixelArtworkClass/,
   'rebuilt fonts must update existing Emoji Explorer result glyphs'
 );
 assert.match(
@@ -1055,7 +1064,7 @@ assert.match(
   'emoji results must provide 44 CSS-pixel pointer targets'
 );
 assert.match(
-  demoScript,
+  emojiListRenderHelper,
   /versionDescription[\s\S]*setAttribute\('aria-label', `\$\{accessibleName\}\$\{versionDescription\}`\)/,
   'emoji result labels must include their introduction version'
 );
@@ -1100,8 +1109,8 @@ assert.match(
   'the initial page must present an intentional loading state'
 );
 assert.match(
-  demoScript,
-  /function finishExplorerLoading[\s\S]*revealExplorer\(\)[\s\S]*function revealExplorer[\s\S]*classList\.remove\('app-loading'\)[\s\S]*aria-busy[\s\S]*function finishEmojiListRender[\s\S]*revealExplorer\(\)/,
+  emojiListSources,
+  /function finishExplorerLoading[\s\S]*revealExplorer\(\)[\s\S]*function revealExplorer[\s\S]*classList\.remove\('app-loading'\)[\s\S]*aria-busy[\s\S]*const finishEmojiListRender[\s\S]*options\.revealExplorer\(\)/,
   'loading controls and below-list content must be revealed only after the first result tree is ready'
 );
 assert.match(
@@ -1130,13 +1139,13 @@ assert.match(
   'rapid search input must coalesce expensive emoji-list renders'
 );
 assert.match(
-  demoScript,
-  /function renderEmojiList[\s\S]*renderRoot = document\.createDocumentFragment\(\)[\s\S]*aria-busy[\s\S]*performance\.now\(\) \+ 6[\s\S]*Math\.min\(keyIndex \+ 120[\s\S]*renderRoot\.appendChild\(fragment\)[\s\S]*yieldForListRender\(\)\.then\(renderChunk\)[\s\S]*function finishEmojiListRender[\s\S]*replaceChildren\(renderRoot\)/,
+  emojiListInteractionHelper,
+  /const finishEmojiListRender[\s\S]*replaceChildren\(renderRoot\)[\s\S]*const renderEmojiList[\s\S]*renderRoot = document\.createDocumentFragment\(\)[\s\S]*aria-busy[\s\S]*performance\.now\(\) \+ 6[\s\S]*Math\.min\(keyIndex \+ 120[\s\S]*renderRoot\.appendChild\(fragment\)[\s\S]*yieldForListRender\(\)\.then\(renderChunk\)/,
   'large emoji result sets must build in cancellable, off-document chunks before one stable swap'
 );
 assert.match(
-  demoScript,
-  /function flushEmojiCellFragment[\s\S]*DocumentFragment[\s\S]*function asItem[\s\S]*flushEmojiCellFragment\(state\)[\s\S]*state\.cellFragment\.appendChild\(div\)[\s\S]*function asSequenceItem[\s\S]*state\.cellFragment\.appendChild/,
+  emojiListRenderHelper,
+  /const flushEmojiCellFragment[\s\S]*DocumentFragment[\s\S]*const asItem[\s\S]*flushEmojiCellFragment\(state\)[\s\S]*state\.cellFragment\?\.appendChild\(cell\)[\s\S]*const asSequenceItem[\s\S]*state\.cellFragment\?\.appendChild/,
   'incremental result chunks must batch emoji cells outside the live document'
 );
 assert.match(
