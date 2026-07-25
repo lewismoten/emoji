@@ -20,6 +20,7 @@ import {
 } from './explorer/emoji-format.js';
 import {
   createSavedEmojiController,
+  animateCopyConfirmation as animateEmojiCopyConfirmation,
   copyToClipboard as copyToClipboardHelper,
 } from './explorer/saved-emoji.js';
 import {
@@ -1088,36 +1089,6 @@ async function copyToClipboardValue(value, successMessage) {
     copyStatus,
     translate
   });
-}
-
-function animateEmojiCopyConfirmation(button) {
-  if (
-    !button?.animate ||
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  )
-    return;
-  button
-    .getAnimations()
-    .find(animation => animation.id === 'emoji-copy-confirmation')
-    ?.cancel();
-  const animation = button.animate(
-    [
-      { transform: 'scale(1)' },
-      { transform: 'scale(0.9)', offset: 0.2 },
-      {
-        transform: 'scale(1.05)',
-        backgroundColor: '#15384d',
-        boxShadow: '0 0 0 0.2rem rgb(127 216 255 / 35%)',
-        offset: 0.62
-      },
-      { transform: 'scale(1)', boxShadow: 'none' }
-    ],
-    {
-      duration: 240,
-      easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)'
-    }
-  );
-  animation.id = 'emoji-copy-confirmation';
 }
 
 function getIntroducedVersion(key) {

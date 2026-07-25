@@ -2,7 +2,7 @@
 import { explorerLabelKeys, languageFlags, sequenceTranslationKeys, sequenceTypeEmoji, sequenceTypeLabels, sequenceTypeOrder, statusTranslationKeys, unicodeGroupLabelKeys, unicodeSubgroupLabelKeys, versionModeDefinitions } from './explorer/explorer-labels.js';
 import { getExplorerSubGroup } from './explorer/category-rules.js';
 import { formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints } from './explorer/emoji-format.js';
-import { createSavedEmojiController, copyToClipboard as copyToClipboardHelper, } from './explorer/saved-emoji.js';
+import { createSavedEmojiController, animateCopyConfirmation as animateEmojiCopyConfirmation, copyToClipboard as copyToClipboardHelper, } from './explorer/saved-emoji.js';
 import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, loadPackageManifest as loadPackageManifestHelper, renderImportExamples as renderImportExamplesHelper } from './explorer/import-examples.js';
 import { ensureUtilityControls, positionFavoriteButton } from './explorer/utility-controls.js';
 import { closePanelDialog, installApp as installWebApp, installedDisplayQueries, onPanelDialogClose, openPanelDialog, renderInstallAppButton as renderInstallAppButtonHelper, updateWebAppManifest } from './explorer/pwa-panels.js';
@@ -896,30 +896,6 @@ async function copyToClipboardValue(value, successMessage) {
         copyStatus,
         translate
     });
-}
-function animateEmojiCopyConfirmation(button) {
-    if (!button?.animate ||
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-        return;
-    button
-        .getAnimations()
-        .find(animation => animation.id === 'emoji-copy-confirmation')
-        ?.cancel();
-    const animation = button.animate([
-        { transform: 'scale(1)' },
-        { transform: 'scale(0.9)', offset: 0.2 },
-        {
-            transform: 'scale(1.05)',
-            backgroundColor: '#15384d',
-            boxShadow: '0 0 0 0.2rem rgb(127 216 255 / 35%)',
-            offset: 0.62
-        },
-        { transform: 'scale(1)', boxShadow: 'none' }
-    ], {
-        duration: 240,
-        easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)'
-    });
-    animation.id = 'emoji-copy-confirmation';
 }
 function getIntroducedVersion(key) {
     return getIntroducedVersionHelper({
