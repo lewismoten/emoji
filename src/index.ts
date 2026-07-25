@@ -198,23 +198,18 @@ async function refreshExplorerPixelFont(revision) {
   }
 }
 
-var items = [];
-var groups = [];
-var subGroups = {};
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
-var availableGroups = [];
-var availableSubGroups = {};
-var availableSequenceTypes = [];
-var availableCategoryKeys = new Set();
-var groupRepresentativeEmoji = new Map();
-var subGroupRepresentativeEmoji = new Map();
-var emojiByKey = {};
-var allIds = [];
-var releasedIds = new Set();
-var groupedKeys = {};
-var byId = {};
-var emojiKeyByCodePoints = new Map();
+// Temporary catalog compatibility bindings; remaining consumers migrate next.
+var items = explorerState.items;
+var groups = explorerState.groups;
+var subGroups = explorerState.subGroups;
+var emojiByKey = explorerState.emojiByKey;
+var allIds = explorerState.allIds;
+var releasedIds = explorerState.releasedIds;
+var groupedKeys = explorerState.groupedKeys;
+var byId = explorerState.byId;
+var emojiKeyByCodePoints = explorerState.emojiKeyByCodePoints;
 
 var searchText;
 var languagePicker;
@@ -341,10 +336,10 @@ const {
   updateFavoriteButton
 } = createSavedEmojiController({
   applyPixelArtworkClass: () => applyPixelArtworkClass,
-  byId: () => byId,
+  byId: () => explorerState.byId,
   copiedEmojiKeys: () => copiedEmojiKeys,
   currentEmojiKey: () => explorerState.currentEmojiKey,
-  emojiByKey: () => emojiByKey,
+  emojiByKey: () => explorerState.emojiByKey,
   favoriteEmojiKeys: () => favoriteEmojiKeys,
   savePreference: saveExplorerPreference,
   savedDialog: () => savedDialog,
@@ -413,7 +408,7 @@ function toggleDeveloperMode(event) {
         button.setAttribute('aria-pressed', String(active));
       });
     }
-    if (items.length > 0) {
+    if (explorerState.items.length > 0) {
       renderCategoryFilters();
       drawList();
     }
@@ -527,8 +522,8 @@ const onEmojiDialogClick = createEmojiDialogClickHandler({
   recordCopiedEmoji,
   refreshComposition: () =>
     updateEmojiComposition(
-      byId[explorerState.currentEmojiKey] ?? {},
-      emojiByKey[explorerState.currentEmojiKey] ?? ''
+      explorerState.byId[explorerState.currentEmojiKey] ?? {},
+      explorerState.emojiByKey[explorerState.currentEmojiKey] ?? ''
     ),
   setView: setEmojiDialogView,
   syncUrlState: () => syncUrlState(),
@@ -854,6 +849,7 @@ async function loadData() {
     isViteDevelopment,
     updatePixelArtworkManifest
   });
+  Object.assign(explorerState, catalog);
   ({ allIds, byId, emojiByKey, groupedKeys, groups, items, releasedIds, subGroups } = catalog);
   rebuildEmojiCodePointLookup();
   updateModifierPixelArtwork();
@@ -931,11 +927,11 @@ async function loadVersionData() {
   versionDataPromise = (async () => {
     try {
       const versions = await loadVersionCatalog({
-        allIds: () => allIds,
-        byId: () => byId,
-        emojiByKey: () => emojiByKey,
+        allIds: () => explorerState.allIds,
+        byId: () => explorerState.byId,
+        emojiByKey: () => explorerState.emojiByKey,
         getExplorerSubGroup,
-        items: () => items
+        items: () => explorerState.items
       });
       versionManifests = versions.released;
       proposedVersionManifests = versions.proposed;
@@ -1048,9 +1044,9 @@ function subGroupSelectionKey(group, subGroup) {
 }
 
 const categoryFilterRenderer = createCategoryFilterRenderer({
-  availableGroups: () => availableGroups,
-  availableSequenceTypes: () => availableSequenceTypes,
-  availableSubGroups: () => availableSubGroups,
+  availableGroups: () => explorerState.availableGroups,
+  availableSequenceTypes: () => explorerState.availableSequenceTypes,
+  availableSubGroups: () => explorerState.availableSubGroups,
   compactGroupChoices: () => compactGroupChoices,
   compactGroupLabel: () => compactGroupLabel,
   compactSequenceChoices: () => compactSequenceChoices,
@@ -1077,10 +1073,10 @@ const categoryFilterRenderer = createCategoryFilterRenderer({
   sequenceTypeLabels,
   sequenceTypeOrder,
   sequenceTypeSelector: () => sequenceTypeSelector,
-  setAvailableCategoryKeys: value => (availableCategoryKeys = value),
-  setAvailableGroups: value => (availableGroups = value),
-  setAvailableSequenceTypes: value => (availableSequenceTypes = value),
-  setAvailableSubGroups: value => (availableSubGroups = value),
+  setAvailableCategoryKeys: value => (explorerState.availableCategoryKeys = value),
+  setAvailableGroups: value => (explorerState.availableGroups = value),
+  setAvailableSequenceTypes: value => (explorerState.availableSequenceTypes = value),
+  setAvailableSubGroups: value => (explorerState.availableSubGroups = value),
   setSelectedGroup: value => (explorerState.selectedGroup = value),
   setSelectedSequenceType: value => (explorerState.selectedSequenceType = value),
   setSelectedSubGroup: value => (explorerState.selectedSubGroup = value),
@@ -1111,7 +1107,7 @@ function onCompactChoiceKeyDown(event) {
 }
 
 function refreshLocalizedLabels() {
-  if (groups.length === 0) return;
+  if (explorerState.groups.length === 0) return;
   renderCategoryFilters();
   syncVersionRange();
   drawList();
@@ -1130,7 +1126,7 @@ function buildCategoryRepresentatives() {
     }
   });
   const itemOrder = new Map(
-    items.map((item, index) => [item.key, item.order ?? index])
+    explorerState.items.map((item, index) => [item.key, item.order ?? index])
   );
   const byIntroduction = (left, right) =>
     (versionOrder.get(left.key) ?? Infinity) -
@@ -1138,44 +1134,44 @@ function buildCategoryRepresentatives() {
     itemOrder.get(left.key) - itemOrder.get(right.key) ||
     left.key.localeCompare(right.key);
 
-  groupRepresentativeEmoji = new Map();
-  subGroupRepresentativeEmoji = new Map();
-  groups.forEach(group => {
+  explorerState.groupRepresentativeEmoji = new Map();
+  explorerState.subGroupRepresentativeEmoji = new Map();
+  explorerState.groups.forEach(group => {
     const subgroupRepresentatives = new Set();
-    subGroups[group].forEach(subGroup => {
-      const representative = items
+    explorerState.subGroups[group].forEach(subGroup => {
+      const representative = explorerState.items
         .filter(
           item => item.group === group && item.unicodeSubGroup === subGroup
         )
         .sort(byIntroduction)[0];
       if (!representative) return;
-      subGroupRepresentativeEmoji.set(
+      explorerState.subGroupRepresentativeEmoji.set(
         subGroupSelectionKey(group, subGroup),
         representative.emoji
       );
       subgroupRepresentatives.add(representative.key);
     });
 
-    const candidates = items
+    const candidates = explorerState.items
       .filter(item => item.group === group)
       .sort(byIntroduction);
     const representative =
       candidates.find(item => !subgroupRepresentatives.has(item.key)) ??
-      (subGroups[group].length === 1 && candidates.length === 1
+      (explorerState.subGroups[group].length === 1 && candidates.length === 1
         ? candidates[0]
         : undefined);
     if (representative)
-      groupRepresentativeEmoji.set(group, representative.emoji);
+      explorerState.groupRepresentativeEmoji.set(group, representative.emoji);
   });
 }
 
 function getGroupRepresentativeEmoji(group) {
-  return groupRepresentativeEmoji.get(group) ?? '';
+  return explorerState.groupRepresentativeEmoji.get(group) ?? '';
 }
 
 function getSubGroupRepresentativeEmoji(group, subGroup) {
   return (
-    subGroupRepresentativeEmoji.get(subGroupSelectionKey(group, subGroup)) ?? ''
+    explorerState.subGroupRepresentativeEmoji.get(subGroupSelectionKey(group, subGroup)) ?? ''
   );
 }
 

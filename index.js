@@ -108,12 +108,6 @@ var groups = [];
 var subGroups = {};
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
-var availableGroups = [];
-var availableSubGroups = {};
-var availableSequenceTypes = [];
-var availableCategoryKeys = new Set();
-var groupRepresentativeEmoji = new Map();
-var subGroupRepresentativeEmoji = new Map();
 var emojiByKey = {};
 var allIds = [];
 var releasedIds = new Set();
@@ -863,9 +857,9 @@ function subGroupSelectionKey(group, subGroup) {
     return `${group}::${subGroup}`;
 }
 const categoryFilterRenderer = createCategoryFilterRenderer({
-    availableGroups: () => availableGroups,
-    availableSequenceTypes: () => availableSequenceTypes,
-    availableSubGroups: () => availableSubGroups,
+    availableGroups: () => explorerState.availableGroups,
+    availableSequenceTypes: () => explorerState.availableSequenceTypes,
+    availableSubGroups: () => explorerState.availableSubGroups,
     compactGroupChoices: () => compactGroupChoices,
     compactGroupLabel: () => compactGroupLabel,
     compactSequenceChoices: () => compactSequenceChoices,
@@ -892,10 +886,10 @@ const categoryFilterRenderer = createCategoryFilterRenderer({
     sequenceTypeLabels,
     sequenceTypeOrder,
     sequenceTypeSelector: () => sequenceTypeSelector,
-    setAvailableCategoryKeys: value => (availableCategoryKeys = value),
-    setAvailableGroups: value => (availableGroups = value),
-    setAvailableSequenceTypes: value => (availableSequenceTypes = value),
-    setAvailableSubGroups: value => (availableSubGroups = value),
+    setAvailableCategoryKeys: value => (explorerState.availableCategoryKeys = value),
+    setAvailableGroups: value => (explorerState.availableGroups = value),
+    setAvailableSequenceTypes: value => (explorerState.availableSequenceTypes = value),
+    setAvailableSubGroups: value => (explorerState.availableSubGroups = value),
     setSelectedGroup: value => (explorerState.selectedGroup = value),
     setSelectedSequenceType: value => (explorerState.selectedSequenceType = value),
     setSelectedSubGroup: value => (explorerState.selectedSubGroup = value),
@@ -944,8 +938,8 @@ function buildCategoryRepresentatives() {
         (versionOrder.get(right.key) ?? Infinity) ||
         itemOrder.get(left.key) - itemOrder.get(right.key) ||
         left.key.localeCompare(right.key);
-    groupRepresentativeEmoji = new Map();
-    subGroupRepresentativeEmoji = new Map();
+    explorerState.groupRepresentativeEmoji = new Map();
+    explorerState.subGroupRepresentativeEmoji = new Map();
     groups.forEach(group => {
         const subgroupRepresentatives = new Set();
         subGroups[group].forEach(subGroup => {
@@ -954,7 +948,7 @@ function buildCategoryRepresentatives() {
                 .sort(byIntroduction)[0];
             if (!representative)
                 return;
-            subGroupRepresentativeEmoji.set(subGroupSelectionKey(group, subGroup), representative.emoji);
+            explorerState.subGroupRepresentativeEmoji.set(subGroupSelectionKey(group, subGroup), representative.emoji);
             subgroupRepresentatives.add(representative.key);
         });
         const candidates = items
@@ -965,14 +959,14 @@ function buildCategoryRepresentatives() {
                 ? candidates[0]
                 : undefined);
         if (representative)
-            groupRepresentativeEmoji.set(group, representative.emoji);
+            explorerState.groupRepresentativeEmoji.set(group, representative.emoji);
     });
 }
 function getGroupRepresentativeEmoji(group) {
-    return groupRepresentativeEmoji.get(group) ?? '';
+    return explorerState.groupRepresentativeEmoji.get(group) ?? '';
 }
 function getSubGroupRepresentativeEmoji(group, subGroup) {
-    return (subGroupRepresentativeEmoji.get(subGroupSelectionKey(group, subGroup)) ?? '');
+    return (explorerState.subGroupRepresentativeEmoji.get(subGroupSelectionKey(group, subGroup)) ?? '');
 }
 function displayUnicodeSubGroupName(name) {
     return displayUnicodeSubGroupNameHelper(name, {
