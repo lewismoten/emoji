@@ -3,6 +3,8 @@ import { explorerLabelKeys, languageFlags, sequenceTranslationKeys, sequenceType
 import { getExplorerSubGroup, titleCase } from './explorer/category-rules.js';
 import { compositionReductionLabel, compositionTitle, describeCompositionPoint, findCompositionArtworkKey, findCompositionEmojiKey, isCondensedSequenceControl } from './explorer/composition-helpers.js';
 import { displayEmojiKey, formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints, normalizeDisplayName } from './explorer/emoji-format.js';
+import { copyToClipboard as copyToClipboardHelper, nextCopiedEmojiKeys, nextFavoriteEmojiKeys, renderSavedEmojiList as renderSavedEmojiListHelper, updateFavoriteToggleButton } from './explorer/saved-emoji.js';
+import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue, resolveImportExamples } from './explorer/import-examples.js';
 if (import.meta.hot) {
     let pixelFontRevision;
     const checkPixelFontRevision = async (refreshInitial = false) => {
@@ -812,7 +814,7 @@ async function onLoad() {
         if (!button)
             return;
         const value = button.dataset.copy === 'code'
-            ? getCodeExampleText()
+            ? getCodeExampleTextValue(exampleDialog)
             : button.dataset.copy === 'link'
                 ? window.location.href
                 : currentEmojiCopies[button.dataset.copy];
@@ -830,7 +832,7 @@ async function onLoad() {
         ];
         if (value !== undefined) {
             const copiedEmojiKey = currentEmojiKey;
-            copyToClipboard(value, translate(messageKey, fallback)).then(copied => {
+            copyToClipboardValue(value, translate(messageKey, fallback)).then(copied => {
                 if (copied) {
                     recordCopiedEmoji(copiedEmojiKey);
                     if (button.matches('.emoji-preview'))
@@ -914,7 +916,7 @@ function revealExplorer() {
 }
 function upgradeEmojiDialog() {
     removeLegacyDialogElements();
-    ensureImportExamples();
+    ensureImportExampleLines(exampleDialog);
     ensureCodeDialogView();
     ensureCompactCopyLabels();
     ensureRenderingDiagnostic();
@@ -1265,29 +1267,16 @@ function focusInitialEmojiDialogAction() {
     target?.focus({ preventScroll: true });
 }
 function updateFavoriteButton() {
-    const button = exampleDialog.querySelector('.toggle-favorite');
-    if (!button)
-        return;
-    const favorite = favoriteEmojiKeys.includes(currentEmojiKey);
-    button.setAttribute('aria-pressed', String(favorite));
-    button.querySelector('[aria-hidden="true"]').textContent = favorite
-        ? '★'
-        : '☆';
-    const key = favorite ? 'removeFavorite' : 'addFavorite';
-    const fallback = favorite ? 'Remove favorite' : 'Add favorite';
-    const label = translate(key, fallback);
-    button.dataset.i18nAriaLabel = key;
-    button.setAttribute('aria-label', label);
-    button.title = label;
+    updateFavoriteToggleButton(exampleDialog.querySelector('.toggle-favorite'), {
+        favoriteEmojiKeys,
+        currentEmojiKey,
+        translate
+    });
 }
 function toggleFavorite(key) {
     if (!key)
         return;
-    if (!favoriteEmojiKeys.includes(key)) {
-        addFavorite(key);
-        return;
-    }
-    favoriteEmojiKeys = favoriteEmojiKeys.filter(candidate => candidate !== key);
+    favoriteEmojiKeys = nextFavoriteEmojiKeys(favoriteEmojiKeys, key);
     saveExplorerPreference('favorites', favoriteEmojiKeys);
     updateFavoriteButton();
     if (savedDialog?.open)
@@ -1296,80 +1285,33 @@ function toggleFavorite(key) {
 function addFavorite(key) {
     if (!key || favoriteEmojiKeys.includes(key))
         return;
-    favoriteEmojiKeys = [key, ...favoriteEmojiKeys];
+    favoriteEmojiKeys = nextFavoriteEmojiKeys(favoriteEmojiKeys, key);
     saveExplorerPreference('favorites', favoriteEmojiKeys);
     updateFavoriteButton();
     if (savedDialog?.open)
         renderSavedEmoji();
 }
 function recordCopiedEmoji(key) {
-    if (!key)
-        return;
-    copiedEmojiKeys = [
-        key,
-        ...copiedEmojiKeys.filter(candidate => candidate !== key)
-    ].slice(0, 24);
+    copiedEmojiKeys = nextCopiedEmojiKeys(copiedEmojiKeys, key);
     saveExplorerPreference('recentCopied', copiedEmojiKeys);
 }
 function renderSavedEmojiList(container, empty, keys, source) {
-    const available = keys.filter(key => emojiByKey[key] !== undefined);
-    container.replaceChildren(...available.map((key, index) => {
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.dataset.savedEmoji = key;
-        button.dataset.savedSource = source;
-        button.style.setProperty('--saved-index', String(Math.min(index, 12)));
-        button.textContent = emojiByKey[key];
-        applyPixelArtworkClass(button, key);
-        button.setAttribute('aria-label', searchAnnotations[key]?.[0] ??
-            byId[key]?.shortName ??
-            displayEmojiKey(key));
-        return button;
-    }));
-    empty.hidden = available.length > 0;
+    renderSavedEmojiListHelper({
+        container,
+        empty,
+        keys,
+        source,
+        emojiByKey,
+        searchAnnotations,
+        byId,
+        applyPixelArtworkClass
+    });
 }
 function renderSavedEmoji() {
     if (!savedDialog)
         return;
     renderSavedEmojiList(savedDialog.querySelector('.favorites-list'), savedDialog.querySelector('.favorites-empty'), favoriteEmojiKeys, 'favorites');
     renderSavedEmojiList(savedDialog.querySelector('.copied-list'), savedDialog.querySelector('.copied-empty'), copiedEmojiKeys, 'copied');
-}
-function getCodeExampleText() {
-    return Array.from(exampleDialog.querySelectorAll('.code .line'))
-        .filter(line => !line.hidden)
-        .map(line => line.textContent)
-        .join('\n');
-}
-function ensureImportExamples() {
-    const code = exampleDialog.querySelector('.code');
-    const importLine = code?.querySelector('.line');
-    const importString = importLine?.querySelector('.string');
-    if (!code || !importLine || !importString)
-        return;
-    let allPath = importString.querySelector('.emoji-import-path');
-    if (!allPath) {
-        allPath = document.createElement('span');
-        allPath.className = 'emoji-import-path';
-        importString.replaceChildren('"', allPath, '"');
-    }
-    allPath.textContent = '@lewismoten/emoji/all';
-    const alternatives = [
-        ['emoji-popular-import', 'emoji-popular-import-path'],
-        ['emoji-category-import', 'emoji-category-import-path'],
-        ['emoji-subgroup-import', 'emoji-subgroup-import-path']
-    ];
-    let after = importLine;
-    alternatives.forEach(([lineClass, pathClass]) => {
-        let line = code.querySelector(`.${lineClass}`);
-        if (!line) {
-            line = document.createElement('span');
-            line.className = `line comment ${lineClass}`;
-            line.hidden = true;
-            line.append('// import emoji from "', Object.assign(document.createElement('span'), { className: pathClass }), '";');
-            after.after(line);
-        }
-        after = line;
-    });
 }
 function removeLegacyDialogElements() {
     const dialog = document.querySelector('.example-dialog');
@@ -3125,30 +3067,25 @@ function updateActiveFilterSummary() {
     activeFilterText.textContent = parts.join(' · ');
 }
 function updateEmojiImportExamples(item) {
-    const popular = packageManifest.packs.find(pack => pack.id === 'popular');
-    const allPath = packageManifest.packs.find(pack => pack.id === 'all')?.importPath ??
-        '@lewismoten/emoji/all';
-    const category = packageManifest.categories.find(entry => entry.label === item.group);
-    const subcategory = category?.subcategories.find(entry => entry.unicodeSubgroup === item.unicodeSubGroup);
-    document.querySelector('.emoji-import-path').textContent = allPath;
+    const examples = resolveImportExamples(packageManifest, item);
+    document.querySelector('.emoji-import-path').textContent = examples.allPath;
     const popularLine = document.querySelector('.emoji-popular-import');
     const popularPath = document.querySelector('.emoji-popular-import-path');
     if (popularLine && popularPath) {
-        const includesPopularEmoji = popular?.keys?.includes(item.key) ?? false;
-        popularLine.hidden = !includesPopularEmoji;
-        popularPath.textContent = includesPopularEmoji ? popular.importPath : '';
+        popularLine.hidden = !examples.showPopular;
+        popularPath.textContent = examples.popularPath;
     }
     const categoryLine = document.querySelector('.emoji-category-import');
     const categoryPath = document.querySelector('.emoji-category-import-path');
     if (categoryLine && categoryPath) {
-        categoryLine.hidden = !category;
-        categoryPath.textContent = category?.importPath ?? '';
+        categoryLine.hidden = !examples.showCategory;
+        categoryPath.textContent = examples.categoryPath;
     }
     const subgroupLine = document.querySelector('.emoji-subgroup-import');
     const subgroupPath = document.querySelector('.emoji-subgroup-import-path');
     if (subgroupLine && subgroupPath) {
-        subgroupLine.hidden = !subcategory;
-        subgroupPath.textContent = subcategory?.importPath ?? '';
+        subgroupLine.hidden = !examples.showSubgroup;
+        subgroupPath.textContent = examples.subgroupPath;
     }
 }
 async function loadPackageManifest() {
@@ -3170,26 +3107,13 @@ async function loadPackageManifest() {
     });
     return packageManifestPromise;
 }
-function announceStatus(message) {
-    if (!copyStatus)
-        return;
-    copyStatus.textContent = '';
-    window.setTimeout(() => {
-        copyStatus.textContent = message;
-    }, 0);
-}
-async function copyToClipboard(value, successMessage) {
-    try {
-        if (!navigator.clipboard?.writeText)
-            throw new Error('Clipboard API unavailable');
-        await navigator.clipboard.writeText(value);
-        announceStatus(successMessage);
-        return true;
-    }
-    catch {
-        announceStatus(translate('copyFailed', 'Could not copy to the clipboard.'));
-        return false;
-    }
+async function copyToClipboardValue(value, successMessage) {
+    return copyToClipboardHelper({
+        value,
+        successMessage,
+        copyStatus,
+        translate
+    });
 }
 function animateEmojiCopyConfirmation(button) {
     if (!button?.animate ||
