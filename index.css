@@ -2412,7 +2412,9 @@ kbd {
   bottom: max(0.75rem, env(safe-area-inset-bottom));
   z-index: 9;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.45rem;
   padding: 0.35rem;
   border: 1px solid var(--border);
@@ -2432,10 +2434,8 @@ kbd {
   gap: 0.2rem;
 }
 .install-app {
-  position: absolute;
-  right: calc(100% + 0.45rem);
-  bottom: 0;
   display: inline-flex;
+  flex: 0 0 auto;
   min-height: 2rem;
   align-items: center;
   gap: 0.3rem;
@@ -2480,6 +2480,13 @@ kbd {
   font: inherit;
   font-size: 0.75rem;
   font-weight: 700;
+}
+
+@media (min-width: 561px) {
+  .install-app {
+    order: -1;
+    margin-inline-end: 0.25rem;
+  }
 }
 .order-mode:hover {
   background: var(--panel);
