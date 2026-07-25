@@ -9,11 +9,16 @@ const explorerModules = fs
   .readdirSync("src/explorer")
   .filter((file) => file.endsWith(".ts"))
   .map((file) => `./explorer/${file.replace(/\.ts$/, ".js")}`);
+const appModules = fs
+  .readdirSync("src/app")
+  .filter((file) => file.endsWith(".ts"))
+  .map((file) => `./app/${file.replace(/\.ts$/, ".js")}`);
 const coreAssets = [
   "./",
   `./explorer/index.css?v=${assetVersion}`,
   `./index.js?v=${assetVersion}`,
   ...explorerModules,
+  ...appModules,
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
   "./favicon.svg",
