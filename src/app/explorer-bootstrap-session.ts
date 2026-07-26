@@ -112,6 +112,7 @@ const controllers = createExplorerBootstrapControllers(
     ensurePixelEditor: () => bindings.bootstrapRuntime?.ensurePixelEditor(),
     focusInitialEmojiDialogAction: () => bindings.focusInitialEmojiDialogAction(),
     formatNumber: formatUiNumber,
+    getPixelEditor: () => bindings.pixelEditor,
     genderCheckboxes: () => bindings.genderCheckboxes,
     genderFieldset: () => bindings.genderFieldset,
     getEmojiGenders: item => bindings.bootstrapRuntime?.getEmojiGenders(item),

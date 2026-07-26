@@ -28,6 +28,7 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         emojiFontChoices: () => options.bindings.emojiFontChoices,
         emojiList: () => options.bindings.emojiList,
         genderCheckboxes: () => options.bindings.genderCheckboxes,
+        focusInitialEmojiDialogAction: () => options.bindings.focusInitialEmojiDialogAction(),
         getIntroducedVersion: options.shell.getIntroducedVersion,
         getPixelEditor: () => options.bindings.pixelEditor,
         getPixelEditorPromise: () => options.bindings.pixelEditorPromise,
@@ -66,6 +67,8 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         panelDialogs: options.panelDialogs,
         populateVersionModeOptions: (...args: any[]) =>
           options.bindings.populateVersionModeOptions(...args),
+        refreshLocalizedLabels: options.controllers.refreshLocalizedLabels,
+        resetFilters: () => options.bindings.resetFilters(),
         renderCategoryFilters: (...args: any[]) =>
           options.controllers.renderCategoryFilters(...args),
         renderDeveloperMode: options.shell.renderDeveloperMode,
@@ -84,6 +87,7 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         selectTheme: options.shell.selectTheme,
         setApplyingUrlState: (value: any) => (options.bindings.applyingUrlState = value),
         setControls: (values: any) => assignExplorerBootstrapControls(options.bindings, values),
+        setDialogView: (...args: any[]) => options.bindings.setEmojiDialogView(...args),
         setElements: (values: any) => assignExplorerBootstrapElements(options.bindings, values),
         setFieldsets: (values: any) => assignExplorerBootstrapFieldsets(options.bindings, values),
         setPixelEditor: (editor: any) => {
@@ -100,6 +104,7 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         setUrlStateReady: (value: any) => (options.bindings.urlStateReady = value),
         showEmoji: (...args: any[]) => options.bindings.showEmoji(...args),
         skinToneCheckboxes: () => options.bindings.skinToneCheckboxes,
+        stepVersion: options.controllers.stepVersion,
         state: options.state,
         subGroupFilterDialog: () => options.bindings.subGroupFilterDialog,
         subGroupPickerTrigger: () => options.bindings.subGroupPickerTrigger,
