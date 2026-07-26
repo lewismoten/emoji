@@ -80,3 +80,117 @@ export function clamp(value, minimum, maximum) {
 export function pixelsEqual(left, right) {
   return left.length === right.length && left.every((value, index) => value === right[index]);
 }
+
+export function currentColorValue(selectedColor) {
+  if (selectedColor === "transparent") return [0, 0, 0, 0];
+  const value = selectedColor.slice(1);
+  return [
+    Number.parseInt(value.slice(0, 2), 16),
+    Number.parseInt(value.slice(2, 4), 16),
+    Number.parseInt(value.slice(4, 6), 16),
+    255,
+  ];
+}
+
+export function paintPixelInto(pixels, point, color) {
+  pixels.set(color, pixelOffset(point.x, point.y));
+}
+
+export function drawLineOnPixels(pixels, start, end, color) {
+  let x = start.x;
+  let y = start.y;
+  const deltaX = Math.abs(end.x - x);
+  const deltaY = -Math.abs(end.y - y);
+  const stepX = x < end.x ? 1 : -1;
+  const stepY = y < end.y ? 1 : -1;
+  let error = deltaX + deltaY;
+  while (true) {
+    paintPixelInto(pixels, { x, y }, color);
+    if (x === end.x && y === end.y) break;
+    const doubled = error * 2;
+    if (doubled >= deltaY) {
+      error += deltaY;
+      x += stepX;
+    }
+    if (doubled <= deltaX) {
+      error += deltaX;
+      y += stepY;
+    }
+  }
+}
+
+export function drawShapeOnPixels(
+  pixels,
+  start,
+  end,
+  shape,
+  color,
+  fillShapesEnabled,
+) {
+  const left = Math.min(start.x, end.x);
+  const right = Math.max(start.x, end.x);
+  const top = Math.min(start.y, end.y);
+  const bottom = Math.max(start.y, end.y);
+  if (shape === "rectangle") {
+    for (let y = top; y <= bottom; y += 1) {
+      for (let x = left; x <= right; x += 1) {
+        if (
+          fillShapesEnabled ||
+          x === left ||
+          x === right ||
+          y === top ||
+          y === bottom
+        ) {
+          paintPixelInto(pixels, { x, y }, color);
+        }
+      }
+    }
+    return;
+  }
+  const radiusX = Math.max((right - left + 1) / 2, 0.5);
+  const radiusY = Math.max((bottom - top + 1) / 2, 0.5);
+  const centerX = (left + right + 1) / 2;
+  const centerY = (top + bottom + 1) / 2;
+  for (let y = top; y <= bottom; y += 1) {
+    for (let x = left; x <= right; x += 1) {
+      const outer =
+        ((x + 0.5 - centerX) / radiusX) ** 2 +
+          ((y + 0.5 - centerY) / radiusY) ** 2 <=
+        1;
+      const innerRadiusX = radiusX - 1;
+      const innerRadiusY = radiusY - 1;
+      const inner =
+        innerRadiusX > 0 &&
+        innerRadiusY > 0 &&
+        ((x + 0.5 - centerX) / innerRadiusX) ** 2 +
+          ((y + 0.5 - centerY) / innerRadiusY) ** 2 <=
+          1;
+      if (outer && (fillShapesEnabled || !inner)) {
+        paintPixelInto(pixels, { x, y }, color);
+      }
+    }
+  }
+}
+
+export function floodFillPixels(pixels, start, color) {
+  const offset = pixelOffset(start.x, start.y);
+  const target = [...pixels.slice(offset, offset + 4)];
+  if (target.every((value, index) => value === color[index])) return;
+  const queue = [start];
+  const visited = new Set();
+  while (queue.length > 0) {
+    const point = queue.pop();
+    const key = `${point.x},${point.y}`;
+    if (visited.has(key)) continue;
+    visited.add(key);
+    const pointOffset = pixelOffset(point.x, point.y);
+    if (!target.every((value, index) => pixels[pointOffset + index] === value)) {
+      continue;
+    }
+    pixels.set(color, pointOffset);
+    if (point.x > 0) queue.push({ x: point.x - 1, y: point.y });
+    if (point.x < CELL_SIZE - 1) queue.push({ x: point.x + 1, y: point.y });
+    if (point.y > 0) queue.push({ x: point.x, y: point.y - 1 });
+    if (point.y < CELL_SIZE - 1) queue.push({ x: point.x, y: point.y + 1 });
+  }
+}

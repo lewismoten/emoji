@@ -18,8 +18,13 @@ import {
   clamp,
   cloneFloatingLayer,
   cloneSelection,
+  currentColorValue,
+  drawLineOnPixels,
+  drawShapeOnPixels,
   extractPixels,
+  floodFillPixels,
   hasVisiblePixels,
+  paintPixelInto,
   pixelOffset,
   pixelsEqual,
   trimVisiblePixels,
@@ -165,8 +170,6 @@ export function createPixelEditor({
   let selectionDashOffset = 0;
   let directoryHandle;
   let loadId = 0;
-  let undoStack = [];
-  let redoStack = [];
   const paletteController = createPixelEditorPaletteController({
     getPixels: () => pixels,
     getSelectedColor: () => selectedColor,
@@ -203,12 +206,16 @@ export function createPixelEditor({
     persistedArtwork: () => persistedArtwork,
     pixels: () => pixels,
     pixelsEqual,
+    pixelsSetter: (value) => {
+      pixels = value;
+    },
     saveButton,
     selection: () => selection,
     status,
     traceOffsetX: () => traceOffsetX,
     traceOffsetY: () => traceOffsetY,
     translate,
+    floatingLayerUndoState: () => ({ undoButton, redoButton }),
   });
 
   toolButtons.forEach((button) =>
@@ -290,10 +297,8 @@ export function createPixelEditor({
       atlasExists = false;
       cellLoaded = false;
       pixels.fill(0);
-      undoStack = [];
-      redoStack = [];
       renderTrace();
-      updateHistoryButtons();
+      draftController.resetHistory();
       draw();
       status.textContent = translate(
         "pixelEditorLoading",
@@ -347,12 +352,10 @@ export function createPixelEditor({
         floatingLayer = cloneFloatingLayer(draft?.floatingLayer);
         traceOffsetX = draft?.traceOffsetX ?? 0;
         traceOffsetY = draft?.traceOffsetY ?? 0;
-        undoStack = [];
-        redoStack = [];
+        draftController.resetHistory();
         updateLocation();
         status.textContent = "";
         renderTrace();
-        updateHistoryButtons();
         draw();
       } catch (error) {
         if (requestedLoadId !== loadId) return;
@@ -522,7 +525,7 @@ export function createPixelEditor({
       draftController.updateDirtyState();
       draftController.updateFileButtons();
       updateTransferButtons();
-      updateHistoryButtons();
+      draftController.updateHistoryButtons();
       updateEditorModePanels();
     }
     updateSelectionAnimation();
@@ -722,7 +725,7 @@ export function createPixelEditor({
       paletteController.pickColor(point);
       return;
     }
-    pushHistory();
+    draftController.pushHistory();
     if (tool === "bucket") {
       floodFill(point);
       pointerStart = undefined;
@@ -874,140 +877,40 @@ export function createPixelEditor({
   }
 
   function currentColor() {
-    if (selectedColor === "transparent") return [0, 0, 0, 0];
-    const value = selectedColor.slice(1);
-    return [
-      Number.parseInt(value.slice(0, 2), 16),
-      Number.parseInt(value.slice(2, 4), 16),
-      Number.parseInt(value.slice(4, 6), 16),
-      255,
-    ];
+    return currentColorValue(selectedColor);
   }
 
   function paintPixel(point, color = currentColor()) {
-    pixels.set(color, pixelOffset(point.x, point.y));
+    paintPixelInto(pixels, point, color);
   }
 
   function drawLine(start, end) {
-    let x = start.x;
-    let y = start.y;
-    const deltaX = Math.abs(end.x - x);
-    const deltaY = -Math.abs(end.y - y);
-    const stepX = x < end.x ? 1 : -1;
-    const stepY = y < end.y ? 1 : -1;
-    let error = deltaX + deltaY;
-    while (true) {
-      paintPixel({ x, y });
-      if (x === end.x && y === end.y) break;
-      const doubled = error * 2;
-      if (doubled >= deltaY) {
-        error += deltaY;
-        x += stepX;
-      }
-      if (doubled <= deltaX) {
-        error += deltaX;
-        y += stepY;
-      }
-    }
+    drawLineOnPixels(pixels, start, end, currentColor());
   }
 
   function drawShape(start, end, shape) {
-    const left = Math.min(start.x, end.x);
-    const right = Math.max(start.x, end.x);
-    const top = Math.min(start.y, end.y);
-    const bottom = Math.max(start.y, end.y);
-    if (shape === "rectangle") {
-      for (let y = top; y <= bottom; y += 1) {
-        for (let x = left; x <= right; x += 1) {
-          if (
-            fillShapesEnabled ||
-            x === left ||
-            x === right ||
-            y === top ||
-            y === bottom
-          ) {
-            paintPixel({ x, y });
-          }
-        }
-      }
-      return;
-    }
-    const radiusX = Math.max((right - left + 1) / 2, 0.5);
-    const radiusY = Math.max((bottom - top + 1) / 2, 0.5);
-    const centerX = (left + right + 1) / 2;
-    const centerY = (top + bottom + 1) / 2;
-    for (let y = top; y <= bottom; y += 1) {
-      for (let x = left; x <= right; x += 1) {
-        const outer =
-          ((x + 0.5 - centerX) / radiusX) ** 2 +
-            ((y + 0.5 - centerY) / radiusY) ** 2 <=
-          1;
-        const innerRadiusX = radiusX - 1;
-        const innerRadiusY = radiusY - 1;
-        const inner =
-          innerRadiusX > 0 &&
-          innerRadiusY > 0 &&
-          ((x + 0.5 - centerX) / innerRadiusX) ** 2 +
-            ((y + 0.5 - centerY) / innerRadiusY) ** 2 <=
-            1;
-        if (outer && (fillShapesEnabled || !inner)) paintPixel({ x, y });
-      }
-    }
+    drawShapeOnPixels(
+      pixels,
+      start,
+      end,
+      shape,
+      currentColor(),
+      fillShapesEnabled,
+    );
   }
 
   function floodFill(start) {
-    const replacement = currentColor();
-    const offset = pixelOffset(start.x, start.y);
-    const target = [...pixels.slice(offset, offset + 4)];
-    if (target.every((value, index) => value === replacement[index])) return;
-    const queue = [start];
-    const visited = new Set();
-    while (queue.length > 0) {
-      const point = queue.pop();
-      const key = `${point.x},${point.y}`;
-      if (visited.has(key)) continue;
-      visited.add(key);
-      const pointOffset = pixelOffset(point.x, point.y);
-      if (
-        !target.every((value, index) => pixels[pointOffset + index] === value)
-      )
-        continue;
-      pixels.set(replacement, pointOffset);
-      if (point.x > 0) queue.push({ x: point.x - 1, y: point.y });
-      if (point.x < CELL_SIZE - 1) queue.push({ x: point.x + 1, y: point.y });
-      if (point.y > 0) queue.push({ x: point.x, y: point.y - 1 });
-      if (point.y < CELL_SIZE - 1) queue.push({ x: point.x, y: point.y + 1 });
-    }
-  }
-
-  function pushHistory() {
-    undoStack.push(pixels.slice());
-    if (undoStack.length > 50) undoStack.shift();
-    redoStack = [];
-    updateHistoryButtons();
+    floodFillPixels(pixels, start, currentColor());
   }
 
   function undo() {
-    const previous = undoStack.pop();
-    if (!previous) return;
-    redoStack.push(pixels.slice());
-    pixels = previous;
-    updateHistoryButtons();
+    draftController.undo();
     draw();
   }
 
   function redo() {
-    const next = redoStack.pop();
-    if (!next) return;
-    undoStack.push(pixels.slice());
-    pixels = next;
-    updateHistoryButtons();
+    draftController.redo();
     draw();
-  }
-
-  function updateHistoryButtons() {
-    undoButton.disabled = Boolean(floatingLayer) || undoStack.length === 0;
-    redoButton.disabled = Boolean(floatingLayer) || redoStack.length === 0;
   }
 
   function copyPixelArt() {
@@ -1196,7 +1099,7 @@ export function createPixelEditor({
 
   function bakeFloatingLayer() {
     if (!floatingLayer) return;
-    pushHistory();
+    draftController.pushHistory();
     compositeLayer(pixels, {
       ...floatingLayer,
       pixels: effectiveLayerPixels(floatingLayer, paletteController.activePaletteColors()),

@@ -25,7 +25,11 @@ export function createPixelEditorDraftController(options) {
     cellLoaded,
     atlasBlob,
     atlasExists,
+    floatingLayerUndoState,
+    pixelsSetter,
   } = options;
+  let undoStack = [];
+  let redoStack = [];
 
   function updateFileButtons() {
     const pendingAtlasLayer = hasPendingAtlasLayer();
@@ -132,6 +136,42 @@ export function createPixelEditorDraftController(options) {
     }
   }
 
+  function pushHistory() {
+    undoStack.push(pixels().slice());
+    if (undoStack.length > 50) undoStack.shift();
+    redoStack = [];
+    updateHistoryButtons();
+  }
+
+  function undo() {
+    const previous = undoStack.pop();
+    if (!previous) return;
+    redoStack.push(pixels().slice());
+    pixelsSetter(previous);
+    updateHistoryButtons();
+  }
+
+  function redo() {
+    const next = redoStack.pop();
+    if (!next) return;
+    undoStack.push(pixels().slice());
+    pixelsSetter(next);
+    updateHistoryButtons();
+  }
+
+  function updateHistoryButtons() {
+    floatingLayerUndoState().undoButton.disabled =
+      Boolean(floatingLayer()) || undoStack.length === 0;
+    floatingLayerUndoState().redoButton.disabled =
+      Boolean(floatingLayer()) || redoStack.length === 0;
+  }
+
+  function resetHistory() {
+    undoStack = [];
+    redoStack = [];
+    updateHistoryButtons();
+  }
+
   function warnAboutDirtyArtwork(event) {
     if (dirtyKeys().size === 0) return;
     event.preventDefault();
@@ -148,10 +188,15 @@ export function createPixelEditorDraftController(options) {
     hasVisibleArtwork,
     hasVisibleAtlasDraft,
     markAtlasClean,
+    pushHistory,
+    redo,
     rememberCurrentDraft,
+    resetHistory,
     selectionHasVisibleArtwork,
+    undo,
     updateDirtyState,
     updateFileButtons,
+    updateHistoryButtons,
     updatePreviewActionLabels,
     warnAboutDirtyArtwork,
   };
