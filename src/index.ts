@@ -73,7 +73,7 @@ import { createUiFormatters, initializeBrowserRuntime } from './app/browser-runt
 import { initializeDialogRuntime } from './app/dialog-runtime.js';
 import { createEmojiDialogClickRuntime } from './app/emoji-dialog-click-runtime.js';
 import { createNavigationRuntime } from './app/navigation-runtime.js';
-import { createStartupOrchestrator } from './app/startup-orchestrator.js';
+import { createStartupRuntime } from './app/startup-runtime.js';
 import { createVersionRuntime } from './app/version-runtime.js';
 
 const UNASSIGNED = '\u0000';
@@ -527,7 +527,7 @@ const explorerRuntime = createExplorerRuntime({
   getElements: getExplorerElements
 });
 
-const startupOrchestrator = createStartupOrchestrator({
+const startupOrchestrator = createStartupRuntime({
   advancedFilters: () => advancedFilters,
   applyingUrlState: () => applyingUrlState,
   applyBasicUrlState,
@@ -595,21 +595,17 @@ const startupOrchestrator = createStartupOrchestrator({
     hairFieldset = hairCheckboxes[0]?.closest('fieldset');
     genderFieldset = genderCheckboxes[0]?.closest('fieldset');
   },
-  bindEvents: bindExplorerEvents,
   clearFiltersButton: () => clearFiltersButton,
-  closePanel: closePanelDialog,
   copiedEmojiKeys: () => explorerState.copiedEmojiKeys,
-  createFilterControlSetup,
   developerModeToggle: () => developerModeToggle,
   dialog: () => explorerRuntime.get('exampleDialog'),
-  drawList,
+  drawList: (...args) => drawList(...args),
   emojiByKey: () => explorerState.emojiByKey,
   emojiFontChoices: () => emojiFontChoices,
   emojiList: () => emojiList,
   emojiNext: () => explorerRuntime.get('emojiNext'),
   emojiPrevious: () => explorerRuntime.get('emojiPrevious'),
   favoriteEmojiKeys: () => explorerState.favoriteEmojiKeys,
-  finalizeStartup: finalizeExplorerStartup,
   genderCheckboxes: () => genderCheckboxes,
   groupFilterDialog: () => groupFilterDialog,
   groupPickerTrigger: () => groupPickerTrigger,
@@ -622,11 +618,9 @@ const startupOrchestrator = createStartupOrchestrator({
       .querySelectorAll('.modifier-emoji')
       .forEach(emoji => emoji.setAttribute('aria-hidden', 'true'));
   },
-  initializeControls: initializeExplorerControls,
   installApp,
   installAppButton: () => installAppButton,
   installDialog: () => installDialog,
-  installedDisplayQueries,
   languageDialog: () => languageDialog,
   languageList: () => languageList,
   languagePicker: () => languagePicker,
@@ -634,8 +628,7 @@ const startupOrchestrator = createStartupOrchestrator({
   loadSearchLanguages: () => loadSearchLanguages(),
   loadUiTranslations,
   matchCount: () => matchCount,
-  navigateEmoji,
-  observeToolbarHeight,
+  navigateEmoji: amount => navigateEmoji(amount),
   onClick,
   onCompactChoiceKeyDown,
   onDocumentKeyDown,
@@ -648,7 +641,6 @@ const startupOrchestrator = createStartupOrchestrator({
   onPanelClose: onPanelDialogClose,
   onVersionRangeInput,
   openFilterPicker,
-  openPanel: openPanelDialog,
   orderButtons: () => orderButtons,
   panelDialogs,
   populateVersionModeOptions: (...args) => populateVersionModeOptions(...args),
@@ -678,7 +670,7 @@ const startupOrchestrator = createStartupOrchestrator({
   subGroupSelector: () => subGroupSelector,
   suppressedPanelCloses: () => suppressedPanelCloses,
   syncUrlState: (...args) => syncUrlState(...args),
-  syncVersionRange,
+  syncVersionRange: (...args) => syncVersionRange(...args),
   themeChoices: () => themeChoices,
   toggleDeveloperMode,
   toggleVersionMode: (...args) => toggleVersionMode(...args),
