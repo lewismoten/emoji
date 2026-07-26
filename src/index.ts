@@ -44,7 +44,6 @@ import {
   getEmojiGenders as getEmojiGendersHelper
 } from './explorer/emoji-filter.js';
 import {
-  createEmojiDialogViewController,
   loadStylesheet
 } from './explorer/dialog-view.js';
 import { createExplorerNavigation } from './explorer/explorer-navigation.js';
@@ -70,7 +69,7 @@ import { createVersionModeController } from './app/version-mode-controller.js';
 import { createExplorerShell } from './app/explorer-shell.js';
 import { createUiFormatters } from './app/browser-runtime.js';
 import { createBrowserRuntimeConfig } from './app/browser-runtime-config.js';
-import { initializeDialogRuntime } from './app/dialog-runtime.js';
+import { createDialogRuntimeConfig } from './app/dialog-runtime-config.js';
 import { createEmojiDialogClickRuntime } from './app/emoji-dialog-click-runtime.js';
 import { createDialogViewRuntime } from './app/dialog-view-runtime.js';
 import { createNavigationRuntime } from './app/navigation-runtime.js';
@@ -699,7 +698,7 @@ const {
   navigateEmoji: navigateEmojiController,
   updateDialogNavigation: updateDialogNavigationController,
   updateCompositionBackButton: updateCompositionBackButtonController
-} = initializeDialogRuntime({
+} = createDialogRuntimeConfig({
   applyPixelArtworkClass,
   applyStandalonePixelArtwork,
   byId: () => explorerState.byId,
