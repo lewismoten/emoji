@@ -21,13 +21,18 @@ const coreAssets = [
   ...appModules,
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
+  "./pixel-font/build-retro-text/pixel-latin-retro.css",
+  "./pixel-font/build-retro-text/pixel-latin-retro.woff2",
   "./favicon.svg",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
   "./manifest.webmanifest",
   "./offline.html",
-];
+].filter(asset => {
+  const file = asset.replace(/^\.\//, "").replace(/\?.*$/, "");
+  return file === "" || fs.existsSync(file);
+});
 
 const template = fs.readFileSync("scripts/service-worker.template.js", "utf8");
 const assetHash = createHash("sha256");

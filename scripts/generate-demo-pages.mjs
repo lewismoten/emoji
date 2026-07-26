@@ -32,6 +32,13 @@ const pixelFontRevision = createHash('sha256')
   .update(fs.readFileSync('pixel-font/build/explorer-manifest.json'))
   .digest('hex')
   .slice(0, 12);
+const retroTextRevision = fs.existsSync('pixel-font/build-retro-text/pixel-latin-retro.css')
+  ? createHash('sha256')
+      .update(fs.readFileSync('pixel-font/build-retro-text/pixel-latin-retro.css'))
+      .update(fs.readFileSync('pixel-font/build-retro-text/pixel-latin-retro.woff2'))
+      .digest('hex')
+      .slice(0, 12)
+  : 'dev';
 const localeManifest = JSON.parse(
   fs.readFileSync('locales/manifest.json', 'utf8')
 );
@@ -117,6 +124,10 @@ export const renderPage = (
     .replace(
       /<link\b(?=[^>]*\bid="pixel-font-stylesheet")[^>]*\/?>/,
       `<link id="pixel-font-stylesheet" rel="stylesheet" href="./pixel-font/build/font/pixel-emoji.css?v=${pixelFontRevision}" data-font-revision="${pixelFontRevision}">`
+    )
+    .replace(
+      /<link\b(?=[^>]*\bid="retro-text-font-stylesheet")[^>]*\/?>/,
+      `<link id="retro-text-font-stylesheet" rel="stylesheet" href="./pixel-font/build-retro-text/pixel-latin-retro.css?v=${retroTextRevision}" data-font-revision="${retroTextRevision}">`
     )
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/index\.css")[^>]*\/?>/,
