@@ -233,6 +233,8 @@ def main():
     font = builder.font
     font["head"].fontRevision = font_revision(font_version)
     font["post"].formatType = 3.0
+    font["post"].isFixedPitch = 1
+    font["OS/2"].xAvgCharWidth = UNITS_PER_EM
     if color_glyphs:
         font["COLR"] = buildCOLR(color_glyphs, version=0, glyphMap=font.getReverseGlyphMap())
         font["CPAL"] = buildCPAL(

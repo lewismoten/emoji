@@ -76,6 +76,8 @@ def main():
     font = builder.font
     font["head"].created = timestampNow()
     font["head"].modified = timestampNow()
+    font["post"].isFixedPitch = 1
+    font["OS/2"].xAvgCharWidth = source["advanceWidth"]
     ttf_path = output_dir / "pixel-latin-retro.ttf"
     font.save(ttf_path)
     font.flavor = "woff"
