@@ -9,6 +9,7 @@ export type ExplorerState = {
   copiedEmojiKeys: string[];
   currentEmojiCopies: Record<string, string>;
   currentEmojiKey: string;
+  currentDialogParentStack: Array<'' | 'favorites' | 'help' | 'language'>;
   developerModeFromUrl: boolean;
   developerModeUrlDismissed: boolean;
   emojiByKey: Record<string, string>;
@@ -56,6 +57,7 @@ export function createExplorerState(): ExplorerState {
     copiedEmojiKeys: [],
     currentEmojiCopies: {},
     currentEmojiKey: '',
+    currentDialogParentStack: [],
     developerModeFromUrl: false,
     developerModeUrlDismissed: false,
     emojiByKey: {},

@@ -102,7 +102,13 @@ export function bindExplorerEvents(options: any) {
         ? options.favoriteEmojiKeys()
         : options.copiedEmojiKeys();
     options.closePanel(options.savedDialog, options.suppressedPanelCloses);
-    options.showEmoji(button.dataset.savedEmoji, true, navigationKeys);
+    options.showEmoji(
+      button.dataset.savedEmoji,
+      true,
+      navigationKeys,
+      'details',
+      'favorites'
+    );
   });
   options.emojiList.addEventListener('click', options.onClick);
   options.emojiList.addEventListener('focusin', options.onEmojiFocus);

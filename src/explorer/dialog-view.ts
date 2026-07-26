@@ -75,6 +75,7 @@ export function loadStylesheet(href: string, id: string) {
 
 export function createEmojiDialogViewController(options: {
   currentEmojiKey: () => string;
+  currentDialogParentStack?: () => string[];
   developerModeEnabled: () => boolean;
   dialog: () => any;
   emojiByKey: () => Record<string, string>;
@@ -90,6 +91,11 @@ export function createEmojiDialogViewController(options: {
 }) {
   function setView(requestedMode: unknown, updateUrl = true) {
     const dialog = options.dialog();
+    if (requestedMode === 'details' && options.currentDialogParentStack) {
+      const stack = options.currentDialogParentStack();
+      dialog.dataset.dialogParentPanel =
+        stack.length > 0 ? stack[stack.length - 1] ?? '' : '';
+    }
     const { mode, showDetails } = applyDialogView({
       developerMode: options.developerModeEnabled(),
       dialog,
@@ -112,7 +118,14 @@ export function createEmojiDialogViewController(options: {
     if (modeBack) modeBack.hidden = showDetails;
     const parent = options.emojiParent();
     if (!showDetails && parent) parent.hidden = true;
-    else if (showDetails) options.updateCompositionBackButton();
+    else if (showDetails) {
+      options.updateCompositionBackButton();
+      if (parent) {
+        const stack = options.currentDialogParentStack?.() ?? [];
+        if (stack.length > 0) parent.hidden = false;
+      }
+      queueMicrotask(() => options.updateCompositionBackButton());
+    }
     const editor = options.getPixelEditor();
     if (editor) {
       editor.element.hidden = mode !== 'editor';

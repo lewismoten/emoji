@@ -6,7 +6,7 @@ import { animateCopyConfirmation as animateEmojiCopyConfirmation } from './explo
 import { ensureImportExamples as ensureImportExampleLines, getCodeExampleText as getCodeExampleTextValue } from './explorer/import-examples.js';
 import { ensureUtilityControls, positionFavoriteButton } from './explorer/utility-controls.js';
 import { closePanelDialog, installedDisplayQueries, onPanelDialogClose, openPanelDialog, updateWebAppManifest } from './explorer/pwa-panels.js';
-import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutCompositionParent } from './explorer/dialog-render.js';
+import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutDialogParentPanel, withoutCompositionParent } from './explorer/dialog-render.js';
 import { getEmojiGenders as getEmojiGendersHelper } from './explorer/emoji-filter.js';
 import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from './explorer/dialog-upgrade.js';
 import { createEmojiDialogViewController, loadStylesheet } from './explorer/dialog-view.js';
@@ -346,6 +346,7 @@ resetFilters = resetFiltersController;
 syncUrlState = syncUrlStateController;
 const { focusInitialAction: focusInitialEmojiDialogAction, setView: setEmojiDialogViewController } = createEmojiDialogViewController({
     byId: () => explorerState.byId,
+    currentDialogParentStack: () => explorerState.currentDialogParentStack,
     currentEmojiKey: () => explorerState.currentEmojiKey,
     developerModeEnabled,
     dialog: () => explorerRuntime.get('exampleDialog'),
@@ -370,6 +371,23 @@ const onEmojiDialogClick = createEmojiDialogClickHandler({
             : explorerState.currentEmojiCopies[kind],
     currentEmojiKey: () => explorerState.currentEmojiKey,
     dialog: () => explorerRuntime.get('exampleDialog'),
+    openParentPanel: panel => {
+        suppressDialogCloseSync = true;
+        const exampleDialog = explorerRuntime.get('exampleDialog');
+        exampleDialog.dataset.dialogParentPanel = '';
+        explorerState.currentDialogParentStack = [];
+        exampleDialog.close();
+        suppressDialogCloseSync = false;
+        openPanelDialog({
+            panel,
+            addHistory: false,
+            dialogs: panelDialogs(),
+            languageList: languageList,
+            renderSavedEmoji,
+            syncUrlState
+        });
+        syncUrlState('replace', withoutDialogParentPanel(withoutCompositionParent(window.history.state)));
+    },
     openComposition: key => {
         const parentEmojiKey = explorerState.currentEmojiKey;
         showEmoji(key, false);
@@ -634,16 +652,20 @@ const { showEmoji } = createEmojiSessionController({
     displayGroupName,
     displayUnicodeSubGroupName,
     getIntroducedVersion,
-    openDialogAction(mode = 'details') {
+    openDialogAction(mode = 'details', parentPanel = '') {
         if (copyStatus)
             copyStatus.textContent = '';
+        explorerRuntime.get('exampleDialog').dataset.dialogParentPanel = parentPanel;
+        explorerState.currentDialogParentStack = parentPanel ? [parentPanel] : [];
         setEmojiDialogView(mode, false);
         explorerRuntime.get('exampleDialog').showModal();
         focusInitialEmojiDialogAction();
         syncUrlState('push', {
             ...withoutCompositionParent(window.history.state),
-            emojiDialogEntry: true
+            emojiDialogEntry: true,
+            dialogParentPanel: parentPanel
         });
+        updateCompositionBackButton();
     },
     openEditor: (key, value) => pixelEditor?.open(key, value),
     sequenceTranslationKeys,
@@ -658,7 +680,9 @@ const { showEmoji } = createEmojiSessionController({
 });
 const dialogNavigation = createDialogNavigationController({
     byId: () => explorerState.byId,
+    currentDialogParentStack: () => explorerState.currentDialogParentStack,
     currentEmojiKey: () => explorerState.currentEmojiKey,
+    dialog: () => explorerRuntime.get('exampleDialog'),
     dialogNavigationKeys: () => explorerState.dialogNavigationKeys,
     displayedKeys: () => explorerState.displayedKeys,
     emojiByKey: () => explorerState.emojiByKey,

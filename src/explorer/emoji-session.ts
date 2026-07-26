@@ -9,6 +9,11 @@ export function showEmojiSession(options: any) {
     ].filter(key => options.emojiByKey[key] !== undefined);
   }
   options.currentEmojiKey.value = options.id;
+  if (options.parentPanel !== undefined) {
+    options.currentDialogParentStack.value = options.parentPanel
+      ? [options.parentPanel]
+      : [];
+  }
   const item = options.byId[options.id] ?? {};
   const sourceItem = options.items.find((item: any) => item.key === options.id);
   const display = renderEmojiDialog({
@@ -44,7 +49,7 @@ export function showEmojiSession(options: any) {
   });
   options.currentEmojiCopies.value = display.copyValues;
   if (options.openDialog) {
-    options.openDialogAction(options.initialMode ?? 'details');
+    options.openDialogAction(options.initialMode ?? 'details', options.parentPanel ?? '');
   }
   options.updateDialogNavigation();
   if (options.dialog.classList.contains('is-editor-view')) options.openEditor(options.id, value);

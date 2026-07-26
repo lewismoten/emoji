@@ -19,7 +19,12 @@ export function createEmojiDialogClickHandler(options: any) {
     }
     const composition = target.closest('[data-composition-emoji]') as HTMLElement | null;
     if (composition) return options.openComposition(composition.dataset.compositionEmoji);
-    if (target.closest('.emoji-parent')) return window.history.back();
+    if (target.closest('.emoji-parent')) {
+      const parentPanel =
+        dialog.dataset?.dialogParentPanel ?? window.history.state?.dialogParentPanel;
+      if (parentPanel) return options.openParentPanel(parentPanel);
+      return window.history.back();
+    }
     if (target.closest('.toggle-favorite')) return options.toggleFavorite();
     if (target.closest('.show-emoji-code')) {
       options.setView('code');

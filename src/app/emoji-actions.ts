@@ -1,5 +1,6 @@
 import {
   getIntroducedVersion as getIntroducedVersionHelper,
+  withoutDialogParentPanel,
   withoutCompositionParent
 } from '../explorer/dialog-render.js';
 import {
@@ -49,18 +50,20 @@ export function createEmojiActions(options: any) {
 
   const onEmojiDialogClose = () => {
     options.setDialogView('details', false);
+    options.state().currentDialogParentStack = [];
+    options.dialog().dataset.dialogParentPanel = '';
     if (
       options.suppressDialogCloseSync() ||
       !options.urlStateReady() ||
       options.applyingUrlState()
     )
       return;
-    if (window.history.state?.emojiDialogEntry) {
+    if (window.history.state?.emojiDialogEntry && !window.history.state?.dialogParentPanel) {
       window.history.back();
     } else {
       options.syncUrlState(
         'replace',
-        withoutCompositionParent(window.history.state)
+        withoutDialogParentPanel(withoutCompositionParent(window.history.state))
       );
     }
   };

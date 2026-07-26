@@ -6,7 +6,8 @@ export function createEmojiSessionController(options: any) {
     id: string,
     openDialog = true,
     navigationKeys?: string[],
-    initialMode: 'details' | 'code' | 'editor' = 'details'
+    initialMode: 'details' | 'code' | 'editor' = 'details',
+    parentPanel?: '' | 'favorites' | 'help' | 'language'
   ) =>
     showEmojiSession({
       applyPixelArtworkClass: options.applyPixelArtworkClass,
@@ -29,6 +30,14 @@ export function createEmojiSessionController(options: any) {
           options.state().currentEmojiKey = value;
         }
       },
+      currentDialogParentStack: {
+        get value() {
+          return options.state().currentDialogParentStack;
+        },
+        set value(value) {
+          options.state().currentDialogParentStack = value;
+        }
+      },
       developerMode: options.developerModeEnabled(),
       dialog: options.dialog(),
       dialogNavigationKeys: {
@@ -49,6 +58,7 @@ export function createEmojiSessionController(options: any) {
       items: options.state().items,
       navigationKeys,
       openDialog,
+      parentPanel,
       openDialogAction: options.openDialogAction,
       openEditor: options.openEditor,
       searchAnnotations: options.state().searchAnnotations,

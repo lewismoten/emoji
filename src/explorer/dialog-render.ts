@@ -27,6 +27,14 @@ export function withoutCompositionParent(
   return nextState;
 }
 
+export function withoutDialogParentPanel(
+  state: Record<string, unknown> | null | undefined
+) {
+  const nextState = { ...(state ?? {}) };
+  delete nextState.dialogParentPanel;
+  return nextState;
+}
+
 export function updateEmojiComposition(options: {
   applyPixelArtworkClass: (element: any, emojiKey: string) => void;
   applyStandalonePixelArtwork: (element: any, emojiKey?: string) => void;
@@ -235,6 +243,8 @@ export function updateDialogNavigation(options: {
 
 export function updateCompositionBackButton(options: {
   byId: Record<string, any>;
+  dialogParentPanel?: string;
+  currentDialogParentStack?: string[];
   emojiByKey: Record<string, string>;
   emojiParent?: HTMLButtonElement;
   historyState: Record<string, unknown> | null | undefined;
@@ -243,15 +253,29 @@ export function updateCompositionBackButton(options: {
 }) {
   if (!options.emojiParent) return;
   const parentKey = options.historyState?.compositionParent as string | undefined;
-  const available = Boolean(parentKey && options.emojiByKey[parentKey]);
+  const parentPanel =
+    options.currentDialogParentStack?.at(-1) ??
+    options.dialogParentPanel ??
+    (options.historyState?.dialogParentPanel as string | undefined);
+  const emojiParentAvailable = Boolean(parentKey && options.emojiByKey[parentKey]);
+  const panelParentAvailable = Boolean(parentPanel);
+  const available = emojiParentAvailable || panelParentAvailable;
   options.emojiParent.hidden = !available;
-  if (!available || !parentKey) return;
-  const label = resolveCompositionParentLabel({
-    parentKey,
-    searchAnnotations: options.searchAnnotations,
-    byId: options.byId,
-    translate: options.translate
-  });
+  if (!available) return;
+  const label = emojiParentAvailable && parentKey
+    ? resolveCompositionParentLabel({
+        parentKey,
+        searchAnnotations: options.searchAnnotations,
+        byId: options.byId,
+        translate: options.translate
+      })
+    : parentPanel === 'favorites'
+      ? 'Back to Favorites'
+      : parentPanel === 'help'
+        ? 'Back to Help'
+        : parentPanel === 'language'
+          ? 'Back to Language'
+          : 'Back';
   options.emojiParent.title = label;
   options.emojiParent.setAttribute('aria-label', label);
 }
