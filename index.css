@@ -842,6 +842,81 @@ html[data-theme="retro"] .pixel-editor-swatch[data-color="#000000"] {
   border-color: #aaaaaa;
 }
 
+html[data-theme="retro"] .version-range,
+html[data-theme="retro"] .pixel-editor-controls input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  accent-color: #aaaaaa;
+  border: 0;
+  box-shadow: none;
+  background: #555555;
+  border-radius: 0;
+  outline: none;
+}
+
+html[data-theme="retro"] .version-range::-webkit-slider-runnable-track,
+html[data-theme="retro"]
+  .pixel-editor-controls
+  input[type="range"]::-webkit-slider-runnable-track {
+  height: 2px;
+  border: 1px solid #000000;
+  border-radius: 0;
+  background: #555555;
+}
+
+html[data-theme="retro"] .version-range::-webkit-slider-thumb,
+html[data-theme="retro"]
+  .pixel-editor-controls
+  input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  margin-top: -6px;
+  border: 2px solid #000000;
+  border-radius: 0;
+  background: #aaaaaa;
+}
+
+html[data-theme="retro"] .version-range::-moz-range-track,
+html[data-theme="retro"]
+  .pixel-editor-controls
+  input[type="range"]::-moz-range-track {
+  height: 2px;
+  border: 1px solid #000000;
+  border-radius: 0;
+  background: #555555;
+}
+
+html[data-theme="retro"] .version-range::-moz-range-progress,
+html[data-theme="retro"]
+  .pixel-editor-controls
+  input[type="range"]::-moz-range-progress {
+  height: 2px;
+  border: 1px solid #000000;
+  border-radius: 0;
+  background: #aaaaaa;
+}
+
+html[data-theme="retro"] .version-range::-moz-range-thumb,
+html[data-theme="retro"]
+  .pixel-editor-controls
+  input[type="range"]::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border: 2px solid #000000;
+  border-radius: 0;
+  background: #aaaaaa;
+}
+
+html[data-theme="retro"] .version-range:focus,
+html[data-theme="retro"] .version-range:focus-visible,
+html[data-theme="retro"] .pixel-editor-controls input[type="range"]:focus,
+html[data-theme="retro"] .pixel-editor-controls input[type="range"]:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 html:has(dialog:modal),
 body:has(dialog:modal) {
   overflow: hidden;
