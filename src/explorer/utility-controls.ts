@@ -110,8 +110,9 @@ export function ensureUtilityControls() {
     favoriteButton.className = 'toggle-favorite';
     favoriteButton.type = 'button';
     favoriteButton.setAttribute('aria-pressed', 'false');
+    favoriteButton.dataset.favoriteState = 'off';
     favoriteButton.innerHTML =
-      '<span class="modifier-emoji favorite-glyph" aria-hidden="true">⭐</span>';
+      '<span class="modifier-emoji favorite-glyph" aria-hidden="true">☆</span>';
     dialogControls.querySelector('form')?.before(favoriteButton);
   }
   if (dialogControls && favoriteButton) {
