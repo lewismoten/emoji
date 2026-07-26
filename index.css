@@ -104,6 +104,11 @@ html[data-theme="retro"] {
   --code-object: #000000;
   --code-object-key: #0055aa;
   --ui-font: var(--retro-ui-font);
+  --retro-step: 0.4375rem;
+  --retro-font-1: calc(var(--retro-step) * 1);
+  --retro-font-2: calc(var(--retro-step) * 2);
+  --retro-font-3: calc(var(--retro-step) * 3);
+  --retro-font-4: calc(var(--retro-step) * 4);
 }
 
 html[data-theme="retro"] .offline-status {
@@ -431,6 +436,35 @@ html[data-theme="retro"] .help-dialog {
 html[data-theme="retro"] .help-dialog .dialog-heading {
   background: var(--dialog-header-bg);
   border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .help-dialog,
+html[data-theme="retro"] .help-dialog h2,
+html[data-theme="retro"] .help-dialog h3,
+html[data-theme="retro"] .help-dialog h4,
+html[data-theme="retro"] .help-dialog p,
+html[data-theme="retro"] .help-dialog a,
+html[data-theme="retro"] .help-dialog label,
+html[data-theme="retro"] .help-dialog dt,
+html[data-theme="retro"] .help-dialog dd,
+html[data-theme="retro"] .help-dialog kbd {
+  font-size: var(--retro-font-1) !important;
+}
+
+html[data-theme="retro"] .help-dialog p,
+html[data-theme="retro"] .help-dialog a,
+html[data-theme="retro"] .help-dialog label,
+html[data-theme="retro"] .help-dialog dt,
+html[data-theme="retro"] .help-dialog dd,
+html[data-theme="retro"] .help-dialog kbd {
+  line-height: 1.4;
+}
+
+html[data-theme="retro"] .help-dialog .dialog-close,
+html[data-theme="retro"] .help-dialog .dialog-navigate,
+html[data-theme="retro"] .help-dialog .dialog-mode-back {
+  font-size: var(--retro-font-2) !important;
+  line-height: 1;
 }
 
 html[data-theme="retro"] .language-dialog {
@@ -865,6 +899,77 @@ html[data-theme="retro"] .toolbar-heading h1,
 html[data-theme="retro"] .toolbar-heading .result-count,
 html[data-theme="retro"] .toolbar-heading .match-count {
   color: #ffffff;
+}
+
+html[data-theme="retro"] .toolbar-heading h1,
+html[data-theme="retro"] .dialog-close,
+html[data-theme="retro"] .dialog-navigate,
+html[data-theme="retro"] .dialog-mode-back,
+html[data-theme="retro"] .version-step,
+html[data-theme="retro"] .language-option-flag,
+html[data-theme="retro"] .filter-picker-emoji,
+html[data-theme="retro"] .compact-choice-emoji {
+  font-size: var(--retro-font-3);
+}
+
+html[data-theme="retro"] h2 {
+  font-size: var(--retro-font-2);
+}
+
+html[data-theme="retro"] .dialog-title-row h2 {
+  font-size: var(--retro-font-2);
+}
+
+html[data-theme="retro"] .dialog-heading h2#help-title {
+  font-size: var(--retro-font-2) !important;
+}
+
+html[data-theme="retro"] .eyebrow,
+html[data-theme="retro"] .saved-picker-label,
+html[data-theme="retro"] .filter-picker-kind,
+html[data-theme="retro"] .filter-picker-value,
+html[data-theme="retro"] .active-filter-summary,
+html[data-theme="retro"] .compact-choice-label,
+html[data-theme="retro"] .help-settings > h3,
+html[data-theme="retro"] .help-settings h4,
+html[data-theme="retro"] .help-settings p,
+html[data-theme="retro"] .setting-choice,
+html[data-theme="retro"] .setting-switch,
+html[data-theme="retro"] .shortcut-heading,
+html[data-theme="retro"] .dialog-description,
+html[data-theme="retro"] .rendering-comparison span,
+html[data-theme="retro"] .rendering-result,
+html[data-theme="retro"] .pixel-design-invitation strong,
+html[data-theme="retro"] .pixel-design-invitation button,
+html[data-theme="retro"] .emoji-preview-copy-label {
+  font-size: var(--retro-font-1);
+  line-height: 1.4;
+}
+
+html[data-theme="retro"] .help-pixel h3,
+html[data-theme="retro"] .help-pixel p,
+html[data-theme="retro"] .help-pixel a {
+  font-size: var(--retro-font-1);
+  line-height: 1.4;
+}
+
+html[data-theme="retro"] .result-count,
+html[data-theme="retro"] .match-count,
+html[data-theme="retro"] .language-picker,
+html[data-theme="retro"] .saved-picker,
+html[data-theme="retro"] .help-picker,
+html[data-theme="retro"] .filter-picker-trigger,
+html[data-theme="retro"] .advanced-filters > summary,
+html[data-theme="retro"] .compact-choice,
+html[data-theme="retro"] .version-mode-toggle,
+html[data-theme="retro"] input[type="search"],
+html[data-theme="retro"] .help-settings .language-picker,
+html[data-theme="retro"] .language-option,
+html[data-theme="retro"] .favorite-glyph,
+html[data-theme="retro"] .dialog-mode-back,
+html[data-theme="retro"] .dialog-description,
+html[data-theme="retro"] .rendering-diagnostic h3 {
+  font-size: var(--retro-font-2);
 }
 
 html[data-theme="retro"] .toolbar {
@@ -2125,18 +2230,34 @@ html:not([data-developer-mode]) .developer-only {
   outline-offset: 2px;
 }
 .language-option-flag {
-  font-size: 1.35rem;
+  font-size: 1.5rem;
   text-align: center;
 }
 .language-picker-flag,
 .language-option-flag {
   display: inline-grid;
   flex: none;
-  width: 1.25rem;
-  height: 1.25rem;
+  width: 2rem;
+  height: 2rem;
   place-items: center;
-  font-family: var(--system-emoji-font);
-  line-height: 1;
+  font-family: var(--emoji-font) !important;
+  line-height: 1.2 !important;
+}
+.language-picker-flag {
+  font-size: 1.5rem !important;
+}
+.theme-choice > [aria-hidden="true"] {
+  display: inline-grid;
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  place-items: center;
+  font-family: var(--emoji-font) !important;
+  font-size: 1.5rem !important;
+  line-height: 1.2 !important;
+}
+.language-option-flag {
+  font-size: 1.5rem !important;
 }
 .language-option-label {
   font-weight: 700;
@@ -4097,6 +4218,10 @@ kbd {
   .dialog-title-row h2 {
     font-size: 1rem;
     overflow-wrap: anywhere;
+  }
+  html[data-theme="retro"] .dialog-title-row h2,
+  html[data-theme="retro"] .dialog-heading h2#help-title {
+    font-size: var(--retro-font-2) !important;
   }
   .search-controls {
     gap: 0.35rem;
