@@ -19,10 +19,7 @@ import {
   normalizeDisplayName
 } from './explorer/emoji-format.js';
 import { animateCopyConfirmation as animateEmojiCopyConfirmation } from './explorer/saved-emoji.js';
-import {
-  ensureImportExamples as ensureImportExampleLines,
-  getCodeExampleText as getCodeExampleTextValue
-} from './explorer/import-examples.js';
+import { getCodeExampleText as getCodeExampleTextValue } from './explorer/import-examples.js';
 import {
   ensureUtilityControls,
   positionFavoriteButton
@@ -49,7 +46,6 @@ import {
   filterEmojiKeys,
   getEmojiGenders as getEmojiGendersHelper
 } from './explorer/emoji-filter.js';
-import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from './explorer/dialog-upgrade.js';
 import {
   createEmojiDialogViewController,
   loadStylesheet
@@ -61,10 +57,6 @@ import { createPixelArtworkManager } from './explorer/pixel-artwork.js';
 import { loadVersionCatalog } from './explorer/version-data.js';
 import { getExplorerElements } from './explorer/explorer-dom.js';
 import { observeToolbarHeight } from './explorer/toolbar-layout.js';
-import {
-  finishExplorerLoading as finishExplorerLoadingHelper,
-  revealExplorer as revealExplorerHelper
-} from './explorer/loading-state.js';
 import { createEmojiDialogClickHandler } from './explorer/emoji-dialog-events.js';
 import { createListOrchestration } from './app/list-orchestration.js';
 import { initializeExplorerPreferences } from './app/explorer-preferences.js';
@@ -84,6 +76,7 @@ import { createVersionModeController } from './app/version-mode-controller.js';
 import { createExplorerShell } from './app/explorer-shell.js';
 import { createUiFormatters, initializeBrowserRuntime } from './app/browser-runtime.js';
 import { initializeDialogRuntime } from './app/dialog-runtime.js';
+import { createStartupOrchestrator } from './app/startup-orchestrator.js';
 
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
@@ -414,7 +407,7 @@ const {
   onClick,
   renderGeneration: () => listRenderGeneration,
   resetFilters: () => resetFilters(),
-  revealExplorer,
+  revealExplorer: () => revealExplorer(),
   searchText: () => searchText,
   sequenceTranslationKeys,
   sequenceTypeLabels,
@@ -583,114 +576,177 @@ const explorerRuntime = createExplorerRuntime({
   getElements: getExplorerElements
 });
 
-async function onLoad() {
-  const elements = explorerRuntime.resolveElements();
-  ({
-    advancedFilters,
-    copyStatus,
-    developerModeToggle,
-    emojiFontChoices,
-    emojiList,
-    genderCheckboxes,
-    groupFilterDialog,
-    groupPickerTrigger,
-    groupSelector,
-    hairCheckboxes,
-    helpDialog,
-    helpPicker,
-    installAppButton,
-    installDialog,
-    languageDialog,
-    languageList,
-    languagePicker,
-    languagePickerFlag,
-    languagePickerLabel,
-    matchCount,
-    modifierFilters,
-    offlineStatus,
-    orderButtons,
-    savedDialog,
-    savedPicker,
-    searchText,
-    skinToneCheckboxes,
-    subGroupFilterDialog,
-    subGroupPickerTrigger,
-    subGroupSelector,
-    themeChoices,
-    toolbar,
-    versionModeSelector,
-    versionNext,
-    versionPrevious,
-    versionSelector
-  } = elements);
-  ({
-    activeFilterSummary, activeFilterText, clearFiltersButton,
-    compactGroupChoices, compactGroupLabel, compactSequenceChoices,
-    compactSequenceLabel, compactSubGroupChoices, compactSubGroupLabel,
-    sequenceTypeSelector, versionModeToggle, versionRange, versionRangeValue
-  } = initializeExplorerControls({
-    createFilterControlSetup, groupFilterDialog, groupPickerTrigger,
-    groupSelector, onCompactChoiceKeyDown, openFilterPicker, populateVersionModeOptions,
-    renderDeveloperMode, subGroupFilterDialog, subGroupPickerTrigger, subGroupSelector,
-    versionModeSelector, versionRange: () => versionRange, versionSelector
-  }));
-  upgradeEmojiDialog();
-  skinToneFieldset = skinToneCheckboxes[0]?.closest('fieldset');
-  hairFieldset = hairCheckboxes[0]?.closest('fieldset');
-  genderFieldset = genderCheckboxes[0]?.closest('fieldset');
-  document
-    .querySelectorAll('.modifier-emoji')
-    .forEach(emoji => emoji.setAttribute('aria-hidden', 'true'));
-
-  bindExplorerEvents({
-    advancedFilters, applyingUrlState: () => applyingUrlState, applyBasicUrlState,
-    clearFiltersButton, closePanel: closePanelDialog, copiedEmojiKeys: () => explorerState.copiedEmojiKeys,
-    developerModeToggle, drawList, emojiFontChoices, emojiList,
-    favoriteEmojiKeys: () => explorerState.favoriteEmojiKeys, genderCheckboxes,
-    hairCheckboxes, helpDialog, helpPicker, installApp, installAppButton, installDialog,
-    installedDisplayQueries, languageDialog, languageList, languagePicker, navigateEmoji,
-    onClick, onDocumentKeyDown, onEmojiDialogClick, onEmojiDialogClose, onEmojiFocus,
-    onEmojiKeyDown, onGenderChange, onOrderModeChange, onPanelClose: onPanelDialogClose,
-    onVersionRangeInput, openPanel: openPanelDialog, orderButtons, panelDialogs,
-    positionFavoriteButton, renderInstallAppButton, renderSavedEmoji, resetFilters,
-    savePreference: saveExplorerPreference, savedDialog, savedPicker, scheduleSearchDraw,
-    searchText, selectEmojiFont, selectTheme, showEmoji, skinToneCheckboxes, stepVersion,
-    suppressedPanelCloses, syncUrlState, syncVersionRange, toggleDeveloperMode,
-    toggleVersionMode, themeChoices, updateOnlineStatus, urlStateReady: () => urlStateReady,
-    versionModeToggle, versionNext, versionPrevious, versionRange, versionSelector,
-    emojiNext: explorerRuntime.get('emojiNext'),
-    emojiPrevious: explorerRuntime.get('emojiPrevious'),
-    exampleDialog: explorerRuntime.get('exampleDialog')
-  });
-  await finalizeExplorerStartup({
-    advancedFilters, applyDialogUrlState, drawList,
-    filters: advancedFilters, finishExplorerLoading, loadData, loadSearchLanguages,
-    loadUiTranslations, observeToolbarHeight, preferences: explorerState.explorerPreferences,
-    renderPixelFontToggle, renderThemeToggle, renderVersionModeToggle, setUrlStateReady: value => (urlStateReady = value),
-    syncUrlState, toolbar
-  });
-}
-
-function finishExplorerLoading() {
-  finishExplorerLoadingHelper({
-    applyPixelArtworkClass,
-    emojiByKey: explorerState.emojiByKey,
-    emojiList,
-    matchCount,
-    revealExplorer
-  });
-}
-
-function revealExplorer() {
-  revealExplorerHelper(emojiList, matchCount);
-}
-
-function upgradeEmojiDialog() {
-  upgradeEmojiDialogHelper({
-    ensureImportExamples: ensureImportExampleLines,
-    exampleDialog: explorerRuntime.get('exampleDialog')
-  });
-}
+const startupOrchestrator = createStartupOrchestrator({
+  advancedFilters: () => advancedFilters,
+  applyingUrlState: () => applyingUrlState,
+  applyBasicUrlState,
+  applyDialogUrlState,
+  applyPixelArtworkClass,
+  assignControls(controls) {
+    ({
+      activeFilterSummary,
+      activeFilterText,
+      clearFiltersButton,
+      compactGroupChoices,
+      compactGroupLabel,
+      compactSequenceChoices,
+      compactSequenceLabel,
+      compactSubGroupChoices,
+      compactSubGroupLabel,
+      sequenceTypeSelector,
+      versionModeToggle,
+      versionRange,
+      versionRangeValue
+    } = controls);
+  },
+  assignElements(elements) {
+    ({
+      advancedFilters,
+      copyStatus,
+      developerModeToggle,
+      emojiFontChoices,
+      emojiList,
+      genderCheckboxes,
+      groupFilterDialog,
+      groupPickerTrigger,
+      groupSelector,
+      hairCheckboxes,
+      helpDialog,
+      helpPicker,
+      installAppButton,
+      installDialog,
+      languageDialog,
+      languageList,
+      languagePicker,
+      languagePickerFlag,
+      languagePickerLabel,
+      matchCount,
+      modifierFilters,
+      offlineStatus,
+      orderButtons,
+      savedDialog,
+      savedPicker,
+      searchText,
+      skinToneCheckboxes,
+      subGroupFilterDialog,
+      subGroupPickerTrigger,
+      subGroupSelector,
+      themeChoices,
+      toolbar,
+      versionModeSelector,
+      versionNext,
+      versionPrevious,
+      versionSelector
+    } = elements);
+  },
+  assignModifierFieldsets() {
+    skinToneFieldset = skinToneCheckboxes[0]?.closest('fieldset');
+    hairFieldset = hairCheckboxes[0]?.closest('fieldset');
+    genderFieldset = genderCheckboxes[0]?.closest('fieldset');
+  },
+  bindEvents: bindExplorerEvents,
+  clearFiltersButton: () => clearFiltersButton,
+  closePanel: closePanelDialog,
+  copiedEmojiKeys: () => explorerState.copiedEmojiKeys,
+  createFilterControlSetup,
+  developerModeToggle: () => developerModeToggle,
+  dialog: () => explorerRuntime.get('exampleDialog'),
+  drawList,
+  emojiByKey: () => explorerState.emojiByKey,
+  emojiFontChoices: () => emojiFontChoices,
+  emojiList: () => emojiList,
+  emojiNext: () => explorerRuntime.get('emojiNext'),
+  emojiPrevious: () => explorerRuntime.get('emojiPrevious'),
+  favoriteEmojiKeys: () => explorerState.favoriteEmojiKeys,
+  finalizeStartup: finalizeExplorerStartup,
+  genderCheckboxes: () => genderCheckboxes,
+  groupFilterDialog: () => groupFilterDialog,
+  groupPickerTrigger: () => groupPickerTrigger,
+  groupSelector: () => groupSelector,
+  hairCheckboxes: () => hairCheckboxes,
+  helpDialog: () => helpDialog,
+  helpPicker: () => helpPicker,
+  hideModifierEmojiAccessibility() {
+    document
+      .querySelectorAll('.modifier-emoji')
+      .forEach(emoji => emoji.setAttribute('aria-hidden', 'true'));
+  },
+  initializeControls: initializeExplorerControls,
+  installApp,
+  installAppButton: () => installAppButton,
+  installDialog: () => installDialog,
+  installedDisplayQueries,
+  languageDialog: () => languageDialog,
+  languageList: () => languageList,
+  languagePicker: () => languagePicker,
+  loadData,
+  loadSearchLanguages: () => loadSearchLanguages(),
+  loadUiTranslations,
+  matchCount: () => matchCount,
+  navigateEmoji,
+  observeToolbarHeight,
+  onClick,
+  onCompactChoiceKeyDown,
+  onDocumentKeyDown,
+  onEmojiDialogClick,
+  onEmojiDialogClose,
+  onEmojiFocus,
+  onEmojiKeyDown,
+  onGenderChange,
+  onOrderModeChange,
+  onPanelClose: onPanelDialogClose,
+  onVersionRangeInput,
+  openFilterPicker,
+  openPanel: openPanelDialog,
+  orderButtons: () => orderButtons,
+  panelDialogs,
+  populateVersionModeOptions: (...args) => populateVersionModeOptions(...args),
+  positionFavoriteButton,
+  preferences: () => explorerState.explorerPreferences,
+  renderDeveloperMode,
+  renderInstallAppButton,
+  renderPixelFontToggle,
+  renderSavedEmoji,
+  renderThemeToggle,
+  renderVersionModeToggle: () => renderVersionModeToggle(),
+  resolveElements: () => explorerRuntime.resolveElements(),
+  resetFilters: () => resetFilters(),
+  savePreference: saveExplorerPreference,
+  savedDialog: () => savedDialog,
+  savedPicker: () => savedPicker,
+  scheduleSearchDraw,
+  searchText: () => searchText,
+  selectEmojiFont,
+  selectTheme,
+  setUrlStateReady: value => (urlStateReady = value),
+  showEmoji: (...args) => showEmoji(...args),
+  skinToneCheckboxes: () => skinToneCheckboxes,
+  stepVersion,
+  subGroupFilterDialog: () => subGroupFilterDialog,
+  subGroupPickerTrigger: () => subGroupPickerTrigger,
+  subGroupSelector: () => subGroupSelector,
+  suppressedPanelCloses: () => suppressedPanelCloses,
+  syncUrlState: (...args) => syncUrlState(...args),
+  syncVersionRange,
+  themeChoices: () => themeChoices,
+  toggleDeveloperMode,
+  toggleVersionMode: (...args) => toggleVersionMode(...args),
+  toolbar: () => toolbar,
+  updateOnlineStatus,
+  urlStateReady: () => urlStateReady,
+  versionModeSelector: () => versionModeSelector,
+  versionModeToggle: () => versionModeToggle,
+  versionNext: () => versionNext,
+  versionPrevious: () => versionPrevious,
+  versionRange: () => versionRange,
+  versionSelector: () => versionSelector
+});
+const {
+  finishExplorerLoading,
+  onLoad,
+  removeLegacyDialogElements,
+  revealExplorer
+} = startupOrchestrator;
 
 const loadPixelEditor = createPixelEditorLoader({
   currentEmojiKey: () => explorerState.currentEmojiKey,
@@ -714,18 +770,6 @@ const loadPixelEditor = createPixelEditorLoader({
 
 function ensurePixelEditor() {
   return loadPixelEditor();
-}
-
-function removeLegacyDialogElements() {
-  const dialog = document.querySelector('.example-dialog');
-  dialog?.querySelector('[data-i18n="copiedDescription"]')?.remove();
-  dialog?.querySelector('.example-link')?.remove();
-  dialog?.querySelector('.emoji-copy-actions [data-copy="emoji"]')?.remove();
-  dialog?.querySelector('.emoji-code-points')?.closest('div')?.remove();
-  dialog
-    ?.querySelector('.emoji-metadata [data-i18n="codePoints"]')
-    ?.closest('div')
-    ?.remove();
 }
 
 const versionModeController = createVersionModeController({
