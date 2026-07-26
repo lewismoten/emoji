@@ -9,6 +9,7 @@
 /explorer/
 /service-worker.js
 /pixel-font/build/
+/pixel-font/build-retro-text/
 /pixel-font/font-build.revision
 /pixel-font/.venv/
 /pixel-font/scripts/__pycache__/
