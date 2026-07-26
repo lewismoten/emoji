@@ -766,6 +766,19 @@ html[data-theme="retro"] .help-dialog .theme-choice[aria-pressed="true"] {
   color: #aaaaaa;
 }
 
+html[data-theme="retro"] .order-footer {
+  border-color: #555555;
+}
+
+html[data-theme="retro"] .order-footer .order-mode.is-active {
+  border-top-color: #555555;
+  border-left-color: #555555;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  background: #000000;
+  color: #aaaaaa;
+}
+
 html[data-theme="retro"] .pixel-editor-tools button[aria-pressed="true"] {
   border-top-color: #000000;
   border-left-color: #000000;
