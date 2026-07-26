@@ -9,7 +9,6 @@ import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from './
 import { getEmojiGenders as getEmojiGendersHelper } from './explorer/emoji-filter.js';
 import { createEmojiDialogViewController, loadStylesheet } from './explorer/dialog-view.js';
 import { createPixelEditorLoader } from './explorer/pixel-editor-loader.js';
-import { createExplorerNavigation } from './explorer/explorer-navigation.js';
 import { createPixelArtworkManager } from './explorer/pixel-artwork.js';
 import { getExplorerElements } from './explorer/explorer-dom.js';
 import { observeToolbarHeight } from './explorer/toolbar-layout.js';
@@ -26,6 +25,7 @@ import { createExplorerShell } from './app/explorer-shell.js';
 import { createUiFormatters, initializeBrowserRuntime } from './app/browser-runtime.js';
 import { initializeDialogRuntime } from './app/dialog-runtime.js';
 import { createEmojiDialogClickRuntime } from './app/emoji-dialog-click-runtime.js';
+import { createNavigationRuntime } from './app/navigation-runtime.js';
 import { createStartupOrchestrator } from './app/startup-orchestrator.js';
 import { createVersionRuntime } from './app/version-runtime.js';
 const UNASSIGNED = '\u0000';
@@ -285,20 +285,17 @@ onEmojiFocus, onEmojiKeyDown, scheduleSearchDraw, updateActiveFilterSummary } = 
     versionSelector: () => versionSelector,
     versionSliderLabel
 });
-const { applyBasicUrlState, applyDialogUrlState, applyLoadedUrlState, onDocumentKeyDown, onGenderChange, resetFilters: resetFiltersController, stepVersion, syncUrlState: syncUrlStateController } = createExplorerNavigation({
+const { applyBasicUrlState, applyDialogUrlState, applyLoadedUrlState, onDocumentKeyDown, onGenderChange, resetFilters: resetFiltersController, stepVersion, syncUrlState: syncUrlStateController } = createNavigationRuntime({
     allowedSequenceTypes: sequenceTypeOrder,
     applyingUrlState: () => applyingUrlState,
-    closeEmojiDialog: () => {
-        suppressDialogCloseSync = true;
-        explorerRuntime.get('exampleDialog').close();
-        suppressDialogCloseSync = false;
-    },
     compositionMode: () => explorerState.compositionMode,
+    currentEmojiKey: () => explorerState.currentEmojiKey,
     developerModeEnabled,
     dialog: () => explorerRuntime.get('exampleDialog'),
-    currentEmojiKey: () => explorerState.currentEmojiKey,
-    drawList,
+    displayedKeys: () => explorerState.displayedKeys,
+    drawList: (...args) => drawList(...args),
     emojiByKey: () => explorerState.emojiByKey,
+    focusInitialAction: () => focusInitialEmojiDialogAction(),
     genderCheckboxes: () => genderCheckboxes,
     getOrderMode: () => explorerState.orderMode,
     getSelectedGroup: () => explorerState.selectedGroup,
@@ -309,30 +306,27 @@ const { applyBasicUrlState, applyDialogUrlState, applyLoadedUrlState, onDocument
     helpDialog: () => helpDialog,
     languageList: () => languageList,
     latestReleasedVersion: () => explorerState.versionManifests.at(-1)?.version,
-    navigateEmoji,
-    openEmoji: (key, openDialog, navigationKeys, initialMode) => showEmoji(key, openDialog ?? false, navigationKeys ?? explorerState.displayedKeys, initialMode),
+    navigateEmoji: amount => navigateEmoji(amount),
     orderButtons: () => orderButtons,
     panelDialogs,
     preferredOrder: () => explorerState.explorerPreferences.order,
-    renderCategoryFilters,
+    renderCategoryFilters: (...args) => renderCategoryFilters(...args),
     renderSavedEmoji,
-    renderVersionModeToggle,
+    renderVersionModeToggle: () => renderVersionModeToggle(),
     searchText: () => searchText,
     setCompositionMode: value => (explorerState.compositionMode = value),
-    setDialogView: setEmojiDialogView,
+    setDialogView: (...args) => setEmojiDialogView(...args),
     setOrderMode: value => (explorerState.orderMode = value),
     setSelectedGroup: value => (explorerState.selectedGroup = value),
     setSelectedSequenceType: value => (explorerState.selectedSequenceType = value),
     setSelectedSubGroup: value => (explorerState.selectedSubGroup = value),
-    showEmojiDialog: () => {
-        explorerRuntime.get('exampleDialog').showModal();
-        focusInitialEmojiDialogAction();
-    },
+    setSuppressDialogCloseSync: value => (suppressDialogCloseSync = value),
+    showEmoji: (...args) => showEmoji(...args),
     skinToneCheckboxes: () => skinToneCheckboxes,
     subGroupSelectionKey,
     subGroups: () => explorerState.subGroups,
     suppressedPanelCloses: () => suppressedPanelCloses,
-    syncVersionRange,
+    syncVersionRange: (...args) => syncVersionRange(...args),
     urlStateReady: () => urlStateReady,
     versionModeSelector: () => versionModeSelector,
     versionRange: () => versionRange,
