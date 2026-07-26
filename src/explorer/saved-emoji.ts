@@ -1,14 +1,17 @@
 import { displayEmojiKey } from './emoji-format.js';
 
 type MinimalElement = {
+  addEventListener?(type: string, listener: (...args: any[]) => void): void;
   classList?: { toggle(name: string, force?: boolean): void };
   dataset: Record<string, string | undefined>;
+  focus?(): void;
   hidden: boolean;
   open?: boolean;
   querySelector(selector: string): MinimalElement | null;
   replaceChildren(...nodes: unknown[]): void;
   setAttribute(name: string, value: string): void;
   style: { setProperty(name: string, value: string): void };
+  tabIndex?: number;
   textContent: string | null;
   title: string;
   type?: string;
@@ -158,6 +161,7 @@ export function renderSavedEmojiList(options: {
       const button = createButton();
       button.dataset.savedEmoji = key;
       button.dataset.savedSource = options.source;
+      button.tabIndex = index === 0 ? 0 : -1;
       button.style.setProperty('--saved-index', String(Math.min(index, 12)));
       button.textContent = options.emojiByKey[key];
       options.applyPixelArtworkClass(button, key);

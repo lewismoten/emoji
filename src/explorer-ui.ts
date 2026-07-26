@@ -96,6 +96,7 @@ export function renderThemeToggle(options: any) {
     const selected = choice.dataset.theme === theme;
     choice.classList.toggle('is-active', selected);
     choice.setAttribute('aria-pressed', String(selected));
+    choice.tabIndex = selected ? 0 : -1;
   });
   updateThemeColor();
 }

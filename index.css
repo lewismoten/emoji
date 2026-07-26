@@ -303,6 +303,14 @@ html[data-theme="retro"] .modifier-filters fieldset {
   border-color: #000000;
 }
 
+html[data-theme="retro"] .pixel-hero,
+html[data-theme="retro"] .about-explorer,
+html[data-theme="retro"] .group,
+html[data-theme="retro"] .subgroup-list,
+html[data-theme="retro"] .unicode-subgroup {
+  border-color: #c0c0c0;
+}
+
 html[data-theme="retro"] .modifier-filters fieldset label:has(input:checked) {
   border-top-color: #aaaaaa !important;
   border-left-color: #aaaaaa !important;
@@ -464,11 +472,14 @@ html[data-theme="retro"] .dialog-close,
 html[data-theme="retro"] .dialog-navigate,
 html[data-theme="retro"] .dialog-mode-back,
 html[data-theme="retro"] .example-dialog .toggle-favorite {
+  appearance: none;
+  -webkit-appearance: none;
   border: 2px solid #aaaaaa;
   border-top-color: #ffffff;
   border-left-color: #ffffff;
   border-right-color: #555555;
   border-bottom-color: #555555;
+  border-radius: 0 !important;
   background: #aaaaaa;
   color: #000000;
 }
@@ -841,6 +852,7 @@ html[data-theme="retro"] .toolbar-heading .match-count {
 
 html[data-theme="retro"] .toolbar {
   background: #555555;
+  border-bottom-color: #000000;
 }
 
 html[data-theme="retro"] input[type="search"] {
@@ -1092,6 +1104,12 @@ html[data-theme="retro"] .clear-filters:focus,
 html[data-theme="retro"] .clear-filters:focus-visible,
 html[data-theme="retro"] .advanced-filters > summary:focus,
 html[data-theme="retro"] .advanced-filters > summary:focus-visible,
+html[data-theme="retro"] .dialog-close:focus,
+html[data-theme="retro"] .dialog-close:focus-visible,
+html[data-theme="retro"] .dialog-navigate:focus,
+html[data-theme="retro"] .dialog-navigate:focus-visible,
+html[data-theme="retro"] .dialog-mode-back:focus,
+html[data-theme="retro"] .dialog-mode-back:focus-visible,
 html[data-theme="retro"] .saved-picker:focus,
 html[data-theme="retro"] .saved-picker:focus-visible,
 html[data-theme="retro"] .help-picker:focus,
