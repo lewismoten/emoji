@@ -688,6 +688,22 @@ html[data-theme="retro"] .example-dialog .pixel-design-invitation button:active 
   color: #ffffff;
 }
 
+html[data-theme="retro"] .example-dialog .pixel-design-invitation button:focus,
+html[data-theme="retro"] .example-dialog .pixel-design-invitation button:focus-visible {
+  outline: 2px dotted #ffff55 !important;
+  outline-offset: -3px !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="retro"] .example-dialog .emoji-copy-actions button:focus,
+html[data-theme="retro"] .example-dialog .emoji-copy-actions button:focus-visible,
+html[data-theme="retro"] .example-dialog .emoji-code-toolbar button:focus,
+html[data-theme="retro"] .example-dialog .emoji-code-toolbar button:focus-visible {
+  outline: 2px dotted #ffff55 !important;
+  outline-offset: -3px !important;
+  box-shadow: none !important;
+}
+
 html[data-theme="retro"] .emoji-code-view .code {
   background: #aaaaaa;
   border-top: 2px solid #000000;
@@ -1134,12 +1150,16 @@ html[data-theme="retro"] .saved-emoji-list button:focus,
 html[data-theme="retro"] .saved-emoji-list button:focus-visible,
 html[data-theme="retro"] .emoji-preview:focus,
 html[data-theme="retro"] .emoji-preview:focus-visible,
+html[data-theme="retro"] .pixel-editor-tools button:focus,
+html[data-theme="retro"] .pixel-editor-tools button:focus-visible,
 html[data-theme="retro"] .pixel-editor-toolbar button:focus,
 html[data-theme="retro"] .pixel-editor-toolbar button:focus-visible,
 html[data-theme="retro"] .pixel-editor-file button:focus,
 html[data-theme="retro"] .pixel-editor-file button:focus-visible,
 html[data-theme="retro"] .pixel-editor-preview-actions button:focus,
 html[data-theme="retro"] .pixel-editor-preview-actions button:focus-visible,
+html[data-theme="retro"] .pixel-editor-swatch:focus,
+html[data-theme="retro"] .pixel-editor-swatch:focus-visible,
 html[data-theme="retro"] .pixel-editor-trace-nudge:focus,
 html[data-theme="retro"] .pixel-editor-trace-nudge:focus-visible,
 html[data-theme="retro"] .pixel-editor-transfer button:focus,
@@ -1159,6 +1179,26 @@ html[data-theme="retro"] .sequence-type > .emoji > div:focus-visible {
   outline: 2px dotted #ffff55 !important;
   outline-offset: 2px !important;
   box-shadow: none !important;
+}
+
+html[data-theme="retro"] .pixel-editor-tools button:focus,
+html[data-theme="retro"] .pixel-editor-tools button:focus-visible,
+html[data-theme="retro"] .pixel-editor-history button:focus,
+html[data-theme="retro"] .pixel-editor-history button:focus-visible,
+html[data-theme="retro"] .pixel-editor-preview-actions button:focus,
+html[data-theme="retro"] .pixel-editor-preview-actions button:focus-visible,
+html[data-theme="retro"] .pixel-editor-canvas:focus,
+html[data-theme="retro"] .pixel-editor-canvas:focus-visible,
+html[data-theme="retro"] .pixel-editor-trace-nudge:focus,
+html[data-theme="retro"] .pixel-editor-trace-nudge:focus-visible,
+html[data-theme="retro"] .pixel-editor-layer button:focus,
+html[data-theme="retro"] .pixel-editor-layer button:focus-visible {
+  outline-offset: 4px !important;
+}
+
+html[data-theme="retro"] .pixel-editor-swatch:focus,
+html[data-theme="retro"] .pixel-editor-swatch:focus-visible {
+  outline-offset: 4px !important;
 }
 
 html:has(dialog:modal),

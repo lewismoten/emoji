@@ -136,7 +136,7 @@ export function createPixelEditor({
     <div class="pixel-editor-layout">
       <div class="pixel-editor-workspace">
         <div class="pixel-editor-stage">
-          <canvas class="pixel-editor-canvas" width="${DISPLAY_SIZE}" height="${DISPLAY_SIZE}" tabindex="0" data-i18n-aria-label="pixelCanvas" aria-label="12 by 12 pixel drawing canvas"></canvas>
+          <canvas class="pixel-editor-canvas" width="${DISPLAY_SIZE}" height="${DISPLAY_SIZE}" tabindex="-1" data-i18n-aria-label="pixelCanvas" aria-label="12 by 12 pixel drawing canvas"></canvas>
         </div>
         <div class="pixel-editor-previews" data-i18n-aria-label="pixelPreviews" aria-label="Emoji at actual 12 by 12 pixel size">
           ${preview("official", "officialEmoji", "Official")}
@@ -159,8 +159,8 @@ export function createPixelEditor({
         <fieldset class="pixel-editor-drawing">
           <legend data-i18n="drawingColor">Drawing color</legend>
           <div class="pixel-editor-palette" role="group" data-i18n-aria-label="egaPalette" aria-label="Classic EGA color palette">
-            ${EGA_COLORS.map(egaSwatch).join("")}
-            <button class="pixel-editor-swatch is-transparent" type="button" data-transparent="true" data-i18n-aria-label="transparentEraser" aria-label="Transparent eraser" title="Transparent"><span aria-hidden="true">╱</span></button>
+            ${EGA_COLORS.map((color, index) => egaSwatch(color, index)).join("")}
+            <button class="pixel-editor-swatch is-transparent" type="button" data-transparent="true" data-grid-column="9" data-grid-row="1" data-i18n-aria-label="transparentEraser" aria-label="Transparent eraser" title="Transparent"><span aria-hidden="true">╱</span></button>
             ${SKIN_TONE_COLORS.map(skinToneSwatch).join("")}
           </div>
         </fieldset>
@@ -278,10 +278,12 @@ export function createPixelEditor({
   const location = view.querySelector(".pixel-editor-location");
   const status = view.querySelector(".pixel-editor-status");
   const toolButtons = [...view.querySelectorAll("[data-tool]")];
+  const historyButtons = [undoButton, redoButton];
   const paletteButtons = [...view.querySelectorAll(".pixel-editor-swatch")];
   const traceNudgeButtons = [
     ...view.querySelectorAll(".pixel-editor-trace-nudge"),
   ];
+  const previewActionButtons = [saveButton, downloadButton, downloadEmojiButton];
   const traceCanvas = document.createElement("canvas");
   traceCanvas.width = CELL_SIZE;
   traceCanvas.height = CELL_SIZE;
@@ -319,6 +321,220 @@ export function createPixelEditor({
   let loadId = 0;
   let undoStack = [];
   let redoStack = [];
+
+  function isVisibleControl(button) {
+    return (
+      button &&
+      !button.hidden &&
+      !button.disabled &&
+      button.getClientRects().length > 0
+    );
+  }
+
+  function visibleControls(buttons) {
+    return buttons.filter(isVisibleControl);
+  }
+
+  function syncRovingGrid(buttons, active) {
+    const visible = visibleControls(buttons);
+    if (visible.length === 0) return;
+    const nextActive =
+      (active && visible.includes(active) && active) ||
+      visible.find((button) => button.getAttribute("aria-pressed") === "true") ||
+      visible.find((button) => button.classList.contains("is-active")) ||
+      visible.find((button) => button.classList.contains("is-selected")) ||
+      visible.find((button) => button.tabIndex === 0) ||
+      visible[0];
+    buttons.forEach((button) => {
+      button.tabIndex =
+        isVisibleControl(button) && button === nextActive ? 0 : -1;
+    });
+  }
+
+  function findGridTarget(buttons, current, key) {
+    const visible = visibleControls(buttons);
+    const currentIndex = visible.indexOf(current);
+    if (currentIndex === -1 || visible.length === 0) return undefined;
+    if (key === "Home") return visible[0];
+    if (key === "End") return visible.at(-1);
+    const currentRect = current.getBoundingClientRect();
+    const rowTolerance = Math.max(8, currentRect.height / 2);
+    const positioned = visible.map((button, index) => {
+      const rect = button.getBoundingClientRect();
+      return {
+        button,
+        index,
+        centerX: rect.left + rect.width / 2,
+        centerY: rect.top + rect.height / 2,
+      };
+    });
+    const rows = [];
+    positioned.forEach((item) => {
+      const row = rows.find(
+        (candidate) => Math.abs(candidate[0].centerY - item.centerY) <= rowTolerance,
+      );
+      if (row) row.push(item);
+      else rows.push([item]);
+    });
+    rows.forEach((row) => row.sort((left, right) => left.centerX - right.centerX));
+    rows.sort((top, bottom) => top[0].centerY - bottom[0].centerY);
+    const rowIndex = rows.findIndex((row) =>
+      row.some((item) => item.button === current),
+    );
+    const columnIndex =
+      rows[rowIndex]?.findIndex((item) => item.button === current) ?? -1;
+    if (rowIndex === -1 || columnIndex === -1) return undefined;
+    const rtl = document.documentElement.dir === "rtl";
+    const movePrevious = rtl ? key === "ArrowRight" : key === "ArrowLeft";
+    const moveNext = rtl ? key === "ArrowLeft" : key === "ArrowRight";
+    if (movePrevious || moveNext) {
+      const row = rows[rowIndex];
+      const offset = movePrevious ? -1 : 1;
+      return row[(columnIndex + offset + row.length) % row.length]?.button;
+    }
+    const targetRow = rows[rowIndex + (key === "ArrowUp" ? -1 : 1)];
+    if (!targetRow) return undefined;
+    const currentItem = rows[rowIndex][columnIndex];
+    return targetRow
+      .map((item) => ({
+        button: item.button,
+        score: Math.abs(item.centerX - currentItem.centerX),
+      }))
+      .sort((left, right) => left.score - right.score)[0]?.button;
+  }
+
+  function bindRovingGrid(buttons) {
+    syncRovingGrid(buttons);
+    buttons.forEach((button) => {
+      button.addEventListener("focus", () => syncRovingGrid(buttons, button));
+      button.addEventListener("click", () => syncRovingGrid(buttons, button));
+      button.addEventListener("keydown", (event) => {
+        if (
+          ![
+            "ArrowLeft",
+            "ArrowRight",
+            "ArrowUp",
+            "ArrowDown",
+            "Home",
+            "End",
+          ].includes(event.key)
+        )
+          return;
+        const nextButton = findGridTarget(buttons, button, event.key);
+        if (!nextButton) return;
+        event.preventDefault();
+        syncRovingGrid(buttons, nextButton);
+        nextButton.focus();
+      });
+    });
+  }
+
+  function paletteGridPosition(button) {
+    const explicitRow = Number.parseInt(button.dataset.gridRow ?? "", 10);
+    const explicitColumn = Number.parseInt(button.dataset.gridColumn ?? "", 10);
+    if (Number.isFinite(explicitRow) && Number.isFinite(explicitColumn)) {
+      return {
+        row: explicitRow,
+        column: explicitColumn,
+      };
+    }
+    const style = getComputedStyle(button);
+    const parseStart = (value, fallback) => {
+      const parsed = Number.parseInt(value, 10);
+      return Number.isFinite(parsed) ? parsed : fallback;
+    };
+    return {
+      row: parseStart(style.gridRowStart, 1),
+      column: parseStart(style.gridColumnStart, 1),
+    };
+  }
+
+  function bindPaletteGrid(buttons) {
+    syncRovingGrid(buttons);
+    buttons.forEach((button) => {
+      button.addEventListener("focus", () => syncRovingGrid(buttons, button));
+      button.addEventListener("click", () => syncRovingGrid(buttons, button));
+      button.addEventListener("keydown", (event) => {
+        if (
+          ![
+            "ArrowLeft",
+            "ArrowRight",
+            "ArrowUp",
+            "ArrowDown",
+            "Home",
+            "End",
+          ].includes(event.key)
+        )
+          return;
+        const visible = visibleControls(buttons);
+        if (!visible.includes(button)) return;
+        event.preventDefault();
+        if (event.key === "Home" || event.key === "End") {
+          const nextButton = event.key === "Home" ? visible[0] : visible.at(-1);
+          if (!nextButton) return;
+          syncRovingGrid(buttons, nextButton);
+          nextButton.focus();
+          return;
+        }
+        const rtl = document.documentElement.dir === "rtl";
+        const position = paletteGridPosition(button);
+        const matches = visible
+          .filter((candidate) => candidate !== button)
+          .map((candidate) => ({
+            button: candidate,
+            ...paletteGridPosition(candidate),
+          }));
+        let nextButton;
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+          const rowStep = event.key === "ArrowUp" ? -1 : 1;
+          const targetRows = [...new Set(matches.map((item) => item.row))]
+            .filter((row) =>
+              rowStep < 0 ? row < position.row : row > position.row,
+            )
+            .sort((left, right) => (rowStep < 0 ? right - left : left - right));
+          const targetRow = targetRows[0];
+          if (targetRow !== undefined) {
+            nextButton = matches
+              .filter((item) => item.row === targetRow)
+              .sort((left, right) => {
+                const columnDifference =
+                  Math.abs(left.column - position.column) -
+                  Math.abs(right.column - position.column);
+                if (columnDifference !== 0) return columnDifference;
+                return left.column - right.column;
+              })[0]?.button;
+          }
+        } else {
+          const movePrevious = rtl
+            ? event.key === "ArrowRight"
+            : event.key === "ArrowLeft";
+          const moveNext = rtl
+            ? event.key === "ArrowLeft"
+            : event.key === "ArrowRight";
+          const rowMatches = matches
+            .filter((item) => item.row === position.row)
+            .sort((left, right) => left.column - right.column);
+          if (movePrevious) {
+            nextButton = [...rowMatches]
+              .reverse()
+              .find((item) => item.column < position.column)?.button;
+          } else if (moveNext) {
+            nextButton = rowMatches.find(
+              (item) => item.column > position.column,
+            )?.button;
+          }
+          if (!nextButton && rowMatches.length > 0) {
+            nextButton = movePrevious
+              ? rowMatches.at(-1)?.button
+              : rowMatches[0]?.button;
+          }
+        }
+        if (!nextButton) return;
+        syncRovingGrid(buttons, nextButton);
+        nextButton.focus();
+      });
+    });
+  }
 
   toolButtons.forEach((button) =>
     button.addEventListener("click", () => selectTool(button.dataset.tool)),
@@ -370,6 +586,12 @@ export function createPixelEditor({
   canvas.addEventListener("keydown", onCanvasKeyDown);
   document.addEventListener("keydown", onEditorKeyDown, true);
   window.addEventListener("beforeunload", warnAboutDirtyArtwork);
+  bindRovingGrid(toolButtons);
+  bindRovingGrid(historyButtons);
+  bindPaletteGrid(paletteButtons);
+  bindRovingGrid(traceNudgeButtons);
+  bindRovingGrid(layerNudgeButtons);
+  bindRovingGrid(previewActionButtons);
   updatePaletteSelection();
   updateShapeToolButtons();
   updateTraceOutput();
@@ -519,6 +741,10 @@ export function createPixelEditor({
       button.setAttribute("aria-pressed", String(selected));
       button.classList.toggle("is-active", selected);
     });
+    syncRovingGrid(
+      toolButtons,
+      toolButtons.find((button) => button.dataset.tool === tool),
+    );
     updateShapeToolButtons();
     draw();
   }
@@ -1116,6 +1342,8 @@ export function createPixelEditor({
       if (!button.dataset.skinTone) return false;
       button.hidden = !activeCodePoints.has(button.dataset.skinTone);
       button.style.removeProperty("grid-column");
+      delete button.dataset.gridColumn;
+      delete button.dataset.gridRow;
       if (button.hidden) {
         setSkinToneShade(button, 0);
       } else {
@@ -1133,7 +1361,12 @@ export function createPixelEditor({
       const firstColumn = Math.floor((9 - activeButtons.length) / 2) + 1;
       activeButtons.forEach((button, index) => {
         button.style.gridColumn = String(firstColumn + index);
+        button.dataset.gridColumn = String(firstColumn + index);
+        button.dataset.gridRow = "3";
       });
+    } else if (activeButtons.length === 1) {
+      activeButtons[0].dataset.gridColumn = "9";
+      activeButtons[0].dataset.gridRow = "2";
     }
     if (previousSkinTone) {
       const nextButton =
@@ -1198,6 +1431,10 @@ export function createPixelEditor({
       button.classList.toggle("is-selected", selected);
       button.setAttribute("aria-pressed", String(selected));
     });
+    syncRovingGrid(
+      paletteButtons,
+      paletteButtons.find((button) => button.getAttribute("aria-pressed") === "true"),
+    );
   }
 
   function setSkinToneShade(button, cycleIndex) {
@@ -1585,6 +1822,7 @@ export function createPixelEditor({
       const nextY = floatingLayer.y + Number(button.dataset.layerY);
       button.disabled = !layerPositionAllowed(floatingLayer, nextX, nextY);
     });
+    syncRovingGrid(layerNudgeButtons);
     layerTransformButtons.forEach((button) => {
       const transform = button.dataset.layerTransform;
       if (transform === "rotate-left" || transform === "rotate-right") {
@@ -1992,12 +2230,14 @@ function preview(kind, translationKey, fallback) {
   </figure>`;
 }
 
-function egaSwatch(color) {
-  return `<button class="pixel-editor-swatch" type="button" data-color="${color}" aria-label="EGA ${color}" title="EGA ${color}" aria-pressed="false" style="--swatch: ${color}"></button>`;
+function egaSwatch(color, index) {
+  const column = (index % 8) + 1;
+  const row = Math.floor(index / 8) + 1;
+  return `<button class="pixel-editor-swatch" type="button" data-color="${color}" data-grid-column="${column}" data-grid-row="${row}" aria-label="EGA ${color}" title="EGA ${color}" aria-pressed="false" style="--swatch: ${color}"></button>`;
 }
 
 function skinToneSwatch(tone) {
-  return `<button class="pixel-editor-swatch is-skin-tone" type="button" data-color="${tone.color}" data-skin-tone="${tone.codePoint}" data-cycle-index="0" data-shade="normal" aria-label="${tone.fallback} — Normal color" title="${tone.fallback} — Normal color" aria-pressed="false" style="--swatch: ${tone.color}" hidden></button>`;
+  return `<button class="pixel-editor-swatch is-skin-tone" type="button" data-color="${tone.color}" data-skin-tone="${tone.codePoint}" data-grid-column="1" data-grid-row="3" data-cycle-index="0" data-shade="normal" aria-label="${tone.fallback} — Normal color" title="${tone.fallback} — Normal color" aria-pressed="false" style="--swatch: ${tone.color}" hidden></button>`;
 }
 
 function findSkinTone(codePoint) {

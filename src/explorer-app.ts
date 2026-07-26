@@ -152,11 +152,51 @@ export function bindExplorerEvents(options: any) {
     else if (event.key === 'End') nextIndex = checkboxes.length - 1;
     else {
       const rtl = document.documentElement.dir === 'rtl';
-      const backwards =
-        event.key === 'ArrowUp' ||
-        event.key === (rtl ? 'ArrowRight' : 'ArrowLeft');
-      nextIndex =
-        (currentIndex + (backwards ? -1 : 1) + checkboxes.length) % checkboxes.length;
+      const current = checkboxes[currentIndex];
+      const currentRect = current.getBoundingClientRect();
+      const rowTolerance = Math.max(8, currentRect.height / 2);
+      const positioned = checkboxes.map((item, index) => {
+        const label = item.closest('label') ?? item;
+        const rect = label.getBoundingClientRect();
+        return {
+          checkbox: item,
+          index,
+          centerX: rect.left + rect.width / 2,
+          centerY: rect.top + rect.height / 2
+        };
+      });
+      const rows: typeof positioned[] = [];
+      positioned.forEach(item => {
+        const row = rows.find(
+          candidate => Math.abs(candidate[0].centerY - item.centerY) <= rowTolerance
+        );
+        if (row) row.push(item);
+        else rows.push([item]);
+      });
+      rows.forEach(row => row.sort((left, right) => left.centerX - right.centerX));
+      rows.sort((top, bottom) => top[0].centerY - bottom[0].centerY);
+      const rowIndex = rows.findIndex(row => row.some(item => item.index === currentIndex));
+      const columnIndex = rows[rowIndex]?.findIndex(item => item.index === currentIndex) ?? -1;
+      if (rowIndex === -1 || columnIndex === -1) return;
+      const movePrevious = rtl ? event.key === 'ArrowRight' : event.key === 'ArrowLeft';
+      const moveNext = rtl ? event.key === 'ArrowLeft' : event.key === 'ArrowRight';
+      if (movePrevious || moveNext) {
+        const row = rows[rowIndex];
+        const offset = movePrevious ? -1 : 1;
+        nextIndex =
+          row[(columnIndex + offset + row.length) % row.length]?.index ?? currentIndex;
+      } else {
+        const targetRow = rows[rowIndex + (event.key === 'ArrowUp' ? -1 : 1)];
+        if (!targetRow) return;
+        const currentItem = rows[rowIndex][columnIndex];
+        nextIndex =
+          targetRow
+            .map(item => ({
+              index: item.index,
+              score: Math.abs(item.centerX - currentItem.centerX)
+            }))
+            .sort((left, right) => left.score - right.score)[0]?.index ?? currentIndex;
+      }
     }
     const nextCheckbox = checkboxes[nextIndex];
     if (!nextCheckbox) return;
