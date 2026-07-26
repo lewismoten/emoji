@@ -3,10 +3,9 @@ import { explorerLabelKeys, languageFlags, sequenceTranslationKeys, sequenceType
 import { getExplorerSubGroup } from './explorer/category-rules.js';
 import { formatUiNumber as formatUiNumberValue, formatUiPercent as formatUiPercentValue, normalizeCodePoints } from './explorer/emoji-format.js';
 import { animateCopyConfirmation as animateEmojiCopyConfirmation } from './explorer/saved-emoji.js';
-import { getCodeExampleText as getCodeExampleTextValue } from './explorer/import-examples.js';
 import { ensureUtilityControls, positionFavoriteButton } from './explorer/utility-controls.js';
 import { closePanelDialog, installedDisplayQueries, onPanelDialogClose, openPanelDialog, updateWebAppManifest } from './explorer/pwa-panels.js';
-import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper, withoutDialogParentPanel, withoutCompositionParent } from './explorer/dialog-render.js';
+import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from './explorer/dialog-render.js';
 import { getEmojiGenders as getEmojiGendersHelper } from './explorer/emoji-filter.js';
 import { createEmojiDialogViewController, loadStylesheet } from './explorer/dialog-view.js';
 import { createPixelEditorLoader } from './explorer/pixel-editor-loader.js';
@@ -16,7 +15,6 @@ import { createPixelArtworkManager } from './explorer/pixel-artwork.js';
 import { loadVersionCatalog } from './explorer/version-data.js';
 import { getExplorerElements } from './explorer/explorer-dom.js';
 import { observeToolbarHeight } from './explorer/toolbar-layout.js';
-import { createEmojiDialogClickHandler } from './explorer/emoji-dialog-events.js';
 import { createListOrchestration } from './app/list-orchestration.js';
 import { initializeExplorerPreferences } from './app/explorer-preferences.js';
 import { createFilterControlSetup } from './explorer/filter-controls.js';
@@ -30,6 +28,7 @@ import { createVersionModeController } from './app/version-mode-controller.js';
 import { createExplorerShell } from './app/explorer-shell.js';
 import { createUiFormatters, initializeBrowserRuntime } from './app/browser-runtime.js';
 import { initializeDialogRuntime } from './app/dialog-runtime.js';
+import { createEmojiDialogClickRuntime } from './app/emoji-dialog-click-runtime.js';
 import { createStartupOrchestrator } from './app/startup-orchestrator.js';
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
@@ -365,51 +364,33 @@ const { focusInitialAction: focusInitialEmojiDialogAction, setView: setEmojiDial
     updateImportExamples: updateEmojiImportExamples
 });
 setEmojiDialogView = setEmojiDialogViewController;
-const onEmojiDialogClick = createEmojiDialogClickHandler({
+const onEmojiDialogClick = createEmojiDialogClickRuntime({
     animateCopy: animateEmojiCopyConfirmation,
+    byId: () => explorerState.byId,
     copy: copyToClipboardValue,
-    copyValue: kind => kind === 'code'
-        ? getCodeExampleTextValue(explorerRuntime.get('exampleDialog'))
-        : kind === 'link'
-            ? window.location.href
-            : explorerState.currentEmojiCopies[kind],
+    currentDialogParentStack: () => explorerState.currentDialogParentStack,
+    currentEmojiCopies: () => explorerState.currentEmojiCopies,
     currentEmojiKey: () => explorerState.currentEmojiKey,
     dialog: () => explorerRuntime.get('exampleDialog'),
-    openParentPanel: panel => {
-        suppressDialogCloseSync = true;
-        const exampleDialog = explorerRuntime.get('exampleDialog');
-        exampleDialog.dataset.dialogParentPanel = '';
-        explorerState.currentDialogParentStack = [];
-        exampleDialog.close();
-        suppressDialogCloseSync = false;
-        openPanelDialog({
-            panel,
-            addHistory: false,
-            dialogs: panelDialogs(),
-            languageList: languageList,
-            renderSavedEmoji,
-            syncUrlState
-        });
-        syncUrlState('replace', withoutDialogParentPanel(withoutCompositionParent(window.history.state)));
-    },
-    openComposition: key => {
-        const parentEmojiKey = explorerState.currentEmojiKey;
-        showEmoji(key, false);
-        syncUrlState('push', {
-            ...window.history.state,
-            emojiDialogEntry: false,
-            compositionParent: parentEmojiKey
-        });
-        updateCompositionBackButton();
-    },
+    emojiByKey: () => explorerState.emojiByKey,
+    languageList: () => languageList,
+    openPanel: openPanelDialog,
+    panelDialogs,
     recordCopiedEmoji,
-    refreshComposition: () => updateEmojiComposition(explorerState.byId[explorerState.currentEmojiKey] ?? {}, explorerState.emojiByKey[explorerState.currentEmojiKey] ?? ''),
+    renderSavedEmoji,
+    setSuppressDialogCloseSync: value => (suppressDialogCloseSync = value),
     setView: setEmojiDialogView,
-    syncUrlState: () => syncUrlState(),
+    showEmoji: (...args) => showEmoji(...args),
+    syncUrlState: (...args) => syncUrlState(...args),
     toggleComposition: () => (explorerState.compositionMode =
         explorerState.compositionMode === 'full' ? 'condensed' : 'full'),
-    toggleFavorite: () => toggleFavorite(explorerState.currentEmojiKey),
-    translate
+    toggleFavorite,
+    translate,
+    updateCompositionBackButton: () => updateCompositionBackButton(),
+    updateEmojiComposition,
+    clearCurrentDialogParentStack: () => {
+        explorerState.currentDialogParentStack = [];
+    }
 });
 const explorerRuntime = createExplorerRuntime({
     ensureUtilityControls,
