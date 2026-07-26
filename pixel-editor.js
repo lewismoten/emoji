@@ -21,6 +21,7 @@ import {
   extractPixels,
   hasVisiblePixels,
   pixelOffset,
+  pixelsEqual,
   trimVisiblePixels,
 } from "./src/pixel-editor/pixel-editor-geometry-helpers.js";
 import {
