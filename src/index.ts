@@ -47,7 +47,6 @@ import {
   createEmojiDialogViewController,
   loadStylesheet
 } from './explorer/dialog-view.js';
-import { createPixelEditorLoader } from './explorer/pixel-editor-loader.js';
 import { createExplorerNavigation } from './explorer/explorer-navigation.js';
 import { loadExplorerCatalog } from './explorer/catalog-loader.js';
 import { createPixelArtworkManager } from './explorer/pixel-artwork.js';
@@ -73,72 +72,73 @@ import { createUiFormatters, initializeBrowserRuntime } from './app/browser-runt
 import { initializeDialogRuntime } from './app/dialog-runtime.js';
 import { createEmojiDialogClickRuntime } from './app/emoji-dialog-click-runtime.js';
 import { createNavigationRuntime } from './app/navigation-runtime.js';
+import { createPixelEditorRuntime } from './app/pixel-editor-runtime.js';
 import { createStartupRuntime } from './app/startup-runtime.js';
 import { createVersionRuntime } from './app/version-runtime.js';
 
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
 
-var searchText;
-var languagePicker;
-var languagePickerFlag;
-var languagePickerLabel;
-var emojiFontChoices = [];
-var languageDialog;
-var languageList;
-var savedPicker;
-var savedDialog;
-var helpPicker;
-var helpDialog;
-var themeChoices = [];
-var developerModeToggle;
-var emojiList;
-var matchCount;
-var toolbar;
-var groupSelector;
-var subGroupSelector;
-var groupPickerTrigger;
-var subGroupPickerTrigger;
-var groupFilterDialog;
-var subGroupFilterDialog;
-var compactGroupChoices;
-var compactSubGroupChoices;
-var sequenceTypeSelector;
-var compactSequenceChoices;
-var compactGroupLabel;
-var compactSubGroupLabel;
-var compactSequenceLabel;
-var versionModeSelector;
-var versionSelector;
-var versionModeToggle;
-var versionRange;
-var versionRangeValue;
-var versionPrevious;
-var versionNext;
-var advancedFilters;
-var activeFilterSummary;
-var activeFilterText;
-var clearFiltersButton;
-var orderButtons;
-var skinToneCheckboxes;
-var hairCheckboxes;
-var genderCheckboxes;
-var modifierFilters;
-var skinToneFieldset;
-var hairFieldset;
-var genderFieldset;
-var searchDrawTimer;
-var listRenderGeneration = 0;
-var copyStatus;
-var pixelEditor;
-var pixelEditorPromise;
-var urlStateReady = false;
-var applyingUrlState = false;
-var suppressDialogCloseSync = false;
-var suppressedPanelCloses = new WeakSet();
-var offlineStatus;
-var installAppButton;
-var installDialog;
+let searchText,
+  languagePicker,
+  languagePickerFlag,
+  languagePickerLabel,
+  languageDialog,
+  languageList,
+  savedPicker,
+  savedDialog,
+  helpPicker,
+  helpDialog,
+  developerModeToggle,
+  emojiList,
+  matchCount,
+  toolbar,
+  groupSelector,
+  subGroupSelector,
+  groupPickerTrigger,
+  subGroupPickerTrigger,
+  groupFilterDialog,
+  subGroupFilterDialog,
+  compactGroupChoices,
+  compactSubGroupChoices,
+  sequenceTypeSelector,
+  compactSequenceChoices,
+  compactGroupLabel,
+  compactSubGroupLabel,
+  compactSequenceLabel,
+  versionModeSelector,
+  versionSelector,
+  versionModeToggle,
+  versionRange,
+  versionRangeValue,
+  versionPrevious,
+  versionNext,
+  advancedFilters,
+  activeFilterSummary,
+  activeFilterText,
+  clearFiltersButton,
+  orderButtons,
+  skinToneCheckboxes,
+  hairCheckboxes,
+  genderCheckboxes,
+  modifierFilters,
+  skinToneFieldset,
+  hairFieldset,
+  genderFieldset,
+  searchDrawTimer,
+  copyStatus,
+  pixelEditor,
+  pixelEditorPromise,
+  offlineStatus,
+  installAppButton,
+  installDialog;
+let emojiFontChoices = [],
+  themeChoices = [],
+  listRenderGeneration = 0,
+  urlStateReady = false,
+  applyingUrlState = false,
+  suppressDialogCloseSync = false,
+  suppressedPanelCloses = new WeakSet();
 const { save: saveExplorerPreference } = initializeExplorerPreferences(explorerState);
 const translate = (key, fallback) => explorerState.uiStrings[key] ?? fallback;
 const displayExplorerLabel = label =>
@@ -482,7 +482,7 @@ const {
   dialog: () => explorerRuntime.get('exampleDialog'),
   emojiByKey: () => explorerState.emojiByKey,
   emojiParent: () => explorerRuntime.get('emojiParent'),
-  ensurePixelEditor,
+  ensurePixelEditor: () => ensurePixelEditor(),
   getPixelEditor: () => pixelEditor,
   loadPackageManifest,
   syncUrlState,
@@ -691,7 +691,7 @@ const {
   revealExplorer
 } = startupOrchestrator;
 
-const loadPixelEditor = createPixelEditorLoader({
+const { ensurePixelEditor } = createPixelEditorRuntime({
   currentEmojiKey: () => explorerState.currentEmojiKey,
   dialog: () => explorerRuntime.get('exampleDialog'),
   emojiByKey: () => explorerState.emojiByKey,
@@ -699,9 +699,6 @@ const loadPixelEditor = createPixelEditorLoader({
   formatPercent: formatUiPercent,
   getEditor: () => pixelEditor,
   getPromise: () => pixelEditorPromise,
-  loadEditor: () => import('../pixel-editor.js'),
-  loadStylesheet: () =>
-    loadStylesheet('./explorer/pixel-editor.css', 'pixel-editor-stylesheet'),
   setEditor: editor => {
     pixelEditor = editor;
   },
@@ -710,10 +707,6 @@ const loadPixelEditor = createPixelEditorLoader({
   },
   translate
 });
-
-function ensurePixelEditor() {
-  return loadPixelEditor();
-}
 
 const versionModeController = createVersionModeController({
   definitions: versionModeDefinitions,
