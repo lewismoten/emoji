@@ -72,6 +72,7 @@ import { createUiFormatters } from './app/browser-runtime.js';
 import { createBrowserRuntimeConfig } from './app/browser-runtime-config.js';
 import { initializeDialogRuntime } from './app/dialog-runtime.js';
 import { createEmojiDialogClickRuntime } from './app/emoji-dialog-click-runtime.js';
+import { createDialogViewRuntime } from './app/dialog-view-runtime.js';
 import { createNavigationRuntime } from './app/navigation-runtime.js';
 import { createPixelEditorRuntime } from './app/pixel-editor-runtime.js';
 import { createStartupRuntime } from './app/startup-runtime.js';
@@ -475,7 +476,7 @@ syncUrlState = syncUrlStateController;
 const {
   focusInitialAction: focusInitialEmojiDialogAction,
   setView: setEmojiDialogViewController
-} = createEmojiDialogViewController({
+} = createDialogViewRuntime({
   byId: () => explorerState.byId,
   currentDialogParentStack: () => explorerState.currentDialogParentStack,
   currentEmojiKey: () => explorerState.currentEmojiKey,
@@ -486,9 +487,9 @@ const {
   ensurePixelEditor: () => ensurePixelEditor(),
   getPixelEditor: () => pixelEditor,
   loadPackageManifest,
-  syncUrlState,
+  syncUrlState: (...args) => syncUrlState(...args),
   translate,
-  updateCompositionBackButton,
+  updateCompositionBackButton: (...args) => updateCompositionBackButton(...args),
   updateImportExamples: updateEmojiImportExamples
 });
 setEmojiDialogView = setEmojiDialogViewController;
