@@ -299,6 +299,45 @@ html[data-theme="retro"] .unicode-subgroup {
   background: var(--frame-bg);
 }
 
+html[data-theme="retro"] .help-pixel,
+html[data-theme="retro"] .help-settings {
+  background: #555555;
+  border-color: #000000;
+  color: #ffffff;
+}
+
+html[data-theme="retro"] .help-pixel {
+  background: #000000;
+}
+
+html[data-theme="retro"] .help-pixel h3,
+html[data-theme="retro"] .help-settings h3,
+html[data-theme="retro"] .help-settings h4,
+html[data-theme="retro"] .help-settings .shortcut-heading {
+  color: #ffffff;
+}
+
+html[data-theme="retro"] .help-settings .language-picker-label {
+  color: #000000;
+}
+
+html[data-theme="retro"] .help-settings p,
+html[data-theme="retro"] .help-pixel p {
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] .help-pixel a,
+html[data-theme="retro"] .help-settings a,
+html[data-theme="retro"] .help-settings button.linklike {
+  color: #55ffff;
+}
+
+html[data-theme="retro"] .help-pixel a:hover,
+html[data-theme="retro"] .help-settings a:hover,
+html[data-theme="retro"] .help-settings button.linklike:hover {
+  color: #ffffff;
+}
+
 html[data-theme="retro"] .emoji-metadata > div {
   background: #000000;
   border-color: #000000;
@@ -356,6 +395,28 @@ html[data-theme="retro"] .example-dialog {
 html[data-theme="retro"] .example-dialog .dialog-heading {
   background: var(--dialog-header-bg);
   border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .help-dialog {
+  background: var(--dialog-body-bg);
+}
+
+html[data-theme="retro"] .help-dialog .dialog-heading {
+  background: var(--dialog-header-bg);
+  border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .language-dialog {
+  background: var(--dialog-body-bg);
+}
+
+html[data-theme="retro"] .language-dialog .dialog-heading {
+  background: var(--dialog-header-bg);
+  border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .language-dialog .eyebrow {
+  color: #55ffff;
 }
 
 html[data-theme="retro"] .dialog-close,
@@ -508,6 +569,49 @@ html[data-theme="retro"] .emoji-code-view {
   background: #555555;
 }
 
+html[data-theme="retro"] .example-dialog .pixel-editor-stage,
+html[data-theme="retro"] .example-dialog .pixel-editor-file,
+html[data-theme="retro"] .example-dialog .pixel-editor-controls fieldset,
+html[data-theme="retro"] .example-dialog .pixel-editor-transfer > div,
+html[data-theme="retro"] .example-dialog .pixel-editor-layer-controls,
+html[data-theme="retro"] .example-dialog .pixel-editor-layer-actions,
+html[data-theme="retro"] .example-dialog .pixel-editor-layer-transform {
+  border-color: #000000;
+}
+
+html[data-theme="retro"] .example-dialog .pixel-design-invitation {
+  border-color: #000000;
+  background: #555555;
+}
+
+html[data-theme="retro"] .example-dialog .pixel-design-invitation button {
+  border-width: 2px;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #000000;
+  border-bottom-color: #000000;
+  background: #aaaaaa;
+  color: #aa0000;
+}
+
+html[data-theme="retro"] .example-dialog .pixel-design-invitation button:hover {
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #aaaaaa;
+  border-bottom-color: #aaaaaa;
+  background: #ffffff;
+  color: #aa0000;
+}
+
+html[data-theme="retro"] .example-dialog .pixel-design-invitation button:active {
+  border-top-color: #555555;
+  border-left-color: #555555;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  background: #aaaaaa;
+  color: #aa0000;
+}
+
 html[data-theme="retro"] .emoji-code-view .code {
   background: #aaaaaa;
   border-top: 2px solid #000000;
@@ -550,6 +654,29 @@ html[data-theme="retro"] .pixel-editor-trace-nudge {
   border-right-color: #555555;
   border-bottom-color: #555555;
   background: #aaaaaa;
+  color: #000000;
+}
+
+html[data-theme="retro"] .help-dialog .setting-choice,
+html[data-theme="retro"] .help-dialog .language-picker,
+html[data-theme="retro"] .help-dialog .dialog-close,
+html[data-theme="retro"] .help-dialog .help-picker {
+  border-right-color: #000000;
+  border-bottom-color: #000000;
+}
+
+html[data-theme="retro"] .language-dialog .language-option,
+html[data-theme="retro"] .language-dialog .dialog-close {
+  border-right-color: #000000;
+  border-bottom-color: #000000;
+}
+
+html[data-theme="retro"] kbd {
+  border-top-color: #aaaaaa;
+  border-left-color: #aaaaaa;
+  border-right-color: #000000;
+  border-bottom-color: #000000;
+  background: #ffffff;
   color: #000000;
 }
 
@@ -606,6 +733,24 @@ html[data-theme="retro"] .pixel-editor-layer-transform button[aria-pressed="true
   transform: translate(1px, 1px);
 }
 
+html[data-theme="retro"] .help-dialog .theme-choice[aria-pressed="true"] {
+  border-top-color: #555555;
+  border-left-color: #555555;
+  border-right-color: #aaaaaa;
+  border-bottom-color: #aaaaaa;
+  background: #000000;
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] .language-dialog .language-option.is-selected {
+  border-top-color: #555555;
+  border-left-color: #555555;
+  border-right-color: #aaaaaa;
+  border-bottom-color: #aaaaaa;
+  background: #000000;
+  color: #aaaaaa;
+}
+
 html[data-theme="retro"] .setting-choice:active,
 html[data-theme="retro"] .language-option:active,
 html[data-theme="retro"] .pixel-comparison > button:active,
@@ -644,17 +789,98 @@ html[data-theme="retro"] .pixel-editor-trace-nudge:active {
 }
 
 html[data-theme="retro"] .setting-switch input {
+  appearance: none;
+  -webkit-appearance: none;
   width: 1.5rem;
+  height: 1.5rem;
   min-height: 1.5rem;
-  border: 2px solid #55ffff;
+  border: 2px solid #000000;
+  border-top-color: #000000;
+  border-left-color: #000000;
+  border-right-color: #aaaaaa;
+  border-bottom-color: #aaaaaa;
   border-radius: 0 !important;
   background: #000000;
-  accent-color: #ff55ff;
+  display: inline-grid;
+  place-content: center;
+  cursor: pointer;
+}
+
+html[data-theme="retro"] .setting-switch input::after {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  background: transparent;
+}
+
+html[data-theme="retro"] .setting-switch input:checked::after {
+  background: #ff55ff;
+}
+
+html[data-theme="retro"] .version-step:disabled,
+html[data-theme="retro"] .dialog-navigate:disabled,
+html[data-theme="retro"] .pixel-editor-toolbar button:disabled,
+html[data-theme="retro"] .pixel-editor-preview-actions button:disabled,
+html[data-theme="retro"] .pixel-editor-transfer button:disabled,
+html[data-theme="retro"] .pixel-editor-layer button:disabled {
+  border-style: dotted;
+  border-top-color: #aaaaaa;
+  border-left-color: #aaaaaa;
+  border-right-color: #000000;
+  border-bottom-color: #000000;
+  background: #555555;
+  color: #aaaaaa;
+  opacity: 1;
+  transform: none;
+}
+
+html[data-theme="retro"] .pixel-editor-swatch {
+  border-color: #000000;
+}
+
+html[data-theme="retro"] .pixel-editor-swatch[data-color="#000000"] {
+  border-color: #aaaaaa;
 }
 
 html:has(dialog:modal),
 body:has(dialog:modal) {
   overflow: hidden;
+}
+
+html[data-theme="retro"] body:has(dialog[open]) {
+  background: #0000aa;
+}
+
+html[data-theme="retro"] body:has(dialog[open]) main {
+  background: #0000aa;
+}
+
+html[data-theme="retro"] body:has(dialog[open]) .toolbar {
+  max-height: none;
+  overflow: visible;
+  border-bottom-color: transparent;
+  background: #0000aa;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+html[data-theme="retro"] body:has(dialog[open]) .toolbar > :not(.toolbar-heading) {
+  display: none;
+}
+
+html[data-theme="retro"] body:has(dialog[open]) .toolbar .result-count {
+  display: none;
+}
+
+html[data-theme="retro"] body:has(dialog[open]) .toolbar-heading {
+  justify-content: flex-start;
+}
+
+html[data-theme="retro"] body:has(dialog[open]) .pixel-hero,
+html[data-theme="retro"] body:has(dialog[open]) .list,
+html[data-theme="retro"] body:has(dialog[open]) .about-explorer,
+html[data-theme="retro"] body:has(dialog[open]) .order-footer {
+  display: none !important;
 }
 
 main {
@@ -1392,6 +1618,10 @@ fieldset input {
   padding-top: 0.75rem;
   border-top: 1px solid var(--border);
 }
+
+html[data-theme="retro"] .setting-row {
+  border-top: 3px double #000000;
+}
 .setting-row > :first-child {
   min-width: 0;
 }
@@ -1547,6 +1777,23 @@ html:not([data-developer-mode]) .developer-only {
 .install-dialog::backdrop {
   background: rgb(0 0 0 / 60%);
   backdrop-filter: blur(3px);
+}
+
+html[data-theme="retro"] body:has(dialog[open]) .example-dialog::backdrop,
+html[data-theme="retro"] body:has(dialog[open]) .language-dialog::backdrop,
+html[data-theme="retro"] body:has(dialog[open]) .saved-dialog::backdrop,
+html[data-theme="retro"] body:has(dialog[open]) .help-dialog::backdrop,
+html[data-theme="retro"] body:has(dialog[open]) .filter-picker-dialog::backdrop,
+html[data-theme="retro"] body:has(dialog[open]) .install-dialog::backdrop {
+  background:
+    linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent var(--toolbar-height),
+      #0000aa var(--toolbar-height),
+      #0000aa 100%
+    );
+  backdrop-filter: none;
 }
 
 dialog[open] {
@@ -2564,6 +2811,11 @@ button.emoji-composition-part:focus-visible {
 }
 .saved-section + .saved-section {
   border-top: 1px solid var(--border);
+}
+
+html[data-theme="retro"] .saved-section + .saved-section {
+  border-top: 3px double #000000;
+  box-shadow: none;
 }
 .saved-section h3 {
   margin: 0 0 0.65rem;
