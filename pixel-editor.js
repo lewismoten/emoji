@@ -1495,13 +1495,15 @@ export function createPixelEditor({
 
   function copyPixelArt() {
     if (!currentEntry || !cellLoaded || !hasVisibleArtwork()) return;
+    const trimmed = trimVisiblePixels(pixels, CELL_SIZE, CELL_SIZE);
+    if (!trimmed) return;
     artworkClipboard = {
       kind: "art",
-      pixels: pixels.slice(),
-      width: CELL_SIZE,
-      height: CELL_SIZE,
-      x: 0,
-      y: 0,
+      pixels: trimmed.pixels,
+      width: trimmed.width,
+      height: trimmed.height,
+      x: trimmed.x,
+      y: trimmed.y,
       skinTones: skinToneSequence(currentEntry.codePoints),
       baseSequence: skinToneBaseSequence(currentEntry.codePoints),
       sourceKey: currentEntry.key,
@@ -2487,6 +2489,38 @@ function extractPixels(source, sourceWidth, x, y, width, height) {
     );
   }
   return result;
+}
+
+function trimVisiblePixels(source, width, height) {
+  let minimumX = width;
+  let minimumY = height;
+  let maximumX = -1;
+  let maximumY = -1;
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const alpha = source[(y * width + x) * 4 + 3];
+      if (alpha === 0) continue;
+      minimumX = Math.min(minimumX, x);
+      minimumY = Math.min(minimumY, y);
+      maximumX = Math.max(maximumX, x);
+      maximumY = Math.max(maximumY, y);
+    }
+  }
+  if (maximumX < minimumX || maximumY < minimumY) return undefined;
+  return {
+    pixels: extractPixels(
+      source,
+      width,
+      minimumX,
+      minimumY,
+      maximumX - minimumX + 1,
+      maximumY - minimumY + 1,
+    ),
+    width: maximumX - minimumX + 1,
+    height: maximumY - minimumY + 1,
+    x: minimumX,
+    y: minimumY,
+  };
 }
 
 function nextLayerRotation(layer, clockwise, paletteColors = EGA_COLORS) {
