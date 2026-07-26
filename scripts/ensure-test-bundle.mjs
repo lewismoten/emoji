@@ -25,7 +25,7 @@ const inputs = [
   'versions'
 ];
 const outputs = [
-  'build/tests/unit.test.mjs',
+  'build/tests/integration/package-core.test.mjs',
   'build/library',
   'build/rollup.config.js',
   'dist/commonjs/popular.min.cjs',
