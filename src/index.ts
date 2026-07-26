@@ -67,13 +67,13 @@ import { createExplorerState } from './explorer-state.js';
 import { createCategoryController } from './app/category-controller.js';
 import { createExplorerRuntime } from './explorer-runtime.js';
 import { createEmojiActions } from './app/emoji-actions.js';
-import { createVersionController } from './app/version-controller.js';
 import { createVersionModeController } from './app/version-mode-controller.js';
 import { createExplorerShell } from './app/explorer-shell.js';
 import { createUiFormatters, initializeBrowserRuntime } from './app/browser-runtime.js';
 import { initializeDialogRuntime } from './app/dialog-runtime.js';
 import { createEmojiDialogClickRuntime } from './app/emoji-dialog-click-runtime.js';
 import { createStartupOrchestrator } from './app/startup-orchestrator.js';
+import { createVersionRuntime } from './app/version-runtime.js';
 
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
@@ -315,45 +315,36 @@ const {
   subGroupSelectionKey,
   updateAvailableCategories
 } = categoryController;
-let versionController = createVersionController({
-  applyLoadedUrlState: () => applyLoadedUrlState(),
+let versionController = createVersionRuntime({
+  applyLoadedUrlState: (...args) => applyLoadedUrlState(...args),
   buildRepresentatives: buildCategoryRepresentatives,
   developerModeEnabled,
-  drawList: () => drawList(),
-  getEmojiGenders: item => getEmojiGenders(item),
+  drawList: (...args) => drawList(...args),
+  getEmojiGenders: (...args) => getEmojiGenders(...args),
+  getExplorerSubGroup,
   getIntroducedVersion,
   groupSelector: () => groupSelector,
   genderCheckboxes: () => genderCheckboxes,
   genderFieldset: () => genderFieldset,
   hairCheckboxes: () => hairCheckboxes,
   hairFieldset: () => hairFieldset,
-  loadCatalog: () => loadExplorerCatalog({ getExplorerSubGroup, isViteDevelopment, updatePixelArtworkManifest }),
-  loadVersionCatalog: () => loadVersionCatalog({ allIds: () => explorerState.allIds, byId: () => explorerState.byId, emojiByKey: () => explorerState.emojiByKey, getExplorerSubGroup, items: () => explorerState.items }),
+  isViteDevelopment,
   modifierFilters: () => modifierFilters,
+  onClick,
   onGroupChange: onGroupSelectorChange,
   onSequenceTypeChange: onSequenceTypeSelectorChange,
   onSubGroupChange: onSubGroupSelectorChange,
-  openEmoji: (
-    key,
-    open,
-    _navigationKeys,
-    initialMode
-  ) => {
-    onClick({ target: { id: key } }, open);
-    if (open !== false && initialMode && initialMode !== 'details') {
-      setEmojiDialogView(initialMode, false);
-    }
-  },
   rebuildCodePointLookup: rebuildEmojiCodePointLookup,
-  renderCategoryFilters: () => renderCategoryFilters(),
-  setIntroducedVersion: value => { const node = document.getElementsByClassName('emoji-version')[0]; if (node) node.innerText = value; },
+  renderCategoryFilters,
   sequenceTypeSelector: () => sequenceTypeSelector,
+  setDialogView: (...args) => setEmojiDialogView(...args),
   skinToneCheckboxes: () => skinToneCheckboxes,
   skinToneFieldset: () => skinToneFieldset,
   state: () => explorerState,
   subGroupSelector: () => subGroupSelector,
   translate,
-  updateModifierArtwork: () => updateModifierPixelArtwork(),
+  updateModifierArtwork: updateModifierPixelArtwork,
+  updatePixelArtworkManifest,
   versionModeSelector: () => versionModeSelector,
   versionNext: () => versionNext,
   versionPrevious: () => versionPrevious,
