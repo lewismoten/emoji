@@ -342,7 +342,17 @@ let versionController = createVersionController({
   onGroupChange: onGroupSelectorChange,
   onSequenceTypeChange: onSequenceTypeSelectorChange,
   onSubGroupChange: onSubGroupSelectorChange,
-  openEmoji: (key, open) => onClick({ target: { id: key } }, open),
+  openEmoji: (
+    key,
+    open,
+    _navigationKeys,
+    initialMode
+  ) => {
+    onClick({ target: { id: key } }, open);
+    if (open !== false && initialMode && initialMode !== 'details') {
+      setEmojiDialogView(initialMode, false);
+    }
+  },
   rebuildCodePointLookup: rebuildEmojiCodePointLookup,
   renderCategoryFilters: () => renderCategoryFilters(),
   setIntroducedVersion: value => { const node = document.getElementsByClassName('emoji-version')[0]; if (node) node.innerText = value; },
@@ -453,7 +463,13 @@ const {
   languageList: () => languageList,
   latestReleasedVersion: () => explorerState.versionManifests.at(-1)?.version,
   navigateEmoji,
-  openEmoji: key => showEmoji(key, false, explorerState.displayedKeys),
+  openEmoji: (key, openDialog, navigationKeys, initialMode) =>
+    showEmoji(
+      key,
+      openDialog ?? false,
+      navigationKeys ?? explorerState.displayedKeys,
+      initialMode
+    ),
   orderButtons: () => orderButtons,
   panelDialogs,
   preferredOrder: () => explorerState.explorerPreferences.order,
