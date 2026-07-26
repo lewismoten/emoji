@@ -1,177 +1,41 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { spawn } from "node:child_process";
-import { createHash } from "node:crypto";
-import { fileURLToPath } from "node:url";
-import {
-  cropRgba,
-  decodeRgbaPng,
-  encodeRgbaPng,
-  hasVisiblePixels,
-} from "./png.mjs";
-import {
-  canReuseFontBuild,
-  getFontBuildFingerprint,
-  writeFontBuildState,
-} from "./font-build-cache.mjs";
 
-const workspace = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "..",
-);
-const root = path.resolve(workspace, "..");
-const atlasDirectory = path.join(workspace, "atlases");
-const buildDirectory = path.join(workspace, "build");
-const pngDirectory = path.join(buildDirectory, "png");
-const svgDirectory = path.join(buildDirectory, "svg");
-const fontDirectory = path.join(buildDirectory, "font");
-const proposedFontDirectory = path.join(fontDirectory, "proposed");
-const fontsOnly = process.argv.includes("--fonts-only");
-const optimize = process.argv.includes("--optimize");
-const buildFingerprint = await getFontBuildFingerprint({ root, workspace });
-if (
-  await canReuseFontBuild({
-    buildDirectory,
-    fingerprint: buildFingerprint,
-    fontsOnly,
-    optimize,
-  })
-) {
+import { writeFontBuildState } from "./font-build-cache.mjs";
+import { analyzeColorMasks } from "./build-assets/analysis.mjs";
+import {
+  canSkipBuild,
+  loadBuildContext,
+  prepareBuildDirectories,
+} from "./build-assets/context.mjs";
+import {
+  collectGlyphArtifacts,
+  countBySequenceType,
+  coverageEntry,
+  normalizedCodePoints,
+} from "./build-assets/glyphs.mjs";
+import {
+  compileFonts,
+  writeFontStylesheet,
+  writeJson,
+} from "./build-assets/output.mjs";
+import {
+  renderAtlasGallery,
+  renderAtlasMarkdown,
+  renderPreview,
+} from "./build-assets/renderers.mjs";
+
+const context = await loadBuildContext(process.argv);
+if (await canSkipBuild(context)) {
   console.log(
-    `Pixel font sources are unchanged; reused existing ${fontsOnly ? "font-only" : "full"} ${optimize ? "optimized " : ""}build.`,
+    `Pixel font sources are unchanged; reused existing ${context.fontsOnly ? "font-only" : "full"} ${context.optimize ? "optimized " : ""}build.`,
   );
   process.exit(0);
 }
-const config = JSON.parse(
-  await fs.readFile(path.join(workspace, "config.json"), "utf8"),
-);
-const atlasManifest = JSON.parse(
-  await fs.readFile(path.join(atlasDirectory, "manifest.json"), "utf8"),
-);
-const manifest = { ...atlasManifest, ...config };
-const versionManifest = JSON.parse(
-  await fs.readFile(path.join(root, "versions", "manifest.json"), "utf8"),
-);
-const glyphs = [];
-const editorGlyphs = {};
-const paintedAtlasSheets = [];
-const PRIVATE_USE_START = 0xf0000;
-const PRIVATE_USE_END = 0xffffd;
-
-await fs.rm(buildDirectory, { recursive: true, force: true });
-await Promise.all([
-  ...(!fontsOnly
-    ? [
-        fs.mkdir(pngDirectory, { recursive: true }),
-        fs.mkdir(svgDirectory, { recursive: true }),
-      ]
-    : []),
-  fs.mkdir(fontDirectory, { recursive: true }),
-  fs.mkdir(proposedFontDirectory, { recursive: true }),
-]);
-
-for (const sheet of manifest.sheets) {
-  const mapping = JSON.parse(
-    await fs.readFile(path.join(atlasDirectory, sheet.mapping), "utf8"),
-  );
-  let atlas;
-  try {
-    atlas = decodeRgbaPng(
-      await fs.readFile(path.join(atlasDirectory, sheet.image)),
-    );
-  } catch (error) {
-    if (error.code !== "ENOENT") throw error;
-  }
-  let paintedCount = 0;
-  for (const entry of mapping.entries.filter((item) => item.active)) {
-    const cell = atlas
-      ? cropRgba(atlas, entry.x, entry.y, entry.width, entry.height)
-      : {
-          width: entry.width,
-          height: entry.height,
-          pixels: Buffer.alloc(entry.width * entry.height * 4),
-        };
-    const painted = Boolean(atlas && hasVisiblePixels(cell));
-    editorGlyphs[entry.key] = {
-      key: entry.key,
-      name: entry.name,
-      emoji: entry.emoji,
-      atlas: sheet.image,
-      atlasWidth: mapping.imageWidth,
-      atlasHeight: mapping.imageHeight,
-      index: entry.index,
-      row: entry.row,
-      column: entry.column,
-      x: entry.x,
-      y: entry.y,
-      width: entry.width,
-      height: entry.height,
-      codePoints: entry.codePoints,
-      sequenceType: entry.sequenceType,
-      group: mapping.group,
-      subGroup: mapping.subGroup,
-      part: mapping.part,
-      partCount: mapping.partCount,
-      modifierType: mapping.modifierType,
-      releaseStatus: mapping.releaseStatus ?? "released",
-      unicodeVersion: mapping.unicodeVersion ?? null,
-      proposalStage: mapping.proposalStage ?? null,
-      expectedRelease: mapping.expectedRelease ?? null,
-      painted,
-    };
-    if (!painted) continue;
-    paintedCount += 1;
-
-    const rendering = isBlackSilhouette(cell) ? "silhouette" : "color";
-    const png = `${entry.key}.png`;
-    const svg = `${entry.key}.svg`;
-    if (!fontsOnly) {
-      await fs.writeFile(path.join(pngDirectory, png), encodeRgbaPng(cell));
-      await fs.writeFile(
-        path.join(svgDirectory, svg),
-        renderSvg(cell, entry, rendering),
-      );
-    }
-    glyphs.push({
-      key: entry.key,
-      name: entry.name,
-      emoji: entry.emoji,
-      codePoints: entry.codePoints,
-      sequenceType: entry.sequenceType,
-      releaseStatus: mapping.releaseStatus ?? "released",
-      unicodeVersion: mapping.unicodeVersion ?? null,
-      proposalStage: mapping.proposalStage ?? null,
-      expectedRelease: mapping.expectedRelease ?? null,
-      rendering,
-      atlas: sheet.id,
-      atlasImage: sheet.image,
-      atlasWidth: mapping.imageWidth,
-      atlasHeight: mapping.imageHeight,
-      index: entry.index,
-      row: entry.row,
-      column: entry.column,
-      x: entry.x,
-      y: entry.y,
-      width: entry.width,
-      height: entry.height,
-      ...(!fontsOnly ? { png: `png/${png}`, svg: `svg/${svg}` } : {}),
-      pixels: [...cell.pixels],
-    });
-  }
-  if (atlas && paintedCount > 0) {
-    paintedAtlasSheets.push({
-      ...sheet,
-      paintedCount,
-    });
-  }
-}
-
-assignPrivateUseCodePoints(glyphs);
-for (const glyph of glyphs) {
-  editorGlyphs[glyph.key].privateUseCodePoint = glyph.privateUseCodePoint;
-}
-
-const componentAnalysis = analyzeColorMasks(glyphs, optimize);
+await prepareBuildDirectories(context);
+const { editorGlyphs, glyphs, manifest, paintedAtlasSheets } =
+  await collectGlyphArtifacts(context);
+const componentAnalysis = analyzeColorMasks(glyphs, context.optimize);
 const releasedGlyphs = glyphs.filter(
   (glyph) => glyph.releaseStatus !== "proposed",
 );
@@ -193,17 +57,17 @@ const proposedFontGlyphs = [...proposedSupportGlyphs, ...proposedGlyphs];
 const releasedPaintedKeys = new Set(releasedGlyphs.map((glyph) => glyph.key));
 const proposedPaintedKeys = new Set(proposedGlyphs.map((glyph) => glyph.key));
 const releasedCoverage = await Promise.all(
-  versionManifest.versions.map(async (version) => {
+  context.versionManifest.versions.map(async (version) => {
     const keys = JSON.parse(
-      await fs.readFile(path.join(root, "versions", version.file), "utf8"),
+      await fs.readFile(path.join(context.root, "versions", version.file), "utf8"),
     );
     return coverageEntry(version, keys, releasedPaintedKeys);
   }),
 );
 const proposedCoverage = await Promise.all(
-  (versionManifest.proposed ?? []).map(async (version) => {
+  (context.versionManifest.proposed ?? []).map(async (version) => {
     const proposal = JSON.parse(
-      await fs.readFile(path.join(root, version.file), "utf8"),
+      await fs.readFile(path.join(context.root, version.file), "utf8"),
     );
     return coverageEntry(
       version,
@@ -274,9 +138,9 @@ if (Object.keys(editorGlyphs).length !== manifest.activeGlyphCount) {
     "Pixel editor manifest does not cover every active atlas assignment",
   );
 }
-await writeJson(path.join(buildDirectory, "manifest.json"), buildManifest);
+await writeJson(path.join(context.buildDirectory, "manifest.json"), buildManifest);
 await fs.writeFile(
-  path.join(buildDirectory, "explorer-manifest.json"),
+  path.join(context.buildDirectory, "explorer-manifest.json"),
   `${JSON.stringify({
     schemaVersion: 1,
     fields: ["key", "privateUseCodePoint", "releaseStatus"],
@@ -288,7 +152,7 @@ await fs.writeFile(
   })}\n`,
   "utf8",
 );
-await writeJson(path.join(buildDirectory, "editor-manifest.json"), {
+await writeJson(path.join(context.buildDirectory, "editor-manifest.json"), {
   schemaVersion: 1,
   setName: manifest.setName,
   author: manifest.author,
@@ -302,7 +166,7 @@ await writeJson(path.join(buildDirectory, "editor-manifest.json"), {
   glyphCount: Object.keys(editorGlyphs).length,
   glyphs: editorGlyphs,
 });
-await writeJson(path.join(buildDirectory, "font-source.json"), {
+await writeJson(path.join(context.buildDirectory, "font-source.json"), {
   familyName: manifest.familyName,
   fontVersion: manifest.fontVersion,
   author: manifest.author,
@@ -315,7 +179,7 @@ await writeJson(path.join(buildDirectory, "font-source.json"), {
   glyphs: releasedGlyphs,
 });
 if (proposedGlyphs.length > 0) {
-  await writeJson(path.join(buildDirectory, "proposed-font-source.json"), {
+  await writeJson(path.join(context.buildDirectory, "proposed-font-source.json"), {
     familyName: `${manifest.familyName} Proposed`,
     fontVersion: manifest.fontVersion,
     author: manifest.author,
@@ -329,645 +193,38 @@ if (proposedGlyphs.length > 0) {
   });
 }
 
-const python = await pythonCommand();
-await run(python, [path.join(root, "tests", "font-sequences.test.py")]);
-await run(python, [
-  path.join(workspace, "scripts", "compile-font.py"),
-  path.join(buildDirectory, "font-source.json"),
-  fontDirectory,
-  ...(optimize ? ["--optimize"] : []),
-]);
-if (proposedGlyphs.length > 0) {
-  await run(python, [
-    path.join(workspace, "scripts", "compile-font.py"),
-    path.join(buildDirectory, "proposed-font-source.json"),
-    proposedFontDirectory,
-    ...(optimize ? ["--optimize"] : []),
-  ]);
-}
-await writeFontStylesheet();
+await compileFonts(context, proposedGlyphs);
+await writeFontStylesheet(context, proposedGlyphs);
 await Promise.all([
-  fs.rm(path.join(buildDirectory, "font-source.json"), { force: true }),
-  fs.rm(path.join(buildDirectory, "proposed-font-source.json"), {
+  fs.rm(path.join(context.buildDirectory, "font-source.json"), { force: true }),
+  fs.rm(path.join(context.buildDirectory, "proposed-font-source.json"), {
     force: true,
   }),
 ]);
 await fs.writeFile(
-  path.join(buildDirectory, "index.html"),
+  path.join(context.buildDirectory, "index.html"),
   renderPreview(buildManifest),
 );
 await fs.writeFile(
-  path.join(buildDirectory, "atlases.html"),
+  path.join(context.buildDirectory, "atlases.html"),
   renderAtlasGallery(manifest, paintedAtlasSheets),
 );
 await fs.writeFile(
-  path.join(workspace, "ATLASES.md"),
+  path.join(context.workspace, "ATLASES.md"),
   renderAtlasMarkdown(manifest, paintedAtlasSheets),
 );
 await fs.writeFile(
-  path.join(workspace, "font-build.revision"),
+  path.join(context.workspace, "font-build.revision"),
   `${Date.now()}\n`,
 );
 await writeFontBuildState({
-  buildDirectory,
-  fingerprint: buildFingerprint,
-  fontsOnly,
-  optimize,
+  buildDirectory: context.buildDirectory,
+  fingerprint: context.buildFingerprint,
+  fontsOnly: context.fontsOnly,
+  optimize: context.optimize,
 });
 
 console.log(
-  `Built ${glyphs.length.toLocaleString()} painted glyph${glyphs.length === 1 ? "" : "s"}${fontsOnly ? " in fonts-only mode" : ""} ` +
-    `${optimize ? "with optimization " : "without optimization "}from ${manifest.sheets.length} atlases.`,
+  `Built ${glyphs.length.toLocaleString()} painted glyph${glyphs.length === 1 ? "" : "s"}${context.fontsOnly ? " in fonts-only mode" : ""} ` +
+    `${context.optimize ? "with optimization " : "without optimization "}from ${manifest.sheets.length} atlases.`,
 );
-
-async function writeFontStylesheet() {
-  const fontFiles = ["pixel-emoji.woff2", "pixel-emoji.woff"];
-  const revision = createHash("sha256");
-  for (const file of fontFiles) {
-    revision.update(await fs.readFile(path.join(fontDirectory, file)));
-  }
-  const value = revision.digest("hex").slice(0, 12);
-  const releasedFamily = `Pixel Emoji ${value}`;
-  let proposedRule = "";
-  let proposedProperty = "";
-  if (proposedGlyphs.length > 0) {
-    const proposedRevision = createHash("sha256");
-    for (const file of fontFiles) {
-      proposedRevision.update(
-        await fs.readFile(path.join(proposedFontDirectory, file)),
-      );
-    }
-    const proposedValue = proposedRevision.digest("hex").slice(0, 12);
-    const proposedFamily = `Pixel Emoji Proposed ${proposedValue}`;
-    proposedProperty = `  --pixel-emoji-proposed-family: "${proposedFamily}";\n`;
-    proposedRule = `@font-face {
-  font-family: "${proposedFamily}";
-  src:
-    url("./proposed/pixel-emoji.woff2?v=${proposedValue}") format("woff2"),
-    url("./proposed/pixel-emoji.woff?v=${proposedValue}") format("woff");
-  font-display: swap;
-}
-
-`;
-  }
-  await fs.writeFile(
-    path.join(fontDirectory, "pixel-emoji.css"),
-    `:root {
-  --pixel-emoji-released-family: "${releasedFamily}";
-${proposedProperty}}
-
-${proposedRule}@font-face {
-  font-family: "${releasedFamily}";
-  src:
-    url("./pixel-emoji.woff2?v=${value}") format("woff2"),
-    url("./pixel-emoji.woff?v=${value}") format("woff");
-  font-display: swap;
-}
-`,
-  );
-}
-
-function renderSvg(image, entry, rendering) {
-  const rectangles = pixelRuns(image)
-    .map((run) => {
-      const opacity =
-        run.alpha === 255
-          ? ""
-          : ` fill-opacity="${trimNumber(run.alpha / 255)}"`;
-      const fill = rendering === "silhouette" ? "currentColor" : run.color;
-      return `  <rect x="${run.x}" y="${run.y}" width="${run.width}" height="1" fill="${fill}"${opacity}/>`;
-    })
-    .join("\n");
-  return [
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${image.width} ${image.height}" shape-rendering="crispEdges">`,
-    `  <title>${escapeXml(entry.name)}</title>`,
-    rectangles,
-    "</svg>",
-    "",
-  ].join("\n");
-}
-
-function normalizedCodePoints(glyph) {
-  return glyph.codePoints.filter(
-    (codePoint) => codePoint !== "FE0E" && codePoint !== "FE0F",
-  );
-}
-
-function pixelRuns(image) {
-  const runs = [];
-  for (let y = 0; y < image.height; y += 1) {
-    for (let x = 0; x < image.width;) {
-      const offset = (y * image.width + x) * 4;
-      const [red, green, blue, alpha] = image.pixels.subarray(
-        offset,
-        offset + 4,
-      );
-      if (alpha === 0) {
-        x += 1;
-        continue;
-      }
-      let width = 1;
-      while (x + width < image.width) {
-        const next = (y * image.width + x + width) * 4;
-        if (
-          image.pixels[next] !== red ||
-          image.pixels[next + 1] !== green ||
-          image.pixels[next + 2] !== blue ||
-          image.pixels[next + 3] !== alpha
-        )
-          break;
-        width += 1;
-      }
-      runs.push({
-        x,
-        y,
-        width,
-        color: `#${hex(red)}${hex(green)}${hex(blue)}`,
-        alpha,
-      });
-      x += width;
-    }
-  }
-  return runs;
-}
-
-function renderPreview(build) {
-  const cards = build.glyphs
-    .map(
-      (glyph) => `<article>
-  <h2>${escapeXml(glyph.emoji)} ${escapeXml(glyph.name)}</h2>
-  <div class="samples">
-    ${glyph.png ? `<figure><img src="${glyph.png}" alt=""><figcaption>PNG</figcaption></figure>` : ""}
-    ${glyph.svg ? `<figure><img src="${glyph.svg}" alt=""><figcaption>SVG</figcaption></figure>` : ""}
-    <figure><span class="font">${escapeXml(glyph.emoji)}</span><figcaption>Font</figcaption></figure>
-  </div>
-  <code>${glyph.codePoints.map((point) => `U+${point}`).join(" ")}</code>
-</article>`,
-    )
-    .join("\n");
-  return `<!doctype html>
-<html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-<title>${escapeXml(build.familyName)} preview</title>
-<style>
-  @import url("./font/pixel-emoji.css");
-  @font-face {
-    font-family: "${escapeCss(build.familyName)}";
-    src: url("./font/pixel-emoji.woff2") format("woff2"),
-         url("./font/pixel-emoji.woff") format("woff"),
-         url("./font/pixel-emoji.ttf") format("truetype");
-  }
-  :root { color-scheme: dark; font-family: system-ui, sans-serif; }
-  body { margin: 0 auto; max-width: 70rem; padding: 1rem; background: #17111d; color: #fff; }
-  main { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 1rem; }
-  article { padding: 1rem; border: 1px solid #70458b; border-radius: .75rem; background: #25142f; }
-  h1, h2 { margin-top: 0; }
-  h2 { font-size: 1rem; }
-  .samples { display: flex; gap: 1rem; }
-  figure { margin: 0; text-align: center; }
-  img, .font { display: block; width: 8rem; height: 8rem; object-fit: contain; image-rendering: pixelated; }
-  .font { font: 8rem/1 "Pixel Emoji Proposed", "${escapeCss(build.familyName)}"; }
-  figcaption { margin-top: .5rem; }
-</style>
-<h1>${escapeXml(build.familyName)} build</h1>
-<p>${build.glyphCount.toLocaleString()} painted glyph${build.glyphCount === 1 ? "" : "s"}</p>
-<p><a href="./atlases.html">Browse the source atlas sheets</a></p>
-<main>${cards}</main>
-</html>
-`;
-}
-
-function renderAtlasGallery(build, sheets) {
-  const cards = sheets
-    .map(
-      (sheet) => `<article>
-  <h2>${escapeXml(sheet.group)} · ${escapeXml(sheet.subGroup)}${sheet.partCount > 1 ? ` · ${sheet.part}/${sheet.partCount}` : ""}</h2>
-  <p>${sheet.releaseStatus === "proposed" ? `Proposed Emoji ${escapeXml(sheet.unicodeVersion)} · ` : ""}${sheet.paintedCount.toLocaleString()} painted glyph${sheet.paintedCount === 1 ? "" : "s"}</p>
-  <a href="../atlases/${escapeXml(sheet.image)}"><img src="../atlases/${escapeXml(sheet.image)}" alt="${escapeXml(`${sheet.group}, ${sheet.subGroup}, part ${sheet.part} of ${sheet.partCount}`)}"></a>
-  <p><a href="../atlases/${escapeXml(sheet.mapping)}">JSON cell map</a></p>
-</article>`,
-    )
-    .join("\n");
-  return `<!doctype html>
-<html lang="en">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-<title>${escapeXml(build.familyName)} atlas gallery</title>
-<style>
-  :root { color-scheme: dark; font-family: system-ui, sans-serif; }
-  body { margin: 0 auto; max-width: 80rem; padding: 1rem; background: #17111d; color: #fff; }
-  a { color: #7fd8ff; }
-  main { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); gap: 1rem; }
-  article { min-width: 0; padding: 1rem; border: 1px solid #70458b; border-radius: .75rem; background: #25142f; }
-  h1, h2 { margin-top: 0; }
-  h2 { font-size: 1rem; }
-  img { display: block; width: min(100%, ${build.columns * (build.cellSize + build.cellPadding * 2) + build.outerPadding * 2}px); height: auto; image-rendering: pixelated; }
-</style>
-<nav><a href="./index.html">Font glyph preview</a> · <a href="../../">Emoji Explorer</a></nav>
-<h1>${escapeXml(build.familyName)} atlas gallery</h1>
-<p>${sheets.length.toLocaleString()} painted atlas sheet${sheets.length === 1 ? "" : "s"}, grouped by Unicode category and subgroup.</p>
-<main>${cards}</main>
-</html>
-`;
-}
-
-function renderAtlasMarkdown(build, sheets) {
-  const sections = [];
-  const collectionLabels = {
-    base: "Base atlases",
-    "skin-tone": "Skin-tone modifier atlases",
-    hair: "Hair modifier atlases",
-    "skin-and-hair": "Skin-and-hair modifier atlases",
-  };
-  let previousCollection = "";
-  let previousGroup = "";
-  for (const sheet of sheets) {
-    const collection = `${sheet.releaseStatus ?? "released"}:${sheet.unicodeVersion ?? ""}:${sheet.modifierType}`;
-    if (collection !== previousCollection) {
-      const proposal = (build.proposedVersions ?? []).find(
-        (version) => version.version === sheet.unicodeVersion,
-      );
-      const proposalDetails = proposal
-        ? ` (${proposal.stage ?? proposal.status}${proposal.expectedRelease ? `; expected ${proposal.expectedRelease}` : ""})`
-        : "";
-      const releaseLabel =
-        sheet.releaseStatus === "proposed"
-          ? `Proposed Emoji ${sheet.unicodeVersion}${proposalDetails} — `
-          : "";
-      sections.push(
-        `## ${releaseLabel}${collectionLabels[sheet.modifierType] ?? sheet.modifierType}`,
-      );
-      previousCollection = collection;
-      previousGroup = "";
-    }
-    if (sheet.group !== previousGroup) {
-      sections.push(`### ${sheet.group}`);
-      previousGroup = sheet.group;
-    }
-    const part =
-      sheet.partCount > 1 ? ` — part ${sheet.part} of ${sheet.partCount}` : "";
-    const label = `${sheet.group}, ${sheet.subGroup}${part}`;
-    sections.push(`#### ${sheet.subGroup}${part}
-
-[PNG](atlases/${sheet.image}) · [JSON cell map](atlases/${sheet.mapping})
-
-[![${label}](atlases/${sheet.image})](atlases/${sheet.image})`);
-  }
-  return `# ${build.familyName} atlas gallery
-
-[Back to the Pixel Emoji documentation](PIXEL_EMOJI.md)
-
-This generated gallery lists every source atlas PNG that currently contains
-painted artwork. The font build reads these sheets and compiles only their
-nontransparent 12×12 cells.
-
-${sheets.length.toLocaleString()} painted atlas sheet${sheets.length === 1 ? "" : "s"} are currently available.
-
-> Generated by \`npm run pixel-font:build\`. Edit the PNG atlases rather than
-> this file.
-
-${sections.join("\n\n")}
-`;
-}
-
-function run(command, args) {
-  return new Promise((resolve, reject) => {
-    const child = spawn(command, args, { stdio: "inherit" });
-    child.on("error", reject);
-    child.on("exit", (code) =>
-      code === 0
-        ? resolve()
-        : reject(new Error(`${command} exited with status ${code}`)),
-    );
-  });
-}
-
-async function pythonCommand() {
-  const virtualEnvironmentPython =
-    process.platform === "win32"
-      ? path.join(workspace, ".venv", "Scripts", "python.exe")
-      : path.join(workspace, ".venv", "bin", "python");
-  try {
-    await fs.access(virtualEnvironmentPython);
-    return virtualEnvironmentPython;
-  } catch {
-    return process.platform === "win32" ? "python" : "python3";
-  }
-}
-
-async function writeJson(file, value) {
-  await fs.writeFile(file, `${JSON.stringify(value, null, 2)}\n`);
-}
-
-function hex(value) {
-  return value.toString(16).padStart(2, "0");
-}
-
-function trimNumber(value) {
-  return value.toFixed(4).replace(/0+$/, "").replace(/\.$/, "");
-}
-
-function countBySequenceType(entries) {
-  return Object.fromEntries(
-    [...new Set(entries.map((entry) => entry.sequenceType))]
-      .sort()
-      .map((type) => [
-        type,
-        entries.filter((entry) => entry.sequenceType === type).length,
-      ]),
-  );
-}
-
-function assignPrivateUseCodePoints(entries) {
-  const rangeSize = PRIVATE_USE_END - PRIVATE_USE_START + 1;
-  const assigned = new Set();
-  for (const entry of [...entries].sort((left, right) =>
-    left.key.localeCompare(right.key),
-  )) {
-    const digest = createHash("sha256").update(entry.key).digest();
-    let point = PRIVATE_USE_START + (digest.readUInt32BE(0) % rangeSize);
-    while (assigned.has(point)) {
-      point = point === PRIVATE_USE_END ? PRIVATE_USE_START : point + 1;
-    }
-    assigned.add(point);
-    entry.privateUseCodePoint = point.toString(16).toUpperCase();
-  }
-}
-
-function coverageEntry(version, keys, paintedKeys) {
-  const paintedGlyphCount = keys.filter((key) => paintedKeys.has(key)).length;
-  const trackedGlyphCount = keys.length;
-  return {
-    version: version.version,
-    ...(version.released ? { released: version.released } : {}),
-    ...(version.status ? { status: version.status } : {}),
-    ...(version.stage ? { stage: version.stage } : {}),
-    ...(version.expectedRelease
-      ? { expectedRelease: version.expectedRelease }
-      : {}),
-    trackedGlyphCount,
-    paintedGlyphCount,
-    coverage:
-      trackedGlyphCount === 0
-        ? 0
-        : Number(((paintedGlyphCount / trackedGlyphCount) * 100).toFixed(1)),
-    complete: paintedGlyphCount === trackedGlyphCount,
-  };
-}
-
-function analyzeColorMasks(entries, optimizeMasks = false) {
-  let colorLayerCount = 0;
-  let silhouetteGlyphCount = 0;
-  let specs = new Map();
-  const silhouetteGroups = new Map();
-  for (const entry of entries) {
-    const colors = colorCounts(entry.pixels);
-    if (isBlackSilhouette({ pixels: entry.pixels })) {
-      silhouetteGlyphCount += 1;
-    } else {
-      colorLayerCount += colors.size;
-    }
-    specs.set(
-      entry.key,
-      [...colors.keys()].map((color) => ({ color, useSilhouette: false })),
-    );
-    const silhouette = silhouetteMask(entry.pixels);
-    const group = silhouetteGroups.get(silhouette) ?? [];
-    group.push(entry);
-    silhouetteGroups.set(silhouette, group);
-  }
-
-  let maskCount = uniqueLayerMasks(entries, specs).size;
-  if (optimizeMasks) {
-    for (const [silhouette, group] of [...silhouetteGroups].sort(
-      ([left], [right]) => left.localeCompare(right),
-    )) {
-      if (group.length < 2) continue;
-      const candidate = new Map(specs);
-      let changed = false;
-      for (const entry of group) {
-        const colors = colorCounts(entry.pixels);
-        const allVisiblePixelsOpaque = [...colors.keys()].every(
-          (color) => Number(color.split(",")[3]) === 255,
-        );
-        if (!colors.size || !allVisiblePixelsOpaque) continue;
-        const baseColor = [...colors].sort(
-          ([leftColor, leftCount], [rightColor, rightCount]) =>
-            rightCount - leftCount ||
-            compareSerializedColors(leftColor, rightColor),
-        )[0][0];
-        candidate.set(entry.key, [
-          { color: baseColor, useSilhouette: true },
-          ...[...colors.keys()]
-            .filter((color) => color !== baseColor)
-            .map((color) => ({ color, useSilhouette: false })),
-        ]);
-        changed = true;
-      }
-      if (!changed) continue;
-      const candidateMaskCount = uniqueLayerMasks(entries, candidate).size;
-      if (candidateMaskCount < maskCount) {
-        specs = candidate;
-        maskCount = candidateMaskCount;
-      }
-    }
-  }
-
-  const sourceMasks = uniqueLayerMasks(entries, specs);
-  const maskDecompositions = optimizeMasks ? exactMaskUnions(sourceMasks) : new Map();
-  const masks = new Set();
-  let renderedLayerCount = 0;
-  let composedLayerCount = 0;
-  for (const entry of entries) {
-    for (const { color, useSilhouette } of specs.get(entry.key)) {
-      const sourceMask = layerMask(entry.pixels, color, useSilhouette);
-      const renderedMasks = expandMask(sourceMask, maskDecompositions);
-      renderedLayerCount += renderedMasks.length;
-      if (renderedMasks.length > 1) composedLayerCount += 1;
-      renderedMasks.forEach((mask) => masks.add(mask));
-    }
-  }
-  const baseMasks = new Map();
-  let baseLayerCount = 0;
-  for (const entry of entries) {
-    for (const spec of specs.get(entry.key)) {
-      if (!spec.useSilhouette) continue;
-      baseLayerCount += 1;
-      const key = silhouetteMask(entry.pixels);
-      baseMasks.set(key, (baseMasks.get(key) ?? 0) + 1);
-    }
-  }
-  const sharedFallbackCompositeCount = optimizeMasks
-    ? [...silhouetteGroups.values()]
-        .filter((group) => group.length > 1)
-        .reduce((total, group) => total + group.length, 0)
-    : 0;
-  return {
-    strategy: optimizeMasks
-      ? "shared-base-color-and-composed-masks"
-      : "direct-color-layers",
-    silhouetteGlyphCount,
-    colorLayerCount,
-    renderedLayerCount,
-    uniqueMaskCount: masks.size,
-    reusedLayerCount: renderedLayerCount - masks.size,
-    composedMaskCount: maskDecompositions.size,
-    composedLayerCount,
-    fallbackCompositeCount: entries.length,
-    sharedFallbackCompositeCount,
-    layerFallbackCompositeCount: entries.length - sharedFallbackCompositeCount,
-    baseLayerCount,
-    uniqueBaseMaskCount: baseMasks.size,
-    reusedBaseLayerCount: [...baseMasks.values()].reduce(
-      (total, count) => total + Math.max(0, count - 1),
-      0,
-    ),
-  };
-}
-
-function colorCounts(pixels) {
-  const colors = new Map();
-  for (let offset = 0; offset < pixels.length; offset += 4) {
-    if (pixels[offset + 3] === 0) continue;
-    const color = pixels.slice(offset, offset + 4).join(",");
-    colors.set(color, (colors.get(color) ?? 0) + 1);
-  }
-  return colors;
-}
-
-function isBlackSilhouette(image) {
-  let visible = false;
-  for (let offset = 0; offset < image.pixels.length; offset += 4) {
-    if (image.pixels[offset + 3] === 0) continue;
-    visible = true;
-    if (
-      image.pixels[offset] !== 0 ||
-      image.pixels[offset + 1] !== 0 ||
-      image.pixels[offset + 2] !== 0
-    )
-      return false;
-  }
-  return visible;
-}
-
-function compareSerializedColors(left, right) {
-  const leftValues = left.split(",").map(Number);
-  const rightValues = right.split(",").map(Number);
-  for (let index = 0; index < leftValues.length; index += 1) {
-    const difference = leftValues[index] - rightValues[index];
-    if (difference) return difference;
-  }
-  return 0;
-}
-
-function silhouetteMask(pixels) {
-  const mask = Buffer.alloc(pixels.length / 4);
-  for (let offset = 0; offset < pixels.length; offset += 4) {
-    mask[offset / 4] = pixels[offset + 3] > 0 ? 1 : 0;
-  }
-  return mask.toString("base64");
-}
-
-function uniqueLayerMasks(entries, specs) {
-  const masks = new Set();
-  for (const entry of entries) {
-    for (const { color, useSilhouette } of specs.get(entry.key)) {
-      masks.add(layerMask(entry.pixels, color, useSilhouette));
-    }
-  }
-  return masks;
-}
-
-function layerMask(pixels, color, useSilhouette) {
-  if (useSilhouette) return silhouetteMask(pixels);
-  const values = color.split(",").map(Number);
-  const mask = Buffer.alloc(pixels.length / 4);
-  for (let offset = 0; offset < pixels.length; offset += 4) {
-    const pixel = pixels.slice(offset, offset + 4);
-    mask[offset / 4] = pixel.every((value, index) => value === values[index])
-      ? 1
-      : 0;
-  }
-  return mask.toString("base64");
-}
-
-function exactMaskUnions(maskKeys) {
-  const masks = [...maskKeys]
-    .map((key) => ({ key, value: Buffer.from(key, "base64") }))
-    .sort(
-      (left, right) =>
-        countMaskPixels(left.value) - countMaskPixels(right.value) ||
-        left.key.localeCompare(right.key),
-    );
-  const decompositions = new Map();
-  for (const target of masks) {
-    const parts = masks.filter(
-      (candidate) =>
-        candidate.key !== target.key &&
-        maskIsProperSubset(candidate.value, target.value),
-    );
-    let match;
-    for (let leftIndex = 0; leftIndex < parts.length && !match; leftIndex++) {
-      for (
-        let rightIndex = leftIndex;
-        rightIndex < parts.length;
-        rightIndex++
-      ) {
-        if (
-          masksAreDisjoint(parts[leftIndex].value, parts[rightIndex].value) &&
-          maskUnionEquals(
-            parts[leftIndex].value,
-            parts[rightIndex].value,
-            target.value,
-          )
-        ) {
-          match = [parts[leftIndex].key, parts[rightIndex].key];
-          break;
-        }
-      }
-    }
-    if (match) decompositions.set(target.key, match);
-  }
-  return decompositions;
-}
-
-function countMaskPixels(mask) {
-  return mask.reduce((count, value) => count + (value ? 1 : 0), 0);
-}
-
-function maskIsProperSubset(candidate, target) {
-  return (
-    candidate.some((value, index) => value !== target[index]) &&
-    candidate.every((value, index) => !value || target[index])
-  );
-}
-
-function maskUnionEquals(left, right, target) {
-  return target.every(
-    (value, index) => Boolean(value) === Boolean(left[index] || right[index]),
-  );
-}
-
-function masksAreDisjoint(left, right) {
-  return left.every((value, index) => !value || !right[index]);
-}
-
-function expandMask(key, decompositions) {
-  const parts = decompositions.get(key);
-  return parts
-    ? parts.flatMap((part) => expandMask(part, decompositions))
-    : [key];
-}
-
-function escapeXml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;");
-}
-
-function escapeCss(value) {
-  return String(value).replaceAll("\\", "\\\\").replaceAll('"', '\\"');
-}
