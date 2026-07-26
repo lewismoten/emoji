@@ -75,6 +75,7 @@ import { createDialogViewRuntime } from './app/dialog-view-runtime.js';
 import { createNavigationRuntime } from './app/navigation-runtime.js';
 import { createPixelEditorRuntime } from './app/pixel-editor-runtime.js';
 import { createStartupRuntime } from './app/startup-runtime.js';
+import { createUiBindingRuntime } from './app/ui-binding-runtime.js';
 import { createVersionRuntime } from './app/version-runtime.js';
 import { createVersionModeRuntime } from './app/version-mode-runtime.js';
 
@@ -529,32 +530,81 @@ const explorerRuntime = createExplorerRuntime({
   getElements: getExplorerElements
 });
 
+const uiBindingRuntime = createUiBindingRuntime({
+  setControls(values) {
+    ({
+      activeFilterSummary,
+      activeFilterText,
+      clearFiltersButton,
+      compactGroupChoices,
+      compactGroupLabel,
+      compactSequenceChoices,
+      compactSequenceLabel,
+      compactSubGroupChoices,
+      compactSubGroupLabel,
+      sequenceTypeSelector,
+      versionModeToggle,
+      versionRange,
+      versionRangeValue
+    } = values);
+  },
+  setElements(values) {
+    ({
+      advancedFilters,
+      copyStatus,
+      developerModeToggle,
+      emojiFontChoices,
+      emojiList,
+      genderCheckboxes,
+      groupFilterDialog,
+      groupPickerTrigger,
+      groupSelector,
+      hairCheckboxes,
+      helpDialog,
+      helpPicker,
+      installAppButton,
+      installDialog,
+      languageDialog,
+      languageList,
+      languagePicker,
+      languagePickerFlag,
+      languagePickerLabel,
+      matchCount,
+      modifierFilters,
+      offlineStatus,
+      orderButtons,
+      savedDialog,
+      savedPicker,
+      searchText,
+      skinToneCheckboxes,
+      subGroupFilterDialog,
+      subGroupPickerTrigger,
+      subGroupSelector,
+      themeChoices,
+      toolbar,
+      versionModeSelector,
+      versionNext,
+      versionPrevious,
+      versionSelector
+    } = values);
+  },
+  setFieldsets(values) {
+    ({ skinToneFieldset, hairFieldset, genderFieldset } = values);
+  },
+  skinToneCheckboxes: () => skinToneCheckboxes,
+  hairCheckboxes: () => hairCheckboxes,
+  genderCheckboxes: () => genderCheckboxes
+});
+
 const startupOrchestrator = createStartupRuntime({
   advancedFilters: () => advancedFilters,
   applyingUrlState: () => applyingUrlState,
   applyBasicUrlState,
   applyDialogUrlState,
   applyPixelArtworkClass,
-  assignControls(controls) {
-    ({ activeFilterSummary, activeFilterText, clearFiltersButton, compactGroupChoices,
-      compactGroupLabel, compactSequenceChoices, compactSequenceLabel, compactSubGroupChoices,
-      compactSubGroupLabel, sequenceTypeSelector, versionModeToggle, versionRange,
-      versionRangeValue } = controls);
-  },
-  assignElements(elements) {
-    ({ advancedFilters, copyStatus, developerModeToggle, emojiFontChoices, emojiList,
-      genderCheckboxes, groupFilterDialog, groupPickerTrigger, groupSelector, hairCheckboxes,
-      helpDialog, helpPicker, installAppButton, installDialog, languageDialog, languageList,
-      languagePicker, languagePickerFlag, languagePickerLabel, matchCount, modifierFilters,
-      offlineStatus, orderButtons, savedDialog, savedPicker, searchText, skinToneCheckboxes,
-      subGroupFilterDialog, subGroupPickerTrigger, subGroupSelector, themeChoices, toolbar,
-      versionModeSelector, versionNext, versionPrevious, versionSelector } = elements);
-  },
-  assignModifierFieldsets() {
-    skinToneFieldset = skinToneCheckboxes[0]?.closest('fieldset');
-    hairFieldset = hairCheckboxes[0]?.closest('fieldset');
-    genderFieldset = genderCheckboxes[0]?.closest('fieldset');
-  },
+  assignControls: controls => uiBindingRuntime.assignControls(controls),
+  assignElements: elements => uiBindingRuntime.assignElements(elements),
+  assignModifierFieldsets: () => uiBindingRuntime.assignModifierFieldsets(),
   clearFiltersButton: () => clearFiltersButton, copiedEmojiKeys: () => explorerState.copiedEmojiKeys,
   developerModeToggle: () => developerModeToggle,
   dialog: () => explorerRuntime.get('exampleDialog'),
@@ -565,11 +615,7 @@ const startupOrchestrator = createStartupRuntime({
   groupFilterDialog: () => groupFilterDialog, groupPickerTrigger: () => groupPickerTrigger,
   groupSelector: () => groupSelector, hairCheckboxes: () => hairCheckboxes,
   helpDialog: () => helpDialog, helpPicker: () => helpPicker,
-  hideModifierEmojiAccessibility() {
-    document
-      .querySelectorAll('.modifier-emoji')
-      .forEach(emoji => emoji.setAttribute('aria-hidden', 'true'));
-  },
+  hideModifierEmojiAccessibility: () => uiBindingRuntime.hideModifierEmojiAccessibility(),
   installApp,
   installAppButton: () => installAppButton, installDialog: () => installDialog,
   languageDialog: () => languageDialog, languageList: () => languageList,
