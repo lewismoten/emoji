@@ -228,6 +228,17 @@ export function createPixelEditor({
             </div>
           </div>
         </fieldset>
+        <fieldset class="pixel-editor-layer-help" hidden>
+          <legend>Keyboard help</legend>
+          <div aria-live="polite">
+            <span><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> <span>Move</span></span>
+            <span><kbd>Shift</kbd> + <kbd>←</kbd><kbd>→</kbd> <span>Flip ↔</span></span>
+            <span><kbd>Shift</kbd> + <kbd>↑</kbd><kbd>↓</kbd> <span>Flip ↕</span></span>
+            <span><kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>←</kbd><kbd>→</kbd> <span>Rotate</span></span>
+            <span><kbd>Enter</kbd> <span>Merge</span></span>
+            <span><kbd>Esc</kbd> <span>Cancel</span></span>
+          </div>
+        </fieldset>
         <div class="pixel-editor-file">
           <p class="pixel-editor-location"></p>
           <p class="pixel-editor-status" role="status" aria-live="polite"></p>
@@ -270,6 +281,7 @@ export function createPixelEditor({
   const bakeLayerButton = view.querySelector(".pixel-editor-bake-layer");
   const cancelLayerButton = view.querySelector(".pixel-editor-cancel-layer");
   const invertLayerButton = view.querySelector(".pixel-editor-invert-layer");
+  const layerHelp = view.querySelector(".pixel-editor-layer-help");
   const saveButton = view.querySelector(".pixel-editor-save");
   const downloadButton = view.querySelector(".pixel-editor-download");
   const downloadEmojiButton = view.querySelector(
@@ -1105,6 +1117,30 @@ export function createPixelEditor({
 
   function onCanvasKeyDown(event) {
     if (!floatingLayer) return;
+    if ((event.ctrlKey || event.metaKey) && !event.altKey) {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        transformFloatingLayer("rotate-left");
+        return;
+      }
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        transformFloatingLayer("rotate-right");
+        return;
+      }
+    }
+    if (event.shiftKey && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        event.preventDefault();
+        transformFloatingLayer("flip-horizontal");
+        return;
+      }
+      if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+        event.preventDefault();
+        transformFloatingLayer("flip-vertical");
+        return;
+      }
+    }
     const movement = {
       ArrowLeft: [-1, 0],
       ArrowUp: [0, -1],
@@ -1621,6 +1657,7 @@ export function createPixelEditor({
     floatingLayer.inverted = false;
     selection = undefined;
     draw();
+    canvas.focus({ preventScroll: true });
     status.textContent = translate(
       "layerPasted",
       "Artwork pasted as a floating layer.",
@@ -1791,12 +1828,14 @@ export function createPixelEditor({
     const selectionMode = tool === "select" && !layerMode;
     view.classList.toggle("is-layer-mode", layerMode);
     view.classList.toggle("is-selection-mode", selectionMode);
+    canvas.tabIndex = layerMode ? 0 : -1;
     toolsPanel.hidden = layerMode;
     historyPanel.hidden = layerMode || selectionMode;
     drawingPanel.hidden = layerMode || selectionMode;
     tracingPanel.hidden = layerMode || selectionMode;
     transferPanel.hidden = layerMode;
     layerPanel.hidden = !layerMode;
+    if (layerHelp) layerHelp.hidden = !layerMode;
     filePanel.hidden = layerMode || selectionMode;
     copyArtButton.hidden = selectionMode;
     copyFontButton.hidden = selectionMode;

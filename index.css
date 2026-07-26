@@ -1187,8 +1187,6 @@ html[data-theme="retro"] .pixel-editor-history button:focus,
 html[data-theme="retro"] .pixel-editor-history button:focus-visible,
 html[data-theme="retro"] .pixel-editor-preview-actions button:focus,
 html[data-theme="retro"] .pixel-editor-preview-actions button:focus-visible,
-html[data-theme="retro"] .pixel-editor-canvas:focus,
-html[data-theme="retro"] .pixel-editor-canvas:focus-visible,
 html[data-theme="retro"] .pixel-editor-trace-nudge:focus,
 html[data-theme="retro"] .pixel-editor-trace-nudge:focus-visible,
 html[data-theme="retro"] .pixel-editor-layer button:focus,
@@ -1198,6 +1196,21 @@ html[data-theme="retro"] .pixel-editor-layer button:focus-visible {
 
 html[data-theme="retro"] .pixel-editor-swatch:focus,
 html[data-theme="retro"] .pixel-editor-swatch:focus-visible {
+  outline-offset: 4px !important;
+}
+
+html[data-theme="retro"] .pixel-editor-layer-help {
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] .pixel-editor-canvas:focus,
+html[data-theme="retro"] .pixel-editor-canvas:focus-visible {
+  outline: none !important;
+}
+
+html[data-theme="retro"] .pixel-editor-stage:has(.pixel-editor-canvas:focus),
+html[data-theme="retro"] .pixel-editor-stage:has(.pixel-editor-canvas:focus-visible) {
+  outline: 2px dotted #ffff55 !important;
   outline-offset: 4px !important;
 }
 
@@ -3138,6 +3151,20 @@ button.emoji-composition-part:focus-visible {
 }
 .pixel-editor-layer-actions {
   grid-column: 1 / -1;
+}
+.pixel-editor-layer-help {
+  display: flex;
+  grid-column: 1 / -1;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.75rem;
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+.pixel-editor-layer-help span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
 }
 .pixel-editor-bake-layer {
   border-color: var(--accent) !important;
