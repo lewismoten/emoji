@@ -57,17 +57,17 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function selectPaletteColor\(button\)[\s\S]*selectedSkinTone === button\.dataset\.skinTone[\s\S]*\(currentIndex \+ 1\) % cycle\.length/,
+  /function selectPaletteColor\(button\)[\s\S]*getSelectedSkinTone\(\) === button\.dataset\.skinTone[\s\S]*\(currentIndex \+ 1\) % cycle\.length/,
   'clicking a selected skin-tone swatch must cycle its available shades'
 );
 assert.match(
   pixelEditorScript,
-  /function updateSkinTonePalette\(codePoints = \[\]\)[\s\S]*previousSkinTone[\s\S]*activeButtons\.find[\s\S]*nextCycleIndex[\s\S]*selectedColor = skinToneCycle/,
+  /function updateSkinTonePalette\(codePoints = \[\]\)[\s\S]*previousSkinTone[\s\S]*activeButtons\.find[\s\S]*nextCycleIndex[\s\S]*setSelectedColor\(\s*skinToneCycle/,
   'skin-tone color and shading choices must survive compatible emoji navigation'
 );
 assert.match(
   pixelEditorScript,
-  /Keep the contextual skin-tone tool ready[\s\S]*selectedColor = "transparent"/,
+  /setSelectedColor\("transparent"\)/,
   'leaving a skin-tone emoji must select the eraser instead of EGA yellow'
 );
 assert.deepEqual(

@@ -93,7 +93,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function bakeFloatingLayer[\s\S]*pushHistory\(\);[\s\S]*compositeLayer\(pixels, \{[\s\S]*effectiveLayerPixels\(\s*floatingLayer,\s*activePaletteColors\(\)/,
+  /function bakeFloatingLayer[\s\S]*pushHistory\(\);[\s\S]*compositeLayer\(pixels, \{[\s\S]*effectiveLayerPixels\(\s*floatingLayer,\s*paletteController\.activePaletteColors\(\)/,
   'baking a floating layer must be undoable'
 );
 for (const transform of [

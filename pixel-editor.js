@@ -44,6 +44,13 @@ import {
   TOOLS,
 } from "./src/pixel-editor/pixel-editor-constants.js";
 import {
+  createBlankAtlas,
+  extractCell,
+  getNestedFileHandle,
+} from "./src/pixel-editor/pixel-editor-atlas-io.js";
+import { createPixelEditorDraftController } from "./src/pixel-editor/pixel-editor-drafts.js";
+import { createPixelEditorPaletteController } from "./src/pixel-editor/pixel-editor-palette.js";
+import {
   buildSkinToneOwnership,
   buildTwoPersonOwnership,
   compareSkinToneHelpers,
@@ -160,6 +167,49 @@ export function createPixelEditor({
   let loadId = 0;
   let undoStack = [];
   let redoStack = [];
+  const paletteController = createPixelEditorPaletteController({
+    getPixels: () => pixels,
+    getSelectedColor: () => selectedColor,
+    getSelectedSkinTone: () => selectedSkinTone,
+    getTraceAlpha: () => traceAlpha,
+    getTraceCanvas: () => traceCanvas,
+    nearestPaletteColor,
+    paletteButtons,
+    pixelOffset,
+    setSelectedColor: (value) => {
+      selectedColor = value;
+    },
+    setSelectedSkinTone: (value) => {
+      selectedSkinTone = value;
+    },
+    translate,
+    view,
+  });
+  const draftController = createPixelEditorDraftController({
+    artworkDrafts: () => artworkDrafts,
+    atlasBlob: () => atlasBlob,
+    atlasExists: () => atlasExists,
+    cellLoaded: () => cellLoaded,
+    cloneFloatingLayer,
+    cloneSelection,
+    currentEntry: () => currentEntry,
+    dirtyIndicator,
+    dirtyKeys: () => dirtyKeys,
+    downloadButton,
+    downloadEmojiButton,
+    extractPixels,
+    floatingLayer: () => floatingLayer,
+    hasVisiblePixels,
+    persistedArtwork: () => persistedArtwork,
+    pixels: () => pixels,
+    pixelsEqual,
+    saveButton,
+    selection: () => selection,
+    status,
+    traceOffsetX: () => traceOffsetX,
+    traceOffsetY: () => traceOffsetY,
+    translate,
+  });
 
   toolButtons.forEach((button) =>
     button.addEventListener("click", () => selectTool(button.dataset.tool)),
@@ -177,7 +227,9 @@ export function createPixelEditor({
     }),
   );
   paletteButtons.forEach((button) =>
-    button.addEventListener("click", () => selectPaletteColor(button)),
+    button.addEventListener("click", () =>
+      paletteController.selectPaletteColor(button),
+    ),
   );
   undoButton.addEventListener("click", undo);
   redoButton.addEventListener("click", redo);
@@ -210,24 +262,24 @@ export function createPixelEditor({
   canvas.addEventListener("pointercancel", onPointerCancel);
   canvas.addEventListener("keydown", onCanvasKeyDown);
   document.addEventListener("keydown", onEditorKeyDown, true);
-  window.addEventListener("beforeunload", warnAboutDirtyArtwork);
+  window.addEventListener("beforeunload", draftController.warnAboutDirtyArtwork);
   bindRovingGrid(toolButtons);
   bindRovingGrid(historyButtons);
   bindPaletteGrid(paletteButtons);
   bindRovingGrid(traceNudgeButtons);
   bindRovingGrid(layerNudgeButtons);
   bindRovingGrid(previewActionButtons);
-  updatePaletteSelection();
+  paletteController.updatePaletteSelection();
   updateShapeToolButtons();
   updateTraceOutput();
-  updatePreviewActionLabels();
+  draftController.updatePreviewActionLabels();
   draw();
 
   return {
     element: view,
     async open(key, emoji) {
       const requestedLoadId = ++loadId;
-      rememberCurrentDraft();
+      draftController.rememberCurrentDraft();
       currentEmoji = emoji;
       traceOffsetX = 0;
       traceOffsetY = 0;
@@ -257,7 +309,7 @@ export function createPixelEditor({
         }
         const entry = manifest.glyphs[key];
         currentEntry = entry;
-        updateSkinTonePalette(entry?.codePoints);
+        paletteController.updateSkinTonePalette(entry?.codePoints);
         updateTransferButtons();
         if (!entry) {
           location.textContent = "";
@@ -317,8 +369,8 @@ export function createPixelEditor({
       }
       updateTraceOutput();
       updateShapeToolButtons();
-      updatePreviewActionLabels();
-      updateSkinTonePalette(currentEntry?.codePoints);
+      draftController.updatePreviewActionLabels();
+      paletteController.updateSkinTonePalette(currentEntry?.codePoints);
     },
     async refreshFontBuild() {
       try {
@@ -466,9 +518,9 @@ export function createPixelEditor({
     drawSelectionOutline(context, displayCell);
     drawArtworkPreview();
     if (updateState) {
-      rememberCurrentDraft();
-      updateDirtyState();
-      updateFileButtons();
+      draftController.rememberCurrentDraft();
+      draftController.updateDirtyState();
+      draftController.updateFileButtons();
       updateTransferButtons();
       updateHistoryButtons();
       updateEditorModePanels();
@@ -480,7 +532,7 @@ export function createPixelEditor({
     if (!floatingLayer) return;
     const layerPixels = effectiveLayerPixels(
       floatingLayer,
-      activePaletteColors(),
+      paletteController.activePaletteColors(),
     );
     for (let y = 0; y < floatingLayer.height; y += 1) {
       for (let x = 0; x < floatingLayer.width; x += 1) {
@@ -632,7 +684,7 @@ export function createPixelEditor({
     );
     if (floatingLayer) {
       const layerCanvas = imageDataCanvas(
-        effectiveLayerPixels(floatingLayer, activePaletteColors()),
+        effectiveLayerPixels(floatingLayer, paletteController.activePaletteColors()),
         floatingLayer.width,
         floatingLayer.height,
       );
@@ -667,7 +719,7 @@ export function createPixelEditor({
       return;
     }
     if (tool === "eyedropper") {
-      pickColor(point);
+      paletteController.pickColor(point);
       return;
     }
     pushHistory();
@@ -928,190 +980,6 @@ export function createPixelEditor({
     }
   }
 
-  function pickColor(point) {
-    const offset = pixelOffset(point.x, point.y);
-    let [red, green, blue, alpha] = pixels.slice(offset, offset + 4);
-    if (alpha === 0 && Number(traceAlpha.value) > 0) {
-      [red, green, blue, alpha] = traceCanvas
-        .getContext("2d")
-        .getImageData(point.x, point.y, 1, 1).data;
-    }
-    selectedColor =
-      alpha === 0
-        ? "transparent"
-        : nearestPaletteColor(red, green, blue, activePaletteColors());
-    selectedSkinTone = "";
-    if (selectedColor !== "transparent") {
-      const activeToneButtons = paletteButtons.filter(
-        (button) => button.dataset.skinTone && !button.hidden,
-      );
-      const matchingButton =
-        activeToneButtons.find((button) => {
-          const tone = findSkinTone(button.dataset.skinTone);
-          return tone?.color === selectedColor;
-        }) ??
-        activeToneButtons.find((button) =>
-          skinToneCycle(button.dataset.skinTone).some(
-            (shade) => shade.color === selectedColor,
-          ),
-        );
-      if (matchingButton) {
-        const cycle = skinToneCycle(matchingButton.dataset.skinTone);
-        const cycleIndex = cycle.findIndex(
-          (shade) => shade.color === selectedColor,
-        );
-        selectedSkinTone = matchingButton.dataset.skinTone;
-        setSkinToneShade(matchingButton, Math.max(0, cycleIndex));
-      }
-    }
-    updatePaletteSelection();
-  }
-
-  function activePaletteColors() {
-    return [
-      ...EGA_COLORS,
-      ...paletteButtons
-        .filter((button) => button.dataset.skinTone && !button.hidden)
-        .flatMap((button) =>
-          skinToneCycle(button.dataset.skinTone).map((shade) => shade.color),
-        ),
-    ];
-  }
-
-  function updateSkinTonePalette(codePoints = []) {
-    const previousSkinTone = selectedSkinTone;
-    const previousButton = paletteButtons.find(
-      (button) => button.dataset.skinTone === previousSkinTone,
-    );
-    const previousCycleIndex = Number(previousButton?.dataset.cycleIndex ?? 0);
-    const activeCodePoints = new Set(
-      codePoints.map((codePoint) => codePoint.toUpperCase()),
-    );
-    const activeButtons = paletteButtons.filter((button) => {
-      if (!button.dataset.skinTone) return false;
-      button.hidden = !activeCodePoints.has(button.dataset.skinTone);
-      button.style.removeProperty("grid-column");
-      delete button.dataset.gridColumn;
-      delete button.dataset.gridRow;
-      if (button.hidden) {
-        setSkinToneShade(button, 0);
-      } else {
-        updateSkinToneShadeLabel(button);
-      }
-      return !button.hidden;
-    });
-    const palette = view.querySelector(".pixel-editor-palette");
-    palette.classList.toggle("has-one-skin-tone", activeButtons.length === 1);
-    palette.classList.toggle(
-      "has-multiple-skin-tones",
-      activeButtons.length > 1,
-    );
-    if (activeButtons.length > 1) {
-      const firstColumn = Math.floor((9 - activeButtons.length) / 2) + 1;
-      activeButtons.forEach((button, index) => {
-        button.style.gridColumn = String(firstColumn + index);
-        button.dataset.gridColumn = String(firstColumn + index);
-        button.dataset.gridRow = "3";
-      });
-    } else if (activeButtons.length === 1) {
-      activeButtons[0].dataset.gridColumn = "9";
-      activeButtons[0].dataset.gridRow = "2";
-    }
-    if (previousSkinTone) {
-      const nextButton =
-        activeButtons.find(
-          (button) => button.dataset.skinTone === previousSkinTone,
-        ) ?? activeButtons[0];
-      if (nextButton) {
-        selectedSkinTone = nextButton.dataset.skinTone;
-        const nextCycleIndex =
-          nextButton.dataset.skinTone === previousSkinTone
-            ? Math.min(
-                previousCycleIndex,
-                skinToneCycle(nextButton.dataset.skinTone).length - 1,
-              )
-            : 0;
-        setSkinToneShade(nextButton, nextCycleIndex);
-        selectedColor = skinToneCycle(nextButton.dataset.skinTone)[
-          nextCycleIndex
-        ].color;
-      } else {
-        // Keep the contextual skin-tone tool ready for the next applicable
-        // emoji, but select the eraser so navigation cannot paint EGA yellow.
-        selectedColor = "transparent";
-      }
-    } else if (
-      selectedColor !== "transparent" &&
-      !activePaletteColors().includes(selectedColor)
-    ) {
-      selectedColor = "transparent";
-    }
-    updatePaletteSelection();
-  }
-
-  function selectPaletteColor(button) {
-    if (button.dataset.transparent === "true") {
-      selectedColor = "transparent";
-      selectedSkinTone = "";
-    } else if (button.dataset.skinTone) {
-      const cycle = skinToneCycle(button.dataset.skinTone);
-      const currentIndex = Number(button.dataset.cycleIndex ?? 0);
-      const nextIndex =
-        selectedSkinTone === button.dataset.skinTone
-          ? (currentIndex + 1) % cycle.length
-          : 0;
-      selectedSkinTone = button.dataset.skinTone;
-      setSkinToneShade(button, nextIndex);
-      selectedColor = cycle[nextIndex].color;
-    } else {
-      selectedColor = button.dataset.color;
-      selectedSkinTone = "";
-    }
-    updatePaletteSelection();
-  }
-
-  function updatePaletteSelection() {
-    paletteButtons.forEach((button) => {
-      const selected = button.dataset.skinTone
-        ? selectedSkinTone === button.dataset.skinTone
-        : button.dataset.transparent === "true"
-          ? selectedColor === "transparent"
-          : button.dataset.color === selectedColor;
-      button.classList.toggle("is-selected", selected);
-      button.setAttribute("aria-pressed", String(selected));
-    });
-    syncRovingGrid(
-      paletteButtons,
-      paletteButtons.find((button) => button.getAttribute("aria-pressed") === "true"),
-    );
-  }
-
-  function setSkinToneShade(button, cycleIndex) {
-    const cycle = skinToneCycle(button.dataset.skinTone);
-    const shade = cycle[cycleIndex] ?? cycle[0];
-    button.dataset.cycleIndex = String(cycleIndex);
-    button.dataset.shade = shade.kind;
-    button.dataset.color = shade.color;
-    button.style.setProperty("--swatch", shade.color);
-    updateSkinToneShadeLabel(button);
-  }
-
-  function updateSkinToneShadeLabel(button) {
-    const tone = findSkinTone(button.dataset.skinTone);
-    const cycle = skinToneCycle(button.dataset.skinTone);
-    const shade = cycle[Number(button.dataset.cycleIndex ?? 0)] ?? cycle[0];
-    if (!tone || !shade) return;
-    const toneLabel = translate(tone.translationKey, tone.fallback);
-    const shadeLabels = {
-      normal: translate("normalColor", "Normal color"),
-      lighter: translate("lighterColor", "Lighter color"),
-      darker: translate("darkerColor", "Darker color"),
-    };
-    const label = `${toneLabel} — ${shadeLabels[shade.kind]}`;
-    button.setAttribute("aria-label", label);
-    button.title = label;
-  }
-
   function pushHistory() {
     undoStack.push(pixels.slice());
     if (undoStack.length > 50) undoStack.shift();
@@ -1143,7 +1011,7 @@ export function createPixelEditor({
   }
 
   function copyPixelArt() {
-    if (!currentEntry || !cellLoaded || !hasVisibleArtwork()) return;
+    if (!currentEntry || !cellLoaded || !draftController.hasVisibleArtwork()) return;
     const trimmed = trimVisiblePixels(pixels, CELL_SIZE, CELL_SIZE);
     if (!trimmed) return;
     artworkClipboard = {
@@ -1302,7 +1170,7 @@ export function createPixelEditor({
       const rotated = nextLayerRotation(
         floatingLayer,
         transform === "rotate-right",
-        activePaletteColors(),
+        paletteController.activePaletteColors(),
       );
       if (!layerTransformChangesPixels(floatingLayer, rotated)) return;
       floatingLayer.pixels = rotated.pixels;
@@ -1331,7 +1199,7 @@ export function createPixelEditor({
     pushHistory();
     compositeLayer(pixels, {
       ...floatingLayer,
-      pixels: effectiveLayerPixels(floatingLayer, activePaletteColors()),
+      pixels: effectiveLayerPixels(floatingLayer, paletteController.activePaletteColors()),
     });
     floatingLayer = undefined;
     draw();
@@ -1359,7 +1227,7 @@ export function createPixelEditor({
       !currentEntry ||
       !cellLoaded ||
       Boolean(floatingLayer) ||
-      !hasVisibleArtwork();
+      !draftController.hasVisibleArtwork();
     copyFontButton.disabled =
       !currentEntry?.painted || !cellLoaded || Boolean(floatingLayer);
     copySelectionButton.disabled =
@@ -1367,7 +1235,7 @@ export function createPixelEditor({
       !cellLoaded ||
       Boolean(floatingLayer) ||
       !selection ||
-      !selectionHasVisibleArtwork();
+      !draftController.selectionHasVisibleArtwork();
     pasteArtButton.disabled =
       !currentEntry ||
       !cellLoaded ||
@@ -1483,7 +1351,7 @@ export function createPixelEditor({
         const rotated = nextLayerRotation(
           floatingLayer,
           transform === "rotate-right",
-          activePaletteColors(),
+          paletteController.activePaletteColors(),
         );
         button.disabled = !layerTransformChangesPixels(floatingLayer, rotated);
       } else {
@@ -1522,8 +1390,8 @@ export function createPixelEditor({
       await writable.close();
       atlasBlob = updatedBlob;
       atlasExists = true;
-      markAtlasClean(currentEntry.atlas);
-      updateFileButtons();
+      draftController.markAtlasClean(currentEntry.atlas);
+      draftController.updateFileButtons();
       status.textContent = translate("atlasSaved", "Atlas PNG saved.");
     } catch (error) {
       if (error.name === "AbortError") return;
@@ -1541,8 +1409,8 @@ export function createPixelEditor({
     const updatedBlob = await renderUpdatedAtlas(atlasBlob);
     atlasBlob = updatedBlob;
     atlasExists = true;
-    markAtlasClean(currentEntry.atlas);
-    updateFileButtons();
+    draftController.markAtlasClean(currentEntry.atlas);
+    draftController.updateFileButtons();
     downloadBlob(updatedBlob, currentEntry.atlas.split("/").at(-1));
     status.textContent = translate(
       "atlasDownloaded",
@@ -1551,7 +1419,7 @@ export function createPixelEditor({
   }
 
   async function renderUpdatedAtlas(source) {
-    rememberCurrentDraft();
+    draftController.rememberCurrentDraft();
     const image = await createImageBitmap(source);
     if (image.width !== atlasWidth || image.height !== atlasHeight) {
       image.close();
@@ -1582,100 +1450,6 @@ export function createPixelEditor({
     });
   }
 
-  function updateFileButtons() {
-    const pendingAtlasLayer = hasPendingAtlasLayer();
-    const canWrite =
-      Boolean(currentEntry && atlasBlob) &&
-      !pendingAtlasLayer &&
-      (atlasExists || hasVisibleAtlasDraft());
-    saveButton.disabled = !canWrite || !hasDirtyAtlasDraft();
-    downloadButton.disabled = !canWrite;
-    downloadEmojiButton.disabled =
-      !currentEntry ||
-      !cellLoaded ||
-      Boolean(floatingLayer) ||
-      !hasVisibleArtwork();
-  }
-
-  function hasDirtyAtlasDraft() {
-    if (!currentEntry) return false;
-    return [...artworkDrafts.values()].some(
-      (draft) =>
-        draft.entry.atlas === currentEntry.atlas &&
-        dirtyKeys.has(draft.entry.key),
-    );
-  }
-
-  function hasPendingAtlasLayer() {
-    if (!currentEntry) return false;
-    return [...artworkDrafts.values()].some(
-      (draft) =>
-        draft.entry.atlas === currentEntry.atlas && draft.floatingLayer,
-    );
-  }
-
-  function hasVisibleArtwork() {
-    return hasVisiblePixels(pixels);
-  }
-
-  function selectionHasVisibleArtwork() {
-    if (!selection) return false;
-    return hasVisiblePixels(
-      extractPixels(
-        pixels,
-        CELL_SIZE,
-        selection.x,
-        selection.y,
-        selection.width,
-        selection.height,
-      ),
-    );
-  }
-
-  function hasVisibleAtlasDraft() {
-    if (hasVisibleArtwork()) return true;
-    if (!currentEntry) return false;
-    return [...artworkDrafts.values()].some(
-      (draft) =>
-        draft.entry.atlas === currentEntry.atlas &&
-        draft.pixels.some((value, index) => index % 4 === 3 && value > 0),
-    );
-  }
-
-  function rememberCurrentDraft() {
-    if (!currentEntry || !cellLoaded) return;
-    artworkDrafts.set(currentEntry.key, {
-      entry: currentEntry,
-      pixels: pixels.slice(),
-      traceOffsetX,
-      traceOffsetY,
-      selection: cloneSelection(selection),
-      floatingLayer: cloneFloatingLayer(floatingLayer),
-    });
-  }
-
-  function updateDirtyState() {
-    if (!currentEntry || !cellLoaded) {
-      dirtyIndicator.hidden = true;
-      return;
-    }
-    const baseline = persistedArtwork.get(currentEntry.key);
-    const dirty =
-      Boolean(floatingLayer) || !baseline || !pixelsEqual(pixels, baseline);
-    if (dirty) dirtyKeys.add(currentEntry.key);
-    else dirtyKeys.delete(currentEntry.key);
-    dirtyIndicator.hidden = !dirty;
-  }
-
-  function markAtlasClean(atlas) {
-    for (const draft of artworkDrafts.values()) {
-      if (draft.entry.atlas !== atlas || draft.floatingLayer) continue;
-      persistedArtwork.set(draft.entry.key, draft.pixels.slice());
-      dirtyKeys.delete(draft.entry.key);
-    }
-    updateDirtyState();
-  }
-
   async function downloadEmojiPng() {
     if (downloadEmojiButton.disabled || !currentEntry) return;
     const blob = await canvasToPng(
@@ -1688,76 +1462,4 @@ export function createPixelEditor({
     );
   }
 
-  function updatePreviewActionLabels() {
-    for (const [button, key, fallback] of [
-      [saveButton, "saveAtlas", "Save atlas"],
-      [downloadButton, "downloadAtlas", "Download atlas"],
-      [downloadEmojiButton, "downloadEmojiPng", "Download 12 by 12 emoji PNG"],
-    ]) {
-      const label = translate(key, fallback);
-      button.setAttribute("aria-label", label);
-      button.title = label;
-    }
-  }
-
-  function warnAboutDirtyArtwork(event) {
-    if (dirtyKeys.size === 0) return;
-    event.preventDefault();
-    event.returnValue = translate(
-      "unsavedArtworkPrompt",
-      "Save all unsaved pixel artwork before leaving.",
-    );
-  }
-}
-
-async function getNestedFileHandle(root, relativePath, create = false) {
-  const parts = relativePath.split("/");
-  const fileName = parts.pop();
-  let directory = root;
-  for (const part of parts) {
-    directory = await directory.getDirectoryHandle(part, { create });
-  }
-  return directory.getFileHandle(fileName, { create });
-}
-
-async function createBlankAtlas(manifest, entry) {
-  const canvas = document.createElement("canvas");
-  canvas.width = entry.atlasWidth;
-  canvas.height = entry.atlasHeight;
-  const context = canvas.getContext("2d");
-  const footerY = canvas.height - manifest.footerHeight;
-  context.fillStyle = "#160622";
-  context.fillRect(0, 0, canvas.width, manifest.headerHeight);
-  context.fillRect(0, footerY, canvas.width, manifest.footerHeight);
-  context.fillStyle = "#6de0ff";
-  context.fillRect(0, manifest.headerHeight - 1, canvas.width, 1);
-  context.fillRect(0, footerY, canvas.width, 1);
-  const subGroupTitle =
-    entry.partCount > 1
-      ? `${entry.subGroup} ${entry.part}/${entry.partCount}`
-      : entry.subGroup;
-  drawBitmapText(context, 8, 4, manifest.setName, "#ffe28e");
-  drawBitmapText(context, 8, 12, `GROUP: ${entry.group}`, "#f5f3f8");
-  drawBitmapText(context, 8, 20, `SUBGROUP: ${subGroupTitle}`, "#f5f3f8");
-  drawBitmapText(context, 8, 28, `CREATED: ${manifest.createdDate}`, "#99afba");
-  drawBitmapText(
-    context,
-    8,
-    footerY + 4,
-    `AUTHOR: ${manifest.author}`,
-    "#f5f3f8",
-  );
-  drawBitmapText(context, 8, footerY + 12, manifest.url, "#6de0ff");
-  return canvasToPng(canvas);
-}
-
-async function extractCell(blob, entry) {
-  const image = await createImageBitmap(blob);
-  const canvas = document.createElement("canvas");
-  canvas.width = image.width;
-  canvas.height = image.height;
-  const context = canvas.getContext("2d");
-  context.drawImage(image, 0, 0);
-  image.close();
-  return context.getImageData(entry.x, entry.y, CELL_SIZE, CELL_SIZE).data;
 }

@@ -40,17 +40,17 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /const persistedArtwork = new Map\(\)[\s\S]*const dirtyKeys = new Set\(\)[\s\S]*function updateDirtyState[\s\S]*pixelsEqual\(pixels, baseline\)[\s\S]*dirtyIndicator\.hidden = !dirty/,
+  /const persistedArtwork = new Map\(\)[\s\S]*const dirtyKeys = new Set\(\)[\s\S]*createPixelEditorDraftController[\s\S]*function updateDirtyState[\s\S]*pixelsEqual\(pixels\(\), baseline\)[\s\S]*dirtyIndicator\.hidden = !dirty/,
   'the editor must visibly track artwork that differs from its persisted atlas pixels'
 );
 assert.match(
   pixelEditorScript,
-  /window\.addEventListener\("beforeunload", warnAboutDirtyArtwork\)[\s\S]*function warnAboutDirtyArtwork[\s\S]*dirtyKeys\.size === 0[\s\S]*event\.returnValue/,
+  /window\.addEventListener\("beforeunload", draftController\.warnAboutDirtyArtwork\)[\s\S]*function warnAboutDirtyArtwork[\s\S]*dirtyKeys\(\)\.size === 0[\s\S]*event\.returnValue/,
   'leaving the page must warn when any emoji artwork remains dirty'
 );
 assert.match(
   pixelEditorScript,
-  /function markAtlasClean[\s\S]*persistedArtwork\.set[\s\S]*dirtyKeys\.delete/,
+  /function markAtlasClean[\s\S]*persistedArtwork\(\)\.set[\s\S]*dirtyKeys\(\)\.delete/,
   'saving or downloading an atlas must clear its saved emoji drafts'
 );
 assert.match(
@@ -65,7 +65,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /selection: cloneSelection\(selection\)[\s\S]*floatingLayer: cloneFloatingLayer\(floatingLayer\)/,
+  /selection: cloneSelection\(selection\(\)\)[\s\S]*floatingLayer: cloneFloatingLayer\(floatingLayer\(\)\)/,
   'selection and floating-layer drafts must survive emoji navigation'
 );
 assert.match(
@@ -90,7 +90,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function updateTransferButtons[\s\S]*copyArtButton\.disabled =[\s\S]*!hasVisibleArtwork\(\)/,
+  /function updateTransferButtons[\s\S]*copyArtButton\.disabled =[\s\S]*!draftController\.hasVisibleArtwork\(\)/,
   'copy-art action must be disabled while every artwork pixel is transparent'
 );
 for (const preview of ['official', 'font', 'artwork']) {
@@ -167,7 +167,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /atlasExists \|\| hasVisibleAtlasDraft\(\)/,
+  /atlasExists\(\) \|\| hasVisibleAtlasDraft\(\)/,
   'a missing atlas must not be writable until visible artwork is added'
 );
 assert.match(
