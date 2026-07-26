@@ -1,0 +1,39 @@
+import { initializeBrowserRuntime } from './browser-runtime.js';
+
+export function createBrowserRuntimeConfig(options: any) {
+  return initializeBrowserRuntime({
+    applyDialogUrlState: options.applyDialogUrlState,
+    applyPixelArtworkClass: options.applyPixelArtworkClass,
+    applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
+    closePanelDialog: options.closePanelDialog,
+    currentEmojiKey: () => options.currentEmojiKey(),
+    currentLoadId: () => options.currentLoadId(),
+    dialog: () => options.dialog(),
+    languageDialog: () => options.languageDialog(),
+    languageFlags: options.languageFlags,
+    languageList: () => options.languageList(),
+    languagePicker: () => options.languagePicker(),
+    languagePickerFlag: () => options.languagePickerFlag(),
+    languagePickerLabel: () => options.languagePickerLabel(),
+    loadUiTranslations: options.loadUiTranslations,
+    nextLoadId: () => options.nextLoadId(),
+    onPixelFontRevisionLoaded: options.onPixelFontRevisionLoaded,
+    refreshLocalizedLabels: options.refreshLocalizedLabels,
+    restoreDeveloperMode: options.restoreDeveloperMode,
+    saveExplorerPreference: options.saveExplorerPreference,
+    searchLocales: () => options.searchLocales(),
+    selectedSearchLocale: () => options.selectedSearchLocale(),
+    setApplyingUrlState: options.setApplyingUrlState,
+    setSearchAnnotations: options.setSearchAnnotations,
+    setSearchLabels: options.setSearchLabels,
+    setSearchLocales: options.setSearchLocales,
+    setSearchSubgroupLabels: options.setSearchSubgroupLabels,
+    setSelectedLocale: options.setSelectedLocale,
+    suppressedPanelCloses: () => options.suppressedPanelCloses(),
+    syncUrlState: (...args: any[]) => options.syncUrlState(...args),
+    translate: options.translate,
+    updateModifierArtwork: options.updateModifierArtwork,
+    updatePixelArtworkManifest: options.updatePixelArtworkManifest,
+    updateWebAppManifest: options.updateWebAppManifest
+  });
+}

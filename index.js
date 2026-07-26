@@ -19,7 +19,8 @@ import { createExplorerRuntime } from './explorer-runtime.js';
 import { createEmojiActions } from './app/emoji-actions.js';
 import { createVersionModeController } from './app/version-mode-controller.js';
 import { createExplorerShell } from './app/explorer-shell.js';
-import { createUiFormatters, initializeBrowserRuntime } from './app/browser-runtime.js';
+import { createUiFormatters } from './app/browser-runtime.js';
+import { createBrowserRuntimeConfig } from './app/browser-runtime-config.js';
 import { initializeDialogRuntime } from './app/dialog-runtime.js';
 import { createEmojiDialogClickRuntime } from './app/emoji-dialog-click-runtime.js';
 import { createNavigationRuntime } from './app/navigation-runtime.js';
@@ -507,7 +508,7 @@ const versionModeController = createVersionModeController({
 });
 const { populateOptions: populateVersionModeOptions, render: renderVersionModeToggleController, toggle: toggleVersionMode } = versionModeController;
 renderVersionModeToggle = renderVersionModeToggleController;
-const searchLanguageLifecycle = initializeBrowserRuntime({
+const searchLanguageLifecycle = createBrowserRuntimeConfig({
     applyDialogUrlState,
     applyPixelArtworkClass,
     applyStandalonePixelArtwork,
@@ -542,7 +543,7 @@ const searchLanguageLifecycle = initializeBrowserRuntime({
     setSearchSubgroupLabels: value => (explorerState.searchSubgroupLabels = value),
     setSelectedLocale: value => (explorerState.selectedSearchLocale = value),
     suppressedPanelCloses: () => suppressedPanelCloses,
-    syncUrlState,
+    syncUrlState: (...args) => syncUrlState(...args),
     translate,
     updateModifierArtwork: () => {
         if (skinToneCheckboxes && hairCheckboxes)
