@@ -59,7 +59,6 @@ import { createExplorerNavigation } from './explorer/explorer-navigation.js';
 import { loadExplorerCatalog } from './explorer/catalog-loader.js';
 import { createPixelArtworkManager } from './explorer/pixel-artwork.js';
 import { loadVersionCatalog } from './explorer/version-data.js';
-import { createSearchLanguageLifecycle } from './explorer/search-language-lifecycle.js';
 import { getExplorerElements } from './explorer/explorer-dom.js';
 import { observeToolbarHeight } from './explorer/toolbar-layout.js';
 import {
@@ -68,8 +67,6 @@ import {
 } from './explorer/loading-state.js';
 import { createEmojiDialogClickHandler } from './explorer/emoji-dialog-events.js';
 import { createListOrchestration } from './app/list-orchestration.js';
-import { createDialogNavigationController } from './explorer/dialog-navigation-controller.js';
-import { createEmojiSessionController } from './app/emoji-session-controller.js';
 import { initializeExplorerPreferences } from './app/explorer-preferences.js';
 import { createFilterControlSetup } from './explorer/filter-controls.js';
 import {
@@ -85,14 +82,8 @@ import { createEmojiActions } from './app/emoji-actions.js';
 import { createVersionController } from './app/version-controller.js';
 import { createVersionModeController } from './app/version-mode-controller.js';
 import { createExplorerShell } from './app/explorer-shell.js';
-import {
-  installPixelFontHotReload,
-  refreshExplorerPixelFont,
-  refreshPixelFontStylesheet
-} from './pixel-font-hot-reload.js';
-import {
-  resolveDialogNavigationState,
-} from './explorer/dialog-state.js';
+import { createUiFormatters, initializeBrowserRuntime } from './app/browser-runtime.js';
+import { initializeDialogRuntime } from './app/dialog-runtime.js';
 
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
@@ -166,6 +157,14 @@ const panelDialogs = () => ({
   help: helpDialog,
   language: languageDialog
 });
+const isViteDevelopment =
+  typeof import.meta.env !== 'undefined' && import.meta.env.DEV === true;
+const { formatUiNumber, formatUiPercent } = createUiFormatters({
+  document,
+  selectedSearchLocale: () => explorerState.selectedSearchLocale,
+  formatNumber: formatUiNumberValue,
+  formatPercent: formatUiPercentValue
+});
 
 const pixelArtwork = createPixelArtworkManager({
   byId: () => explorerState.byId,
@@ -201,6 +200,7 @@ const {
   updatePixelArtworkManifest,
   updateRenderingDiagnostic
 } = pixelArtwork;
+const applyStandalonePixelArtwork = applyPixelArtworkClass;
 
 const explorerShell = createExplorerShell({
   applyPixelArtworkClass: () => applyPixelArtworkClass,
@@ -745,45 +745,15 @@ const {
 renderVersionModeToggle = renderVersionModeToggleController;
 
 
-const isViteDevelopment =
-  typeof import.meta.env !== 'undefined' && import.meta.env.DEV === true;
-if (
-  'serviceWorker' in navigator &&
-  window.isSecureContext &&
-  isViteDevelopment
-) {
-  window.addEventListener('load', async () => {
-    try {
-      const registrations = await navigator.serviceWorker.getRegistrations();
-      await Promise.all(
-        registrations
-          .filter(registration =>
-            registration.scope.startsWith(window.location.origin)
-          )
-          .map(registration => registration.unregister())
-      );
-      const cacheNames = await caches.keys();
-      await Promise.all(
-        cacheNames
-          .filter(name => name.startsWith('emoji-explorer-'))
-          .map(name => caches.delete(name))
-      );
-    } catch (error) {
-      console.warn('Could not clear local offline cache', error);
-    }
-  });
-} else if ('serviceWorker' in navigator && window.isSecureContext) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js').catch(error => {
-      console.warn('Offline support unavailable', error);
-    });
-  });
-}
-
-const searchLanguageLifecycle = createSearchLanguageLifecycle({
+const searchLanguageLifecycle = initializeBrowserRuntime({
   applyDialogUrlState,
-  closeLanguageDialog: () => closePanelDialog(languageDialog, suppressedPanelCloses),
+  applyPixelArtworkClass,
+  applyStandalonePixelArtwork,
+  closePanelDialog,
+  currentEmojiKey: () => explorerState.currentEmojiKey,
   currentLoadId: () => explorerState.searchLoadId,
+  dialog: () => explorerRuntime.get('exampleDialog'),
+  languageDialog: () => languageDialog,
   languageFlags,
   languageList: () => languageList,
   languagePicker: () => languagePicker,
@@ -791,6 +761,9 @@ const searchLanguageLifecycle = createSearchLanguageLifecycle({
   languagePickerLabel: () => languagePickerLabel,
   loadUiTranslations,
   nextLoadId: () => ++explorerState.searchLoadId,
+  onPixelFontRevisionLoaded: () => {
+    pixelEditor?.refreshFontBuild();
+  },
   refreshLocalizedLabels,
   restoreDeveloperMode: () => {
     explorerState.developerModeFromUrl =
@@ -806,132 +779,69 @@ const searchLanguageLifecycle = createSearchLanguageLifecycle({
   setSearchLocales: value => (explorerState.searchLocales = value),
   setSearchSubgroupLabels: value => (explorerState.searchSubgroupLabels = value),
   setSelectedLocale: value => (explorerState.selectedSearchLocale = value),
+  suppressedPanelCloses: () => suppressedPanelCloses,
   syncUrlState,
   translate,
+  updateModifierArtwork: () => {
+    if (skinToneCheckboxes && hairCheckboxes) updateModifierPixelArtwork();
+  },
+  updatePixelArtworkManifest,
   updateWebAppManifest
 });
 const {
   load: loadSearchLanguages,
-  onPopState,
   render: renderSearchLanguages,
   select: selectLanguageLink,
   set: setSearchLanguage
 } = searchLanguageLifecycle;
-window.addEventListener('popstate', onPopState);
 
 
 
 const getEmojiGenders = item =>
   getEmojiGendersHelper(item, explorerState.emojiByKey);
 
-const applyStandalonePixelArtwork = applyPixelArtworkClass;
 
-
-function formatUiNumber(value) {
-  const locale =
-    document.documentElement.lang || explorerState.selectedSearchLocale || undefined;
-  return formatUiNumberValue(
-    value,
-    locale,
-    locale?.startsWith('ar') ? 'arab' : undefined
-  );
-}
-
-function formatUiPercent(value) {
-  const locale =
-    document.documentElement.lang || explorerState.selectedSearchLocale || undefined;
-  return formatUiPercentValue(
-    value,
-    locale,
-    locale?.startsWith('ar') ? 'arab' : undefined
-  );
-}
-
-installPixelFontHotReload({
-  refreshStylesheet: revision =>
-    refreshPixelFontStylesheet(
-      {
-        onStylesheetLoaded: loadedRevision => {
-          pixelEditor?.refreshFontBuild();
-          void refreshExplorerPixelFont(
-            {
-              applyArtwork: applyPixelArtworkClass,
-              applyStandaloneArtwork: applyStandalonePixelArtwork,
-              currentEmojiKey: () => explorerState.currentEmojiKey,
-              dialog: () => explorerRuntime.get('exampleDialog'),
-              updateManifest: updatePixelArtworkManifest,
-              updateModifierArtwork: () => {
-                if (skinToneCheckboxes && hairCheckboxes)
-                  updateModifierPixelArtwork();
-              }
-            },
-            loadedRevision
-          );
-        }
-      },
-      revision
-    )
-});
-
-const { showEmoji } = createEmojiSessionController({
+const {
+  showEmoji,
+  navigateEmoji: navigateEmojiController,
+  updateDialogNavigation: updateDialogNavigationController,
+  updateCompositionBackButton: updateCompositionBackButtonController
+} = initializeDialogRuntime({
   applyPixelArtworkClass,
   applyStandalonePixelArtwork,
-  developerModeEnabled,
-  dialog: () => explorerRuntime.get('exampleDialog'),
-  displayGroupName,
-  displayUnicodeSubGroupName,
-  getIntroducedVersion,
-  openDialogAction(
-    mode: 'details' | 'code' | 'editor' = 'details',
-    parentPanel: '' | 'favorites' | 'help' | 'language' = ''
-  ) {
-    if (copyStatus) copyStatus.textContent = '';
-    explorerRuntime.get('exampleDialog').dataset.dialogParentPanel = parentPanel;
-    explorerState.currentDialogParentStack = parentPanel ? [parentPanel] : [];
-    setEmojiDialogView(mode, false);
-    explorerRuntime.get('exampleDialog').showModal();
-    focusInitialEmojiDialogAction();
-    syncUrlState('push', {
-      ...withoutCompositionParent(window.history.state),
-      emojiDialogEntry: true,
-      dialogParentPanel: parentPanel
-    });
-    updateCompositionBackButton();
-  },
-  openEditor: (key, value) => pixelEditor?.open(key, value),
-  sequenceTranslationKeys,
-  sequenceTypeLabels,
-  state: () => explorerState,
-  statusTranslationKeys,
-  translate,
-  updateDialogNavigation,
-  updateEmojiComposition,
-  updateFavoriteButton,
-  updateRenderingDiagnostic
-});
-
-const dialogNavigation = createDialogNavigationController({
   byId: () => explorerState.byId,
+  copyStatus: () => copyStatus,
   currentDialogParentStack: () => explorerState.currentDialogParentStack,
   currentEmojiKey: () => explorerState.currentEmojiKey,
+  developerModeEnabled,
   dialog: () => explorerRuntime.get('exampleDialog'),
   dialogNavigationKeys: () => explorerState.dialogNavigationKeys,
   displayedKeys: () => explorerState.displayedKeys,
+  displayGroupName,
+  displayUnicodeSubGroupName,
   emojiByKey: () => explorerState.emojiByKey,
   emojiNext: () => explorerRuntime.get('emojiNext'),
   emojiParent: () => explorerRuntime.get('emojiParent'),
   emojiPrevious: () => explorerRuntime.get('emojiPrevious'),
-  resolveNavigation: resolveDialogNavigationState,
+  focusInitialAction: focusInitialEmojiDialogAction,
+  getIntroducedVersion,
+  openEditor: (key: string, value: string) => pixelEditor?.open(key, value),
   searchAnnotations: () => explorerState.searchAnnotations,
-  showEmoji,
+  sequenceTranslationKeys,
+  sequenceTypeLabels,
+  setCurrentDialogParentStack: (value: string[]) =>
+    (explorerState.currentDialogParentStack = value),
+  setDialogView: setEmojiDialogView,
+  state: () => explorerState,
+  statusTranslationKeys,
   syncUrlState,
-  translate
+  translate,
+  updateCompositionBackButton: () => updateCompositionBackButton(),
+  updateDialogNavigation: () => updateDialogNavigation(),
+  updateEmojiComposition,
+  updateFavoriteButton,
+  updateRenderingDiagnostic
 });
-const {
-  navigate: navigateEmojiController,
-  update: updateDialogNavigationController,
-  updateBack: updateCompositionBackButtonController
-} = dialogNavigation;
 updateDialogNavigation = updateDialogNavigationController;
 navigateEmoji = navigateEmojiController;
 updateCompositionBackButton = updateCompositionBackButtonController;
