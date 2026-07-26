@@ -37,6 +37,9 @@ type RangeLike = {
   max: string;
   value: string;
   setAttribute(name: string, value: string): void;
+  style?: {
+    setProperty(name: string, value: string): void;
+  };
 };
 
 export function versionSliderLabel(
@@ -73,9 +76,12 @@ export function syncVersionRange(options: {
     0,
     optionsList.findIndex(option => option.value === versionSelector.value)
   );
+  const maxIndex = Math.max(0, optionsList.length - 1);
   versionRange.max = String(Math.max(0, optionsList.length - 1));
   versionRange.value = String(selectedIndex);
   versionRange.disabled = versionSelector.disabled || optionsList.length === 0;
+  versionRange.style?.setProperty('--slider-progress', '0%');
+  versionRange.style?.setProperty('background', '#555555');
   const selectedVersion = optionsList[selectedIndex]?.value ?? '';
   versionRangeValue.value = selectedVersion
     ? versionSliderLabel(selectedVersion, proposedVersionManifests)

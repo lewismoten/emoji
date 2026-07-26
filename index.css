@@ -579,6 +579,30 @@ html[data-theme="retro"] .example-dialog .pixel-editor-layer-transform {
   border-color: #000000;
 }
 
+html[data-theme="retro"] .example-dialog .pixel-editor-file {
+  background: #aaaaaa;
+}
+
+html[data-theme="retro"] .example-dialog .pixel-editor-location,
+html[data-theme="retro"] .example-dialog .pixel-editor-status {
+  padding: 0.35rem 0.45rem;
+  border-top: 2px solid #555555;
+  border-left: 2px solid #555555;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  background: #000000;
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] .example-dialog .pixel-editor-bake-layer {
+  border-top-color: #55ff55 !important;
+  border-left-color: #55ff55 !important;
+  border-right-color: #000000 !important;
+  border-bottom-color: #000000 !important;
+  background: #008800 !important;
+  color: #ffffff !important;
+}
+
 html[data-theme="retro"] .example-dialog .pixel-design-invitation {
   border-color: #000000;
   background: #555555;
@@ -586,21 +610,21 @@ html[data-theme="retro"] .example-dialog .pixel-design-invitation {
 
 html[data-theme="retro"] .example-dialog .pixel-design-invitation button {
   border-width: 2px;
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
+  border-top-color: #ff5555;
+  border-left-color: #ff5555;
   border-right-color: #000000;
   border-bottom-color: #000000;
-  background: #aaaaaa;
-  color: #aa0000;
+  background: #aa0000;
+  color: #ffffff;
 }
 
 html[data-theme="retro"] .example-dialog .pixel-design-invitation button:hover {
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
-  border-right-color: #aaaaaa;
-  border-bottom-color: #aaaaaa;
-  background: #ffffff;
-  color: #aa0000;
+  border-top-color: #ff5555;
+  border-left-color: #ff5555;
+  border-right-color: #555555;
+  border-bottom-color: #555555;
+  background: #ff5555;
+  color: #ffffff;
 }
 
 html[data-theme="retro"] .example-dialog .pixel-design-invitation button:active {
@@ -608,8 +632,8 @@ html[data-theme="retro"] .example-dialog .pixel-design-invitation button:active 
   border-left-color: #555555;
   border-right-color: #ffffff;
   border-bottom-color: #ffffff;
-  background: #aaaaaa;
-  color: #aa0000;
+  background: #aa0000;
+  color: #ffffff;
 }
 
 html[data-theme="retro"] .emoji-code-view .code {
@@ -742,6 +766,15 @@ html[data-theme="retro"] .help-dialog .theme-choice[aria-pressed="true"] {
   color: #aaaaaa;
 }
 
+html[data-theme="retro"] .pixel-editor-tools button[aria-pressed="true"] {
+  border-top-color: #000000;
+  border-left-color: #000000;
+  border-right-color: #aaaaaa;
+  border-bottom-color: #aaaaaa;
+  background: #000000;
+  color: #aaaaaa;
+}
+
 html[data-theme="retro"] .language-dialog .language-option.is-selected {
   border-top-color: #555555;
   border-left-color: #555555;
@@ -861,7 +894,7 @@ html[data-theme="retro"]
   height: 2px;
   border: 1px solid #000000;
   border-radius: 0;
-  background: #555555;
+  background: transparent;
 }
 
 html[data-theme="retro"] .version-range::-webkit-slider-thumb,
@@ -895,7 +928,7 @@ html[data-theme="retro"]
   height: 2px;
   border: 1px solid #000000;
   border-radius: 0;
-  background: #aaaaaa;
+  background: #ffffff;
 }
 
 html[data-theme="retro"] .version-range::-moz-range-thumb,
