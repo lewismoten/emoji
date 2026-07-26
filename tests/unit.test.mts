@@ -1,300 +1,70 @@
 import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
-
-type Emoji = {
-  key: string;
-  emoji: string;
-  codePoints: string;
-  group: string;
-  order: number;
-  sequenceType: string;
-};
-
-type Version = {
-  version: string;
-  file: string;
-  count: number;
-};
-
-type ProposedVersion = Version & {
-  status: 'draft';
-  released: null;
-};
-
-type PixelAtlasManifest = {
-  layout: string;
-  author: string;
-  url: string;
-  cellSize: number;
-  cellPadding: number;
-  slotSize: number;
-  columns: number;
-  maxRows: number;
-  activeGlyphCount: number;
-  releasedGlyphCount: number;
-  proposedGlyphCount: number;
-  proposedVersions: {
-    version: string;
-    status: string;
-    stage: string;
-    expectedRelease: string | null;
-    count: number;
-  }[];
-  baseGlyphCount: number;
-  modifierGlyphCount: number;
-  modifierTypeCounts: Record<string, number>;
-  groupCount: number;
-  subGroupCount: number;
-  sheets: {
-    image: string;
-    mapping: string;
-    modifierType: string;
-    releaseStatus?: string;
-    unicodeVersion?: string;
-    group: string;
-    subGroup: string;
-    rows: number;
-    imageWidth: number;
-    imageHeight: number;
-    assignedCount: number;
-  }[];
-};
-
-const root = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '../..'
-);
-
-const readJson = async <T,>(file: string) =>
-  JSON.parse(await fs.readFile(path.join(root, file), 'utf8')) as T;
-
-const emoji = await readJson<Emoji[]>('emoji.json');
-const explorerCatalog = await readJson<{
-  fields: string[];
-  emoji: unknown[][];
-}>('explorer/catalog.json');
-const orderManifest = await readJson<{ unicode: string[] }>(
-  'orders/manifest.json'
-);
-const manifest = await readJson<{
-  versions: Version[];
-  proposed?: ProposedVersion[];
-}>('versions/manifest.json');
-const pixelAtlasManifest = await readJson<PixelAtlasManifest>(
-  'pixel-font/atlases/manifest.json'
-);
-const packageJson = await readJson<{
-  version: string;
-  scripts: Record<string, string>;
-}>('package.json');
-const arabicDemo = await fs.readFile(
-  path.join(root, 'build/demo-pages/index.ar.html'),
-  'utf8'
-);
-const demoHtml = await fs.readFile(path.join(root, 'index.html'), 'utf8');
-const demoScript = await fs.readFile(path.join(root, 'src/index.ts'), 'utf8');
-const explorerApp = await fs.readFile(
-  path.join(root, 'src/explorer-app.ts'),
-  'utf8'
-);
-const pixelFontHotReload = await fs.readFile(
-  path.join(root, 'src/pixel-font-hot-reload.ts'),
-  'utf8'
-);
-const emojiListRenderHelper = await fs.readFile(
-  path.join(root, 'src/explorer/emoji-list-render.ts'),
-  'utf8'
-);
-const emojiListInteractionHelper = await fs.readFile(
-  path.join(root, 'src/explorer/emoji-list-interaction.ts'),
-  'utf8'
-);
-const emojiFilterHelper = await fs.readFile(
-  path.join(root, 'src/explorer/emoji-filter.ts'),
-  'utf8'
-);
-const dialogUpgradeHelper = await fs.readFile(
-  path.join(root, 'src/explorer/dialog-upgrade.ts'),
-  'utf8'
-);
-const catalogLoader = await fs.readFile(
-  path.join(root, 'src/explorer/catalog-loader.ts'),
-  'utf8'
-);
-const pixelArtwork = await fs.readFile(
-  path.join(root, 'src/explorer/pixel-artwork.ts'),
-  'utf8'
-);
-const versionData = await fs.readFile(
-  path.join(root, 'src/explorer/version-data.ts'),
-  'utf8'
-);
-const explorerDataController = await fs.readFile(
-  path.join(root, 'src/explorer-data-controller.ts'),
-  'utf8'
-);
-const searchLanguageLifecycle = await fs.readFile(
-  path.join(root, 'src/explorer/search-language-lifecycle.ts'),
-  'utf8'
-);
-const explorerUi = await fs.readFile(
-  path.join(root, 'src/explorer-ui.ts'),
-  'utf8'
-);
-const versionModeController = await fs.readFile(
-  path.join(root, 'src/app/version-mode-controller.ts'),
-  'utf8'
-);
-const emojiDialogEvents = await fs.readFile(
-  path.join(root, 'src/explorer/emoji-dialog-events.ts'),
-  'utf8'
-);
-const savedEmojiHelper = await fs.readFile(
-  path.join(root, 'src/explorer/saved-emoji.ts'),
-  'utf8'
-);
-const loadingState = await fs.readFile(
-  path.join(root, 'src/explorer/loading-state.ts'),
-  'utf8'
-);
-const listController = await fs.readFile(
-  path.join(root, 'src/explorer/list-controller.ts'),
-  'utf8'
-);
-const emojiListSources = `${demoScript}\n${loadingState}\n${emojiListInteractionHelper}`;
-const utilityControlsHelper = await fs.readFile(
-  path.join(root, 'src/explorer/utility-controls.ts'),
-  'utf8'
-);
-const filterPickerHelper = await fs.readFile(
-  path.join(root, 'src/explorer/filter-picker.ts'),
-  'utf8'
-);
-const categoryVersionHelper = await fs.readFile(path.join(root, 'src/explorer/category-version.ts'), 'utf8');
-const filterControlsHelper = await fs.readFile(path.join(root, 'src/explorer/filter-controls.ts'), 'utf8');
-const dialogRenderHelper = await fs.readFile(
-  path.join(root, 'src/explorer/dialog-render.ts'),
-  'utf8'
-);
-const dialogViewHelper = await fs.readFile(path.join(root, 'src/explorer/dialog-view.ts'), 'utf8');
-const pwaPanelsHelper = await fs.readFile(
-  path.join(root, 'src/explorer/pwa-panels.ts'),
-  'utf8'
-);
-const explorerGeneratorScript = await fs.readFile(
-  path.join(root, 'scripts/generate-library.mjs'),
-  'utf8'
-);
-const pixelEditorScript = await fs.readFile(
-  path.join(root, 'pixel-editor.js'),
-  'utf8'
-);
-const {
+import {
+  arabicDemo,
   buildSkinToneOwnership,
   buildTwoPersonOwnership,
+  catalogLoader,
+  categoryVersionHelper,
+  compositionHelpers,
+  demoHtml,
+  demoScript,
+  demoStyles,
+  dialogRenderHelper,
+  dialogUpgradeHelper,
+  dialogViewHelper,
+  emoji,
+  emojiCompositionHelper,
+  emojiDialogEvents,
+  emojiFilterHelper,
+  emojiFormatHelper,
+  emojiListInteractionHelper,
+  emojiListRenderHelper,
+  emojiListSources,
+  explorerApp,
+  explorerCatalog,
+  explorerDataController,
+  explorerGeneratorScript,
+  explorerUi,
+  filterControlsHelper,
+  filterPickerHelper,
+  fontPublishWorkflow,
+  listController,
+  loadingState,
+  manifest,
+  orderManifest,
+  packageJson,
+  pagesValidator,
+  pagesWorkflow,
+  pixelAtlasGeneratorScript,
+  pixelAtlasManifest,
+  pixelAtlasReadme,
+  pixelArtwork,
+  pixelEditorScript,
+  pixelFontBuildCache,
+  pixelFontBuildScript,
+  pixelFontCompiler,
+  pixelFontConfig,
+  pixelFontHotReload,
+  pixelFontPackager,
+  pixelFontVersionScript,
+  pwaPanelsHelper,
   remapSkinTonePixels,
+  renderingDiagnosticHelper,
+  savedEmojiHelper,
+  searchLanguageLifecycle,
   skinToneBaseSequence,
-  skinToneSequence
-} = (await import(pathToFileURL(path.join(root, 'pixel-editor.js')).href)) as {
-  buildSkinToneOwnership: (
-    pixels: Uint8ClampedArray,
-    tones: string[],
-    width?: number,
-    height?: number
-  ) => Int8Array | undefined;
-  buildTwoPersonOwnership: (width?: number, height?: number) => Int8Array;
-  remapSkinTonePixels: (
-    pixels: Uint8ClampedArray,
-    sourceTones: string[],
-    targetTones: string[],
-    helper?: {
-      ownership: Int8Array;
-      ownershipWidth: number;
-      width: number;
-      offsetX: number;
-      offsetY: number;
-    }
-  ) => Uint8ClampedArray;
-  skinToneBaseSequence: (codePoints: string[]) => string;
-  skinToneSequence: (codePoints: string[]) => string[];
-};
-const pixelAtlasGeneratorScript = await fs.readFile(
-  path.join(root, 'pixel-font/scripts/generate-atlases.mjs'),
-  'utf8'
-);
-const pixelFontBuildScript = await fs.readFile(
-  path.join(root, 'pixel-font/scripts/build-assets.mjs'),
-  'utf8'
-);
-const pixelFontBuildCache = await fs.readFile(
-  path.join(root, 'pixel-font/scripts/font-build-cache.mjs'),
-  'utf8'
-);
-const testBundleCache = await fs.readFile(
-  path.join(root, 'scripts/ensure-test-bundle.mjs'),
-  'utf8'
-);
-const pixelFontCompiler = await fs.readFile(
-  path.join(root, 'pixel-font/scripts/compile-font.py'),
-  'utf8'
-);
-const pixelFontPackager = await fs.readFile(
-  path.join(root, 'pixel-font/scripts/package-font.mjs'),
-  'utf8'
-);
-const pixelFontVersionScript = await fs.readFile(
-  path.join(root, 'pixel-font/scripts/version-font.mjs'),
-  'utf8'
-);
-const pixelFontConfig = await readJson<{
-  fontVersion: string;
-  packageName: string;
-  embeddingPermissions: string;
-}>('pixel-font/config.json');
-const pagesWorkflow = await fs.readFile(
-  path.join(root, '.github/workflows/pages.yml'),
-  'utf8'
-);
-const pagesValidator = await fs.readFile(
-  path.join(root, 'scripts/validate-pages-site.mjs'),
-  'utf8'
-);
-const websitePublisher = await fs.readFile(
-  path.join(root, 'scripts/publish-website.mjs'),
-  'utf8'
-);
-const renderingDiagnosticHelper = await fs.readFile(
-  path.join(root, 'src/explorer/rendering-diagnostic.ts'),
-  'utf8'
-);
-const emojiCompositionHelper = await fs.readFile(
-  path.join(root, 'src/explorer/emoji-composition.ts'),
-  'utf8'
-);
-const compositionHelpers = await fs.readFile(
-  path.join(root, 'src/explorer/composition-helpers.ts'),
-  'utf8'
-);
-const urlStateHelper = await fs.readFile(
-  path.join(root, 'src/explorer/url-state.ts'),
-  'utf8'
-);
-const emojiFormatHelper = await fs.readFile(
-  path.join(root, 'src/explorer/emoji-format.ts'),
-  'utf8'
-);
-const fontPublishWorkflow = await fs.readFile(
-  path.join(root, '.github/workflows/publish-font.yml'),
-  'utf8'
-);
-const pixelAtlasReadme = await fs.readFile(
-  path.join(root, 'pixel-font/ATLASES.md'),
-  'utf8'
-);
-const viteConfig = await fs.readFile(path.join(root, 'vite.config.js'), 'utf8');
-const demoStyles = await fs.readFile(path.join(root, 'index.css'), 'utf8');
+  skinToneSequence,
+  testBundleCache,
+  utilityControlsHelper,
+  urlStateHelper,
+  versionData,
+  versionModeController,
+  viteConfig,
+  websitePublisher,
+  root
+} from './shared/unit-fixtures.mjs';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 assert.equal(
   new Set(emoji.map(item => item.key)).size,
   emoji.length,
