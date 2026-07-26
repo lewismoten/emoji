@@ -43,7 +43,9 @@ export function showEmojiSession(options: any) {
     value
   });
   options.currentEmojiCopies.value = display.copyValues;
-  if (options.openDialog) options.openDialogAction();
+  if (options.openDialog) {
+    options.openDialogAction(options.initialMode ?? 'details');
+  }
   options.updateDialogNavigation();
   if (options.dialog.classList.contains('is-editor-view')) options.openEditor(options.id, value);
 }

@@ -843,9 +843,9 @@ const { showEmoji } = createEmojiSessionController({
   displayGroupName,
   displayUnicodeSubGroupName,
   getIntroducedVersion,
-  openDialogAction() {
+  openDialogAction(mode: 'details' | 'code' | 'editor' = 'details') {
     if (copyStatus) copyStatus.textContent = '';
-    setEmojiDialogView('details', false);
+    setEmojiDialogView(mode, false);
     explorerRuntime.get('exampleDialog').showModal();
     focusInitialEmojiDialogAction();
     syncUrlState('push', {

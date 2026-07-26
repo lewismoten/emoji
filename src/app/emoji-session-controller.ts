@@ -2,7 +2,12 @@ import { showEmojiSession } from '../explorer/emoji-session.js';
 
 /** Assemble dependencies for opening an emoji-details session. */
 export function createEmojiSessionController(options: any) {
-  const showEmoji = (id: string, openDialog = true, navigationKeys?: string[]) =>
+  const showEmoji = (
+    id: string,
+    openDialog = true,
+    navigationKeys?: string[],
+    initialMode: 'details' | 'code' | 'editor' = 'details'
+  ) =>
     showEmojiSession({
       applyPixelArtworkClass: options.applyPixelArtworkClass,
       applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
@@ -40,6 +45,7 @@ export function createEmojiSessionController(options: any) {
       emojiByKey: options.state().emojiByKey,
       getIntroducedVersion: options.getIntroducedVersion,
       id,
+      initialMode,
       items: options.state().items,
       navigationKeys,
       openDialog,

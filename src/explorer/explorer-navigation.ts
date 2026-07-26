@@ -39,7 +39,12 @@ export function createExplorerNavigation(options: {
   helpDialog: () => HTMLDialogElement | undefined;
   latestReleasedVersion: () => string | undefined;
   navigateEmoji: (amount: number) => void;
-  openEmoji: (key: string) => void;
+  openEmoji: (
+    key: string,
+    openDialog?: boolean,
+    navigationKeys?: string[],
+    initialMode?: ExplorerUrlState['emojiMode']
+  ) => void;
   orderButtons: () => any[];
   panelDialogs: () => any;
   languageList: () => HTMLElement | undefined;
@@ -110,8 +115,7 @@ export function createExplorerNavigation(options: {
       [dialogs.favorites, dialogs.help, dialogs.language].forEach(dialog =>
         closePanelDialog(dialog, options.suppressedPanelCloses())
       );
-      options.openEmoji(state.emoji);
-      options.setDialogView(state.emojiMode, false);
+      options.openEmoji(state.emoji, true, undefined, state.emojiMode);
       if (!options.dialog().open) options.showEmojiDialog();
       return;
     }
