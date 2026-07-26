@@ -299,6 +299,24 @@ html[data-theme="retro"] .unicode-subgroup {
   background: var(--frame-bg);
 }
 
+html[data-theme="retro"] .modifier-filters fieldset {
+  border-color: #000000;
+}
+
+html[data-theme="retro"] .modifier-filters fieldset label:has(input:checked) {
+  border-top-color: #aaaaaa !important;
+  border-left-color: #aaaaaa !important;
+  border-right-color: #ffffff !important;
+  border-bottom-color: #ffffff !important;
+  background: #000000 !important;
+  color: #555555 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="retro"] .filter-picker-kind {
+  color: #555555;
+}
+
 html[data-theme="retro"] .help-pixel,
 html[data-theme="retro"] .help-settings {
   background: #555555;
@@ -410,9 +428,32 @@ html[data-theme="retro"] .language-dialog {
   background: var(--dialog-body-bg);
 }
 
+html[data-theme="retro"] .filter-picker-dialog {
+  background: var(--dialog-body-bg);
+}
+
 html[data-theme="retro"] .language-dialog .dialog-heading {
   background: var(--dialog-header-bg);
   border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .filter-picker-dialog .dialog-heading {
+  background: var(--dialog-header-bg);
+  border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .filter-picker-dialog .compact-choice[aria-checked="true"] {
+  border-top-color: #aaaaaa;
+  border-left-color: #aaaaaa;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  background: #000000;
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] .filter-picker-dialog .compact-choice {
+  border-right-color: #000000;
+  border-bottom-color: #000000;
 }
 
 html[data-theme="retro"] .language-dialog .eyebrow {
@@ -695,6 +736,21 @@ html[data-theme="retro"] .language-dialog .dialog-close {
   border-bottom-color: #000000;
 }
 
+html[data-theme="retro"] .version-step {
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 0 !important;
+  outline: none;
+  box-shadow: none;
+}
+
+html[data-theme="retro"] .version-step:focus,
+html[data-theme="retro"] .version-step:focus-visible {
+  outline: 2px dotted #ffff55 !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+}
+
 html[data-theme="retro"] kbd {
   border-top-color: #aaaaaa;
   border-left-color: #aaaaaa;
@@ -770,12 +826,64 @@ html[data-theme="retro"] .order-footer {
   border-color: #555555;
 }
 
+html[data-theme="retro"] .toolbar-heading {
+  margin: -0.55rem calc(clamp(0.75rem, 2vw, 1.25rem) * -1) 0;
+  padding: 0.45rem clamp(0.75rem, 2vw, 1.25rem);
+  border-bottom: 2px solid #555555;
+  background: #000000;
+}
+
+html[data-theme="retro"] .toolbar-heading h1,
+html[data-theme="retro"] .toolbar-heading .result-count,
+html[data-theme="retro"] .toolbar-heading .match-count {
+  color: #ffffff;
+}
+
+html[data-theme="retro"] .toolbar {
+  background: #555555;
+}
+
+html[data-theme="retro"] input[type="search"] {
+  border-top: 2px solid #000000;
+  border-left: 2px solid #000000;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  background: #aaaaaa;
+  color: #000000;
+}
+
+html[data-theme="retro"] input[type="search"]::placeholder {
+  color: #555555;
+}
+
+html[data-theme="retro"] input[type="search"]:focus-visible {
+  outline: 2px dotted #ffff55;
+  outline-offset: 2px;
+}
+
 html[data-theme="retro"] .order-footer .order-mode.is-active {
   border-top-color: #555555;
   border-left-color: #555555;
   border-right-color: #ffffff;
   border-bottom-color: #ffffff;
   background: #000000;
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] .pixel-comparison > button {
+  color: #000000;
+}
+
+html[data-theme="retro"] button.emoji-font-choice small {
+  color: #000000;
+}
+
+html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"] {
+  background: #000000;
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] button.emoji-font-choice[aria-pressed="true"] small {
   color: #aaaaaa;
 }
 
@@ -961,6 +1069,78 @@ html[data-theme="retro"] .pixel-editor-controls input[type="range"]:focus,
 html[data-theme="retro"] .pixel-editor-controls input[type="range"]:focus-visible {
   outline: none;
   box-shadow: none;
+}
+
+html[data-theme="retro"] :focus,
+html[data-theme="retro"] :focus-visible {
+  outline: 2px dotted #ffff55 !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="retro"] .example-dialog .toggle-favorite:focus,
+html[data-theme="retro"] .example-dialog .toggle-favorite:focus-visible {
+  outline: 2px dotted #ffff55 !important;
+  outline-offset: 2px !important;
+}
+
+html[data-theme="retro"] .language-picker:focus,
+html[data-theme="retro"] .language-picker:focus-visible,
+html[data-theme="retro"] a:focus,
+html[data-theme="retro"] a:focus-visible,
+html[data-theme="retro"] .clear-filters:focus,
+html[data-theme="retro"] .clear-filters:focus-visible,
+html[data-theme="retro"] .advanced-filters > summary:focus,
+html[data-theme="retro"] .advanced-filters > summary:focus-visible,
+html[data-theme="retro"] .saved-picker:focus,
+html[data-theme="retro"] .saved-picker:focus-visible,
+html[data-theme="retro"] .help-picker:focus,
+html[data-theme="retro"] .help-picker:focus-visible,
+html[data-theme="retro"] .filter-picker-trigger:focus,
+html[data-theme="retro"] .filter-picker-trigger:focus-visible,
+html[data-theme="retro"] .compact-choice:focus,
+html[data-theme="retro"] .compact-choice:focus-visible,
+html[data-theme="retro"] .version-mode-toggle:focus,
+html[data-theme="retro"] .version-mode-toggle:focus-visible,
+html[data-theme="retro"] input:focus,
+html[data-theme="retro"] input:focus-visible,
+html[data-theme="retro"] select:focus,
+html[data-theme="retro"] select:focus-visible,
+html[data-theme="retro"] .modifier-filters fieldset label:has(input:focus),
+html[data-theme="retro"] .modifier-filters fieldset label:has(input:focus-visible),
+html[data-theme="retro"] .setting-choice:focus,
+html[data-theme="retro"] .setting-choice:focus-visible,
+html[data-theme="retro"] .language-option:focus,
+html[data-theme="retro"] .language-option:focus-visible,
+html[data-theme="retro"] .saved-emoji-list button:focus,
+html[data-theme="retro"] .saved-emoji-list button:focus-visible,
+html[data-theme="retro"] .emoji-preview:focus,
+html[data-theme="retro"] .emoji-preview:focus-visible,
+html[data-theme="retro"] .pixel-editor-toolbar button:focus,
+html[data-theme="retro"] .pixel-editor-toolbar button:focus-visible,
+html[data-theme="retro"] .pixel-editor-file button:focus,
+html[data-theme="retro"] .pixel-editor-file button:focus-visible,
+html[data-theme="retro"] .pixel-editor-preview-actions button:focus,
+html[data-theme="retro"] .pixel-editor-preview-actions button:focus-visible,
+html[data-theme="retro"] .pixel-editor-trace-nudge:focus,
+html[data-theme="retro"] .pixel-editor-trace-nudge:focus-visible,
+html[data-theme="retro"] .pixel-editor-transfer button:focus,
+html[data-theme="retro"] .pixel-editor-transfer button:focus-visible,
+html[data-theme="retro"] .pixel-editor-layer button:focus,
+html[data-theme="retro"] .pixel-editor-layer button:focus-visible,
+html[data-theme="retro"] .pixel-comparison > button:focus,
+html[data-theme="retro"] .pixel-comparison > button:focus-visible,
+html[data-theme="retro"] .install-app:focus,
+html[data-theme="retro"] .install-app:focus-visible,
+html[data-theme="retro"] .order-mode:focus,
+html[data-theme="retro"] .order-mode:focus-visible,
+html[data-theme="retro"] .subgroup .emoji > div:focus,
+html[data-theme="retro"] .subgroup .emoji > div:focus-visible,
+html[data-theme="retro"] .sequence-type > .emoji > div:focus,
+html[data-theme="retro"] .sequence-type > .emoji > div:focus-visible {
+  outline: 2px dotted #ffff55 !important;
+  outline-offset: 2px !important;
+  box-shadow: none !important;
 }
 
 html:has(dialog:modal),

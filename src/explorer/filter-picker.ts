@@ -200,13 +200,71 @@ export function onCompactChoiceKeyDown(event: KeyboardEvent) {
     nextIndex = choices.length - 1;
   } else {
     const rtl = document.documentElement.dir === 'rtl';
-    const backwards =
-      event.key === 'ArrowUp' ||
-      event.key === (rtl ? 'ArrowRight' : 'ArrowLeft');
-    nextIndex =
-      (currentIndex + (backwards ? -1 : 1) + choices.length) % choices.length;
+    const current = choices[currentIndex];
+    const rowTolerance = Math.max(8, current.getBoundingClientRect().height / 2);
+    const positioned = choices.map((choice, index) => {
+      const rect = choice.getBoundingClientRect();
+      return {
+        choice,
+        index,
+        centerX: rect.left + rect.width / 2,
+        centerY: rect.top + rect.height / 2
+      };
+    });
+    const rows: typeof positioned[] = [];
+    positioned.forEach(item => {
+      const row = rows.find(
+        candidate => Math.abs(candidate[0].centerY - item.centerY) <= rowTolerance
+      );
+      if (row) row.push(item);
+      else rows.push([item]);
+    });
+    rows.forEach(row => row.sort((a, b) => a.centerX - b.centerX));
+    rows.sort((a, b) => a[0].centerY - b[0].centerY);
+    const currentRowIndex = rows.findIndex(row =>
+      row.some(item => item.index === currentIndex)
+    );
+    const currentRow = rows[currentRowIndex] ?? [];
+    const currentColumnIndex = currentRow.findIndex(
+      item => item.index === currentIndex
+    );
+    const currentItem = currentRow[currentColumnIndex];
+    if (!currentItem) return;
+    if (event.key === (rtl ? 'ArrowRight' : 'ArrowLeft')) {
+      nextIndex =
+        currentRow[currentColumnIndex - 1]?.index ??
+        currentRow[currentRow.length - 1]?.index ??
+        currentIndex;
+    } else if (event.key === (rtl ? 'ArrowLeft' : 'ArrowRight')) {
+      nextIndex =
+        currentRow[currentColumnIndex + 1]?.index ??
+        currentRow[0]?.index ??
+        currentIndex;
+    } else {
+      const targetRow =
+        event.key === 'ArrowUp'
+          ? rows[currentRowIndex - 1]
+          : rows[currentRowIndex + 1];
+      if (!targetRow) {
+        nextIndex = currentIndex;
+      } else {
+        let bestMatch = targetRow[0];
+        let bestDistance = Math.abs(bestMatch.centerX - currentItem.centerX);
+        targetRow.forEach(item => {
+          const distance = Math.abs(item.centerX - currentItem.centerX);
+          if (distance < bestDistance) {
+            bestMatch = item;
+            bestDistance = distance;
+          }
+        });
+        nextIndex = bestMatch.index;
+      }
+    }
   }
-  choices[nextIndex].click();
+  choices.forEach((choice, index) => {
+    choice.tabIndex = index === nextIndex ? 0 : -1;
+  });
+  choices[nextIndex].focus();
 }
 
 export function displayUnicodeSubGroupName(
