@@ -21,7 +21,10 @@ export async function collectGlyphArtifacts(context) {
 
   for (const sheet of manifest.sheets) {
     const mapping = JSON.parse(
-      await fs.readFile(path.join(context.atlasDirectory, sheet.mapping), "utf8"),
+      await fs.readFile(
+        path.join(context.atlasDirectory, `${sheet.id}.json`),
+        "utf8",
+      ),
     );
     const atlas = await readAtlasImage(context, sheet.image);
     const paintedCount = await collectSheetGlyphs({
@@ -192,4 +195,3 @@ export function coverageEntry(version, keys, paintedKeys) {
     complete: paintedGlyphCount === trackedGlyphCount,
   };
 }
-

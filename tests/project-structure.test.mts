@@ -21,7 +21,7 @@ const legacyLineBudgets: Record<string, number> = {
   'pixel-editor.js': 2725,
   'pixel-font/PIXEL_EMOJI.md': 504,
   'pixel-font/scripts/build-assets.mjs': 231,
-  'pixel-font/scripts/generate-atlases.mjs': 382,
+  'pixel-font/scripts/generate-atlases.mjs': 108,
   'pixel-font/scripts/validate-atlases.mjs': 106
 };
 const legacyFileCountBudgets: Record<string, number> = {

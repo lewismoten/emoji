@@ -57,7 +57,6 @@
     {
       "id": "smileys-and-emotion/face-smiling",
       "image": "smileys-and-emotion/face-smiling.png",
-      "mapping": "smileys-and-emotion/face-smiling.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "face-smiling",
@@ -72,7 +71,6 @@
     {
       "id": "smileys-and-emotion/face-affection",
       "image": "smileys-and-emotion/face-affection.png",
-      "mapping": "smileys-and-emotion/face-affection.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "face-affection",
@@ -87,7 +85,6 @@
     {
       "id": "smileys-and-emotion/face-tongue",
       "image": "smileys-and-emotion/face-tongue.png",
-      "mapping": "smileys-and-emotion/face-tongue.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "face-tongue",
@@ -102,7 +99,6 @@
     {
       "id": "smileys-and-emotion/face-hand",
       "image": "smileys-and-emotion/face-hand.png",
-      "mapping": "smileys-and-emotion/face-hand.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "face-hand",
@@ -117,7 +113,6 @@
     {
       "id": "smileys-and-emotion/face-neutral-skeptical",
       "image": "smileys-and-emotion/face-neutral-skeptical.png",
-      "mapping": "smileys-and-emotion/face-neutral-skeptical.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "face-neutral-skeptical",
@@ -132,7 +127,6 @@
     {
       "id": "smileys-and-emotion/face-sleepy",
       "image": "smileys-and-emotion/face-sleepy.png",
-      "mapping": "smileys-and-emotion/face-sleepy.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "face-sleepy",
@@ -147,7 +141,6 @@
     {
       "id": "smileys-and-emotion/face-unwell",
       "image": "smileys-and-emotion/face-unwell.png",
-      "mapping": "smileys-and-emotion/face-unwell.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "face-unwell",
@@ -162,7 +155,6 @@
     {
       "id": "smileys-and-emotion/face-hat",
       "image": "smileys-and-emotion/face-hat.png",
-      "mapping": "smileys-and-emotion/face-hat.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "face-hat",
@@ -177,7 +169,6 @@
     {
       "id": "smileys-and-emotion/face-glasses",
       "image": "smileys-and-emotion/face-glasses.png",
-      "mapping": "smileys-and-emotion/face-glasses.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "face-glasses",
@@ -192,7 +183,6 @@
     {
       "id": "smileys-and-emotion/face-concerned",
       "image": "smileys-and-emotion/face-concerned.png",
-      "mapping": "smileys-and-emotion/face-concerned.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "face-concerned",
@@ -207,7 +197,6 @@
     {
       "id": "smileys-and-emotion/face-negative",
       "image": "smileys-and-emotion/face-negative.png",
-      "mapping": "smileys-and-emotion/face-negative.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "face-negative",
@@ -222,7 +211,6 @@
     {
       "id": "smileys-and-emotion/face-costume",
       "image": "smileys-and-emotion/face-costume.png",
-      "mapping": "smileys-and-emotion/face-costume.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "face-costume",
@@ -237,7 +225,6 @@
     {
       "id": "smileys-and-emotion/cat-face",
       "image": "smileys-and-emotion/cat-face.png",
-      "mapping": "smileys-and-emotion/cat-face.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "cat-face",
@@ -252,7 +239,6 @@
     {
       "id": "smileys-and-emotion/monkey-face",
       "image": "smileys-and-emotion/monkey-face.png",
-      "mapping": "smileys-and-emotion/monkey-face.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "monkey-face",
@@ -267,7 +253,6 @@
     {
       "id": "smileys-and-emotion/heart",
       "image": "smileys-and-emotion/heart.png",
-      "mapping": "smileys-and-emotion/heart.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "heart",
@@ -282,7 +267,6 @@
     {
       "id": "smileys-and-emotion/emotion",
       "image": "smileys-and-emotion/emotion.png",
-      "mapping": "smileys-and-emotion/emotion.json",
       "modifierType": "base",
       "group": "Smileys & Emotion",
       "subGroup": "emotion",
@@ -297,7 +281,6 @@
     {
       "id": "people-and-body/hand-fingers-open",
       "image": "people-and-body/hand-fingers-open.png",
-      "mapping": "people-and-body/hand-fingers-open.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "hand-fingers-open",
@@ -312,7 +295,6 @@
     {
       "id": "people-and-body/hand-fingers-partial",
       "image": "people-and-body/hand-fingers-partial.png",
-      "mapping": "people-and-body/hand-fingers-partial.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "hand-fingers-partial",
@@ -327,7 +309,6 @@
     {
       "id": "people-and-body/hand-single-finger",
       "image": "people-and-body/hand-single-finger.png",
-      "mapping": "people-and-body/hand-single-finger.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "hand-single-finger",
@@ -342,7 +323,6 @@
     {
       "id": "people-and-body/hand-fingers-closed",
       "image": "people-and-body/hand-fingers-closed.png",
-      "mapping": "people-and-body/hand-fingers-closed.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
@@ -357,7 +337,6 @@
     {
       "id": "people-and-body/hands",
       "image": "people-and-body/hands.png",
-      "mapping": "people-and-body/hands.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "hands",
@@ -372,7 +351,6 @@
     {
       "id": "people-and-body/hand-prop",
       "image": "people-and-body/hand-prop.png",
-      "mapping": "people-and-body/hand-prop.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "hand-prop",
@@ -387,7 +365,6 @@
     {
       "id": "people-and-body/body-parts",
       "image": "people-and-body/body-parts.png",
-      "mapping": "people-and-body/body-parts.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "body-parts",
@@ -402,7 +379,6 @@
     {
       "id": "people-and-body/person",
       "image": "people-and-body/person.png",
-      "mapping": "people-and-body/person.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "person",
@@ -417,7 +393,6 @@
     {
       "id": "people-and-body/person-gesture",
       "image": "people-and-body/person-gesture.png",
-      "mapping": "people-and-body/person-gesture.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "person-gesture",
@@ -432,7 +407,6 @@
     {
       "id": "people-and-body/person-role",
       "image": "people-and-body/person-role.png",
-      "mapping": "people-and-body/person-role.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "person-role",
@@ -447,7 +421,6 @@
     {
       "id": "people-and-body/person-fantasy",
       "image": "people-and-body/person-fantasy.png",
-      "mapping": "people-and-body/person-fantasy.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "person-fantasy",
@@ -462,7 +435,6 @@
     {
       "id": "people-and-body/person-activity",
       "image": "people-and-body/person-activity.png",
-      "mapping": "people-and-body/person-activity.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "person-activity",
@@ -477,7 +449,6 @@
     {
       "id": "people-and-body/person-sport",
       "image": "people-and-body/person-sport.png",
-      "mapping": "people-and-body/person-sport.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "person-sport",
@@ -492,7 +463,6 @@
     {
       "id": "people-and-body/person-resting",
       "image": "people-and-body/person-resting.png",
-      "mapping": "people-and-body/person-resting.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "person-resting",
@@ -507,7 +477,6 @@
     {
       "id": "people-and-body/family",
       "image": "people-and-body/family.png",
-      "mapping": "people-and-body/family.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "family",
@@ -522,7 +491,6 @@
     {
       "id": "people-and-body/person-symbol",
       "image": "people-and-body/person-symbol.png",
-      "mapping": "people-and-body/person-symbol.json",
       "modifierType": "base",
       "group": "People & Body",
       "subGroup": "person-symbol",
@@ -537,7 +505,6 @@
     {
       "id": "animals-and-nature/animal-mammal",
       "image": "animals-and-nature/animal-mammal.png",
-      "mapping": "animals-and-nature/animal-mammal.json",
       "modifierType": "base",
       "group": "Animals & Nature",
       "subGroup": "animal-mammal",
@@ -552,7 +519,6 @@
     {
       "id": "animals-and-nature/animal-bird",
       "image": "animals-and-nature/animal-bird.png",
-      "mapping": "animals-and-nature/animal-bird.json",
       "modifierType": "base",
       "group": "Animals & Nature",
       "subGroup": "animal-bird",
@@ -567,7 +533,6 @@
     {
       "id": "animals-and-nature/animal-amphibian",
       "image": "animals-and-nature/animal-amphibian.png",
-      "mapping": "animals-and-nature/animal-amphibian.json",
       "modifierType": "base",
       "group": "Animals & Nature",
       "subGroup": "animal-amphibian",
@@ -582,7 +547,6 @@
     {
       "id": "animals-and-nature/animal-reptile",
       "image": "animals-and-nature/animal-reptile.png",
-      "mapping": "animals-and-nature/animal-reptile.json",
       "modifierType": "base",
       "group": "Animals & Nature",
       "subGroup": "animal-reptile",
@@ -597,7 +561,6 @@
     {
       "id": "animals-and-nature/animal-marine",
       "image": "animals-and-nature/animal-marine.png",
-      "mapping": "animals-and-nature/animal-marine.json",
       "modifierType": "base",
       "group": "Animals & Nature",
       "subGroup": "animal-marine",
@@ -612,7 +575,6 @@
     {
       "id": "animals-and-nature/animal-bug",
       "image": "animals-and-nature/animal-bug.png",
-      "mapping": "animals-and-nature/animal-bug.json",
       "modifierType": "base",
       "group": "Animals & Nature",
       "subGroup": "animal-bug",
@@ -627,7 +589,6 @@
     {
       "id": "animals-and-nature/plant-flower",
       "image": "animals-and-nature/plant-flower.png",
-      "mapping": "animals-and-nature/plant-flower.json",
       "modifierType": "base",
       "group": "Animals & Nature",
       "subGroup": "plant-flower",
@@ -642,7 +603,6 @@
     {
       "id": "animals-and-nature/plant-other",
       "image": "animals-and-nature/plant-other.png",
-      "mapping": "animals-and-nature/plant-other.json",
       "modifierType": "base",
       "group": "Animals & Nature",
       "subGroup": "plant-other",
@@ -657,7 +617,6 @@
     {
       "id": "food-and-drink/food-fruit",
       "image": "food-and-drink/food-fruit.png",
-      "mapping": "food-and-drink/food-fruit.json",
       "modifierType": "base",
       "group": "Food & Drink",
       "subGroup": "food-fruit",
@@ -672,7 +631,6 @@
     {
       "id": "food-and-drink/food-vegetable",
       "image": "food-and-drink/food-vegetable.png",
-      "mapping": "food-and-drink/food-vegetable.json",
       "modifierType": "base",
       "group": "Food & Drink",
       "subGroup": "food-vegetable",
@@ -687,7 +645,6 @@
     {
       "id": "food-and-drink/food-prepared",
       "image": "food-and-drink/food-prepared.png",
-      "mapping": "food-and-drink/food-prepared.json",
       "modifierType": "base",
       "group": "Food & Drink",
       "subGroup": "food-prepared",
@@ -702,7 +659,6 @@
     {
       "id": "food-and-drink/food-asian",
       "image": "food-and-drink/food-asian.png",
-      "mapping": "food-and-drink/food-asian.json",
       "modifierType": "base",
       "group": "Food & Drink",
       "subGroup": "food-asian",
@@ -717,7 +673,6 @@
     {
       "id": "food-and-drink/food-sweet",
       "image": "food-and-drink/food-sweet.png",
-      "mapping": "food-and-drink/food-sweet.json",
       "modifierType": "base",
       "group": "Food & Drink",
       "subGroup": "food-sweet",
@@ -732,7 +687,6 @@
     {
       "id": "food-and-drink/drink",
       "image": "food-and-drink/drink.png",
-      "mapping": "food-and-drink/drink.json",
       "modifierType": "base",
       "group": "Food & Drink",
       "subGroup": "drink",
@@ -747,7 +701,6 @@
     {
       "id": "food-and-drink/dishware",
       "image": "food-and-drink/dishware.png",
-      "mapping": "food-and-drink/dishware.json",
       "modifierType": "base",
       "group": "Food & Drink",
       "subGroup": "dishware",
@@ -762,7 +715,6 @@
     {
       "id": "travel-and-places/place-map",
       "image": "travel-and-places/place-map.png",
-      "mapping": "travel-and-places/place-map.json",
       "modifierType": "base",
       "group": "Travel & Places",
       "subGroup": "place-map",
@@ -777,7 +729,6 @@
     {
       "id": "travel-and-places/place-geographic",
       "image": "travel-and-places/place-geographic.png",
-      "mapping": "travel-and-places/place-geographic.json",
       "modifierType": "base",
       "group": "Travel & Places",
       "subGroup": "place-geographic",
@@ -792,7 +743,6 @@
     {
       "id": "travel-and-places/place-building",
       "image": "travel-and-places/place-building.png",
-      "mapping": "travel-and-places/place-building.json",
       "modifierType": "base",
       "group": "Travel & Places",
       "subGroup": "place-building",
@@ -807,7 +757,6 @@
     {
       "id": "travel-and-places/place-religious",
       "image": "travel-and-places/place-religious.png",
-      "mapping": "travel-and-places/place-religious.json",
       "modifierType": "base",
       "group": "Travel & Places",
       "subGroup": "place-religious",
@@ -822,7 +771,6 @@
     {
       "id": "travel-and-places/place-other",
       "image": "travel-and-places/place-other.png",
-      "mapping": "travel-and-places/place-other.json",
       "modifierType": "base",
       "group": "Travel & Places",
       "subGroup": "place-other",
@@ -837,7 +785,6 @@
     {
       "id": "travel-and-places/transport-ground",
       "image": "travel-and-places/transport-ground.png",
-      "mapping": "travel-and-places/transport-ground.json",
       "modifierType": "base",
       "group": "Travel & Places",
       "subGroup": "transport-ground",
@@ -852,7 +799,6 @@
     {
       "id": "travel-and-places/transport-water",
       "image": "travel-and-places/transport-water.png",
-      "mapping": "travel-and-places/transport-water.json",
       "modifierType": "base",
       "group": "Travel & Places",
       "subGroup": "transport-water",
@@ -867,7 +813,6 @@
     {
       "id": "travel-and-places/transport-air",
       "image": "travel-and-places/transport-air.png",
-      "mapping": "travel-and-places/transport-air.json",
       "modifierType": "base",
       "group": "Travel & Places",
       "subGroup": "transport-air",
@@ -882,7 +827,6 @@
     {
       "id": "travel-and-places/hotel",
       "image": "travel-and-places/hotel.png",
-      "mapping": "travel-and-places/hotel.json",
       "modifierType": "base",
       "group": "Travel & Places",
       "subGroup": "hotel",
@@ -897,7 +841,6 @@
     {
       "id": "travel-and-places/time",
       "image": "travel-and-places/time.png",
-      "mapping": "travel-and-places/time.json",
       "modifierType": "base",
       "group": "Travel & Places",
       "subGroup": "time",
@@ -912,7 +855,6 @@
     {
       "id": "travel-and-places/sky-and-weather",
       "image": "travel-and-places/sky-and-weather.png",
-      "mapping": "travel-and-places/sky-and-weather.json",
       "modifierType": "base",
       "group": "Travel & Places",
       "subGroup": "sky & weather",
@@ -927,7 +869,6 @@
     {
       "id": "activities/event",
       "image": "activities/event.png",
-      "mapping": "activities/event.json",
       "modifierType": "base",
       "group": "Activities",
       "subGroup": "event",
@@ -942,7 +883,6 @@
     {
       "id": "activities/award-medal",
       "image": "activities/award-medal.png",
-      "mapping": "activities/award-medal.json",
       "modifierType": "base",
       "group": "Activities",
       "subGroup": "award-medal",
@@ -957,7 +897,6 @@
     {
       "id": "activities/sport",
       "image": "activities/sport.png",
-      "mapping": "activities/sport.json",
       "modifierType": "base",
       "group": "Activities",
       "subGroup": "sport",
@@ -972,7 +911,6 @@
     {
       "id": "activities/game",
       "image": "activities/game.png",
-      "mapping": "activities/game.json",
       "modifierType": "base",
       "group": "Activities",
       "subGroup": "game",
@@ -987,7 +925,6 @@
     {
       "id": "activities/arts-and-crafts",
       "image": "activities/arts-and-crafts.png",
-      "mapping": "activities/arts-and-crafts.json",
       "modifierType": "base",
       "group": "Activities",
       "subGroup": "arts & crafts",
@@ -1002,7 +939,6 @@
     {
       "id": "objects/clothing",
       "image": "objects/clothing.png",
-      "mapping": "objects/clothing.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "clothing",
@@ -1017,7 +953,6 @@
     {
       "id": "objects/sound",
       "image": "objects/sound.png",
-      "mapping": "objects/sound.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "sound",
@@ -1032,7 +967,6 @@
     {
       "id": "objects/music",
       "image": "objects/music.png",
-      "mapping": "objects/music.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "music",
@@ -1047,7 +981,6 @@
     {
       "id": "objects/musical-instrument",
       "image": "objects/musical-instrument.png",
-      "mapping": "objects/musical-instrument.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "musical-instrument",
@@ -1062,7 +995,6 @@
     {
       "id": "objects/phone",
       "image": "objects/phone.png",
-      "mapping": "objects/phone.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "phone",
@@ -1077,7 +1009,6 @@
     {
       "id": "objects/computer",
       "image": "objects/computer.png",
-      "mapping": "objects/computer.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "computer",
@@ -1092,7 +1023,6 @@
     {
       "id": "objects/light-and-video",
       "image": "objects/light-and-video.png",
-      "mapping": "objects/light-and-video.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "light & video",
@@ -1107,7 +1037,6 @@
     {
       "id": "objects/book-paper",
       "image": "objects/book-paper.png",
-      "mapping": "objects/book-paper.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "book-paper",
@@ -1122,7 +1051,6 @@
     {
       "id": "objects/money",
       "image": "objects/money.png",
-      "mapping": "objects/money.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "money",
@@ -1137,7 +1065,6 @@
     {
       "id": "objects/mail",
       "image": "objects/mail.png",
-      "mapping": "objects/mail.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "mail",
@@ -1152,7 +1079,6 @@
     {
       "id": "objects/writing",
       "image": "objects/writing.png",
-      "mapping": "objects/writing.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "writing",
@@ -1167,7 +1093,6 @@
     {
       "id": "objects/office",
       "image": "objects/office.png",
-      "mapping": "objects/office.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "office",
@@ -1182,7 +1107,6 @@
     {
       "id": "objects/lock",
       "image": "objects/lock.png",
-      "mapping": "objects/lock.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "lock",
@@ -1197,7 +1121,6 @@
     {
       "id": "objects/tool",
       "image": "objects/tool.png",
-      "mapping": "objects/tool.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "tool",
@@ -1212,7 +1135,6 @@
     {
       "id": "objects/science",
       "image": "objects/science.png",
-      "mapping": "objects/science.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "science",
@@ -1227,7 +1149,6 @@
     {
       "id": "objects/medical",
       "image": "objects/medical.png",
-      "mapping": "objects/medical.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "medical",
@@ -1242,7 +1163,6 @@
     {
       "id": "objects/household",
       "image": "objects/household.png",
-      "mapping": "objects/household.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "household",
@@ -1257,7 +1177,6 @@
     {
       "id": "objects/other-object",
       "image": "objects/other-object.png",
-      "mapping": "objects/other-object.json",
       "modifierType": "base",
       "group": "Objects",
       "subGroup": "other-object",
@@ -1272,7 +1191,6 @@
     {
       "id": "symbols/transport-sign",
       "image": "symbols/transport-sign.png",
-      "mapping": "symbols/transport-sign.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "transport-sign",
@@ -1287,7 +1205,6 @@
     {
       "id": "symbols/warning",
       "image": "symbols/warning.png",
-      "mapping": "symbols/warning.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "warning",
@@ -1302,7 +1219,6 @@
     {
       "id": "symbols/arrow",
       "image": "symbols/arrow.png",
-      "mapping": "symbols/arrow.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "arrow",
@@ -1317,7 +1233,6 @@
     {
       "id": "symbols/religion",
       "image": "symbols/religion.png",
-      "mapping": "symbols/religion.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "religion",
@@ -1332,7 +1247,6 @@
     {
       "id": "symbols/zodiac",
       "image": "symbols/zodiac.png",
-      "mapping": "symbols/zodiac.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "zodiac",
@@ -1347,7 +1261,6 @@
     {
       "id": "symbols/av-symbol",
       "image": "symbols/av-symbol.png",
-      "mapping": "symbols/av-symbol.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "av-symbol",
@@ -1362,7 +1275,6 @@
     {
       "id": "symbols/gender",
       "image": "symbols/gender.png",
-      "mapping": "symbols/gender.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "gender",
@@ -1377,7 +1289,6 @@
     {
       "id": "symbols/math",
       "image": "symbols/math.png",
-      "mapping": "symbols/math.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "math",
@@ -1392,7 +1303,6 @@
     {
       "id": "symbols/punctuation",
       "image": "symbols/punctuation.png",
-      "mapping": "symbols/punctuation.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "punctuation",
@@ -1407,7 +1317,6 @@
     {
       "id": "symbols/currency",
       "image": "symbols/currency.png",
-      "mapping": "symbols/currency.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "currency",
@@ -1422,7 +1331,6 @@
     {
       "id": "symbols/other-symbol",
       "image": "symbols/other-symbol.png",
-      "mapping": "symbols/other-symbol.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "other-symbol",
@@ -1437,7 +1345,6 @@
     {
       "id": "symbols/keycap",
       "image": "symbols/keycap.png",
-      "mapping": "symbols/keycap.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "keycap",
@@ -1452,7 +1359,6 @@
     {
       "id": "symbols/alphanum",
       "image": "symbols/alphanum.png",
-      "mapping": "symbols/alphanum.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "alphanum",
@@ -1467,7 +1373,6 @@
     {
       "id": "symbols/geometric",
       "image": "symbols/geometric.png",
-      "mapping": "symbols/geometric.json",
       "modifierType": "base",
       "group": "Symbols",
       "subGroup": "geometric",
@@ -1482,7 +1387,6 @@
     {
       "id": "flags/flag",
       "image": "flags/flag.png",
-      "mapping": "flags/flag.json",
       "modifierType": "base",
       "group": "Flags",
       "subGroup": "flag",
@@ -1497,7 +1401,6 @@
     {
       "id": "flags/country-flag-01",
       "image": "flags/country-flag-01.png",
-      "mapping": "flags/country-flag-01.json",
       "modifierType": "base",
       "group": "Flags",
       "subGroup": "country-flag",
@@ -1512,7 +1415,6 @@
     {
       "id": "flags/country-flag-02",
       "image": "flags/country-flag-02.png",
-      "mapping": "flags/country-flag-02.json",
       "modifierType": "base",
       "group": "Flags",
       "subGroup": "country-flag",
@@ -1527,7 +1429,6 @@
     {
       "id": "flags/country-flag-03",
       "image": "flags/country-flag-03.png",
-      "mapping": "flags/country-flag-03.json",
       "modifierType": "base",
       "group": "Flags",
       "subGroup": "country-flag",
@@ -1542,7 +1443,6 @@
     {
       "id": "flags/subdivision-flag",
       "image": "flags/subdivision-flag.png",
-      "mapping": "flags/subdivision-flag.json",
       "modifierType": "base",
       "group": "Flags",
       "subGroup": "subdivision-flag",
@@ -1557,7 +1457,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/hand-fingers-open",
       "image": "modifiers/skin-tone/people-and-body/hand-fingers-open.png",
-      "mapping": "modifiers/skin-tone/people-and-body/hand-fingers-open.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-open",
@@ -1572,7 +1471,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/hand-fingers-partial",
       "image": "modifiers/skin-tone/people-and-body/hand-fingers-partial.png",
-      "mapping": "modifiers/skin-tone/people-and-body/hand-fingers-partial.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-partial",
@@ -1587,7 +1485,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/hand-single-finger",
       "image": "modifiers/skin-tone/people-and-body/hand-single-finger.png",
-      "mapping": "modifiers/skin-tone/people-and-body/hand-single-finger.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "hand-single-finger",
@@ -1602,7 +1499,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/hand-fingers-closed",
       "image": "modifiers/skin-tone/people-and-body/hand-fingers-closed.png",
-      "mapping": "modifiers/skin-tone/people-and-body/hand-fingers-closed.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "hand-fingers-closed",
@@ -1617,7 +1513,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/hands",
       "image": "modifiers/skin-tone/people-and-body/hands.png",
-      "mapping": "modifiers/skin-tone/people-and-body/hands.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "hands",
@@ -1632,7 +1527,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/hand-prop",
       "image": "modifiers/skin-tone/people-and-body/hand-prop.png",
-      "mapping": "modifiers/skin-tone/people-and-body/hand-prop.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "hand-prop",
@@ -1647,7 +1541,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/body-parts",
       "image": "modifiers/skin-tone/people-and-body/body-parts.png",
-      "mapping": "modifiers/skin-tone/people-and-body/body-parts.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "body-parts",
@@ -1662,7 +1555,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person",
       "image": "modifiers/skin-tone/people-and-body/person.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person",
@@ -1677,7 +1569,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-gesture-01",
       "image": "modifiers/skin-tone/people-and-body/person-gesture-01.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-gesture-01.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-gesture",
@@ -1692,7 +1583,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-gesture-02",
       "image": "modifiers/skin-tone/people-and-body/person-gesture-02.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-gesture-02.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-gesture",
@@ -1707,7 +1597,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-role-01",
       "image": "modifiers/skin-tone/people-and-body/person-role-01.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-role-01.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-role",
@@ -1722,7 +1611,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-role-02",
       "image": "modifiers/skin-tone/people-and-body/person-role-02.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-role-02.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-role",
@@ -1737,7 +1625,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-role-03",
       "image": "modifiers/skin-tone/people-and-body/person-role-03.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-role-03.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-role",
@@ -1752,7 +1639,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-role-04",
       "image": "modifiers/skin-tone/people-and-body/person-role-04.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-role-04.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-role",
@@ -1767,7 +1653,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-fantasy",
       "image": "modifiers/skin-tone/people-and-body/person-fantasy.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-fantasy.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-fantasy",
@@ -1782,7 +1667,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-activity-01",
       "image": "modifiers/skin-tone/people-and-body/person-activity-01.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-activity-01.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-activity",
@@ -1797,7 +1681,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-activity-02",
       "image": "modifiers/skin-tone/people-and-body/person-activity-02.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-activity-02.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-activity",
@@ -1812,7 +1695,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-activity-03",
       "image": "modifiers/skin-tone/people-and-body/person-activity-03.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-activity-03.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-activity",
@@ -1827,7 +1709,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-sport-01",
       "image": "modifiers/skin-tone/people-and-body/person-sport-01.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-sport-01.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-sport",
@@ -1842,7 +1723,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-sport-02",
       "image": "modifiers/skin-tone/people-and-body/person-sport-02.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-sport-02.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-sport",
@@ -1857,7 +1737,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-sport-03",
       "image": "modifiers/skin-tone/people-and-body/person-sport-03.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-sport-03.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-sport",
@@ -1872,7 +1751,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/person-resting",
       "image": "modifiers/skin-tone/people-and-body/person-resting.png",
-      "mapping": "modifiers/skin-tone/people-and-body/person-resting.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "person-resting",
@@ -1887,7 +1765,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/family-01",
       "image": "modifiers/skin-tone/people-and-body/family-01.png",
-      "mapping": "modifiers/skin-tone/people-and-body/family-01.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "family",
@@ -1902,7 +1779,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/family-02",
       "image": "modifiers/skin-tone/people-and-body/family-02.png",
-      "mapping": "modifiers/skin-tone/people-and-body/family-02.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "family",
@@ -1917,7 +1793,6 @@
     {
       "id": "modifiers/skin-tone/people-and-body/family-03",
       "image": "modifiers/skin-tone/people-and-body/family-03.png",
-      "mapping": "modifiers/skin-tone/people-and-body/family-03.json",
       "modifierType": "skin-tone",
       "group": "People & Body",
       "subGroup": "family",
@@ -1932,7 +1807,6 @@
     {
       "id": "modifiers/skin-tone/component/skin-tone",
       "image": "modifiers/skin-tone/component/skin-tone.png",
-      "mapping": "modifiers/skin-tone/component/skin-tone.json",
       "modifierType": "skin-tone",
       "group": "Component",
       "subGroup": "skin-tone",
@@ -1947,7 +1821,6 @@
     {
       "id": "modifiers/hair/people-and-body/person",
       "image": "modifiers/hair/people-and-body/person.png",
-      "mapping": "modifiers/hair/people-and-body/person.json",
       "modifierType": "hair",
       "group": "People & Body",
       "subGroup": "person",
@@ -1962,7 +1835,6 @@
     {
       "id": "modifiers/hair/component/hair-style",
       "image": "modifiers/hair/component/hair-style.png",
-      "mapping": "modifiers/hair/component/hair-style.json",
       "modifierType": "hair",
       "group": "Component",
       "subGroup": "hair-style",
@@ -1977,7 +1849,6 @@
     {
       "id": "modifiers/skin-and-hair/people-and-body/person",
       "image": "modifiers/skin-and-hair/people-and-body/person.png",
-      "mapping": "modifiers/skin-and-hair/people-and-body/person.json",
       "modifierType": "skin-and-hair",
       "group": "People & Body",
       "subGroup": "person",
@@ -1992,7 +1863,6 @@
     {
       "id": "proposed/18.0/smileys-and-emotion/face-smiling",
       "image": "proposed/18.0/smileys-and-emotion/face-smiling.png",
-      "mapping": "proposed/18.0/smileys-and-emotion/face-smiling.json",
       "modifierType": "base",
       "releaseStatus": "proposed",
       "unicodeVersion": "18.0",
@@ -2009,7 +1879,6 @@
     {
       "id": "proposed/18.0/people-and-body/hand-fingers-closed",
       "image": "proposed/18.0/people-and-body/hand-fingers-closed.png",
-      "mapping": "proposed/18.0/people-and-body/hand-fingers-closed.json",
       "modifierType": "base",
       "releaseStatus": "proposed",
       "unicodeVersion": "18.0",
@@ -2026,7 +1895,6 @@
     {
       "id": "proposed/18.0/animals-and-nature/animal-bug",
       "image": "proposed/18.0/animals-and-nature/animal-bug.png",
-      "mapping": "proposed/18.0/animals-and-nature/animal-bug.json",
       "modifierType": "base",
       "releaseStatus": "proposed",
       "unicodeVersion": "18.0",
@@ -2043,7 +1911,6 @@
     {
       "id": "proposed/18.0/food-and-drink/food-vegetable",
       "image": "proposed/18.0/food-and-drink/food-vegetable.png",
-      "mapping": "proposed/18.0/food-and-drink/food-vegetable.json",
       "modifierType": "base",
       "releaseStatus": "proposed",
       "unicodeVersion": "18.0",
@@ -2060,7 +1927,6 @@
     {
       "id": "proposed/18.0/travel-and-places/transport-water",
       "image": "proposed/18.0/travel-and-places/transport-water.png",
-      "mapping": "proposed/18.0/travel-and-places/transport-water.json",
       "modifierType": "base",
       "releaseStatus": "proposed",
       "unicodeVersion": "18.0",
@@ -2077,7 +1943,6 @@
     {
       "id": "proposed/18.0/travel-and-places/sky-and-weather",
       "image": "proposed/18.0/travel-and-places/sky-and-weather.png",
-      "mapping": "proposed/18.0/travel-and-places/sky-and-weather.json",
       "modifierType": "base",
       "releaseStatus": "proposed",
       "unicodeVersion": "18.0",
@@ -2094,7 +1959,6 @@
     {
       "id": "proposed/18.0/objects/writing",
       "image": "proposed/18.0/objects/writing.png",
-      "mapping": "proposed/18.0/objects/writing.json",
       "modifierType": "base",
       "releaseStatus": "proposed",
       "unicodeVersion": "18.0",
@@ -2111,7 +1975,6 @@
     {
       "id": "proposed/18.0/objects/tool",
       "image": "proposed/18.0/objects/tool.png",
-      "mapping": "proposed/18.0/objects/tool.json",
       "modifierType": "base",
       "releaseStatus": "proposed",
       "unicodeVersion": "18.0",
@@ -2128,7 +1991,6 @@
     {
       "id": "proposed/18.0/modifiers/skin-tone/people-and-body/hand-fingers-closed",
       "image": "proposed/18.0/modifiers/skin-tone/people-and-body/hand-fingers-closed.png",
-      "mapping": "proposed/18.0/modifiers/skin-tone/people-and-body/hand-fingers-closed.json",
       "modifierType": "skin-tone",
       "releaseStatus": "proposed",
       "unicodeVersion": "18.0",

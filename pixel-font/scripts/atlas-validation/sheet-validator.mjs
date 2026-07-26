@@ -9,8 +9,9 @@ import {
 } from "./helpers.mjs";
 
 export async function validateAtlasSheet(sheet, context) {
+  const mappingFile = `${sheet.id}.json`;
   const sidecar = JSON.parse(
-    await fs.readFile(path.join(context.atlasDirectory, sheet.mapping), "utf8"),
+    await fs.readFile(path.join(context.atlasDirectory, mappingFile), "utf8"),
   );
   validateSidecarMetadata(sheet, sidecar, context);
   const imageValidated = await validateSidecarImage(sidecar, sheet, context);
@@ -23,29 +24,30 @@ export async function validateAtlasSheet(sheet, context) {
 }
 
 function validateSidecarMetadata(sheet, sidecar, context) {
-  assert(sidecar.id === sheet.id, `${sheet.mapping} has the wrong ID`);
+  const mappingFile = `${sheet.id}.json`;
+  assert(sidecar.id === sheet.id, `${mappingFile} has the wrong ID`);
   assert(
     sidecar.modifierType === sheet.modifierType,
-    `${sheet.mapping} has the wrong modifier type`,
+    `${mappingFile} has the wrong modifier type`,
   );
   assert(
     (sidecar.releaseStatus ?? "released") ===
       (sheet.releaseStatus ?? "released"),
-    `${sheet.mapping} has the wrong release status`,
+    `${mappingFile} has the wrong release status`,
   );
-  assert(sidecar.image === sheet.image, `${sheet.mapping} points to the wrong PNG`);
-  assert(sidecar.group === sheet.group, `${sheet.mapping} has the wrong group`);
+  assert(sidecar.image === sheet.image, `${mappingFile} points to the wrong PNG`);
+  assert(sidecar.group === sheet.group, `${mappingFile} has the wrong group`);
   assert(
     sidecar.subGroup === sheet.subGroup,
-    `${sheet.mapping} has the wrong subgroup`,
+    `${mappingFile} has the wrong subgroup`,
   );
   assert(
     sidecar.rows > 0 && sidecar.rows <= context.config.maxRows,
-    `${sheet.mapping} has an invalid row count`,
+    `${mappingFile} has an invalid row count`,
   );
   assert(
     sidecar.entries.length <= context.config.columns * sidecar.rows,
-    `${sheet.mapping} exceeds its capacity`,
+    `${mappingFile} exceeds its capacity`,
   );
 }
 

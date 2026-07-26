@@ -1,219 +1,83 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { format } from "prettier";
 
-const workspace = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "..",
-);
-const root = path.resolve(workspace, "..");
-const atlasDirectory = path.join(workspace, "atlases");
-const config = JSON.parse(
-  await fs.readFile(path.join(workspace, "config.json"), "utf8"),
-);
-const emoji = JSON.parse(
-  await fs.readFile(path.join(root, "emoji.json"), "utf8"),
-);
-const versionManifest = JSON.parse(
-  await fs.readFile(path.join(root, "versions", "manifest.json"), "utf8"),
-);
-const proposedEmoji = (
-  await Promise.all(
-    (versionManifest.proposed ?? []).map(async (version) => {
-      const proposal = JSON.parse(
-        await fs.readFile(path.join(root, version.file), "utf8"),
-      );
-      return (proposal.emoji ?? []).map((item) => ({
-        ...item,
-        releaseStatus: "proposed",
-        unicodeVersion: version.version,
-        proposalStage: version.stage ?? version.status ?? proposal.status,
-        expectedRelease: version.expectedRelease ?? null,
-      }));
-    }),
-  )
-).flat();
-const skinToneModifiers = new Set(
-  config.skinToneModifierCodePoints.map((point) => point.toUpperCase()),
-);
-const hairModifiers = new Set(
-  config.hairModifierCodePoints.map((point) => point.toUpperCase()),
-);
-const eligible = [...emoji, ...proposedEmoji].sort(
+import { assignBucket, loadPreviousAssignments } from "./generate-atlases/assignments.mjs";
+import {
+  buildBuckets,
+  compareBuckets,
+  createModifierTypeResolver,
+} from "./generate-atlases/buckets.mjs";
+import { loadAtlasGenerationContext } from "./generate-atlases/generate-atlases-context.mjs";
+import {
+  countByModifierType,
+  countBySequenceType,
+  writeJson,
+} from "./generate-atlases/generate-atlases-helpers.mjs";
+import { writeBucketAtlases } from "./generate-atlases/manifest.mjs";
+
+const context = await loadAtlasGenerationContext();
+const getModifierType = createModifierTypeResolver(context.config);
+const eligible = [...context.emoji, ...context.proposedEmoji].sort(
   (left, right) =>
     left.order - right.order || left.key.localeCompare(right.key),
 );
 const eligibleByKey = new Map(eligible.map((item) => [item.key, item]));
-const sheetCapacity = config.columns * config.maxRows;
-const slotSize = config.cellSize + config.cellPadding * 2;
-const imageWidth = config.outerPadding * 2 + config.columns * slotSize;
 
-await fs.mkdir(atlasDirectory, { recursive: true });
-const previousAssignments = await loadPreviousAssignments();
-const buckets = new Map();
-
-for (const item of eligible) {
-  const modifierType = getModifierType(item);
-  const releaseStatus = item.releaseStatus ?? "released";
-  const unicodeVersion =
-    releaseStatus === "proposed" ? item.unicodeVersion : null;
-  const bucketKey = `${releaseStatus}\0${unicodeVersion ?? ""}\0${modifierType}\0${item.group}\0${item.subGroup}`;
-  if (!buckets.has(bucketKey)) {
-    buckets.set(bucketKey, {
-      releaseStatus,
-      unicodeVersion,
-      modifierType,
-      group: item.group,
-      subGroup: item.subGroup,
-      proposalStage: item.proposalStage ?? null,
-      expectedRelease: item.expectedRelease ?? null,
-      items: [],
-    });
-  }
-  buckets.get(bucketKey).items.push(item);
-}
-
+await fs.mkdir(context.atlasDirectory, { recursive: true });
+const previousAssignments = await loadPreviousAssignments(
+  context.atlasDirectory,
+  context.sheetCapacity,
+);
+const buckets = buildBuckets(eligible, getModifierType);
 const manifestSheets = [];
-for (const bucket of [...buckets.values()].sort(compareBuckets)) {
-  const assignments = assignBucket(bucket, previousAssignments);
-  const partCount = Math.max(
-    1,
-    Math.ceil((assignments.at(-1)?.globalIndex + 1 || 0) / sheetCapacity),
-  );
-  for (let part = 0; part < partCount; part += 1) {
-    const partAssignments = assignments.filter(
-      (assignment) =>
-        Math.floor(assignment.globalIndex / sheetCapacity) === part,
-    );
-    if (partAssignments.length === 0) continue;
-    const rows = Math.ceil(
-      (Math.max(
-        ...partAssignments.map(
-          (assignment) => assignment.globalIndex % sheetCapacity,
-        ),
-      ) +
-        1) /
-        config.columns,
-    );
-    const groupSlug = slug(bucket.group);
-    const subGroupSlug = slug(bucket.subGroup);
-    const suffix = partCount > 1 ? `-${String(part + 1).padStart(2, "0")}` : "";
-    const releasePrefix =
-      bucket.releaseStatus === "proposed"
-        ? `proposed/${bucket.unicodeVersion}/`
-        : "";
-    const modifierPrefix =
-      bucket.modifierType === "base" ? "" : `modifiers/${bucket.modifierType}/`;
-    const prefix = `${releasePrefix}${modifierPrefix}`;
-    const id = `${prefix}${groupSlug}/${subGroupSlug}${suffix}`;
-    const image = `${id}.png`;
-    const mapping = `${id}.json`;
-    const imageHeight =
-      config.headerHeight + rows * slotSize + config.footerHeight;
-    const entries = partAssignments.map((assignment) => {
-      const item = eligibleByKey.get(assignment.key);
-      const index = assignment.globalIndex % sheetCapacity;
-      const row = Math.floor(index / config.columns);
-      const column = index % config.columns;
-      const previous = assignment.previous ?? {};
-      return {
-        index,
-        row,
-        column,
-        x: config.outerPadding + column * slotSize + config.cellPadding,
-        y: config.headerHeight + row * slotSize + config.cellPadding,
-        width: config.cellSize,
-        height: config.cellSize,
-        key: assignment.key,
-        name: item?.shortName ?? previous.name ?? assignment.key,
-        emoji: item?.emoji ?? previous.emoji ?? "",
-        codePoints: item?.codePoints.split(/\s+/) ?? previous.codePoints ?? [],
-        order: item?.order ?? previous.order ?? null,
-        sequenceType: item?.sequenceType ?? previous.sequenceType ?? "",
-        active: Boolean(item),
-      };
-    });
-    const sidecar = {
-      schemaVersion: config.schemaVersion,
-      id,
-      image,
-      modifierType: bucket.modifierType,
-      ...(bucket.releaseStatus === "proposed"
-        ? {
-            releaseStatus: "proposed",
-            unicodeVersion: bucket.unicodeVersion,
-            proposalStage: bucket.proposalStage ?? "draft",
-            expectedRelease: bucket.expectedRelease,
-          }
-        : {}),
-      group: bucket.group,
-      subGroup: bucket.subGroup,
-      part: part + 1,
-      partCount,
-      rows,
-      imageWidth,
-      imageHeight,
-      entries,
-    };
-    await writeJson(path.join(atlasDirectory, mapping), sidecar);
 
-    manifestSheets.push({
-      id,
-      image,
-      mapping,
-      modifierType: bucket.modifierType,
-      ...(bucket.releaseStatus === "proposed"
-        ? {
-            releaseStatus: "proposed",
-            unicodeVersion: bucket.unicodeVersion,
-          }
-        : {}),
-      group: bucket.group,
-      subGroup: bucket.subGroup,
-      part: part + 1,
-      partCount,
-      rows,
-      imageWidth,
-      imageHeight,
-      activeCount: entries.filter((entry) => entry.active).length,
-      assignedCount: entries.length,
-    });
-  }
+for (const bucket of [...buckets.values()].sort(compareBuckets)) {
+  manifestSheets.push(
+    ...(await writeBucketAtlases({
+      assignBucket,
+      atlasDirectory: context.atlasDirectory,
+      bucket,
+      config: context.config,
+      eligibleByKey,
+      imageWidth: context.imageWidth,
+      previousAssignments,
+      sheetCapacity: context.sheetCapacity,
+    })),
+  );
 }
 
 const manifest = {
-  schemaVersion: config.schemaVersion,
-  familyName: config.familyName,
-  fontVersion: config.fontVersion,
-  packageName: config.packageName,
-  setName: config.setName,
-  author: config.author,
-  url: config.url,
-  createdDate: config.createdDate,
-  copyright: config.copyright,
-  license: config.license,
-  licenseUrl: config.licenseUrl,
-  embeddingPermissions: config.embeddingPermissions,
+  schemaVersion: context.config.schemaVersion,
+  familyName: context.config.familyName,
+  fontVersion: context.config.fontVersion,
+  packageName: context.config.packageName,
+  setName: context.config.setName,
+  author: context.config.author,
+  url: context.config.url,
+  createdDate: context.config.createdDate,
+  copyright: context.config.copyright,
+  license: context.config.license,
+  licenseUrl: context.config.licenseUrl,
+  embeddingPermissions: context.config.embeddingPermissions,
   kind: "grouped-subgroups-with-modifier-atlases",
   layout: "grouped-subgroups-v3",
-  cellSize: config.cellSize,
-  cellPadding: config.cellPadding,
-  slotSize,
-  columns: config.columns,
-  maxRows: config.maxRows,
-  outerPadding: config.outerPadding,
-  headerHeight: config.headerHeight,
-  footerHeight: config.footerHeight,
+  cellSize: context.config.cellSize,
+  cellPadding: context.config.cellPadding,
+  slotSize: context.slotSize,
+  columns: context.config.columns,
+  maxRows: context.config.maxRows,
+  outerPadding: context.config.outerPadding,
+  headerHeight: context.config.headerHeight,
+  footerHeight: context.config.footerHeight,
   activeGlyphCount: eligible.length,
-  releasedGlyphCount: emoji.length,
-  proposedGlyphCount: proposedEmoji.length,
-  proposedVersions: (versionManifest.proposed ?? []).map((version) => ({
+  releasedGlyphCount: context.emoji.length,
+  proposedGlyphCount: context.proposedEmoji.length,
+  proposedVersions: (context.versionManifest.proposed ?? []).map((version) => ({
     version: version.version,
     status: version.status,
     stage: version.stage ?? version.status,
     expectedRelease: version.expectedRelease ?? null,
-    count: proposedEmoji.filter(
+    count: context.proposedEmoji.filter(
       (item) => item.unicodeVersion === version.version,
     ).length,
   })),
@@ -222,7 +86,7 @@ const manifest = {
   modifierGlyphCount: eligible.filter(
     (item) => getModifierType(item) !== "base",
   ).length,
-  modifierTypeCounts: countByModifierType(eligible),
+  modifierTypeCounts: countByModifierType(eligible, getModifierType),
   sequenceGlyphCount: eligible.filter((item) => item.sequenceType !== "single")
     .length,
   sequenceTypeCounts: countBySequenceType(eligible),
@@ -234,148 +98,10 @@ const manifest = {
   subGroupCount: buckets.size,
   sheets: manifestSheets,
 };
-await writeJson(path.join(atlasDirectory, "manifest.json"), manifest);
+
+await writeJson(path.join(context.atlasDirectory, "manifest.json"), manifest);
 
 console.log(
   `Mapped ${eligible.length.toLocaleString()} emoji into ${manifestSheets.length} ` +
     `subgroup atlas mappings across ${manifest.groupCount} groups.`,
 );
-
-async function loadPreviousAssignments() {
-  try {
-    const manifest = JSON.parse(
-      await fs.readFile(path.join(atlasDirectory, "manifest.json"), "utf8"),
-    );
-    if (
-      ![
-        "grouped-subgroups-v1",
-        "grouped-subgroups-v2",
-        "grouped-subgroups-v3",
-      ].includes(manifest.layout)
-    )
-      return new Map();
-    const assignments = new Map();
-    for (const sheet of manifest.sheets) {
-      const sidecar = JSON.parse(
-        await fs.readFile(path.join(atlasDirectory, sheet.mapping), "utf8"),
-      );
-      for (const entry of sidecar.entries ?? []) {
-        assignments.set(entry.key, {
-          releaseStatus: sidecar.releaseStatus ?? "released",
-          unicodeVersion: sidecar.unicodeVersion ?? null,
-          modifierType: sidecar.modifierType ?? "base",
-          group: sidecar.group,
-          subGroup: sidecar.subGroup,
-          globalIndex: (sidecar.part - 1) * sheetCapacity + entry.index,
-          previous: entry,
-        });
-      }
-    }
-    return assignments;
-  } catch {
-    return new Map();
-  }
-}
-
-function assignBucket(bucket, previous) {
-  const assignments = new Map();
-  const occupied = new Set();
-  for (const item of bucket.items) {
-    const existing = previous.get(item.key);
-    if (
-      existing?.releaseStatus !== bucket.releaseStatus ||
-      existing?.unicodeVersion !== bucket.unicodeVersion ||
-      existing?.modifierType !== bucket.modifierType ||
-      existing?.group !== bucket.group ||
-      existing?.subGroup !== bucket.subGroup
-    )
-      continue;
-    assignments.set(item.key, {
-      key: item.key,
-      globalIndex: existing.globalIndex,
-      previous: existing.previous,
-    });
-    occupied.add(existing.globalIndex);
-  }
-  let nextCell = 0;
-  for (const item of bucket.items) {
-    if (assignments.has(item.key)) continue;
-    while (occupied.has(nextCell)) nextCell += 1;
-    assignments.set(item.key, { key: item.key, globalIndex: nextCell });
-    occupied.add(nextCell);
-  }
-  return [...assignments.values()].sort(
-    (left, right) => left.globalIndex - right.globalIndex,
-  );
-}
-
-function compareBuckets(left, right) {
-  const typeOrder = ["base", "skin-tone", "hair", "skin-and-hair"];
-  const releaseDifference =
-    (left.releaseStatus === "proposed" ? 1 : 0) -
-    (right.releaseStatus === "proposed" ? 1 : 0);
-  const versionDifference = String(left.unicodeVersion ?? "").localeCompare(
-    String(right.unicodeVersion ?? ""),
-    undefined,
-    { numeric: true },
-  );
-  const typeDifference =
-    typeOrder.indexOf(left.modifierType) -
-    typeOrder.indexOf(right.modifierType);
-  const leftOrder = Math.min(...left.items.map((item) => item.order));
-  const rightOrder = Math.min(...right.items.map((item) => item.order));
-  return (
-    releaseDifference ||
-    versionDifference ||
-    typeDifference ||
-    leftOrder - rightOrder ||
-    left.group.localeCompare(right.group) ||
-    left.subGroup.localeCompare(right.subGroup)
-  );
-}
-
-function getModifierType(item) {
-  const points = item.codePoints
-    .split(/\s+/)
-    .map((point) => point.toUpperCase());
-  const hasSkinTone = points.some((point) => skinToneModifiers.has(point));
-  const hasHair = points.some((point) => hairModifiers.has(point));
-  if (hasSkinTone && hasHair) return "skin-and-hair";
-  if (hasSkinTone) return "skin-tone";
-  if (hasHair) return "hair";
-  return "base";
-}
-
-function countByModifierType(entries) {
-  return Object.fromEntries(
-    ["base", "skin-tone", "hair", "skin-and-hair"].map((type) => [
-      type,
-      entries.filter((entry) => getModifierType(entry) === type).length,
-    ]),
-  );
-}
-
-function slug(value) {
-  return value
-    .toLowerCase()
-    .replaceAll("&", " and ")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "");
-}
-
-async function writeJson(file, value) {
-  await fs.mkdir(path.dirname(file), { recursive: true });
-  const json = await format(JSON.stringify(value), { parser: "json" });
-  await fs.writeFile(file, json);
-}
-
-function countBySequenceType(entries) {
-  return Object.fromEntries(
-    [...new Set(entries.map((entry) => entry.sequenceType))]
-      .sort()
-      .map((type) => [
-        type,
-        entries.filter((entry) => entry.sequenceType === type).length,
-      ]),
-  );
-}

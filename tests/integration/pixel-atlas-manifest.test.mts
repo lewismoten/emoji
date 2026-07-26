@@ -73,7 +73,7 @@ assert.ok(
   pixelAtlasManifest.sheets.some(
     sheet =>
       sheet.modifierType === 'skin-tone' &&
-      sheet.mapping.startsWith('modifiers/skin-tone/')
+      sheet.id.startsWith('modifiers/skin-tone/')
   ),
   'skin-tone emoji must use separate modifier atlas paths'
 );
@@ -83,7 +83,7 @@ for (const version of manifest.proposed ?? []) {
       sheet =>
         sheet.releaseStatus === 'proposed' &&
         sheet.unicodeVersion === version.version &&
-        sheet.mapping.startsWith(`proposed/${version.version}/`)
+        sheet.id.startsWith(`proposed/${version.version}/`)
     ),
     `proposed Emoji ${version.version} must use versioned atlas paths`
   );
@@ -92,7 +92,7 @@ assert.ok(
   pixelAtlasManifest.sheets.every(
     sheet =>
       sheet.image.includes('/') &&
-      sheet.mapping.includes('/') &&
+      sheet.id.includes('/') &&
       sheet.group &&
       sheet.subGroup &&
       sheet.rows >= 1 &&

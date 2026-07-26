@@ -151,7 +151,7 @@ function renderAtlasCard(sheet) {
   <h2>${escapeXml(sheet.group)} · ${escapeXml(sheet.subGroup)}${sheet.partCount > 1 ? ` · ${sheet.part}/${sheet.partCount}` : ""}</h2>
   <p>${proposal}${sheet.paintedCount.toLocaleString()} painted glyph${sheet.paintedCount === 1 ? "" : "s"}</p>
   <a href="../atlases/${escapeXml(sheet.image)}"><img src="../atlases/${escapeXml(sheet.image)}" alt="${escapeXml(label)}"></a>
-  <p><a href="../atlases/${escapeXml(sheet.mapping)}">JSON cell map</a></p>
+  <p><a href="../atlases/${escapeXml(sheet.id)}.json">JSON cell map</a></p>
 </article>`;
 }
 
@@ -174,7 +174,7 @@ function renderMarkdownSheet(sheet) {
   const label = `${sheet.group}, ${sheet.subGroup}${part}`;
   return `#### ${sheet.subGroup}${part}
 
-[PNG](atlases/${sheet.image}) · [JSON cell map](atlases/${sheet.mapping})
+[PNG](atlases/${sheet.image}) · [JSON cell map](atlases/${sheet.id}.json)
 
 [![${label}](atlases/${sheet.image})](atlases/${sheet.image})`;
 }
@@ -226,4 +226,3 @@ function escapeXml(value) {
 function escapeCss(value) {
   return String(value).replaceAll("\\", "\\\\").replaceAll('"', '\\"');
 }
-

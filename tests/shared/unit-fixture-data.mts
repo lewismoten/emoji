@@ -46,8 +46,8 @@ export type PixelAtlasManifest = {
   groupCount: number;
   subGroupCount: number;
   sheets: {
+    id: string;
     image: string;
-    mapping: string;
     modifierType: string;
     releaseStatus?: string;
     unicodeVersion?: string;

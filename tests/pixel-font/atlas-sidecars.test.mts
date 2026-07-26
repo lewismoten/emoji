@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-type Sheet = { image: string; mapping: string };
+type Sheet = { id: string; image: string };
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -22,7 +22,7 @@ const [serviceWorker, atlasReadme, sidecars] = await Promise.all([
       readJson<{
         entries: Record<string, unknown>[];
         [key: string]: unknown;
-      }>(`pixel-font/atlases/${sheet.mapping}`),
+      }>(`pixel-font/atlases/${sheet.id}.json`),
     ),
   ),
 ]);
@@ -50,7 +50,7 @@ const entryFields = [
 
 for (const [index, sheet] of manifest.sheets.entries()) {
   const sidecar = sidecars[index];
-  const mappingAsset = `./pixel-font/atlases/${sheet.mapping}`;
+  const mappingAsset = `./pixel-font/atlases/${sheet.id}.json`;
   const imageAsset = `./pixel-font/atlases/${sheet.image}`;
   assert.ok(
     !serviceWorker.includes(`"${mappingAsset}"`),
@@ -61,11 +61,11 @@ for (const [index, sheet] of manifest.sheets.entries()) {
     `${imageAsset} must load on demand`,
   );
   for (const field of sidecarFields) {
-    assert.ok(!(field in sidecar), `${sheet.mapping} must inherit ${field}`);
+    assert.ok(!(field in sidecar), `${sheet.id}.json must inherit ${field}`);
   }
   for (const entry of sidecar.entries) {
     for (const field of entryFields) {
-      assert.ok(!(field in entry), `${sheet.mapping} entries inherit ${field}`);
+      assert.ok(!(field in entry), `${sheet.id}.json entries inherit ${field}`);
     }
   }
   const imageExists = await fs
