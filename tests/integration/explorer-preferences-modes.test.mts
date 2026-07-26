@@ -37,8 +37,8 @@ assert.match(
   'cached version filters must also become developer-only'
 );
 assert.match(
-  `${demoScript}\n${explorerUi}`,
-  /developerModeFromUrl[\s\S]*get\('developer'\) === '1'[\s\S]*const enabled = \(\) =>[\s\S]*developerModeFromUrl && !options\.state\(\)\.developerModeUrlDismissed[\s\S]*developerMode === true[\s\S]*function change[\s\S]*developerModeUrlDismissed = !active[\s\S]*developerModeFromUrl = false[\s\S]*savePreference\('developerMode'/,
+  `${await fs.readFile(path.join(root, 'src/app/explorer-preferences.ts'), 'utf8')}\n${explorerUi}`,
+  /new URLSearchParams\(window\.location\.search\)\.get\('developer'\) === '1'[\s\S]*const enabled = \(\) =>[\s\S]*developerModeFromUrl && !options\.state\(\)\.developerModeUrlDismissed[\s\S]*explorerPreferences\.developerMode === true[\s\S]*function change[\s\S]*developerModeUrlDismissed = !active[\s\S]*developerModeFromUrl = false[\s\S]*savePreference\('developerMode'/,
   'Developer mode must support shared URL activation and persist explicit selection'
 );
 assert.match(
@@ -47,13 +47,18 @@ assert.match(
   'shared developer-only dialog URLs must preserve Developer mode'
 );
 assert.match(
-  `${demoScript}\n${searchLanguageLifecycle}`,
+  `${await fs.readFile(path.join(root, 'src/app/explorer-bootstrap-session.ts'), 'utf8')}\n${searchLanguageLifecycle}`,
   /restoreDeveloperMode: \(\) => \{[\s\S]*developerModeFromUrl =[\s\S]*get\('developer'\) === '1'[\s\S]*renderDeveloperMode\(\)[\s\S]*const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.applyDialogUrlState\(\)/,
   'browser navigation must restore Developer mode before applying dialog URL state'
 );
 assert.match(
-  `${explorerUi}\n${demoScript}\n${searchLanguageLifecycle}`,
-  /developerModeUrlDismissed = !active[\s\S]*options\.syncUrlState\(\)[\s\S]*window\.addEventListener\('popstate', onPopState\)[\s\S]*const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.syncUrlState\(\)/,
+  explorerUi,
+  /developerModeUrlDismissed = !active[\s\S]*options\.syncUrlState\(\)/,
+  'turning Developer mode off must clean URL state from the controller'
+);
+assert.match(
+  searchLanguageLifecycle,
+  /const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.syncUrlState\(\)/,
   'turning Developer mode off must override and clean older URL history entries'
 );
 assert.match(
@@ -108,8 +113,8 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.code\s*\{[^}]*overflow-x:\s*hidden;[^}]*white-space:\s*pre-wrap;/,
-  'developer code examples must wrap instead of introducing horizontal scrolling'
+  /\.code\s*\{[\s\S]*direction:\s*ltr;[\s\S]*unicode-bidi:\s*isolate;[\s\S]*overflow-x:\s*auto;[\s\S]*white-space:\s*pre;[\s\S]*\.code-space\s*\{[\s\S]*display:\s*inline-block;[\s\S]*width:\s*0\.6ch;/,
+  'developer code examples must preserve formatting with explicit spacing helpers'
 );
 assert.match(
   explorerUi,
@@ -142,17 +147,17 @@ assert.match(
   'the Explorer must derive its emoji lookup from the metadata it already downloads'
 );
 assert.match(
-  `${pixelArtwork}\n${demoScript}`,
-  /const refreshRenderedPixelEmoji[\s\S]*options\.refreshEditor\(\)[\s\S]*refreshEditor: \(\) => \{[\s\S]*is-editor-view[\s\S]*pixelEditor\?\.refreshFontBuild/,
+  `${pixelArtwork}\n${await fs.readFile(path.join(root, 'src/app/explorer-bootstrap-shell.ts'), 'utf8')}`,
+  /const refreshRenderedPixelEmoji[\s\S]*options\.refreshEditor\(\)[\s\S]*refreshEditor:\s*\(\)\s*=>\s*\{[\s\S]*is-editor-view[\s\S]*getPixelEditor\(\)\?\.refreshFontBuild/,
   'font toggles must refresh editor metadata only while the editor is open'
 );
 assert.match(
-  demoScript,
-  /emojiMode.*editor|is-editor-view/,
+  await fs.readFile(path.join(root, 'src/explorer/url-state.ts'), 'utf8'),
+  /emojiMode:\s*'details'\s*\|\s*'code'\s*\|\s*'editor'[\s\S]*params\.set\('emojiMode', 'editor'\)/,
   'pixel-editor mode must participate in URL state'
 );
 assert.match(
-  demoScript,
+  `${await fs.readFile(path.join(root, 'src/explorer-ui.ts'), 'utf8')}\n${await fs.readFile(path.join(root, 'src/app/explorer-bootstrap-shell.ts'), 'utf8')}`,
   /explorerPreferences\.pixelFont !== false/,
   'pixel font must be enabled by default'
 );

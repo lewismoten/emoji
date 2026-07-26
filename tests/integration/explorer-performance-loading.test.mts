@@ -1,15 +1,17 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 import {
   demoHtml,
-  demoScript,
   demoStyles,
   emojiListInteractionHelper,
   emojiListRenderHelper,
-  emojiListSources,
   explorerApp,
   listController,
-  renderingDiagnosticHelper
+  loadingState,
+  renderingDiagnosticHelper,
+  root
 } from '../shared/unit-fixtures.mjs';
 
 assert.match(
@@ -38,7 +40,7 @@ assert.doesNotMatch(
   'code points must not be repeated in a metadata card'
 );
 assert.match(
-  demoScript,
+  await fs.readFile(path.join(root, 'src/app/startup-orchestrator.ts'), 'utf8'),
   /\.emoji-code-points'\)\?\.closest\('div'\)\?\.remove/,
   'cached code-point metadata rows must be removed'
 );
@@ -68,8 +70,13 @@ assert.match(
   'the initial page must present an intentional loading state'
 );
 assert.match(
-  emojiListSources,
-  /function finishExplorerLoading[\s\S]*finishExplorerLoadingHelper[\s\S]*function revealExplorer[\s\S]*revealExplorerHelper[\s\S]*classList\.remove\('app-loading'\)[\s\S]*aria-busy[\s\S]*const finishEmojiListRender[\s\S]*options\.revealExplorer\(\)/,
+  loadingState,
+  /function finishExplorerLoading[\s\S]*if \(options\.emojiList\.dataset\.rendering !== 'true'\) options\.revealExplorer\(\)[\s\S]*function revealExplorer[\s\S]*classList\.remove\('app-loading'\)[\s\S]*aria-busy[\s\S]*result-count'\)!\.hidden = false/,
+  'loading controls and below-list content must be revealed only after the first result tree is ready'
+);
+assert.match(
+  emojiListInteractionHelper,
+  /const finishEmojiListRender[\s\S]*options\.revealExplorer\(\)/,
   'loading controls and below-list content must be revealed only after the first result tree is ready'
 );
 assert.match(
@@ -89,7 +96,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.install-app\s*\{[^}]*position:\s*absolute;[^}]*right:\s*calc\(100% \+ 0\.45rem\);/,
+  /\.order-footer\s*\{[\s\S]*display:\s*flex;[\s\S]*flex-wrap:\s*wrap;[\s\S]*justify-content:\s*flex-end;[\s\S]*\.install-app\s*\{[\s\S]*display:\s*inline-flex;[\s\S]*@media \(min-width:\s*561px\)\s*\{[\s\S]*\.install-app\s*\{[\s\S]*order:\s*-1;[\s\S]*margin-inline-end:\s*0\.25rem;/,
   'the deferred PWA install action must not resize the fixed browse footer'
 );
 assert.match(

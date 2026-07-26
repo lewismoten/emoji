@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 import {
   compositionHelpers,
@@ -12,6 +14,7 @@ import {
   emojiFilterHelper,
   emojiFormatHelper,
   explorerDataController,
+  root,
   pixelArtwork,
   versionData,
   urlStateHelper,
@@ -79,7 +82,7 @@ assert.match(
   'emoji details must provide parent-sequence navigation'
 );
 assert.match(
-  demoScript,
+  await fs.readFile(path.join(root, 'src/app/emoji-dialog-click-runtime.ts'), 'utf8'),
   /compositionParent: parentEmojiKey/,
   'component navigation must retain its parent in browser history'
 );
@@ -94,8 +97,8 @@ assert.match(
   'ordinary dialog navigation must clear stale component history'
 );
 assert.match(
-  demoScript,
-  /showModal\(\);[\s\S]*focusInitialEmojiDialogAction\(\)/,
+  await fs.readFile(path.join(root, 'src/app/dialog-runtime.ts'), 'utf8'),
+  /showModal\(\);[\s\S]*options\.focusInitialAction\(\)/,
   'newly opened emoji dialogs must focus their primary copy action'
 );
 assert.match(
@@ -120,7 +123,12 @@ assert.match(
 );
 assert.match(
   categoryVersionHelper,
-  /groupField[\s\S]*hidden = options\.sequenceMode[\s\S]*sequenceField[\s\S]*hidden = !options\.sequenceMode/,
+  /updateModifierAvailability/,
+  'version helpers must continue to expose modifier-availability coordination'
+);
+assert.match(
+  await fs.readFile(path.join(root, 'src/explorer/category-filter-layout.ts'), 'utf8'),
+  /if \(options\.groupField\) options\.groupField\.hidden = options\.sequenceMode;[\s\S]*if \(options\.sequenceField\) options\.sequenceField\.hidden = !options\.sequenceMode;/,
   'sequence browsing must replace group filters with sequence types'
 );
 assert.match(
@@ -164,8 +172,8 @@ assert.match(
   'proposed emoji must be added to the sequence artwork lookup'
 );
 assert.match(
-  demoScript,
-  /const applyStandalonePixelArtwork = applyPixelArtworkClass/,
+  await fs.readFile(path.join(root, 'src/app/explorer-bootstrap-shell.ts'), 'utf8'),
+  /applyStandalonePixelArtwork:\s*\(\)\s*=>\s*pixelArtwork\.applyPixelArtworkClass[\s\S]*applyStandalonePixelArtwork:\s*pixelArtwork\.applyPixelArtworkClass/,
   'standalone sequence components must use their painted font glyphs'
 );
 assert.match(
@@ -194,7 +202,7 @@ assert.match(
   'condensed composition counts must use localized direction'
 );
 assert.match(
-  demoScript,
+  await fs.readFile(path.join(root, 'src/explorer/emoji-session.ts'), 'utf8'),
   /startsWith\('ar'\)[\s\S]*\? 'arab' : undefined/,
   'Arabic UI numbers must use Arabic-Indic digits'
 );

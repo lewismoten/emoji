@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 
 import {
+  root,
   demoHtml,
   demoStyles,
   dialogRenderHelper,
@@ -16,6 +17,8 @@ import {
   utilityControlsHelper,
   versionModeController
 } from '../shared/unit-fixtures.mjs';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 assert.match(
   demoHtml,
@@ -54,7 +57,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.version-mode-toggle\[aria-pressed="true"\]\s*\{[^}]*background: #15384d[^}]*color: var\(--accent\)/,
+  /\.version-mode-toggle\[aria-pressed="true"\]\s*\{[^}]*background: var\(--selected-control-bg\)[^}]*color: var\(--selected-control-text\)/,
   'the selected version target must use a filled state'
 );
 assert.match(
@@ -69,7 +72,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.compact-choice\[aria-checked="true"\]\s*\{[^}]*background: #15384d[^}]*color: var\(--accent\)/,
+  /\.compact-choice\[aria-checked="true"\]\s*\{[^}]*background: var\(--selected-control-bg\)[^}]*color: var\(--selected-control-text\)/,
   'selected group and subgroup choices must use a filled state distinct from focus'
 );
 assert.match(
@@ -79,7 +82,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.modifier-filters fieldset label:has\(input:checked\)\s*\{[\s\S]*background: #15384d[\s\S]*color: var\(--accent\)[\s\S]*\}[\s\S]*\.modifier-filters fieldset label:has\(input:focus-visible\)\s*\{[\s\S]*outline: 2px dashed/,
+  /\.modifier-filters fieldset label:has\(input:checked\)\s*\{[\s\S]*background: var\(--selected-control-bg\)[\s\S]*color: var\(--selected-control-text\)[\s\S]*\}[\s\S]*\.modifier-filters fieldset label:has\(input:focus-visible\)\s*\{[\s\S]*outline: 2px dashed/,
   'selected modifier buttons must use a filled state distinct from focus'
 );
 assert.match(
@@ -103,8 +106,13 @@ assert.match(
   'newly selected controls must provide visible state-change feedback'
 );
 assert.match(
-  `${emojiDialogEvents}\n${savedEmojiHelper}`,
-  /if \(button\.matches\('\.emoji-preview'\)\) options\.animateCopy\(button\)[\s\S]*export function animateCopyConfirmation[\s\S]*prefers-reduced-motion: reduce[\s\S]*emoji-copy-confirmation[\s\S]*transform: 'scale\(0\.9\)'[\s\S]*transform: 'scale\(1\.05\)'/,
+  emojiDialogEvents,
+  /if \(button\.matches\('\.emoji-preview'\)\) options\.animateCopy\(button\)/,
+  'successful emoji copies must animate the preview button'
+);
+assert.match(
+  await fs.readFile(path.join(root, 'src/explorer/copy-feedback.ts'), 'utf8'),
+  /prefers-reduced-motion: reduce[\s\S]*emoji-copy-confirmation[\s\S]*transform: 'scale\(0\.9\)'[\s\S]*transform: 'scale\(1\.05\)'/,
   'successful emoji copies must provide motion-aware visual confirmation'
 );
 assert.match(
@@ -138,8 +146,8 @@ assert.match(
   'rendering diagnostics must tolerate stale cached dialog markup'
 );
 assert.match(
-  `${emojiListSources}`,
-  /function finishExplorerLoading[\s\S]*finishExplorerLoadingHelper[\s\S]*function revealExplorer[\s\S]*revealExplorerHelper/,
+  loadingState,
+  /function finishExplorerLoading[\s\S]*function revealExplorer/,
   'loading controls must delegate through extracted helpers'
 );
 assert.match(

@@ -1,6 +1,5 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 export type Emoji = {
   key: string;
@@ -61,10 +60,7 @@ export type PixelAtlasManifest = {
   }[];
 };
 
-export const root = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '../..'
-);
+export const root = path.resolve(process.cwd());
 
 export const readJson = async <T,>(file: string) =>
   JSON.parse(await fs.readFile(path.join(root, file), 'utf8')) as T;

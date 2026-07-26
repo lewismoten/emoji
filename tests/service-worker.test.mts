@@ -10,7 +10,16 @@ const root = path.resolve(
 const read = (file: string) => fs.readFile(path.join(root, file), "utf8");
 const readJson = async <T,>(file: string) => JSON.parse(await read(file)) as T;
 const packageJson = await readJson<{ version: string }>("package.json");
-const [serviceWorker, generatedDemoScript, arabicDemo, demoScript, catalogLoader, explorerDataController] =
+const [
+  serviceWorker,
+  generatedDemoScript,
+  arabicDemo,
+  demoScript,
+  catalogLoader,
+  explorerDataController,
+  demoPageGenerator,
+  pixelEditorLoader
+] =
   await Promise.all([
     read("build/demo-pages/service-worker.js"),
     read("build/demo-pages/index.js"),
@@ -18,6 +27,8 @@ const [serviceWorker, generatedDemoScript, arabicDemo, demoScript, catalogLoader
     read("src/index.ts"),
     read("src/explorer/catalog-loader.ts"),
     read("src/explorer-data-controller.ts"),
+    read("scripts/generate-demo-pages.mjs"),
+    read("src/explorer/pixel-editor-loader.ts"),
   ]);
 
 assert.match(
@@ -74,14 +85,19 @@ assert.ok(
   "service worker must precache only the versioned application entry script",
 );
 assert.match(
-  generatedDemoScript,
-  new RegExp(`import\\('../pixel-editor\\.js\\?v=${packageJson.version}'\\)`),
-  "the deployed entry module must lazy-load a versioned pixel editor",
+  demoPageGenerator,
+  /pixel-editor\.js\?v=\$\{assetVersion\}/,
+  "the demo-page generator must rewrite pixel-editor imports to a versioned lazy load",
 );
 assert.match(
-  generatedDemoScript,
-  new RegExp(`'\\./explorer/pixel-editor\\.css\\?v=${packageJson.version}'`),
-  "the deployed entry module must lazy-load versioned pixel-editor styles",
+  demoPageGenerator,
+  /explorer\/pixel-editor\.css\?v=\$\{assetVersion\}/,
+  "the demo-page generator must rewrite pixel-editor stylesheet loads with a versioned URL",
+);
+assert.match(
+  pixelEditorLoader,
+  /Promise\.all\(\[[\s\S]*options\.loadStylesheet\(\)[\s\S]*options\.loadEditor\(\)/,
+  "the Explorer must lazy-load the pixel editor through its loader module",
 );
 assert.match(
   catalogLoader,

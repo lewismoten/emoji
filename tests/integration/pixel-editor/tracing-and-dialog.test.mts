@@ -135,7 +135,7 @@ assert.match(
 );
 assert.match(
   dialogViewHelper,
-  /if \(!showDetails && parent\) parent\.hidden = true;[\s\S]*else if \(showDetails\) options\.updateCompositionBackButton\(\)/,
+  /if \(!showDetails && parent\) parent\.hidden = true;[\s\S]*else if \(showDetails\) \{[\s\S]*options\.updateCompositionBackButton\(\)/,
   'nested dialog modes must hide the composition-parent control to preserve the compact control grid'
 );
 assert.match(

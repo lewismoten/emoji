@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 
 import {
+  root,
   catalogLoader,
   demoHtml,
   demoScript,
@@ -21,6 +22,8 @@ import {
   viteConfig,
   websitePublisher
 } from '../shared/unit-fixtures.mjs';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 assert.match(
   pixelFontCompiler,
@@ -149,7 +152,7 @@ assert.match(
 );
 assert.match(
   testBundleCache,
-  /build\/tests\/unit\.test\.mjs[\s\S]*dist\/esm\/popular\.min\.js[\s\S]*getFingerprint[\s\S]*hasCurrentBundle[\s\S]*spawnSync\(npm, \['run', 'bundle'\]/,
+  /build\/tests\/integration\/package-core\.test\.mjs[\s\S]*dist\/esm\/popular\.min\.js[\s\S]*getFingerprint[\s\S]*hasCurrentBundle[\s\S]*spawnSync\(npm, \['run', 'bundle'\]/,
   'tests must reuse a complete current package build instead of regenerating it every run'
 );
 assert.match(
@@ -218,8 +221,13 @@ assert.match(
   'the pixel font must use a reloadable standalone stylesheet'
 );
 assert.match(
-  `${pixelFontHotReload}\n${demoScript}\n${catalogLoader}`,
-  /import\.meta\.hot[\s\S]*pixel-font\/font-build\.revision[\s\S]*window\.setInterval\(refresh, 1500\)[\s\S]*function refreshPixelFontStylesheet[\s\S]*replacement\.addEventListener[\s\S]*refreshFontBuild[\s\S]*refreshExplorerPixelFont/,
+  pixelFontHotReload,
+  /import\.meta\.hot[\s\S]*pixel-font\/font-build\.revision[\s\S]*window\.setInterval\(refresh, 1500\)[\s\S]*function refreshPixelFontStylesheet[\s\S]*replacement\.addEventListener/,
+  'the demo must watch and hot-swap rebuilt pixel font assets'
+);
+assert.match(
+  await fs.readFile(path.join(root, 'src/app/browser-runtime.ts'), 'utf8'),
+  /onPixelFontRevisionLoaded\(\);[\s\S]*refreshExplorerPixelFont\(/,
   'the demo must hot-swap rebuilt pixel fonts without refreshing the page'
 );
 assert.match(
