@@ -357,22 +357,22 @@ html[data-theme="retro"] .emoji-preview {
 }
 
 html[data-theme="retro"] .emoji-preview-copy-label {
-  border: 2px solid #aaaaaa;
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
-  border-right-color: #555555;
-  border-bottom-color: #555555;
-  background: #aaaaaa;
-  color: #000000;
+  border: 2px solid #aaaaaa !important;
+  border-top-color: #5555ff !important;
+  border-left-color: #5555ff !important;
+  border-right-color: #000000 !important;
+  border-bottom-color: #000000 !important;
+  background: #0000aa !important;
+  color: #ffffff !important;
 }
 
 html[data-theme="retro"] .emoji-preview:hover .emoji-preview-copy-label {
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
-  border-right-color: #aaaaaa;
-  border-bottom-color: #aaaaaa;
-  background: #ffffff;
-  color: #000000;
+  border-top-color: #5555ff;
+  border-left-color: #5555ff;
+  border-right-color: #555555;
+  border-bottom-color: #555555;
+  background: #5555ff;
+  color: #ffffff;
 }
 
 html[data-theme="retro"] .emoji-preview:active .emoji-preview-copy-label {
@@ -380,8 +380,8 @@ html[data-theme="retro"] .emoji-preview:active .emoji-preview-copy-label {
   border-left-color: #555555;
   border-right-color: #ffffff;
   border-bottom-color: #ffffff;
-  background: #aaaaaa;
-  color: #000000;
+  background: #0000aa;
+  color: #ffffff;
 }
 
 html[data-theme="retro"] .localized-language {
