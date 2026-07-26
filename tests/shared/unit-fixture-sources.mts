@@ -106,10 +106,25 @@ export const explorerGeneratorScript = await fs.readFile(
   path.join(root, 'scripts/generate-library.mjs'),
   'utf8'
 );
-export const pixelEditorScript = await fs.readFile(
-  path.join(root, 'pixel-editor.js'),
-  'utf8'
+const pixelEditorHelperFiles = (await fs.readdir(path.join(root, 'src/pixel-editor')))
+  .sort()
+  .map(file => path.join(root, 'src/pixel-editor', file));
+const pixelEditorTemplateFile = pixelEditorHelperFiles.find(file =>
+  file.endsWith('pixel-editor-template.js')
 );
+const pixelEditorOtherHelperFiles = pixelEditorHelperFiles.filter(
+  file => file !== pixelEditorTemplateFile
+);
+const pixelEditorSourceFiles = [
+  ...(pixelEditorTemplateFile ? [pixelEditorTemplateFile] : []),
+  path.join(root, 'pixel-editor.js'),
+  ...pixelEditorOtherHelperFiles
+];
+export const pixelEditorScript = (
+  await Promise.all(
+    pixelEditorSourceFiles.map(file => fs.readFile(file, 'utf8'))
+  )
+).join('\n');
 export const {
   buildSkinToneOwnership,
   buildTwoPersonOwnership,
