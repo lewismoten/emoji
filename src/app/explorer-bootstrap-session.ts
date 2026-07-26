@@ -15,91 +15,32 @@ import {
   normalizeCodePoints
 } from '../explorer/emoji-format.js';
 import { animateCopyConfirmation as animateEmojiCopyConfirmation } from '../explorer/saved-emoji.js';
+import { openPanelDialog } from '../explorer/pwa-panels.js';
 import { createExplorerApp } from '../explorer-app.js';
-import { initializeExplorerPreferences } from './explorer-preferences.js';
-import { createUiFormatters } from './browser-runtime.js';
 import { createExplorerState } from '../explorer-state.js';
-import { createExplorerBootstrapShell } from './explorer-bootstrap-shell.js';
-import { createExplorerBootstrapControllers } from './explorer-bootstrap-controllers.js';
-import { createExplorerBootstrapRuntime } from './explorer-bootstrap-runtime.js';
+import { createUiFormatters } from './browser-runtime.js';
+import {
+  createExplorerBootstrapBindings
+} from './explorer-bootstrap-bindings.js';
 import {
   buildExplorerBootstrapControllerOptions,
-  buildExplorerBootstrapRuntimeSourceOptions,
   buildExplorerBootstrapShellOptions
 } from './explorer-bootstrap-options.js';
-import { buildExplorerBootstrapRuntimeOptions } from './explorer-bootstrap-runtime-options.js';
+import { createExplorerBootstrapControllers } from './explorer-bootstrap-controllers.js';
+import { initializeExplorerBootstrapSessionRuntime } from './explorer-bootstrap-session-runtime.js';
+import { createExplorerBootstrapShell } from './explorer-bootstrap-shell.js';
+import { initializeExplorerPreferences } from './explorer-preferences.js';
 
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
-
-let searchText,
-  languagePicker,
-  languagePickerFlag,
-  languagePickerLabel,
-  languageDialog,
-  languageList,
-  savedPicker,
-  savedDialog,
-  helpPicker,
-  helpDialog,
-  developerModeToggle,
-  emojiList,
-  matchCount,
-  toolbar,
-  groupSelector,
-  subGroupSelector,
-  groupPickerTrigger,
-  subGroupPickerTrigger,
-  groupFilterDialog,
-  subGroupFilterDialog,
-  compactGroupChoices,
-  compactSubGroupChoices,
-  sequenceTypeSelector,
-  compactSequenceChoices,
-  compactGroupLabel,
-  compactSubGroupLabel,
-  compactSequenceLabel,
-  versionModeSelector,
-  versionSelector,
-  versionModeToggle,
-  versionRange,
-  versionRangeValue,
-  versionPrevious,
-  versionNext,
-  advancedFilters,
-  activeFilterSummary,
-  activeFilterText,
-  clearFiltersButton,
-  orderButtons,
-  skinToneCheckboxes,
-  hairCheckboxes,
-  genderCheckboxes,
-  modifierFilters,
-  skinToneFieldset,
-  hairFieldset,
-  genderFieldset,
-  copyStatus,
-  pixelEditor,
-  pixelEditorPromise,
-  offlineStatus,
-  installAppButton,
-  installDialog;
-
-let emojiFontChoices = [],
-  themeChoices = [],
-  listRenderGeneration = 0,
-  urlStateReady = false,
-  applyingUrlState = false,
-  suppressDialogCloseSync = false,
-  suppressedPanelCloses = new WeakSet();
-
+const bindings = createExplorerBootstrapBindings();
 const { save: saveExplorerPreference } = initializeExplorerPreferences(explorerState);
 const translate = (key, fallback) => explorerState.uiStrings[key] ?? fallback;
 const displayExplorerLabel = label => translate(explorerLabelKeys[label], label);
 const panelDialogs = () => ({
-  favorites: savedDialog,
-  help: helpDialog,
-  language: languageDialog
+  favorites: bindings.savedDialog,
+  help: bindings.helpDialog,
+  language: bindings.languageDialog
 });
 const isViteDevelopment =
   typeof import.meta.env !== 'undefined' && import.meta.env.DEV === true;
@@ -111,350 +52,156 @@ const { formatUiNumber, formatUiPercent } = createUiFormatters({
   formatPercent: formatUiPercentValue
 });
 
-let drawList = () => {};
-let loadVersionData = () => {};
-let loadSearchLanguages = () => {};
-let renderSearchLanguages = () => {};
-let renderCategoryFilters = () => {};
-let renderVersionModeToggle = () => {};
-let setEmojiDialogView = () => {};
-let syncUrlState = () => {};
-let syncVersionRange = () => {};
-let showEmoji = () => {};
-let navigateEmoji = () => {};
-let updateDialogNavigation = () => {};
-let updateCompositionBackButton = () => {};
-let focusInitialEmojiDialogAction = () => {};
-let populateVersionModeOptions = () => {};
-let toggleVersionMode = () => {};
-let revealExplorer = () => {};
-let resetFilters = () => {};
-
-let bootstrapRuntime;
-
 const shell = createExplorerBootstrapShell(
   buildExplorerBootstrapShellOptions({
-    applyingUrlState: () => applyingUrlState,
-    copyStatus: () => copyStatus,
-    developerModeToggle: () => developerModeToggle,
-    dialog: () => bootstrapRuntime?.explorerRuntime.get('exampleDialog'),
-    drawList: () => drawList(),
-    emojiFontChoices: () => emojiFontChoices,
-    genderCheckboxes: () => genderCheckboxes,
-    getPixelEditor: () => pixelEditor,
-    hairCheckboxes: () => hairCheckboxes,
-    installAppButton: () => installAppButton,
-    installDialog: () => installDialog,
-    loadVersionData: () => loadVersionData(),
+    applyingUrlState: () => bindings.applyingUrlState,
+    copyStatus: () => bindings.copyStatus,
+    developerModeToggle: () => bindings.developerModeToggle,
+    dialog: () => bindings.bootstrapRuntime?.explorerRuntime.get('exampleDialog'),
+    drawList: () => bindings.drawList(),
+    emojiFontChoices: () => bindings.emojiFontChoices,
+    genderCheckboxes: () => bindings.genderCheckboxes,
+    getPixelEditor: () => bindings.pixelEditor,
+    hairCheckboxes: () => bindings.hairCheckboxes,
+    installAppButton: () => bindings.installAppButton,
+    installDialog: () => bindings.installDialog,
+    loadVersionData: () => bindings.loadVersionData(),
     normalizeCodePoints,
-    offlineStatus: () => offlineStatus,
-    orderButtons: () => orderButtons,
-    renderCategoryFilters: () => renderCategoryFilters(),
-    renderSearchLanguages: () => renderSearchLanguages(),
-    renderVersionModeToggle: () => renderVersionModeToggle(),
+    offlineStatus: () => bindings.offlineStatus,
+    orderButtons: () => bindings.orderButtons,
+    renderCategoryFilters: () => bindings.renderCategoryFilters(),
+    renderSearchLanguages: () => bindings.renderSearchLanguages(),
+    renderVersionModeToggle: () => bindings.renderVersionModeToggle(),
     savePreference: saveExplorerPreference,
-    savedDialog: () => savedDialog,
-    setDialogView: (...args) => setEmojiDialogView(...args),
-    showEmoji: (...args) => showEmoji(...args),
-    skinToneCheckboxes: () => skinToneCheckboxes,
+    savedDialog: () => bindings.savedDialog,
+    setDialogView: (...args) => bindings.setEmojiDialogView(...args),
+    showEmoji: (...args) => bindings.showEmoji(...args),
+    skinToneCheckboxes: () => bindings.skinToneCheckboxes,
     state: () => explorerState,
-    suppressDialogCloseSync: () => suppressDialogCloseSync,
-    syncUrlState: (...args) => syncUrlState(...args),
-    syncVersionRange: () => syncVersionRange(),
-    themeChoices: () => themeChoices,
+    suppressDialogCloseSync: () => bindings.suppressDialogCloseSync,
+    syncUrlState: (...args) => bindings.syncUrlState(...args),
+    syncVersionRange: () => bindings.syncVersionRange(),
+    themeChoices: () => bindings.themeChoices,
     translate,
-    urlStateReady: () => urlStateReady,
-    versionModeSelector: () => versionModeSelector,
-    versionSelector: () => versionSelector
+    urlStateReady: () => bindings.urlStateReady,
+    versionModeSelector: () => bindings.versionModeSelector,
+    versionSelector: () => bindings.versionSelector
   })
 );
 
 const controllers = createExplorerBootstrapControllers(
   buildExplorerBootstrapControllerOptions({
-    activeFilterSummary: () => activeFilterSummary,
-    activeFilterText: () => activeFilterText,
+    activeFilterSummary: () => bindings.activeFilterSummary,
+    activeFilterText: () => bindings.activeFilterText,
     animateCopy: animateEmojiCopyConfirmation,
-    applyingUrlState: () => applyingUrlState,
+    applyingUrlState: () => bindings.applyingUrlState,
     applyPixelArtworkClass: shell.applyPixelArtworkClass,
-    compactGroupChoices: () => compactGroupChoices,
-    compactGroupLabel: () => compactGroupLabel,
-    compactSequenceChoices: () => compactSequenceChoices,
-    compactSequenceLabel: () => compactSequenceLabel,
-    compactSubGroupChoices: () => compactSubGroupChoices,
-    compactSubGroupLabel: () => compactSubGroupLabel,
+    compactGroupChoices: () => bindings.compactGroupChoices,
+    compactGroupLabel: () => bindings.compactGroupLabel,
+    compactSequenceChoices: () => bindings.compactSequenceChoices,
+    compactSequenceLabel: () => bindings.compactSequenceLabel,
+    compactSubGroupChoices: () => bindings.compactSubGroupChoices,
+    compactSubGroupLabel: () => bindings.compactSubGroupLabel,
     copyToClipboardValue: shell.copyToClipboardValue,
     developerModeEnabled: shell.developerModeEnabled,
-    dialog: () => bootstrapRuntime?.explorerRuntime.get('exampleDialog'),
+    dialog: () => bindings.bootstrapRuntime?.explorerRuntime.get('exampleDialog'),
     displayExplorerLabel,
-    drawList: () => drawList(),
-    emojiList: () => emojiList,
-    emojiParent: () => bootstrapRuntime?.explorerRuntime.get('emojiParent'),
-    ensurePixelEditor: () => bootstrapRuntime?.ensurePixelEditor(),
-    focusInitialEmojiDialogAction: () => focusInitialEmojiDialogAction(),
+    drawList: () => bindings.drawList(),
+    emojiList: () => bindings.emojiList,
+    emojiParent: () => bindings.bootstrapRuntime?.explorerRuntime.get('emojiParent'),
+    ensurePixelEditor: () => bindings.bootstrapRuntime?.ensurePixelEditor(),
+    focusInitialEmojiDialogAction: () => bindings.focusInitialEmojiDialogAction(),
     formatNumber: formatUiNumber,
-    genderCheckboxes: () => genderCheckboxes,
-    genderFieldset: () => genderFieldset,
-    getEmojiGenders: item => bootstrapRuntime?.getEmojiGenders(item),
+    genderCheckboxes: () => bindings.genderCheckboxes,
+    genderFieldset: () => bindings.genderFieldset,
+    getEmojiGenders: item => bindings.bootstrapRuntime?.getEmojiGenders(item),
     getExplorerSubGroup,
     getIntroducedVersion: shell.getIntroducedVersion,
-    groupFilterDialog: () => groupFilterDialog,
-    groupPickerTrigger: () => groupPickerTrigger,
-    groupSelector: () => groupSelector,
-    hairCheckboxes: () => hairCheckboxes,
-    hairFieldset: () => hairFieldset,
-    helpDialog: () => helpDialog,
+    groupFilterDialog: () => bindings.groupFilterDialog,
+    groupPickerTrigger: () => bindings.groupPickerTrigger,
+    groupSelector: () => bindings.groupSelector,
+    hairCheckboxes: () => bindings.hairCheckboxes,
+    hairFieldset: () => bindings.hairFieldset,
+    helpDialog: () => bindings.helpDialog,
     isViteDevelopment,
-    languageList: () => languageList,
+    languageList: () => bindings.languageList,
     loadPackageManifest: shell.loadPackageManifest,
-    matchCount: () => matchCount,
-    modifierFilters: () => modifierFilters,
-    nextRenderGeneration: () => ++listRenderGeneration,
+    matchCount: () => bindings.matchCount,
+    modifierFilters: () => bindings.modifierFilters,
+    nextRenderGeneration: () => ++bindings.listRenderGeneration,
     onClick: shell.onClick,
     openPanel: (...args) => openPanelDialog(...args),
-    orderButtons: () => orderButtons,
+    orderButtons: () => bindings.orderButtons,
     panelDialogs,
     recordCopiedEmoji: shell.recordCopiedEmoji,
     rebuildEmojiCodePointLookup: shell.rebuildEmojiCodePointLookup,
-    renderCategoryFilters: () => renderCategoryFilters(),
-    renderGeneration: () => listRenderGeneration,
+    renderCategoryFilters: () => bindings.renderCategoryFilters(),
+    renderGeneration: () => bindings.listRenderGeneration,
     renderSavedEmoji: shell.renderSavedEmoji,
-    renderVersionModeToggle: () => renderVersionModeToggle(),
-    resetFilters: () => resetFilters(),
-    revealExplorer: () => revealExplorer(),
+    renderVersionModeToggle: () => bindings.renderVersionModeToggle(),
+    resetFilters: () => bindings.resetFilters(),
+    revealExplorer: () => bindings.revealExplorer(),
     savePreference: saveExplorerPreference,
-    searchText: () => searchText,
+    searchText: () => bindings.searchText,
     sequenceTranslationKeys,
     sequenceTypeEmoji,
     sequenceTypeLabels,
     sequenceTypeOrder,
-    sequenceTypeSelector: () => sequenceTypeSelector,
-    setDialogView: (...args) => setEmojiDialogView(...args),
-    setSuppressDialogCloseSync: value => (suppressDialogCloseSync = value),
-    showEmoji: (...args) => showEmoji(...args),
-    skinToneCheckboxes: () => skinToneCheckboxes,
-    skinToneFieldset: () => skinToneFieldset,
+    sequenceTypeSelector: () => bindings.sequenceTypeSelector,
+    setDialogView: (...args) => bindings.setEmojiDialogView(...args),
+    setSuppressDialogCloseSync: value => (bindings.suppressDialogCloseSync = value),
+    showEmoji: (...args) => bindings.showEmoji(...args),
+    skinToneCheckboxes: () => bindings.skinToneCheckboxes,
+    skinToneFieldset: () => bindings.skinToneFieldset,
     state: () => explorerState,
-    subGroupFilterDialog: () => subGroupFilterDialog,
-    subGroupPickerTrigger: () => subGroupPickerTrigger,
-    subGroupSelector: () => subGroupSelector,
-    suppressedPanelCloses: () => suppressedPanelCloses,
-    syncUrlState: (...args) => syncUrlState(...args),
+    subGroupFilterDialog: () => bindings.subGroupFilterDialog,
+    subGroupPickerTrigger: () => bindings.subGroupPickerTrigger,
+    subGroupSelector: () => bindings.subGroupSelector,
+    suppressedPanelCloses: () => bindings.suppressedPanelCloses,
+    syncUrlState: (...args) => bindings.syncUrlState(...args),
     translate,
     unassigned: UNASSIGNED,
     unicodeGroupLabelKeys,
     unicodeSubgroupLabelKeys,
-    updateCompositionBackButton: (...args) => updateCompositionBackButton(...args),
-    updateDialogNavigation: (...args) => updateDialogNavigation(...args),
+    updateCompositionBackButton: (...args) => bindings.updateCompositionBackButton(...args),
+    updateDialogNavigation: (...args) => bindings.updateDialogNavigation(...args),
     updateEmojiComposition: shell.updateEmojiComposition,
     updateEmojiImportExamples: shell.updateEmojiImportExamples,
     updateModifierArtwork: shell.updateModifierPixelArtwork,
     updatePixelArtworkManifest: shell.updatePixelArtworkManifest,
-    urlStateReady: () => urlStateReady,
-    versionModeSelector: () => versionModeSelector,
-    versionNext: () => versionNext,
-    versionPrevious: () => versionPrevious,
-    versionRange: () => versionRange,
-    versionRangeValue: () => versionRangeValue,
-    versionSelector: () => versionSelector
+    urlStateReady: () => bindings.urlStateReady,
+    versionModeSelector: () => bindings.versionModeSelector,
+    versionNext: () => bindings.versionNext,
+    versionPrevious: () => bindings.versionPrevious,
+    versionRange: () => bindings.versionRange,
+    versionRangeValue: () => bindings.versionRangeValue,
+    versionSelector: () => bindings.versionSelector
   })
 );
 
-drawList = controllers.drawList;
-loadVersionData = controllers.loadVersionData;
-resetFilters = controllers.resetFilters;
-syncUrlState = controllers.syncUrlState;
-focusInitialEmojiDialogAction = controllers.focusInitialAction;
-setEmojiDialogView = controllers.setView;
+Object.assign(bindings, {
+  drawList: controllers.drawList,
+  loadVersionData: controllers.loadVersionData,
+  resetFilters: controllers.resetFilters,
+  syncUrlState: controllers.syncUrlState,
+  focusInitialEmojiDialogAction: controllers.focusInitialAction,
+  setEmojiDialogView: controllers.setView
+});
 
-bootstrapRuntime = createExplorerBootstrapRuntime(
-  buildExplorerBootstrapRuntimeOptions({
-    ...buildExplorerBootstrapRuntimeSourceOptions({
-      advancedFilters: () => advancedFilters,
-      applyingUrlState: () => applyingUrlState,
-      applyBasicUrlState: controllers.applyBasicUrlState,
-      applyDialogUrlState: controllers.applyDialogUrlState,
-      applyPixelArtworkClass: shell.applyPixelArtworkClass,
-      applyStandalonePixelArtwork: shell.applyStandalonePixelArtwork,
-      clearFiltersButton: () => clearFiltersButton,
-      copyStatus: () => copyStatus,
-      developerModeEnabled: shell.developerModeEnabled,
-      developerModeToggle: () => developerModeToggle,
-      displayGroupName: controllers.displayGroupName,
-      displayUnicodeSubGroupName: controllers.displayUnicodeSubGroupName,
-      drawList: (...args) => drawList(...args),
-      emojiFontChoices: () => emojiFontChoices,
-      emojiList: () => emojiList,
-      genderCheckboxes: () => genderCheckboxes,
-      getIntroducedVersion: shell.getIntroducedVersion,
-      getPixelEditor: () => pixelEditor,
-      getPixelEditorPromise: () => pixelEditorPromise,
-      groupFilterDialog: () => groupFilterDialog,
-      groupPickerTrigger: () => groupPickerTrigger,
-      groupSelector: () => groupSelector,
-      hairCheckboxes: () => hairCheckboxes,
-      helpDialog: () => helpDialog,
-      helpPicker: () => helpPicker,
-      installApp: shell.installApp,
-      installAppButton: () => installAppButton,
-      installDialog: () => installDialog,
-      languageDialog: () => languageDialog,
-      languageList: () => languageList,
-      languagePicker: () => languagePicker,
-      languagePickerFlag: () => languagePickerFlag,
-      languagePickerLabel: () => languagePickerLabel,
-      loadData: controllers.loadData,
-      loadSearchLanguages: () => loadSearchLanguages(),
-      loadUiTranslations: shell.loadUiTranslations,
-      matchCount: () => matchCount,
-      navigateEmoji: amount => navigateEmoji(amount),
-      nextSearchLoadId: () => ++explorerState.searchLoadId,
-      onClick: shell.onClick,
-      onCompactChoiceKeyDown: controllers.onCompactChoiceKeyDown,
-      onDocumentKeyDown: controllers.onDocumentKeyDown,
-      onEmojiDialogClick: controllers.onEmojiDialogClick,
-      onEmojiDialogClose: shell.onEmojiDialogClose,
-      onEmojiFocus: controllers.onEmojiFocus,
-      onEmojiKeyDown: controllers.onEmojiKeyDown,
-      onGenderChange: controllers.onGenderChange,
-      onOrderModeChange: controllers.onOrderModeChange,
-      onVersionRangeInput: controllers.onVersionRangeInput,
-      openFilterPicker: controllers.openFilterPicker,
-      orderButtons: () => orderButtons,
-      panelDialogs,
-      populateVersionModeOptions: (...args) => populateVersionModeOptions(...args),
-      renderCategoryFilters: (...args) => controllers.renderCategoryFilters(...args),
-      renderDeveloperMode: shell.renderDeveloperMode,
-      renderInstallAppButton: shell.renderInstallAppButton,
-      renderPixelFontToggle: shell.renderPixelFontToggle,
-      renderSavedEmoji: shell.renderSavedEmoji,
-      renderThemeToggle: shell.renderThemeToggle,
-      renderVersionModeToggle: () => renderVersionModeToggle(),
-      restoreDeveloperMode: () => {
-        explorerState.developerModeFromUrl =
-          new URLSearchParams(window.location.search).get('developer') === '1';
-        shell.renderDeveloperMode();
-      },
-      savePreference: saveExplorerPreference,
-      savedDialog: () => savedDialog,
-      savedPicker: () => savedPicker,
-      scheduleSearchDraw: controllers.scheduleSearchDraw,
-      searchText: () => searchText,
-      selectEmojiFont: shell.selectEmojiFont,
-      selectTheme: shell.selectTheme,
-      setApplyingUrlState: value => (applyingUrlState = value),
-      setControls(values) {
-        ({
-          activeFilterSummary,
-          activeFilterText,
-          clearFiltersButton,
-          compactGroupChoices,
-          compactGroupLabel,
-          compactSequenceChoices,
-          compactSequenceLabel,
-          compactSubGroupChoices,
-          compactSubGroupLabel,
-          sequenceTypeSelector,
-          versionModeToggle,
-          versionRange,
-          versionRangeValue
-        } = values);
-      },
-      setElements(values) {
-        ({
-          advancedFilters,
-          copyStatus,
-          developerModeToggle,
-          emojiFontChoices,
-          emojiList,
-          genderCheckboxes,
-          groupFilterDialog,
-          groupPickerTrigger,
-          groupSelector,
-          hairCheckboxes,
-          helpDialog,
-          helpPicker,
-          installAppButton,
-          installDialog,
-          languageDialog,
-          languageList,
-          languagePicker,
-          languagePickerFlag,
-          languagePickerLabel,
-          matchCount,
-          modifierFilters,
-          offlineStatus,
-          orderButtons,
-          savedDialog,
-          savedPicker,
-          searchText,
-          skinToneCheckboxes,
-          subGroupFilterDialog,
-          subGroupPickerTrigger,
-          subGroupSelector,
-          themeChoices,
-          toolbar,
-          versionModeSelector,
-          versionNext,
-          versionPrevious,
-          versionSelector
-        } = values);
-      },
-      setFieldsets(values) {
-        ({ skinToneFieldset, hairFieldset, genderFieldset } = values);
-      },
-      setPixelEditor: editor => {
-        pixelEditor = editor;
-      },
-      setPixelEditorPromise: promise => {
-        pixelEditorPromise = promise;
-      },
-      setSearchLanguage: locale => {
-        explorerState.selectedSearchLocale = locale;
-      },
-      setSuppressDialogCloseSync: value => (suppressDialogCloseSync = value),
-      setUrlStateReady: value => (urlStateReady = value),
-      showEmoji: (...args) => showEmoji(...args),
-      skinToneCheckboxes: () => skinToneCheckboxes,
-      state: () => explorerState,
-      subGroupFilterDialog: () => subGroupFilterDialog,
-      subGroupPickerTrigger: () => subGroupPickerTrigger,
-      subGroupSelector: () => subGroupSelector,
-      suppressedPanelCloses: () => suppressedPanelCloses,
-      syncUrlState: (...args) => syncUrlState(...args),
-      syncVersionRange: (...args) => controllers.syncVersionRange(...args),
-      themeChoices: () => themeChoices,
-      toggleDeveloperMode: shell.toggleDeveloperMode,
-      toolbar: () => toolbar,
-      translate,
-      updateCompositionBackButton: (...args) => updateCompositionBackButton(...args),
-      updateDialogNavigation: (...args) => updateDialogNavigation(...args),
-      updateEmojiComposition: shell.updateEmojiComposition,
-      updateFavoriteButton: shell.updateFavoriteButton,
-      updateModifierArtwork: shell.updateModifierPixelArtwork,
-      updateOnlineStatus: shell.updateOnlineStatus,
-      updatePixelArtworkManifest: shell.updatePixelArtworkManifest,
-      updateRenderingDiagnostic: shell.updateRenderingDiagnostic,
-      urlStateReady: () => urlStateReady,
-      versionModeSelector: () => versionModeSelector,
-      versionModeToggle: () => versionModeToggle,
-      versionNext: () => versionNext,
-      versionPrevious: () => versionPrevious,
-      versionRange: () => versionRange,
-      versionSelector: () => versionSelector
-    })
-  })
-);
+bindings.bootstrapRuntime = initializeExplorerBootstrapSessionRuntime({
+  bindings,
+  controllers,
+  panelDialogs,
+  restoreDeveloperMode: () => {
+    explorerState.developerModeFromUrl =
+      new URLSearchParams(window.location.search).get('developer') === '1';
+    shell.renderDeveloperMode();
+  },
+  savePreference: saveExplorerPreference,
+  shell,
+  state: () => explorerState,
+  translate
+});
 
-populateVersionModeOptions = bootstrapRuntime.populateVersionModeOptions;
-renderVersionModeToggle = bootstrapRuntime.renderVersionModeToggleController;
-toggleVersionMode = bootstrapRuntime.toggleVersionMode;
-loadSearchLanguages = bootstrapRuntime.loadSearchLanguages;
-renderSearchLanguages = bootstrapRuntime.renderSearchLanguages;
-showEmoji = bootstrapRuntime.showEmoji;
-navigateEmoji = bootstrapRuntime.navigateEmoji;
-updateDialogNavigation = bootstrapRuntime.updateDialogNavigation;
-updateCompositionBackButton = bootstrapRuntime.updateCompositionBackButton;
-revealExplorer = bootstrapRuntime.revealExplorer;
-
-bootstrapRuntime.removeLegacyDialogElements();
-createExplorerApp({ window, start: bootstrapRuntime.onLoad }).startWhenReady();
+bindings.bootstrapRuntime.removeLegacyDialogElements();
+createExplorerApp({ window, start: bindings.bootstrapRuntime.onLoad }).startWhenReady();

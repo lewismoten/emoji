@@ -1,0 +1,95 @@
+// @ts-nocheck -- Transitional bootstrap wiring.
+export function createExplorerBootstrapBindings() {
+  return {
+    searchText: undefined,
+    languagePicker: undefined,
+    languagePickerFlag: undefined,
+    languagePickerLabel: undefined,
+    languageDialog: undefined,
+    languageList: undefined,
+    savedPicker: undefined,
+    savedDialog: undefined,
+    helpPicker: undefined,
+    helpDialog: undefined,
+    developerModeToggle: undefined,
+    emojiList: undefined,
+    matchCount: undefined,
+    toolbar: undefined,
+    groupSelector: undefined,
+    subGroupSelector: undefined,
+    groupPickerTrigger: undefined,
+    subGroupPickerTrigger: undefined,
+    groupFilterDialog: undefined,
+    subGroupFilterDialog: undefined,
+    compactGroupChoices: undefined,
+    compactSubGroupChoices: undefined,
+    sequenceTypeSelector: undefined,
+    compactSequenceChoices: undefined,
+    compactGroupLabel: undefined,
+    compactSubGroupLabel: undefined,
+    compactSequenceLabel: undefined,
+    versionModeSelector: undefined,
+    versionSelector: undefined,
+    versionModeToggle: undefined,
+    versionRange: undefined,
+    versionRangeValue: undefined,
+    versionPrevious: undefined,
+    versionNext: undefined,
+    advancedFilters: undefined,
+    activeFilterSummary: undefined,
+    activeFilterText: undefined,
+    clearFiltersButton: undefined,
+    orderButtons: undefined,
+    skinToneCheckboxes: undefined,
+    hairCheckboxes: undefined,
+    genderCheckboxes: undefined,
+    modifierFilters: undefined,
+    skinToneFieldset: undefined,
+    hairFieldset: undefined,
+    genderFieldset: undefined,
+    copyStatus: undefined,
+    pixelEditor: undefined,
+    pixelEditorPromise: undefined,
+    offlineStatus: undefined,
+    installAppButton: undefined,
+    installDialog: undefined,
+    emojiFontChoices: [],
+    themeChoices: [],
+    listRenderGeneration: 0,
+    urlStateReady: false,
+    applyingUrlState: false,
+    suppressDialogCloseSync: false,
+    suppressedPanelCloses: new WeakSet(),
+    drawList: () => {},
+    loadVersionData: () => {},
+    loadSearchLanguages: () => {},
+    renderSearchLanguages: () => {},
+    renderCategoryFilters: () => {},
+    renderVersionModeToggle: () => {},
+    setEmojiDialogView: () => {},
+    syncUrlState: () => {},
+    syncVersionRange: () => {},
+    showEmoji: () => {},
+    navigateEmoji: () => {},
+    updateDialogNavigation: () => {},
+    updateCompositionBackButton: () => {},
+    focusInitialEmojiDialogAction: () => {},
+    populateVersionModeOptions: () => {},
+    toggleVersionMode: () => {},
+    revealExplorer: () => {},
+    resetFilters: () => {},
+    bootstrapRuntime: undefined
+  };
+}
+
+export function assignExplorerBootstrapControls(bindings: any, values: any) {
+  Object.assign(bindings, values);
+}
+
+export function assignExplorerBootstrapElements(bindings: any, values: any) {
+  Object.assign(bindings, values);
+}
+
+export function assignExplorerBootstrapFieldsets(bindings: any, values: any) {
+  Object.assign(bindings, values);
+}
