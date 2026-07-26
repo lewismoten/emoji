@@ -16,7 +16,6 @@ import { createExplorerState } from './explorer-state.js';
 import { createCategoryController } from './app/category-controller.js';
 import { createExplorerRuntime } from './explorer-runtime.js';
 import { createEmojiActions } from './app/emoji-actions.js';
-import { createVersionModeController } from './app/version-mode-controller.js';
 import { createExplorerShell } from './app/explorer-shell.js';
 import { createUiFormatters } from './app/browser-runtime.js';
 import { createBrowserRuntimeConfig } from './app/browser-runtime-config.js';
@@ -27,6 +26,7 @@ import { createNavigationRuntime } from './app/navigation-runtime.js';
 import { createPixelEditorRuntime } from './app/pixel-editor-runtime.js';
 import { createStartupRuntime } from './app/startup-runtime.js';
 import { createVersionRuntime } from './app/version-runtime.js';
+import { createVersionModeRuntime } from './app/version-mode-runtime.js';
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
 let searchText, languagePicker, languagePickerFlag, languagePickerLabel, languageDialog, languageList, savedPicker, savedDialog, helpPicker, helpDialog, developerModeToggle, emojiList, matchCount, toolbar, groupSelector, subGroupSelector, groupPickerTrigger, subGroupPickerTrigger, groupFilterDialog, subGroupFilterDialog, compactGroupChoices, compactSubGroupChoices, sequenceTypeSelector, compactSequenceChoices, compactGroupLabel, compactSubGroupLabel, compactSequenceLabel, versionModeSelector, versionSelector, versionModeToggle, versionRange, versionRangeValue, versionPrevious, versionNext, advancedFilters, activeFilterSummary, activeFilterText, clearFiltersButton, orderButtons, skinToneCheckboxes, hairCheckboxes, genderCheckboxes, modifierFilters, skinToneFieldset, hairFieldset, genderFieldset, searchDrawTimer, copyStatus, pixelEditor, pixelEditorPromise, offlineStatus, installAppButton, installDialog;
@@ -413,10 +413,10 @@ const { ensurePixelEditor } = createPixelEditorRuntime({
     },
     translate
 });
-const versionModeController = createVersionModeController({
+const versionModeController = createVersionModeRuntime({
     definitions: versionModeDefinitions,
-    drawList: () => drawList(),
-    renderCategoryFilters: () => renderCategoryFilters(),
+    drawList: (...args) => drawList(...args),
+    renderCategoryFilters: (...args) => renderCategoryFilters(...args),
     selector: () => versionModeSelector,
     toggle: () => versionModeToggle,
     translate

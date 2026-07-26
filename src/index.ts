@@ -76,6 +76,7 @@ import { createNavigationRuntime } from './app/navigation-runtime.js';
 import { createPixelEditorRuntime } from './app/pixel-editor-runtime.js';
 import { createStartupRuntime } from './app/startup-runtime.js';
 import { createVersionRuntime } from './app/version-runtime.js';
+import { createVersionModeRuntime } from './app/version-mode-runtime.js';
 
 const UNASSIGNED = '\u0000';
 const explorerState = createExplorerState();
@@ -620,10 +621,10 @@ const { ensurePixelEditor } = createPixelEditorRuntime({
   translate
 });
 
-const versionModeController = createVersionModeController({
+const versionModeController = createVersionModeRuntime({
   definitions: versionModeDefinitions,
-  drawList: () => drawList(),
-  renderCategoryFilters: () => renderCategoryFilters(),
+  drawList: (...args) => drawList(...args),
+  renderCategoryFilters: (...args) => renderCategoryFilters(...args),
   selector: () => versionModeSelector,
   toggle: () => versionModeToggle,
   translate
