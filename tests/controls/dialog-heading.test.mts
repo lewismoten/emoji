@@ -3,49 +3,9 @@ import assert from "node:assert/strict";
 import { DialogCloseButtonControl } from "../../src/controls/dialog-close-button.js";
 import { DialogHeadingControl } from "../../src/controls/dialog-heading.js";
 import { createDialogHeading } from "../../src/explorer/dialog-control-helpers.js";
+import { FakeElement, installFakeDocument } from "./fake-dom.mjs";
 
-type FakeNode = FakeElement | string;
-
-class FakeElement {
-  tagName: string;
-  children: FakeNode[] = [];
-  dataset: Record<string, string | undefined> = {};
-  attributes = new Map<string, string>();
-  className = "";
-  textContent = "";
-  type = "";
-  method = "";
-  id = "";
-
-  constructor(tagName: string) {
-    this.tagName = tagName.toUpperCase();
-  }
-
-  append(...nodes: FakeNode[]) {
-    this.children.push(...nodes);
-  }
-
-  setAttribute(name: string, value: string) {
-    this.attributes.set(name, value);
-    if (name === "method") this.method = value;
-    if (name === "type") this.type = value;
-    if (name === "id") this.id = value;
-    if (name === "class") this.className = value;
-  }
-
-  getAttribute(name: string) {
-    return this.attributes.get(name) ?? null;
-  }
-}
-
-const originalDocument = (globalThis as typeof globalThis & { document?: any })
-  .document;
-(globalThis as typeof globalThis & { document: any }).document = {
-  createElement(tagName: string) {
-    return new FakeElement(tagName);
-  },
-};
-
+const restore = installFakeDocument();
 const heading = createDialogHeading({
   titleId: "dialog-title",
   titleKey: "example",
@@ -91,9 +51,4 @@ assert.match(headingWithCustomClose, /<h2 id="plain-title" data-i18n="plainTitle
 const closeMarkup = DialogCloseButtonControl.toMarkup();
 assert.match(headingMarkup, new RegExp(closeMarkup.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 
-if (originalDocument === undefined) {
-  delete (globalThis as typeof globalThis & { document?: any }).document;
-} else {
-  (globalThis as typeof globalThis & { document: any }).document =
-    originalDocument;
-}
+restore();
