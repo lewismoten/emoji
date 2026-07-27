@@ -133,6 +133,7 @@ const controllers = createExplorerBootstrapControllers(
     loadPackageManifest: shell.loadPackageManifest,
     matchCount: () => bindings.matchCount,
     modifierFilters: () => bindings.modifierFilters,
+    navigateEmoji: (amount) => bindings.bootstrapRuntime?.navigateEmoji(amount),
     nextRenderGeneration: () => ++bindings.listRenderGeneration,
     onClick: shell.onClick,
     openPanel: (...args) => openPanelDialog(...args),

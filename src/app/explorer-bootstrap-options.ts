@@ -77,6 +77,7 @@ export function buildExplorerBootstrapControllerOptions(options: any) {
     loadPackageManifest: options.loadPackageManifest,
     matchCount: () => options.matchCount(),
     modifierFilters: () => options.modifierFilters(),
+    navigateEmoji: (amount: number) => options.navigateEmoji(amount),
     nextRenderGeneration: () => options.nextRenderGeneration(),
     onClick: options.onClick,
     openPanel: (...args: any[]) => options.openPanel(...args),
