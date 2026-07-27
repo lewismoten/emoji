@@ -50,9 +50,16 @@ export abstract class BaseControl<TState> {
     for (const stylesheet of this.stylesheets()) {
       BaseControl.ensureStylesheet(stylesheet);
     }
+    for (const control of this.childControls()) {
+      control.attachAssets();
+    }
   }
 
   protected stylesheets(): ControlStylesheet[] {
+    return [];
+  }
+
+  protected childControls(): BaseControl<unknown>[] {
     return [];
   }
 

@@ -1,14 +1,13 @@
 import { BaseControl } from "./base-control.js";
-import { DialogCloseButtonControl } from "./dialog-close-button.js";
+import {
+  DialogCloseButtonControl,
+  dialogCloseButtonClassName,
+} from "./dialog-close-button.js";
 import { DomFactory } from "./dom-factory.js";
 import { TextControl } from "./text-control.js";
 
 const dialogHeadingStylesheetId = "dialog-heading-control-stylesheet";
 const dialogHeadingStylesheetHref = "./explorer/controls/dialog-heading.css";
-const dialogCloseButtonStylesheetId =
-  "dialog-close-button-control-stylesheet";
-const dialogCloseButtonStylesheetHref =
-  "./explorer/controls/dialog-close-button.css";
 
 type DialogHeadingState = {
   titleId: string;
@@ -36,11 +35,25 @@ export class DialogHeadingControl extends BaseControl<DialogHeadingState> {
         href: dialogHeadingStylesheetHref,
         id: dialogHeadingStylesheetId,
       },
-      {
-        href: dialogCloseButtonStylesheetHref,
-        id: dialogCloseButtonStylesheetId,
-      },
     ];
+  }
+
+  protected childControls() {
+    return [this.createCloseButtonControl()];
+  }
+
+  private createCloseButtonControl() {
+    return new DialogCloseButtonControl({
+      buttonClassName:
+        this.state.closeButtonClassName ?? dialogCloseButtonClassName,
+    });
+  }
+
+  private createCloseButtonSpec() {
+    return DialogCloseButtonControl.toSpec({
+      buttonClassName:
+        this.state.closeButtonClassName ?? dialogCloseButtonClassName,
+    });
   }
 
   protected render() {
@@ -71,10 +84,7 @@ export class DialogHeadingControl extends BaseControl<DialogHeadingState> {
         }),
         DomFactory.element("div", {
           children: [
-            DialogCloseButtonControl.toSpec({
-              buttonClassName:
-                this.state.closeButtonClassName ?? "dialog-close",
-            }),
+            this.createCloseButtonSpec(),
           ],
           className: "dialog-controls",
         }),

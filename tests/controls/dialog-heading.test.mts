@@ -33,9 +33,18 @@ assert.equal(
 );
 assert.equal(heading.className, "dialog-heading");
 assert.equal(heading.children.length, 2);
-assert.equal((heading.children[1] as FakeElement).tagName, "FORM");
+assert.equal((heading.children[0] as FakeElement).className, "dialog-title-row");
+assert.equal((heading.children[1] as FakeElement).className, "dialog-controls");
+assert.equal((heading.children[1] as FakeElement).children[0] instanceof FakeElement, true);
 assert.equal(
-  ((heading.children[1] as FakeElement).children[0] as FakeElement).className,
+  ((heading.children[1] as FakeElement).children[0] as FakeElement).tagName,
+  "FORM",
+);
+assert.equal(
+  (
+    (((heading.children[1] as FakeElement).children[0] as FakeElement)
+      .children[0] as FakeElement)
+  ).className,
   "dialog-close",
 );
 
