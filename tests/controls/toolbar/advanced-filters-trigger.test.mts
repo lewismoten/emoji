@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { AdvancedFiltersTriggerControl } from "../../../src/controls/filters/advanced-filters-trigger.js";
+import { AdvancedFiltersTriggerControl } from "../../../src/controls/filters/pickers/advanced-filters-trigger.js";
 
 const markup = AdvancedFiltersTriggerControl.toMarkup();
 

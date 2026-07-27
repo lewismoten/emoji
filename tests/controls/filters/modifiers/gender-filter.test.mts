@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { GenderFilterControl } from "../../../src/controls/filters/gender-filter.js";
+import { GenderFilterControl } from "../../../../src/controls/filters/modifiers/gender-filter.js";
 
 const markup = GenderFilterControl.toMarkup();
 

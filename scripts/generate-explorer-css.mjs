@@ -68,36 +68,102 @@ const sourceFiles = [
     output: path.join("controls", "pickers", "language-picker.css"),
   },
   {
-    source: path.join("src", "controls", "filters", "compact-choice-button.css"),
-    output: path.join("controls", "filters", "compact-choice-button.css"),
+    source: path.join(
+      "src",
+      "controls",
+      "filters",
+      "pickers",
+      "compact-choice-button.css",
+    ),
+    output: path.join(
+      "controls",
+      "filters",
+      "pickers",
+      "compact-choice-button.css",
+    ),
   },
   {
     source: path.join("src", "controls", "toolbar", "theme-choice-group.css"),
     output: path.join("controls", "toolbar", "theme-choice-group.css"),
   },
   {
-    source: path.join("src", "controls", "filters", "filter-picker-trigger.css"),
-    output: path.join("controls", "filters", "filter-picker-trigger.css"),
+    source: path.join(
+      "src",
+      "controls",
+      "filters",
+      "pickers",
+      "filter-picker-trigger.css",
+    ),
+    output: path.join(
+      "controls",
+      "filters",
+      "pickers",
+      "filter-picker-trigger.css",
+    ),
   },
   {
     source: path.join("src", "controls", "toolbar", "toolbar-trigger-button.css"),
     output: path.join("controls", "toolbar", "toolbar-trigger-button.css"),
   },
   {
-    source: path.join("src", "controls", "filters", "advanced-filters-trigger.css"),
-    output: path.join("controls", "filters", "advanced-filters-trigger.css"),
+    source: path.join(
+      "src",
+      "controls",
+      "filters",
+      "pickers",
+      "advanced-filters-trigger.css",
+    ),
+    output: path.join(
+      "controls",
+      "filters",
+      "pickers",
+      "advanced-filters-trigger.css",
+    ),
   },
   {
-    source: path.join("src", "controls", "filters", "modifier-filter-control.css"),
-    output: path.join("controls", "filters", "modifier-filter-control.css"),
+    source: path.join(
+      "src",
+      "controls",
+      "filters",
+      "modifiers",
+      "modifier-filter-control.css",
+    ),
+    output: path.join(
+      "controls",
+      "filters",
+      "modifiers",
+      "modifier-filter-control.css",
+    ),
   },
   {
-    source: path.join("src", "controls", "filters", "version-mode-toggle.css"),
-    output: path.join("controls", "filters", "version-mode-toggle.css"),
+    source: path.join(
+      "src",
+      "controls",
+      "filters",
+      "version",
+      "version-mode-toggle.css",
+    ),
+    output: path.join(
+      "controls",
+      "filters",
+      "version",
+      "version-mode-toggle.css",
+    ),
   },
   {
-    source: path.join("src", "controls", "filters", "version-step-button.css"),
-    output: path.join("controls", "filters", "version-step-button.css"),
+    source: path.join(
+      "src",
+      "controls",
+      "filters",
+      "version",
+      "version-step-button.css",
+    ),
+    output: path.join(
+      "controls",
+      "filters",
+      "version",
+      "version-step-button.css",
+    ),
   },
 ];
 const mainSource = fs.readFileSync(path.join("src", "site", "index.css"), "utf8");

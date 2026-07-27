@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { HairFilterControl } from "../../../src/controls/filters/hair-filter.js";
+import { HairFilterControl } from "../../../../src/controls/filters/modifiers/hair-filter.js";
 
 const markup = HairFilterControl.toMarkup();
 

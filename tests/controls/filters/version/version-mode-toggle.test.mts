@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { VersionModeToggleControl } from "../../../src/controls/filters/version-mode-toggle.js";
+import { VersionModeToggleControl } from "../../../../src/controls/filters/version/version-mode-toggle.js";
 
 const markup = VersionModeToggleControl.toMarkup({
   emoji: "🎯",

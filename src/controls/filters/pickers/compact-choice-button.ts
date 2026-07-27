@@ -1,10 +1,10 @@
-import { BaseControl } from "../core/base-control.js";
-import { DomFactory } from "../core/dom-factory.js";
+import { BaseControl } from "../../core/base-control.js";
+import { DomFactory } from "../../core/dom-factory.js";
 
 const compactChoiceButtonStylesheetId =
   "compact-choice-button-control-stylesheet";
 const compactChoiceButtonStylesheetHref =
-  "./explorer/controls/filters/compact-choice-button.css";
+  "./explorer/controls/filters/pickers/compact-choice-button.css";
 
 type CompactChoiceButtonState = {
   ariaLabel: string;

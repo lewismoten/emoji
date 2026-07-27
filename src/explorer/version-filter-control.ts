@@ -1,4 +1,4 @@
-import { VersionModeToggleControl } from "../controls/filters/version-mode-toggle.js";
+import { VersionModeToggleControl } from "../controls/filters/version/version-mode-toggle.js";
 
 export function ensureSequenceTypeFilterField(documentRef: any) {
   const existing = documentRef.getElementsByClassName("select-sequence-type")[0];

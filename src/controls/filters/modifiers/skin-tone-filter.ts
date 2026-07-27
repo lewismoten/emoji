@@ -2,7 +2,7 @@ import { ModifierFilterControl } from "./modifier-filter-control.js";
 
 const skinToneFilterStylesheetId = "skin-tone-filter-control-stylesheet";
 const skinToneFilterStylesheetHref =
-  "./explorer/controls/filters/modifier-filter-control.css";
+  "./explorer/controls/filters/modifiers/modifier-filter-control.css";
 
 export class SkinToneFilterControl extends ModifierFilterControl {
   constructor(state?: Partial<ConstructorParameters<typeof ModifierFilterControl>[0]>) {

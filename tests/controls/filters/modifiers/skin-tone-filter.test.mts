@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { SkinToneFilterControl } from "../../../src/controls/filters/skin-tone-filter.js";
+import { SkinToneFilterControl } from "../../../../src/controls/filters/modifiers/skin-tone-filter.js";
 
 const markup = SkinToneFilterControl.toMarkup();
 

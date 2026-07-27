@@ -1,6 +1,6 @@
-import { BaseControl } from "../core/base-control.js";
-import { type NodeSpec } from "../core/dom-factory.js";
-import { ChoiceGroupControl } from "../groups/choice-group.js";
+import { BaseControl } from "../../core/base-control.js";
+import { type NodeSpec } from "../../core/dom-factory.js";
+import { ChoiceGroupControl } from "../../groups/choice-group.js";
 
 export type ModifierFilterItem = {
   emoji: string;

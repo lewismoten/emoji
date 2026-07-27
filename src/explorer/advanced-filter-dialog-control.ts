@@ -1,7 +1,7 @@
-import { AdvancedFiltersTriggerControl } from "../controls/filters/advanced-filters-trigger.js";
-import { GenderFilterControl } from "../controls/filters/gender-filter.js";
-import { HairFilterControl } from "../controls/filters/hair-filter.js";
-import { SkinToneFilterControl } from "../controls/filters/skin-tone-filter.js";
+import { AdvancedFiltersTriggerControl } from "../controls/filters/pickers/advanced-filters-trigger.js";
+import { GenderFilterControl } from "../controls/filters/modifiers/gender-filter.js";
+import { HairFilterControl } from "../controls/filters/modifiers/hair-filter.js";
+import { SkinToneFilterControl } from "../controls/filters/modifiers/skin-tone-filter.js";
 import { createDialogHeading } from "./dialog-control-helpers.js";
 
 function createSequenceFilterField() {

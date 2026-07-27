@@ -1,10 +1,10 @@
-import { BaseControl } from "../core/base-control.js";
-import { ToggleButtonControl } from "../core/toggle-button.js";
+import { BaseControl } from "../../core/base-control.js";
+import { ToggleButtonControl } from "../../core/toggle-button.js";
 
 const versionModeToggleStylesheetId =
   "version-mode-toggle-control-stylesheet";
 const versionModeToggleStylesheetHref =
-  "./explorer/controls/filters/version-mode-toggle.css";
+  "./explorer/controls/filters/version/version-mode-toggle.css";
 
 type VersionModeToggleState = {
   emoji: string;

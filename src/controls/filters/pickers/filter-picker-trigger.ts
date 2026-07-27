@@ -1,10 +1,10 @@
-import { BaseControl } from "../core/base-control.js";
-import { DomFactory } from "../core/dom-factory.js";
+import { BaseControl } from "../../core/base-control.js";
+import { DomFactory } from "../../core/dom-factory.js";
 
 const filterPickerTriggerStylesheetId =
   "filter-picker-trigger-control-stylesheet";
 const filterPickerTriggerStylesheetHref =
-  "./explorer/controls/filters/filter-picker-trigger.css";
+  "./explorer/controls/filters/pickers/filter-picker-trigger.css";
 
 type FilterPickerTriggerState = {
   controlsId: string;
