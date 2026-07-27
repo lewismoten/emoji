@@ -3,6 +3,7 @@ import {
   createTextBlock,
   setPressedState,
 } from "./dialog-control-helpers.js";
+import { LanguagePickerControl } from "../controls/language-picker.js";
 
 type SearchLocale = {
   locale: string;
@@ -25,34 +26,16 @@ export type LanguagePickerControl = {
 };
 
 export function createLanguagePickerControl(): LanguagePickerControl {
-  const button = document.createElement("button");
-  button.className = "language-picker";
-  button.type = "button";
-  button.setAttribute("aria-haspopup", "dialog");
-  button.setAttribute("aria-controls", "language-dialog");
-  button.setAttribute(
-    "aria-labelledby",
-    "language-picker-accessible-label language-picker-current-label",
-  );
-
-  const accessibleLabel = createTextBlock(
-    "span",
-    "chooseLanguage",
-    "Choose a search language",
-  );
-  accessibleLabel.id = "language-picker-accessible-label";
-  accessibleLabel.className = "sr-only";
-
-  const flag = document.createElement("span");
-  flag.className = "language-picker-flag";
-  flag.setAttribute("aria-hidden", "true");
-  flag.textContent = "🌐";
-
-  const label = createTextBlock("span", "language", "Language");
-  label.id = "language-picker-current-label";
-  label.className = "language-picker-label";
-
-  button.append(accessibleLabel, flag, label);
+  const button = LanguagePickerControl.create({
+    accessibleLabel: "Choose a search language",
+    accessibleLabelId: "language-picker-accessible-label",
+    controlsId: "language-dialog",
+    flag: "🌐",
+    label: "Language",
+    labelId: "language-picker-current-label",
+  }) as HTMLButtonElement;
+  const flag = button.querySelector(".language-picker-flag") as HTMLElement;
+  const label = button.querySelector(".language-picker-label") as HTMLElement;
   return { button, flag, label };
 }
 

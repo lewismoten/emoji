@@ -2,6 +2,7 @@ import {
   createDialogHeading,
   setPressedState,
 } from "./dialog-control-helpers.js";
+import { CompactChoiceButtonControl } from "../controls/compact-choice-button.js";
 
 export function createFilterPickerDialogControl(options: {
   id: string;
@@ -71,27 +72,14 @@ export function createCompactChoiceControl(options: {
   selected: boolean;
   onSelect: () => void;
 }) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "compact-choice";
-  button.dataset.value = options.value;
-  button.setAttribute("role", "radio");
+  const button = CompactChoiceButtonControl.create({
+    ariaLabel: options.label,
+    emoji: options.emoji,
+    label: options.label,
+    selected: options.selected,
+    value: options.value,
+  }) as HTMLButtonElement;
   setPressedState(button, options.selected, "is-selected");
-  button.setAttribute("aria-checked", String(options.selected));
-  button.tabIndex = options.selected ? 0 : -1;
-  button.setAttribute("aria-label", options.label);
-  button.title = options.label;
-
-  const icon = document.createElement("span");
-  icon.className = "compact-choice-emoji";
-  icon.setAttribute("aria-hidden", "true");
-  icon.textContent = options.emoji;
-
-  const text = document.createElement("span");
-  text.className = "compact-choice-label";
-  text.textContent = options.label;
-
-  button.replaceChildren(icon, text);
   button.addEventListener("click", options.onSelect);
   return button;
 }

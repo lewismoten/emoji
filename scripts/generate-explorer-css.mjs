@@ -55,6 +55,22 @@ const sourceFiles = [
     source: path.join("src", "controls", "dialog-heading.css"),
     output: path.join("controls", "dialog-heading.css"),
   },
+  {
+    source: path.join("src", "controls", "dialog-navigate-button.css"),
+    output: path.join("controls", "dialog-navigate-button.css"),
+  },
+  {
+    source: path.join("src", "controls", "dialog-mode-back-button.css"),
+    output: path.join("controls", "dialog-mode-back-button.css"),
+  },
+  {
+    source: path.join("src", "controls", "language-picker.css"),
+    output: path.join("controls", "language-picker.css"),
+  },
+  {
+    source: path.join("src", "controls", "compact-choice-button.css"),
+    output: path.join("controls", "compact-choice-button.css"),
+  },
 ];
 const mainSource = fs.readFileSync(path.join("src", "site", "index.css"), "utf8");
 

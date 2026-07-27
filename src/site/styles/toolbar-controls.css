@@ -1,20 +1,3 @@
-.language-picker {
-  display: inline-flex;
-  flex: 0 1 13rem;
-  align-items: center;
-  gap: 0.35rem;
-  min-width: 10rem;
-  height: 2.25rem;
-  padding: 0.25rem 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--panel);
-  color: var(--text);
-  cursor: pointer;
-  font: inherit;
-  text-align: left;
-}
-
 .saved-picker,
 .help-picker {
   display: inline-flex;
@@ -52,28 +35,15 @@
   font-weight: 800;
 }
 
-.language-picker:hover,
 .saved-picker:hover,
 .help-picker:hover {
   border-color: var(--accent);
 }
 
-.language-picker:focus-visible,
 .saved-picker:focus-visible,
 .help-picker:focus-visible {
   outline: var(--focus-outline);
   outline-offset: var(--focus-outline-offset);
-}
-
-.language-picker:disabled {
-  cursor: wait;
-  opacity: 0.65;
-}
-
-.language-picker-label {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .filter-picker-trigger {
@@ -180,56 +150,6 @@
   cursor: pointer;
   font: inherit;
   font-weight: 700;
-}
-
-.compact-choices {
-  display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  align-items: flex-start;
-  gap: 0.3rem;
-}
-
-.compact-choice {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  height: 2.65rem;
-  padding: 0.35rem 0.6rem;
-  border: 1px solid var(--border);
-  border-radius: 0.55rem;
-  background: var(--panel);
-  color: var(--text);
-  cursor: pointer;
-  font: inherit;
-  font-weight: 650;
-}
-
-.compact-choice-emoji {
-  font-family: var(--emoji-font);
-  font-size: var(--ui-font-size-xxx-large);
-}
-
-.compact-choice-label {
-  font-size: var(--ui-font-size-medium-small);
-  white-space: nowrap;
-}
-
-.compact-choice:hover {
-  background: color-mix(in srgb, var(--panel) 82%, var(--accent));
-}
-
-.compact-choice[aria-checked="true"] {
-  border-color: var(--accent);
-  background: var(--selected-control-bg);
-  color: var(--selected-control-text);
-  box-shadow: var(--shadow-selected-inset, none);
-}
-
-.compact-choice:focus-visible {
-  outline: 2px dashed var(--accent-strong);
-  outline-offset: var(--focus-outline-offset);
 }
 
 .version-mode-toggle {

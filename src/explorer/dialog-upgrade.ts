@@ -1,3 +1,5 @@
+import { DialogNavigateButtonControl } from "../controls/dialog-navigate-button.js";
+
 export function upgradeEmojiDialog(options: {
   ensureImportExamples: (dialog: HTMLElement) => void;
   exampleDialog: HTMLElement;
@@ -10,12 +12,12 @@ export function upgradeEmojiDialog(options: {
   const dialogControls =
     options.exampleDialog.querySelector(".dialog-controls");
   if (dialogControls && !dialogControls.querySelector(".emoji-parent")) {
-    const parent = document.createElement("button");
-    parent.className = "dialog-navigate emoji-parent";
-    parent.type = "button";
-    parent.hidden = true;
-    parent.textContent = "↩";
-    parent.setAttribute("aria-label", "Back to parent emoji");
+    const parent = DialogNavigateButtonControl.create({
+      ariaLabel: "Back to parent emoji",
+      buttonClassName: "dialog-navigate emoji-parent",
+      hidden: true,
+      text: "↩",
+    });
     dialogControls.prepend(parent);
   }
   const eyebrow = options.exampleDialog.querySelector<HTMLElement>(
