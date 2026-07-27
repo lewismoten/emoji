@@ -6,6 +6,13 @@ import { createDialogHeading } from "../../src/explorer/dialog-control-helpers.j
 import { FakeElement, installFakeDocument } from "./fake-dom.mjs";
 
 const restore = installFakeDocument();
+const documentRef = (
+  globalThis as typeof globalThis & {
+    document: {
+      head: FakeElement & { children: FakeElement[] };
+    };
+  }
+).document;
 const heading = createDialogHeading({
   titleId: "dialog-title",
   titleKey: "example",
@@ -13,6 +20,17 @@ const heading = createDialogHeading({
   eyebrowKey: "details",
   eyebrow: "Details",
 }) as unknown as FakeElement;
+const stylesheets = (documentRef.head.children as FakeElement[]).filter(
+  (child) => child.tagName === "LINK",
+);
+assert.equal(stylesheets.length, 2);
+assert.equal(stylesheets[0]?.id, "dialog-heading-control-stylesheet");
+assert.equal(stylesheets[0]?.href, "./explorer/controls/dialog-heading.css");
+assert.equal(stylesheets[1]?.id, "dialog-close-button-control-stylesheet");
+assert.equal(
+  stylesheets[1]?.href,
+  "./explorer/controls/dialog-close-button.css",
+);
 assert.equal(heading.className, "dialog-heading");
 assert.equal(heading.children.length, 2);
 assert.equal((heading.children[1] as FakeElement).tagName, "FORM");
@@ -51,5 +69,15 @@ assert.doesNotMatch(headingWithCustomClose, /class="eyebrow"/);
 
 const closeMarkup = DialogCloseButtonControl.toMarkup();
 assert.match(headingMarkup, new RegExp(closeMarkup.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+
+DialogHeadingControl.create({
+  title: "Second",
+  titleId: "second-title",
+  titleKey: "secondTitle",
+});
+const duplicateStylesheets = (documentRef.head.children as FakeElement[]).filter(
+  (child) => child.tagName === "LINK",
+);
+assert.equal(duplicateStylesheets.length, 2);
 
 restore();
