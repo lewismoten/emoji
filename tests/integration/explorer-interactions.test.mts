@@ -116,7 +116,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.compact-choice,[\s\S]*\.modifier-filters fieldset label,[\s\S]*\.order-mode,[\s\S]*transition:[\s\S]*background-color var\(--motion-fast\)[\s\S]*transform var\(--motion-fast\)/,
+  /\.compact-choice,[\s\S]*\.modifier-filter-option,[\s\S]*\.order-mode,[\s\S]*transition:[\s\S]*background-color var\(--motion-fast\)[\s\S]*transform var\(--motion-fast\)/,
   "interactive controls must share short visual-state transitions",
 );
 assert.match(
