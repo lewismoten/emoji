@@ -194,10 +194,25 @@ html[data-theme="retro"] .pixel-editor-trace-nudge:hover {
   transform: translate(-1px, -1px);
 }
 
+html[data-theme="retro"] .setting-choice[aria-pressed="true"]:hover,
+html[data-theme="retro"] .compact-choice[aria-checked="true"]:hover,
+html[data-theme="retro"] .version-mode-toggle[aria-pressed="true"]:hover,
+html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"]:hover,
+html[data-theme="retro"] .language-option.is-selected:hover,
+html[data-theme="retro"] .order-mode.is-active:hover,
+html[data-theme="retro"] .modifier-filter-option:has(input:checked):hover {
+  border-top-color: var(--ega-light-gray);
+  border-left-color: var(--ega-light-gray);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  background: var(--ega-dark-gray);
+  color: var(--ega-light-gray);
+  transform: translate(1px, 1px);
+}
+
 html[data-theme="retro"] .setting-choice.is-active,
 html[data-theme="retro"] .setting-choice[aria-pressed="true"],
 html[data-theme="retro"] .compact-choice[aria-checked="true"],
-html[data-theme="retro"] .version-mode-toggle[aria-pressed="true"],
 html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"],
 html[data-theme="retro"] .language-option.is-selected,
 html[data-theme="retro"] .order-mode.is-active,

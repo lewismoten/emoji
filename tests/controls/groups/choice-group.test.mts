@@ -32,8 +32,16 @@ const markup = ChoiceGroupControl.toMarkup({
   wrapperTag: "fieldset",
 });
 
-assert.match(markup, /<fieldset class="choice-group" data-max-selectable="1" data-min-selectable="1">/);
-assert.match(markup, /<legend id="numbers-group-label" data-i18n="numbers">Numbers<\/legend>/);
-assert.match(markup, /class="choice-button"/);
-assert.match(markup, /data-disabled="true"/);
-assert.match(markup, /data-disabled="false"/);
+assert.ok(
+  markup.includes(
+    '<fieldset class="choice-group" data-max-selectable="1" data-min-selectable="1">',
+  ),
+);
+assert.ok(
+  markup.includes(
+    '<legend id="numbers-group-label" data-i18n="numbers">Numbers</legend>',
+  ),
+);
+assert.ok(markup.includes('class="choice-button"'));
+assert.ok(markup.includes('data-disabled="true"'));
+assert.ok(markup.includes('data-disabled="false"'));
