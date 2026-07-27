@@ -9,7 +9,6 @@ const cacheFile = path.join(root, "cache", "test-bundle-state.json");
 const inputs = [
   "package-lock.json",
   "package.json",
-  "popular.json",
   "rollup.config.ts",
   "src/emoji-source",
   "tsconfig.json",

@@ -6,7 +6,9 @@ import { readEmojiDataSync } from "./emoji-data.mjs";
 const sourceDirectory = "library";
 const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const emoji = readEmojiDataSync();
-const popular = JSON.parse(fs.readFileSync("popular.json", "utf8"));
+const popular = JSON.parse(
+  fs.readFileSync(path.join("src", "package-data", "popular.json"), "utf8"),
+);
 
 const clean = (directory) =>
   fs.rmSync(directory, { recursive: true, force: true });

@@ -29,7 +29,7 @@ const legacyLineBudgets: Record<string, number> = {
   "src/site/index.css": 4759,
 };
 const legacyFileCountBudgets: Record<string, number> = {
-  ".": 12,
+  ".": 11,
   src: 14,
   "src/app": 29,
   "src/explorer": 42,
