@@ -5,6 +5,15 @@ import { fileURLToPath } from "node:url";
 
 const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const assetVersion = packageJson.version;
+const topLevelModules = fs
+  .readdirSync("src")
+  .filter(
+    (file) =>
+      (file.endsWith(".ts") || file.endsWith(".js")) &&
+      file !== "explorer.tsconfig.json" &&
+      file !== "pixel-editor-entry.js",
+  )
+  .map((file) => `./${file.replace(/\.(ts|js)$/, ".js")}`);
 const explorerModules = fs
   .readdirSync("src/explorer")
   .filter((file) => file.endsWith(".ts"))
@@ -17,6 +26,7 @@ const coreAssets = [
   "./",
   `./explorer/index.css?v=${assetVersion}`,
   `./index.js?v=${assetVersion}`,
+  ...topLevelModules,
   ...explorerModules,
   ...appModules,
   "./pixel-font/build/font/pixel-emoji.css",
@@ -29,19 +39,37 @@ const coreAssets = [
   "./icons/icon-maskable-512.png",
   "./manifest.webmanifest",
   "./offline.html",
-].filter((asset) => {
+];
+const sourceFileForAsset = (asset) => {
   const file = asset.replace(/^\.\//, "").replace(/\?.*$/, "");
-  return file === "" || fs.existsSync(file);
+  if (!file) return "";
+  if (file === "index.js") return path.join("src", "index.ts");
+  if (file === "manifest.webmanifest")
+    return path.join("src", "site", "manifest.webmanifest");
+  if (file === "offline.html") return path.join("src", "site", "offline.html");
+  if (file === "favicon.svg") return path.join("src", "site", "favicon.svg");
+  if (
+    file === "icons/icon-192.png" ||
+    file === "icons/icon-512.png" ||
+    file === "icons/icon-maskable-512.png"
+  ) {
+    return path.join("src", "site", "favicon.svg");
+  }
+  return file;
+};
+const existingCoreAssets = coreAssets.filter((asset) => {
+  const sourceFile = sourceFileForAsset(asset);
+  return sourceFile === "" || fs.existsSync(sourceFile);
 });
 
 const template = fs.readFileSync("scripts/service-worker.template.js", "utf8");
 const assetHash = createHash("sha256");
-for (const asset of coreAssets) {
-  const file = asset.replace(/^\.\//, "").replace(/\?.*$/, "");
+for (const asset of existingCoreAssets) {
+  const file = sourceFileForAsset(asset);
   assetHash.update(asset);
   if (
     file &&
-    !/^index\.[^.]+(?:-[^.]+)?\.html$/.test(file) &&
+    !/^index\.[^.]+(?:-[^.]+)?\.html$/.test(path.basename(file)) &&
     fs.existsSync(file)
   ) {
     assetHash.update(fs.readFileSync(file));
@@ -52,13 +80,13 @@ export const renderServiceWorker = () =>
   template
     .replace("__PACKAGE_VERSION__", packageJson.version)
     .replace("__ASSET_REVISION__", assetRevision)
-    .replace("__CORE_ASSETS__", JSON.stringify(coreAssets, null, 2));
+    .replace("__CORE_ASSETS__", JSON.stringify(existingCoreAssets, null, 2));
 
 export const generateServiceWorker = (outputFile = "service-worker.js") => {
   fs.mkdirSync(path.dirname(path.resolve(outputFile)), { recursive: true });
   fs.writeFileSync(outputFile, renderServiceWorker());
   console.info(
-    `Generated ${outputFile} with cache ${packageJson.version} and ${coreAssets.length} core assets.`,
+    `Generated ${outputFile} with cache ${packageJson.version} and ${existingCoreAssets.length} core assets.`,
   );
 };
 

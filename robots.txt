@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://lewismoten.github.io/emoji/sitemap.xml

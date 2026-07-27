@@ -269,7 +269,6 @@ const transpileExplorerModule = (sourceFile, outputFile) => {
   });
   write(outputFile, build.outputText.trimEnd());
 };
-transpileExplorerModule("src/index.ts", "index.js");
 for (const file of fs.readdirSync("src/explorer")) {
   if (!file.endsWith(".ts")) continue;
   transpileExplorerModule(

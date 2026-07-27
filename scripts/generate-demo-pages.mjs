@@ -2,6 +2,8 @@ import fs from "node:fs";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import ts from "typescript";
+import { generateSiteIcons } from "./generate-site-icons.mjs";
 
 const defaultSiteUrl = "https://lewismoten.github.io/emoji/";
 const normalizeSiteUrl = (value) => `${value.replace(/\/+$/, "")}/`;
@@ -15,16 +17,6 @@ const template = fs.readFileSync(
 );
 const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const assetVersion = packageJson.version;
-const deployedScript = fs
-  .readFileSync("index.js", "utf8")
-  .replace(
-    /import\((['"])(\.+)\/pixel-editor\.js\1\)/,
-    `import('$2/pixel-editor.js?v=${assetVersion}')`,
-  )
-  .replace(
-    /(['"])\.\/explorer\/pixel-editor\.css\1/,
-    `'./explorer/pixel-editor.css?v=${assetVersion}'`,
-  );
 const english = JSON.parse(fs.readFileSync("demo-locales/en.json", "utf8"));
 const webAppManifest = JSON.parse(
   fs.readFileSync(path.join(siteSourceDirectory, "manifest.webmanifest"), "utf8"),
@@ -93,6 +85,92 @@ const alternates = [
       `  <link rel="alternate" hreflang="${locale}" href="${pageUrl(locale)}">`,
   ),
 ].join("\n");
+const topLevelRuntimeSources = fs
+  .readdirSync("src")
+  .filter(
+    (file) =>
+      (file.endsWith(".ts") || file.endsWith(".js")) &&
+      file !== "explorer.tsconfig.json",
+  )
+  .sort((left, right) => left.localeCompare(right, "en"));
+const appRuntimeSources = fs
+  .readdirSync(path.join("src", "app"))
+  .filter((file) => file.endsWith(".ts"))
+  .sort((left, right) => left.localeCompare(right, "en"));
+const explorerRuntimeSources = fs
+  .readdirSync(path.join("src", "explorer"))
+  .filter((file) => file.endsWith(".ts"))
+  .sort((left, right) => left.localeCompare(right, "en"));
+const pixelEditorRuntimeSources = fs
+  .readdirSync(path.join("src", "pixel-editor"))
+  .filter((file) => file.endsWith(".js"))
+  .sort((left, right) => left.localeCompare(right, "en"));
+const staticSiteAssets = ["favicon.svg", "offline.html", "screenshot.png"];
+const prepareDeployedScript = (source) =>
+  source
+    .replace(
+      /import\((['"])(\.+)\/pixel-editor\.js\1\)/g,
+      `import('$2/pixel-editor.js?v=${assetVersion}')`,
+    )
+    .replace(
+      /(['"])\.\/explorer\/pixel-editor\.css\1/g,
+      `'./explorer/pixel-editor.css?v=${assetVersion}'`,
+    );
+const transpileModule = (sourceFile, outputFile) => {
+  const source = fs.readFileSync(sourceFile, "utf8");
+  const build = ts.transpileModule(source, {
+    compilerOptions: {
+      target: ts.ScriptTarget.ESNext,
+      module: ts.ModuleKind.ESNext,
+      sourceMap: false,
+    },
+    fileName: sourceFile,
+  });
+  fs.mkdirSync(path.dirname(outputFile), { recursive: true });
+  fs.writeFileSync(outputFile, `${prepareDeployedScript(build.outputText.trimEnd())}\n`);
+};
+const copyRuntimeModule = (sourceFile, outputFile) => {
+  const source = fs.readFileSync(sourceFile, "utf8");
+  fs.mkdirSync(path.dirname(outputFile), { recursive: true });
+  fs.writeFileSync(outputFile, `${prepareDeployedScript(source.trimEnd())}\n`);
+};
+const emitRuntimeModules = (outputDirectory) => {
+  for (const file of topLevelRuntimeSources) {
+    const sourceFile = path.join("src", file);
+    const outputFile =
+      file === "index.ts"
+        ? path.join(outputDirectory, "index.js")
+        : file === "pixel-editor-entry.js"
+          ? path.join(outputDirectory, "pixel-editor.js")
+          : path.join(
+              outputDirectory,
+              file.replace(/\.(ts|js)$/, ".js"),
+            );
+    if (file.endsWith(".ts")) transpileModule(sourceFile, outputFile);
+    else copyRuntimeModule(sourceFile, outputFile);
+  }
+
+  for (const file of appRuntimeSources) {
+    transpileModule(
+      path.join("src", "app", file),
+      path.join(outputDirectory, "app", file.replace(/\.ts$/, ".js")),
+    );
+  }
+
+  for (const file of explorerRuntimeSources) {
+    transpileModule(
+      path.join("src", "explorer", file),
+      path.join(outputDirectory, "explorer", file.replace(/\.ts$/, ".js")),
+    );
+  }
+
+  for (const file of pixelEditorRuntimeSources) {
+    copyRuntimeModule(
+      path.join("src", "pixel-editor", file),
+      path.join(outputDirectory, "pixel-editor", file),
+    );
+  }
+};
 
 export const renderPage = (
   locale,
@@ -247,9 +325,7 @@ export const renderManifest = (locale, startUrl, htmlLocale = locale) => {
 
 export const generateDemoPages = (outputDirectory = ".") => {
   fs.mkdirSync(outputDirectory, { recursive: true });
-  if (path.resolve(outputDirectory) !== process.cwd()) {
-    fs.writeFileSync(path.join(outputDirectory, "index.js"), deployedScript);
-  }
+  emitRuntimeModules(outputDirectory);
   fs.writeFileSync(
     path.join(outputDirectory, "index.html"),
     renderPage("en", siteUrl, "en-US", "en", ""),
@@ -279,12 +355,25 @@ ${locales.map((locale) => `  <url><loc>${pageUrl(locale)}</loc></url>`).join("\n
     path.join(outputDirectory, "robots.txt"),
     `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}sitemap.xml\n`,
   );
+  for (const asset of staticSiteAssets) {
+    fs.copyFileSync(
+      path.join(siteSourceDirectory, asset),
+      path.join(outputDirectory, asset),
+    );
+  }
+  generateSiteIcons({
+    favicon: path.join(siteSourceDirectory, "favicon.svg"),
+    outputDirectory: path.join(outputDirectory, "icons"),
+  });
 
   console.info(
     `Generated the en-US root and ${locales.length} localized demo pages in ${outputDirectory}.`,
   );
 };
 
-if (path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (
+  process.argv[1] &&
+  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+) {
   generateDemoPages(process.argv[2] ?? ".");
 }

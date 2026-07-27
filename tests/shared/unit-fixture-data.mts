@@ -105,10 +105,10 @@ export const arabicDemo = await readFirstAvailable([
   "index.ar.html",
 ]);
 export const demoHtml = await fs.readFile(
-  path.join(root, "index.html"),
+  path.join(root, "src", "site", "index.html"),
   "utf8",
 );
 export const demoStyles = await fs.readFile(
-  path.join(root, "index.css"),
+  path.join(root, "src", "site", "index.css"),
   "utf8",
 );

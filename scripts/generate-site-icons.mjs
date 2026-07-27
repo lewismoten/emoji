@@ -56,6 +56,17 @@ export const generateSiteIcons = ({
     }
   }
 
+  const repositoryIconsDirectory = path.join(root, "icons");
+  if (path.resolve(outputDirectory) !== path.resolve(repositoryIconsDirectory)) {
+    for (const file of generatedIcons) {
+      const source = path.join(repositoryIconsDirectory, file);
+      const target = path.join(outputDirectory, file);
+      if (!fs.existsSync(target) && fs.existsSync(source)) {
+        fs.copyFileSync(source, target);
+      }
+    }
+  }
+
   const missing = generatedIcons.filter(
     (file) => !fs.existsSync(path.join(outputDirectory, file)),
   );

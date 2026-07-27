@@ -23,9 +23,12 @@ assert.match(
   "Vite must use the TypeScript Explorer entry point",
 );
 assert.match(
-  explorerGeneratorScript,
-  /transpileExplorerModule\((["'])src\/index\.ts\1,\s*(["'])index\.js\2\)/,
-  "the deployment entry point must be generated from TypeScript",
+  `${explorerGeneratorScript}\n${await fs.readFile(
+    path.join(root, "scripts/generate-demo-pages.mjs"),
+    "utf8",
+  )}`,
+  /file === (["'])index\.ts\1[\s\S]*path\.join\(outputDirectory,\s*(["'])index\.js\2\)[\s\S]*transpileModule\(/,
+  "the deployment entry point must be generated from TypeScript into the demo output",
 );
 assert.match(
   explorerGeneratorScript,

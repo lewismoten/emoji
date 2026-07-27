@@ -3,6 +3,7 @@ import os from "node:os";
 import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { generateSiteIcons } from "./generate-site-icons.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const defaultSiteUrl = "https://emoji.lewismoten.com/";
@@ -128,21 +129,8 @@ if (forbiddenOutputs.has(outputDirectory)) {
 fs.rmSync(outputDirectory, { recursive: true, force: true });
 fs.mkdirSync(outputDirectory, { recursive: true });
 
-const files = [
-  "index.html",
-  "index.js",
-  "pixel-editor.js",
-  "emoji.json",
-  "manifest.json",
-  "screenshot.png",
-  "favicon.svg",
-  "manifest.webmanifest",
-  "offline.html",
-  "robots.txt",
-  "sitemap.xml",
-];
+const files = ["emoji.json", "manifest.json"];
 const directories = [
-  "icons",
   "dist",
   "locales",
   "demo-locales",
@@ -176,6 +164,10 @@ run(
   [path.join(root, "scripts", "generate-demo-pages.mjs"), outputDirectory],
   { env: { ...process.env, EMOJI_SITE_URL: siteUrl } },
 );
+generateSiteIcons({
+  favicon: path.join(root, "src", "site", "favicon.svg"),
+  outputDirectory: path.join(outputDirectory, "icons"),
+});
 run(process.execPath, [
   path.join(root, "scripts", "generate-service-worker.mjs"),
   path.join(outputDirectory, "service-worker.js"),

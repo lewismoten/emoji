@@ -17,7 +17,9 @@ const root = path.resolve(
 );
 const read = (file: string) => fs.readFile(path.join(root, file), "utf8");
 const readJson = async <T,>(file: string) => JSON.parse(await read(file)) as T;
-const webAppManifest = await readJson<WebAppManifest>("manifest.webmanifest");
+const webAppManifest = await readJson<WebAppManifest>(
+  "src/site/manifest.webmanifest",
+);
 const arabicWebAppManifest = await readJson<{
   id: string;
   name: string;
@@ -36,12 +38,12 @@ const [
   viteConfig,
   toolbarLayout,
 ] = await Promise.all([
-  read("index.html"),
+  read("src/site/index.html"),
   read("src/index.ts"),
   read("src/explorer-app.ts"),
   read("src/app/explorer-shell.ts"),
   read("src/explorer/pwa-panels.ts"),
-  read("index.css"),
+  read("src/site/index.css"),
   read("build/demo-pages/index.ar.html"),
   read("vite.config.js"),
   read("src/explorer/toolbar-layout.ts"),

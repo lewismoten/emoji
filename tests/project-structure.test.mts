@@ -17,8 +17,6 @@ const structureLimits = {
 // directories receive no exception. Lower a budget whenever a split reduces it.
 const legacyLineBudgets: Record<string, number> = {
   "README.md": 161,
-  "index.css": 4759,
-  "pixel-editor.js": 48,
   "src/explorer/dialog-render.ts": 306,
   "src/explorer/filter-controls.ts": 313,
   "src/explorer/filter-picker.ts": 303,
@@ -27,11 +25,12 @@ const legacyLineBudgets: Record<string, number> = {
   "src/pixel-editor/controllers/pixel-editor-transfer.js": 342,
   "src/pixel-editor/pixel-editor-controllers.js": 474,
   "src/pixel-editor/pixel-editor-layer-helpers.js": 352,
+  "src/pixel-editor-entry.js": 48,
   "src/site/index.css": 4759,
 };
 const legacyFileCountBudgets: Record<string, number> = {
-  ".": 14,
-  src: 13,
+  ".": 13,
+  src: 14,
   "src/app": 29,
   "src/explorer": 42,
   "src/pixel-editor": 12,
@@ -50,6 +49,7 @@ const generatedStructureFiles = new Set([
   "index.js",
   "manifest.webmanifest",
   "offline.html",
+  "pixel-editor.js",
   "pixel-font/ATLASES.md",
   "robots.txt",
   "screenshot.png",
