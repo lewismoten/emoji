@@ -47,6 +47,7 @@ const headingWithCustomClose = DialogHeadingControl.toMarkup({
 });
 assert.match(headingWithCustomClose, /class="dialog-close alt-close"/);
 assert.match(headingWithCustomClose, /<h2 id="plain-title" data-i18n="plainTitle">Plain title<\/h2>/);
+assert.doesNotMatch(headingWithCustomClose, /class="eyebrow"/);
 
 const closeMarkup = DialogCloseButtonControl.toMarkup();
 assert.match(headingMarkup, new RegExp(closeMarkup.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
