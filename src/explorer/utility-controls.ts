@@ -1,6 +1,6 @@
+import { createHelpDialogControl } from "./help-settings-control.js";
 import {
   emojiCompositionMarkup,
-  helpDialogMarkup,
   helpPickerMarkup,
   savedDialogMarkup,
   savedPickerMarkup,
@@ -155,48 +155,22 @@ export function ensureUtilityControls() {
   if (main && !document.querySelector(".saved-dialog")) {
     main.insertAdjacentHTML("beforeend", savedDialogMarkup);
   }
+  let helpDialogControl:
+    | ReturnType<typeof createHelpDialogControl>
+    | undefined;
   if (main && !document.querySelector(".help-dialog")) {
-    main.insertAdjacentHTML("beforeend", helpDialogMarkup);
+    helpDialogControl = createHelpDialogControl();
+    main.append(helpDialogControl.element);
   }
-  const helpSettings = document.querySelector(".help-dialog .help-settings");
-  const developerSwitch = helpSettings?.querySelector(".setting-switch");
-  const developerSetting = developerSwitch?.closest?.(".setting-row");
-  if (
-    helpSettings &&
-    developerSetting &&
-    !helpSettings.querySelector(".sound-effects-toggle")
-  ) {
-    developerSetting.insertAdjacentHTML(
-      "beforebegin",
-      `
-      <div class="setting-row">
-        <div>
-          <h4 data-i18n="soundEffects">Sound effects</h4>
-          <p data-i18n="soundEffectsDescription">In retro mode, buttons and dialog windows can play 8-bit sound effects.</p>
-        </div>
-        <label class="setting-switch">
-          <input class="sound-effects-toggle" type="checkbox" role="switch">
-          <span data-i18n="soundEffects">Sound effects</span>
-        </label>
-      </div>
-      <div class="setting-row">
-        <div>
-          <h4 data-i18n="music">Music</h4>
-          <p data-i18n="musicDescription">In retro mode, the Help and settings dialog can play 8-bit music.</p>
-        </div>
-        <label class="setting-switch">
-          <input class="music-toggle" type="checkbox" role="switch">
-          <span data-i18n="music">Music</span>
-        </label>
-      </div>
-    `,
-    );
-  }
-  const helpLanguageControl = document.querySelector(
-    ".help-dialog .help-language-control",
-  );
   const languagePicker = document.querySelector(".language-picker");
-  if (helpLanguageControl && languagePicker) {
-    helpLanguageControl.append(languagePicker);
+  if (helpDialogControl && languagePicker) {
+    helpDialogControl.mountLanguagePicker(languagePicker as unknown as HTMLElement);
+  } else {
+    const helpLanguageControl = document.querySelector(
+      ".help-dialog .help-language-control",
+    );
+    if (helpLanguageControl && languagePicker) {
+      helpLanguageControl.append(languagePicker);
+    }
   }
 }

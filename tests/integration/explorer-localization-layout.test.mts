@@ -106,8 +106,8 @@ assert.match(
 );
 assert.match(
   utilityControlsHelper,
-  /helpLanguageControl[\s\S]*document\.querySelector\((["'])\.language-picker\1\)[\s\S]*helpLanguageControl\.append\(languagePicker\)/,
-  "cached pages must move an older toolbar language control into Help and settings",
+  /createHelpDialogControl[\s\S]*mountLanguagePicker|helpLanguageControl[\s\S]*document\.querySelector\((["'])\.language-picker\1\)[\s\S]*helpLanguageControl\.append\(languagePicker\)/,
+  "Help and settings must mount an existing toolbar language control into the dialog",
 );
 assert.match(
   demoStyles,
