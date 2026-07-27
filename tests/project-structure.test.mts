@@ -23,6 +23,9 @@ const legacyLineBudgets: Record<string, number> = {
   "src/pixel-editor/layers/pixel-editor-layer-helpers.js": 352,
   "src/site/index.css": 2803,
 };
+
+assert.deepEqual(Object.entries(legacyLineBudgets).filter(([key, value])=> value < structureLimits.linesPerScriptOrStylesheet), [], "Files specified below 300 line limits.");
+
 const legacyFileCountBudgets: Record<string, number> = {
   ".": 11,
   src: 14,
@@ -30,9 +33,13 @@ const legacyFileCountBudgets: Record<string, number> = {
   "src/explorer": 55,
   "src/pixel-editor": 12,
 };
+assert.deepEqual(Object.entries(legacyFileCountBudgets).filter(([key, value])=> value < structureLimits.filesPerDirectory), [], "Files in directory specified below limits.");
+
 const legacyDirectoryCountBudgets: Record<string, number> = {
   ".": 1,
 };
+assert.deepEqual(Object.entries(legacyDirectoryCountBudgets).filter(([key, value])=> value < structureLimits.directoriesPerDirectory), [], "Directories in directory specified below limits.");
+
 const generatedStructurePrefixes = ["dist/", "explorer/", "library/"];
 generatedStructurePrefixes.push("pixel-font/build-retro-text/");
 const generatedStructureFiles = new Set([
