@@ -1,0 +1,30 @@
+.version-mode-toggle {
+  display: grid;
+  place-items: center;
+  width: 2.65rem;
+  height: 2.65rem;
+  padding: 0.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--emoji-font);
+  font-size: calc(var(--ui-font-size-xxx-large) - 0.05rem);
+}
+
+.version-mode-toggle:hover {
+  background: color-mix(in srgb, var(--panel) 82%, var(--accent));
+}
+
+.version-mode-toggle[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--selected-control-bg);
+  color: var(--selected-control-text);
+  box-shadow: var(--shadow-selected-inset, none);
+}
+
+.version-mode-toggle:focus-visible {
+  outline: 2px dashed var(--accent-strong);
+  outline-offset: var(--focus-outline-offset);
+}

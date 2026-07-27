@@ -1,3 +1,5 @@
+import { VersionModeToggleControl } from "../controls/version-mode-toggle.js";
+
 export function ensureSequenceTypeFilterField(documentRef: any) {
   const existing = documentRef.getElementsByClassName("select-sequence-type")[0];
   if (existing) return existing;
@@ -86,13 +88,10 @@ export function ensureVersionModeToggleControl(options: {
   options.versionModeSelector.hidden = true;
   const existing = options.document.getElementsByClassName("version-mode-toggle")[0];
   if (existing) return existing;
-  const button = options.document.createElement("button");
-  button.type = "button";
-  button.className = "version-mode-toggle";
-  const icon = options.document.createElement("span");
-  icon.setAttribute("aria-hidden", "true");
-  icon.textContent = "🎯";
-  button.appendChild(icon);
+  const button = VersionModeToggleControl.create({
+    emoji: "🎯",
+    pressed: false,
+  });
   options.versionRange()?.closest?.(".compact-version")?.prepend(button);
   return button;
 }

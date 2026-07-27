@@ -3,7 +3,7 @@ import {
   createTextBlock,
   setPressedState,
 } from "./dialog-control-helpers.js";
-import { LanguagePickerControl } from "../controls/language-picker.js";
+import { LanguagePickerControl as SearchLanguagePickerButtonControl } from "../controls/language-picker.js";
 
 type SearchLocale = {
   locale: string;
@@ -19,14 +19,14 @@ export type LanguageDialogControl = {
   list: HTMLElement;
 };
 
-export type LanguagePickerControl = {
+export type LanguagePickerParts = {
   button: HTMLButtonElement;
   flag: HTMLElement;
   label: HTMLElement;
 };
 
-export function createLanguagePickerControl(): LanguagePickerControl {
-  const button = LanguagePickerControl.create({
+export function createLanguagePickerControl(): LanguagePickerParts {
+  const button = SearchLanguagePickerButtonControl.create({
     accessibleLabel: "Choose a search language",
     accessibleLabelId: "language-picker-accessible-label",
     controlsId: "language-dialog",

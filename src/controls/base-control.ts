@@ -8,6 +8,7 @@ type ControlDocumentLike = {
   };
   getElementById(id: string): unknown;
   head?: {
+    append?(node: unknown): void;
     appendChild(node: unknown): void;
   };
 };
@@ -74,7 +75,11 @@ export abstract class BaseControl<TState> {
     element.id = stylesheet.id;
     element.rel = "stylesheet";
     element.href = stylesheet.href;
-    documentRef.head.appendChild(element);
+    if (typeof documentRef.head.appendChild === "function") {
+      documentRef.head.appendChild(element);
+      return;
+    }
+    documentRef.head.append?.(element);
   }
 
   protected abstract render(): NodeSpec;

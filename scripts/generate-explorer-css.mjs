@@ -71,6 +71,30 @@ const sourceFiles = [
     source: path.join("src", "controls", "compact-choice-button.css"),
     output: path.join("controls", "compact-choice-button.css"),
   },
+  {
+    source: path.join("src", "controls", "theme-choice-group.css"),
+    output: path.join("controls", "theme-choice-group.css"),
+  },
+  {
+    source: path.join("src", "controls", "filter-picker-trigger.css"),
+    output: path.join("controls", "filter-picker-trigger.css"),
+  },
+  {
+    source: path.join("src", "controls", "toolbar-trigger-button.css"),
+    output: path.join("controls", "toolbar-trigger-button.css"),
+  },
+  {
+    source: path.join("src", "controls", "advanced-filters-trigger.css"),
+    output: path.join("controls", "advanced-filters-trigger.css"),
+  },
+  {
+    source: path.join("src", "controls", "version-mode-toggle.css"),
+    output: path.join("controls", "version-mode-toggle.css"),
+  },
+  {
+    source: path.join("src", "controls", "version-step-button.css"),
+    output: path.join("controls", "version-step-button.css"),
+  },
 ];
 const mainSource = fs.readFileSync(path.join("src", "site", "index.css"), "utf8");
 

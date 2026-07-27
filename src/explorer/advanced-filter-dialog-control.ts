@@ -1,6 +1,5 @@
-import {
-  createDialogHeading,
-} from "./dialog-control-helpers.js";
+import { AdvancedFiltersTriggerControl } from "../controls/advanced-filters-trigger.js";
+import { createDialogHeading } from "./dialog-control-helpers.js";
 
 function createModifierOption(options: {
   className: string;
@@ -72,21 +71,7 @@ function createSequenceFilterField() {
 }
 
 export function createAdvancedFiltersTriggerControl() {
-  const button = document.createElement("button");
-  button.className = "advanced-filters-trigger";
-  button.type = "button";
-  button.setAttribute("aria-haspopup", "dialog");
-  button.setAttribute("aria-controls", "advanced-filters-dialog");
-  const long = document.createElement("span");
-  long.className = "summary-long";
-  long.dataset.i18n = "advancedFilters";
-  long.textContent = "Advanced filters";
-  const short = document.createElement("span");
-  short.className = "summary-short";
-  short.dataset.i18n = "filters";
-  short.textContent = "Filters";
-  button.append(long, short);
-  return button;
+  return AdvancedFiltersTriggerControl.create();
 }
 
 export function createAdvancedFiltersDialogControl() {

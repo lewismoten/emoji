@@ -1,0 +1,24 @@
+.version-step {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: calc(var(--ui-font-size-x-large) + 0.05rem);
+  font-weight: 800;
+}
+
+.version-step:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.version-step:disabled {
+  cursor: default;
+  opacity: 0.4;
+}

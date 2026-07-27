@@ -1,0 +1,11 @@
+.theme-choice {
+  display: inline-flex;
+  gap: 0.35rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-choice span[aria-hidden="true"] {
+  font-family: var(--emoji-font);
+  line-height: var(--emoji-control-line-height, 1.2);
+}
