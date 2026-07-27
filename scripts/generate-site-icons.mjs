@@ -12,10 +12,7 @@ const generatedIcons = [
   "icon.svg",
   "icon-maskable.svg",
 ];
-const fallbackPngSources = [
-  path.join(root, "src", "site", "screenshot.png"),
-  path.join(root, "docs", "assets", "social-preview.png"),
-];
+const fallbackPngSources = [];
 
 const generateWithSips = (favicon, iconDirectory) => {
   const rasterTargets = [

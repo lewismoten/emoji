@@ -1,6 +1,6 @@
 # @lewismoten/emoji
 
-[![Emoji Explorer — Unicode emoji for JavaScript](https://raw.githubusercontent.com/lewismoten/emoji/main/docs/assets/social-preview.svg)](https://lewismoten.github.io/emoji/)
+[![Emoji Explorer — Unicode emoji for JavaScript](./assets/social-preview.png)](https://lewismoten.github.io/emoji/)
 
 This repository brings together three connected projects:
 

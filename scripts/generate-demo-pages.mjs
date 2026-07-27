@@ -108,7 +108,16 @@ const pixelEditorRuntimeSources = fs
   .readdirSync(path.join("src", "pixel-editor"))
   .filter((file) => file.endsWith(".js"))
   .sort((left, right) => left.localeCompare(right, "en"));
-const staticSiteAssets = ["favicon.svg", "offline.html", "screenshot.png"];
+const staticSiteAssets = [
+  {
+    source: path.join(siteSourceDirectory, "favicon.svg"),
+    target: "favicon.svg",
+  },
+  {
+    source: path.join(siteSourceDirectory, "offline.html"),
+    target: "offline.html",
+  },
+];
 const prepareDeployedScript = (source) =>
   source
     .replace(
@@ -403,10 +412,7 @@ ${locales.map((locale) => `  <url><loc>${pageUrl(locale)}</loc></url>`).join("\n
     `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}sitemap.xml\n`,
   );
   for (const asset of staticSiteAssets) {
-    fs.copyFileSync(
-      path.join(siteSourceDirectory, asset),
-      path.join(outputDirectory, asset),
-    );
+    fs.copyFileSync(asset.source, path.join(outputDirectory, asset.target));
   }
   generateSiteIcons({
     favicon: path.join(siteSourceDirectory, "favicon.svg"),
