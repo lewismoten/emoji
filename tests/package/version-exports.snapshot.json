@@ -1,0 +1,76 @@
+{
+  "all": {
+    "count": 3953,
+    "sha256": "87038ef6e390175b778bf1f16dfe02898ab166496b71f09bc4ea7eab23714a3a"
+  },
+  "versions": {
+    "0.6": {
+      "count": 719,
+      "sha256": "ce0d326a40f2ab4b253b6d76ca6d94a4609d0813c98ff5c96f38a3f30420e8cb"
+    },
+    "0.7": {
+      "count": 139,
+      "sha256": "bd42b8a473673823662f1d7147e4188ea56fed0545bd9dd9ba710027a9074846"
+    },
+    "1.0": {
+      "count": 490,
+      "sha256": "223cdbf7f3d112961cbdfd2aafe72a84d45a9422bba60a49d82f10cf8795e128"
+    },
+    "2.0": {
+      "count": 286,
+      "sha256": "4c78d6336f6c1b42f89929f2ff23f27160285cdd4edda41db7c2bae1b32fa6b2"
+    },
+    "3.0": {
+      "count": 157,
+      "sha256": "cfbbf08a5ceba6e9f912b3f474afdd2d896e63b59e421d7b9b4019f6bf1b444e"
+    },
+    "4.0": {
+      "count": 598,
+      "sha256": "2454fe5719eb5988d6c323654019d8aad66695b58003bfbc5189c917ba05c2e8"
+    },
+    "5.0": {
+      "count": 239,
+      "sha256": "feb410cb20ec3064ac004a1bef8e9ffdbcf7a5e0c4a6f2ba79b42628dbab02d3"
+    },
+    "11.0": {
+      "count": 161,
+      "sha256": "9ca152a5868f1356c5363a1f01d6d3b9795f3dd02fb7ab6b37190873a9905bc2"
+    },
+    "12.0": {
+      "count": 230,
+      "sha256": "936cc4e3582ceeeccd07def14143639e8c1e7187617a38aa694fcfbbe02e9af7"
+    },
+    "12.1": {
+      "count": 168,
+      "sha256": "14fd9771e77c18f13b68ccd3017e054bdb0d08d2daa9a12f76aaf013113d3874"
+    },
+    "13.0": {
+      "count": 117,
+      "sha256": "ac8efd596eb31d1bb4e0c85fe6de213cbfd3c3f018b2f69df64bd3c05828d548"
+    },
+    "13.1": {
+      "count": 217,
+      "sha256": "30155763d0aad9a0b3f80f268e1a6e971e7ff006d6f0ecff467122c23ec17394"
+    },
+    "14.0": {
+      "count": 112,
+      "sha256": "2da0fe8ff6956a6772fb78a52511b4af942d53a38db1a9f16f497d7fbe5f13ab"
+    },
+    "15.0": {
+      "count": 31,
+      "sha256": "58ac8d83fdbbab028ac1dd1a236fa131339289d4567833ff30231658dabcbb4b"
+    },
+    "15.1": {
+      "count": 118,
+      "sha256": "43dd0d6d6c6f3f502b37cf5c11c939fa4e1f70907e330f6c9044c682339fc988"
+    },
+    "16.0": {
+      "count": 8,
+      "sha256": "a0791c14dc231bd42744fc7b51310368965a7f83bcf3d88ea33ad08ce04263d0"
+    },
+    "17.0": {
+      "count": 163,
+      "sha256": "3d7deadebfdc6241d1e807c89999355617913833c0c0e1cc7a9421127e45d3ce"
+    }
+  }
+}
