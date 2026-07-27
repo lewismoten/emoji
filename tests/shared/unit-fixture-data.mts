@@ -89,10 +89,21 @@ export const pixelFontConfig = await readJson<{
   packageName: string;
   embeddingPermissions: string;
 }>("pixel-font/config.json");
-export const arabicDemo = await fs.readFile(
-  path.join(root, "build/demo-pages/index.ar.html"),
-  "utf8",
-);
+const readFirstAvailable = async (files: string[]) => {
+  for (const file of files) {
+    try {
+      return await fs.readFile(path.join(root, file), "utf8");
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    }
+  }
+  throw new Error(`Unable to read any fixture variant: ${files.join(", ")}`);
+};
+
+export const arabicDemo = await readFirstAvailable([
+  "build/demo-pages/index.ar.html",
+  "index.ar.html",
+]);
 export const demoHtml = await fs.readFile(
   path.join(root, "index.html"),
   "utf8",

@@ -81,8 +81,8 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.app-loading \.result-count,[\s\S]*visibility:\s*hidden;[\s\S]*\.app-loading \.about-explorer\s*\{\s*display:\s*none;/,
-  "initial loading must reserve toolbar geometry without positioning About beneath the skeleton",
+  /\.app-loading \.result-count,[\s\S]*visibility:\s*hidden;[\s\S]*\.app-loading \.about-explorer\s*\{\s*visibility:\s*hidden;[\s\S]*min-height:\s*8\.5rem;/,
+  "initial loading must reserve below-the-fold geometry without shifting the loading shell",
 );
 assert.match(
   demoHtml,
@@ -121,6 +121,6 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.pixel-hero\s*\{[^}]*min-height:\s*7rem;[^}]*contain:\s*layout style;[\s\S]*\.pixel-comparison > button\s*\{[^}]*width:\s*4rem;/,
+  /\.pixel-hero\s*\{[^}]*min-height:\s*7\.5rem;[^}]*contain:\s*layout style;[\s\S]*\.pixel-comparison > button\s*\{[^}]*width:\s*4rem;/,
   "the Pixel Emoji introduction must reserve stable dimensions while fonts load",
 );

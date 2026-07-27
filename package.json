@@ -58,7 +58,7 @@
     "prepublishOnly": "npm run bundle",
     "start": "vite",
     "test": "node ./scripts/ensure-test-bundle.mjs && npm run demo:locales -- build/demo-pages && npm run demo:pwa -- build/demo-pages/service-worker.js && npm run test:node && tsc --noEmit --module NodeNext --moduleResolution NodeNext --target ESNext --strict tests/package-exports.test.mts && npm run pixel-font:validate",
-    "test:node": "node ./tests/run-node-tests.mjs ./build/tests",
+    "test:node": "npm run demo:locales -- build/demo-pages && npm run demo:pwa -- build/demo-pages/service-worker.js && node ./tests/run-node-tests.mjs ./build/tests",
     "format": "prettier --write . --ignore-unknown",
     "format:check": "prettier --check . --ignore-unknown",
     "demo:locales": "node ./scripts/generate-demo-pages.mjs",

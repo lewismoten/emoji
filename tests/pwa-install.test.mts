@@ -171,6 +171,6 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.install-app\[hidden\]\s*\{\s*display:\s*none;[\s\S]*@media \(max-width: 560px\)[\s\S]*\.install-app-label\s*\{\s*display:\s*none;/,
+  /\.install-app\[hidden\]\s*\{\s*display:\s*inline-flex;[\s\S]*visibility:\s*hidden;[\s\S]*pointer-events:\s*none;[\s\S]*@media \(max-width: 560px\)[\s\S]*\.install-app-label\s*\{\s*display:\s*none;/,
   "the footer install action must stay compact on mobile screens",
 );
