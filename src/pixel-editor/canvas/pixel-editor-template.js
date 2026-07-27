@@ -3,7 +3,7 @@ import {
   DISPLAY_SIZE,
   EGA_COLORS,
   SKIN_TONE_COLORS,
-} from "./pixel-editor-constants.js";
+} from "../core/pixel-editor-constants.js";
 
 export function renderPixelEditorTemplate() {
   return `

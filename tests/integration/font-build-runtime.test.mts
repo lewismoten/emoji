@@ -16,7 +16,7 @@ const pixelEditorRuntimeController = await fs.readFile(
   "utf8",
 );
 const pixelEditorCanvasHelpers = await fs.readFile(
-  path.join(root, "src/pixel-editor/pixel-editor-canvas-helpers.js"),
+  path.join(root, "src/pixel-editor/canvas/pixel-editor-canvas-helpers.js"),
   "utf8",
 );
 const pixelEditorFontRefreshSource = `${pixelEditorRuntimeController}\n${pixelEditorCanvasHelpers}`;

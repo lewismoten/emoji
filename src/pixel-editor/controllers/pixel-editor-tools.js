@@ -1,12 +1,12 @@
-import { TOOLS } from "../pixel-editor-constants.js";
+import { TOOLS } from "../core/pixel-editor-constants.js";
 import {
   currentColorValue,
   drawLineOnPixels,
   drawShapeOnPixels,
   floodFillPixels,
   paintPixelInto,
-} from "../pixel-editor-geometry-helpers.js";
-import { syncRovingGrid } from "../pixel-editor-grid-navigation.js";
+} from "../core/pixel-editor-geometry-helpers.js";
+import { syncRovingGrid } from "../core/pixel-editor-grid-navigation.js";
 
 export function createPixelEditorToolController(options) {
   const {

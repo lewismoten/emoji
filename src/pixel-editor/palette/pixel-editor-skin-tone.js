@@ -2,7 +2,7 @@ import {
   CELL_SIZE,
   EGA_COLORS,
   SKIN_TONE_COLORS,
-} from "./pixel-editor-constants.js";
+} from "../core/pixel-editor-constants.js";
 
 export function findSkinTone(codePoint) {
   return SKIN_TONE_COLORS.find((tone) => tone.codePoint === codePoint);

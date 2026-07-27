@@ -1,9 +1,9 @@
-import { CELL_SIZE } from "../pixel-editor-constants.js";
+import { CELL_SIZE } from "../core/pixel-editor-constants.js";
 import {
   canvasToPng,
   downloadBlob,
   imageDataCanvas,
-} from "../pixel-editor-canvas-helpers.js";
+} from "../canvas/pixel-editor-canvas-helpers.js";
 
 export function createPixelEditorAtlasController(options) {
   const {

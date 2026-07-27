@@ -1,9 +1,9 @@
-import { drawBitmapText } from "./pixel-editor/pixel-editor-canvas-helpers.js";
-import { createPixelEditorControllers } from "./pixel-editor/pixel-editor-controllers.js";
+import { drawBitmapText } from "./pixel-editor/canvas/pixel-editor-canvas-helpers.js";
+import { createPixelEditorControllers } from "./pixel-editor/controllers/pixel-editor-controllers.js";
 import {
   createPixelEditorElements,
   createPixelEditorState,
-} from "./pixel-editor/pixel-editor-elements.js";
+} from "./pixel-editor/canvas/pixel-editor-elements.js";
 import {
   buildSkinToneOwnership,
   buildTwoPersonOwnership,
@@ -12,7 +12,7 @@ import {
   skinToneBaseSequence,
   skinToneCycle,
   skinToneSequence,
-} from "./pixel-editor/pixel-editor-skin-tone.js";
+} from "./pixel-editor/palette/pixel-editor-skin-tone.js";
 
 export {
   buildSkinToneOwnership,

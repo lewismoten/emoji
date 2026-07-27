@@ -6,7 +6,7 @@ import {
   layerPositionAllowed,
   pixelsEqual,
   trimVisiblePixels,
-} from "../pixel-editor-geometry-helpers.js";
+} from "../core/pixel-editor-geometry-helpers.js";
 import {
   compositeLayer,
   effectiveLayerPixels,
@@ -14,7 +14,7 @@ import {
   layerTransformChangesPixels,
   nextLayerRotation,
   resetLayerRotation,
-} from "../pixel-editor-layer-helpers.js";
+} from "../layers/pixel-editor-layer-helpers.js";
 import {
   buildSkinToneOwnership,
   buildTwoPersonOwnership,
@@ -22,7 +22,7 @@ import {
   remapSkinTonePixels,
   skinToneBaseSequence,
   skinToneSequence,
-} from "../pixel-editor-skin-tone.js";
+} from "../palette/pixel-editor-skin-tone.js";
 
 export function createPixelEditorTransferController(options) {
   const {

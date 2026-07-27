@@ -19,8 +19,8 @@ const legacyLineBudgets: Record<string, number> = {
   "src/explorer/dialog-render.ts": 306,
   "src/explorer-audio.ts": 388,
   "src/pixel-editor/controllers/pixel-editor-transfer.js": 342,
-  "src/pixel-editor/pixel-editor-controllers.js": 474,
-  "src/pixel-editor/pixel-editor-layer-helpers.js": 352,
+  "src/pixel-editor/controllers/pixel-editor-controllers.js": 474,
+  "src/pixel-editor/layers/pixel-editor-layer-helpers.js": 352,
   "src/site/index.css": 2803,
 };
 const legacyFileCountBudgets: Record<string, number> = {

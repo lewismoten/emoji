@@ -6,7 +6,7 @@ import path from "node:path";
 import { root } from "../../shared/unit-fixtures.mjs";
 
 const pixelEditorDraftController = await fs.readFile(
-  path.join(root, "src/pixel-editor/pixel-editor-drafts.js"),
+  path.join(root, "src/pixel-editor/data/pixel-editor-drafts.js"),
   "utf8",
 );
 const pixelEditorSessionController = await fs.readFile(
@@ -18,11 +18,11 @@ const pixelEditorStartupController = await fs.readFile(
   "utf8",
 );
 const pixelEditorElements = await fs.readFile(
-  path.join(root, "src/pixel-editor/pixel-editor-elements.js"),
+  path.join(root, "src/pixel-editor/canvas/pixel-editor-elements.js"),
   "utf8",
 );
 const pixelEditorCanvasHelpers = await fs.readFile(
-  path.join(root, "src/pixel-editor/pixel-editor-canvas-helpers.js"),
+  path.join(root, "src/pixel-editor/canvas/pixel-editor-canvas-helpers.js"),
   "utf8",
 );
 const pixelEditorDraftSource = `${pixelEditorScript}\n${pixelEditorDraftController}\n${pixelEditorSessionController}\n${pixelEditorStartupController}\n${pixelEditorElements}\n${pixelEditorCanvasHelpers}`;

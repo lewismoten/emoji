@@ -1,7 +1,7 @@
 import {
   bindPaletteGrid,
   bindRovingGrid,
-} from "../pixel-editor-grid-navigation.js";
+} from "../core/pixel-editor-grid-navigation.js";
 
 export function initializePixelEditorUi(options) {
   const {

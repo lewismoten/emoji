@@ -1,6 +1,6 @@
 import { BITMAP_FONT_5X7 } from "../../pixel-font/retro-text-bitmap.mjs";
 
-import { CELL_SIZE } from "./pixel-editor-constants.js";
+import { CELL_SIZE } from "../core/pixel-editor-constants.js";
 
 export function drawBitmapText(context, x, y, value, color) {
   context.fillStyle = color;

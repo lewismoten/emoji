@@ -2,12 +2,12 @@ import {
   flipPixels,
   layerTransformChangesPixels,
   nextLayerRotation,
-} from "../pixel-editor-layer-helpers.js";
+} from "../layers/pixel-editor-layer-helpers.js";
 import {
   layerPositionAllowed,
   pixelsEqual,
-} from "../pixel-editor-geometry-helpers.js";
-import { syncRovingGrid } from "../pixel-editor-grid-navigation.js";
+} from "../core/pixel-editor-geometry-helpers.js";
+import { syncRovingGrid } from "../core/pixel-editor-grid-navigation.js";
 
 export function createPixelEditorModeController(options) {
   const {

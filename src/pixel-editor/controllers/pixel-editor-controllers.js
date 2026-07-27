@@ -5,25 +5,25 @@ import {
   drawCheckerboard,
   imageDataCanvas,
   recolorVisibleCanvasPixels,
-} from "./pixel-editor-canvas-helpers.js";
+} from "../canvas/pixel-editor-canvas-helpers.js";
 import {
   createBlankAtlas,
   createPixelEditorInputController,
   extractCell,
   getNestedFileHandle,
-} from "./pixel-editor-atlas-io.js";
+} from "../data/pixel-editor-atlas-io.js";
 import {
   CELL_SIZE,
   DISPLAY_SIZE,
   IS_VITE_DEVELOPMENT,
-} from "./pixel-editor-constants.js";
+} from "../core/pixel-editor-constants.js";
 import { createPixelEditorAtlasController } from "./controllers/pixel-editor-atlas.js";
 import { createPixelEditorModeController } from "./controllers/pixel-editor-mode.js";
 import { createPixelEditorRuntimeController } from "./controllers/pixel-editor-runtime.js";
 import { createPixelEditorSessionController } from "./controllers/pixel-editor-session.js";
 import { initializePixelEditorUi } from "./controllers/pixel-editor-startup.js";
 import { createPixelEditorToolController } from "./controllers/pixel-editor-tools.js";
-import { createPixelEditorDraftController } from "./pixel-editor-drafts.js";
+import { createPixelEditorDraftController } from "../data/pixel-editor-drafts.js";
 import {
   boundsFromPoints,
   clamp,
@@ -34,13 +34,13 @@ import {
   pixelOffset,
   pixelsEqual,
   trimVisiblePixels,
-} from "./pixel-editor-geometry-helpers.js";
+} from "../core/pixel-editor-geometry-helpers.js";
 import {
   createPixelEditorCanvasController,
   effectiveLayerPixels,
   nearestPaletteColor,
-} from "./pixel-editor-layer-helpers.js";
-import { createPixelEditorPaletteController } from "./pixel-editor-palette.js";
+} from "../layers/pixel-editor-layer-helpers.js";
+import { createPixelEditorPaletteController } from "../palette/pixel-editor-palette.js";
 import { createPixelEditorTransferController } from "./controllers/pixel-editor-transfer.js";
 
 export function createPixelEditorControllers({

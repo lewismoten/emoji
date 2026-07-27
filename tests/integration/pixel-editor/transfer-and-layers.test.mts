@@ -18,7 +18,7 @@ const pixelEditorStartupController = await fs.readFile(
   "utf8",
 );
 const pixelEditorElements = await fs.readFile(
-  path.join(root, "src/pixel-editor/pixel-editor-elements.js"),
+  path.join(root, "src/pixel-editor/canvas/pixel-editor-elements.js"),
   "utf8",
 );
 const pixelEditorTransferSource = `${pixelEditorScript}\n${pixelEditorToolController}\n${pixelEditorStartupController}\n${pixelEditorElements}`;

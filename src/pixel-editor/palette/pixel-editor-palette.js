@@ -1,5 +1,5 @@
-import { CELL_SIZE, EGA_COLORS } from "./pixel-editor-constants.js";
-import { syncRovingGrid } from "./pixel-editor-grid-navigation.js";
+import { CELL_SIZE, EGA_COLORS } from "../core/pixel-editor-constants.js";
+import { syncRovingGrid } from "../core/pixel-editor-grid-navigation.js";
 import { findSkinTone, skinToneCycle } from "./pixel-editor-skin-tone.js";
 
 export function createPixelEditorPaletteController(options) {

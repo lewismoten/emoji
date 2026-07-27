@@ -2,14 +2,14 @@ import {
   CELL_SIZE,
   EGA_COLORS,
   ROTATION_ALPHA_THRESHOLD,
-} from "./pixel-editor-constants.js";
-import { imageDataCanvas } from "./pixel-editor-canvas-helpers.js";
+} from "../core/pixel-editor-constants.js";
+import { imageDataCanvas } from "../canvas/pixel-editor-canvas-helpers.js";
 import {
   layerAxisBounds as geometryLayerAxisBounds,
   layerPositionAllowed as geometryLayerPositionAllowed,
   pixelOffset,
   pixelsEqual,
-} from "./pixel-editor-geometry-helpers.js";
+} from "../core/pixel-editor-geometry-helpers.js";
 
 export function nextLayerRotation(
   layer,

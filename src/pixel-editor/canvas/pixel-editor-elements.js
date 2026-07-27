@@ -1,4 +1,4 @@
-import { CELL_SIZE } from "./pixel-editor-constants.js";
+import { CELL_SIZE } from "../core/pixel-editor-constants.js";
 import { renderPixelEditorTemplate } from "./pixel-editor-template.js";
 
 export function createPixelEditorElements(dialog) {
