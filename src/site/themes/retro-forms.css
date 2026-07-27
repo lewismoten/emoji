@@ -1,0 +1,272 @@
+html[data-theme="retro"] .eyebrow,
+html[data-theme="retro"] .saved-picker-label,
+html[data-theme="retro"] .filter-picker-kind,
+html[data-theme="retro"] .filter-picker-value,
+html[data-theme="retro"] .active-filter-summary,
+html[data-theme="retro"] .compact-choice-label,
+html[data-theme="retro"] .help-settings > h3,
+html[data-theme="retro"] .help-settings h4,
+html[data-theme="retro"] .help-settings p,
+html[data-theme="retro"] .setting-choice,
+html[data-theme="retro"] .setting-switch,
+html[data-theme="retro"] .shortcut-heading,
+html[data-theme="retro"] .dialog-description,
+html[data-theme="retro"] .rendering-comparison span,
+html[data-theme="retro"] .rendering-result,
+html[data-theme="retro"] .pixel-design-invitation strong,
+html[data-theme="retro"] .pixel-design-invitation button,
+html[data-theme="retro"] .emoji-preview-copy-label {
+  font-size: var(--retro-font-1);
+  line-height: 1.4;
+}
+
+html[data-theme="retro"] .help-pixel h3,
+html[data-theme="retro"] .help-pixel p,
+html[data-theme="retro"] .help-pixel a {
+  font-size: var(--retro-font-1);
+  line-height: 1.4;
+}
+
+html[data-theme="retro"] .result-count,
+html[data-theme="retro"] .match-count,
+html[data-theme="retro"] .language-picker,
+html[data-theme="retro"] .saved-picker,
+html[data-theme="retro"] .help-picker,
+html[data-theme="retro"] .filter-picker-trigger,
+html[data-theme="retro"] .advanced-filters-trigger,
+html[data-theme="retro"] .compact-choice,
+html[data-theme="retro"] .version-mode-toggle,
+html[data-theme="retro"] input[type="search"],
+html[data-theme="retro"] .help-settings .language-picker,
+html[data-theme="retro"] .language-option,
+html[data-theme="retro"] .favorite-glyph,
+html[data-theme="retro"] .dialog-mode-back,
+html[data-theme="retro"] .dialog-description,
+html[data-theme="retro"] .rendering-diagnostic h3 {
+  font-size: var(--retro-font-2);
+}
+
+html[data-theme="retro"] .toolbar {
+  background: #555555;
+  border-bottom-color: #000000;
+}
+
+html[data-theme="retro"] input[type="search"] {
+  border-top: 2px solid #000000;
+  border-left: 2px solid #000000;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  background: #aaaaaa;
+  color: #000000;
+}
+
+html[data-theme="retro"] input[type="search"]::placeholder {
+  color: #555555;
+}
+
+html[data-theme="retro"] input[type="search"]:focus-visible {
+  outline: 2px dotted #ffff55;
+  outline-offset: 2px;
+}
+
+html[data-theme="retro"] .order-footer .order-mode.is-active {
+  border-top-color: #555555;
+  border-left-color: #555555;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  background: #000000;
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] .pixel-comparison > button {
+  color: #000000;
+}
+
+html[data-theme="retro"] button.emoji-font-choice small {
+  color: #000000;
+}
+
+html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"] {
+  background: #000000;
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] button.emoji-font-choice[aria-pressed="true"] small {
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] .pixel-editor-tools button[aria-pressed="true"] {
+  border-top-color: #000000;
+  border-left-color: #000000;
+  border-right-color: #aaaaaa;
+  border-bottom-color: #aaaaaa;
+  background: #000000;
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] .language-dialog .language-option.is-selected {
+  border-top-color: #555555;
+  border-left-color: #555555;
+  border-right-color: #aaaaaa;
+  border-bottom-color: #aaaaaa;
+  background: #000000;
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] .setting-choice:active,
+html[data-theme="retro"] .language-option:active,
+html[data-theme="retro"] .pixel-comparison > button:active,
+html[data-theme="retro"] .modifier-filters fieldset label:active,
+html[data-theme="retro"] .filter-picker-trigger:active,
+html[data-theme="retro"] .compact-choice:active,
+html[data-theme="retro"] .version-mode-toggle:active,
+html[data-theme="retro"] .version-step:active,
+html[data-theme="retro"] .saved-picker:active,
+html[data-theme="retro"] .help-picker:active,
+html[data-theme="retro"] .language-picker:active,
+html[data-theme="retro"] .order-mode:active,
+html[data-theme="retro"] .install-app:active,
+html[data-theme="retro"] .empty-actions button:active,
+html[data-theme="retro"] .saved-emoji-list button:active,
+html[data-theme="retro"] .emoji-copy-actions button:active,
+html[data-theme="retro"] .emoji-code-toolbar button:active,
+html[data-theme="retro"] .dialog-close:active,
+html[data-theme="retro"] .dialog-navigate:active,
+html[data-theme="retro"] .dialog-mode-back:active,
+html[data-theme="retro"] .subgroup .emoji > div:active,
+html[data-theme="retro"] .sequence-type > .emoji > div:active,
+html[data-theme="retro"] .pixel-editor-toolbar button:active,
+html[data-theme="retro"] .pixel-editor-file button:active,
+html[data-theme="retro"] .pixel-editor-preview-actions button:active,
+html[data-theme="retro"] .pixel-editor-transfer button:active,
+html[data-theme="retro"] .pixel-editor-layer button:active,
+html[data-theme="retro"] .pixel-editor-trace-nudge:active {
+  border-top-color: #555555;
+  border-left-color: #555555;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  background: #aaaaaa;
+  color: #000000;
+  transform: translate(1px, 1px);
+}
+
+html[data-theme="retro"] .setting-switch input {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  min-height: 1.5rem;
+  border: 2px solid #000000;
+  border-top-color: #000000;
+  border-left-color: #000000;
+  border-right-color: #aaaaaa;
+  border-bottom-color: #aaaaaa;
+  border-radius: 0 !important;
+  background: #000000;
+  display: inline-grid;
+  place-content: center;
+  cursor: pointer;
+}
+
+html[data-theme="retro"] .setting-switch input::after {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  background: transparent;
+}
+
+html[data-theme="retro"] .setting-switch input:checked::after {
+  background: #ff55ff;
+}
+
+html[data-theme="retro"] .version-step:disabled,
+html[data-theme="retro"] .dialog-navigate:disabled,
+html[data-theme="retro"] .pixel-editor-toolbar button:disabled,
+html[data-theme="retro"] .pixel-editor-preview-actions button:disabled,
+html[data-theme="retro"] .pixel-editor-transfer button:disabled,
+html[data-theme="retro"] .pixel-editor-layer button:disabled {
+  border-style: dotted;
+  border-top-color: #aaaaaa;
+  border-left-color: #aaaaaa;
+  border-right-color: #000000;
+  border-bottom-color: #000000;
+  background: #555555;
+  color: #aaaaaa;
+  opacity: 1;
+  transform: none;
+}
+
+html[data-theme="retro"] .pixel-editor-swatch {
+  border-color: #000000;
+}
+
+html[data-theme="retro"] .pixel-editor-swatch[data-color="#000000"] {
+  border-color: #aaaaaa;
+}
+
+html[data-theme="retro"] .version-range,
+html[data-theme="retro"] .pixel-editor-controls input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  accent-color: #aaaaaa;
+  border: 0;
+  box-shadow: none;
+  background: #555555;
+  border-radius: 0;
+  outline: none;
+}
+
+html[data-theme="retro"] .version-range::-webkit-slider-runnable-track,
+html[data-theme="retro"]
+  .pixel-editor-controls
+  input[type="range"]::-webkit-slider-runnable-track {
+  height: 2px;
+  border: 1px solid #000000;
+  border-radius: 0;
+  background: transparent;
+}
+
+html[data-theme="retro"] .version-range::-webkit-slider-thumb,
+html[data-theme="retro"]
+  .pixel-editor-controls
+  input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  margin-top: -6px;
+  border: 2px solid #000000;
+  border-radius: 0;
+  background: #aaaaaa;
+}
+
+html[data-theme="retro"] .version-range::-moz-range-track,
+html[data-theme="retro"]
+  .pixel-editor-controls
+  input[type="range"]::-moz-range-track {
+  height: 2px;
+  border: 1px solid #000000;
+  border-radius: 0;
+  background: #555555;
+}
+
+html[data-theme="retro"] .version-range::-moz-range-progress,
+html[data-theme="retro"]
+  .pixel-editor-controls
+  input[type="range"]::-moz-range-progress {
+  height: 2px;
+  border: 1px solid #000000;
+  border-radius: 0;
+  background: #ffffff;
+}
+
+html[data-theme="retro"] .version-range::-moz-range-thumb,
+html[data-theme="retro"]
+  .pixel-editor-controls
+  input[type="range"]::-moz-range-thumb {
+  width: 13px;
+  height: 13px;
+  border: 2px solid #000000;
+  border-radius: 0;
+  background: #aaaaaa;
+}

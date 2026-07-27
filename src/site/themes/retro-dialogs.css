@@ -1,0 +1,277 @@
+html[data-theme="retro"] .help-dialog,
+html[data-theme="retro"] .help-dialog h2,
+html[data-theme="retro"] .help-dialog h3,
+html[data-theme="retro"] .help-dialog h4,
+html[data-theme="retro"] .help-dialog p,
+html[data-theme="retro"] .help-dialog a,
+html[data-theme="retro"] .help-dialog label,
+html[data-theme="retro"] .help-dialog dt,
+html[data-theme="retro"] .help-dialog dd,
+html[data-theme="retro"] .help-dialog kbd {
+  font-size: var(--retro-font-1) !important;
+}
+
+html[data-theme="retro"] .help-dialog p,
+html[data-theme="retro"] .help-dialog a,
+html[data-theme="retro"] .help-dialog label,
+html[data-theme="retro"] .help-dialog dt,
+html[data-theme="retro"] .help-dialog dd,
+html[data-theme="retro"] .help-dialog kbd {
+  line-height: 1.4;
+}
+
+html[data-theme="retro"] .help-dialog .dialog-close,
+html[data-theme="retro"] .help-dialog .dialog-navigate,
+html[data-theme="retro"] .help-dialog .dialog-mode-back {
+  font-size: var(--retro-font-2) !important;
+  line-height: 1;
+}
+
+html[data-theme="retro"] .language-dialog {
+  background: var(--dialog-body-bg);
+}
+
+html[data-theme="retro"] .advanced-filters-dialog {
+  background: var(--dialog-body-bg);
+}
+
+html[data-theme="retro"] .filter-picker-dialog {
+  background: var(--dialog-body-bg);
+}
+
+html[data-theme="retro"] .language-dialog .dialog-heading {
+  background: var(--dialog-header-bg);
+  border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .advanced-filters-dialog .dialog-heading {
+  background: var(--dialog-header-bg);
+  border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .filter-picker-dialog .dialog-heading {
+  background: var(--dialog-header-bg);
+  border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"]
+  .filter-picker-dialog
+  .compact-choice[aria-checked="true"] {
+  border-top-color: #aaaaaa;
+  border-left-color: #aaaaaa;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  background: #000000;
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] .filter-picker-dialog .compact-choice {
+  border-right-color: #000000;
+  border-bottom-color: #000000;
+}
+
+html[data-theme="retro"] .version-mode-toggle[aria-pressed="true"] {
+  border-top-color: #aaaaaa !important;
+  border-left-color: #aaaaaa !important;
+  border-right-color: #ffffff !important;
+  border-bottom-color: #ffffff !important;
+  background: #000000 !important;
+  color: #aaaaaa !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="retro"] .language-dialog .eyebrow {
+  color: #55ffff;
+}
+
+html[data-theme="retro"] .dialog-close,
+html[data-theme="retro"] .dialog-navigate,
+html[data-theme="retro"] .dialog-mode-back,
+html[data-theme="retro"] .example-dialog .toggle-favorite {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 2px solid #aaaaaa;
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #555555;
+  border-bottom-color: #555555;
+  border-radius: 0 !important;
+  background: #aaaaaa;
+  color: #000000;
+}
+
+html[data-theme="retro"] .dialog-close:hover,
+html[data-theme="retro"] .dialog-navigate:hover,
+html[data-theme="retro"] .dialog-mode-back:hover,
+html[data-theme="retro"] .example-dialog .toggle-favorite:hover {
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #aaaaaa;
+  border-bottom-color: #aaaaaa;
+  background: #ffffff;
+  color: #000000;
+  transform: translate(-1px, -1px);
+}
+
+html[data-theme="retro"] .example-dialog .toggle-favorite[aria-pressed="true"] {
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #aa5500;
+  border-bottom-color: #aa5500;
+  background: #ffff55;
+  color: #000000;
+  transform: translate(0, 0);
+}
+
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[data-favorite-state="on"] {
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #aa5500;
+  border-bottom-color: #aa5500;
+  background: #ffff55;
+  color: #000000;
+  transform: translate(0, 0);
+}
+
+html[data-theme="retro"] .example-dialog .toggle-favorite.is-favorite {
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #aa5500;
+  border-bottom-color: #aa5500;
+  background: #ffff55;
+  color: #000000;
+  transform: translate(0, 0);
+}
+
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[aria-pressed="true"]:active,
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[data-favorite-state="on"]:active {
+  border-top-color: #aa5500;
+  border-left-color: #aa5500;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  background: #ffff55;
+  color: #000000;
+  transform: translate(1px, 1px);
+}
+
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[data-favorite-state="off"]
+  .favorite-glyph,
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[aria-pressed="false"]
+  .favorite-glyph {
+  color: #555555;
+}
+
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[data-favorite-state="on"]
+  .favorite-glyph,
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[aria-pressed="true"]
+  .favorite-glyph {
+  color: #ffffff;
+}
+
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite.is-favorite
+  .favorite-glyph {
+  color: #ffffff;
+}
+
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[aria-pressed="true"]:hover,
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[data-favorite-state="on"]:hover {
+  border-top-color: #ffffff;
+  border-left-color: #ffffff;
+  border-right-color: #aa5500;
+  border-bottom-color: #aa5500;
+  background: #ffff55;
+  color: #000000;
+  transform: translate(-1px, -1px);
+}
+
+html[data-theme="retro"] .dialog-close:active,
+html[data-theme="retro"] .dialog-navigate:active,
+html[data-theme="retro"] .dialog-mode-back:active,
+html[data-theme="retro"] .example-dialog .toggle-favorite:active {
+  border-top-color: #555555;
+  border-left-color: #555555;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  background: #aaaaaa;
+  color: #000000;
+}
+
+html[data-theme="retro"] .subgroup-list,
+html[data-theme="retro"] .emoji-dialog-details,
+html[data-theme="retro"] .rendering-diagnostic,
+html[data-theme="retro"] .dialog-description,
+html[data-theme="retro"] .emoji-composition,
+html[data-theme="retro"] .emoji-metadata,
+html[data-theme="retro"] .emoji-copy-actions,
+html[data-theme="retro"] .emoji-code-view,
+html[data-theme="retro"] .pixel-editor-view,
+html[data-theme="retro"] .pixel-editor-controls,
+html[data-theme="retro"] .pixel-editor-layout,
+html[data-theme="retro"] .pixel-editor-transfer > div,
+html[data-theme="retro"] .pixel-editor-layer-controls,
+html[data-theme="retro"] .pixel-editor-layer-actions,
+html[data-theme="retro"] .pixel-editor-layer-transform {
+  background: var(--dialog-body-bg);
+}
+
+html[data-theme="retro"] .emoji-code-toolbar {
+  background: #555555;
+  border-top: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .example-dialog .emoji-copy-actions button,
+html[data-theme="retro"] .example-dialog .emoji-code-toolbar button,
+html[data-theme="retro"] .example-dialog .emoji-composition-mode,
+html[data-theme="retro"] .example-dialog .emoji-preview-copy-label,
+html[data-theme="retro"] .example-dialog .show-emoji-code,
+html[data-theme="retro"] .example-dialog .show-pixel-editor,
+html[data-theme="retro"] .example-dialog .back-to-emoji,
+html[data-theme="retro"] .example-dialog .show-pixel-editor,
+html[data-theme="retro"] .example-dialog .show-emoji-code,
+html[data-theme="retro"] .example-dialog .pixel-editor-toolbar button,
+html[data-theme="retro"] .example-dialog .pixel-editor-file button,
+html[data-theme="retro"] .example-dialog .pixel-editor-preview-actions button,
+html[data-theme="retro"] .example-dialog .pixel-editor-transfer button,
+html[data-theme="retro"] .example-dialog .pixel-editor-layer button,
+html[data-theme="retro"] .example-dialog .pixel-editor-trace-nudge {
+  border-right-color: #000000;
+  border-bottom-color: #000000;
+}
+
+html[data-theme="retro"] .emoji-code-view {
+  background: #555555;
+}
+
+html[data-theme="retro"] .example-dialog .pixel-editor-stage,
+html[data-theme="retro"] .example-dialog .pixel-editor-file,
+html[data-theme="retro"] .example-dialog .pixel-editor-controls fieldset,
+html[data-theme="retro"] .example-dialog .pixel-editor-transfer > div,
+html[data-theme="retro"] .example-dialog .pixel-editor-layer-controls,
+html[data-theme="retro"] .example-dialog .pixel-editor-layer-actions,
+html[data-theme="retro"] .example-dialog .pixel-editor-layer-transform {
+  border-color: #000000;
+}
+
+html[data-theme="retro"] .example-dialog .pixel-editor-file {
+  background: #aaaaaa;
+}

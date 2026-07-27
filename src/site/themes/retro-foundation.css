@@ -1,0 +1,271 @@
+html[data-theme="retro"] * {
+  box-shadow: none !important;
+  text-shadow: none;
+  backdrop-filter: none !important;
+  background-image: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+html[data-theme="retro"] .toolbar,
+html[data-theme="retro"] .offline-status,
+html[data-theme="retro"] .pixel-hero,
+html[data-theme="retro"] .about-explorer,
+html[data-theme="retro"] .loading-grid i,
+html[data-theme="retro"] .order-footer,
+html[data-theme="retro"] .empty-results,
+html[data-theme="retro"] .help-pixel,
+html[data-theme="retro"] .help-settings,
+html[data-theme="retro"] .saved-section,
+html[data-theme="retro"] .shortcut-list > div,
+html[data-theme="retro"] .rendering-comparison > div,
+html[data-theme="retro"] .pixel-design-invitation,
+html[data-theme="retro"] .emoji-preview,
+html[data-theme="retro"] .emoji-composition-part,
+html[data-theme="retro"] .emoji-metadata > div,
+html[data-theme="retro"] .pixel-editor-file,
+html[data-theme="retro"] .example-dialog,
+html[data-theme="retro"] .language-dialog,
+html[data-theme="retro"] .saved-dialog,
+html[data-theme="retro"] .help-dialog,
+html[data-theme="retro"] .advanced-filters-dialog,
+html[data-theme="retro"] .filter-picker-dialog,
+html[data-theme="retro"] .install-dialog,
+html[data-theme="retro"] .text,
+html[data-theme="retro"] fieldset,
+html[data-theme="retro"] .modifier-filters fieldset,
+html[data-theme="retro"] .group,
+html[data-theme="retro"] .subgroup-list,
+html[data-theme="retro"] .unicode-subgroup,
+html[data-theme="retro"] .setting-choice,
+html[data-theme="retro"] .language-option,
+html[data-theme="retro"] .pixel-comparison > button,
+html[data-theme="retro"] .modifier-filters fieldset label,
+html[data-theme="retro"] .filter-picker-trigger,
+html[data-theme="retro"] .compact-choice,
+html[data-theme="retro"] .version-mode-toggle,
+html[data-theme="retro"] .version-step,
+html[data-theme="retro"] .dialog-close,
+html[data-theme="retro"] .dialog-navigate,
+html[data-theme="retro"] .dialog-mode-back,
+html[data-theme="retro"] .saved-picker,
+html[data-theme="retro"] .help-picker,
+html[data-theme="retro"] .language-picker,
+html[data-theme="retro"] .order-mode,
+html[data-theme="retro"] .install-app,
+html[data-theme="retro"] .empty-actions button,
+html[data-theme="retro"] .saved-emoji-list button,
+html[data-theme="retro"] kbd,
+html[data-theme="retro"] .emoji-composition-mode,
+html[data-theme="retro"] .pixel-design-invitation button,
+html[data-theme="retro"] .emoji-copy-actions button,
+html[data-theme="retro"] .emoji-code-toolbar button,
+html[data-theme="retro"] .pixel-editor-transfer button,
+html[data-theme="retro"] .pixel-editor-layer button,
+html[data-theme="retro"] .pixel-editor-trace-nudge,
+html[data-theme="retro"] .subgroup,
+html[data-theme="retro"] .sequence-type,
+html[data-theme="retro"] .subgroup .emoji > div,
+html[data-theme="retro"] .sequence-type > .emoji > div,
+html[data-theme="retro"] .pixel-editor-toolbar button,
+html[data-theme="retro"] .pixel-editor-file button,
+html[data-theme="retro"] .pixel-editor-preview-actions button,
+html[data-theme="retro"] .pixel-editor-canvas,
+html[data-theme="retro"] .pixel-editor-workspace,
+html[data-theme="retro"] .pixel-editor-panel,
+html[data-theme="retro"] .pixel-editor-preview,
+html[data-theme="retro"] .pixel-editor-swatch {
+  border-radius: 0 !important;
+}
+
+html[data-theme="retro"] .toolbar,
+html[data-theme="retro"] .pixel-hero,
+html[data-theme="retro"] .about-explorer,
+html[data-theme="retro"] .order-footer,
+html[data-theme="retro"] .empty-results,
+html[data-theme="retro"] .help-pixel,
+html[data-theme="retro"] .help-settings,
+html[data-theme="retro"] .saved-section,
+html[data-theme="retro"] .shortcut-list > div,
+html[data-theme="retro"] .rendering-comparison > div,
+html[data-theme="retro"] .pixel-design-invitation,
+html[data-theme="retro"] .emoji-metadata > div,
+html[data-theme="retro"] .pixel-editor-file,
+html[data-theme="retro"] .example-dialog,
+html[data-theme="retro"] .language-dialog,
+html[data-theme="retro"] .saved-dialog,
+html[data-theme="retro"] .help-dialog,
+html[data-theme="retro"] .advanced-filters-dialog,
+html[data-theme="retro"] .filter-picker-dialog,
+html[data-theme="retro"] .install-dialog,
+html[data-theme="retro"] fieldset,
+html[data-theme="retro"] .modifier-filters fieldset,
+html[data-theme="retro"] .group,
+html[data-theme="retro"] .subgroup-list,
+html[data-theme="retro"] .subgroup,
+html[data-theme="retro"] .sequence-type,
+html[data-theme="retro"] .unicode-subgroup {
+  border-width: 2px;
+}
+
+html[data-theme="retro"] .example-dialog,
+html[data-theme="retro"] .language-dialog,
+html[data-theme="retro"] .saved-dialog,
+html[data-theme="retro"] .help-dialog,
+html[data-theme="retro"] .advanced-filters-dialog,
+html[data-theme="retro"] .filter-picker-dialog,
+html[data-theme="retro"] .install-dialog {
+  border-color: var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .help-pixel,
+html[data-theme="retro"] .help-settings,
+html[data-theme="retro"] .saved-section,
+html[data-theme="retro"] .shortcut-list > div,
+html[data-theme="retro"] .rendering-comparison > div,
+html[data-theme="retro"] .pixel-design-invitation,
+html[data-theme="retro"] .emoji-preview,
+html[data-theme="retro"] .emoji-composition-part,
+html[data-theme="retro"] .emoji-metadata > div,
+html[data-theme="retro"] .pixel-editor-file,
+html[data-theme="retro"] fieldset,
+html[data-theme="retro"] .modifier-filters fieldset,
+html[data-theme="retro"] .group,
+html[data-theme="retro"] .subgroup,
+html[data-theme="retro"] .sequence-type,
+html[data-theme="retro"] .unicode-subgroup {
+  background: var(--frame-bg);
+}
+
+html[data-theme="retro"] .modifier-filters fieldset {
+  border-color: #000000;
+}
+
+html[data-theme="retro"] .pixel-hero,
+html[data-theme="retro"] .about-explorer,
+html[data-theme="retro"] .group,
+html[data-theme="retro"] .subgroup-list,
+html[data-theme="retro"] .unicode-subgroup {
+  border-color: #c0c0c0;
+}
+
+html[data-theme="retro"] .modifier-filters fieldset label:has(input:checked) {
+  border-top-color: #aaaaaa !important;
+  border-left-color: #aaaaaa !important;
+  border-right-color: #ffffff !important;
+  border-bottom-color: #ffffff !important;
+  background: #000000 !important;
+  color: #555555 !important;
+  box-shadow: none !important;
+}
+
+html[data-theme="retro"] .filter-picker-kind {
+  color: #555555;
+}
+
+html[data-theme="retro"] .help-pixel,
+html[data-theme="retro"] .help-settings {
+  background: #555555;
+  border-color: #000000;
+  color: #ffffff;
+}
+
+html[data-theme="retro"] .help-pixel {
+  background: #000000;
+}
+
+html[data-theme="retro"] .help-pixel h3,
+html[data-theme="retro"] .help-settings h3,
+html[data-theme="retro"] .help-settings h4,
+html[data-theme="retro"] .help-settings .shortcut-heading {
+  color: #ffffff;
+}
+
+html[data-theme="retro"] .help-settings .language-picker-label {
+  color: #000000;
+}
+
+html[data-theme="retro"] .help-settings p,
+html[data-theme="retro"] .help-pixel p {
+  color: #aaaaaa;
+}
+
+html[data-theme="retro"] .help-pixel a,
+html[data-theme="retro"] .help-settings a,
+html[data-theme="retro"] .help-settings button.linklike {
+  color: #55ffff;
+}
+
+html[data-theme="retro"] .help-pixel a:hover,
+html[data-theme="retro"] .help-settings a:hover,
+html[data-theme="retro"] .help-settings button.linklike:hover {
+  color: #ffffff;
+}
+
+html[data-theme="retro"] .emoji-metadata > div {
+  background: #000000;
+  border-color: #000000;
+}
+
+html[data-theme="retro"] .rendering-comparison > div {
+  background: #aaaaaa;
+  border-top-color: #000000;
+  border-left-color: #000000;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+html[data-theme="retro"] .emoji-preview {
+  border-color: #000000;
+  background: #555555;
+}
+
+html[data-theme="retro"] .emoji-preview-copy-label {
+  border: 2px solid #aaaaaa !important;
+  border-top-color: #5555ff !important;
+  border-left-color: #5555ff !important;
+  border-right-color: #000000 !important;
+  border-bottom-color: #000000 !important;
+  background: #0000aa !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="retro"] .emoji-preview:hover .emoji-preview-copy-label {
+  border-top-color: #5555ff;
+  border-left-color: #5555ff;
+  border-right-color: #555555;
+  border-bottom-color: #555555;
+  background: #5555ff;
+  color: #ffffff;
+}
+
+html[data-theme="retro"] .emoji-preview:active .emoji-preview-copy-label {
+  border-top-color: #555555;
+  border-left-color: #555555;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+  background: #0000aa;
+  color: #ffffff;
+}
+
+html[data-theme="retro"] .localized-language {
+  color: #000000;
+}
+
+html[data-theme="retro"] .example-dialog {
+  background: var(--dialog-body-bg);
+}
+
+html[data-theme="retro"] .example-dialog .dialog-heading {
+  background: var(--dialog-header-bg);
+  border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .help-dialog {
+  background: var(--dialog-body-bg);
+}
+
+html[data-theme="retro"] .help-dialog .dialog-heading {
+  background: var(--dialog-header-bg);
+  border-bottom: 2px solid var(--dialog-frame-border);
+}

@@ -8,6 +8,16 @@ const NETWORK_FIRST_PATHS = new Set([
   new URL("./explorer/themes/light.css", self.registration.scope).pathname,
   new URL("./explorer/themes/ega.css", self.registration.scope).pathname,
   new URL("./explorer/themes/retro.css", self.registration.scope).pathname,
+  new URL("./explorer/themes/retro-foundation.css", self.registration.scope)
+    .pathname,
+  new URL("./explorer/themes/retro-dialogs.css", self.registration.scope)
+    .pathname,
+  new URL("./explorer/themes/retro-buttons.css", self.registration.scope)
+    .pathname,
+  new URL("./explorer/themes/retro-forms.css", self.registration.scope)
+    .pathname,
+  new URL("./explorer/themes/retro-focus.css", self.registration.scope)
+    .pathname,
   new URL("./explorer/toolbar-controls.css", self.registration.scope).pathname,
   new URL("./explorer/dialog-controls.css", self.registration.scope).pathname,
   new URL("./pixel-editor.js", self.registration.scope).pathname,

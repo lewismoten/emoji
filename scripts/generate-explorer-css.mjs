@@ -20,6 +20,26 @@ const sourceFiles = [
     output: path.join("themes", "retro.css"),
   },
   {
+    source: path.join("src", "site", "themes", "retro-foundation.css"),
+    output: path.join("themes", "retro-foundation.css"),
+  },
+  {
+    source: path.join("src", "site", "themes", "retro-dialogs.css"),
+    output: path.join("themes", "retro-dialogs.css"),
+  },
+  {
+    source: path.join("src", "site", "themes", "retro-buttons.css"),
+    output: path.join("themes", "retro-buttons.css"),
+  },
+  {
+    source: path.join("src", "site", "themes", "retro-forms.css"),
+    output: path.join("themes", "retro-forms.css"),
+  },
+  {
+    source: path.join("src", "site", "themes", "retro-focus.css"),
+    output: path.join("themes", "retro-focus.css"),
+  },
+  {
     source: path.join("src", "site", "styles", "toolbar-controls.css"),
     output: "toolbar-controls.css",
   },

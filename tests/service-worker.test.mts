@@ -79,6 +79,21 @@ assert.ok(
     serviceWorker.includes(`"./explorer/themes/ega.css?v=${packageJson.version}"`) &&
     serviceWorker.includes(`"./explorer/themes/retro.css?v=${packageJson.version}"`) &&
     serviceWorker.includes(
+      `./explorer/themes/retro-foundation.css?v=${packageJson.version}`,
+    ) &&
+    serviceWorker.includes(
+      `./explorer/themes/retro-dialogs.css?v=${packageJson.version}`,
+    ) &&
+    serviceWorker.includes(
+      `./explorer/themes/retro-buttons.css?v=${packageJson.version}`,
+    ) &&
+    serviceWorker.includes(
+      `./explorer/themes/retro-forms.css?v=${packageJson.version}`,
+    ) &&
+    serviceWorker.includes(
+      `./explorer/themes/retro-focus.css?v=${packageJson.version}`,
+    ) &&
+    serviceWorker.includes(
       `./explorer/toolbar-controls.css?v=${packageJson.version}`,
     ) &&
     serviceWorker.includes(
@@ -134,6 +149,6 @@ assert.match(
 );
 assert.match(
   serviceWorker,
-  /NETWORK_FIRST_PATHS[\s\S]*index\.js[\s\S]*explorer\/themes\/dark\.css[\s\S]*explorer\/themes\/light\.css[\s\S]*explorer\/themes\/ega\.css[\s\S]*explorer\/themes\/retro\.css[\s\S]*explorer\/toolbar-controls\.css[\s\S]*explorer\/dialog-controls\.css[\s\S]*pixel-editor\.js[\s\S]*explorer\/index\.css[\s\S]*explorer\/pixel-editor\.css[\s\S]*NETWORK_FIRST_PATHS\.has\(url\.pathname\)/,
+  /NETWORK_FIRST_PATHS[\s\S]*index\.js[\s\S]*explorer\/themes\/dark\.css[\s\S]*explorer\/themes\/light\.css[\s\S]*explorer\/themes\/ega\.css[\s\S]*explorer\/themes\/retro\.css[\s\S]*explorer\/themes\/retro-foundation\.css[\s\S]*explorer\/themes\/retro-dialogs\.css[\s\S]*explorer\/themes\/retro-buttons\.css[\s\S]*explorer\/themes\/retro-forms\.css[\s\S]*explorer\/themes\/retro-focus\.css[\s\S]*explorer\/toolbar-controls\.css[\s\S]*explorer\/dialog-controls\.css[\s\S]*pixel-editor\.js[\s\S]*explorer\/index\.css[\s\S]*explorer\/pixel-editor\.css[\s\S]*NETWORK_FIRST_PATHS\.has\(url\.pathname\)/,
   "application shell assets must refresh from the network before using an offline cache",
 );

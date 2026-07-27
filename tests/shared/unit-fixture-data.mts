@@ -119,6 +119,26 @@ export const demoStyles = (
     fs.readFile(path.join(root, "src", "site", "themes", "ega.css"), "utf8"),
     fs.readFile(path.join(root, "src", "site", "themes", "retro.css"), "utf8"),
     fs.readFile(
+      path.join(root, "src", "site", "themes", "retro-foundation.css"),
+      "utf8",
+    ),
+    fs.readFile(
+      path.join(root, "src", "site", "themes", "retro-dialogs.css"),
+      "utf8",
+    ),
+    fs.readFile(
+      path.join(root, "src", "site", "themes", "retro-buttons.css"),
+      "utf8",
+    ),
+    fs.readFile(
+      path.join(root, "src", "site", "themes", "retro-forms.css"),
+      "utf8",
+    ),
+    fs.readFile(
+      path.join(root, "src", "site", "themes", "retro-focus.css"),
+      "utf8",
+    ),
+    fs.readFile(
       path.join(root, "src", "site", "styles", "toolbar-controls.css"),
       "utf8",
     ),
