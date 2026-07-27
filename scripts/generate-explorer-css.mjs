@@ -47,6 +47,10 @@ const sourceFiles = [
     source: path.join("src", "site", "styles", "dialog-controls.css"),
     output: "dialog-controls.css",
   },
+  {
+    source: path.join("src", "controls", "dialog-close-button.css"),
+    output: path.join("controls", "dialog-close-button.css"),
+  },
 ];
 const mainSource = fs.readFileSync(path.join("src", "site", "index.css"), "utf8");
 

@@ -41,7 +41,7 @@
 .saved-picker-label {
   min-width: 3.75rem;
   overflow: hidden;
-  font-size: 0.72rem;
+  font-size: var(--ui-font-size-x-small);
   font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -105,18 +105,18 @@
 
 .filter-picker-kind {
   color: var(--muted);
-  font-size: 0.68rem;
+  font-size: var(--ui-font-size-xx-small);
 }
 
 .filter-picker-emoji {
   font-family: var(--emoji-font);
-  font-size: 1.1rem;
+  font-size: var(--ui-font-size-xx-large);
 }
 
 .filter-picker-value {
   min-width: 0;
   overflow: hidden;
-  font-size: 0.76rem;
+  font-size: var(--ui-font-size-medium-small);
   font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -133,7 +133,7 @@
   cursor: pointer;
   color: var(--accent);
   font: inherit;
-  font-size: 0.84rem;
+  font-size: var(--ui-font-size-medium);
   font-weight: 650;
 }
 
@@ -157,7 +157,7 @@
   align-items: center;
   gap: 0.4rem;
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--ui-font-size-small);
 }
 
 .active-filter-summary[hidden] {
@@ -208,11 +208,11 @@
 
 .compact-choice-emoji {
   font-family: var(--emoji-font);
-  font-size: 1.25rem;
+  font-size: var(--ui-font-size-xxx-large);
 }
 
 .compact-choice-label {
-  font-size: 0.78rem;
+  font-size: var(--ui-font-size-medium-small);
   white-space: nowrap;
 }
 
@@ -244,7 +244,7 @@
   color: var(--text);
   cursor: pointer;
   font-family: var(--emoji-font);
-  font-size: 1.2rem;
+  font-size: calc(var(--ui-font-size-xxx-large) - 0.05rem);
 }
 
 .version-mode-toggle:hover {
@@ -275,7 +275,7 @@
   color: var(--text);
   cursor: pointer;
   font: inherit;
-  font-size: 1.05rem;
+  font-size: calc(var(--ui-font-size-x-large) + 0.05rem);
   font-weight: 800;
 }
 

@@ -1,5 +1,22 @@
 import { DomFactory, type NodeSpec } from "./dom-factory.js";
 
+type ControlDocumentLike = {
+  createElement(tagName: string): {
+    id: string;
+    rel: string;
+    href: string;
+  };
+  getElementById(id: string): unknown;
+  head?: {
+    appendChild(node: unknown): void;
+  };
+};
+
+type ControlStylesheet = {
+  href: string;
+  id: string;
+};
+
 export abstract class BaseControl<TState> {
   protected state: TState;
 
@@ -13,6 +30,7 @@ export abstract class BaseControl<TState> {
   }
 
   create() {
+    this.attachAssets();
     return DomFactory.createElement(this.render());
   }
 
@@ -26,6 +44,30 @@ export abstract class BaseControl<TState> {
 
   static toMarkup(this: any, state?: any) {
     return new this(state).toMarkup();
+  }
+
+  protected attachAssets() {
+    for (const stylesheet of this.stylesheets()) {
+      BaseControl.ensureStylesheet(stylesheet);
+    }
+  }
+
+  protected stylesheets(): ControlStylesheet[] {
+    return [];
+  }
+
+  protected static ensureStylesheet(stylesheet: ControlStylesheet) {
+    const runtime = globalThis as typeof globalThis & {
+      document?: ControlDocumentLike;
+    };
+    const documentRef = runtime.document;
+    if (!documentRef?.head) return;
+    if (documentRef.getElementById(stylesheet.id)) return;
+    const element = documentRef.createElement("link");
+    element.id = stylesheet.id;
+    element.rel = "stylesheet";
+    element.href = stylesheet.href;
+    documentRef.head.appendChild(element);
   }
 
   protected abstract render(): NodeSpec;

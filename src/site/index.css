@@ -8,6 +8,19 @@ html {
   --motion-fast: 180ms;
   --motion-medium: 240ms;
   --motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ui-font-size-xx-small: 0.68rem;
+  --ui-font-size-x-small: 0.72rem;
+  --ui-font-size-small: 0.75rem;
+  --ui-font-size-medium-small: 0.78rem;
+  --ui-font-size-medium: 0.82rem;
+  --ui-font-size-medium-large: 0.88rem;
+  --ui-font-size-large: 0.9rem;
+  --ui-font-size-x-large: 1rem;
+  --ui-font-size-xx-large: 1.1rem;
+  --ui-font-size-xxx-large: 1.25rem;
+  --ui-font-size-display-small: 1.35rem;
+  --ui-font-size-display-medium: 1.5rem;
+  --ui-font-size-display-large: 1.65rem;
   --radius-xs: 0.25rem;
   --radius-sm: 0.35rem;
   --radius-md: 0.45rem;
@@ -86,7 +99,7 @@ a {
   background: #4a3210;
   box-shadow: var(--shadow-offline-status, none);
   color: #fff4d6;
-  font-size: 0.78rem;
+  font-size: var(--ui-font-size-medium-small);
   font-weight: 700;
   text-align: center;
   transform: translateX(-50%);
@@ -122,7 +135,11 @@ a {
 
 h1 {
   margin: 0;
-  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  font-size: clamp(
+    var(--ui-font-size-x-large),
+    2.5vw,
+    calc(var(--ui-font-size-xx-large) + 0.1rem)
+  );
 }
 
 .result-count {
@@ -132,7 +149,7 @@ h1 {
   min-width: 6.75rem;
   margin: 0;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: var(--ui-font-size-large);
   line-height: 1.25;
 }
 [dir="rtl"] .result-count {

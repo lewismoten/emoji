@@ -5,6 +5,10 @@ export const dialogCloseButtonLabel = "Close";
 export const dialogCloseButtonText = "×";
 export const dialogCloseButtonClassName = "dialog-close";
 export const dialogCloseButtonAriaKey = "close";
+export const dialogCloseButtonStylesheetId =
+  "dialog-close-button-control-stylesheet";
+export const dialogCloseButtonStylesheetHref =
+  "./explorer/controls/dialog-close-button.css";
 
 type DialogCloseButtonState = {
   buttonClassName: string;
@@ -26,6 +30,15 @@ export class DialogCloseButtonControl extends BaseControl<DialogCloseButtonState
 
   protected render() {
     return DialogCloseButtonControl.toSpec(this.state);
+  }
+
+  protected stylesheets() {
+    return [
+      {
+        href: dialogCloseButtonStylesheetHref,
+        id: dialogCloseButtonStylesheetId,
+      },
+    ];
   }
 
   static toSpec(state?: Partial<DialogCloseButtonState>) {

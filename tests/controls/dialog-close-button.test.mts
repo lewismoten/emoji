@@ -6,12 +6,28 @@ import {
   dialogCloseButtonClassName,
   dialogCloseButtonLabel,
   dialogCloseButtonText,
+  dialogCloseButtonStylesheetHref,
+  dialogCloseButtonStylesheetId,
 } from "../../src/controls/dialog-close-button.js";
 import { DomFactory } from "../../src/controls/dom-factory.js";
 import { FakeElement, installFakeDocument } from "./fake-dom.mjs";
 
 const restore = installFakeDocument();
+const documentRef = (
+  globalThis as typeof globalThis & {
+    document: {
+      head: FakeElement & { children: FakeElement[] };
+    };
+  }
+).document;
 const closeForm = DialogCloseButtonControl.create() as unknown as FakeElement;
+const stylesheets = (documentRef.head.children as FakeElement[]).filter(
+  (child) => child.tagName === "LINK",
+);
+assert.equal(stylesheets.length, 1);
+assert.equal(stylesheets[0]?.id, dialogCloseButtonStylesheetId);
+assert.equal(stylesheets[0]?.rel, "stylesheet");
+assert.equal(stylesheets[0]?.href, dialogCloseButtonStylesheetHref);
 assert.equal(closeForm.tagName, "FORM");
 assert.equal(closeForm.method, "dialog");
 assert.equal(closeForm.children.length, 1);
@@ -38,6 +54,12 @@ assert.match(customMarkup, /class="dialog-close custom-close"/);
 assert.match(customMarkup, /type="submit"/);
 assert.match(customMarkup, /data-i18n-aria-label="close"/);
 assert.match(customMarkup, /aria-label="Close"/);
+
+DialogCloseButtonControl.create();
+const duplicateStylesheets = (documentRef.head.children as FakeElement[]).filter(
+  (child) => child.tagName === "LINK",
+);
+assert.equal(duplicateStylesheets.length, 1);
 
 assert.throws(
   () =>
