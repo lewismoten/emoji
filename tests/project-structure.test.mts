@@ -57,7 +57,6 @@ const generatedStructureFiles = new Set([
 const generatedFilenamePrefixes = [
   ...generatedStructurePrefixes,
   "icons/",
-  "locales/",
   "orders/",
   "pixel-font/atlases/",
   "proposed/",

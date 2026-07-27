@@ -176,7 +176,7 @@ assert.match(
 for (const locale of ["en", "ar", "es", "hi", "zh"]) {
   assert.match(
     await fs.readFile(
-      path.join(root, "demo-locales", `${locale}.json`),
+      path.join(root, "src", "demo-locales", `ui.${locale}.json`),
       "utf8",
     ),
     /"rotateLayerLeft": ".*45.*"[\s\S]*"rotateLayerRight": ".*45.*"/,

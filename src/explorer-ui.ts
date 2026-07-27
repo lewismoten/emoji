@@ -1,4 +1,13 @@
 export function createExplorerUiController(options: any) {
+  const fetchJsonWithFallback = async (primary: string, fallback: string) => {
+    const response = await fetch(primary);
+    if (response.ok) return response.json();
+    const secondary = await fetch(fallback);
+    if (!secondary.ok) {
+      throw new Error(`Unable to load ${primary} or ${fallback}`);
+    }
+    return secondary.json();
+  };
   const translate = (key: string, fallback: string) =>
     options.state().uiStrings[key] ?? fallback;
 
@@ -66,9 +75,10 @@ export function createExplorerUiController(options: any) {
       const codes = locale === base ? [base] : [base, locale];
       const packs = await Promise.all(
         codes.map(async (code) => {
-          const response = await fetch(`demo-locales/${code}.json`);
-          if (!response.ok) throw new Error(`No demo locale for ${code}`);
-          return response.json();
+          return fetchJsonWithFallback(
+            `demo-locales/ui.${code}.json`,
+            `src/demo-locales/ui.${code}.json`,
+          );
         }),
       );
       options.state().uiStrings = Object.assign({}, ...packs);

@@ -17,7 +17,9 @@ const template = fs.readFileSync(
 );
 const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const assetVersion = packageJson.version;
-const english = JSON.parse(fs.readFileSync("demo-locales/en.json", "utf8"));
+const english = JSON.parse(
+  fs.readFileSync(path.join("src", "demo-locales", "ui.en.json"), "utf8"),
+);
 const webAppManifest = JSON.parse(
   fs.readFileSync(
     path.join(siteSourceDirectory, "manifest.webmanifest"),
@@ -43,8 +45,10 @@ const retroTextRevision = fs.existsSync(
       .slice(0, 12)
   : "dev";
 const localeManifest = JSON.parse(
-  fs.readFileSync("locales/manifest.json", "utf8"),
+  fs.readFileSync(path.join("src", "locales", "manifest.json"), "utf8"),
 );
+const runtimeLocalesDirectory = path.join("src", "locales");
+const runtimeDemoLocalesDirectory = path.join("src", "demo-locales");
 const localeMetadata = new Map(
   localeManifest.locales.map((locale) => [locale.locale, locale]),
 );
@@ -72,8 +76,16 @@ const translationsFor = (locale) => {
   const baseTranslations =
     base === "en"
       ? english
-      : JSON.parse(fs.readFileSync(`demo-locales/${base}.json`, "utf8"));
-  const regionalFile = `demo-locales/${locale}.json`;
+      : JSON.parse(
+            fs.readFileSync(
+            path.join(runtimeDemoLocalesDirectory, `ui.${base}.json`),
+            "utf8",
+          ),
+        );
+  const regionalFile = path.join(
+    runtimeDemoLocalesDirectory,
+    `ui.${locale}.json`,
+  );
   const regionalTranslations =
     locale === base || !fs.existsSync(regionalFile)
       ? {}
@@ -414,6 +426,16 @@ ${locales.map((locale) => `  <url><loc>${pageUrl(locale)}</loc></url>`).join("\n
   for (const asset of staticSiteAssets) {
     fs.copyFileSync(asset.source, path.join(outputDirectory, asset.target));
   }
+  fs.cpSync(path.join("src", "locales"), path.join(outputDirectory, "locales"), {
+    recursive: true,
+  });
+  fs.cpSync(
+    path.join("src", "demo-locales"),
+    path.join(outputDirectory, "demo-locales"),
+    {
+      recursive: true,
+    },
+  );
   generateSiteIcons({
     favicon: path.join(siteSourceDirectory, "favicon.svg"),
     outputDirectory: path.join(outputDirectory, "icons"),

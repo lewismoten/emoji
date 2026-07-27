@@ -12,7 +12,6 @@ const generatedIcons = [
   "icon.svg",
   "icon-maskable.svg",
 ];
-const fallbackPngSources = [];
 
 const generateWithSips = (favicon, iconDirectory) => {
   const rasterTargets = [
@@ -46,6 +45,37 @@ const generateWithSips = (favicon, iconDirectory) => {
   fs.copyFileSync(favicon, path.join(iconDirectory, "icon-maskable.svg"));
 };
 
+const generateWithFfmpegPlaceholders = (favicon, iconDirectory) => {
+  const rasterTargets = [
+    ["icon-192.png", "192"],
+    ["icon-512.png", "512"],
+    ["icon-maskable-512.png", "512"],
+  ];
+  for (const [filename, size] of rasterTargets) {
+    const result = spawnSync(
+      "ffmpeg",
+      [
+        "-f",
+        "lavfi",
+        "-i",
+        `color=c=#240c37:s=${size}x${size}`,
+        "-frames:v",
+        "1",
+        "-y",
+        path.join(iconDirectory, filename),
+      ],
+      { stdio: "pipe" },
+    );
+    if (result.status !== 0) {
+      throw new Error(
+        `ffmpeg failed while generating ${filename}: ${result.stderr.toString("utf8")}`,
+      );
+    }
+  }
+  fs.copyFileSync(favicon, path.join(iconDirectory, "icon.svg"));
+  fs.copyFileSync(favicon, path.join(iconDirectory, "icon-maskable.svg"));
+};
+
 export const generateSiteIcons = ({
   favicon = path.join(root, "src", "site", "favicon.svg"),
   outputDirectory = path.join(root, "icons"),
@@ -67,6 +97,25 @@ export const generateSiteIcons = ({
       );
     }
   }
+  const ffmpegAvailable =
+    spawnSync("ffmpeg", ["-version"], { stdio: "ignore" }).status === 0;
+  if (ffmpegAvailable) {
+    try {
+      generateWithFfmpegPlaceholders(favicon, outputDirectory);
+      console.warn(
+        `Used ffmpeg placeholder PNGs for ${path.relative(root, outputDirectory)} because SVG rasterization is unavailable.`,
+      );
+      return {
+        generated: true,
+        outputDirectory,
+        files: generatedIcons,
+      };
+    } catch (error) {
+      console.warn(
+        `Unable to synthesize placeholder PNG icons automatically: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+  }
 
   const repositoryIconsDirectory = path.join(root, "icons");
   if (
@@ -81,17 +130,6 @@ export const generateSiteIcons = ({
     }
   }
 
-  const fallbackPng = fallbackPngSources.find((file) => fs.existsSync(file));
-  if (fallbackPng) {
-    for (const file of [
-      "icon-192.png",
-      "icon-512.png",
-      "icon-maskable-512.png",
-    ]) {
-      const target = path.join(outputDirectory, file);
-      if (!fs.existsSync(target)) fs.copyFileSync(fallbackPng, target);
-    }
-  }
   for (const file of ["icon.svg", "icon-maskable.svg"]) {
     const target = path.join(outputDirectory, file);
     if (!fs.existsSync(target) && fs.existsSync(favicon)) {

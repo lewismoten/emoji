@@ -132,8 +132,6 @@ fs.mkdirSync(outputDirectory, { recursive: true });
 const files = [];
 const directories = [
   "dist",
-  "locales",
-  "demo-locales",
   "explorer",
   "orders",
   "versions",

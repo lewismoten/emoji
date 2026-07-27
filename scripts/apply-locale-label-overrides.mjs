@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const outputDirectory = "locales";
+const outputDirectory = path.join("src", "locales");
 const overrides = JSON.parse(
   fs.readFileSync("scripts/locale-label-overrides.json", "utf8"),
 );

@@ -39,7 +39,7 @@ const readJson = async <T,>(file: string) =>
 const require = createRequire(import.meta.url);
 const knownEmoji = new Set((await readEmojiJson(root)).map((item) => item.key));
 const localeManifest = await readJson<{ locales: LocaleEntry[] }>(
-  "locales/manifest.json",
+  "src/locales/manifest.json",
 );
 
 assert.deepEqual(

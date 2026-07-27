@@ -132,6 +132,15 @@ export async function setSearchLanguage({
   saveExplorerPreference,
   refreshLocalizedLabels,
 }: SetSearchLanguageOptions): Promise<SetSearchLanguageResult> {
+  const fetchJsonWithFallback = async (primary: string, fallback: string) => {
+    const response = await fetch(primary);
+    if (response.ok) return response.json();
+    const secondary = await fetch(fallback);
+    if (!secondary.ok) {
+      throw new Error(`Unable to load ${primary} or ${fallback}`);
+    }
+    return secondary.json();
+  };
   const loadId = searchLoadId;
   if (!requestedLocale) {
     updateWebAppManifest();
@@ -176,12 +185,13 @@ export async function setSearchLanguage({
     const packs = (await Promise.all([
       ...(locale.baseLocale
         ? [
-            fetch(`locales/${locale.baseLocale}.json`).then((response) =>
-              response.json(),
+            fetchJsonWithFallback(
+              `locales/${locale.baseLocale}.json`,
+              `src/locales/${locale.baseLocale}.json`,
             ),
           ]
         : []),
-      fetch(`locales/${locale.file}`).then((response) => response.json()),
+      fetchJsonWithFallback(`locales/${locale.file}`, `src/locales/${locale.file}`),
     ])) as SearchLocalePack[];
     const searchAnnotations = Object.assign(
       {},

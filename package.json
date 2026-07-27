@@ -40,7 +40,7 @@
       "import": "./dist/esm/search.min.js",
       "require": "./dist/commonjs/search.min.cjs"
     },
-    "./locales/*": "./locales/*.json",
+    "./locales/*": "./src/locales/*.json",
     "./orders/*": "./orders/*.json",
     "./versions/*": "./versions/*.json",
     "./proposed/*": "./proposed/*.json",
