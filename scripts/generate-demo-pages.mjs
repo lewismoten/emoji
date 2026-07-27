@@ -8,7 +8,11 @@ const normalizeSiteUrl = (value) => `${value.replace(/\/+$/, "")}/`;
 const siteUrl = normalizeSiteUrl(process.env.EMOJI_SITE_URL ?? defaultSiteUrl);
 export const locales = ["en", "en-GB", "es", "hi", "zh", "ar"];
 const rtlLocales = new Set(["ar"]);
-const template = fs.readFileSync("index.html", "utf8");
+const siteSourceDirectory = path.join("src", "site");
+const template = fs.readFileSync(
+  path.join(siteSourceDirectory, "index.html"),
+  "utf8",
+);
 const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const assetVersion = packageJson.version;
 const deployedScript = fs
@@ -23,7 +27,7 @@ const deployedScript = fs
   );
 const english = JSON.parse(fs.readFileSync("demo-locales/en.json", "utf8"));
 const webAppManifest = JSON.parse(
-  fs.readFileSync("manifest.webmanifest", "utf8"),
+  fs.readFileSync(path.join(siteSourceDirectory, "manifest.webmanifest"), "utf8"),
 );
 const pixelFontRevision = createHash("sha256")
   .update(fs.readFileSync("pixel-font/build/font/pixel-emoji.css"))

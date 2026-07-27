@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const source = fs.readFileSync("index.css", "utf8");
+const source = fs.readFileSync(path.join("src", "site", "index.css"), "utf8");
 const outputDirectory = "explorer";
 
 function matchingBrace(source, opening) {

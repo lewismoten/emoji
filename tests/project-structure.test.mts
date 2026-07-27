@@ -27,9 +27,10 @@ const legacyLineBudgets: Record<string, number> = {
   "src/pixel-editor/controllers/pixel-editor-transfer.js": 342,
   "src/pixel-editor/pixel-editor-controllers.js": 474,
   "src/pixel-editor/pixel-editor-layer-helpers.js": 352,
+  "src/site/index.css": 4759,
 };
 const legacyFileCountBudgets: Record<string, number> = {
-  ".": 24,
+  ".": 14,
   src: 13,
   "src/app": 29,
   "src/explorer": 42,
@@ -43,11 +44,22 @@ generatedStructurePrefixes.push("pixel-font/build-retro-text/");
 const generatedStructureFiles = new Set([
   "emoji.json",
   "emoji.ts",
+  "favicon.svg",
+  "index.css",
+  "index.html",
   "index.js",
+  "manifest.webmanifest",
+  "offline.html",
   "pixel-font/ATLASES.md",
+  "robots.txt",
+  "screenshot.png",
+  "social-preview.png",
+  "social-preview.svg",
+  "sitemap.xml",
 ]);
 const generatedFilenamePrefixes = [
   ...generatedStructurePrefixes,
+  "icons/",
   "locales/",
   "orders/",
   "pixel-font/atlases/",
