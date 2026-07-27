@@ -45,18 +45,29 @@ assert.match(themeMarkup, /class="setting-choice-group theme-choices"/);
 assert.match(themeMarkup, /data-theme="light"/);
 assert.match(themeMarkup, /data-theme="dark"/);
 assert.match(themeMarkup, /data-theme="retro"/);
+assert.match(themeMarkup, /data-max-selectable="1"/);
+assert.match(themeMarkup, /data-min-selectable="1"/);
 
 const genderMarkup = GenderFilterControl.toMarkup();
-assert.match(genderMarkup, /<fieldset class="modifier-filter gender-filter">/);
-assert.match(genderMarkup, /<legend data-i18n="gender">Gender<\/legend>/);
+assert.match(
+  genderMarkup,
+  /<fieldset class="modifier-filter gender-filter" data-max-selectable="1" data-min-selectable="0">/,
+);
+assert.match(genderMarkup, /<legend id="gender-group-label" data-i18n="gender">Gender<\/legend>/);
 assert.match(genderMarkup, /class="gender"/);
 assert.match(genderMarkup, /value="male"/);
 assert.match(genderMarkup, /value="female"/);
 assert.match(genderMarkup, /value="neutral"/);
 
 const skinToneMarkup = SkinToneFilterControl.toMarkup();
-assert.match(skinToneMarkup, /<fieldset class="modifier-filter skin-tone-filter">/);
-assert.match(skinToneMarkup, /<legend data-i18n="skinTone">Skin tone<\/legend>/);
+assert.match(
+  skinToneMarkup,
+  /<fieldset class="modifier-filter skin-tone-filter" data-max-selectable="1" data-min-selectable="0">/,
+);
+assert.match(
+  skinToneMarkup,
+  /<legend id="skinTone-group-label" data-i18n="skinTone">Skin tone<\/legend>/,
+);
 assert.match(skinToneMarkup, /class="skin-tone"/);
 assert.match(skinToneMarkup, /value="1F3FF"/);
 assert.match(skinToneMarkup, /value="1F3FE"/);
@@ -65,8 +76,11 @@ assert.match(skinToneMarkup, /value="1F3FC"/);
 assert.match(skinToneMarkup, /value="1F3FB"/);
 
 const hairMarkup = HairFilterControl.toMarkup();
-assert.match(hairMarkup, /<fieldset class="modifier-filter hair-filter">/);
-assert.match(hairMarkup, /<legend data-i18n="hair">Hair<\/legend>/);
+assert.match(
+  hairMarkup,
+  /<fieldset class="modifier-filter hair-filter" data-max-selectable="1" data-min-selectable="0">/,
+);
+assert.match(hairMarkup, /<legend id="hair-group-label" data-i18n="hair">Hair<\/legend>/);
 assert.match(hairMarkup, /class="hair"/);
 assert.match(hairMarkup, /value="1F9B0"/);
 assert.match(hairMarkup, /value="1F9B1"/);

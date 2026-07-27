@@ -1,6 +1,6 @@
 import { BaseControl } from "../core/base-control.js";
-import { DomFactory, type NodeSpec } from "../core/dom-factory.js";
-import { ModifierFilterOptionControl } from "./modifier-filter-option.js";
+import { type NodeSpec } from "../core/dom-factory.js";
+import { ChoiceGroupControl } from "../groups/choice-group.js";
 
 export type ModifierFilterItem = {
   emoji: string;
@@ -15,29 +15,33 @@ export type ModifierFilterState = {
   items: ModifierFilterItem[];
   legend: string;
   legendKey: string;
+  maxSelectable?: number;
+  minSelectable?: number;
 };
 
 export abstract class ModifierFilterControl extends BaseControl<ModifierFilterState> {
   protected render(): NodeSpec {
-    return DomFactory.element("fieldset", {
+    return ChoiceGroupControl.toSpec({
+      buttonClassName: "modifier-filter-option",
       className: `modifier-filter ${this.state.className}`,
-      children: [
-        DomFactory.element("legend", {
-          dataset: {
-            i18n: this.state.legendKey,
-          },
-          text: this.state.legend,
-        }),
-        ...this.state.items.map((item) =>
-          ModifierFilterOptionControl.toSpec({
-            emoji: item.emoji,
-            inputClassName: this.state.inputClassName,
-            label: item.label,
-            labelKey: item.labelKey,
-            value: item.value,
-          }),
-        ),
-      ],
+      inputClassName: this.state.inputClassName,
+      inputType: "checkbox",
+      items: this.state.items.map((item) => ({
+        ariaLabel: item.label,
+        emoji: item.emoji,
+        label: item.label,
+        labelKey: item.labelKey,
+        selected: false,
+        value: item.value,
+      })),
+      label: this.state.legend,
+      labelKey: this.state.legendKey,
+      legendClassName: undefined,
+      maxSelectable: this.state.maxSelectable ?? 1,
+      minSelectable: this.state.minSelectable ?? 0,
+      toggleEmojiClassName: "modifier-emoji",
+      toggleLabelClassName: "modifier-label",
+      wrapperTag: "fieldset",
     });
   }
 }

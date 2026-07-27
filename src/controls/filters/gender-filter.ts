@@ -30,6 +30,8 @@ export class GenderFilterControl extends ModifierFilterControl {
       ],
       legend: "Gender",
       legendKey: "gender",
+      maxSelectable: 1,
+      minSelectable: 0,
       ...state,
     });
   }

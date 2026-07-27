@@ -1,5 +1,5 @@
 import { BaseControl } from "../core/base-control.js";
-import { DomFactory, type NodeSpec } from "../core/dom-factory.js";
+import { ChoiceGroupControl } from "../groups/choice-group.js";
 
 const themeChoiceGroupStylesheetId = "theme-choice-group-control-stylesheet";
 const themeChoiceGroupStylesheetHref = "./explorer/controls/toolbar/theme-choice-group.css";
@@ -40,40 +40,26 @@ export class ThemeChoiceGroupControl extends BaseControl<ThemeChoiceGroupState> 
     ];
   }
 
-  protected render(): NodeSpec {
-    return DomFactory.element("div", {
-      attributes: {
-        "aria-label": this.state.label,
-        role: "group",
-      },
+  protected render() {
+    return ChoiceGroupControl.toSpec({
+      buttonClassName: "setting-choice theme-choice",
       className: "setting-choice-group theme-choices",
-      dataset: {
-        i18nAriaLabel: this.state.labelKey,
-      },
-      children: this.state.themes.map((theme) =>
-        DomFactory.button({
-          attributes: {
-            "aria-label": theme.text,
-            "aria-pressed": "false",
-            type: "button",
-          },
-          className: "setting-choice theme-choice",
-          dataset: {
-            i18nAriaLabel: theme.key,
-            theme: theme.theme,
-          },
-          children: [
-            DomFactory.element("span", {
-              attributes: { "aria-hidden": "true" },
-              text: theme.emoji,
-            }),
-            DomFactory.element("span", {
-              dataset: { i18n: theme.key },
-              text: theme.text,
-            }),
-          ],
-        }),
-      ),
+      items: this.state.themes.map((theme) => ({
+        ariaLabel: theme.text,
+        dataAttributes: { theme: theme.theme },
+        emoji: theme.emoji,
+        label: theme.text,
+        labelKey: theme.key,
+        selected: false,
+        value: theme.theme,
+      })),
+      label: this.state.label,
+      labelKey: this.state.labelKey,
+      maxSelectable: 1,
+      minSelectable: 1,
+      role: "group",
+      toggleLabelClassName: undefined,
+      wrapperTag: "div",
     });
   }
 }

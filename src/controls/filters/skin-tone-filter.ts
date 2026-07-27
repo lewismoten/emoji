@@ -43,6 +43,8 @@ export class SkinToneFilterControl extends ModifierFilterControl {
       ],
       legend: "Skin tone",
       legendKey: "skinTone",
+      maxSelectable: 1,
+      minSelectable: 0,
       ...state,
     });
   }

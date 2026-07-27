@@ -36,6 +36,8 @@ export class HairFilterControl extends ModifierFilterControl {
       ],
       legend: "Hair",
       legendKey: "hair",
+      maxSelectable: 1,
+      minSelectable: 0,
       ...state,
     });
   }
