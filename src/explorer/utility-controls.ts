@@ -1,3 +1,4 @@
+import { createFilterPickerDialogControl } from "./filter-picker-control.js";
 import {
   createLanguageDialogControl,
   createLanguagePickerControl,
@@ -156,6 +157,30 @@ export function ensureUtilityControls() {
   }
 
   const main = document.querySelector("main");
+  if (main && !document.querySelector(".group-filter-dialog")) {
+    main.append(
+      createFilterPickerDialogControl({
+        choicesClassName: "compact-group-choices",
+        dialogClassName: "group-filter-dialog",
+        id: "group-filter-dialog",
+        title: "Choose a group",
+        titleId: "group-filter-dialog-title",
+        titleKey: "chooseGroup",
+      }).dialog,
+    );
+  }
+  if (main && !document.querySelector(".subgroup-filter-dialog")) {
+    main.append(
+      createFilterPickerDialogControl({
+        choicesClassName: "compact-subgroup-choices",
+        dialogClassName: "subgroup-filter-dialog",
+        id: "subgroup-filter-dialog",
+        title: "Choose a sub-group",
+        titleId: "subgroup-filter-dialog-title",
+        titleKey: "chooseSubgroup",
+      }).dialog,
+    );
+  }
   if (main && !document.querySelector(".saved-dialog")) {
     main.insertAdjacentHTML("beforeend", savedDialogMarkup);
   }

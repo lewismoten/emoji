@@ -1,4 +1,5 @@
 import { titleCase } from "./category-rules.js";
+import { createCompactChoiceControl } from "./filter-picker-control.js";
 
 type ChoiceButtonLike = HTMLButtonElement & {
   dataset: DOMStringMap & { value?: string };
@@ -103,25 +104,13 @@ export function makeCompactChoice({
   selected,
   onSelect,
 }: ChoiceDefinition) {
-  const button = document.createElement("button");
-  button.type = "button";
-  button.className = "compact-choice";
-  button.dataset.value = value;
-  button.setAttribute("role", "radio");
-  button.setAttribute("aria-checked", String(selected));
-  button.tabIndex = selected ? 0 : -1;
-  button.setAttribute("aria-label", label);
-  button.title = label;
-  const icon = document.createElement("span");
-  icon.className = "compact-choice-emoji";
-  icon.setAttribute("aria-hidden", "true");
-  icon.textContent = emoji;
-  const text = document.createElement("span");
-  text.className = "compact-choice-label";
-  text.textContent = label;
-  button.replaceChildren(icon, text);
-  button.addEventListener("click", onSelect);
-  return button;
+  return createCompactChoiceControl({
+    emoji,
+    label,
+    onSelect,
+    selected,
+    value,
+  });
 }
 
 export function renderFilterPickerTrigger(
