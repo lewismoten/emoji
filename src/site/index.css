@@ -2051,6 +2051,10 @@ kbd {
   font-weight: 700;
   white-space: nowrap;
 }
+.install-app-icon {
+  font-family: var(--emoji-font);
+  line-height: var(--emoji-control-line-height, 1.2);
+}
 .install-app[hidden] {
   display: inline-flex;
   visibility: hidden;
