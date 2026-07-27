@@ -46,6 +46,7 @@ export default defineConfig({
           const pathname = new URL(request.url ?? "/", "http://localhost")
             .pathname;
           const method = request.method ?? "GET";
+          const isRootPage = pathname === "/" || pathname === "/index.html";
           if (pathname.startsWith("/pixel-font/build/font/")) {
             response.setHeader("Cache-Control", "no-store");
           }
@@ -119,9 +120,11 @@ export default defineConfig({
             return;
           }
 
-          const locale = pathname.match(localizedPagePattern)?.[1];
+          const locale = isRootPage
+            ? "en"
+            : pathname.match(localizedPagePattern)?.[1];
           if (
-            !locale ||
+            (!isRootPage && !locale) ||
             !locales.includes(locale) ||
             !["GET", "HEAD"].includes(method)
           ) {
@@ -132,13 +135,18 @@ export default defineConfig({
           try {
             const developmentPage = renderPage(
               locale,
-              `http://localhost${pathname}`,
+              isRootPage
+                ? "http://localhost/"
+                : `http://localhost${pathname}`,
+              isRootPage ? "en-US" : locale,
+              locale,
+              isRootPage ? "" : locale,
             ).replace(
               /<script defer src="\.\/index\.js\?v=[^"]+" type="module"><\/script>/,
               '<script defer src="./src/index.ts" type="module"></script>',
             );
             const html = await server.transformIndexHtml(
-              pathname,
+              isRootPage ? "/index.html" : pathname,
               developmentPage,
             );
             response.statusCode = 200;

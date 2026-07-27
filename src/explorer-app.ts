@@ -78,8 +78,14 @@ export function bindExplorerEvents(options: any) {
   bindModifierGroup(options.genderCheckboxes, options.onGenderChange);
   options.searchText.addEventListener("input", options.scheduleSearchDraw);
   options.languagePicker.addEventListener("click", () => {
-    if (options.helpDialog?.open)
+    if (options.helpDialog?.open) {
+      if (options.languageDialog) {
+        options.languageDialog.dataset.returnPanel = "help";
+      }
       options.closePanel(options.helpDialog, options.suppressedPanelCloses);
+    } else if (options.languageDialog) {
+      delete options.languageDialog.dataset.returnPanel;
+    }
     panel("language");
   });
   options.emojiFontChoices.forEach((choice: any) =>

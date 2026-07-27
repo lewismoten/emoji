@@ -114,6 +114,7 @@ type SetSearchLanguageOptions = {
   loadUiTranslations: (locale: string, rtl?: boolean) => Promise<void>;
   updateWebAppManifest: (locale?: string) => void;
   closeLanguageDialog: () => void;
+  restoreLanguageParentPanel?: () => void;
   saveExplorerPreference: (key: string, value: string) => void;
   refreshLocalizedLabels: () => void;
 };
@@ -138,6 +139,7 @@ export async function setSearchLanguage({
   loadUiTranslations,
   updateWebAppManifest,
   closeLanguageDialog,
+  restoreLanguageParentPanel,
   saveExplorerPreference,
   refreshLocalizedLabels,
 }: SetSearchLanguageOptions): Promise<SetSearchLanguageResult> {
@@ -150,6 +152,7 @@ export async function setSearchLanguage({
       "Language not loaded",
     );
     closeLanguageDialog();
+    restoreLanguageParentPanel?.();
     await loadUiTranslations("en");
     saveExplorerPreference("locale", "");
     refreshLocalizedLabels();
@@ -207,6 +210,7 @@ export async function setSearchLanguage({
     languagePickerFlag.textContent = languageFlags[locale.locale] ?? "🌐";
     languagePickerLabel.textContent = locale.nativeLabel;
     closeLanguageDialog();
+    restoreLanguageParentPanel?.();
     saveExplorerPreference("locale", locale.locale);
     refreshLocalizedLabels();
     return {

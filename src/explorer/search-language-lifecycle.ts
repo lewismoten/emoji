@@ -29,6 +29,7 @@ export function createSearchLanguageLifecycle(options: any) {
       loadUiTranslations: options.loadUiTranslations,
       updateWebAppManifest: options.updateWebAppManifest,
       closeLanguageDialog: options.closeLanguageDialog,
+      restoreLanguageParentPanel: options.restoreLanguageParentPanel,
       saveExplorerPreference: options.saveExplorerPreference,
       refreshLocalizedLabels: options.refreshLocalizedLabels,
     });
@@ -37,6 +38,7 @@ export function createSearchLanguageLifecycle(options: any) {
     options.setSearchAnnotations(result.searchAnnotations);
     options.setSearchLabels(result.searchLabels);
     options.setSearchSubgroupLabels(result.searchSubgroupLabels);
+    render();
   };
 
   const select = (event: MouseEvent, locale: string, href: string) =>

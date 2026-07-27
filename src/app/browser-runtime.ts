@@ -1,4 +1,5 @@
 import { createSearchLanguageLifecycle } from "../explorer/search-language-lifecycle.js";
+import { openPanelDialog } from "../explorer/pwa-panels.js";
 import {
   installPixelFontHotReload,
   refreshExplorerPixelFont,
@@ -87,6 +88,27 @@ export function initializeBrowserRuntime(options: any) {
         options.languageDialog(),
         options.suppressedPanelCloses(),
       ),
+    restoreLanguageParentPanel: () => {
+      const dialog = options.languageDialog();
+      const panel = dialog?.dataset?.returnPanel ?? "";
+      if (!panel) return;
+      delete dialog.dataset.returnPanel;
+      if (panel === "help") {
+        openPanelDialog({
+          panel: "help",
+          addHistory: false,
+          dialogs: {
+            help: dialog?.ownerDocument?.querySelector("#help-dialog") ?? null,
+            language: dialog,
+            favorites:
+              dialog?.ownerDocument?.querySelector("#saved-dialog") ?? null,
+          },
+          languageList: options.languageList(),
+          renderSavedEmoji: () => {},
+          syncUrlState: options.syncUrlState,
+        });
+      }
+    },
     currentLoadId: options.currentLoadId,
     languageFlags: options.languageFlags,
     languageList: options.languageList,
