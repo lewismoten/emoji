@@ -12,6 +12,10 @@ const generatedIcons = [
   "icon.svg",
   "icon-maskable.svg",
 ];
+const fallbackPngSources = [
+  path.join(root, "src", "site", "screenshot.png"),
+  path.join(root, "docs", "assets", "social-preview.png"),
+];
 
 const generateWithSips = (favicon, iconDirectory) => {
   const rasterTargets = [
@@ -64,6 +68,20 @@ export const generateSiteIcons = ({
       if (!fs.existsSync(target) && fs.existsSync(source)) {
         fs.copyFileSync(source, target);
       }
+    }
+  }
+
+  const fallbackPng = fallbackPngSources.find((file) => fs.existsSync(file));
+  if (fallbackPng) {
+    for (const file of ["icon-192.png", "icon-512.png", "icon-maskable-512.png"]) {
+      const target = path.join(outputDirectory, file);
+      if (!fs.existsSync(target)) fs.copyFileSync(fallbackPng, target);
+    }
+  }
+  for (const file of ["icon.svg", "icon-maskable.svg"]) {
+    const target = path.join(outputDirectory, file);
+    if (!fs.existsSync(target) && fs.existsSync(favicon)) {
+      fs.copyFileSync(favicon, target);
     }
   }
 

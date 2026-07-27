@@ -8,7 +8,6 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cacheFile = path.join(root, "cache", "test-bundle-state.json");
 const inputs = [
   "emoji.json",
-  "emoji.ts",
   "manifest.json",
   "package-lock.json",
   "package.json",

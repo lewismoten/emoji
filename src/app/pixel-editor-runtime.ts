@@ -11,8 +11,8 @@ export function createPixelEditorRuntime(options: any) {
     getEditor: () => options.getEditor(),
     getPromise: () => options.getPromise(),
     loadEditor: () =>
-      // @ts-expect-error -- Generated/browser entry lives outside the TS program for now.
-      import("../../pixel-editor.js"),
+      // @ts-expect-error -- Browser/editor entry is authored as plain JS.
+      import("../pixel-editor-entry.js"),
     loadStylesheet: () =>
       loadStylesheet("./explorer/pixel-editor.css", "pixel-editor-stylesheet"),
     setEditor: (editor: any) => options.setEditor(editor),
