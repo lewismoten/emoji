@@ -45,6 +45,15 @@ const pixelFontBuildContext = await fs.readFile(
   path.join(root, 'pixel-font/scripts/build-assets/context.mjs'),
   'utf8'
 );
+const pixelEditorRuntimeController = await fs.readFile(
+  path.join(root, 'src/pixel-editor/controllers/pixel-editor-runtime.js'),
+  'utf8'
+);
+const pixelEditorCanvasHelpers = await fs.readFile(
+  path.join(root, 'src/pixel-editor/pixel-editor-canvas-helpers.js'),
+  'utf8'
+);
+const pixelEditorFontRefreshSource = `${pixelEditorRuntimeController}\n${pixelEditorCanvasHelpers}`;
 
 assert.match(
   pixelFontCompiler,
@@ -280,9 +289,13 @@ assert.match(
   /export async function refreshExplorerPixelFont[\s\S]*build\/manifest\.json[\s\S]*options\.updateManifest\(await response\.json\(\), revision\)[\s\S]*querySelectorAll\('\[data-emoji-key\]'\)[\s\S]*options\.applyArtwork/,
   'rebuilt fonts must update existing Emoji Explorer result glyphs'
 );
-assert.match(
-  pixelEditorScript,
-  /IS_VITE_DEVELOPMENT[\s\S]*async refreshFontBuild[\s\S]*loadManifest\(true\)[\s\S]*bypassCache = refresh \|\| IS_VITE_DEVELOPMENT[\s\S]*releaseStatus === "proposed"[\s\S]*--pixel-emoji-proposed-family[\s\S]*--pixel-emoji-released-family/,
+assert.ok(
+  pixelEditorFontRefreshSource.includes('async function refreshFontBuild()') &&
+    pixelEditorFontRefreshSource.includes('loadManifest(true)') &&
+    pixelEditorFontRefreshSource.includes('const bypassCache = refresh || isViteDevelopment;') &&
+    pixelEditorFontRefreshSource.includes('currentEntry().releaseStatus === "proposed"') &&
+    pixelEditorFontRefreshSource.includes('--pixel-emoji-proposed-family') &&
+    pixelEditorFontRefreshSource.includes('--pixel-emoji-released-family'),
   'the open pixel editor must reload build metadata and use the rebuilt font family'
 );
 assert.match(

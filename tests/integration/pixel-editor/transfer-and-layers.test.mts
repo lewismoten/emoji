@@ -9,6 +9,16 @@ import {
   root
 } from '../../shared/unit-fixtures.mjs';
 
+const pixelEditorToolController = await fs.readFile(
+  path.join(root, 'src/pixel-editor/controllers/pixel-editor-tools.js'),
+  'utf8'
+);
+const pixelEditorStartupController = await fs.readFile(
+  path.join(root, 'src/pixel-editor/controllers/pixel-editor-startup.js'),
+  'utf8'
+);
+const pixelEditorTransferSource = `${pixelEditorScript}\n${pixelEditorToolController}\n${pixelEditorStartupController}`;
+
 for (const action of ['copyPixelArt', 'copyFontGlyph', 'pastePixelArt']) {
   assert.match(
     pixelEditorScript,
@@ -47,8 +57,8 @@ assert.match(
   'pixel editor must select and copy a rectangular subsection'
 );
 assert.match(
-  pixelEditorScript,
-  /function selectTool[\s\S]*nextTool !== "select"\) selection = undefined/,
+  pixelEditorTransferSource,
+  /function selectTool[\s\S]*nextTool !== "select"\) selection\(undefined\)|function selectTool[\s\S]*nextTool !== "select"\) selection = undefined/,
   'leaving the selection tool must clear its selection'
 );
 assert.match(
@@ -71,9 +81,13 @@ assert.match(
   /getTool\(\) === "select" && getArtworkClipboard\(\)\.kind !== "selection"|tool === "select" && artworkClipboard\.kind !== "selection"/,
   'selection mode must paste only a copied selection'
 );
-assert.match(
-  pixelEditorScript,
-  /document\.addEventListener\("keydown", onEditorKeyDown, true\)[\s\S]*function onEditorKeyDown[\s\S]*view\.hidden \|\| !dialog\.open[\s\S]*event\.ctrlKey \|\| event\.metaKey[\s\S]*copySelection\(\)[\s\S]*pastePixelArt\(\)/,
+assert.ok(
+  pixelEditorTransferSource.includes('documentTarget.addEventListener("keydown", onEditorKeyDown, true)') &&
+    pixelEditorTransferSource.includes('function onEditorKeyDown') &&
+    pixelEditorTransferSource.includes('view.hidden || !dialog.open') &&
+    pixelEditorTransferSource.includes('event.ctrlKey || event.metaKey') &&
+    pixelEditorTransferSource.includes('copySelection()') &&
+    pixelEditorTransferSource.includes('pastePixelArt()'),
   'selection copy and layer paste must support Ctrl/Cmd keyboard shortcuts throughout the editor'
 );
 assert.match(

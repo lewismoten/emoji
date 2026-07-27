@@ -11,6 +11,24 @@ import {
   root
 } from '../../shared/unit-fixtures.mjs';
 
+const pixelEditorToolController = await fs.readFile(
+  path.join(root, 'src/pixel-editor/controllers/pixel-editor-tools.js'),
+  'utf8'
+);
+const pixelEditorRuntimeController = await fs.readFile(
+  path.join(root, 'src/pixel-editor/controllers/pixel-editor-runtime.js'),
+  'utf8'
+);
+const pixelEditorStartupController = await fs.readFile(
+  path.join(root, 'src/pixel-editor/controllers/pixel-editor-startup.js'),
+  'utf8'
+);
+const pixelEditorSessionController = await fs.readFile(
+  path.join(root, 'src/pixel-editor/controllers/pixel-editor-session.js'),
+  'utf8'
+);
+const pixelEditorTracingSource = `${pixelEditorScript}\n${pixelEditorToolController}\n${pixelEditorRuntimeController}\n${pixelEditorStartupController}\n${pixelEditorSessionController}`;
+
 assert.doesNotMatch(
   pixelEditorScript,
   /class="pixel-editor-trace"/,
@@ -22,12 +40,12 @@ assert.doesNotMatch(
   'shape filling must not require a separate checkbox'
 );
 assert.match(
-  pixelEditorScript,
-  /nextTool === tool[\s\S]*nextTool === "rectangle" \|\| nextTool === "ellipse"[\s\S]*fillShapesEnabled = !fillShapesEnabled/,
+  pixelEditorTracingSource,
+  /nextTool === getTool\(\)|nextTool === tool[\s\S]*nextTool === "rectangle" \|\| nextTool === "ellipse"[\s\S]*setFillShapesEnabled\(!fillShapesEnabled\(\)\)|fillShapesEnabled = !fillShapesEnabled/,
   'clicking the selected rectangle or ellipse tool again must toggle shape filling'
 );
 assert.match(
-  pixelEditorScript,
+  pixelEditorTracingSource,
   /function updateShapeToolButtons[\s\S]*filled \? "⬛" : "🔲"[\s\S]*filled \? "🔴" : "⭕"/,
   'rectangle and ellipse icons must represent outline and filled modes'
 );
@@ -48,24 +66,25 @@ for (const direction of ['Left', 'Up', 'Down', 'Right']) {
     `pixel editor must provide an accessible ${direction.toLowerCase()} trace nudge`
   );
 }
-assert.match(
-  pixelEditorScript,
-  /traceOffsetX \+= Number\(button\.dataset\.traceX\)[\s\S]*traceOffsetY \+= Number\(button\.dataset\.traceY\)/,
+assert.ok(
+  pixelEditorTracingSource.includes('adjustTraceOffsets(') &&
+    pixelEditorTracingSource.includes('traceOffsetX += x;') &&
+    pixelEditorTracingSource.includes('traceOffsetY += y;'),
   'trace nudge controls must move the reference by one grid pixel per click'
 );
 assert.match(
-  pixelEditorScript,
-  /traceOffsetX = 0;[\s\S]*traceOffsetY = 0;[\s\S]*pixelEditorLoading/,
+  pixelEditorTracingSource,
+  /setTraceOffsets\(0, 0\)[\s\S]*pixelEditorLoading|traceOffsetX = 0;[\s\S]*traceOffsetY = 0;[\s\S]*pixelEditorLoading/,
   'trace position must reset when another emoji opens'
 );
 assert.match(
-  pixelEditorScript,
+  pixelEditorTracingSource,
   /formatPercent\(Number\(traceAlpha\.value\) \/ 100\)/,
   "trace opacity must use the active locale's percentage formatter"
 );
 assert.match(
-  pixelEditorScript,
-  /formatNumber\(currentEntry\.row \+ 1\)[\s\S]*formatNumber\(currentEntry\.column \+ 1\)/,
+  pixelEditorTracingSource,
+  /formatNumber\(entry\.row \+ 1\)|formatNumber\(currentEntry\.row \+ 1\)[\s\S]*formatNumber\(entry\.column \+ 1\)|formatNumber\(currentEntry\.column \+ 1\)/,
   'pixel atlas row and column numbers must use the active locale'
 );
 assert.match(

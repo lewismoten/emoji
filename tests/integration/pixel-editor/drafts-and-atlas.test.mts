@@ -1,6 +1,23 @@
 import assert from 'node:assert/strict';
 
 import { demoStyles, pixelEditorScript } from '../../shared/unit-fixtures.mjs';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { root } from '../../shared/unit-fixtures.mjs';
+
+const pixelEditorDraftController = await fs.readFile(
+  path.join(root, 'src/pixel-editor/pixel-editor-drafts.js'),
+  'utf8'
+);
+const pixelEditorSessionController = await fs.readFile(
+  path.join(root, 'src/pixel-editor/controllers/pixel-editor-session.js'),
+  'utf8'
+);
+const pixelEditorStartupController = await fs.readFile(
+  path.join(root, 'src/pixel-editor/controllers/pixel-editor-startup.js'),
+  'utf8'
+);
+const pixelEditorDraftSource = `${pixelEditorScript}\n${pixelEditorDraftController}\n${pixelEditorSessionController}\n${pixelEditorStartupController}`;
 
 for (const action of [
   'pixel-editor-save',
@@ -39,17 +56,17 @@ assert.match(
   'silhouette preview recoloring must ignore transparent pixels and preserve alpha'
 );
 assert.match(
-  pixelEditorScript,
+  pixelEditorDraftSource,
   /const persistedArtwork = new Map\(\)[\s\S]*const dirtyKeys = new Set\(\)[\s\S]*createPixelEditorDraftController[\s\S]*function updateDirtyState[\s\S]*pixelsEqual\(pixels\(\), baseline\)[\s\S]*dirtyIndicator\.hidden = !dirty/,
   'the editor must visibly track artwork that differs from its persisted atlas pixels'
 );
 assert.match(
-  pixelEditorScript,
-  /window\.addEventListener\("beforeunload", draftController\.warnAboutDirtyArtwork\)[\s\S]*function warnAboutDirtyArtwork[\s\S]*dirtyKeys\(\)\.size === 0[\s\S]*event\.returnValue/,
+  pixelEditorDraftSource,
+  /windowTarget\.addEventListener\([\s\S]*"beforeunload"[\s\S]*draftController\.warnAboutDirtyArtwork[\s\S]*function warnAboutDirtyArtwork[\s\S]*dirtyKeys\(\)\.size === 0[\s\S]*event\.returnValue/,
   'leaving the page must warn when any emoji artwork remains dirty'
 );
 assert.match(
-  pixelEditorScript,
+  pixelEditorDraftSource,
   /function markAtlasClean[\s\S]*persistedArtwork\(\)\.set[\s\S]*dirtyKeys\(\)\.delete/,
   'saving or downloading an atlas must clear its saved emoji drafts'
 );
@@ -64,7 +81,7 @@ assert.match(
   'floating layers must support keyboard movement and baking'
 );
 assert.match(
-  pixelEditorScript,
+  pixelEditorDraftSource,
   /selection: cloneSelection\(selection\(\)\)[\s\S]*floatingLayer: cloneFloatingLayer\(floatingLayer\(\)\)/,
   'selection and floating-layer drafts must survive emoji navigation'
 );
@@ -74,13 +91,13 @@ assert.match(
   'pixel editor must retain an in-memory artwork draft for each emoji'
 );
 assert.match(
-  pixelEditorScript,
-  /rememberCurrentDraft\(\);[\s\S]*currentEmoji = emoji/,
+  pixelEditorDraftSource,
+  /rememberCurrentDraft\(\);[\s\S]*setCurrentEmoji\(emoji\)|rememberCurrentDraft\(\);[\s\S]*currentEmoji = emoji/,
   'pixel editor must retain the current draft before navigating to another emoji'
 );
 assert.match(
-  pixelEditorScript,
-  /const draft = artworkDrafts\.get\(entry\.key\)[\s\S]*pixels = draft\?\.pixels\.slice\(\) \?\? loadedPixels[\s\S]*traceOffsetX = draft\?\.traceOffsetX \?\? 0[\s\S]*traceOffsetY = draft\?\.traceOffsetY \?\? 0/,
+  pixelEditorDraftSource,
+  /const draft = artworkDrafts\(\)\.get\(entry\.key\)|const draft = artworkDrafts\.get\(entry\.key\)[\s\S]*setPixels\(draft\?\.pixels\.slice\(\) \?\? loadedPixels\)|pixels = draft\?\.pixels\.slice\(\) \?\? loadedPixels[\s\S]*setTraceOffsets\(draft\?\.traceOffsetX \?\? 0, draft\?\.traceOffsetY \?\? 0\)|traceOffsetX = draft\?\.traceOffsetX \?\? 0[\s\S]*traceOffsetY = draft\?\.traceOffsetY \?\? 0/,
   'pixel editor must restore artwork and trace position when returning to an emoji'
 );
 assert.match(

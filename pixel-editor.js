@@ -8,23 +8,13 @@ import {
   recolorVisibleCanvasPixels,
 } from "./src/pixel-editor/pixel-editor-canvas-helpers.js";
 import {
-  bindPaletteGrid,
-  bindRovingGrid,
-  syncRovingGrid,
-} from "./src/pixel-editor/pixel-editor-grid-navigation.js";
-import {
   boundsFromPoints,
   clamp,
   cloneFloatingLayer,
   cloneSelection,
-  currentColorValue,
-  drawLineOnPixels,
-  drawShapeOnPixels,
   extractPixels,
-  floodFillPixels,
   hasVisiblePixels,
   layerPositionAllowed,
-  paintPixelInto,
   pixelOffset,
   pixelsEqual,
   trimVisiblePixels,
@@ -44,7 +34,6 @@ import {
   EGA_COLORS,
   IS_VITE_DEVELOPMENT,
   SKIN_TONE_COLORS,
-  TOOLS,
 } from "./src/pixel-editor/pixel-editor-constants.js";
 import {
   createBlankAtlas,
@@ -54,6 +43,10 @@ import {
 } from "./src/pixel-editor/pixel-editor-atlas-io.js";
 import { createPixelEditorAtlasController } from "./src/pixel-editor/controllers/pixel-editor-atlas.js";
 import { createPixelEditorModeController } from "./src/pixel-editor/controllers/pixel-editor-mode.js";
+import { createPixelEditorRuntimeController } from "./src/pixel-editor/controllers/pixel-editor-runtime.js";
+import { createPixelEditorSessionController } from "./src/pixel-editor/controllers/pixel-editor-session.js";
+import { initializePixelEditorUi } from "./src/pixel-editor/controllers/pixel-editor-startup.js";
+import { createPixelEditorToolController } from "./src/pixel-editor/controllers/pixel-editor-tools.js";
 import { createPixelEditorDraftController } from "./src/pixel-editor/pixel-editor-drafts.js";
 import { createPixelEditorPaletteController } from "./src/pixel-editor/pixel-editor-palette.js";
 import { createPixelEditorTransferController } from "./src/pixel-editor/controllers/pixel-editor-transfer.js";
@@ -169,7 +162,6 @@ export function createPixelEditor({
   let layerDragOrigin;
   let selectionDashOffset = 0;
   let directoryHandle;
-  let loadId = 0;
   const paletteController = createPixelEditorPaletteController({
     getPixels: () => pixels,
     getSelectedColor: () => selectedColor,
@@ -295,6 +287,26 @@ export function createPixelEditor({
     transferPanel,
     view,
   });
+  const toolController = createPixelEditorToolController({
+    fillShapesEnabled: () => fillShapesEnabled,
+    getPixels: () => pixels,
+    getSelectedColor: () => selectedColor,
+    getTool: () => tool,
+    hasFloatingLayer: () => floatingLayer,
+    renderController,
+    selection: (value) => {
+      selection = value;
+    },
+    setFillShapesEnabled: (value) => {
+      fillShapesEnabled = value;
+    },
+    setTool: (value) => {
+      tool = value;
+    },
+    toolButtons,
+    translate,
+  });
+  const loadManifest = (...args) => runtimeController.loadManifest(...args);
   const transferController = createPixelEditorTransferController({
     artworkDrafts: () => artworkDrafts,
     canvas,
@@ -333,6 +345,95 @@ export function createPixelEditor({
       status.textContent = value;
     },
   });
+  const runtimeController = createPixelEditorRuntimeController({
+    currentEntry: () => currentEntry,
+    draftController,
+    formatNumber,
+    formatPercent,
+    getManifestPromise: () => manifestPromise,
+    isViteDevelopment: IS_VITE_DEVELOPMENT,
+    paletteController,
+    previewController,
+    renderController,
+    setCurrentEntry: (value) => {
+      currentEntry = value;
+    },
+    setManifestPromise: (value) => {
+      manifestPromise = value;
+    },
+    traceAlpha,
+    traceOutput,
+    translate,
+    updateLocation: () => {
+      location.textContent = runtimeController.renderLocationText(currentEntry);
+    },
+    updateShapeToolButtons: toolController.updateShapeToolButtons,
+    updateTransferButtons: modeController.updateTransferButtons,
+  });
+  const sessionController = createPixelEditorSessionController({
+    artworkDrafts: () => artworkDrafts,
+    cellSize: CELL_SIZE,
+    cloneFloatingLayer,
+    cloneSelection,
+    createBlankAtlas,
+    currentEntry: () => currentEntry,
+    currentEmoji: () => currentEmoji,
+    draftController,
+    downloadButton,
+    extractCell,
+    getAtlasDimensions: () => ({ width: atlasWidth, height: atlasHeight }),
+    getAtlasState: () => ({ atlasBlob, atlasExists, cellLoaded }),
+    getPixels: () => pixels,
+    loadManifest: runtimeController.loadManifest,
+    paletteController,
+    persistedArtwork: () => persistedArtwork,
+    previewController,
+    refreshRuntimeFontBuild: runtimeController.refreshFontBuild,
+    refreshRuntimeTranslations: runtimeController.refreshTranslations,
+    renderController,
+    renderLocationText: runtimeController.renderLocationText,
+    saveButton,
+    setAtlasBlob: (value) => {
+      atlasBlob = value;
+    },
+    setAtlasDimensions: (width, height) => {
+      atlasWidth = width;
+      atlasHeight = height;
+    },
+    setAtlasExists: (value) => {
+      atlasExists = value;
+    },
+    setCellLoaded: (value) => {
+      cellLoaded = value;
+    },
+    setCurrentEmoji: (value) => {
+      currentEmoji = value;
+    },
+    setCurrentEntry: (value) => {
+      currentEntry = value;
+    },
+    setFloatingLayer: (value) => {
+      floatingLayer = value;
+    },
+    setLocationText: (value) => {
+      location.textContent = value;
+    },
+    setPixels: (value) => {
+      pixels = value;
+    },
+    setSelection: (value) => {
+      selection = value;
+    },
+    setStatusText: (value) => {
+      status.textContent = value;
+    },
+    setTraceOffsets: (x, y) => {
+      traceOffsetX = x;
+      traceOffsetY = y;
+    },
+    translate,
+    updateTransferButtons,
+  });
   const atlasController = createPixelEditorAtlasController({
     currentEntry: () => currentEntry,
     draftController,
@@ -370,16 +471,16 @@ export function createPixelEditor({
     copySelectionButton,
     dialog,
     draftController,
-    drawLine,
-    drawShape,
-    floodFill,
+    drawLine: toolController.drawLine,
+    drawShape: toolController.drawShape,
+    floodFill: toolController.floodFill,
     floatingLayer: () => floatingLayer,
     moveFloatingLayer: transferController.moveFloatingLayer,
     pasteArtButton,
     pastePixelArt: transferController.pastePixelArt,
     paletteController,
     pixels: () => pixels,
-    redo,
+    redo: runtimeController.redo,
     redoButton,
     releasePointerState: () => {
       pointerStart = undefined;
@@ -418,313 +519,54 @@ export function createPixelEditor({
     },
     toolState: () => tool,
     transformFloatingLayer: transferController.transformFloatingLayer,
-    undo,
+    undo: runtimeController.undo,
     undoButton,
     updateTransferButtons: modeController.updateTransferButtons,
     view,
   });
-  const {
-    onCanvasKeyDown,
-    onEditorKeyDown,
-    onPointerCancel,
-    onPointerDown,
-    onPointerMove,
-    onPointerUp,
-  } = inputController;
-
-  toolButtons.forEach((button) =>
-    button.addEventListener("click", () => selectTool(button.dataset.tool)),
-  );
-  traceAlpha.addEventListener("input", () => {
-    updateTraceOutput();
-    renderController.draw();
+  initializePixelEditorUi({
+    adjustTraceOffsets: (x, y) => {
+      traceOffsetX += x;
+      traceOffsetY += y;
+    },
+    atlasController,
+    bakeLayerButton,
+    cancelLayerButton,
+    canvas,
+    copyArtButton,
+    copyFontButton,
+    copySelectionButton,
+    draftController,
+    downloadButton,
+    downloadEmojiButton,
+    historyButtons,
+    inputController,
+    invertLayerButton,
+    layerNudgeButtons,
+    layerTransformButtons,
+    paletteButtons,
+    paletteController,
+    pasteArtButton,
+    previewActionButtons,
+    previewController,
+    redoButton,
+    renderController,
+    runtimeController,
+    saveButton,
+    toolButtons,
+    toolController,
+    traceAlpha,
+    traceNudgeButtons,
+    transferController,
+    undoButton,
   });
-  traceNudgeButtons.forEach((button) =>
-    button.addEventListener("click", () => {
-      traceOffsetX += Number(button.dataset.traceX);
-      traceOffsetY += Number(button.dataset.traceY);
-      previewController.renderTrace();
-      renderController.draw();
-    }),
-  );
-  paletteButtons.forEach((button) =>
-    button.addEventListener("click", () =>
-      paletteController.selectPaletteColor(button),
-    ),
-  );
-  undoButton.addEventListener("click", undo);
-  redoButton.addEventListener("click", redo);
-  copyArtButton.addEventListener("click", transferController.copyPixelArt);
-  copyFontButton.addEventListener("click", () =>
-    transferController.copyFontGlyph(copyFontButton),
-  );
-  copySelectionButton.addEventListener("click", transferController.copySelection);
-  pasteArtButton.addEventListener("click", transferController.pastePixelArt);
-  layerNudgeButtons.forEach((button) =>
-    button.addEventListener("click", () =>
-      transferController.moveFloatingLayer(
-        Number(button.dataset.layerX),
-        Number(button.dataset.layerY),
-      ),
-    ),
-  );
-  layerTransformButtons.forEach((button) =>
-    button.addEventListener("click", () =>
-      transferController.transformFloatingLayer(button.dataset.layerTransform),
-    ),
-  );
-  bakeLayerButton.addEventListener("click", transferController.bakeFloatingLayer);
-  cancelLayerButton.addEventListener(
-    "click",
-    transferController.cancelFloatingLayer,
-  );
-  invertLayerButton.addEventListener(
-    "click",
-    transferController.toggleFloatingLayerInversion,
-  );
-  saveButton.addEventListener("click", atlasController.saveAtlas);
-  downloadButton.addEventListener("click", atlasController.downloadAtlas);
-  downloadEmojiButton.addEventListener("click", atlasController.downloadEmojiPng);
-  canvas.addEventListener("pointerdown", onPointerDown);
-  canvas.addEventListener("pointermove", onPointerMove);
-  canvas.addEventListener("pointerup", onPointerUp);
-  canvas.addEventListener("pointercancel", onPointerCancel);
-  canvas.addEventListener("keydown", onCanvasKeyDown);
-  document.addEventListener("keydown", onEditorKeyDown, true);
-  window.addEventListener("beforeunload", draftController.warnAboutDirtyArtwork);
-  bindRovingGrid(toolButtons);
-  bindRovingGrid(historyButtons);
-  bindPaletteGrid(paletteButtons);
-  bindRovingGrid(traceNudgeButtons);
-  bindRovingGrid(layerNudgeButtons);
-  bindRovingGrid(previewActionButtons);
-  paletteController.updatePaletteSelection();
-  updateShapeToolButtons();
-  updateTraceOutput();
-  draftController.updatePreviewActionLabels();
-  renderController.draw();
 
   return {
     element: view,
-    async open(key, emoji) {
-      const requestedLoadId = ++loadId;
-      draftController.rememberCurrentDraft();
-      currentEmoji = emoji;
-      traceOffsetX = 0;
-      traceOffsetY = 0;
-      currentEntry = undefined;
-      selection = undefined;
-      floatingLayer = undefined;
-      atlasBlob = undefined;
-      atlasExists = false;
-      cellLoaded = false;
-      pixels.fill(0);
-      previewController.renderTrace();
-      draftController.resetHistory();
-      renderController.draw();
-      status.textContent = translate(
-        "pixelEditorLoading",
-        "Loading pixel cell…",
-      );
-      saveButton.disabled = true;
-      downloadButton.disabled = true;
-      try {
-        const manifest = await loadManifest();
-        if (requestedLoadId !== loadId) return;
-        if (manifest.cellSize !== CELL_SIZE) {
-          throw new Error(`Expected ${CELL_SIZE} by ${CELL_SIZE} pixel cells`);
-        }
-        const entry = manifest.glyphs[key];
-        currentEntry = entry;
-        paletteController.updateSkinTonePalette(entry?.codePoints);
-        updateTransferButtons();
-        if (!entry) {
-          location.textContent = "";
-          status.textContent = translate(
-            "pixelEditorUnavailable",
-            "This modified emoji is not part of the base atlas set.",
-          );
-          pixels.fill(0);
-          previewController.renderTrace();
-          renderController.draw();
-          return;
-        }
-        atlasWidth = entry.atlasWidth;
-        atlasHeight = entry.atlasHeight;
-        const atlasResponse = await fetch(
-          `pixel-font/atlases/${entry.atlas}`,
-        ).catch(() => undefined);
-        const hasPng =
-          atlasResponse?.ok &&
-          atlasResponse.headers.get("content-type")?.includes("image/png");
-        const loadedAtlasBlob = hasPng
-          ? await atlasResponse.blob()
-          : await createBlankAtlas(manifest, entry);
-        if (requestedLoadId !== loadId) return;
-        const loadedPixels = await extractCell(loadedAtlasBlob, entry);
-        if (requestedLoadId !== loadId) return;
-        atlasBlob = loadedAtlasBlob;
-        atlasExists = hasPng;
-        cellLoaded = true;
-        const draft = artworkDrafts.get(entry.key);
-        if (!persistedArtwork.has(entry.key))
-          persistedArtwork.set(entry.key, loadedPixels.slice());
-        pixels = draft?.pixels.slice() ?? loadedPixels;
-        selection = cloneSelection(draft?.selection);
-        floatingLayer = cloneFloatingLayer(draft?.floatingLayer);
-        traceOffsetX = draft?.traceOffsetX ?? 0;
-        traceOffsetY = draft?.traceOffsetY ?? 0;
-        draftController.resetHistory();
-        updateLocation();
-        status.textContent = "";
-        previewController.renderTrace();
-        renderController.draw();
-      } catch (error) {
-        if (requestedLoadId !== loadId) return;
-        console.warn("Pixel editor unavailable", error);
-        status.textContent = translate(
-          "pixelEditorLoadFailed",
-          "The pixel atlas could not be loaded.",
-        );
-      }
-    },
-    refreshTranslations() {
-      if (currentEntry) {
-        updateLocation();
-      }
-      updateTraceOutput();
-      updateShapeToolButtons();
-      draftController.updatePreviewActionLabels();
-      paletteController.updateSkinTonePalette(currentEntry?.codePoints);
-    },
-    async refreshFontBuild() {
-      try {
-        const currentKey = currentEntry?.key;
-        const manifest = await loadManifest(true);
-        if (currentKey) currentEntry = manifest.glyphs[currentKey];
-        previewController.drawFontPreview();
-        updateTransferButtons();
-      } catch (error) {
-        console.warn("Pixel font preview refresh unavailable", error);
-      }
-    },
+    open: sessionController.open,
+    refreshTranslations: sessionController.refreshTranslations,
+    refreshFontBuild: sessionController.refreshFontBuild,
   };
-
-  function loadManifest(refresh = false) {
-    if (refresh) manifestPromise = undefined;
-    const bypassCache = refresh || IS_VITE_DEVELOPMENT;
-    const suffix = bypassCache ? `?v=${Date.now()}` : "";
-    manifestPromise ??= fetch(
-      `pixel-font/build/editor-manifest.json${suffix}`,
-      bypassCache ? { cache: "no-store" } : undefined,
-    ).then((response) => {
-      if (!response.ok)
-        throw new Error("Pixel editor manifest is unavailable");
-      return response.json();
-    });
-    return manifestPromise;
-  }
-
-  function selectTool(nextTool) {
-    if (!TOOLS.includes(nextTool) || floatingLayer) return;
-    if (
-      nextTool === tool &&
-      (nextTool === "rectangle" || nextTool === "ellipse")
-    ) {
-      fillShapesEnabled = !fillShapesEnabled;
-      updateShapeToolButtons();
-      renderController.draw();
-      return;
-    }
-    if (nextTool !== "select") selection = undefined;
-    tool = nextTool;
-    toolButtons.forEach((button) => {
-      const selected = button.dataset.tool === tool;
-      button.setAttribute("aria-pressed", String(selected));
-      button.classList.toggle("is-active", selected);
-    });
-    syncRovingGrid(
-      toolButtons,
-      toolButtons.find((button) => button.dataset.tool === tool),
-    );
-    updateShapeToolButtons();
-    renderController.draw();
-  }
-
-  function updateShapeToolButtons() {
-    for (const shape of ["rectangle", "ellipse"]) {
-      const button = toolButtons.find(
-        (candidate) => candidate.dataset.tool === shape,
-      );
-      const filled = fillShapesEnabled;
-      button.querySelector("[aria-hidden]").textContent =
-        shape === "rectangle" ? (filled ? "⬛" : "🔲") : filled ? "🔴" : "⭕";
-      const key =
-        shape === "rectangle"
-          ? filled
-            ? "filledRectangle"
-            : "outlineRectangle"
-          : filled
-            ? "filledEllipse"
-            : "outlineEllipse";
-      const fallback =
-        shape === "rectangle"
-          ? filled
-            ? "Filled rectangle"
-            : "Outline rectangle"
-          : filled
-            ? "Filled ellipse"
-            : "Outline ellipse";
-      const label = translate(key, fallback);
-      button.setAttribute("aria-label", label);
-      button.title = label;
-    }
-  }
-
-  function updateTraceOutput() {
-    traceOutput.value = formatPercent(Number(traceAlpha.value) / 100);
-  }
-
-  function updateLocation() {
-    location.textContent = `${currentEntry.atlas} · ${translate("row", "row")} ${formatNumber(currentEntry.row + 1)} · ${translate("column", "column")} ${formatNumber(currentEntry.column + 1)}`;
-  }
-
-  function currentColor() {
-    return currentColorValue(selectedColor);
-  }
-
-  function paintPixel(point, color = currentColor()) {
-    paintPixelInto(pixels, point, color);
-  }
-
-  function drawLine(start, end) {
-    drawLineOnPixels(pixels, start, end, currentColor());
-  }
-
-  function drawShape(start, end, shape) {
-    drawShapeOnPixels(
-      pixels,
-      start,
-      end,
-      shape,
-      currentColor(),
-      fillShapesEnabled,
-    );
-  }
-
-  function floodFill(start) {
-    floodFillPixels(pixels, start, currentColor());
-  }
-
-  function undo() {
-    draftController.undo();
-    renderController.draw();
-  }
-
-  function redo() {
-    draftController.redo();
-    renderController.draw();
-  }
 
   function updateTransferButtons() {
     modeController.updateTransferButtons();
