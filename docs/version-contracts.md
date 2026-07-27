@@ -9,7 +9,7 @@ The package tests verify:
 
 - every key listed in each released `versions/*.json` file still exists
 - every key still exports from `@lewismoten/emoji/all`
-- every exported emoji still matches `emoji.json`
+- every exported emoji still matches the released emoji dataset
 - every key’s `codePoints` string still matches the checked-in contract
 - the full released emoji catalog still matches the checked-in contract
 
@@ -42,12 +42,14 @@ npm run versions:snapshot
 
 This command rebuilds the snapshot from:
 
-- `emoji.json`
+- `src/emoji-source/codepoints.json`
+- `src/emoji-source/catalog.json`
+- `src/emoji-source/lookups.json`
 - `versions/manifest.json`
 - each released `versions/*.json` file
 
 It will also throw if a version file references a key that does not exist in
-`emoji.json`.
+the released emoji dataset.
 
 ## Typical workflow
 

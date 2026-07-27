@@ -61,7 +61,8 @@ managed by the hosting provider and are intentionally outside this script.
 
 - `npm run clean` removes generated `build` and `dist` directories.
 - `npm run generate` creates popular, complete, category, subgroup, and
-  variation source packs from `emoji.json` and `popular.json`.
+  variation source packs from `src/emoji-source/` and `popular.json`, plus the
+  generated package manifest at `dist/manifest.json`.
 - `npm run build` regenerates the library and compiles TypeScript.
 - `npm run bundle` produces the publishable JavaScript and TypeScript files.
 - `npm test` builds the package and verifies Unicode releases, public package

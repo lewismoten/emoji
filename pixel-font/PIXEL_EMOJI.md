@@ -177,10 +177,10 @@ accessibility, and clipboard operations.
 Draft names, sequences, code points, and release plans may change. Proposed
 artwork should therefore be considered experimental. After refreshing draft
 data with `npm run unicode:proposed`, rerun `npm run pixel-font:generate`.
-When Unicode releases that version and `emoji.json` is updated, regeneration
-creates released assignments for its final entries. Copy the approved artwork
-into those released cells and rebuild; proposed pixels are not silently
-promoted because the final sequence or meaning may have changed.
+When Unicode releases that version and `src/emoji-source/` is updated,
+regeneration creates released assignments for its final entries. Copy the
+approved artwork into those released cells and rebuild; proposed pixels are not
+silently promoted because the final sequence or meaning may have changed.
 
 ```sh
 npm run unicode:proposed
