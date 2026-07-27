@@ -20,7 +20,7 @@ const legacyLineBudgets: Record<string, number> = {
   "src/explorer/dialog-render.ts": 306,
   "src/explorer/filter-controls.ts": 313,
   "src/explorer/filter-picker.ts": 292,
-  "src/explorer/utility-controls.ts": 179,
+  "src/explorer/utility-controls.ts": 181,
   "src/explorer-audio.ts": 388,
   "src/pixel-editor/controllers/pixel-editor-transfer.js": 342,
   "src/pixel-editor/pixel-editor-controllers.js": 474,
@@ -32,7 +32,7 @@ const legacyFileCountBudgets: Record<string, number> = {
   ".": 11,
   src: 14,
   "src/app": 29,
-  "src/explorer": 52,
+  "src/explorer": 54,
   "src/pixel-editor": 12,
 };
 const legacyDirectoryCountBudgets: Record<string, number> = {

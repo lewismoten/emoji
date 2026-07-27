@@ -3,14 +3,16 @@ import {
   updateAvailableCategories as updateAvailableCategoriesHelper,
 } from "./category-version.js";
 import {
-  closeFilterPicker,
   focusCompactChoice,
   makeCompactChoice,
   populateGroupFilter,
   populateSequenceTypeFilter,
   populateSubGroupFilter,
-  renderFilterPickerTrigger,
 } from "./filter-picker.js";
+import {
+  renderGroupPickerGrid,
+  renderSubGroupPickerGrid,
+} from "./category-picker-grid-control.js";
 
 export function createCategoryFilterRenderer(options: any) {
   const availableSubGroupParents = () =>
@@ -76,120 +78,41 @@ export function createCategoryFilterRenderer(options: any) {
     });
 
   const renderCompactGroupChoices = () => {
-    const container = options.compactGroupChoices();
-    if (!container) return;
-    const selectedGroup = options.selectedGroup();
-    options.compactGroupLabel() &&
-      (options.compactGroupLabel().textContent = selectedGroup
-        ? options.displayGroupName(selectedGroup)
-        : options.translate("all", "All"));
-    const choices = [
-      { name: "", emoji: "🌐", label: options.translate("all", "All") },
-      ...options.availableGroups().map((name: string) => ({
-        name,
-        emoji: options.getGroupRepresentativeEmoji(name),
-        label: options.displayGroupName(name),
-      })),
-    ];
-    const selectedLabel = selectedGroup
-      ? options.displayGroupName(selectedGroup)
-      : options.translate("all", "All");
-    renderFilterPickerTrigger(
-      options.groupPickerTrigger(),
-      options.translate("group", "Group"),
-      selectedGroup ? options.getGroupRepresentativeEmoji(selectedGroup) : "🌐",
-      selectedLabel,
-    );
-    container.replaceChildren(
-      ...choices.map(({ name, emoji, label }) =>
-        makeCompactChoice({
-          value: name,
-          emoji,
-          label,
-          selected: selectedGroup === name,
-          onSelect() {
-            options.setSelectedGroup(name);
-            options.setSelectedSubGroup("");
-            renderCategoryFilters();
-            options.drawList();
-            closeFilterPicker(
-              options.groupFilterDialog(),
-              options.groupPickerTrigger(),
-            );
-          },
-        }),
-      ),
-    );
+    renderGroupPickerGrid({
+      availableGroups: options.availableGroups(),
+      compactGroupChoices: options.compactGroupChoices(),
+      compactGroupLabel: options.compactGroupLabel(),
+      displayGroupName: options.displayGroupName,
+      drawList: options.drawList,
+      getGroupRepresentativeEmoji: options.getGroupRepresentativeEmoji,
+      groupFilterDialog: options.groupFilterDialog(),
+      groupPickerTrigger: options.groupPickerTrigger(),
+      rerender: renderCategoryFilters,
+      selectedGroup: options.selectedGroup(),
+      setSelectedGroup: options.setSelectedGroup,
+      setSelectedSubGroup: options.setSelectedSubGroup,
+      translate: options.translate,
+    });
   };
 
   const renderCompactSubGroupChoices = () => {
-    const container = options.compactSubGroupChoices();
-    if (!container) return;
-    const selectedSubGroup = options.selectedSubGroup();
-    const separatorIndex = selectedSubGroup.indexOf("::");
-    const selectedName =
-      separatorIndex === -1 ? "" : selectedSubGroup.slice(separatorIndex + 2);
-    if (options.compactSubGroupLabel()) {
-      options.compactSubGroupLabel().textContent = selectedName
-        ? options.displayUnicodeSubGroupName(selectedName)
-        : options.translate("all", "All");
-    }
-    const choices = availableSubGroupParents().flatMap((group: string) =>
-      options
-        .availableSubGroups()
-        [group].map((name: string) => ({ group, name })),
-    );
-    renderFilterPickerTrigger(
-      options.subGroupPickerTrigger(),
-      options.translate("subgroup", "Sub-group"),
-      selectedName
-        ? options.getSubGroupRepresentativeEmoji(
-            options.selectedGroup(),
-            selectedName,
-          )
-        : "🌐",
-      selectedName
-        ? options.displayUnicodeSubGroupName(selectedName)
-        : options.translate("all", "All"),
-    );
-    const allChoice = makeCompactChoice({
-      value: "",
-      emoji: "🌐",
-      label: options.translate("all", "All"),
-      selected: selectedSubGroup === "",
-      onSelect() {
-        options.setSelectedSubGroup("");
-        renderCategoryFilters();
-        options.drawList();
-        closeFilterPicker(
-          options.subGroupFilterDialog(),
-          options.subGroupPickerTrigger(),
-        );
-      },
+    renderSubGroupPickerGrid({
+      availableSubGroupParents: availableSubGroupParents(),
+      availableSubGroups: options.availableSubGroups(),
+      compactSubGroupChoices: options.compactSubGroupChoices(),
+      compactSubGroupLabel: options.compactSubGroupLabel(),
+      displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
+      drawList: options.drawList,
+      getSubGroupRepresentativeEmoji: options.getSubGroupRepresentativeEmoji,
+      rerender: renderCategoryFilters,
+      selectedGroup: options.selectedGroup(),
+      selectedSubGroup: options.selectedSubGroup(),
+      setSelectedSubGroup: options.setSelectedSubGroup,
+      subGroupFilterDialog: options.subGroupFilterDialog(),
+      subGroupPickerTrigger: options.subGroupPickerTrigger(),
+      subGroupSelectionKey: options.subGroupSelectionKey,
+      translate: options.translate,
     });
-    container.replaceChildren(
-      allChoice,
-      ...choices.map(({ group, name }: any) =>
-        makeCompactChoice({
-          value: options.subGroupSelectionKey(group, name),
-          emoji: options.getSubGroupRepresentativeEmoji(group, name),
-          label: options.displayUnicodeSubGroupName(name),
-          selected:
-            selectedSubGroup === options.subGroupSelectionKey(group, name),
-          onSelect() {
-            options.setSelectedSubGroup(
-              options.subGroupSelectionKey(group, name),
-            );
-            renderCategoryFilters();
-            options.drawList();
-            closeFilterPicker(
-              options.subGroupFilterDialog(),
-              options.subGroupPickerTrigger(),
-            );
-          },
-        }),
-      ),
-    );
   };
 
   const renderCompactSequenceChoices = () => {

@@ -8,6 +8,7 @@ import {
   positionFavoriteButton as positionFavoriteButtonHelper,
 } from "./dialog-title-controls.js";
 import { createHelpDialogControl } from "./help-settings-control.js";
+import { ensureAdvancedFilterControls } from "./advanced-filter-dialog-control.js";
 import {
   createHelpPickerControl,
   createSavedPickerControl,
@@ -94,6 +95,7 @@ export function ensureUtilityControls() {
     searchControls.append(createHelpPickerControl() as unknown as MinimalElement);
   }
   ensurePickerControls();
+  ensureAdvancedFilterControls();
 
   const dialogTitle = document.querySelector(
     ".example-dialog .dialog-heading > div:first-child",
