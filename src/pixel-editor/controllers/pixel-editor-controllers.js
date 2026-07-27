@@ -17,12 +17,12 @@ import {
   DISPLAY_SIZE,
   IS_VITE_DEVELOPMENT,
 } from "../core/pixel-editor-constants.js";
-import { createPixelEditorAtlasController } from "./controllers/pixel-editor-atlas.js";
-import { createPixelEditorModeController } from "./controllers/pixel-editor-mode.js";
-import { createPixelEditorRuntimeController } from "./controllers/pixel-editor-runtime.js";
-import { createPixelEditorSessionController } from "./controllers/pixel-editor-session.js";
-import { initializePixelEditorUi } from "./controllers/pixel-editor-startup.js";
-import { createPixelEditorToolController } from "./controllers/pixel-editor-tools.js";
+import { createPixelEditorAtlasController } from "./pixel-editor-atlas.js";
+import { createPixelEditorModeController } from "./pixel-editor-mode.js";
+import { createPixelEditorRuntimeController } from "./pixel-editor-runtime.js";
+import { createPixelEditorSessionController } from "./pixel-editor-session.js";
+import { initializePixelEditorUi } from "./pixel-editor-startup.js";
+import { createPixelEditorToolController } from "./pixel-editor-tools.js";
 import { createPixelEditorDraftController } from "../data/pixel-editor-drafts.js";
 import {
   boundsFromPoints,
@@ -41,7 +41,7 @@ import {
   nearestPaletteColor,
 } from "../layers/pixel-editor-layer-helpers.js";
 import { createPixelEditorPaletteController } from "../palette/pixel-editor-palette.js";
-import { createPixelEditorTransferController } from "./controllers/pixel-editor-transfer.js";
+import { createPixelEditorTransferController } from "./pixel-editor-transfer.js";
 
 export function createPixelEditorControllers({
   dialog,

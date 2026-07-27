@@ -13,4 +13,8 @@
 /pixel-font/font-build.revision
 /pixel-font/.venv/
 /pixel-font/scripts/__pycache__/
+/src/controls/**/*.js
+/src/controls/**/*.js.map
+/src/explorer/**/*.js
+/src/explorer/**/*.js.map
 .DS_Store

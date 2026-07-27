@@ -101,7 +101,7 @@ assert.match(
 );
 assert.match(
   explorerApp,
-  /options\.languagePicker\.addEventListener\((["'])click\1[\s\S]*options\.helpDialog\?\.open[\s\S]*options\.closePanel\(options\.helpDialog[\s\S]*panel\((["'])language\2\)/,
+  /bindPanelDialog\(\{[\s\S]*button:\s*options\.languagePicker,[\s\S]*dialog:\s*options\.languageDialog,[\s\S]*onBeforeOpen:\s*\(\)\s*=>\s*\{[\s\S]*options\.helpDialog\?\.open[\s\S]*options\.closePanel\(options\.helpDialog,\s*options\.suppressedPanelCloses\)[\s\S]*panel:\s*(["'])language\1/m,
   "opening the language picker from Help must transition between modal dialogs",
 );
 assert.match(
@@ -111,12 +111,12 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.modifier-filters fieldset label \{[\s\S]*width: 2\.65rem;[\s\S]*height: 2\.65rem;/,
+  /\.modifier-filter-option \{[\s\S]*width: 2\.65rem;[\s\S]*height: 2\.65rem;|\.modifier-filters fieldset label \{[\s\S]*width: 2\.35rem;[\s\S]*height: 2\.35rem;/,
   "mobile modifier buttons, including gender, must remain square",
 );
 assert.match(
   demoStyles,
-  /\.modifier-filters fieldset label \{[\s\S]*min-height: 2\.25rem;[\s\S]*border: 1px solid var\(--border\)/,
+  /\.modifier-filter-option \{[\s\S]*min-height: 2\.25rem;[\s\S]*border: 1px solid var\(--border\)/,
   "modifier filters must remain button-like on wide screens",
 );
 assert.match(

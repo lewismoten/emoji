@@ -29,7 +29,7 @@ export const emojiFilterHelper = await fs.readFile(
   "utf8",
 );
 export const dialogUpgradeHelper = await fs.readFile(
-  path.join(root, "src/explorer/dialog-upgrade.ts"),
+  path.join(root, "src/explorer/dialog/dialog-upgrade.ts"),
   "utf8",
 );
 export const catalogLoader = await fs.readFile(
@@ -49,7 +49,7 @@ export const explorerDataController = await fs.readFile(
   "utf8",
 );
 export const searchLanguageLifecycle = await fs.readFile(
-  path.join(root, "src/explorer/search-language-lifecycle.ts"),
+  path.join(root, "src/explorer/language/search-language-lifecycle.ts"),
   "utf8",
 );
 export const explorerUi = await fs.readFile(
@@ -73,7 +73,7 @@ export const explorerBootstrapShellSource = await fs.readFile(
   "utf8",
 );
 export const emojiDialogEvents = await fs.readFile(
-  path.join(root, "src/explorer/emoji-dialog-events.ts"),
+  path.join(root, "src/explorer/dialog/emoji-dialog-events.ts"),
   "utf8",
 );
 export const savedEmojiHelper = await fs.readFile(
@@ -110,11 +110,11 @@ export const filterControlsHelper = await fs.readFile(
   "utf8",
 );
 export const dialogRenderHelper = await fs.readFile(
-  path.join(root, "src/explorer/dialog-render.ts"),
+  path.join(root, "src/explorer/dialog/dialog-render.ts"),
   "utf8",
 );
 export const dialogViewHelper = await fs.readFile(
-  path.join(root, "src/explorer/dialog-view.ts"),
+  path.join(root, "src/explorer/dialog/dialog-view.ts"),
   "utf8",
 );
 export const pwaPanelsHelper = await fs.readFile(

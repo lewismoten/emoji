@@ -22,6 +22,8 @@ const inputs = [
   "versions",
 ];
 const outputs = [
+  "build/demo-pages/index.ar.html",
+  "build/demo-pages/service-worker.js",
   "build/tests/integration/package-core.test.mjs",
   "build/library",
   "build/rollup.config.js",
@@ -38,11 +40,37 @@ if (await hasCurrentBundle(fingerprint)) {
   );
 } else {
   const npm = process.platform === "win32" ? "npm.cmd" : "npm";
-  const result = spawnSync(npm, ["run", "bundle"], {
+  const bundleResult = spawnSync(npm, ["run", "bundle"], {
     cwd: root,
     stdio: "inherit",
   });
-  if (result.status !== 0) process.exit(result.status ?? 1);
+  if (bundleResult.status !== 0) process.exit(bundleResult.status ?? 1);
+  const tsc = process.platform === "win32" ? "npx.cmd" : "npx";
+  const testCompileResult = spawnSync(
+    tsc,
+    ["tsc", "-p", "tests/tsconfig.json"],
+    {
+      cwd: root,
+      stdio: "inherit",
+    },
+  );
+  if (testCompileResult.status !== 0)
+    process.exit(testCompileResult.status ?? 1);
+  const demoResult = spawnSync(npm, ["run", "demo:locales", "--", "build/demo-pages"], {
+    cwd: root,
+    stdio: "inherit",
+  });
+  if (demoResult.status !== 0) process.exit(demoResult.status ?? 1);
+  const serviceWorkerResult = spawnSync(
+    npm,
+    ["run", "demo:pwa", "--", "build/demo-pages/service-worker.js"],
+    {
+      cwd: root,
+      stdio: "inherit",
+    },
+  );
+  if (serviceWorkerResult.status !== 0)
+    process.exit(serviceWorkerResult.status ?? 1);
   await fs.mkdir(path.dirname(cacheFile), { recursive: true });
   await fs.writeFile(cacheFile, `${JSON.stringify({ fingerprint })}\n`);
 }

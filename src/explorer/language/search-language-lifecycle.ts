@@ -2,7 +2,7 @@ import {
   renderSearchLanguages,
   selectLanguageLink,
   setSearchLanguage as setSearchLanguageHelper,
-} from "./language-picker.js";
+} from "./search-language-picker.js";
 
 export function createSearchLanguageLifecycle(options: any) {
   const render = () =>

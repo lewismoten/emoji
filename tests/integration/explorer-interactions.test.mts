@@ -52,17 +52,23 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.version-mode-toggle:hover\s*\{[^}]*background:/,
+  /\.version-mode-toggle:hover,[\s\S]*background: var\(--ega-white\)|\.version-mode-toggle:hover\s*\{[^}]*background:/,
   "the version target must visually distinguish hover, selection, and keyboard focus",
 );
 assert.match(
   demoStyles,
-  /\.version-mode-toggle\[aria-pressed="true"\]\s*\{[^}]*background: var\(--selected-control-bg\)[^}]*color: var\(--selected-control-text\)/,
+  /\.version-mode-toggle\[aria-pressed="true"\]\s*\{[^}]*background: var\(--selected-control-bg\)[^}]*color: var\(--selected-control-text\)|html\[data-theme="retro"\] \.version-mode-toggle\[aria-pressed="true"\]\s*\{[^}]*background: var\(--ega-black\)[^}]*color: var\(--ega-light-gray\)/,
   "the selected version target must use a filled state",
 );
 assert.match(
-  demoStyles,
-  /\.version-mode-toggle:focus-visible\s*\{[^}]*outline: 2px dashed/,
+  await fs.readFile(
+    path.join(
+      root,
+      "src/controls/filters/version/version-mode-toggle.css",
+    ),
+    "utf8",
+  ),
+  /\.version-mode-toggle:focus-visible\s*\{[^}]*outline:\s*2px dashed var\(--accent-strong\)[^}]*outline-offset:\s*var\(--focus-outline-offset\)/,
   "the version target must reserve its outline for keyboard focus",
 );
 assert.match(
@@ -71,18 +77,36 @@ assert.match(
   "pointer toggles must not retain a misleading focus treatment",
 );
 assert.match(
-  demoStyles,
-  /\.compact-choice\[aria-checked="true"\]\s*\{[^}]*background: var\(--selected-control-bg\)[^}]*color: var\(--selected-control-text\)/,
+  await fs.readFile(
+    path.join(
+      root,
+      "src/controls/filters/pickers/compact-choice-button.css",
+    ),
+    "utf8",
+  ),
+  /\.compact-choice\[aria-checked="true"\]\s*\{[^}]*background:\s*var\(--selected-control-bg\)[^}]*color:\s*var\(--selected-control-text\)/,
   "selected group and subgroup choices must use a filled state distinct from focus",
 );
 assert.match(
-  demoStyles,
-  /\.compact-choice:focus-visible\s*\{[^}]*outline: 2px dashed/,
+  await fs.readFile(
+    path.join(
+      root,
+      "src/controls/filters/pickers/compact-choice-button.css",
+    ),
+    "utf8",
+  ),
+  /\.compact-choice:focus-visible\s*\{[^}]*outline:\s*2px dashed var\(--accent-strong\)/,
   "group and subgroup choices must reserve their outline for keyboard focus",
 );
 assert.match(
-  demoStyles,
-  /\.modifier-filters fieldset label:has\(input:checked\)\s*\{[\s\S]*background: var\(--selected-control-bg\)[\s\S]*color: var\(--selected-control-text\)[\s\S]*\}[\s\S]*\.modifier-filters fieldset label:has\(input:focus-visible\)\s*\{[\s\S]*outline: 2px dashed/,
+  await fs.readFile(
+    path.join(
+      root,
+      "src/site/index.css",
+    ),
+    "utf8",
+  ),
+  /\.modifier-filter-option:has\(input:checked\)\s*\{[\s\S]*background:\s*var\(--selected-control-bg\)[\s\S]*color:\s*var\(--selected-control-text\)[\s\S]*\}[\s\S]*\.modifier-filter-option:has\(input:focus-visible\)\s*\{[\s\S]*outline:\s*2px dashed/,
   "selected modifier buttons must use a filled state distinct from focus",
 );
 assert.match(

@@ -211,7 +211,10 @@ assert.match(
   "condensed composition counts must use localized direction",
 );
 assert.match(
-  await fs.readFile(path.join(root, "src/explorer/emoji-session.ts"), "utf8"),
+  await fs.readFile(
+    path.join(root, "src/explorer/dialog/emoji-session.ts"),
+    "utf8",
+  ),
   /startsWith\((["'])ar\1\)[\s\S]*\?\s*(["'])arab\2\s*:\s*undefined/,
   "Arabic UI numbers must use Arabic-Indic digits",
 );
