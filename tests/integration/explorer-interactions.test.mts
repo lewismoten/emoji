@@ -107,12 +107,12 @@ assert.match(
 );
 assert.match(
   emojiDialogEvents,
-  /if \(button\.matches\('\.emoji-preview'\)\) options\.animateCopy\(button\)/,
+  /if\s*\(button\.matches\((["'])\.emoji-preview\1\)\)\s*options\.animateCopy\(button\)/,
   "successful emoji copies must animate the preview button",
 );
 assert.match(
   await fs.readFile(path.join(root, "src/explorer/copy-feedback.ts"), "utf8"),
-  /prefers-reduced-motion: reduce[\s\S]*emoji-copy-confirmation[\s\S]*transform: 'scale\(0\.9\)'[\s\S]*transform: 'scale\(1\.05\)'/,
+  /prefers-reduced-motion: reduce[\s\S]*emoji-copy-confirmation[\s\S]*transform:\s*(["'])scale\(0\.9\)\1[\s\S]*transform:\s*(["'])scale\(1\.05\)\2/,
   "successful emoji copies must provide motion-aware visual confirmation",
 );
 assert.match(
@@ -157,6 +157,6 @@ assert.match(
 );
 assert.match(
   emojiFormatHelper,
-  /replace\(\/\[\\p\{P\}\\p\{S\}\]\+\/gu, ' '\)/,
+  /replace\(\/\[\\p\{P\}\\p\{S\}\]\+\/gu,\s*(["'])\s\1\)/,
   "English-name comparisons must ignore punctuation and symbols",
 );

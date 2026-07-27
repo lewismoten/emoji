@@ -24,12 +24,12 @@ assert.match(
 );
 assert.match(
   explorerGeneratorScript,
-  /transpileExplorerModule\('src\/index\.ts', 'index\.js'\)/,
+  /transpileExplorerModule\((["'])src\/index\.ts\1,\s*(["'])index\.js\2\)/,
   "the deployment entry point must be generated from TypeScript",
 );
 assert.match(
   explorerGeneratorScript,
-  /readdirSync\('src\/explorer'\)[\s\S]*`explorer\/\$\{file\.replace\(\/\\\.ts\$\/, '\.js'\)\}`/,
+  /readdirSync\((["'])src\/explorer\1\)[\s\S]*`explorer\/\$\{file\.replace\(\/\\\.ts\$\/,\s*(["'])\.js\2\)\}`/,
   "the deployment build must generate imported Explorer modules",
 );
 assert.match(

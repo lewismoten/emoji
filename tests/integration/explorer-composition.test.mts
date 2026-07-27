@@ -43,7 +43,7 @@ assert.match(
 );
 assert.match(
   emojiCompositionHelper,
-  /createCompositionTerm\('\+', part\)/,
+  /createCompositionTerm\((["'])\+\1,\s*part\)/,
   "composition operators must wrap with their following component",
 );
 assert.doesNotMatch(
@@ -53,12 +53,12 @@ assert.doesNotMatch(
 );
 assert.match(
   compositionHelpers,
-  /translate\('tagAbbreviation', 'TAG'\)/,
+  /translate\((["'])tagAbbreviation\1,\s*(["'])TAG\2\)/,
   "tag characters must use compact localized labels",
 );
 assert.match(
   compositionHelpers,
-  /cancelTagAbbreviation[\s\S]*'END'/,
+  /cancelTagAbbreviation[\s\S]*(["'])END\1/,
   "tag endings must use compact localized labels",
 );
 assert.match(
@@ -91,7 +91,7 @@ assert.match(
 );
 assert.match(
   emojiDialogEvents,
-  /target\.closest\('\.emoji-parent'\)[\s\S]*window\.history\.back/,
+  /target\.closest\((["'])\.emoji-parent\1\)[\s\S]*window\.history\.back/,
   "parent navigation must use browser history",
 );
 assert.match(
@@ -106,7 +106,7 @@ assert.match(
 );
 assert.match(
   dialogViewHelper,
-  /querySelector\('\.emoji-preview'\)[\s\S]*focus\(\{ preventScroll: true \}\)/,
+  /querySelector\((["'])\.emoji-preview\1\)[\s\S]*focus\(\{ preventScroll: true \}\)/,
   "emoji details must initially focus the large copy button",
 );
 assert.match(
@@ -134,17 +134,17 @@ assert.match(
     path.join(root, "src/explorer/category-filter-layout.ts"),
     "utf8",
   ),
-  /if \(options\.groupField\) options\.groupField\.hidden = options\.sequenceMode;[\s\S]*if \(options\.sequenceField\) options\.sequenceField\.hidden = !options\.sequenceMode;/,
+  /if \(options\.groupField\)\s*options\.groupField\.hidden = options\.sequenceMode;[\s\S]*if \(options\.sequenceField\)\s*options\.sequenceField\.hidden = !options\.sequenceMode;/,
   "sequence browsing must replace group filters with sequence types",
 );
 assert.match(
   emojiFilterHelper,
-  /options\.orderMode === 'sequence' && options\.selectedSequenceType[\s\S]*sequenceType === options\.selectedSequenceType/,
+  /options\.orderMode === (["'])sequence\1 && options\.selectedSequenceType[\s\S]*sequenceType === options\.selectedSequenceType/,
   "sequence-type selections must filter the emoji list",
 );
 assert.match(
   urlStateHelper,
-  /params\.set\('sequenceType', options\.sequenceType\)/,
+  /params\.set\((["'])sequenceType\1,\s*options\.sequenceType\)/,
   "sequence-type filters must persist in the URL",
 );
 assert.match(
@@ -197,12 +197,12 @@ assert.match(
 );
 assert.match(
   urlStateHelper,
-  /params\.get\('composition'\) === 'full'/,
+  /params\.get\((["'])composition\1\) === (["'])full\2/,
   "composition mode must load from the URL",
 );
 assert.match(
   urlStateHelper,
-  /params\.set\('composition', 'full'\)/,
+  /params\.set\((["'])composition\1,\s*(["'])full\2\)/,
   "full composition mode must persist in the URL",
 );
 assert.match(
@@ -212,12 +212,12 @@ assert.match(
 );
 assert.match(
   await fs.readFile(path.join(root, "src/explorer/emoji-session.ts"), "utf8"),
-  /startsWith\('ar'\)[\s\S]*\? 'arab' : undefined/,
+  /startsWith\((["'])ar\1\)[\s\S]*\?\s*(["'])arab\2\s*:\s*undefined/,
   "Arabic UI numbers must use Arabic-Indic digits",
 );
 assert.match(
   emojiFormatHelper,
-  /options\.dir === 'rtl'[\s\S]*\? `\$\{toLabel\}\\u2190\$\{fromLabel\}`/,
+  /options\.dir === (["'])rtl\1[\s\S]*\? `\$\{toLabel\}\\u2190\$\{fromLabel\}`/,
   "RTL composition reductions must begin at the right and point left",
 );
 assert.match(

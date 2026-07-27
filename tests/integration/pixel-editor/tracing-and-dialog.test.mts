@@ -89,7 +89,7 @@ assert.match(
 );
 assert.match(
   await fs.readFile(path.join(root, "src/explorer/emoji-format.ts"), "utf8"),
-  /export function formatUiPercent[\s\S]*numberingSystem\?: string[\s\S]*style: 'percent'/,
+  /export function formatUiPercent[\s\S]*numberingSystem\?: string[\s\S]*style:\s*(["'])percent\1/,
   "Arabic percentages must use Arabic digits and percent formatting",
 );
 assert.match(
@@ -149,7 +149,7 @@ assert.match(
 );
 assert.match(
   dialogViewHelper,
-  /const modeBack = dialog\.querySelector\('\.dialog-mode-back'\)[\s\S]*modeBack\.hidden = showDetails/,
+  /const modeBack = dialog\.querySelector\([\s\S]*(["'])\.dialog-mode-back\1[\s\S]*\)[\s\S]*modeBack\.hidden = showDetails/,
   "the dialog Back action must appear outside the main details view",
 );
 assert.match(

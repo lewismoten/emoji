@@ -33,22 +33,22 @@ assert.match(
 );
 assert.match(
   await fs.readFile(path.join(root, "src/explorer/filter-controls.ts"), "utf8"),
-  /function ensureVersionSlider[\s\S]*classList\.add\('developer-only'\)/,
+  /function ensureVersionSlider[\s\S]*classList\.add\((["'])developer-only\1\)/,
   "cached version filters must also become developer-only",
 );
 assert.match(
   `${await fs.readFile(path.join(root, "src/app/explorer-preferences.ts"), "utf8")}\n${explorerUi}`,
-  /new URLSearchParams\(window\.location\.search\)\.get\('developer'\) === '1'[\s\S]*const enabled = \(\) =>[\s\S]*developerModeFromUrl && !options\.state\(\)\.developerModeUrlDismissed[\s\S]*explorerPreferences\.developerMode === true[\s\S]*function change[\s\S]*developerModeUrlDismissed = !active[\s\S]*developerModeFromUrl = false[\s\S]*savePreference\('developerMode'/,
+  /new URLSearchParams\(window\.location\.search\)\.get\((["'])developer\1\) === (["'])1\2[\s\S]*const enabled = \(\) =>[\s\S]*developerModeFromUrl[\s\S]*developerModeUrlDismissed[\s\S]*developerMode === true[\s\S]*function change[\s\S]*developerModeUrlDismissed = !active[\s\S]*developerModeFromUrl = false[\s\S]*savePreference\((["'])developerMode\3/,
   "Developer mode must support shared URL activation and persist explicit selection",
 );
 assert.match(
   urlStateHelper,
-  /if \(options\.developerMode\)[\s\S]*params\.set\('developer', '1'\)[\s\S]*if \(options\.emojiMode === 'editor'\) params\.set\('emojiMode', 'editor'\)/,
+  /if \(options\.developerMode\)[\s\S]*params\.set\((["'])developer\1,\s*(["'])1\2\)[\s\S]*if \(options\.emojiMode === (["'])editor\3\) params\.set\((["'])emojiMode\4,\s*(["'])editor\5\)/,
   "shared developer-only dialog URLs must preserve Developer mode",
 );
 assert.match(
   `${await fs.readFile(path.join(root, "src/app/explorer-bootstrap-session.ts"), "utf8")}\n${searchLanguageLifecycle}`,
-  /restoreDeveloperMode: \(\) => \{[\s\S]*developerModeFromUrl =[\s\S]*get\('developer'\) === '1'[\s\S]*renderDeveloperMode\(\)[\s\S]*const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.applyDialogUrlState\(\)/,
+  /restoreDeveloperMode: \(\) => \{[\s\S]*developerModeFromUrl =[\s\S]*get\((["'])developer\1\) === (["'])1\2[\s\S]*renderDeveloperMode\(\)[\s\S]*const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.applyDialogUrlState\(\)/,
   "browser navigation must restore Developer mode before applying dialog URL state",
 );
 assert.match(
@@ -63,7 +63,7 @@ assert.match(
 );
 assert.match(
   urlStateHelper,
-  /version:\s*options\.developerMode[\s\S]*versionMode:[\s\S]*options\.developerMode[\s\S]*if \(options\.developerMode\) \{[\s\S]*params\.set\('version'/,
+  /version:\s*options\.developerMode[\s\S]*versionMode:[\s\S]*options\.developerMode[\s\S]*if \(options\.developerMode\) \{[\s\S]*params\.set\((["'])version\1/,
   "version-specific URL state must remain visible through Developer mode",
 );
 assert.match(
@@ -118,7 +118,7 @@ assert.match(
 );
 assert.match(
   explorerUi,
-  /export function selectEmojiFont[\s\S]*dataset\.emojiFont[\s\S]*options\.savePreference\('pixelFont'/,
+  /export function selectEmojiFont[\s\S]*dataset\.emojiFont[\s\S]*options\.savePreference\((["'])pixelFont\1/,
   "the system and pixel previews must control the font preference",
 );
 assert.match(
@@ -156,7 +156,7 @@ assert.match(
 );
 assert.match(
   await fs.readFile(path.join(root, "src/explorer/url-state.ts"), "utf8"),
-  /emojiMode:\s*'details'\s*\|\s*'code'\s*\|\s*'editor'[\s\S]*params\.set\('emojiMode', 'editor'\)/,
+  /emojiMode:\s*(["'])details\1\s*\|\s*(["'])code\2\s*\|\s*(["'])editor\3[\s\S]*params\.set\((["'])emojiMode\4,\s*(["'])editor\5\)/,
   "pixel-editor mode must participate in URL state",
 );
 assert.match(

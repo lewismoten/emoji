@@ -31,7 +31,7 @@ assert.match(
 );
 assert.match(
   emojiListRenderHelper,
-  /versionDescription[\s\S]*setAttribute\('aria-label', `\$\{accessibleName\}\$\{versionDescription\}`\)/,
+  /versionDescription[\s\S]*setAttribute\([\s\S]*(["'])aria-label\1[\s\S]*`\$\{accessibleName\}\$\{versionDescription\}`[\s\S]*\)/,
   "emoji result labels must include their introduction version",
 );
 assert.doesNotMatch(
@@ -41,7 +41,7 @@ assert.doesNotMatch(
 );
 assert.match(
   await fs.readFile(path.join(root, "src/app/startup-orchestrator.ts"), "utf8"),
-  /\.emoji-code-points'\)\?\.closest\('div'\)\?\.remove/,
+  /\.emoji-code-points(["'])\)\?\.closest\((["'])div\2\)\?\.remove/,
   "cached code-point metadata rows must be removed",
 );
 assert.match(
@@ -71,7 +71,7 @@ assert.match(
 );
 assert.match(
   loadingState,
-  /function finishExplorerLoading[\s\S]*if \(options\.emojiList\.dataset\.rendering !== 'true'\) options\.revealExplorer\(\)[\s\S]*function revealExplorer[\s\S]*classList\.remove\('app-loading'\)[\s\S]*aria-busy[\s\S]*result-count'\)!\.hidden = false/,
+  /function finishExplorerLoading[\s\S]*if \(options\.emojiList\.dataset\.rendering !== (["'])true\1\) options\.revealExplorer\(\)[\s\S]*function revealExplorer[\s\S]*classList\.remove\((["'])app-loading\2\)[\s\S]*aria-busy[\s\S]*result-count(["'])\)!\.hidden = false/,
   "loading controls and below-list content must be revealed only after the first result tree is ready",
 );
 assert.match(
@@ -101,7 +101,7 @@ assert.match(
 );
 assert.match(
   `${explorerApp}\n${listController}`,
-  /options\.searchText\.addEventListener\('input', options\.scheduleSearchDraw\)[\s\S]*const schedule[\s\S]*window\.clearTimeout\(timer\)[\s\S]*window\.setTimeout\([\s\S]*draw\(\)[\s\S]*200\)/,
+  /options\.searchText\.addEventListener\((["'])input\1,\s*options\.scheduleSearchDraw\)[\s\S]*const schedule[\s\S]*window\.clearTimeout\(timer\)[\s\S]*window\.setTimeout\([\s\S]*draw\(\)[\s\S]*200\)/,
   "rapid search input must coalesce expensive emoji-list renders",
 );
 assert.match(

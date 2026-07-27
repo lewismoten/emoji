@@ -28,12 +28,12 @@ assert.match(
 );
 assert.match(
   viteConfig,
-  /ignored: \['\*\*\/pixel-font\/build\/\*\*'\][\s\S]*server\.watcher\.add\(pixelFontRevision\)[\s\S]*pixel-font:updated[\s\S]*Cache-Control', 'no-store'/,
+  /ignored:\s*\[(["'])\*\*\/pixel-font\/build\/\*\*\1\][\s\S]*server\.watcher\.add\(pixelFontRevision\)[\s\S]*pixel-font:updated[\s\S]*setHeader\((["'])Cache-Control\2,\s*(["'])no-store\3\)/,
   "Vite must refresh completed pixel fonts without reloading the page",
 );
 assert.doesNotMatch(
   viteConfig,
-  /type: 'full-reload'/,
+  /type:\s*(["'])full-reload\1/,
   "pixel-font builds must not discard in-memory editor permissions",
 );
 assert.match(
@@ -42,14 +42,16 @@ assert.match(
   "the pixel font must use a reloadable standalone stylesheet",
 );
 assert.ok(
-  pixelFontHotReload.includes("import.meta.hot.on") &&
-    pixelFontHotReload.includes("pixel-font/font-build.revision") &&
-    pixelFontHotReload.includes("refreshInFlight") &&
-    pixelFontHotReload.includes("document.hidden") &&
-    pixelFontHotReload.includes("window.setInterval(refresh, 5000)") &&
-    pixelFontHotReload.includes("function refreshPixelFontStylesheet") &&
-    pixelFontHotReload.includes("replacement.addEventListener('load'") &&
-    pixelFontHotReload.includes("async function runPixelFontJobs"),
+  /import\.meta\.hot\.on/.test(pixelFontHotReload) &&
+    /pixel-font\/font-build\.revision/.test(pixelFontHotReload) &&
+    /refreshInFlight/.test(pixelFontHotReload) &&
+    /document\.hidden/.test(pixelFontHotReload) &&
+    /window\.setInterval\(refresh,\s*5000\)/.test(pixelFontHotReload) &&
+    /function refreshPixelFontStylesheet/.test(pixelFontHotReload) &&
+    /replacement\.addEventListener\([\s\S]*(["'])load\1/.test(
+      pixelFontHotReload,
+    ) &&
+    /async function runPixelFontJobs/.test(pixelFontHotReload),
   "the demo must watch and hot-swap rebuilt pixel font assets without repainting everything in one tight polling loop",
 );
 assert.match(
@@ -59,12 +61,12 @@ assert.match(
 );
 assert.match(
   `${catalogLoader}\n${pixelFontHotReload}`,
-  /pixelFontManifestUrl = options\.isViteDevelopment[\s\S]*explorer-manifest\.json\?v=\$\{Date\.now\(\)\}[\s\S]*pixelFontRevision[\s\S]*explorer-manifest\.json\?v=\$\{pixelFontRevision\}[\s\S]*font-build\.revision[\s\S]*cache: 'no-store'/,
+  /pixelFontManifestUrl = options\.isViteDevelopment[\s\S]*explorer-manifest\.json\?v=\$\{Date\.now\(\)\}[\s\S]*pixelFontRevision[\s\S]*explorer-manifest\.json\?v=\$\{pixelFontRevision\}[\s\S]*font-build\.revision[\s\S]*cache:\s*(["'])no-store\1/,
   "pixel font metadata loads must bypass stale development and production cache data",
 );
 assert.match(
   pixelFontHotReload,
-  /export async function refreshExplorerPixelFont[\s\S]*build\/manifest\.json[\s\S]*options\.updateManifest\(await response\.json\(\), revision\)[\s\S]*querySelectorAll\('\[data-emoji-key\]'\)[\s\S]*options\.applyArtwork/,
+  /export async function refreshExplorerPixelFont[\s\S]*build\/manifest\.json[\s\S]*options\.updateManifest\(await response\.json\(\), revision\)[\s\S]*querySelectorAll\((["'])\[data-emoji-key\]\1\)[\s\S]*options\.applyArtwork/,
   "rebuilt fonts must update existing Emoji Explorer result glyphs",
 );
 assert.ok(

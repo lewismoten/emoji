@@ -182,7 +182,7 @@ assert.match(
 );
 assert.match(
   testBundleCache,
-  /build\/tests\/integration\/package-core\.test\.mjs[\s\S]*dist\/esm\/popular\.min\.js[\s\S]*getFingerprint[\s\S]*hasCurrentBundle[\s\S]*spawnSync\(npm, \['run', 'bundle'\]/,
+  /build\/tests\/integration\/package-core\.test\.mjs[\s\S]*dist\/esm\/popular\.min\.js[\s\S]*getFingerprint[\s\S]*hasCurrentBundle[\s\S]*spawnSync\(npm,\s*\[(["'])run\1,\s*(["'])bundle\2\]/,
   "tests must reuse a complete current package build instead of regenerating it every run",
 );
 assert.match(

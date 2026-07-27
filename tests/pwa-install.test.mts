@@ -156,7 +156,7 @@ assert.match(
 );
 assert.match(
   pwaPanelsHelper,
-  /userAgentData\?\.platform[\s\S]*toLowerCase\(\) === 'macos'[\s\S]*return false/,
+  /userAgentData\?\.platform[\s\S]*toLowerCase\(\) === (["'])macos\1[\s\S]*return false/,
   "macOS device emulation must not be mistaken for a real iOS installation",
 );
 assert.match(

@@ -39,7 +39,7 @@ assert.match(
 );
 assert.match(
   serviceWorker,
-  /const precacheCoreAssets = async cache[\s\S]*batchSize = 12[\s\S]*Promise\.allSettled[\s\S]*cache\.add\(url\)[\s\S]*Precache asset unavailable[\s\S]*\.then\(precacheCoreAssets\)/,
+  /const precacheCoreAssets = async(?:\s*\(\s*cache\s*\)|\s+cache)[\s\S]*batchSize = 12[\s\S]*Promise\.allSettled[\s\S]*cache\.add\(url\)[\s\S]*Precache asset unavailable[\s\S]*\.then\(precacheCoreAssets\)/,
   "one unavailable precache asset must not prevent the service worker from installing",
 );
 assert.doesNotMatch(
@@ -100,7 +100,7 @@ assert.match(
 );
 assert.match(
   catalogLoader,
-  /fetch\('explorer\/catalog\.json'\)/,
+  /fetch\((["'])explorer\/catalog\.json\1\)/,
   "the Explorer must load its compact runtime catalog",
 );
 assert.match(

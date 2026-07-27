@@ -101,12 +101,12 @@ assert.match(
 );
 assert.match(
   explorerApp,
-  /options\.languagePicker\.addEventListener\('click'[\s\S]*options\.helpDialog\?\.open[\s\S]*options\.closePanel\(options\.helpDialog[\s\S]*panel\('language'\)/,
+  /options\.languagePicker\.addEventListener\((["'])click\1[\s\S]*options\.helpDialog\?\.open[\s\S]*options\.closePanel\(options\.helpDialog[\s\S]*panel\((["'])language\2\)/,
   "opening the language picker from Help must transition between modal dialogs",
 );
 assert.match(
   utilityControlsHelper,
-  /helpLanguageControl[\s\S]*document\.querySelector\('\.language-picker'\)[\s\S]*helpLanguageControl\.append\(languagePicker\)/,
+  /helpLanguageControl[\s\S]*document\.querySelector\((["'])\.language-picker\1\)[\s\S]*helpLanguageControl\.append\(languagePicker\)/,
   "cached pages must move an older toolbar language control into Help and settings",
 );
 assert.match(
@@ -136,7 +136,7 @@ assert.match(
 );
 assert.match(
   pixelArtwork,
-  /const updatePixelArtworkManifest[\s\S]*proposedKeys = new Set[\s\S]*releaseStatus === 'proposed'/,
+  /const updatePixelArtworkManifest[\s\S]*proposedKeys = new Set[\s\S]*releaseStatus === (["'])proposed\1/,
   "the demo must distinguish proposed artwork from released pixel glyphs",
 );
 assert.match(
