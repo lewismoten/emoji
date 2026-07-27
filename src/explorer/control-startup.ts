@@ -85,11 +85,6 @@ export async function finalizeExplorerStartup(options: any) {
   options.renderThemeToggle();
   options.renderPixelFontToggle();
   options.observeToolbarHeight(options.toolbar);
-  if (typeof options.preferences.filtersOpen === "boolean") {
-    options.advancedFilters.open = options.preferences.filtersOpen;
-  } else if (window.matchMedia("(max-width: 560px)").matches) {
-    options.advancedFilters.open = false;
-  }
   const routeLocale = window.location.pathname.match(
     /index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/,
   )?.[1];

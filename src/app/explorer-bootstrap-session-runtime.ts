@@ -13,6 +13,7 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
     buildExplorerBootstrapRuntimeOptions({
       ...buildExplorerBootstrapRuntimeSourceOptions({
         advancedFilters: () => options.bindings.advancedFilters,
+        advancedFiltersButton: () => options.bindings.advancedFiltersButton,
         applyingUrlState: () => options.bindings.applyingUrlState,
         applyBasicUrlState: options.controllers.applyBasicUrlState,
         applyDialogUrlState: options.controllers.applyDialogUrlState,

@@ -203,6 +203,7 @@ html[data-theme="retro"] .example-dialog,
 html[data-theme="retro"] .language-dialog,
 html[data-theme="retro"] .saved-dialog,
 html[data-theme="retro"] .help-dialog,
+html[data-theme="retro"] .advanced-filters-dialog,
 html[data-theme="retro"] .filter-picker-dialog,
 html[data-theme="retro"] .install-dialog,
 html[data-theme="retro"] .text,
@@ -269,6 +270,7 @@ html[data-theme="retro"] .example-dialog,
 html[data-theme="retro"] .language-dialog,
 html[data-theme="retro"] .saved-dialog,
 html[data-theme="retro"] .help-dialog,
+html[data-theme="retro"] .advanced-filters-dialog,
 html[data-theme="retro"] .filter-picker-dialog,
 html[data-theme="retro"] .install-dialog,
 html[data-theme="retro"] fieldset,
@@ -285,6 +287,7 @@ html[data-theme="retro"] .example-dialog,
 html[data-theme="retro"] .language-dialog,
 html[data-theme="retro"] .saved-dialog,
 html[data-theme="retro"] .help-dialog,
+html[data-theme="retro"] .advanced-filters-dialog,
 html[data-theme="retro"] .filter-picker-dialog,
 html[data-theme="retro"] .install-dialog {
   border-color: var(--dialog-frame-border);
@@ -475,11 +478,20 @@ html[data-theme="retro"] .language-dialog {
   background: var(--dialog-body-bg);
 }
 
+html[data-theme="retro"] .advanced-filters-dialog {
+  background: var(--dialog-body-bg);
+}
+
 html[data-theme="retro"] .filter-picker-dialog {
   background: var(--dialog-body-bg);
 }
 
 html[data-theme="retro"] .language-dialog .dialog-heading {
+  background: var(--dialog-header-bg);
+  border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .advanced-filters-dialog .dialog-heading {
   background: var(--dialog-header-bg);
   border-bottom: 2px solid var(--dialog-frame-border);
 }
@@ -1016,7 +1028,7 @@ html[data-theme="retro"] .language-picker,
 html[data-theme="retro"] .saved-picker,
 html[data-theme="retro"] .help-picker,
 html[data-theme="retro"] .filter-picker-trigger,
-html[data-theme="retro"] .advanced-filters > summary,
+html[data-theme="retro"] .advanced-filters-trigger,
 html[data-theme="retro"] .compact-choice,
 html[data-theme="retro"] .version-mode-toggle,
 html[data-theme="retro"] input[type="search"],
@@ -1283,8 +1295,8 @@ html[data-theme="retro"] a:focus,
 html[data-theme="retro"] a:focus-visible,
 html[data-theme="retro"] .clear-filters:focus,
 html[data-theme="retro"] .clear-filters:focus-visible,
-html[data-theme="retro"] .advanced-filters > summary:focus,
-html[data-theme="retro"] .advanced-filters > summary:focus-visible,
+html[data-theme="retro"] .advanced-filters-trigger:focus,
+html[data-theme="retro"] .advanced-filters-trigger:focus-visible,
 html[data-theme="retro"] .dialog-close:focus,
 html[data-theme="retro"] .dialog-close:focus-visible,
 html[data-theme="retro"] .dialog-navigate:focus,
@@ -1503,6 +1515,10 @@ html[data-theme="light"] .offline-status {
   gap: 1rem;
 }
 
+.toolbar-heading {
+  min-height: 1.75rem;
+}
+
 .eyebrow {
   margin: 0 0 0.2rem;
   color: var(--accent-strong);
@@ -1521,9 +1537,11 @@ h1 {
   display: inline-flex;
   flex: none;
   gap: 0.25rem;
+  min-width: 6.75rem;
   margin: 0;
   color: var(--muted);
   font-size: 0.9rem;
+  line-height: 1.25;
 }
 [dir="rtl"] .result-count {
   flex-direction: row-reverse;
@@ -1538,22 +1556,33 @@ h1 {
 .filters {
   margin-top: 0.45rem;
 }
+.app-loading .filters {
+  min-height: 7.25rem;
+}
 .app-loading .result-count,
 .app-loading .basic-filter-grid,
 .app-loading .filter-options {
   visibility: hidden;
   pointer-events: none;
 }
+.app-loading .result-count {
+  visibility: hidden;
+}
 .app-loading[data-initial-order="sequence"] .basic-filter-grid > .filter-field {
   display: none;
 }
+.app-loading[data-initial-order="sequence"] .filters {
+  min-height: 4.25rem;
+}
 .app-loading .about-explorer {
-  display: none;
+  visibility: hidden;
+  min-height: 8.5rem;
 }
 .search-controls {
   display: flex;
   align-items: end;
   gap: 0.45rem;
+  min-height: 2.25rem;
   max-width: none;
 }
 .search-field {
@@ -1592,11 +1621,13 @@ h1 {
   font: inherit;
 }
 .saved-picker {
+  min-width: 6.5rem;
   max-width: 7rem;
   gap: 0.3rem;
   padding: 0 0.55rem;
 }
 .saved-picker-label {
+  min-width: 3.75rem;
   overflow: hidden;
   font-size: 0.72rem;
   font-weight: 700;
@@ -1654,11 +1685,14 @@ h1 {
 .filter-options {
   position: relative;
   margin-top: 0.4rem;
+  min-height: 1.25rem;
+  overflow: visible;
 }
 .basic-filter-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.4rem;
+  min-height: 2.75rem;
   margin-top: 0.45rem;
 }
 .basic-filter-grid .filter-heading {
@@ -1708,16 +1742,26 @@ h1 {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.advanced-filters {
-  width: 100%;
-  min-width: 0;
-}
-.advanced-filters > summary {
+.advanced-filters-trigger {
+  display: inline-flex;
+  min-height: 1.25rem;
+  align-items: center;
   width: fit-content;
+  padding: 0;
+  border: 0;
+  background: transparent;
   cursor: pointer;
   color: var(--accent);
+  font: inherit;
   font-size: 0.84rem;
   font-weight: 650;
+}
+.advanced-filters-trigger:hover {
+  color: var(--text);
+}
+.advanced-filters-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 .summary-short {
   display: none;
@@ -1729,15 +1773,13 @@ h1 {
   display: flex;
   max-width: 52%;
   min-width: 0;
+  min-height: 1rem;
   align-items: center;
   gap: 0.4rem;
   color: var(--muted);
   font-size: 0.75rem;
 }
 .active-filter-summary[hidden] {
-  display: none;
-}
-.advanced-filters[open] + .active-filter-summary {
   display: none;
 }
 .active-filter-text {
@@ -1761,7 +1803,15 @@ h1 {
   grid-template-columns: repeat(2, minmax(10rem, 1fr));
   align-items: start;
   gap: 0.65rem;
-  margin-top: 0.65rem;
+}
+.advanced-filters-dialog {
+  width: min(48rem, calc(100vw - 2rem));
+}
+.advanced-filters-dialog-body {
+  padding: 1rem;
+}
+.advanced-filters-dialog .modifier-filters {
+  margin-top: 1rem;
 }
 
 .filter-field {
@@ -2064,6 +2114,7 @@ fieldset input {
 .language-dialog,
 .saved-dialog,
 .help-dialog,
+.advanced-filters-dialog,
 .filter-picker-dialog,
 .install-dialog {
   width: min(42rem, calc(100vw - 2rem));
@@ -2092,6 +2143,7 @@ fieldset input {
 .language-dialog,
 .saved-dialog,
 .help-dialog,
+.advanced-filters-dialog,
 .filter-picker-dialog {
   width: min(34rem, calc(100vw - 2rem));
 }
@@ -2333,6 +2385,7 @@ html:not([data-developer-mode]) .developer-only {
 .language-dialog::backdrop,
 .saved-dialog::backdrop,
 .help-dialog::backdrop,
+.advanced-filters-dialog::backdrop,
 .filter-picker-dialog::backdrop,
 .install-dialog::backdrop {
   background: rgb(0 0 0 / 60%);
@@ -2343,6 +2396,7 @@ html[data-theme="retro"] body:has(dialog[open]) .example-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .language-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .saved-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .help-dialog::backdrop,
+html[data-theme="retro"] body:has(dialog[open]) .advanced-filters-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .filter-picker-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .install-dialog::backdrop {
   background: linear-gradient(
@@ -2424,6 +2478,7 @@ dialog[open]::backdrop {
   display: inline-grid;
   place-items: center;
   min-width: 1em;
+  min-height: 1em;
   line-height: 1;
   font-size: 1.2rem;
 }
@@ -3691,7 +3746,7 @@ kbd {
 }
 .pixel-hero {
   display: flex;
-  min-height: 7rem;
+  min-height: 7.5rem;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
@@ -3724,7 +3779,9 @@ kbd {
 }
 .pixel-comparison > button {
   display: grid;
+  grid-template-rows: 0.9rem 2.5rem;
   width: 4rem;
+  min-height: 4.1rem;
   min-width: 4rem;
   place-items: center;
   gap: 0.15rem;
@@ -3753,6 +3810,8 @@ kbd {
   outline-offset: 2px;
 }
 .pixel-comparison small {
+  display: block;
+  min-height: 0.9rem;
   max-width: 100%;
   overflow: hidden;
   color: var(--muted);
@@ -3765,6 +3824,8 @@ kbd {
   display: grid;
   width: 2.5rem;
   height: 2.5rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
   place-items: center;
   font-size: 2rem;
   line-height: 1;
@@ -3847,6 +3908,7 @@ kbd {
   background: color-mix(in srgb, var(--panel-strong) 94%, transparent);
   box-shadow: 0 0.5rem 1.5rem rgb(0 0 0 / 35%);
   backdrop-filter: blur(12px);
+  min-height: 2.7rem;
 }
 .order-label {
   padding-left: 0.25rem;
@@ -3876,7 +3938,9 @@ kbd {
   white-space: nowrap;
 }
 .install-app[hidden] {
-  display: none;
+  display: inline-flex;
+  visibility: hidden;
+  pointer-events: none;
 }
 @media (display-mode: standalone),
   (display-mode: fullscreen),
@@ -4311,8 +4375,11 @@ kbd {
   .active-filter-text {
     max-width: calc(100vw - 8rem);
   }
-  .advanced-filters > summary {
+  .advanced-filters-trigger {
     font-size: 0.78rem;
+  }
+  .advanced-filters-dialog-body {
+    padding: 0.75rem;
   }
   .summary-long {
     display: none;

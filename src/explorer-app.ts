@@ -134,9 +134,19 @@ export function bindExplorerEvents(options: any) {
   options.orderButtons.forEach((button: any) =>
     button.addEventListener("click", options.onOrderModeChange),
   );
-  options.advancedFilters.addEventListener("toggle", () =>
-    options.savePreference("filtersOpen", options.advancedFilters.open),
-  );
+  options.advancedFiltersButton?.addEventListener("click", () => {
+    options.advancedFilters?.showModal();
+    window.requestAnimationFrame(() => {
+      const firstFocusable =
+        options.advancedFilters?.querySelector(
+          ".version-mode-toggle, .compact-choice, .modifier-filters label, .dialog-close",
+        );
+      firstFocusable?.focus();
+    });
+  });
+  options.advancedFilters?.addEventListener("close", () => {
+    options.advancedFiltersButton?.focus();
+  });
   document.addEventListener("keydown", options.onDocumentKeyDown);
 }
 

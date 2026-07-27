@@ -15,6 +15,7 @@ import { createStartupOrchestrator } from "./startup-orchestrator.js";
 export function createStartupRuntime(options: any) {
   return createStartupOrchestrator({
     advancedFilters: () => options.advancedFilters(),
+    advancedFiltersButton: () => options.advancedFiltersButton(),
     applyingUrlState: () => options.applyingUrlState(),
     applyBasicUrlState: options.applyBasicUrlState,
     applyDialogUrlState: options.applyDialogUrlState,

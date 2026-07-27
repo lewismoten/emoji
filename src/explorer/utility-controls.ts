@@ -3,6 +3,7 @@ type MinimalElement = {
   before(...nodes: unknown[]): void;
   childNodes: unknown[];
   className: string;
+  closest?(selector: string): MinimalElement | null;
   dataset: Record<string, string | undefined>;
   innerHTML: string;
   insertAdjacentHTML(position: InsertPosition, text: string): void;
@@ -279,8 +280,8 @@ export function ensureUtilityControls() {
     );
   }
   const helpSettings = document.querySelector(".help-dialog .help-settings");
-  const developerSetting = helpSettings?.querySelector(".setting-switch")
-    ?.closest(".setting-row");
+  const developerSwitch = helpSettings?.querySelector(".setting-switch");
+  const developerSetting = developerSwitch?.closest?.(".setting-row");
   if (
     helpSettings &&
     developerSetting &&

@@ -149,6 +149,7 @@ export function createExplorerBootstrapRuntime(options: any) {
 
   const startupRuntime = createStartupRuntime({
     advancedFilters: () => options.advancedFilters(),
+    advancedFiltersButton: () => options.advancedFiltersButton(),
     applyingUrlState: () => options.applyingUrlState(),
     applyBasicUrlState: options.applyBasicUrlState,
     applyDialogUrlState: options.applyDialogUrlState,

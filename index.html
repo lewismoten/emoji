@@ -300,227 +300,17 @@
           </div>
 
           <div class="filter-options">
-            <details class="advanced-filters">
-              <summary>
-                <span class="summary-long" data-i18n="advancedFilters"
-                  >Advanced filters</span
-                ><span class="summary-short" data-i18n="filters">Filters</span>
-              </summary>
-              <div class="filter-grid">
-                <div
-                  class="filter-field sequence-filter-field has-choice-buttons"
-                  hidden
-                >
-                  <div class="filter-heading">
-                    <span id="sequence-filter-label" data-i18n="sequenceType"
-                      >Sequence type</span
-                    ><span class="compact-sequence-label"></span>
-                  </div>
-                  <select
-                    class="select-sequence-type"
-                    aria-labelledby="sequence-filter-label"
-                  >
-                    <option>Not loaded</option>
-                  </select>
-                  <div
-                    class="compact-choices compact-sequence-choices"
-                    role="radiogroup"
-                    aria-labelledby="sequence-filter-label"
-                  ></div>
-                </div>
-                <div
-                  class="filter-field version-field developer-only has-version-slider"
-                >
-                  <span id="version-filter-label" data-i18n="emojiVersion"
-                    >Emoji version</span
-                  >
-                  <select class="select-version-mode" hidden>
-                    <option value="through" data-i18n="throughSelectedVersion">
-                      All up to selected version
-                    </option>
-                    <option value="selected" data-i18n="selectedVersionOnly">
-                      Selected version only
-                    </option>
-                  </select>
-                  <select
-                    class="select-version"
-                    aria-labelledby="version-filter-label"
-                    disabled
-                  >
-                    <option data-i18n="loadingVersions">
-                      Loading versions…
-                    </option>
-                  </select>
-                  <div class="compact-version">
-                    <button
-                      class="version-mode-toggle"
-                      type="button"
-                      aria-pressed="false"
-                      data-i18n-title="selectedVersionOnly"
-                    >
-                      <span aria-hidden="true">🎯</span>
-                    </button>
-                    <button
-                      class="version-step version-previous"
-                      type="button"
-                      data-i18n-aria-label="previousVersion"
-                      aria-label="Previous version"
-                    >
-                      −
-                    </button>
-                    <input
-                      id="version-range"
-                      class="version-range"
-                      type="range"
-                      min="0"
-                      max="0"
-                      step="1"
-                      value="0"
-                      aria-labelledby="version-filter-label"
-                      aria-describedby="version-range-value"
-                      disabled
-                    />
-                    <button
-                      class="version-step version-next"
-                      type="button"
-                      data-i18n-aria-label="nextVersion"
-                      aria-label="Next version"
-                    >
-                      +
-                    </button>
-                    <output
-                      id="version-range-value"
-                      class="version-range-value"
-                      for="version-range"
-                      aria-live="polite"
-                      >—</output
-                    >
-                  </div>
-                </div>
-              </div>
-
-              <div class="modifier-filters">
-                <fieldset>
-                  <legend data-i18n="skinTone">Skin tone</legend>
-                  <label
-                    ><input
-                      type="checkbox"
-                      class="skin-tone"
-                      value="1F3FF"
-                    /><span class="modifier-emoji">🏿</span
-                    ><span class="modifier-label" data-i18n="dark"
-                      >Dark</span
-                    ></label
-                  >
-                  <label
-                    ><input
-                      type="checkbox"
-                      class="skin-tone"
-                      value="1F3FE"
-                    /><span class="modifier-emoji">🏾</span
-                    ><span class="modifier-label" data-i18n="mediumDark"
-                      >Medium-dark</span
-                    ></label
-                  >
-                  <label
-                    ><input
-                      type="checkbox"
-                      class="skin-tone"
-                      value="1F3FD"
-                    /><span class="modifier-emoji">🏽</span
-                    ><span class="modifier-label" data-i18n="medium"
-                      >Medium</span
-                    ></label
-                  >
-                  <label
-                    ><input
-                      type="checkbox"
-                      class="skin-tone"
-                      value="1F3FC"
-                    /><span class="modifier-emoji">🏼</span
-                    ><span class="modifier-label" data-i18n="mediumLight"
-                      >Medium-light</span
-                    ></label
-                  >
-                  <label
-                    ><input
-                      type="checkbox"
-                      class="skin-tone"
-                      value="1F3FB"
-                    /><span class="modifier-emoji">🏻</span
-                    ><span class="modifier-label" data-i18n="light"
-                      >Light</span
-                    ></label
-                  >
-                </fieldset>
-                <fieldset>
-                  <legend data-i18n="hair">Hair</legend>
-                  <label
-                    ><input type="checkbox" class="hair" value="1F9B0" /><span
-                      class="modifier-emoji"
-                      >🧑‍🦰</span
-                    ><span class="modifier-label" data-i18n="red"
-                      >Red</span
-                    ></label
-                  >
-                  <label
-                    ><input type="checkbox" class="hair" value="1F9B1" /><span
-                      class="modifier-emoji"
-                      >🧑‍🦱</span
-                    ><span class="modifier-label" data-i18n="curly"
-                      >Curly</span
-                    ></label
-                  >
-                  <label
-                    ><input type="checkbox" class="hair" value="1F9B2" /><span
-                      class="modifier-emoji"
-                      >🧑‍🦲</span
-                    ><span class="modifier-label" data-i18n="bald"
-                      >Bald</span
-                    ></label
-                  >
-                  <label
-                    ><input type="checkbox" class="hair" value="1F9B3" /><span
-                      class="modifier-emoji"
-                      >🧑‍🦳</span
-                    ><span class="modifier-label" data-i18n="white"
-                      >White</span
-                    ></label
-                  >
-                </fieldset>
-                <fieldset>
-                  <legend data-i18n="gender">Gender</legend>
-                  <label
-                    ><input type="checkbox" class="gender" value="male" /><span
-                      class="modifier-emoji"
-                      >👨</span
-                    ><span class="modifier-label" data-i18n="male"
-                      >Male</span
-                    ></label
-                  >
-                  <label
-                    ><input
-                      type="checkbox"
-                      class="gender"
-                      value="female"
-                    /><span class="modifier-emoji">👩</span
-                    ><span class="modifier-label" data-i18n="female"
-                      >Female</span
-                    ></label
-                  >
-                  <label
-                    ><input
-                      type="checkbox"
-                      class="gender"
-                      value="neutral"
-                    /><span class="modifier-emoji">🧑</span
-                    ><span class="modifier-label" data-i18n="neutral"
-                      >Neutral</span
-                    ></label
-                  >
-                </fieldset>
-              </div>
-            </details>
+            <button
+              class="advanced-filters-trigger"
+              type="button"
+              aria-haspopup="dialog"
+              aria-controls="advanced-filters-dialog"
+            >
+              <span class="summary-long" data-i18n="advancedFilters">
+                Advanced filters
+              </span>
+              <span class="summary-short" data-i18n="filters">Filters</span>
+            </button>
             <div class="active-filter-summary" hidden>
               <span class="active-filter-text"></span>
               <button class="clear-filters" type="button" data-i18n="clearAll">
@@ -1036,6 +826,218 @@
               <span class="copy-action-long" data-i18n="copy">Copy</span
               ><span class="copy-action-short" data-i18n="copy">Copy</span>
             </button>
+          </div>
+        </div>
+      </dialog>
+
+      <dialog
+        class="advanced-filters-dialog"
+        id="advanced-filters-dialog"
+        aria-labelledby="advanced-filters-dialog-title"
+      >
+        <div class="dialog-heading">
+          <h2 id="advanced-filters-dialog-title" data-i18n="advancedFilters">
+            Advanced filters
+          </h2>
+          <form method="dialog">
+            <button
+              class="dialog-close"
+              data-i18n-aria-label="close"
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </form>
+        </div>
+        <div class="advanced-filters-dialog-body">
+          <div class="filter-grid">
+            <div
+              class="filter-field sequence-filter-field has-choice-buttons"
+              hidden
+            >
+              <div class="filter-heading">
+                <span id="sequence-filter-label" data-i18n="sequenceType">
+                  Sequence type
+                </span>
+                <span class="compact-sequence-label"></span>
+              </div>
+              <select
+                class="select-sequence-type"
+                aria-labelledby="sequence-filter-label"
+              >
+                <option>Not loaded</option>
+              </select>
+              <div
+                class="compact-choices compact-sequence-choices"
+                role="radiogroup"
+                aria-labelledby="sequence-filter-label"
+              ></div>
+            </div>
+
+            <div
+              class="filter-field version-field developer-only has-version-slider"
+            >
+              <span id="version-filter-label" data-i18n="emojiVersion">
+                Emoji version
+              </span>
+              <select class="select-version-mode" hidden>
+                <option value="through" data-i18n="throughSelectedVersion">
+                  All up to selected version
+                </option>
+                <option value="selected" data-i18n="selectedVersionOnly">
+                  Selected version only
+                </option>
+              </select>
+              <select
+                class="select-version"
+                aria-labelledby="version-filter-label"
+                disabled
+              >
+                <option data-i18n="loadingVersions">Loading versions…</option>
+              </select>
+              <div class="compact-version">
+                <button
+                  class="version-mode-toggle"
+                  type="button"
+                  aria-pressed="false"
+                  data-i18n-title="selectedVersionOnly"
+                >
+                  <span aria-hidden="true">🎯</span>
+                </button>
+                <button
+                  class="version-step version-previous"
+                  type="button"
+                  data-i18n-aria-label="previousVersion"
+                  aria-label="Previous version"
+                >
+                  −
+                </button>
+                <input
+                  id="version-range"
+                  class="version-range"
+                  type="range"
+                  min="0"
+                  max="0"
+                  step="1"
+                  value="0"
+                  aria-labelledby="version-filter-label"
+                  aria-describedby="version-range-value"
+                  disabled
+                />
+                <button
+                  class="version-step version-next"
+                  type="button"
+                  data-i18n-aria-label="nextVersion"
+                  aria-label="Next version"
+                >
+                  +
+                </button>
+                <output
+                  id="version-range-value"
+                  class="version-range-value"
+                  for="version-range"
+                  aria-live="polite"
+                >
+                  —
+                </output>
+              </div>
+            </div>
+          </div>
+
+          <div class="modifier-filters">
+            <fieldset>
+              <legend data-i18n="skinTone">Skin tone</legend>
+              <label
+                ><input type="checkbox" class="skin-tone" value="1F3FF" /><span
+                  class="modifier-emoji"
+                  >🏿</span
+                ><span class="modifier-label" data-i18n="dark">Dark</span></label
+              >
+              <label
+                ><input type="checkbox" class="skin-tone" value="1F3FE" /><span
+                  class="modifier-emoji"
+                  >🏾</span
+                ><span class="modifier-label" data-i18n="mediumDark"
+                  >Medium-dark</span
+                ></label
+              >
+              <label
+                ><input type="checkbox" class="skin-tone" value="1F3FD" /><span
+                  class="modifier-emoji"
+                  >🏽</span
+                ><span class="modifier-label" data-i18n="medium"
+                  >Medium</span
+                ></label
+              >
+              <label
+                ><input type="checkbox" class="skin-tone" value="1F3FC" /><span
+                  class="modifier-emoji"
+                  >🏼</span
+                ><span class="modifier-label" data-i18n="mediumLight"
+                  >Medium-light</span
+                ></label
+              >
+              <label
+                ><input type="checkbox" class="skin-tone" value="1F3FB" /><span
+                  class="modifier-emoji"
+                  >🏻</span
+                ><span class="modifier-label" data-i18n="light">Light</span></label
+              >
+            </fieldset>
+            <fieldset>
+              <legend data-i18n="hair">Hair</legend>
+              <label
+                ><input type="checkbox" class="hair" value="1F9B0" /><span
+                  class="modifier-emoji"
+                  >🧑‍🦰</span
+                ><span class="modifier-label" data-i18n="red">Red</span></label
+              >
+              <label
+                ><input type="checkbox" class="hair" value="1F9B1" /><span
+                  class="modifier-emoji"
+                  >🧑‍🦱</span
+                ><span class="modifier-label" data-i18n="curly"
+                  >Curly</span
+                ></label
+              >
+              <label
+                ><input type="checkbox" class="hair" value="1F9B2" /><span
+                  class="modifier-emoji"
+                  >🧑‍🦲</span
+                ><span class="modifier-label" data-i18n="bald">Bald</span></label
+              >
+              <label
+                ><input type="checkbox" class="hair" value="1F9B3" /><span
+                  class="modifier-emoji"
+                  >🧑‍🦳</span
+                ><span class="modifier-label" data-i18n="white">White</span></label
+              >
+            </fieldset>
+            <fieldset>
+              <legend data-i18n="gender">Gender</legend>
+              <label
+                ><input type="checkbox" class="gender" value="male" /><span
+                  class="modifier-emoji"
+                  >👨</span
+                ><span class="modifier-label" data-i18n="male">Male</span></label
+              >
+              <label
+                ><input type="checkbox" class="gender" value="female" /><span
+                  class="modifier-emoji"
+                  >👩</span
+                ><span class="modifier-label" data-i18n="female"
+                  >Female</span
+                ></label
+              >
+              <label
+                ><input type="checkbox" class="gender" value="neutral" /><span
+                  class="modifier-emoji"
+                  >🧑</span
+                ><span class="modifier-label" data-i18n="neutral"
+                  >Neutral</span
+                ></label
+              >
+            </fieldset>
           </div>
         </div>
       </dialog>

@@ -5,7 +5,8 @@ const all = <T extends Element = HTMLElement>(className: string) =>
 
 export function getExplorerElements() {
   return {
-    advancedFilters: first<HTMLDetailsElement>("advanced-filters"),
+    advancedFilters: first<HTMLDialogElement>("advanced-filters-dialog"),
+    advancedFiltersButton: first<HTMLButtonElement>("advanced-filters-trigger"),
     copyStatus: first("copy-status"),
     developerModeToggle: first<HTMLInputElement>("developer-mode-toggle"),
     emojiFontChoices: all<HTMLButtonElement>("emoji-font-choice"),

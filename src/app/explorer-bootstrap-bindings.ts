@@ -36,6 +36,7 @@ export function createExplorerBootstrapBindings() {
     versionPrevious: undefined,
     versionNext: undefined,
     advancedFilters: undefined,
+    advancedFiltersButton: undefined,
     activeFilterSummary: undefined,
     activeFilterText: undefined,
     clearFiltersButton: undefined,

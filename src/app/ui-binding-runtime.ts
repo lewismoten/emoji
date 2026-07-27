@@ -20,6 +20,7 @@ export function createUiBindingRuntime(options: any) {
     assignElements(elements: any) {
       options.setElements({
         advancedFilters: elements.advancedFilters,
+        advancedFiltersButton: elements.advancedFiltersButton,
         copyStatus: elements.copyStatus,
         developerModeToggle: elements.developerModeToggle,
         emojiFontChoices: elements.emojiFontChoices,

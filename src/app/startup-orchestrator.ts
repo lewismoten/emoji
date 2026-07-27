@@ -67,6 +67,7 @@ export function createStartupOrchestrator(options: any) {
 
     options.bindEvents({
       advancedFilters: options.advancedFilters(),
+      advancedFiltersButton: options.advancedFiltersButton?.(),
       applyingUrlState: options.applyingUrlState,
       applyBasicUrlState: options.applyBasicUrlState,
       clearFiltersButton: options.clearFiltersButton(),
