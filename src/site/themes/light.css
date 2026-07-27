@@ -1,0 +1,34 @@
+html[data-theme="light"] {
+  color-scheme: light;
+  --page: #f6efe4;
+  --panel: #fff9f0;
+  --panel-strong: #efe2d2;
+  --border: #b79874;
+  --text: #2c180f;
+  --muted: #6f5546;
+  --accent: #005f8f;
+  --accent-strong: #8f3e8e;
+  --accent-surface: #d7eef8;
+  --accent-surface-strong: #bddceb;
+  --accent-text: #0e405d;
+  --selected-control-bg: color-mix(in srgb, var(--accent) 18%, #ffffff 82%);
+  --selected-control-text: #173548;
+  --section-header-bg: #f3e8da;
+  --code: #e3f0f8;
+  --code-text: #173548;
+  --code-keyword: #8f2b73;
+  --code-variable: #173548;
+  --code-native-function: #006b78;
+  --code-string: #2b6d1a;
+  --code-comment: #6c7f8a;
+  --code-native-object: #8a5a00;
+  --code-object: #a33b32;
+  --code-object-key: #a33b32;
+}
+
+html[data-theme="light"] .offline-status {
+  border-color: #c08b2a;
+  background: #fff0c9;
+  box-shadow: 0 0.35rem 1rem rgb(91 55 18 / 18%);
+  color: #55310a;
+}

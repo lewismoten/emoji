@@ -1,0 +1,52 @@
+html[data-theme="retro"] {
+  color-scheme: dark;
+  --page: var(--ega-blue);
+  --panel: var(--ega-black);
+  --panel-strong: var(--ega-black);
+  --frame-bg: var(--ega-dark-gray);
+  --control-bg: var(--ega-blue);
+  --dialog-frame-border: var(--ega-dark-gray);
+  --dialog-header-bg: var(--ega-black);
+  --dialog-body-bg: var(--ega-dark-gray);
+  --border: var(--ega-light-cyan);
+  --text: var(--ega-white);
+  --muted: var(--ega-light-gray);
+  --accent: var(--ega-light-cyan);
+  --accent-strong: var(--ega-light-magenta);
+  --accent-surface: var(--ega-magenta);
+  --accent-surface-strong: color-mix(
+    in srgb,
+    var(--ega-magenta) 50%,
+    var(--ega-black) 50%
+  );
+  --accent-text: var(--ega-white);
+  --selected-control-bg: var(--ega-magenta);
+  --selected-control-text: var(--ega-white);
+  --section-header-bg: var(--ega-black);
+  --code: var(--ega-light-gray);
+  --code-text: var(--ega-black);
+  --code-keyword: var(--ega-blue);
+  --code-variable: var(--ega-black);
+  --code-native-function: var(--ega-red);
+  --code-string: var(--ega-red);
+  --code-comment: var(--ega-dark-gray);
+  --code-native-object: var(--ega-magenta);
+  --code-object: var(--ega-black);
+  --code-object-key: color-mix(
+    in srgb,
+    var(--ega-blue) 50%,
+    var(--ega-light-cyan) 50%
+  );
+  --ui-font: var(--retro-ui-font);
+  --retro-step: 0.4375rem;
+  --retro-font-1: calc(var(--retro-step) * 1);
+  --retro-font-2: calc(var(--retro-step) * 2);
+  --retro-font-3: calc(var(--retro-step) * 3);
+  --retro-font-4: calc(var(--retro-step) * 4);
+}
+
+html[data-theme="retro"] .offline-status {
+  border-color: var(--ega-yellow);
+  background: var(--ega-black);
+  color: var(--ega-yellow);
+}

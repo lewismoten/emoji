@@ -24,7 +24,10 @@ const appModules = fs
   .map((file) => `./app/${file.replace(/\.ts$/, ".js")}`);
 const coreAssets = [
   "./",
-  `./explorer/theme-tokens.css?v=${assetVersion}`,
+  `./explorer/themes/dark.css?v=${assetVersion}`,
+  `./explorer/themes/light.css?v=${assetVersion}`,
+  `./explorer/themes/ega.css?v=${assetVersion}`,
+  `./explorer/themes/retro.css?v=${assetVersion}`,
   `./explorer/toolbar-controls.css?v=${assetVersion}`,
   `./explorer/dialog-controls.css?v=${assetVersion}`,
   `./explorer/index.css?v=${assetVersion}`,
@@ -47,8 +50,14 @@ const sourceFileForAsset = (asset) => {
   const file = asset.replace(/^\.\//, "").replace(/\?.*$/, "");
   if (!file) return "";
   if (file === "index.js") return path.join("src", "index.ts");
-  if (file === "explorer/theme-tokens.css")
-    return path.join("src", "site", "styles", "theme-tokens.css");
+  if (file === "explorer/themes/dark.css")
+    return path.join("src", "site", "themes", "dark.css");
+  if (file === "explorer/themes/light.css")
+    return path.join("src", "site", "themes", "light.css");
+  if (file === "explorer/themes/ega.css")
+    return path.join("src", "site", "themes", "ega.css");
+  if (file === "explorer/themes/retro.css")
+    return path.join("src", "site", "themes", "retro.css");
   if (file === "explorer/toolbar-controls.css")
     return path.join("src", "site", "styles", "toolbar-controls.css");
   if (file === "explorer/dialog-controls.css")

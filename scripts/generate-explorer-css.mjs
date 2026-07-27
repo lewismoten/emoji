@@ -4,8 +4,20 @@ import path from "node:path";
 const outputDirectory = "explorer";
 const sourceFiles = [
   {
-    source: path.join("src", "site", "styles", "theme-tokens.css"),
-    output: "theme-tokens.css",
+    source: path.join("src", "site", "themes", "dark.css"),
+    output: path.join("themes", "dark.css"),
+  },
+  {
+    source: path.join("src", "site", "themes", "light.css"),
+    output: path.join("themes", "light.css"),
+  },
+  {
+    source: path.join("src", "site", "themes", "ega.css"),
+    output: path.join("themes", "ega.css"),
+  },
+  {
+    source: path.join("src", "site", "themes", "retro.css"),
+    output: path.join("themes", "retro.css"),
   },
   {
     source: path.join("src", "site", "styles", "toolbar-controls.css"),
@@ -132,7 +144,9 @@ const generated = [];
 for (const entry of sourceFiles) {
   const source = fs.readFileSync(entry.source, "utf8");
   const minified = minifyCss(source);
-  fs.writeFileSync(path.join(outputDirectory, entry.output), `${minified}\n`);
+  const outputFile = path.join(outputDirectory, entry.output);
+  fs.mkdirSync(path.dirname(outputFile), { recursive: true });
+  fs.writeFileSync(outputFile, `${minified}\n`);
   generated.push({
     bytes: Buffer.byteLength(minified),
     label: entry.output,

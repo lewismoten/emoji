@@ -44,7 +44,10 @@ const [
   read("src/app/explorer-shell.ts"),
   read("src/explorer/pwa-panels.ts"),
   Promise.all([
-    read("src/site/styles/theme-tokens.css"),
+    read("src/site/themes/dark.css"),
+    read("src/site/themes/light.css"),
+    read("src/site/themes/ega.css"),
+    read("src/site/themes/retro.css"),
     read("src/site/styles/toolbar-controls.css"),
     read("src/site/styles/dialog-controls.css"),
     read("src/site/index.css"),

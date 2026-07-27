@@ -1,0 +1,18 @@
+:root {
+  --ega-black: #000000;
+  --ega-blue: #0000aa;
+  --ega-green: #00aa00;
+  --ega-cyan: #00aaaa;
+  --ega-red: #aa0000;
+  --ega-magenta: #aa00aa;
+  --ega-brown: #aa5500;
+  --ega-light-gray: #aaaaaa;
+  --ega-dark-gray: #555555;
+  --ega-light-blue: #5555ff;
+  --ega-light-green: #55ff55;
+  --ega-light-cyan: #55ffff;
+  --ega-light-red: #ff5555;
+  --ega-light-magenta: #ff55ff;
+  --ega-yellow: #ffff55;
+  --ega-white: #ffffff;
+}
