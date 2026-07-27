@@ -7,6 +7,7 @@ import {
   pixelsEqual,
   trimVisiblePixels,
 } from "../core/pixel-editor-geometry-helpers.js";
+import { findSkinTonePasteHelper } from "./pixel-editor-transfer-skin-tone.js";
 import {
   compositeLayer,
   effectiveLayerPixels,
@@ -16,9 +17,6 @@ import {
   resetLayerRotation,
 } from "../layers/pixel-editor-layer-helpers.js";
 import {
-  buildSkinToneOwnership,
-  buildTwoPersonOwnership,
-  compareSkinToneHelpers,
   remapSkinTonePixels,
   skinToneBaseSequence,
   skinToneSequence,
@@ -158,12 +156,16 @@ export function createPixelEditorTransferController(options) {
     const clipboard = cloneFloatingLayer(getArtworkClipboard());
     setPastePending(true);
     updateTransferButtons();
-    const helper = await findSkinTonePasteHelper(clipboard, targetEntry).catch(
-      (error) => {
-        console.warn("Unable to load skin-tone paste helper", error);
-        return undefined;
-      },
-    );
+    const helper = await findSkinTonePasteHelper({
+      artworkDrafts,
+      clipboard,
+      currentEntry: targetEntry,
+      extractCell,
+      loadManifest,
+    }).catch((error) => {
+      console.warn("Unable to load skin-tone paste helper", error);
+      return undefined;
+    });
     setPastePending(false);
     if (currentEntry() !== targetEntry) {
       updateTransferButtons();
@@ -270,60 +272,6 @@ export function createPixelEditorTransferController(options) {
     if (!floatingLayer()) return;
     floatingLayer().inverted = !floatingLayer().inverted;
     renderController.draw();
-  }
-
-  async function findSkinTonePasteHelper(clipboard, targetEntry) {
-    const sourceTones = clipboard.skinTones ?? [];
-    const targetTones = skinToneSequence(targetEntry.codePoints);
-    if (
-      sourceTones.length < 2 ||
-      sourceTones.length !== targetTones.length ||
-      clipboard.baseSequence !== skinToneBaseSequence(targetEntry.codePoints)
-    )
-      return undefined;
-    const manifest = await loadManifest();
-    const candidates = Object.values(manifest.glyphs)
-      .filter((entry) => {
-        const tones = skinToneSequence(entry.codePoints);
-        return (
-          entry.key !== clipboard.sourceKey &&
-          entry.key !== targetEntry.key &&
-          skinToneBaseSequence(entry.codePoints) === clipboard.baseSequence &&
-          tones.length === sourceTones.length &&
-          new Set(tones).size === tones.length &&
-          (entry.painted || artworkDrafts().has(entry.key))
-        );
-      })
-      .sort(compareSkinToneHelpers);
-    for (const entry of candidates) {
-      const helperPixels = await loadHelperPixels(entry);
-      if (!helperPixels) continue;
-      const ownership = buildSkinToneOwnership(
-        helperPixels,
-        skinToneSequence(entry.codePoints),
-      );
-      if (ownership) return { entry, ownership };
-    }
-    return sourceTones.length === 2
-      ? { entry: undefined, ownership: buildTwoPersonOwnership() }
-      : undefined;
-  }
-
-  async function loadHelperPixels(entry) {
-    const draft = artworkDrafts().get(entry.key);
-    if (draft?.pixels && hasVisiblePixels(draft.pixels))
-      return draft.pixels.slice();
-    const response = await fetch(`pixel-font/atlases/${entry.atlas}`).catch(
-      () => undefined,
-    );
-    if (
-      !response?.ok ||
-      !response.headers.get("content-type")?.includes("image/png")
-    ) {
-      return undefined;
-    }
-    const helperPixels = await extractCell(await response.blob(), entry);
-    return hasVisiblePixels(helperPixels) ? helperPixels : undefined;
   }
 
   return {
