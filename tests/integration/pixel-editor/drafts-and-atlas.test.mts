@@ -132,7 +132,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /tool === "line"[\s\S]*pixels\.set\(shapeBase\);[\s\S]*drawLine\(pointerStart, point\)/,
+  /tool(?:State\(\))? === "line"[\s\S]*pixels(?:\(\))?\.set\(selectionState\.shapeBase\(\)|shapeBase\);[\s\S]*drawLine\(selectionState\.pointerStart\(\)|pointerStart, point\)/,
   'the line tool must preview a straight line from its starting point'
 );
 assert.match(

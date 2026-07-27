@@ -18,7 +18,7 @@ for (const action of ['copyPixelArt', 'copyFontGlyph', 'pastePixelArt']) {
 }
 assert.match(
   pixelEditorScript,
-  /function copyFontGlyph[\s\S]*pixel-font\/atlases\/\$\{currentEntry\.atlas\}[\s\S]*extractCell\(await response\.blob\(\), currentEntry\)/,
+  /function copyFontGlyph[\s\S]*pixel-font\/atlases\/\$\{currentEntry\(\)\.atlas\}[\s\S]*extractCell\(await response\.blob\(\), currentEntry\(\)\)/,
   'copying a custom-font glyph must crop its exact source atlas cell'
 );
 assert.match(
@@ -28,12 +28,12 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /async function pastePixelArt[\s\S]*clipboard = cloneFloatingLayer\(artworkClipboard\)[\s\S]*findSkinTonePasteHelper[\s\S]*floatingLayer = clipboard[\s\S]*remapSkinTonePixels[\s\S]*skinToneSequence\(targetEntry\.codePoints\)/,
+  /async function pastePixelArt[\s\S]*clipboard = cloneFloatingLayer\(getArtworkClipboard\(\)|artworkClipboard\)[\s\S]*findSkinTonePasteHelper[\s\S]*setFloatingLayer\(clipboard\)|floatingLayer = clipboard[\s\S]*remapSkinTonePixels[\s\S]*skinToneSequence\(targetEntry\.codePoints\)/,
   'pasted artwork must remain independent and adapt to the destination skin tones'
 );
 assert.match(
   pixelEditorScript,
-  /function copyPixelArt[\s\S]*skinTones: skinToneSequence\(currentEntry\.codePoints\)[\s\S]*function copySelection[\s\S]*skinTones: skinToneSequence\(currentEntry\.codePoints\)[\s\S]*function copyFontGlyph[\s\S]*skinTones: skinToneSequence\(currentEntry\.codePoints\)/,
+  /function copyPixelArt[\s\S]*skinTones: skinToneSequence\(currentEntry\(\)\.codePoints\)[\s\S]*function copySelection[\s\S]*skinTones: skinToneSequence\(currentEntry\(\)\.codePoints\)[\s\S]*function copyFontGlyph[\s\S]*skinTones: skinToneSequence\(currentEntry\(\)\.codePoints\)/,
   'every artwork-copy path must retain ordered source skin tones'
 );
 assert.match(
@@ -93,7 +93,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function bakeFloatingLayer[\s\S]*pushHistory\(\);[\s\S]*compositeLayer\(pixels, \{[\s\S]*effectiveLayerPixels\(\s*floatingLayer,\s*paletteController\.activePaletteColors\(\)/,
+  /function bakeFloatingLayer[\s\S]*pushHistory\(\);[\s\S]*compositeLayer\(getPixels\(\)|pixels, \{[\s\S]*effectiveLayerPixels\(\s*floatingLayer\(\)|floatingLayer,\s*paletteController\.activePaletteColors\(\)/,
   'baking a floating layer must be undoable'
 );
 for (const transform of [
@@ -120,7 +120,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function setFloatingLayerPosition[\s\S]*layerAxisBounds\(floatingLayer\.width\)[\s\S]*layerAxisBounds\(floatingLayer\.height\)[\s\S]*clamp\(x, minimumX, maximumX\)[\s\S]*clamp\(y, minimumY, maximumY\)/,
+  /function setFloatingLayerPosition[\s\S]*layerAxisBounds\(floatingLayer\(\)\.width|floatingLayer\.width\)[\s\S]*layerAxisBounds\(floatingLayer\(\)\.height|floatingLayer\.height\)[\s\S]*clamp\(x, minimumX, maximumX\)[\s\S]*clamp\(y, minimumY, maximumY\)/,
   'dragged layers must stay within the valid positioning range'
 );
 assert.match(

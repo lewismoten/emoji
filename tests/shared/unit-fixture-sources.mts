@@ -106,9 +106,22 @@ export const explorerGeneratorScript = await fs.readFile(
   path.join(root, 'scripts/generate-library.mjs'),
   'utf8'
 );
-const pixelEditorHelperFiles = (await fs.readdir(path.join(root, 'src/pixel-editor')))
-  .sort()
-  .map(file => path.join(root, 'src/pixel-editor', file));
+const listFiles = async (directory: string): Promise<string[]> => {
+  const entries = await fs.readdir(directory, { withFileTypes: true });
+  return (
+    await Promise.all(
+      entries
+        .filter(entry => entry.name !== '.DS_Store')
+        .sort((left, right) => left.name.localeCompare(right.name, 'en'))
+        .map(entry =>
+          entry.isDirectory()
+            ? listFiles(path.join(directory, entry.name))
+            : [path.join(directory, entry.name)]
+        )
+    )
+  ).flat();
+};
+const pixelEditorHelperFiles = await listFiles(path.join(root, 'src/pixel-editor'));
 const pixelEditorTemplateFile = pixelEditorHelperFiles.find(file =>
   file.endsWith('pixel-editor-template.js')
 );

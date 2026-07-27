@@ -171,7 +171,7 @@ assert.deepEqual(
 );
 assert.match(
   pixelEditorScript,
-  /if \(sourceTones\.length === 2\)[\s\S]*buildTwoPersonOwnership/,
+  /sourceTones\.length === 2[\s\S]*buildTwoPersonOwnership/,
   'two-tone paste must fall back to left-to-right person ownership'
 );
 assert.match(

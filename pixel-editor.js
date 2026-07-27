@@ -25,7 +25,6 @@ import {
   extractPixels,
   floodFillPixels,
   hasVisiblePixels,
-  layerAxisBounds,
   layerPositionAllowed,
   paintPixelInto,
   pixelOffset,
@@ -33,7 +32,6 @@ import {
   trimVisiblePixels,
 } from "./src/pixel-editor/pixel-editor-geometry-helpers.js";
 import {
-  compositeLayer,
   createPixelEditorCanvasController,
   effectiveLayerPixels,
   flipPixels,
@@ -52,16 +50,17 @@ import {
 } from "./src/pixel-editor/pixel-editor-constants.js";
 import {
   createBlankAtlas,
+  createPixelEditorInputController,
   extractCell,
   getNestedFileHandle,
 } from "./src/pixel-editor/pixel-editor-atlas-io.js";
 import { createPixelEditorDraftController } from "./src/pixel-editor/pixel-editor-drafts.js";
 import { createPixelEditorPaletteController } from "./src/pixel-editor/pixel-editor-palette.js";
+import { createPixelEditorTransferController } from "./src/pixel-editor/controllers/pixel-editor-transfer.js";
 import {
   buildSkinToneOwnership,
   buildTwoPersonOwnership,
   compareSkinToneHelpers,
-  findSkinTone,
   remapSkinTonePixels,
   skinToneBaseSequence,
   skinToneCycle,
@@ -266,6 +265,118 @@ export function createPixelEditor({
     updateTransferButtons,
     view,
   });
+  const transferController = createPixelEditorTransferController({
+    artworkDrafts: () => artworkDrafts,
+    canvas,
+    cellLoaded: () => cellLoaded,
+    cellSize: CELL_SIZE,
+    cloneFloatingLayer,
+    currentEntry: () => currentEntry,
+    draftController,
+    extractCell,
+    floatingLayer: () => floatingLayer,
+    formatClipboardStatus: (key, fallback) => translate(key, fallback),
+    formatStatus: (key, fallback) => translate(key, fallback),
+    getArtworkClipboard: () => artworkClipboard,
+    getPixels: () => pixels,
+    getSelection: () => selection,
+    getTool: () => tool,
+    loadManifest,
+    paletteController,
+    pastePending: () => pastePending,
+    renderController,
+    setArtworkClipboard: (value) => {
+      artworkClipboard = value;
+    },
+    setFloatingLayer: (value) => {
+      floatingLayer = value;
+    },
+    setPastePending: (value) => {
+      pastePending = value;
+    },
+    setSelection: (value) => {
+      selection = value;
+    },
+    trimVisiblePixels,
+    updateTransferButtons,
+    writeStatus: (value) => {
+      status.textContent = value;
+    },
+  });
+  const inputController = createPixelEditorInputController({
+    bakeFloatingLayer: transferController.bakeFloatingLayer,
+    boundsFromPoints,
+    canvas,
+    cancelFloatingLayer: transferController.cancelFloatingLayer,
+    cellSize: CELL_SIZE,
+    clamp,
+    copyArtButton,
+    copyPixelArt: transferController.copyPixelArt,
+    copySelection: transferController.copySelection,
+    copySelectionButton,
+    dialog,
+    draftController,
+    drawLine,
+    drawShape,
+    floodFill,
+    floatingLayer: () => floatingLayer,
+    moveFloatingLayer: transferController.moveFloatingLayer,
+    pasteArtButton,
+    pastePixelArt: transferController.pastePixelArt,
+    paletteController,
+    pixels: () => pixels,
+    redo,
+    redoButton,
+    releasePointerState: () => {
+      pointerStart = undefined;
+      pointerPrevious = undefined;
+      shapeBase = undefined;
+      layerDragStart = undefined;
+      layerDragOrigin = undefined;
+    },
+    renderController,
+    selectionState: {
+      cellLoaded: () => cellLoaded,
+      currentEntry: () => currentEntry,
+      layerDragOrigin: () => layerDragOrigin,
+      layerDragStart: () => layerDragStart,
+      pointerPrevious: () => pointerPrevious,
+      pointerStart: () => pointerStart,
+      shapeBase: () => shapeBase,
+    },
+    setLayerDragOrigin: (value) => {
+      layerDragOrigin = value;
+    },
+    setLayerDragStart: (value) => {
+      layerDragStart = value;
+    },
+    setPointerPrevious: (value) => {
+      pointerPrevious = value;
+    },
+    setPointerStart: (value) => {
+      pointerStart = value;
+    },
+    setSelection: (value) => {
+      selection = value;
+    },
+    setShapeBase: (value) => {
+      shapeBase = value;
+    },
+    toolState: () => tool,
+    transformFloatingLayer: transferController.transformFloatingLayer,
+    undo,
+    undoButton,
+    updateTransferButtons,
+    view,
+  });
+  const {
+    onCanvasKeyDown,
+    onEditorKeyDown,
+    onPointerCancel,
+    onPointerDown,
+    onPointerMove,
+    onPointerUp,
+  } = inputController;
 
   toolButtons.forEach((button) =>
     button.addEventListener("click", () => selectTool(button.dataset.tool)),
@@ -289,13 +400,15 @@ export function createPixelEditor({
   );
   undoButton.addEventListener("click", undo);
   redoButton.addEventListener("click", redo);
-  copyArtButton.addEventListener("click", copyPixelArt);
-  copyFontButton.addEventListener("click", copyFontGlyph);
-  copySelectionButton.addEventListener("click", copySelection);
-  pasteArtButton.addEventListener("click", pastePixelArt);
+  copyArtButton.addEventListener("click", transferController.copyPixelArt);
+  copyFontButton.addEventListener("click", () =>
+    transferController.copyFontGlyph(copyFontButton),
+  );
+  copySelectionButton.addEventListener("click", transferController.copySelection);
+  pasteArtButton.addEventListener("click", transferController.pastePixelArt);
   layerNudgeButtons.forEach((button) =>
     button.addEventListener("click", () =>
-      moveFloatingLayer(
+      transferController.moveFloatingLayer(
         Number(button.dataset.layerX),
         Number(button.dataset.layerY),
       ),
@@ -303,12 +416,18 @@ export function createPixelEditor({
   );
   layerTransformButtons.forEach((button) =>
     button.addEventListener("click", () =>
-      transformFloatingLayer(button.dataset.layerTransform),
+      transferController.transformFloatingLayer(button.dataset.layerTransform),
     ),
   );
-  bakeLayerButton.addEventListener("click", bakeFloatingLayer);
-  cancelLayerButton.addEventListener("click", cancelFloatingLayer);
-  invertLayerButton.addEventListener("click", toggleFloatingLayerInversion);
+  bakeLayerButton.addEventListener("click", transferController.bakeFloatingLayer);
+  cancelLayerButton.addEventListener(
+    "click",
+    transferController.cancelFloatingLayer,
+  );
+  invertLayerButton.addEventListener(
+    "click",
+    transferController.toggleFloatingLayerInversion,
+  );
   saveButton.addEventListener("click", saveAtlas);
   downloadButton.addEventListener("click", downloadAtlas);
   downloadEmojiButton.addEventListener("click", downloadEmojiPng);
@@ -516,180 +635,6 @@ export function createPixelEditor({
     location.textContent = `${currentEntry.atlas} · ${translate("row", "row")} ${formatNumber(currentEntry.row + 1)} · ${translate("column", "column")} ${formatNumber(currentEntry.column + 1)}`;
   }
 
-  function onPointerDown(event) {
-    if (!currentEntry || !cellLoaded || event.button !== 0) return;
-    canvas.focus({ preventScroll: true });
-    const point = pointerCell(event);
-    canvas.setPointerCapture(event.pointerId);
-    if (floatingLayer) {
-      if (renderController.pointInFloatingLayer(point)) {
-        layerDragStart = point;
-        layerDragOrigin = { x: floatingLayer.x, y: floatingLayer.y };
-      }
-      return;
-    }
-    pointerStart = point;
-    pointerPrevious = point;
-    if (tool === "select") {
-      selection = boundsFromPoints(point, point);
-      renderController.draw();
-      return;
-    }
-    if (tool === "eyedropper") {
-      paletteController.pickColor(point);
-      return;
-    }
-    draftController.pushHistory();
-    if (tool === "bucket") {
-      floodFill(point);
-      pointerStart = undefined;
-      renderController.draw();
-      return;
-    }
-    shapeBase = pixels.slice();
-    if (tool === "pencil") paintPixel(point);
-    if (tool === "line") drawLine(point, point);
-    if (tool === "rectangle" || tool === "ellipse")
-      drawShape(point, point, tool);
-    renderController.draw();
-  }
-
-  function onPointerMove(event) {
-    if (layerDragStart && canvas.hasPointerCapture(event.pointerId)) {
-      const point = pointerCell(event);
-      setFloatingLayerPosition(
-        layerDragOrigin.x + point.x - layerDragStart.x,
-        layerDragOrigin.y + point.y - layerDragStart.y,
-      );
-      return;
-    }
-    if (!pointerStart || !canvas.hasPointerCapture(event.pointerId)) return;
-    const point = pointerCell(event);
-    if (tool === "select") {
-      selection = boundsFromPoints(pointerStart, point);
-    } else if (tool === "pencil") {
-      drawLine(pointerPrevious, point);
-      pointerPrevious = point;
-    } else if (tool === "line") {
-      pixels.set(shapeBase);
-      drawLine(pointerStart, point);
-    } else if (tool === "rectangle" || tool === "ellipse") {
-      pixels.set(shapeBase);
-      drawShape(pointerStart, point, tool);
-    }
-    renderController.draw();
-  }
-
-  function onPointerUp(event) {
-    if (canvas.hasPointerCapture(event.pointerId))
-      canvas.releasePointerCapture(event.pointerId);
-    pointerStart = undefined;
-    pointerPrevious = undefined;
-    shapeBase = undefined;
-    layerDragStart = undefined;
-    layerDragOrigin = undefined;
-    updateTransferButtons();
-  }
-
-  function onPointerCancel(event) {
-    if (shapeBase) pixels.set(shapeBase);
-    onPointerUp(event);
-    renderController.draw();
-  }
-
-  function onCanvasKeyDown(event) {
-    if (!floatingLayer) return;
-    if ((event.ctrlKey || event.metaKey) && !event.altKey) {
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        transformFloatingLayer("rotate-left");
-        return;
-      }
-      if (event.key === "ArrowRight") {
-        event.preventDefault();
-        transformFloatingLayer("rotate-right");
-        return;
-      }
-    }
-    if (event.shiftKey && !event.ctrlKey && !event.metaKey && !event.altKey) {
-      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-        event.preventDefault();
-        transformFloatingLayer("flip-horizontal");
-        return;
-      }
-      if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-        event.preventDefault();
-        transformFloatingLayer("flip-vertical");
-        return;
-      }
-    }
-    const movement = {
-      ArrowLeft: [-1, 0],
-      ArrowUp: [0, -1],
-      ArrowDown: [0, 1],
-      ArrowRight: [1, 0],
-    }[event.key];
-    if (movement) {
-      event.preventDefault();
-      moveFloatingLayer(...movement);
-    } else if (event.key === "Enter") {
-      event.preventDefault();
-      bakeFloatingLayer();
-    } else if (event.key === "Escape") {
-      event.preventDefault();
-      cancelFloatingLayer();
-    }
-  }
-
-  function onEditorKeyDown(event) {
-    if (view.hidden || !dialog.open) return;
-    if (!(event.ctrlKey || event.metaKey) || event.altKey) return;
-    const key = event.key.toLowerCase();
-    if (key === "z") {
-      if (event.shiftKey && !redoButton.disabled) {
-        event.preventDefault();
-        redo();
-      } else if (!event.shiftKey && !undoButton.disabled) {
-        event.preventDefault();
-        undo();
-      }
-      return;
-    }
-    if (key === "y" && !redoButton.disabled) {
-      event.preventDefault();
-      redo();
-    } else if (
-      key === "c" &&
-      tool === "select" &&
-      !copySelectionButton.disabled
-    ) {
-      event.preventDefault();
-      copySelection();
-    } else if (key === "c" && !copyArtButton.disabled) {
-      event.preventDefault();
-      copyPixelArt();
-    } else if (key === "v" && !pasteArtButton.disabled) {
-      event.preventDefault();
-      pastePixelArt();
-    }
-  }
-
-  function pointerCell(event) {
-    const bounds = canvas.getBoundingClientRect();
-    return {
-      x: clamp(
-        Math.floor(((event.clientX - bounds.left) / bounds.width) * CELL_SIZE),
-        0,
-        CELL_SIZE - 1,
-      ),
-      y: clamp(
-        Math.floor(((event.clientY - bounds.top) / bounds.height) * CELL_SIZE),
-        0,
-        CELL_SIZE - 1,
-      ),
-    };
-  }
-
   function currentColor() {
     return currentColorValue(selectedColor);
   }
@@ -727,218 +672,6 @@ export function createPixelEditor({
     renderController.draw();
   }
 
-  function copyPixelArt() {
-    if (!currentEntry || !cellLoaded || !draftController.hasVisibleArtwork()) return;
-    const trimmed = trimVisiblePixels(pixels, CELL_SIZE, CELL_SIZE);
-    if (!trimmed) return;
-    artworkClipboard = {
-      kind: "art",
-      pixels: trimmed.pixels,
-      width: trimmed.width,
-      height: trimmed.height,
-      x: trimmed.x,
-      y: trimmed.y,
-      skinTones: skinToneSequence(currentEntry.codePoints),
-      baseSequence: skinToneBaseSequence(currentEntry.codePoints),
-      sourceKey: currentEntry.key,
-    };
-    updateTransferButtons();
-    status.textContent = translate("pixelArtCopied", "Pixel art copied.");
-  }
-
-  function copySelection() {
-    if (!currentEntry || !cellLoaded || !selection) return;
-    const selectedPixels = extractPixels(
-      pixels,
-      CELL_SIZE,
-      selection.x,
-      selection.y,
-      selection.width,
-      selection.height,
-    );
-    if (!hasVisiblePixels(selectedPixels)) return;
-    artworkClipboard = {
-      kind: "selection",
-      pixels: selectedPixels,
-      width: selection.width,
-      height: selection.height,
-      x: selection.x,
-      y: selection.y,
-      skinTones: skinToneSequence(currentEntry.codePoints),
-      baseSequence: skinToneBaseSequence(currentEntry.codePoints),
-      sourceKey: currentEntry.key,
-    };
-    updateTransferButtons();
-    status.textContent = translate(
-      "selectionCopied",
-      "Selected artwork copied.",
-    );
-  }
-
-  async function copyFontGlyph() {
-    if (!currentEntry?.painted || !cellLoaded) return;
-    copyFontButton.disabled = true;
-    try {
-      const response = await fetch(
-        `pixel-font/atlases/${currentEntry.atlas}`,
-      );
-      if (
-        !response.ok ||
-        !response.headers.get("content-type")?.includes("image/png")
-      ) {
-        throw new Error("Pixel font source atlas is unavailable");
-      }
-      artworkClipboard = {
-        kind: "font",
-        pixels: await extractCell(await response.blob(), currentEntry),
-        width: CELL_SIZE,
-        height: CELL_SIZE,
-        x: 0,
-        y: 0,
-        skinTones: skinToneSequence(currentEntry.codePoints),
-        baseSequence: skinToneBaseSequence(currentEntry.codePoints),
-        sourceKey: currentEntry.key,
-      };
-      status.textContent = translate(
-        "fontGlyphCopied",
-        "Custom font glyph copied.",
-      );
-    } catch (error) {
-      console.warn("Unable to copy custom font glyph", error);
-      status.textContent = translate(
-        "fontGlyphCopyFailed",
-        "The custom font glyph could not be copied.",
-      );
-    }
-    updateTransferButtons();
-  }
-
-  async function pastePixelArt() {
-    if (
-      !currentEntry ||
-      !cellLoaded ||
-      !artworkClipboard ||
-      pastePending ||
-      (tool === "select" && artworkClipboard.kind !== "selection")
-    )
-      return;
-    const targetEntry = currentEntry;
-    const clipboard = cloneFloatingLayer(artworkClipboard);
-    pastePending = true;
-    updateTransferButtons();
-    const helper = await findSkinTonePasteHelper(clipboard, targetEntry).catch(
-      (error) => {
-        console.warn("Unable to load skin-tone paste helper", error);
-        return undefined;
-      },
-    );
-    pastePending = false;
-    if (currentEntry !== targetEntry) {
-      updateTransferButtons();
-      return;
-    }
-    floatingLayer = clipboard;
-    floatingLayer.pixels = remapSkinTonePixels(
-      floatingLayer.pixels,
-      clipboard.skinTones,
-      skinToneSequence(targetEntry.codePoints),
-      helper
-        ? {
-            ownership: helper.ownership,
-            ownershipWidth: CELL_SIZE,
-            width: clipboard.width,
-            offsetX: clipboard.x,
-            offsetY: clipboard.y,
-          }
-        : undefined,
-    );
-    floatingLayer.inverted = false;
-    selection = undefined;
-    renderController.draw();
-    canvas.focus({ preventScroll: true });
-    status.textContent = translate(
-      "layerPasted",
-      "Artwork pasted as a floating layer.",
-    );
-  }
-
-  function moveFloatingLayer(horizontal, vertical) {
-    if (!floatingLayer) return;
-    const nextX = floatingLayer.x + horizontal;
-    const nextY = floatingLayer.y + vertical;
-    if (!layerPositionAllowed(floatingLayer, nextX, nextY)) return;
-    setFloatingLayerPosition(nextX, nextY);
-  }
-
-  function setFloatingLayerPosition(x, y) {
-    if (!floatingLayer) return;
-    const [minimumX, maximumX] = layerAxisBounds(floatingLayer.width);
-    const [minimumY, maximumY] = layerAxisBounds(floatingLayer.height);
-    floatingLayer.x = clamp(x, minimumX, maximumX);
-    floatingLayer.y = clamp(y, minimumY, maximumY);
-    renderController.draw();
-  }
-
-  function transformFloatingLayer(transform) {
-    if (!floatingLayer) return;
-    const previousCenterX = floatingLayer.x + floatingLayer.width / 2;
-    const previousCenterY = floatingLayer.y + floatingLayer.height / 2;
-    if (transform === "rotate-left" || transform === "rotate-right") {
-      const rotated = nextLayerRotation(
-        floatingLayer,
-        transform === "rotate-right",
-        paletteController.activePaletteColors(),
-      );
-      if (!layerTransformChangesPixels(floatingLayer, rotated)) return;
-      floatingLayer.pixels = rotated.pixels;
-      floatingLayer.width = rotated.width;
-      floatingLayer.height = rotated.height;
-      floatingLayer.rotationSource = rotated.rotationSource;
-      floatingLayer.rotationDegrees = rotated.rotationDegrees;
-      floatingLayer.x = Math.round(previousCenterX - rotated.width / 2);
-      floatingLayer.y = Math.round(previousCenterY - rotated.height / 2);
-    } else if (transform === "flip-horizontal") {
-      const flipped = flipPixels(floatingLayer, true);
-      if (pixelsEqual(floatingLayer.pixels, flipped)) return;
-      floatingLayer.pixels = flipped;
-      resetLayerRotation(floatingLayer);
-    } else if (transform === "flip-vertical") {
-      const flipped = flipPixels(floatingLayer, false);
-      if (pixelsEqual(floatingLayer.pixels, flipped)) return;
-      floatingLayer.pixels = flipped;
-      resetLayerRotation(floatingLayer);
-    }
-    setFloatingLayerPosition(floatingLayer.x, floatingLayer.y);
-  }
-
-  function bakeFloatingLayer() {
-    if (!floatingLayer) return;
-    draftController.pushHistory();
-    compositeLayer(pixels, {
-      ...floatingLayer,
-      pixels: effectiveLayerPixels(floatingLayer, paletteController.activePaletteColors()),
-    });
-    floatingLayer = undefined;
-    renderController.draw();
-    status.textContent = translate(
-      "layerBaked",
-      "Floating layer merged into the artwork.",
-    );
-  }
-
-  function cancelFloatingLayer() {
-    if (!floatingLayer) return;
-    floatingLayer = undefined;
-    renderController.draw();
-    status.textContent = "";
-  }
-
-  function toggleFloatingLayerInversion() {
-    if (!floatingLayer) return;
-    floatingLayer.inverted = !floatingLayer.inverted;
-    renderController.draw();
-  }
-
   function updateTransferButtons() {
     copyArtButton.disabled =
       !currentEntry ||
@@ -960,65 +693,6 @@ export function createPixelEditor({
       pastePending ||
       Boolean(floatingLayer) ||
       (tool === "select" && artworkClipboard.kind !== "selection");
-  }
-
-  async function findSkinTonePasteHelper(clipboard, targetEntry) {
-    const sourceTones = clipboard.skinTones ?? [];
-    const targetTones = skinToneSequence(targetEntry.codePoints);
-    if (
-      sourceTones.length < 2 ||
-      sourceTones.length !== targetTones.length ||
-      clipboard.baseSequence !== skinToneBaseSequence(targetEntry.codePoints)
-    )
-      return undefined;
-
-    const manifest = await loadManifest();
-    const candidates = Object.values(manifest.glyphs)
-      .filter((entry) => {
-        const tones = skinToneSequence(entry.codePoints);
-        return (
-          entry.key !== clipboard.sourceKey &&
-          entry.key !== targetEntry.key &&
-          skinToneBaseSequence(entry.codePoints) === clipboard.baseSequence &&
-          tones.length === sourceTones.length &&
-          new Set(tones).size === tones.length &&
-          (entry.painted || artworkDrafts.has(entry.key))
-        );
-      })
-      .sort(compareSkinToneHelpers);
-
-    for (const entry of candidates) {
-      const helperPixels = await loadHelperPixels(entry);
-      if (!helperPixels) continue;
-      const ownership = buildSkinToneOwnership(
-        helperPixels,
-        skinToneSequence(entry.codePoints),
-      );
-      if (ownership) return { entry, ownership };
-    }
-    if (sourceTones.length === 2) {
-      return {
-        entry: undefined,
-        ownership: buildTwoPersonOwnership(),
-      };
-    }
-    return undefined;
-  }
-
-  async function loadHelperPixels(entry) {
-    const draft = artworkDrafts.get(entry.key);
-    if (draft?.pixels && hasVisiblePixels(draft.pixels))
-      return draft.pixels.slice();
-    const response = await fetch(`pixel-font/atlases/${entry.atlas}`).catch(
-      () => undefined,
-    );
-    if (
-      !response?.ok ||
-      !response.headers.get("content-type")?.includes("image/png")
-    )
-      return undefined;
-    const helperPixels = await extractCell(await response.blob(), entry);
-    return hasVisiblePixels(helperPixels) ? helperPixels : undefined;
   }
 
   function updateEditorModePanels() {
