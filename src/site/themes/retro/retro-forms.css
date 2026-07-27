@@ -47,70 +47,70 @@ html[data-theme="retro"] .rendering-diagnostic h3 {
 }
 
 html[data-theme="retro"] .toolbar {
-  background: #555555;
-  border-bottom-color: #000000;
+  background: var(--ega-dark-gray);
+  border-bottom-color: var(--ega-black);
 }
 
 html[data-theme="retro"] input[type="search"] {
-  border-top: 2px solid #000000;
-  border-left: 2px solid #000000;
-  border-right: 2px solid #ffffff;
-  border-bottom: 2px solid #ffffff;
-  background: #aaaaaa;
-  color: #000000;
+  border-top: 2px solid var(--ega-black);
+  border-left: 2px solid var(--ega-black);
+  border-right: 2px solid var(--ega-white);
+  border-bottom: 2px solid var(--ega-white);
+  background: var(--ega-light-gray);
+  color: var(--ega-black);
 }
 
 html[data-theme="retro"] input[type="search"]::placeholder {
-  color: #555555;
+  color: var(--ega-dark-gray);
 }
 
 html[data-theme="retro"] input[type="search"]:focus-visible {
-  outline: 2px dotted #ffff55;
+  outline: 2px dotted var(--ega-yellow);
   outline-offset: 2px;
 }
 
 html[data-theme="retro"] .order-footer .order-mode.is-active {
-  border-top-color: #555555;
-  border-left-color: #555555;
-  border-right-color: #ffffff;
-  border-bottom-color: #ffffff;
-  background: #000000;
-  color: #aaaaaa;
+  border-top-color: var(--ega-dark-gray);
+  border-left-color: var(--ega-dark-gray);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  background: var(--ega-black);
+  color: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] .pixel-comparison > button {
-  color: #000000;
+  color: var(--ega-black);
 }
 
 html[data-theme="retro"] button.emoji-font-choice small {
-  color: #000000;
+  color: var(--ega-black);
 }
 
 html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"] {
-  background: #000000;
-  color: #aaaaaa;
+  background: var(--ega-black);
+  color: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] button.emoji-font-choice[aria-pressed="true"] small {
-  color: #aaaaaa;
+  color: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] .pixel-editor-tools button[aria-pressed="true"] {
-  border-top-color: #000000;
-  border-left-color: #000000;
-  border-right-color: #aaaaaa;
-  border-bottom-color: #aaaaaa;
-  background: #000000;
-  color: #aaaaaa;
+  border-top-color: var(--ega-black);
+  border-left-color: var(--ega-black);
+  border-right-color: var(--ega-light-gray);
+  border-bottom-color: var(--ega-light-gray);
+  background: var(--ega-black);
+  color: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] .language-dialog .language-option.is-selected {
-  border-top-color: #555555;
-  border-left-color: #555555;
-  border-right-color: #aaaaaa;
-  border-bottom-color: #aaaaaa;
-  background: #000000;
-  color: #aaaaaa;
+  border-top-color: var(--ega-dark-gray);
+  border-left-color: var(--ega-dark-gray);
+  border-right-color: var(--ega-light-gray);
+  border-bottom-color: var(--ega-light-gray);
+  background: var(--ega-black);
+  color: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] .setting-choice:active,
@@ -141,12 +141,12 @@ html[data-theme="retro"] .pixel-editor-preview-actions button:active,
 html[data-theme="retro"] .pixel-editor-transfer button:active,
 html[data-theme="retro"] .pixel-editor-layer button:active,
 html[data-theme="retro"] .pixel-editor-trace-nudge:active {
-  border-top-color: #555555;
-  border-left-color: #555555;
-  border-right-color: #ffffff;
-  border-bottom-color: #ffffff;
-  background: #aaaaaa;
-  color: #000000;
+  border-top-color: var(--ega-dark-gray);
+  border-left-color: var(--ega-dark-gray);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  background: var(--ega-light-gray);
+  color: var(--ega-black);
   transform: translate(1px, 1px);
 }
 
@@ -156,13 +156,13 @@ html[data-theme="retro"] .setting-switch input {
   width: 1.5rem;
   height: 1.5rem;
   min-height: 1.5rem;
-  border: 2px solid #000000;
-  border-top-color: #000000;
-  border-left-color: #000000;
-  border-right-color: #aaaaaa;
-  border-bottom-color: #aaaaaa;
+  border: 2px solid var(--ega-black);
+  border-top-color: var(--ega-black);
+  border-left-color: var(--ega-black);
+  border-right-color: var(--ega-light-gray);
+  border-bottom-color: var(--ega-light-gray);
   border-radius: 0 !important;
-  background: #000000;
+  background: var(--ega-black);
   display: inline-grid;
   place-content: center;
   cursor: pointer;
@@ -176,7 +176,7 @@ html[data-theme="retro"] .setting-switch input::after {
 }
 
 html[data-theme="retro"] .setting-switch input:checked::after {
-  background: #ff55ff;
+  background: var(--ega-light-magenta);
 }
 
 html[data-theme="retro"] .version-step:disabled,
@@ -186,32 +186,32 @@ html[data-theme="retro"] .pixel-editor-preview-actions button:disabled,
 html[data-theme="retro"] .pixel-editor-transfer button:disabled,
 html[data-theme="retro"] .pixel-editor-layer button:disabled {
   border-style: dotted;
-  border-top-color: #aaaaaa;
-  border-left-color: #aaaaaa;
-  border-right-color: #000000;
-  border-bottom-color: #000000;
-  background: #555555;
-  color: #aaaaaa;
+  border-top-color: var(--ega-light-gray);
+  border-left-color: var(--ega-light-gray);
+  border-right-color: var(--ega-black);
+  border-bottom-color: var(--ega-black);
+  background: var(--ega-dark-gray);
+  color: var(--ega-light-gray);
   opacity: 1;
   transform: none;
 }
 
 html[data-theme="retro"] .pixel-editor-swatch {
-  border-color: #000000;
+  border-color: var(--ega-black);
 }
 
 html[data-theme="retro"] .pixel-editor-swatch[data-color="#000000"] {
-  border-color: #aaaaaa;
+  border-color: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] .version-range,
 html[data-theme="retro"] .pixel-editor-controls input[type="range"] {
   appearance: none;
   -webkit-appearance: none;
-  accent-color: #aaaaaa;
+  accent-color: var(--ega-light-gray);
   border: 0;
   box-shadow: none;
-  background: #555555;
+  background: var(--ega-dark-gray);
   border-radius: 0;
   outline: none;
 }
@@ -221,7 +221,7 @@ html[data-theme="retro"]
   .pixel-editor-controls
   input[type="range"]::-webkit-slider-runnable-track {
   height: 2px;
-  border: 1px solid #000000;
+  border: 1px solid var(--ega-black);
   border-radius: 0;
   background: transparent;
 }
@@ -235,9 +235,9 @@ html[data-theme="retro"]
   width: 13px;
   height: 13px;
   margin-top: -6px;
-  border: 2px solid #000000;
+  border: 2px solid var(--ega-black);
   border-radius: 0;
-  background: #aaaaaa;
+  background: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] .version-range::-moz-range-track,
@@ -245,9 +245,9 @@ html[data-theme="retro"]
   .pixel-editor-controls
   input[type="range"]::-moz-range-track {
   height: 2px;
-  border: 1px solid #000000;
+  border: 1px solid var(--ega-black);
   border-radius: 0;
-  background: #555555;
+  background: var(--ega-dark-gray);
 }
 
 html[data-theme="retro"] .version-range::-moz-range-progress,
@@ -255,9 +255,9 @@ html[data-theme="retro"]
   .pixel-editor-controls
   input[type="range"]::-moz-range-progress {
   height: 2px;
-  border: 1px solid #000000;
+  border: 1px solid var(--ega-black);
   border-radius: 0;
-  background: #ffffff;
+  background: var(--ega-white);
 }
 
 html[data-theme="retro"] .version-range::-moz-range-thumb,
@@ -266,7 +266,7 @@ html[data-theme="retro"]
   input[type="range"]::-moz-range-thumb {
   width: 13px;
   height: 13px;
-  border: 2px solid #000000;
+  border: 2px solid var(--ega-black);
   border-radius: 0;
-  background: #aaaaaa;
+  background: var(--ega-light-gray);
 }

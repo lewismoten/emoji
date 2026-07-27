@@ -10,14 +10,14 @@ html[data-theme="retro"]
 
 html[data-theme="retro"] :focus,
 html[data-theme="retro"] :focus-visible {
-  outline: 2px dotted #ffff55 !important;
+  outline: 2px dotted var(--ega-yellow) !important;
   outline-offset: 2px !important;
   box-shadow: none !important;
 }
 
 html[data-theme="retro"] .example-dialog .toggle-favorite:focus,
 html[data-theme="retro"] .example-dialog .toggle-favorite:focus-visible {
-  outline: 2px dotted #ffff55 !important;
+  outline: 2px dotted var(--ega-yellow) !important;
   outline-offset: 2px !important;
 }
 
@@ -88,7 +88,7 @@ html[data-theme="retro"] .subgroup .emoji > div:focus,
 html[data-theme="retro"] .subgroup .emoji > div:focus-visible,
 html[data-theme="retro"] .sequence-type > .emoji > div:focus,
 html[data-theme="retro"] .sequence-type > .emoji > div:focus-visible {
-  outline: 2px dotted #ffff55 !important;
+  outline: 2px dotted var(--ega-yellow) !important;
   outline-offset: 2px !important;
   box-shadow: none !important;
 }
@@ -112,7 +112,7 @@ html[data-theme="retro"] .pixel-editor-swatch:focus-visible {
 }
 
 html[data-theme="retro"] .pixel-editor-layer-help {
-  color: #aaaaaa;
+  color: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] .pixel-editor-canvas:focus,
@@ -123,23 +123,23 @@ html[data-theme="retro"] .pixel-editor-canvas:focus-visible {
 html[data-theme="retro"] .pixel-editor-stage:has(.pixel-editor-canvas:focus),
 html[data-theme="retro"]
   .pixel-editor-stage:has(.pixel-editor-canvas:focus-visible) {
-  outline: 2px dotted #ffff55 !important;
+  outline: 2px dotted var(--ega-yellow) !important;
   outline-offset: 4px !important;
 }
 
 html[data-theme="retro"] body:has(dialog[open]) {
-  background: #0000aa;
+  background: var(--ega-blue);
 }
 
 html[data-theme="retro"] body:has(dialog[open]) main {
-  background: #0000aa;
+  background: var(--ega-blue);
 }
 
 html[data-theme="retro"] body:has(dialog[open]) .toolbar {
   max-height: none;
   overflow: visible;
   border-bottom-color: transparent;
-  background: #0000aa;
+  background: var(--ega-blue);
   box-shadow: none;
   backdrop-filter: none;
 }
@@ -167,7 +167,7 @@ html[data-theme="retro"] body:has(dialog[open]) .order-footer {
 }
 
 html[data-theme="retro"] .setting-row {
-  border-top: 3px double #000000;
+  border-top: 3px double var(--ega-black);
 }
 
 html[data-theme="retro"] body:has(dialog[open]) .example-dialog::backdrop,
@@ -183,49 +183,49 @@ html[data-theme="retro"] body:has(dialog[open]) .install-dialog::backdrop {
     to bottom,
     transparent 0,
     transparent var(--toolbar-height),
-    #0000aa var(--toolbar-height),
-    #0000aa 100%
+    var(--ega-blue) var(--toolbar-height),
+    var(--ega-blue) 100%
   );
   backdrop-filter: none;
 }
 
 html[data-theme="retro"] .saved-section + .saved-section {
-  border-top: 3px double #000000;
+  border-top: 3px double var(--ega-black);
   box-shadow: none;
 }
 
 @media (max-width: 560px) {
   html[data-theme="retro"] .example-dialog .dialog-controls .toggle-favorite {
     border-width: 2px;
-    border-top-color: #ffffff;
-    border-left-color: #ffffff;
-    border-right-color: #555555;
-    border-bottom-color: #555555;
+    border-top-color: var(--ega-white);
+    border-left-color: var(--ega-white);
+    border-right-color: var(--ega-dark-gray);
+    border-bottom-color: var(--ega-dark-gray);
     border-radius: 0;
-    background: #aaaaaa;
-    color: #000000;
+    background: var(--ega-light-gray);
+    color: var(--ega-black);
   }
   html[data-theme="retro"]
     .example-dialog
     .dialog-controls
     .toggle-favorite[aria-pressed="true"] {
-    border-top-color: #ffffff;
-    border-left-color: #ffffff;
-    border-right-color: #aa5500;
-    border-bottom-color: #aa5500;
-    background: #ffff55;
-    color: #000000;
+    border-top-color: var(--ega-white);
+    border-left-color: var(--ega-white);
+    border-right-color: var(--ega-brown);
+    border-bottom-color: var(--ega-brown);
+    background: var(--ega-yellow);
+    color: var(--ega-black);
   }
   html[data-theme="retro"]
     .example-dialog
     .dialog-controls
     .toggle-favorite[data-favorite-state="on"] {
-    border-top-color: #ffffff;
-    border-left-color: #ffffff;
-    border-right-color: #aa5500;
-    border-bottom-color: #aa5500;
-    background: #ffff55;
-    color: #000000;
+    border-top-color: var(--ega-white);
+    border-left-color: var(--ega-white);
+    border-right-color: var(--ega-brown);
+    border-bottom-color: var(--ega-brown);
+    background: var(--ega-yellow);
+    color: var(--ega-black);
   }
   html[data-theme="retro"]
     .example-dialog
@@ -235,12 +235,12 @@ html[data-theme="retro"] .saved-section + .saved-section {
     .example-dialog
     .dialog-controls
     .toggle-favorite[data-favorite-state="on"]:active {
-    border-top-color: #aa5500;
-    border-left-color: #aa5500;
-    border-right-color: #ffffff;
-    border-bottom-color: #ffffff;
-    background: #ffff55;
-    color: #000000;
+    border-top-color: var(--ega-brown);
+    border-left-color: var(--ega-brown);
+    border-right-color: var(--ega-white);
+    border-bottom-color: var(--ega-white);
+    background: var(--ega-yellow);
+    color: var(--ega-black);
   }
   html[data-theme="retro"] .dialog-title-row h2,
   html[data-theme="retro"] .dialog-heading h2#help-title {

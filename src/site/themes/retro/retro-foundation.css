@@ -138,7 +138,7 @@ html[data-theme="retro"] .unicode-subgroup {
 }
 
 html[data-theme="retro"] .modifier-filters fieldset {
-  border-color: #000000;
+  border-color: var(--ega-black);
 }
 
 html[data-theme="retro"] .pixel-hero,
@@ -146,110 +146,110 @@ html[data-theme="retro"] .about-explorer,
 html[data-theme="retro"] .group,
 html[data-theme="retro"] .subgroup-list,
 html[data-theme="retro"] .unicode-subgroup {
-  border-color: #c0c0c0;
+  border-color: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] .modifier-filters fieldset label:has(input:checked) {
-  border-top-color: #aaaaaa !important;
-  border-left-color: #aaaaaa !important;
-  border-right-color: #ffffff !important;
-  border-bottom-color: #ffffff !important;
-  background: #000000 !important;
-  color: #555555 !important;
+  border-top-color: var(--ega-light-gray) !important;
+  border-left-color: var(--ega-light-gray) !important;
+  border-right-color: var(--ega-white) !important;
+  border-bottom-color: var(--ega-white) !important;
+  background: var(--ega-black) !important;
+  color: var(--ega-dark-gray) !important;
   box-shadow: none !important;
 }
 
 html[data-theme="retro"] .filter-picker-kind {
-  color: #555555;
+  color: var(--ega-dark-gray);
 }
 
 html[data-theme="retro"] .help-pixel,
 html[data-theme="retro"] .help-settings {
-  background: #555555;
-  border-color: #000000;
-  color: #ffffff;
+  background: var(--ega-dark-gray);
+  border-color: var(--ega-black);
+  color: var(--ega-white);
 }
 
 html[data-theme="retro"] .help-pixel {
-  background: #000000;
+  background: var(--ega-black);
 }
 
 html[data-theme="retro"] .help-pixel h3,
 html[data-theme="retro"] .help-settings h3,
 html[data-theme="retro"] .help-settings h4,
 html[data-theme="retro"] .help-settings .shortcut-heading {
-  color: #ffffff;
+  color: var(--ega-white);
 }
 
 html[data-theme="retro"] .help-settings .language-picker-label {
-  color: #000000;
+  color: var(--ega-black);
 }
 
 html[data-theme="retro"] .help-settings p,
 html[data-theme="retro"] .help-pixel p {
-  color: #aaaaaa;
+  color: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] .help-pixel a,
 html[data-theme="retro"] .help-settings a,
 html[data-theme="retro"] .help-settings button.linklike {
-  color: #55ffff;
+  color: var(--ega-light-cyan);
 }
 
 html[data-theme="retro"] .help-pixel a:hover,
 html[data-theme="retro"] .help-settings a:hover,
 html[data-theme="retro"] .help-settings button.linklike:hover {
-  color: #ffffff;
+  color: var(--ega-white);
 }
 
 html[data-theme="retro"] .emoji-metadata > div {
-  background: #000000;
-  border-color: #000000;
+  background: var(--ega-black);
+  border-color: var(--ega-black);
 }
 
 html[data-theme="retro"] .rendering-comparison > div {
-  background: #aaaaaa;
-  border-top-color: #000000;
-  border-left-color: #000000;
-  border-right-color: #ffffff;
-  border-bottom-color: #ffffff;
+  background: var(--ega-light-gray);
+  border-top-color: var(--ega-black);
+  border-left-color: var(--ega-black);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
 }
 
 html[data-theme="retro"] .emoji-preview {
-  border-color: #000000;
-  background: #555555;
+  border-color: var(--ega-black);
+  background: var(--ega-dark-gray);
 }
 
 html[data-theme="retro"] .emoji-preview-copy-label {
-  border: 2px solid #aaaaaa !important;
-  border-top-color: #5555ff !important;
-  border-left-color: #5555ff !important;
-  border-right-color: #000000 !important;
-  border-bottom-color: #000000 !important;
-  background: #0000aa !important;
-  color: #ffffff !important;
+  border: 2px solid var(--ega-light-gray) !important;
+  border-top-color: var(--ega-light-blue) !important;
+  border-left-color: var(--ega-light-blue) !important;
+  border-right-color: var(--ega-black) !important;
+  border-bottom-color: var(--ega-black) !important;
+  background: var(--ega-blue) !important;
+  color: var(--ega-white) !important;
 }
 
 html[data-theme="retro"] .emoji-preview:hover .emoji-preview-copy-label {
-  border-top-color: #5555ff;
-  border-left-color: #5555ff;
-  border-right-color: #555555;
-  border-bottom-color: #555555;
-  background: #5555ff;
-  color: #ffffff;
+  border-top-color: var(--ega-light-blue);
+  border-left-color: var(--ega-light-blue);
+  border-right-color: var(--ega-dark-gray);
+  border-bottom-color: var(--ega-dark-gray);
+  background: var(--ega-light-blue);
+  color: var(--ega-white);
 }
 
 html[data-theme="retro"] .emoji-preview:active .emoji-preview-copy-label {
-  border-top-color: #555555;
-  border-left-color: #555555;
-  border-right-color: #ffffff;
-  border-bottom-color: #ffffff;
-  background: #0000aa;
-  color: #ffffff;
+  border-top-color: var(--ega-dark-gray);
+  border-left-color: var(--ega-dark-gray);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  background: var(--ega-blue);
+  color: var(--ega-white);
 }
 
 html[data-theme="retro"] .localized-language {
-  color: #000000;
+  color: var(--ega-black);
 }
 
 html[data-theme="retro"] .example-dialog {

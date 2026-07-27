@@ -27,12 +27,12 @@ const coreAssets = [
   `./explorer/themes/dark.css?v=${assetVersion}`,
   `./explorer/themes/light.css?v=${assetVersion}`,
   `./explorer/themes/ega.css?v=${assetVersion}`,
-  `./explorer/themes/retro.css?v=${assetVersion}`,
-  `./explorer/themes/retro-foundation.css?v=${assetVersion}`,
-  `./explorer/themes/retro-dialogs.css?v=${assetVersion}`,
-  `./explorer/themes/retro-buttons.css?v=${assetVersion}`,
-  `./explorer/themes/retro-forms.css?v=${assetVersion}`,
-  `./explorer/themes/retro-focus.css?v=${assetVersion}`,
+  `./explorer/themes/retro/retro.css?v=${assetVersion}`,
+  `./explorer/themes/retro/retro-foundation.css?v=${assetVersion}`,
+  `./explorer/themes/retro/retro-dialogs.css?v=${assetVersion}`,
+  `./explorer/themes/retro/retro-buttons.css?v=${assetVersion}`,
+  `./explorer/themes/retro/retro-forms.css?v=${assetVersion}`,
+  `./explorer/themes/retro/retro-focus.css?v=${assetVersion}`,
   `./explorer/toolbar-controls.css?v=${assetVersion}`,
   `./explorer/dialog-controls.css?v=${assetVersion}`,
   `./explorer/index.css?v=${assetVersion}`,
@@ -61,18 +61,24 @@ const sourceFileForAsset = (asset) => {
     return path.join("src", "site", "themes", "light.css");
   if (file === "explorer/themes/ega.css")
     return path.join("src", "site", "themes", "ega.css");
-  if (file === "explorer/themes/retro.css")
-    return path.join("src", "site", "themes", "retro.css");
-  if (file === "explorer/themes/retro-foundation.css")
-    return path.join("src", "site", "themes", "retro-foundation.css");
-  if (file === "explorer/themes/retro-dialogs.css")
-    return path.join("src", "site", "themes", "retro-dialogs.css");
-  if (file === "explorer/themes/retro-buttons.css")
-    return path.join("src", "site", "themes", "retro-buttons.css");
-  if (file === "explorer/themes/retro-forms.css")
-    return path.join("src", "site", "themes", "retro-forms.css");
-  if (file === "explorer/themes/retro-focus.css")
-    return path.join("src", "site", "themes", "retro-focus.css");
+  if (file === "explorer/themes/retro/retro.css")
+    return path.join("src", "site", "themes", "retro", "retro.css");
+  if (file === "explorer/themes/retro/retro-foundation.css")
+    return path.join(
+      "src",
+      "site",
+      "themes",
+      "retro",
+      "retro-foundation.css",
+    );
+  if (file === "explorer/themes/retro/retro-dialogs.css")
+    return path.join("src", "site", "themes", "retro", "retro-dialogs.css");
+  if (file === "explorer/themes/retro/retro-buttons.css")
+    return path.join("src", "site", "themes", "retro", "retro-buttons.css");
+  if (file === "explorer/themes/retro/retro-forms.css")
+    return path.join("src", "site", "themes", "retro", "retro-forms.css");
+  if (file === "explorer/themes/retro/retro-focus.css")
+    return path.join("src", "site", "themes", "retro", "retro-focus.css");
   if (file === "explorer/toolbar-controls.css")
     return path.join("src", "site", "styles", "toolbar-controls.css");
   if (file === "explorer/dialog-controls.css")

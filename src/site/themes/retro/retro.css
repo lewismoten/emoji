@@ -14,11 +14,7 @@ html[data-theme="retro"] {
   --accent: var(--ega-light-cyan);
   --accent-strong: var(--ega-light-magenta);
   --accent-surface: var(--ega-magenta);
-  --accent-surface-strong: color-mix(
-    in srgb,
-    var(--ega-magenta) 50%,
-    var(--ega-black) 50%
-  );
+  --accent-surface-strong: var(--ega-light-green);
   --accent-text: var(--ega-white);
   --selected-control-bg: var(--ega-magenta);
   --selected-control-text: var(--ega-white);
@@ -32,11 +28,7 @@ html[data-theme="retro"] {
   --code-comment: var(--ega-dark-gray);
   --code-native-object: var(--ega-magenta);
   --code-object: var(--ega-black);
-  --code-object-key: color-mix(
-    in srgb,
-    var(--ega-blue) 50%,
-    var(--ega-light-cyan) 50%
-  );
+  --code-object-key: var(--ega-light-blue);
   --ui-font: var(--retro-ui-font);
   --retro-step: 0.4375rem;
   --retro-font-1: calc(var(--retro-step) * 1);

@@ -117,25 +117,35 @@ export const demoStyles = (
     fs.readFile(path.join(root, "src", "site", "themes", "dark.css"), "utf8"),
     fs.readFile(path.join(root, "src", "site", "themes", "light.css"), "utf8"),
     fs.readFile(path.join(root, "src", "site", "themes", "ega.css"), "utf8"),
-    fs.readFile(path.join(root, "src", "site", "themes", "retro.css"), "utf8"),
     fs.readFile(
-      path.join(root, "src", "site", "themes", "retro-foundation.css"),
+      path.join(root, "src", "site", "themes", "retro", "retro.css"),
       "utf8",
     ),
     fs.readFile(
-      path.join(root, "src", "site", "themes", "retro-dialogs.css"),
+      path.join(
+        root,
+        "src",
+        "site",
+        "themes",
+        "retro",
+        "retro-foundation.css",
+      ),
       "utf8",
     ),
     fs.readFile(
-      path.join(root, "src", "site", "themes", "retro-buttons.css"),
+      path.join(root, "src", "site", "themes", "retro", "retro-dialogs.css"),
       "utf8",
     ),
     fs.readFile(
-      path.join(root, "src", "site", "themes", "retro-forms.css"),
+      path.join(root, "src", "site", "themes", "retro", "retro-buttons.css"),
       "utf8",
     ),
     fs.readFile(
-      path.join(root, "src", "site", "themes", "retro-focus.css"),
+      path.join(root, "src", "site", "themes", "retro", "retro-forms.css"),
+      "utf8",
+    ),
+    fs.readFile(
+      path.join(root, "src", "site", "themes", "retro", "retro-focus.css"),
       "utf8",
     ),
     fs.readFile(

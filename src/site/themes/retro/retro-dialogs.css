@@ -57,31 +57,31 @@ html[data-theme="retro"] .filter-picker-dialog .dialog-heading {
 html[data-theme="retro"]
   .filter-picker-dialog
   .compact-choice[aria-checked="true"] {
-  border-top-color: #aaaaaa;
-  border-left-color: #aaaaaa;
-  border-right-color: #ffffff;
-  border-bottom-color: #ffffff;
-  background: #000000;
-  color: #aaaaaa;
+  border-top-color: var(--ega-light-gray);
+  border-left-color: var(--ega-light-gray);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  background: var(--ega-black);
+  color: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] .filter-picker-dialog .compact-choice {
-  border-right-color: #000000;
-  border-bottom-color: #000000;
+  border-right-color: var(--ega-black);
+  border-bottom-color: var(--ega-black);
 }
 
 html[data-theme="retro"] .version-mode-toggle[aria-pressed="true"] {
-  border-top-color: #aaaaaa !important;
-  border-left-color: #aaaaaa !important;
-  border-right-color: #ffffff !important;
-  border-bottom-color: #ffffff !important;
-  background: #000000 !important;
-  color: #aaaaaa !important;
+  border-top-color: var(--ega-light-gray) !important;
+  border-left-color: var(--ega-light-gray) !important;
+  border-right-color: var(--ega-white) !important;
+  border-bottom-color: var(--ega-white) !important;
+  background: var(--ega-black) !important;
+  color: var(--ega-light-gray) !important;
   box-shadow: none !important;
 }
 
 html[data-theme="retro"] .language-dialog .eyebrow {
-  color: #55ffff;
+  color: var(--ega-light-cyan);
 }
 
 html[data-theme="retro"] .dialog-close,
@@ -90,58 +90,58 @@ html[data-theme="retro"] .dialog-mode-back,
 html[data-theme="retro"] .example-dialog .toggle-favorite {
   appearance: none;
   -webkit-appearance: none;
-  border: 2px solid #aaaaaa;
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
-  border-right-color: #555555;
-  border-bottom-color: #555555;
+  border: 2px solid var(--ega-light-gray);
+  border-top-color: var(--ega-white);
+  border-left-color: var(--ega-white);
+  border-right-color: var(--ega-dark-gray);
+  border-bottom-color: var(--ega-dark-gray);
   border-radius: 0 !important;
-  background: #aaaaaa;
-  color: #000000;
+  background: var(--ega-light-gray);
+  color: var(--ega-black);
 }
 
 html[data-theme="retro"] .dialog-close:hover,
 html[data-theme="retro"] .dialog-navigate:hover,
 html[data-theme="retro"] .dialog-mode-back:hover,
 html[data-theme="retro"] .example-dialog .toggle-favorite:hover {
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
-  border-right-color: #aaaaaa;
-  border-bottom-color: #aaaaaa;
-  background: #ffffff;
-  color: #000000;
+  border-top-color: var(--ega-white);
+  border-left-color: var(--ega-white);
+  border-right-color: var(--ega-light-gray);
+  border-bottom-color: var(--ega-light-gray);
+  background: var(--ega-white);
+  color: var(--ega-black);
   transform: translate(-1px, -1px);
 }
 
 html[data-theme="retro"] .example-dialog .toggle-favorite[aria-pressed="true"] {
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
-  border-right-color: #aa5500;
-  border-bottom-color: #aa5500;
-  background: #ffff55;
-  color: #000000;
+  border-top-color: var(--ega-white);
+  border-left-color: var(--ega-white);
+  border-right-color: var(--ega-brown);
+  border-bottom-color: var(--ega-brown);
+  background: var(--ega-yellow);
+  color: var(--ega-black);
   transform: translate(0, 0);
 }
 
 html[data-theme="retro"]
   .example-dialog
   .toggle-favorite[data-favorite-state="on"] {
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
-  border-right-color: #aa5500;
-  border-bottom-color: #aa5500;
-  background: #ffff55;
-  color: #000000;
+  border-top-color: var(--ega-white);
+  border-left-color: var(--ega-white);
+  border-right-color: var(--ega-brown);
+  border-bottom-color: var(--ega-brown);
+  background: var(--ega-yellow);
+  color: var(--ega-black);
   transform: translate(0, 0);
 }
 
 html[data-theme="retro"] .example-dialog .toggle-favorite.is-favorite {
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
-  border-right-color: #aa5500;
-  border-bottom-color: #aa5500;
-  background: #ffff55;
-  color: #000000;
+  border-top-color: var(--ega-white);
+  border-left-color: var(--ega-white);
+  border-right-color: var(--ega-brown);
+  border-bottom-color: var(--ega-brown);
+  background: var(--ega-yellow);
+  color: var(--ega-black);
   transform: translate(0, 0);
 }
 
@@ -151,12 +151,12 @@ html[data-theme="retro"]
 html[data-theme="retro"]
   .example-dialog
   .toggle-favorite[data-favorite-state="on"]:active {
-  border-top-color: #aa5500;
-  border-left-color: #aa5500;
-  border-right-color: #ffffff;
-  border-bottom-color: #ffffff;
-  background: #ffff55;
-  color: #000000;
+  border-top-color: var(--ega-brown);
+  border-left-color: var(--ega-brown);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  background: var(--ega-yellow);
+  color: var(--ega-black);
   transform: translate(1px, 1px);
 }
 
@@ -168,7 +168,7 @@ html[data-theme="retro"]
   .example-dialog
   .toggle-favorite[aria-pressed="false"]
   .favorite-glyph {
-  color: #555555;
+  color: var(--ega-dark-gray);
 }
 
 html[data-theme="retro"]
@@ -179,14 +179,14 @@ html[data-theme="retro"]
   .example-dialog
   .toggle-favorite[aria-pressed="true"]
   .favorite-glyph {
-  color: #ffffff;
+  color: var(--ega-white);
 }
 
 html[data-theme="retro"]
   .example-dialog
   .toggle-favorite.is-favorite
   .favorite-glyph {
-  color: #ffffff;
+  color: var(--ega-white);
 }
 
 html[data-theme="retro"]
@@ -195,12 +195,12 @@ html[data-theme="retro"]
 html[data-theme="retro"]
   .example-dialog
   .toggle-favorite[data-favorite-state="on"]:hover {
-  border-top-color: #ffffff;
-  border-left-color: #ffffff;
-  border-right-color: #aa5500;
-  border-bottom-color: #aa5500;
-  background: #ffff55;
-  color: #000000;
+  border-top-color: var(--ega-white);
+  border-left-color: var(--ega-white);
+  border-right-color: var(--ega-brown);
+  border-bottom-color: var(--ega-brown);
+  background: var(--ega-yellow);
+  color: var(--ega-black);
   transform: translate(-1px, -1px);
 }
 
@@ -208,12 +208,12 @@ html[data-theme="retro"] .dialog-close:active,
 html[data-theme="retro"] .dialog-navigate:active,
 html[data-theme="retro"] .dialog-mode-back:active,
 html[data-theme="retro"] .example-dialog .toggle-favorite:active {
-  border-top-color: #555555;
-  border-left-color: #555555;
-  border-right-color: #ffffff;
-  border-bottom-color: #ffffff;
-  background: #aaaaaa;
-  color: #000000;
+  border-top-color: var(--ega-dark-gray);
+  border-left-color: var(--ega-dark-gray);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  background: var(--ega-light-gray);
+  color: var(--ega-black);
 }
 
 html[data-theme="retro"] .subgroup-list,
@@ -235,7 +235,7 @@ html[data-theme="retro"] .pixel-editor-layer-transform {
 }
 
 html[data-theme="retro"] .emoji-code-toolbar {
-  background: #555555;
+  background: var(--ega-dark-gray);
   border-top: 2px solid var(--dialog-frame-border);
 }
 
@@ -254,12 +254,12 @@ html[data-theme="retro"] .example-dialog .pixel-editor-preview-actions button,
 html[data-theme="retro"] .example-dialog .pixel-editor-transfer button,
 html[data-theme="retro"] .example-dialog .pixel-editor-layer button,
 html[data-theme="retro"] .example-dialog .pixel-editor-trace-nudge {
-  border-right-color: #000000;
-  border-bottom-color: #000000;
+  border-right-color: var(--ega-black);
+  border-bottom-color: var(--ega-black);
 }
 
 html[data-theme="retro"] .emoji-code-view {
-  background: #555555;
+  background: var(--ega-dark-gray);
 }
 
 html[data-theme="retro"] .example-dialog .pixel-editor-stage,
@@ -269,9 +269,9 @@ html[data-theme="retro"] .example-dialog .pixel-editor-transfer > div,
 html[data-theme="retro"] .example-dialog .pixel-editor-layer-controls,
 html[data-theme="retro"] .example-dialog .pixel-editor-layer-actions,
 html[data-theme="retro"] .example-dialog .pixel-editor-layer-transform {
-  border-color: #000000;
+  border-color: var(--ega-black);
 }
 
 html[data-theme="retro"] .example-dialog .pixel-editor-file {
-  background: #aaaaaa;
+  background: var(--ega-light-gray);
 }
