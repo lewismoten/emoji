@@ -48,7 +48,7 @@
   height: 2rem;
   place-items: center;
   border: 1px solid var(--border);
-  border-radius: 0.4rem;
+  border-radius: var(--radius-md);
   background: var(--panel);
   color: var(--text);
   cursor: pointer;
@@ -73,7 +73,7 @@
   min-height: 2rem;
   padding: 0.3rem 0.65rem;
   border: 1px solid var(--border);
-  border-radius: 0.4rem;
+  border-radius: var(--radius-md);
   background: var(--panel);
   color: var(--text);
   cursor: pointer;
@@ -106,18 +106,14 @@
   min-height: 2.4rem;
   padding: 0.45rem 0.75rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: var(--panel);
   color: var(--text);
   cursor: pointer;
   font: inherit;
   font-size: 0.78rem;
   font-weight: 700;
-  transition:
-    background var(--motion-fast) var(--motion-ease),
-    border-color var(--motion-fast) var(--motion-ease),
-    color var(--motion-fast) var(--motion-ease),
-    transform var(--motion-fast) var(--motion-ease);
+  transition: var(--interactive-transition);
 }
 
 .setting-choice:hover {
@@ -133,8 +129,8 @@
 }
 
 .setting-choice:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }
 
 .setting-switch {
@@ -163,7 +159,7 @@
   min-height: 3.2rem;
   padding: 0.55rem 0.7rem;
   border: 1px solid var(--border);
-  border-radius: 0.55rem;
+  border-radius: var(--radius-lg);
   background: var(--panel-strong);
   color: var(--text);
   cursor: pointer;
@@ -193,8 +189,8 @@
 
 .language-option:focus-visible,
 .saved-emoji-list button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }
 
 .language-picker-flag,
@@ -203,22 +199,22 @@
   display: inline-grid;
   flex: none;
   place-items: center;
-  font-family: var(--emoji-font) !important;
-  line-height: 1.2 !important;
+  font-family: var(--emoji-font);
+  line-height: var(--emoji-control-line-height, 1.2);
 }
 
 .language-picker-flag,
 .language-option-flag {
   width: 2rem;
   height: 2rem;
-  font-size: 1.5rem !important;
+  font-size: var(--emoji-control-size, 1.5rem);
   text-align: center;
 }
 
 .theme-choice > [aria-hidden="true"] {
   width: 1.5rem;
   height: 1.5rem;
-  font-size: 1.5rem !important;
+  font-size: var(--emoji-control-size, 1.5rem);
 }
 
 .language-option-label {

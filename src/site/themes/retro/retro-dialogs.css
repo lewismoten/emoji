@@ -8,7 +8,7 @@ html[data-theme="retro"] .help-dialog label,
 html[data-theme="retro"] .help-dialog dt,
 html[data-theme="retro"] .help-dialog dd,
 html[data-theme="retro"] .help-dialog kbd {
-  font-size: var(--retro-font-1) !important;
+  font-size: var(--retro-font-1);
 }
 
 html[data-theme="retro"] .help-dialog p,
@@ -23,7 +23,7 @@ html[data-theme="retro"] .help-dialog kbd {
 html[data-theme="retro"] .help-dialog .dialog-close,
 html[data-theme="retro"] .help-dialog .dialog-navigate,
 html[data-theme="retro"] .help-dialog .dialog-mode-back {
-  font-size: var(--retro-font-2) !important;
+  font-size: var(--retro-font-2);
   line-height: 1;
 }
 
@@ -71,12 +71,12 @@ html[data-theme="retro"] .filter-picker-dialog .compact-choice {
 }
 
 html[data-theme="retro"] .version-mode-toggle[aria-pressed="true"] {
-  border-top-color: var(--ega-light-gray) !important;
-  border-left-color: var(--ega-light-gray) !important;
-  border-right-color: var(--ega-white) !important;
-  border-bottom-color: var(--ega-white) !important;
-  background: var(--ega-black) !important;
-  color: var(--ega-light-gray) !important;
+  border-top-color: var(--ega-light-gray);
+  border-left-color: var(--ega-light-gray);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  background: var(--ega-black);
+  color: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] .language-dialog .eyebrow {
@@ -94,7 +94,7 @@ html[data-theme="retro"] .example-dialog .toggle-favorite {
   border-left-color: var(--ega-white);
   border-right-color: var(--ega-dark-gray);
   border-bottom-color: var(--ega-dark-gray);
-  border-radius: 0 !important;
+  border-radius: 0;
   background: var(--ega-light-gray);
   color: var(--ega-black);
 }

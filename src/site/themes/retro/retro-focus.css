@@ -9,14 +9,14 @@ html[data-theme="retro"]
 
 html[data-theme="retro"] :focus,
 html[data-theme="retro"] :focus-visible {
-  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
-  outline-offset: var(--focus-offset) !important;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }
 
 html[data-theme="retro"] .example-dialog .toggle-favorite:focus,
 html[data-theme="retro"] .example-dialog .toggle-favorite:focus-visible {
-  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
-  outline-offset: var(--focus-offset) !important;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }
 
 html[data-theme="retro"] .language-picker:focus,
@@ -86,8 +86,8 @@ html[data-theme="retro"] .subgroup .emoji > div:focus,
 html[data-theme="retro"] .subgroup .emoji > div:focus-visible,
 html[data-theme="retro"] .sequence-type > .emoji > div:focus,
 html[data-theme="retro"] .sequence-type > .emoji > div:focus-visible {
-  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
-  outline-offset: var(--focus-offset) !important;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }
 
 html[data-theme="retro"] .pixel-editor-tools button:focus,
@@ -100,12 +100,12 @@ html[data-theme="retro"] .pixel-editor-trace-nudge:focus,
 html[data-theme="retro"] .pixel-editor-trace-nudge:focus-visible,
 html[data-theme="retro"] .pixel-editor-layer button:focus,
 html[data-theme="retro"] .pixel-editor-layer button:focus-visible {
-  outline-offset: var(--focus-offset) !important;
+  outline-offset: var(--focus-outline-offset);
 }
 
 html[data-theme="retro"] .pixel-editor-swatch:focus,
 html[data-theme="retro"] .pixel-editor-swatch:focus-visible {
-  outline-offset: var(--focus-offset) !important;
+  outline-offset: var(--focus-outline-offset);
 }
 
 html[data-theme="retro"] .pixel-editor-layer-help {
@@ -114,14 +114,14 @@ html[data-theme="retro"] .pixel-editor-layer-help {
 
 html[data-theme="retro"] .pixel-editor-canvas:focus,
 html[data-theme="retro"] .pixel-editor-canvas:focus-visible {
-  outline: none !important;
+  outline: none;
 }
 
 html[data-theme="retro"] .pixel-editor-stage:has(.pixel-editor-canvas:focus),
 html[data-theme="retro"]
   .pixel-editor-stage:has(.pixel-editor-canvas:focus-visible) {
-  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
-  outline-offset: var(--focus-offset) !important;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }
 
 html[data-theme="retro"] body:has(dialog[open]) {
@@ -239,5 +239,5 @@ html[data-theme="retro"] .saved-section + .saved-section {
   }
   html[data-theme="retro"] .dialog-title-row h2,
   html[data-theme="retro"] .dialog-heading h2#help-title {
-    font-size: var(--retro-font-2) !important;
+    font-size: var(--retro-font-2);
   }}

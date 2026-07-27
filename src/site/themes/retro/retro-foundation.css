@@ -149,12 +149,12 @@ html[data-theme="retro"] .unicode-subgroup {
 }
 
 html[data-theme="retro"] .modifier-filters fieldset label:has(input:checked) {
-  border-top-color: var(--ega-light-gray) !important;
-  border-left-color: var(--ega-light-gray) !important;
-  border-right-color: var(--ega-white) !important;
-  border-bottom-color: var(--ega-white) !important;
-  background: var(--ega-black) !important;
-  color: var(--ega-dark-gray) !important;
+  border-top-color: var(--ega-light-gray);
+  border-left-color: var(--ega-light-gray);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  background: var(--ega-black);
+  color: var(--ega-dark-gray);
 }
 
 html[data-theme="retro"] .filter-picker-kind {
@@ -219,13 +219,13 @@ html[data-theme="retro"] .emoji-preview {
 }
 
 html[data-theme="retro"] .emoji-preview-copy-label {
-  border: 2px solid var(--ega-light-gray) !important;
-  border-top-color: var(--ega-light-blue) !important;
-  border-left-color: var(--ega-light-blue) !important;
-  border-right-color: var(--ega-black) !important;
-  border-bottom-color: var(--ega-black) !important;
-  background: var(--ega-blue) !important;
-  color: var(--ega-white) !important;
+  border: 2px solid var(--ega-light-gray);
+  border-top-color: var(--ega-light-blue);
+  border-left-color: var(--ega-light-blue);
+  border-right-color: var(--ega-black);
+  border-bottom-color: var(--ega-black);
+  background: var(--ega-blue);
+  color: var(--ega-white);
 }
 
 html[data-theme="retro"] .emoji-preview:hover .emoji-preview-copy-label {

@@ -5,6 +5,26 @@
 html {
   scroll-padding-top: calc(var(--toolbar-height) + 2.75rem);
   scroll-padding-bottom: 5rem;
+  --motion-fast: 180ms;
+  --motion-medium: 240ms;
+  --motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.35rem;
+  --radius-md: 0.45rem;
+  --radius-lg: 0.55rem;
+  --radius-xl: 0.65rem;
+  --radius-2xl: 0.7rem;
+  --radius-3xl: 0.85rem;
+  --radius-pill: 999px;
+  --focus-outline: 2px solid var(--accent);
+  --focus-outline-strong: 2px dashed var(--accent-strong);
+  --focus-outline-offset: 2px;
+  --toolbar-backdrop-filter: blur(14px);
+  --interactive-transition:
+    background var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-ease);
   --shadow-offline-status: none;
   --shadow-toolbar: none;
   --shadow-dialog: none;
@@ -44,7 +64,7 @@ a {
   z-index: 100;
   padding: 0.45rem 0.7rem;
   border: 2px solid var(--accent);
-  border-radius: 0.45rem;
+  border-radius: var(--radius-md);
   background: var(--panel-strong);
   color: var(--text);
   font-weight: 750;
@@ -62,7 +82,7 @@ a {
   max-width: calc(100% - 2rem);
   padding: 0.4rem 0.7rem;
   border: 1px solid #f1c46f;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   background: #4a3210;
   box-shadow: var(--shadow-offline-status, none);
   color: #fff4d6;
@@ -86,7 +106,7 @@ a {
   border-bottom: 1px solid var(--border);
   background: color-mix(in srgb, var(--page) 94%, transparent);
   box-shadow: var(--shadow-toolbar, none);
-  backdrop-filter: blur(14px);
+  backdrop-filter: var(--toolbar-backdrop-filter);
 }
 
 .toolbar-heading {

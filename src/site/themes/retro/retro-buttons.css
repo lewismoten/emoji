@@ -10,12 +10,12 @@ html[data-theme="retro"] .example-dialog .pixel-editor-status {
 }
 
 html[data-theme="retro"] .example-dialog .pixel-editor-bake-layer {
-  border-top-color: var(--ega-light-green) !important;
-  border-left-color: var(--ega-light-green) !important;
-  border-right-color: var(--ega-black) !important;
-  border-bottom-color: var(--ega-black) !important;
-  background: var(--ega-green) !important;
-  color: var(--ega-white) !important;
+  border-top-color: var(--ega-light-green);
+  border-left-color: var(--ega-light-green);
+  border-right-color: var(--ega-black);
+  border-bottom-color: var(--ega-black);
+  background: var(--ega-green);
+  color: var(--ega-white);
 }
 
 html[data-theme="retro"] .example-dialog .pixel-design-invitation {
@@ -59,8 +59,8 @@ html[data-theme="retro"]
   .example-dialog
   .pixel-design-invitation
   button:focus-visible {
-  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
-  outline-offset: var(--focus-offset) !important;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }
 
 html[data-theme="retro"] .example-dialog .emoji-copy-actions button:focus,
@@ -73,8 +73,8 @@ html[data-theme="retro"]
   .example-dialog
   .emoji-code-toolbar
   button:focus-visible {
-  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
-  outline-offset: var(--focus-offset) !important;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }
 
 html[data-theme="retro"] .emoji-code-view .code {
@@ -261,5 +261,5 @@ html[data-theme="retro"] .dialog-title-row h2 {
 }
 
 html[data-theme="retro"] .dialog-heading h2#help-title {
-  font-size: var(--retro-font-2) !important;
+  font-size: var(--retro-font-2);
 }
