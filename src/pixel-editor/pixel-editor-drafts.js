@@ -183,6 +183,7 @@ export function createPixelEditorDraftController(options) {
   }
 
   return {
+    artworkDrafts,
     hasDirtyAtlasDraft,
     hasPendingAtlasLayer,
     hasVisibleArtwork,

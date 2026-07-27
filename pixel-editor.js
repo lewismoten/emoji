@@ -1,8 +1,6 @@
 import {
   canvasIsBlackSilhouette,
-  canvasToPng,
   createPixelEditorPreviewController,
-  downloadBlob,
   drawBitmapText,
   drawCenteredEmoji,
   drawCheckerboard,
@@ -54,6 +52,7 @@ import {
   extractCell,
   getNestedFileHandle,
 } from "./src/pixel-editor/pixel-editor-atlas-io.js";
+import { createPixelEditorAtlasController } from "./src/pixel-editor/controllers/pixel-editor-atlas.js";
 import { createPixelEditorDraftController } from "./src/pixel-editor/pixel-editor-drafts.js";
 import { createPixelEditorPaletteController } from "./src/pixel-editor/pixel-editor-palette.js";
 import { createPixelEditorTransferController } from "./src/pixel-editor/controllers/pixel-editor-transfer.js";
@@ -303,6 +302,30 @@ export function createPixelEditor({
       status.textContent = value;
     },
   });
+  const atlasController = createPixelEditorAtlasController({
+    currentEntry: () => currentEntry,
+    draftController,
+    downloadButton,
+    downloadEmojiButton,
+    getAtlasBlob: () => atlasBlob,
+    getAtlasDimensions: () => ({ width: atlasWidth, height: atlasHeight }),
+    getDirectoryHandle: () => directoryHandle,
+    getNestedFileHandle,
+    getPixels: () => pixels,
+    setAtlasBlob: (value) => {
+      atlasBlob = value;
+    },
+    setAtlasExists: (value) => {
+      atlasExists = value;
+    },
+    setDirectoryHandle: (value) => {
+      directoryHandle = value;
+    },
+    translate,
+    writeStatus: (value) => {
+      status.textContent = value;
+    },
+  });
   const inputController = createPixelEditorInputController({
     bakeFloatingLayer: transferController.bakeFloatingLayer,
     boundsFromPoints,
@@ -428,9 +451,9 @@ export function createPixelEditor({
     "click",
     transferController.toggleFloatingLayerInversion,
   );
-  saveButton.addEventListener("click", saveAtlas);
-  downloadButton.addEventListener("click", downloadAtlas);
-  downloadEmojiButton.addEventListener("click", downloadEmojiPng);
+  saveButton.addEventListener("click", atlasController.saveAtlas);
+  downloadButton.addEventListener("click", atlasController.downloadAtlas);
+  downloadEmojiButton.addEventListener("click", atlasController.downloadEmojiPng);
   canvas.addEventListener("pointerdown", onPointerDown);
   canvas.addEventListener("pointermove", onPointerMove);
   canvas.addEventListener("pointerup", onPointerUp);
@@ -752,105 +775,6 @@ export function createPixelEditor({
         );
       }
     });
-  }
-
-  async function saveAtlas() {
-    if (!currentEntry || !atlasBlob || saveButton.disabled) return;
-    if (!window.showDirectoryPicker) {
-      status.textContent = translate(
-        "directoryAccessUnavailable",
-        "Direct folder access is unavailable; downloading the atlas instead.",
-      );
-      await downloadAtlas();
-      return;
-    }
-    try {
-      directoryHandle ??= await window.showDirectoryPicker({
-        id: "pixel-emoji-atlases",
-        mode: "readwrite",
-        startIn: "documents",
-      });
-      const fileHandle = await getNestedFileHandle(
-        directoryHandle,
-        currentEntry.atlas,
-        true,
-      );
-      const updatedBlob = await renderUpdatedAtlas(atlasBlob);
-      const writable = await fileHandle.createWritable();
-      await writable.write(updatedBlob);
-      await writable.close();
-      atlasBlob = updatedBlob;
-      atlasExists = true;
-      draftController.markAtlasClean(currentEntry.atlas);
-      draftController.updateFileButtons();
-      status.textContent = translate("atlasSaved", "Atlas PNG saved.");
-    } catch (error) {
-      if (error.name === "AbortError") return;
-      console.warn("Unable to save pixel atlas", error);
-      status.textContent = translate(
-        "atlasSaveFailed",
-        `Could not save ${currentEntry.atlas}. Choose the pixel-font/atlases directory.`,
-      );
-      directoryHandle = undefined;
-    }
-  }
-
-  async function downloadAtlas() {
-    if (!currentEntry || !atlasBlob || downloadButton.disabled) return;
-    const updatedBlob = await renderUpdatedAtlas(atlasBlob);
-    atlasBlob = updatedBlob;
-    atlasExists = true;
-    draftController.markAtlasClean(currentEntry.atlas);
-    draftController.updateFileButtons();
-    downloadBlob(updatedBlob, currentEntry.atlas.split("/").at(-1));
-    status.textContent = translate(
-      "atlasDownloaded",
-      "Updated atlas PNG downloaded.",
-    );
-  }
-
-  async function renderUpdatedAtlas(source) {
-    draftController.rememberCurrentDraft();
-    const image = await createImageBitmap(source);
-    if (image.width !== atlasWidth || image.height !== atlasHeight) {
-      image.close();
-      throw new Error(
-        `The selected atlas must be exactly ${atlasWidth} by ${atlasHeight} pixels`,
-      );
-    }
-    const atlasCanvas = document.createElement("canvas");
-    atlasCanvas.width = image.width;
-    atlasCanvas.height = image.height;
-    const atlasContext = atlasCanvas.getContext("2d");
-    atlasContext.drawImage(image, 0, 0);
-    image.close();
-    for (const draft of artworkDrafts.values()) {
-      if (draft.entry.atlas !== currentEntry.atlas) continue;
-      atlasContext.putImageData(
-        new ImageData(draft.pixels.slice(), CELL_SIZE, CELL_SIZE),
-        draft.entry.x,
-        draft.entry.y,
-      );
-    }
-    return new Promise((resolve, reject) => {
-      atlasCanvas.toBlob(
-        (blob) =>
-          blob ? resolve(blob) : reject(new Error("PNG encoding failed")),
-        "image/png",
-      );
-    });
-  }
-
-  async function downloadEmojiPng() {
-    if (downloadEmojiButton.disabled || !currentEntry) return;
-    const blob = await canvasToPng(
-      imageDataCanvas(pixels, CELL_SIZE, CELL_SIZE),
-    );
-    downloadBlob(blob, `${currentEntry.key}.png`);
-    status.textContent = translate(
-      "emojiPngDownloaded",
-      "12 by 12 emoji PNG downloaded.",
-    );
   }
 
 }

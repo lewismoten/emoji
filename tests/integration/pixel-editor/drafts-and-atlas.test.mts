@@ -15,7 +15,7 @@ for (const action of [
 }
 assert.match(
   pixelEditorScript,
-  /function downloadEmojiPng[\s\S]*imageDataCanvas\(pixels, CELL_SIZE, CELL_SIZE\)[\s\S]*currentEntry\.key\}\.png/,
+  /function downloadEmojiPng[\s\S]*imageDataCanvas\(getPixels\(\)|pixels, CELL_SIZE, CELL_SIZE\)[\s\S]*currentEntry\(\)|currentEntry[\s\S]*\.key\}\.png/,
   'the current 12 by 12 artwork must be downloadable as its own PNG'
 );
 assert.match(
@@ -85,7 +85,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /for \(const draft of artworkDrafts\.values\(\)\)[\s\S]*draft\.entry\.atlas !== currentEntry\.atlas[\s\S]*draft\.entry\.x[\s\S]*draft\.entry\.y/,
+  /for \(const draft of draftController\.artworkDrafts\(\)\.values\(\)|for \(const draft of artworkDrafts\.values\(\)\)[\s\S]*draft\.entry\.atlas !== currentEntry\(\)\.atlas|draft\.entry\.atlas !== currentEntry\.atlas[\s\S]*draft\.entry\.x[\s\S]*draft\.entry\.y/,
   'saving must merge every retained draft belonging to the current atlas'
 );
 assert.match(
