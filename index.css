@@ -505,6 +505,16 @@ html[data-theme="retro"] .filter-picker-dialog .compact-choice {
   border-bottom-color: #000000;
 }
 
+html[data-theme="retro"] .version-mode-toggle[aria-pressed="true"] {
+  border-top-color: #aaaaaa !important;
+  border-left-color: #aaaaaa !important;
+  border-right-color: #ffffff !important;
+  border-bottom-color: #ffffff !important;
+  background: #000000 !important;
+  color: #aaaaaa !important;
+  box-shadow: none !important;
+}
+
 html[data-theme="retro"] .language-dialog .eyebrow {
   color: #55ffff;
 }
