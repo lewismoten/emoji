@@ -228,6 +228,7 @@ export function buildExplorerBootstrapRuntimeSourceOptions(options: any) {
     syncVersionRange: (...args: any[]) => options.syncVersionRange(...args),
     themeChoices: () => options.themeChoices(),
     toggleDeveloperMode: options.toggleDeveloperMode,
+    toggleVersionMode: (...args: any[]) => options.toggleVersionMode(...args),
     toolbar: () => options.toolbar(),
     translate: options.translate,
     updateCompositionBackButton: (...args: any[]) =>
