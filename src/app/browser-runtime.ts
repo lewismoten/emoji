@@ -1,4 +1,4 @@
-import { createSearchLanguageLifecycle } from "../explorer/search-language-lifecycle.js";
+import { createSearchLanguageLifecycle } from "../explorer/language/search-language-lifecycle.js";
 import { openPanelDialog } from "../explorer/pwa-panels.js";
 import {
   installPixelFontHotReload,

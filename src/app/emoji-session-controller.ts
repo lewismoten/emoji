@@ -1,4 +1,4 @@
-import { showEmojiSession } from "../explorer/emoji-session.js";
+import { showEmojiSession } from "../explorer/dialog/emoji-session.js";
 
 /** Assemble dependencies for opening an emoji-details session. */
 export function createEmojiSessionController(options: any) {

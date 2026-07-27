@@ -8,7 +8,7 @@ import {
   resolveDialogNavigationState,
   resolveDialogTitle,
   shouldHideEnglishName,
-} from "../../src/explorer/dialog-state.js";
+} from "../../src/explorer/dialog/dialog-state.js";
 
 assert.equal(buildEscapeSequence("A😀"), "\\u41\\u{1f600}");
 
@@ -76,7 +76,7 @@ assert.equal(
     parentKey: "blackFlag",
     searchAnnotations: { blackFlag: ["Black flag"] },
     byId: {},
-    translate: (key, fallback) =>
+    translate: (key: string, fallback: string) =>
       key === "backToEmoji" ? "Back to emoji" : fallback,
   }),
   "Back to emoji: Black flag",
@@ -100,7 +100,7 @@ assert.deepEqual(
     sequenceTypeLabels: { single: "Single" },
     sequenceTranslationKeys: { single: "single" },
     statusTranslationKeys: { "fully-qualified": "fullyQualified" },
-    translate: (key, fallback) => `${key}:${fallback}`,
+    translate: (key: string, fallback: string) => `${key}:${fallback}`,
   }),
   {
     groupText: "Objects",

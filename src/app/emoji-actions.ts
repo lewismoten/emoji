@@ -2,7 +2,7 @@ import {
   getIntroducedVersion as getIntroducedVersionHelper,
   withoutDialogParentPanel,
   withoutCompositionParent,
-} from "../explorer/dialog-render.js";
+} from "../explorer/dialog/dialog-render.js";
 import {
   loadPackageManifest as loadPackageManifestHelper,
   renderImportExamples as renderImportExamplesHelper,

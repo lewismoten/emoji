@@ -16,16 +16,11 @@ const structureLimits = {
 // These are ratcheting budgets for existing structural debt. New files and
 // directories receive no exception. Lower a budget whenever a split reduces it.
 const legacyLineBudgets: Record<string, number> = {
-  "README.md": 161,
   "src/explorer/dialog-render.ts": 306,
-  "src/explorer/filter-controls.ts": 250,
-  "src/explorer/filter-picker.ts": 292,
-  "src/explorer/utility-controls.ts": 181,
   "src/explorer-audio.ts": 388,
   "src/pixel-editor/controllers/pixel-editor-transfer.js": 342,
   "src/pixel-editor/pixel-editor-controllers.js": 474,
   "src/pixel-editor/pixel-editor-layer-helpers.js": 352,
-  "src/pixel-editor-entry.js": 48,
   "src/site/index.css": 2803,
 };
 const legacyFileCountBudgets: Record<string, number> = {

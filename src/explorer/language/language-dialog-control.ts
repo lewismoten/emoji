@@ -2,8 +2,8 @@ import {
   createDialogHeading,
   createTextBlock,
   setPressedState,
-} from "./dialog-control-helpers.js";
-import { LanguagePickerControl as SearchLanguagePickerButtonControl } from "../controls/pickers/language-picker.js";
+} from "../dialog/dialog-control-helpers.js";
+import { LanguagePickerControl as SearchLanguagePickerButtonControl } from "../../controls/pickers/language-picker.js";
 
 type SearchLocale = {
   locale: string;

@@ -3,8 +3,8 @@ import {
   resolveDialogNavigationState,
   resolveEmojiDialogDisplay,
 } from "./dialog-state.js";
-import { renderEmojiComposition } from "./emoji-composition.js";
-import { resolveRenderingDiagnostic } from "./rendering-diagnostic.js";
+import { renderEmojiComposition } from "../emoji-composition.js";
+import { resolveRenderingDiagnostic } from "../rendering-diagnostic.js";
 
 export function getIntroducedVersion(options: {
   key: string;

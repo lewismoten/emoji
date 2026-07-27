@@ -2,7 +2,7 @@
 import { createPixelArtworkManager } from "../explorer/pixel-artwork.js";
 import { createExplorerShell } from "./explorer-shell.js";
 import { createEmojiActions } from "./emoji-actions.js";
-import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from "../explorer/dialog-render.js";
+import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from "../explorer/dialog/dialog-render.js";
 
 export function createExplorerBootstrapShell(options: any) {
   let developerModeEnabled = () => false;

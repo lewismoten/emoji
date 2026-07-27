@@ -1,5 +1,5 @@
 import { ensureImportExamples as ensureImportExampleLines } from "../explorer/import-examples.js";
-import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from "../explorer/dialog-upgrade.js";
+import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from "../explorer/dialog/dialog-upgrade.js";
 import {
   finishExplorerLoading as finishExplorerLoadingHelper,
   revealExplorer as revealExplorerHelper,

@@ -4,7 +4,7 @@ import {
   initializeExplorerControls,
 } from "../explorer-app.js";
 import { createFilterControlSetup } from "../explorer/filter-controls.js";
-import { observeToolbarHeight } from "../explorer/toolbar-layout.js";
+import { observeToolbarHeight } from "../explorer/toolbar/toolbar-layout.js";
 import {
   closePanelDialog,
   installedDisplayQueries,

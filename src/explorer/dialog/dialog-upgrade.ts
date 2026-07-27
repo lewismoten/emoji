@@ -1,4 +1,4 @@
-import { DialogNavigateButtonControl } from "../controls/dialog/dialog-navigate-button.js";
+import { DialogNavigateButtonControl } from "../../controls/dialog/dialog-navigate-button.js";
 
 export function upgradeEmojiDialog(options: {
   ensureImportExamples: (dialog: HTMLElement) => void;

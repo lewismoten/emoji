@@ -1,7 +1,7 @@
-import { createDialogNavigationController } from "../explorer/dialog-navigation-controller.js";
+import { createDialogNavigationController } from "../explorer/dialog/dialog-navigation-controller.js";
 import { createEmojiSessionController } from "./emoji-session-controller.js";
-import { withoutCompositionParent } from "../explorer/dialog-render.js";
-import { resolveDialogNavigationState } from "../explorer/dialog-state.js";
+import { withoutCompositionParent } from "../explorer/dialog/dialog-render.js";
+import { resolveDialogNavigationState } from "../explorer/dialog/dialog-state.js";
 
 export function initializeDialogRuntime(options: any) {
   const { showEmoji } = createEmojiSessionController({

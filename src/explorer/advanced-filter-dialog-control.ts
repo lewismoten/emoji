@@ -2,7 +2,7 @@ import { AdvancedFiltersTriggerControl } from "../controls/filters/pickers/advan
 import { GenderFilterControl } from "../controls/filters/modifiers/gender-filter.js";
 import { HairFilterControl } from "../controls/filters/modifiers/hair-filter.js";
 import { SkinToneFilterControl } from "../controls/filters/modifiers/skin-tone-filter.js";
-import { createDialogHeading } from "./dialog-control-helpers.js";
+import { createDialogHeading } from "./dialog/dialog-control-helpers.js";
 
 function createSequenceFilterField() {
   const field = document.createElement("div");

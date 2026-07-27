@@ -1,7 +1,7 @@
 import {
   createDialogHeading,
   setPressedState,
-} from "./dialog-control-helpers.js";
+} from "./dialog/dialog-control-helpers.js";
 import { CompactChoiceButtonControl } from "../controls/filters/pickers/compact-choice-button.js";
 import { FilterPickerTriggerControl } from "../controls/filters/pickers/filter-picker-trigger.js";
 

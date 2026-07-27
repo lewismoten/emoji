@@ -1,4 +1,4 @@
-import { displayEmojiKey, normalizeDisplayName } from "./emoji-format.js";
+import { displayEmojiKey, normalizeDisplayName } from "../emoji-format.js";
 
 export function buildEscapeSequence(value: string) {
   const bits: string[] = [];

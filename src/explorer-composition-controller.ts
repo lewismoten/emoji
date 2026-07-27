@@ -1,4 +1,4 @@
-import { updateEmojiComposition } from "./explorer/dialog-render.js";
+import { updateEmojiComposition } from "./explorer/dialog/dialog-render.js";
 
 export function updateExplorerComposition(
   options: any,

@@ -1,18 +1,18 @@
 import {
   createLanguageDialogControl,
   createLanguagePickerControl,
-} from "./language-dialog-control.js";
+} from "./language/language-dialog-control.js";
 import {
   ensureDialogTitleRow,
   ensureFavoriteButton,
   positionFavoriteButton as positionFavoriteButtonHelper,
-} from "./dialog-title-controls.js";
-import { createHelpDialogControl } from "./help-settings-control.js";
+} from "./dialog/dialog-title-controls.js";
+import { createHelpDialogControl } from "./toolbar/help-settings-control.js";
 import { ensureAdvancedFilterControls } from "./advanced-filter-dialog-control.js";
 import {
   createHelpPickerControl,
   createSavedPickerControl,
-} from "./toolbar-trigger-controls.js";
+} from "./toolbar/toolbar-trigger-controls.js";
 import { ensurePickerControls } from "./utility-picker-controls.js";
 import {
   emojiCompositionMarkup,

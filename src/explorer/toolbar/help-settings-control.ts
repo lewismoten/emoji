@@ -2,7 +2,7 @@ import {
   createDialogHeading,
   createHeading,
   createTextBlock,
-} from "./dialog-control-helpers.js";
+} from "../dialog/dialog-control-helpers.js";
 import { createThemeChoiceGroupControl } from "./theme-choice-control.js";
 
 type HelpDialogControl = {

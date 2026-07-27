@@ -1,5 +1,5 @@
-import { DialogHeadingControl } from "../controls/dialog/dialog-heading.js";
-import { TextControl } from "../controls/core/text-control.js";
+import { DialogHeadingControl } from "../../controls/dialog/dialog-heading.js";
+import { TextControl } from "../../controls/core/text-control.js";
 
 declare const document: {
   createElement(tagName: string): any;

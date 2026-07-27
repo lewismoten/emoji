@@ -1,5 +1,5 @@
 import { createPixelEditorLoader } from "../explorer/pixel-editor-loader.js";
-import { loadStylesheet } from "../explorer/dialog-view.js";
+import { loadStylesheet } from "../explorer/dialog/dialog-view.js";
 
 export function createPixelEditorRuntime(options: any) {
   const loadPixelEditor = createPixelEditorLoader({
