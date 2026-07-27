@@ -1,8 +1,8 @@
-import { BaseControl } from "./base-control.js";
-import { DomFactory, type NodeSpec } from "./dom-factory.js";
+import { BaseControl } from "../core/base-control.js";
+import { DomFactory, type NodeSpec } from "../core/dom-factory.js";
 
 const themeChoiceGroupStylesheetId = "theme-choice-group-control-stylesheet";
-const themeChoiceGroupStylesheetHref = "./explorer/controls/theme-choice-group.css";
+const themeChoiceGroupStylesheetHref = "./explorer/controls/toolbar/theme-choice-group.css";
 
 type ThemeChoice = {
   emoji: string;

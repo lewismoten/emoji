@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 
-import { AdvancedFiltersTriggerControl } from "../../src/controls/advanced-filters-trigger.js";
-import { GenderFilterControl } from "../../src/controls/gender-filter.js";
-import { HairFilterControl } from "../../src/controls/hair-filter.js";
-import { SkinToneFilterControl } from "../../src/controls/skin-tone-filter.js";
-import { ThemeChoiceGroupControl } from "../../src/controls/theme-choice-group.js";
-import { ToolbarTriggerButtonControl } from "../../src/controls/toolbar-trigger-button.js";
+import { AdvancedFiltersTriggerControl } from "../../../src/controls/filters/advanced-filters-trigger.js";
+import { GenderFilterControl } from "../../../src/controls/filters/gender-filter.js";
+import { HairFilterControl } from "../../../src/controls/filters/hair-filter.js";
+import { SkinToneFilterControl } from "../../../src/controls/filters/skin-tone-filter.js";
+import { ThemeChoiceGroupControl } from "../../../src/controls/toolbar/theme-choice-group.js";
+import { ToolbarTriggerButtonControl } from "../../../src/controls/toolbar/toolbar-trigger-button.js";
 
 const favoriteMarkup = ToolbarTriggerButtonControl.toMarkup({
   ariaLabel: "Saved emoji",

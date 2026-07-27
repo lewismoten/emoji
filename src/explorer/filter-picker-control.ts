@@ -2,8 +2,8 @@ import {
   createDialogHeading,
   setPressedState,
 } from "./dialog-control-helpers.js";
-import { CompactChoiceButtonControl } from "../controls/compact-choice-button.js";
-import { FilterPickerTriggerControl } from "../controls/filter-picker-trigger.js";
+import { CompactChoiceButtonControl } from "../controls/filters/compact-choice-button.js";
+import { FilterPickerTriggerControl } from "../controls/filters/filter-picker-trigger.js";
 
 export function createFilterPickerDialogControl(options: {
   id: string;

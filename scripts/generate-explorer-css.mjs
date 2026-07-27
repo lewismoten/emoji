@@ -48,56 +48,56 @@ const sourceFiles = [
     output: "dialog-controls.css",
   },
   {
-    source: path.join("src", "controls", "dialog-close-button.css"),
-    output: path.join("controls", "dialog-close-button.css"),
+    source: path.join("src", "controls", "dialog", "dialog-close-button.css"),
+    output: path.join("controls", "dialog", "dialog-close-button.css"),
   },
   {
-    source: path.join("src", "controls", "dialog-heading.css"),
-    output: path.join("controls", "dialog-heading.css"),
+    source: path.join("src", "controls", "dialog", "dialog-heading.css"),
+    output: path.join("controls", "dialog", "dialog-heading.css"),
   },
   {
-    source: path.join("src", "controls", "dialog-navigate-button.css"),
-    output: path.join("controls", "dialog-navigate-button.css"),
+    source: path.join("src", "controls", "dialog", "dialog-navigate-button.css"),
+    output: path.join("controls", "dialog", "dialog-navigate-button.css"),
   },
   {
-    source: path.join("src", "controls", "dialog-mode-back-button.css"),
-    output: path.join("controls", "dialog-mode-back-button.css"),
+    source: path.join("src", "controls", "dialog", "dialog-mode-back-button.css"),
+    output: path.join("controls", "dialog", "dialog-mode-back-button.css"),
   },
   {
-    source: path.join("src", "controls", "language-picker.css"),
-    output: path.join("controls", "language-picker.css"),
+    source: path.join("src", "controls", "pickers", "language-picker.css"),
+    output: path.join("controls", "pickers", "language-picker.css"),
   },
   {
-    source: path.join("src", "controls", "compact-choice-button.css"),
-    output: path.join("controls", "compact-choice-button.css"),
+    source: path.join("src", "controls", "filters", "compact-choice-button.css"),
+    output: path.join("controls", "filters", "compact-choice-button.css"),
   },
   {
-    source: path.join("src", "controls", "theme-choice-group.css"),
-    output: path.join("controls", "theme-choice-group.css"),
+    source: path.join("src", "controls", "toolbar", "theme-choice-group.css"),
+    output: path.join("controls", "toolbar", "theme-choice-group.css"),
   },
   {
-    source: path.join("src", "controls", "filter-picker-trigger.css"),
-    output: path.join("controls", "filter-picker-trigger.css"),
+    source: path.join("src", "controls", "filters", "filter-picker-trigger.css"),
+    output: path.join("controls", "filters", "filter-picker-trigger.css"),
   },
   {
-    source: path.join("src", "controls", "toolbar-trigger-button.css"),
-    output: path.join("controls", "toolbar-trigger-button.css"),
+    source: path.join("src", "controls", "toolbar", "toolbar-trigger-button.css"),
+    output: path.join("controls", "toolbar", "toolbar-trigger-button.css"),
   },
   {
-    source: path.join("src", "controls", "advanced-filters-trigger.css"),
-    output: path.join("controls", "advanced-filters-trigger.css"),
+    source: path.join("src", "controls", "filters", "advanced-filters-trigger.css"),
+    output: path.join("controls", "filters", "advanced-filters-trigger.css"),
   },
   {
-    source: path.join("src", "controls", "modifier-filter-control.css"),
-    output: path.join("controls", "modifier-filter-control.css"),
+    source: path.join("src", "controls", "filters", "modifier-filter-control.css"),
+    output: path.join("controls", "filters", "modifier-filter-control.css"),
   },
   {
-    source: path.join("src", "controls", "version-mode-toggle.css"),
-    output: path.join("controls", "version-mode-toggle.css"),
+    source: path.join("src", "controls", "filters", "version-mode-toggle.css"),
+    output: path.join("controls", "filters", "version-mode-toggle.css"),
   },
   {
-    source: path.join("src", "controls", "version-step-button.css"),
-    output: path.join("controls", "version-step-button.css"),
+    source: path.join("src", "controls", "filters", "version-step-button.css"),
+    output: path.join("controls", "filters", "version-step-button.css"),
   },
 ];
 const mainSource = fs.readFileSync(path.join("src", "site", "index.css"), "utf8");

@@ -1,5 +1,5 @@
-import { BaseControl } from "./base-control.js";
-import { DomFactory, type NodeSpec } from "./dom-factory.js";
+import { BaseControl } from "../core/base-control.js";
+import { DomFactory, type NodeSpec } from "../core/dom-factory.js";
 
 type ModifierFilterOptionState = {
   emoji: string;

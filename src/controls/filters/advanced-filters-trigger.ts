@@ -1,10 +1,10 @@
-import { BaseControl } from "./base-control.js";
-import { DomFactory, type NodeSpec } from "./dom-factory.js";
+import { BaseControl } from "../core/base-control.js";
+import { DomFactory, type NodeSpec } from "../core/dom-factory.js";
 
 const advancedFiltersTriggerStylesheetId =
   "advanced-filters-trigger-control-stylesheet";
 const advancedFiltersTriggerStylesheetHref =
-  "./explorer/controls/advanced-filters-trigger.css";
+  "./explorer/controls/filters/advanced-filters-trigger.css";
 
 type AdvancedFiltersTriggerState = {
   controls: string;

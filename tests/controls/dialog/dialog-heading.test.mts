@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
 
-import { DialogCloseButtonControl } from "../../src/controls/dialog-close-button.js";
-import { DialogHeadingControl } from "../../src/controls/dialog-heading.js";
-import { createDialogHeading } from "../../src/explorer/dialog-control-helpers.js";
-import { FakeElement, installFakeDocument } from "./fake-dom.mjs";
+import { DialogCloseButtonControl } from "../../../src/controls/dialog/dialog-close-button.js";
+import { DialogHeadingControl } from "../../../src/controls/dialog/dialog-heading.js";
+import { createDialogHeading } from "../../../src/explorer/dialog-control-helpers.js";
+import { FakeElement, installFakeDocument } from "../fake-dom.mjs";
 
 const restore = installFakeDocument();
 const documentRef = (
@@ -25,11 +25,11 @@ const stylesheets = (documentRef.head.children as FakeElement[]).filter(
 );
 assert.equal(stylesheets.length, 2);
 assert.equal(stylesheets[0]?.id, "dialog-heading-control-stylesheet");
-assert.equal(stylesheets[0]?.href, "./explorer/controls/dialog-heading.css");
+assert.equal(stylesheets[0]?.href, "./explorer/controls/dialog/dialog-heading.css");
 assert.equal(stylesheets[1]?.id, "dialog-close-button-control-stylesheet");
 assert.equal(
   stylesheets[1]?.href,
-  "./explorer/controls/dialog-close-button.css",
+  "./explorer/controls/dialog/dialog-close-button.css",
 );
 assert.equal(heading.className, "dialog-heading");
 assert.equal(heading.children.length, 2);

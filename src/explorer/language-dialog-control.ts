@@ -3,7 +3,7 @@ import {
   createTextBlock,
   setPressedState,
 } from "./dialog-control-helpers.js";
-import { LanguagePickerControl as SearchLanguagePickerButtonControl } from "../controls/language-picker.js";
+import { LanguagePickerControl as SearchLanguagePickerButtonControl } from "../controls/pickers/language-picker.js";
 
 type SearchLocale = {
   locale: string;

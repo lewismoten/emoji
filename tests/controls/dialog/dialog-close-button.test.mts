@@ -8,9 +8,9 @@ import {
   dialogCloseButtonText,
   dialogCloseButtonStylesheetHref,
   dialogCloseButtonStylesheetId,
-} from "../../src/controls/dialog-close-button.js";
-import { DomFactory } from "../../src/controls/dom-factory.js";
-import { FakeElement, installFakeDocument } from "./fake-dom.mjs";
+} from "../../../src/controls/dialog/dialog-close-button.js";
+import { DomFactory } from "../../../src/controls/core/dom-factory.js";
+import { FakeElement, installFakeDocument } from "../fake-dom.mjs";
 
 const restore = installFakeDocument();
 const documentRef = (

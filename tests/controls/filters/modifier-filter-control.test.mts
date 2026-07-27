@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { ModifierFilterControl } from "../../src/controls/modifier-filter-control.js";
+import { ModifierFilterControl } from "../../../src/controls/filters/modifier-filter-control.js";
 
 class ExampleModifierFilterControl extends ModifierFilterControl {
   constructor() {

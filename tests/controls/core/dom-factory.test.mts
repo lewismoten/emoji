@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 
-import { DomFactory } from "../../src/controls/dom-factory.js";
-import { FakeElement, installFakeDocument } from "./fake-dom.mjs";
+import { DomFactory } from "../../../src/controls/core/dom-factory.js";
+import { FakeElement, installFakeDocument } from "../fake-dom.mjs";
 
 const restore = installFakeDocument();
 

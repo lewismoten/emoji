@@ -1,10 +1,10 @@
-import { BaseControl } from "./base-control.js";
-import { DomFactory } from "./dom-factory.js";
+import { BaseControl } from "../core/base-control.js";
+import { DomFactory } from "../core/dom-factory.js";
 
 const versionModeToggleStylesheetId =
   "version-mode-toggle-control-stylesheet";
 const versionModeToggleStylesheetHref =
-  "./explorer/controls/version-mode-toggle.css";
+  "./explorer/controls/filters/version-mode-toggle.css";
 
 type VersionModeToggleState = {
   emoji: string;

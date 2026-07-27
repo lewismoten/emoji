@@ -1,4 +1,4 @@
-import { ToolbarTriggerButtonControl } from "../controls/toolbar-trigger-button.js";
+import { ToolbarTriggerButtonControl } from "../controls/toolbar/toolbar-trigger-button.js";
 
 export function createSavedPickerControl() {
   return ToolbarTriggerButtonControl.create({

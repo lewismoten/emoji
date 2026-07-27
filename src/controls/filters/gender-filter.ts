@@ -1,7 +1,7 @@
 import { ModifierFilterControl } from "./modifier-filter-control.js";
 
 const genderFilterStylesheetId = "gender-filter-control-stylesheet";
-const genderFilterStylesheetHref = "./explorer/controls/modifier-filter-control.css";
+const genderFilterStylesheetHref = "./explorer/controls/filters/modifier-filter-control.css";
 
 export class GenderFilterControl extends ModifierFilterControl {
   constructor(state?: Partial<ConstructorParameters<typeof ModifierFilterControl>[0]>) {

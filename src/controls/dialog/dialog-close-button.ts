@@ -1,5 +1,5 @@
-import { BaseControl } from "./base-control.js";
-import { DomFactory } from "./dom-factory.js";
+import { BaseControl } from "../core/base-control.js";
+import { DomFactory } from "../core/dom-factory.js";
 
 export const dialogCloseButtonLabel = "Close";
 export const dialogCloseButtonText = "×";
@@ -8,7 +8,7 @@ export const dialogCloseButtonAriaKey = "close";
 export const dialogCloseButtonStylesheetId =
   "dialog-close-button-control-stylesheet";
 export const dialogCloseButtonStylesheetHref =
-  "./explorer/controls/dialog-close-button.css";
+  "./explorer/controls/dialog/dialog-close-button.css";
 
 type DialogCloseButtonState = {
   buttonClassName: string;

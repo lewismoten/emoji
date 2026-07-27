@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 
-import { TextControl } from "../../src/controls/text-control.js";
-import { FakeElement, installFakeDocument } from "./fake-dom.mjs";
+import { TextControl } from "../../../src/controls/core/text-control.js";
+import { FakeElement, installFakeDocument } from "../fake-dom.mjs";
 
 const restore = installFakeDocument();
 

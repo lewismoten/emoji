@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { ModifierFilterOptionControl } from "../../src/controls/modifier-filter-option.js";
+import { ModifierFilterOptionControl } from "../../../src/controls/filters/modifier-filter-option.js";
 
 const markup = ModifierFilterOptionControl.toMarkup({
   emoji: "🧪",

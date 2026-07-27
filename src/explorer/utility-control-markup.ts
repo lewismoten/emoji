@@ -1,4 +1,4 @@
-import { DialogCloseButtonControl } from "../controls/dialog-close-button.js";
+import { DialogCloseButtonControl } from "../controls/dialog/dialog-close-button.js";
 
 export const emojiCompositionMarkup = `
   <section class="emoji-composition" hidden>

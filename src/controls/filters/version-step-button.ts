@@ -1,10 +1,10 @@
-import { BaseControl } from "./base-control.js";
-import { DomFactory } from "./dom-factory.js";
+import { BaseControl } from "../core/base-control.js";
+import { DomFactory } from "../core/dom-factory.js";
 
 const versionStepButtonStylesheetId =
   "version-step-button-control-stylesheet";
 const versionStepButtonStylesheetHref =
-  "./explorer/controls/version-step-button.css";
+  "./explorer/controls/filters/version-step-button.css";
 
 type VersionStepButtonState = {
   ariaLabel: string;

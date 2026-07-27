@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 
-import { BaseControl } from "../../src/controls/base-control.js";
-import type { NodeSpec } from "../../src/controls/dom-factory.js";
-import { FakeElement, installFakeDocument } from "./fake-dom.mjs";
+import { BaseControl } from "../../../src/controls/core/base-control.js";
+import type { NodeSpec } from "../../../src/controls/core/dom-factory.js";
+import { FakeElement, installFakeDocument } from "../fake-dom.mjs";
 
 class ExampleControl extends BaseControl<{
   label: string;

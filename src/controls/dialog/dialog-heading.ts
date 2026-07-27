@@ -1,13 +1,13 @@
-import { BaseControl } from "./base-control.js";
+import { BaseControl } from "../core/base-control.js";
 import {
   DialogCloseButtonControl,
   dialogCloseButtonClassName,
 } from "./dialog-close-button.js";
-import { DomFactory } from "./dom-factory.js";
-import { TextControl } from "./text-control.js";
+import { DomFactory } from "../core/dom-factory.js";
+import { TextControl } from "../core/text-control.js";
 
 const dialogHeadingStylesheetId = "dialog-heading-control-stylesheet";
-const dialogHeadingStylesheetHref = "./explorer/controls/dialog-heading.css";
+const dialogHeadingStylesheetHref = "./explorer/controls/dialog/dialog-heading.css";
 
 type DialogHeadingState = {
   titleId: string;

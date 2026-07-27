@@ -1,10 +1,10 @@
-import { BaseControl } from "./base-control.js";
-import { DomFactory } from "./dom-factory.js";
+import { BaseControl } from "../core/base-control.js";
+import { DomFactory } from "../core/dom-factory.js";
 
 const dialogModeBackButtonStylesheetId =
   "dialog-mode-back-button-control-stylesheet";
 const dialogModeBackButtonStylesheetHref =
-  "./explorer/controls/dialog-mode-back-button.css";
+  "./explorer/controls/dialog/dialog-mode-back-button.css";
 
 export const dialogModeBackButtonClassName = "dialog-mode-back";
 
