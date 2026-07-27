@@ -174,19 +174,22 @@ const source = [
   "",
 ].join("\n");
 
-writeEmojiSourceSync("src/emoji-source", emoji);
+writeEmojiSourceSync("src/data/emoji", emoji);
 fs.writeFileSync("emoji.ts", source);
-const previousManifest = fs.existsSync("versions/manifest.json")
-  ? JSON.parse(fs.readFileSync("versions/manifest.json", "utf8"))
+const versionsDirectory = path.join("src", "data", "versions");
+const proposedDirectory = path.join("src", "data", "proposed");
+const manifestPath = path.join(versionsDirectory, "manifest.json");
+const previousManifest = fs.existsSync(manifestPath)
+  ? JSON.parse(fs.readFileSync(manifestPath, "utf8"))
   : {};
-fs.rmSync("versions", { recursive: true, force: true });
-fs.mkdirSync("versions", { recursive: true });
+fs.rmSync(versionsDirectory, { recursive: true, force: true });
+fs.mkdirSync(versionsDirectory, { recursive: true });
 const manifest = [];
 for (const [version, keys] of [...versions.entries()].sort(([a], [b]) =>
   a.localeCompare(b, undefined, { numeric: true }),
 )) {
   fs.writeFileSync(
-    `versions/${version}.json`,
+    path.join(versionsDirectory, `${version}.json`),
     `${JSON.stringify(keys, null, "  ")}\n`,
   );
   manifest.push({
@@ -199,9 +202,9 @@ for (const [version, keys] of [...versions.entries()].sort(([a], [b]) =>
 const proposed = (previousManifest.proposed ?? []).filter(
   (version) => version.version !== emojiVersion,
 );
-fs.rmSync(path.join("proposed", `${emojiVersion}.json`), { force: true });
+fs.rmSync(path.join(proposedDirectory, `${emojiVersion}.json`), { force: true });
 fs.writeFileSync(
-  "versions/manifest.json",
+  manifestPath,
   `${JSON.stringify({ emojiVersion, versions: manifest, proposed }, null, "  ")}\n`,
 );
 console.info(

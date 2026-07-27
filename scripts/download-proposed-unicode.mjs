@@ -146,9 +146,9 @@ if (duplicateKeys.length) {
   );
 }
 
-const outputDirectory = "proposed";
+const outputDirectory = path.join("src", "data", "proposed");
 const outputFile = path.join(outputDirectory, `${draftVersion}.json`);
-const manifestFile = path.join("versions", "manifest.json");
+const manifestFile = path.join("src", "data", "versions", "manifest.json");
 fs.mkdirSync(outputDirectory, { recursive: true });
 fs.writeFileSync(
   outputFile,

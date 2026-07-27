@@ -49,7 +49,7 @@ export function createSearchLanguageLifecycle(options: any) {
       const primary = await fetch("locales/manifest.json");
       const manifest = primary.ok
         ? await primary.json()
-        : await fetch("src/locales/manifest.json").then((response) => {
+        : await fetch("src/data/locales/manifest.json").then((response) => {
             if (!response.ok) {
               throw new Error("Search locale manifest unavailable");
             }

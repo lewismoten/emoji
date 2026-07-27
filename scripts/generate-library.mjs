@@ -7,7 +7,7 @@ const sourceDirectory = "library";
 const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const emoji = readEmojiDataSync();
 const popular = JSON.parse(
-  fs.readFileSync(path.join("src", "package-data", "popular.json"), "utf8"),
+  fs.readFileSync(path.join("src", "data", "popular.json"), "utf8"),
 );
 
 const clean = (directory) =>
@@ -220,7 +220,7 @@ write(
 
 const unicodeOrder = [...emoji].sort((a, b) => a.order - b.order);
 write(
-  "orders/manifest.json",
+  "src/data/orders/manifest.json",
   JSON.stringify(
     {
       unicode: unicodeOrder.map((item) => item.key),

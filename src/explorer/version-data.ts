@@ -15,8 +15,18 @@ export async function loadVersionCatalog(options: {
   getExplorerSubGroup: (item: any) => string;
   items: () => any[];
 }) {
-  const manifest = await fetch("versions/manifest.json").then((response) =>
-    response.json(),
+  const fetchJsonWithFallback = async (primary: string, fallback: string) => {
+    const response = await fetch(primary);
+    if (response.ok) return response.json();
+    const secondary = await fetch(fallback);
+    if (!secondary.ok) {
+      throw new Error(`Unable to load ${primary} or ${fallback}`);
+    }
+    return secondary.json();
+  };
+  const manifest = await fetchJsonWithFallback(
+    "versions/manifest.json",
+    "src/data/versions/manifest.json",
   );
   const released: Version[] = manifest.versions
     .filter((version: Version) => version.released)
@@ -29,8 +39,9 @@ export async function loadVersionCatalog(options: {
         [
           version.version,
           new Set<string>(
-            await fetch(`versions/${version.file}`).then((response) =>
-              response.json(),
+            await fetchJsonWithFallback(
+              `versions/${version.file}`,
+              `src/data/versions/${version.file}`,
             ),
           ),
         ] as [string, Set<string>],
@@ -42,8 +53,9 @@ export async function loadVersionCatalog(options: {
   );
   const proposedKeys: Array<[string, Set<string>]> = await Promise.all(
     proposed.map(async (version) => {
-      const proposal = await fetch(version.file!).then((response) =>
-        response.json(),
+      const proposal = await fetchJsonWithFallback(
+        version.file!,
+        `src/data/${version.file!}`,
       );
       const proposalItems = proposal.emoji ?? [];
       proposalItems.forEach((item: any) => {

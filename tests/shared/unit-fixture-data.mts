@@ -75,12 +75,12 @@ export const explorerCatalog = await readJson<{
   emoji: unknown[][];
 }>("explorer/catalog.json");
 export const orderManifest = await readJson<{ unicode: string[] }>(
-  "orders/manifest.json",
+  "src/data/orders/manifest.json",
 );
 export const manifest = await readJson<{
   versions: Version[];
   proposed?: ProposedVersion[];
-}>("versions/manifest.json");
+}>("src/data/versions/manifest.json");
 export const pixelAtlasManifest = await readJson<PixelAtlasManifest>(
   "pixel-font/atlases/manifest.json",
 );

@@ -8,7 +8,7 @@ const readJson = async (file) =>
   JSON.parse(await fs.readFile(path.join(root, file), "utf8"));
 
 const emoji = readEmojiDataSync();
-const manifest = await readJson("versions/manifest.json");
+const manifest = await readJson("src/data/versions/manifest.json");
 const emojiByKey = Object.fromEntries(emoji.map((item) => [item.key, item]));
 
 const sha256 = (lines) =>
@@ -25,7 +25,7 @@ const snapshot = {
 };
 
 for (const version of manifest.versions) {
-  const keys = await readJson(`versions/${version.file}`);
+  const keys = await readJson(`src/data/versions/${version.file}`);
   snapshot.versions[version.version] = {
     count: keys.length,
     sha256: sha256(

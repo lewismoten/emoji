@@ -39,7 +39,7 @@ const packageManifest = await readJson<{
 const manifest = await readJson<{
   versions: Version[];
   proposed?: ProposedVersion[];
-}>("versions/manifest.json");
+}>("src/data/versions/manifest.json");
 
 assert.equal(packageManifest.name, "@lewismoten/emoji");
 assert.equal(
@@ -76,7 +76,7 @@ for (const category of packageManifest.categories) {
 
 const versionKeys = new Set<string>();
 for (const version of manifest.versions) {
-  const keys = await readJson<string[]>(`versions/${version.file}`);
+  const keys = await readJson<string[]>(`src/data/versions/${version.file}`);
   assert.equal(keys.length, version.count);
   assert.equal(new Set(keys).size, keys.length);
   for (const key of keys) {
@@ -92,7 +92,7 @@ for (const version of manifest.proposed ?? []) {
   assert.equal(version.status, "draft");
   assert.equal(version.released, null);
   const proposal = await readJson<{ count: number; emoji: Emoji[] }>(
-    version.file,
+    `src/data/${version.file}`,
   );
   assert.equal(proposal.count, version.count);
   assert.ok(

@@ -187,11 +187,14 @@ export async function setSearchLanguage({
         ? [
             fetchJsonWithFallback(
               `locales/${locale.baseLocale}.json`,
-              `src/locales/${locale.baseLocale}.json`,
+              `src/data/locales/${locale.baseLocale}.json`,
             ),
           ]
         : []),
-      fetchJsonWithFallback(`locales/${locale.file}`, `src/locales/${locale.file}`),
+      fetchJsonWithFallback(
+        `locales/${locale.file}`,
+        `src/data/locales/${locale.file}`,
+      ),
     ])) as SearchLocalePack[];
     const searchAnnotations = Object.assign(
       {},

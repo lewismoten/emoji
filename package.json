@@ -40,10 +40,10 @@
       "import": "./dist/esm/search.min.js",
       "require": "./dist/commonjs/search.min.cjs"
     },
-    "./locales/*": "./src/locales/*.json",
-    "./orders/*": "./orders/*.json",
-    "./versions/*": "./versions/*.json",
-    "./proposed/*": "./proposed/*.json",
+    "./locales/*": "./src/data/locales/*.json",
+    "./orders/*": "./src/data/orders/*.json",
+    "./versions/*": "./src/data/versions/*.json",
+    "./proposed/*": "./src/data/proposed/*.json",
     "./development/*": {
       "types": "./dist/esm/types/*.d.mts",
       "import": "./dist/esm/*.js",

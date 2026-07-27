@@ -34,7 +34,7 @@ const emoji = readEmojiDataSync();
 const customSubgroupLabels = JSON.parse(
   fs.readFileSync("scripts/locale-label-overrides.json", "utf8"),
 );
-const outputDirectory = path.join("src", "locales");
+const outputDirectory = path.join("src", "data", "locales");
 const manifestFile = path.join(outputDirectory, "manifest.json");
 const displayNames = new Intl.DisplayNames(["en"], { type: "language" });
 const nativeDisplayName = (locale) =>

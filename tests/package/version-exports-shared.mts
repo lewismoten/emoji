@@ -45,7 +45,7 @@ const emojiByKey = Object.fromEntries(
 const allEmoji = await importDefault("@lewismoten/emoji/all");
 const manifest = await readJson<{
   versions: VersionManifestEntry[];
-}>("versions/manifest.json");
+}>("src/data/versions/manifest.json");
 const snapshot = await readJson<VersionSnapshot>(
   "tests/package/version-exports.snapshot.json",
 );
@@ -95,7 +95,7 @@ export async function verifyVersionContract(version: string) {
   assert.ok(entry, `Missing version manifest entry for ${version}`);
   assert.ok(contract, `Missing checked-in snapshot for Unicode ${version}`);
 
-  const keys = await readJson<string[]>(`versions/${entry!.file}`);
+  const keys = await readJson<string[]>(`src/data/versions/${entry!.file}`);
   const lines = keys.map((key) => {
     const item = emojiByKey[key];
     assert.ok(item, `${version} contains unknown key ${key}`);

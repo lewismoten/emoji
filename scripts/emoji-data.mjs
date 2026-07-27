@@ -180,9 +180,9 @@ export const emojiSourceManifest = {
 export const readEmojiDataSync = (file = "emoji.json") =>
   fs.existsSync(file)
     ? parseCompactEmojiData(readJsonFileSync(file))
-    : readEmojiSourceSync("src/emoji-source");
+    : readEmojiSourceSync("src/data/emoji");
 
-export const readEmojiSourceSync = (directory = "src/emoji-source") => {
+export const readEmojiSourceSync = (directory = "src/data/emoji") => {
   const manifestFile = path.join(directory, "emoji-source.json");
   const manifest = fs.existsSync(manifestFile)
     ? readJsonFileSync(manifestFile)

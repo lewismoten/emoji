@@ -45,9 +45,12 @@ const retroTextRevision = fs.existsSync(
       .slice(0, 12)
   : "dev";
 const localeManifest = JSON.parse(
-  fs.readFileSync(path.join("src", "locales", "manifest.json"), "utf8"),
+  fs.readFileSync(
+    path.join("src", "data", "locales", "manifest.json"),
+    "utf8",
+  ),
 );
-const runtimeLocalesDirectory = path.join("src", "locales");
+const runtimeLocalesDirectory = path.join("src", "data", "locales");
 const runtimeDemoLocalesDirectory = path.join("src", "demo-locales");
 const localeMetadata = new Map(
   localeManifest.locales.map((locale) => [locale.locale, locale]),
@@ -426,9 +429,34 @@ ${locales.map((locale) => `  <url><loc>${pageUrl(locale)}</loc></url>`).join("\n
   for (const asset of staticSiteAssets) {
     fs.copyFileSync(asset.source, path.join(outputDirectory, asset.target));
   }
-  fs.cpSync(path.join("src", "locales"), path.join(outputDirectory, "locales"), {
-    recursive: true,
-  });
+  fs.cpSync(
+    path.join("src", "data", "locales"),
+    path.join(outputDirectory, "locales"),
+    {
+      recursive: true,
+    },
+  );
+  fs.cpSync(
+    path.join("src", "data", "orders"),
+    path.join(outputDirectory, "orders"),
+    {
+      recursive: true,
+    },
+  );
+  fs.cpSync(
+    path.join("src", "data", "versions"),
+    path.join(outputDirectory, "versions"),
+    {
+      recursive: true,
+    },
+  );
+  fs.cpSync(
+    path.join("src", "data", "proposed"),
+    path.join(outputDirectory, "proposed"),
+    {
+      recursive: true,
+    },
+  );
   fs.cpSync(
     path.join("src", "demo-locales"),
     path.join(outputDirectory, "demo-locales"),

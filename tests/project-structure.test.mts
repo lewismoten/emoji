@@ -60,6 +60,9 @@ const generatedFilenamePrefixes = [
   "orders/",
   "pixel-font/atlases/",
   "proposed/",
+  "src/data/orders/",
+  "src/data/proposed/",
+  "src/data/versions/",
   "versions/",
 ];
 const ignoredRoots = new Set([

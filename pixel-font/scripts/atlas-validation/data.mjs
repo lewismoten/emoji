@@ -20,7 +20,7 @@ export async function loadAtlasValidationData() {
   const manifest = await readJson(path.join(atlasDirectory, "manifest.json"));
   const emoji = readEmojiDataSync();
   const versionManifest = await readJson(
-    path.join(root, "versions", "manifest.json"),
+    path.join(root, "src", "data", "versions", "manifest.json"),
   );
   const proposedEmoji = await loadProposedEmoji(root, versionManifest);
   const eligible = [...emoji, ...proposedEmoji];
@@ -46,7 +46,9 @@ async function loadProposedEmoji(root, versionManifest) {
   return (
     await Promise.all(
       (versionManifest.proposed ?? []).map(async (version) => {
-        const proposal = await readJson(path.join(root, version.file));
+        const proposal = await readJson(
+          path.join(root, "src", "data", version.file),
+        );
         return (proposal.emoji ?? []).map((item) => ({
           ...item,
           releaseStatus: "proposed",

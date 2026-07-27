@@ -120,7 +120,7 @@ export const readEmojiJson = async (root: string, file = "emoji.json") => {
 };
 
 export const readEmojiSource = async (root: string) => {
-  const directory = path.join(root, "src/emoji-source");
+  const directory = path.join(root, "src/data/emoji");
   const manifest = JSON.parse(
     await fs.readFile(path.join(directory, "emoji-source.json"), "utf8"),
   ) as {
