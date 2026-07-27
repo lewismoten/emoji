@@ -68,7 +68,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /tool === "select" && artworkClipboard\.kind !== "selection"/,
+  /getTool\(\) === "select" && getArtworkClipboard\(\)\.kind !== "selection"|tool === "select" && artworkClipboard\.kind !== "selection"/,
   'selection mode must paste only a copied selection'
 );
 assert.match(
@@ -115,7 +115,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /function updateLayerControlStates[\s\S]*layerNudgeButtons\.forEach[\s\S]*layerPositionAllowed\(floatingLayer, nextX, nextY\)/,
+  /function updateLayerControlStates[\s\S]*layerNudgeButtons\.forEach[\s\S]*layerPositionAllowed\(floatingLayer\(\), nextX, nextY\)|function updateLayerControlStates[\s\S]*layerNudgeButtons\.forEach[\s\S]*layerPositionAllowed\(floatingLayer, nextX, nextY\)/,
   'layer nudge controls must disable at canvas boundaries'
 );
 assert.match(

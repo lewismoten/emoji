@@ -53,6 +53,7 @@ import {
   getNestedFileHandle,
 } from "./src/pixel-editor/pixel-editor-atlas-io.js";
 import { createPixelEditorAtlasController } from "./src/pixel-editor/controllers/pixel-editor-atlas.js";
+import { createPixelEditorModeController } from "./src/pixel-editor/controllers/pixel-editor-mode.js";
 import { createPixelEditorDraftController } from "./src/pixel-editor/pixel-editor-drafts.js";
 import { createPixelEditorPaletteController } from "./src/pixel-editor/pixel-editor-palette.js";
 import { createPixelEditorTransferController } from "./src/pixel-editor/controllers/pixel-editor-transfer.js";
@@ -264,6 +265,36 @@ export function createPixelEditor({
     updateTransferButtons,
     view,
   });
+  const modeController = createPixelEditorModeController({
+    artworkClipboard: () => artworkClipboard,
+    canvas,
+    cellLoaded: () => cellLoaded,
+    copyArtButton,
+    copyFontButton,
+    copySelectionButton,
+    currentEntry: () => currentEntry,
+    draftController,
+    drawingPanel,
+    filePanel,
+    floatingLayer: () => floatingLayer,
+    historyPanel,
+    invertLayerButton,
+    layerHelp,
+    layerNudgeButtons,
+    layerPanel,
+    layerTransformButtons,
+    paletteController,
+    pasteArtButton,
+    pastePending: () => pastePending,
+    previewActions,
+    selection: () => selection,
+    tool: () => tool,
+    toolButtons,
+    toolsPanel,
+    tracingPanel,
+    transferPanel,
+    view,
+  });
   const transferController = createPixelEditorTransferController({
     artworkDrafts: () => artworkDrafts,
     canvas,
@@ -297,7 +328,7 @@ export function createPixelEditor({
       selection = value;
     },
     trimVisiblePixels,
-    updateTransferButtons,
+    updateTransferButtons: modeController.updateTransferButtons,
     writeStatus: (value) => {
       status.textContent = value;
     },
@@ -389,7 +420,7 @@ export function createPixelEditor({
     transformFloatingLayer: transferController.transformFloatingLayer,
     undo,
     undoButton,
-    updateTransferButtons,
+    updateTransferButtons: modeController.updateTransferButtons,
     view,
   });
   const {
@@ -696,85 +727,11 @@ export function createPixelEditor({
   }
 
   function updateTransferButtons() {
-    copyArtButton.disabled =
-      !currentEntry ||
-      !cellLoaded ||
-      Boolean(floatingLayer) ||
-      !draftController.hasVisibleArtwork();
-    copyFontButton.disabled =
-      !currentEntry?.painted || !cellLoaded || Boolean(floatingLayer);
-    copySelectionButton.disabled =
-      !currentEntry ||
-      !cellLoaded ||
-      Boolean(floatingLayer) ||
-      !selection ||
-      !draftController.selectionHasVisibleArtwork();
-    pasteArtButton.disabled =
-      !currentEntry ||
-      !cellLoaded ||
-      !artworkClipboard ||
-      pastePending ||
-      Boolean(floatingLayer) ||
-      (tool === "select" && artworkClipboard.kind !== "selection");
+    modeController.updateTransferButtons();
   }
 
   function updateEditorModePanels() {
-    const layerMode = Boolean(floatingLayer);
-    const selectionMode = tool === "select" && !layerMode;
-    view.classList.toggle("is-layer-mode", layerMode);
-    view.classList.toggle("is-selection-mode", selectionMode);
-    canvas.tabIndex = layerMode ? 0 : -1;
-    toolsPanel.hidden = layerMode;
-    historyPanel.hidden = layerMode || selectionMode;
-    drawingPanel.hidden = layerMode || selectionMode;
-    tracingPanel.hidden = layerMode || selectionMode;
-    transferPanel.hidden = layerMode;
-    layerPanel.hidden = !layerMode;
-    if (layerHelp) layerHelp.hidden = !layerMode;
-    filePanel.hidden = layerMode || selectionMode;
-    copyArtButton.hidden = selectionMode;
-    copyFontButton.hidden = selectionMode;
-    copySelectionButton.hidden = !selectionMode;
-    pasteArtButton.hidden = false;
-    previewActions.hidden = layerMode || selectionMode;
-    toolButtons.forEach((button) => {
-      button.disabled = layerMode;
-    });
-    invertLayerButton.setAttribute(
-      "aria-pressed",
-      String(Boolean(floatingLayer?.inverted)),
-    );
-    invertLayerButton.classList.toggle(
-      "is-active",
-      Boolean(floatingLayer?.inverted),
-    );
-    updateLayerControlStates();
-  }
-
-  function updateLayerControlStates() {
-    if (!floatingLayer) return;
-    layerNudgeButtons.forEach((button) => {
-      const nextX = floatingLayer.x + Number(button.dataset.layerX);
-      const nextY = floatingLayer.y + Number(button.dataset.layerY);
-      button.disabled = !layerPositionAllowed(floatingLayer, nextX, nextY);
-    });
-    syncRovingGrid(layerNudgeButtons);
-    layerTransformButtons.forEach((button) => {
-      const transform = button.dataset.layerTransform;
-      if (transform === "rotate-left" || transform === "rotate-right") {
-        const rotated = nextLayerRotation(
-          floatingLayer,
-          transform === "rotate-right",
-          paletteController.activePaletteColors(),
-        );
-        button.disabled = !layerTransformChangesPixels(floatingLayer, rotated);
-      } else {
-        button.disabled = pixelsEqual(
-          floatingLayer.pixels,
-          flipPixels(floatingLayer, transform === "flip-horizontal"),
-        );
-      }
-    });
+    modeController.updateEditorModePanels();
   }
 
 }
