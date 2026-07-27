@@ -1,3 +1,5 @@
+import { DialogCloseButtonControl } from "../controls/dialog-close-button.js";
+
 export const emojiCompositionMarkup = `
   <section class="emoji-composition" hidden>
     <div class="emoji-composition-heading">
@@ -12,7 +14,7 @@ export const savedDialogMarkup = `
   <dialog class="saved-dialog" id="saved-dialog" aria-labelledby="saved-title">
     <div class="dialog-heading">
       <h2 id="saved-title" data-i18n="savedEmoji">Saved emoji</h2>
-      <form method="dialog"><button class="dialog-close" data-i18n-aria-label="close" aria-label="Close">×</button></form>
+      ${DialogCloseButtonControl.toMarkup()}
     </div>
     <section class="saved-section" aria-labelledby="favorites-title">
       <h3 id="favorites-title" data-i18n="favorites">Favorites</h3>

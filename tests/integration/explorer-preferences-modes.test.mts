@@ -1,6 +1,4 @@
 import assert from "node:assert/strict";
-import fs from "node:fs/promises";
-import path from "node:path";
 
 import {
   arabicDemo,
@@ -8,12 +6,17 @@ import {
   demoHtml,
   demoScript,
   demoStyles,
+  explorerBootstrapSessionSource,
+  explorerBootstrapShellSource,
+  explorerPreferencesSource,
   explorerUi,
+  filterPickerHelper,
   pixelArtwork,
+  pixelEditorLoaderSource,
   pwaPanelsHelper,
-  root,
   searchLanguageLifecycle,
   urlStateHelper,
+  versionFilterControl,
 } from "../shared/unit-fixtures.mjs";
 
 assert.match(
@@ -32,15 +35,12 @@ assert.match(
   "the Emoji version filter must be visible only in Developer mode",
 );
 assert.match(
-  await fs.readFile(
-    path.join(root, "src/explorer/version-filter-control.ts"),
-    "utf8",
-  ),
+  versionFilterControl,
   /function ensureVersionSliderControl[\s\S]*classList\.add\((["'])developer-only\1\)/,
   "cached version filters must also become developer-only",
 );
 assert.match(
-  `${await fs.readFile(path.join(root, "src/app/explorer-preferences.ts"), "utf8")}\n${explorerUi}`,
+  `${explorerPreferencesSource}\n${explorerUi}`,
   /new URLSearchParams\(window\.location\.search\)\.get\((["'])developer\1\) === (["'])1\2[\s\S]*const enabled = \(\) =>[\s\S]*developerModeFromUrl[\s\S]*developerModeUrlDismissed[\s\S]*developerMode === true[\s\S]*function change[\s\S]*developerModeUrlDismissed = !active[\s\S]*developerModeFromUrl = false[\s\S]*savePreference\((["'])developerMode\3/,
   "Developer mode must support shared URL activation and persist explicit selection",
 );
@@ -50,7 +50,7 @@ assert.match(
   "shared developer-only dialog URLs must preserve Developer mode",
 );
 assert.match(
-  `${await fs.readFile(path.join(root, "src/app/explorer-bootstrap-session.ts"), "utf8")}\n${searchLanguageLifecycle}`,
+  `${explorerBootstrapSessionSource}\n${searchLanguageLifecycle}`,
   /restoreDeveloperMode: \(\) => \{[\s\S]*developerModeFromUrl =[\s\S]*get\((["'])developer\1\) === (["'])1\2[\s\S]*renderDeveloperMode\(\)[\s\S]*const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.applyDialogUrlState\(\)/,
   "browser navigation must restore Developer mode before applying dialog URL state",
 );
@@ -105,12 +105,12 @@ assert.match(
   "compact group and subgroup triggers must open dedicated picker dialogs",
 );
 assert.match(
-  await fs.readFile(path.join(root, "src/explorer/filter-picker.ts"), "utf8"),
+  filterPickerHelper,
   /function openFilterPicker[\s\S]*showModal\(\)[\s\S]*function closeFilterPicker[\s\S]*trigger\?\.focus\(\)/,
   "category picker dialogs must focus the selected choice and return focus after selection",
 );
 assert.match(
-  await fs.readFile(path.join(root, "src/explorer/filter-picker.ts"), "utf8"),
+  filterPickerHelper,
   /function renderFilterPickerTrigger[\s\S]*filter-picker-emoji[\s\S]*filter-picker-value[\s\S]*aria-label/,
   "compact category triggers must expose their selected emoji and readable label",
 );
@@ -135,10 +135,7 @@ assert.match(
   "the font comparison must expose system and pixel choices",
 );
 assert.match(
-  await fs.readFile(
-    path.join(root, "src/explorer/pixel-editor-loader.ts"),
-    "utf8",
-  ),
+  pixelEditorLoaderSource,
   /createPixelEditor[\s\S]*is-editor-view/,
   "demo must initialize the pixel-art editor only when editor mode is opened",
 );
@@ -158,17 +155,17 @@ assert.match(
   "the Explorer must derive its emoji lookup from the metadata it already downloads",
 );
 assert.match(
-  `${pixelArtwork}\n${await fs.readFile(path.join(root, "src/app/explorer-bootstrap-shell.ts"), "utf8")}`,
+  `${pixelArtwork}\n${explorerBootstrapShellSource}`,
   /const refreshRenderedPixelEmoji[\s\S]*options\.refreshEditor\(\)[\s\S]*refreshEditor:\s*\(\)\s*=>\s*\{[\s\S]*is-editor-view[\s\S]*getPixelEditor\(\)\?\.refreshFontBuild/,
   "font toggles must refresh editor metadata only while the editor is open",
 );
 assert.match(
-  await fs.readFile(path.join(root, "src/explorer/url-state.ts"), "utf8"),
+  urlStateHelper,
   /emojiMode:\s*(["'])details\1\s*\|\s*(["'])code\2\s*\|\s*(["'])editor\3[\s\S]*params\.set\((["'])emojiMode\4,\s*(["'])editor\5\)/,
   "pixel-editor mode must participate in URL state",
 );
 assert.match(
-  `${await fs.readFile(path.join(root, "src/explorer-ui.ts"), "utf8")}\n${await fs.readFile(path.join(root, "src/app/explorer-bootstrap-shell.ts"), "utf8")}`,
+  `${explorerUi}\n${explorerBootstrapShellSource}`,
   /explorerPreferences\.pixelFont !== false/,
   "pixel font must be enabled by default",
 );

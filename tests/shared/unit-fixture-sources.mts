@@ -56,8 +56,20 @@ export const explorerUi = await fs.readFile(
   path.join(root, "src/explorer-ui.ts"),
   "utf8",
 );
+export const explorerPreferencesSource = await fs.readFile(
+  path.join(root, "src/app/explorer-preferences.ts"),
+  "utf8",
+);
 export const versionModeController = await fs.readFile(
   path.join(root, "src/app/version-mode-controller.ts"),
+  "utf8",
+);
+export const explorerBootstrapSessionSource = await fs.readFile(
+  path.join(root, "src/app/explorer-bootstrap-session.ts"),
+  "utf8",
+);
+export const explorerBootstrapShellSource = await fs.readFile(
+  path.join(root, "src/app/explorer-bootstrap-shell.ts"),
   "utf8",
 );
 export const emojiDialogEvents = await fs.readFile(
@@ -83,6 +95,10 @@ export const utilityControlsHelper = await fs.readFile(
 );
 export const filterPickerHelper = await fs.readFile(
   path.join(root, "src/explorer/filter-picker.ts"),
+  "utf8",
+);
+export const versionFilterControl = await fs.readFile(
+  path.join(root, "src/explorer/version-filter-control.ts"),
   "utf8",
 );
 export const categoryVersionHelper = await fs.readFile(
@@ -216,6 +232,10 @@ export const websitePublisher = await fs.readFile(
 );
 export const renderingDiagnosticHelper = await fs.readFile(
   path.join(root, "src/explorer/rendering-diagnostic.ts"),
+  "utf8",
+);
+export const pixelEditorLoaderSource = await fs.readFile(
+  path.join(root, "src/explorer/pixel-editor-loader.ts"),
   "utf8",
 );
 export const emojiCompositionHelper = await fs.readFile(

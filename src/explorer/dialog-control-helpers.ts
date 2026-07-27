@@ -1,3 +1,9 @@
+import { DialogCloseButtonControl } from "../controls/dialog-close-button.js";
+
+declare const document: {
+  createElement(tagName: string): any;
+};
+
 export function createHeading(
   level: "h2" | "h3" | "h4",
   key: string,
@@ -7,18 +13,6 @@ export function createHeading(
   heading.dataset.i18n = key;
   heading.textContent = text;
   return heading;
-}
-
-export function createDialogCloseButton() {
-  const form = document.createElement("form");
-  form.method = "dialog";
-  const button = document.createElement("button");
-  button.className = "dialog-close";
-  button.dataset.i18nAriaLabel = "close";
-  button.setAttribute("aria-label", "Close");
-  button.textContent = "×";
-  form.append(button);
-  return form;
 }
 
 export function createTextBlock(
@@ -50,12 +44,12 @@ export function createDialogHeading(options: {
   const title = createHeading("h2", options.titleKey, options.title);
   title.id = options.titleId;
   content.append(title);
-  heading.append(content, createDialogCloseButton());
+  heading.append(content, DialogCloseButtonControl.create());
   return heading;
 }
 
 export function setPressedState(
-  element: HTMLElement,
+  element: any,
   selected: boolean,
   className = "is-selected",
 ) {
