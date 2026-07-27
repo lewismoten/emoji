@@ -1,0 +1,205 @@
+.list {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem;
+  contain: layout style;
+}
+.list.is-loading {
+  min-height: max(18rem, calc(100svh - var(--toolbar-height) - 9rem));
+}
+.loading-state {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  width: min(34rem, calc(100% - 2rem));
+  margin: 0;
+  color: var(--muted);
+  text-align: center;
+  transform: translateX(-50%);
+}
+.loading-state strong {
+  color: var(--text);
+  font-size: 1rem;
+}
+.loading-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 2.75rem);
+  justify-content: center;
+  gap: 0.4rem;
+  max-width: 24rem;
+  margin-top: 1rem;
+  margin-inline: auto;
+}
+.loading-grid i {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.45rem;
+  background: linear-gradient(
+    100deg,
+    var(--panel) 20%,
+    var(--panel-strong) 45%,
+    var(--panel) 70%
+  );
+  background-size: 220% 100%;
+  animation: loading-shimmer 1.25s linear infinite;
+}
+@keyframes loading-shimmer {
+  to {
+    background-position-x: -220%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion-medium: 0ms;
+  }
+  dialog[open],
+  dialog[open]::backdrop {
+    animation: none;
+  }
+  .saved-emoji-list button {
+    animation: none;
+  }
+  .loading-grid i {
+    animation: none;
+  }
+}
+.pixel-hero {
+  display: flex;
+  min-height: 7.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.7rem;
+  background:
+    linear-gradient(120deg, rgb(127 216 255 / 8%), transparent 55%),
+    var(--panel);
+  contain: layout style;
+}
+.pixel-hero h2 {
+  font-size: clamp(1rem, 2.4vw, 1.3rem);
+}
+.pixel-hero .eyebrow {
+  color: var(--muted);
+}
+.pixel-hero p:not(.eyebrow) {
+  max-width: 52rem;
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.pixel-comparison {
+  display: flex;
+  flex: none;
+  gap: 0.45rem;
+}
+.pixel-comparison > button {
+  display: grid;
+  grid-template-rows: 0.9rem 2.5rem;
+  width: 4rem;
+  min-height: 4.1rem;
+  min-width: 4rem;
+  place-items: center;
+  gap: 0.15rem;
+  padding: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--panel-strong);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+}
+.pixel-comparison > button:hover {
+  border-color: var(--accent);
+}
+.pixel-comparison > button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--selected-control-bg);
+  box-shadow: var(--shadow-selected-inset, none);
+  color: var(--selected-control-text);
+}
+.pixel-comparison > button[aria-pressed="true"] small {
+  color: inherit;
+}
+.pixel-comparison > button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.pixel-comparison small {
+  display: block;
+  min-height: 0.9rem;
+  max-width: 100%;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pixel-comparison b {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  place-items: center;
+  font-size: 2rem;
+  line-height: 1;
+}
+.pixel-comparison-system {
+  font-family: var(--system-emoji-font);
+}
+.pixel-comparison-custom {
+  font-family:
+    var(--pixel-emoji-released-family, "Pixel Emoji"), var(--system-emoji-font);
+}
+.empty-results {
+  width: min(32rem, 100%);
+  margin: 2rem auto;
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  background: var(--panel);
+  text-align: center;
+}
+.empty-results h2 {
+  font-size: 1rem;
+}
+.empty-results p {
+  margin: 0.5rem 0 1rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45rem;
+}
+.empty-actions button {
+  min-height: 2.25rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 0.45rem;
+  background: var(--panel-strong);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.empty-actions button:hover {
+  border-color: var(--accent);
+}
+.about-explorer {
+  margin: 0 1rem 1.5rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  background: var(--panel);
+}

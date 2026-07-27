@@ -1,0 +1,65 @@
+.filter-picker-trigger,
+.compact-choice,
+.version-mode-toggle,
+.version-step,
+.modifier-filter-option,
+.pixel-comparison > button,
+.language-option,
+.language-picker,
+.saved-picker,
+.help-picker,
+.saved-emoji-list button,
+.emoji-copy-actions button,
+.emoji-code-toolbar button,
+.order-mode,
+.subgroup .emoji > div,
+.sequence-type > .emoji > div {
+  transition:
+    background-color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-ease);
+}
+.compact-choice:active,
+.version-mode-toggle:active,
+.modifier-filter-option:active,
+.pixel-comparison > button:active,
+.language-option:active,
+.order-mode:active {
+  transform: scale(0.94);
+}
+.compact-choice[aria-checked="true"],
+.version-mode-toggle[aria-pressed="true"],
+.modifier-filter-option:has(input:checked),
+.pixel-comparison > button[aria-pressed="true"],
+.language-option.is-selected,
+.order-mode.is-active {
+  animation: control-selected var(--motion-medium) var(--motion-ease);
+}
+.active-filter-summary:not([hidden]) {
+  animation: filter-summary-enter var(--motion-medium) var(--motion-ease);
+}
+[dir="rtl"] .active-filter-summary:not([hidden]) {
+  animation-name: filter-summary-enter-rtl;
+}
+@keyframes control-selected {
+  0% {
+    transform: scale(0.9);
+  }
+  60% {
+    transform: scale(1.04);
+  }
+}
+@keyframes filter-summary-enter {
+  from {
+    opacity: 0;
+    transform: translateX(0.4rem);
+  }
+}
+@keyframes filter-summary-enter-rtl {
+  from {
+    opacity: 0;
+    transform: translateX(-0.4rem);
+  }
+}
