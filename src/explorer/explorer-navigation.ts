@@ -115,7 +115,7 @@ export function createExplorerNavigation(options: {
     options.setCompositionMode(state.compositionMode);
     const dialogs = options.panelDialogs();
     if (state.emoji && options.emojiByKey()[state.emoji] !== undefined) {
-      [dialogs.favorites, dialogs.help, dialogs.language].forEach((dialog) =>
+      [dialogs.favorites, dialogs.help, dialogs.language, dialogs.filters].forEach((dialog) =>
         closePanelDialog(dialog, options.suppressedPanelCloses()),
       );
       options.openEmoji(state.emoji, true, undefined, state.emojiMode);
@@ -124,13 +124,13 @@ export function createExplorerNavigation(options: {
     }
     if (options.dialog().open) options.closeEmojiDialog();
     const desiredPanelDialog = getPanelDialog(state.panel, dialogs);
-    [dialogs.favorites, dialogs.help, dialogs.language].forEach((dialog) => {
+    [dialogs.favorites, dialogs.help, dialogs.language, dialogs.filters].forEach((dialog) => {
       if (dialog !== desiredPanelDialog)
         closePanelDialog(dialog, options.suppressedPanelCloses());
     });
     if (desiredPanelDialog && !desiredPanelDialog.open) {
       openPanelDialog({
-        panel: state.panel as "favorites" | "help" | "language",
+        panel: state.panel as "favorites" | "help" | "language" | "filters",
         addHistory: false,
         dialogs,
         languageList: options.languageList(),

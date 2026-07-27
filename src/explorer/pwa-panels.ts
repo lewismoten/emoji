@@ -97,9 +97,10 @@ export async function installApp({
   return { deferredInstallPrompt: undefined };
 }
 
-type PanelName = "" | "favorites" | "help" | "language";
+type PanelName = "" | "favorites" | "help" | "language" | "filters";
 
 type PanelDialogs = {
+  filters?: HTMLDialogElement;
   favorites?: HTMLDialogElement;
   help?: HTMLDialogElement;
   language?: HTMLDialogElement;
@@ -116,6 +117,7 @@ export function getPanelDialog(panel: PanelName, dialogs: PanelDialogs) {
     Exclude<PanelName, "">,
     HTMLDialogElement | undefined
   > = {
+    filters: dialogs.filters,
     favorites: dialogs.favorites,
     help: dialogs.help,
     language: dialogs.language,
@@ -127,6 +129,7 @@ export function getOpenPanel(dialogs: PanelDialogs): PanelName {
   if (dialogs.favorites?.open) return "favorites";
   if (dialogs.help?.open) return "help";
   if (dialogs.language?.open) return "language";
+  if (dialogs.filters?.open) return "filters";
   return "";
 }
 
@@ -145,6 +148,12 @@ export function focusPanelDialog(
     (
       languageList?.querySelector<HTMLElement>(".is-selected") ??
       dialog.querySelector<HTMLElement>(".dialog-close")
+    )?.focus();
+  } else if (panel === "filters") {
+    (
+      dialog.querySelector<HTMLElement>(
+        ".version-mode-toggle, .compact-choice, .modifier-filters label, .dialog-close",
+      ) ?? dialog.querySelector<HTMLElement>(".dialog-close")
     )?.focus();
   } else {
     dialog.querySelector<HTMLElement>(".dialog-close")?.focus();

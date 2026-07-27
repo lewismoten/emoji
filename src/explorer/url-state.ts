@@ -12,7 +12,7 @@ export type ExplorerUrlState = {
   compositionMode: "condensed" | "full";
   emoji: string;
   emojiMode: "details" | "code" | "editor";
-  panel: "" | "favorites" | "help" | "language";
+  panel: "" | "favorites" | "help" | "language" | "filters";
 };
 
 export function parseExplorerUrlState(options: {
@@ -61,7 +61,9 @@ export function parseExplorerUrlState(options: {
       ["code", "editor"].includes(params.get("emojiMode") ?? "")
         ? ((params.get("emojiMode") ?? "") as ExplorerUrlState["emojiMode"])
         : "details",
-    panel: ["favorites", "help", "language"].includes(params.get("panel") ?? "")
+    panel: ["favorites", "help", "language", "filters"].includes(
+      params.get("panel") ?? "",
+    )
       ? ((params.get("panel") ?? "") as ExplorerUrlState["panel"])
       : "",
   } satisfies ExplorerUrlState;
@@ -83,7 +85,7 @@ export function buildExplorerUrlQuery(options: {
   compositionMode: "condensed" | "full";
   currentEmojiKey: string;
   emojiMode: "details" | "code" | "editor";
-  panel: "" | "favorites" | "help" | "language";
+  panel: "" | "favorites" | "help" | "language" | "filters";
   dialogOpen: boolean;
 }) {
   const params = new URLSearchParams();

@@ -141,12 +141,12 @@ export function bindExplorerEvents(options: any) {
     button.addEventListener("click", options.onOrderModeChange),
   );
   options.advancedFiltersButton?.addEventListener("click", () => {
-    options.advancedFilters?.showModal();
-    window.requestAnimationFrame(() => {
-      const firstFocusable = options.advancedFilters?.querySelector(
-        ".version-mode-toggle, .compact-choice, .modifier-filters label, .dialog-close",
-      );
-      firstFocusable?.focus();
+    options.openPanel({
+      panel: "filters",
+      dialogs: options.panelDialogs(),
+      languageList: options.languageList,
+      renderSavedEmoji: options.renderSavedEmoji,
+      syncUrlState: options.syncUrlState,
     });
   });
   options.advancedFilters?.addEventListener("close", () => {

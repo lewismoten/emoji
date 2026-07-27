@@ -38,6 +38,7 @@ const translate = (key, fallback) => explorerState.uiStrings[key] ?? fallback;
 const displayExplorerLabel = (label) =>
   translate(explorerLabelKeys[label], label);
 const panelDialogs = () => ({
+  filters: bindings.advancedFilters,
   favorites: bindings.savedDialog,
   help: bindings.helpDialog,
   language: bindings.languageDialog,
