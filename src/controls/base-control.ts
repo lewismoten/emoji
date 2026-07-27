@@ -20,17 +20,11 @@ export abstract class BaseControl<TState> {
     return DomFactory.toMarkup(this.render());
   }
 
-  static create<TState, TControl extends BaseControl<TState>>(
-    this: new (state?: Partial<TState>) => TControl,
-    state?: Partial<TState>,
-  ) {
+  static create(this: any, state?: any) {
     return new this(state).create();
   }
 
-  static toMarkup<TState, TControl extends BaseControl<TState>>(
-    this: new (state?: Partial<TState>) => TControl,
-    state?: Partial<TState>,
-  ) {
+  static toMarkup(this: any, state?: any) {
     return new this(state).toMarkup();
   }
 

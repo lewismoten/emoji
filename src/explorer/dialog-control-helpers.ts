@@ -1,4 +1,5 @@
-import { DialogCloseButtonControl } from "../controls/dialog-close-button.js";
+import { DialogHeadingControl } from "../controls/dialog-heading.js";
+import { TextControl } from "../controls/text-control.js";
 
 declare const document: {
   createElement(tagName: string): any;
@@ -9,10 +10,11 @@ export function createHeading(
   key: string,
   text: string,
 ) {
-  const heading = document.createElement(level);
-  heading.dataset.i18n = key;
-  heading.textContent = text;
-  return heading;
+  return TextControl.create({
+    i18nKey: key,
+    tag: level,
+    text,
+  });
 }
 
 export function createTextBlock(
@@ -20,10 +22,11 @@ export function createTextBlock(
   key: string,
   text: string,
 ) {
-  const element = document.createElement(tagName);
-  element.dataset.i18n = key;
-  element.textContent = text;
-  return element;
+  return TextControl.create({
+    i18nKey: key,
+    tag: tagName,
+    text,
+  });
 }
 
 export function createDialogHeading(options: {
@@ -33,19 +36,7 @@ export function createDialogHeading(options: {
   eyebrowKey?: string;
   eyebrow?: string;
 }) {
-  const heading = document.createElement("div");
-  heading.className = "dialog-heading";
-  const content = document.createElement("div");
-  if (options.eyebrowKey && options.eyebrow) {
-    const eyebrow = createTextBlock("p", options.eyebrowKey, options.eyebrow);
-    eyebrow.className = "eyebrow";
-    content.append(eyebrow);
-  }
-  const title = createHeading("h2", options.titleKey, options.title);
-  title.id = options.titleId;
-  content.append(title);
-  heading.append(content, DialogCloseButtonControl.create());
-  return heading;
+  return DialogHeadingControl.create(options);
 }
 
 export function setPressedState(

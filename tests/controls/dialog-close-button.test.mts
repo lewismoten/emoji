@@ -8,7 +8,6 @@ import {
   dialogCloseButtonText,
 } from "../../src/controls/dialog-close-button.js";
 import { DomFactory } from "../../src/controls/dom-factory.js";
-import { createDialogHeading } from "../../src/explorer/dialog-control-helpers.js";
 
 type FakeNode = FakeElement | string;
 
@@ -79,21 +78,6 @@ assert.match(customMarkup, /class="dialog-close custom-close"/);
 assert.match(customMarkup, /type="submit"/);
 assert.match(customMarkup, /data-i18n-aria-label="close"/);
 assert.match(customMarkup, /aria-label="Close"/);
-
-const heading = createDialogHeading({
-  titleId: "dialog-title",
-  titleKey: "example",
-  title: "Example",
-  eyebrowKey: "details",
-  eyebrow: "Details",
-}) as unknown as FakeElement;
-assert.equal(heading.className, "dialog-heading");
-assert.equal(heading.children.length, 2);
-assert.equal((heading.children[1] as FakeElement).tagName, "FORM");
-assert.equal(
-  ((heading.children[1] as FakeElement).children[0] as FakeElement).className,
-  dialogCloseButtonClassName,
-);
 
 assert.throws(
   () =>

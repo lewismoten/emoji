@@ -25,19 +25,30 @@ export class DialogCloseButtonControl extends BaseControl<DialogCloseButtonState
   }
 
   protected render() {
+    return DialogCloseButtonControl.toSpec(this.state);
+  }
+
+  static toSpec(state?: Partial<DialogCloseButtonState>) {
+    const resolved = {
+      buttonClassName: dialogCloseButtonClassName,
+      i18nAriaLabel: dialogCloseButtonAriaKey,
+      label: dialogCloseButtonLabel,
+      text: dialogCloseButtonText,
+      ...state,
+    };
     return DomFactory.form({
       attributes: { method: "dialog" },
       children: [
         DomFactory.button({
           attributes: {
-            "aria-label": this.state.label,
+            "aria-label": resolved.label,
             type: "submit",
           },
-          className: this.state.buttonClassName,
+          className: resolved.buttonClassName,
           dataset: {
-            i18nAriaLabel: this.state.i18nAriaLabel,
+            i18nAriaLabel: resolved.i18nAriaLabel,
           },
-          text: this.state.text,
+          text: resolved.text,
         }),
       ],
     });
