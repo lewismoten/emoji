@@ -1,4 +1,9 @@
 import type { ExplorerUrlState } from "./url-state.js";
+import {
+  ensureSequenceTypeFilterField,
+  ensureVersionModeToggleControl,
+  ensureVersionSliderControl,
+} from "./version-filter-control.js";
 
 type SearchInputLike = {
   value: string;
@@ -167,21 +172,7 @@ export function createFilterControlSetup(options: {
   }
 
   function ensureSequenceTypeFilter() {
-    const existing = document.getElementsByClassName("select-sequence-type")[0];
-    if (existing) return existing;
-    const field = document.createElement("div");
-    field.className = "filter-field sequence-filter-field";
-    field.hidden = true;
-    field.innerHTML = `
-      <div class="filter-heading">
-        <span id="sequence-filter-label" data-i18n="sequenceType">Sequence type</span>
-        <span class="compact-sequence-label"></span>
-      </div>
-      <select class="select-sequence-type" aria-labelledby="sequence-filter-label"><option>Not loaded</option></select>
-      <div class="compact-choices compact-sequence-choices" role="radiogroup" aria-labelledby="sequence-filter-label"></div>
-    `;
-    document.querySelector(".filter-grid .version-field")?.before(field);
-    return field.querySelector(".select-sequence-type");
+    return ensureSequenceTypeFilterField(document);
   }
 
   function ensureChoiceContainer(
@@ -235,70 +226,16 @@ export function createFilterControlSetup(options: {
   }
 
   function ensureVersionSlider() {
-    const existingRange = document.getElementsByClassName("version-range")[0];
-    const existingOutput = document.getElementsByClassName(
-      "version-range-value",
-    )[0];
-    const existingField = existingRange?.closest(".version-field");
-    existingField?.classList.add("developer-only");
-    if (existingRange && existingOutput)
-      return { range: existingRange, output: existingOutput };
-    let field = versionSelector.closest(".filter-field");
-    field?.classList.add("developer-only");
-    if (field?.tagName === "LABEL") {
-      const replacement = document.createElement("div");
-      replacement.className = `${field.className} version-field`;
-      replacement.append(...field.childNodes);
-      field.replaceWith(replacement);
-      field = replacement;
-    }
-    const label = field?.querySelector("span");
-    if (label && !label.id) label.id = "version-filter-label";
-    versionSelector.setAttribute(
-      "aria-labelledby",
-      label?.id || "version-filter-label",
-    );
-    const wrapper = document.createElement("div");
-    wrapper.className = "compact-version";
-    const range = document.createElement("input");
-    range.id = "version-range";
-    range.className = "version-range";
-    range.type = "range";
-    range.min = "0";
-    range.max = "0";
-    range.step = "1";
-    range.value = "0";
-    range.disabled = true;
-    range.setAttribute("aria-labelledby", label?.id || "version-filter-label");
-    range.setAttribute("aria-describedby", "version-range-value");
-    const output = document.createElement("output");
-    output.id = "version-range-value";
-    output.className = "version-range-value";
-    output.setAttribute("for", "version-range");
-    output.setAttribute("aria-live", "polite");
-    output.value = "—";
-    wrapper.append(range, output);
-    field?.appendChild(wrapper);
-    return { range, output };
+    return ensureVersionSliderControl({ document, versionSelector });
   }
 
   function ensureVersionModeToggle() {
-    const versionField = versionSelector.closest(".filter-field");
-    const oldModeField = versionModeSelector.closest(".filter-field");
-    if (oldModeField && oldModeField !== versionField)
-      oldModeField.hidden = true;
-    versionModeSelector.hidden = true;
-    const existing = document.getElementsByClassName("version-mode-toggle")[0];
-    if (existing) return existing;
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "version-mode-toggle";
-    const icon = document.createElement("span");
-    icon.setAttribute("aria-hidden", "true");
-    icon.textContent = "🎯";
-    button.appendChild(icon);
-    options.versionRange()?.closest(".compact-version")?.prepend(button);
-    return button;
+    return ensureVersionModeToggleControl({
+      document,
+      versionModeSelector,
+      versionRange: options.versionRange,
+      versionSelector,
+    });
   }
 
   return {

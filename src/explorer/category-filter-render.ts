@@ -4,13 +4,13 @@ import {
 } from "./category-version.js";
 import {
   focusCompactChoice,
-  makeCompactChoice,
   populateGroupFilter,
   populateSequenceTypeFilter,
   populateSubGroupFilter,
 } from "./filter-picker.js";
 import {
   renderGroupPickerGrid,
+  renderSequencePickerGrid,
   renderSubGroupPickerGrid,
 } from "./category-picker-grid-control.js";
 
@@ -116,42 +116,19 @@ export function createCategoryFilterRenderer(options: any) {
   };
 
   const renderCompactSequenceChoices = () => {
-    const container = options.compactSequenceChoices();
-    if (!container) return;
-    const selectedType = options.selectedSequenceType();
-    const labelFor = (type: string) =>
-      type
-        ? options.translate(
-            options.sequenceTranslationKeys[type],
-            options.sequenceTypeLabels[type],
-          )
-        : options.translate("all", "All");
-    options.compactSequenceLabel() &&
-      (options.compactSequenceLabel().textContent = labelFor(selectedType));
-    const choices = [
-      { type: "", emoji: "🌐", label: labelFor("") },
-      ...options.availableSequenceTypes().map((type: string) => ({
-        type,
-        emoji: options.sequenceTypeEmoji[type],
-        label: labelFor(type),
-      })),
-    ];
-    container.replaceChildren(
-      ...choices.map(({ type, emoji, label }) =>
-        makeCompactChoice({
-          value: type,
-          emoji,
-          label,
-          selected: selectedType === type,
-          onSelect() {
-            options.setSelectedSequenceType(type);
-            renderCategoryFilters();
-            options.drawList();
-            focusCompactChoice(container, type);
-          },
-        }),
-      ),
-    );
+    renderSequencePickerGrid({
+      availableSequenceTypes: options.availableSequenceTypes(),
+      compactSequenceChoices: options.compactSequenceChoices(),
+      compactSequenceLabel: options.compactSequenceLabel(),
+      drawList: options.drawList,
+      rerender: renderCategoryFilters,
+      selectedSequenceType: options.selectedSequenceType(),
+      sequenceTranslationKeys: options.sequenceTranslationKeys,
+      sequenceTypeEmoji: options.sequenceTypeEmoji,
+      sequenceTypeLabels: options.sequenceTypeLabels,
+      setSelectedSequenceType: options.setSelectedSequenceType,
+      translate: options.translate,
+    });
   };
 
   const renderCategoryFilters = () => {

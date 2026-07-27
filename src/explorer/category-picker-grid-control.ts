@@ -1,5 +1,6 @@
 import {
   closeFilterPicker,
+  focusCompactChoice,
   makeCompactChoice,
   renderFilterPickerTrigger,
 } from "./filter-picker.js";
@@ -146,6 +147,62 @@ export function renderSubGroupPickerGrid(options: {
             options.subGroupFilterDialog,
             options.subGroupPickerTrigger,
           );
+        },
+      }),
+    ),
+  ]);
+}
+
+export function renderSequencePickerGrid(options: {
+  availableSequenceTypes: string[];
+  compactSequenceChoices: HTMLElement | undefined;
+  compactSequenceLabel?: HTMLElement | null;
+  drawList: () => void;
+  rerender: () => void;
+  selectedSequenceType: string;
+  sequenceTranslationKeys: Record<string, string>;
+  sequenceTypeEmoji: Record<string, string>;
+  sequenceTypeLabels: Record<string, string>;
+  setSelectedSequenceType: (value: string) => void;
+  translate: (key: string, fallback: string) => string;
+}) {
+  const labelFor = (type: string) =>
+    type
+      ? options.translate(
+          options.sequenceTranslationKeys[type],
+          options.sequenceTypeLabels[type],
+        )
+      : options.translate("all", "All");
+  if (options.compactSequenceLabel) {
+    options.compactSequenceLabel.textContent = labelFor(
+      options.selectedSequenceType,
+    );
+  }
+  const container = options.compactSequenceChoices;
+  replaceChoices(container, [
+    makeCompactChoice({
+      value: "",
+      emoji: "🌐",
+      label: labelFor(""),
+      selected: options.selectedSequenceType === "",
+      onSelect() {
+        options.setSelectedSequenceType("");
+        options.rerender();
+        options.drawList();
+        if (container) focusCompactChoice(container, "");
+      },
+    }),
+    ...options.availableSequenceTypes.map((type) =>
+      makeCompactChoice({
+        value: type,
+        emoji: options.sequenceTypeEmoji[type],
+        label: labelFor(type),
+        selected: options.selectedSequenceType === type,
+        onSelect() {
+          options.setSelectedSequenceType(type);
+          options.rerender();
+          options.drawList();
+          if (container) focusCompactChoice(container, type);
         },
       }),
     ),

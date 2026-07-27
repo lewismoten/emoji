@@ -32,8 +32,11 @@ assert.match(
   "the Emoji version filter must be visible only in Developer mode",
 );
 assert.match(
-  await fs.readFile(path.join(root, "src/explorer/filter-controls.ts"), "utf8"),
-  /function ensureVersionSlider[\s\S]*classList\.add\((["'])developer-only\1\)/,
+  await fs.readFile(
+    path.join(root, "src/explorer/version-filter-control.ts"),
+    "utf8",
+  ),
+  /function ensureVersionSliderControl[\s\S]*classList\.add\((["'])developer-only\1\)/,
   "cached version filters must also become developer-only",
 );
 assert.match(
