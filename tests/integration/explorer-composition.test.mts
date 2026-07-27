@@ -8,6 +8,7 @@ import {
   demoScript,
   demoStyles,
   dialogRenderHelper,
+  dialogRuntimeHelper,
   dialogViewHelper,
   emojiCompositionHelper,
   emojiDialogEvents,
@@ -95,7 +96,7 @@ assert.match(
   "parent navigation must use browser history",
 );
 assert.match(
-  dialogRenderHelper,
+  dialogRuntimeHelper,
   /delete nextState\.compositionParent/,
   "ordinary dialog navigation must clear stale component history",
 );

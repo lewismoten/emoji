@@ -113,6 +113,10 @@ export const dialogRenderHelper = await fs.readFile(
   path.join(root, "src/explorer/dialog/dialog-render.ts"),
   "utf8",
 );
+export const dialogRuntimeHelper = await fs.readFile(
+  path.join(root, "src/explorer/dialog/dialog-runtime-helpers.ts"),
+  "utf8",
+);
 export const dialogViewHelper = await fs.readFile(
   path.join(root, "src/explorer/dialog/dialog-view.ts"),
   "utf8",

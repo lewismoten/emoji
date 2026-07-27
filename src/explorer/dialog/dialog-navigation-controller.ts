@@ -1,7 +1,7 @@
 import {
   updateCompositionBackButton,
   updateDialogNavigation,
-} from "./dialog-render.js";
+} from "./dialog-runtime-helpers.js";
 
 export function createDialogNavigationController(options: any) {
   const updateBack = () =>

@@ -16,7 +16,6 @@ const structureLimits = {
 // These are ratcheting budgets for existing structural debt. New files and
 // directories receive no exception. Lower a budget whenever a split reduces it.
 const legacyLineBudgets: Record<string, number> = {
-  "src/explorer/dialog/dialog-render.ts": 306,
   "src/explorer-audio.ts": 388,
   "src/pixel-editor/controllers/pixel-editor-transfer.js": 342,
   "src/pixel-editor/controllers/pixel-editor-controllers.js": 474,
