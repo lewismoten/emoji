@@ -69,6 +69,38 @@ export const root = path.resolve(process.cwd());
 export const readJson = async <T,>(file: string) =>
   JSON.parse(await fs.readFile(path.join(root, file), "utf8")) as T;
 
+const readCssWithImports = async (
+  file: string,
+  seen = new Set<string>(),
+): Promise<string> => {
+  const absolute = path.resolve(root, file);
+  if (seen.has(absolute)) {
+    throw new Error(`Circular CSS import detected in tests: ${absolute}`);
+  }
+  seen.add(absolute);
+  const source = await fs.readFile(absolute, "utf8");
+  const directory = path.dirname(absolute);
+  const expanded = await source.replaceAll(
+    /@import\s+["'](.+?)["'];/g,
+    (_match, importPath: string) => "",
+  );
+  let result = "";
+  let cursor = 0;
+  for (const match of source.matchAll(/@import\s+["'](.+?)["'];/g)) {
+    const [statement, importPath] = match;
+    const index = match.index ?? 0;
+    result += source.slice(cursor, index);
+    result += await readCssWithImports(
+      path.relative(root, path.resolve(directory, importPath)),
+      seen,
+    );
+    cursor = index + statement.length;
+  }
+  result += source.slice(cursor);
+  seen.delete(absolute);
+  return expanded.length > 0 ? result : source;
+};
+
 export const emoji = (await readEmojiJson(root)) as Emoji[];
 export const explorerCatalog = await readJson<{
   fields: string[];
@@ -159,6 +191,6 @@ export const demoStyles = (
       path.join(root, "src", "site", "styles", "dialog-controls.css"),
       "utf8",
     ),
-    fs.readFile(path.join(root, "src", "site", "index.css"), "utf8"),
+    readCssWithImports("src/site/index.css"),
   ])
 ).join("\n");

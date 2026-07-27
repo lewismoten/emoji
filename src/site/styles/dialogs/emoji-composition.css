@@ -123,7 +123,11 @@ button.emoji-composition-part:focus-visible {
     Consolas,
     monospace;
 }
-.emoji-composition-code-point,
+.emoji-composition-code-point {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
 .emoji-composition-code-condensed {
   direction: ltr;
   unicode-bidi: isolate;

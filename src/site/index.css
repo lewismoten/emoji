@@ -9,6 +9,7 @@
 @import "./styles/dialogs/emoji-composition.css";
 @import "./styles/dialogs/desktop-layout.css";
 @import "./styles/pixel-editor/base.css";
+@import "./styles/pixel-editor/previews-and-tracing.css";
 @import "./styles/responsive/dialog-mobile.css";
 @import "./styles/responsive/mobile-editor.css";
 @import "./styles/responsive/editor-landscape.css";

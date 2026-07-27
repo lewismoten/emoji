@@ -166,7 +166,26 @@ const sourceFiles = [
     ),
   },
 ];
-const mainSource = fs.readFileSync(path.join("src", "site", "index.css"), "utf8");
+function readCssWithImports(file, seen = new Set()) {
+  const normalized = path.resolve(file);
+  if (seen.has(normalized)) {
+    throw new Error(`Circular CSS import detected: ${normalized}`);
+  }
+  seen.add(normalized);
+  const source = fs.readFileSync(normalized, "utf8");
+  const directory = path.dirname(normalized);
+  const expanded = source.replace(
+    /@import\s+["'](.+?)["'];/g,
+    (_match, importPath) => {
+      const importedFile = path.resolve(directory, importPath);
+      return readCssWithImports(importedFile, seen);
+    },
+  );
+  seen.delete(normalized);
+  return expanded;
+}
+
+const mainSource = readCssWithImports(path.join("src", "site", "index.css"));
 
 function matchingBrace(source, opening) {
   let depth = 0;

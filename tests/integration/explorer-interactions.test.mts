@@ -20,6 +20,34 @@ import {
 import fs from "node:fs/promises";
 import path from "node:path";
 
+const readCssWithImports = async (
+  file: string,
+  seen = new Set<string>(),
+): Promise<string> => {
+  const absolute = path.resolve(root, file);
+  if (seen.has(absolute)) {
+    throw new Error(`Circular CSS import detected in tests: ${absolute}`);
+  }
+  seen.add(absolute);
+  const source = await fs.readFile(absolute, "utf8");
+  const directory = path.dirname(absolute);
+  let result = "";
+  let cursor = 0;
+  for (const match of source.matchAll(/@import\s+["'](.+?)["'];/g)) {
+    const [statement, importPath] = match;
+    const index = match.index ?? 0;
+    result += source.slice(cursor, index);
+    result += await readCssWithImports(
+      path.relative(root, path.resolve(directory, importPath)),
+      seen,
+    );
+    cursor = index + statement.length;
+  }
+  result += source.slice(cursor);
+  seen.delete(absolute);
+  return result;
+};
+
 assert.match(
   demoHtml,
   /class="emoji-composition developer-only"/,
@@ -99,13 +127,7 @@ assert.match(
   "group and subgroup choices must reserve their outline for keyboard focus",
 );
 assert.match(
-  await fs.readFile(
-    path.join(
-      root,
-      "src/site/index.css",
-    ),
-    "utf8",
-  ),
+  await readCssWithImports("src/site/index.css"),
   /\.modifier-filter-option:has\(input:checked\)\s*\{[\s\S]*background:\s*var\(--selected-control-bg\)[\s\S]*color:\s*var\(--selected-control-text\)[\s\S]*\}[\s\S]*\.modifier-filter-option:has\(input:focus-visible\)\s*\{[\s\S]*outline:\s*2px dashed/,
   "selected modifier buttons must use a filled state distinct from focus",
 );

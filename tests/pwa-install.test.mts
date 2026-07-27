@@ -16,6 +16,33 @@ const root = path.resolve(
   "../..",
 );
 const read = (file: string) => fs.readFile(path.join(root, file), "utf8");
+const readCssWithImports = async (
+  file: string,
+  seen = new Set<string>(),
+): Promise<string> => {
+  const absolute = path.resolve(root, file);
+  if (seen.has(absolute)) {
+    throw new Error(`Circular CSS import detected in tests: ${absolute}`);
+  }
+  seen.add(absolute);
+  const source = await fs.readFile(absolute, "utf8");
+  const directory = path.dirname(absolute);
+  let result = "";
+  let cursor = 0;
+  for (const match of source.matchAll(/@import\s+["'](.+?)["'];/g)) {
+    const [statement, importPath] = match;
+    const index = match.index ?? 0;
+    result += source.slice(cursor, index);
+    result += await readCssWithImports(
+      path.relative(root, path.resolve(directory, importPath)),
+      seen,
+    );
+    cursor = index + statement.length;
+  }
+  result += source.slice(cursor);
+  seen.delete(absolute);
+  return result;
+};
 const readJson = async <T,>(file: string) => JSON.parse(await read(file)) as T;
 const webAppManifest = await readJson<WebAppManifest>(
   "src/site/manifest.webmanifest",
@@ -55,7 +82,7 @@ const [
     read("src/site/themes/retro/retro-focus.css"),
     read("src/site/styles/toolbar-controls.css"),
     read("src/site/styles/dialog-controls.css"),
-    read("src/site/index.css"),
+    readCssWithImports("src/site/index.css"),
   ]).then((parts) => parts.join("\n")),
   read("build/demo-pages/index.ar.html"),
   read("config/vite.config.js"),
