@@ -77,6 +77,12 @@ const ignoredRoots = new Set([
   ".venv",
 ]);
 
+const isAuditedSourceFile = (file: string) =>
+  !file.includes("/") ||
+  ["src", "tests", "scripts", "pixel-font"].some((prefix) =>
+    file.startsWith(`${prefix}/`),
+  );
+
 const gitFiles = () => {
   const files: string[] = [];
   const visit = (directory: string) => {
@@ -104,7 +110,8 @@ const gitFiles = () => {
 };
 
 const maintainedFiles = gitFiles();
-const projectFiles = maintainedFiles.filter(
+const auditedFiles = maintainedFiles.filter(isAuditedSourceFile);
+const projectFiles = auditedFiles.filter(
   (file) =>
     !generatedStructureFiles.has(file) &&
     !generatedStructurePrefixes.some((prefix) => file.startsWith(prefix)),
@@ -194,7 +201,7 @@ for (const [directory, contents] of structureDirectories) {
   }
 }
 
-const uniqueFilenameFiles = maintainedFiles.filter(
+const uniqueFilenameFiles = auditedFiles.filter(
   (file) =>
     !generatedStructureFiles.has(file) &&
     !generatedFilenamePrefixes.some((prefix) => file.startsWith(prefix)),

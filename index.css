@@ -2396,7 +2396,9 @@ html[data-theme="retro"] body:has(dialog[open]) .example-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .language-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .saved-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .help-dialog::backdrop,
-html[data-theme="retro"] body:has(dialog[open]) .advanced-filters-dialog::backdrop,
+html[data-theme="retro"]
+  body:has(dialog[open])
+  .advanced-filters-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .filter-picker-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .install-dialog::backdrop {
   background: linear-gradient(

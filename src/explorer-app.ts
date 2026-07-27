@@ -137,10 +137,9 @@ export function bindExplorerEvents(options: any) {
   options.advancedFiltersButton?.addEventListener("click", () => {
     options.advancedFilters?.showModal();
     window.requestAnimationFrame(() => {
-      const firstFocusable =
-        options.advancedFilters?.querySelector(
-          ".version-mode-toggle, .compact-choice, .modifier-filters label, .dialog-close",
-        );
+      const firstFocusable = options.advancedFilters?.querySelector(
+        ".version-mode-toggle, .compact-choice, .modifier-filters label, .dialog-close",
+      );
       firstFocusable?.focus();
     });
   });

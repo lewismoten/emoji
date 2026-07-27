@@ -54,7 +54,10 @@ export function createExplorerAudioController(options: ExplorerAudioOptions) {
     if (!context) return Promise.resolve(undefined);
     if (context.state === "running") return Promise.resolve(context);
     if (context.state === "suspended") {
-      return context.resume().then(() => context).catch(() => undefined);
+      return context
+        .resume()
+        .then(() => context)
+        .catch(() => undefined);
     }
     return Promise.resolve(context);
   }
@@ -263,7 +266,9 @@ export function createExplorerAudioController(options: ExplorerAudioOptions) {
     syncHelpMusic();
   }
 
-  function getInteractiveTarget(target: EventTarget | null): AudioTarget | null {
+  function getInteractiveTarget(
+    target: EventTarget | null,
+  ): AudioTarget | null {
     if (!(target instanceof Element)) return null;
     const interactive = target.closest(INTERACTIVE_SELECTOR);
     if (

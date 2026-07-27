@@ -1,2 +1,8 @@
-explorer/catalog.json
-pixel-font/build/explorer-manifest.json
+dist/
+build/
+explorer/
+cache/
+library/
+node_modules/
+pixel-font/build/
+pixel-font/font-build.revision
