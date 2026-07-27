@@ -161,13 +161,12 @@ for (const [directory, contents] of structureDirectories) {
     structureProblems.push(
       `${directory} contains ${fileCount} files; its limit is ${fileBudget}`,
     );
-  } else if (
-    legacyFileCountBudgets[directory] !== undefined &&
-    fileCount < fileBudget
-  ) {
-    structureProblems.push(
-      `${directory} now contains ${fileCount} files; lower its legacy budget from ${fileBudget}`,
-    );
+  } else if (legacyFileCountBudgets[directory] !== undefined) {
+    if (fileCount !== fileBudget) {
+      structureProblems.push(
+        `${directory} legacy file-count budget is ${fileBudget}, but the filesystem currently has ${fileCount} files`,
+      );
+    }
   }
 
   const directoryCount = contents.directories.size;
