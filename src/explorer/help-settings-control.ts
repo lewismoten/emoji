@@ -3,6 +3,7 @@ import {
   createHeading,
   createTextBlock,
 } from "./dialog-control-helpers.js";
+import { createThemeChoiceGroupControl } from "./theme-choice-control.js";
 
 type HelpDialogControl = {
   element: HTMLDialogElement;
@@ -32,39 +33,6 @@ function createSettingRow(options: {
 
   row.append(content, options.control);
   return row;
-}
-
-function createThemeChoice(theme: string, emoji: string, key: string, text: string) {
-  const button = document.createElement("button");
-  button.className = "setting-choice theme-choice";
-  button.type = "button";
-  button.dataset.theme = theme;
-  button.setAttribute("aria-pressed", "false");
-
-  const icon = document.createElement("span");
-  icon.setAttribute("aria-hidden", "true");
-  icon.textContent = emoji;
-
-  const label = document.createElement("span");
-  label.dataset.i18n = key;
-  label.textContent = text;
-
-  button.append(icon, label);
-  return button;
-}
-
-function createThemeChoices() {
-  const group = document.createElement("div");
-  group.className = "setting-choice-group theme-choices";
-  group.setAttribute("role", "group");
-  group.dataset.i18nAriaLabel = "theme";
-  group.setAttribute("aria-label", "Theme");
-  group.append(
-    createThemeChoice("light", "☀️", "light", "Light"),
-    createThemeChoice("dark", "🌙", "dark", "Dark"),
-    createThemeChoice("retro", "🕹️", "retro", "Retro"),
-  );
-  return group;
 }
 
 function createSwitch(className: string, key: string, text: string) {
@@ -152,7 +120,7 @@ function createHelpDialogElement() {
       title: "Theme",
       descriptionKey: "themeDescription",
       description: "Switch between dark, light, and retro themes.",
-      control: createThemeChoices(),
+      control: createThemeChoiceGroupControl(),
     }),
     createSettingRow({
       titleKey: "soundEffects",

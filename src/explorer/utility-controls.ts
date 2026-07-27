@@ -2,13 +2,20 @@ import {
   createLanguageDialogControl,
   createLanguagePickerControl,
 } from "./language-dialog-control.js";
+import {
+  ensureDialogTitleRow,
+  ensureFavoriteButton,
+  positionFavoriteButton as positionFavoriteButtonHelper,
+} from "./dialog-title-controls.js";
 import { createHelpDialogControl } from "./help-settings-control.js";
+import {
+  createHelpPickerControl,
+  createSavedPickerControl,
+} from "./toolbar-trigger-controls.js";
 import { ensurePickerControls } from "./utility-picker-controls.js";
 import {
   emojiCompositionMarkup,
-  helpPickerMarkup,
   savedDialogMarkup,
-  savedPickerMarkup,
 } from "./utility-control-markup.js";
 
 type MinimalElement = {
@@ -52,12 +59,12 @@ export function positionFavoriteButton() {
   const dialogControls = document.querySelector(
     ".example-dialog .dialog-controls",
   );
-  if (!favoriteButton || !dialogTitleRow || !dialogControls) return;
-  if (window.matchMedia("(max-width: 560px)").matches) {
-    dialogControls.querySelector("form")?.before(favoriteButton);
-  } else {
-    dialogTitleRow.prepend(favoriteButton);
-  }
+  positionFavoriteButtonHelper({
+    compact: window.matchMedia("(max-width: 560px)").matches,
+    dialogControls: dialogControls as unknown as HTMLElement | null,
+    dialogTitleRow: dialogTitleRow as unknown as HTMLElement | null,
+    favoriteButton: favoriteButton as unknown as HTMLElement | null,
+  });
 }
 
 export function ensureUtilityControls() {
@@ -80,46 +87,27 @@ export function ensureUtilityControls() {
     });
   }
   if (searchControls && !searchControls.querySelector(".saved-picker")) {
-    searchControls.insertAdjacentHTML("beforeend", savedPickerMarkup);
+    searchControls.append(createSavedPickerControl() as unknown as MinimalElement);
   }
   searchControls?.querySelector(".pixel-font-toggle")?.remove();
   if (searchControls && !searchControls.querySelector(".help-picker")) {
-    searchControls.insertAdjacentHTML("beforeend", helpPickerMarkup);
+    searchControls.append(createHelpPickerControl() as unknown as MinimalElement);
   }
   ensurePickerControls();
 
   const dialogTitle = document.querySelector(
     ".example-dialog .dialog-heading > div:first-child",
   );
-  let dialogTitleRow = dialogTitle?.querySelector(".dialog-title-row");
-  if (dialogTitle && !dialogTitleRow) {
-    dialogTitleRow = document.createElement("div");
-    dialogTitleRow.className = "dialog-title-row";
-    const title = dialogTitle.querySelector("h2");
-    title?.before(dialogTitleRow);
-    if (title) dialogTitleRow.append(title);
-  }
-  let favoriteButton = document.querySelector(
-    ".example-dialog .toggle-favorite",
-  );
   const dialogControls = document.querySelector(
     ".example-dialog .dialog-controls",
   );
-  if (dialogControls && !favoriteButton) {
-    favoriteButton = document.createElement("button");
-    favoriteButton.className = "toggle-favorite";
-    favoriteButton.type = "button";
-    favoriteButton.setAttribute("aria-pressed", "false");
-    favoriteButton.dataset.favoriteState = "off";
-    favoriteButton.innerHTML =
-      '<span class="modifier-emoji favorite-glyph" aria-hidden="true">☆</span>';
-    dialogControls.querySelector("form")?.before(favoriteButton);
-  }
+  const dialogTitleRow = ensureDialogTitleRow(
+    dialogTitle as unknown as HTMLElement | null,
+  );
+  const favoriteButton = ensureFavoriteButton(
+    dialogControls as unknown as HTMLElement | null,
+  );
   if (dialogControls && favoriteButton) {
-    favoriteButton.querySelector(".toggle-favorite-label")?.remove();
-    favoriteButton.dataset.i18nAriaLabel = "addFavorite";
-    favoriteButton.setAttribute("aria-label", "Add favorite");
-    favoriteButton.title = "Add favorite";
     positionFavoriteButton();
   }
   const dialogDetails = document.querySelector(

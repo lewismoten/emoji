@@ -1,16 +1,3 @@
-export const savedPickerMarkup = `
-  <button class="saved-picker" type="button" aria-haspopup="dialog" aria-controls="saved-dialog" data-i18n-aria-label="savedEmoji" aria-label="Saved emoji">
-    <span class="modifier-emoji favorite-glyph" aria-hidden="true">⭐</span>
-    <span class="saved-picker-label" data-i18n="favorites">Favorites</span>
-  </button>
-`;
-
-export const helpPickerMarkup = `
-  <button class="help-picker" type="button" aria-haspopup="dialog" aria-controls="help-dialog" data-i18n-aria-label="helpAndSettings" aria-label="Help and settings">
-    <span aria-hidden="true">?</span>
-  </button>
-`;
-
 export const emojiCompositionMarkup = `
   <section class="emoji-composition" hidden>
     <div class="emoji-composition-heading">
