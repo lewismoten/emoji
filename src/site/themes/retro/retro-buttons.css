@@ -59,8 +59,8 @@ html[data-theme="retro"]
   .example-dialog
   .pixel-design-invitation
   button:focus-visible {
-  outline: 2px dotted var(--ega-yellow) !important;
-  outline-offset: -3px !important;
+  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
+  outline-offset: var(--focus-offset) !important;
   box-shadow: none !important;
 }
 
@@ -74,8 +74,8 @@ html[data-theme="retro"]
   .example-dialog
   .emoji-code-toolbar
   button:focus-visible {
-  outline: 2px dotted var(--ega-yellow) !important;
-  outline-offset: -3px !important;
+  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
+  outline-offset: var(--focus-offset) !important;
   box-shadow: none !important;
 }
 
@@ -148,8 +148,8 @@ html[data-theme="retro"] .version-step {
 
 html[data-theme="retro"] .version-step:focus,
 html[data-theme="retro"] .version-step:focus-visible {
-  outline: 2px dotted var(--ega-yellow) !important;
-  outline-offset: 2px !important;
+  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
+  outline-offset: var(--focus-offset) !important;
   box-shadow: none !important;
 }
 

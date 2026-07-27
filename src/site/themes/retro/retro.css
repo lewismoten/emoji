@@ -35,6 +35,10 @@ html[data-theme="retro"] {
   --retro-font-2: calc(var(--retro-step) * 2);
   --retro-font-3: calc(var(--retro-step) * 3);
   --retro-font-4: calc(var(--retro-step) * 4);
+  --focus-color: var(--ega-yellow);
+  --focus-style: dotted;
+  --focus-size: 2px;
+  --focus-offset: 4px;
 }
 
 html[data-theme="retro"] .offline-status {

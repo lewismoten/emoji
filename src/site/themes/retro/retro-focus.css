@@ -10,15 +10,15 @@ html[data-theme="retro"]
 
 html[data-theme="retro"] :focus,
 html[data-theme="retro"] :focus-visible {
-  outline: 2px dotted var(--ega-yellow) !important;
-  outline-offset: 2px !important;
+  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
+  outline-offset: var(--focus-offset) !important;
   box-shadow: none !important;
 }
 
 html[data-theme="retro"] .example-dialog .toggle-favorite:focus,
 html[data-theme="retro"] .example-dialog .toggle-favorite:focus-visible {
-  outline: 2px dotted var(--ega-yellow) !important;
-  outline-offset: 2px !important;
+  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
+  outline-offset: var(--focus-offset) !important;
 }
 
 html[data-theme="retro"] .language-picker:focus,
@@ -88,8 +88,8 @@ html[data-theme="retro"] .subgroup .emoji > div:focus,
 html[data-theme="retro"] .subgroup .emoji > div:focus-visible,
 html[data-theme="retro"] .sequence-type > .emoji > div:focus,
 html[data-theme="retro"] .sequence-type > .emoji > div:focus-visible {
-  outline: 2px dotted var(--ega-yellow) !important;
-  outline-offset: 2px !important;
+  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
+  outline-offset: var(--focus-offset) !important;
   box-shadow: none !important;
 }
 
@@ -103,12 +103,12 @@ html[data-theme="retro"] .pixel-editor-trace-nudge:focus,
 html[data-theme="retro"] .pixel-editor-trace-nudge:focus-visible,
 html[data-theme="retro"] .pixel-editor-layer button:focus,
 html[data-theme="retro"] .pixel-editor-layer button:focus-visible {
-  outline-offset: 4px !important;
+  outline-offset: var(--focus-offset) !important;
 }
 
 html[data-theme="retro"] .pixel-editor-swatch:focus,
 html[data-theme="retro"] .pixel-editor-swatch:focus-visible {
-  outline-offset: 4px !important;
+  outline-offset: var(--focus-offset) !important;
 }
 
 html[data-theme="retro"] .pixel-editor-layer-help {
@@ -123,8 +123,8 @@ html[data-theme="retro"] .pixel-editor-canvas:focus-visible {
 html[data-theme="retro"] .pixel-editor-stage:has(.pixel-editor-canvas:focus),
 html[data-theme="retro"]
   .pixel-editor-stage:has(.pixel-editor-canvas:focus-visible) {
-  outline: 2px dotted var(--ega-yellow) !important;
-  outline-offset: 4px !important;
+  outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
+  outline-offset: var(--focus-offset) !important;
 }
 
 html[data-theme="retro"] body:has(dialog[open]) {
