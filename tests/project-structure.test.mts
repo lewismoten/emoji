@@ -21,7 +21,7 @@ const legacyLineBudgets: Record<string, number> = {
   "src/explorer/filter-controls.ts": 313,
   "src/explorer/filter-picker.ts": 303,
   "src/explorer/utility-controls.ts": 324,
-  "src/explorer-audio.ts": 392,
+  "src/explorer-audio.ts": 388,
   "src/pixel-editor/controllers/pixel-editor-transfer.js": 342,
   "src/pixel-editor/pixel-editor-controllers.js": 474,
   "src/pixel-editor/pixel-editor-layer-helpers.js": 352,

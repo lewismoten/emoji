@@ -3,10 +3,10 @@ type ExplorerAudioOptions = {
   state: () => { explorerPreferences: Record<string, any> };
 };
 
-type AudioTarget = HTMLButtonElement | HTMLInputElement;
+type AudioTarget = HTMLElement;
 
 const INTERACTIVE_SELECTOR =
-  'button, input[type="checkbox"][role="switch"], input[type="checkbox"].sound-effects-toggle, input[type="checkbox"].music-toggle';
+  'button, [role="button"], input[type="checkbox"][role="switch"], input[type="checkbox"].sound-effects-toggle, input[type="checkbox"].music-toggle';
 
 const DIALOG_SELECTOR =
   ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
@@ -271,14 +271,10 @@ export function createExplorerAudioController(options: ExplorerAudioOptions) {
   ): AudioTarget | null {
     if (!(target instanceof Element)) return null;
     const interactive = target.closest(INTERACTIVE_SELECTOR);
-    if (
-      interactive instanceof HTMLButtonElement ||
-      interactive instanceof HTMLInputElement
-    ) {
-      if (interactive.disabled) return null;
-      return interactive;
-    }
-    return null;
+    if (!(interactive instanceof HTMLElement)) return null;
+    if ("disabled" in interactive && interactive.disabled) return null;
+    if (interactive.getAttribute("aria-disabled") === "true") return null;
+    return interactive;
   }
 
   function bindAudioInteractions() {
