@@ -35,7 +35,7 @@ const emojiByKey = Object.fromEntries(
 const packageManifest = await readJson<{
   categories: Category[];
   variations: { id: string; importPath: string }[];
-}>("manifest.json");
+}>("dist/manifest.json");
 const [
   browserEmoji,
   rootEmoji,

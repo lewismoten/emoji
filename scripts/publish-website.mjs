@@ -129,7 +129,7 @@ if (forbiddenOutputs.has(outputDirectory)) {
 fs.rmSync(outputDirectory, { recursive: true, force: true });
 fs.mkdirSync(outputDirectory, { recursive: true });
 
-const files = ["manifest.json"];
+const files = [];
 const directories = [
   "dist",
   "locales",

@@ -164,7 +164,7 @@ for (const [name, items] of Object.entries(variationPacks)) {
 }
 
 write(
-  "manifest.json",
+  path.join("dist", "manifest.json"),
   JSON.stringify(
     {
       name: packageJson.name,

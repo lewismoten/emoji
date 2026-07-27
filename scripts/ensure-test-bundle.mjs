@@ -7,7 +7,6 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cacheFile = path.join(root, "cache", "test-bundle-state.json");
 const inputs = [
-  "manifest.json",
   "package-lock.json",
   "package.json",
   "popular.json",
@@ -27,6 +26,7 @@ const outputs = [
   "build/tests/integration/package-core.test.mjs",
   "build/library",
   "build/rollup.config.js",
+  "dist/manifest.json",
   "dist/commonjs/popular.min.cjs",
   "dist/esm/index.js",
   "dist/esm/popular.min.js",

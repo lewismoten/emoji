@@ -35,7 +35,7 @@ const packageManifest = await readJson<{
       importPath: string;
     }[];
   }[];
-}>("manifest.json");
+}>("dist/manifest.json");
 const manifest = await readJson<{
   versions: Version[];
   proposed?: ProposedVersion[];

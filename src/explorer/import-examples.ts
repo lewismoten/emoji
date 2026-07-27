@@ -146,7 +146,7 @@ export function loadPackageManifest(options: {
 }) {
   const existing = options.getPromise();
   if (existing) return existing;
-  const promise = fetch("manifest.json")
+  const promise = fetch("dist/manifest.json")
     .then((response) => {
       if (!response.ok) throw new Error("Package manifest is unavailable");
       return response.json();

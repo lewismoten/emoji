@@ -29,7 +29,7 @@ const legacyLineBudgets: Record<string, number> = {
   "src/site/index.css": 4759,
 };
 const legacyFileCountBudgets: Record<string, number> = {
-  ".": 13,
+  ".": 12,
   src: 14,
   "src/app": 29,
   "src/explorer": 42,
@@ -46,7 +46,6 @@ const generatedStructureFiles = new Set([
   "index.css",
   "index.html",
   "index.js",
-  "manifest.webmanifest",
   "offline.html",
   "pixel-editor.js",
   "pixel-font/ATLASES.md",
