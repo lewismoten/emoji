@@ -21,26 +21,6 @@ the package, Explorer, and font.
 [View the package on npm](https://www.npmjs.com/package/@lewismoten/emoji) ·
 [Download the Pixel Emoji fallback font](pixel-font/PIXEL_EMOJI.md)
 
-## Emoji Explorer
-
-The [live Emoji Explorer](https://lewismoten.github.io/emoji/) is the visual
-front end for the data and font projects. It provides:
-
-- localized names, keywords, group labels, and subgroup labels;
-- browsing by Unicode group, subgroup, release, modifier, and sequence type;
-- system-versus-Pixel Emoji comparisons and split-sequence diagnostics;
-- visual explanations of ZWJ, modifier, flag, keycap, and tag sequences;
-- favorites, recently copied emoji, keyboard navigation, and shareable URLs;
-- an integrated 12×12 pixel-art editor;
-- responsive dialogs and an installable offline PWA.
-
-Casual browsing keeps search and category shortcuts immediately available.
-Version, skin-tone, hair, and gender controls remain under Advanced filters.
-Developer mode, available from Help and settings, adds sequence construction,
-technical metadata, rendering diagnostics, code tools, sequence browsing, and
-the pixel editor without placing those controls in the default end-user
-interface.
-
 ## Installation
 
 ```bash
@@ -77,195 +57,47 @@ Every JavaScript export includes declarations with exact emoji keys. Editors
 can autocomplete expressions such as `emoji.` and show declaration comments
 that include the emoji name and glyph.
 
-## Choosing a pack
+## What you can import
 
-The machine-readable package manifest lists every pack, label, entry count,
-Unicode category, subgroup, and public import path:
+- root export: curated popular emoji
+- `@lewismoten/emoji/all`: complete released emoji lookup
+- `@lewismoten/emoji/categories/*`: Unicode category packs and subgroup packs
+- `@lewismoten/emoji/variations/*`: skin tone, hair, families, or all
+  variations
+- `@lewismoten/emoji/search`: localized search helpers
+- `@lewismoten/emoji/locales/*`: locale JSON packs
+- `@lewismoten/emoji/orders/*`: Unicode ordering data
+- `@lewismoten/emoji/versions/*`: released version introduction lists
+- `@lewismoten/emoji/proposed/*`: draft Unicode candidates
 
-```js
-import manifest from "@lewismoten/emoji/manifest" with { type: "json" };
+For the deeper package guide, examples, manifests, localization notes, and
+version filtering details, see [docs/package-usage.md](docs/package-usage.md).
 
-console.log(manifest.categories);
-```
+## Emoji Explorer
 
-Using the manifest prevents applications from hard-coding a category list that
-may change when Unicode adds or reorganizes emoji. The popular pack also lists
-its curated `keys`, allowing consumers to check whether a specific emoji is
-available from the root export.
+The [live Emoji Explorer](https://lewismoten.github.io/emoji/) is the visual
+front end for the data and font projects. It provides:
 
-### Categories and subgroups
+- localized names, keywords, group labels, and subgroup labels
+- browsing by Unicode group, subgroup, release, modifier, and sequence type
+- system-versus-Pixel Emoji comparisons and split-sequence diagnostics
+- visual explanations of ZWJ, modifier, flag, keycap, and tag sequences
+- favorites, recently copied emoji, keyboard navigation, and shareable URLs
+- an integrated 12×12 pixel-art editor
+- responsive dialogs and an installable offline PWA
 
-Categories are separate modules and can be imported normally or lazy-loaded:
-
-```js
-import objects from "@lewismoten/emoji/categories/objects";
-
-const { default: people } =
-  await import("@lewismoten/emoji/categories/people-and-body");
-```
-
-Each category is composed from smaller Unicode subgroup modules. For example,
-an application can load only hand emoji instead of the complete People & Body
-category:
-
-```js
-import hands from "@lewismoten/emoji/categories/people-and-body/hands";
-```
-
-Available top-level categories are `activities`, `animals-and-nature`,
-`component`, `flags`, `food-and-drink`, `objects`, `people-and-body`,
-`smileys-and-emotion`, `symbols`, and `travel-and-places`.
-
-### Variations
-
-Modifier-focused packs are available for skin tones, hair, families, or every
-supported variation:
-
-```js
-import skinTones from "@lewismoten/emoji/variations/skin-tones";
-import hair from "@lewismoten/emoji/variations/hair";
-import families from "@lewismoten/emoji/variations/families";
-import variations from "@lewismoten/emoji/variations/all";
-```
-
-### Individual emoji
-
-Individual per-emoji files are intentionally not generated because thousands
-of tiny files make the installed package unnecessarily large. Use the `all`
-lookup when an individual key is needed:
-
-```js
-import emoji from "@lewismoten/emoji/all";
-
-const clinkingBeerMugs = emoji.clinkingBeerMugs;
-```
-
-## Search and localization
-
-The search implementation contains no language data until a locale pack is
-loaded. Locale packs contain CLDR short names, keywords, character labels, and
-additional translated subgroup labels:
-
-```js
-import { createEmojiSearch } from "@lewismoten/emoji/search";
-import english from "@lewismoten/emoji/locales/en" with { type: "json" };
-
-const search = createEmojiSearch(english);
-
-console.log(search("artist palette")); // ["artistPalette"]
-console.log(search("painting")); // includes "artistPalette"
-```
-
-Regional packs contain only annotations that differ from their base language.
-Merge the base and regional packs before searching:
-
-```js
-import {
-  createEmojiSearch,
-  mergeEmojiLocalePacks,
-} from "@lewismoten/emoji/search";
-import english from "@lewismoten/emoji/locales/en" with { type: "json" };
-import britishEnglish from "@lewismoten/emoji/locales/en-GB" with { type: "json" };
-
-const locale = mergeEmojiLocalePacks(english, britishEnglish);
-const search = createEmojiSearch(locale);
-```
-
-The locale manifest identifies every available pack and provides its English
-name, native name, text direction, base locale, CLDR version, and stored and
-inherited entry counts:
-
-```js
-import locales from "@lewismoten/emoji/locales/manifest" with { type: "json" };
-
-console.log(locales.locales);
-```
-
-Regional packs are published only when CLDR provides annotations that differ
-from the base language. For example, `en-GB` exists, while an empty `en-US`
-override is omitted. Each base pack also includes `labels` for broad picker
-labels and `subgroups` for labels Unicode and CLDR do not translate directly.
-
-The Emoji Explorer uses representative country flags to make languages easier
-to scan. These flags are visual identifiers only; a base language such as `es`
-or `ar` is not limited to one country or region.
-
-## Unicode order and versions
-
-Use the order manifest to display keys in canonical Unicode order:
-
-```js
-import order from "@lewismoten/emoji/orders/manifest" with { type: "json" };
-
-console.log(order.unicode);
-```
-
-Each `versions/<version>.json` file contains only the exported keys introduced
-in that Unicode Emoji version. The version manifest lists every file, official
-release date, and entry count:
-
-```js
-import versions from "@lewismoten/emoji/versions/manifest" with { type: "json" };
-import introducedIn17 from "@lewismoten/emoji/versions/17.0" with { type: "json" };
-
-const releasesAvailableBy2025 = versions.versions
-  .filter((release) => release.released <= "2025-12-31")
-  .map((release) => release.version);
-
-console.log(introducedIn17);
-```
-
-Version arrays are separate from the emoji lookup, so applications pay for
-version metadata only when they use it. Proposed candidates are likewise
-separate from released data:
-
-```js
-import proposed18 from "@lewismoten/emoji/proposed/18.0" with { type: "json" };
-
-console.log(proposed18.status); // "draft"
-```
-
-Draft candidates may change or be removed before Unicode publishes the final
-release.
-
-## Direct browser use
-
-`dist/esm/index.js` is a self-contained browser module containing the complete
-lookup object. It does not load category modules behind the scenes.
-
-Use it from a CDN:
-
-```html
-<script type="module">
-  import emoji from "https://cdn.jsdelivr.net/npm/@lewismoten/emoji@4/dist/esm/index.js";
-
-  console.log(emoji.clinkingBeerMugs);
-</script>
-```
-
-Or copy `dist/esm/index.js` and serve it with an application:
-
-```html
-<script type="module">
-  import emoji from "./dist/esm/index.js";
-
-  console.log(emoji.clinkingBeerMugs);
-</script>
-```
+Casual browsing keeps search and category shortcuts immediately available.
+Developer mode, available from Help and settings, adds sequence construction,
+technical metadata, rendering diagnostics, code tools, sequence browsing, and
+the pixel editor without placing those controls in the default end-user
+interface.
 
 ## Pixel Emoji fallback font
 
 [Pixel Emoji](pixel-font/PIXEL_EMOJI.md) is a compact 12×12 color fallback font for
 new emoji that older operating-system fonts cannot display. Its custom artwork
 currently covers every entry introduced with Emoji 16.0 and 17.0, plus every
-entry in the currently tracked Emoji 18.0 beta draft. The current set contains
-233 painted glyphs: 214 released glyphs and 19 proposed glyphs.
-
-Released and proposed characters are kept in separate font families so
-applications can opt into draft coverage without treating it as stable. The
-GitHub Pages workflow builds the fonts from the source atlases; compiled fonts
-are not included in the `@lewismoten/emoji` data package or committed under
-`pixel-font/build/`.
+entry in the currently tracked Emoji 18.0 beta draft.
 
 For websites, install the dedicated font package:
 
@@ -283,16 +115,12 @@ npm install @lewismoten/pixel-emoji
 [WOFF2](https://lewismoten.github.io/emoji/pixel-font/build/font/proposed/pixel-emoji.woff2) ·
 [Web-font CSS](https://lewismoten.github.io/emoji/pixel-font/build/font/pixel-emoji.css)
 
-See the [font documentation and complete coverage table](pixel-font/PIXEL_EMOJI.md)
-for WOFF downloads, design constraints, atlas details, sequence handling, and
-local build instructions.
+See [pixel-font/PIXEL_EMOJI.md](pixel-font/PIXEL_EMOJI.md) for coverage,
+design constraints, atlas details, sequence handling, and local build notes.
 
-## Running Emoji Explorer locally
+## Local development
 
-After the first successful visit, the Explorer and its core Unicode data work
-offline. Search-language packs are cached after they are selected once.
-
-Run the demo locally with Vite:
+Run the Explorer locally with Vite:
 
 ```bash
 npm install
@@ -302,47 +130,24 @@ npm start
 Then open <http://localhost:5173/>. Localized routes such as
 <http://localhost:5173/index.ar.html> are generated in memory by Vite.
 
-## Publishing the website
+For local publishing, website deployment, Unicode updates, snapshot refreshes,
+and development scripts, see [docs/development-guide.md](docs/development-guide.md).
 
-Build a complete, validated copy of the Emoji Explorer and Pixel Emoji fonts
-for <https://emoji.lewismoten.com/>:
+## Version contract testing
 
-```bash
-npm run website:build
-```
+Released Unicode data is protected by checked-in snapshot contracts. If a key
+name changes, an emoji sequence changes, a code-point string changes, or an
+emoji disappears from `@lewismoten/emoji/all`, tests fail loudly.
 
-The deployable files are written to `build/website`. The command builds the
-package and fonts, generates every localized page and PWA manifest with the
-custom domain’s canonical URLs, creates the service worker, and verifies its
-precache assets and browser fonts.
-
-Publish over SSH with `rsync` by supplying your server destination:
+When a Unicode rename or sequence change is intentional, refresh the contract
+snapshot with:
 
 ```bash
-npm run website:publish -- --target user@example.com:/var/www/emoji/
+npm run versions:snapshot
 ```
 
-The current custom-domain server can be published with:
-
-```bash
-npm run website:publish -- \
-  --identity ~/.ssh/id_rsa \
-  --transport tar \
-  --target {username}@{host}:{path}
-```
-
-The SSH key’s passphrase prompt remains interactive. Set
-`EMOJI_DEPLOY_TARGET`, `EMOJI_SSH_IDENTITY`, and
-`EMOJI_DEPLOY_TRANSPORT=tar` to avoid repeating the destination, identity, and
-transport. The automatic transport also falls back to `tar` over SSH when the
-server does not have `rsync`. The tar stream excludes macOS extended attributes
-and provenance metadata. Existing remote files are preserved by default;
-`--delete` requires `rsync` and should only be used when the target directory
-is dedicated to this site. Use `--skip-build` to redeploy existing compiled
-assets, or override the canonical origin with `--url`.
-
-DNS, HTTPS certificates, and the web server’s document-root configuration are
-managed by the hosting provider and are intentionally outside this script.
+For the full workflow, see
+[docs/version-contracts.md](docs/version-contracts.md).
 
 ## Data attribution and license
 
@@ -353,57 +158,3 @@ from Unicode and CLDR data files. Unicode data is distributed under the Unicode
 License v3 (`Unicode-3.0`). See [NOTICE.md](NOTICE.md) for the copyright,
 permission, attribution, and trademark notices. The Unicode word mark and logo
 are not used to endorse this package.
-
-## Development scripts
-
-- `npm run clean` removes generated `build` and `dist` directories.
-- `npm run generate` creates popular, complete, category, subgroup, and
-  variation source packs from `emoji.json` and `popular.json`.
-- `npm run build` regenerates the library and compiles TypeScript.
-- `npm run bundle` produces the publishable JavaScript and TypeScript files.
-- `npm test` builds the package and verifies Unicode releases, public package
-  specifiers, TypeScript declarations, localized demo pages, and PWA assets.
-- `npm start` runs the local Emoji Explorer.
-- `npm run website:build` creates and validates `build/website` for
-  `emoji.lewismoten.com`.
-- `npm run website:publish -- --target <destination>` builds and uploads the
-  site over `rsync`.
-- `npm run format` formats repository JSON files with Prettier.
-- `npm run cldr -- <locale>` downloads CLDR annotations and regenerates locale
-  packs. A regional locale automatically generates its base language first.
-- `npm run unicode -- <version>` downloads a released Unicode Emoji version and
-  regenerates the library data.
-- `npm run unicode:proposed` downloads the current official Unicode draft data.
-- `npm run pixel-font:generate` updates pixel-font atlas assignments without
-  creating empty PNG sheets.
-- `npm run pixel-font:validate` verifies every active atlas assignment.
-- `npm run pixel-font:build` creates the complete local font, glyph-image,
-  manifest, and preview output.
-- `npm run pixel-font:build -- --fonts-only` creates the deployment font files
-  and manifests without individual PNG or SVG glyph output.
-- `npm run pixel-font:package` creates the fonts-only build, standalone npm
-  package, and versioned GitHub Release assets.
-- `npm run pixel-font:version -- patch` bumps the independent font version
-  without changing the JavaScript package version.
-
-Update to a future released version with:
-
-```bash
-npm run unicode -- 18.0
-```
-
-Inspect the current draft without changing stable emoji data with:
-
-```bash
-npm run unicode:proposed
-```
-
-To require a particular draft version and provide display context for the demo:
-
-```bash
-npm run unicode:proposed -- 18.0 --stage=beta --expected=2026-09
-```
-
-The draft command writes `proposed/<version>.json` and records it under
-`proposed` in `versions/manifest.json`. Draft entries have no release date and
-remain separate from released version arrays.
