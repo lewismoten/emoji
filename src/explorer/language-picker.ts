@@ -1,3 +1,8 @@
+import {
+  buildLanguageOption,
+  getLocalizedLanguageName,
+} from "./language-dialog-control.js";
+
 type SearchLocale = {
   locale: string;
   label: string;
@@ -41,45 +46,29 @@ export function renderSearchLanguages({
   navigationParams.delete("emojiMode");
   const navigationQuery = navigationParams.toString();
   const navigationSearch = navigationQuery ? `?${navigationQuery}` : "";
-  const noLanguage = document.createElement("a");
-  noLanguage.href = `./${navigationSearch}`;
-  noLanguage.className = "language-option";
-  noLanguage.classList.toggle("is-selected", selectedSearchLocale === "");
-  noLanguage.setAttribute("aria-pressed", String(selectedSearchLocale === ""));
-  noLanguage.innerHTML = `<span class="language-option-flag" aria-hidden="true">🌐</span><span class="language-option-label">${translate("noLanguagePack", "No language pack")}</span>`;
-  noLanguage.addEventListener("click", (event) =>
-    onSelectLanguageLink(event, "", noLanguage.href),
+  languageList.appendChild(
+    buildLanguageOption({
+      flag: "🌐",
+      href: `./${navigationSearch}`,
+      label: translate("noLanguagePack", "No language pack"),
+      locale: "",
+      onSelectLanguageLink,
+      selected: selectedSearchLocale === "",
+    }),
   );
-  languageList.appendChild(noLanguage);
 
   searchLocales.forEach((locale) => {
-    const option = document.createElement("a");
     const flag = languageFlags[locale.locale] ?? "🌐";
-    option.href = `./index.${locale.locale}.html${navigationSearch}`;
-    option.className = "language-option";
-    option.classList.toggle(
-      "is-selected",
-      locale.locale === selectedSearchLocale,
+    languageList.appendChild(
+      buildLanguageOption({
+        flag,
+        href: `./index.${locale.locale}.html${navigationSearch}`,
+        label: getLocalizedLanguageName(locale, selectedSearchLocale),
+        locale: locale.locale,
+        onSelectLanguageLink,
+        selected: locale.locale === selectedSearchLocale,
+      }),
     );
-    option.setAttribute(
-      "aria-pressed",
-      String(locale.locale === selectedSearchLocale),
-    );
-    const uiLocale = document.documentElement.lang || "en";
-    const localizedLabel =
-      new Intl.DisplayNames([uiLocale], { type: "language" }).of(
-        locale.locale,
-      ) ?? locale.label;
-    const label =
-      locale.locale === selectedSearchLocale ||
-      localizedLabel === locale.nativeLabel
-        ? localizedLabel
-        : `${localizedLabel} (${locale.nativeLabel})`;
-    option.innerHTML = `<span class="language-option-flag" aria-hidden="true">${flag}</span><span class="language-option-label">${label}</span>`;
-    option.addEventListener("click", (event) =>
-      onSelectLanguageLink(event, locale.locale, option.href),
-    );
-    languageList.appendChild(option);
   });
 }
 

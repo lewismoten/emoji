@@ -1,3 +1,7 @@
+import {
+  createLanguageDialogControl,
+  createLanguagePickerControl,
+} from "./language-dialog-control.js";
 import { createHelpDialogControl } from "./help-settings-control.js";
 import {
   emojiCompositionMarkup,
@@ -155,6 +159,10 @@ export function ensureUtilityControls() {
   if (main && !document.querySelector(".saved-dialog")) {
     main.insertAdjacentHTML("beforeend", savedDialogMarkup);
   }
+  if (main && !document.querySelector(".language-dialog")) {
+    const languageDialogControl = createLanguageDialogControl();
+    main.append(languageDialogControl.dialog);
+  }
   let helpDialogControl:
     | ReturnType<typeof createHelpDialogControl>
     | undefined;
@@ -162,7 +170,11 @@ export function ensureUtilityControls() {
     helpDialogControl = createHelpDialogControl();
     main.append(helpDialogControl.element);
   }
-  const languagePicker = document.querySelector(".language-picker");
+  let languagePicker = document.querySelector(".language-picker");
+  if (!languagePicker && helpDialogControl) {
+    const languagePickerControl = createLanguagePickerControl();
+    languagePicker = languagePickerControl.button as unknown as MinimalElement;
+  }
   if (helpDialogControl && languagePicker) {
     helpDialogControl.mountLanguagePicker(languagePicker as unknown as HTMLElement);
   } else {

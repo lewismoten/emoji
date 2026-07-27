@@ -1,31 +1,16 @@
+import {
+  createDialogHeading,
+  createHeading,
+  createTextBlock,
+} from "./dialog-control-helpers.js";
+
 type HelpDialogControl = {
   element: HTMLDialogElement;
   mountLanguagePicker: (languagePicker: HTMLElement | null) => void;
 };
 
-function createHeading(level: "h2" | "h3" | "h4", key: string, text: string) {
-  const heading = document.createElement(level);
-  heading.dataset.i18n = key;
-  heading.textContent = text;
-  return heading;
-}
-
-function createDialogCloseButton() {
-  const form = document.createElement("form");
-  form.method = "dialog";
-  const button = document.createElement("button");
-  button.className = "dialog-close";
-  button.dataset.i18nAriaLabel = "close";
-  button.setAttribute("aria-label", "Close");
-  button.textContent = "×";
-  form.append(button);
-  return form;
-}
-
 function createSettingDescription(key: string, text: string) {
-  const description = document.createElement("p");
-  description.dataset.i18n = key;
-  description.textContent = text;
+  const description = createTextBlock("p", key, text);
   return description;
 }
 
@@ -120,12 +105,11 @@ function createHelpDialogElement() {
   dialog.className = "help-dialog";
   dialog.id = "help-dialog";
   dialog.setAttribute("aria-labelledby", "help-title");
-
-  const heading = document.createElement("div");
-  heading.className = "dialog-heading";
-  const title = createHeading("h2", "helpAndSettings", "Help and settings");
-  title.id = "help-title";
-  heading.append(title, createDialogCloseButton());
+  const heading = createDialogHeading({
+    titleId: "help-title",
+    titleKey: "helpAndSettings",
+    title: "Help and settings",
+  });
 
   const pixelSection = document.createElement("section");
   pixelSection.className = "help-pixel";
