@@ -219,6 +219,18 @@ export const renderPage = (
       `<link id="retro-text-font-stylesheet" rel="stylesheet" href="./pixel-font/build-retro-text/pixel-latin-retro.css?v=${retroTextRevision}" data-font-revision="${retroTextRevision}">`,
     )
     .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/theme-tokens\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/theme-tokens.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/toolbar-controls\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/toolbar-controls.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/dialog-controls\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/dialog-controls.css?v=${assetVersion}">`,
+    )
+    .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/index\.css")[^>]*\/?>/,
       `<link rel="stylesheet" href="./explorer/index.css?v=${assetVersion}">`,
     )

@@ -1,8 +1,22 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const source = fs.readFileSync(path.join("src", "site", "index.css"), "utf8");
 const outputDirectory = "explorer";
+const sourceFiles = [
+  {
+    source: path.join("src", "site", "styles", "theme-tokens.css"),
+    output: "theme-tokens.css",
+  },
+  {
+    source: path.join("src", "site", "styles", "toolbar-controls.css"),
+    output: "toolbar-controls.css",
+  },
+  {
+    source: path.join("src", "site", "styles", "dialog-controls.css"),
+    output: "dialog-controls.css",
+  },
+];
+const mainSource = fs.readFileSync(path.join("src", "site", "index.css"), "utf8");
 
 function matchingBrace(source, opening) {
   let depth = 0;
@@ -112,16 +126,37 @@ function minifyCss(source) {
     .replace(/___CSS_STRING_(\d+)___/g, (match, index) => strings[index]);
 }
 
-const { core, developer } = splitCss(source);
 fs.mkdirSync(outputDirectory, { recursive: true });
-fs.writeFileSync(
-  path.join(outputDirectory, "index.css"),
-  `${minifyCss(core)}\n`,
-);
+const generated = [];
+
+for (const entry of sourceFiles) {
+  const source = fs.readFileSync(entry.source, "utf8");
+  const minified = minifyCss(source);
+  fs.writeFileSync(path.join(outputDirectory, entry.output), `${minified}\n`);
+  generated.push({
+    bytes: Buffer.byteLength(minified),
+    label: entry.output,
+  });
+}
+
+const { core, developer } = splitCss(mainSource);
+const coreCss = minifyCss(core);
+const developerCss = minifyCss(developer);
+fs.writeFileSync(path.join(outputDirectory, "index.css"), `${coreCss}\n`);
 fs.writeFileSync(
   path.join(outputDirectory, "pixel-editor.css"),
-  `${minifyCss(developer)}\n`,
+  `${developerCss}\n`,
 );
+generated.push({ bytes: Buffer.byteLength(coreCss), label: "index.css" });
+generated.push({
+  bytes: Buffer.byteLength(developerCss),
+  label: "pixel-editor.css",
+});
+
 console.info(
-  `Generated ${Buffer.byteLength(minifyCss(core)).toLocaleString()} bytes of core CSS and ${Buffer.byteLength(minifyCss(developer)).toLocaleString()} bytes of on-demand editor CSS.`,
+  `Generated ${generated
+    .map(
+      ({ bytes, label }) => `${bytes.toLocaleString()} bytes of ${label}`,
+    )
+    .join(", ")}.`,
 );

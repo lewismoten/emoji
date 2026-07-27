@@ -1,0 +1,163 @@
+:root {
+  color-scheme: dark;
+  --page: #160622;
+  --panel: #240c37;
+  --panel-strong: #301249;
+  --border: #846099;
+  --text: #f5edff;
+  --muted: #c8acd9;
+  --accent: #7fd8ff;
+  --accent-strong: #df9cff;
+  --accent-surface: #15384d;
+  --accent-surface-strong: #07131b;
+  --accent-text: var(--accent);
+  --selected-control-bg: color-mix(
+    in srgb,
+    var(--accent-strong) 42%,
+    var(--panel-strong) 58%
+  );
+  --selected-control-text: #fff7ff;
+  --section-header-bg: #0a0711;
+  --code: #0b2637;
+  --code-text: #dce9ee;
+  --code-keyword: #ed9cff;
+  --code-variable: #f3f5f6;
+  --code-native-function: #6ee9e4;
+  --code-string: #c6f7b7;
+  --code-comment: #99afba;
+  --code-native-object: #ffe28e;
+  --code-object: #ffaaa3;
+  --code-object-key: #ffaaa3;
+  --toolbar-height: 0px;
+  --motion-fast: 180ms;
+  --motion-medium: 240ms;
+  --motion-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ui-font:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --retro-ui-font:
+    var(--pixel-retro-latin-family, "Pixel Latin Retro"), "Press Start 2P",
+    "Silkscreen", "Perfect DOS VGA 437", "Px437 IBM VGA 8x16", "Courier New",
+    monospace;
+  --installed-emoji-fonts:
+    "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla";
+  --system-emoji-font: var(--installed-emoji-fonts), sans-serif;
+  --emoji-font:
+    var(--pixel-emoji-released-family, "Pixel Emoji"),
+    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"),
+    var(--system-emoji-font);
+}
+
+html[data-theme="light"] {
+  color-scheme: light;
+  --page: #f6efe4;
+  --panel: #fff9f0;
+  --panel-strong: #efe2d2;
+  --border: #b79874;
+  --text: #2c180f;
+  --muted: #6f5546;
+  --accent: #005f8f;
+  --accent-strong: #8f3e8e;
+  --accent-surface: #d7eef8;
+  --accent-surface-strong: #bddceb;
+  --accent-text: #0e405d;
+  --selected-control-bg: color-mix(in srgb, var(--accent) 18%, #ffffff 82%);
+  --selected-control-text: #173548;
+  --section-header-bg: #f3e8da;
+  --code: #e3f0f8;
+  --code-text: #173548;
+  --code-keyword: #8f2b73;
+  --code-variable: #173548;
+  --code-native-function: #006b78;
+  --code-string: #2b6d1a;
+  --code-comment: #6c7f8a;
+  --code-native-object: #8a5a00;
+  --code-object: #a33b32;
+  --code-object-key: #a33b32;
+}
+
+html[data-theme="retro"] {
+  color-scheme: dark;
+  --page: #0000aa;
+  --panel: #000000;
+  --panel-strong: #000000;
+  --frame-bg: #555555;
+  --control-bg: #0000aa;
+  --dialog-frame-border: #555555;
+  --dialog-header-bg: #000000;
+  --dialog-body-bg: #555555;
+  --border: #55ffff;
+  --text: #ffffff;
+  --muted: #aaaaaa;
+  --accent: #55ffff;
+  --accent-strong: #ff55ff;
+  --accent-surface: #aa00aa;
+  --accent-surface-strong: #550055;
+  --accent-text: #ffffff;
+  --selected-control-bg: #aa00aa;
+  --selected-control-text: #ffffff;
+  --section-header-bg: #000000;
+  --code: #aaaaaa;
+  --code-text: #000000;
+  --code-keyword: #0000aa;
+  --code-variable: #000000;
+  --code-native-function: #aa0000;
+  --code-string: #aa0000;
+  --code-comment: #555555;
+  --code-native-object: #aa00aa;
+  --code-object: #000000;
+  --code-object-key: #0055aa;
+  --ui-font: var(--retro-ui-font);
+  --retro-step: 0.4375rem;
+  --retro-font-1: calc(var(--retro-step) * 1);
+  --retro-font-2: calc(var(--retro-step) * 2);
+  --retro-font-3: calc(var(--retro-step) * 3);
+  --retro-font-4: calc(var(--retro-step) * 4);
+}
+
+html[data-theme="retro"] .offline-status {
+  border-color: #ffff55;
+  background: #000000;
+  color: #ffff55;
+}
+
+html[data-theme="light"] .offline-status {
+  border-color: #c08b2a;
+  background: #fff0c9;
+  box-shadow: 0 0.35rem 1rem rgb(91 55 18 / 18%);
+  color: #55310a;
+}
+
+html[data-emoji-font="system"] {
+  --emoji-font:
+    var(--installed-emoji-fonts),
+    var(--pixel-emoji-released-family, "Pixel Emoji"),
+    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"), sans-serif;
+}
+
+:lang(ar) {
+  --ui-font:
+    "Noto Sans Arabic", "Noto Naskh Arabic", "Geeza Pro", Tahoma, "Segoe UI",
+    Arial, sans-serif;
+  --retro-ui-font:
+    "Noto Kufi Arabic", "Noto Sans Arabic", "Noto Naskh Arabic", Tahoma,
+    "Courier New", monospace;
+}
+
+:lang(hi) {
+  --ui-font:
+    "Noto Sans Devanagari", "Kohinoor Devanagari", "Nirmala UI", Mangal,
+    system-ui, sans-serif;
+  --retro-ui-font:
+    "Noto Sans Devanagari", "Kohinoor Devanagari", "Nirmala UI", Mangal,
+    "Courier New", monospace;
+}
+
+:lang(zh) {
+  --ui-font:
+    "Noto Sans CJK SC", "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
+    "Heiti SC", system-ui, sans-serif;
+  --retro-ui-font:
+    "Noto Sans Mono CJK SC", "Noto Sans CJK SC", "Noto Sans SC", "PingFang SC",
+    "Microsoft YaHei", "Courier New", monospace;
+}

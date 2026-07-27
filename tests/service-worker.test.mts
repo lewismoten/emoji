@@ -74,8 +74,15 @@ for (const asset of [
   );
 }
 assert.ok(
-  serviceWorker.includes(`"./explorer/index.css?v=${packageJson.version}"`),
-  "service worker must precache the versioned core stylesheet",
+  serviceWorker.includes(`"./explorer/theme-tokens.css?v=${packageJson.version}"`) &&
+    serviceWorker.includes(
+      `./explorer/toolbar-controls.css?v=${packageJson.version}`,
+    ) &&
+    serviceWorker.includes(
+      `./explorer/dialog-controls.css?v=${packageJson.version}`,
+    ) &&
+    serviceWorker.includes(`"./explorer/index.css?v=${packageJson.version}"`),
+  "service worker must precache the versioned explorer stylesheets",
 );
 assert.ok(
   serviceWorker.includes(`"./index.js?v=${packageJson.version}"`) &&
@@ -124,6 +131,6 @@ assert.match(
 );
 assert.match(
   serviceWorker,
-  /NETWORK_FIRST_PATHS[\s\S]*index\.js[\s\S]*pixel-editor\.js[\s\S]*explorer\/index\.css[\s\S]*explorer\/pixel-editor\.css[\s\S]*NETWORK_FIRST_PATHS\.has\(url\.pathname\)/,
+  /NETWORK_FIRST_PATHS[\s\S]*index\.js[\s\S]*explorer\/theme-tokens\.css[\s\S]*explorer\/toolbar-controls\.css[\s\S]*explorer\/dialog-controls\.css[\s\S]*pixel-editor\.js[\s\S]*explorer\/index\.css[\s\S]*explorer\/pixel-editor\.css[\s\S]*NETWORK_FIRST_PATHS\.has\(url\.pathname\)/,
   "application shell assets must refresh from the network before using an offline cache",
 );

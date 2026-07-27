@@ -112,7 +112,17 @@ export const demoHtml = await fs.readFile(
   path.join(root, "src", "site", "index.html"),
   "utf8",
 );
-export const demoStyles = await fs.readFile(
-  path.join(root, "src", "site", "index.css"),
-  "utf8",
-);
+export const demoStyles = (
+  await Promise.all([
+    fs.readFile(path.join(root, "src", "site", "styles", "theme-tokens.css"), "utf8"),
+    fs.readFile(
+      path.join(root, "src", "site", "styles", "toolbar-controls.css"),
+      "utf8",
+    ),
+    fs.readFile(
+      path.join(root, "src", "site", "styles", "dialog-controls.css"),
+      "utf8",
+    ),
+    fs.readFile(path.join(root, "src", "site", "index.css"), "utf8"),
+  ])
+).join("\n");

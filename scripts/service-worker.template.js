@@ -4,6 +4,9 @@ const CORE_ASSETS = __CORE_ASSETS__;
 const scopedUrl = (path) => new URL(path, self.registration.scope).href;
 const NETWORK_FIRST_PATHS = new Set([
   new URL("./index.js", self.registration.scope).pathname,
+  new URL("./explorer/theme-tokens.css", self.registration.scope).pathname,
+  new URL("./explorer/toolbar-controls.css", self.registration.scope).pathname,
+  new URL("./explorer/dialog-controls.css", self.registration.scope).pathname,
   new URL("./pixel-editor.js", self.registration.scope).pathname,
   new URL("./explorer/index.css", self.registration.scope).pathname,
   new URL("./explorer/pixel-editor.css", self.registration.scope).pathname,

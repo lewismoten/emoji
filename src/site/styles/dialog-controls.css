@@ -1,0 +1,226 @@
+.dialog-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0.8rem 1rem;
+  background: var(--panel-strong);
+}
+
+.dialog-heading > :first-child,
+.dialog-title-row,
+.dialog-title-row h2 {
+  min-width: 0;
+}
+
+.dialog-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.2rem;
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.dialog-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.dialog-controls form {
+  margin: 0;
+}
+
+.dialog-close,
+.dialog-navigate {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.dialog-navigate {
+  font-size: 1rem;
+}
+
+[dir="rtl"] .dialog-navigate {
+  transform: scaleX(-1);
+}
+
+.dialog-navigate:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.dialog-mode-back {
+  min-height: 2rem;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+}
+
+.dialog-mode-back[hidden] {
+  display: none;
+}
+
+.dialog-description {
+  margin: 0.8rem 1rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.setting-choice-group {
+  display: inline-flex;
+  flex: none;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.4rem;
+}
+
+.setting-choice {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 2.4rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  transition:
+    background var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-ease);
+}
+
+.setting-choice:hover {
+  background: color-mix(in srgb, var(--panel) 65%, var(--accent) 35%);
+}
+
+.setting-choice.is-active,
+.setting-choice[aria-pressed="true"] {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--accent-strong) 50%);
+  background: var(--selected-control-bg);
+  color: var(--selected-control-text);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.setting-choice:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.setting-switch {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.setting-switch input {
+  width: 2.5rem;
+  min-height: 1.4rem;
+  accent-color: var(--accent);
+}
+
+.language-option {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.55rem;
+  align-items: center;
+  width: 100%;
+  min-height: 3.2rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--panel-strong);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+}
+
+.language-option:hover {
+  border-color: var(--accent);
+  background: var(--accent-surface);
+}
+
+.language-option.is-selected {
+  grid-template-columns: 2rem 1fr auto;
+  border-color: var(--accent);
+  background: var(--selected-control-bg);
+  box-shadow: inset 0 0 0 1px var(--accent);
+  color: var(--selected-control-text);
+}
+
+.language-option.is-selected::after {
+  content: "✓";
+  color: inherit;
+  font-weight: 800;
+}
+
+.language-option:focus-visible,
+.saved-emoji-list button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.language-picker-flag,
+.language-option-flag,
+.theme-choice > [aria-hidden="true"] {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  font-family: var(--emoji-font) !important;
+  line-height: 1.2 !important;
+}
+
+.language-picker-flag,
+.language-option-flag {
+  width: 2rem;
+  height: 2rem;
+  font-size: 1.5rem !important;
+  text-align: center;
+}
+
+.theme-choice > [aria-hidden="true"] {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 1.5rem !important;
+}
+
+.language-option-label {
+  font-weight: 700;
+}

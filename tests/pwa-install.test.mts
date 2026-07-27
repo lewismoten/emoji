@@ -43,7 +43,12 @@ const [
   read("src/explorer-app.ts"),
   read("src/app/explorer-shell.ts"),
   read("src/explorer/pwa-panels.ts"),
-  read("src/site/index.css"),
+  Promise.all([
+    read("src/site/styles/theme-tokens.css"),
+    read("src/site/styles/toolbar-controls.css"),
+    read("src/site/styles/dialog-controls.css"),
+    read("src/site/index.css"),
+  ]).then((parts) => parts.join("\n")),
   read("build/demo-pages/index.ar.html"),
   read("vite.config.js"),
   read("src/explorer/toolbar-layout.ts"),
