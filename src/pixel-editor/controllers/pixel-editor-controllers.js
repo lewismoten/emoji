@@ -36,10 +36,10 @@ import {
   trimVisiblePixels,
 } from "../core/pixel-editor-geometry-helpers.js";
 import {
-  createPixelEditorCanvasController,
   effectiveLayerPixels,
   nearestPaletteColor,
 } from "../layers/pixel-editor-layer-helpers.js";
+import { createPixelEditorCanvasController } from "../canvas/pixel-editor-layer-canvas-controller.js";
 import { createPixelEditorPaletteController } from "../palette/pixel-editor-palette.js";
 import { createPixelEditorTransferController } from "./pixel-editor-transfer.js";
 
