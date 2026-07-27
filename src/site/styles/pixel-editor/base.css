@@ -1,0 +1,294 @@
+.pixel-editor-view {
+  padding: 0.75rem 1rem 1rem;
+}
+.pixel-editor-toolbar > [hidden],
+.pixel-editor-controls > [hidden],
+.pixel-editor-preview-actions[hidden],
+.pixel-editor-layer[hidden] {
+  display: none;
+}
+.pixel-editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+.pixel-editor-tools,
+.pixel-editor-history {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+.pixel-editor-tools {
+  flex: 1 1 24rem;
+}
+.pixel-editor-history {
+  margin-inline-start: auto;
+}
+.pixel-editor-toolbar button,
+.pixel-editor-file button,
+.pixel-editor-preview-actions button {
+  min-height: 2rem;
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 0.45rem;
+  background: var(--panel-strong);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.75rem;
+}
+.pixel-editor-tools button {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  width: auto;
+  padding: 0.25rem 0.45rem;
+  white-space: normal;
+}
+.pixel-editor-tools button > [aria-hidden="true"] {
+  font:
+    800 1.05rem/1 ui-monospace,
+    monospace;
+}
+.pixel-editor-toolbar button:hover,
+.pixel-editor-file button:hover,
+.pixel-editor-preview-actions button:hover:not(:disabled),
+.pixel-editor-transfer button:hover:not(:disabled),
+.pixel-editor-layer button:hover:not(:disabled),
+.pixel-editor-trace-nudge:hover,
+.pixel-editor-swatch:hover {
+  border-color: var(--accent);
+}
+.pixel-editor-toolbar button:focus-visible,
+.pixel-editor-file button:focus-visible,
+.pixel-editor-preview-actions button:focus-visible,
+.pixel-editor-canvas:focus-visible,
+.pixel-editor-transfer button:focus-visible,
+.pixel-editor-layer button:focus-visible,
+.pixel-editor-trace-nudge:focus-visible,
+.pixel-editor-swatch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.pixel-editor-tools button[aria-pressed="true"],
+.pixel-editor-layer-transform button[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--selected-control-bg);
+  color: var(--selected-control-text);
+  box-shadow: var(--shadow-selected-inset, none);
+}
+.pixel-editor-toolbar button:disabled,
+.pixel-editor-preview-actions button:disabled,
+.pixel-editor-transfer button:disabled,
+.pixel-editor-layer button:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+.pixel-editor-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 24rem) minmax(13rem, 1fr);
+  align-items: start;
+  gap: 1rem;
+}
+.pixel-editor-workspace {
+  width: 100%;
+  max-width: 24rem;
+}
+.pixel-editor-stage {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+.pixel-editor-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  cursor: crosshair;
+  image-rendering: pixelated;
+  touch-action: none;
+}
+.pixel-editor-controls,
+.pixel-editor-controls fieldset {
+  display: grid;
+  gap: 0.65rem;
+  min-width: 0;
+}
+.pixel-editor-controls fieldset {
+  gap: 0.5rem;
+}
+.pixel-editor-controls label {
+  display: grid;
+  grid-template-columns: minmax(4.5rem, auto) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: normal;
+}
+.pixel-editor-previews {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 1.75rem;
+  padding: 0.35rem 0 0;
+}
+.pixel-editor-previews figure,
+.pixel-editor-previews canvas,
+.pixel-editor-download-preview {
+  display: block;
+  width: 12px;
+  height: 12px;
+  image-rendering: pixelated;
+}
+.pixel-editor-previews figure {
+  display: grid;
+  place-items: center;
+  margin: 0;
+}
+.pixel-editor-preview-actions {
+  display: flex;
+  gap: 0.25rem;
+  margin-inline-start: 0.25rem;
+}
+.pixel-editor-preview-actions button {
+  display: grid;
+  min-width: 2rem;
+  height: 2rem;
+  place-items: center;
+  padding: 0.2rem;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+.pixel-editor-download-emoji-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+.pixel-editor-dirty {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #ffd38e;
+  font-size: 0.72rem;
+}
+.pixel-editor-dirty[hidden] {
+  display: none;
+}
+.pixel-editor-dirty > [aria-hidden="true"] {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #ff9f43;
+  box-shadow: var(--shadow-dirty-indicator, none);
+}
+.pixel-editor-palette {
+  display: grid;
+  grid-template-columns: repeat(9, 1.65rem);
+  grid-template-rows: repeat(2, 1.65rem);
+  gap: 0.25rem;
+}
+.pixel-editor-swatch {
+  position: relative;
+  width: 1.65rem;
+  height: 1.65rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  background: var(--swatch);
+  cursor: pointer;
+}
+.pixel-editor-swatch.is-transparent {
+  display: grid;
+  grid-column: 9;
+  grid-row: 1 / span 2;
+  height: auto;
+  place-items: center;
+  background: transparent;
+  color: #ff7b7b;
+  font: 900 1.2rem/1 sans-serif;
+}
+.pixel-editor-palette.has-one-skin-tone .pixel-editor-swatch.is-transparent {
+  grid-row: 1;
+  height: 1.65rem;
+}
+.pixel-editor-palette.has-one-skin-tone .pixel-editor-swatch.is-skin-tone {
+  grid-column: 9;
+  grid-row: 2;
+}
+.pixel-editor-palette.has-multiple-skin-tones {
+  grid-template-rows: repeat(3, 1.65rem);
+}
+.pixel-editor-palette.has-multiple-skin-tones
+  .pixel-editor-swatch.is-skin-tone {
+  grid-row: 3;
+}
+.pixel-editor-swatch.is-skin-tone[hidden] {
+  display: none;
+}
+.pixel-editor-swatch.is-skin-tone[data-shade="normal"]::after {
+  content: "✓";
+  position: absolute;
+  inset-inline-end: 0.05rem;
+  bottom: 0.05rem;
+  display: grid;
+  width: 0.7rem;
+  height: 0.7rem;
+  place-items: center;
+  border: 1px solid var(--text);
+  border-radius: 50%;
+  background: var(--panel);
+  color: var(--text);
+  font: 800 0.48rem/1 var(--ui-font);
+}
+.pixel-editor-swatch.is-selected {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 1px;
+}
+.pixel-editor-controls input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+.pixel-editor-controls output {
+  min-width: 2.75rem;
+  color: var(--muted);
+  font-size: 0.72rem;
+  text-align: end;
+}
+.pixel-editor-trace-opacity {
+  grid-template-columns: minmax(0, 1fr);
+}
+.pixel-editor-trace-opacity-heading {
+  display: flex;
+  min-width: 0;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+.pixel-editor-trace-opacity-heading output,
+.pixel-editor-trace-opacity > input {
+  min-width: 0;
+}
+.pixel-editor-tracing {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  column-gap: 0.75rem;
+}
+.pixel-editor-trace-position,
+.pixel-editor-trace-position > div {
+  display: grid;
+}
+.pixel-editor-trace-position {
+  justify-items: center;
+  gap: 0.25rem;
+}
+.pixel-editor-trace-position > div,
+.pixel-editor-layer-position {
+  direction: ltr;
+  gap: 0.25rem;
+}

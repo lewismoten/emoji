@@ -15,9 +15,7 @@ const structureLimits = {
 
 // These are ratcheting budgets for existing structural debt. New files and
 // directories receive no exception. Lower a budget whenever a split reduces it.
-const legacyLineBudgets: Record<string, number> = {
-  "src/site/index.css": 1800,
-};
+const legacyLineBudgets: Record<string, number> = {};
 
 assert.deepEqual(Object.entries(legacyLineBudgets).filter(([key, value])=> value < structureLimits.linesPerScriptOrStylesheet), [], "Files specified below 300 line limits.");
 

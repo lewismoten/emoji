@@ -1,0 +1,163 @@
+.saved-section {
+  padding: 1rem;
+}
+.saved-section + .saved-section {
+  border-top: 1px solid var(--border);
+}
+.saved-section h3 {
+  margin: 0 0 0.65rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.saved-emoji-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.saved-emoji-list button {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--panel-strong);
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--emoji-font);
+  font-size: 1.4rem;
+  animation: saved-emoji-enter 320ms var(--motion-ease) both;
+  animation-delay: calc(var(--saved-index, 0) * 24ms);
+}
+.saved-emoji-list button:hover {
+  border-color: var(--accent);
+  background: var(--accent-surface);
+}
+.saved-emoji-list button:active {
+  transform: scale(0.9);
+}
+@media (hover: hover) {
+  .saved-emoji-list button:hover {
+    box-shadow: var(--shadow-saved-emoji-hover, none);
+    transform: translateY(-0.2rem) rotate(-2deg) scale(1.08);
+  }
+  .saved-emoji-list button:nth-child(even):hover {
+    transform: translateY(-0.2rem) rotate(2deg) scale(1.08);
+  }
+}
+@keyframes saved-emoji-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(0.55rem) rotate(-4deg) scale(0.72);
+  }
+  70% {
+    transform: translateY(-0.08rem) rotate(1deg) scale(1.08);
+  }
+}
+.saved-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.saved-empty[hidden] {
+  display: none;
+}
+.shortcut-list {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 1rem;
+}
+.shortcut-list > div {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  align-items: center;
+  gap: 0.75rem;
+}
+.shortcut-list dt,
+.shortcut-list dd {
+  margin: 0;
+}
+.shortcut-list dd {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+kbd {
+  display: inline-block;
+  min-width: 1.8rem;
+  padding: 0.2rem 0.4rem;
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 0.35rem;
+  background: var(--panel-strong);
+  color: var(--text);
+  font:
+    700 0.75rem ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+  text-align: center;
+}
+
+[dir="rtl"] .shortcut-list > div:nth-child(2) kbd {
+  transform: scaleX(-1);
+}
+
+.code {
+  direction: ltr;
+  text-align: left;
+  unicode-bidi: isolate;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.6rem 0.75rem;
+  background: var(--code);
+  color: var(--code-text);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: clamp(0.73rem, 2vw, 0.88rem);
+  line-height: 1.55;
+  white-space: pre;
+  tab-size: 4;
+}
+.code .line {
+  display: block;
+  min-width: max-content;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+.code-space {
+  display: inline-block;
+  width: 0.6ch;
+}
+.code .line[hidden] {
+  display: none;
+}
+.code .keyword {
+  color: var(--code-keyword);
+}
+.code .variable {
+  color: var(--code-variable);
+}
+.code .native-function {
+  color: var(--code-native-function);
+}
+.code .string {
+  color: var(--code-string);
+}
+.code .comment {
+  color: var(--code-comment);
+}
+.code .native-object {
+  color: var(--code-native-object);
+}
+.code .object,
+.code .object-key {
+  color: var(--code-object);
+}
+.code .object-key {
+  color: var(--code-object-key);
+}
+.code .emoji-value {
+  font-family: var(--emoji-font);
+}

@@ -1,0 +1,120 @@
+.install-dialog > p {
+  margin: 0;
+  padding: 1rem;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.language-dialog,
+.saved-dialog,
+.help-dialog,
+.advanced-filters-dialog,
+.filter-picker-dialog {
+  width: min(34rem, calc(100vw - 2rem));
+}
+
+.filter-picker-dialog .compact-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.45rem;
+  padding: 1rem;
+}
+
+.filter-picker-dialog .compact-choice {
+  width: 100%;
+  min-width: 0;
+  min-height: 2.75rem;
+  height: auto;
+  justify-content: flex-start;
+  text-align: start;
+}
+
+.filter-picker-dialog .compact-choice-label {
+  display: inline;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+@media (min-width: 720px) {
+  .example-dialog[open] {
+    display: grid;
+    grid-template-areas:
+      "heading heading"
+      "details metadata"
+      "diagnostic metadata"
+      "invitation metadata"
+      "composition metadata"
+      "actions metadata"
+      "code code";
+    grid-template-columns: minmax(0, 1fr) 16rem;
+    width: min(56rem, calc(100vw - 2rem));
+  }
+
+  .example-dialog > .dialog-heading {
+    grid-area: heading;
+  }
+
+  .example-dialog > .emoji-dialog-details {
+    grid-area: details;
+    align-self: start;
+    padding-top: 1rem;
+  }
+
+  .example-dialog > .rendering-diagnostic {
+    grid-area: diagnostic;
+  }
+
+  .example-dialog > .pixel-design-invitation {
+    grid-area: invitation;
+  }
+
+  .example-dialog > .emoji-composition {
+    grid-area: composition;
+  }
+
+  .example-dialog > .emoji-metadata {
+    grid-area: metadata;
+    grid-template-columns: 1fr;
+    align-content: start;
+    padding: 1rem 1rem 1rem 0;
+  }
+
+  [dir="rtl"] .example-dialog > .emoji-metadata {
+    padding: 1rem 0 1rem 1rem;
+  }
+
+  .example-dialog > .emoji-copy-actions {
+    grid-area: actions;
+  }
+
+  .example-dialog > .emoji-code-view {
+    grid-area: code;
+  }
+
+  .example-dialog > .pixel-editor-view {
+    grid-area: editor;
+  }
+
+  .example-dialog.is-code-view[open] {
+    grid-template-areas:
+      "heading heading"
+      "code code";
+  }
+
+  .example-dialog.is-editor-view[open] {
+    grid-template-areas:
+      "heading heading"
+      "editor editor";
+    width: min(70rem, calc(100vw - 2rem));
+  }
+
+  html:not([data-developer-mode]) .example-dialog[open] {
+    grid-template-areas:
+      "heading heading"
+      "details metadata"
+      "actions metadata";
+    grid-template-columns: minmax(0, 1fr) 12rem;
+    width: min(44rem, calc(100vw - 2rem));
+  }
+}

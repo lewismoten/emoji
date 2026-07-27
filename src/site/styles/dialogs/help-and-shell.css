@@ -1,0 +1,106 @@
+.help-pixel {
+  margin: 1rem 1rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--panel-strong);
+}
+.help-pixel h3,
+.help-pixel p {
+  margin: 0;
+}
+.help-settings {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0.75rem 1rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: var(--panel-strong);
+}
+.help-settings h3,
+.help-settings h4,
+.help-settings p,
+.shortcut-heading {
+  margin: 0;
+}
+.help-settings > h3 {
+  font-size: 0.9rem;
+}
+.help-settings h4 {
+  font-size: 0.8rem;
+}
+.help-settings p {
+  max-width: 27rem;
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+.setting-row > :first-child {
+  min-width: 0;
+}
+.help-language-control {
+  flex: none;
+}
+.help-settings .language-picker {
+  flex: none;
+  width: min(13rem, 40vw);
+  min-width: 10rem;
+  height: 2.75rem;
+}
+.shortcut-heading {
+  padding: 1rem 1rem 0;
+  font-size: 0.9rem;
+}
+.help-pixel p {
+  margin-block: 0.4rem 0.55rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+html:not([data-developer-mode]) .developer-only {
+  display: none !important;
+}
+
+.language-list {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0 1rem 1rem;
+}
+.example-dialog::backdrop,
+.language-dialog::backdrop,
+.saved-dialog::backdrop,
+.help-dialog::backdrop,
+.advanced-filters-dialog::backdrop,
+.filter-picker-dialog::backdrop,
+.install-dialog::backdrop {
+  background: rgb(0 0 0 / 60%);
+  backdrop-filter: blur(3px);
+}
+dialog[open] {
+  animation: dialog-enter var(--motion-medium) var(--motion-ease);
+}
+dialog[open]::backdrop {
+  animation: backdrop-enter var(--motion-medium) ease-out;
+}
+@keyframes dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.65rem) scale(0.96);
+  }
+}
+@keyframes backdrop-enter {
+  from {
+    background: rgb(0 0 0 / 0%);
+    backdrop-filter: blur(0);
+  }
+}
