@@ -113,6 +113,7 @@ export function bindExplorerEvents(options: any) {
   options.languageDialog.addEventListener("close", onPanelClose);
   options.savedDialog?.addEventListener("close", onPanelClose);
   options.helpDialog?.addEventListener("close", onPanelClose);
+  options.advancedFilters?.addEventListener("close", onPanelClose);
   bindSavedDialogInteractions(options);
   options.emojiList.addEventListener("click", options.onClick);
   options.emojiList.addEventListener("focusin", options.onEmojiFocus);
