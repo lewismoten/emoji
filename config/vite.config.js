@@ -24,6 +24,13 @@ const pixelFontStylesheet = path.resolve(
   "pixel-font/build/font/pixel-emoji.css",
 );
 const pixelFontRevision = path.resolve("pixel-font/font-build.revision");
+const devJsonAssetPaths = new Map([
+  ["/demo-locales/", path.resolve("src/demo-locales")],
+  ["/locales/", path.resolve("src/data/locales")],
+  ["/orders/", path.resolve("src/data/orders")],
+  ["/versions/", path.resolve("src/data/versions")],
+  ["/proposed/", path.resolve("src/data/proposed")],
+]);
 
 export default defineConfig({
   server: {
@@ -52,6 +59,22 @@ export default defineConfig({
           const isRootPage = pathname === "/" || pathname === "/index.html";
           if (pathname.startsWith("/pixel-font/build/font/")) {
             response.setHeader("Cache-Control", "no-store");
+          }
+          for (const [publicPrefix, sourceDirectory] of devJsonAssetPaths) {
+            if (pathname.startsWith(publicPrefix) && ["GET", "HEAD"].includes(method)) {
+              const relativePath = pathname.slice(publicPrefix.length);
+              const source = path.join(sourceDirectory, relativePath);
+              if (!fs.existsSync(source)) {
+                response.statusCode = 404;
+                response.end(method === "HEAD" ? undefined : "Not found");
+                return;
+              }
+              response.statusCode = 200;
+              response.setHeader("Content-Type", "application/json; charset=utf-8");
+              response.setHeader("Cache-Control", "no-cache");
+              response.end(method === "HEAD" ? undefined : fs.readFileSync(source));
+              return;
+            }
           }
           if (pathname === "/favicon.svg" && ["GET", "HEAD"].includes(method)) {
             response.statusCode = 200;
