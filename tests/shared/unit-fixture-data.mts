@@ -1,13 +1,17 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { readEmojiJson } from "./emoji-data.mjs";
 
 export type Emoji = {
   key: string;
   emoji: string;
   codePoints: string;
   group: string;
+  subGroup?: string;
   order: number;
   sequenceType: string;
+  shortName?: string;
+  status?: string;
 };
 
 export type Version = {
@@ -65,7 +69,7 @@ export const root = path.resolve(process.cwd());
 export const readJson = async <T,>(file: string) =>
   JSON.parse(await fs.readFile(path.join(root, file), "utf8")) as T;
 
-export const emoji = await readJson<Emoji[]>("emoji.json");
+export const emoji = (await readEmojiJson(root)) as Emoji[];
 export const explorerCatalog = await readJson<{
   fields: string[];
   emoji: unknown[][];

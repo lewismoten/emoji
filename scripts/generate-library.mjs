@@ -1,10 +1,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import ts from "typescript";
+import { readEmojiDataSync } from "./emoji-data.mjs";
 
 const sourceDirectory = "library";
 const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
-const emoji = JSON.parse(fs.readFileSync("emoji.json", "utf8"));
+const emoji = readEmojiDataSync();
 const popular = JSON.parse(fs.readFileSync("popular.json", "utf8"));
 
 const clean = (directory) =>
@@ -95,7 +96,7 @@ if (
   )
 ) {
   throw new Error(
-    "emoji.json must contain an integer order and a valid sequenceType for every emoji. Run npm run unicode -- 17.0.",
+    "emoji source data must contain an integer order and a valid sequenceType for every emoji. Run npm run unicode -- 17.0.",
   );
 }
 const popularItems = popular.map((key) => {

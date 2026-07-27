@@ -62,7 +62,6 @@ for (const asset of [
 for (const asset of [
   "./index.ar.html",
   "./manifest.ar.webmanifest",
-  "./emoji.json",
   "./versions/manifest.json",
   "./pixel-font/build/atlases.html",
   "./pixel-font/build/editor-manifest.json",

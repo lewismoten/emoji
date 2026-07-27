@@ -7,12 +7,12 @@ import { fileURLToPath } from "node:url";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const cacheFile = path.join(root, "cache", "test-bundle-state.json");
 const inputs = [
-  "emoji.json",
   "manifest.json",
   "package-lock.json",
   "package.json",
   "popular.json",
   "rollup.config.ts",
+  "src/emoji-source",
   "tsconfig.json",
   "src",
   "tests",

@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { readEmojiJson } from "../shared/emoji-data.mjs";
 
 type Emoji = { key: string; emoji: string };
 type Category = {
@@ -27,7 +28,7 @@ const readJson = async <T,>(file: string) =>
 const importDefault = async (specifier: string) =>
   (await import(specifier)).default as Record<string, string>;
 const require = createRequire(import.meta.url);
-const emoji = await readJson<Emoji[]>("emoji.json");
+const emoji = (await readEmojiJson(root)) as Emoji[];
 const emojiByKey = Object.fromEntries(
   emoji.map((item) => [item.key, item.emoji]),
 );

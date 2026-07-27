@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { readEmojiDataSync } from "./emoji-data.mjs";
 
 const defaultLocales = [
   "en",
@@ -29,7 +30,7 @@ const locales = [
     }),
   ),
 ];
-const emoji = JSON.parse(fs.readFileSync("emoji.json", "utf8"));
+const emoji = readEmojiDataSync();
 const customSubgroupLabels = JSON.parse(
   fs.readFileSync("scripts/locale-label-overrides.json", "utf8"),
 );

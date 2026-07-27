@@ -26,7 +26,17 @@ const generateWithSips = (favicon, iconDirectory) => {
   for (const [filename, size] of rasterTargets) {
     const result = spawnSync(
       "sips",
-      ["-s", "format", "png", "-z", size, size, favicon, "--out", path.join(iconDirectory, filename)],
+      [
+        "-s",
+        "format",
+        "png",
+        "-z",
+        size,
+        size,
+        favicon,
+        "--out",
+        path.join(iconDirectory, filename),
+      ],
       { stdio: "pipe" },
     );
     if (result.status !== 0) {
@@ -44,7 +54,8 @@ export const generateSiteIcons = ({
   outputDirectory = path.join(root, "icons"),
 } = {}) => {
   fs.mkdirSync(outputDirectory, { recursive: true });
-  const sipsAvailable = spawnSync("sips", ["--help"], { stdio: "ignore" }).status === 0;
+  const sipsAvailable =
+    spawnSync("sips", ["--help"], { stdio: "ignore" }).status === 0;
   if (sipsAvailable) {
     try {
       generateWithSips(favicon, outputDirectory);
@@ -61,7 +72,9 @@ export const generateSiteIcons = ({
   }
 
   const repositoryIconsDirectory = path.join(root, "icons");
-  if (path.resolve(outputDirectory) !== path.resolve(repositoryIconsDirectory)) {
+  if (
+    path.resolve(outputDirectory) !== path.resolve(repositoryIconsDirectory)
+  ) {
     for (const file of generatedIcons) {
       const source = path.join(repositoryIconsDirectory, file);
       const target = path.join(outputDirectory, file);
@@ -73,7 +86,11 @@ export const generateSiteIcons = ({
 
   const fallbackPng = fallbackPngSources.find((file) => fs.existsSync(file));
   if (fallbackPng) {
-    for (const file of ["icon-192.png", "icon-512.png", "icon-maskable-512.png"]) {
+    for (const file of [
+      "icon-192.png",
+      "icon-512.png",
+      "icon-maskable-512.png",
+    ]) {
       const target = path.join(outputDirectory, file);
       if (!fs.existsSync(target)) fs.copyFileSync(fallbackPng, target);
     }

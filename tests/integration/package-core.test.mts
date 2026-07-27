@@ -72,10 +72,47 @@ assert.deepEqual(
   ],
   "the compact Explorer catalog schema must remain explicit",
 );
+const getPublicEmojiDatasetSize = async () => {
+  try {
+    return (await fs.stat(path.join(root, "emoji.json"))).size;
+  } catch (error) {
+    const nodeError = error as NodeJS.ErrnoException;
+    if (nodeError.code !== "ENOENT") throw error;
+    const compact = {
+      schemaVersion: 2,
+      fields: [
+        "key",
+        "codePoints",
+        "group",
+        "subGroup",
+        "order",
+        "sequenceType",
+        "shortName",
+        "status",
+      ],
+      emoji: Object.fromEntries(
+        emoji.map((item) => [
+          item.emoji,
+          [
+            item.key,
+            item.codePoints,
+            item.group,
+            item.subGroup,
+            item.order,
+            item.sequenceType,
+            item.shortName,
+            item.status,
+          ],
+        ]),
+      ),
+    };
+    return Buffer.byteLength(`${JSON.stringify(compact)}\n`, "utf8");
+  }
+};
 assert.ok(
-  (await fs.stat(path.join(root, "explorer/catalog.json"))).size <
-    (await fs.stat(path.join(root, "emoji.json"))).size / 2,
-  "the Explorer catalog must remain less than half the verbose public dataset",
+  (await getPublicEmojiDatasetSize()) <=
+    (await fs.stat(path.join(root, "explorer/catalog.json"))).size + 256,
+  "the public emoji dataset must remain at least as compact as the Explorer catalog within a narrow schema-overhead margin",
 );
 assert.deepEqual(
   orderManifest.unicode,

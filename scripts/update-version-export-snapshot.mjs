@@ -1,12 +1,13 @@
 import { createHash } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { readEmojiDataSync } from "./emoji-data.mjs";
 
 const root = process.cwd();
 const readJson = async (file) =>
   JSON.parse(await fs.readFile(path.join(root, file), "utf8"));
 
-const emoji = await readJson("emoji.json");
+const emoji = readEmojiDataSync();
 const manifest = await readJson("versions/manifest.json");
 const emojiByKey = Object.fromEntries(emoji.map((item) => [item.key, item]));
 

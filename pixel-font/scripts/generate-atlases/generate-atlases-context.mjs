@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { readEmojiDataSync } from "../../../scripts/emoji-data.mjs";
 
 export async function loadAtlasGenerationContext() {
   const workspace = path.resolve(
@@ -12,9 +13,7 @@ export async function loadAtlasGenerationContext() {
   const config = JSON.parse(
     await fs.readFile(path.join(workspace, "config.json"), "utf8"),
   );
-  const emoji = JSON.parse(
-    await fs.readFile(path.join(root, "emoji.json"), "utf8"),
-  );
+  const emoji = readEmojiDataSync();
   const versionManifest = JSON.parse(
     await fs.readFile(path.join(root, "versions", "manifest.json"), "utf8"),
   );

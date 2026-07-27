@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { readEmojiJson } from "../shared/emoji-data.mjs";
 
 type EmojiRecord = {
   codePoints: string;
@@ -37,7 +38,7 @@ const readJson = async <T,>(file: string) =>
 const importDefault = async (specifier: string) =>
   (await import(specifier)).default as Record<string, string>;
 
-const emoji = await readJson<EmojiRecord[]>("emoji.json");
+const emoji = (await readEmojiJson(root)) as EmojiRecord[];
 const emojiByKey = Object.fromEntries(
   emoji.map((item) => [item.key, item] as const),
 );
@@ -64,12 +65,12 @@ export async function verifyAllEmojiContract() {
   assert.equal(
     emoji.length,
     snapshot.all.count,
-    "emoji.json count must match the checked-in all-export contract",
+    "the emoji dataset count must match the checked-in all-export contract",
   );
   assert.equal(
     sha256(actual),
     snapshot.all.sha256,
-    "emoji.json key/emoji/codePoint contract changed; update the snapshot only when the rename or sequence change is intentional",
+    "the emoji dataset key/emoji/codePoint contract changed; update the snapshot only when the rename or sequence change is intentional",
   );
 
   for (const item of emoji) {
@@ -83,7 +84,7 @@ export async function verifyAllEmojiContract() {
   assert.deepEqual(
     Object.keys(allEmoji).sort(),
     Object.keys(emojiByKey).sort(),
-    "all export keys must exactly match emoji.json keys",
+    "all export keys must exactly match the emoji dataset keys",
   );
 }
 

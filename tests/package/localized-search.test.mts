@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { readEmojiJson } from "../shared/emoji-data.mjs";
 
 type LocalePack = {
   locale: string;
@@ -36,9 +37,7 @@ const root = path.resolve(
 const readJson = async <T,>(file: string) =>
   JSON.parse(await fs.readFile(path.join(root, file), "utf8")) as T;
 const require = createRequire(import.meta.url);
-const knownEmoji = new Set(
-  (await readJson<{ key: string }[]>("emoji.json")).map((item) => item.key),
-);
+const knownEmoji = new Set((await readEmojiJson(root)).map((item) => item.key));
 const localeManifest = await readJson<{ locales: LocaleEntry[] }>(
   "locales/manifest.json",
 );

@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { escapeEmojiValue, readEmojiDataSync } from "./emoji-data.mjs";
 
 const [requestedVersion = "next", ...options] = process.argv.slice(2);
 if (
@@ -18,11 +19,6 @@ const stage = optionValue("--stage") ?? "draft";
 const expectedRelease = optionValue("--expected");
 
 const sourceUrl = "https://www.unicode.org/Public/draft/emoji/emoji-test.txt";
-const asValue = (codePoints) =>
-  codePoints
-    .split(" ")
-    .map((code) => `\\u{${code.toLowerCase()}}`)
-    .join("");
 const sequenceType = (codePoints) => {
   const points = codePoints.split(" ");
   if (points.includes("200D")) return "zwj";
@@ -106,7 +102,7 @@ const parseEmojiTest = (text) => {
       order: order++,
       sequenceType: sequenceType(rawCodePoints),
       key: asKey(shortName),
-      value: asValue(rawCodePoints),
+      value: escapeEmojiValue(rawCodePoints),
       emojiVersion,
     });
   }
@@ -134,7 +130,7 @@ if (requestedVersion !== "next" && requestedVersion !== draftVersion) {
   );
 }
 
-const releasedEmoji = JSON.parse(fs.readFileSync("emoji.json", "utf8"));
+const releasedEmoji = readEmojiDataSync();
 const releasedCodePoints = new Set(
   releasedEmoji.map((item) => item.codePoints),
 );

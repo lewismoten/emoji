@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { readEmojiJson } from "../shared/emoji-data.mjs";
 
 type Emoji = {
   key: string;
@@ -17,7 +18,7 @@ const root = path.resolve(
 );
 const readJson = async <T,>(file: string) =>
   JSON.parse(await fs.readFile(path.join(root, file), "utf8")) as T;
-const emoji = await readJson<Emoji[]>("emoji.json");
+const emoji = (await readEmojiJson(root)) as Emoji[];
 const emojiByKey = Object.fromEntries(emoji.map((item) => [item.key, item]));
 const packageManifest = await readJson<{
   name: string;

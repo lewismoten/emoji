@@ -1,6 +1,10 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
+import {
+  escapeEmojiValue,
+  writeEmojiSourceSync,
+} from "./emoji-data.mjs";
 
 const emojiVersion = process.argv[2] ?? "17.0";
 if (!/^\d+\.\d+(?:\.\d+)?$/.test(emojiVersion)) {
@@ -40,11 +44,6 @@ const releaseDates = {
   "17.0": "2025-09-09",
 };
 
-const asValue = (codePoints) =>
-  codePoints
-    .split(" ")
-    .map((code) => `\\u{${code.toLowerCase()}}`)
-    .join("");
 const sequenceType = (codePoints) => {
   const points = codePoints.split(" ");
   if (points.includes("200D")) return "zwj";
@@ -116,7 +115,7 @@ const parseEmojiTest = (text) => {
     if (!versionMatch)
       throw new Error(`Could not parse emoji name and version: ${line}`);
     const [, introducedIn, shortName] = versionMatch;
-    const value = asValue(rawCodePoints);
+    const value = escapeEmojiValue(rawCodePoints);
     const key = asKey(shortName);
     emoji.push({
       emoji: String.fromCodePoint(
@@ -175,7 +174,7 @@ const source = [
   "",
 ].join("\n");
 
-fs.writeFileSync("emoji.json", `${JSON.stringify(emoji, null, "  ")}\n`);
+writeEmojiSourceSync("src/emoji-source", emoji);
 fs.writeFileSync("emoji.ts", source);
 const previousManifest = fs.existsSync("versions/manifest.json")
   ? JSON.parse(fs.readFileSync("versions/manifest.json", "utf8"))

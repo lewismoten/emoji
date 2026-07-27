@@ -13,7 +13,10 @@ const localizedManifestPattern =
   /^\/manifest\.([a-z]{2,3}(?:-[A-Z]{2})?)\.webmanifest$/;
 const iconAssetPattern =
   /^\/icons\/(icon-192\.png|icon-512\.png|icon-maskable-512\.png|icon\.svg|icon-maskable\.svg)$/;
-const fallbackIconPng = ["src/site/screenshot.png", "docs/assets/social-preview.png"]
+const fallbackIconPng = [
+  "src/site/screenshot.png",
+  "docs/assets/social-preview.png",
+]
   .map((file) => path.resolve(file))
   .find((file) => fs.existsSync(file));
 const fallbackIconSvg = path.resolve("src/site/favicon.svg");
@@ -55,9 +58,7 @@ export default defineConfig({
             response.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
             response.setHeader("Cache-Control", "no-cache");
             response.end(
-              method === "HEAD"
-                ? undefined
-                : fs.readFileSync(fallbackIconSvg),
+              method === "HEAD" ? undefined : fs.readFileSync(fallbackIconSvg),
             );
             return;
           }
@@ -135,9 +136,7 @@ export default defineConfig({
           try {
             const developmentPage = renderPage(
               locale,
-              isRootPage
-                ? "http://localhost/"
-                : `http://localhost${pathname}`,
+              isRootPage ? "http://localhost/" : `http://localhost${pathname}`,
               isRootPage ? "en-US" : locale,
               locale,
               isRootPage ? "" : locale,

@@ -19,7 +19,10 @@ const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const assetVersion = packageJson.version;
 const english = JSON.parse(fs.readFileSync("demo-locales/en.json", "utf8"));
 const webAppManifest = JSON.parse(
-  fs.readFileSync(path.join(siteSourceDirectory, "manifest.webmanifest"), "utf8"),
+  fs.readFileSync(
+    path.join(siteSourceDirectory, "manifest.webmanifest"),
+    "utf8",
+  ),
 );
 const pixelFontRevision = createHash("sha256")
   .update(fs.readFileSync("pixel-font/build/font/pixel-emoji.css"))
@@ -127,7 +130,10 @@ const transpileModule = (sourceFile, outputFile) => {
     fileName: sourceFile,
   });
   fs.mkdirSync(path.dirname(outputFile), { recursive: true });
-  fs.writeFileSync(outputFile, `${prepareDeployedScript(build.outputText.trimEnd())}\n`);
+  fs.writeFileSync(
+    outputFile,
+    `${prepareDeployedScript(build.outputText.trimEnd())}\n`,
+  );
 };
 const copyRuntimeModule = (sourceFile, outputFile) => {
   const source = fs.readFileSync(sourceFile, "utf8");
@@ -142,10 +148,7 @@ const emitRuntimeModules = (outputDirectory) => {
         ? path.join(outputDirectory, "index.js")
         : file === "pixel-editor-entry.js"
           ? path.join(outputDirectory, "pixel-editor.js")
-          : path.join(
-              outputDirectory,
-              file.replace(/\.(ts|js)$/, ".js"),
-            );
+          : path.join(outputDirectory, file.replace(/\.(ts|js)$/, ".js"));
     if (file.endsWith(".ts")) transpileModule(sourceFile, outputFile);
     else copyRuntimeModule(sourceFile, outputFile);
   }

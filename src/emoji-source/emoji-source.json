@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "format": "emoji-source",
+  "files": {
+    "codepoints": "codepoints.json",
+    "lookups": "lookups.json",
+    "catalog": "catalog.json"
+  },
+  "codepoints": {
+    "schemaVersion": 1,
+    "key": "emojiKey",
+    "value": "codePoints"
+  },
+  "catalog": {
+    "schemaVersion": 2,
+    "key": "emojiKey",
+    "fields": [
+      "statusIndex",
+      "shortName",
+      "groupIndex",
+      "subGroupIndex",
+      "order",
+      "sequenceTypeIndex"
+    ],
+    "lookupFile": "lookups.json"
+  },
+  "lookups": {
+    "schemaVersion": 1,
+    "fields": [
+      "statuses",
+      "groups",
+      "subGroups",
+      "sequenceTypes"
+    ]
+  }
+}

@@ -41,7 +41,6 @@ const legacyDirectoryCountBudgets: Record<string, number> = {
 const generatedStructurePrefixes = ["dist/", "explorer/", "library/"];
 generatedStructurePrefixes.push("pixel-font/build-retro-text/");
 const generatedStructureFiles = new Set([
-  "emoji.json",
   "emoji.ts",
   "favicon.svg",
   "index.css",
