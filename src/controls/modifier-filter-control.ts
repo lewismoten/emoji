@@ -1,5 +1,6 @@
 import { BaseControl } from "./base-control.js";
 import { DomFactory, type NodeSpec } from "./dom-factory.js";
+import { ModifierFilterOptionControl } from "./modifier-filter-option.js";
 
 export type ModifierFilterItem = {
   emoji: string;
@@ -28,27 +29,12 @@ export abstract class ModifierFilterControl extends BaseControl<ModifierFilterSt
           text: this.state.legend,
         }),
         ...this.state.items.map((item) =>
-          DomFactory.element("label", {
-            children: [
-              DomFactory.element("input", {
-                attributes: {
-                  type: "checkbox",
-                  value: item.value,
-                },
-                className: this.state.inputClassName,
-              }),
-              DomFactory.element("span", {
-                className: "modifier-emoji",
-                text: item.emoji,
-              }),
-              DomFactory.element("span", {
-                className: "modifier-label",
-                dataset: {
-                  i18n: item.labelKey,
-                },
-                text: item.label,
-              }),
-            ],
+          ModifierFilterOptionControl.toSpec({
+            emoji: item.emoji,
+            inputClassName: this.state.inputClassName,
+            label: item.label,
+            labelKey: item.labelKey,
+            value: item.value,
           }),
         ),
       ],
