@@ -40,6 +40,8 @@ export function createExplorerUiController(options: any) {
       });
     updateOnlineStatus();
     options.renderPixelFontToggle();
+    options.renderSoundEffectsToggle();
+    options.renderMusicToggle();
     options.renderDeveloperMode();
     options.pixelEditor()?.refreshTranslations();
   }

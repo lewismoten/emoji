@@ -8,6 +8,7 @@ export function buildExplorerBootstrapRuntimeOptions(options: any) {
     applyDialogUrlState: options.applyDialogUrlState,
     applyPixelArtworkClass: options.applyPixelArtworkClass,
     applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
+    bindAudioInteractions: options.bindAudioInteractions,
     clearFiltersButton: () => options.clearFiltersButton(),
     copyStatus: () => options.copyStatus(),
     developerModeEnabled: options.developerModeEnabled,

@@ -18,6 +18,7 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         applyDialogUrlState: options.controllers.applyDialogUrlState,
         applyPixelArtworkClass: options.shell.applyPixelArtworkClass,
         applyStandalonePixelArtwork: options.shell.applyStandalonePixelArtwork,
+        bindAudioInteractions: options.shell.bindAudioInteractions,
         clearFiltersButton: () => options.bindings.clearFiltersButton,
         copyStatus: () => options.bindings.copyStatus,
         developerModeEnabled: options.shell.developerModeEnabled,

@@ -1,4 +1,5 @@
 import { createSavedEmojiController } from "../explorer/saved-emoji.js";
+import { createExplorerAudioController } from "../explorer-audio.js";
 import {
   installApp as installWebApp,
   renderInstallAppButton as renderInstallAppButtonHelper,
@@ -30,6 +31,11 @@ export function createExplorerShell(options: any) {
     translate: options.translate,
   });
 
+  const audio = createExplorerAudioController({
+    savePreference: options.savePreference,
+    state: options.state,
+  });
+
   function renderPixelFontToggle() {
     renderPixelFontToggleHelper({
       choices: options.emojiFontChoices,
@@ -50,6 +56,7 @@ export function createExplorerShell(options: any) {
       choices: options.themeChoices,
       state: options.state,
     });
+    audio.syncHelpMusic();
   }
 
   function selectTheme(event: Event) {
@@ -114,7 +121,9 @@ export function createExplorerShell(options: any) {
     pixelEditor: options.pixelEditor,
     renderDeveloperMode: developerMode.render,
     renderInstallAppButton: renderInstallAppButtonHelper,
+    renderMusicToggle: audio.renderMusicToggle,
     renderPixelFontToggle,
+    renderSoundEffectsToggle: audio.renderSoundEffectsToggle,
     renderThemeToggle,
     renderSearchLanguages: options.renderSearchLanguages,
     renderVersionModeToggle: options.renderVersionModeToggle,
@@ -125,15 +134,19 @@ export function createExplorerShell(options: any) {
 
   return {
     ...savedEmoji,
+    bindAudioInteractions: audio.bindAudioInteractions,
     developerModeEnabled: developerMode.enabled,
     installApp: explorerUi.installApp,
     loadUiTranslations: explorerUi.loadUiTranslations,
+    renderMusicToggle: audio.renderMusicToggle,
     renderDeveloperMode: developerMode.render,
     renderInstallAppButton: explorerUi.renderInstallAppButton,
     renderPixelFontToggle,
+    renderSoundEffectsToggle: audio.renderSoundEffectsToggle,
     renderThemeToggle,
     selectEmojiFont,
     selectTheme,
+    syncHelpMusic: audio.syncHelpMusic,
     toggleDeveloperMode: developerMode.change,
     updateOnlineStatus: explorerUi.updateOnlineStatus,
     applyUiTranslations: explorerUi.applyTranslations,

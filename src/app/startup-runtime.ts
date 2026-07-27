@@ -19,6 +19,7 @@ export function createStartupRuntime(options: any) {
     applyBasicUrlState: options.applyBasicUrlState,
     applyDialogUrlState: options.applyDialogUrlState,
     applyPixelArtworkClass: options.applyPixelArtworkClass,
+    bindAudioInteractions: options.bindAudioInteractions,
     assignControls: options.assignControls,
     assignElements: options.assignElements,
     assignModifierFieldsets: options.assignModifierFieldsets,

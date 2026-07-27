@@ -63,6 +63,7 @@ export function createStartupOrchestrator(options: any) {
     upgradeEmojiDialog();
     options.assignModifierFieldsets();
     options.hideModifierEmojiAccessibility();
+    options.bindAudioInteractions();
 
     options.bindEvents({
       advancedFilters: options.advancedFilters(),

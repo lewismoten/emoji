@@ -153,6 +153,7 @@ export function createExplorerBootstrapRuntime(options: any) {
     applyBasicUrlState: options.applyBasicUrlState,
     applyDialogUrlState: options.applyDialogUrlState,
     applyPixelArtworkClass: options.applyPixelArtworkClass,
+    bindAudioInteractions: options.bindAudioInteractions,
     assignControls: (controls) => uiBindingRuntime.assignControls(controls),
     assignElements: (elements) => uiBindingRuntime.assignElements(elements),
     assignModifierFieldsets: () => uiBindingRuntime.assignModifierFieldsets(),
