@@ -27,7 +27,6 @@ const legacyLineBudgets: Record<string, number> = {
 assert.deepEqual(Object.entries(legacyLineBudgets).filter(([key, value])=> value < structureLimits.linesPerScriptOrStylesheet), [], "Files specified below 300 line limits.");
 
 const legacyFileCountBudgets: Record<string, number> = {
-  ".": 11,
   src: 14,
   "src/app": 29,
   "src/explorer": 39,

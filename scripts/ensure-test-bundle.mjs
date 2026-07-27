@@ -9,7 +9,7 @@ const cacheFile = path.join(root, "cache", "test-bundle-state.json");
 const inputs = [
   "package-lock.json",
   "package.json",
-  "rollup.config.ts",
+  "config/rollup.config.ts",
   "src/data/emoji",
   "src/data",
   "src/demo-locales",
@@ -24,7 +24,7 @@ const outputs = [
   "build/demo-pages/service-worker.js",
   "build/tests/integration/package-core.test.mjs",
   "build/library",
-  "build/rollup.config.js",
+  "build/config/rollup.config.js",
   "dist/manifest.json",
   "dist/commonjs/popular.min.cjs",
   "dist/esm/index.js",

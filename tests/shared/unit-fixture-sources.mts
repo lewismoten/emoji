@@ -263,6 +263,6 @@ export const pixelAtlasReadme = await fs.readFile(
   "utf8",
 );
 export const viteConfig = await fs.readFile(
-  path.join(root, "vite.config.js"),
+  path.join(root, "config", "vite.config.js"),
   "utf8",
 );

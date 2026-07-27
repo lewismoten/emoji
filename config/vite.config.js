@@ -5,8 +5,8 @@ import {
   locales,
   renderManifest,
   renderPage,
-} from "./scripts/generate-demo-pages.mjs";
-import { renderServiceWorker } from "./scripts/generate-service-worker.mjs";
+} from "../scripts/generate-demo-pages.mjs";
+import { renderServiceWorker } from "../scripts/generate-service-worker.mjs";
 
 const localizedPagePattern = /^\/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/;
 const localizedManifestPattern =

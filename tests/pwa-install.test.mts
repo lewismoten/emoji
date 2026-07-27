@@ -58,7 +58,7 @@ const [
     read("src/site/index.css"),
   ]).then((parts) => parts.join("\n")),
   read("build/demo-pages/index.ar.html"),
-  read("vite.config.js"),
+  read("config/vite.config.js"),
   read("src/explorer/toolbar/toolbar-layout.ts"),
 ]);
 
