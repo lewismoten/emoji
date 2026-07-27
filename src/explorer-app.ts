@@ -7,6 +7,7 @@ import {
   finalizeExplorerStartup as finalizeExplorerStartupHelper,
   initializeExplorerControls as initializeExplorerControlsHelper,
 } from "./explorer/control-startup.js";
+import { bindPanelDialog } from "./explorer/pwa-panels.js";
 
 type ApplicationWindow = {
   addEventListener(type: "load", listener: () => void): void;
@@ -44,22 +45,6 @@ export function createExplorerApp(options: {
 
 /** Bind browser events after the Explorer has resolved its DOM references. */
 export function bindExplorerEvents(options: any) {
-  const panel = (name: string) =>
-    options.openPanel({
-      panel: name,
-      dialogs: options.panelDialogs(),
-      languageList: options.languageList,
-      renderSavedEmoji: options.renderSavedEmoji,
-      syncUrlState: options.syncUrlState,
-    });
-  const onPanelClose = (event: Event) =>
-    options.onPanelClose({
-      event,
-      suppressedPanelCloses: options.suppressedPanelCloses,
-      urlStateReady: options.urlStateReady(),
-      applyingUrlState: options.applyingUrlState(),
-      syncUrlState: options.syncUrlState,
-    });
   const onThemeChoiceKeyDown = createThemeChoiceKeyDownHandler(
     options.themeChoices ?? [],
   );
@@ -77,16 +62,70 @@ export function bindExplorerEvents(options: any) {
   bindModifierGroup(options.hairCheckboxes, options.onHairChange);
   bindModifierGroup(options.genderCheckboxes, options.onGenderChange);
   options.searchText.addEventListener("input", options.scheduleSearchDraw);
-  options.languagePicker.addEventListener("click", () => {
-    if (options.helpDialog?.open) {
-      if (options.languageDialog) {
-        options.languageDialog.dataset.returnPanel = "help";
+  bindPanelDialog({
+    applyingUrlState: options.applyingUrlState,
+    button: options.languagePicker,
+    dialog: options.languageDialog,
+    dialogs: options.panelDialogs(),
+    languageList: options.languageList,
+    onBeforeOpen: () => {
+      if (options.helpDialog?.open) {
+        if (options.languageDialog) {
+          options.languageDialog.dataset.returnPanel = "help";
+        }
+        options.closePanel(options.helpDialog, options.suppressedPanelCloses);
+      } else if (options.languageDialog) {
+        delete options.languageDialog.dataset.returnPanel;
       }
-      options.closePanel(options.helpDialog, options.suppressedPanelCloses);
-    } else if (options.languageDialog) {
-      delete options.languageDialog.dataset.returnPanel;
-    }
-    panel("language");
+    },
+    openPanel: options.openPanel,
+    panel: "language",
+    renderSavedEmoji: options.renderSavedEmoji,
+    suppressedPanelCloses: options.suppressedPanelCloses,
+    syncUrlState: options.syncUrlState,
+    urlStateReady: options.urlStateReady,
+  });
+  bindPanelDialog({
+    applyingUrlState: options.applyingUrlState,
+    button: options.savedPicker,
+    dialog: options.savedDialog,
+    dialogs: options.panelDialogs(),
+    languageList: options.languageList,
+    openPanel: options.openPanel,
+    panel: "favorites",
+    renderSavedEmoji: options.renderSavedEmoji,
+    suppressedPanelCloses: options.suppressedPanelCloses,
+    syncUrlState: options.syncUrlState,
+    urlStateReady: options.urlStateReady,
+  });
+  bindPanelDialog({
+    applyingUrlState: options.applyingUrlState,
+    button: options.helpPicker,
+    dialog: options.helpDialog,
+    dialogs: options.panelDialogs(),
+    languageList: options.languageList,
+    openPanel: options.openPanel,
+    panel: "help",
+    renderSavedEmoji: options.renderSavedEmoji,
+    suppressedPanelCloses: options.suppressedPanelCloses,
+    syncUrlState: options.syncUrlState,
+    urlStateReady: options.urlStateReady,
+  });
+  bindPanelDialog({
+    applyingUrlState: options.applyingUrlState,
+    button: options.advancedFiltersButton,
+    dialog: options.advancedFilters,
+    dialogs: options.panelDialogs(),
+    languageList: options.languageList,
+    onAfterClose: () => {
+      options.advancedFiltersButton?.focus();
+    },
+    openPanel: options.openPanel,
+    panel: "filters",
+    renderSavedEmoji: options.renderSavedEmoji,
+    suppressedPanelCloses: options.suppressedPanelCloses,
+    syncUrlState: options.syncUrlState,
+    urlStateReady: options.urlStateReady,
   });
   options.emojiFontChoices.forEach((choice: any) =>
     choice.addEventListener("click", options.selectEmojiFont),
@@ -104,16 +143,10 @@ export function bindExplorerEvents(options: any) {
   options.installDialog
     ?.querySelector(".install-dialog-close")
     ?.addEventListener("click", () => options.installDialog.close());
-  options.savedPicker?.addEventListener("click", () => panel("favorites"));
-  options.helpPicker?.addEventListener("click", () => panel("help"));
   options.developerModeToggle?.addEventListener(
     "change",
     options.toggleDeveloperMode,
   );
-  options.languageDialog.addEventListener("close", onPanelClose);
-  options.savedDialog?.addEventListener("close", onPanelClose);
-  options.helpDialog?.addEventListener("close", onPanelClose);
-  options.advancedFilters?.addEventListener("close", onPanelClose);
   bindSavedDialogInteractions(options);
   options.emojiList.addEventListener("click", options.onClick);
   options.emojiList.addEventListener("focusin", options.onEmojiFocus);
@@ -141,18 +174,6 @@ export function bindExplorerEvents(options: any) {
   options.orderButtons.forEach((button: any) =>
     button.addEventListener("click", options.onOrderModeChange),
   );
-  options.advancedFiltersButton?.addEventListener("click", () => {
-    options.openPanel({
-      panel: "filters",
-      dialogs: options.panelDialogs(),
-      languageList: options.languageList,
-      renderSavedEmoji: options.renderSavedEmoji,
-      syncUrlState: options.syncUrlState,
-    });
-  });
-  options.advancedFilters?.addEventListener("close", () => {
-    options.advancedFiltersButton?.focus();
-  });
   document.addEventListener("keydown", options.onDocumentKeyDown);
 }
 

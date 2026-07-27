@@ -112,6 +112,11 @@ type PanelContext = {
   renderSavedEmoji: () => void;
 };
 
+type SyncUrlState = (
+  mode?: "replace" | "push",
+  historyState?: Record<string, unknown>,
+) => void;
+
 export function getPanelDialog(panel: PanelName, dialogs: PanelDialogs) {
   const dialogMap: Record<
     Exclude<PanelName, "">,
@@ -163,10 +168,7 @@ export function focusPanelDialog(
 type OpenPanelOptions = PanelContext & {
   addHistory?: boolean;
   panel: Exclude<PanelName, "">;
-  syncUrlState: (
-    mode?: "replace" | "push",
-    historyState?: Record<string, unknown>,
-  ) => void;
+  syncUrlState: SyncUrlState;
 };
 
 export function openPanelDialog({
@@ -197,7 +199,7 @@ type ClosePanelOptions = {
   applyingUrlState: boolean;
   event: Event;
   suppressedPanelCloses: WeakSet<HTMLDialogElement>;
-  syncUrlState: () => void;
+  syncUrlState: SyncUrlState;
   urlStateReady: boolean;
 };
 
@@ -223,4 +225,41 @@ export function onPanelDialogClose({
   } else {
     syncUrlState();
   }
+}
+
+type BindPanelDialogOptions = PanelContext & {
+  applyingUrlState: () => boolean;
+  button?: HTMLElement;
+  dialog?: HTMLDialogElement;
+  onBeforeOpen?: () => void;
+  onAfterClose?: () => void;
+  openPanel: (options: OpenPanelOptions) => void;
+  panel: Exclude<PanelName, "">;
+  suppressedPanelCloses: WeakSet<HTMLDialogElement>;
+  syncUrlState: SyncUrlState;
+  urlStateReady: () => boolean;
+};
+
+export function bindPanelDialog(options: BindPanelDialogOptions) {
+  options.button?.addEventListener("click", () => {
+    options.onBeforeOpen?.();
+    options.openPanel({
+      panel: options.panel,
+      dialogs: options.dialogs,
+      languageList: options.languageList,
+      renderSavedEmoji: options.renderSavedEmoji,
+      syncUrlState: options.syncUrlState,
+    });
+  });
+
+  options.dialog?.addEventListener("close", (event) => {
+    onPanelDialogClose({
+      event,
+      suppressedPanelCloses: options.suppressedPanelCloses,
+      urlStateReady: options.urlStateReady(),
+      applyingUrlState: options.applyingUrlState(),
+      syncUrlState: options.syncUrlState,
+    });
+    options.onAfterClose?.();
+  });
 }
