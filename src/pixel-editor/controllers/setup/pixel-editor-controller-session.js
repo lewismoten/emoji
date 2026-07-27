@@ -86,7 +86,7 @@ export function createPixelEditorSessionControllers(options) {
       state.traceOffsetY = y;
     },
     translate,
-    updateTransferButtons: visual.updateTransferButtons,
+    updateTransferButtons: visual.modeController.updateTransferButtons,
   });
 
   const atlasController = createPixelEditorAtlasController({
