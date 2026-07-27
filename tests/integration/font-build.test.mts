@@ -254,10 +254,16 @@ assert.match(
   /id="pixel-font-stylesheet"[^>]*pixel-font\/build\/font\/pixel-emoji\.css\?v=[^"]+[^>]*data-font-revision="/,
   'the pixel font must use a reloadable standalone stylesheet'
 );
-assert.match(
-  pixelFontHotReload,
-  /import\.meta\.hot[\s\S]*pixel-font\/font-build\.revision[\s\S]*window\.setInterval\(refresh, 1500\)[\s\S]*function refreshPixelFontStylesheet[\s\S]*replacement\.addEventListener/,
-  'the demo must watch and hot-swap rebuilt pixel font assets'
+assert.ok(
+  pixelFontHotReload.includes('import.meta.hot.on') &&
+    pixelFontHotReload.includes('pixel-font/font-build.revision') &&
+    pixelFontHotReload.includes('refreshInFlight') &&
+    pixelFontHotReload.includes('document.hidden') &&
+    pixelFontHotReload.includes('window.setInterval(refresh, 5000)') &&
+    pixelFontHotReload.includes('function refreshPixelFontStylesheet') &&
+    pixelFontHotReload.includes("replacement.addEventListener('load'") &&
+    pixelFontHotReload.includes('async function runPixelFontJobs'),
+  'the demo must watch and hot-swap rebuilt pixel font assets without repainting everything in one tight polling loop'
 );
 assert.match(
   await fs.readFile(path.join(root, 'src/app/browser-runtime.ts'), 'utf8'),

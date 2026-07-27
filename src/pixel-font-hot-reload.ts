@@ -1,7 +1,15 @@
 export function installPixelFontHotReload(options: any) {
   if (!import.meta.hot) return;
   let revision: string | undefined;
+  let refreshInFlight = false;
+  let refreshQueued = false;
   const refresh = async (refreshInitial = false) => {
+    if (refreshInFlight) {
+      refreshQueued = true;
+      return;
+    }
+    if (document.hidden && !refreshInitial) return;
+    refreshInFlight = true;
     try {
       const response = await fetch(
         `./pixel-font/font-build.revision?cache=${Date.now()}`,
@@ -15,11 +23,20 @@ export function installPixelFontHotReload(options: any) {
       if (!initial || refreshInitial) options.refreshStylesheet(nextRevision);
     } catch {
       // The revision file exists only while developing the pixel font.
+    } finally {
+      refreshInFlight = false;
+      if (refreshQueued) {
+        refreshQueued = false;
+        void refresh();
+      }
     }
   };
   import.meta.hot.on('pixel-font:updated', () => void refresh(true));
   void refresh(true);
-  window.setInterval(refresh, 1500);
+  window.setInterval(refresh, 5000);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) void refresh();
+  });
 }
 
 export function refreshPixelFontStylesheet(options: any, revision: string) {
@@ -45,9 +62,27 @@ export async function refreshExplorerPixelFont(options: any, revision: string) {
     });
     if (!response.ok) throw new Error('Pixel font manifest is unavailable');
     options.updateManifest(await response.json(), revision);
-    document.querySelectorAll('[data-emoji-key]').forEach((cell: any) =>
-      options.applyArtwork(cell.querySelector('.emoji-glyph'), cell.dataset.emojiKey)
-    );
+    const jobs: Array<() => void> = [];
+    document.querySelectorAll('[data-emoji-key]').forEach((cell: any) => {
+      jobs.push(() =>
+        options.applyArtwork(cell.querySelector('.emoji-glyph'), cell.dataset.emojiKey)
+      );
+    });
+    options.dialog()?.querySelectorAll('[data-composition-emoji]').forEach((part: any) => {
+      jobs.push(() =>
+        options.applyArtwork(part.querySelector('.emoji-composition-glyph'), part.dataset.compositionEmoji)
+      );
+    });
+    options.dialog()?.querySelectorAll('[data-composition-artwork]').forEach((part: any) => {
+      jobs.push(() =>
+        options.applyStandaloneArtwork(
+          part.querySelector('.emoji-composition-glyph'),
+          part.dataset.compositionArtwork,
+          Number(part.dataset.compositionPoint)
+        )
+      );
+    });
+    await runPixelFontJobs(jobs);
     options.applyArtwork(
       options.dialog()?.querySelector('.emoji-preview-glyph'),
       options.currentEmojiKey()
@@ -56,18 +91,18 @@ export async function refreshExplorerPixelFont(options: any, revision: string) {
       options.dialog()?.querySelector('.emoji-composition-result .emoji-composition-glyph'),
       options.currentEmojiKey()
     );
-    options.dialog()?.querySelectorAll('[data-composition-emoji]').forEach((part: any) =>
-      options.applyArtwork(part.querySelector('.emoji-composition-glyph'), part.dataset.compositionEmoji)
-    );
-    options.dialog()?.querySelectorAll('[data-composition-artwork]').forEach((part: any) =>
-      options.applyStandaloneArtwork(
-        part.querySelector('.emoji-composition-glyph'),
-        part.dataset.compositionArtwork,
-        Number(part.dataset.compositionPoint)
-      )
-    );
     options.updateModifierArtwork();
   } catch (error) {
     console.warn('Pixel font result refresh unavailable', error);
+  }
+}
+
+async function runPixelFontJobs(jobs: Array<() => void>) {
+  const batchSize = 120;
+  for (let index = 0; index < jobs.length; index += batchSize) {
+    jobs.slice(index, index + batchSize).forEach((job) => job());
+    if (index + batchSize < jobs.length) {
+      await new Promise<void>((resolve) => window.requestAnimationFrame(() => resolve()));
+    }
   }
 }
