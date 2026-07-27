@@ -196,7 +196,7 @@
     <link rel="stylesheet" href="./explorer/controls/filter-picker-trigger.css" />
     <link rel="stylesheet" href="./explorer/controls/toolbar-trigger-button.css" />
     <link rel="stylesheet" href="./explorer/controls/advanced-filters-trigger.css" />
-    <link rel="stylesheet" href="./explorer/controls/gender-filter.css" />
+    <link rel="stylesheet" href="./explorer/controls/modifier-filter-control.css" />
     <link rel="stylesheet" href="./explorer/controls/version-mode-toggle.css" />
     <link rel="stylesheet" href="./explorer/controls/version-step-button.css" />
     <link rel="stylesheet" href="./explorer/dialog-controls.css" />
@@ -987,7 +987,7 @@
           </div>
 
           <div class="modifier-filters">
-            <fieldset class="gender-filter">
+            <fieldset class="modifier-filter gender-filter">
               <legend data-i18n="gender">Gender</legend>
               <label
                 ><input type="checkbox" class="gender" value="male" /><span
@@ -1014,7 +1014,7 @@
                 ></label
               >
             </fieldset>
-            <fieldset>
+            <fieldset class="modifier-filter skin-tone-filter">
               <legend data-i18n="skinTone">Skin tone</legend>
               <label
                 ><input type="checkbox" class="skin-tone" value="1F3FF" /><span
@@ -1057,7 +1057,7 @@
                 ></label
               >
             </fieldset>
-            <fieldset>
+            <fieldset class="modifier-filter hair-filter">
               <legend data-i18n="hair">Hair</legend>
               <label
                 ><input type="checkbox" class="hair" value="1F9B0" /><span

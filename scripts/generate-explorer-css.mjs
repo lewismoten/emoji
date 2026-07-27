@@ -88,8 +88,8 @@ const sourceFiles = [
     output: path.join("controls", "advanced-filters-trigger.css"),
   },
   {
-    source: path.join("src", "controls", "gender-filter.css"),
-    output: path.join("controls", "gender-filter.css"),
+    source: path.join("src", "controls", "modifier-filter-control.css"),
+    output: path.join("controls", "modifier-filter-control.css"),
   },
   {
     source: path.join("src", "controls", "version-mode-toggle.css"),

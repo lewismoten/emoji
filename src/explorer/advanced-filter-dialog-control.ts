@@ -1,48 +1,8 @@
 import { AdvancedFiltersTriggerControl } from "../controls/advanced-filters-trigger.js";
 import { GenderFilterControl } from "../controls/gender-filter.js";
+import { HairFilterControl } from "../controls/hair-filter.js";
+import { SkinToneFilterControl } from "../controls/skin-tone-filter.js";
 import { createDialogHeading } from "./dialog-control-helpers.js";
-
-function createModifierOption(options: {
-  className: string;
-  value: string;
-  emoji: string;
-  labelKey: string;
-  label: string;
-}) {
-  const label = document.createElement("label");
-  const input = document.createElement("input");
-  input.type = "checkbox";
-  input.className = options.className;
-  input.value = options.value;
-  const emoji = document.createElement("span");
-  emoji.className = "modifier-emoji";
-  emoji.textContent = options.emoji;
-  const text = document.createElement("span");
-  text.className = "modifier-label";
-  text.dataset.i18n = options.labelKey;
-  text.textContent = options.label;
-  label.append(input, emoji, text);
-  return label;
-}
-
-function createModifierFieldset(options: {
-  legendKey: string;
-  legend: string;
-  items: Array<{
-    className: string;
-    value: string;
-    emoji: string;
-    labelKey: string;
-    label: string;
-  }>;
-}) {
-  const fieldset = document.createElement("fieldset");
-  const legend = document.createElement("legend");
-  legend.dataset.i18n = options.legendKey;
-  legend.textContent = options.legend;
-  fieldset.append(legend, ...options.items.map(createModifierOption));
-  return fieldset;
-}
 
 function createSequenceFilterField() {
   const field = document.createElement("div");
@@ -96,81 +56,8 @@ export function createAdvancedFiltersDialogControl() {
   modifiers.className = "modifier-filters";
   modifiers.append(
     GenderFilterControl.create(),
-    createModifierFieldset({
-      legendKey: "skinTone",
-      legend: "Skin tone",
-      items: [
-        {
-          className: "skin-tone",
-          value: "1F3FF",
-          emoji: "🏿",
-          labelKey: "dark",
-          label: "Dark",
-        },
-        {
-          className: "skin-tone",
-          value: "1F3FE",
-          emoji: "🏾",
-          labelKey: "mediumDark",
-          label: "Medium-dark",
-        },
-        {
-          className: "skin-tone",
-          value: "1F3FD",
-          emoji: "🏽",
-          labelKey: "medium",
-          label: "Medium",
-        },
-        {
-          className: "skin-tone",
-          value: "1F3FC",
-          emoji: "🏼",
-          labelKey: "mediumLight",
-          label: "Medium-light",
-        },
-        {
-          className: "skin-tone",
-          value: "1F3FB",
-          emoji: "🏻",
-          labelKey: "light",
-          label: "Light",
-        },
-      ],
-    }),
-    createModifierFieldset({
-      legendKey: "hair",
-      legend: "Hair",
-      items: [
-        {
-          className: "hair",
-          value: "1F9B0",
-          emoji: "🧑‍🦰",
-          labelKey: "red",
-          label: "Red",
-        },
-        {
-          className: "hair",
-          value: "1F9B1",
-          emoji: "🧑‍🦱",
-          labelKey: "curly",
-          label: "Curly",
-        },
-        {
-          className: "hair",
-          value: "1F9B2",
-          emoji: "🧑‍🦲",
-          labelKey: "bald",
-          label: "Bald",
-        },
-        {
-          className: "hair",
-          value: "1F9B3",
-          emoji: "🧑‍🦳",
-          labelKey: "white",
-          label: "White",
-        },
-      ],
-    }),
+    SkinToneFilterControl.create(),
+    HairFilterControl.create(),
   );
   body.append(grid, modifiers);
   dialog.append(body);
