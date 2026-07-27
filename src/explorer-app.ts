@@ -73,8 +73,8 @@ export function bindExplorerEvents(options: any) {
   options.renderInstallAppButton();
   options.applyBasicUrlState();
 
-  bindModifierGroup(options.skinToneCheckboxes, () => options.drawList());
-  bindModifierGroup(options.hairCheckboxes, () => options.drawList());
+  bindModifierGroup(options.skinToneCheckboxes, options.onSkinToneChange);
+  bindModifierGroup(options.hairCheckboxes, options.onHairChange);
   bindModifierGroup(options.genderCheckboxes, options.onGenderChange);
   options.searchText.addEventListener("input", options.scheduleSearchDraw);
   options.languagePicker.addEventListener("click", () => {

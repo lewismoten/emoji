@@ -4,6 +4,31 @@ type CheckboxLike = {
   closest: (selector: string) => HTMLElement | null;
 };
 
+function appendSeparator(fragment: DocumentFragment) {
+  if (!fragment.hasChildNodes()) return;
+  fragment.append(document.createTextNode(" · "));
+}
+
+function appendTextPart(fragment: DocumentFragment, text: string) {
+  if (!text) return;
+  appendSeparator(fragment);
+  fragment.append(document.createTextNode(text));
+}
+
+function appendModifierPart(
+  fragment: DocumentFragment,
+  checkbox: CheckboxLike,
+) {
+  const label = checkbox.closest("label");
+  const emoji = label?.querySelector<HTMLElement>(".modifier-emoji");
+  if (!emoji) {
+    appendTextPart(fragment, checkbox.value);
+    return;
+  }
+  appendSeparator(fragment);
+  fragment.append(emoji.cloneNode(true));
+}
+
 export function updateActiveFilterSummary(options: {
   activeFilterSummary?: HTMLElement;
   activeFilterText?: HTMLElement;
@@ -26,10 +51,15 @@ export function updateActiveFilterSummary(options: {
   versionValue: string;
 }) {
   if (!options.activeFilterSummary || !options.activeFilterText) return;
-  const parts: string[] = [];
-  if (options.searchText.trim()) parts.push(`“${options.searchText.trim()}”`);
+  const fragment = document.createDocumentFragment();
+
+  if (options.searchText.trim()) {
+    appendTextPart(fragment, `“${options.searchText.trim()}”`);
+  }
+
   if (options.orderMode === "sequence" && options.selectedSequenceType) {
-    parts.push(
+    appendTextPart(
+      fragment,
       options.translate(
         options.sequenceTranslationKeys[options.selectedSequenceType],
         options.sequenceTypeLabels[options.selectedSequenceType],
@@ -37,16 +67,18 @@ export function updateActiveFilterSummary(options: {
     );
   } else {
     if (options.selectedGroup) {
-      parts.push(options.displayGroupName(options.selectedGroup));
+      appendTextPart(fragment, options.displayGroupName(options.selectedGroup));
     }
     if (options.selectedSubGroup) {
-      parts.push(
+      appendTextPart(
+        fragment,
         options.displayUnicodeSubGroupName(
           options.selectedSubGroup.split("::").slice(1).join("::"),
         ),
       );
     }
   }
+
   if (
     options.versionValue &&
     (options.versionValue !== options.latestReleased ||
@@ -56,18 +88,20 @@ export function updateActiveFilterSummary(options: {
       options.versionMode === "selected"
         ? options.translate("onlyVersion", "Only")
         : options.translate("throughVersion", "Through");
-    parts.push(`${mode} ${options.versionSliderLabel(options.versionValue)}`);
+    appendTextPart(
+      fragment,
+      `${mode} ${options.versionSliderLabel(options.versionValue)}`,
+    );
   }
+
   for (const checkbox of [
     ...options.skinToneCheckboxes,
     ...options.hairCheckboxes,
     ...options.genderCheckboxes,
-  ].filter((checkbox) => checkbox.checked)) {
-    parts.push(
-      checkbox.closest("label")?.querySelector(".modifier-emoji")
-        ?.textContent ?? checkbox.value,
-    );
+  ].filter((item) => item.checked)) {
+    appendModifierPart(fragment, checkbox);
   }
-  options.activeFilterSummary.hidden = parts.length === 0;
-  options.activeFilterText.textContent = parts.join(" · ");
+
+  options.activeFilterSummary.hidden = !fragment.hasChildNodes();
+  options.activeFilterText.replaceChildren(fragment);
 }

@@ -206,6 +206,22 @@ export function createExplorerNavigation(options: {
     options.drawList();
   };
 
+  const onSkinToneChange = (event: Event) => {
+    applyExclusiveCheckboxSelection(
+      options.skinToneCheckboxes(),
+      event.currentTarget as unknown as Checkbox,
+    );
+    options.drawList();
+  };
+
+  const onHairChange = (event: Event) => {
+    applyExclusiveCheckboxSelection(
+      options.hairCheckboxes(),
+      event.currentTarget as unknown as Checkbox,
+    );
+    options.drawList();
+  };
+
   const stepVersion = (amount: number) => {
     const range = options.versionRange();
     const nextIndex = stepVersionIndex(
@@ -268,6 +284,8 @@ export function createExplorerNavigation(options: {
     applyLoadedUrlState,
     onDocumentKeyDown,
     onGenderChange,
+    onHairChange,
+    onSkinToneChange,
     resetFilters,
     stepVersion,
     syncUrlState,
