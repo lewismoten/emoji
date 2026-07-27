@@ -10,7 +10,7 @@ const markup = ModifierFilterOptionControl.toMarkup({
   value: "alpha",
 });
 
-assert.match(markup, /^<label>/);
+assert.match(markup, /^<label class="modifier-filter-option">/);
 assert.match(markup, /<input[^>]*class="example-input"[^>]*type="checkbox"[^>]*value="alpha"[^>]*><\/input>/);
 assert.match(markup, /class="modifier-emoji">🧪<\/span>/);
 assert.match(markup, /class="modifier-label" data-i18n="example">Example<\/span>/);

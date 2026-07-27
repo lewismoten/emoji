@@ -418,7 +418,7 @@ fieldset input {
   min-height: 1rem;
   accent-color: var(--accent-strong);
 }
-.modifier-filters fieldset label {
+.modifier-filter-option {
   display: inline-flex;
   align-items: center;
   min-height: 2.25rem;
@@ -428,16 +428,16 @@ fieldset input {
   background: var(--panel);
   cursor: pointer;
 }
-.modifier-filters fieldset label:hover {
+.modifier-filter-option:hover {
   background: color-mix(in srgb, var(--panel) 82%, var(--accent));
 }
-.modifier-filters fieldset label:has(input:checked) {
+.modifier-filter-option:has(input:checked) {
   border-color: var(--accent);
   background: var(--selected-control-bg);
   color: var(--selected-control-text);
   box-shadow: var(--shadow-selected-inset, none);
 }
-.modifier-filters fieldset label:has(input:focus-visible) {
+.modifier-filter-option:has(input:focus-visible) {
   outline: 2px dashed var(--accent-strong);
   outline-offset: 2px;
 }
@@ -2240,7 +2240,7 @@ kbd {
 .compact-choice,
 .version-mode-toggle,
 .version-step,
-.modifier-filters fieldset label,
+.modifier-filter-option,
 .pixel-comparison > button,
 .language-option,
 .language-picker,
@@ -2261,7 +2261,7 @@ kbd {
 }
 .compact-choice:active,
 .version-mode-toggle:active,
-.modifier-filters fieldset label:active,
+.modifier-filter-option:active,
 .pixel-comparison > button:active,
 .language-option:active,
 .order-mode:active {
@@ -2269,7 +2269,7 @@ kbd {
 }
 .compact-choice[aria-checked="true"],
 .version-mode-toggle[aria-pressed="true"],
-.modifier-filters fieldset label:has(input:checked),
+.modifier-filter-option:has(input:checked),
 .pixel-comparison > button[aria-pressed="true"],
 .language-option.is-selected,
 .order-mode.is-active {
@@ -2465,7 +2465,7 @@ kbd {
     gap: 0.3rem;
     padding: 0.35rem 0.45rem 0.45rem;
   }
-  .modifier-filters fieldset label {
+  .modifier-filter-option {
     display: grid;
     place-items: center;
     width: 2.65rem;
@@ -2477,13 +2477,13 @@ kbd {
     background: var(--panel);
     cursor: pointer;
   }
-  .modifier-filters fieldset label:has(input:checked) {
+  .modifier-filter-option:has(input:checked) {
     border-color: var(--accent);
     background: var(--selected-control-bg);
     color: var(--selected-control-text);
     box-shadow: var(--shadow-selected-inset, none);
   }
-  .modifier-filters fieldset label:has(input:focus-visible) {
+  .modifier-filter-option:has(input:focus-visible) {
     outline: 2px dashed var(--accent-strong);
     outline-offset: 2px;
   }

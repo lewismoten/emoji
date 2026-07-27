@@ -6,7 +6,7 @@ type ExplorerAudioOptions = {
 type AudioTarget = HTMLElement;
 
 const INTERACTIVE_SELECTOR =
-  'button, [role="button"], input[type="checkbox"][role="switch"], input[type="checkbox"].sound-effects-toggle, input[type="checkbox"].music-toggle';
+  'button, [role="button"], .modifier-filter-option, input[type="checkbox"][role="switch"], input[type="checkbox"].sound-effects-toggle, input[type="checkbox"].music-toggle';
 
 const DIALOG_SELECTOR =
   ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";

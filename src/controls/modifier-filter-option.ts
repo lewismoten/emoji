@@ -20,6 +20,7 @@ export class ModifierFilterOptionControl extends BaseControl<ModifierFilterOptio
 
   protected render(): NodeSpec {
     return DomFactory.element("label", {
+      className: "modifier-filter-option",
       children: [
         DomFactory.element("input", {
           attributes: {

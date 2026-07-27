@@ -47,11 +47,9 @@ html[data-theme="retro"] input:focus,
 html[data-theme="retro"] input:focus-visible,
 html[data-theme="retro"] select:focus,
 html[data-theme="retro"] select:focus-visible,
-html[data-theme="retro"] .modifier-filters fieldset label:has(input:focus),
+html[data-theme="retro"] .modifier-filter-option:has(input:focus),
 html[data-theme="retro"]
-  .modifier-filters
-  fieldset
-  label:has(input:focus-visible),
+  .modifier-filter-option:has(input:focus-visible),
 html[data-theme="retro"] .setting-choice:focus,
 html[data-theme="retro"] .setting-choice:focus-visible,
 html[data-theme="retro"] .language-option:focus,

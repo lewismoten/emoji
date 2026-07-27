@@ -89,7 +89,7 @@ html[data-theme="retro"] .emoji-code-view .code {
 html[data-theme="retro"] .setting-choice,
 html[data-theme="retro"] .language-option,
 html[data-theme="retro"] .pixel-comparison > button,
-html[data-theme="retro"] .modifier-filters fieldset label,
+html[data-theme="retro"] .modifier-filter-option,
 html[data-theme="retro"] .filter-picker-trigger,
 html[data-theme="retro"] .compact-choice,
 html[data-theme="retro"] .version-mode-toggle,
@@ -161,7 +161,7 @@ html[data-theme="retro"] kbd {
 html[data-theme="retro"] .setting-choice:hover,
 html[data-theme="retro"] .language-option:hover,
 html[data-theme="retro"] .pixel-comparison > button:hover,
-html[data-theme="retro"] .modifier-filters fieldset label:hover,
+html[data-theme="retro"] .modifier-filter-option:hover,
 html[data-theme="retro"] .filter-picker-trigger:hover,
 html[data-theme="retro"] .compact-choice:hover,
 html[data-theme="retro"] .version-mode-toggle:hover,
@@ -198,7 +198,6 @@ html[data-theme="retro"] .setting-choice.is-active,
 html[data-theme="retro"] .setting-choice[aria-pressed="true"],
 html[data-theme="retro"] .compact-choice[aria-checked="true"],
 html[data-theme="retro"] .version-mode-toggle[aria-pressed="true"],
-html[data-theme="retro"] .modifier-filters fieldset label:has(input:checked),
 html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"],
 html[data-theme="retro"] .language-option.is-selected,
 html[data-theme="retro"] .order-mode.is-active,
@@ -212,6 +211,16 @@ html[data-theme="retro"]
   border-bottom-color: var(--ega-white);
   background: var(--ega-magenta);
   color: var(--ega-white);
+  transform: translate(1px, 1px);
+}
+
+html[data-theme="retro"] .modifier-filter-option:has(input:checked) {
+  border-top-color: var(--ega-light-gray);
+  border-left-color: var(--ega-light-gray);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  background: var(--ega-black);
+  color: var(--ega-light-gray);
   transform: translate(1px, 1px);
 }
 

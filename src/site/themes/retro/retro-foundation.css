@@ -39,7 +39,7 @@ html[data-theme="retro"] .unicode-subgroup,
 html[data-theme="retro"] .setting-choice,
 html[data-theme="retro"] .language-option,
 html[data-theme="retro"] .pixel-comparison > button,
-html[data-theme="retro"] .modifier-filters fieldset label,
+html[data-theme="retro"] .modifier-filter-option,
 html[data-theme="retro"] .filter-picker-trigger,
 html[data-theme="retro"] .compact-choice,
 html[data-theme="retro"] .version-mode-toggle,
@@ -148,13 +148,13 @@ html[data-theme="retro"] .unicode-subgroup {
   border-color: var(--ega-light-gray);
 }
 
-html[data-theme="retro"] .modifier-filters fieldset label:has(input:checked) {
+html[data-theme="retro"] .modifier-filter-option:has(input:checked) {
   border-top-color: var(--ega-light-gray);
   border-left-color: var(--ega-light-gray);
   border-right-color: var(--ega-white);
   border-bottom-color: var(--ega-white);
   background: var(--ega-black);
-  color: var(--ega-dark-gray);
+  color: var(--ega-light-gray);
 }
 
 html[data-theme="retro"] .filter-picker-kind {
