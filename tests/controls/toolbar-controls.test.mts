@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 
 import { AdvancedFiltersTriggerControl } from "../../src/controls/advanced-filters-trigger.js";
+import { GenderFilterControl } from "../../src/controls/gender-filter.js";
 import { ThemeChoiceGroupControl } from "../../src/controls/theme-choice-group.js";
 import { ToolbarTriggerButtonControl } from "../../src/controls/toolbar-trigger-button.js";
 
@@ -42,3 +43,11 @@ assert.match(themeMarkup, /class="setting-choice-group theme-choices"/);
 assert.match(themeMarkup, /data-theme="light"/);
 assert.match(themeMarkup, /data-theme="dark"/);
 assert.match(themeMarkup, /data-theme="retro"/);
+
+const genderMarkup = GenderFilterControl.toMarkup();
+assert.match(genderMarkup, /<fieldset class="gender-filter">/);
+assert.match(genderMarkup, /<legend data-i18n="gender">Gender<\/legend>/);
+assert.match(genderMarkup, /class="gender"/);
+assert.match(genderMarkup, /value="male"/);
+assert.match(genderMarkup, /value="female"/);
+assert.match(genderMarkup, /value="neutral"/);

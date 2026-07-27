@@ -1,4 +1,5 @@
 import { AdvancedFiltersTriggerControl } from "../controls/advanced-filters-trigger.js";
+import { GenderFilterControl } from "../controls/gender-filter.js";
 import { createDialogHeading } from "./dialog-control-helpers.js";
 
 function createModifierOption(options: {
@@ -94,6 +95,7 @@ export function createAdvancedFiltersDialogControl() {
   const modifiers = document.createElement("div");
   modifiers.className = "modifier-filters";
   modifiers.append(
+    GenderFilterControl.create(),
     createModifierFieldset({
       legendKey: "skinTone",
       legend: "Skin tone",
@@ -166,33 +168,6 @@ export function createAdvancedFiltersDialogControl() {
           emoji: "🧑‍🦳",
           labelKey: "white",
           label: "White",
-        },
-      ],
-    }),
-    createModifierFieldset({
-      legendKey: "gender",
-      legend: "Gender",
-      items: [
-        {
-          className: "gender",
-          value: "male",
-          emoji: "👨",
-          labelKey: "male",
-          label: "Male",
-        },
-        {
-          className: "gender",
-          value: "female",
-          emoji: "👩",
-          labelKey: "female",
-          label: "Female",
-        },
-        {
-          className: "gender",
-          value: "neutral",
-          emoji: "🧑",
-          labelKey: "neutral",
-          label: "Neutral",
         },
       ],
     }),
