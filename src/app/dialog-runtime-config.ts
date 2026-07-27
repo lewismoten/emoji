@@ -1,4 +1,4 @@
-import { initializeDialogRuntime } from './dialog-runtime.js';
+import { initializeDialogRuntime } from "./dialog-runtime.js";
 
 export function createDialogRuntimeConfig(options: any) {
   return initializeDialogRuntime({
@@ -37,6 +37,6 @@ export function createDialogRuntimeConfig(options: any) {
       options.updateDialogNavigation(...args),
     updateEmojiComposition: options.updateEmojiComposition,
     updateFavoriteButton: options.updateFavoriteButton,
-    updateRenderingDiagnostic: options.updateRenderingDiagnostic
+    updateRenderingDiagnostic: options.updateRenderingDiagnostic,
   });
 }

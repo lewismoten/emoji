@@ -1,4 +1,4 @@
-import { createEmojiDialogViewController } from '../explorer/dialog-view.js';
+import { createEmojiDialogViewController } from "../explorer/dialog-view.js";
 
 export function createDialogViewRuntime(options: any) {
   return createEmojiDialogViewController({
@@ -16,6 +16,6 @@ export function createDialogViewRuntime(options: any) {
     translate: options.translate,
     updateCompositionBackButton: (...args: any[]) =>
       options.updateCompositionBackButton(...args),
-    updateImportExamples: options.updateImportExamples
+    updateImportExamples: options.updateImportExamples,
   });
 }

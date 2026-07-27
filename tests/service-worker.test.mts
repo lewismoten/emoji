@@ -18,18 +18,17 @@ const [
   catalogLoader,
   explorerDataController,
   demoPageGenerator,
-  pixelEditorLoader
-] =
-  await Promise.all([
-    read("build/demo-pages/service-worker.js"),
-    read("build/demo-pages/index.js"),
-    read("build/demo-pages/index.ar.html"),
-    read("src/index.ts"),
-    read("src/explorer/catalog-loader.ts"),
-    read("src/explorer-data-controller.ts"),
-    read("scripts/generate-demo-pages.mjs"),
-    read("src/explorer/pixel-editor-loader.ts"),
-  ]);
+  pixelEditorLoader,
+] = await Promise.all([
+  read("build/demo-pages/service-worker.js"),
+  read("build/demo-pages/index.js"),
+  read("build/demo-pages/index.ar.html"),
+  read("src/index.ts"),
+  read("src/explorer/catalog-loader.ts"),
+  read("src/explorer-data-controller.ts"),
+  read("scripts/generate-demo-pages.mjs"),
+  read("src/explorer/pixel-editor-loader.ts"),
+]);
 
 assert.match(
   serviceWorker,

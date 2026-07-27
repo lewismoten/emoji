@@ -2,7 +2,9 @@ export function renderSvg(image, entry, rendering) {
   const rectangles = pixelRuns(image)
     .map((run) => {
       const opacity =
-        run.alpha === 255 ? "" : ` fill-opacity="${trimNumber(run.alpha / 255)}"`;
+        run.alpha === 255
+          ? ""
+          : ` fill-opacity="${trimNumber(run.alpha / 255)}"`;
       const fill = rendering === "silhouette" ? "currentColor" : run.color;
       return `  <rect x="${run.x}" y="${run.y}" width="${run.width}" height="1" fill="${fill}"${opacity}/>`;
     })
@@ -125,7 +127,8 @@ export function isBlackSilhouette(image) {
       image.pixels[offset] !== 0 ||
       image.pixels[offset + 1] !== 0 ||
       image.pixels[offset + 2] !== 0
-    ) return false;
+    )
+      return false;
   }
   return visible;
 }
@@ -143,9 +146,10 @@ function renderPreviewCard(glyph) {
 }
 
 function renderAtlasCard(sheet) {
-  const proposal = sheet.releaseStatus === "proposed"
-    ? `Proposed Emoji ${escapeXml(sheet.unicodeVersion)} · `
-    : "";
+  const proposal =
+    sheet.releaseStatus === "proposed"
+      ? `Proposed Emoji ${escapeXml(sheet.unicodeVersion)} · `
+      : "";
   const label = `${sheet.group}, ${sheet.subGroup}, part ${sheet.part} of ${sheet.partCount}`;
   return `<article>
   <h2>${escapeXml(sheet.group)} · ${escapeXml(sheet.subGroup)}${sheet.partCount > 1 ? ` · ${sheet.part}/${sheet.partCount}` : ""}</h2>
@@ -170,7 +174,8 @@ function renderCollectionHeading(build, sheet, labels) {
 }
 
 function renderMarkdownSheet(sheet) {
-  const part = sheet.partCount > 1 ? ` — part ${sheet.part} of ${sheet.partCount}` : "";
+  const part =
+    sheet.partCount > 1 ? ` — part ${sheet.part} of ${sheet.partCount}` : "";
   const label = `${sheet.group}, ${sheet.subGroup}${part}`;
   return `#### ${sheet.subGroup}${part}
 
@@ -184,7 +189,10 @@ function pixelRuns(image) {
   for (let y = 0; y < image.height; y += 1) {
     for (let x = 0; x < image.width;) {
       const offset = (y * image.width + x) * 4;
-      const [red, green, blue, alpha] = image.pixels.subarray(offset, offset + 4);
+      const [red, green, blue, alpha] = image.pixels.subarray(
+        offset,
+        offset + 4,
+      );
       if (alpha === 0) {
         x += 1;
         continue;
@@ -197,10 +205,17 @@ function pixelRuns(image) {
           image.pixels[next + 1] !== green ||
           image.pixels[next + 2] !== blue ||
           image.pixels[next + 3] !== alpha
-        ) break;
+        )
+          break;
         width += 1;
       }
-      runs.push({ x, y, width, color: `#${hex(red)}${hex(green)}${hex(blue)}`, alpha });
+      runs.push({
+        x,
+        y,
+        width,
+        color: `#${hex(red)}${hex(green)}${hex(blue)}`,
+        alpha,
+      });
       x += width;
     }
   }

@@ -115,6 +115,6 @@ export function buildExplorerBootstrapRuntimeOptions(options: any) {
     versionNext: () => options.versionNext(),
     versionPrevious: () => options.versionPrevious(),
     versionRange: () => options.versionRange(),
-    versionSelector: () => options.versionSelector()
+    versionSelector: () => options.versionSelector(),
   };
 }

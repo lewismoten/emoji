@@ -1,8 +1,8 @@
 // @ts-nocheck -- Transitional bootstrap wiring.
-import { createPixelArtworkManager } from '../explorer/pixel-artwork.js';
-import { createExplorerShell } from './explorer-shell.js';
-import { createEmojiActions } from './emoji-actions.js';
-import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from '../explorer/dialog-render.js';
+import { createPixelArtworkManager } from "../explorer/pixel-artwork.js";
+import { createExplorerShell } from "./explorer-shell.js";
+import { createEmojiActions } from "./emoji-actions.js";
+import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from "../explorer/dialog-render.js";
 
 export function createExplorerBootstrapShell(options: any) {
   let developerModeEnabled = () => false;
@@ -14,9 +14,10 @@ export function createExplorerBootstrapShell(options: any) {
     genderCheckboxes: () => options.genderCheckboxes(),
     hairCheckboxes: () => options.hairCheckboxes(),
     normalizeCodePoints: options.normalizeCodePoints,
-    pixelFontPreferred: () => options.state().explorerPreferences.pixelFont !== false,
+    pixelFontPreferred: () =>
+      options.state().explorerPreferences.pixelFont !== false,
     refreshEditor: () => {
-      if (options.dialog()?.classList.contains('is-editor-view')) {
+      if (options.dialog()?.classList.contains("is-editor-view")) {
         options.getPixelEditor()?.refreshFontBuild();
       }
     },
@@ -27,11 +28,11 @@ export function createExplorerBootstrapShell(options: any) {
         byId: options.state().byId,
         developerMode: developerModeEnabled(),
         detailsVisible:
-          !options.dialog()?.classList.contains('is-code-view') &&
-          !options.dialog()?.classList.contains('is-editor-view'),
+          !options.dialog()?.classList.contains("is-code-view") &&
+          !options.dialog()?.classList.contains("is-editor-view"),
         exampleDialog: options.dialog(),
-        translate: options.translate
-      })
+        translate: options.translate,
+      }),
   });
 
   const shell = createExplorerShell({
@@ -59,7 +60,7 @@ export function createExplorerBootstrapShell(options: any) {
     themeChoices: () => options.themeChoices(),
     translate: options.translate,
     versionModeSelector: () => options.versionModeSelector(),
-    versionSelector: () => options.versionSelector()
+    versionSelector: () => options.versionSelector(),
   });
 
   developerModeEnabled = shell.developerModeEnabled;
@@ -78,13 +79,13 @@ export function createExplorerBootstrapShell(options: any) {
     suppressDialogCloseSync: () => options.suppressDialogCloseSync(),
     syncUrlState: (...args: any[]) => options.syncUrlState(...args),
     translate: options.translate,
-    urlStateReady: () => options.urlStateReady()
+    urlStateReady: () => options.urlStateReady(),
   });
 
   return {
     ...pixelArtwork,
     applyStandalonePixelArtwork: pixelArtwork.applyPixelArtworkClass,
     ...shell,
-    ...emojiActions
+    ...emojiActions,
   };
 }

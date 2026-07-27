@@ -72,4 +72,3 @@ export async function prepareBuildDirectories(context) {
     fs.mkdir(context.proposedFontDirectory, { recursive: true }),
   ]);
 }
-

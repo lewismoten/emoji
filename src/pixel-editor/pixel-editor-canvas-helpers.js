@@ -20,7 +20,8 @@ export function drawBitmapText(context, x, y, value, color) {
 export function canvasToPng(canvas) {
   return new Promise((resolve, reject) => {
     canvas.toBlob(
-      (blob) => (blob ? resolve(blob) : reject(new Error("PNG encoding failed"))),
+      (blob) =>
+        blob ? resolve(blob) : reject(new Error("PNG encoding failed")),
       "image/png",
     );
   });
@@ -46,12 +47,15 @@ export function drawCheckerboard(context, size) {
 }
 
 export function canvasIsBlackSilhouette(canvas) {
-  const data = canvas.getContext("2d").getImageData(0, 0, canvas.width, canvas.height).data;
+  const data = canvas
+    .getContext("2d")
+    .getImageData(0, 0, canvas.width, canvas.height).data;
   let hasVisiblePixel = false;
   for (let offset = 0; offset < data.length; offset += 4) {
     if (data[offset + 3] === 0) continue;
     hasVisiblePixel = true;
-    if (data[offset] !== 0 || data[offset + 1] !== 0 || data[offset + 2] !== 0) return false;
+    if (data[offset] !== 0 || data[offset + 1] !== 0 || data[offset + 2] !== 0)
+      return false;
   }
   return hasVisiblePixel;
 }
@@ -82,14 +86,20 @@ export function drawCenteredEmoji(
   const ascent = metrics.actualBoundingBoxAscent || CELL_SIZE * 0.8;
   const descent = metrics.actualBoundingBoxDescent || CELL_SIZE * 0.2;
   const baseline = (CELL_SIZE - ascent - descent) / 2 + ascent;
-  context.fillText(value, CELL_SIZE / 2 + horizontalOffset, baseline + verticalOffset);
+  context.fillText(
+    value,
+    CELL_SIZE / 2 + horizontalOffset,
+    baseline + verticalOffset,
+  );
 }
 
 export function imageDataCanvas(pixels, width, height) {
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
-  canvas.getContext("2d").putImageData(new ImageData(pixels.slice(), width, height), 0, 0);
+  canvas
+    .getContext("2d")
+    .putImageData(new ImageData(pixels.slice(), width, height), 0, 0);
   return canvas;
 }
 
@@ -142,7 +152,9 @@ export function createPixelEditorPreviewController(options) {
     const familyProperty = proposed
       ? "--pixel-emoji-proposed-family"
       : "--pixel-emoji-released-family";
-    const familyFallback = proposed ? '"Pixel Emoji Proposed"' : '"Pixel Emoji"';
+    const familyFallback = proposed
+      ? '"Pixel Emoji Proposed"'
+      : '"Pixel Emoji"';
     const family =
       getComputedStyle(document.documentElement)
         .getPropertyValue(familyProperty)

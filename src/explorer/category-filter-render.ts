@@ -1,7 +1,7 @@
 import {
   renderCategoryFilterLayout,
-  updateAvailableCategories as updateAvailableCategoriesHelper
-} from './category-version.js';
+  updateAvailableCategories as updateAvailableCategoriesHelper,
+} from "./category-version.js";
 import {
   closeFilterPicker,
   focusCompactChoice,
@@ -9,12 +9,13 @@ import {
   populateGroupFilter,
   populateSequenceTypeFilter,
   populateSubGroupFilter,
-  renderFilterPickerTrigger
-} from './filter-picker.js';
+  renderFilterPickerTrigger,
+} from "./filter-picker.js";
 
 export function createCategoryFilterRenderer(options: any) {
   const availableSubGroupParents = () =>
-    options.selectedGroup() && options.availableGroups().includes(options.selectedGroup())
+    options.selectedGroup() &&
+    options.availableGroups().includes(options.selectedGroup())
       ? [options.selectedGroup()]
       : [];
 
@@ -29,7 +30,7 @@ export function createCategoryFilterRenderer(options: any) {
       sequenceTypeOrder: options.sequenceTypeOrder,
       subGroupSelectionKey: options.subGroupSelectionKey,
       subGroups: options.subGroups(),
-      versionKeys: options.versionKeys()
+      versionKeys: options.versionKeys(),
     });
     options.setAvailableCategoryKeys(next.availableCategoryKeys);
     options.setAvailableGroups(next.availableGroups);
@@ -47,7 +48,7 @@ export function createCategoryFilterRenderer(options: any) {
       getGroupRepresentativeEmoji: options.getGroupRepresentativeEmoji,
       groupSelector: options.groupSelector(),
       selectedGroup: options.selectedGroup(),
-      translate: options.translate
+      translate: options.translate,
     });
 
   const populateSubGroup = () =>
@@ -60,7 +61,7 @@ export function createCategoryFilterRenderer(options: any) {
       selectedSubGroup: options.selectedSubGroup(),
       subGroupSelectionKey: options.subGroupSelectionKey,
       subGroupSelector: options.subGroupSelector(),
-      translate: options.translate
+      translate: options.translate,
     });
 
   const populateSequenceType = () =>
@@ -71,7 +72,7 @@ export function createCategoryFilterRenderer(options: any) {
       sequenceTypeEmoji: options.sequenceTypeEmoji,
       sequenceTypeLabels: options.sequenceTypeLabels,
       sequenceTypeSelector: options.sequenceTypeSelector(),
-      translate: options.translate
+      translate: options.translate,
     });
 
   const renderCompactGroupChoices = () => {
@@ -81,23 +82,23 @@ export function createCategoryFilterRenderer(options: any) {
     options.compactGroupLabel() &&
       (options.compactGroupLabel().textContent = selectedGroup
         ? options.displayGroupName(selectedGroup)
-        : options.translate('all', 'All'));
+        : options.translate("all", "All"));
     const choices = [
-      { name: '', emoji: '🌐', label: options.translate('all', 'All') },
+      { name: "", emoji: "🌐", label: options.translate("all", "All") },
       ...options.availableGroups().map((name: string) => ({
         name,
         emoji: options.getGroupRepresentativeEmoji(name),
-        label: options.displayGroupName(name)
-      }))
+        label: options.displayGroupName(name),
+      })),
     ];
     const selectedLabel = selectedGroup
       ? options.displayGroupName(selectedGroup)
-      : options.translate('all', 'All');
+      : options.translate("all", "All");
     renderFilterPickerTrigger(
       options.groupPickerTrigger(),
-      options.translate('group', 'Group'),
-      selectedGroup ? options.getGroupRepresentativeEmoji(selectedGroup) : '🌐',
-      selectedLabel
+      options.translate("group", "Group"),
+      selectedGroup ? options.getGroupRepresentativeEmoji(selectedGroup) : "🌐",
+      selectedLabel,
     );
     container.replaceChildren(
       ...choices.map(({ name, emoji, label }) =>
@@ -108,13 +109,16 @@ export function createCategoryFilterRenderer(options: any) {
           selected: selectedGroup === name,
           onSelect() {
             options.setSelectedGroup(name);
-            options.setSelectedSubGroup('');
+            options.setSelectedSubGroup("");
             renderCategoryFilters();
             options.drawList();
-            closeFilterPicker(options.groupFilterDialog(), options.groupPickerTrigger());
-          }
-        })
-      )
+            closeFilterPicker(
+              options.groupFilterDialog(),
+              options.groupPickerTrigger(),
+            );
+          },
+        }),
+      ),
     );
   };
 
@@ -122,36 +126,46 @@ export function createCategoryFilterRenderer(options: any) {
     const container = options.compactSubGroupChoices();
     if (!container) return;
     const selectedSubGroup = options.selectedSubGroup();
-    const separatorIndex = selectedSubGroup.indexOf('::');
+    const separatorIndex = selectedSubGroup.indexOf("::");
     const selectedName =
-      separatorIndex === -1 ? '' : selectedSubGroup.slice(separatorIndex + 2);
+      separatorIndex === -1 ? "" : selectedSubGroup.slice(separatorIndex + 2);
     if (options.compactSubGroupLabel()) {
       options.compactSubGroupLabel().textContent = selectedName
         ? options.displayUnicodeSubGroupName(selectedName)
-        : options.translate('all', 'All');
+        : options.translate("all", "All");
     }
     const choices = availableSubGroupParents().flatMap((group: string) =>
-      options.availableSubGroups()[group].map((name: string) => ({ group, name }))
+      options
+        .availableSubGroups()
+        [group].map((name: string) => ({ group, name })),
     );
     renderFilterPickerTrigger(
       options.subGroupPickerTrigger(),
-      options.translate('subgroup', 'Sub-group'),
+      options.translate("subgroup", "Sub-group"),
       selectedName
-        ? options.getSubGroupRepresentativeEmoji(options.selectedGroup(), selectedName)
-        : '🌐',
+        ? options.getSubGroupRepresentativeEmoji(
+            options.selectedGroup(),
+            selectedName,
+          )
+        : "🌐",
       selectedName
         ? options.displayUnicodeSubGroupName(selectedName)
-        : options.translate('all', 'All')
+        : options.translate("all", "All"),
     );
     const allChoice = makeCompactChoice({
-      value: '', emoji: '🌐', label: options.translate('all', 'All'),
-      selected: selectedSubGroup === '',
+      value: "",
+      emoji: "🌐",
+      label: options.translate("all", "All"),
+      selected: selectedSubGroup === "",
       onSelect() {
-        options.setSelectedSubGroup('');
+        options.setSelectedSubGroup("");
         renderCategoryFilters();
         options.drawList();
-        closeFilterPicker(options.subGroupFilterDialog(), options.subGroupPickerTrigger());
-      }
+        closeFilterPicker(
+          options.subGroupFilterDialog(),
+          options.subGroupPickerTrigger(),
+        );
+      },
     });
     container.replaceChildren(
       allChoice,
@@ -160,15 +174,21 @@ export function createCategoryFilterRenderer(options: any) {
           value: options.subGroupSelectionKey(group, name),
           emoji: options.getSubGroupRepresentativeEmoji(group, name),
           label: options.displayUnicodeSubGroupName(name),
-          selected: selectedSubGroup === options.subGroupSelectionKey(group, name),
+          selected:
+            selectedSubGroup === options.subGroupSelectionKey(group, name),
           onSelect() {
-            options.setSelectedSubGroup(options.subGroupSelectionKey(group, name));
+            options.setSelectedSubGroup(
+              options.subGroupSelectionKey(group, name),
+            );
             renderCategoryFilters();
             options.drawList();
-            closeFilterPicker(options.subGroupFilterDialog(), options.subGroupPickerTrigger());
-          }
-        })
-      )
+            closeFilterPicker(
+              options.subGroupFilterDialog(),
+              options.subGroupPickerTrigger(),
+            );
+          },
+        }),
+      ),
     );
   };
 
@@ -178,15 +198,20 @@ export function createCategoryFilterRenderer(options: any) {
     const selectedType = options.selectedSequenceType();
     const labelFor = (type: string) =>
       type
-        ? options.translate(options.sequenceTranslationKeys[type], options.sequenceTypeLabels[type])
-        : options.translate('all', 'All');
+        ? options.translate(
+            options.sequenceTranslationKeys[type],
+            options.sequenceTypeLabels[type],
+          )
+        : options.translate("all", "All");
     options.compactSequenceLabel() &&
       (options.compactSequenceLabel().textContent = labelFor(selectedType));
     const choices = [
-      { type: '', emoji: '🌐', label: labelFor('') },
+      { type: "", emoji: "🌐", label: labelFor("") },
       ...options.availableSequenceTypes().map((type: string) => ({
-        type, emoji: options.sequenceTypeEmoji[type], label: labelFor(type)
-      }))
+        type,
+        emoji: options.sequenceTypeEmoji[type],
+        label: labelFor(type),
+      })),
     ];
     container.replaceChildren(
       ...choices.map(({ type, emoji, label }) =>
@@ -200,32 +225,34 @@ export function createCategoryFilterRenderer(options: any) {
             renderCategoryFilters();
             options.drawList();
             focusCompactChoice(container, type);
-          }
-        })
-      )
+          },
+        }),
+      ),
     );
   };
 
   const renderCategoryFilters = () => {
-    const activeChoice = document.activeElement?.closest?.('[role="radio"]') as HTMLElement | null;
-    const focusedChoices = activeChoice?.closest('.compact-group-choices')
-      ? 'group'
-      : activeChoice?.closest('.compact-subgroup-choices')
-        ? 'subgroup'
-        : activeChoice?.closest('.compact-sequence-choices')
-          ? 'sequence'
-          : '';
+    const activeChoice = document.activeElement?.closest?.(
+      '[role="radio"]',
+    ) as HTMLElement | null;
+    const focusedChoices = activeChoice?.closest(".compact-group-choices")
+      ? "group"
+      : activeChoice?.closest(".compact-subgroup-choices")
+        ? "subgroup"
+        : activeChoice?.closest(".compact-sequence-choices")
+          ? "sequence"
+          : "";
     const focusedValue = activeChoice?.dataset.value;
     updateAvailableCategories();
     renderCategoryFilterLayout({
       compactGroupChoices: options.compactGroupChoices(),
       compactSequenceChoices: options.compactSequenceChoices(),
       compactSubGroupChoices: options.compactSubGroupChoices(),
-      groupField: options.groupSelector().closest('.filter-field'),
+      groupField: options.groupSelector().closest(".filter-field"),
       selectedGroup: options.selectedGroup(),
-      sequenceField: options.sequenceTypeSelector().closest('.filter-field'),
-      sequenceMode: options.getOrderMode() === 'sequence',
-      subGroupField: options.subGroupSelector().closest('.filter-field')
+      sequenceField: options.sequenceTypeSelector().closest(".filter-field"),
+      sequenceMode: options.getOrderMode() === "sequence",
+      subGroupField: options.subGroupSelector().closest(".filter-field"),
     });
     populateGroup();
     populateSubGroup();
@@ -236,10 +263,13 @@ export function createCategoryFilterRenderer(options: any) {
     const containers: Record<string, HTMLElement | undefined> = {
       group: options.compactGroupChoices(),
       subgroup: options.compactSubGroupChoices(),
-      sequence: options.compactSequenceChoices()
+      sequence: options.compactSequenceChoices(),
     };
     if (focusedChoices && focusedValue)
-      focusCompactChoice(containers[focusedChoices] as HTMLElement, focusedValue);
+      focusCompactChoice(
+        containers[focusedChoices] as HTMLElement,
+        focusedValue,
+      );
   };
 
   return { renderCategoryFilters, updateAvailableCategories };

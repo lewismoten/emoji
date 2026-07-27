@@ -1,7 +1,7 @@
-import { createEmojiListRenderers } from '../explorer/emoji-list-render.js';
-import { createEmojiListInteraction } from '../explorer/emoji-list-interaction.js';
-import { createListController } from '../explorer/list-controller.js';
-import { updateActiveFilterSummary } from '../explorer/filter-summary.js';
+import { createEmojiListRenderers } from "../explorer/emoji-list-render.js";
+import { createEmojiListInteraction } from "../explorer/emoji-list-interaction.js";
+import { createListController } from "../explorer/list-controller.js";
+import { updateActiveFilterSummary } from "../explorer/filter-summary.js";
 
 /** Assemble list rendering, interaction, and active-filter summary behavior. */
 export function createListOrchestration(options: any) {
@@ -10,7 +10,7 @@ export function createListOrchestration(options: any) {
     asItem,
     asSequenceItem,
     flushEmojiCellFragment,
-    orderedKeys
+    orderedKeys,
   } = createEmojiListRenderers({
     applyPixelArtworkClass: options.applyPixelArtworkClass,
     byId: () => options.state().byId,
@@ -28,7 +28,7 @@ export function createListOrchestration(options: any) {
     sequenceTypeOrder: options.sequenceTypeOrder,
     subGroups: () => options.state().subGroups,
     translate: options.translate,
-    unassigned: options.unassigned
+    unassigned: options.unassigned,
   });
 
   const updateFilterSummary = () =>
@@ -51,7 +51,7 @@ export function createListOrchestration(options: any) {
       translate: options.translate,
       versionMode: options.versionModeSelector().value,
       versionSliderLabel: options.versionSliderLabel,
-      versionValue: options.versionSelector().value
+      versionValue: options.versionSelector().value,
     });
 
   let renderEmojiList: (...args: any[]) => void;
@@ -76,13 +76,15 @@ export function createListOrchestration(options: any) {
     selectedSearchLocale: () => options.state().selectedSearchLocale,
     selectedSequenceType: () => options.state().selectedSequenceType,
     selectedSubGroup: () => options.state().selectedSubGroup,
-    setDisplayedKeys: (keys: string[]) => (options.state().displayedKeys = keys),
-    setFocusedEmojiKey: (key: string) => (options.state().focusedEmojiKey = key),
+    setDisplayedKeys: (keys: string[]) =>
+      (options.state().displayedKeys = keys),
+    setFocusedEmojiKey: (key: string) =>
+      (options.state().focusedEmojiKey = key),
     skinToneCheckboxes: options.skinToneCheckboxes,
     subGroupSelectionKey: options.subGroupSelectionKey,
     syncUrlState: options.syncUrlState,
     updateDialogNavigation: options.updateDialogNavigation,
-    updateFilterSummary
+    updateFilterSummary,
   });
   const { draw: drawList, schedule: scheduleSearchDraw } = list;
 
@@ -101,9 +103,10 @@ export function createListOrchestration(options: any) {
     resetFilters: options.resetFilters,
     revealExplorer: options.revealExplorer,
     searchText: options.searchText,
-    setFocusedEmojiKey: (key: string) => (options.state().focusedEmojiKey = key),
+    setFocusedEmojiKey: (key: string) =>
+      (options.state().focusedEmojiKey = key),
     translate: options.translate,
-    unassigned: options.unassigned
+    unassigned: options.unassigned,
   });
   renderEmojiList = interaction.renderEmojiList;
 
@@ -112,6 +115,6 @@ export function createListOrchestration(options: any) {
     onEmojiFocus: interaction.onEmojiFocus,
     onEmojiKeyDown: interaction.onEmojiKeyDown,
     scheduleSearchDraw,
-    updateActiveFilterSummary: updateFilterSummary
+    updateActiveFilterSummary: updateFilterSummary,
   };
 }

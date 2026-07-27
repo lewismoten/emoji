@@ -73,7 +73,10 @@ export function initializePixelEditorUi(options) {
   copyFontButton.addEventListener("click", () =>
     transferController.copyFontGlyph(copyFontButton),
   );
-  copySelectionButton.addEventListener("click", transferController.copySelection);
+  copySelectionButton.addEventListener(
+    "click",
+    transferController.copySelection,
+  );
   pasteArtButton.addEventListener("click", transferController.pastePixelArt);
   layerNudgeButtons.forEach((button) =>
     button.addEventListener("click", () =>
@@ -88,7 +91,10 @@ export function initializePixelEditorUi(options) {
       transferController.transformFloatingLayer(button.dataset.layerTransform),
     ),
   );
-  bakeLayerButton.addEventListener("click", transferController.bakeFloatingLayer);
+  bakeLayerButton.addEventListener(
+    "click",
+    transferController.bakeFloatingLayer,
+  );
   options.cancelLayerButton.addEventListener(
     "click",
     transferController.cancelFloatingLayer,
@@ -98,7 +104,10 @@ export function initializePixelEditorUi(options) {
     transferController.toggleFloatingLayerInversion,
   );
   saveButton.addEventListener("click", options.atlasController.saveAtlas);
-  downloadButton.addEventListener("click", options.atlasController.downloadAtlas);
+  downloadButton.addEventListener(
+    "click",
+    options.atlasController.downloadAtlas,
+  );
   downloadEmojiButton.addEventListener(
     "click",
     options.atlasController.downloadEmojiPng,

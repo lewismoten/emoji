@@ -1,7 +1,9 @@
+import { CELL_SIZE } from "../pixel-editor-constants.js";
 import {
-  CELL_SIZE,
-} from "../pixel-editor-constants.js";
-import { canvasToPng, downloadBlob, imageDataCanvas } from "../pixel-editor-canvas-helpers.js";
+  canvasToPng,
+  downloadBlob,
+  imageDataCanvas,
+} from "../pixel-editor-canvas-helpers.js";
 
 export function createPixelEditorAtlasController(options) {
   const {
@@ -115,7 +117,9 @@ export function createPixelEditorAtlasController(options) {
 
   async function downloadEmojiPng() {
     if (downloadEmojiButton.disabled || !currentEntry()) return;
-    const blob = await canvasToPng(imageDataCanvas(getPixels(), CELL_SIZE, CELL_SIZE));
+    const blob = await canvasToPng(
+      imageDataCanvas(getPixels(), CELL_SIZE, CELL_SIZE),
+    );
     downloadBlob(blob, `${currentEntry().key}.png`);
     writeStatus(
       translate("emojiPngDownloaded", "12 by 12 emoji PNG downloaded."),

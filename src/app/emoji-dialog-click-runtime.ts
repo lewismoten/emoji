@@ -1,15 +1,18 @@
-import { getCodeExampleText as getCodeExampleTextValue } from '../explorer/import-examples.js';
-import { withoutDialogParentPanel, withoutCompositionParent } from '../explorer/dialog-render.js';
-import { createEmojiDialogClickHandler } from '../explorer/emoji-dialog-events.js';
+import { getCodeExampleText as getCodeExampleTextValue } from "../explorer/import-examples.js";
+import {
+  withoutDialogParentPanel,
+  withoutCompositionParent,
+} from "../explorer/dialog-render.js";
+import { createEmojiDialogClickHandler } from "../explorer/emoji-dialog-events.js";
 
 export function createEmojiDialogClickRuntime(options: any) {
   return createEmojiDialogClickHandler({
     animateCopy: options.animateCopy,
     copy: options.copy,
     copyValue: (kind: string) =>
-      kind === 'code'
+      kind === "code"
         ? getCodeExampleTextValue(options.dialog())
-        : kind === 'link'
+        : kind === "link"
           ? window.location.href
           : options.currentEmojiCopies()[kind],
     currentEmojiKey: options.currentEmojiKey,
@@ -17,7 +20,7 @@ export function createEmojiDialogClickRuntime(options: any) {
     openParentPanel: (panel: string) => {
       options.setSuppressDialogCloseSync(true);
       const dialog = options.dialog();
-      dialog.dataset.dialogParentPanel = '';
+      dialog.dataset.dialogParentPanel = "";
       options.clearCurrentDialogParentStack();
       dialog.close();
       options.setSuppressDialogCloseSync(false);
@@ -27,20 +30,22 @@ export function createEmojiDialogClickRuntime(options: any) {
         dialogs: options.panelDialogs(),
         languageList: options.languageList(),
         renderSavedEmoji: options.renderSavedEmoji,
-        syncUrlState: options.syncUrlState
+        syncUrlState: options.syncUrlState,
       });
       options.syncUrlState(
-        'replace',
-        withoutDialogParentPanel(withoutCompositionParent(window.history.state))
+        "replace",
+        withoutDialogParentPanel(
+          withoutCompositionParent(window.history.state),
+        ),
       );
     },
     openComposition: (key: string) => {
       const parentEmojiKey = options.currentEmojiKey();
       options.showEmoji(key, false);
-      options.syncUrlState('push', {
+      options.syncUrlState("push", {
         ...window.history.state,
         emojiDialogEntry: false,
-        compositionParent: parentEmojiKey
+        compositionParent: parentEmojiKey,
       });
       options.updateCompositionBackButton();
     },
@@ -48,12 +53,12 @@ export function createEmojiDialogClickRuntime(options: any) {
     refreshComposition: () =>
       options.updateEmojiComposition(
         options.byId()[options.currentEmojiKey()] ?? {},
-        options.emojiByKey()[options.currentEmojiKey()] ?? ''
+        options.emojiByKey()[options.currentEmojiKey()] ?? "",
       ),
     setView: options.setView,
     syncUrlState: () => options.syncUrlState(),
     toggleComposition: () => options.toggleComposition(),
     toggleFavorite: () => options.toggleFavorite(options.currentEmojiKey()),
-    translate: options.translate
+    translate: options.translate,
   });
 }

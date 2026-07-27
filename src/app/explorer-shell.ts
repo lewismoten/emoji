@@ -1,16 +1,16 @@
-import { createSavedEmojiController } from '../explorer/saved-emoji.js';
+import { createSavedEmojiController } from "../explorer/saved-emoji.js";
 import {
   installApp as installWebApp,
-  renderInstallAppButton as renderInstallAppButtonHelper
-} from '../explorer/pwa-panels.js';
+  renderInstallAppButton as renderInstallAppButtonHelper,
+} from "../explorer/pwa-panels.js";
 import {
   createDeveloperModeController,
   createExplorerUiController,
   renderPixelFontToggle as renderPixelFontToggleHelper,
   renderThemeToggle as renderThemeToggleHelper,
   selectEmojiFont as selectEmojiFontHelper,
-  selectTheme as selectThemeHelper
-} from '../explorer-ui.js';
+  selectTheme as selectThemeHelper,
+} from "../explorer-ui.js";
 
 export function createExplorerShell(options: any) {
   const savedEmoji = createSavedEmojiController({
@@ -23,55 +23,57 @@ export function createExplorerShell(options: any) {
     savePreference: options.savePreference,
     savedDialog: options.savedDialog,
     searchAnnotations: () => options.state().searchAnnotations,
-    setCopiedEmojiKeys: (keys: string[]) => (options.state().copiedEmojiKeys = keys),
-    setFavoriteEmojiKeys: (keys: string[]) => (options.state().favoriteEmojiKeys = keys),
-    translate: options.translate
+    setCopiedEmojiKeys: (keys: string[]) =>
+      (options.state().copiedEmojiKeys = keys),
+    setFavoriteEmojiKeys: (keys: string[]) =>
+      (options.state().favoriteEmojiKeys = keys),
+    translate: options.translate,
   });
 
   function renderPixelFontToggle() {
     renderPixelFontToggleHelper({
       choices: options.emojiFontChoices,
       refreshRenderedPixelEmoji: options.refreshRenderedPixelEmoji,
-      state: options.state
+      state: options.state,
     });
   }
 
   function selectEmojiFont(event: Event) {
     selectEmojiFontHelper(
       { renderPixelFontToggle, savePreference: options.savePreference },
-      event
+      event,
     );
   }
 
   function renderThemeToggle() {
     renderThemeToggleHelper({
       choices: options.themeChoices,
-      state: options.state
+      state: options.state,
     });
   }
 
   function selectTheme(event: Event) {
     selectThemeHelper(
       { renderThemeToggle, savePreference: options.savePreference },
-      event
+      event,
     );
   }
 
   function disableDeveloperFeatures() {
     const versionModeSelector = options.versionModeSelector();
-    if (versionModeSelector) versionModeSelector.value = 'through';
+    if (versionModeSelector) versionModeSelector.value = "through";
     const latest = options.state().versionManifests.at(-1)?.version;
     const versionSelector = options.versionSelector();
     if (latest && versionSelector) versionSelector.value = latest;
     options.renderVersionModeToggle();
     options.syncVersionRange();
-    if (options.state().orderMode === 'sequence') {
-      options.state().orderMode = 'grouped';
-      options.state().selectedSequenceType = '';
+    if (options.state().orderMode === "sequence") {
+      options.state().orderMode = "grouped";
+      options.state().selectedSequenceType = "";
       options.orderButtons()?.forEach((button: HTMLButtonElement) => {
         const active = button.dataset.order === options.state().orderMode;
-        button.classList.toggle('is-active', active);
-        button.setAttribute('aria-pressed', String(active));
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-pressed", String(active));
       });
     }
     if (options.state().items.length > 0) {
@@ -88,16 +90,16 @@ export function createExplorerShell(options: any) {
     setDialogView: options.setDialogView,
     state: options.state,
     syncUrlState: options.syncUrlState,
-    toggle: options.developerModeToggle
+    toggle: options.developerModeToggle,
   });
 
   let deferredInstallPrompt: Event | undefined;
-  window.addEventListener('beforeinstallprompt', event => {
+  window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
     deferredInstallPrompt = event;
     renderInstallAppButtonHelper(options.installAppButton());
   });
-  window.addEventListener('appinstalled', () => {
+  window.addEventListener("appinstalled", () => {
     deferredInstallPrompt = undefined;
     const installAppButton = options.installAppButton();
     if (installAppButton) installAppButton.hidden = true;
@@ -118,7 +120,7 @@ export function createExplorerShell(options: any) {
     renderVersionModeToggle: options.renderVersionModeToggle,
     setDeferredInstallPrompt: (value: Event | undefined) =>
       (deferredInstallPrompt = value),
-    state: options.state
+    state: options.state,
   });
 
   return {
@@ -134,6 +136,6 @@ export function createExplorerShell(options: any) {
     selectTheme,
     toggleDeveloperMode: developerMode.change,
     updateOnlineStatus: explorerUi.updateOnlineStatus,
-    applyUiTranslations: explorerUi.applyTranslations
+    applyUiTranslations: explorerUi.applyTranslations,
   };
 }

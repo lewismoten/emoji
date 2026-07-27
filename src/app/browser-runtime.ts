@@ -1,9 +1,9 @@
-import { createSearchLanguageLifecycle } from '../explorer/search-language-lifecycle.js';
+import { createSearchLanguageLifecycle } from "../explorer/search-language-lifecycle.js";
 import {
   installPixelFontHotReload,
   refreshExplorerPixelFont,
-  refreshPixelFontStylesheet
-} from '../pixel-font-hot-reload.js';
+  refreshPixelFontStylesheet,
+} from "../pixel-font-hot-reload.js";
 
 export function createUiFormatters(options: {
   document: Document;
@@ -11,12 +11,12 @@ export function createUiFormatters(options: {
   formatNumber: (
     value: number,
     locale?: string,
-    numberingSystem?: string
+    numberingSystem?: string,
   ) => string;
   formatPercent: (
     value: number,
     locale?: string,
-    numberingSystem?: string
+    numberingSystem?: string,
   ) => string;
 }) {
   const localeOptions = () => {
@@ -26,7 +26,7 @@ export function createUiFormatters(options: {
       undefined;
     return {
       locale,
-      numberingSystem: locale?.startsWith('ar') ? 'arab' : undefined
+      numberingSystem: locale?.startsWith("ar") ? "arab" : undefined,
     };
   };
   return {
@@ -37,45 +37,45 @@ export function createUiFormatters(options: {
     formatUiPercent(value: number) {
       const { locale, numberingSystem } = localeOptions();
       return options.formatPercent(value, locale, numberingSystem);
-    }
+    },
   };
 }
 
 export function initializeBrowserRuntime(options: any) {
   const isViteDevelopment =
-    typeof import.meta.env !== 'undefined' && import.meta.env.DEV === true;
+    typeof import.meta.env !== "undefined" && import.meta.env.DEV === true;
 
   if (
-    'serviceWorker' in navigator &&
+    "serviceWorker" in navigator &&
     window.isSecureContext &&
     isViteDevelopment
   ) {
-    window.addEventListener('load', async () => {
+    window.addEventListener("load", async () => {
       try {
         const registrations = await navigator.serviceWorker.getRegistrations();
         await Promise.all(
           registrations
             .filter((registration: ServiceWorkerRegistration) =>
-              registration.scope.startsWith(window.location.origin)
+              registration.scope.startsWith(window.location.origin),
             )
             .map((registration: ServiceWorkerRegistration) =>
-              registration.unregister()
-            )
+              registration.unregister(),
+            ),
         );
         const cacheNames = await caches.keys();
         await Promise.all(
           cacheNames
-            .filter((name: string) => name.startsWith('emoji-explorer-'))
-            .map((name: string) => caches.delete(name))
+            .filter((name: string) => name.startsWith("emoji-explorer-"))
+            .map((name: string) => caches.delete(name)),
         );
       } catch (error) {
-        console.warn('Could not clear local offline cache', error);
+        console.warn("Could not clear local offline cache", error);
       }
     });
-  } else if ('serviceWorker' in navigator && window.isSecureContext) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./service-worker.js').catch(error => {
-        console.warn('Offline support unavailable', error);
+  } else if ("serviceWorker" in navigator && window.isSecureContext) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js").catch((error) => {
+        console.warn("Offline support unavailable", error);
       });
     });
   }
@@ -85,7 +85,7 @@ export function initializeBrowserRuntime(options: any) {
     closeLanguageDialog: () =>
       options.closePanelDialog(
         options.languageDialog(),
-        options.suppressedPanelCloses()
+        options.suppressedPanelCloses(),
       ),
     currentLoadId: options.currentLoadId,
     languageFlags: options.languageFlags,
@@ -108,9 +108,9 @@ export function initializeBrowserRuntime(options: any) {
     setSelectedLocale: options.setSelectedLocale,
     syncUrlState: options.syncUrlState,
     translate: options.translate,
-    updateWebAppManifest: options.updateWebAppManifest
+    updateWebAppManifest: options.updateWebAppManifest,
   });
-  window.addEventListener('popstate', searchLanguageLifecycle.onPopState);
+  window.addEventListener("popstate", searchLanguageLifecycle.onPopState);
 
   installPixelFontHotReload({
     refreshStylesheet: (revision: string) =>
@@ -125,14 +125,14 @@ export function initializeBrowserRuntime(options: any) {
                 currentEmojiKey: options.currentEmojiKey,
                 dialog: options.dialog,
                 updateManifest: options.updatePixelArtworkManifest,
-                updateModifierArtwork: options.updateModifierArtwork
+                updateModifierArtwork: options.updateModifierArtwork,
               },
-              loadedRevision
+              loadedRevision,
             );
-          }
+          },
         },
-        revision
-      )
+        revision,
+      ),
   });
 
   return searchLanguageLifecycle;

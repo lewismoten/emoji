@@ -1,37 +1,37 @@
-import assert from 'node:assert/strict';
+import assert from "node:assert/strict";
 import {
   nextCopiedEmojiKeys,
   nextFavoriteEmojiKeys,
-  savedEmojiLabel
-} from '../../src/explorer/saved-emoji.js';
+  savedEmojiLabel,
+} from "../../src/explorer/saved-emoji.js";
 
-assert.deepEqual(nextFavoriteEmojiKeys(['wave'], 'grinningFace'), [
-  'grinningFace',
-  'wave'
+assert.deepEqual(nextFavoriteEmojiKeys(["wave"], "grinningFace"), [
+  "grinningFace",
+  "wave",
 ]);
-assert.deepEqual(nextFavoriteEmojiKeys(['wave', 'grinningFace'], 'wave'), [
-  'grinningFace'
+assert.deepEqual(nextFavoriteEmojiKeys(["wave", "grinningFace"], "wave"), [
+  "grinningFace",
 ]);
-assert.deepEqual(nextFavoriteEmojiKeys(['wave'], ''), ['wave']);
+assert.deepEqual(nextFavoriteEmojiKeys(["wave"], ""), ["wave"]);
 
-assert.deepEqual(nextCopiedEmojiKeys(['wave', 'grinningFace'], 'wave'), [
-  'wave',
-  'grinningFace'
+assert.deepEqual(nextCopiedEmojiKeys(["wave", "grinningFace"], "wave"), [
+  "wave",
+  "grinningFace",
 ]);
 assert.equal(
   nextCopiedEmojiKeys(
     Array.from({ length: 30 }, (_, i) => `${i}`),
-    'new'
+    "new",
   ).length,
-  24
+  24,
 );
 
 assert.equal(
   savedEmojiLabel(
-    'grinningFace',
-    { grinningFace: ['Grinning face'] },
-    { grinningFace: { shortName: 'should not win' } }
+    "grinningFace",
+    { grinningFace: ["Grinning face"] },
+    { grinningFace: { shortName: "should not win" } },
   ),
-  'Grinning face'
+  "Grinning face",
 );
-assert.equal(savedEmojiLabel('wrappedGift', {}, {}), 'Wrapped gift');
+assert.equal(savedEmojiLabel("wrappedGift", {}, {}), "Wrapped gift");

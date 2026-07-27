@@ -1,7 +1,10 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import { assignBucket, loadPreviousAssignments } from "./generate-atlases/assignments.mjs";
+import {
+  assignBucket,
+  loadPreviousAssignments,
+} from "./generate-atlases/assignments.mjs";
 import {
   buildBuckets,
   compareBuckets,

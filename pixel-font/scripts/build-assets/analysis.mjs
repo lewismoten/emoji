@@ -22,7 +22,9 @@ function layerMask(pixels, color, useSilhouette) {
   const mask = Buffer.alloc(pixels.length / 4);
   for (let offset = 0; offset < pixels.length; offset += 4) {
     const pixel = pixels.slice(offset, offset + 4);
-    mask[offset / 4] = pixel.every((value, index) => value === values[index]) ? 1 : 0;
+    mask[offset / 4] = pixel.every((value, index) => value === values[index])
+      ? 1
+      : 0;
   }
   return mask.toString("base64");
 }
@@ -85,10 +87,18 @@ function exactMaskUnions(maskKeys) {
     );
     let match;
     for (let leftIndex = 0; leftIndex < parts.length && !match; leftIndex++) {
-      for (let rightIndex = leftIndex; rightIndex < parts.length; rightIndex++) {
+      for (
+        let rightIndex = leftIndex;
+        rightIndex < parts.length;
+        rightIndex++
+      ) {
         if (
           masksAreDisjoint(parts[leftIndex].value, parts[rightIndex].value) &&
-          maskUnionEquals(parts[leftIndex].value, parts[rightIndex].value, target.value)
+          maskUnionEquals(
+            parts[leftIndex].value,
+            parts[rightIndex].value,
+            target.value,
+          )
         ) {
           match = [parts[leftIndex].key, parts[rightIndex].key];
           break;
@@ -102,7 +112,9 @@ function exactMaskUnions(maskKeys) {
 
 function expandMask(key, decompositions) {
   const parts = decompositions.get(key);
-  return parts ? parts.flatMap((part) => expandMask(part, decompositions)) : [key];
+  return parts
+    ? parts.flatMap((part) => expandMask(part, decompositions))
+    : [key];
 }
 
 export function analyzeColorMasks(entries, optimizeMasks = false) {
@@ -125,17 +137,22 @@ export function analyzeColorMasks(entries, optimizeMasks = false) {
   }
   let maskCount = uniqueLayerMasks(entries, specs).size;
   if (optimizeMasks) {
-    for (const [, group] of [...silhouetteGroups].sort(([left], [right]) => left.localeCompare(right))) {
+    for (const [, group] of [...silhouetteGroups].sort(([left], [right]) =>
+      left.localeCompare(right),
+    )) {
       if (group.length < 2) continue;
       const candidate = new Map(specs);
       let changed = false;
       for (const entry of group) {
         const colors = colorCounts(entry.pixels);
-        const opaque = [...colors.keys()].every((color) => Number(color.split(",")[3]) === 255);
+        const opaque = [...colors.keys()].every(
+          (color) => Number(color.split(",")[3]) === 255,
+        );
         if (!colors.size || !opaque) continue;
         const baseColor = [...colors].sort(
           ([leftColor, leftCount], [rightColor, rightCount]) =>
-            rightCount - leftCount || compareSerializedColors(leftColor, rightColor),
+            rightCount - leftCount ||
+            compareSerializedColors(leftColor, rightColor),
         )[0][0];
         candidate.set(entry.key, [
           { color: baseColor, useSilhouette: true },
@@ -156,9 +173,16 @@ export function analyzeColorMasks(entries, optimizeMasks = false) {
   return createAnalysisSummary(entries, optimizeMasks, specs, silhouetteGroups);
 }
 
-function createAnalysisSummary(entries, optimizeMasks, specs, silhouetteGroups) {
+function createAnalysisSummary(
+  entries,
+  optimizeMasks,
+  specs,
+  silhouetteGroups,
+) {
   const sourceMasks = uniqueLayerMasks(entries, specs);
-  const maskDecompositions = optimizeMasks ? exactMaskUnions(sourceMasks) : new Map();
+  const maskDecompositions = optimizeMasks
+    ? exactMaskUnions(sourceMasks)
+    : new Map();
   const masks = new Set();
   let renderedLayerCount = 0;
   let composedLayerCount = 0;
@@ -166,7 +190,10 @@ function createAnalysisSummary(entries, optimizeMasks, specs, silhouetteGroups) 
   let baseLayerCount = 0;
   for (const entry of entries) {
     for (const spec of specs.get(entry.key)) {
-      const renderedMasks = expandMask(layerMask(entry.pixels, spec.color, spec.useSilhouette), maskDecompositions);
+      const renderedMasks = expandMask(
+        layerMask(entry.pixels, spec.color, spec.useSilhouette),
+        maskDecompositions,
+      );
       renderedLayerCount += renderedMasks.length;
       if (renderedMasks.length > 1) composedLayerCount += 1;
       renderedMasks.forEach((mask) => masks.add(mask));
@@ -182,9 +209,18 @@ function createAnalysisSummary(entries, optimizeMasks, specs, silhouetteGroups) 
         .reduce((total, group) => total + group.length, 0)
     : 0;
   return {
-    strategy: optimizeMasks ? "shared-base-color-and-composed-masks" : "direct-color-layers",
-    silhouetteGlyphCount: entries.filter((entry) => entry.rendering === "silhouette").length,
-    colorLayerCount: entries.reduce((total, entry) => total + (entry.rendering === "silhouette" ? 0 : colorCounts(entry.pixels).size), 0),
+    strategy: optimizeMasks
+      ? "shared-base-color-and-composed-masks"
+      : "direct-color-layers",
+    silhouetteGlyphCount: entries.filter(
+      (entry) => entry.rendering === "silhouette",
+    ).length,
+    colorLayerCount: entries.reduce(
+      (total, entry) =>
+        total +
+        (entry.rendering === "silhouette" ? 0 : colorCounts(entry.pixels).size),
+      0,
+    ),
     renderedLayerCount,
     uniqueMaskCount: masks.size,
     reusedLayerCount: renderedLayerCount - masks.size,
@@ -201,4 +237,3 @@ function createAnalysisSummary(entries, optimizeMasks, specs, silhouetteGroups) 
     ),
   };
 }
-

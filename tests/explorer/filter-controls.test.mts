@@ -1,33 +1,33 @@
-import assert from 'node:assert/strict';
+import assert from "node:assert/strict";
 import {
   applyExclusiveCheckboxSelection,
-  stepVersionIndex
-} from '../../src/explorer/filter-controls.js';
+  stepVersionIndex,
+} from "../../src/explorer/filter-controls.js";
 
 const checkboxes = [
-  { checked: false, value: 'male' },
-  { checked: true, value: 'female' },
-  { checked: false, value: 'neutral' }
+  { checked: false, value: "male" },
+  { checked: true, value: "female" },
+  { checked: false, value: "neutral" },
 ];
 
 applyExclusiveCheckboxSelection(checkboxes, checkboxes[1]);
 assert.deepEqual(
-  checkboxes.map(checkbox => checkbox.checked),
-  [false, true, false]
+  checkboxes.map((checkbox) => checkbox.checked),
+  [false, true, false],
 );
 
 checkboxes[2].checked = true;
 applyExclusiveCheckboxSelection(checkboxes, checkboxes[2]);
 assert.deepEqual(
-  checkboxes.map(checkbox => checkbox.checked),
-  [false, false, true]
+  checkboxes.map((checkbox) => checkbox.checked),
+  [false, false, true],
 );
 
 checkboxes[2].checked = false;
 applyExclusiveCheckboxSelection(checkboxes, checkboxes[2]);
 assert.deepEqual(
-  checkboxes.map(checkbox => checkbox.checked),
-  [false, false, false]
+  checkboxes.map((checkbox) => checkbox.checked),
+  [false, false, false],
 );
 
 assert.equal(stepVersionIndex(3, 10, 2), 5);

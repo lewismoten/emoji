@@ -1,4 +1,3 @@
-
 Copyright (c) 2021-2026, Lewis Moten <lewismoten@gmail.com>
 
 Permission to use, copy, modify, and/or distribute this software for any

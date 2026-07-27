@@ -5,11 +5,11 @@ export type ExplorerState = {
   availableSequenceTypes: string[];
   availableSubGroups: Record<string, string[]>;
   byId: Record<string, any>;
-  compositionMode: 'condensed' | 'full';
+  compositionMode: "condensed" | "full";
   copiedEmojiKeys: string[];
   currentEmojiCopies: Record<string, string>;
   currentEmojiKey: string;
-  currentDialogParentStack: Array<'' | 'favorites' | 'help' | 'language'>;
+  currentDialogParentStack: Array<"" | "favorites" | "help" | "language">;
   developerModeFromUrl: boolean;
   developerModeUrlDismissed: boolean;
   emojiByKey: Record<string, string>;
@@ -23,7 +23,7 @@ export type ExplorerState = {
   groupedKeys: Record<string, string[]>;
   groups: string[];
   items: any[];
-  orderMode: 'grouped' | 'sequence';
+  orderMode: "grouped" | "sequence";
   packageManifest: { packs: any[]; categories: any[] };
   packageManifestPromise?: Promise<unknown>;
   releasedIds: Set<string>;
@@ -53,10 +53,10 @@ export function createExplorerState(): ExplorerState {
     availableSequenceTypes: [],
     availableSubGroups: {},
     byId: {},
-    compositionMode: 'condensed',
+    compositionMode: "condensed",
     copiedEmojiKeys: [],
     currentEmojiCopies: {},
-    currentEmojiKey: '',
+    currentEmojiKey: "",
     currentDialogParentStack: [],
     developerModeFromUrl: false,
     developerModeUrlDismissed: false,
@@ -64,30 +64,30 @@ export function createExplorerState(): ExplorerState {
     emojiKeyByCodePoints: new Map(),
     dialogNavigationKeys: [],
     displayedKeys: [],
-    focusedEmojiKey: '',
+    focusedEmojiKey: "",
     explorerPreferences: {},
     favoriteEmojiKeys: [],
     groupRepresentativeEmoji: new Map(),
     groupedKeys: {},
     groups: [],
     items: [],
-    orderMode: 'grouped',
+    orderMode: "grouped",
     packageManifest: { packs: [], categories: [] },
     releasedIds: new Set(),
     proposedVersionManifests: [],
-    selectedGroup: '',
-    selectedSequenceType: '',
-    selectedSubGroup: '',
+    selectedGroup: "",
+    selectedSequenceType: "",
+    selectedSubGroup: "",
     searchAnnotations: {},
     searchLabels: {},
     searchLoadId: 0,
     searchLocales: [],
     searchSubgroupLabels: {},
-    selectedSearchLocale: '',
+    selectedSearchLocale: "",
     subGroups: {},
     subGroupRepresentativeEmoji: new Map(),
     versionKeys: new Map(),
     versionManifests: [],
-    uiStrings: {}
+    uiStrings: {},
   };
 }

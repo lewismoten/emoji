@@ -1,15 +1,15 @@
 import {
   bindModifierGroup,
   bindSavedDialogInteractions,
-  createThemeChoiceKeyDownHandler
-} from './explorer/event-accessibility.js';
+  createThemeChoiceKeyDownHandler,
+} from "./explorer/event-accessibility.js";
 import {
   finalizeExplorerStartup as finalizeExplorerStartupHelper,
-  initializeExplorerControls as initializeExplorerControlsHelper
-} from './explorer/control-startup.js';
+  initializeExplorerControls as initializeExplorerControlsHelper,
+} from "./explorer/control-startup.js";
 
 type ApplicationWindow = {
-  addEventListener(type: 'load', listener: () => void): void;
+  addEventListener(type: "load", listener: () => void): void;
   document: { readyState: string };
 };
 
@@ -33,12 +33,12 @@ export function createExplorerApp(options: {
   return {
     start,
     startWhenReady() {
-      if (options.window.document.readyState === 'complete') {
+      if (options.window.document.readyState === "complete") {
         void start();
         return;
       }
-      options.window.addEventListener('load', () => void start());
-    }
+      options.window.addEventListener("load", () => void start());
+    },
   };
 }
 
@@ -50,7 +50,7 @@ export function bindExplorerEvents(options: any) {
       dialogs: options.panelDialogs(),
       languageList: options.languageList,
       renderSavedEmoji: options.renderSavedEmoji,
-      syncUrlState: options.syncUrlState
+      syncUrlState: options.syncUrlState,
     });
   const onPanelClose = (event: Event) =>
     options.onPanelClose({
@@ -58,15 +58,17 @@ export function bindExplorerEvents(options: any) {
       suppressedPanelCloses: options.suppressedPanelCloses,
       urlStateReady: options.urlStateReady(),
       applyingUrlState: options.applyingUrlState(),
-      syncUrlState: options.syncUrlState
+      syncUrlState: options.syncUrlState,
     });
-  const onThemeChoiceKeyDown = createThemeChoiceKeyDownHandler(options.themeChoices ?? []);
+  const onThemeChoiceKeyDown = createThemeChoiceKeyDownHandler(
+    options.themeChoices ?? [],
+  );
 
-  window.addEventListener('online', options.updateOnlineStatus);
-  window.addEventListener('offline', options.updateOnlineStatus);
+  window.addEventListener("online", options.updateOnlineStatus);
+  window.addEventListener("offline", options.updateOnlineStatus);
   window
-    .matchMedia('(max-width: 560px)')
-    .addEventListener('change', options.positionFavoriteButton);
+    .matchMedia("(max-width: 560px)")
+    .addEventListener("change", options.positionFavoriteButton);
   options.updateOnlineStatus();
   options.renderInstallAppButton();
   options.applyBasicUrlState();
@@ -74,58 +76,68 @@ export function bindExplorerEvents(options: any) {
   bindModifierGroup(options.skinToneCheckboxes, () => options.drawList());
   bindModifierGroup(options.hairCheckboxes, () => options.drawList());
   bindModifierGroup(options.genderCheckboxes, options.onGenderChange);
-  options.searchText.addEventListener('input', options.scheduleSearchDraw);
-  options.languagePicker.addEventListener('click', () => {
+  options.searchText.addEventListener("input", options.scheduleSearchDraw);
+  options.languagePicker.addEventListener("click", () => {
     if (options.helpDialog?.open)
       options.closePanel(options.helpDialog, options.suppressedPanelCloses);
-    panel('language');
+    panel("language");
   });
   options.emojiFontChoices.forEach((choice: any) =>
-    choice.addEventListener('click', options.selectEmojiFont)
+    choice.addEventListener("click", options.selectEmojiFont),
   );
   options.themeChoices?.forEach((choice: any) =>
-    choice.addEventListener('click', options.selectTheme)
+    choice.addEventListener("click", options.selectTheme),
   );
   options.themeChoices?.forEach((choice: any) =>
-    choice.addEventListener('keydown', onThemeChoiceKeyDown)
+    choice.addEventListener("keydown", onThemeChoiceKeyDown),
   );
-  options.installAppButton?.addEventListener('click', options.installApp);
+  options.installAppButton?.addEventListener("click", options.installApp);
   options.installedDisplayQueries.forEach((query: any) =>
-    query.addEventListener?.('change', options.renderInstallAppButton)
+    query.addEventListener?.("change", options.renderInstallAppButton),
   );
   options.installDialog
-    ?.querySelector('.install-dialog-close')
-    ?.addEventListener('click', () => options.installDialog.close());
-  options.savedPicker?.addEventListener('click', () => panel('favorites'));
-  options.helpPicker?.addEventListener('click', () => panel('help'));
-  options.developerModeToggle?.addEventListener('change', options.toggleDeveloperMode);
-  options.languageDialog.addEventListener('close', onPanelClose);
-  options.savedDialog?.addEventListener('close', onPanelClose);
-  options.helpDialog?.addEventListener('close', onPanelClose);
+    ?.querySelector(".install-dialog-close")
+    ?.addEventListener("click", () => options.installDialog.close());
+  options.savedPicker?.addEventListener("click", () => panel("favorites"));
+  options.helpPicker?.addEventListener("click", () => panel("help"));
+  options.developerModeToggle?.addEventListener(
+    "change",
+    options.toggleDeveloperMode,
+  );
+  options.languageDialog.addEventListener("close", onPanelClose);
+  options.savedDialog?.addEventListener("close", onPanelClose);
+  options.helpDialog?.addEventListener("close", onPanelClose);
   bindSavedDialogInteractions(options);
-  options.emojiList.addEventListener('click', options.onClick);
-  options.emojiList.addEventListener('focusin', options.onEmojiFocus);
-  options.emojiList.addEventListener('keydown', options.onEmojiKeyDown);
-  options.exampleDialog.addEventListener('click', options.onEmojiDialogClick);
-  options.exampleDialog.addEventListener('close', options.onEmojiDialogClose);
-  options.versionModeToggle?.addEventListener('click', options.toggleVersionMode);
-  options.versionPrevious?.addEventListener('click', () => options.stepVersion(-1));
-  options.versionNext?.addEventListener('click', () => options.stepVersion(1));
-  options.clearFiltersButton?.addEventListener('click', options.resetFilters);
-  options.emojiPrevious?.addEventListener('click', () => options.navigateEmoji(-1));
-  options.emojiNext?.addEventListener('click', () => options.navigateEmoji(1));
-  options.versionSelector.addEventListener('change', () => {
+  options.emojiList.addEventListener("click", options.onClick);
+  options.emojiList.addEventListener("focusin", options.onEmojiFocus);
+  options.emojiList.addEventListener("keydown", options.onEmojiKeyDown);
+  options.exampleDialog.addEventListener("click", options.onEmojiDialogClick);
+  options.exampleDialog.addEventListener("close", options.onEmojiDialogClose);
+  options.versionModeToggle?.addEventListener(
+    "click",
+    options.toggleVersionMode,
+  );
+  options.versionPrevious?.addEventListener("click", () =>
+    options.stepVersion(-1),
+  );
+  options.versionNext?.addEventListener("click", () => options.stepVersion(1));
+  options.clearFiltersButton?.addEventListener("click", options.resetFilters);
+  options.emojiPrevious?.addEventListener("click", () =>
+    options.navigateEmoji(-1),
+  );
+  options.emojiNext?.addEventListener("click", () => options.navigateEmoji(1));
+  options.versionSelector.addEventListener("change", () => {
     options.syncVersionRange();
     options.drawList();
   });
-  options.versionRange?.addEventListener('input', options.onVersionRangeInput);
+  options.versionRange?.addEventListener("input", options.onVersionRangeInput);
   options.orderButtons.forEach((button: any) =>
-    button.addEventListener('click', options.onOrderModeChange)
+    button.addEventListener("click", options.onOrderModeChange),
   );
-  options.advancedFilters.addEventListener('toggle', () =>
-    options.savePreference('filtersOpen', options.advancedFilters.open)
+  options.advancedFilters.addEventListener("toggle", () =>
+    options.savePreference("filtersOpen", options.advancedFilters.open),
   );
-  document.addEventListener('keydown', options.onDocumentKeyDown);
+  document.addEventListener("keydown", options.onDocumentKeyDown);
 }
 
 /** Create the dynamic filter controls after the static page has loaded. */

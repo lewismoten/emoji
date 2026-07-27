@@ -1,52 +1,52 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import ts from 'typescript';
+import fs from "node:fs";
+import path from "node:path";
+import ts from "typescript";
 
-const sourceDirectory = 'library';
-const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-const emoji = JSON.parse(fs.readFileSync('emoji.json', 'utf8'));
-const popular = JSON.parse(fs.readFileSync('popular.json', 'utf8'));
+const sourceDirectory = "library";
+const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
+const emoji = JSON.parse(fs.readFileSync("emoji.json", "utf8"));
+const popular = JSON.parse(fs.readFileSync("popular.json", "utf8"));
 
-const clean = directory =>
+const clean = (directory) =>
   fs.rmSync(directory, { recursive: true, force: true });
 const write = (file, contents) => {
   fs.mkdirSync(path.dirname(file), { recursive: true });
-  fs.writeFileSync(file, `${contents}\n`, 'utf8');
+  fs.writeFileSync(file, `${contents}\n`, "utf8");
 };
-const slug = text =>
+const slug = (text) =>
   text
     .toLowerCase()
-    .replace(/&/g, 'and')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-const formatLabel = text =>
-  text.replace(/-/g, ' ').replace(/\b\w/g, letter => letter.toUpperCase());
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+const formatLabel = (text) =>
+  text.replace(/-/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 const pack = (file, items) => {
   const lines = [
-    'export default {',
+    "export default {",
     ...items.map(
-      item =>
-        `  /** ${item.shortName} ${item.emoji} */\n  ${JSON.stringify(item.key)}: "${item.value}" as const,`
+      (item) =>
+        `  /** ${item.shortName} ${item.emoji} */\n  ${JSON.stringify(item.key)}: "${item.value}" as const,`,
     ),
-    '} as const;'
+    "} as const;",
   ];
-  write(file, lines.join('\n'));
+  write(file, lines.join("\n"));
 };
 const mergedPack = (file, packs) => {
   const packType =
     packs.length === 0
-      ? 'Readonly<Record<string, string>>'
-      : packs.map((_, index) => `typeof pack${index}`).join(' & ');
+      ? "Readonly<Record<string, string>>"
+      : packs.map((_, index) => `typeof pack${index}`).join(" & ");
   const lines = [
     ...packs.map(({ id }, index) => `import pack${index} from "./${id}";`),
-    '',
+    "",
     `const emoji: ${packType} = {`,
     ...packs.map((_, index) => `  ...pack${index},`),
-    '};',
-    '',
-    'export default emoji;'
+    "};",
+    "",
+    "export default emoji;",
   ];
-  write(file, lines.join('\n'));
+  write(file, lines.join("\n"));
 };
 const searchModule = `export type EmojiAnnotations = Readonly<Record<string, readonly string[]>>;
 
@@ -83,167 +83,167 @@ export const mergeEmojiLocalePacks = (...packs: readonly EmojiLocalePack[]): Emo
 `;
 
 clean(sourceDirectory);
-write(path.join(sourceDirectory, 'search.ts'), searchModule.trim());
+write(path.join(sourceDirectory, "search.ts"), searchModule.trim());
 
-const byKey = new Map(emoji.map(item => [item.key, item]));
-const sequenceTypes = ['single', 'modifier', 'zwj', 'flag', 'keycap', 'tag'];
+const byKey = new Map(emoji.map((item) => [item.key, item]));
+const sequenceTypes = ["single", "modifier", "zwj", "flag", "keycap", "tag"];
 if (
   emoji.some(
-    item =>
+    (item) =>
       !Number.isInteger(item.order) ||
-      !sequenceTypes.includes(item.sequenceType)
+      !sequenceTypes.includes(item.sequenceType),
   )
 ) {
   throw new Error(
-    'emoji.json must contain an integer order and a valid sequenceType for every emoji. Run npm run unicode -- 17.0.'
+    "emoji.json must contain an integer order and a valid sequenceType for every emoji. Run npm run unicode -- 17.0.",
   );
 }
-const popularItems = popular.map(key => {
+const popularItems = popular.map((key) => {
   const item = byKey.get(key);
   if (!item) throw new Error(`Unknown popular emoji: ${key}`);
   return item;
 });
-pack(path.join(sourceDirectory, 'popular.ts'), popularItems);
+pack(path.join(sourceDirectory, "popular.ts"), popularItems);
 
-const categories = [...new Set(emoji.map(item => item.group))].map(
-  groupLabel => {
+const categories = [...new Set(emoji.map((item) => item.group))].map(
+  (groupLabel) => {
     const id = slug(groupLabel);
-    const items = emoji.filter(item => item.group === groupLabel);
-    const subcategories = [...new Set(items.map(item => item.subGroup))].map(
-      subGroup => {
+    const items = emoji.filter((item) => item.group === groupLabel);
+    const subcategories = [...new Set(items.map((item) => item.subGroup))].map(
+      (subGroup) => {
         const subcategoryId = slug(subGroup);
         const subcategoryItems = items.filter(
-          item => item.subGroup === subGroup
+          (item) => item.subGroup === subGroup,
         );
         pack(
-          path.join(sourceDirectory, 'categories', id, `${subcategoryId}.ts`),
-          subcategoryItems
+          path.join(sourceDirectory, "categories", id, `${subcategoryId}.ts`),
+          subcategoryItems,
         );
         return {
           id: subcategoryId,
           label: formatLabel(subGroup),
           unicodeSubgroup: subGroup,
           count: subcategoryItems.length,
-          importPath: `${packageJson.name}/categories/${id}/${subcategoryId}`
+          importPath: `${packageJson.name}/categories/${id}/${subcategoryId}`,
         };
-      }
+      },
     );
     mergedPack(
-      path.join(sourceDirectory, 'categories', `${id}.ts`),
-      subcategories.map(subcategory => ({ id: `${id}/${subcategory.id}` }))
+      path.join(sourceDirectory, "categories", `${id}.ts`),
+      subcategories.map((subcategory) => ({ id: `${id}/${subcategory.id}` })),
     );
     return {
       id,
       label: groupLabel,
       count: items.length,
       importPath: `${packageJson.name}/categories/${id}`,
-      subcategories
+      subcategories,
     };
-  }
+  },
 );
 
 // Keep the package's all entry point small and typed while preserving the
 // standalone browser index generated by generate-browser.mjs as one full object.
 mergedPack(
-  path.join(sourceDirectory, 'all.ts'),
-  categories.map(category => ({ id: `categories/${category.id}` }))
+  path.join(sourceDirectory, "all.ts"),
+  categories.map((category) => ({ id: `categories/${category.id}` })),
 );
 
-const skinTone = item => /1F3F[B-F]/i.test(item.codePoints);
-const hair = item => /1F9B[0-3]/i.test(item.codePoints);
-const family = item => item.shortName.toLowerCase().startsWith('family:');
+const skinTone = (item) => /1F3F[B-F]/i.test(item.codePoints);
+const hair = (item) => /1F9B[0-3]/i.test(item.codePoints);
+const family = (item) => item.shortName.toLowerCase().startsWith("family:");
 const variationPacks = {
-  'skin-tones': emoji.filter(skinTone),
+  "skin-tones": emoji.filter(skinTone),
   hair: emoji.filter(hair),
   families: emoji.filter(family),
-  all: emoji.filter(item => skinTone(item) || hair(item) || family(item))
+  all: emoji.filter((item) => skinTone(item) || hair(item) || family(item)),
 };
 for (const [name, items] of Object.entries(variationPacks)) {
-  pack(path.join(sourceDirectory, 'variations', `${name}.ts`), items);
+  pack(path.join(sourceDirectory, "variations", `${name}.ts`), items);
 }
 
 write(
-  'manifest.json',
+  "manifest.json",
   JSON.stringify(
     {
       name: packageJson.name,
       packs: [
         {
-          id: 'popular',
-          label: 'Popular',
+          id: "popular",
+          label: "Popular",
           count: popularItems.length,
           importPath: packageJson.name,
-          keys: popular
+          keys: popular,
         },
         {
-          id: 'all',
-          label: 'All emoji',
+          id: "all",
+          label: "All emoji",
           count: emoji.length,
-          importPath: `${packageJson.name}/all`
-        }
+          importPath: `${packageJson.name}/all`,
+        },
       ],
       categories,
       variations: [
         {
-          id: 'skin-tones',
-          label: 'Skin tones',
-          count: variationPacks['skin-tones'].length,
-          importPath: `${packageJson.name}/variations/skin-tones`
+          id: "skin-tones",
+          label: "Skin tones",
+          count: variationPacks["skin-tones"].length,
+          importPath: `${packageJson.name}/variations/skin-tones`,
         },
         {
-          id: 'hair',
-          label: 'Hair styles',
+          id: "hair",
+          label: "Hair styles",
           count: variationPacks.hair.length,
-          importPath: `${packageJson.name}/variations/hair`
+          importPath: `${packageJson.name}/variations/hair`,
         },
         {
-          id: 'families',
-          label: 'Families',
+          id: "families",
+          label: "Families",
           count: variationPacks.families.length,
-          importPath: `${packageJson.name}/variations/families`
+          importPath: `${packageJson.name}/variations/families`,
         },
         {
-          id: 'all',
-          label: 'All variations',
+          id: "all",
+          label: "All variations",
           count: variationPacks.all.length,
-          importPath: `${packageJson.name}/variations/all`
-        }
-      ]
+          importPath: `${packageJson.name}/variations/all`,
+        },
+      ],
     },
     null,
-    2
-  )
+    2,
+  ),
 );
 
 const unicodeOrder = [...emoji].sort((a, b) => a.order - b.order);
 write(
-  'orders/manifest.json',
+  "orders/manifest.json",
   JSON.stringify(
     {
-      unicode: unicodeOrder.map(item => item.key)
+      unicode: unicodeOrder.map((item) => item.key),
     },
     null,
-    2
-  )
+    2,
+  ),
 );
 
 const explorerFields = [
-  'key',
-  'emoji',
-  'codePoints',
-  'status',
-  'shortName',
-  'group',
-  'subGroup',
-  'order',
-  'sequenceType'
+  "key",
+  "emoji",
+  "codePoints",
+  "status",
+  "shortName",
+  "group",
+  "subGroup",
+  "order",
+  "sequenceType",
 ];
 write(
-  'explorer/catalog.json',
+  "explorer/catalog.json",
   JSON.stringify({
     schemaVersion: 1,
     fields: explorerFields,
-    emoji: emoji.map(item => [
+    emoji: emoji.map((item) => [
       item.key,
       item.emoji,
       item.codePoints,
@@ -252,32 +252,32 @@ write(
       item.group,
       item.subGroup,
       item.order,
-      item.sequenceType
-    ])
-  })
+      item.sequenceType,
+    ]),
+  }),
 );
 
 const transpileExplorerModule = (sourceFile, outputFile) => {
-  const source = fs.readFileSync(sourceFile, 'utf8');
+  const source = fs.readFileSync(sourceFile, "utf8");
   const build = ts.transpileModule(source, {
     compilerOptions: {
       target: ts.ScriptTarget.ESNext,
       module: ts.ModuleKind.ESNext,
-      sourceMap: false
+      sourceMap: false,
     },
-    fileName: sourceFile
+    fileName: sourceFile,
   });
   write(outputFile, build.outputText.trimEnd());
 };
-transpileExplorerModule('src/index.ts', 'index.js');
-for (const file of fs.readdirSync('src/explorer')) {
-  if (!file.endsWith('.ts')) continue;
+transpileExplorerModule("src/index.ts", "index.js");
+for (const file of fs.readdirSync("src/explorer")) {
+  if (!file.endsWith(".ts")) continue;
   transpileExplorerModule(
     `src/explorer/${file}`,
-    `explorer/${file.replace(/\.ts$/, '.js')}`
+    `explorer/${file.replace(/\.ts$/, ".js")}`,
   );
 }
 
 console.log(
-  `Generated ${emoji.length} emoji across popular, all, ${categories.length} categories, ${categories.reduce((count, category) => count + category.subcategories.length, 0)} category subpacks, and ${Object.keys(variationPacks).length} variation packs.`
+  `Generated ${emoji.length} emoji across popular, all, ${categories.length} categories, ${categories.reduce((count, category) => count + category.subcategories.length, 0)} category subpacks, and ${Object.keys(variationPacks).length} variation packs.`,
 );

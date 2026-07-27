@@ -1,11 +1,9 @@
-import {
-  ensureImportExamples as ensureImportExampleLines
-} from '../explorer/import-examples.js';
-import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from '../explorer/dialog-upgrade.js';
+import { ensureImportExamples as ensureImportExampleLines } from "../explorer/import-examples.js";
+import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from "../explorer/dialog-upgrade.js";
 import {
   finishExplorerLoading as finishExplorerLoadingHelper,
-  revealExplorer as revealExplorerHelper
-} from '../explorer/loading-state.js';
+  revealExplorer as revealExplorerHelper,
+} from "../explorer/loading-state.js";
 
 export function createStartupOrchestrator(options: any) {
   function finishExplorerLoading() {
@@ -14,7 +12,7 @@ export function createStartupOrchestrator(options: any) {
       emojiByKey: options.emojiByKey(),
       emojiList: options.emojiList(),
       matchCount: options.matchCount(),
-      revealExplorer
+      revealExplorer,
     });
   }
 
@@ -25,19 +23,19 @@ export function createStartupOrchestrator(options: any) {
   function upgradeEmojiDialog() {
     upgradeEmojiDialogHelper({
       ensureImportExamples: ensureImportExampleLines,
-      exampleDialog: options.dialog()
+      exampleDialog: options.dialog(),
     });
   }
 
   function removeLegacyDialogElements() {
-    const dialog = document.querySelector('.example-dialog');
+    const dialog = document.querySelector(".example-dialog");
     dialog?.querySelector('[data-i18n="copiedDescription"]')?.remove();
-    dialog?.querySelector('.example-link')?.remove();
+    dialog?.querySelector(".example-link")?.remove();
     dialog?.querySelector('.emoji-copy-actions [data-copy="emoji"]')?.remove();
-    dialog?.querySelector('.emoji-code-points')?.closest('div')?.remove();
+    dialog?.querySelector(".emoji-code-points")?.closest("div")?.remove();
     dialog
       ?.querySelector('.emoji-metadata [data-i18n="codePoints"]')
-      ?.closest('div')
+      ?.closest("div")
       ?.remove();
   }
 
@@ -59,8 +57,8 @@ export function createStartupOrchestrator(options: any) {
         subGroupSelector: options.subGroupSelector(),
         versionModeSelector: options.versionModeSelector(),
         versionRange: options.versionRange,
-        versionSelector: options.versionSelector()
-      })
+        versionSelector: options.versionSelector(),
+      }),
     );
     upgradeEmojiDialog();
     options.assignModifierFieldsets();
@@ -132,7 +130,7 @@ export function createStartupOrchestrator(options: any) {
       versionSelector: options.versionSelector(),
       emojiNext: options.emojiNext(),
       emojiPrevious: options.emojiPrevious(),
-      exampleDialog: options.dialog()
+      exampleDialog: options.dialog(),
     });
 
     await options.finalizeStartup({
@@ -151,7 +149,7 @@ export function createStartupOrchestrator(options: any) {
       renderVersionModeToggle: options.renderVersionModeToggle,
       setUrlStateReady: options.setUrlStateReady,
       syncUrlState: options.syncUrlState,
-      toolbar: options.toolbar()
+      toolbar: options.toolbar(),
     });
   }
 
@@ -160,6 +158,6 @@ export function createStartupOrchestrator(options: any) {
     onLoad,
     removeLegacyDialogElements,
     revealExplorer,
-    upgradeEmojiDialog
+    upgradeEmojiDialog,
   };
 }

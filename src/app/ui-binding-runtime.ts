@@ -14,7 +14,7 @@ export function createUiBindingRuntime(options: any) {
         sequenceTypeSelector: controls.sequenceTypeSelector,
         versionModeToggle: controls.versionModeToggle,
         versionRange: controls.versionRange,
-        versionRangeValue: controls.versionRangeValue
+        versionRangeValue: controls.versionRangeValue,
       });
     },
     assignElements(elements: any) {
@@ -54,20 +54,22 @@ export function createUiBindingRuntime(options: any) {
         versionModeSelector: elements.versionModeSelector,
         versionNext: elements.versionNext,
         versionPrevious: elements.versionPrevious,
-        versionSelector: elements.versionSelector
+        versionSelector: elements.versionSelector,
       });
     },
     assignModifierFieldsets() {
       options.setFieldsets({
-        skinToneFieldset: options.skinToneCheckboxes()?.[0]?.closest('fieldset'),
-        hairFieldset: options.hairCheckboxes()?.[0]?.closest('fieldset'),
-        genderFieldset: options.genderCheckboxes()?.[0]?.closest('fieldset')
+        skinToneFieldset: options
+          .skinToneCheckboxes()?.[0]
+          ?.closest("fieldset"),
+        hairFieldset: options.hairCheckboxes()?.[0]?.closest("fieldset"),
+        genderFieldset: options.genderCheckboxes()?.[0]?.closest("fieldset"),
       });
     },
     hideModifierEmojiAccessibility() {
       document
-        .querySelectorAll('.modifier-emoji')
-        .forEach(emoji => emoji.setAttribute('aria-hidden', 'true'));
-    }
+        .querySelectorAll(".modifier-emoji")
+        .forEach((emoji) => emoji.setAttribute("aria-hidden", "true"));
+    },
   };
 }

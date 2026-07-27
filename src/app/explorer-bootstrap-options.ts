@@ -32,7 +32,7 @@ export function buildExplorerBootstrapShellOptions(options: any) {
     translate: options.translate,
     urlStateReady: () => options.urlStateReady(),
     versionModeSelector: () => options.versionModeSelector(),
-    versionSelector: () => options.versionSelector()
+    versionSelector: () => options.versionSelector(),
   };
 }
 
@@ -57,7 +57,8 @@ export function buildExplorerBootstrapControllerOptions(options: any) {
     emojiList: () => options.emojiList(),
     emojiParent: () => options.emojiParent(),
     ensurePixelEditor: () => options.ensurePixelEditor(),
-    focusInitialEmojiDialogAction: () => options.focusInitialEmojiDialogAction(),
+    focusInitialEmojiDialogAction: () =>
+      options.focusInitialEmojiDialogAction(),
     formatNumber: options.formatNumber,
     getPixelEditor: () => options.getPixelEditor(),
     genderCheckboxes: () => options.genderCheckboxes(),
@@ -97,7 +98,8 @@ export function buildExplorerBootstrapControllerOptions(options: any) {
     sequenceTypeOrder: options.sequenceTypeOrder,
     sequenceTypeSelector: () => options.sequenceTypeSelector(),
     setDialogView: (...args: any[]) => options.setDialogView(...args),
-    setSuppressDialogCloseSync: (value: any) => options.setSuppressDialogCloseSync(value),
+    setSuppressDialogCloseSync: (value: any) =>
+      options.setSuppressDialogCloseSync(value),
     showEmoji: (...args: any[]) => options.showEmoji(...args),
     skinToneCheckboxes: () => options.skinToneCheckboxes(),
     skinToneFieldset: () => options.skinToneFieldset(),
@@ -113,7 +115,8 @@ export function buildExplorerBootstrapControllerOptions(options: any) {
     unicodeSubgroupLabelKeys: options.unicodeSubgroupLabelKeys,
     updateCompositionBackButton: (...args: any[]) =>
       options.updateCompositionBackButton(...args),
-    updateDialogNavigation: (...args: any[]) => options.updateDialogNavigation(...args),
+    updateDialogNavigation: (...args: any[]) =>
+      options.updateDialogNavigation(...args),
     updateEmojiComposition: options.updateEmojiComposition,
     updateEmojiImportExamples: options.updateEmojiImportExamples,
     updateModifierArtwork: options.updateModifierArtwork,
@@ -124,7 +127,7 @@ export function buildExplorerBootstrapControllerOptions(options: any) {
     versionPrevious: () => options.versionPrevious(),
     versionRange: () => options.versionRange(),
     versionRangeValue: () => options.versionRangeValue(),
-    versionSelector: () => options.versionSelector()
+    versionSelector: () => options.versionSelector(),
   };
 }
 
@@ -243,6 +246,6 @@ export function buildExplorerBootstrapRuntimeSourceOptions(options: any) {
     versionNext: () => options.versionNext(),
     versionPrevious: () => options.versionPrevious(),
     versionRange: () => options.versionRange(),
-    versionSelector: () => options.versionSelector()
+    versionSelector: () => options.versionSelector(),
   };
 }

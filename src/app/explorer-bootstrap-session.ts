@@ -6,50 +6,50 @@ import {
   sequenceTypeLabels,
   sequenceTypeOrder,
   unicodeGroupLabelKeys,
-  unicodeSubgroupLabelKeys
-} from '../explorer/explorer-labels.js';
-import { getExplorerSubGroup } from '../explorer/category-rules.js';
+  unicodeSubgroupLabelKeys,
+} from "../explorer/explorer-labels.js";
+import { getExplorerSubGroup } from "../explorer/category-rules.js";
 import {
   formatUiNumber as formatUiNumberValue,
   formatUiPercent as formatUiPercentValue,
-  normalizeCodePoints
-} from '../explorer/emoji-format.js';
-import { animateCopyConfirmation as animateEmojiCopyConfirmation } from '../explorer/saved-emoji.js';
-import { openPanelDialog } from '../explorer/pwa-panels.js';
-import { createExplorerApp } from '../explorer-app.js';
-import { createExplorerState } from '../explorer-state.js';
-import { createUiFormatters } from './browser-runtime.js';
-import {
-  createExplorerBootstrapBindings
-} from './explorer-bootstrap-bindings.js';
+  normalizeCodePoints,
+} from "../explorer/emoji-format.js";
+import { animateCopyConfirmation as animateEmojiCopyConfirmation } from "../explorer/saved-emoji.js";
+import { openPanelDialog } from "../explorer/pwa-panels.js";
+import { createExplorerApp } from "../explorer-app.js";
+import { createExplorerState } from "../explorer-state.js";
+import { createUiFormatters } from "./browser-runtime.js";
+import { createExplorerBootstrapBindings } from "./explorer-bootstrap-bindings.js";
 import {
   buildExplorerBootstrapControllerOptions,
-  buildExplorerBootstrapShellOptions
-} from './explorer-bootstrap-options.js';
-import { createExplorerBootstrapControllers } from './explorer-bootstrap-controllers.js';
-import { initializeExplorerBootstrapSessionRuntime } from './explorer-bootstrap-session-runtime.js';
-import { createExplorerBootstrapShell } from './explorer-bootstrap-shell.js';
-import { initializeExplorerPreferences } from './explorer-preferences.js';
+  buildExplorerBootstrapShellOptions,
+} from "./explorer-bootstrap-options.js";
+import { createExplorerBootstrapControllers } from "./explorer-bootstrap-controllers.js";
+import { initializeExplorerBootstrapSessionRuntime } from "./explorer-bootstrap-session-runtime.js";
+import { createExplorerBootstrapShell } from "./explorer-bootstrap-shell.js";
+import { initializeExplorerPreferences } from "./explorer-preferences.js";
 
-const UNASSIGNED = '\u0000';
+const UNASSIGNED = "\u0000";
 const explorerState = createExplorerState();
 const bindings = createExplorerBootstrapBindings();
-const { save: saveExplorerPreference } = initializeExplorerPreferences(explorerState);
+const { save: saveExplorerPreference } =
+  initializeExplorerPreferences(explorerState);
 const translate = (key, fallback) => explorerState.uiStrings[key] ?? fallback;
-const displayExplorerLabel = label => translate(explorerLabelKeys[label], label);
+const displayExplorerLabel = (label) =>
+  translate(explorerLabelKeys[label], label);
 const panelDialogs = () => ({
   favorites: bindings.savedDialog,
   help: bindings.helpDialog,
-  language: bindings.languageDialog
+  language: bindings.languageDialog,
 });
 const isViteDevelopment =
-  typeof import.meta.env !== 'undefined' && import.meta.env.DEV === true;
+  typeof import.meta.env !== "undefined" && import.meta.env.DEV === true;
 
 const { formatUiNumber, formatUiPercent } = createUiFormatters({
   document,
   selectedSearchLocale: () => explorerState.selectedSearchLocale,
   formatNumber: formatUiNumberValue,
-  formatPercent: formatUiPercentValue
+  formatPercent: formatUiPercentValue,
 });
 
 const shell = createExplorerBootstrapShell(
@@ -57,7 +57,8 @@ const shell = createExplorerBootstrapShell(
     applyingUrlState: () => bindings.applyingUrlState,
     copyStatus: () => bindings.copyStatus,
     developerModeToggle: () => bindings.developerModeToggle,
-    dialog: () => bindings.bootstrapRuntime?.explorerRuntime.get('exampleDialog'),
+    dialog: () =>
+      bindings.bootstrapRuntime?.explorerRuntime.get("exampleDialog"),
     drawList: () => bindings.drawList(),
     emojiFontChoices: () => bindings.emojiFontChoices,
     genderCheckboxes: () => bindings.genderCheckboxes,
@@ -85,8 +86,8 @@ const shell = createExplorerBootstrapShell(
     translate,
     urlStateReady: () => bindings.urlStateReady,
     versionModeSelector: () => bindings.versionModeSelector,
-    versionSelector: () => bindings.versionSelector
-  })
+    versionSelector: () => bindings.versionSelector,
+  }),
 );
 
 const controllers = createExplorerBootstrapControllers(
@@ -104,18 +105,21 @@ const controllers = createExplorerBootstrapControllers(
     compactSubGroupLabel: () => bindings.compactSubGroupLabel,
     copyToClipboardValue: shell.copyToClipboardValue,
     developerModeEnabled: shell.developerModeEnabled,
-    dialog: () => bindings.bootstrapRuntime?.explorerRuntime.get('exampleDialog'),
+    dialog: () =>
+      bindings.bootstrapRuntime?.explorerRuntime.get("exampleDialog"),
     displayExplorerLabel,
     drawList: () => bindings.drawList(),
     emojiList: () => bindings.emojiList,
-    emojiParent: () => bindings.bootstrapRuntime?.explorerRuntime.get('emojiParent'),
+    emojiParent: () =>
+      bindings.bootstrapRuntime?.explorerRuntime.get("emojiParent"),
     ensurePixelEditor: () => bindings.bootstrapRuntime?.ensurePixelEditor(),
-    focusInitialEmojiDialogAction: () => bindings.focusInitialEmojiDialogAction(),
+    focusInitialEmojiDialogAction: () =>
+      bindings.focusInitialEmojiDialogAction(),
     formatNumber: formatUiNumber,
     getPixelEditor: () => bindings.pixelEditor,
     genderCheckboxes: () => bindings.genderCheckboxes,
     genderFieldset: () => bindings.genderFieldset,
-    getEmojiGenders: item => bindings.bootstrapRuntime?.getEmojiGenders(item),
+    getEmojiGenders: (item) => bindings.bootstrapRuntime?.getEmojiGenders(item),
     getExplorerSubGroup,
     getIntroducedVersion: shell.getIntroducedVersion,
     groupFilterDialog: () => bindings.groupFilterDialog,
@@ -150,7 +154,8 @@ const controllers = createExplorerBootstrapControllers(
     sequenceTypeOrder,
     sequenceTypeSelector: () => bindings.sequenceTypeSelector,
     setDialogView: (...args) => bindings.setEmojiDialogView(...args),
-    setSuppressDialogCloseSync: value => (bindings.suppressDialogCloseSync = value),
+    setSuppressDialogCloseSync: (value) =>
+      (bindings.suppressDialogCloseSync = value),
     showEmoji: (...args) => bindings.showEmoji(...args),
     skinToneCheckboxes: () => bindings.skinToneCheckboxes,
     skinToneFieldset: () => bindings.skinToneFieldset,
@@ -164,8 +169,10 @@ const controllers = createExplorerBootstrapControllers(
     unassigned: UNASSIGNED,
     unicodeGroupLabelKeys,
     unicodeSubgroupLabelKeys,
-    updateCompositionBackButton: (...args) => bindings.updateCompositionBackButton(...args),
-    updateDialogNavigation: (...args) => bindings.updateDialogNavigation(...args),
+    updateCompositionBackButton: (...args) =>
+      bindings.updateCompositionBackButton(...args),
+    updateDialogNavigation: (...args) =>
+      bindings.updateDialogNavigation(...args),
     updateEmojiComposition: shell.updateEmojiComposition,
     updateEmojiImportExamples: shell.updateEmojiImportExamples,
     updateModifierArtwork: shell.updateModifierPixelArtwork,
@@ -176,8 +183,8 @@ const controllers = createExplorerBootstrapControllers(
     versionPrevious: () => bindings.versionPrevious,
     versionRange: () => bindings.versionRange,
     versionRangeValue: () => bindings.versionRangeValue,
-    versionSelector: () => bindings.versionSelector
-  })
+    versionSelector: () => bindings.versionSelector,
+  }),
 );
 
 Object.assign(bindings, {
@@ -186,7 +193,7 @@ Object.assign(bindings, {
   resetFilters: controllers.resetFilters,
   syncUrlState: controllers.syncUrlState,
   focusInitialEmojiDialogAction: controllers.focusInitialAction,
-  setEmojiDialogView: controllers.setView
+  setEmojiDialogView: controllers.setView,
 });
 
 bindings.bootstrapRuntime = initializeExplorerBootstrapSessionRuntime({
@@ -195,14 +202,17 @@ bindings.bootstrapRuntime = initializeExplorerBootstrapSessionRuntime({
   panelDialogs,
   restoreDeveloperMode: () => {
     explorerState.developerModeFromUrl =
-      new URLSearchParams(window.location.search).get('developer') === '1';
+      new URLSearchParams(window.location.search).get("developer") === "1";
     shell.renderDeveloperMode();
   },
   savePreference: saveExplorerPreference,
   shell,
   state: () => explorerState,
-  translate
+  translate,
 });
 
 bindings.bootstrapRuntime.removeLegacyDialogElements();
-createExplorerApp({ window, start: bindings.bootstrapRuntime.onLoad }).startWhenReady();
+createExplorerApp({
+  window,
+  start: bindings.bootstrapRuntime.onLoad,
+}).startWhenReady();

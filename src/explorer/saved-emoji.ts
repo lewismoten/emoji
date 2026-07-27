@@ -1,9 +1,13 @@
-import { displayEmojiKey } from './emoji-format.js';
-import { animateCopyConfirmation, announceStatus, copyToClipboard } from './copy-feedback.js';
+import { displayEmojiKey } from "./emoji-format.js";
+import {
+  animateCopyConfirmation,
+  announceStatus,
+  copyToClipboard,
+} from "./copy-feedback.js";
 import {
   updateFavoriteGlyph,
-  updateFavoriteToggleButton
-} from './favorite-button.js';
+  updateFavoriteToggleButton,
+} from "./favorite-button.js";
 
 export { animateCopyConfirmation, announceStatus, copyToClipboard };
 
@@ -30,33 +34,33 @@ declare const document: {
   querySelector(selector: string): MinimalElement | null;
 };
 function createButton() {
-  const button = document.createElement('button');
-  button.type = 'button';
+  const button = document.createElement("button");
+  button.type = "button";
   return button;
 }
 
 export function nextFavoriteEmojiKeys(
   favoriteEmojiKeys: string[],
-  key: string
+  key: string,
 ) {
   if (!key) return favoriteEmojiKeys;
   return favoriteEmojiKeys.includes(key)
-    ? favoriteEmojiKeys.filter(candidate => candidate !== key)
+    ? favoriteEmojiKeys.filter((candidate) => candidate !== key)
     : [key, ...favoriteEmojiKeys];
 }
 
 export function nextCopiedEmojiKeys(copiedEmojiKeys: string[], key: string) {
   if (!key) return copiedEmojiKeys;
-  return [key, ...copiedEmojiKeys.filter(candidate => candidate !== key)].slice(
-    0,
-    24
-  );
+  return [
+    key,
+    ...copiedEmojiKeys.filter((candidate) => candidate !== key),
+  ].slice(0, 24);
 }
 
 export function savedEmojiLabel(
   key: string,
   searchAnnotations: Record<string, string[]>,
-  byId: Record<string, { shortName?: string }>
+  byId: Record<string, { shortName?: string }>,
 ) {
   return (
     searchAnnotations[key]?.[0] ?? byId[key]?.shortName ?? displayEmojiKey(key)
@@ -74,7 +78,7 @@ export function renderSavedEmojiList(options: {
   applyPixelArtworkClass: (element: MinimalElement, emojiKey: string) => void;
 }) {
   const available = options.keys.filter(
-    key => options.emojiByKey[key] !== undefined
+    (key) => options.emojiByKey[key] !== undefined,
   );
   options.container.replaceChildren(
     ...available.map((key, index) => {
@@ -82,21 +86,24 @@ export function renderSavedEmojiList(options: {
       button.dataset.savedEmoji = key;
       button.dataset.savedSource = options.source;
       button.tabIndex = index === 0 ? 0 : -1;
-      button.style.setProperty('--saved-index', String(Math.min(index, 12)));
+      button.style.setProperty("--saved-index", String(Math.min(index, 12)));
       button.textContent = options.emojiByKey[key];
       options.applyPixelArtworkClass(button, key);
       button.setAttribute(
-        'aria-label',
-        savedEmojiLabel(key, options.searchAnnotations, options.byId)
+        "aria-label",
+        savedEmojiLabel(key, options.searchAnnotations, options.byId),
       );
       return button;
-    })
+    }),
   );
   options.empty.hidden = available.length > 0;
 }
 
 export function createSavedEmojiController(options: {
-  applyPixelArtworkClass: () => (element: MinimalElement, emojiKey: string) => void;
+  applyPixelArtworkClass: () => (
+    element: MinimalElement,
+    emojiKey: string,
+  ) => void;
   byId: () => Record<string, { shortName?: string }>;
   copiedEmojiKeys: () => string[];
   currentEmojiKey: () => string;
@@ -111,18 +118,18 @@ export function createSavedEmojiController(options: {
 }) {
   function updateFavoriteButton() {
     updateFavoriteGlyph(
-      document.querySelector('.saved-picker .favorite-glyph'),
+      document.querySelector(".saved-picker .favorite-glyph"),
       options.applyPixelArtworkClass(),
-      true
+      true,
     );
     updateFavoriteToggleButton(
-      document.querySelector('.example-dialog .toggle-favorite'),
+      document.querySelector(".example-dialog .toggle-favorite"),
       {
         applyPixelArtworkClass: options.applyPixelArtworkClass(),
         favoriteEmojiKeys: options.favoriteEmojiKeys(),
         currentEmojiKey: options.currentEmojiKey(),
-        translate: options.translate
-      }
+        translate: options.translate,
+      },
     );
   }
 
@@ -130,7 +137,7 @@ export function createSavedEmojiController(options: {
     container: MinimalElement | null,
     empty: MinimalElement | null,
     keys: string[],
-    source: string
+    source: string,
   ) {
     if (!container || !empty) return;
     renderSavedEmojiList({
@@ -141,7 +148,7 @@ export function createSavedEmojiController(options: {
       emojiByKey: options.emojiByKey(),
       searchAnnotations: options.searchAnnotations(),
       byId: options.byId(),
-      applyPixelArtworkClass: options.applyPixelArtworkClass()
+      applyPixelArtworkClass: options.applyPixelArtworkClass(),
     });
   }
 
@@ -149,16 +156,16 @@ export function createSavedEmojiController(options: {
     const dialog = options.savedDialog();
     if (!dialog) return;
     renderList(
-      dialog.querySelector('.favorites-list'),
-      dialog.querySelector('.favorites-empty'),
+      dialog.querySelector(".favorites-list"),
+      dialog.querySelector(".favorites-empty"),
       options.favoriteEmojiKeys(),
-      'favorites'
+      "favorites",
     );
     renderList(
-      dialog.querySelector('.copied-list'),
-      dialog.querySelector('.copied-empty'),
+      dialog.querySelector(".copied-list"),
+      dialog.querySelector(".copied-empty"),
       options.copiedEmojiKeys(),
-      'copied'
+      "copied",
     );
   }
 
@@ -166,7 +173,7 @@ export function createSavedEmojiController(options: {
     if (!key) return;
     const keys = nextFavoriteEmojiKeys(options.favoriteEmojiKeys(), key);
     options.setFavoriteEmojiKeys(keys);
-    options.savePreference('favorites', keys);
+    options.savePreference("favorites", keys);
     updateFavoriteButton();
     if (options.savedDialog()?.open) renderSavedEmoji();
   }
@@ -179,7 +186,7 @@ export function createSavedEmojiController(options: {
   function recordCopiedEmoji(key: string) {
     const keys = nextCopiedEmojiKeys(options.copiedEmojiKeys(), key);
     options.setCopiedEmojiKeys(keys);
-    options.savePreference('recentCopied', keys);
+    options.savePreference("recentCopied", keys);
   }
 
   return {
@@ -188,6 +195,6 @@ export function createSavedEmojiController(options: {
     renderList,
     renderSavedEmoji,
     toggleFavorite,
-    updateFavoriteButton
+    updateFavoriteButton,
   };
 }

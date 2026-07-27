@@ -1,6 +1,28 @@
-import { clamp, extractPixels, hasVisiblePixels, layerAxisBounds, layerPositionAllowed, pixelsEqual, trimVisiblePixels } from "../pixel-editor-geometry-helpers.js";
-import { compositeLayer, effectiveLayerPixels, flipPixels, layerTransformChangesPixels, nextLayerRotation, resetLayerRotation } from "../pixel-editor-layer-helpers.js";
-import { buildSkinToneOwnership, buildTwoPersonOwnership, compareSkinToneHelpers, remapSkinTonePixels, skinToneBaseSequence, skinToneSequence } from "../pixel-editor-skin-tone.js";
+import {
+  clamp,
+  extractPixels,
+  hasVisiblePixels,
+  layerAxisBounds,
+  layerPositionAllowed,
+  pixelsEqual,
+  trimVisiblePixels,
+} from "../pixel-editor-geometry-helpers.js";
+import {
+  compositeLayer,
+  effectiveLayerPixels,
+  flipPixels,
+  layerTransformChangesPixels,
+  nextLayerRotation,
+  resetLayerRotation,
+} from "../pixel-editor-layer-helpers.js";
+import {
+  buildSkinToneOwnership,
+  buildTwoPersonOwnership,
+  compareSkinToneHelpers,
+  remapSkinTonePixels,
+  skinToneBaseSequence,
+  skinToneSequence,
+} from "../pixel-editor-skin-tone.js";
 
 export function createPixelEditorTransferController(options) {
   const {
@@ -33,7 +55,12 @@ export function createPixelEditorTransferController(options) {
   } = options;
 
   function copyPixelArt() {
-    if (!currentEntry() || !cellLoaded() || !draftController.hasVisibleArtwork()) return;
+    if (
+      !currentEntry() ||
+      !cellLoaded() ||
+      !draftController.hasVisibleArtwork()
+    )
+      return;
     const trimmed = trimPixels(getPixels(), cellSize, cellSize);
     if (!trimmed) return;
     setArtworkClipboard({
@@ -53,7 +80,14 @@ export function createPixelEditorTransferController(options) {
 
   function copySelection() {
     if (!currentEntry() || !cellLoaded() || !getSelection()) return;
-    const selectedPixels = extractPixels(getPixels(), cellSize, getSelection().x, getSelection().y, getSelection().width, getSelection().height);
+    const selectedPixels = extractPixels(
+      getPixels(),
+      cellSize,
+      getSelection().x,
+      getSelection().y,
+      getSelection().width,
+      getSelection().height,
+    );
     if (!hasVisiblePixels(selectedPixels)) return;
     setArtworkClipboard({
       kind: "selection",
@@ -67,15 +101,22 @@ export function createPixelEditorTransferController(options) {
       sourceKey: currentEntry().key,
     });
     updateTransferButtons();
-    writeStatus(formatClipboardStatus("selectionCopied", "Selected artwork copied."));
+    writeStatus(
+      formatClipboardStatus("selectionCopied", "Selected artwork copied."),
+    );
   }
 
   async function copyFontGlyph(copyFontButton) {
     if (!currentEntry()?.painted || !cellLoaded()) return;
     copyFontButton.disabled = true;
     try {
-      const response = await fetch(`pixel-font/atlases/${currentEntry().atlas}`);
-      if (!response.ok || !response.headers.get("content-type")?.includes("image/png")) {
+      const response = await fetch(
+        `pixel-font/atlases/${currentEntry().atlas}`,
+      );
+      if (
+        !response.ok ||
+        !response.headers.get("content-type")?.includes("image/png")
+      ) {
         throw new Error("Pixel font source atlas is unavailable");
       }
       setArtworkClipboard({
@@ -89,10 +130,17 @@ export function createPixelEditorTransferController(options) {
         baseSequence: skinToneBaseSequence(currentEntry().codePoints),
         sourceKey: currentEntry().key,
       });
-      writeStatus(formatClipboardStatus("fontGlyphCopied", "Custom font glyph copied."));
+      writeStatus(
+        formatClipboardStatus("fontGlyphCopied", "Custom font glyph copied."),
+      );
     } catch (error) {
       console.warn("Unable to copy custom font glyph", error);
-      writeStatus(formatClipboardStatus("fontGlyphCopyFailed", "The custom font glyph could not be copied."));
+      writeStatus(
+        formatClipboardStatus(
+          "fontGlyphCopyFailed",
+          "The custom font glyph could not be copied.",
+        ),
+      );
     }
     updateTransferButtons();
   }
@@ -104,27 +152,45 @@ export function createPixelEditorTransferController(options) {
       !getArtworkClipboard() ||
       options.pastePending() ||
       (getTool() === "select" && getArtworkClipboard().kind !== "selection")
-    ) return;
+    )
+      return;
     const targetEntry = currentEntry();
     const clipboard = cloneFloatingLayer(getArtworkClipboard());
     setPastePending(true);
     updateTransferButtons();
-    const helper = await findSkinTonePasteHelper(clipboard, targetEntry).catch((error) => {
-      console.warn("Unable to load skin-tone paste helper", error);
-      return undefined;
-    });
+    const helper = await findSkinTonePasteHelper(clipboard, targetEntry).catch(
+      (error) => {
+        console.warn("Unable to load skin-tone paste helper", error);
+        return undefined;
+      },
+    );
     setPastePending(false);
     if (currentEntry() !== targetEntry) {
       updateTransferButtons();
       return;
     }
     setFloatingLayer(clipboard);
-    floatingLayer().pixels = remapSkinTonePixels(floatingLayer().pixels, clipboard.skinTones, skinToneSequence(targetEntry.codePoints), helper ? { ownership: helper.ownership, ownershipWidth: cellSize, width: clipboard.width, offsetX: clipboard.x, offsetY: clipboard.y } : undefined);
+    floatingLayer().pixels = remapSkinTonePixels(
+      floatingLayer().pixels,
+      clipboard.skinTones,
+      skinToneSequence(targetEntry.codePoints),
+      helper
+        ? {
+            ownership: helper.ownership,
+            ownershipWidth: cellSize,
+            width: clipboard.width,
+            offsetX: clipboard.x,
+            offsetY: clipboard.y,
+          }
+        : undefined,
+    );
     floatingLayer().inverted = false;
     setSelection(undefined);
     renderController.draw();
     canvas.focus({ preventScroll: true });
-    writeStatus(formatStatus("layerPasted", "Artwork pasted as a floating layer."));
+    writeStatus(
+      formatStatus("layerPasted", "Artwork pasted as a floating layer."),
+    );
   }
 
   function moveFloatingLayer(horizontal, vertical) {
@@ -149,7 +215,11 @@ export function createPixelEditorTransferController(options) {
     const previousCenterX = floatingLayer().x + floatingLayer().width / 2;
     const previousCenterY = floatingLayer().y + floatingLayer().height / 2;
     if (transform === "rotate-left" || transform === "rotate-right") {
-      const rotated = nextLayerRotation(floatingLayer(), transform === "rotate-right", paletteController.activePaletteColors());
+      const rotated = nextLayerRotation(
+        floatingLayer(),
+        transform === "rotate-right",
+        paletteController.activePaletteColors(),
+      );
       if (!layerTransformChangesPixels(floatingLayer(), rotated)) return;
       floatingLayer().pixels = rotated.pixels;
       floatingLayer().width = rotated.width;
@@ -175,10 +245,18 @@ export function createPixelEditorTransferController(options) {
   function bakeFloatingLayer() {
     if (!floatingLayer()) return;
     draftController.pushHistory();
-    compositeLayer(getPixels(), { ...floatingLayer(), pixels: effectiveLayerPixels(floatingLayer(), paletteController.activePaletteColors()) });
+    compositeLayer(getPixels(), {
+      ...floatingLayer(),
+      pixels: effectiveLayerPixels(
+        floatingLayer(),
+        paletteController.activePaletteColors(),
+      ),
+    });
     setFloatingLayer(undefined);
     renderController.draw();
-    writeStatus(formatStatus("layerBaked", "Floating layer merged into the artwork."));
+    writeStatus(
+      formatStatus("layerBaked", "Floating layer merged into the artwork."),
+    );
   }
 
   function cancelFloatingLayer() {
@@ -201,7 +279,8 @@ export function createPixelEditorTransferController(options) {
       sourceTones.length < 2 ||
       sourceTones.length !== targetTones.length ||
       clipboard.baseSequence !== skinToneBaseSequence(targetEntry.codePoints)
-    ) return undefined;
+    )
+      return undefined;
     const manifest = await loadManifest();
     const candidates = Object.values(manifest.glyphs)
       .filter((entry) => {
@@ -219,7 +298,10 @@ export function createPixelEditorTransferController(options) {
     for (const entry of candidates) {
       const helperPixels = await loadHelperPixels(entry);
       if (!helperPixels) continue;
-      const ownership = buildSkinToneOwnership(helperPixels, skinToneSequence(entry.codePoints));
+      const ownership = buildSkinToneOwnership(
+        helperPixels,
+        skinToneSequence(entry.codePoints),
+      );
       if (ownership) return { entry, ownership };
     }
     return sourceTones.length === 2
@@ -229,14 +311,31 @@ export function createPixelEditorTransferController(options) {
 
   async function loadHelperPixels(entry) {
     const draft = artworkDrafts().get(entry.key);
-    if (draft?.pixels && hasVisiblePixels(draft.pixels)) return draft.pixels.slice();
-    const response = await fetch(`pixel-font/atlases/${entry.atlas}`).catch(() => undefined);
-    if (!response?.ok || !response.headers.get("content-type")?.includes("image/png")) {
+    if (draft?.pixels && hasVisiblePixels(draft.pixels))
+      return draft.pixels.slice();
+    const response = await fetch(`pixel-font/atlases/${entry.atlas}`).catch(
+      () => undefined,
+    );
+    if (
+      !response?.ok ||
+      !response.headers.get("content-type")?.includes("image/png")
+    ) {
       return undefined;
     }
     const helperPixels = await extractCell(await response.blob(), entry);
     return hasVisiblePixels(helperPixels) ? helperPixels : undefined;
   }
 
-  return { bakeFloatingLayer, cancelFloatingLayer, copyFontGlyph, copyPixelArt, copySelection, moveFloatingLayer, pastePixelArt, setFloatingLayerPosition, toggleFloatingLayerInversion, transformFloatingLayer };
+  return {
+    bakeFloatingLayer,
+    cancelFloatingLayer,
+    copyFontGlyph,
+    copyPixelArt,
+    copySelection,
+    moveFloatingLayer,
+    pastePixelArt,
+    setFloatingLayerPosition,
+    toggleFloatingLayerInversion,
+    transformFloatingLayer,
+  };
 }

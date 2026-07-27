@@ -1,9 +1,9 @@
-import zlib from 'node:zlib';
+import zlib from "node:zlib";
 
 const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 
 export function decodeRgbaPng(buffer) {
-  assert(buffer.subarray(0, 8).equals(signature), 'Image is not a PNG');
+  assert(buffer.subarray(0, 8).equals(signature), "Image is not a PNG");
 
   let width;
   let height;
@@ -12,33 +12,36 @@ export function decodeRgbaPng(buffer) {
   let interlace;
   const compressed = [];
 
-  for (let offset = 8; offset < buffer.length; ) {
+  for (let offset = 8; offset < buffer.length;) {
     const length = buffer.readUInt32BE(offset);
-    const type = buffer.subarray(offset + 4, offset + 8).toString('ascii');
+    const type = buffer.subarray(offset + 4, offset + 8).toString("ascii");
     const data = buffer.subarray(offset + 8, offset + 8 + length);
     offset += 12 + length;
 
-    if (type === 'IHDR') {
+    if (type === "IHDR") {
       width = data.readUInt32BE(0);
       height = data.readUInt32BE(4);
       bitDepth = data[8];
       colorType = data[9];
       interlace = data[12];
-    } else if (type === 'IDAT') {
+    } else if (type === "IDAT") {
       compressed.push(data);
-    } else if (type === 'IEND') {
+    } else if (type === "IEND") {
       break;
     }
   }
 
-  assert(width && height, 'PNG is missing its dimensions');
-  assert(bitDepth === 8 && colorType === 6, 'Atlas PNG must be 8-bit RGBA');
-  assert(interlace === 0, 'Interlaced atlas PNGs are not supported');
+  assert(width && height, "PNG is missing its dimensions");
+  assert(bitDepth === 8 && colorType === 6, "Atlas PNG must be 8-bit RGBA");
+  assert(interlace === 0, "Interlaced atlas PNGs are not supported");
 
   const bytesPerPixel = 4;
   const stride = width * bytesPerPixel;
   const inflated = zlib.inflateSync(Buffer.concat(compressed));
-  assert(inflated.length === height * (stride + 1), 'PNG pixel data has an unexpected size');
+  assert(
+    inflated.length === height * (stride + 1),
+    "PNG pixel data has an unexpected size",
+  );
   const pixels = Buffer.alloc(width * height * bytesPerPixel);
 
   for (let row = 0; row < height; row += 1) {
@@ -47,10 +50,13 @@ export function decodeRgbaPng(buffer) {
     for (let column = 0; column < stride; column += 1) {
       const raw = inflated[sourceOffset + 1 + column];
       const destination = row * stride + column;
-      const left = column >= bytesPerPixel ? pixels[destination - bytesPerPixel] : 0;
+      const left =
+        column >= bytesPerPixel ? pixels[destination - bytesPerPixel] : 0;
       const above = row > 0 ? pixels[destination - stride] : 0;
       const upperLeft =
-        row > 0 && column >= bytesPerPixel ? pixels[destination - stride - bytesPerPixel] : 0;
+        row > 0 && column >= bytesPerPixel
+          ? pixels[destination - stride - bytesPerPixel]
+          : 0;
       pixels[destination] = unfilter(filter, raw, left, above, upperLeft);
     }
   }
@@ -62,7 +68,12 @@ export function cropRgba(image, x, y, width, height) {
   const pixels = Buffer.alloc(width * height * 4);
   for (let row = 0; row < height; row += 1) {
     const sourceStart = ((y + row) * image.width + x) * 4;
-    image.pixels.copy(pixels, row * width * 4, sourceStart, sourceStart + width * 4);
+    image.pixels.copy(
+      pixels,
+      row * width * 4,
+      sourceStart,
+      sourceStart + width * 4,
+    );
   }
   return { width, height, pixels };
 }
@@ -88,9 +99,9 @@ export function encodeRgbaPng(image) {
   }
   return Buffer.concat([
     signature,
-    chunk('IHDR', ihdr),
-    chunk('IDAT', zlib.deflateSync(Buffer.concat(rows), { level: 9 })),
-    chunk('IEND', Buffer.alloc(0))
+    chunk("IHDR", ihdr),
+    chunk("IDAT", zlib.deflateSync(Buffer.concat(rows), { level: 9 })),
+    chunk("IEND", Buffer.alloc(0)),
   ]);
 }
 
@@ -108,13 +119,14 @@ function paeth(left, above, upperLeft) {
   const leftDistance = Math.abs(estimate - left);
   const aboveDistance = Math.abs(estimate - above);
   const upperLeftDistance = Math.abs(estimate - upperLeft);
-  if (leftDistance <= aboveDistance && leftDistance <= upperLeftDistance) return left;
+  if (leftDistance <= aboveDistance && leftDistance <= upperLeftDistance)
+    return left;
   if (aboveDistance <= upperLeftDistance) return above;
   return upperLeft;
 }
 
 function chunk(type, data) {
-  const name = Buffer.from(type, 'ascii');
+  const name = Buffer.from(type, "ascii");
   const output = Buffer.alloc(12 + data.length);
   output.writeUInt32BE(data.length, 0);
   name.copy(output, 4);

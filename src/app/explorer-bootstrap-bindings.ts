@@ -78,7 +78,7 @@ export function createExplorerBootstrapBindings() {
     toggleVersionMode: () => {},
     revealExplorer: () => {},
     resetFilters: () => {},
-    bootstrapRuntime: undefined
+    bootstrapRuntime: undefined,
   };
 }
 

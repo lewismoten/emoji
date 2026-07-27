@@ -1,12 +1,16 @@
 import {
   bindExplorerEvents,
   finalizeExplorerStartup,
-  initializeExplorerControls
-} from '../explorer-app.js';
-import { createFilterControlSetup } from '../explorer/filter-controls.js';
-import { observeToolbarHeight } from '../explorer/toolbar-layout.js';
-import { closePanelDialog, installedDisplayQueries, openPanelDialog } from '../explorer/pwa-panels.js';
-import { createStartupOrchestrator } from './startup-orchestrator.js';
+  initializeExplorerControls,
+} from "../explorer-app.js";
+import { createFilterControlSetup } from "../explorer/filter-controls.js";
+import { observeToolbarHeight } from "../explorer/toolbar-layout.js";
+import {
+  closePanelDialog,
+  installedDisplayQueries,
+  openPanelDialog,
+} from "../explorer/pwa-panels.js";
+import { createStartupOrchestrator } from "./startup-orchestrator.js";
 
 export function createStartupRuntime(options: any) {
   return createStartupOrchestrator({
@@ -110,6 +114,6 @@ export function createStartupRuntime(options: any) {
     versionNext: () => options.versionNext(),
     versionPrevious: () => options.versionPrevious(),
     versionRange: () => options.versionRange(),
-    versionSelector: () => options.versionSelector()
+    versionSelector: () => options.versionSelector(),
   });
 }

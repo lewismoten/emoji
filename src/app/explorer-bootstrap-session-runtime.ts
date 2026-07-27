@@ -1,12 +1,12 @@
 // @ts-nocheck -- Transitional bootstrap wiring.
-import { buildExplorerBootstrapRuntimeOptions } from './explorer-bootstrap-runtime-options.js';
-import { createExplorerBootstrapRuntime } from './explorer-bootstrap-runtime.js';
-import { buildExplorerBootstrapRuntimeSourceOptions } from './explorer-bootstrap-options.js';
+import { buildExplorerBootstrapRuntimeOptions } from "./explorer-bootstrap-runtime-options.js";
+import { createExplorerBootstrapRuntime } from "./explorer-bootstrap-runtime.js";
+import { buildExplorerBootstrapRuntimeSourceOptions } from "./explorer-bootstrap-options.js";
 import {
   assignExplorerBootstrapControls,
   assignExplorerBootstrapElements,
-  assignExplorerBootstrapFieldsets
-} from './explorer-bootstrap-bindings.js';
+  assignExplorerBootstrapFieldsets,
+} from "./explorer-bootstrap-bindings.js";
 
 export function initializeExplorerBootstrapSessionRuntime(options: any) {
   options.bindings.bootstrapRuntime = createExplorerBootstrapRuntime(
@@ -23,12 +23,14 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         developerModeEnabled: options.shell.developerModeEnabled,
         developerModeToggle: () => options.bindings.developerModeToggle,
         displayGroupName: options.controllers.displayGroupName,
-        displayUnicodeSubGroupName: options.controllers.displayUnicodeSubGroupName,
+        displayUnicodeSubGroupName:
+          options.controllers.displayUnicodeSubGroupName,
         drawList: (...args: any[]) => options.bindings.drawList(...args),
         emojiFontChoices: () => options.bindings.emojiFontChoices,
         emojiList: () => options.bindings.emojiList,
         genderCheckboxes: () => options.bindings.genderCheckboxes,
-        focusInitialEmojiDialogAction: () => options.bindings.focusInitialEmojiDialogAction(),
+        focusInitialEmojiDialogAction: () =>
+          options.bindings.focusInitialEmojiDialogAction(),
         getIntroducedVersion: options.shell.getIntroducedVersion,
         getPixelEditor: () => options.bindings.pixelEditor,
         getPixelEditorPromise: () => options.bindings.pixelEditorPromise,
@@ -50,7 +52,8 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         loadSearchLanguages: () => options.bindings.loadSearchLanguages(),
         loadUiTranslations: options.shell.loadUiTranslations,
         matchCount: () => options.bindings.matchCount,
-        navigateEmoji: (amount: number) => options.bindings.navigateEmoji(amount),
+        navigateEmoji: (amount: number) =>
+          options.bindings.navigateEmoji(amount),
         nextSearchLoadId: () => ++options.state().searchLoadId,
         onClick: options.shell.onClick,
         onCompactChoiceKeyDown: options.controllers.onCompactChoiceKeyDown,
@@ -76,7 +79,8 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         renderPixelFontToggle: options.shell.renderPixelFontToggle,
         renderSavedEmoji: options.shell.renderSavedEmoji,
         renderThemeToggle: options.shell.renderThemeToggle,
-        renderVersionModeToggle: () => options.bindings.renderVersionModeToggle(),
+        renderVersionModeToggle: () =>
+          options.bindings.renderVersionModeToggle(),
         restoreDeveloperMode: options.restoreDeveloperMode,
         savePreference: options.savePreference,
         savedDialog: () => options.bindings.savedDialog,
@@ -85,11 +89,16 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         searchText: () => options.bindings.searchText,
         selectEmojiFont: options.shell.selectEmojiFont,
         selectTheme: options.shell.selectTheme,
-        setApplyingUrlState: (value: any) => (options.bindings.applyingUrlState = value),
-        setControls: (values: any) => assignExplorerBootstrapControls(options.bindings, values),
-        setDialogView: (...args: any[]) => options.bindings.setEmojiDialogView(...args),
-        setElements: (values: any) => assignExplorerBootstrapElements(options.bindings, values),
-        setFieldsets: (values: any) => assignExplorerBootstrapFieldsets(options.bindings, values),
+        setApplyingUrlState: (value: any) =>
+          (options.bindings.applyingUrlState = value),
+        setControls: (values: any) =>
+          assignExplorerBootstrapControls(options.bindings, values),
+        setDialogView: (...args: any[]) =>
+          options.bindings.setEmojiDialogView(...args),
+        setElements: (values: any) =>
+          assignExplorerBootstrapElements(options.bindings, values),
+        setFieldsets: (values: any) =>
+          assignExplorerBootstrapFieldsets(options.bindings, values),
         setPixelEditor: (editor: any) => {
           options.bindings.pixelEditor = editor;
         },
@@ -101,7 +110,8 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         },
         setSuppressDialogCloseSync: (value: any) =>
           (options.bindings.suppressDialogCloseSync = value),
-        setUrlStateReady: (value: any) => (options.bindings.urlStateReady = value),
+        setUrlStateReady: (value: any) =>
+          (options.bindings.urlStateReady = value),
         showEmoji: (...args: any[]) => options.bindings.showEmoji(...args),
         skinToneCheckboxes: () => options.bindings.skinToneCheckboxes,
         stepVersion: options.controllers.stepVersion,
@@ -110,8 +120,10 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         subGroupPickerTrigger: () => options.bindings.subGroupPickerTrigger,
         subGroupSelector: () => options.bindings.subGroupSelector,
         suppressedPanelCloses: () => options.bindings.suppressedPanelCloses,
-        syncUrlState: (...args: any[]) => options.bindings.syncUrlState(...args),
-        syncVersionRange: (...args: any[]) => options.controllers.syncVersionRange(...args),
+        syncUrlState: (...args: any[]) =>
+          options.bindings.syncUrlState(...args),
+        syncVersionRange: (...args: any[]) =>
+          options.controllers.syncVersionRange(...args),
         themeChoices: () => options.bindings.themeChoices,
         toggleDeveloperMode: options.shell.toggleDeveloperMode,
         toolbar: () => options.bindings.toolbar,
@@ -132,24 +144,27 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         versionNext: () => options.bindings.versionNext,
         versionPrevious: () => options.bindings.versionPrevious,
         versionRange: () => options.bindings.versionRange,
-        versionSelector: () => options.bindings.versionSelector
-      })
-    })
+        versionSelector: () => options.bindings.versionSelector,
+      }),
+    }),
   );
 
   Object.assign(options.bindings, {
-    populateVersionModeOptions: options.bindings.bootstrapRuntime.populateVersionModeOptions,
+    populateVersionModeOptions:
+      options.bindings.bootstrapRuntime.populateVersionModeOptions,
     renderVersionModeToggle:
       options.bindings.bootstrapRuntime.renderVersionModeToggleController,
     toggleVersionMode: options.bindings.bootstrapRuntime.toggleVersionMode,
     loadSearchLanguages: options.bindings.bootstrapRuntime.loadSearchLanguages,
-    renderSearchLanguages: options.bindings.bootstrapRuntime.renderSearchLanguages,
+    renderSearchLanguages:
+      options.bindings.bootstrapRuntime.renderSearchLanguages,
     showEmoji: options.bindings.bootstrapRuntime.showEmoji,
     navigateEmoji: options.bindings.bootstrapRuntime.navigateEmoji,
-    updateDialogNavigation: options.bindings.bootstrapRuntime.updateDialogNavigation,
+    updateDialogNavigation:
+      options.bindings.bootstrapRuntime.updateDialogNavigation,
     updateCompositionBackButton:
       options.bindings.bootstrapRuntime.updateCompositionBackButton,
-    revealExplorer: options.bindings.bootstrapRuntime.revealExplorer
+    revealExplorer: options.bindings.bootstrapRuntime.revealExplorer,
   });
 
   return options.bindings.bootstrapRuntime;

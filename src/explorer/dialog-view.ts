@@ -6,42 +6,49 @@ export function applyDialogView(options: {
 }) {
   const requested =
     options.requestedMode === true
-      ? 'code'
+      ? "code"
       : options.requestedMode === false
-        ? 'details'
-        : ['details', 'code', 'editor'].includes(options.requestedMode as string)
+        ? "details"
+        : ["details", "code", "editor"].includes(
+              options.requestedMode as string,
+            )
           ? (options.requestedMode as string)
-          : 'details';
-  const mode = options.developerMode || requested === 'details' ? requested : 'details';
-  const details = mode === 'details';
-  options.dialog.classList.toggle('is-code-view', mode === 'code');
-  options.dialog.classList.toggle('is-editor-view', mode === 'editor');
+          : "details";
+  const mode =
+    options.developerMode || requested === "details" ? requested : "details";
+  const details = mode === "details";
+  options.dialog.classList.toggle("is-code-view", mode === "code");
+  options.dialog.classList.toggle("is-editor-view", mode === "editor");
   const setHidden = (selector: string, hidden: boolean) => {
     const element = options.dialog.querySelector<HTMLElement>(selector);
     if (element) element.hidden = hidden;
   };
-  setHidden('.emoji-dialog-details', !details);
-  setHidden('.emoji-metadata', !details);
-  setHidden('.emoji-copy-actions', !details);
-  setHidden('.emoji-code-view', mode !== 'code');
+  setHidden(".emoji-dialog-details", !details);
+  setHidden(".emoji-metadata", !details);
+  setHidden(".emoji-copy-actions", !details);
+  setHidden(".emoji-code-view", mode !== "code");
   for (const selector of [
-    '.emoji-composition',
-    '.rendering-diagnostic',
-    '.pixel-design-invitation'
+    ".emoji-composition",
+    ".rendering-diagnostic",
+    ".pixel-design-invitation",
   ]) {
     const element = options.dialog.querySelector<HTMLElement>(selector);
     if (element) {
       element.hidden =
-        !details || !options.developerMode || element.dataset.available !== 'true';
+        !details ||
+        !options.developerMode ||
+        element.dataset.available !== "true";
     }
   }
-  const eyebrow = options.dialog.querySelector<HTMLElement>('.emoji-dialog-eyebrow');
+  const eyebrow = options.dialog.querySelector<HTMLElement>(
+    ".emoji-dialog-eyebrow",
+  );
   const [key, fallback] =
-    mode === 'code'
-      ? ['codeExample', 'Code example']
-      : mode === 'editor'
-        ? ['pixelEditor', 'Pixel editor']
-        : ['emojiDetails', 'Emoji details'];
+    mode === "code"
+      ? ["codeExample", "Code example"]
+      : mode === "editor"
+        ? ["pixelEditor", "Pixel editor"]
+        : ["emojiDetails", "Emoji details"];
   if (eyebrow) {
     eyebrow.dataset.i18n = key;
     eyebrow.textContent = options.translate(key, fallback);
@@ -54,22 +61,22 @@ export function loadStylesheet(href: string, id: string) {
   if (existing) {
     return existing.sheet
       ? Promise.resolve(existing)
-      : new Promise(resolve =>
-          existing.addEventListener('load', () => resolve(existing), {
-            once: true
-          })
+      : new Promise((resolve) =>
+          existing.addEventListener("load", () => resolve(existing), {
+            once: true,
+          }),
         );
   }
-  const stylesheet = document.createElement('link');
+  const stylesheet = document.createElement("link");
   stylesheet.id = id;
-  stylesheet.rel = 'stylesheet';
+  stylesheet.rel = "stylesheet";
   stylesheet.href = href;
   document.head.appendChild(stylesheet);
   return new Promise((resolve, reject) => {
-    stylesheet.addEventListener('load', () => resolve(stylesheet), {
-      once: true
+    stylesheet.addEventListener("load", () => resolve(stylesheet), {
+      once: true,
     });
-    stylesheet.addEventListener('error', reject, { once: true });
+    stylesheet.addEventListener("error", reject, { once: true });
   });
 }
 
@@ -91,30 +98,34 @@ export function createEmojiDialogViewController(options: {
 }) {
   function setView(requestedMode: unknown, updateUrl = true) {
     const dialog = options.dialog();
-    if (requestedMode === 'details' && options.currentDialogParentStack) {
+    if (requestedMode === "details" && options.currentDialogParentStack) {
       const stack = options.currentDialogParentStack();
       dialog.dataset.dialogParentPanel =
-        stack.length > 0 ? stack[stack.length - 1] ?? '' : '';
+        stack.length > 0 ? (stack[stack.length - 1] ?? "") : "";
     }
     const { mode, showDetails } = applyDialogView({
       developerMode: options.developerModeEnabled(),
       dialog,
       requestedMode,
-      translate: options.translate
+      translate: options.translate,
     });
     const key = options.currentEmojiKey();
-    if (mode === 'code' && key) {
+    if (mode === "code" && key) {
       options.updateImportExamples(options.byId()[key] ?? {});
       void options.loadPackageManifest().then(() => {
         if (
           options.currentEmojiKey() &&
-          dialog.classList.contains('is-code-view')
+          dialog.classList.contains("is-code-view")
         ) {
-          options.updateImportExamples(options.byId()[options.currentEmojiKey()] ?? {});
+          options.updateImportExamples(
+            options.byId()[options.currentEmojiKey()] ?? {},
+          );
         }
       });
     }
-    const modeBack = dialog.querySelector('.dialog-mode-back') as HTMLElement | null;
+    const modeBack = dialog.querySelector(
+      ".dialog-mode-back",
+    ) as HTMLElement | null;
     if (modeBack) modeBack.hidden = showDetails;
     const parent = options.emojiParent();
     if (!showDetails && parent) parent.hidden = true;
@@ -128,9 +139,9 @@ export function createEmojiDialogViewController(options: {
     }
     const editor = options.getPixelEditor();
     if (editor) {
-      editor.element.hidden = mode !== 'editor';
-      if (mode === 'editor' && key) editor.open(key, options.emojiByKey()[key]);
-    } else if (mode === 'editor') {
+      editor.element.hidden = mode !== "editor";
+      if (mode === "editor" && key) editor.open(key, options.emojiByKey()[key]);
+    } else if (mode === "editor") {
       void options.ensurePixelEditor();
     }
     if (updateUrl && dialog.open) options.syncUrlState();
@@ -138,9 +149,9 @@ export function createEmojiDialogViewController(options: {
 
   function focusInitialAction() {
     const dialog = options.dialog();
-    const target = dialog.classList.contains('is-code-view')
+    const target = dialog.classList.contains("is-code-view")
       ? dialog.querySelector('[data-copy="code"]')
-      : dialog.querySelector('.emoji-preview');
+      : dialog.querySelector(".emoji-preview");
     target?.focus({ preventScroll: true });
   }
 

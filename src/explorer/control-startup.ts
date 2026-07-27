@@ -4,55 +4,63 @@ export function initializeExplorerControls(options: any) {
     document,
     versionModeSelector: options.versionModeSelector,
     versionRange: options.versionRange,
-    versionSelector: options.versionSelector
+    versionSelector: options.versionSelector,
   });
   options.renderDeveloperMode();
   const compactGroupChoices = controls.ensureChoiceContainer(
     options.groupSelector,
-    'compact-group-choices',
-    'group-filter-label'
+    "compact-group-choices",
+    "group-filter-label",
   );
   const compactSubGroupChoices = controls.ensureChoiceContainer(
     options.subGroupSelector,
-    'compact-subgroup-choices',
-    'subgroup-filter-label'
+    "compact-subgroup-choices",
+    "subgroup-filter-label",
   );
   const sequenceTypeSelector = controls.ensureSequenceTypeFilter();
   const compactSequenceChoices = controls.ensureChoiceContainer(
     sequenceTypeSelector,
-    'compact-sequence-choices',
-    'sequence-filter-label'
+    "compact-sequence-choices",
+    "sequence-filter-label",
   );
-  [compactGroupChoices, compactSubGroupChoices, compactSequenceChoices].forEach(choice =>
-    choice.addEventListener('keydown', options.onCompactChoiceKeyDown)
+  [compactGroupChoices, compactSubGroupChoices, compactSequenceChoices].forEach(
+    (choice) =>
+      choice.addEventListener("keydown", options.onCompactChoiceKeyDown),
   );
-  options.groupPickerTrigger?.addEventListener('click', () =>
-    options.openFilterPicker(options.groupFilterDialog, compactGroupChoices)
+  options.groupPickerTrigger?.addEventListener("click", () =>
+    options.openFilterPicker(options.groupFilterDialog, compactGroupChoices),
   );
-  options.subGroupPickerTrigger?.addEventListener('click', () =>
-    options.openFilterPicker(options.subGroupFilterDialog, compactSubGroupChoices)
+  options.subGroupPickerTrigger?.addEventListener("click", () =>
+    options.openFilterPicker(
+      options.subGroupFilterDialog,
+      compactSubGroupChoices,
+    ),
   );
   const compactGroupLabel = controls.ensureSelectionLabel(
     options.groupSelector,
-    'compact-group-label',
-    'group-filter-label'
+    "compact-group-label",
+    "group-filter-label",
   );
   const compactSubGroupLabel = controls.ensureSelectionLabel(
     options.subGroupSelector,
-    'compact-subgroup-label',
-    'subgroup-filter-label'
+    "compact-subgroup-label",
+    "subgroup-filter-label",
   );
   const compactSequenceLabel = controls.ensureSelectionLabel(
     sequenceTypeSelector,
-    'compact-sequence-label',
-    'sequence-filter-label'
+    "compact-sequence-label",
+    "sequence-filter-label",
   );
-  const { range: versionRange, output: versionRangeValue } = controls.ensureVersionSlider();
+  const { range: versionRange, output: versionRangeValue } =
+    controls.ensureVersionSlider();
   options.populateVersionModeOptions();
   const versionModeToggle = controls.ensureVersionModeToggle();
   options.versionSelector
-    .closest('.filter-field')
-    ?.classList.toggle('has-version-slider', Boolean(versionRange && versionRangeValue));
+    .closest(".filter-field")
+    ?.classList.toggle(
+      "has-version-slider",
+      Boolean(versionRange && versionRangeValue),
+    );
   const { summary, text, clear } = controls.ensureActiveFilterSummary();
   return {
     activeFilterSummary: summary,
@@ -67,7 +75,7 @@ export function initializeExplorerControls(options: any) {
     sequenceTypeSelector,
     versionModeToggle,
     versionRange,
-    versionRangeValue
+    versionRangeValue,
   };
 }
 
@@ -77,17 +85,25 @@ export async function finalizeExplorerStartup(options: any) {
   options.renderThemeToggle();
   options.renderPixelFontToggle();
   options.observeToolbarHeight(options.toolbar);
-  if (typeof options.preferences.filtersOpen === 'boolean') {
+  if (typeof options.preferences.filtersOpen === "boolean") {
     options.advancedFilters.open = options.preferences.filtersOpen;
-  } else if (window.matchMedia('(max-width: 560px)').matches) {
+  } else if (window.matchMedia("(max-width: 560px)").matches) {
     options.advancedFilters.open = false;
   }
-  const routeLocale = window.location.pathname.match(/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/)?.[1];
-  const initialUiLocale = routeLocale ?? document.documentElement.dataset.locale ?? 'en';
+  const routeLocale = window.location.pathname.match(
+    /index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/,
+  )?.[1];
+  const initialUiLocale =
+    routeLocale ?? document.documentElement.dataset.locale ?? "en";
   const initialSearchLocale =
     routeLocale ??
-    (Object.hasOwn(options.preferences, 'locale') ? options.preferences.locale : initialUiLocale);
-  await options.loadUiTranslations(initialUiLocale, document.documentElement.dir === 'rtl');
+    (Object.hasOwn(options.preferences, "locale")
+      ? options.preferences.locale
+      : initialUiLocale);
+  await options.loadUiTranslations(
+    initialUiLocale,
+    document.documentElement.dir === "rtl",
+  );
   await options.loadSearchLanguages(initialSearchLocale);
   await options.loadData();
   options.drawList();

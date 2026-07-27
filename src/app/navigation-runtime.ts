@@ -1,4 +1,4 @@
-import { createExplorerNavigation } from '../explorer/explorer-navigation.js';
+import { createExplorerNavigation } from "../explorer/explorer-navigation.js";
 
 export function createNavigationRuntime(options: any) {
   return createExplorerNavigation({
@@ -30,13 +30,13 @@ export function createNavigationRuntime(options: any) {
       key: string,
       openDialog?: boolean,
       navigationKeys?: string[],
-      initialMode?: string
+      initialMode?: string,
     ) =>
       options.showEmoji(
         key,
         openDialog ?? false,
         navigationKeys ?? options.displayedKeys(),
-        initialMode
+        initialMode,
       ),
     orderButtons: () => options.orderButtons(),
     panelDialogs: options.panelDialogs,
@@ -45,10 +45,10 @@ export function createNavigationRuntime(options: any) {
     renderSavedEmoji: options.renderSavedEmoji,
     renderVersionModeToggle: () => options.renderVersionModeToggle(),
     searchText: () => options.searchText(),
-    setCompositionMode: (value: 'condensed' | 'full') =>
+    setCompositionMode: (value: "condensed" | "full") =>
       options.setCompositionMode(value),
     setDialogView: (...args: any[]) => options.setDialogView(...args),
-    setOrderMode: (value: 'grouped' | 'unicode' | 'sequence') =>
+    setOrderMode: (value: "grouped" | "unicode" | "sequence") =>
       options.setOrderMode(value),
     setSelectedGroup: (value: string) => options.setSelectedGroup(value),
     setSelectedSequenceType: (value: string) =>
@@ -66,6 +66,6 @@ export function createNavigationRuntime(options: any) {
     urlStateReady: () => options.urlStateReady(),
     versionModeSelector: () => options.versionModeSelector(),
     versionRange: () => options.versionRange(),
-    versionSelector: () => options.versionSelector()
+    versionSelector: () => options.versionSelector(),
   });
 }

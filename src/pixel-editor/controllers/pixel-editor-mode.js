@@ -1,5 +1,12 @@
-import { flipPixels, layerTransformChangesPixels, nextLayerRotation } from "../pixel-editor-layer-helpers.js";
-import { layerPositionAllowed, pixelsEqual } from "../pixel-editor-geometry-helpers.js";
+import {
+  flipPixels,
+  layerTransformChangesPixels,
+  nextLayerRotation,
+} from "../pixel-editor-layer-helpers.js";
+import {
+  layerPositionAllowed,
+  pixelsEqual,
+} from "../pixel-editor-geometry-helpers.js";
 import { syncRovingGrid } from "../pixel-editor-grid-navigation.js";
 
 export function createPixelEditorModeController(options) {
@@ -106,7 +113,10 @@ export function createPixelEditorModeController(options) {
           transform === "rotate-right",
           paletteController.activePaletteColors(),
         );
-        button.disabled = !layerTransformChangesPixels(floatingLayer(), rotated);
+        button.disabled = !layerTransformChangesPixels(
+          floatingLayer(),
+          rotated,
+        );
       } else {
         button.disabled = pixelsEqual(
           floatingLayer().pixels,

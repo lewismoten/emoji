@@ -44,11 +44,13 @@ type RangeLike = {
 
 export function versionSliderLabel(
   version: string,
-  proposedVersionManifests: VersionManifest[]
+  proposedVersionManifests: VersionManifest[],
 ) {
-  const proposed = proposedVersionManifests.find(item => item.version === version);
+  const proposed = proposedVersionManifests.find(
+    (item) => item.version === version,
+  );
   if (!proposed) return `Emoji ${version}`;
-  return `✨ Emoji ${version} ${proposed.stage ?? proposed.status ?? 'draft'}`;
+  return `✨ Emoji ${version} ${proposed.stage ?? proposed.status ?? "draft"}`;
 }
 
 export function syncVersionRange(options: {
@@ -67,32 +69,34 @@ export function syncVersionRange(options: {
     versionPrevious,
     versionRange,
     versionRangeValue,
-    versionSelector
+    versionSelector,
   } = options;
   if (!versionRange || !versionRangeValue) return;
-  versionSelector.closest('.filter-field')?.classList.add('has-version-slider');
+  versionSelector.closest(".filter-field")?.classList.add("has-version-slider");
   const optionsList = Array.from(versionSelector.options);
   const selectedIndex = Math.max(
     0,
-    optionsList.findIndex(option => option.value === versionSelector.value)
+    optionsList.findIndex((option) => option.value === versionSelector.value),
   );
   const maxIndex = Math.max(0, optionsList.length - 1);
   versionRange.max = String(Math.max(0, optionsList.length - 1));
   versionRange.value = String(selectedIndex);
   versionRange.disabled = versionSelector.disabled || optionsList.length === 0;
-  versionRange.style?.setProperty('--slider-progress', '0%');
-  versionRange.style?.setProperty('background', '#555555');
-  const selectedVersion = optionsList[selectedIndex]?.value ?? '';
+  versionRange.style?.setProperty("--slider-progress", "0%");
+  versionRange.style?.setProperty("background", "#555555");
+  const selectedVersion = optionsList[selectedIndex]?.value ?? "";
   versionRangeValue.value = selectedVersion
     ? versionSliderLabel(selectedVersion, proposedVersionManifests)
-    : '—';
+    : "—";
   versionRangeValue.classList.toggle(
-    'is-future',
-    proposedVersionManifests.some(version => version.version === selectedVersion)
+    "is-future",
+    proposedVersionManifests.some(
+      (version) => version.version === selectedVersion,
+    ),
   );
   versionRange.setAttribute(
-    'aria-valuetext',
-    optionsList[selectedIndex]?.text ?? '—'
+    "aria-valuetext",
+    optionsList[selectedIndex]?.text ?? "—",
   );
   if (versionPrevious)
     versionPrevious.disabled = versionRange.disabled || selectedIndex === 0;
@@ -111,21 +115,23 @@ export function getVersionKeys(options: {
   versionValue: string;
 }) {
   if (options.versionKeys.size === 0) return options.releasedIds;
-  if (options.versionMode === 'selected') {
+  if (options.versionMode === "selected") {
     return options.versionKeys.get(options.versionValue) ?? new Set<string>();
   }
 
   const manifests = [
     ...options.versionManifests,
-    ...options.proposedVersionManifests
+    ...options.proposedVersionManifests,
   ];
   const selectedIndex = manifests.findIndex(
-    version => version.version === options.versionValue
+    (version) => version.version === options.versionValue,
   );
   return new Set(
     manifests
       .slice(0, selectedIndex + 1)
-      .flatMap(version => [...(options.versionKeys.get(version.version) ?? [])])
+      .flatMap((version) => [
+        ...(options.versionKeys.get(version.version) ?? []),
+      ]),
   );
 }
 
@@ -150,58 +156,67 @@ export function updateModifierAvailability(options: {
     if (options.genderFieldset) options.genderFieldset.hidden = false;
     if (options.modifierFilters) {
       options.modifierFilters.hidden = false;
-      options.modifierFilters.classList.remove('has-single');
+      options.modifierFilters.classList.remove("has-single");
     }
     return;
   }
   const manifests = [
     ...options.versionManifests,
-    ...options.proposedVersionManifests
+    ...options.proposedVersionManifests,
   ];
   const selectedIndex = manifests.findIndex(
-    version => version.version === options.versionValue
+    (version) => version.version === options.versionValue,
   );
-  const skinToneIndex = manifests.findIndex(version =>
-    [...(options.versionKeys.get(version.version) ?? [])].some(key =>
-      key.endsWith('SkinTone')
-    )
+  const skinToneIndex = manifests.findIndex((version) =>
+    [...(options.versionKeys.get(version.version) ?? [])].some((key) =>
+      key.endsWith("SkinTone"),
+    ),
   );
-  const hairKeys = new Set(['redHair', 'curlyHair', 'bald', 'whiteHair']);
-  const hairIndex = manifests.findIndex(version =>
-    [...(options.versionKeys.get(version.version) ?? [])].some(key =>
-      hairKeys.has(key)
-    )
+  const hairKeys = new Set(["redHair", "curlyHair", "bald", "whiteHair"]);
+  const hairIndex = manifests.findIndex((version) =>
+    [...(options.versionKeys.get(version.version) ?? [])].some((key) =>
+      hairKeys.has(key),
+    ),
   );
-  const genderIndex = manifests.findIndex(version =>
+  const genderIndex = manifests.findIndex((version) =>
     [...(options.versionKeys.get(version.version) ?? [])].some(
-      key => options.getEmojiGenders(options.byId[key] ?? {}).size > 0
-    )
+      (key) => options.getEmojiGenders(options.byId[key] ?? {}).size > 0,
+    ),
   );
   const skinToneAvailable =
     selectedIndex >= skinToneIndex && skinToneIndex !== -1;
   const hairAvailable = selectedIndex >= hairIndex && hairIndex !== -1;
   const genderAvailable = selectedIndex >= genderIndex && genderIndex !== -1;
 
-  if (options.skinToneFieldset) options.skinToneFieldset.hidden = !skinToneAvailable;
+  if (options.skinToneFieldset)
+    options.skinToneFieldset.hidden = !skinToneAvailable;
   if (options.hairFieldset) options.hairFieldset.hidden = !hairAvailable;
   if (options.genderFieldset) options.genderFieldset.hidden = !genderAvailable;
-  if (!skinToneAvailable) options.skinToneCheckboxes.forEach(checkbox => (checkbox.checked = false));
-  if (!hairAvailable) options.hairCheckboxes.forEach(checkbox => (checkbox.checked = false));
-  if (!genderAvailable) options.genderCheckboxes.forEach(checkbox => (checkbox.checked = false));
+  if (!skinToneAvailable)
+    options.skinToneCheckboxes.forEach(
+      (checkbox) => (checkbox.checked = false),
+    );
+  if (!hairAvailable)
+    options.hairCheckboxes.forEach((checkbox) => (checkbox.checked = false));
+  if (!genderAvailable)
+    options.genderCheckboxes.forEach((checkbox) => (checkbox.checked = false));
   if (options.modifierFilters) {
     const availableCount = [
       skinToneAvailable,
       hairAvailable,
-      genderAvailable
+      genderAvailable,
     ].filter(Boolean).length;
     options.modifierFilters.hidden = availableCount === 0;
-    options.modifierFilters.classList.toggle('has-single', availableCount === 1);
+    options.modifierFilters.classList.toggle(
+      "has-single",
+      availableCount === 1,
+    );
   }
 }
 
 import {
   renderCategoryFilterLayout,
-  updateAvailableCategories
-} from './category-filter-layout.js';
+  updateAvailableCategories,
+} from "./category-filter-layout.js";
 
 export { renderCategoryFilterLayout, updateAvailableCategories };

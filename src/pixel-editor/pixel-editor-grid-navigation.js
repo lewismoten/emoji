@@ -22,7 +22,8 @@ export function syncRovingGrid(buttons, active) {
     visible.find((button) => button.tabIndex === 0) ||
     visible[0];
   buttons.forEach((button) => {
-    button.tabIndex = isVisibleControl(button) && button === nextActive ? 0 : -1;
+    button.tabIndex =
+      isVisibleControl(button) && button === nextActive ? 0 : -1;
   });
 }
 
@@ -45,15 +46,21 @@ function findGridTarget(buttons, current, key) {
   const rows = [];
   positioned.forEach((item) => {
     const row = rows.find(
-      (candidate) => Math.abs(candidate[0].centerY - item.centerY) <= rowTolerance,
+      (candidate) =>
+        Math.abs(candidate[0].centerY - item.centerY) <= rowTolerance,
     );
     if (row) row.push(item);
     else rows.push([item]);
   });
-  rows.forEach((row) => row.sort((left, right) => left.centerX - right.centerX));
+  rows.forEach((row) =>
+    row.sort((left, right) => left.centerX - right.centerX),
+  );
   rows.sort((top, bottom) => top[0].centerY - bottom[0].centerY);
-  const rowIndex = rows.findIndex((row) => row.some((item) => item.button === current));
-  const columnIndex = rows[rowIndex]?.findIndex((item) => item.button === current) ?? -1;
+  const rowIndex = rows.findIndex((row) =>
+    row.some((item) => item.button === current),
+  );
+  const columnIndex =
+    rows[rowIndex]?.findIndex((item) => item.button === current) ?? -1;
   if (rowIndex === -1 || columnIndex === -1) return undefined;
   const rtl = document.documentElement.dir === "rtl";
   const movePrevious = rtl ? key === "ArrowRight" : key === "ArrowLeft";
@@ -80,7 +87,17 @@ export function bindRovingGrid(buttons) {
     button.addEventListener("focus", () => syncRovingGrid(buttons, button));
     button.addEventListener("click", () => syncRovingGrid(buttons, button));
     button.addEventListener("keydown", (event) => {
-      if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+      if (
+        ![
+          "ArrowLeft",
+          "ArrowRight",
+          "ArrowUp",
+          "ArrowDown",
+          "Home",
+          "End",
+        ].includes(event.key)
+      )
+        return;
       const nextButton = findGridTarget(buttons, button, event.key);
       if (!nextButton) return;
       event.preventDefault();
@@ -113,7 +130,17 @@ export function bindPaletteGrid(buttons) {
     button.addEventListener("focus", () => syncRovingGrid(buttons, button));
     button.addEventListener("click", () => syncRovingGrid(buttons, button));
     button.addEventListener("keydown", (event) => {
-      if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End"].includes(event.key)) return;
+      if (
+        ![
+          "ArrowLeft",
+          "ArrowRight",
+          "ArrowUp",
+          "ArrowDown",
+          "Home",
+          "End",
+        ].includes(event.key)
+      )
+        return;
       const visible = visibleControls(buttons);
       if (!visible.includes(button)) return;
       event.preventDefault();
@@ -126,10 +153,12 @@ export function bindPaletteGrid(buttons) {
       }
       const rtl = document.documentElement.dir === "rtl";
       const position = paletteGridPosition(button);
-      const matches = visible.filter((candidate) => candidate !== button).map((candidate) => ({
-        button: candidate,
-        ...paletteGridPosition(candidate),
-      }));
+      const matches = visible
+        .filter((candidate) => candidate !== button)
+        .map((candidate) => ({
+          button: candidate,
+          ...paletteGridPosition(candidate),
+        }));
       let nextButton;
       if (event.key === "ArrowUp" || event.key === "ArrowDown") {
         const direction = event.key === "ArrowUp" ? -1 : 1;
@@ -137,16 +166,22 @@ export function bindPaletteGrid(buttons) {
           .filter((candidate) => candidate.column === position.column)
           .sort((left, right) => (left.row - right.row) * direction);
         nextButton = candidates.find((candidate) =>
-          direction < 0 ? candidate.row < position.row : candidate.row > position.row,
+          direction < 0
+            ? candidate.row < position.row
+            : candidate.row > position.row,
         )?.button;
       } else {
-        const movePrevious = rtl ? event.key === "ArrowRight" : event.key === "ArrowLeft";
+        const movePrevious = rtl
+          ? event.key === "ArrowRight"
+          : event.key === "ArrowLeft";
         const direction = movePrevious ? -1 : 1;
         const candidates = matches
           .filter((candidate) => candidate.row === position.row)
           .sort((left, right) => (left.column - right.column) * direction);
         nextButton = candidates.find((candidate) =>
-          direction < 0 ? candidate.column < position.column : candidate.column > position.column,
+          direction < 0
+            ? candidate.column < position.column
+            : candidate.column > position.column,
         )?.button;
       }
       if (!nextButton) return;

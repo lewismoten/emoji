@@ -25,18 +25,27 @@ const arabicWebAppManifest = await readJson<{
   dir: string;
   start_url: string;
 }>("build/demo-pages/manifest.ar.webmanifest");
-const [demoHtml, demoScript, explorerApp, explorerShell, pwaPanelsHelper, demoStyles, arabicDemo, viteConfig, toolbarLayout] =
-  await Promise.all([
-    read("index.html"),
-    read("src/index.ts"),
-    read("src/explorer-app.ts"),
-    read("src/app/explorer-shell.ts"),
-    read("src/explorer/pwa-panels.ts"),
-    read("index.css"),
-    read("build/demo-pages/index.ar.html"),
-    read("vite.config.js"),
-    read("src/explorer/toolbar-layout.ts"),
-  ]);
+const [
+  demoHtml,
+  demoScript,
+  explorerApp,
+  explorerShell,
+  pwaPanelsHelper,
+  demoStyles,
+  arabicDemo,
+  viteConfig,
+  toolbarLayout,
+] = await Promise.all([
+  read("index.html"),
+  read("src/index.ts"),
+  read("src/explorer-app.ts"),
+  read("src/app/explorer-shell.ts"),
+  read("src/explorer/pwa-panels.ts"),
+  read("index.css"),
+  read("build/demo-pages/index.ar.html"),
+  read("vite.config.js"),
+  read("src/explorer/toolbar-layout.ts"),
+]);
 
 assert.equal(
   webAppManifest.id,

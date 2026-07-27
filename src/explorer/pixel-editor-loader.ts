@@ -17,24 +17,21 @@ export function createPixelEditorLoader(options: {
     if (existing) return existing;
     let promise = options.getPromise();
     if (!promise) {
-      promise = Promise.all([
-        options.loadStylesheet(),
-        options.loadEditor()
-      ])
+      promise = Promise.all([options.loadStylesheet(), options.loadEditor()])
         .then(([, { createPixelEditor }]) => {
           const editor = createPixelEditor({
             dialog: options.dialog(),
             translate: options.translate,
             formatNumber: options.formatNumber,
-            formatPercent: options.formatPercent
+            formatPercent: options.formatPercent,
           });
           editor.refreshTranslations();
           options.setEditor(editor);
           return editor;
         })
-        .catch(error => {
+        .catch((error) => {
           options.setPromise(undefined);
-          console.warn('Pixel editor unavailable', error);
+          console.warn("Pixel editor unavailable", error);
           return undefined;
         });
       options.setPromise(promise);
@@ -42,10 +39,12 @@ export function createPixelEditorLoader(options: {
     const editor = await promise;
     const dialog = options.dialog();
     const key = options.currentEmojiKey();
-    if (!editor || !dialog.classList.contains('is-editor-view')) return editor;
+    if (!editor || !dialog.classList.contains("is-editor-view")) return editor;
     editor.element.hidden = false;
     if (key) await editor.open(key, options.emojiByKey()[key]);
-    editor.element.querySelector('.pixel-editor-canvas')?.focus({ preventScroll: true });
+    editor.element
+      .querySelector(".pixel-editor-canvas")
+      ?.focus({ preventScroll: true });
     return editor;
   };
 }

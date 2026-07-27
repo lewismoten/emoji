@@ -1,4 +1,4 @@
-import { titleCase } from './category-rules.js';
+import { titleCase } from "./category-rules.js";
 
 type ChoiceButtonLike = HTMLButtonElement & {
   dataset: DOMStringMap & { value?: string };
@@ -24,17 +24,17 @@ export function populateGroupFilter(options: {
   selectedGroup: string;
   translate: (key: string, fallback: string) => string;
 }) {
-  const all = document.createElement('option');
-  all.value = '';
-  all.text = `🌐 ${options.translate('all', 'All')}`;
+  const all = document.createElement("option");
+  all.value = "";
+  all.text = `🌐 ${options.translate("all", "All")}`;
   options.groupSelector.replaceChildren(
     all,
-    ...options.availableGroups.map(name => {
-      const option = document.createElement('option');
+    ...options.availableGroups.map((name) => {
+      const option = document.createElement("option");
       option.value = name;
       option.text = `${options.getGroupRepresentativeEmoji(name)} ${options.displayGroupName(name)}`;
       return option;
-    })
+    }),
   );
   options.groupSelector.value = options.selectedGroup;
 }
@@ -50,15 +50,15 @@ export function populateSubGroupFilter(options: {
   subGroupSelector: HTMLSelectElement;
   translate: (key: string, fallback: string) => string;
 }) {
-  const all = document.createElement('option');
-  all.value = '';
-  all.text = `🌐 ${options.translate('all', 'All')}`;
+  const all = document.createElement("option");
+  all.value = "";
+  all.text = `🌐 ${options.translate("all", "All")}`;
   const children: (HTMLOptionElement | HTMLOptGroupElement)[] = [all];
-  options.availableSubGroupParents.forEach(group => {
-    const optionGroup = document.createElement('optgroup');
+  options.availableSubGroupParents.forEach((group) => {
+    const optionGroup = document.createElement("optgroup");
     optionGroup.label = options.displayGroupName(group);
-    options.availableSubGroups[group].forEach(name => {
-      const option = document.createElement('option');
+    options.availableSubGroups[group].forEach((name) => {
+      const option = document.createElement("option");
       option.value = options.subGroupSelectionKey(group, name);
       option.dataset.group = group;
       option.dataset.subgroup = name;
@@ -81,17 +81,17 @@ export function populateSequenceTypeFilter(options: {
   sequenceTypeSelector: HTMLSelectElement;
   translate: (key: string, fallback: string) => string;
 }) {
-  const all = document.createElement('option');
-  all.value = '';
-  all.text = `🌐 ${options.translate('all', 'All')}`;
+  const all = document.createElement("option");
+  all.value = "";
+  all.text = `🌐 ${options.translate("all", "All")}`;
   options.sequenceTypeSelector.replaceChildren(
     all,
-    ...options.availableSequenceTypes.map(type => {
-      const option = document.createElement('option');
+    ...options.availableSequenceTypes.map((type) => {
+      const option = document.createElement("option");
       option.value = type;
       option.text = `${options.sequenceTypeEmoji[type]} ${options.translate(options.sequenceTranslationKeys[type], options.sequenceTypeLabels[type])}`;
       return option;
-    })
+    }),
   );
   options.sequenceTypeSelector.value = options.selectedSequenceType;
 }
@@ -101,26 +101,26 @@ export function makeCompactChoice({
   emoji,
   label,
   selected,
-  onSelect
+  onSelect,
 }: ChoiceDefinition) {
-  const button = document.createElement('button');
-  button.type = 'button';
-  button.className = 'compact-choice';
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "compact-choice";
   button.dataset.value = value;
-  button.setAttribute('role', 'radio');
-  button.setAttribute('aria-checked', String(selected));
+  button.setAttribute("role", "radio");
+  button.setAttribute("aria-checked", String(selected));
   button.tabIndex = selected ? 0 : -1;
-  button.setAttribute('aria-label', label);
+  button.setAttribute("aria-label", label);
   button.title = label;
-  const icon = document.createElement('span');
-  icon.className = 'compact-choice-emoji';
-  icon.setAttribute('aria-hidden', 'true');
+  const icon = document.createElement("span");
+  icon.className = "compact-choice-emoji";
+  icon.setAttribute("aria-hidden", "true");
   icon.textContent = emoji;
-  const text = document.createElement('span');
-  text.className = 'compact-choice-label';
+  const text = document.createElement("span");
+  text.className = "compact-choice-label";
   text.textContent = label;
   button.replaceChildren(icon, text);
-  button.addEventListener('click', onSelect);
+  button.addEventListener("click", onSelect);
   return button;
 }
 
@@ -128,33 +128,33 @@ export function renderFilterPickerTrigger(
   trigger: FilterPickerTriggerLike,
   kind: string,
   emoji: string,
-  value: string
+  value: string,
 ) {
   if (!trigger) return;
-  trigger.querySelector('.filter-picker-emoji')!.textContent = emoji || '•';
-  trigger.querySelector('.filter-picker-value')!.textContent = value;
+  trigger.querySelector(".filter-picker-emoji")!.textContent = emoji || "•";
+  trigger.querySelector(".filter-picker-value")!.textContent = value;
   const label = `${kind}: ${value}`;
-  trigger.setAttribute('aria-label', label);
+  trigger.setAttribute("aria-label", label);
   trigger.title = label;
 }
 
 export function openFilterPicker(
   dialog: HTMLDialogElement | undefined,
-  choices: ChoiceContainerLike | undefined
+  choices: ChoiceContainerLike | undefined,
 ) {
   if (!dialog || !choices) return;
   dialog.showModal();
   window.requestAnimationFrame(() => {
-    const selected = choices.querySelector<HTMLElement>('[aria-checked="true"]');
-    (
-      selected ?? choices.querySelector<HTMLElement>('[role="radio"]')
-    )?.focus();
+    const selected = choices.querySelector<HTMLElement>(
+      '[aria-checked="true"]',
+    );
+    (selected ?? choices.querySelector<HTMLElement>('[role="radio"]'))?.focus();
   });
 }
 
 export function closeFilterPicker(
   dialog: HTMLDialogElement | undefined,
-  trigger: HTMLElement | undefined
+  trigger: HTMLElement | undefined,
 ) {
   if (dialog?.open) dialog.close();
   trigger?.focus();
@@ -162,87 +162,93 @@ export function closeFilterPicker(
 
 export function focusCompactChoice(
   container: ChoiceContainerLike,
-  value: string
+  value: string,
 ) {
   const choices = Array.from(
-    container.querySelectorAll<ChoiceButtonLike>('[role="radio"]')
+    container.querySelectorAll<ChoiceButtonLike>('[role="radio"]'),
   );
   const choice =
-    choices.find(button => button.dataset.value === value) ??
-    choices.find(button => button.getAttribute('aria-checked') === 'true');
+    choices.find((button) => button.dataset.value === value) ??
+    choices.find((button) => button.getAttribute("aria-checked") === "true");
   choice?.focus();
 }
 
 export function onCompactChoiceKeyDown(event: KeyboardEvent) {
   if (
     ![
-      'ArrowLeft',
-      'ArrowRight',
-      'ArrowUp',
-      'ArrowDown',
-      'Home',
-      'End'
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+      "Home",
+      "End",
     ].includes(event.key)
   )
     return;
   const choices = Array.from(
-    (event.currentTarget as ChoiceContainerLike).querySelectorAll<ChoiceButtonLike>('[role="radio"]')
+    (
+      event.currentTarget as ChoiceContainerLike
+    ).querySelectorAll<ChoiceButtonLike>('[role="radio"]'),
   );
   const currentIndex = choices.indexOf(
-    (event.target as HTMLElement).closest('[role="radio"]') as ChoiceButtonLike
+    (event.target as HTMLElement).closest('[role="radio"]') as ChoiceButtonLike,
   );
   if (currentIndex === -1 || choices.length === 0) return;
   event.preventDefault();
   let nextIndex;
-  if (event.key === 'Home') {
+  if (event.key === "Home") {
     nextIndex = 0;
-  } else if (event.key === 'End') {
+  } else if (event.key === "End") {
     nextIndex = choices.length - 1;
   } else {
-    const rtl = document.documentElement.dir === 'rtl';
+    const rtl = document.documentElement.dir === "rtl";
     const current = choices[currentIndex];
-    const rowTolerance = Math.max(8, current.getBoundingClientRect().height / 2);
+    const rowTolerance = Math.max(
+      8,
+      current.getBoundingClientRect().height / 2,
+    );
     const positioned = choices.map((choice, index) => {
       const rect = choice.getBoundingClientRect();
       return {
         choice,
         index,
         centerX: rect.left + rect.width / 2,
-        centerY: rect.top + rect.height / 2
+        centerY: rect.top + rect.height / 2,
       };
     });
-    const rows: typeof positioned[] = [];
-    positioned.forEach(item => {
+    const rows: (typeof positioned)[] = [];
+    positioned.forEach((item) => {
       const row = rows.find(
-        candidate => Math.abs(candidate[0].centerY - item.centerY) <= rowTolerance
+        (candidate) =>
+          Math.abs(candidate[0].centerY - item.centerY) <= rowTolerance,
       );
       if (row) row.push(item);
       else rows.push([item]);
     });
-    rows.forEach(row => row.sort((a, b) => a.centerX - b.centerX));
+    rows.forEach((row) => row.sort((a, b) => a.centerX - b.centerX));
     rows.sort((a, b) => a[0].centerY - b[0].centerY);
-    const currentRowIndex = rows.findIndex(row =>
-      row.some(item => item.index === currentIndex)
+    const currentRowIndex = rows.findIndex((row) =>
+      row.some((item) => item.index === currentIndex),
     );
     const currentRow = rows[currentRowIndex] ?? [];
     const currentColumnIndex = currentRow.findIndex(
-      item => item.index === currentIndex
+      (item) => item.index === currentIndex,
     );
     const currentItem = currentRow[currentColumnIndex];
     if (!currentItem) return;
-    if (event.key === (rtl ? 'ArrowRight' : 'ArrowLeft')) {
+    if (event.key === (rtl ? "ArrowRight" : "ArrowLeft")) {
       nextIndex =
         currentRow[currentColumnIndex - 1]?.index ??
         currentRow[currentRow.length - 1]?.index ??
         currentIndex;
-    } else if (event.key === (rtl ? 'ArrowLeft' : 'ArrowRight')) {
+    } else if (event.key === (rtl ? "ArrowLeft" : "ArrowRight")) {
       nextIndex =
         currentRow[currentColumnIndex + 1]?.index ??
         currentRow[0]?.index ??
         currentIndex;
     } else {
       const targetRow =
-        event.key === 'ArrowUp'
+        event.key === "ArrowUp"
           ? rows[currentRowIndex - 1]
           : rows[currentRowIndex + 1];
       if (!targetRow) {
@@ -250,7 +256,7 @@ export function onCompactChoiceKeyDown(event: KeyboardEvent) {
       } else {
         let bestMatch = targetRow[0];
         let bestDistance = Math.abs(bestMatch.centerX - currentItem.centerX);
-        targetRow.forEach(item => {
+        targetRow.forEach((item) => {
           const distance = Math.abs(item.centerX - currentItem.centerX);
           if (distance < bestDistance) {
             bestMatch = item;
@@ -273,23 +279,24 @@ export function displayUnicodeSubGroupName(
     searchSubgroupLabels: Record<string, string>;
     searchLabels: Record<string, string>;
     unicodeSubgroupLabelKeys: Record<string, string>;
-  }
+  },
 ) {
-  if (options.searchSubgroupLabels[name]) return options.searchSubgroupLabels[name];
+  if (options.searchSubgroupLabels[name])
+    return options.searchSubgroupLabels[name];
   if (options.searchLabels[options.unicodeSubgroupLabelKeys[name]])
     return options.searchLabels[options.unicodeSubgroupLabelKeys[name]];
   const conciseNames: Record<string, string> = {
-    'animal-amphibian': 'Amphibians',
-    'animal-bird': 'Birds',
-    'animal-bug': 'Bugs',
-    'animal-mammal': 'Mammals',
-    'animal-marine': 'Marine Animals',
-    'animal-reptile': 'Reptiles',
-    'plant-flower': 'Flowers',
-    'plant-other': 'Other Plants',
-    'book-paper': 'Books & Paper'
+    "animal-amphibian": "Amphibians",
+    "animal-bird": "Birds",
+    "animal-bug": "Bugs",
+    "animal-mammal": "Mammals",
+    "animal-marine": "Marine Animals",
+    "animal-reptile": "Reptiles",
+    "plant-flower": "Flowers",
+    "plant-other": "Other Plants",
+    "book-paper": "Books & Paper",
   };
-  if (name.startsWith('food-')) return titleCase(name.slice(5));
+  if (name.startsWith("food-")) return titleCase(name.slice(5));
   if (conciseNames[name]) return conciseNames[name];
   return titleCase(name);
 }

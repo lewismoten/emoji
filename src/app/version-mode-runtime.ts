@@ -1,4 +1,4 @@
-import { createVersionModeController } from './version-mode-controller.js';
+import { createVersionModeController } from "./version-mode-controller.js";
 
 export function createVersionModeRuntime(options: any) {
   return createVersionModeController({
@@ -7,6 +7,6 @@ export function createVersionModeRuntime(options: any) {
     renderCategoryFilters: () => options.renderCategoryFilters(),
     selector: () => options.selector(),
     toggle: () => options.toggle(),
-    translate: options.translate
+    translate: options.translate,
   });
 }

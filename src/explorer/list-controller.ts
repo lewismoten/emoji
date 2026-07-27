@@ -1,15 +1,15 @@
-import { filterEmojiKeys } from './emoji-filter.js';
+import { filterEmojiKeys } from "./emoji-filter.js";
 
 export function createListController(options: any) {
   let timer: number | undefined;
   const checked = (checkboxes: HTMLInputElement[]) =>
-    checkboxes.filter(item => item.checked).map(item => item.value);
+    checkboxes.filter((item) => item.checked).map((item) => item.value);
   const draw = () => {
     if (timer !== undefined) {
       window.clearTimeout(timer);
       timer = undefined;
     }
-    const focusedCell = document.activeElement?.closest?.('[data-emoji-key]');
+    const focusedCell = document.activeElement?.closest?.("[data-emoji-key]");
     const keys = options.orderedKeys(
       filterEmojiKeys({
         allIds: options.allIds(),
@@ -23,16 +23,18 @@ export function createListController(options: any) {
         searchAnnotations: options.searchAnnotations(),
         searchText: options.searchText().value,
         selectedGenders: checked(options.genderCheckboxes()),
-        selectedGroup: options.items().length === 0 ? '' : options.selectedGroup(),
+        selectedGroup:
+          options.items().length === 0 ? "" : options.selectedGroup(),
         selectedSequenceType: options.selectedSequenceType(),
-        selectedSubGroup: options.items().length === 0 ? '' : options.selectedSubGroup(),
+        selectedSubGroup:
+          options.items().length === 0 ? "" : options.selectedSubGroup(),
         skinToneModifiers: checked(options.skinToneCheckboxes()),
-        subGroupSelectionKey: options.subGroupSelectionKey
-      })
+        subGroupSelectionKey: options.subGroupSelectionKey,
+      }),
     );
     options.setDisplayedKeys(keys);
     if (!options.focusedEmojiKey() || !keys.includes(options.focusedEmojiKey()))
-      options.setFocusedEmojiKey(keys[0] ?? '');
+      options.setFocusedEmojiKey(keys[0] ?? "");
     options.renderEmojiList(keys, Boolean(focusedCell));
     options.matchCount().innerText = options.formatNumber(keys.length);
     options.updateFilterSummary();

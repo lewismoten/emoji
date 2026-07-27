@@ -1,6 +1,9 @@
 export function observeToolbarHeight(toolbar: HTMLElement) {
   const setHeight = (height: number) =>
-    document.documentElement.style.setProperty('--toolbar-height', `${height}px`);
+    document.documentElement.style.setProperty(
+      "--toolbar-height",
+      `${height}px`,
+    );
   if (window.ResizeObserver) {
     new window.ResizeObserver(([entry]) => {
       const borderBox = Array.isArray(entry.borderBoxSize)
@@ -13,5 +16,5 @@ export function observeToolbarHeight(toolbar: HTMLElement) {
   const measure = () =>
     window.requestAnimationFrame(() => setHeight(toolbar.offsetHeight));
   measure();
-  window.addEventListener('resize', measure);
+  window.addEventListener("resize", measure);
 }

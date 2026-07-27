@@ -42,33 +42,41 @@ if (tests.length === 0) {
   if (process.stdout.isTTY && childEnvironment.NO_COLOR === undefined) {
     childEnvironment.FORCE_COLOR ??= "1";
   }
-  const run = (files, concurrency) => new Promise((resolve, reject) => {
-    const child = spawn(
-      process.execPath,
-      ["--test", `--test-concurrency=${concurrency}`, ...files],
-      {
-        env: childEnvironment,
-        stdio: ["inherit", "pipe", "pipe"],
-      },
-    );
-    let output = "";
-    child.stdout.on("data", (chunk) => {
-      output += chunk;
-      process.stdout.write(chunk);
+  const run = (files, concurrency) =>
+    new Promise((resolve, reject) => {
+      const child = spawn(
+        process.execPath,
+        ["--test", `--test-concurrency=${concurrency}`, ...files],
+        {
+          env: childEnvironment,
+          stdio: ["inherit", "pipe", "pipe"],
+        },
+      );
+      let output = "";
+      child.stdout.on("data", (chunk) => {
+        output += chunk;
+        process.stdout.write(chunk);
+      });
+      child.stderr.on("data", (chunk) => process.stderr.write(chunk));
+      child.on("error", reject);
+      child.on("close", (status) => resolve({ output, status }));
     });
-    child.stderr.on("data", (chunk) => process.stderr.write(chunk));
-    child.on("error", reject);
-    child.on("close", (status) => resolve({ output, status }));
-  });
   // The structure audit reads the whole repository. Give it an isolated worker
   // so concurrent test startup cannot make an otherwise fast audit exceed its
   // per-test budget.
-  const structureTests = tests.filter((file) => file.endsWith("project-structure.test.mjs"));
+  const structureTests = tests.filter((file) =>
+    file.endsWith("project-structure.test.mjs"),
+  );
   const remainingTests = tests.filter((file) => !structureTests.includes(file));
   const results = [];
   if (structureTests.length) results.push(await run(structureTests, 1));
   if (remainingTests.length)
-    results.push(await run(remainingTests, Math.min(testConcurrency, remainingTests.length)));
+    results.push(
+      await run(
+        remainingTests,
+        Math.min(testConcurrency, remainingTests.length),
+      ),
+    );
   const result = {
     output: results.map((entry) => entry.output).join(""),
     status: results.find((entry) => entry.status !== 0)?.status ?? 0,

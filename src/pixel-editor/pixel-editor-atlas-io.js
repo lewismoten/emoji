@@ -96,7 +96,12 @@ export function createPixelEditorInputController(options) {
   } = options;
 
   function onPointerDown(event) {
-    if (!selectionState.currentEntry() || !selectionState.cellLoaded() || event.button !== 0) return;
+    if (
+      !selectionState.currentEntry() ||
+      !selectionState.cellLoaded() ||
+      event.button !== 0
+    )
+      return;
     canvas.focus({ preventScroll: true });
     const point = pointerCell(event);
     canvas.setPointerCapture(event.pointerId);
@@ -126,21 +131,34 @@ export function createPixelEditorInputController(options) {
       return;
     }
     setShapeBase(pixels().slice());
-    if (toolState() === "pencil" || toolState() === "line") drawLine(point, point);
-    if (toolState() === "rectangle" || toolState() === "ellipse") drawShape(point, point, toolState());
+    if (toolState() === "pencil" || toolState() === "line")
+      drawLine(point, point);
+    if (toolState() === "rectangle" || toolState() === "ellipse")
+      drawShape(point, point, toolState());
     renderController.draw();
   }
 
   function onPointerMove(event) {
-    if (selectionState.layerDragStart() && canvas.hasPointerCapture(event.pointerId)) {
+    if (
+      selectionState.layerDragStart() &&
+      canvas.hasPointerCapture(event.pointerId)
+    ) {
       const point = pointerCell(event);
       moveFloatingLayer(
-        selectionState.layerDragOrigin().x + point.x - selectionState.layerDragStart().x,
-        selectionState.layerDragOrigin().y + point.y - selectionState.layerDragStart().y,
+        selectionState.layerDragOrigin().x +
+          point.x -
+          selectionState.layerDragStart().x,
+        selectionState.layerDragOrigin().y +
+          point.y -
+          selectionState.layerDragStart().y,
       );
       return;
     }
-    if (!selectionState.pointerStart() || !canvas.hasPointerCapture(event.pointerId)) return;
+    if (
+      !selectionState.pointerStart() ||
+      !canvas.hasPointerCapture(event.pointerId)
+    )
+      return;
     const point = pointerCell(event);
     if (toolState() === "select") {
       setSelection(boundsFromPoints(selectionState.pointerStart(), point));
@@ -158,7 +176,8 @@ export function createPixelEditorInputController(options) {
   }
 
   function onPointerUp(event) {
-    if (canvas.hasPointerCapture(event.pointerId)) canvas.releasePointerCapture(event.pointerId);
+    if (canvas.hasPointerCapture(event.pointerId))
+      canvas.releasePointerCapture(event.pointerId);
     releasePointerState();
     updateTransferButtons();
   }
@@ -230,7 +249,11 @@ export function createPixelEditorInputController(options) {
     if (key === "y" && !redoButton.disabled) {
       event.preventDefault();
       redo();
-    } else if (key === "c" && toolState() === "select" && !copySelectionButton.disabled) {
+    } else if (
+      key === "c" &&
+      toolState() === "select" &&
+      !copySelectionButton.disabled
+    ) {
       event.preventDefault();
       copySelection();
     } else if (key === "c" && !copyArtButton.disabled) {

@@ -11,13 +11,18 @@ import {
   pixelsEqual,
 } from "./pixel-editor-geometry-helpers.js";
 
-export function nextLayerRotation(layer, clockwise, paletteColors = EGA_COLORS) {
+export function nextLayerRotation(
+  layer,
+  clockwise,
+  paletteColors = EGA_COLORS,
+) {
   const rotationSource = layer.rotationSource ?? {
     pixels: layer.pixels.slice(),
     width: layer.width,
     height: layer.height,
   };
-  const rotationDegrees = ((layer.rotationDegrees ?? 0) + (clockwise ? 45 : -45) + 360) % 360;
+  const rotationDegrees =
+    ((layer.rotationDegrees ?? 0) + (clockwise ? 45 : -45) + 360) % 360;
   return {
     ...rotatePixels(rotationSource, rotationDegrees, paletteColors),
     rotationSource,
@@ -34,8 +39,12 @@ export function rotatePixels(layer, degrees, paletteColors = EGA_COLORS) {
   const radians = (degrees * Math.PI) / 180;
   const cosine = Math.cos(radians);
   const sine = Math.sin(radians);
-  const width = Math.ceil(Math.abs(layer.width * cosine) + Math.abs(layer.height * sine) - 1e-10);
-  const height = Math.ceil(Math.abs(layer.width * sine) + Math.abs(layer.height * cosine) - 1e-10);
+  const width = Math.ceil(
+    Math.abs(layer.width * cosine) + Math.abs(layer.height * sine) - 1e-10,
+  );
+  const height = Math.ceil(
+    Math.abs(layer.width * sine) + Math.abs(layer.height * cosine) - 1e-10,
+  );
   const sourceCanvas = imageDataCanvas(layer.pixels, layer.width, layer.height);
   const rotatedCanvas = document.createElement("canvas");
   rotatedCanvas.width = width;
@@ -47,7 +56,11 @@ export function rotatePixels(layer, degrees, paletteColors = EGA_COLORS) {
   rotatedContext.rotate(radians);
   rotatedContext.drawImage(sourceCanvas, -layer.width / 2, -layer.height / 2);
   const interpolated = rotatedContext.getImageData(0, 0, width, height).data;
-  return { pixels: quantizeToPalette(interpolated, paletteColors), width, height };
+  return {
+    pixels: quantizeToPalette(interpolated, paletteColors),
+    width,
+    height,
+  };
 }
 
 export function quantizeToPalette(source, paletteColors = EGA_COLORS) {
@@ -83,7 +96,10 @@ export function flipPixels(layer, horizontal) {
       const targetX = horizontal ? layer.width - 1 - x : x;
       const targetY = horizontal ? y : layer.height - 1 - y;
       const sourceOffset = (y * layer.width + x) * 4;
-      result.set(layer.pixels.slice(sourceOffset, sourceOffset + 4), (targetY * layer.width + targetX) * 4);
+      result.set(
+        layer.pixels.slice(sourceOffset, sourceOffset + 4),
+        (targetY * layer.width + targetX) * 4,
+      );
     }
   }
   return result;
@@ -94,10 +110,19 @@ export function compositeLayer(target, layer) {
     for (let x = 0; x < layer.width; x += 1) {
       const targetX = layer.x + x;
       const targetY = layer.y + y;
-      if (targetX < 0 || targetX >= CELL_SIZE || targetY < 0 || targetY >= CELL_SIZE) continue;
+      if (
+        targetX < 0 ||
+        targetX >= CELL_SIZE ||
+        targetY < 0 ||
+        targetY >= CELL_SIZE
+      )
+        continue;
       const sourceOffset = (y * layer.width + x) * 4;
       if (layer.pixels[sourceOffset + 3] === 0) continue;
-      target.set(layer.pixels.slice(sourceOffset, sourceOffset + 4), pixelOffset(targetX, targetY));
+      target.set(
+        layer.pixels.slice(sourceOffset, sourceOffset + 4),
+        pixelOffset(targetX, targetY),
+      );
     }
   }
 }
@@ -130,7 +155,10 @@ export function nearestPaletteColor(red, green, blue, colors = EGA_COLORS) {
       const colorRed = Number.parseInt(value.slice(0, 2), 16);
       const colorGreen = Number.parseInt(value.slice(2, 4), 16);
       const colorBlue = Number.parseInt(value.slice(4, 6), 16);
-      const distance = (red - colorRed) ** 2 + (green - colorGreen) ** 2 + (blue - colorBlue) ** 2;
+      const distance =
+        (red - colorRed) ** 2 +
+        (green - colorGreen) ** 2 +
+        (blue - colorBlue) ** 2;
       return distance < nearest.distance ? { color, distance } : nearest;
     },
     { color: colors[0] ?? EGA_COLORS[0], distance: Number.POSITIVE_INFINITY },
@@ -139,11 +167,25 @@ export function nearestPaletteColor(red, green, blue, colors = EGA_COLORS) {
 
 export function createPixelEditorCanvasController(options) {
   const {
-    context, currentEmoji, currentSelection, currentTool, displaySize,
-    draftController, drawArtworkPreview, drawCheckerboard, floatingLayer,
-    paletteController, pixelOffset, pixels, selectionDashOffset,
-    setSelectionDashOffset, traceAlpha, traceCanvas,
-    updateEditorModePanels, updateTransferButtons, view,
+    context,
+    currentEmoji,
+    currentSelection,
+    currentTool,
+    displaySize,
+    draftController,
+    drawArtworkPreview,
+    drawCheckerboard,
+    floatingLayer,
+    paletteController,
+    pixelOffset,
+    pixels,
+    selectionDashOffset,
+    setSelectionDashOffset,
+    traceAlpha,
+    traceCanvas,
+    updateEditorModePanels,
+    updateTransferButtons,
+    view,
   } = options;
   let selectionAnimationFrame;
 
@@ -164,7 +206,12 @@ export function createPixelEditorCanvasController(options) {
         const alpha = pixels()[offset + 3];
         if (alpha === 0) continue;
         context.fillStyle = `rgba(${pixels()[offset]}, ${pixels()[offset + 1]}, ${pixels()[offset + 2]}, ${alpha / 255})`;
-        context.fillRect(x * displayCell, y * displayCell, displayCell, displayCell);
+        context.fillRect(
+          x * displayCell,
+          y * displayCell,
+          displayCell,
+          displayCell,
+        );
       }
     }
     drawFloatingLayer(context, displayCell);
@@ -253,9 +300,14 @@ export function createPixelEditorCanvasController(options) {
   }
 
   function updateSelectionAnimation() {
-    const shouldAnimate = currentTool() === "select" && Boolean(currentSelection()) && !floatingLayer() && !view.hidden;
+    const shouldAnimate =
+      currentTool() === "select" &&
+      Boolean(currentSelection()) &&
+      !floatingLayer() &&
+      !view.hidden;
     if (!shouldAnimate) {
-      if (selectionAnimationFrame) cancelAnimationFrame(selectionAnimationFrame);
+      if (selectionAnimationFrame)
+        cancelAnimationFrame(selectionAnimationFrame);
       selectionAnimationFrame = undefined;
       return;
     }
@@ -265,7 +317,12 @@ export function createPixelEditorCanvasController(options) {
 
   function animateSelectionOutline(timestamp) {
     selectionAnimationFrame = undefined;
-    if (currentTool() !== "select" || !currentSelection() || floatingLayer() || view.hidden) {
+    if (
+      currentTool() !== "select" ||
+      !currentSelection() ||
+      floatingLayer() ||
+      view.hidden
+    ) {
       return;
     }
     setSelectionDashOffset(-(timestamp / 55) % 14);
@@ -274,7 +331,12 @@ export function createPixelEditorCanvasController(options) {
 
   function pointInFloatingLayer(point) {
     const layer = floatingLayer();
-    return point.x >= layer.x && point.x < layer.x + layer.width && point.y >= layer.y && point.y < layer.y + layer.height;
+    return (
+      point.x >= layer.x &&
+      point.x < layer.x + layer.width &&
+      point.y >= layer.y &&
+      point.y < layer.y + layer.height
+    );
   }
 
   return { draw, pointInFloatingLayer };

@@ -13,10 +13,10 @@ export function createExplorerRuntime(options: {
     elements = options.getElements();
     const label = elements.languagePickerLabel;
     if (label) {
-      label.id ||= 'language-picker-current-label';
+      label.id ||= "language-picker-current-label";
       elements.languagePicker.setAttribute(
-        'aria-labelledby',
-        `language-picker-accessible-label ${label.id}`
+        "aria-labelledby",
+        `language-picker-accessible-label ${label.id}`,
       );
     }
     return elements;
@@ -27,7 +27,7 @@ export function createExplorerRuntime(options: {
   }
 
   function all() {
-    if (!elements) throw new Error('Explorer runtime has not been initialized');
+    if (!elements) throw new Error("Explorer runtime has not been initialized");
     return elements;
   }
 

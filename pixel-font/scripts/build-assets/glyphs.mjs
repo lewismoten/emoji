@@ -35,7 +35,8 @@ export async function collectGlyphArtifacts(context) {
       mapping,
       sheet,
     });
-    if (atlas && paintedCount > 0) paintedAtlasSheets.push({ ...sheet, paintedCount });
+    if (atlas && paintedCount > 0)
+      paintedAtlasSheets.push({ ...sheet, paintedCount });
   }
 
   assignPrivateUseCodePoints(glyphs);
@@ -53,7 +54,11 @@ async function collectSheetGlyphs(options) {
       ? cropRgba(options.atlas, entry.x, entry.y, entry.width, entry.height)
       : emptyCell(entry);
     const painted = Boolean(options.atlas && hasVisiblePixels(cell));
-    options.editorGlyphs[entry.key] = createEditorGlyph(entry, options, painted);
+    options.editorGlyphs[entry.key] = createEditorGlyph(
+      entry,
+      options,
+      painted,
+    );
     if (!painted) continue;
     paintedCount += 1;
     await writeGlyphArtifacts(entry, cell, options);
@@ -66,7 +71,10 @@ async function writeGlyphArtifacts(entry, cell, options) {
   const png = `${entry.key}.png`;
   const svg = `${entry.key}.svg`;
   if (!options.context.fontsOnly) {
-    await fs.writeFile(path.join(options.context.pngDirectory, png), encodeRgbaPng(cell));
+    await fs.writeFile(
+      path.join(options.context.pngDirectory, png),
+      encodeRgbaPng(cell),
+    );
     await fs.writeFile(
       path.join(options.context.svgDirectory, svg),
       renderSvg(cell, entry, rendering),
@@ -94,7 +102,9 @@ async function writeGlyphArtifacts(entry, cell, options) {
     y: entry.y,
     width: entry.width,
     height: entry.height,
-    ...(!options.context.fontsOnly ? { png: `png/${png}`, svg: `svg/${svg}` } : {}),
+    ...(!options.context.fontsOnly
+      ? { png: `png/${png}`, svg: `svg/${svg}` }
+      : {}),
     pixels: [...cell.pixels],
   });
 }
@@ -131,7 +141,9 @@ function createEditorGlyph(entry, options, painted) {
 
 async function readAtlasImage(context, imageFile) {
   try {
-    return decodeRgbaPng(await fs.readFile(path.join(context.atlasDirectory, imageFile)));
+    return decodeRgbaPng(
+      await fs.readFile(path.join(context.atlasDirectory, imageFile)),
+    );
   } catch (error) {
     if (error.code !== "ENOENT") throw error;
     return null;
@@ -166,7 +178,9 @@ export function countBySequenceType(entries) {
 export function assignPrivateUseCodePoints(entries) {
   const rangeSize = PRIVATE_USE_END - PRIVATE_USE_START + 1;
   const assigned = new Set();
-  for (const entry of [...entries].sort((left, right) => left.key.localeCompare(right.key))) {
+  for (const entry of [...entries].sort((left, right) =>
+    left.key.localeCompare(right.key),
+  )) {
     const digest = createHash("sha256").update(entry.key).digest();
     let point = PRIVATE_USE_START + (digest.readUInt32BE(0) % rangeSize);
     while (assigned.has(point)) {
@@ -185,7 +199,9 @@ export function coverageEntry(version, keys, paintedKeys) {
     ...(version.released ? { released: version.released } : {}),
     ...(version.status ? { status: version.status } : {}),
     ...(version.stage ? { stage: version.stage } : {}),
-    ...(version.expectedRelease ? { expectedRelease: version.expectedRelease } : {}),
+    ...(version.expectedRelease
+      ? { expectedRelease: version.expectedRelease }
+      : {}),
     trackedGlyphCount,
     paintedGlyphCount,
     coverage:

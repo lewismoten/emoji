@@ -9,9 +9,16 @@ export async function writeJson(file, value) {
 
 export async function writeFontStylesheet(context, proposedGlyphs) {
   const fontFiles = ["pixel-emoji.woff2", "pixel-emoji.woff"];
-  const releasedRevision = await hashFontFiles(context.fontDirectory, fontFiles);
+  const releasedRevision = await hashFontFiles(
+    context.fontDirectory,
+    fontFiles,
+  );
   const releasedFamily = `Pixel Emoji ${releasedRevision}`;
-  const proposed = await createProposedFontRule(context, proposedGlyphs, fontFiles);
+  const proposed = await createProposedFontRule(
+    context,
+    proposedGlyphs,
+    fontFiles,
+  );
   await fs.writeFile(
     path.join(context.fontDirectory, "pixel-emoji.css"),
     `:root {\n  --pixel-emoji-released-family: "${releasedFamily}";\n${proposed.property}}\n\n${proposed.rule}@font-face {\n  font-family: "${releasedFamily}";\n  src:\n    url("./pixel-emoji.woff2?v=${releasedRevision}") format("woff2"),\n    url("./pixel-emoji.woff?v=${releasedRevision}") format("woff");\n  font-display: swap;\n}\n`,
@@ -20,8 +27,15 @@ export async function writeFontStylesheet(context, proposedGlyphs) {
 
 export async function compileFonts(context, proposedGlyphs) {
   const python = await pythonCommand(context.workspace);
-  await run(python, [path.join(context.root, "tests", "font-sequences.test.py")]);
-  await runCompileFont(python, context, "font-source.json", context.fontDirectory);
+  await run(python, [
+    path.join(context.root, "tests", "font-sequences.test.py"),
+  ]);
+  await runCompileFont(
+    python,
+    context,
+    "font-source.json",
+    context.fontDirectory,
+  );
   if (proposedGlyphs.length > 0) {
     await runCompileFont(
       python,
@@ -43,7 +57,10 @@ async function runCompileFont(python, context, sourceFile, outputDirectory) {
 
 async function createProposedFontRule(context, proposedGlyphs, fontFiles) {
   if (proposedGlyphs.length === 0) return { property: "", rule: "" };
-  const proposedValue = await hashFontFiles(context.proposedFontDirectory, fontFiles);
+  const proposedValue = await hashFontFiles(
+    context.proposedFontDirectory,
+    fontFiles,
+  );
   const proposedFamily = `Pixel Emoji Proposed ${proposedValue}`;
   return {
     property: `  --pixel-emoji-proposed-family: "${proposedFamily}";\n`,
@@ -64,7 +81,9 @@ function run(command, args) {
     const child = spawn(command, args, { stdio: "inherit" });
     child.on("error", reject);
     child.on("exit", (code) =>
-      code === 0 ? resolve() : reject(new Error(`${command} exited with status ${code}`)),
+      code === 0
+        ? resolve()
+        : reject(new Error(`${command} exited with status ${code}`)),
     );
   });
 }
@@ -81,4 +100,3 @@ async function pythonCommand(workspace) {
     return process.platform === "win32" ? "python" : "python3";
   }
 }
-

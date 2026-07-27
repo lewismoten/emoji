@@ -19,7 +19,10 @@ export function extractPixels(source, sourceWidth, x, y, width, height) {
   const result = new Uint8ClampedArray(width * height * 4);
   for (let row = 0; row < height; row += 1) {
     const sourceStart = ((y + row) * sourceWidth + x) * 4;
-    result.set(source.slice(sourceStart, sourceStart + width * 4), row * width * 4);
+    result.set(
+      source.slice(sourceStart, sourceStart + width * 4),
+      row * width * 4,
+    );
   }
   return result;
 }
@@ -41,7 +44,14 @@ export function trimVisiblePixels(source, width, height) {
   }
   if (maximumX < minimumX || maximumY < minimumY) return undefined;
   return {
-    pixels: extractPixels(source, width, minimumX, minimumY, maximumX - minimumX + 1, maximumY - minimumY + 1),
+    pixels: extractPixels(
+      source,
+      width,
+      minimumX,
+      minimumY,
+      maximumX - minimumX + 1,
+      maximumY - minimumY + 1,
+    ),
     width: maximumX - minimumX + 1,
     height: maximumY - minimumY + 1,
     x: minimumX,
@@ -78,7 +88,10 @@ export function clamp(value, minimum, maximum) {
 }
 
 export function pixelsEqual(left, right) {
-  return left.length === right.length && left.every((value, index) => value === right[index]);
+  return (
+    left.length === right.length &&
+    left.every((value, index) => value === right[index])
+  );
 }
 
 export function layerAxisBounds(size, cellSize = CELL_SIZE) {
@@ -194,7 +207,9 @@ export function floodFillPixels(pixels, start, color) {
     if (visited.has(key)) continue;
     visited.add(key);
     const pointOffset = pixelOffset(point.x, point.y);
-    if (!target.every((value, index) => pixels[pointOffset + index] === value)) {
+    if (
+      !target.every((value, index) => pixels[pointOffset + index] === value)
+    ) {
       continue;
     }
     pixels.set(color, pointOffset);

@@ -1,8 +1,8 @@
-import assert from 'node:assert/strict';
-import { renderEmojiComposition } from '../../src/explorer/emoji-composition.js';
+import assert from "node:assert/strict";
+import { renderEmojiComposition } from "../../src/explorer/emoji-composition.js";
 
 const makeElement = () => ({
-  className: '',
+  className: "",
   dataset: {} as Record<string, string | undefined>,
   hidden: false,
   querySelector() {
@@ -10,9 +10,9 @@ const makeElement = () => ({
   },
   replaceChildren() {},
   setAttribute() {},
-  textContent: '',
-  title: '',
-  append() {}
+  textContent: "",
+  title: "",
+  append() {},
 });
 
 const section = makeElement();
@@ -27,23 +27,23 @@ renderEmojiComposition({
   section,
   equation,
   modeButton,
-  item: { key: 'wrappedGift', codePoints: '1F381' },
-  value: '🎁',
+  item: { key: "wrappedGift", codePoints: "1F381" },
+  value: "🎁",
   developerMode: true,
   detailsVisible: true,
-  compositionMode: 'condensed',
+  compositionMode: "condensed",
   emojiKeyByCodePoints: new Map(),
-  emojiByKey: { wrappedGift: '🎁' },
+  emojiByKey: { wrappedGift: "🎁" },
   searchAnnotations: {},
   byId: {},
   translate: (key, fallback) => `${key}:${fallback}`,
   applyPixelArtworkClass() {},
   applyStandalonePixelArtwork() {},
-  dir: 'ltr',
-  locale: 'en'
+  dir: "ltr",
+  locale: "en",
 });
 
-assert.equal(section.dataset.available, 'false');
+assert.equal(section.dataset.available, "false");
 assert.equal(section.hidden, true);
 assert.equal(modeButton.hidden, true);
 assert.deepEqual(appended, []);

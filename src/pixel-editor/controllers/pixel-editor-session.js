@@ -78,9 +78,9 @@ export function createPixelEditorSessionController(options) {
         return;
       }
       setAtlasDimensions(entry.atlasWidth, entry.atlasHeight);
-      const atlasResponse = await fetch(`pixel-font/atlases/${entry.atlas}`).catch(
-        () => undefined,
-      );
+      const atlasResponse = await fetch(
+        `pixel-font/atlases/${entry.atlas}`,
+      ).catch(() => undefined);
       const hasPng =
         atlasResponse?.ok &&
         atlasResponse.headers.get("content-type")?.includes("image/png");

@@ -1,8 +1,8 @@
-const preferenceKey = '@lewismoten/emoji:explorer-preferences';
+const preferenceKey = "@lewismoten/emoji:explorer-preferences";
 
 function loadPreferences() {
   try {
-    return JSON.parse(window.localStorage.getItem(preferenceKey) ?? '{}');
+    return JSON.parse(window.localStorage.getItem(preferenceKey) ?? "{}");
   } catch {
     return {};
   }
@@ -12,7 +12,7 @@ function loadPreferences() {
 export function initializeExplorerPreferences(state: any) {
   state.explorerPreferences = loadPreferences();
   state.developerModeFromUrl =
-    new URLSearchParams(window.location.search).get('developer') === '1';
+    new URLSearchParams(window.location.search).get("developer") === "1";
   state.favoriteEmojiKeys = Array.isArray(state.explorerPreferences.favorites)
     ? state.explorerPreferences.favorites
     : [];
@@ -23,7 +23,10 @@ export function initializeExplorerPreferences(state: any) {
   const save = (key: string, value: unknown) => {
     state.explorerPreferences[key] = value;
     try {
-      window.localStorage.setItem(preferenceKey, JSON.stringify(state.explorerPreferences));
+      window.localStorage.setItem(
+        preferenceKey,
+        JSON.stringify(state.explorerPreferences),
+      );
     } catch {
       // Preferences are optional when storage is unavailable or blocked.
     }

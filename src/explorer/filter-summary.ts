@@ -28,12 +28,12 @@ export function updateActiveFilterSummary(options: {
   if (!options.activeFilterSummary || !options.activeFilterText) return;
   const parts: string[] = [];
   if (options.searchText.trim()) parts.push(`“${options.searchText.trim()}”`);
-  if (options.orderMode === 'sequence' && options.selectedSequenceType) {
+  if (options.orderMode === "sequence" && options.selectedSequenceType) {
     parts.push(
       options.translate(
         options.sequenceTranslationKeys[options.selectedSequenceType],
-        options.sequenceTypeLabels[options.selectedSequenceType]
-      )
+        options.sequenceTypeLabels[options.selectedSequenceType],
+      ),
     );
   } else {
     if (options.selectedGroup) {
@@ -42,32 +42,32 @@ export function updateActiveFilterSummary(options: {
     if (options.selectedSubGroup) {
       parts.push(
         options.displayUnicodeSubGroupName(
-          options.selectedSubGroup.split('::').slice(1).join('::')
-        )
+          options.selectedSubGroup.split("::").slice(1).join("::"),
+        ),
       );
     }
   }
   if (
     options.versionValue &&
     (options.versionValue !== options.latestReleased ||
-      options.versionMode === 'selected')
+      options.versionMode === "selected")
   ) {
     const mode =
-      options.versionMode === 'selected'
-        ? options.translate('onlyVersion', 'Only')
-        : options.translate('throughVersion', 'Through');
+      options.versionMode === "selected"
+        ? options.translate("onlyVersion", "Only")
+        : options.translate("throughVersion", "Through");
     parts.push(`${mode} ${options.versionSliderLabel(options.versionValue)}`);
   }
   for (const checkbox of [
     ...options.skinToneCheckboxes,
     ...options.hairCheckboxes,
-    ...options.genderCheckboxes
-  ].filter(checkbox => checkbox.checked)) {
+    ...options.genderCheckboxes,
+  ].filter((checkbox) => checkbox.checked)) {
     parts.push(
-      checkbox.closest('label')?.querySelector('.modifier-emoji')?.textContent ??
-        checkbox.value
+      checkbox.closest("label")?.querySelector(".modifier-emoji")
+        ?.textContent ?? checkbox.value,
     );
   }
   options.activeFilterSummary.hidden = parts.length === 0;
-  options.activeFilterText.textContent = parts.join(' · ');
+  options.activeFilterText.textContent = parts.join(" · ");
 }

@@ -1,5 +1,5 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
+import fs from "node:fs/promises";
+import path from "node:path";
 
 export type Emoji = {
   key: string;
@@ -17,7 +17,7 @@ export type Version = {
 };
 
 export type ProposedVersion = Version & {
-  status: 'draft';
+  status: "draft";
   released: null;
 };
 
@@ -63,35 +63,41 @@ export type PixelAtlasManifest = {
 export const root = path.resolve(process.cwd());
 
 export const readJson = async <T,>(file: string) =>
-  JSON.parse(await fs.readFile(path.join(root, file), 'utf8')) as T;
+  JSON.parse(await fs.readFile(path.join(root, file), "utf8")) as T;
 
-export const emoji = await readJson<Emoji[]>('emoji.json');
+export const emoji = await readJson<Emoji[]>("emoji.json");
 export const explorerCatalog = await readJson<{
   fields: string[];
   emoji: unknown[][];
-}>('explorer/catalog.json');
+}>("explorer/catalog.json");
 export const orderManifest = await readJson<{ unicode: string[] }>(
-  'orders/manifest.json'
+  "orders/manifest.json",
 );
 export const manifest = await readJson<{
   versions: Version[];
   proposed?: ProposedVersion[];
-}>('versions/manifest.json');
+}>("versions/manifest.json");
 export const pixelAtlasManifest = await readJson<PixelAtlasManifest>(
-  'pixel-font/atlases/manifest.json'
+  "pixel-font/atlases/manifest.json",
 );
 export const packageJson = await readJson<{
   version: string;
   scripts: Record<string, string>;
-}>('package.json');
+}>("package.json");
 export const pixelFontConfig = await readJson<{
   fontVersion: string;
   packageName: string;
   embeddingPermissions: string;
-}>('pixel-font/config.json');
+}>("pixel-font/config.json");
 export const arabicDemo = await fs.readFile(
-  path.join(root, 'build/demo-pages/index.ar.html'),
-  'utf8'
+  path.join(root, "build/demo-pages/index.ar.html"),
+  "utf8",
 );
-export const demoHtml = await fs.readFile(path.join(root, 'index.html'), 'utf8');
-export const demoStyles = await fs.readFile(path.join(root, 'index.css'), 'utf8');
+export const demoHtml = await fs.readFile(
+  path.join(root, "index.html"),
+  "utf8",
+);
+export const demoStyles = await fs.readFile(
+  path.join(root, "index.css"),
+  "utf8",
+);

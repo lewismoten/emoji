@@ -1,4 +1,4 @@
-import { showEmojiSession } from '../explorer/emoji-session.js';
+import { showEmojiSession } from "../explorer/emoji-session.js";
 
 /** Assemble dependencies for opening an emoji-details session. */
 export function createEmojiSessionController(options: any) {
@@ -6,8 +6,8 @@ export function createEmojiSessionController(options: any) {
     id: string,
     openDialog = true,
     navigationKeys?: string[],
-    initialMode: 'details' | 'code' | 'editor' = 'details',
-    parentPanel?: '' | 'favorites' | 'help' | 'language'
+    initialMode: "details" | "code" | "editor" = "details",
+    parentPanel?: "" | "favorites" | "help" | "language",
   ) =>
     showEmojiSession({
       applyPixelArtworkClass: options.applyPixelArtworkClass,
@@ -20,7 +20,7 @@ export function createEmojiSessionController(options: any) {
         },
         set value(value) {
           options.state().currentEmojiCopies = value;
-        }
+        },
       },
       currentEmojiKey: {
         get value() {
@@ -28,7 +28,7 @@ export function createEmojiSessionController(options: any) {
         },
         set value(value) {
           options.state().currentEmojiKey = value;
-        }
+        },
       },
       currentDialogParentStack: {
         get value() {
@@ -36,7 +36,7 @@ export function createEmojiSessionController(options: any) {
         },
         set value(value) {
           options.state().currentDialogParentStack = value;
-        }
+        },
       },
       developerMode: options.developerModeEnabled(),
       dialog: options.dialog(),
@@ -46,7 +46,7 @@ export function createEmojiSessionController(options: any) {
         },
         set value(value) {
           options.state().dialogNavigationKeys = value;
-        }
+        },
       },
       displayGroupName: options.displayGroupName,
       displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
@@ -70,7 +70,7 @@ export function createEmojiSessionController(options: any) {
       updateDialogNavigation: options.updateDialogNavigation,
       updateEmojiComposition: options.updateEmojiComposition,
       updateFavoriteButton: options.updateFavoriteButton,
-      updateRenderingDiagnostic: options.updateRenderingDiagnostic
+      updateRenderingDiagnostic: options.updateRenderingDiagnostic,
     });
 
   return { showEmoji };

@@ -1,10 +1,10 @@
 // @ts-nocheck -- Transitional bootstrap wiring.
-import { createCategoryController } from './category-controller.js';
-import { createVersionRuntime } from './version-runtime.js';
-import { createListOrchestration } from './list-orchestration.js';
-import { createNavigationRuntime } from './navigation-runtime.js';
-import { createDialogViewRuntime } from './dialog-view-runtime.js';
-import { createEmojiDialogClickRuntime } from './emoji-dialog-click-runtime.js';
+import { createCategoryController } from "./category-controller.js";
+import { createVersionRuntime } from "./version-runtime.js";
+import { createListOrchestration } from "./list-orchestration.js";
+import { createNavigationRuntime } from "./navigation-runtime.js";
+import { createDialogViewRuntime } from "./dialog-view-runtime.js";
+import { createEmojiDialogClickRuntime } from "./emoji-dialog-click-runtime.js";
 
 export function createExplorerBootstrapControllers(options: any) {
   const categoryController = createCategoryController({
@@ -34,7 +34,7 @@ export function createExplorerBootstrapControllers(options: any) {
     syncVersionRange: () => versionController.syncVersionRange(),
     translate: options.translate,
     unicodeGroupLabelKeys: options.unicodeGroupLabelKeys,
-    unicodeSubgroupLabelKeys: options.unicodeSubgroupLabelKeys
+    unicodeSubgroupLabelKeys: options.unicodeSubgroupLabelKeys,
   });
 
   const listOrchestration = createListOrchestration({
@@ -69,11 +69,13 @@ export function createExplorerBootstrapControllers(options: any) {
     updateDialogNavigation: () => options.updateDialogNavigation(),
     versionModeSelector: () => options.versionModeSelector(),
     versionSelector: () => options.versionSelector(),
-    versionSliderLabel: (...args: any[]) => versionController.versionSliderLabel(...args)
+    versionSliderLabel: (...args: any[]) =>
+      versionController.versionSliderLabel(...args),
   });
 
   let versionController = createVersionRuntime({
-    applyLoadedUrlState: (...args: any[]) => navigationRuntime.applyLoadedUrlState(...args),
+    applyLoadedUrlState: (...args: any[]) =>
+      navigationRuntime.applyLoadedUrlState(...args),
     buildRepresentatives: categoryController.buildRepresentatives,
     developerModeEnabled: options.developerModeEnabled,
     drawList: (...args: any[]) => listOrchestration.drawList(...args),
@@ -107,7 +109,7 @@ export function createExplorerBootstrapControllers(options: any) {
     versionPrevious: () => options.versionPrevious(),
     versionRange: () => options.versionRange(),
     versionRangeValue: () => options.versionRangeValue(),
-    versionSelector: () => options.versionSelector()
+    versionSelector: () => options.versionSelector(),
   });
 
   const navigationRuntime = createNavigationRuntime({
@@ -130,32 +132,39 @@ export function createExplorerBootstrapControllers(options: any) {
     hairCheckboxes: () => options.hairCheckboxes(),
     helpDialog: () => options.helpDialog(),
     languageList: () => options.languageList(),
-    latestReleasedVersion: () => options.state().versionManifests.at(-1)?.version,
+    latestReleasedVersion: () =>
+      options.state().versionManifests.at(-1)?.version,
     navigateEmoji: (amount: number) => options.navigateEmoji(amount),
     orderButtons: () => options.orderButtons(),
     panelDialogs: options.panelDialogs,
     preferredOrder: () => options.state().explorerPreferences.order,
-    renderCategoryFilters: (...args: any[]) => categoryController.renderCategoryFilters(...args),
+    renderCategoryFilters: (...args: any[]) =>
+      categoryController.renderCategoryFilters(...args),
     renderSavedEmoji: options.renderSavedEmoji,
     renderVersionModeToggle: () => options.renderVersionModeToggle(),
     searchText: () => options.searchText(),
-    setCompositionMode: (value: any) => (options.state().compositionMode = value),
+    setCompositionMode: (value: any) =>
+      (options.state().compositionMode = value),
     setDialogView: (...args: any[]) => options.setDialogView(...args),
     setOrderMode: (value: any) => (options.state().orderMode = value),
     setSelectedGroup: (value: any) => (options.state().selectedGroup = value),
-    setSelectedSequenceType: (value: any) => (options.state().selectedSequenceType = value),
-    setSelectedSubGroup: (value: any) => (options.state().selectedSubGroup = value),
-    setSuppressDialogCloseSync: (value: any) => options.setSuppressDialogCloseSync(value),
+    setSelectedSequenceType: (value: any) =>
+      (options.state().selectedSequenceType = value),
+    setSelectedSubGroup: (value: any) =>
+      (options.state().selectedSubGroup = value),
+    setSuppressDialogCloseSync: (value: any) =>
+      options.setSuppressDialogCloseSync(value),
     showEmoji: (...args: any[]) => options.showEmoji(...args),
     skinToneCheckboxes: () => options.skinToneCheckboxes(),
     subGroupSelectionKey: categoryController.subGroupSelectionKey,
     subGroups: () => options.state().subGroups,
     suppressedPanelCloses: () => options.suppressedPanelCloses(),
-    syncVersionRange: (...args: any[]) => versionController.syncVersionRange(...args),
+    syncVersionRange: (...args: any[]) =>
+      versionController.syncVersionRange(...args),
     urlStateReady: () => options.urlStateReady(),
     versionModeSelector: () => options.versionModeSelector(),
     versionRange: () => options.versionRange(),
-    versionSelector: () => options.versionSelector()
+    versionSelector: () => options.versionSelector(),
   });
 
   const dialogViewRuntime = createDialogViewRuntime({
@@ -173,7 +182,7 @@ export function createExplorerBootstrapControllers(options: any) {
     translate: options.translate,
     updateCompositionBackButton: (...args: any[]) =>
       options.updateCompositionBackButton(...args),
-    updateImportExamples: options.updateEmojiImportExamples
+    updateImportExamples: options.updateEmojiImportExamples,
   });
 
   const onEmojiDialogClick = createEmojiDialogClickRuntime({
@@ -190,20 +199,21 @@ export function createExplorerBootstrapControllers(options: any) {
     panelDialogs: options.panelDialogs,
     recordCopiedEmoji: options.recordCopiedEmoji,
     renderSavedEmoji: options.renderSavedEmoji,
-    setSuppressDialogCloseSync: (value: any) => options.setSuppressDialogCloseSync(value),
+    setSuppressDialogCloseSync: (value: any) =>
+      options.setSuppressDialogCloseSync(value),
     setView: (...args: any[]) => dialogViewRuntime.setView(...args),
     showEmoji: (...args: any[]) => options.showEmoji(...args),
     syncUrlState: (...args: any[]) => options.syncUrlState(...args),
     toggleComposition: () =>
       (options.state().compositionMode =
-        options.state().compositionMode === 'full' ? 'condensed' : 'full'),
+        options.state().compositionMode === "full" ? "condensed" : "full"),
     toggleFavorite: options.toggleFavorite,
     translate: options.translate,
     updateCompositionBackButton: () => options.updateCompositionBackButton(),
     updateEmojiComposition: options.updateEmojiComposition,
     clearCurrentDialogParentStack: () => {
       options.state().currentDialogParentStack = [];
-    }
+    },
   });
 
   return {
@@ -212,6 +222,6 @@ export function createExplorerBootstrapControllers(options: any) {
     ...listOrchestration,
     ...navigationRuntime,
     ...dialogViewRuntime,
-    onEmojiDialogClick
+    onEmojiDialogClick,
   };
 }

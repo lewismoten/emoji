@@ -29,7 +29,7 @@ const coreAssets = [
   "./icons/icon-maskable-512.png",
   "./manifest.webmanifest",
   "./offline.html",
-].filter(asset => {
+].filter((asset) => {
   const file = asset.replace(/^\.\//, "").replace(/\?.*$/, "");
   return file === "" || fs.existsSync(file);
 });

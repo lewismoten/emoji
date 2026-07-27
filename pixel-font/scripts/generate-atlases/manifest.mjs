@@ -57,7 +57,9 @@ function createSidecar(options) {
   } = options;
   const rows = Math.ceil(
     (Math.max(
-      ...assignments.map((assignment) => assignment.globalIndex % sheetCapacity),
+      ...assignments.map(
+        (assignment) => assignment.globalIndex % sheetCapacity,
+      ),
     ) +
       1) /
       config.columns,
@@ -65,7 +67,9 @@ function createSidecar(options) {
   const id = createAtlasId(bucket, part, partCount);
   const image = `${id}.png`;
   const imageHeight =
-    config.headerHeight + rows * (config.cellSize + config.cellPadding * 2) + config.footerHeight;
+    config.headerHeight +
+    rows * (config.cellSize + config.cellPadding * 2) +
+    config.footerHeight;
   const entries = assignments.map((assignment) =>
     createEntry({
       assignment,
@@ -124,8 +128,14 @@ function createEntry(options) {
     index,
     row,
     column,
-    x: config.outerPadding + column * (config.cellSize + config.cellPadding * 2) + config.cellPadding,
-    y: config.headerHeight + row * (config.cellSize + config.cellPadding * 2) + config.cellPadding,
+    x:
+      config.outerPadding +
+      column * (config.cellSize + config.cellPadding * 2) +
+      config.cellPadding,
+    y:
+      config.headerHeight +
+      row * (config.cellSize + config.cellPadding * 2) +
+      config.cellPadding,
     width: config.cellSize,
     height: config.cellSize,
     key: assignment.key,

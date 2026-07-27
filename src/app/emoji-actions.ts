@@ -1,14 +1,14 @@
 import {
   getIntroducedVersion as getIntroducedVersionHelper,
   withoutDialogParentPanel,
-  withoutCompositionParent
-} from '../explorer/dialog-render.js';
+  withoutCompositionParent,
+} from "../explorer/dialog-render.js";
 import {
   loadPackageManifest as loadPackageManifestHelper,
-  renderImportExamples as renderImportExamplesHelper
-} from '../explorer/import-examples.js';
-import { updateExplorerComposition } from '../explorer-composition-controller.js';
-import { copyToClipboard } from '../explorer/saved-emoji.js';
+  renderImportExamples as renderImportExamplesHelper,
+} from "../explorer/import-examples.js";
+import { updateExplorerComposition } from "../explorer-composition-controller.js";
+import { copyToClipboard } from "../explorer/saved-emoji.js";
 
 /** Coordinate emoji detail actions without retaining DOM state in index.ts. */
 export function createEmojiActions(options: any) {
@@ -19,9 +19,10 @@ export function createEmojiActions(options: any) {
     loadPackageManifestHelper({
       getManifest: () => options.state().packageManifest,
       getPromise: () => options.state().packageManifestPromise,
-      setManifest: (manifest: unknown) => (options.state().packageManifest = manifest),
+      setManifest: (manifest: unknown) =>
+        (options.state().packageManifest = manifest),
       setPromise: (promise: Promise<unknown>) =>
-        (options.state().packageManifestPromise = promise)
+        (options.state().packageManifestPromise = promise),
     });
 
   const copyToClipboardValue = (value: string, successMessage: string) =>
@@ -29,7 +30,7 @@ export function createEmojiActions(options: any) {
       value,
       successMessage,
       copyStatus: options.copyStatus(),
-      translate: options.translate
+      translate: options.translate,
     });
 
   const getIntroducedVersion = (key: string) =>
@@ -37,11 +38,11 @@ export function createEmojiActions(options: any) {
       key,
       versionKeys: options.state().versionKeys,
       versionManifests: options.state().versionManifests,
-      proposedVersionManifests: options.state().proposedVersionManifests
+      proposedVersionManifests: options.state().proposedVersionManifests,
     });
 
   const onClick = (event: any, openDialog = true) => {
-    const cell = event.target.closest?.('[data-emoji-key]');
+    const cell = event.target.closest?.("[data-emoji-key]");
     const id = cell?.id ?? event.target.id;
     if (options.state().emojiByKey[id] === undefined) return;
     cell?.focus();
@@ -49,21 +50,26 @@ export function createEmojiActions(options: any) {
   };
 
   const onEmojiDialogClose = () => {
-    options.setDialogView('details', false);
+    options.setDialogView("details", false);
     options.state().currentDialogParentStack = [];
-    options.dialog().dataset.dialogParentPanel = '';
+    options.dialog().dataset.dialogParentPanel = "";
     if (
       options.suppressDialogCloseSync() ||
       !options.urlStateReady() ||
       options.applyingUrlState()
     )
       return;
-    if (window.history.state?.emojiDialogEntry && !window.history.state?.dialogParentPanel) {
+    if (
+      window.history.state?.emojiDialogEntry &&
+      !window.history.state?.dialogParentPanel
+    ) {
       window.history.back();
     } else {
       options.syncUrlState(
-        'replace',
-        withoutDialogParentPanel(withoutCompositionParent(window.history.state))
+        "replace",
+        withoutDialogParentPanel(
+          withoutCompositionParent(window.history.state),
+        ),
       );
     }
   };
@@ -81,26 +87,25 @@ export function createEmojiActions(options: any) {
         emojiKeyByCodePoints: () => options.state().emojiKeyByCodePoints,
         searchAnnotations: () => options.state().searchAnnotations,
         selectedLocale: () => options.state().selectedSearchLocale,
-        translate: options.translate
+        translate: options.translate,
       },
       item,
-      value
+      value,
     );
 
   const rebuildEmojiCodePointLookup = () => {
-    options.state().emojiKeyByCodePoints = options.state().items.reduce(
-      (lookup: Map<string, string>, item: any) => {
+    options.state().emojiKeyByCodePoints = options
+      .state()
+      .items.reduce((lookup: Map<string, string>, item: any) => {
         const codePoints = options.normalizeCodePoints(item.codePoints);
         if (
           codePoints &&
-          (!lookup.has(codePoints) || item.status === 'fully-qualified')
+          (!lookup.has(codePoints) || item.status === "fully-qualified")
         ) {
           lookup.set(codePoints, item.key);
         }
         return lookup;
-      },
-      new Map<string, string>()
-    );
+      }, new Map<string, string>());
   };
 
   return {
@@ -111,6 +116,6 @@ export function createEmojiActions(options: any) {
     onEmojiDialogClose,
     rebuildEmojiCodePointLookup,
     updateEmojiComposition,
-    updateEmojiImportExamples
+    updateEmojiImportExamples,
   };
 }

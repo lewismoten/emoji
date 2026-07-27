@@ -11,7 +11,11 @@
   --accent-surface: #15384d;
   --accent-surface-strong: #07131b;
   --accent-text: var(--accent);
-  --selected-control-bg: color-mix(in srgb, var(--accent-strong) 42%, var(--panel-strong) 58%);
+  --selected-control-bg: color-mix(
+    in srgb,
+    var(--accent-strong) 42%,
+    var(--panel-strong) 58%
+  );
   --selected-control-text: #fff7ff;
   --section-header-bg: #0a0711;
   --code: #0b2637;
@@ -32,9 +36,9 @@
     system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   --retro-ui-font:
-    var(--pixel-retro-latin-family, "Pixel Latin Retro"),
-    "Press Start 2P", "Silkscreen", "Perfect DOS VGA 437",
-    "Px437 IBM VGA 8x16", "Courier New", monospace;
+    var(--pixel-retro-latin-family, "Pixel Latin Retro"), "Press Start 2P",
+    "Silkscreen", "Perfect DOS VGA 437", "Px437 IBM VGA 8x16", "Courier New",
+    monospace;
   --installed-emoji-fonts:
     "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla";
   --system-emoji-font: var(--installed-emoji-fonts), sans-serif;
@@ -147,8 +151,8 @@ html[data-emoji-font="system"] {
     "Noto Sans CJK SC", "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
     "Heiti SC", system-ui, sans-serif;
   --retro-ui-font:
-    "Noto Sans Mono CJK SC", "Noto Sans CJK SC", "Noto Sans SC",
-    "PingFang SC", "Microsoft YaHei", "Courier New", monospace;
+    "Noto Sans Mono CJK SC", "Noto Sans CJK SC", "Noto Sans SC", "PingFang SC",
+    "Microsoft YaHei", "Courier New", monospace;
 }
 
 * {
@@ -485,7 +489,9 @@ html[data-theme="retro"] .filter-picker-dialog .dialog-heading {
   border-bottom: 2px solid var(--dialog-frame-border);
 }
 
-html[data-theme="retro"] .filter-picker-dialog .compact-choice[aria-checked="true"] {
+html[data-theme="retro"]
+  .filter-picker-dialog
+  .compact-choice[aria-checked="true"] {
   border-top-color: #aaaaaa;
   border-left-color: #aaaaaa;
   border-right-color: #ffffff;
@@ -542,7 +548,9 @@ html[data-theme="retro"] .example-dialog .toggle-favorite[aria-pressed="true"] {
   transform: translate(0, 0);
 }
 
-html[data-theme="retro"] .example-dialog .toggle-favorite[data-favorite-state='on'] {
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[data-favorite-state="on"] {
   border-top-color: #ffffff;
   border-left-color: #ffffff;
   border-right-color: #aa5500;
@@ -562,8 +570,12 @@ html[data-theme="retro"] .example-dialog .toggle-favorite.is-favorite {
   transform: translate(0, 0);
 }
 
-html[data-theme="retro"] .example-dialog .toggle-favorite[aria-pressed="true"]:active,
-html[data-theme="retro"] .example-dialog .toggle-favorite[data-favorite-state='on']:active {
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[aria-pressed="true"]:active,
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[data-favorite-state="on"]:active {
   border-top-color: #aa5500;
   border-left-color: #aa5500;
   border-right-color: #ffffff;
@@ -573,22 +585,41 @@ html[data-theme="retro"] .example-dialog .toggle-favorite[data-favorite-state='o
   transform: translate(1px, 1px);
 }
 
-html[data-theme="retro"] .example-dialog .toggle-favorite[data-favorite-state='off'] .favorite-glyph,
-html[data-theme="retro"] .example-dialog .toggle-favorite[aria-pressed="false"] .favorite-glyph {
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[data-favorite-state="off"]
+  .favorite-glyph,
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[aria-pressed="false"]
+  .favorite-glyph {
   color: #555555;
 }
 
-html[data-theme="retro"] .example-dialog .toggle-favorite[data-favorite-state='on'] .favorite-glyph,
-html[data-theme="retro"] .example-dialog .toggle-favorite[aria-pressed="true"] .favorite-glyph {
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[data-favorite-state="on"]
+  .favorite-glyph,
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[aria-pressed="true"]
+  .favorite-glyph {
   color: #ffffff;
 }
 
-html[data-theme="retro"] .example-dialog .toggle-favorite.is-favorite .favorite-glyph {
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite.is-favorite
+  .favorite-glyph {
   color: #ffffff;
 }
 
-html[data-theme="retro"] .example-dialog .toggle-favorite[aria-pressed="true"]:hover,
-html[data-theme="retro"] .example-dialog .toggle-favorite[data-favorite-state='on']:hover {
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[aria-pressed="true"]:hover,
+html[data-theme="retro"]
+  .example-dialog
+  .toggle-favorite[data-favorite-state="on"]:hover {
   border-top-color: #ffffff;
   border-left-color: #ffffff;
   border-right-color: #aa5500;
@@ -714,7 +745,10 @@ html[data-theme="retro"] .example-dialog .pixel-design-invitation button:hover {
   color: #ffffff;
 }
 
-html[data-theme="retro"] .example-dialog .pixel-design-invitation button:active {
+html[data-theme="retro"]
+  .example-dialog
+  .pixel-design-invitation
+  button:active {
   border-top-color: #555555;
   border-left-color: #555555;
   border-right-color: #ffffff;
@@ -724,16 +758,25 @@ html[data-theme="retro"] .example-dialog .pixel-design-invitation button:active 
 }
 
 html[data-theme="retro"] .example-dialog .pixel-design-invitation button:focus,
-html[data-theme="retro"] .example-dialog .pixel-design-invitation button:focus-visible {
+html[data-theme="retro"]
+  .example-dialog
+  .pixel-design-invitation
+  button:focus-visible {
   outline: 2px dotted #ffff55 !important;
   outline-offset: -3px !important;
   box-shadow: none !important;
 }
 
 html[data-theme="retro"] .example-dialog .emoji-copy-actions button:focus,
-html[data-theme="retro"] .example-dialog .emoji-copy-actions button:focus-visible,
+html[data-theme="retro"]
+  .example-dialog
+  .emoji-copy-actions
+  button:focus-visible,
 html[data-theme="retro"] .example-dialog .emoji-code-toolbar button:focus,
-html[data-theme="retro"] .example-dialog .emoji-code-toolbar button:focus-visible {
+html[data-theme="retro"]
+  .example-dialog
+  .emoji-code-toolbar
+  button:focus-visible {
   outline: 2px dotted #ffff55 !important;
   outline-offset: -3px !important;
   box-shadow: none !important;
@@ -843,7 +886,9 @@ html[data-theme="retro"] .subgroup .emoji > div:hover,
 html[data-theme="retro"] .sequence-type > .emoji > div:hover,
 html[data-theme="retro"] .pixel-editor-toolbar button:hover,
 html[data-theme="retro"] .pixel-editor-file button:hover,
-html[data-theme="retro"] .pixel-editor-preview-actions button:hover:not(:disabled),
+html[data-theme="retro"]
+  .pixel-editor-preview-actions
+  button:hover:not(:disabled),
 html[data-theme="retro"] .pixel-editor-transfer button:hover:not(:disabled),
 html[data-theme="retro"] .pixel-editor-layer button:hover:not(:disabled),
 html[data-theme="retro"] .pixel-editor-trace-nudge:hover {
@@ -865,7 +910,9 @@ html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"],
 html[data-theme="retro"] .language-option.is-selected,
 html[data-theme="retro"] .order-mode.is-active,
 html[data-theme="retro"] .pixel-editor-tools button[aria-pressed="true"],
-html[data-theme="retro"] .pixel-editor-layer-transform button[aria-pressed="true"] {
+html[data-theme="retro"]
+  .pixel-editor-layer-transform
+  button[aria-pressed="true"] {
   border-top-color: #555555;
   border-left-color: #555555;
   border-right-color: #ffffff;
@@ -1200,7 +1247,9 @@ html[data-theme="retro"]
 html[data-theme="retro"] .version-range:focus,
 html[data-theme="retro"] .version-range:focus-visible,
 html[data-theme="retro"] .pixel-editor-controls input[type="range"]:focus,
-html[data-theme="retro"] .pixel-editor-controls input[type="range"]:focus-visible {
+html[data-theme="retro"]
+  .pixel-editor-controls
+  input[type="range"]:focus-visible {
   outline: none;
   box-shadow: none;
 }
@@ -1247,7 +1296,10 @@ html[data-theme="retro"] input:focus-visible,
 html[data-theme="retro"] select:focus,
 html[data-theme="retro"] select:focus-visible,
 html[data-theme="retro"] .modifier-filters fieldset label:has(input:focus),
-html[data-theme="retro"] .modifier-filters fieldset label:has(input:focus-visible),
+html[data-theme="retro"]
+  .modifier-filters
+  fieldset
+  label:has(input:focus-visible),
 html[data-theme="retro"] .setting-choice:focus,
 html[data-theme="retro"] .setting-choice:focus-visible,
 html[data-theme="retro"] .language-option:focus,
@@ -1315,7 +1367,8 @@ html[data-theme="retro"] .pixel-editor-canvas:focus-visible {
 }
 
 html[data-theme="retro"] .pixel-editor-stage:has(.pixel-editor-canvas:focus),
-html[data-theme="retro"] .pixel-editor-stage:has(.pixel-editor-canvas:focus-visible) {
+html[data-theme="retro"]
+  .pixel-editor-stage:has(.pixel-editor-canvas:focus-visible) {
   outline: 2px dotted #ffff55 !important;
   outline-offset: 4px !important;
 }
@@ -1342,7 +1395,10 @@ html[data-theme="retro"] body:has(dialog[open]) .toolbar {
   backdrop-filter: none;
 }
 
-html[data-theme="retro"] body:has(dialog[open]) .toolbar > :not(.toolbar-heading) {
+html[data-theme="retro"]
+  body:has(dialog[open])
+  .toolbar
+  > :not(.toolbar-heading) {
   display: none;
 }
 
@@ -2279,14 +2335,13 @@ html[data-theme="retro"] body:has(dialog[open]) .saved-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .help-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .filter-picker-dialog::backdrop,
 html[data-theme="retro"] body:has(dialog[open]) .install-dialog::backdrop {
-  background:
-    linear-gradient(
-      to bottom,
-      transparent 0,
-      transparent var(--toolbar-height),
-      #0000aa var(--toolbar-height),
-      #0000aa 100%
-    );
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent var(--toolbar-height),
+    #0000aa var(--toolbar-height),
+    #0000aa 100%
+  );
   backdrop-filter: none;
 }
 
@@ -2346,10 +2401,10 @@ dialog[open]::backdrop {
   cursor: pointer;
   font: inherit;
 }
-.example-dialog .toggle-favorite[data-favorite-state='off'] {
+.example-dialog .toggle-favorite[data-favorite-state="off"] {
   color: var(--muted);
 }
-.example-dialog .toggle-favorite[data-favorite-state='on'] {
+.example-dialog .toggle-favorite[data-favorite-state="on"] {
   color: var(--accent);
 }
 .example-dialog .toggle-favorite.is-favorite {
@@ -2370,7 +2425,7 @@ dialog[open]::backdrop {
 .example-dialog .toggle-favorite[aria-pressed="true"] {
   color: var(--accent);
 }
-.example-dialog .toggle-favorite[data-favorite-state='on'] .favorite-glyph,
+.example-dialog .toggle-favorite[data-favorite-state="on"] .favorite-glyph,
 .example-dialog .toggle-favorite[aria-pressed="true"] .favorite-glyph {
   opacity: 1;
   transform: scale(1);
@@ -3565,10 +3620,7 @@ kbd {
   contain: layout style;
 }
 .list.is-loading {
-  min-height: max(
-    18rem,
-    calc(100svh - var(--toolbar-height) - 9rem)
-  );
+  min-height: max(18rem, calc(100svh - var(--toolbar-height) - 9rem));
 }
 .loading-state {
   position: absolute;
@@ -4158,7 +4210,7 @@ kbd {
   html[data-theme="retro"]
     .example-dialog
     .dialog-controls
-    .toggle-favorite[data-favorite-state='on'] {
+    .toggle-favorite[data-favorite-state="on"] {
     border-top-color: #ffffff;
     border-left-color: #ffffff;
     border-right-color: #aa5500;
@@ -4173,7 +4225,7 @@ kbd {
   html[data-theme="retro"]
     .example-dialog
     .dialog-controls
-    .toggle-favorite[data-favorite-state='on']:active {
+    .toggle-favorite[data-favorite-state="on"]:active {
     border-top-color: #aa5500;
     border-left-color: #aa5500;
     border-right-color: #ffffff;

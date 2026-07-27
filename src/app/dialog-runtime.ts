@@ -1,9 +1,7 @@
-import { createDialogNavigationController } from '../explorer/dialog-navigation-controller.js';
-import { createEmojiSessionController } from './emoji-session-controller.js';
-import {
-  withoutCompositionParent
-} from '../explorer/dialog-render.js';
-import { resolveDialogNavigationState } from '../explorer/dialog-state.js';
+import { createDialogNavigationController } from "../explorer/dialog-navigation-controller.js";
+import { createEmojiSessionController } from "./emoji-session-controller.js";
+import { withoutCompositionParent } from "../explorer/dialog-render.js";
+import { resolveDialogNavigationState } from "../explorer/dialog-state.js";
 
 export function initializeDialogRuntime(options: any) {
   const { showEmoji } = createEmojiSessionController({
@@ -15,19 +13,19 @@ export function initializeDialogRuntime(options: any) {
     displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
     getIntroducedVersion: options.getIntroducedVersion,
     openDialogAction(
-      mode: 'details' | 'code' | 'editor' = 'details',
-      parentPanel: '' | 'favorites' | 'help' | 'language' = ''
+      mode: "details" | "code" | "editor" = "details",
+      parentPanel: "" | "favorites" | "help" | "language" = "",
     ) {
-      if (options.copyStatus()) options.copyStatus().textContent = '';
+      if (options.copyStatus()) options.copyStatus().textContent = "";
       options.dialog().dataset.dialogParentPanel = parentPanel;
       options.setCurrentDialogParentStack(parentPanel ? [parentPanel] : []);
       options.setDialogView(mode, false);
       options.dialog().showModal();
       options.focusInitialAction();
-      options.syncUrlState('push', {
+      options.syncUrlState("push", {
         ...withoutCompositionParent(window.history.state),
         emojiDialogEntry: true,
-        dialogParentPanel: parentPanel
+        dialogParentPanel: parentPanel,
       });
       options.updateCompositionBackButton();
     },
@@ -40,7 +38,7 @@ export function initializeDialogRuntime(options: any) {
     updateDialogNavigation: options.updateDialogNavigation,
     updateEmojiComposition: options.updateEmojiComposition,
     updateFavoriteButton: options.updateFavoriteButton,
-    updateRenderingDiagnostic: options.updateRenderingDiagnostic
+    updateRenderingDiagnostic: options.updateRenderingDiagnostic,
   });
 
   const dialogNavigation = createDialogNavigationController({
@@ -58,13 +56,13 @@ export function initializeDialogRuntime(options: any) {
     searchAnnotations: options.searchAnnotations,
     showEmoji,
     syncUrlState: options.syncUrlState,
-    translate: options.translate
+    translate: options.translate,
   });
 
   return {
     showEmoji,
     navigateEmoji: dialogNavigation.navigate,
     updateDialogNavigation: dialogNavigation.update,
-    updateCompositionBackButton: dialogNavigation.updateBack
+    updateCompositionBackButton: dialogNavigation.updateBack,
   };
 }

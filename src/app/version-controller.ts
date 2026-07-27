@@ -2,10 +2,10 @@ import {
   getVersionKeys as getVersionKeysHelper,
   syncVersionRange as syncVersionRangeHelper,
   updateModifierAvailability as updateModifierAvailabilityHelper,
-  versionSliderLabel as versionSliderLabelHelper
-} from '../explorer/category-version.js';
-import { populateVersionSelector as populateVersionSelectorHelper } from '../explorer/version-data.js';
-import { createExplorerDataController } from '../explorer-data-controller.js';
+  versionSliderLabel as versionSliderLabelHelper,
+} from "../explorer/category-version.js";
+import { populateVersionSelector as populateVersionSelectorHelper } from "../explorer/version-data.js";
+import { createExplorerDataController } from "../explorer-data-controller.js";
 
 /** Coordinate version controls and the catalog/version data loader. */
 export function createVersionController(options: any) {
@@ -16,7 +16,7 @@ export function createVersionController(options: any) {
       selectedLocale: options.state().selectedSearchLocale,
       selector: options.versionSelector(),
       syncRange: syncVersionRange,
-      translate: options.translate
+      translate: options.translate,
     });
 
   const versionSliderLabel = (version: string) =>
@@ -30,7 +30,7 @@ export function createVersionController(options: any) {
       versionPrevious: options.versionPrevious(),
       versionRange: options.versionRange(),
       versionRangeValue: options.versionRangeValue(),
-      versionSelector: options.versionSelector()
+      versionSelector: options.versionSelector(),
     });
 
   const onVersionRangeInput = () => {
@@ -58,7 +58,7 @@ export function createVersionController(options: any) {
       skinToneFieldset: options.skinToneFieldset(),
       versionKeys: options.state().versionKeys,
       versionManifests: options.state().versionManifests,
-      versionValue: options.versionSelector().value
+      versionValue: options.versionSelector().value,
     });
 
   const getVersionKeys = () =>
@@ -68,7 +68,7 @@ export function createVersionController(options: any) {
       versionKeys: options.state().versionKeys,
       versionManifests: options.state().versionManifests,
       versionMode: options.versionModeSelector().value,
-      versionValue: options.versionSelector().value
+      versionValue: options.versionSelector().value,
     });
 
   const data = createExplorerDataController({
@@ -110,7 +110,7 @@ export function createVersionController(options: any) {
     versionPrevious: options.versionPrevious,
     versionRange: options.versionRange,
     versionRangeValue: options.versionRangeValue,
-    versionSelector: options.versionSelector
+    versionSelector: options.versionSelector,
   });
 
   return {
@@ -121,6 +121,6 @@ export function createVersionController(options: any) {
     populateVersionSelector,
     syncVersionRange,
     updateModifierAvailability,
-    versionSliderLabel
+    versionSliderLabel,
   };
 }

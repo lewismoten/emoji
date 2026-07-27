@@ -1,4 +1,4 @@
-import { initializeBrowserRuntime } from './browser-runtime.js';
+import { initializeBrowserRuntime } from "./browser-runtime.js";
 
 export function createBrowserRuntimeConfig(options: any) {
   return initializeBrowserRuntime({
@@ -34,6 +34,6 @@ export function createBrowserRuntimeConfig(options: any) {
     translate: options.translate,
     updateModifierArtwork: options.updateModifierArtwork,
     updatePixelArtworkManifest: options.updatePixelArtworkManifest,
-    updateWebAppManifest: options.updateWebAppManifest
+    updateWebAppManifest: options.updateWebAppManifest,
   });
 }

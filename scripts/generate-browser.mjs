@@ -1,24 +1,25 @@
-import fs from 'node:fs';
+import fs from "node:fs";
 
-const license = fs.readFileSync('LICENSE.md', 'utf8').trim();
-const unicodeNotice = fs.readFileSync('NOTICE.md', 'utf8').trim();
+const license = fs.readFileSync("LICENSE.md", "utf8").trim();
+const unicodeNotice = fs.readFileSync("NOTICE.md", "utf8").trim();
 const banner = `/**\n${license}\n\n${unicodeNotice}\n */`;
-const emoji = JSON.parse(fs.readFileSync('emoji.json', 'utf8'));
-const properties = emoji.map(({ key, shortName, emoji: value, value: escaped }) =>
-  `    /** ${shortName} ${value} */\n    ${key}: "${escaped}",`
+const emoji = JSON.parse(fs.readFileSync("emoji.json", "utf8"));
+const properties = emoji.map(
+  ({ key, shortName, emoji: value, value: escaped }) =>
+    `    /** ${shortName} ${value} */\n    ${key}: "${escaped}",`,
 );
 
 const source = [
   banner,
-  '',
-  'var emoji = {',
+  "",
+  "var emoji = {",
   ...properties,
-  '};',
-  '',
-  'export { emoji as default };',
-  ''
-].join('\n');
+  "};",
+  "",
+  "export { emoji as default };",
+  "",
+].join("\n");
 
-fs.mkdirSync('dist/esm', { recursive: true });
-fs.writeFileSync('dist/esm/index.js', source, 'utf8');
+fs.mkdirSync("dist/esm", { recursive: true });
+fs.writeFileSync("dist/esm/index.js", source, "utf8");
 console.info(`Generated browser bundle with ${emoji.length} emoji entries.`);

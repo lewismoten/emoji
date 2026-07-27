@@ -1,59 +1,59 @@
-import { defineConfig } from 'vite';
-import path from 'node:path';
+import { defineConfig } from "vite";
+import path from "node:path";
 import {
   locales,
   renderManifest,
-  renderPage
-} from './scripts/generate-demo-pages.mjs';
-import { renderServiceWorker } from './scripts/generate-service-worker.mjs';
+  renderPage,
+} from "./scripts/generate-demo-pages.mjs";
+import { renderServiceWorker } from "./scripts/generate-service-worker.mjs";
 
 const localizedPagePattern = /^\/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/;
 const localizedManifestPattern =
   /^\/manifest\.([a-z]{2,3}(?:-[A-Z]{2})?)\.webmanifest$/;
 const pixelFontStylesheet = path.resolve(
-  'pixel-font/build/font/pixel-emoji.css'
+  "pixel-font/build/font/pixel-emoji.css",
 );
-const pixelFontRevision = path.resolve('pixel-font/font-build.revision');
+const pixelFontRevision = path.resolve("pixel-font/font-build.revision");
 
 export default defineConfig({
   server: {
     watch: {
-      ignored: ['**/pixel-font/build/**']
-    }
+      ignored: ["**/pixel-font/build/**"],
+    },
   },
   plugins: [
     {
-      name: 'localized-demo-pages',
+      name: "localized-demo-pages",
       configureServer(server) {
         server.watcher.add(pixelFontRevision);
-        server.watcher.on('all', (event, file) => {
-          if (file === pixelFontRevision && ['add', 'change'].includes(event)) {
+        server.watcher.on("all", (event, file) => {
+          if (file === pixelFontRevision && ["add", "change"].includes(event)) {
             server.ws.send({
-              type: 'custom',
-              event: 'pixel-font:updated',
-              data: { revision: Date.now() }
+              type: "custom",
+              event: "pixel-font:updated",
+              data: { revision: Date.now() },
             });
           }
         });
         server.middlewares.use(async (request, response, next) => {
-          const pathname = new URL(request.url ?? '/', 'http://localhost')
+          const pathname = new URL(request.url ?? "/", "http://localhost")
             .pathname;
-          const method = request.method ?? 'GET';
-          if (pathname.startsWith('/pixel-font/build/font/')) {
-            response.setHeader('Cache-Control', 'no-store');
+          const method = request.method ?? "GET";
+          if (pathname.startsWith("/pixel-font/build/font/")) {
+            response.setHeader("Cache-Control", "no-store");
           }
           if (
-            pathname === '/service-worker.js' &&
-            ['GET', 'HEAD'].includes(method)
+            pathname === "/service-worker.js" &&
+            ["GET", "HEAD"].includes(method)
           ) {
             response.statusCode = 200;
             response.setHeader(
-              'Content-Type',
-              'text/javascript; charset=utf-8'
+              "Content-Type",
+              "text/javascript; charset=utf-8",
             );
-            response.setHeader('Cache-Control', 'no-cache');
-            response.setHeader('Service-Worker-Allowed', '/');
-            response.end(method === 'HEAD' ? undefined : renderServiceWorker());
+            response.setHeader("Cache-Control", "no-cache");
+            response.setHeader("Service-Worker-Allowed", "/");
+            response.end(method === "HEAD" ? undefined : renderServiceWorker());
             return;
           }
 
@@ -61,21 +61,21 @@ export default defineConfig({
           if (
             manifestLocale &&
             locales.includes(manifestLocale) &&
-            ['GET', 'HEAD'].includes(method)
+            ["GET", "HEAD"].includes(method)
           ) {
             response.statusCode = 200;
             response.setHeader(
-              'Content-Type',
-              'application/manifest+json; charset=utf-8'
+              "Content-Type",
+              "application/manifest+json; charset=utf-8",
             );
-            response.setHeader('Cache-Control', 'no-cache');
+            response.setHeader("Cache-Control", "no-cache");
             response.end(
-              method === 'HEAD'
+              method === "HEAD"
                 ? undefined
                 : renderManifest(
                     manifestLocale,
-                    `./index.${manifestLocale}.html`
-                  )
+                    `./index.${manifestLocale}.html`,
+                  ),
             );
             return;
           }
@@ -84,7 +84,7 @@ export default defineConfig({
           if (
             !locale ||
             !locales.includes(locale) ||
-            !['GET', 'HEAD'].includes(method)
+            !["GET", "HEAD"].includes(method)
           ) {
             next();
             return;
@@ -93,23 +93,23 @@ export default defineConfig({
           try {
             const developmentPage = renderPage(
               locale,
-              `http://localhost${pathname}`
+              `http://localhost${pathname}`,
             ).replace(
               /<script defer src="\.\/index\.js\?v=[^"]+" type="module"><\/script>/,
-              '<script defer src="./src/index.ts" type="module"></script>'
+              '<script defer src="./src/index.ts" type="module"></script>',
             );
             const html = await server.transformIndexHtml(
               pathname,
-              developmentPage
+              developmentPage,
             );
             response.statusCode = 200;
-            response.setHeader('Content-Type', 'text/html; charset=utf-8');
-            response.end(method === 'HEAD' ? undefined : html);
+            response.setHeader("Content-Type", "text/html; charset=utf-8");
+            response.end(method === "HEAD" ? undefined : html);
           } catch (error) {
             next(error);
           }
         });
-      }
-    }
-  ]
+      },
+    },
+  ],
 });

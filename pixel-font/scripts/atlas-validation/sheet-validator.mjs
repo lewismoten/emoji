@@ -35,7 +35,10 @@ function validateSidecarMetadata(sheet, sidecar, context) {
       (sheet.releaseStatus ?? "released"),
     `${mappingFile} has the wrong release status`,
   );
-  assert(sidecar.image === sheet.image, `${mappingFile} points to the wrong PNG`);
+  assert(
+    sidecar.image === sheet.image,
+    `${mappingFile} points to the wrong PNG`,
+  );
   assert(sidecar.group === sheet.group, `${mappingFile} has the wrong group`);
   assert(
     sidecar.subGroup === sheet.subGroup,
@@ -53,12 +56,23 @@ function validateSidecarMetadata(sheet, sidecar, context) {
 
 async function validateSidecarImage(sidecar, sheet, context) {
   try {
-    const image = await fs.readFile(path.join(context.atlasDirectory, sheet.image));
+    const image = await fs.readFile(
+      path.join(context.atlasDirectory, sheet.image),
+    );
     const dimensions = readPngDimensions(image);
     const atlas = decodeRgbaPng(image);
-    assert(dimensions.width === sidecar.imageWidth, `${sheet.image} has the wrong width`);
-    assert(dimensions.height === sidecar.imageHeight, `${sheet.image} has the wrong height`);
-    assert(atlas.pixels[3] === 255, `${sheet.image} must display an opaque branded header`);
+    assert(
+      dimensions.width === sidecar.imageWidth,
+      `${sheet.image} has the wrong width`,
+    );
+    assert(
+      dimensions.height === sidecar.imageHeight,
+      `${sheet.image} has the wrong height`,
+    );
+    assert(
+      atlas.pixels[3] === 255,
+      `${sheet.image} must display an opaque branded header`,
+    );
     assertCellPaddingTransparent(atlas, sidecar, {
       cellPadding: context.config.cellPadding,
       cellSize: context.config.cellSize,
@@ -90,42 +104,82 @@ function validateSidecarEntries(sidecar, context) {
 }
 
 function validateEntryGeometry(entry, sidecar, indexes, context) {
-  assert(!indexes.has(entry.index), `${sidecar.image} repeats cell ${entry.index}`);
-  indexes.add(entry.index);
-  assert(entry.index >= 0 && entry.index < context.config.columns * sidecar.rows, `${entry.key} has an invalid cell`);
-  assert(entry.row === Math.floor(entry.index / context.config.columns), `${entry.key} has an invalid row`);
-  assert(entry.column === entry.index % context.config.columns, `${entry.key} has an invalid column`);
   assert(
-    entry.x === context.config.outerPadding + entry.column * context.manifest.slotSize + context.config.cellPadding,
+    !indexes.has(entry.index),
+    `${sidecar.image} repeats cell ${entry.index}`,
+  );
+  indexes.add(entry.index);
+  assert(
+    entry.index >= 0 && entry.index < context.config.columns * sidecar.rows,
+    `${entry.key} has an invalid cell`,
+  );
+  assert(
+    entry.row === Math.floor(entry.index / context.config.columns),
+    `${entry.key} has an invalid row`,
+  );
+  assert(
+    entry.column === entry.index % context.config.columns,
+    `${entry.key} has an invalid column`,
+  );
+  assert(
+    entry.x ===
+      context.config.outerPadding +
+        entry.column * context.manifest.slotSize +
+        context.config.cellPadding,
     `${entry.key} has an invalid x coordinate`,
   );
   assert(
-    entry.y === context.config.headerHeight + entry.row * context.manifest.slotSize + context.config.cellPadding,
+    entry.y ===
+      context.config.headerHeight +
+        entry.row * context.manifest.slotSize +
+        context.config.cellPadding,
     `${entry.key} has an invalid y coordinate`,
   );
-  assert(entry.width === context.config.cellSize && entry.height === context.config.cellSize, `${entry.key} has invalid bounds`);
+  assert(
+    entry.width === context.config.cellSize &&
+      entry.height === context.config.cellSize,
+    `${entry.key} has invalid bounds`,
+  );
 }
 
 function validateEntryAssignment(entry, context) {
-  assert(!context.seenKeys.has(entry.key), `Emoji ${entry.key} is assigned more than once`);
+  assert(
+    !context.seenKeys.has(entry.key),
+    `Emoji ${entry.key} is assigned more than once`,
+  );
   context.seenKeys.add(entry.key);
 }
 
 function validateActiveEntry(entry, sidecar, context) {
-  assert(context.expectedKeys.has(entry.key), `Active atlas entry ${entry.key} is not an eligible emoji`);
   assert(
-    sidecar.modifierType === context.getModifierType(context.expectedByKey.get(entry.key)),
+    context.expectedKeys.has(entry.key),
+    `Active atlas entry ${entry.key} is not an eligible emoji`,
+  );
+  assert(
+    sidecar.modifierType ===
+      context.getModifierType(context.expectedByKey.get(entry.key)),
     `Active atlas entry ${entry.key} has the wrong modifier type`,
   );
   const expected = context.expectedByKey.get(entry.key);
-  assert((sidecar.releaseStatus ?? "released") === (expected.releaseStatus ?? "released"), `${entry.key} has the wrong release status`);
   assert(
-    (sidecar.unicodeVersion ?? null) === (expected.releaseStatus === "proposed" ? expected.unicodeVersion : null),
+    (sidecar.releaseStatus ?? "released") ===
+      (expected.releaseStatus ?? "released"),
+    `${entry.key} has the wrong release status`,
+  );
+  assert(
+    (sidecar.unicodeVersion ?? null) ===
+      (expected.releaseStatus === "proposed" ? expected.unicodeVersion : null),
     `${entry.key} has the wrong proposed Unicode version`,
   );
-  assert(entry.sequenceType === expected.sequenceType, `${entry.key} has the wrong sequence type`);
+  assert(
+    entry.sequenceType === expected.sequenceType,
+    `${entry.key} has the wrong sequence type`,
+  );
   assert(sidecar.group === expected.group, `${entry.key} has the wrong group`);
-  assert(sidecar.subGroup === expected.subGroup, `${entry.key} has the wrong subgroup`);
+  assert(
+    sidecar.subGroup === expected.subGroup,
+    `${entry.key} has the wrong subgroup`,
+  );
   const normalizedLength = entry.codePoints.filter(
     (point) => !["FE0E", "FE0F"].includes(point.toUpperCase()),
   ).length;

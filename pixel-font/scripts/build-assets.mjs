@@ -59,7 +59,10 @@ const proposedPaintedKeys = new Set(proposedGlyphs.map((glyph) => glyph.key));
 const releasedCoverage = await Promise.all(
   context.versionManifest.versions.map(async (version) => {
     const keys = JSON.parse(
-      await fs.readFile(path.join(context.root, "versions", version.file), "utf8"),
+      await fs.readFile(
+        path.join(context.root, "versions", version.file),
+        "utf8",
+      ),
     );
     return coverageEntry(version, keys, releasedPaintedKeys);
   }),
@@ -138,7 +141,10 @@ if (Object.keys(editorGlyphs).length !== manifest.activeGlyphCount) {
     "Pixel editor manifest does not cover every active atlas assignment",
   );
 }
-await writeJson(path.join(context.buildDirectory, "manifest.json"), buildManifest);
+await writeJson(
+  path.join(context.buildDirectory, "manifest.json"),
+  buildManifest,
+);
 await fs.writeFile(
   path.join(context.buildDirectory, "explorer-manifest.json"),
   `${JSON.stringify({
@@ -179,18 +185,21 @@ await writeJson(path.join(context.buildDirectory, "font-source.json"), {
   glyphs: releasedGlyphs,
 });
 if (proposedGlyphs.length > 0) {
-  await writeJson(path.join(context.buildDirectory, "proposed-font-source.json"), {
-    familyName: `${manifest.familyName} Proposed`,
-    fontVersion: manifest.fontVersion,
-    author: manifest.author,
-    url: manifest.url,
-    copyright: manifest.copyright,
-    license: manifest.license,
-    licenseUrl: manifest.licenseUrl,
-    embeddingPermissions: manifest.embeddingPermissions,
-    cellSize: manifest.cellSize,
-    glyphs: proposedFontGlyphs,
-  });
+  await writeJson(
+    path.join(context.buildDirectory, "proposed-font-source.json"),
+    {
+      familyName: `${manifest.familyName} Proposed`,
+      fontVersion: manifest.fontVersion,
+      author: manifest.author,
+      url: manifest.url,
+      copyright: manifest.copyright,
+      license: manifest.license,
+      licenseUrl: manifest.licenseUrl,
+      embeddingPermissions: manifest.embeddingPermissions,
+      cellSize: manifest.cellSize,
+      glyphs: proposedFontGlyphs,
+    },
+  );
 }
 
 await compileFonts(context, proposedGlyphs);

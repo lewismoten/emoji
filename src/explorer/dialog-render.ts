@@ -1,10 +1,10 @@
 import {
   resolveCompositionParentLabel,
   resolveDialogNavigationState,
-  resolveEmojiDialogDisplay
-} from './dialog-state.js';
-import { renderEmojiComposition } from './emoji-composition.js';
-import { resolveRenderingDiagnostic } from './rendering-diagnostic.js';
+  resolveEmojiDialogDisplay,
+} from "./dialog-state.js";
+import { renderEmojiComposition } from "./emoji-composition.js";
+import { resolveRenderingDiagnostic } from "./rendering-diagnostic.js";
 
 export function getIntroducedVersion(options: {
   key: string;
@@ -14,13 +14,13 @@ export function getIntroducedVersion(options: {
 }) {
   return (
     [...options.versionManifests, ...options.proposedVersionManifests].find(
-      version => options.versionKeys.get(version.version)?.has(options.key)
-    )?.version ?? '—'
+      (version) => options.versionKeys.get(version.version)?.has(options.key),
+    )?.version ?? "—"
   );
 }
 
 export function withoutCompositionParent(
-  state: Record<string, unknown> | null | undefined
+  state: Record<string, unknown> | null | undefined,
 ) {
   const nextState = { ...(state ?? {}) };
   delete nextState.compositionParent;
@@ -28,7 +28,7 @@ export function withoutCompositionParent(
 }
 
 export function withoutDialogParentPanel(
-  state: Record<string, unknown> | null | undefined
+  state: Record<string, unknown> | null | undefined,
 ) {
   const nextState = { ...(state ?? {}) };
   delete nextState.dialogParentPanel;
@@ -51,11 +51,11 @@ export function updateEmojiComposition(options: {
   searchAnnotations: Record<string, string[]>;
   translate: (key: string, fallback: string) => string;
   value: string;
-  compositionMode: 'condensed' | 'full';
+  compositionMode: "condensed" | "full";
 }) {
-  const section = options.exampleDialog.querySelector('.emoji-composition');
-  const equation = section?.querySelector('.emoji-composition-equation');
-  const modeButton = section?.querySelector('.emoji-composition-mode');
+  const section = options.exampleDialog.querySelector(".emoji-composition");
+  const equation = section?.querySelector(".emoji-composition-equation");
+  const modeButton = section?.querySelector(".emoji-composition-mode");
   renderEmojiComposition({
     section: section as any,
     equation: equation as any,
@@ -74,7 +74,7 @@ export function updateEmojiComposition(options: {
     applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
     dir: options.dir,
     locale: options.locale,
-    numberingSystem: options.numberingSystem
+    numberingSystem: options.numberingSystem,
   });
 }
 
@@ -90,12 +90,12 @@ export function updateRenderingDiagnostic(options: {
   translate: (key: string, fallback: string) => string;
   byId: Record<string, any>;
 }) {
-  const section = options.exampleDialog.querySelector('.rendering-diagnostic');
+  const section = options.exampleDialog.querySelector(".rendering-diagnostic");
   const invitation = options.exampleDialog.querySelector(
-    '.pixel-design-invitation'
+    ".pixel-design-invitation",
   );
   const regularEditorButton = options.exampleDialog.querySelector(
-    '.emoji-copy-actions .show-pixel-editor'
+    ".emoji-copy-actions .show-pixel-editor",
   ) as HTMLElement | null;
   if (!section || !invitation) return;
   const diagnostic = resolveRenderingDiagnostic({
@@ -106,32 +106,38 @@ export function updateRenderingDiagnostic(options: {
     developerMode: options.developerMode,
     detailsVisible: options.detailsVisible,
     systemEmojiAppearsSplit: options.systemEmojiAppearsSplit,
-    translate: options.translate
+    translate: options.translate,
   });
-  (section as HTMLElement).dataset.available = String(diagnostic.sectionAvailable);
+  (section as HTMLElement).dataset.available = String(
+    diagnostic.sectionAvailable,
+  );
   (invitation as HTMLElement).dataset.available = String(
-    diagnostic.invitationAvailable
+    diagnostic.invitationAvailable,
   );
   (section as HTMLElement).hidden = diagnostic.sectionHidden;
   (invitation as HTMLElement).hidden = diagnostic.invitationHidden;
-  if (regularEditorButton) regularEditorButton.hidden = diagnostic.regularEditorHidden;
+  if (regularEditorButton)
+    regularEditorButton.hidden = diagnostic.regularEditorHidden;
   if (!options.painted || !options.privateUsePoint) return;
 
-  const systemGlyph = section.querySelector('.system-render-glyph');
-  const pixelGlyph = section.querySelector('.pixel-render-glyph');
-  const result = section.querySelector('.rendering-result');
+  const systemGlyph = section.querySelector(".system-render-glyph");
+  const pixelGlyph = section.querySelector(".pixel-render-glyph");
+  const result = section.querySelector(".rendering-result");
   if (!systemGlyph || !pixelGlyph || !result) return;
   systemGlyph.textContent = options.emojiValue;
   pixelGlyph.textContent = String.fromCodePoint(options.privateUsePoint);
   (section as HTMLElement).dataset.pixelEmojiKey = options.emojiKey;
-  result.classList.toggle('is-warning', diagnostic.split);
+  result.classList.toggle("is-warning", diagnostic.split);
   result.textContent = diagnostic.resultText;
 }
 
 export function renderEmojiDialog(options: {
   annotations: string[];
   applyPixelArtworkClass: (element: Element | null, emojiKey: string) => void;
-  applyStandalonePixelArtwork: (element: Element | null, emojiKey: string) => void;
+  applyStandalonePixelArtwork: (
+    element: Element | null,
+    emojiKey: string,
+  ) => void;
   byId: Record<string, any>;
   compositionMode: string;
   currentEmojiKey: string;
@@ -171,54 +177,64 @@ export function renderEmojiDialog(options: {
     sequenceTypeLabels: options.sequenceTypeLabels,
     sequenceTranslationKeys: options.sequenceTranslationKeys,
     statusTranslationKeys: options.statusTranslationKeys,
-    translate: options.translate
+    translate: options.translate,
   });
 
-  (document.getElementsByClassName('emoji-group')[0] as HTMLElement).innerText =
+  (document.getElementsByClassName("emoji-group")[0] as HTMLElement).innerText =
     dialogDisplay.groupText;
-  (document.getElementsByClassName('emoji-subgroup')[0] as HTMLElement).innerText =
-    dialogDisplay.subGroupText;
-  (document.getElementsByClassName('emoji-key')[0] as HTMLElement).innerText =
+  (
+    document.getElementsByClassName("emoji-subgroup")[0] as HTMLElement
+  ).innerText = dialogDisplay.subGroupText;
+  (document.getElementsByClassName("emoji-key")[0] as HTMLElement).innerText =
     dialogDisplay.keyText;
-  (document.getElementsByClassName('emoji-value')[0] as HTMLElement).innerText =
+  (document.getElementsByClassName("emoji-value")[0] as HTMLElement).innerText =
     dialogDisplay.valueText;
-  (document.getElementsByClassName('emoji-encoded')[0] as HTMLElement).innerText =
-    dialogDisplay.encodedText;
+  (
+    document.getElementsByClassName("emoji-encoded")[0] as HTMLElement
+  ).innerText = dialogDisplay.encodedText;
   const previewGlyph = document.getElementsByClassName(
-    'emoji-preview-glyph'
+    "emoji-preview-glyph",
   )[0] as HTMLElement;
   previewGlyph.innerText = options.value;
   options.applyPixelArtworkClass(previewGlyph, options.id);
   options.updateRenderingDiagnostic(options.id, options.value);
   options.updateEmojiComposition(options.item, options.value);
   const englishNameElement = document.getElementsByClassName(
-    'emoji-english-name'
+    "emoji-english-name",
   )[0] as HTMLElement;
   englishNameElement.innerText = dialogDisplay.englishName;
-  (document.getElementsByClassName('emoji-version')[0] as HTMLElement).innerText =
-    dialogDisplay.versionText;
-  (document.getElementsByClassName('emoji-sequence-type')[0] as HTMLElement).innerText =
-    dialogDisplay.sequenceTypeText;
-  (document.getElementsByClassName('emoji-status')[0] as HTMLElement).innerText =
-    dialogDisplay.statusText;
+  (
+    document.getElementsByClassName("emoji-version")[0] as HTMLElement
+  ).innerText = dialogDisplay.versionText;
+  (
+    document.getElementsByClassName("emoji-sequence-type")[0] as HTMLElement
+  ).innerText = dialogDisplay.sequenceTypeText;
+  (
+    document.getElementsByClassName("emoji-status")[0] as HTMLElement
+  ).innerText = dialogDisplay.statusText;
 
   const localizedDetails = document.getElementsByClassName(
-    'localized-emoji-details'
+    "localized-emoji-details",
   )[0] as HTMLElement;
-  const dialogTitleElement = document.getElementById('example-title') as HTMLElement;
+  const dialogTitleElement = document.getElementById(
+    "example-title",
+  ) as HTMLElement;
   dialogTitleElement.innerText = dialogDisplay.dialogTitle.title;
   if (dialogDisplay.dialogTitle.showLocalized) {
-    (document.getElementsByClassName('localized-language')[0] as HTMLElement).innerText =
-      options.translate('keywords', 'keywords');
-    (document.getElementsByClassName('localized-keywords')[0] as HTMLElement).innerText =
-      dialogDisplay.dialogTitle.localizedKeywords;
+    (
+      document.getElementsByClassName("localized-language")[0] as HTMLElement
+    ).innerText = options.translate("keywords", "keywords");
+    (
+      document.getElementsByClassName("localized-keywords")[0] as HTMLElement
+    ).innerText = dialogDisplay.dialogTitle.localizedKeywords;
     localizedDetails.hidden = false;
   } else {
     localizedDetails.hidden = true;
   }
   dialogTitleElement.title = dialogDisplay.dialogTitle.title;
-  (englishNameElement.closest('.emoji-english-name-row, div') as HTMLElement).hidden =
-    dialogDisplay.hideEnglishName;
+  (
+    englishNameElement.closest(".emoji-english-name-row, div") as HTMLElement
+  ).hidden = dialogDisplay.hideEnglishName;
   options.updateFavoriteButton();
   return dialogDisplay;
 }
@@ -235,8 +251,12 @@ export function updateDialogNavigation(options: {
     options.dialogNavigationKeys.length > 0
       ? options.dialogNavigationKeys
       : options.displayedKeys;
-  const navigation = resolveDialogNavigationState(keys, options.currentEmojiKey);
-  if (options.emojiPrevious) options.emojiPrevious.disabled = navigation.previousDisabled;
+  const navigation = resolveDialogNavigationState(
+    keys,
+    options.currentEmojiKey,
+  );
+  if (options.emojiPrevious)
+    options.emojiPrevious.disabled = navigation.previousDisabled;
   if (options.emojiNext) options.emojiNext.disabled = navigation.nextDisabled;
   options.updateCompositionBackButton();
 }
@@ -252,30 +272,34 @@ export function updateCompositionBackButton(options: {
   translate: (key: string, fallback: string) => string;
 }) {
   if (!options.emojiParent) return;
-  const parentKey = options.historyState?.compositionParent as string | undefined;
+  const parentKey = options.historyState?.compositionParent as
+    string | undefined;
   const parentPanel =
     options.currentDialogParentStack?.at(-1) ??
     options.dialogParentPanel ??
     (options.historyState?.dialogParentPanel as string | undefined);
-  const emojiParentAvailable = Boolean(parentKey && options.emojiByKey[parentKey]);
+  const emojiParentAvailable = Boolean(
+    parentKey && options.emojiByKey[parentKey],
+  );
   const panelParentAvailable = Boolean(parentPanel);
   const available = emojiParentAvailable || panelParentAvailable;
   options.emojiParent.hidden = !available;
   if (!available) return;
-  const label = emojiParentAvailable && parentKey
-    ? resolveCompositionParentLabel({
-        parentKey,
-        searchAnnotations: options.searchAnnotations,
-        byId: options.byId,
-        translate: options.translate
-      })
-    : parentPanel === 'favorites'
-      ? 'Back to Favorites'
-      : parentPanel === 'help'
-        ? 'Back to Help'
-        : parentPanel === 'language'
-          ? 'Back to Language'
-          : 'Back';
+  const label =
+    emojiParentAvailable && parentKey
+      ? resolveCompositionParentLabel({
+          parentKey,
+          searchAnnotations: options.searchAnnotations,
+          byId: options.byId,
+          translate: options.translate,
+        })
+      : parentPanel === "favorites"
+        ? "Back to Favorites"
+        : parentPanel === "help"
+          ? "Back to Help"
+          : parentPanel === "language"
+            ? "Back to Language"
+            : "Back";
   options.emojiParent.title = label;
-  options.emojiParent.setAttribute('aria-label', label);
+  options.emojiParent.setAttribute("aria-label", label);
 }

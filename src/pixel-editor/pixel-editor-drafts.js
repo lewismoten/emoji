@@ -58,7 +58,8 @@ export function createPixelEditorDraftController(options) {
   function hasPendingAtlasLayer() {
     if (!currentEntry()) return false;
     return [...artworkDrafts().values()].some(
-      (draft) => draft.entry.atlas === currentEntry().atlas && draft.floatingLayer,
+      (draft) =>
+        draft.entry.atlas === currentEntry().atlas && draft.floatingLayer,
     );
   }
 

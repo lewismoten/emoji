@@ -9,22 +9,22 @@ type BeforeInstallPromptEventLike = Event & {
 };
 
 export const installedDisplayQueries = [
-  'standalone',
-  'fullscreen',
-  'minimal-ui',
-  'window-controls-overlay'
-].map(mode => window.matchMedia(`(display-mode: ${mode})`));
+  "standalone",
+  "fullscreen",
+  "minimal-ui",
+  "window-controls-overlay",
+].map((mode) => window.matchMedia(`(display-mode: ${mode})`));
 
 export const isInstalledApp = () =>
-  installedDisplayQueries.some(query => query.matches) ||
+  installedDisplayQueries.some((query) => query.matches) ||
   (window.navigator as BrowserNavigator).standalone === true ||
-  document.referrer.startsWith('android-app://');
+  document.referrer.startsWith("android-app://");
 
 export const isIosDevice = () => {
   const navigator = window.navigator as BrowserNavigator;
   const userAgent = navigator.userAgent;
   const clientPlatform = navigator.userAgentData?.platform;
-  if (clientPlatform?.toLowerCase() === 'macos') return false;
+  if (clientPlatform?.toLowerCase() === "macos") return false;
   return (
     /iPad|iPhone|iPod/.test(userAgent) ||
     (/Macintosh/.test(userAgent) &&
@@ -34,20 +34,22 @@ export const isIosDevice = () => {
 };
 
 export function renderInstallAppButton(
-  installAppButton: HTMLElement | undefined
+  installAppButton: HTMLElement | undefined,
 ) {
   if (!installAppButton) return;
   installAppButton.hidden = isInstalledApp();
 }
 
-export function updateWebAppManifest(locale = '') {
-  const manifest = document.querySelector<HTMLLinkElement>('link[rel="manifest"]');
+export function updateWebAppManifest(locale = "") {
+  const manifest = document.querySelector<HTMLLinkElement>(
+    'link[rel="manifest"]',
+  );
   if (!manifest) return;
   const href = locale
     ? `./manifest.${locale}.webmanifest`
-    : './manifest.webmanifest';
-  if (manifest.getAttribute('href') !== href)
-    manifest.setAttribute('href', href);
+    : "./manifest.webmanifest";
+  if (manifest.getAttribute("href") !== href)
+    manifest.setAttribute("href", href);
 }
 
 type InstallAppOptions = {
@@ -65,7 +67,7 @@ export async function installApp({
   deferredInstallPrompt,
   event,
   installDialog,
-  renderInstallAppButton
+  renderInstallAppButton,
 }: InstallAppOptions): Promise<InstallAppResult> {
   const trigger =
     event?.currentTarget instanceof HTMLElement ? event.currentTarget : null;
@@ -74,10 +76,10 @@ export async function installApp({
   if (!promptEvent) {
     const ios = isIosDevice();
     const iosInstructions = installDialog?.querySelector<HTMLElement>(
-      '.install-instructions-ios'
+      ".install-instructions-ios",
     );
     const browserInstructions = installDialog?.querySelector<HTMLElement>(
-      '.install-instructions-browser'
+      ".install-instructions-browser",
     );
     if (iosInstructions) iosInstructions.hidden = !ios;
     if (browserInstructions) browserInstructions.hidden = ios;
@@ -89,13 +91,13 @@ export async function installApp({
     await promptEvent.prompt();
     await promptEvent.userChoice;
   } catch (error) {
-    console.warn('App installation unavailable', error);
+    console.warn("App installation unavailable", error);
   }
   if (releaseTriggerFocus) trigger?.blur?.();
   return { deferredInstallPrompt: undefined };
 }
 
-type PanelName = '' | 'favorites' | 'help' | 'language';
+type PanelName = "" | "favorites" | "help" | "language";
 
 type PanelDialogs = {
   favorites?: HTMLDialogElement;
@@ -110,48 +112,51 @@ type PanelContext = {
 };
 
 export function getPanelDialog(panel: PanelName, dialogs: PanelDialogs) {
-  const dialogMap: Record<Exclude<PanelName, ''>, HTMLDialogElement | undefined> = {
+  const dialogMap: Record<
+    Exclude<PanelName, "">,
+    HTMLDialogElement | undefined
+  > = {
     favorites: dialogs.favorites,
     help: dialogs.help,
-    language: dialogs.language
+    language: dialogs.language,
   };
   return panel ? dialogMap[panel] : undefined;
 }
 
 export function getOpenPanel(dialogs: PanelDialogs): PanelName {
-  if (dialogs.favorites?.open) return 'favorites';
-  if (dialogs.help?.open) return 'help';
-  if (dialogs.language?.open) return 'language';
-  return '';
+  if (dialogs.favorites?.open) return "favorites";
+  if (dialogs.help?.open) return "help";
+  if (dialogs.language?.open) return "language";
+  return "";
 }
 
 export function focusPanelDialog(
-  panel: Exclude<PanelName, ''>,
+  panel: Exclude<PanelName, "">,
   dialog: HTMLDialogElement,
-  { languageList, renderSavedEmoji }: PanelContext
+  { languageList, renderSavedEmoji }: PanelContext,
 ) {
-  if (panel === 'favorites') {
+  if (panel === "favorites") {
     renderSavedEmoji();
     (
-      dialog.querySelector<HTMLElement>('.saved-emoji-list button') ??
-      dialog.querySelector<HTMLElement>('.dialog-close')
+      dialog.querySelector<HTMLElement>(".saved-emoji-list button") ??
+      dialog.querySelector<HTMLElement>(".dialog-close")
     )?.focus();
-  } else if (panel === 'language') {
+  } else if (panel === "language") {
     (
-      languageList?.querySelector<HTMLElement>('.is-selected') ??
-      dialog.querySelector<HTMLElement>('.dialog-close')
+      languageList?.querySelector<HTMLElement>(".is-selected") ??
+      dialog.querySelector<HTMLElement>(".dialog-close")
     )?.focus();
   } else {
-    dialog.querySelector<HTMLElement>('.dialog-close')?.focus();
+    dialog.querySelector<HTMLElement>(".dialog-close")?.focus();
   }
 }
 
 type OpenPanelOptions = PanelContext & {
   addHistory?: boolean;
-  panel: Exclude<PanelName, ''>;
+  panel: Exclude<PanelName, "">;
   syncUrlState: (
-    mode?: 'replace' | 'push',
-    historyState?: Record<string, unknown>
+    mode?: "replace" | "push",
+    historyState?: Record<string, unknown>,
   ) => void;
 };
 
@@ -166,13 +171,13 @@ export function openPanelDialog({
   if (!dialog.open) dialog.showModal();
   focusPanelDialog(panel, dialog, context);
   if (addHistory) {
-    syncUrlState('push', { ...window.history.state, panelDialogEntry: true });
+    syncUrlState("push", { ...window.history.state, panelDialogEntry: true });
   }
 }
 
 export function closePanelDialog(
   dialog: HTMLDialogElement | undefined,
-  suppressedPanelCloses: WeakSet<HTMLDialogElement>
+  suppressedPanelCloses: WeakSet<HTMLDialogElement>,
 ) {
   if (!dialog?.open) return;
   suppressedPanelCloses.add(dialog);
@@ -192,10 +197,12 @@ export function onPanelDialogClose({
   event,
   suppressedPanelCloses,
   syncUrlState,
-  urlStateReady
+  urlStateReady,
 }: ClosePanelOptions) {
   const dialog =
-    event.currentTarget instanceof HTMLDialogElement ? event.currentTarget : null;
+    event.currentTarget instanceof HTMLDialogElement
+      ? event.currentTarget
+      : null;
   if (
     (dialog && suppressedPanelCloses.delete(dialog)) ||
     !urlStateReady ||
