@@ -45,7 +45,7 @@ const [
   read("src/explorer/pwa-panels.ts"),
   Promise.all([
     read("src/site/themes/dark.css"),
-    read("src/site/themes/light.css"),
+    read("src/site/themes/light/light.css"),
     read("src/site/themes/ega.css"),
     read("src/site/themes/retro/retro.css"),
     read("src/site/themes/retro/retro-foundation.css"),

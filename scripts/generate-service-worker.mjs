@@ -25,7 +25,7 @@ const appModules = fs
 const coreAssets = [
   "./",
   `./explorer/themes/dark.css?v=${assetVersion}`,
-  `./explorer/themes/light.css?v=${assetVersion}`,
+  `./explorer/themes/light/light.css?v=${assetVersion}`,
   `./explorer/themes/ega.css?v=${assetVersion}`,
   `./explorer/themes/retro/retro.css?v=${assetVersion}`,
   `./explorer/themes/retro/retro-foundation.css?v=${assetVersion}`,
@@ -57,8 +57,8 @@ const sourceFileForAsset = (asset) => {
   if (file === "index.js") return path.join("src", "index.ts");
   if (file === "explorer/themes/dark.css")
     return path.join("src", "site", "themes", "dark.css");
-  if (file === "explorer/themes/light.css")
-    return path.join("src", "site", "themes", "light.css");
+  if (file === "explorer/themes/light/light.css")
+    return path.join("src", "site", "themes", "light", "light.css");
   if (file === "explorer/themes/ega.css")
     return path.join("src", "site", "themes", "ega.css");
   if (file === "explorer/themes/retro/retro.css")

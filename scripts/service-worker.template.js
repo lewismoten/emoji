@@ -5,7 +5,8 @@ const scopedUrl = (path) => new URL(path, self.registration.scope).href;
 const NETWORK_FIRST_PATHS = new Set([
   new URL("./index.js", self.registration.scope).pathname,
   new URL("./explorer/themes/dark.css", self.registration.scope).pathname,
-  new URL("./explorer/themes/light.css", self.registration.scope).pathname,
+  new URL("./explorer/themes/light/light.css", self.registration.scope)
+    .pathname,
   new URL("./explorer/themes/ega.css", self.registration.scope).pathname,
   new URL("./explorer/themes/retro/retro.css", self.registration.scope)
     .pathname,

@@ -8,8 +8,8 @@ const sourceFiles = [
     output: path.join("themes", "dark.css"),
   },
   {
-    source: path.join("src", "site", "themes", "light.css"),
-    output: path.join("themes", "light.css"),
+    source: path.join("src", "site", "themes", "light", "light.css"),
+    output: path.join("themes", "light", "light.css"),
   },
   {
     source: path.join("src", "site", "themes", "ega.css"),

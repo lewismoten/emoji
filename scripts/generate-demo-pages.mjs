@@ -219,8 +219,8 @@ export const renderPage = (
       `<link id="retro-text-font-stylesheet" rel="stylesheet" href="./pixel-font/build-retro-text/pixel-latin-retro.css?v=${retroTextRevision}" data-font-revision="${retroTextRevision}">`,
     )
     .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/light\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/themes/light.css?v=${assetVersion}">`,
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/light\/light\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/light/light.css?v=${assetVersion}">`,
     )
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/ega\.css")[^>]*\/?>/,
