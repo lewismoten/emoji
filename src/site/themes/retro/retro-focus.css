@@ -5,14 +5,12 @@ html[data-theme="retro"]
   .pixel-editor-controls
   input[type="range"]:focus-visible {
   outline: none;
-  box-shadow: none;
 }
 
 html[data-theme="retro"] :focus,
 html[data-theme="retro"] :focus-visible {
   outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
   outline-offset: var(--focus-offset) !important;
-  box-shadow: none !important;
 }
 
 html[data-theme="retro"] .example-dialog .toggle-favorite:focus,
@@ -90,7 +88,6 @@ html[data-theme="retro"] .sequence-type > .emoji > div:focus,
 html[data-theme="retro"] .sequence-type > .emoji > div:focus-visible {
   outline: var(--focus-size) var(--focus-style) var(--focus-color) !important;
   outline-offset: var(--focus-offset) !important;
-  box-shadow: none !important;
 }
 
 html[data-theme="retro"] .pixel-editor-tools button:focus,
@@ -140,7 +137,6 @@ html[data-theme="retro"] body:has(dialog[open]) .toolbar {
   overflow: visible;
   border-bottom-color: transparent;
   background: var(--ega-blue);
-  box-shadow: none;
   backdrop-filter: none;
 }
 
@@ -191,7 +187,6 @@ html[data-theme="retro"] body:has(dialog[open]) .install-dialog::backdrop {
 
 html[data-theme="retro"] .saved-section + .saved-section {
   border-top: 3px double var(--ega-black);
-  box-shadow: none;
 }
 
 @media (max-width: 560px) {

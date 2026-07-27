@@ -224,7 +224,7 @@
   border-color: var(--accent);
   background: var(--selected-control-bg);
   color: var(--selected-control-text);
-  box-shadow: inset 0 0 0 1px var(--accent);
+  box-shadow: var(--shadow-selected-inset, none);
 }
 
 .compact-choice:focus-visible {
@@ -255,7 +255,7 @@
   border-color: var(--accent);
   background: var(--selected-control-bg);
   color: var(--selected-control-text);
-  box-shadow: inset 0 0 0 1px var(--accent);
+  box-shadow: var(--shadow-selected-inset, none);
 }
 
 .version-mode-toggle:focus-visible {

@@ -210,7 +210,6 @@ html[data-theme="retro"] .pixel-editor-controls input[type="range"] {
   -webkit-appearance: none;
   accent-color: var(--ega-light-gray);
   border: 0;
-  box-shadow: none;
   background: var(--ega-dark-gray);
   border-radius: 0;
   outline: none;

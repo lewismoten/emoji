@@ -1,5 +1,4 @@
 html[data-theme="retro"] * {
-  box-shadow: none !important;
   text-shadow: none;
   backdrop-filter: none !important;
   background-image: none !important;
@@ -156,7 +155,6 @@ html[data-theme="retro"] .modifier-filters fieldset label:has(input:checked) {
   border-bottom-color: var(--ega-white) !important;
   background: var(--ega-black) !important;
   color: var(--ega-dark-gray) !important;
-  box-shadow: none !important;
 }
 
 html[data-theme="retro"] .filter-picker-kind {

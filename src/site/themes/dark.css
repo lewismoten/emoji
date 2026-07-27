@@ -29,6 +29,13 @@ html[data-theme="dark"] {
   --code-native-object: #ffe28e;
   --code-object: #ffaaa3;
   --code-object-key: #ffaaa3;
+  --shadow-offline-status: 0 0.35rem 1rem rgb(0 0 0 / 35%);
+  --shadow-toolbar: 0 0.75rem 1.75rem rgb(0 0 0 / 25%);
+  --shadow-dialog: 0 1rem 3rem rgb(0 0 0 / 55%);
+  --shadow-selected-inset: inset 0 0 0 1px var(--accent);
+  --shadow-dirty-indicator: 0 0 0.35rem rgb(255 159 67 / 60%);
+  --shadow-saved-emoji-hover: 0 0.45rem 0.9rem rgb(0 0 0 / 30%);
+  --shadow-order-footer: 0 0.5rem 1.5rem rgb(0 0 0 / 35%);
   --toolbar-height: 0px;
   --motion-fast: 180ms;
   --motion-medium: 240ms;

@@ -129,7 +129,7 @@
   border-color: color-mix(in srgb, var(--accent) 50%, var(--accent-strong) 50%);
   background: var(--selected-control-bg);
   color: var(--selected-control-text);
-  box-shadow: inset 0 0 0 1px var(--accent);
+  box-shadow: var(--shadow-selected-inset, none);
 }
 
 .setting-choice:focus-visible {
@@ -181,7 +181,7 @@
   grid-template-columns: 2rem 1fr auto;
   border-color: var(--accent);
   background: var(--selected-control-bg);
-  box-shadow: inset 0 0 0 1px var(--accent);
+  box-shadow: var(--shadow-selected-inset, none);
   color: var(--selected-control-text);
 }
 

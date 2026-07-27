@@ -77,7 +77,6 @@ html[data-theme="retro"] .version-mode-toggle[aria-pressed="true"] {
   border-bottom-color: var(--ega-white) !important;
   background: var(--ega-black) !important;
   color: var(--ega-light-gray) !important;
-  box-shadow: none !important;
 }
 
 html[data-theme="retro"] .language-dialog .eyebrow {

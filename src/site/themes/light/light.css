@@ -24,11 +24,17 @@ html[data-theme="light"] {
   --code-native-object: #8a5a00;
   --code-object: #a33b32;
   --code-object-key: #a33b32;
+  --shadow-offline-status: 0 0.35rem 1rem rgb(91 55 18 / 18%);
+  --shadow-toolbar: 0 0.75rem 1.75rem rgb(91 55 18 / 12%);
+  --shadow-dialog: 0 1rem 3rem rgb(91 55 18 / 22%);
+  --shadow-selected-inset: inset 0 0 0 1px var(--accent);
+  --shadow-dirty-indicator: 0 0 0.35rem rgb(255 159 67 / 45%);
+  --shadow-saved-emoji-hover: 0 0.45rem 0.9rem rgb(91 55 18 / 20%);
+  --shadow-order-footer: 0 0.5rem 1.5rem rgb(91 55 18 / 18%);
 }
 
 html[data-theme="light"] .offline-status {
   border-color: #c08b2a;
   background: #fff0c9;
-  box-shadow: 0 0.35rem 1rem rgb(91 55 18 / 18%);
   color: #55310a;
 }

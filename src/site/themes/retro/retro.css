@@ -29,6 +29,13 @@ html[data-theme="retro"] {
   --code-native-object: var(--ega-magenta);
   --code-object: var(--ega-black);
   --code-object-key: var(--ega-light-blue);
+  --shadow-offline-status: none;
+  --shadow-toolbar: none;
+  --shadow-dialog: none;
+  --shadow-selected-inset: none;
+  --shadow-dirty-indicator: none;
+  --shadow-saved-emoji-hover: none;
+  --shadow-order-footer: none;
   --ui-font: var(--retro-ui-font);
   --retro-step: 0.4375rem;
   --retro-font-1: calc(var(--retro-step) * 1);
