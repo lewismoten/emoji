@@ -18,7 +18,7 @@ const structureLimits = {
 const legacyLineBudgets: Record<string, number> = {
   'README.md': 410,
   'index.css': 4628,
-  'pixel-editor.js': 580,
+  'pixel-editor.js': 48,
   'pixel-font/PIXEL_EMOJI.md': 504,
   'pixel-font/scripts/build-assets.mjs': 231,
   'pixel-font/scripts/generate-atlases.mjs': 108,
@@ -37,6 +37,7 @@ const legacyFileCountBudgets: Record<string, number> = {
   src: 12,
   'src/app': 29,
   'src/explorer': 42,
+  'src/pixel-editor': 12,
   'tests/explorer': 12,
   versions: 18
 };

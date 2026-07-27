@@ -17,7 +17,15 @@ const pixelEditorStartupController = await fs.readFile(
   path.join(root, 'src/pixel-editor/controllers/pixel-editor-startup.js'),
   'utf8'
 );
-const pixelEditorDraftSource = `${pixelEditorScript}\n${pixelEditorDraftController}\n${pixelEditorSessionController}\n${pixelEditorStartupController}`;
+const pixelEditorElements = await fs.readFile(
+  path.join(root, 'src/pixel-editor/pixel-editor-elements.js'),
+  'utf8'
+);
+const pixelEditorCanvasHelpers = await fs.readFile(
+  path.join(root, 'src/pixel-editor/pixel-editor-canvas-helpers.js'),
+  'utf8'
+);
+const pixelEditorDraftSource = `${pixelEditorScript}\n${pixelEditorDraftController}\n${pixelEditorSessionController}\n${pixelEditorStartupController}\n${pixelEditorElements}\n${pixelEditorCanvasHelpers}`;
 
 for (const action of [
   'pixel-editor-save',
@@ -36,8 +44,8 @@ assert.match(
   'the current 12 by 12 artwork must be downloadable as its own PNG'
 );
 assert.match(
-  pixelEditorScript,
-  /class="pixel-editor-download-emoji-icon"[\s\S]*class="pixel-editor-download-preview"[\s\S]*const downloadPreview[\s\S]*downloadPreview\.getContext/,
+  pixelEditorDraftSource,
+  /class="pixel-editor-download-emoji-icon"[\s\S]*class="pixel-editor-download-preview"[\s\S]*downloadPreview[:=][\s\S]*downloadPreview\.getContext\("2d"\)/,
   'the individual PNG action must preview the current pixel artwork instead of showing a 12 label'
 );
 assert.match(
@@ -57,7 +65,7 @@ assert.match(
 );
 assert.match(
   pixelEditorDraftSource,
-  /const persistedArtwork = new Map\(\)[\s\S]*const dirtyKeys = new Set\(\)[\s\S]*createPixelEditorDraftController[\s\S]*function updateDirtyState[\s\S]*pixelsEqual\(pixels\(\), baseline\)[\s\S]*dirtyIndicator\.hidden = !dirty/,
+  /persistedArtwork:\s*new Map\(\)|const persistedArtwork = new Map\(\)[\s\S]*dirtyKeys:\s*new Set\(\)|const dirtyKeys = new Set\(\)[\s\S]*createPixelEditorDraftController[\s\S]*function updateDirtyState[\s\S]*pixelsEqual\(pixels\(\), baseline\)[\s\S]*dirtyIndicator\.hidden = !dirty/,
   'the editor must visibly track artwork that differs from its persisted atlas pixels'
 );
 assert.match(
@@ -86,8 +94,8 @@ assert.match(
   'selection and floating-layer drafts must survive emoji navigation'
 );
 assert.match(
-  pixelEditorScript,
-  /const artworkDrafts = new Map\(\)/,
+  pixelEditorDraftSource,
+  /artworkDrafts:\s*new Map\(\)|const artworkDrafts = new Map\(\)/,
   'pixel editor must retain an in-memory artwork draft for each emoji'
 );
 assert.match(

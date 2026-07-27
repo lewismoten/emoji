@@ -17,7 +17,11 @@ const pixelEditorStartupController = await fs.readFile(
   path.join(root, 'src/pixel-editor/controllers/pixel-editor-startup.js'),
   'utf8'
 );
-const pixelEditorTransferSource = `${pixelEditorScript}\n${pixelEditorToolController}\n${pixelEditorStartupController}`;
+const pixelEditorElements = await fs.readFile(
+  path.join(root, 'src/pixel-editor/pixel-editor-elements.js'),
+  'utf8'
+);
+const pixelEditorTransferSource = `${pixelEditorScript}\n${pixelEditorToolController}\n${pixelEditorStartupController}\n${pixelEditorElements}`;
 
 for (const action of ['copyPixelArt', 'copyFontGlyph', 'pastePixelArt']) {
   assert.match(
@@ -47,8 +51,8 @@ assert.match(
   'every artwork-copy path must retain ordered source skin tones'
 );
 assert.match(
-  pixelEditorScript,
-  /let artworkClipboard;/,
+  pixelEditorTransferSource,
+  /artworkClipboard:\s*undefined|let artworkClipboard;/,
   'the artwork clipboard must persist while browsing between emoji'
 );
 assert.match(
