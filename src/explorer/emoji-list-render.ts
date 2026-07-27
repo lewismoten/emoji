@@ -24,6 +24,7 @@ export function createEmojiListRenderers(options: {
   getIntroducedVersion: (key: string) => string;
   groups: () => string[];
   orderMode: () => string;
+  popularKeys: () => string[];
   searchAnnotations: () => Record<string, string[]>;
   sequenceTranslationKeys: Record<string, string>;
   sequenceTypeLabels: Record<string, string>;
@@ -32,6 +33,8 @@ export function createEmojiListRenderers(options: {
   translate: (key: string, fallback: string) => string;
   unassigned: string;
 }) {
+  const popularBucketSize = 10;
+
   const asGroup = (name: string) => {
     const element = document.createElement("div");
     element.className = "group";
@@ -111,6 +114,32 @@ export function createEmojiListRenderers(options: {
     const groups = options.groups();
     const subGroups = options.subGroups();
     const orderMode = options.orderMode();
+    if (orderMode === "popular") {
+      const popularIndex = options.popularKeys().indexOf(key);
+      const bucketEnd = Math.min(
+        Math.ceil((popularIndex + 1) / popularBucketSize) * popularBucketSize,
+        options.popularKeys().length,
+      );
+      const bucketLabel = `${options.translate("top", "Top")} ${bucketEnd}`;
+      if (state.group !== bucketLabel) {
+        flushEmojiCellFragment(state);
+        state.groupElement = asGroup(bucketLabel);
+        state.items.push(state.groupElement);
+        const subgroupList = document.createElement("div");
+        subgroupList.className = "subgroup-list";
+        state.subGroupElement = asSubGroup("", true);
+        subgroupList.appendChild(state.subGroupElement);
+        state.groupElement.appendChild(subgroupList);
+        state.emoji = state.subGroupElement.lastElementChild as HTMLElement;
+        state.group = bucketLabel;
+        state.unicodeSubGroup = undefined;
+        state.subGroup = undefined;
+      }
+      state.cellFragment?.appendChild(
+        asEmojiCell(key, Math.floor(popularIndex / popularBucketSize), 0),
+      );
+      return state;
+    }
     const meta = byId[key] ?? {
       group: options.unassigned,
       subGroups: options.unassigned,
@@ -192,6 +221,16 @@ export function createEmojiListRenderers(options: {
     const orderMode = options.orderMode();
     if (orderMode === "grouped") return keys;
     const byId = options.byId();
+    if (orderMode === "popular") {
+      const popularOrder = new Map(
+        options.popularKeys().map((key, index) => [key, index]),
+      );
+      return [...keys].sort(
+        (left, right) =>
+          (popularOrder.get(left) ?? Number.MAX_SAFE_INTEGER) -
+          (popularOrder.get(right) ?? Number.MAX_SAFE_INTEGER),
+      );
+    }
     return [...keys].sort((left, right) => {
       if (orderMode === "sequence") {
         const typeDifference =

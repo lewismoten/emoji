@@ -30,7 +30,7 @@ export function createExplorerNavigation(options: {
   drawList: () => void;
   emojiByKey: () => Record<string, string>;
   genderCheckboxes: () => Checkbox[];
-  getOrderMode: () => "grouped" | "unicode" | "sequence";
+  getOrderMode: () => "grouped" | "popular" | "unicode" | "sequence";
   groups: () => string[];
   getSelectedGroup: () => string;
   getSelectedSequenceType: () => string;
@@ -58,7 +58,7 @@ export function createExplorerNavigation(options: {
     mode: ExplorerUrlState["emojiMode"],
     updateUrl: boolean,
   ) => void;
-  setOrderMode: (mode: "grouped" | "unicode" | "sequence") => void;
+  setOrderMode: (mode: "grouped" | "popular" | "unicode" | "sequence") => void;
   setSelectedGroup: (value: string) => void;
   setSelectedSequenceType: (value: string) => void;
   setSelectedSubGroup: (value: string) => void;

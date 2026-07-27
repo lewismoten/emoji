@@ -170,6 +170,7 @@ export function buildExplorerBootstrapRuntimeSourceOptions(options: any) {
     languagePickerFlag: () => options.languagePickerFlag(),
     languagePickerLabel: () => options.languagePickerLabel(),
     loadData: options.loadData,
+    loadPackageManifest: options.loadPackageManifest,
     loadSearchLanguages: () => options.loadSearchLanguages(),
     loadUiTranslations: options.loadUiTranslations,
     matchCount: () => options.matchCount(),

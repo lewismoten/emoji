@@ -20,6 +20,7 @@ export function createListController(options: any) {
         items: options.items(),
         locale: options.selectedSearchLocale() || undefined,
         orderMode: options.orderMode(),
+        popularKeys: options.popularKeys(),
         searchAnnotations: options.searchAnnotations(),
         searchText: options.searchText().value,
         selectedGenders: checked(options.genderCheckboxes()),

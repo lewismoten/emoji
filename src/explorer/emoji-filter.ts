@@ -51,6 +51,7 @@ export function filterEmojiKeys(options: {
   items: EmojiItem[];
   locale?: string;
   orderMode: string;
+  popularKeys?: string[];
   searchAnnotations: Record<string, string[]>;
   searchText: string;
   selectedGenders: string[];
@@ -83,6 +84,10 @@ export function filterEmojiKeys(options: {
   let keys = options.allIds.filter(hasKeyword);
   if (options.includedVersionKeys) {
     keys = keys.filter((key) => options.includedVersionKeys!.has(key));
+  }
+  if (options.orderMode === "popular") {
+    const popularKeySet = new Set(options.popularKeys ?? []);
+    keys = keys.filter((key) => popularKeySet.has(key));
   }
   if (options.orderMode !== "sequence" && options.selectedGroup) {
     keys = keys.filter(

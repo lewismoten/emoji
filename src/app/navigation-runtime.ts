@@ -48,7 +48,7 @@ export function createNavigationRuntime(options: any) {
     setCompositionMode: (value: "condensed" | "full") =>
       options.setCompositionMode(value),
     setDialogView: (...args: any[]) => options.setDialogView(...args),
-    setOrderMode: (value: "grouped" | "unicode" | "sequence") =>
+    setOrderMode: (value: "grouped" | "popular" | "unicode" | "sequence") =>
       options.setOrderMode(value),
     setSelectedGroup: (value: string) => options.setSelectedGroup(value),
     setSelectedSequenceType: (value: string) =>

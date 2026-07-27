@@ -32,7 +32,7 @@ const legacyFileCountBudgets: Record<string, number> = {
   ".": 11,
   src: 14,
   "src/app": 29,
-  "src/explorer": 42,
+  "src/explorer": 43,
   "src/pixel-editor": 12,
 };
 const legacyDirectoryCountBudgets: Record<string, number> = {

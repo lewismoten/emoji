@@ -23,7 +23,7 @@ export type ExplorerState = {
   groupedKeys: Record<string, string[]>;
   groups: string[];
   items: any[];
-  orderMode: "grouped" | "sequence";
+  orderMode: "grouped" | "popular" | "unicode" | "sequence";
   packageManifest: { packs: any[]; categories: any[] };
   packageManifestPromise?: Promise<unknown>;
   releasedIds: Set<string>;

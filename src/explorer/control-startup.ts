@@ -100,7 +100,10 @@ export async function finalizeExplorerStartup(options: any) {
     document.documentElement.dir === "rtl",
   );
   await options.loadSearchLanguages(initialSearchLocale);
-  await options.loadData();
+  await Promise.all([
+    options.loadData(),
+    options.loadPackageManifest?.() ?? Promise.resolve(),
+  ]);
   options.drawList();
   options.finishExplorerLoading();
   options.applyDialogUrlState();

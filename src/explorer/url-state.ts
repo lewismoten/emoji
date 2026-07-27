@@ -8,7 +8,7 @@ export type ExplorerUrlState = {
   skin: string[];
   hair: string[];
   gender: string[];
-  order: "grouped" | "unicode" | "sequence";
+  order: "grouped" | "popular" | "unicode" | "sequence";
   compositionMode: "condensed" | "full";
   emoji: string;
   emojiMode: "details" | "code" | "editor";
@@ -24,6 +24,7 @@ export function parseExplorerUrlState(options: {
   const params = new URLSearchParams(options.search);
   const allowedOrders = [
     "grouped",
+    "popular",
     "unicode",
     ...(options.developerMode ? ["sequence"] : []),
   ];
@@ -72,7 +73,7 @@ export function buildExplorerUrlQuery(options: {
   latestReleasedVersion?: string;
   version: string;
   versionMode: "through" | "selected";
-  order: "grouped" | "unicode" | "sequence";
+  order: "grouped" | "popular" | "unicode" | "sequence";
   group: string;
   subGroup: string;
   sequenceType: string;

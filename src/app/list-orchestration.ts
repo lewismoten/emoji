@@ -2,6 +2,7 @@ import { createEmojiListRenderers } from "../explorer/emoji-list-render.js";
 import { createEmojiListInteraction } from "../explorer/emoji-list-interaction.js";
 import { createListController } from "../explorer/list-controller.js";
 import { updateActiveFilterSummary } from "../explorer/filter-summary.js";
+import { popularKeys } from "../explorer/popular-keys.js";
 
 /** Assemble list rendering, interaction, and active-filter summary behavior. */
 export function createListOrchestration(options: any) {
@@ -22,6 +23,7 @@ export function createListOrchestration(options: any) {
     getIntroducedVersion: options.getIntroducedVersion,
     groups: () => options.state().groups,
     orderMode: () => options.state().orderMode,
+    popularKeys: () => [...popularKeys],
     searchAnnotations: () => options.state().searchAnnotations,
     sequenceTranslationKeys: options.sequenceTranslationKeys,
     sequenceTypeLabels: options.sequenceTypeLabels,
@@ -68,6 +70,7 @@ export function createListOrchestration(options: any) {
     matchCount: options.matchCount,
     nextRenderGeneration: options.nextRenderGeneration,
     orderMode: () => options.state().orderMode,
+    popularKeys: () => [...popularKeys],
     orderedKeys,
     renderEmojiList: (...args: any[]) => renderEmojiList(...args),
     searchAnnotations: () => options.state().searchAnnotations,
