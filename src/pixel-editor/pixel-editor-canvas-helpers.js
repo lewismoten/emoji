@@ -92,3 +92,123 @@ export function imageDataCanvas(pixels, width, height) {
   canvas.getContext("2d").putImageData(new ImageData(pixels.slice(), width, height), 0, 0);
   return canvas;
 }
+
+export function createPixelEditorPreviewController(options) {
+  const {
+    artworkPreview,
+    canvasIsBlackSilhouette,
+    currentEmoji,
+    currentEntry,
+    downloadPreview,
+    drawCenteredEmoji: drawEmoji,
+    effectiveLayerPixels,
+    floatingLayer,
+    fontPreview,
+    imageDataCanvas: toCanvas,
+    officialPreview,
+    paletteController,
+    pixels,
+    recolorVisibleCanvasPixels,
+    traceCanvas,
+    traceOffsetX,
+    traceOffsetY,
+  } = options;
+
+  function renderTrace() {
+    const traceContext = traceCanvas.getContext("2d");
+    traceContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
+    drawEmoji(
+      traceContext,
+      currentEmoji(),
+      '11px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif',
+      traceOffsetX(),
+      traceOffsetY(),
+    );
+    drawOfficialPreview();
+    drawFontPreview();
+  }
+
+  function drawOfficialPreview() {
+    const previewContext = officialPreview.getContext("2d");
+    previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
+    previewContext.drawImage(traceCanvas, 0, 0);
+  }
+
+  function drawFontPreview() {
+    const previewContext = fontPreview.getContext("2d");
+    previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
+    if (!currentEntry()?.painted) return;
+    const proposed = currentEntry().releaseStatus === "proposed";
+    const familyProperty = proposed
+      ? "--pixel-emoji-proposed-family"
+      : "--pixel-emoji-released-family";
+    const familyFallback = proposed ? '"Pixel Emoji Proposed"' : '"Pixel Emoji"';
+    const family =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue(familyProperty)
+        .trim() || familyFallback;
+    const render = () => {
+      previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
+      previewContext.fillStyle = currentArtworkIsBlackSilhouette()
+        ? "#ffffff"
+        : "#000000";
+      const fontEmoji = currentEntry().privateUseCodePoint
+        ? String.fromCodePoint(
+            Number.parseInt(currentEntry().privateUseCodePoint, 16),
+          )
+        : currentEmoji();
+      drawEmoji(previewContext, fontEmoji, `${CELL_SIZE}px ${family}`);
+    };
+    render();
+    document.fonts
+      ?.load(
+        `${CELL_SIZE}px ${family}`,
+        currentEntry().privateUseCodePoint
+          ? String.fromCodePoint(
+              Number.parseInt(currentEntry().privateUseCodePoint, 16),
+            )
+          : currentEmoji(),
+      )
+      .then(render);
+  }
+
+  function drawArtworkPreview() {
+    const renderedArtwork = currentArtworkPreviewCanvas();
+    if (canvasIsBlackSilhouette(renderedArtwork)) {
+      recolorVisibleCanvasPixels(renderedArtwork, 255, 255, 255);
+    }
+    const previewContexts = [
+      artworkPreview.getContext("2d"),
+      downloadPreview.getContext("2d"),
+    ];
+    previewContexts.forEach((previewContext) => {
+      previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
+      previewContext.drawImage(renderedArtwork, 0, 0);
+    });
+  }
+
+  function currentArtworkPreviewCanvas() {
+    const renderedArtwork = toCanvas(pixels(), CELL_SIZE, CELL_SIZE);
+    const layer = floatingLayer();
+    if (layer) {
+      const layerCanvas = toCanvas(
+        effectiveLayerPixels(layer, paletteController.activePaletteColors()),
+        layer.width,
+        layer.height,
+      );
+      renderedArtwork.getContext("2d").drawImage(layerCanvas, layer.x, layer.y);
+    }
+    return renderedArtwork;
+  }
+
+  function currentArtworkIsBlackSilhouette() {
+    return canvasIsBlackSilhouette(currentArtworkPreviewCanvas());
+  }
+
+  return {
+    currentArtworkIsBlackSilhouette,
+    drawFontPreview,
+    drawArtworkPreview,
+    renderTrace,
+  };
+}

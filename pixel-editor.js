@@ -1,6 +1,7 @@
 import {
   canvasIsBlackSilhouette,
   canvasToPng,
+  createPixelEditorPreviewController,
   downloadBlob,
   drawBitmapText,
   drawCenteredEmoji,
@@ -24,6 +25,8 @@ import {
   extractPixels,
   floodFillPixels,
   hasVisiblePixels,
+  layerAxisBounds,
+  layerPositionAllowed,
   paintPixelInto,
   pixelOffset,
   pixelsEqual,
@@ -31,10 +34,9 @@ import {
 } from "./src/pixel-editor/pixel-editor-geometry-helpers.js";
 import {
   compositeLayer,
+  createPixelEditorCanvasController,
   effectiveLayerPixels,
   flipPixels,
-  layerAxisBounds,
-  layerPositionAllowed,
   layerTransformChangesPixels,
   nearestPaletteColor,
   nextLayerRotation,
@@ -166,7 +168,6 @@ export function createPixelEditor({
   let shapeBase;
   let layerDragStart;
   let layerDragOrigin;
-  let selectionAnimationFrame;
   let selectionDashOffset = 0;
   let directoryHandle;
   let loadId = 0;
@@ -217,20 +218,68 @@ export function createPixelEditor({
     translate,
     floatingLayerUndoState: () => ({ undoButton, redoButton }),
   });
+  const previewController = createPixelEditorPreviewController({
+    artworkPreview,
+    canvasIsBlackSilhouette,
+    currentEmoji: () => currentEmoji,
+    currentEntry: () => currentEntry,
+    downloadPreview,
+    drawCenteredEmoji,
+    effectiveLayerPixels,
+    floatingLayer: () => floatingLayer,
+    fontPreview,
+    imageDataCanvas,
+    officialPreview,
+    paletteController,
+    pixelOffset,
+    pixels: () => pixels,
+    recolorVisibleCanvasPixels,
+    selectionDashOffset: () => selectionDashOffset,
+    setSelectionDashOffset: (value) => {
+      selectionDashOffset = value;
+    },
+    traceAlpha,
+    traceCanvas,
+    traceOffsetX: () => traceOffsetX,
+    traceOffsetY: () => traceOffsetY,
+  });
+  const renderController = createPixelEditorCanvasController({
+    context,
+    currentEmoji: () => currentEmoji,
+    currentSelection: () => selection,
+    currentTool: () => tool,
+    displaySize: DISPLAY_SIZE,
+    draftController,
+    drawArtworkPreview: previewController.drawArtworkPreview,
+    drawCheckerboard,
+    floatingLayer: () => floatingLayer,
+    paletteController,
+    pixelOffset,
+    pixels: () => pixels,
+    selectionDashOffset: () => selectionDashOffset,
+    setSelectionDashOffset: (value) => {
+      selectionDashOffset = value;
+    },
+    traceAlpha,
+    traceCanvas,
+    updateEditorModePanels,
+    updateTransferButtons,
+    view,
+  });
 
   toolButtons.forEach((button) =>
     button.addEventListener("click", () => selectTool(button.dataset.tool)),
   );
   traceAlpha.addEventListener("input", () => {
     updateTraceOutput();
-    draw();
+    renderController.draw();
   });
   traceNudgeButtons.forEach((button) =>
     button.addEventListener("click", () => {
       traceOffsetX += Number(button.dataset.traceX);
       traceOffsetY += Number(button.dataset.traceY);
-      renderTrace();
-      draw();
+      previewController.renderTrace();
+      renderController.draw();
     }),
   );
   paletteButtons.forEach((button) =>
@@ -280,7 +329,7 @@ export function createPixelEditor({
   updateShapeToolButtons();
   updateTraceOutput();
   draftController.updatePreviewActionLabels();
-  draw();
+  renderController.draw();
 
   return {
     element: view,
@@ -297,9 +346,9 @@ export function createPixelEditor({
       atlasExists = false;
       cellLoaded = false;
       pixels.fill(0);
-      renderTrace();
+      previewController.renderTrace();
       draftController.resetHistory();
-      draw();
+      renderController.draw();
       status.textContent = translate(
         "pixelEditorLoading",
         "Loading pixel cell…",
@@ -323,8 +372,8 @@ export function createPixelEditor({
             "This modified emoji is not part of the base atlas set.",
           );
           pixels.fill(0);
-          renderTrace();
-          draw();
+          previewController.renderTrace();
+          renderController.draw();
           return;
         }
         atlasWidth = entry.atlasWidth;
@@ -355,8 +404,8 @@ export function createPixelEditor({
         draftController.resetHistory();
         updateLocation();
         status.textContent = "";
-        renderTrace();
-        draw();
+        previewController.renderTrace();
+        renderController.draw();
       } catch (error) {
         if (requestedLoadId !== loadId) return;
         console.warn("Pixel editor unavailable", error);
@@ -380,7 +429,7 @@ export function createPixelEditor({
         const currentKey = currentEntry?.key;
         const manifest = await loadManifest(true);
         if (currentKey) currentEntry = manifest.glyphs[currentKey];
-        drawFontPreview();
+        previewController.drawFontPreview();
         updateTransferButtons();
       } catch (error) {
         console.warn("Pixel font preview refresh unavailable", error);
@@ -411,7 +460,7 @@ export function createPixelEditor({
     ) {
       fillShapesEnabled = !fillShapesEnabled;
       updateShapeToolButtons();
-      draw();
+      renderController.draw();
       return;
     }
     if (nextTool !== "select") selection = undefined;
@@ -426,7 +475,7 @@ export function createPixelEditor({
       toolButtons.find((button) => button.dataset.tool === tool),
     );
     updateShapeToolButtons();
-    draw();
+    renderController.draw();
   }
 
   function updateShapeToolButtons() {
@@ -467,248 +516,13 @@ export function createPixelEditor({
     location.textContent = `${currentEntry.atlas} · ${translate("row", "row")} ${formatNumber(currentEntry.row + 1)} · ${translate("column", "column")} ${formatNumber(currentEntry.column + 1)}`;
   }
 
-  function renderTrace() {
-    const traceContext = traceCanvas.getContext("2d");
-    traceContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-    drawCenteredEmoji(
-      traceContext,
-      currentEmoji,
-      '11px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif',
-      traceOffsetX,
-      traceOffsetY,
-    );
-    drawOfficialPreview();
-    drawFontPreview();
-  }
-
-  function draw(updateState = true) {
-    const displayCell = DISPLAY_SIZE / CELL_SIZE;
-    context.clearRect(0, 0, DISPLAY_SIZE, DISPLAY_SIZE);
-    drawCheckerboard(context, DISPLAY_SIZE);
-    if (Number(traceAlpha.value) > 0 && currentEmoji) {
-      context.save();
-      context.globalAlpha = Number(traceAlpha.value) / 100;
-      context.imageSmoothingEnabled = false;
-      context.drawImage(traceCanvas, 0, 0, DISPLAY_SIZE, DISPLAY_SIZE);
-      context.restore();
-    }
-    for (let y = 0; y < CELL_SIZE; y += 1) {
-      for (let x = 0; x < CELL_SIZE; x += 1) {
-        const offset = pixelOffset(x, y);
-        const alpha = pixels[offset + 3];
-        if (alpha === 0) continue;
-        context.fillStyle = `rgba(${pixels[offset]}, ${pixels[offset + 1]}, ${pixels[offset + 2]}, ${alpha / 255})`;
-        context.fillRect(
-          x * displayCell,
-          y * displayCell,
-          displayCell,
-          displayCell,
-        );
-      }
-    }
-    drawFloatingLayer(context, displayCell);
-    context.beginPath();
-    for (let index = 0; index <= CELL_SIZE; index += 1) {
-      const position = index * displayCell + 0.5;
-      context.moveTo(position, 0);
-      context.lineTo(position, DISPLAY_SIZE);
-      context.moveTo(0, position);
-      context.lineTo(DISPLAY_SIZE, position);
-    }
-    context.strokeStyle = "rgb(255 255 255 / 24%)";
-    context.lineWidth = 1;
-    context.stroke();
-    drawSelectionOutline(context, displayCell);
-    drawArtworkPreview();
-    if (updateState) {
-      draftController.rememberCurrentDraft();
-      draftController.updateDirtyState();
-      draftController.updateFileButtons();
-      updateTransferButtons();
-      draftController.updateHistoryButtons();
-      updateEditorModePanels();
-    }
-    updateSelectionAnimation();
-  }
-
-  function drawFloatingLayer(targetContext, displayCell) {
-    if (!floatingLayer) return;
-    const layerPixels = effectiveLayerPixels(
-      floatingLayer,
-      paletteController.activePaletteColors(),
-    );
-    for (let y = 0; y < floatingLayer.height; y += 1) {
-      for (let x = 0; x < floatingLayer.width; x += 1) {
-        const offset = (y * floatingLayer.width + x) * 4;
-        const alpha = layerPixels[offset + 3];
-        if (alpha === 0) continue;
-        targetContext.fillStyle = `rgba(${layerPixels[offset]}, ${layerPixels[offset + 1]}, ${layerPixels[offset + 2]}, ${alpha / 255})`;
-        targetContext.fillRect(
-          (floatingLayer.x + x) * displayCell,
-          (floatingLayer.y + y) * displayCell,
-          displayCell,
-          displayCell,
-        );
-      }
-    }
-    targetContext.save();
-    targetContext.setLineDash([5, 4]);
-    targetContext.strokeStyle = "#6de0ff";
-    targetContext.lineWidth = 2;
-    targetContext.strokeRect(
-      floatingLayer.x * displayCell + 1,
-      floatingLayer.y * displayCell + 1,
-      floatingLayer.width * displayCell - 2,
-      floatingLayer.height * displayCell - 2,
-    );
-    targetContext.restore();
-  }
-
-  function drawSelectionOutline(targetContext, displayCell) {
-    if (!selection || floatingLayer || tool !== "select") return;
-    targetContext.save();
-    targetContext.setLineDash([7, 7]);
-    targetContext.lineDashOffset = selectionDashOffset;
-    targetContext.strokeStyle = "#000000";
-    targetContext.lineWidth = 4;
-    targetContext.strokeRect(
-      selection.x * displayCell + 2,
-      selection.y * displayCell + 2,
-      selection.width * displayCell - 4,
-      selection.height * displayCell - 4,
-    );
-    targetContext.lineDashOffset = selectionDashOffset + 7;
-    targetContext.strokeStyle = "#ffffff";
-    targetContext.lineWidth = 2;
-    targetContext.strokeRect(
-      selection.x * displayCell + 2,
-      selection.y * displayCell + 2,
-      selection.width * displayCell - 4,
-      selection.height * displayCell - 4,
-    );
-    targetContext.restore();
-  }
-
-  function updateSelectionAnimation() {
-    const shouldAnimate =
-      tool === "select" && Boolean(selection) && !floatingLayer && !view.hidden;
-    if (!shouldAnimate) {
-      if (selectionAnimationFrame)
-        cancelAnimationFrame(selectionAnimationFrame);
-      selectionAnimationFrame = undefined;
-      return;
-    }
-    if (selectionAnimationFrame) return;
-    selectionAnimationFrame = requestAnimationFrame(animateSelectionOutline);
-  }
-
-  function animateSelectionOutline(timestamp) {
-    selectionAnimationFrame = undefined;
-    if (tool !== "select" || !selection || floatingLayer || view.hidden) return;
-    selectionDashOffset = -(timestamp / 55) % 14;
-    draw(false);
-  }
-
-  function pointInFloatingLayer(point) {
-    return (
-      point.x >= floatingLayer.x &&
-      point.x < floatingLayer.x + floatingLayer.width &&
-      point.y >= floatingLayer.y &&
-      point.y < floatingLayer.y + floatingLayer.height
-    );
-  }
-
-  function drawOfficialPreview() {
-    const previewContext = officialPreview.getContext("2d");
-    previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-    previewContext.drawImage(traceCanvas, 0, 0);
-  }
-
-  function drawFontPreview() {
-    const previewContext = fontPreview.getContext("2d");
-    previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-    if (!currentEntry?.painted) return;
-    const proposed = currentEntry.releaseStatus === "proposed";
-    const familyProperty = proposed
-      ? "--pixel-emoji-proposed-family"
-      : "--pixel-emoji-released-family";
-    const familyFallback = proposed
-      ? '"Pixel Emoji Proposed"'
-      : '"Pixel Emoji"';
-    const family =
-      getComputedStyle(document.documentElement)
-        .getPropertyValue(familyProperty)
-        .trim() || familyFallback;
-    const render = () => {
-      previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-      previewContext.fillStyle = currentArtworkIsBlackSilhouette()
-        ? "#ffffff"
-        : "#000000";
-      const fontEmoji = currentEntry.privateUseCodePoint
-        ? String.fromCodePoint(
-            Number.parseInt(currentEntry.privateUseCodePoint, 16),
-          )
-        : currentEmoji;
-      drawCenteredEmoji(previewContext, fontEmoji, `${CELL_SIZE}px ${family}`);
-    };
-    render();
-    document.fonts
-      ?.load(
-        `${CELL_SIZE}px ${family}`,
-        currentEntry.privateUseCodePoint
-          ? String.fromCodePoint(
-              Number.parseInt(currentEntry.privateUseCodePoint, 16),
-            )
-          : currentEmoji,
-      )
-      .then(render);
-  }
-
-  function drawArtworkPreview() {
-    const renderedArtwork = currentArtworkPreviewCanvas();
-    if (canvasIsBlackSilhouette(renderedArtwork)) {
-      recolorVisibleCanvasPixels(renderedArtwork, 255, 255, 255);
-    }
-    const previewContexts = [
-      artworkPreview.getContext("2d"),
-      downloadPreview.getContext("2d"),
-    ];
-    previewContexts.forEach((previewContext) => {
-      previewContext.clearRect(0, 0, CELL_SIZE, CELL_SIZE);
-      previewContext.drawImage(renderedArtwork, 0, 0);
-    });
-  }
-
-  function currentArtworkPreviewCanvas() {
-    const renderedArtwork = imageDataCanvas(
-      pixels,
-      CELL_SIZE,
-      CELL_SIZE,
-    );
-    if (floatingLayer) {
-      const layerCanvas = imageDataCanvas(
-        effectiveLayerPixels(floatingLayer, paletteController.activePaletteColors()),
-        floatingLayer.width,
-        floatingLayer.height,
-      );
-      renderedArtwork
-        .getContext("2d")
-        .drawImage(layerCanvas, floatingLayer.x, floatingLayer.y);
-    }
-    return renderedArtwork;
-  }
-
-  function currentArtworkIsBlackSilhouette() {
-    return canvasIsBlackSilhouette(currentArtworkPreviewCanvas());
-  }
-
   function onPointerDown(event) {
     if (!currentEntry || !cellLoaded || event.button !== 0) return;
     canvas.focus({ preventScroll: true });
     const point = pointerCell(event);
     canvas.setPointerCapture(event.pointerId);
     if (floatingLayer) {
-      if (pointInFloatingLayer(point)) {
+      if (renderController.pointInFloatingLayer(point)) {
         layerDragStart = point;
         layerDragOrigin = { x: floatingLayer.x, y: floatingLayer.y };
       }
@@ -718,7 +532,7 @@ export function createPixelEditor({
     pointerPrevious = point;
     if (tool === "select") {
       selection = boundsFromPoints(point, point);
-      draw();
+      renderController.draw();
       return;
     }
     if (tool === "eyedropper") {
@@ -729,7 +543,7 @@ export function createPixelEditor({
     if (tool === "bucket") {
       floodFill(point);
       pointerStart = undefined;
-      draw();
+      renderController.draw();
       return;
     }
     shapeBase = pixels.slice();
@@ -737,7 +551,7 @@ export function createPixelEditor({
     if (tool === "line") drawLine(point, point);
     if (tool === "rectangle" || tool === "ellipse")
       drawShape(point, point, tool);
-    draw();
+    renderController.draw();
   }
 
   function onPointerMove(event) {
@@ -763,7 +577,7 @@ export function createPixelEditor({
       pixels.set(shapeBase);
       drawShape(pointerStart, point, tool);
     }
-    draw();
+    renderController.draw();
   }
 
   function onPointerUp(event) {
@@ -780,7 +594,7 @@ export function createPixelEditor({
   function onPointerCancel(event) {
     if (shapeBase) pixels.set(shapeBase);
     onPointerUp(event);
-    draw();
+    renderController.draw();
   }
 
   function onCanvasKeyDown(event) {
@@ -905,12 +719,12 @@ export function createPixelEditor({
 
   function undo() {
     draftController.undo();
-    draw();
+    renderController.draw();
   }
 
   function redo() {
     draftController.redo();
-    draw();
+    renderController.draw();
   }
 
   function copyPixelArt() {
@@ -1040,7 +854,7 @@ export function createPixelEditor({
     );
     floatingLayer.inverted = false;
     selection = undefined;
-    draw();
+    renderController.draw();
     canvas.focus({ preventScroll: true });
     status.textContent = translate(
       "layerPasted",
@@ -1062,7 +876,7 @@ export function createPixelEditor({
     const [minimumY, maximumY] = layerAxisBounds(floatingLayer.height);
     floatingLayer.x = clamp(x, minimumX, maximumX);
     floatingLayer.y = clamp(y, minimumY, maximumY);
-    draw();
+    renderController.draw();
   }
 
   function transformFloatingLayer(transform) {
@@ -1105,7 +919,7 @@ export function createPixelEditor({
       pixels: effectiveLayerPixels(floatingLayer, paletteController.activePaletteColors()),
     });
     floatingLayer = undefined;
-    draw();
+    renderController.draw();
     status.textContent = translate(
       "layerBaked",
       "Floating layer merged into the artwork.",
@@ -1115,14 +929,14 @@ export function createPixelEditor({
   function cancelFloatingLayer() {
     if (!floatingLayer) return;
     floatingLayer = undefined;
-    draw();
+    renderController.draw();
     status.textContent = "";
   }
 
   function toggleFloatingLayerInversion() {
     if (!floatingLayer) return;
     floatingLayer.inverted = !floatingLayer.inverted;
-    draw();
+    renderController.draw();
   }
 
   function updateTransferButtons() {

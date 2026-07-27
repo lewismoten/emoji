@@ -81,6 +81,16 @@ export function pixelsEqual(left, right) {
   return left.length === right.length && left.every((value, index) => value === right[index]);
 }
 
+export function layerAxisBounds(size, cellSize = CELL_SIZE) {
+  return size <= cellSize ? [0, cellSize - size] : [cellSize - size, 0];
+}
+
+export function layerPositionAllowed(layer, x, y, cellSize = CELL_SIZE) {
+  const [minimumX, maximumX] = layerAxisBounds(layer.width, cellSize);
+  const [minimumY, maximumY] = layerAxisBounds(layer.height, cellSize);
+  return x >= minimumX && x <= maximumX && y >= minimumY && y <= maximumY;
+}
+
 export function currentColorValue(selectedColor) {
   if (selectedColor === "transparent") return [0, 0, 0, 0];
   const value = selectedColor.slice(1);
