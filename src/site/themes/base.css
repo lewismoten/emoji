@@ -51,6 +51,7 @@
 html[data-theme="base"] {
   color-scheme: light;
   --interactive-transition: none;
+  --toolbar-bg: #ffffff;
   --shadow-offline-status: none;
   --shadow-toolbar: none;
   --shadow-dialog: none;
@@ -74,7 +75,6 @@ html[data-theme="base"] *::after {
   box-shadow: revert !important;
 }
 
-html[data-theme="base"] .toolbar,
 html[data-theme="base"] .order-footer,
 html[data-theme="base"] .pixel-hero,
 html[data-theme="base"] .about-explorer,
@@ -96,6 +96,11 @@ html[data-theme="base"] dialog.advanced-filters-dialog,
 html[data-theme="base"] dialog.filter-picker-dialog,
 html[data-theme="base"] dialog.install-dialog {
   background: revert !important;
+  color: revert !important;
+  border-color: revert !important;
+}
+
+html[data-theme="base"] .toolbar {
   color: revert !important;
   border-color: revert !important;
 }

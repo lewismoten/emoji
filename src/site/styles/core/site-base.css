@@ -35,6 +35,7 @@ html {
   --focus-outline-strong: 2px dashed var(--accent-strong);
   --focus-outline-offset: 2px;
   --toolbar-backdrop-filter: blur(14px);
+  --toolbar-bg: color-mix(in srgb, var(--page) 94%, transparent);
   --interactive-transition:
     background var(--motion-fast) var(--motion-ease),
     border-color var(--motion-fast) var(--motion-ease),
@@ -116,7 +117,7 @@ main {
   overflow: auto;
   padding: 0.55rem clamp(0.75rem, 2vw, 1.25rem);
   border-bottom: 1px solid var(--border);
-  background: color-mix(in srgb, var(--page) 94%, transparent);
+  background: var(--toolbar-bg);
   box-shadow: var(--shadow-toolbar, none);
   backdrop-filter: var(--toolbar-backdrop-filter);
 }
