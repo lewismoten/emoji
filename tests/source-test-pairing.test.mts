@@ -9,7 +9,6 @@ const root = path.resolve(
 );
 
 const legacyMissingTestPairs = new Set([
-  "src/app/category-controller.ts",
   "src/app/dialog-runtime-config.ts",
   "src/app/dialog-runtime.ts",
   "src/app/dialog-view-runtime.ts",

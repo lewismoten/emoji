@@ -11,7 +11,7 @@ const effectiveMaximumDurationMs = coverageEnabled ? 300 : maximumDurationMs;
 const coverageExcludes = [
   "build/tests/**",
   "build/demo-pages/**",
-  "dist/**",
+  "dist/**"
 ];
 const requestedConcurrency = Number.parseInt(
   process.env.TEST_CONCURRENCY ?? "",
