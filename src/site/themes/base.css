@@ -138,6 +138,19 @@ html[data-theme="base"] .dialog-mode-back {
   padding: revert !important;
 }
 
+html[data-theme="base"] .setting-switch {
+  color: revert !important;
+  font-size: revert !important;
+  font-weight: revert !important;
+}
+
+html[data-theme="base"] .setting-switch input,
+html[data-theme="base"] fieldset input,
+html[data-theme="base"] .version-range {
+  accent-color: revert !important;
+  color: revert !important;
+}
+
 html[data-theme="base"] dialog.example-dialog,
 html[data-theme="base"] dialog.language-dialog,
 html[data-theme="base"] dialog.saved-dialog,
