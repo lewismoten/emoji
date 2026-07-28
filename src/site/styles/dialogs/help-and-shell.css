@@ -93,6 +93,11 @@ dialog.help-dialog,
 dialog.advanced-filters-dialog,
 dialog.filter-picker-dialog,
 dialog.install-dialog {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-3xl);
+  background: var(--panel);
+  color: var(--text);
+  box-shadow: var(--shadow-dialog, none);
   padding: 0 !important;
 }
 dialog[open] {
