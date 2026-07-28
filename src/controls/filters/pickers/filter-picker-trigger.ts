@@ -33,6 +33,7 @@ export class FilterPickerTriggerControl extends BaseControl<FilterPickerTriggerS
     return DomFactory.button({
       attributes: {
         "aria-controls": this.state.controlsId,
+        "aria-label": `${this.state.kind}: ${this.state.value}`,
         "aria-haspopup": "dialog",
         type: "button",
       },

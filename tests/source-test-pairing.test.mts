@@ -75,7 +75,6 @@ const legacyMissingTestPairs = new Set([
   "src/explorer/explorer-labels.ts",
   "src/explorer/explorer-navigation.ts",
   "src/explorer/favorite-button.ts",
-  "src/explorer/filter-picker-control.ts",
   "src/explorer/filter-summary.ts",
   "src/explorer/list-controller.ts",
   "src/explorer/loading-state.ts",
