@@ -142,7 +142,13 @@ export function renderThemeToggle(options: any) {
     const selected = choice.dataset.theme === theme;
     choice.classList.toggle("is-active", selected);
     choice.setAttribute("aria-pressed", String(selected));
+    choice.setAttribute("aria-checked", String(selected));
     choice.tabIndex = selected ? 0 : -1;
+    const input = choice.querySelector('input[type="radio"]') as HTMLInputElement | null;
+    if (input) {
+      input.checked = selected;
+      input.tabIndex = -1;
+    }
   });
   updateThemeColor();
 }

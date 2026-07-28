@@ -9,6 +9,7 @@ export type ToggleButtonState = {
   emojiClassName?: string;
   i18nAriaLabel?: string;
   inputClassName?: string;
+  inputName?: string;
   inputType?: "checkbox" | "radio";
   label?: string;
   labelClassName?: string;
@@ -58,6 +59,7 @@ export class ToggleButtonControl extends BaseControl<ToggleButtonState> {
               DomFactory.element("input", {
                 attributes: {
                   checked: pressed ? "checked" : undefined,
+                  name: this.state.inputName,
                   type: inputType,
                   value: this.state.value,
                 },

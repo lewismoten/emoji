@@ -22,6 +22,7 @@ export type ChoiceGroupState = {
   buttonClassName: string;
   className: string;
   inputClassName?: string;
+  inputName?: string;
   inputType?: "checkbox" | "radio";
   items: ChoiceGroupItem[];
   label: string;
@@ -90,6 +91,7 @@ export class ChoiceGroupControl extends BaseControl<ChoiceGroupState> {
             emoji: item.emoji,
             emojiClassName: this.state.toggleEmojiClassName,
             inputClassName: this.state.inputClassName,
+            inputName: this.state.inputName,
             inputType: this.state.inputType,
             label: item.label,
             labelClassName: this.state.toggleLabelClassName,

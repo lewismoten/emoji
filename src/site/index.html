@@ -1218,46 +1218,74 @@
             </div>
             <div
               class="setting-choice-group theme-choices"
-              role="group"
+              role="radiogroup"
               data-i18n-aria-label="theme"
               aria-label="Theme"
             >
-              <button
+              <label
                 class="setting-choice theme-choice developer-only"
-                type="button"
                 data-theme="base"
-                aria-pressed="false"
+                aria-checked="false"
+                role="radio"
+                tabindex="-1"
               >
+                <input
+                  class="theme-choice-input"
+                  type="radio"
+                  name="theme-choice"
+                  value="base"
+                />
                 <span aria-hidden="true">🧱</span>
                 <span data-i18n="base">Base</span>
-              </button>
-              <button
+              </label>
+              <label
                 class="setting-choice theme-choice"
-                type="button"
                 data-theme="light"
-                aria-pressed="false"
+                aria-checked="false"
+                role="radio"
+                tabindex="-1"
               >
+                <input
+                  class="theme-choice-input"
+                  type="radio"
+                  name="theme-choice"
+                  value="light"
+                />
                 <span aria-hidden="true">☀️</span>
                 <span data-i18n="light">Light</span>
-              </button>
-              <button
+              </label>
+              <label
                 class="setting-choice theme-choice"
-                type="button"
                 data-theme="dark"
-                aria-pressed="false"
+                aria-checked="false"
+                role="radio"
+                tabindex="-1"
               >
+                <input
+                  class="theme-choice-input"
+                  type="radio"
+                  name="theme-choice"
+                  value="dark"
+                />
                 <span aria-hidden="true">🌙</span>
                 <span data-i18n="dark">Dark</span>
-              </button>
-              <button
+              </label>
+              <label
                 class="setting-choice theme-choice"
-                type="button"
                 data-theme="retro"
-                aria-pressed="false"
+                aria-checked="false"
+                role="radio"
+                tabindex="-1"
               >
+                <input
+                  class="theme-choice-input"
+                  type="radio"
+                  name="theme-choice"
+                  value="retro"
+                />
                 <span aria-hidden="true">🕹️</span>
                 <span data-i18n="retro">Retro</span>
-              </button>
+              </label>
             </div>
           </div>
           <div class="setting-row">

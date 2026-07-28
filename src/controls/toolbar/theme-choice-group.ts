@@ -50,6 +50,9 @@ export class ThemeChoiceGroupControl extends BaseControl<ThemeChoiceGroupState> 
     return ChoiceGroupControl.toSpec({
       buttonClassName: "setting-choice theme-choice",
       className: "setting-choice-group theme-choices",
+      inputClassName: "theme-choice-input",
+      inputName: "theme-choice",
+      inputType: "radio",
       items: this.state.themes.map((theme) => ({
         ariaLabel: theme.text,
         dataAttributes: { theme: theme.theme },
@@ -64,7 +67,7 @@ export class ThemeChoiceGroupControl extends BaseControl<ThemeChoiceGroupState> 
       labelKey: this.state.labelKey,
       maxSelectable: 1,
       minSelectable: 1,
-      role: "group",
+      role: "radiogroup",
       toggleLabelClassName: undefined,
       wrapperTag: "div",
     });
