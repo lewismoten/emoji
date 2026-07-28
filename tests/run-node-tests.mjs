@@ -8,9 +8,12 @@ const testPattern = /\.test\.(?:js|mjs|cjs)$/;
 const maximumDurationMs = 200;
 const coverageEnabled = process.env.TEST_COVERAGE !== "0";
 const effectiveMaximumDurationMs = coverageEnabled ? 300 : maximumDurationMs;
-const coverageExcludes = [
+const reportCoverageExcludes = [
   "build/tests/**",
   "dist/**",
+];
+const strictCoverageExcludes = [
+  ...reportCoverageExcludes,
   "build/demo-pages/pixel-editor.js",
   "build/demo-pages/pixel-editor/**",
   "build/pixel-font/**",
@@ -83,38 +86,57 @@ if (tests.length === 0) {
           files.length === 1 &&
           files[0]?.endsWith("project-structure.test.mjs")
         );
-      const testArguments = [
-        "--test",
-        `--test-concurrency=${concurrency}`,
-        ...(shouldCollectCoverage
-          ? [
-              "--experimental-test-coverage",
-              "--test-coverage-lines=100",
-              "--test-coverage-branches=100",
-              "--test-coverage-functions=100",
-              ...coverageExcludes.map(
-                (pattern) => `--test-coverage-exclude=${pattern}`,
-              ),
-            ]
-          : []),
-        ...files,
-      ];
-      const child = spawn(
-        process.execPath,
-        testArguments,
-        {
+      const spawnRun = (coverageArguments) =>
+        spawn(process.execPath, ["--test", `--test-concurrency=${concurrency}`, ...coverageArguments, ...files], {
           env: childEnvironment,
           stdio: ["inherit", "pipe", "pipe"],
-        },
-      );
-      let output = "";
-      child.stdout.on("data", (chunk) => {
-        output += chunk;
-        process.stdout.write(chunk);
-      });
-      child.stderr.on("data", (chunk) => process.stderr.write(chunk));
-      child.on("error", reject);
-      child.on("close", (status) => resolve({ output, status }));
+        });
+      const runChild = (child) =>
+        new Promise((innerResolve, innerReject) => {
+          let output = "";
+          child.stdout.on("data", (chunk) => {
+            output += chunk;
+            process.stdout.write(chunk);
+          });
+          child.stderr.on("data", (chunk) => process.stderr.write(chunk));
+          child.on("error", innerReject);
+          child.on("close", (status) => innerResolve({ output, status }));
+        });
+      (async () => {
+        if (!shouldCollectCoverage) {
+          resolve(await runChild(spawnRun([])));
+          return;
+        }
+        console.info("Coverage report scope: full source visibility");
+        const reportResult = await runChild(
+          spawnRun([
+            "--experimental-test-coverage",
+            ...reportCoverageExcludes.map(
+              (pattern) => `--test-coverage-exclude=${pattern}`,
+            ),
+          ]),
+        );
+        if (reportResult.status !== 0) {
+          resolve(reportResult);
+          return;
+        }
+        console.info("Coverage gate scope: strict audited subset");
+        const strictResult = await runChild(
+          spawnRun([
+            "--experimental-test-coverage",
+            "--test-coverage-lines=100",
+            "--test-coverage-branches=100",
+            "--test-coverage-functions=100",
+            ...strictCoverageExcludes.map(
+              (pattern) => `--test-coverage-exclude=${pattern}`,
+            ),
+          ]),
+        );
+        resolve({
+          output: strictResult.output,
+          status: strictResult.status,
+        });
+      })().catch(reject);
     });
   // The structure audit reads the whole repository. Give it an isolated worker
   // so concurrent test startup cannot make an otherwise fast audit exceed its
