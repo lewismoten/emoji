@@ -6,6 +6,8 @@ import { availableParallelism } from "node:os";
 const root = path.resolve(process.argv[2] ?? "build/tests");
 const testPattern = /\.test\.(?:js|mjs|cjs)$/;
 const maximumDurationMs = 200;
+const coverageEnabled = process.env.TEST_COVERAGE !== "0";
+const effectiveMaximumDurationMs = coverageEnabled ? 300 : maximumDurationMs;
 const requestedConcurrency = Number.parseInt(
   process.env.TEST_CONCURRENCY ?? "",
   10,
@@ -39,14 +41,30 @@ if (tests.length === 0) {
     `Running ${tests.length} test files across ${Math.min(testConcurrency, tests.length)} workers.`,
   );
   const childEnvironment = { ...process.env };
-  if (process.stdout.isTTY && childEnvironment.NO_COLOR === undefined) {
-    childEnvironment.FORCE_COLOR ??= "1";
+  if (process.stdout.isTTY) {
+    childEnvironment.FORCE_COLOR = childEnvironment.FORCE_COLOR ?? "1";
+    delete childEnvironment.NO_COLOR;
   }
   const run = (files, concurrency) =>
     new Promise((resolve, reject) => {
+      const testArguments = [
+        "--test",
+        `--test-concurrency=${concurrency}`,
+        ...(coverageEnabled
+          ? [
+              "--experimental-test-coverage",
+              "--test-coverage-lines=80",
+              "--test-coverage-branches=80",
+              "--test-coverage-functions=80",
+              "--test-coverage-exclude=src/pixel-editor/**",
+              "--test-coverage-exclude=src/pixel-editor-entry.js",
+            ]
+          : []),
+        ...files,
+      ];
       const child = spawn(
         process.execPath,
-        ["--test", `--test-concurrency=${concurrency}`, ...files],
+        testArguments,
         {
           env: childEnvironment,
           stdio: ["inherit", "pipe", "pipe"],
@@ -90,10 +108,10 @@ if (tests.length === 0) {
     (match) => ({ test: match[1], duration: Number(match[2]) }),
   );
   const failures = durations
-    .filter(({ duration }) => duration > maximumDurationMs)
+    .filter(({ duration }) => duration > effectiveMaximumDurationMs)
     .map(
       ({ test, duration }) =>
-        `${test} took ${duration.toFixed(1)} ms; limit is ${maximumDurationMs} ms`,
+        `${test} took ${duration.toFixed(1)} ms; limit is ${effectiveMaximumDurationMs} ms`,
     );
   if (result.status !== 0) {
     process.exitCode = result.status ?? 1;
