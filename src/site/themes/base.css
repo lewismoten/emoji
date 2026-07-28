@@ -108,6 +108,36 @@ html[data-theme="base"] .emoji-preview-copy-label {
   border-color: revert !important;
 }
 
+html[data-theme="base"] .setting-choice,
+html[data-theme="base"] .compact-choice,
+html[data-theme="base"] .filter-picker-trigger,
+html[data-theme="base"] .version-mode-toggle,
+html[data-theme="base"] .version-step,
+html[data-theme="base"] .saved-picker,
+html[data-theme="base"] .help-picker,
+html[data-theme="base"] .language-picker,
+html[data-theme="base"] .advanced-filters-trigger,
+html[data-theme="base"] .emoji-copy-actions button,
+html[data-theme="base"] .emoji-code-toolbar button,
+html[data-theme="base"] .order-mode,
+html[data-theme="base"] .emoji-font-choice,
+html[data-theme="base"] .saved-emoji-list button,
+html[data-theme="base"] .dialog-close,
+html[data-theme="base"] .dialog-navigate,
+html[data-theme="base"] .dialog-mode-back {
+  appearance: auto !important;
+  -webkit-appearance: auto !important;
+  border: revert !important;
+  border-radius: revert !important;
+  background: revert !important;
+  color: revert !important;
+  box-shadow: revert !important;
+  font: revert !important;
+  font-size: revert !important;
+  font-weight: revert !important;
+  padding: revert !important;
+}
+
 html[data-theme="base"] dialog.example-dialog,
 html[data-theme="base"] dialog.language-dialog,
 html[data-theme="base"] dialog.saved-dialog,
