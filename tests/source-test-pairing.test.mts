@@ -54,7 +54,6 @@ const legacyMissingTestPairs = new Set([
   "src/explorer/audio/explorer-audio-engine.ts",
   "src/explorer/catalog-loader.ts",
   "src/explorer/category-filter-layout.ts",
-  "src/explorer/category-filter-render.ts",
   "src/explorer/control-startup.ts",
   "src/explorer/copy-feedback.ts",
   "src/explorer/dialog/dialog-control-helpers.ts",
