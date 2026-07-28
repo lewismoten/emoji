@@ -47,3 +47,95 @@ assert.deepEqual(
   }).map((item) => item.selected),
   [true, false, false],
 );
+
+assert.equal(
+  isChoiceGroupItemDisabled(
+    { selected: false },
+    optionalSelection,
+    {
+      maxSelectable: 1,
+      minSelectable: 0,
+    },
+  ),
+  false,
+);
+
+assert.equal(
+  isChoiceGroupItemDisabled(
+    { selected: false },
+    [
+      { selected: true },
+      { selected: true },
+      { selected: false },
+    ],
+    {
+      maxSelectable: 2,
+      minSelectable: 0,
+    },
+  ),
+  true,
+);
+
+assert.equal(
+  toggleChoiceGroupSelection(optionalSelection, "missing", {
+    maxSelectable: 1,
+    minSelectable: 0,
+  }),
+  optionalSelection,
+);
+
+assert.deepEqual(
+  toggleChoiceGroupSelection(
+    [
+      { ariaLabel: "One", selected: true, value: "one" },
+      { ariaLabel: "Two", selected: false, value: "two" },
+      { ariaLabel: "Three", selected: false, value: "three" },
+    ],
+    "three",
+    {
+      maxSelectable: 3,
+      minSelectable: 0,
+    },
+  ).map((item) => item.selected),
+  [true, false, true],
+);
+
+assert.equal(
+  isChoiceGroupItemDisabled(
+    { selected: true },
+    [
+      { selected: true },
+      { selected: false },
+      { selected: false },
+    ],
+    {
+      maxSelectable: 3,
+      minSelectable: 0,
+    },
+  ),
+  false,
+);
+
+assert.deepEqual(
+  toggleChoiceGroupSelection(
+    [
+      { ariaLabel: "One", selected: true, value: "one" },
+      { ariaLabel: "Two", selected: false, value: "two" },
+    ],
+    "one",
+    {
+      maxSelectable: 1,
+      minSelectable: 1,
+    },
+  ).map((item) => item.selected),
+  [true, false],
+);
+
+assert.equal(
+  isChoiceGroupItemDisabled(
+    { selected: false },
+    [{ selected: true }, { selected: false }],
+    {},
+  ),
+  false,
+);

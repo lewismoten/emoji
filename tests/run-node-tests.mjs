@@ -32,6 +32,7 @@ const coverageExcludes = [
   "build/src/explorer/filter-controls.js",
   "build/src/explorer/import-examples.js",
   "build/src/explorer/saved-emoji.js",
+  "build/src/explorer/url-state.js",
   "build/src/explorer/version-filter-control.js",
 ];
 const requestedConcurrency = Number.parseInt(
@@ -86,8 +87,8 @@ if (tests.length === 0) {
           ? [
               "--experimental-test-coverage",
               "--test-coverage-lines=100",
-              "--test-coverage-branches=80",
-              "--test-coverage-functions=80",
+              "--test-coverage-branches=100",
+              "--test-coverage-functions=100",
               ...coverageExcludes.map(
                 (pattern) => `--test-coverage-exclude=${pattern}`,
               ),

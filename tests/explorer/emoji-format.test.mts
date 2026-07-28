@@ -17,8 +17,11 @@ assert.equal(
   "smiling face hearts",
 );
 assert.equal(normalizeCodePoints("1f44d   fe0f"), "1F44D FE0F");
+assert.equal(normalizeCodePoints(null), "");
 assert.equal(formatUiNumber(3953, "en"), "3,953");
+assert.equal(formatUiNumber(12, "ar", "arab"), "١٢");
 assert.equal(formatUiPercent(0.74, "en"), "74%");
+assert.equal(formatUiPercent(0.5, "ar", "arab"), "٥٠٪؜");
 assert.equal(
   formatCompositionReduction(3, 1, {
     dir: "rtl",
@@ -27,3 +30,4 @@ assert.equal(
   }),
   "١←٣",
 );
+assert.equal(formatCompositionReduction(3, 1), "3→1");

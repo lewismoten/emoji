@@ -53,6 +53,8 @@ Object.defineProperty(globalThis, "navigator", {
 announceStatus(status, "Copied");
 assert.equal(timeoutCalls, 1);
 assert.equal(status.textContent, "Copied");
+announceStatus(undefined, "Ignored");
+assert.equal(timeoutCalls, 1);
 
 assert.equal(
   await copyToClipboard({
@@ -100,9 +102,11 @@ globals.document.documentElement.dataset.theme = "retro";
 animateCopyConfirmation(retroButton);
 assert.equal(canceled, true);
 assert.equal(retroAnimation.id, "emoji-copy-confirmation");
+animateCopyConfirmation({});
 
 let animated = false;
 const normalAnimation = { id: "" };
+let normalCanceled = false;
 const normalButton = {
   animate(frames: unknown, options: unknown) {
     animated = true;
@@ -114,7 +118,7 @@ const normalButton = {
     return normalAnimation;
   },
   getAnimations() {
-    return [];
+    return [{ id: "other-animation", cancel() {} }];
   },
 };
 
@@ -137,6 +141,65 @@ Object.defineProperty(globalThis, "window", {
 animated = false;
 animateCopyConfirmation(normalButton);
 assert.equal(animated, false);
+animateCopyConfirmation(undefined);
+
+const cancelingNormalButton = {
+  animate(frames: unknown, options: unknown) {
+    assert.ok(Array.isArray(frames));
+    assert.deepEqual(options, {
+      duration: 240,
+      easing: "cubic-bezier(0.2, 0.8, 0.2, 1)",
+    });
+    return { id: "" };
+  },
+  getAnimations() {
+    return [
+      {
+        id: "emoji-copy-confirmation",
+        cancel() {
+          normalCanceled = true;
+        },
+      },
+    ];
+  },
+};
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: {
+    matchMedia: () => ({ matches: false }),
+    setTimeout(callback: () => void) {
+      callback();
+      return 1;
+    },
+  },
+});
+animateCopyConfirmation(cancelingNormalButton);
+assert.equal(normalCanceled, true);
+
+let fallbackFailure = "";
+Object.defineProperty(globalThis, "navigator", {
+  configurable: true,
+  value: {
+    clipboard: {
+      async writeText() {
+        throw new Error("boom");
+      },
+    },
+  },
+});
+await copyToClipboard({
+  value: "💥",
+  successMessage: "Unused",
+  copyStatus: undefined,
+  translate: (key, fallback) => {
+    fallbackFailure = `${key}:${fallback}`;
+    return fallbackFailure;
+  },
+});
+assert.equal(
+  fallbackFailure,
+  "copyFailed:Could not copy to the clipboard.",
+);
 
 if (originalDocument === undefined) {
   delete globals.document;

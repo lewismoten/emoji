@@ -37,6 +37,131 @@ assert.deepEqual(
 
 assert.deepEqual(
   parseExplorerUrlState({
+    search: "?emoji=wrappedGift&emojiMode=editor&panel=favorites",
+    developerMode: true,
+    preferredOrder: "",
+    allowedSequenceTypes: [],
+  }),
+  {
+    search: "",
+    version: "",
+    versionMode: "through",
+    group: "",
+    subGroup: "",
+    sequenceType: "",
+    skin: [],
+    hair: [],
+    gender: [],
+    order: "grouped",
+    compositionMode: "condensed",
+    emoji: "wrappedGift",
+    emojiMode: "editor",
+    panel: "favorites",
+  },
+);
+
+assert.deepEqual(
+  parseExplorerUrlState({
+    search: "",
+    developerMode: false,
+    preferredOrder: "bogus",
+    allowedSequenceTypes: [],
+  }),
+  {
+    search: "",
+    version: "",
+    versionMode: "through",
+    group: "",
+    subGroup: "",
+    sequenceType: "",
+    skin: [],
+    hair: [],
+    gender: [],
+    order: "grouped",
+    compositionMode: "condensed",
+    emoji: "",
+    emojiMode: "details",
+    panel: "",
+  },
+);
+
+assert.deepEqual(
+  parseExplorerUrlState({
+    search: "?order=popular&panel=bogus",
+    developerMode: true,
+    preferredOrder: "grouped",
+    allowedSequenceTypes: [],
+  }),
+  {
+    search: "",
+    version: "",
+    versionMode: "through",
+    group: "",
+    subGroup: "",
+    sequenceType: "",
+    skin: [],
+    hair: [],
+    gender: [],
+    order: "popular",
+    compositionMode: "condensed",
+    emoji: "",
+    emojiMode: "details",
+    panel: "",
+  },
+);
+
+assert.deepEqual(
+  parseExplorerUrlState({
+    search: "?version=18.0&mode=selected&emoji=wrappedGift&emojiMode=editor&panel=filters",
+    developerMode: false,
+    preferredOrder: "",
+    allowedSequenceTypes: ["single"],
+  }),
+  {
+    search: "",
+    version: "",
+    versionMode: "through",
+    group: "",
+    subGroup: "",
+    sequenceType: "",
+    skin: [],
+    hair: [],
+    gender: [],
+    order: "grouped",
+    compositionMode: "condensed",
+    emoji: "wrappedGift",
+    emojiMode: "details",
+    panel: "filters",
+  },
+);
+
+assert.deepEqual(
+  parseExplorerUrlState({
+    search: "?order=bogus&sequenceType=bogus&group=Objects&subgroup=mail",
+    developerMode: true,
+    preferredOrder: "popular",
+    allowedSequenceTypes: ["single", "zwj"],
+  }),
+  {
+    search: "",
+    version: "",
+    versionMode: "through",
+    group: "Objects",
+    subGroup: "mail",
+    sequenceType: "",
+    skin: [],
+    hair: [],
+    gender: [],
+    order: "popular",
+    compositionMode: "condensed",
+    emoji: "",
+    emojiMode: "details",
+    panel: "",
+  },
+);
+
+assert.deepEqual(
+  parseExplorerUrlState({
     search: "?order=sequence&emojiMode=editor&panel=language",
     developerMode: false,
     preferredOrder: "unicode",
@@ -108,4 +233,142 @@ assert.equal(
     dialogOpen: false,
   }),
   "q=gift&group=Objects&subgroup=mail&order=unicode&panel=favorites",
+);
+
+assert.equal(
+  buildExplorerUrlQuery({
+    search: "  gift  ",
+    developerMode: true,
+    latestReleasedVersion: "17.0",
+    version: "17.0",
+    versionMode: "through",
+    order: "grouped",
+    group: "Objects",
+    subGroup: "Objects::mail",
+    sequenceType: "",
+    skin: ["1F3FB"],
+    hair: ["1F9B0"],
+    gender: ["female"],
+    compositionMode: "condensed",
+    currentEmojiKey: "wrappedGift",
+    emojiMode: "details",
+    panel: "help",
+    dialogOpen: true,
+  }),
+  "q=gift&developer=1&group=Objects&subgroup=mail&skin=1F3FB&hair=1F9B0&gender=female&emoji=wrappedGift",
+);
+
+assert.equal(
+  buildExplorerUrlQuery({
+    search: "",
+    developerMode: true,
+    latestReleasedVersion: "17.0",
+    version: "17.0",
+    versionMode: "through",
+    order: "sequence",
+    group: "Objects",
+    subGroup: "Objects::mail",
+    sequenceType: "zwj",
+    skin: [],
+    hair: [],
+    gender: [],
+    compositionMode: "full",
+    currentEmojiKey: "",
+    emojiMode: "details",
+    panel: "language",
+    dialogOpen: false,
+  }),
+  "developer=1&sequenceType=zwj&order=sequence&composition=full&panel=language",
+);
+
+assert.equal(
+  buildExplorerUrlQuery({
+    search: "",
+    developerMode: true,
+    latestReleasedVersion: "17.0",
+    version: "18.0",
+    versionMode: "selected",
+    order: "grouped",
+    group: "",
+    subGroup: "",
+    sequenceType: "",
+    skin: [],
+    hair: [],
+    gender: [],
+    compositionMode: "condensed",
+    currentEmojiKey: "wrappedGift",
+    emojiMode: "code",
+    panel: "",
+    dialogOpen: true,
+  }),
+  "version=18.0&mode=selected&developer=1&emoji=wrappedGift&emojiMode=code",
+);
+
+assert.equal(
+  buildExplorerUrlQuery({
+    search: "",
+    developerMode: false,
+    latestReleasedVersion: "17.0",
+    version: "",
+    versionMode: "through",
+    order: "grouped",
+    group: "",
+    subGroup: "",
+    sequenceType: "",
+    skin: [],
+    hair: [],
+    gender: [],
+    compositionMode: "condensed",
+    currentEmojiKey: "",
+    emojiMode: "details",
+    panel: "",
+    dialogOpen: false,
+  }),
+  "",
+);
+
+assert.equal(
+  buildExplorerUrlQuery({
+    search: "",
+    developerMode: false,
+    latestReleasedVersion: "17.0",
+    version: "17.0",
+    versionMode: "through",
+    order: "grouped",
+    group: "",
+    subGroup: "",
+    sequenceType: "",
+    skin: [],
+    hair: [],
+    gender: [],
+    compositionMode: "condensed",
+    currentEmojiKey: "wrappedGift",
+    emojiMode: "editor",
+    panel: "",
+    dialogOpen: true,
+  }),
+  "emoji=wrappedGift&emojiMode=editor",
+);
+
+assert.equal(
+  buildExplorerUrlQuery({
+    search: "",
+    developerMode: true,
+    latestReleasedVersion: undefined,
+    version: "18.0",
+    versionMode: "through",
+    order: "grouped",
+    group: "",
+    subGroup: "",
+    sequenceType: "",
+    skin: [],
+    hair: [],
+    gender: [],
+    compositionMode: "condensed",
+    currentEmojiKey: "",
+    emojiMode: "details",
+    panel: "",
+    dialogOpen: false,
+  }),
+  "version=18.0&developer=1",
 );

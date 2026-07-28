@@ -45,3 +45,42 @@ assert.ok(
 assert.ok(markup.includes('class="choice-button"'));
 assert.ok(markup.includes('data-disabled="true"'));
 assert.ok(markup.includes('data-disabled="false"'));
+
+const radioMarkup = ChoiceGroupControl.toMarkup({
+  buttonClassName: "theme-choice",
+  className: "theme-choices",
+  inputClassName: "theme-input",
+  inputName: "theme",
+  inputType: "radio",
+  items: [
+    {
+      ariaLabel: "Light theme",
+      className: "is-light",
+      dataAttributes: { theme: "light" },
+      emoji: "☀️",
+      label: "Light",
+      selected: false,
+      title: "Switch to light",
+      value: "light",
+    },
+    {
+      ariaLabel: "Dark theme",
+      dataAttributes: { theme: "dark" },
+      emoji: "🌙",
+      label: "Dark",
+      selected: true,
+      value: "dark",
+    },
+  ],
+  label: "Theme",
+  role: "radiogroup",
+});
+
+assert.ok(radioMarkup.includes('class="theme-choices"'));
+assert.ok(radioMarkup.includes('aria-label="Theme"'));
+assert.ok(radioMarkup.includes('role="radiogroup"'));
+assert.ok(radioMarkup.includes('class="theme-choice is-light"'));
+assert.ok(radioMarkup.includes('data-theme="light"'));
+assert.ok(radioMarkup.includes('title="Switch to light"'));
+assert.ok(radioMarkup.includes('tabindex="0"'));
+assert.ok(radioMarkup.includes('tabindex="-1"'));

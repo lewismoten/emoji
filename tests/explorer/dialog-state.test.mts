@@ -11,6 +11,7 @@ import {
 } from "../../src/explorer/dialog/dialog-state.js";
 
 assert.equal(buildEscapeSequence("A😀"), "\\u41\\u{1f600}");
+assert.equal(buildEscapeSequence("AB"), "\\u41\\u42");
 
 assert.deepEqual(
   buildDialogCopyValues({
@@ -30,6 +31,7 @@ assert.equal(
   formatEmojiCodePoints("1F469 200D 1F52C"),
   "U+1F469 U+200D U+1F52C",
 );
+assert.equal(formatEmojiCodePoints(""), "");
 
 assert.deepEqual(
   resolveDialogTitle({
@@ -70,6 +72,26 @@ assert.deepEqual(
     nextKey: "rocket",
   },
 );
+assert.deepEqual(
+  resolveDialogNavigationState(["wave", "gift", "rocket"], "wave"),
+  {
+    index: 0,
+    previousDisabled: true,
+    nextDisabled: false,
+    previousKey: "",
+    nextKey: "gift",
+  },
+);
+assert.deepEqual(
+  resolveDialogNavigationState(["wave", "gift", "rocket"], "missing"),
+  {
+    index: -1,
+    previousDisabled: true,
+    nextDisabled: true,
+    previousKey: "",
+    nextKey: "",
+  },
+);
 
 assert.equal(
   resolveCompositionParentLabel({
@@ -80,6 +102,33 @@ assert.equal(
       key === "backToEmoji" ? "Back to emoji" : fallback,
   }),
   "Back to emoji: Black flag",
+);
+assert.equal(
+  resolveCompositionParentLabel({
+    parentKey: "rocketShip",
+    searchAnnotations: {},
+    byId: { rocketShip: { shortName: "Rocket ship" } },
+    translate: (_key: string, fallback: string) => fallback,
+  }),
+  "Back to emoji: Rocket ship",
+);
+assert.equal(
+  resolveCompositionParentLabel({
+    parentKey: "wrappedGift",
+    searchAnnotations: {},
+    byId: {},
+    translate: (_key: string, fallback: string) => fallback,
+  }),
+  "Back to emoji: Wrapped gift",
+);
+assert.equal(
+  resolveCompositionParentLabel({
+    parentKey: "",
+    searchAnnotations: {},
+    byId: {},
+    translate: (_key: string, fallback: string) => fallback,
+  }),
+  "",
 );
 
 assert.deepEqual(
@@ -123,6 +172,46 @@ assert.deepEqual(
       key: "wrappedGift",
       escape: "\\u{1f381}",
       codePoints: "U+1F381",
+    },
+  },
+);
+
+assert.deepEqual(
+  resolveEmojiDialogDisplay({
+    emojiKey: "wrappedGift",
+    emojiValue: "🎁",
+    item: {},
+    groupText: "",
+    subGroupText: "",
+    introducedVersion: "",
+    selectedSearchLocale: "ar",
+    annotations: ["هدية ملفوفة", "احتفال"],
+    sequenceTypeLabels: {},
+    sequenceTranslationKeys: {},
+    statusTranslationKeys: {},
+    translate: (key: string, fallback: string) => `${key}:${fallback}`,
+  }),
+  {
+    groupText: "",
+    subGroupText: "",
+    keyText: "wrappedGift",
+    valueText: "🎁",
+    encodedText: "\\u{1f381}",
+    englishName: "Wrapped gift",
+    versionText: "",
+    sequenceTypeText: "undefined:—",
+    statusText: "undefined:—",
+    dialogTitle: {
+      title: "هدية ملفوفة",
+      showLocalized: true,
+      localizedKeywords: "احتفال",
+    },
+    hideEnglishName: false,
+    copyValues: {
+      emoji: "🎁",
+      key: "wrappedGift",
+      escape: "\\u{1f381}",
+      codePoints: "",
     },
   },
 );
