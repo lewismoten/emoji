@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
-import os from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -18,8 +17,10 @@ const transformedSource = sourceText
   .replace(/options: any/g, "options")
   .replace(/\.\.\.args: any\[\]/g, "...args");
 
+const tempRoot = path.join(root, "build/tests/.tmp");
+await fs.mkdir(tempRoot, { recursive: true });
 const tempDirectory = await fs.mkdtemp(
-  path.join(os.tmpdir(), "browser-runtime-config-test-"),
+  path.join(tempRoot, "browser-runtime-config-test-"),
 );
 const moduleFile = path.join(tempDirectory, "browser-runtime-config.mjs");
 const stubFile = path.join(tempDirectory, "browser-runtime-stub.mjs");
