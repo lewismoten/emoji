@@ -23,6 +23,11 @@ assert.match(
   "Vite must use the TypeScript Explorer entry point",
 );
 assert.match(
+  await fs.readFile(path.join(root, "src/explorer-entry.ts"), "utf8"),
+  /^import "\.\/explorer-bootstrap\.js";\s*$/m,
+  "the dedicated Explorer entry must bootstrap the shared Explorer runtime",
+);
+assert.match(
   `${explorerGeneratorScript}\n${await fs.readFile(
     path.join(root, "scripts/generate-demo-pages.mjs"),
     "utf8",
