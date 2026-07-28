@@ -8,6 +8,7 @@ import { isChoiceGroupItemDisabled } from "./choice-group-selection.js";
 
 export type ChoiceGroupItem = {
   ariaLabel: string;
+  className?: string;
   dataAttributes?: Record<string, string>;
   emoji?: string;
   label?: string;
@@ -79,7 +80,9 @@ export class ChoiceGroupControl extends BaseControl<ChoiceGroupState> {
           });
           const toggleState: ToggleButtonState = {
             ariaLabel: item.ariaLabel,
-            className: this.state.buttonClassName,
+            className: [this.state.buttonClassName, item.className]
+              .filter(Boolean)
+              .join(" "),
             dataAttributes: {
               ...(item.dataAttributes ?? {}),
               disabled: disabled ? "true" : "false",

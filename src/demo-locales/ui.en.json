@@ -41,6 +41,7 @@
   "throughSelectedVersion": "All up to selected version",
   "selectedVersionOnly": "Selected version only",
   "dark": "Dark",
+  "base": "Base",
   "retro": "Retro",
   "mediumDark": "Medium-dark",
   "medium": "Medium",

@@ -124,12 +124,19 @@ function updateThemeColor() {
         : "#160622";
 }
 
-export function renderThemeToggle(options: any) {
-  const theme = ["light", "retro"].includes(
-    options.state().explorerPreferences.theme,
-  )
-    ? options.state().explorerPreferences.theme
+function resolveThemePreference(preferredTheme: string | undefined, developerMode: boolean) {
+  if (preferredTheme === "base") return developerMode ? "base" : "dark";
+  return ["light", "retro"].includes(preferredTheme ?? "")
+    ? preferredTheme
     : "dark";
+}
+
+export function renderThemeToggle(options: any) {
+  const developerMode = document.documentElement.hasAttribute("data-developer-mode");
+  const theme = resolveThemePreference(
+    options.state().explorerPreferences.theme,
+    developerMode,
+  );
   document.documentElement.dataset.theme = theme;
   options.choices().forEach((choice: any) => {
     const selected = choice.dataset.theme === theme;
@@ -141,9 +148,12 @@ export function renderThemeToggle(options: any) {
 }
 
 export function selectTheme(options: any, event: any) {
-  const theme = ["light", "retro"].includes(event.currentTarget.dataset.theme)
-    ? event.currentTarget.dataset.theme
-    : "dark";
+  const requestedTheme = event.currentTarget.dataset.theme;
+  const theme =
+    requestedTheme === "base" ||
+    ["light", "retro"].includes(requestedTheme)
+      ? requestedTheme
+      : "dark";
   options.savePreference("theme", theme);
   options.renderThemeToggle();
 }
@@ -187,7 +197,11 @@ export function createDeveloperModeController(options: any) {
     options.state().developerModeUrlDismissed = !active;
     options.state().developerModeFromUrl = false;
     options.savePreference("developerMode", active);
+    if (!active && options.state().explorerPreferences.theme === "base") {
+      options.savePreference("theme", "dark");
+    }
     render();
+    options.renderThemeToggle?.();
     if (active) void options.loadVersionData();
     if (!active && options.dialog()?.open) options.setDialogView("details");
     if (!active) options.disableDeveloperFeatures();

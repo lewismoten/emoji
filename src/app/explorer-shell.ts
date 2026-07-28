@@ -93,6 +93,7 @@ export function createExplorerShell(options: any) {
     dialog: options.dialog,
     disableDeveloperFeatures,
     loadVersionData: options.loadVersionData,
+    renderThemeToggle,
     savePreference: options.savePreference,
     setDialogView: options.setDialogView,
     state: options.state,

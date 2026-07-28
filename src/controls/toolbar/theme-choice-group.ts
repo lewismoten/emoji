@@ -23,6 +23,12 @@ export class ThemeChoiceGroupControl extends BaseControl<ThemeChoiceGroupState> 
       label: "Theme",
       labelKey: "theme",
       themes: [
+        {
+          theme: "base",
+          emoji: "🧱",
+          key: "base",
+          text: "Base",
+        },
         { theme: "light", emoji: "☀️", key: "light", text: "Light" },
         { theme: "dark", emoji: "🌙", key: "dark", text: "Dark" },
         { theme: "retro", emoji: "🕹️", key: "retro", text: "Retro" },
@@ -48,6 +54,7 @@ export class ThemeChoiceGroupControl extends BaseControl<ThemeChoiceGroupState> 
         ariaLabel: theme.text,
         dataAttributes: { theme: theme.theme },
         emoji: theme.emoji,
+        className: theme.theme === "base" ? "developer-only" : undefined,
         label: theme.text,
         labelKey: theme.key,
         selected: false,

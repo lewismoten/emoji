@@ -75,11 +75,16 @@
       const initialUrlParams = new URLSearchParams(location.search);
       if (initialPreferences.pixelFont === false)
         document.documentElement.dataset.emojiFont = "system";
+      const initialDeveloperMode =
+        initialPreferences.developerMode === true ||
+        initialUrlParams.get("developer") === "1";
       const initialTheme =
-        initialPreferences.theme === "light" ||
-        initialPreferences.theme === "retro"
-          ? initialPreferences.theme
-          : "dark";
+        initialPreferences.theme === "base" && initialDeveloperMode
+          ? "base"
+          : initialPreferences.theme === "light" ||
+              initialPreferences.theme === "retro"
+            ? initialPreferences.theme
+            : "dark";
       document.documentElement.dataset.theme = initialTheme;
       const initialThemeColor = document.querySelector(
         'meta[name="theme-color"]',
@@ -93,9 +98,6 @@
               ? "#0000aa"
               : "#160622",
         );
-      const initialDeveloperMode =
-        initialPreferences.developerMode === true ||
-        initialUrlParams.get("developer") === "1";
       if (initialDeveloperMode)
         document.documentElement.setAttribute("data-developer-mode", "");
       if (initialDeveloperMode && initialUrlParams.get("order") === "sequence")
@@ -1219,6 +1221,15 @@
               data-i18n-aria-label="theme"
               aria-label="Theme"
             >
+              <button
+                class="setting-choice theme-choice developer-only"
+                type="button"
+                data-theme="base"
+                aria-pressed="false"
+              >
+                <span aria-hidden="true">🧱</span>
+                <span data-i18n="base">Base</span>
+              </button>
               <button
                 class="setting-choice theme-choice"
                 type="button"
