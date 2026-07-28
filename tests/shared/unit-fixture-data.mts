@@ -146,6 +146,10 @@ export const demoHtml = await fs.readFile(
 );
 export const demoStyles = (
   await Promise.all([
+    fs.readFile(
+      path.join(root, "src", "site", "themes", "base-theme.css"),
+      "utf8",
+    ),
     fs.readFile(path.join(root, "src", "site", "themes", "dark.css"), "utf8"),
     fs.readFile(
       path.join(root, "src", "site", "themes", "light", "light.css"),
@@ -169,6 +173,17 @@ export const demoStyles = (
     ),
     fs.readFile(
       path.join(root, "src", "site", "themes", "retro", "retro-dialogs.css"),
+      "utf8",
+    ),
+    fs.readFile(
+      path.join(
+        root,
+        "src",
+        "site",
+        "themes",
+        "retro",
+        "retro-example-dialogs.css",
+      ),
       "utf8",
     ),
     fs.readFile(

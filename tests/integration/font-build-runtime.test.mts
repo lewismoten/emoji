@@ -23,7 +23,7 @@ const pixelEditorFontRefreshSource = `${pixelEditorRuntimeController}\n${pixelEd
 
 assert.match(
   demoStyles,
-  /--emoji-font:[\s\S]*--pixel-emoji-proposed-family[\s\S]*--pixel-emoji-released-family/,
+  /--emoji-font:[\s\S]*--pixel-emoji-released-family[\s\S]*--pixel-emoji-proposed-family[\s\S]*--system-emoji-font/,
   "the demo must use proposed, released, and system emoji as a fall-forward stack",
 );
 assert.match(

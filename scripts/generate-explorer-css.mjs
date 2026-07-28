@@ -4,8 +4,8 @@ import path from "node:path";
 const outputDirectory = "explorer";
 const sourceFiles = [
   {
-    source: path.join("src", "site", "themes", "base.css"),
-    output: path.join("themes", "base.css"),
+    source: path.join("src", "site", "themes", "base-theme.css"),
+    output: path.join("themes", "base-theme.css"),
   },
   {
     source: path.join("src", "site", "themes", "dark.css"),
@@ -30,6 +30,10 @@ const sourceFiles = [
   {
     source: path.join("src", "site", "themes", "retro", "retro-dialogs.css"),
     output: path.join("themes", "retro", "retro-dialogs.css"),
+  },
+  {
+    source: path.join("src", "site", "themes", "retro", "retro-example-dialogs.css"),
+    output: path.join("themes", "retro", "retro-example-dialogs.css"),
   },
   {
     source: path.join("src", "site", "themes", "retro", "retro-buttons.css"),

@@ -55,7 +55,7 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="pixel-comparison"[\s\S]*role="group"[\s\S]*class="emoji-font-choice emoji-font-choice-system"[\s\S]*class="emoji-font-choice emoji-font-choice-pixel"/,
+  /class="pixel-comparison"[\s\S]*role="radiogroup"[\s\S]*class="emoji-font-choice emoji-font-choice-system"[\s\S]*role="radio"[\s\S]*class="emoji-font-choice emoji-font-choice-pixel"[\s\S]*role="radio"/,
   "demo must provide system and pixel font choices in the comparison",
 );
 assert.match(

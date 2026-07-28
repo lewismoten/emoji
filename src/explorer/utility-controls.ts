@@ -33,10 +33,14 @@ type MinimalElement = {
   remove(): void;
   replaceWith(...nodes: unknown[]): void;
   setAttribute(name: string, value: string): void;
+  checked?: boolean;
   hidden?: boolean;
+  name?: string;
+  tabIndex?: number;
   textContent: string | null;
   title?: string;
   type?: string;
+  value?: string;
 };
 
 declare const document: {

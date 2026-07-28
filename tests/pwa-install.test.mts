@@ -71,12 +71,14 @@ const [
   read("src/app/explorer-shell.ts"),
   read("src/explorer/pwa-panels.ts"),
   Promise.all([
+    read("src/site/themes/base-theme.css"),
     read("src/site/themes/dark.css"),
     read("src/site/themes/light/light.css"),
     read("src/site/themes/ega.css"),
     read("src/site/themes/retro/retro.css"),
     read("src/site/themes/retro/retro-foundation.css"),
     read("src/site/themes/retro/retro-dialogs.css"),
+    read("src/site/themes/retro/retro-example-dialogs.css"),
     read("src/site/themes/retro/retro-buttons.css"),
     read("src/site/themes/retro/retro-forms.css"),
     read("src/site/themes/retro/retro-focus.css"),
@@ -188,7 +190,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /--emoji-font:\s*var\(--pixel-emoji-released-family[\s\S]*var\(--pixel-emoji-proposed-family[\s\S]*\.has-proposed-pixel-art[\s\S]*var\(--pixel-emoji-proposed-family/,
+  /--emoji-font:\s*var\(--pixel-emoji-released-family[\s\S]*var\(--pixel-emoji-proposed-family[\s\S]*\.(?:modifier-emoji|emoji-glyph|emoji-preview-glyph|emoji-composition-glyph)\.has-proposed-pixel-art[\s\S]*var\(--pixel-emoji-proposed-family[\s\S]*var\(--emoji-font\)/,
   "released artwork must prefer the released font while proposed artwork explicitly promotes the proposed font",
 );
 assert.match(

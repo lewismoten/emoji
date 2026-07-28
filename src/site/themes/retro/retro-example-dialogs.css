@@ -1,0 +1,59 @@
+html[data-theme="retro"] .subgroup-list,
+html[data-theme="retro"] .emoji-dialog-details,
+html[data-theme="retro"] .rendering-diagnostic,
+html[data-theme="retro"] .dialog-description,
+html[data-theme="retro"] .emoji-composition,
+html[data-theme="retro"] .emoji-metadata,
+html[data-theme="retro"] .emoji-copy-actions,
+html[data-theme="retro"] .emoji-code-view,
+html[data-theme="retro"] .pixel-editor-view,
+html[data-theme="retro"] .pixel-editor-controls,
+html[data-theme="retro"] .pixel-editor-layout,
+html[data-theme="retro"] .pixel-editor-transfer > div,
+html[data-theme="retro"] .pixel-editor-layer-controls,
+html[data-theme="retro"] .pixel-editor-layer-actions,
+html[data-theme="retro"] .pixel-editor-layer-transform {
+  background: var(--dialog-body-bg);
+}
+
+html[data-theme="retro"] .emoji-code-toolbar {
+  background: var(--ega-dark-gray);
+  border-top: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .example-dialog .emoji-copy-actions button,
+html[data-theme="retro"] .example-dialog .emoji-code-toolbar button,
+html[data-theme="retro"] .example-dialog .emoji-composition-mode,
+html[data-theme="retro"] .example-dialog .emoji-preview-copy-label,
+html[data-theme="retro"] .example-dialog .show-emoji-code,
+html[data-theme="retro"] .example-dialog .show-pixel-editor,
+html[data-theme="retro"] .example-dialog .back-to-emoji,
+html[data-theme="retro"] .example-dialog .show-pixel-editor,
+html[data-theme="retro"] .example-dialog .show-emoji-code,
+html[data-theme="retro"] .example-dialog .pixel-editor-toolbar button,
+html[data-theme="retro"] .example-dialog .pixel-editor-file button,
+html[data-theme="retro"] .example-dialog .pixel-editor-preview-actions button,
+html[data-theme="retro"] .example-dialog .pixel-editor-transfer button,
+html[data-theme="retro"] .example-dialog .pixel-editor-layer button,
+html[data-theme="retro"] .example-dialog .pixel-editor-trace-nudge {
+  border-right-color: var(--ega-black);
+  border-bottom-color: var(--ega-black);
+}
+
+html[data-theme="retro"] .emoji-code-view {
+  background: var(--ega-dark-gray);
+}
+
+html[data-theme="retro"] .example-dialog .pixel-editor-stage,
+html[data-theme="retro"] .example-dialog .pixel-editor-file,
+html[data-theme="retro"] .example-dialog .pixel-editor-controls fieldset,
+html[data-theme="retro"] .example-dialog .pixel-editor-transfer > div,
+html[data-theme="retro"] .example-dialog .pixel-editor-layer-controls,
+html[data-theme="retro"] .example-dialog .pixel-editor-layer-actions,
+html[data-theme="retro"] .example-dialog .pixel-editor-layer-transform {
+  border-color: var(--ega-black);
+}
+
+html[data-theme="retro"] .example-dialog .pixel-editor-file {
+  background: var(--ega-light-gray);
+}

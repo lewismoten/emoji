@@ -244,7 +244,7 @@ export const renderPage = (
     )
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/base\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/themes/base.css?v=${assetVersion}">`,
+      `<link rel="stylesheet" href="./explorer/themes/base-theme.css?v=${assetVersion}">`,
     )
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/dark\.css")[^>]*\/?>/,
@@ -269,6 +269,10 @@ export const renderPage = (
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/retro\/retro-dialogs\.css")[^>]*\/?>/,
       `<link rel="stylesheet" href="./explorer/themes/retro/retro-dialogs.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/retro\/retro-example-dialogs\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/retro/retro-example-dialogs.css?v=${assetVersion}">`,
     )
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/retro\/retro-buttons\.css")[^>]*\/?>/,
@@ -379,8 +383,8 @@ export const renderPage = (
       `<link rel="stylesheet" href="./explorer/themes/retro/retro-focus.css?v=${assetVersion}">`,
     )
     .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/base\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/themes/base.css?v=${assetVersion}">`,
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/base-theme\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/base-theme.css?v=${assetVersion}">`,
     )
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/dark\.css")[^>]*\/?>/,

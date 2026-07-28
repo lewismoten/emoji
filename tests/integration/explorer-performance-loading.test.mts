@@ -26,7 +26,7 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.subgroup \.emoji > div,[\s\S]*width:\s*2\.75rem;[\s\S]*height:\s*2\.75rem;/,
+  /\.subgroup \.emoji > \[data-emoji-key\],[\s\S]*width:\s*2\.75rem;[\s\S]*height:\s*2\.75rem;/,
   "emoji results must provide 44 CSS-pixel pointer targets",
 );
 assert.match(
@@ -121,6 +121,6 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.pixel-hero\s*\{[^}]*min-height:\s*7\.5rem;[^}]*contain:\s*layout style;[\s\S]*\.pixel-comparison > button\s*\{[^}]*width:\s*4rem;/,
+  /\.pixel-hero\s*\{[^}]*min-height:\s*7\.5rem;[^}]*contain:\s*layout style;[\s\S]*\.emoji-font-choice\s*\{[^}]*width:\s*4rem;/,
   "the Pixel Emoji introduction must reserve stable dimensions while fonts load",
 );
