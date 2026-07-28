@@ -61,7 +61,6 @@ const legacyMissingTestPairs = new Set([
   "src/explorer/dialog/dialog-upgrade.ts",
   "src/explorer/dialog/dialog-view.ts",
   "src/explorer/dialog/emoji-dialog-events.ts",
-  "src/explorer/dialog/emoji-session.ts",
   "src/explorer/emoji-list-interaction.ts",
   "src/explorer/emoji-list-render.ts",
   "src/explorer/event-accessibility.ts",
