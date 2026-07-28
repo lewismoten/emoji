@@ -20,7 +20,7 @@
   height: 2.75rem;
   place-items: center;
   border: 1px solid var(--border);
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md-lg);
   background: var(--panel-strong);
   color: var(--text);
   cursor: pointer;

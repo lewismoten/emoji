@@ -140,7 +140,7 @@ select {
   width: 100%;
   min-height: 2.5rem;
   border: 1px solid var(--border);
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md-lg);
   background: var(--panel);
   color: var(--text);
   font: inherit;
@@ -186,7 +186,7 @@ fieldset {
   margin: 0;
   padding: 0.45rem 0.65rem 0.55rem;
   border: 1px solid var(--border);
-  border-radius: 0.55rem;
+  border-radius: var(--radius-lg);
   background: var(--panel);
 }
 
@@ -217,7 +217,7 @@ fieldset input {
   min-height: 2.25rem;
   padding: 0.3rem 0.5rem;
   border: 1px solid var(--border);
-  border-radius: 0.55rem;
+  border-radius: var(--radius-lg);
   background: var(--panel);
   cursor: pointer;
 }

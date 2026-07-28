@@ -51,7 +51,7 @@
         max(0.5rem, env(safe-area-inset-bottom))
     );
     margin: 0;
-    border-radius: 0.85rem;
+    border-radius: var(--radius-3xl);
   }
   .example-dialog > .dialog-heading {
     display: grid;
@@ -70,7 +70,7 @@
     grid-row: 1;
     grid-column: 2;
     border: 1px solid var(--border);
-    border-radius: 0.4rem;
+    border-radius: var(--radius-sm-md);
     background: var(--panel);
     color: var(--text);
   }
@@ -169,7 +169,7 @@
     min-height: 0;
     padding: 0.2rem;
     border: 1px solid var(--border);
-    border-radius: 0.55rem;
+    border-radius: var(--radius-lg);
     background: var(--panel);
     cursor: pointer;
   }

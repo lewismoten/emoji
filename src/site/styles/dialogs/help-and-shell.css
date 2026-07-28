@@ -2,7 +2,7 @@
   margin: 1rem 1rem 0;
   padding: 0.85rem 1rem;
   border: 1px solid var(--border);
-  border-radius: 0.55rem;
+  border-radius: var(--radius-lg);
   background: var(--panel-strong);
 }
 .help-pixel h3,
@@ -15,7 +15,7 @@
   margin: 0.75rem 1rem 0;
   padding: 0.85rem 1rem;
   border: 1px solid var(--border);
-  border-radius: 0.55rem;
+  border-radius: var(--radius-lg);
   background: var(--panel-strong);
 }
 .help-settings h3,

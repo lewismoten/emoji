@@ -33,7 +33,7 @@
   min-height: 2rem;
   padding: 0.3rem 0.55rem;
   border: 1px solid var(--border);
-  border-radius: 0.45rem;
+  border-radius: var(--radius-md);
   background: var(--panel-strong);
   color: var(--text);
   cursor: pointer;
@@ -147,7 +147,7 @@
   height: 1.65rem;
   padding: 0;
   border: 1px solid var(--border);
-  border-radius: 0.25rem;
+  border-radius: var(--radius-xs);
   background: var(--swatch);
   cursor: pointer;
 }

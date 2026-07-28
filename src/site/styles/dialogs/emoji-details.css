@@ -83,7 +83,7 @@
   gap: 0.35rem;
   padding: 0.55rem;
   border: 1px solid var(--border);
-  border-radius: 0.55rem;
+  border-radius: var(--radius-lg);
   background: var(--panel-strong);
 }
 .rendering-comparison span {
@@ -128,7 +128,7 @@
   margin: 0 1rem 0.85rem;
   padding: 0.7rem;
   border: 1px dashed var(--accent);
-  border-radius: 0.55rem;
+  border-radius: var(--radius-lg);
   background: var(--accent-surface);
 }
 .pixel-design-invitation strong {
@@ -139,7 +139,7 @@
   min-height: 2.25rem;
   padding: 0.35rem 0.6rem;
   border: 1px solid var(--accent);
-  border-radius: 0.45rem;
+  border-radius: var(--radius-md);
   background: var(--panel);
   color: var(--accent);
   cursor: pointer;
@@ -156,7 +156,7 @@
   padding: 0;
   overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: 0.7rem;
+  border-radius: var(--radius-2xl);
   background: var(--panel-strong);
   color: var(--text);
   cursor: copy;

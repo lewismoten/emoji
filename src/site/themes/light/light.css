@@ -1,5 +1,15 @@
 html[data-theme="light"] {
   color-scheme: light;
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.35rem;
+  --radius-sm-md: 0.4rem;
+  --radius-md: 0.45rem;
+  --radius-md-lg: 0.5rem;
+  --radius-lg: 0.55rem;
+  --radius-xl: 0.65rem;
+  --radius-2xl: 0.7rem;
+  --radius-3xl: 0.85rem;
+  --radius-pill: 999px;
   --page: #f6efe4;
   --panel: #fff9f0;
   --panel-strong: #efe2d2;
