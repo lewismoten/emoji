@@ -3,8 +3,12 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import {
+  bindServiceWorkerRuntime as actualBindServiceWorkerRuntime,
+  createPixelFontRefreshOptions as actualCreatePixelFontRefreshOptions,
   createUiFormatters as actualCreateUiFormatters,
   initializeBrowserRuntime as actualInitializeBrowserRuntime,
+  isViteDevelopmentRuntime as actualIsViteDevelopmentRuntime,
+  restoreLanguageParentPanel as actualRestoreLanguageParentPanel,
 } from "../../src/app/browser-runtime.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
@@ -31,6 +35,14 @@ const transformedSource = sourceText
     "export function createUiFormatters(options) {",
   )
   .replace(
+    /export function bindServiceWorkerRuntime\(options: \{[\s\S]*?\}\) \{/,
+    "export function bindServiceWorkerRuntime(options) {",
+  )
+  .replace(
+    /export function restoreLanguageParentPanel\(\s*options: \{[\s\S]*?\},\s*openPanel = openPanelDialog,\s*\) \{/,
+    "export function restoreLanguageParentPanel(options, openPanel = openPanelDialog) {",
+  )
+  .replace(
     /const isViteDevelopment =[\s\S]*?import\.meta\.env\.DEV === true;/,
     'const isViteDevelopment = globalThis.__TEST_VITE_DEV__ === true;',
   )
@@ -40,7 +52,9 @@ const transformedSource = sourceText
   .replace(/value: number/g, "value")
   .replace(/locale\?: string,\n\s+numberingSystem\?: string,\n\s+\) => string;/g, "locale, numberingSystem) => string;")
   .replace(/\(revision: string\)/g, "(revision)")
-  .replace(/\(loadedRevision: string\)/g, "(loadedRevision)");
+  .replace(/\(loadedRevision: string\)/g, "(loadedRevision)")
+  .replace(/!\./g, ".")
+  .replace(/!\(/g, "(");
 
 const tempRoot = path.join(root, "build/tests/.tmp");
 await fs.mkdir(tempRoot, { recursive: true });
@@ -209,6 +223,7 @@ const actualUiFormatters = actualCreateUiFormatters({
 });
 assert.equal(actualUiFormatters.formatUiNumber(99), "n:99:en-US:");
 assert.equal(actualUiFormatters.formatUiPercent(15), "p:15:en-US:");
+assert.equal(actualIsViteDevelopmentRuntime(), false);
 
 const originalWindow = (globalThis as any).window;
 const originalNavigator = (globalThis as any).navigator;
@@ -284,6 +299,198 @@ const ownerDocument = {
     return null;
   },
 };
+
+const actualPanelCalls: any[] = [];
+const directLanguageDialog = {
+  dataset: { returnPanel: "help" },
+  ownerDocument,
+};
+actualRestoreLanguageParentPanel(
+  {
+    languageDialog: () => directLanguageDialog,
+    languageList: () => [{ code: "en" }],
+    syncUrlState() {},
+  },
+  (panelOptions: any) => {
+    actualPanelCalls.push(panelOptions);
+  },
+);
+assert.equal(directLanguageDialog.dataset.returnPanel, undefined);
+assert.equal(actualPanelCalls.length, 1);
+
+const ignoredDialog = {
+  dataset: { returnPanel: "favorites" },
+  ownerDocument,
+};
+actualRestoreLanguageParentPanel(
+  {
+    languageDialog: () => ignoredDialog,
+    languageList: () => [],
+    syncUrlState() {},
+  },
+  () => {
+    throw new Error("unexpected panel open");
+  },
+);
+assert.equal(ignoredDialog.dataset.returnPanel, undefined);
+
+const directWarnings = { entries: [] as any[] };
+const directWindowEvents: Record<string, () => unknown> = {};
+const directRegistrations = [
+  {
+    scope: "https://emoji.example/app/",
+    unregisterCalls: 0,
+    unregister() {
+      this.unregisterCalls += 1;
+      return Promise.resolve(true);
+    },
+  },
+  {
+    scope: "https://other.example/app/",
+    unregisterCalls: 0,
+    unregister() {
+      this.unregisterCalls += 1;
+      return Promise.resolve(true);
+    },
+  },
+];
+const directDeletedCaches: string[] = [];
+actualBindServiceWorkerRuntime({
+  navigatorRef: {
+    serviceWorker: {
+      getRegistrations: async () => directRegistrations,
+    },
+  } as any,
+  windowRef: {
+    isSecureContext: true,
+    location: { origin: "https://emoji.example" },
+    addEventListener(type: string, handler: () => unknown) {
+      directWindowEvents[type] = handler;
+    },
+  } as any,
+  cachesRef: {
+    keys: async () => ["emoji-explorer-v1", "other-cache"],
+    delete: async (name: string) => {
+      directDeletedCaches.push(name);
+      return true;
+    },
+  },
+  isViteDevelopment: true,
+  warn: (...args: any[]) => {
+    directWarnings.entries = [...directWarnings.entries, args];
+  },
+});
+await directWindowEvents.load?.();
+assert.equal(directRegistrations[0].unregisterCalls, 1);
+assert.equal(directRegistrations[1].unregisterCalls, 0);
+assert.deepEqual(directDeletedCaches, ["emoji-explorer-v1"]);
+assert.deepEqual(directWarnings.entries, []);
+
+const failingWindowEvents: Record<string, () => unknown> = {};
+actualBindServiceWorkerRuntime({
+  navigatorRef: {
+    serviceWorker: {
+      getRegistrations: async () => {
+        throw new Error("cleanup failed");
+      },
+    },
+  } as any,
+  windowRef: {
+    isSecureContext: true,
+    location: { origin: "https://emoji.example" },
+    addEventListener(type: string, handler: () => unknown) {
+      failingWindowEvents[type] = handler;
+    },
+  } as any,
+  cachesRef: sharedCaches,
+  isViteDevelopment: true,
+  warn: (...args: any[]) => {
+    directWarnings.entries = [...directWarnings.entries, args];
+  },
+});
+await failingWindowEvents.load?.();
+assert.equal(
+  directWarnings.entries.some(
+    (entry: any) =>
+      entry[0] === "Could not clear local offline cache" && entry[1] instanceof Error,
+  ),
+  true,
+);
+
+const installWindowEvents: Record<string, () => unknown> = {};
+const installCalls: string[] = [];
+const installWarnings = { entries: [] as any[] };
+actualBindServiceWorkerRuntime({
+  navigatorRef: {
+    serviceWorker: {
+      register: async (url: string) => {
+        installCalls.push(url);
+        return { scope: url };
+      },
+    },
+  } as any,
+  windowRef: {
+    isSecureContext: true,
+    location: { origin: "https://emoji.example" },
+    addEventListener(type: string, handler: () => unknown) {
+      installWindowEvents[type] = handler;
+    },
+  } as any,
+  cachesRef: sharedCaches,
+  isViteDevelopment: false,
+  warn: (...args: any[]) => {
+    installWarnings.entries = [...installWarnings.entries, args];
+  },
+});
+await installWindowEvents.load?.();
+assert.deepEqual(installCalls, ["./service-worker.js"]);
+assert.deepEqual(installWarnings.entries, []);
+
+const installFailWindowEvents: Record<string, () => unknown> = {};
+actualBindServiceWorkerRuntime({
+  navigatorRef: {
+    serviceWorker: {
+      register: async () => {
+        throw new Error("register failed");
+      },
+    },
+  } as any,
+  windowRef: {
+    isSecureContext: true,
+    location: { origin: "https://emoji.example" },
+    addEventListener(type: string, handler: () => unknown) {
+      installFailWindowEvents[type] = handler;
+    },
+  } as any,
+  cachesRef: sharedCaches,
+  isViteDevelopment: false,
+  warn: (...args: any[]) => {
+    installWarnings.entries = [...installWarnings.entries, args];
+  },
+});
+await installFailWindowEvents.load?.();
+assert.equal(
+  installWarnings.entries.some(
+    (entry: any) =>
+      entry[0] === "Offline support unavailable" && entry[1] instanceof Error,
+  ),
+  true,
+);
+
+const noBindingEvents: Record<string, () => unknown> = {};
+actualBindServiceWorkerRuntime({
+  navigatorRef: {} as any,
+  windowRef: {
+    isSecureContext: false,
+    location: { origin: "https://emoji.example" },
+    addEventListener(type: string, handler: () => unknown) {
+      noBindingEvents[type] = handler;
+    },
+  } as any,
+  cachesRef: sharedCaches,
+  isViteDevelopment: false,
+});
+assert.deepEqual(noBindingEvents, {});
 
 const actualWindowEvents: Record<string, (...args: unknown[]) => unknown> = {};
 Object.defineProperty(globalThis, "window", {
@@ -365,6 +572,53 @@ let languagePickerLabel = { id: "language-picker-label" };
 let onPixelFontRevisionLoadedCalls = 0;
 const closePanelCalls: unknown[][] = [];
 const syncUrlCalls: unknown[][] = [];
+const refreshStylesheetCalls: Array<{ revision: string; hasHandler: boolean }> =
+  [];
+const refreshExplorerCalls: Array<{ revision: string; currentEmojiKey: string }> =
+  [];
+
+const refreshOptions = actualCreatePixelFontRefreshOptions(
+  {
+    applyPixelArtworkClass() {},
+    applyStandalonePixelArtwork() {},
+    currentEmojiKey: () => "rocket",
+    dialog: () => ({ id: "dialog" }),
+    onPixelFontRevisionLoaded() {
+      onPixelFontRevisionLoadedCalls += 1;
+    },
+    updateModifierArtwork() {},
+    updatePixelArtworkManifest() {},
+  },
+  {
+    refreshPixelFontStylesheet(
+      styleOptions: { onStylesheetLoaded: (revision: string) => void },
+      revision: string,
+    ) {
+      refreshStylesheetCalls.push({
+        revision,
+        hasHandler: typeof styleOptions.onStylesheetLoaded === "function",
+      });
+      styleOptions.onStylesheetLoaded(`${revision}-done`);
+      return Promise.resolve();
+    },
+    refreshExplorerPixelFont(runtimeOptions: any, revision: string) {
+      refreshExplorerCalls.push({
+        revision,
+        currentEmojiKey: runtimeOptions.currentEmojiKey(),
+      });
+      return Promise.resolve();
+    },
+  },
+);
+await refreshOptions.refreshStylesheet("rev-direct");
+assert.equal(onPixelFontRevisionLoadedCalls > 0, true);
+assert.deepEqual(refreshStylesheetCalls, [
+  { revision: "rev-direct", hasHandler: true },
+]);
+assert.deepEqual(refreshExplorerCalls, [
+  { revision: "rev-direct-done", currentEmojiKey: "rocket" },
+]);
+onPixelFontRevisionLoadedCalls = 0;
 
 Object.defineProperty(globalThis, "window", {
   configurable: true,

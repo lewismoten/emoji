@@ -6,6 +6,12 @@ import {
   refreshPixelFontStylesheet,
 } from "../pixel-font-hot-reload.js";
 
+export function isViteDevelopmentRuntime() {
+  const override = Reflect.get(globalThis, "__TEST_VITE_DEV__");
+  if (typeof override === "boolean") return override;
+  return typeof import.meta.env !== "undefined" && import.meta.env.DEV === true;
+}
+
 export function createUiFormatters(options: {
   document: Document;
   selectedSearchLocale: () => string;
@@ -42,44 +48,130 @@ export function createUiFormatters(options: {
   };
 }
 
-export function initializeBrowserRuntime(options: any) {
-  const isViteDevelopment =
-    typeof import.meta.env !== "undefined" && import.meta.env.DEV === true;
-
+export function bindServiceWorkerRuntime(options: {
+  navigatorRef?: Navigator & {
+    serviceWorker?: {
+      getRegistrations?: () => Promise<
+        Array<{ scope: string; unregister: () => Promise<unknown> }>
+      >;
+      register?: (url: string) => Promise<unknown>;
+    };
+  };
+  windowRef?: Window & {
+    isSecureContext: boolean;
+    location: { origin: string };
+  };
+  cachesRef?: {
+    keys: () => Promise<string[]>;
+    delete: (name: string) => Promise<unknown>;
+  };
+  isViteDevelopment: boolean;
+  warn?: typeof console.warn;
+}) {
+  const navigatorRef = options.navigatorRef ?? navigator;
+  const windowRef = options.windowRef ?? window;
+  const cachesRef = options.cachesRef ?? caches;
+  const warn = options.warn ?? console.warn;
   if (
-    "serviceWorker" in navigator &&
-    window.isSecureContext &&
-    isViteDevelopment
+    "serviceWorker" in navigatorRef &&
+    windowRef.isSecureContext &&
+    options.isViteDevelopment
   ) {
-    window.addEventListener("load", async () => {
+    windowRef.addEventListener("load", async () => {
       try {
-        const registrations = await navigator.serviceWorker.getRegistrations();
+        const registrations =
+          await navigatorRef.serviceWorker!.getRegistrations!();
         await Promise.all(
           registrations
-            .filter((registration: ServiceWorkerRegistration) =>
-              registration.scope.startsWith(window.location.origin),
+            .filter((registration) =>
+              registration.scope.startsWith(windowRef.location.origin),
             )
-            .map((registration: ServiceWorkerRegistration) =>
-              registration.unregister(),
-            ),
+            .map((registration) => registration.unregister()),
         );
-        const cacheNames = await caches.keys();
+        const cacheNames = await cachesRef.keys();
         await Promise.all(
           cacheNames
-            .filter((name: string) => name.startsWith("emoji-explorer-"))
-            .map((name: string) => caches.delete(name)),
+            .filter((name) => name.startsWith("emoji-explorer-"))
+            .map((name) => cachesRef.delete(name)),
         );
       } catch (error) {
-        console.warn("Could not clear local offline cache", error);
+        warn("Could not clear local offline cache", error);
       }
     });
-  } else if ("serviceWorker" in navigator && window.isSecureContext) {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./service-worker.js").catch((error) => {
-        console.warn("Offline support unavailable", error);
-      });
+  } else if ("serviceWorker" in navigatorRef && windowRef.isSecureContext) {
+    windowRef.addEventListener("load", () => {
+      navigatorRef.serviceWorker!.register!("./service-worker.js").catch(
+        (error) => {
+          warn("Offline support unavailable", error);
+        },
+      );
     });
   }
+}
+
+export function restoreLanguageParentPanel(
+  options: {
+    languageDialog: () => any;
+    languageList: () => any;
+    syncUrlState: (...args: any[]) => void;
+  },
+  openPanel = openPanelDialog,
+) {
+  const dialog = options.languageDialog();
+  const panel = dialog?.dataset?.returnPanel ?? "";
+  if (!panel) return;
+  delete dialog.dataset.returnPanel;
+  if (panel === "help") {
+    openPanel({
+      panel: "help",
+      addHistory: false,
+      dialogs: {
+        help: dialog?.ownerDocument?.querySelector("#help-dialog") ?? null,
+        language: dialog,
+        favorites: dialog?.ownerDocument?.querySelector("#saved-dialog") ?? null,
+      },
+      languageList: options.languageList(),
+      renderSavedEmoji: () => {},
+      syncUrlState: options.syncUrlState,
+    });
+  }
+}
+
+export function createPixelFontRefreshOptions(
+  options: any,
+  dependencies = {
+    refreshPixelFontStylesheet,
+    refreshExplorerPixelFont,
+  },
+) {
+  return {
+    refreshStylesheet: (revision: string) =>
+      dependencies.refreshPixelFontStylesheet(
+        {
+          onStylesheetLoaded: (loadedRevision: string) => {
+            options.onPixelFontRevisionLoaded();
+            void dependencies.refreshExplorerPixelFont(
+              {
+                applyArtwork: options.applyPixelArtworkClass,
+                applyStandaloneArtwork: options.applyStandalonePixelArtwork,
+                currentEmojiKey: options.currentEmojiKey,
+                dialog: options.dialog,
+                updateManifest: options.updatePixelArtworkManifest,
+                updateModifierArtwork: options.updateModifierArtwork,
+              },
+              loadedRevision,
+            );
+          },
+        },
+        revision,
+      ),
+  };
+}
+
+export function initializeBrowserRuntime(options: any) {
+  const isViteDevelopment = isViteDevelopmentRuntime();
+
+  bindServiceWorkerRuntime({ isViteDevelopment });
 
   const searchLanguageLifecycle = createSearchLanguageLifecycle({
     applyDialogUrlState: options.applyDialogUrlState,
@@ -88,27 +180,7 @@ export function initializeBrowserRuntime(options: any) {
         options.languageDialog(),
         options.suppressedPanelCloses(),
       ),
-    restoreLanguageParentPanel: () => {
-      const dialog = options.languageDialog();
-      const panel = dialog?.dataset?.returnPanel ?? "";
-      if (!panel) return;
-      delete dialog.dataset.returnPanel;
-      if (panel === "help") {
-        openPanelDialog({
-          panel: "help",
-          addHistory: false,
-          dialogs: {
-            help: dialog?.ownerDocument?.querySelector("#help-dialog") ?? null,
-            language: dialog,
-            favorites:
-              dialog?.ownerDocument?.querySelector("#saved-dialog") ?? null,
-          },
-          languageList: options.languageList(),
-          renderSavedEmoji: () => {},
-          syncUrlState: options.syncUrlState,
-        });
-      }
-    },
+    restoreLanguageParentPanel: () => restoreLanguageParentPanel(options),
     currentLoadId: options.currentLoadId,
     languageFlags: options.languageFlags,
     languageList: options.languageList,
@@ -134,28 +206,7 @@ export function initializeBrowserRuntime(options: any) {
   });
   window.addEventListener("popstate", searchLanguageLifecycle.onPopState);
 
-  installPixelFontHotReload({
-    refreshStylesheet: (revision: string) =>
-      refreshPixelFontStylesheet(
-        {
-          onStylesheetLoaded: (loadedRevision: string) => {
-            options.onPixelFontRevisionLoaded();
-            void refreshExplorerPixelFont(
-              {
-                applyArtwork: options.applyPixelArtworkClass,
-                applyStandaloneArtwork: options.applyStandalonePixelArtwork,
-                currentEmojiKey: options.currentEmojiKey,
-                dialog: options.dialog,
-                updateManifest: options.updatePixelArtworkManifest,
-                updateModifierArtwork: options.updateModifierArtwork,
-              },
-              loadedRevision,
-            );
-          },
-        },
-        revision,
-      ),
-  });
+  installPixelFontHotReload(createPixelFontRefreshOptions(options));
 
   return searchLanguageLifecycle;
 }
