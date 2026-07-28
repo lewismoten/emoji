@@ -1,208 +1,381 @@
 import assert from "node:assert/strict";
-import fs from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
-import { createCategoryController as actualCreateCategoryController } from "../../src/app/category-controller.js";
+import { createCategoryController } from "../../src/app/category-controller.js";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
-const sourceText = await fs.readFile(
-  path.join(root, "src/app/category-controller.ts"),
-  "utf8",
-);
+class FakeClassList {
+  names = new Set<string>();
 
-const transformedSource = sourceText
-  .replace(
-    'import {\n  closeFilterPicker as closeFilterPickerHelper,\n  displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper,\n  focusCompactChoice as focusCompactChoiceHelper,\n  onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper,\n  openFilterPicker as openFilterPickerHelper,\n} from "../explorer/filter-picker.js";',
-    'import {\n  closeFilterPicker as closeFilterPickerHelper,\n  displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper,\n  focusCompactChoice as focusCompactChoiceHelper,\n  onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper,\n  openFilterPicker as openFilterPickerHelper,\n} from "./filter-picker-stub.mjs";',
-  )
-  .replace(
-    'import { createCategoryFilterRenderer } from "../explorer/category-filter-render.js";',
-    'import { createCategoryFilterRenderer } from "./category-filter-render-stub.mjs";',
-  )
-  .replace(
-    'import { buildCategoryRepresentatives } from "../category-representatives.js";',
-    'import { buildCategoryRepresentatives } from "./category-representatives-stub.mjs";',
-  )
-  .replace(/options: any/g, "options")
-  .replace(/group: string/g, "group")
-  .replace(/subGroup: string/g, "subGroup")
-  .replace(/name: string/g, "name")
-  .replace(/event: any/g, "event")
-  .replace(/value: string\[\]/g, "value")
-  .replace(/value: string/g, "value")
-  .replace(/\(button: HTMLButtonElement\)/g, "(button)");
+  add(name: string) {
+    this.names.add(name);
+  }
 
-const tempRoot = path.join(root, "build/tests/.tmp");
-await fs.mkdir(tempRoot, { recursive: true });
-const tempDirectory = await fs.mkdtemp(
-  path.join(tempRoot, "category-controller-test-"),
-);
-const moduleFile = path.join(tempDirectory, "category-controller.mjs");
-const filterPickerStubFile = path.join(tempDirectory, "filter-picker-stub.mjs");
-const categoryRendererStubFile = path.join(
-  tempDirectory,
-  "category-filter-render-stub.mjs",
-);
-const representativesStubFile = path.join(
-  tempDirectory,
-  "category-representatives-stub.mjs",
-);
+  remove(name: string) {
+    this.names.delete(name);
+  }
 
-await fs.writeFile(
-  filterPickerStubFile,
-  [
-    "export const closeFilterPicker = Symbol('closeFilterPicker');",
-    "export const focusCompactChoice = Symbol('focusCompactChoice');",
-    "export const onCompactChoiceKeyDown = Symbol('onCompactChoiceKeyDown');",
-    "export const openFilterPicker = Symbol('openFilterPicker');",
-    "export const displayUnicodeCalls = [];",
-    "export function displayUnicodeSubGroupName(name, options) {",
-    "  displayUnicodeCalls.push({ name, options });",
-    "  return `unicode:${name}`;",
-    "}",
-    "",
-  ].join("\n"),
-);
+  toggle(name: string, force?: boolean) {
+    if (force === true) {
+      this.names.add(name);
+      return true;
+    }
+    if (force === false) {
+      this.names.delete(name);
+      return false;
+    }
+    if (this.names.has(name)) {
+      this.names.delete(name);
+      return false;
+    }
+    this.names.add(name);
+    return true;
+  }
 
-await fs.writeFile(
-  categoryRendererStubFile,
-  [
-    "export let lastOptions;",
-    "export let renderCalls = 0;",
-    "export const updateCalls = [];",
-    "export function createCategoryFilterRenderer(options) {",
-    "  lastOptions = options;",
-    "  return {",
-    "    renderCategoryFilters() {",
-    "      renderCalls += 1;",
-    "      return 'rendered';",
-    "    },",
-    "    updateAvailableCategories(...args) {",
-    "      updateCalls.push(args);",
-    "      return { kind: 'updated', args };",
-    "    },",
-    "  };",
-    "}",
-    "",
-  ].join("\n"),
-);
+  contains(name: string) {
+    return this.names.has(name);
+  }
 
-await fs.writeFile(
-  representativesStubFile,
-  [
-    "export let lastArguments;",
-    "export function buildCategoryRepresentatives(options) {",
-    "  lastArguments = options;",
-    "  return {",
-    "    groups: new Map([['Smileys & Emotion', '😀']]),",
-    "    subGroups: new Map([['Smileys & Emotion::face-smiling', '😄']]),",
-    "  };",
-    "}",
-    "",
-  ].join("\n"),
-);
+  toString() {
+    return [...this.names].join(" ");
+  }
 
-await fs.writeFile(moduleFile, transformedSource);
+  fromString(value: string) {
+    this.names = new Set(value.split(/\s+/).filter(Boolean));
+  }
+}
 
-const module = await import(pathToFileURL(moduleFile).href);
-const exportedCreateCategoryController: typeof import("../../src/app/category-controller.js").createCategoryController =
-  module.createCategoryController;
-assert.equal(typeof exportedCreateCategoryController, "function");
-const filterPickerStub = await import(pathToFileURL(filterPickerStubFile).href);
-const categoryRendererStub = await import(
-  pathToFileURL(categoryRendererStubFile).href
-);
-const representativesStub = await import(
-  pathToFileURL(representativesStubFile).href
-);
+class FakeElement {
+  tagName: string;
+  ownerDocument: FakeDocument;
+  children: Array<FakeElement | string> = [];
+  parentElement: FakeElement | null = null;
+  attributes = new Map<string, string>();
+  classList = new FakeClassList();
+  dataset: Record<string, string> = {};
+  hidden = false;
+  disabled = false;
+  value = "";
+  textContent = "";
+  title = "";
+  open = false;
+  tabIndex = -1;
 
-const state: any = {
-  searchLabels: { smileysLabel: "Localized Smileys" },
-  searchSubgroupLabels: { "face-smiling": "Localized Subgroup" },
-  groups: [],
-  items: [{ key: "grinningFace" }],
-  proposedVersionManifests: { "18.0": {} },
-  versionManifests: { "17.0": {} },
-  subGroups: ["face-smiling"],
-  versionKeys: ["17.0", "18.0"],
+  constructor(tagName: string, ownerDocument: FakeDocument) {
+    this.tagName = tagName.toUpperCase();
+    this.ownerDocument = ownerDocument;
+  }
+
+  set className(value: string) {
+    this.classList.fromString(value);
+  }
+
+  get className() {
+    return this.classList.toString();
+  }
+
+  set text(value: string) {
+    this.textContent = value;
+  }
+
+  get text() {
+    return this.textContent;
+  }
+
+  append(...nodes: Array<FakeElement | string>) {
+    nodes.forEach((node) => this.appendChild(node));
+  }
+
+  appendChild(node: FakeElement | string) {
+    this.children.push(node);
+    if (node instanceof FakeElement) node.parentElement = this;
+    return node;
+  }
+
+  replaceChildren(...nodes: Array<FakeElement | string>) {
+    this.children = [];
+    nodes.forEach((node) => this.appendChild(node));
+  }
+
+  setAttribute(name: string, value: string) {
+    this.attributes.set(name, value);
+    if (name === "class") this.className = value;
+    if (name === "tabindex") this.tabIndex = Number(value);
+  }
+
+  getAttribute(name: string) {
+    return this.attributes.get(name) ?? null;
+  }
+
+  addEventListener() {}
+
+  focus() {
+    this.ownerDocument.activeElement = this;
+  }
+
+  closest(selector: string) {
+    let current: FakeElement | null = this;
+    while (current) {
+      if (matchesSelector(current, selector)) return current;
+      current = current.parentElement;
+    }
+    return null;
+  }
+
+  querySelector<T = FakeElement>(selector: string) {
+    return (this.querySelectorAll(selector)[0] ?? null) as T | null;
+  }
+
+  querySelectorAll<T = FakeElement>(selector: string) {
+    const matches: FakeElement[] = [];
+    const visit = (node: FakeElement | string) => {
+      if (!(node instanceof FakeElement)) return;
+      if (matchesSelector(node, selector)) matches.push(node);
+      node.children.forEach(visit);
+    };
+    this.children.forEach(visit);
+    return matches as T[];
+  }
+
+  showModal() {
+    this.open = true;
+  }
+
+  close() {
+    this.open = false;
+  }
+
+  getBoundingClientRect() {
+    return {
+      left: 0,
+      top: 0,
+      width: 24,
+      height: 24,
+    };
+  }
+
+  get options() {
+    if (this.tagName !== "SELECT") return [];
+    return this.children.flatMap((child) => {
+      if (!(child instanceof FakeElement)) return [];
+      if (child.tagName === "OPTION") return [child];
+      if (child.tagName === "OPTGROUP") {
+        return child.children.filter(
+          (grandchild): grandchild is FakeElement =>
+            grandchild instanceof FakeElement && grandchild.tagName === "OPTION",
+        );
+      }
+      return [];
+    });
+  }
+}
+
+class FakeDocument {
+  head = new FakeElement("head", this);
+  activeElement: FakeElement | null = null;
+  documentElement = { dir: "ltr" };
+
+  createElement(tagName: string) {
+    return new FakeElement(tagName, this);
+  }
+
+  getElementById(id: string) {
+    return (
+      this.head.querySelector<FakeElement>(`#${id}`) ??
+      this.head.children.find(
+        (child) => child instanceof FakeElement && child.getAttribute("id") === id,
+      ) ??
+      null
+    );
+  }
+}
+
+const matchesSelector = (element: FakeElement, selector: string) => {
+  if (selector.startsWith(".")) {
+    return element.classList.contains(selector.slice(1));
+  }
+  if (selector.startsWith("#")) {
+    return element.getAttribute("id") === selector.slice(1);
+  }
+  if (selector === '[role="radio"]') {
+    return element.getAttribute("role") === "radio";
+  }
+  if (selector === '[aria-checked="true"]') {
+    return element.getAttribute("aria-checked") === "true";
+  }
+  return false;
+};
+
+const runtime: any = globalThis;
+const originalDocument = runtime.document;
+const originalWindow = runtime.window;
+const documentRef = new FakeDocument();
+
+runtime.document = documentRef as unknown;
+runtime.window = {
+  requestAnimationFrame(callback: (...args: any[]) => void) {
+    callback(0);
+    return 1;
+  },
+};
+
+const createTrigger = () => {
+  const trigger = documentRef.createElement("button");
+  const kind = documentRef.createElement("span");
+  kind.className = "filter-picker-kind";
+  const emoji = documentRef.createElement("span");
+  emoji.className = "filter-picker-emoji";
+  const value = documentRef.createElement("span");
+  value.className = "filter-picker-value";
+  trigger.append(kind, emoji, value);
+  return trigger;
+};
+
+const createField = () => {
+  const field = documentRef.createElement("div");
+  field.className = "filter-field";
+  return field;
+};
+
+const createSelect = (field: FakeElement) => {
+  const select = documentRef.createElement("select");
+  field.append(select);
+  return select;
+};
+
+const groupField = createField();
+const subGroupField = createField();
+const sequenceField = createField();
+const groupSelector = createSelect(groupField);
+const subGroupSelector = createSelect(subGroupField);
+const sequenceTypeSelector = createSelect(sequenceField);
+const compactGroupChoices = documentRef.createElement("div");
+compactGroupChoices.className = "compact-group-choices";
+const compactSubGroupChoices = documentRef.createElement("div");
+compactSubGroupChoices.className = "compact-subgroup-choices";
+const compactSequenceChoices = documentRef.createElement("div");
+compactSequenceChoices.className = "compact-sequence-choices";
+const compactGroupLabel = documentRef.createElement("span");
+const compactSubGroupLabel = documentRef.createElement("span");
+const compactSequenceLabel = documentRef.createElement("span");
+const groupFilterDialog = documentRef.createElement("dialog");
+const subGroupFilterDialog = documentRef.createElement("dialog");
+const groupPickerTrigger = createTrigger();
+const subGroupPickerTrigger = createTrigger();
+
+const makeOrderButton = (order: string) => {
+  const button = documentRef.createElement("button");
+  button.dataset.order = order;
+  return button;
+};
+
+const unicodeButton = makeOrderButton("unicode");
+const sequenceButton = makeOrderButton("sequence");
+const groupsButton = makeOrderButton("groups");
+
+const state = {
+  searchLabels: {
+    all: "Everything",
+    group: "Group",
+    subgroup: "Sub-group",
+    zwjLabel: "ZWJ Sequences",
+    smileysLabel: "Localized Smileys",
+    faceSmilingLabel: "Localized Faces",
+  },
+  searchSubgroupLabels: {
+    "face-smiling": "Localized Smiling Faces",
+  },
+  groups: ["Smileys & Emotion", "Objects"],
+  items: [
+    {
+      key: "grinningFace",
+      emoji: "😀",
+      group: "Smileys & Emotion",
+      unicodeSubGroup: "face-smiling",
+      sequenceType: "single",
+      order: 1,
+    },
+    {
+      key: "smilingFaceWithHalo",
+      emoji: "😇",
+      group: "Smileys & Emotion",
+      unicodeSubGroup: "face-smiling",
+      sequenceType: "single",
+      order: 2,
+    },
+    {
+      key: "laptop",
+      emoji: "💻",
+      group: "Objects",
+      unicodeSubGroup: "computer",
+      sequenceType: "single",
+      order: 3,
+    },
+    {
+      key: "familyManWomanGirl",
+      emoji: "👨‍👩‍👧",
+      group: "Smileys & Emotion",
+      unicodeSubGroup: "face-smiling",
+      sequenceType: "zwj",
+      order: 4,
+    },
+  ],
+  proposedVersionManifests: [{ version: "18.0", status: "draft" }],
+  versionManifests: [{ version: "17.0" }],
+  subGroups: {
+    "Smileys & Emotion": ["face-smiling"],
+    Objects: ["computer"],
+  },
+  versionKeys: new Map<string, Set<string>>([
+    ["17.0", new Set(["grinningFace", "smilingFaceWithHalo", "laptop"])],
+    ["18.0", new Set(["familyManWomanGirl"])],
+  ]),
   groupRepresentativeEmoji: new Map<string, string>(),
   subGroupRepresentativeEmoji: new Map<string, string>(),
   selectedGroup: "",
   selectedSubGroup: "",
   selectedSequenceType: "",
   orderMode: "unicode",
-  availableGroups: [],
-  availableSequenceTypes: [],
-  availableSubGroups: [],
-  availableCategoryKeys: [],
+  availableGroups: [] as string[],
+  availableSequenceTypes: [] as string[],
+  availableSubGroups: {} as Record<string, string[]>,
+  availableCategoryKeys: [] as string[],
 };
 
 const drawListCalls: string[] = [];
-const savePreferenceCalls: unknown[][] = [];
+const savePreferenceCalls: string[][] = [];
 let syncVersionRangeCalls = 0;
-const groupSelector = { value: "Smileys & Emotion" };
-const subGroupSelector = { value: "face-smiling" };
-const sequenceTypeSelector = { value: "zwj" };
+let developerModeEnabled = false;
 
-function button(order: string) {
-  const classes = new Set<string>();
-  const attributes = new Map<string, string>();
-  return {
-    dataset: { order },
-    classList: {
-      toggle(name: string, active: boolean) {
-        if (active) classes.add(name);
-        else classes.delete(name);
-      },
-      contains(name: string) {
-        return classes.has(name);
-      },
-    },
-    setAttribute(name: string, value: string) {
-      attributes.set(name, value);
-    },
-    getAttribute(name: string) {
-      return attributes.get(name) ?? null;
-    },
-  };
-}
-
-const unicodeButton = button("unicode");
-const sequenceButton = button("sequence");
-const groupButton = button("groups");
-
-const controller = module.createCategoryController({
-  compactGroupChoices: Symbol("compactGroupChoices"),
-  compactGroupLabel: Symbol("compactGroupLabel"),
-  compactSequenceChoices: Symbol("compactSequenceChoices"),
-  compactSequenceLabel: Symbol("compactSequenceLabel"),
-  compactSubGroupChoices: Symbol("compactSubGroupChoices"),
-  compactSubGroupLabel: Symbol("compactSubGroupLabel"),
-  developerModeEnabled: () => false,
+const controller = createCategoryController({
+  compactGroupChoices: () => compactGroupChoices,
+  compactGroupLabel: () => compactGroupLabel,
+  compactSequenceChoices: () => compactSequenceChoices,
+  compactSequenceLabel: () => compactSequenceLabel,
+  compactSubGroupChoices: () => compactSubGroupChoices,
+  compactSubGroupLabel: () => compactSubGroupLabel,
+  developerModeEnabled: () => developerModeEnabled,
   drawList: () => {
     drawListCalls.push("draw");
   },
-  getVersionKeys: () => state.versionKeys,
-  groupFilterDialog: Symbol("groupFilterDialog"),
-  groupPickerTrigger: Symbol("groupPickerTrigger"),
+  getVersionKeys: () => new Set(["grinningFace", "familyManWomanGirl"]),
+  groupFilterDialog: () => groupFilterDialog,
+  groupPickerTrigger: () => groupPickerTrigger,
   groupSelector: () => groupSelector,
-  orderButtons: () => [unicodeButton, sequenceButton, groupButton],
-  savePreference: (...args: unknown[]) => {
-    savePreferenceCalls.push(args);
+  orderButtons: () => [unicodeButton, sequenceButton, groupsButton],
+  savePreference: (key: string, value: string) => {
+    savePreferenceCalls.push([key, value]);
   },
-  sequenceTranslationKeys: { zwj: "zwjLabel" },
-  sequenceTypeEmoji: { zwj: "🧩" },
-  sequenceTypeLabels: { zwj: "ZWJ" },
-  sequenceTypeOrder: ["zwj"],
+  sequenceTranslationKeys: { single: "singleLabel", zwj: "zwjLabel" },
+  sequenceTypeEmoji: { single: "🙂", zwj: "🧩" },
+  sequenceTypeLabels: { single: "Single", zwj: "ZWJ" },
+  sequenceTypeOrder: ["single", "zwj"],
   sequenceTypeSelector: () => sequenceTypeSelector,
   state: () => state,
-  subGroupFilterDialog: Symbol("subGroupFilterDialog"),
-  subGroupPickerTrigger: Symbol("subGroupPickerTrigger"),
+  subGroupFilterDialog: () => subGroupFilterDialog,
+  subGroupPickerTrigger: () => subGroupPickerTrigger,
   subGroupSelector: () => subGroupSelector,
   syncVersionRange: () => {
     syncVersionRangeCalls += 1;
   },
-  translate: (value: string) => `translated:${value}`,
+  translate: (_key: string, fallback: string) => fallback,
   unicodeGroupLabelKeys: {
     "Smileys & Emotion": "smileysLabel",
   },
@@ -211,176 +384,102 @@ const controller = module.createCategoryController({
   },
 });
 
-const actualController = actualCreateCategoryController({
-  compactGroupChoices: {} as HTMLElement,
-  compactGroupLabel: {} as HTMLElement,
-  compactSequenceChoices: {} as HTMLElement,
-  compactSequenceLabel: {} as HTMLElement,
-  compactSubGroupChoices: {} as HTMLElement,
-  compactSubGroupLabel: {} as HTMLElement,
-  developerModeEnabled: () => false,
-  drawList() {},
-  getVersionKeys: () => state.versionKeys,
-  groupFilterDialog: undefined,
-  groupPickerTrigger: undefined,
-  groupSelector: () => groupSelector,
-  orderButtons: () => [],
-  savePreference() {},
-  sequenceTranslationKeys: { zwj: "zwjLabel" },
-  sequenceTypeEmoji: { zwj: "🧩" },
-  sequenceTypeLabels: { zwj: "ZWJ" },
-  sequenceTypeOrder: ["zwj"],
-  sequenceTypeSelector: () => sequenceTypeSelector,
-  state: () => state,
-  subGroupFilterDialog: undefined,
-  subGroupPickerTrigger: undefined,
-  subGroupSelector: () => subGroupSelector,
-  syncVersionRange() {},
-  translate: (value: string) => value,
-  unicodeGroupLabelKeys: {
-    "Smileys & Emotion": "smileysLabel",
-  },
-  unicodeSubgroupLabelKeys: {
-    "face-smiling": "faceSmilingLabel",
-  },
-});
-assert.equal(typeof actualController.buildRepresentatives, "function");
-assert.equal(typeof actualController.renderCategoryFilters, "function");
-assert.equal(typeof actualController.refreshLocalizedLabels, "function");
-
-assert.equal(controller.closeFilterPicker, filterPickerStub.closeFilterPicker);
-assert.equal(controller.focusCompactChoice, filterPickerStub.focusCompactChoice);
-assert.equal(
-  controller.onCompactChoiceKeyDown,
-  filterPickerStub.onCompactChoiceKeyDown,
-);
-assert.equal(controller.openFilterPicker, filterPickerStub.openFilterPicker);
-
-assert.equal(
-  controller.subGroupSelectionKey("Smileys & Emotion", "face-smiling"),
-  "Smileys & Emotion::face-smiling",
-);
+assert.equal(controller.subGroupSelectionKey("Objects", "computer"), "Objects::computer");
 assert.equal(controller.displayGroupName("Smileys & Emotion"), "Localized Smileys");
 assert.equal(controller.displayGroupName("Objects"), "Objects");
 assert.equal(
   controller.displayUnicodeSubGroupName("face-smiling"),
-  "unicode:face-smiling",
+  "Localized Smiling Faces",
 );
-assert.equal(filterPickerStub.displayUnicodeCalls.length, 1);
-assert.equal(
-  filterPickerStub.displayUnicodeCalls[0].options.unicodeSubgroupLabelKeys["face-smiling"],
-  "faceSmilingLabel",
-);
+assert.equal(controller.displayUnicodeSubGroupName("book-paper"), "Books & Paper");
 
 controller.buildRepresentatives();
-assert.equal(representativesStub.lastArguments.subGroupKey("a", "b"), "a::b");
-assert.equal(state.groupRepresentativeEmoji.get("Smileys & Emotion"), "😀");
-assert.equal(
-  state.subGroupRepresentativeEmoji.get("Smileys & Emotion::face-smiling"),
-  "😄",
-);
-assert.equal(controller.getGroupRepresentativeEmoji("Smileys & Emotion"), "😀");
+assert.equal(controller.getGroupRepresentativeEmoji("Smileys & Emotion"), "😇");
 assert.equal(
   controller.getSubGroupRepresentativeEmoji("Smileys & Emotion", "face-smiling"),
-  "😄",
+  "😀",
 );
 assert.equal(controller.getGroupRepresentativeEmoji("Missing"), "");
-assert.equal(
-  controller.getSubGroupRepresentativeEmoji("Missing", "Unknown"),
-  "",
-);
 
+controller.renderCategoryFilters();
+assert.deepEqual(state.availableGroups, ["Smileys & Emotion"]);
+assert.deepEqual(state.availableSequenceTypes, ["single", "zwj"]);
+assert.deepEqual(state.availableSubGroups, {
+  "Smileys & Emotion": ["face-smiling"],
+});
+assert.equal(groupField.hidden, false);
+assert.equal(subGroupField.hidden, true);
+assert.equal(sequenceField.hidden, true);
+assert.equal(groupSelector.options.length, 2);
+assert.equal(groupSelector.options[0].textContent, "🌐 All");
+assert.equal(groupSelector.options[1].textContent, "😇 Localized Smileys");
+assert.equal(compactGroupLabel.textContent, "All");
+assert.equal(groupPickerTrigger.querySelector(".filter-picker-value")?.textContent, "All");
+assert.equal(compactGroupChoices.querySelectorAll('[role="radio"]').length, 2);
+assert.equal(compactSequenceChoices.querySelectorAll('[role="radio"]').length, 3);
+
+groupSelector.value = "Smileys & Emotion";
 controller.onGroupSelectorChange();
 assert.equal(state.selectedGroup, "Smileys & Emotion");
 assert.equal(state.selectedSubGroup, "");
-assert.equal(categoryRendererStub.renderCalls, 1);
 assert.equal(drawListCalls.length, 1);
+assert.equal(subGroupField.hidden, false);
+assert.equal(compactGroupLabel.textContent, "Localized Smileys");
 
+subGroupSelector.value = "Smileys & Emotion::face-smiling";
 controller.onSubGroupSelectorChange();
-assert.equal(state.selectedSubGroup, "face-smiling");
-assert.equal(categoryRendererStub.renderCalls, 2);
+assert.equal(state.selectedSubGroup, "Smileys & Emotion::face-smiling");
 assert.equal(drawListCalls.length, 2);
+assert.equal(compactSubGroupLabel.textContent, "Localized Smiling Faces");
 
+sequenceTypeSelector.value = "zwj";
 controller.onSequenceTypeSelectorChange();
 assert.equal(state.selectedSequenceType, "zwj");
-assert.equal(categoryRendererStub.renderCalls, 3);
 assert.equal(drawListCalls.length, 3);
 
 controller.onOrderModeChange({ currentTarget: sequenceButton });
 assert.equal(state.orderMode, "unicode");
-assert.equal(savePreferenceCalls.length, 0);
-assert.equal(categoryRendererStub.renderCalls, 3);
+assert.deepEqual(savePreferenceCalls, []);
 
-const devModeController = module.createCategoryController({
-  compactGroupChoices: Symbol("compactGroupChoices"),
-  compactGroupLabel: Symbol("compactGroupLabel"),
-  compactSequenceChoices: Symbol("compactSequenceChoices"),
-  compactSequenceLabel: Symbol("compactSequenceLabel"),
-  compactSubGroupChoices: Symbol("compactSubGroupChoices"),
-  compactSubGroupLabel: Symbol("compactSubGroupLabel"),
-  developerModeEnabled: () => true,
-  drawList: () => {
-    drawListCalls.push("draw");
-  },
-  getVersionKeys: () => state.versionKeys,
-  groupFilterDialog: Symbol("groupFilterDialog"),
-  groupPickerTrigger: Symbol("groupPickerTrigger"),
-  groupSelector: () => groupSelector,
-  orderButtons: () => [unicodeButton, sequenceButton, groupButton],
-  savePreference: (...args: unknown[]) => {
-    savePreferenceCalls.push(args);
-  },
-  sequenceTranslationKeys: { zwj: "zwjLabel" },
-  sequenceTypeEmoji: { zwj: "🧩" },
-  sequenceTypeLabels: { zwj: "ZWJ" },
-  sequenceTypeOrder: ["zwj"],
-  sequenceTypeSelector: () => sequenceTypeSelector,
-  state: () => state,
-  subGroupFilterDialog: Symbol("subGroupFilterDialog"),
-  subGroupPickerTrigger: Symbol("subGroupPickerTrigger"),
-  subGroupSelector: () => subGroupSelector,
-  syncVersionRange: () => {
-    syncVersionRangeCalls += 1;
-  },
-  translate: (value: string) => `translated:${value}`,
-  unicodeGroupLabelKeys: {
-    "Smileys & Emotion": "smileysLabel",
-  },
-  unicodeSubgroupLabelKeys: {
-    "face-smiling": "faceSmilingLabel",
-  },
-});
-
-devModeController.onOrderModeChange({ currentTarget: sequenceButton });
+developerModeEnabled = true;
+controller.onOrderModeChange({ currentTarget: sequenceButton });
 assert.equal(state.orderMode, "sequence");
-assert.deepEqual(savePreferenceCalls.at(-1), ["order", "sequence"]);
+assert.deepEqual(savePreferenceCalls, [["order", "sequence"]]);
 assert.equal(sequenceButton.classList.contains("is-active"), true);
 assert.equal(sequenceButton.getAttribute("aria-pressed"), "true");
 assert.equal(unicodeButton.getAttribute("aria-pressed"), "false");
-assert.equal(categoryRendererStub.renderCalls, 4);
+assert.equal(groupField.hidden, true);
+assert.equal(sequenceField.hidden, false);
 assert.equal(drawListCalls.length, 4);
+
+const activeGroupChoice = compactGroupChoices.querySelectorAll<FakeElement>(
+  '[role="radio"]',
+)[1];
+activeGroupChoice.focus();
+controller.renderCategoryFilters();
+assert.equal(documentRef.activeElement?.dataset.value, "Smileys & Emotion");
 
 state.groups = [];
 controller.refreshLocalizedLabels();
 assert.equal(syncVersionRangeCalls, 0);
-assert.equal(drawListCalls.length, 4);
 
 state.groups = ["Smileys & Emotion"];
 controller.refreshLocalizedLabels();
-assert.equal(categoryRendererStub.renderCalls, 5);
 assert.equal(syncVersionRangeCalls, 1);
 assert.equal(drawListCalls.length, 5);
 
-const updateResult = controller.updateAvailableCategories("a", "b");
-assert.deepEqual(updateResult, { kind: "updated", args: ["a", "b"] });
-assert.deepEqual(categoryRendererStub.updateCalls, [["a", "b"]]);
+const available = controller.updateAvailableCategories();
+assert.equal(available, undefined);
+assert.deepEqual(state.availableGroups, ["Smileys & Emotion"]);
 
-assert.equal(categoryRendererStub.lastOptions.displayGroupName("Objects"), "Objects");
-assert.equal(
-  categoryRendererStub.lastOptions.displayGroupName("Smileys & Emotion"),
-  "Localized Smileys",
-);
-assert.equal(
-  categoryRendererStub.lastOptions.getGroupRepresentativeEmoji("Smileys & Emotion"),
-  "😀",
-);
+if (originalDocument === undefined) {
+  delete runtime.document;
+} else {
+  runtime.document = originalDocument;
+}
+
+if (originalWindow === undefined) {
+  delete runtime.window;
+} else {
+  runtime.window = originalWindow;
+}
