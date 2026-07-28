@@ -243,6 +243,106 @@ export const renderPage = (
       `<link id="retro-text-font-stylesheet" rel="stylesheet" href="./pixel-font/build-retro-text/pixel-latin-retro.css?v=${retroTextRevision}" data-font-revision="${retroTextRevision}">`,
     )
     .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/dark\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/dark.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/light\/light\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/light/light.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/ega\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/ega.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/retro\/retro\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/retro/retro.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/retro\/retro-foundation\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/retro/retro-foundation.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/retro\/retro-dialogs\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/retro/retro-dialogs.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/retro\/retro-buttons\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/retro/retro-buttons.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/retro\/retro-forms\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/retro/retro-forms.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/retro\/retro-focus\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/retro/retro-focus.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/styles\/toolbar-controls\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/toolbar-controls.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/dialog-close-button\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/dialog/dialog-close-button.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/dialog-heading\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/dialog/dialog-heading.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/dialog-navigate-button\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/dialog/dialog-navigate-button.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/dialog-mode-back-button\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/dialog/dialog-mode-back-button.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/pickers\/language-picker\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/pickers/language-picker.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/filters\/pickers\/compact-choice-button\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/filters/pickers/compact-choice-button.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/toolbar\/theme-choice-group\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/toolbar/theme-choice-group.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/filters\/pickers\/filter-picker-trigger\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/filters/pickers/filter-picker-trigger.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/toolbar\/toolbar-trigger-button\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/toolbar/toolbar-trigger-button.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/filters\/pickers\/advanced-filters-trigger\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/filters/pickers/advanced-filters-trigger.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/filters\/modifiers\/modifier-filter-control\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/filters/modifiers/modifier-filter-control.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/filters\/version\/version-mode-toggle\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/filters/version/version-mode-toggle.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/filters\/version\/version-step-button\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/filters/version/version-step-button.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/styles\/dialog-controls\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/dialog-controls.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/index\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/index.css?v=${assetVersion}">`,
+    )
+    .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/light\/light\.css")[^>]*\/?>/,
       `<link rel="stylesheet" href="./explorer/themes/light/light.css?v=${assetVersion}">`,
     )

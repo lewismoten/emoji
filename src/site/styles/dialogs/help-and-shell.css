@@ -86,6 +86,15 @@ html:not([data-developer-mode]) .developer-only {
   background: rgb(0 0 0 / 60%);
   backdrop-filter: blur(3px);
 }
+dialog.example-dialog,
+dialog.language-dialog,
+dialog.saved-dialog,
+dialog.help-dialog,
+dialog.advanced-filters-dialog,
+dialog.filter-picker-dialog,
+dialog.install-dialog {
+  padding: 0 !important;
+}
 dialog[open] {
   animation: dialog-enter var(--motion-medium) var(--motion-ease);
 }

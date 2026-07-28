@@ -39,6 +39,23 @@ html[data-theme="retro"] .filter-picker-dialog {
   background: var(--dialog-body-bg);
 }
 
+html[data-theme="retro"] .saved-dialog {
+  background: var(--dialog-body-bg);
+}
+
+html[data-theme="retro"] .saved-dialog .dialog-heading {
+  background: var(--dialog-header-bg);
+  border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .saved-dialog .saved-section {
+  padding: 0.55rem;
+}
+
+html[data-theme="retro"] .saved-dialog .saved-section h3 {
+  margin-bottom: 0.45rem;
+}
+
 html[data-theme="retro"] .language-dialog .dialog-heading {
   background: var(--dialog-header-bg);
   border-bottom: 2px solid var(--dialog-frame-border);
@@ -52,6 +69,33 @@ html[data-theme="retro"] .advanced-filters-dialog .dialog-heading {
 html[data-theme="retro"] .filter-picker-dialog .dialog-heading {
   background: var(--dialog-header-bg);
   border-bottom: 2px solid var(--dialog-frame-border);
+}
+
+html[data-theme="retro"] .dialog-heading {
+  padding: 0.4rem 0.55rem;
+}
+
+html[data-theme="retro"] .example-dialog .emoji-dialog-details,
+html[data-theme="retro"] .example-dialog .rendering-diagnostic,
+html[data-theme="retro"] .example-dialog .emoji-composition,
+html[data-theme="retro"] .example-dialog .emoji-metadata,
+html[data-theme="retro"] .example-dialog .emoji-copy-actions,
+html[data-theme="retro"] .help-pixel,
+html[data-theme="retro"] .help-settings,
+html[data-theme="retro"] .shortcut-list,
+html[data-theme="retro"] .language-list,
+html[data-theme="retro"] .advanced-filters-dialog-body,
+html[data-theme="retro"] .filter-picker-dialog .compact-choices,
+html[data-theme="retro"] .install-dialog > p {
+  padding: 0.55rem;
+}
+
+html[data-theme="retro"] .example-dialog .emoji-dialog-details,
+html[data-theme="retro"] .example-dialog .rendering-diagnostic,
+html[data-theme="retro"] .example-dialog .emoji-composition,
+html[data-theme="retro"] .example-dialog .emoji-metadata,
+html[data-theme="retro"] .example-dialog .emoji-copy-actions {
+  padding-top: 0.55rem;
 }
 
 html[data-theme="retro"]
