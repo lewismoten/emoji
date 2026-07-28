@@ -42,11 +42,17 @@ assert.match(
   "the pixel font must use a reloadable standalone stylesheet",
 );
 assert.ok(
-  /import\.meta\.hot\.on/.test(pixelFontHotReload) &&
+  /createPixelFontHotReloadController/.test(pixelFontHotReload) &&
+    /dependencies\.hot\?\.on/.test(pixelFontHotReload) &&
+    /createPixelFontHotReloadController\(options\)\.start\(\)/.test(
+      pixelFontHotReload,
+    ) &&
     /pixel-font\/font-build\.revision/.test(pixelFontHotReload) &&
     /refreshInFlight/.test(pixelFontHotReload) &&
-    /document\.hidden/.test(pixelFontHotReload) &&
-    /window\.setInterval\(refresh,\s*5000\)/.test(pixelFontHotReload) &&
+    /dependencies\.document\.hidden/.test(pixelFontHotReload) &&
+    /dependencies\.window\.setInterval\(refresh,\s*5000\)/.test(
+      pixelFontHotReload,
+    ) &&
     /function refreshPixelFontStylesheet/.test(pixelFontHotReload) &&
     /replacement\.addEventListener\([\s\S]*(["'])load\1/.test(
       pixelFontHotReload,

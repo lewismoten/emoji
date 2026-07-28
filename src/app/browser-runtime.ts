@@ -68,11 +68,17 @@ export function bindServiceWorkerRuntime(options: {
   isViteDevelopment: boolean;
   warn?: typeof console.warn;
 }) {
-  const navigatorRef = options.navigatorRef ?? navigator;
-  const windowRef = options.windowRef ?? window;
-  const cachesRef = options.cachesRef ?? caches;
+  const navigatorRef =
+    options.navigatorRef ??
+    (typeof navigator !== "undefined" ? navigator : undefined);
+  const windowRef =
+    options.windowRef ?? (typeof window !== "undefined" ? window : undefined);
+  const cachesRef =
+    options.cachesRef ?? (typeof caches !== "undefined" ? caches : undefined);
   const warn = options.warn ?? console.warn;
   if (
+    navigatorRef &&
+    windowRef &&
     "serviceWorker" in navigatorRef &&
     windowRef.isSecureContext &&
     options.isViteDevelopment
@@ -88,6 +94,7 @@ export function bindServiceWorkerRuntime(options: {
             )
             .map((registration) => registration.unregister()),
         );
+        if (!cachesRef) return;
         const cacheNames = await cachesRef.keys();
         await Promise.all(
           cacheNames
@@ -98,7 +105,12 @@ export function bindServiceWorkerRuntime(options: {
         warn("Could not clear local offline cache", error);
       }
     });
-  } else if ("serviceWorker" in navigatorRef && windowRef.isSecureContext) {
+  } else if (
+    navigatorRef &&
+    windowRef &&
+    "serviceWorker" in navigatorRef &&
+    windowRef.isSecureContext
+  ) {
     windowRef.addEventListener("load", () => {
       navigatorRef.serviceWorker!.register!("./service-worker.js").catch(
         (error) => {
