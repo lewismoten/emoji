@@ -143,6 +143,38 @@ html[data-theme="base"] .emoji-preview-copy-label {
   border-color: #000000 !important;
 }
 
+html[data-theme="base"] dialog.example-dialog,
+html[data-theme="base"] dialog.language-dialog,
+html[data-theme="base"] dialog.saved-dialog,
+html[data-theme="base"] dialog.help-dialog,
+html[data-theme="base"] dialog.advanced-filters-dialog,
+html[data-theme="base"] dialog.filter-picker-dialog,
+html[data-theme="base"] dialog.install-dialog {
+  border: revert !important;
+  border-radius: revert !important;
+  background: revert !important;
+  color: revert !important;
+  box-shadow: revert !important;
+  padding: revert !important;
+}
+
+html[data-theme="base"] .example-dialog::backdrop,
+html[data-theme="base"] .language-dialog::backdrop,
+html[data-theme="base"] .saved-dialog::backdrop,
+html[data-theme="base"] .help-dialog::backdrop,
+html[data-theme="base"] .advanced-filters-dialog::backdrop,
+html[data-theme="base"] .filter-picker-dialog::backdrop,
+html[data-theme="base"] .install-dialog::backdrop {
+  background: revert !important;
+  backdrop-filter: none !important;
+  animation: none !important;
+}
+
+html[data-theme="base"] dialog[open],
+html[data-theme="base"] dialog[open]::backdrop {
+  animation: none !important;
+}
+
 html[data-emoji-font="system"] {
   --emoji-font:
     var(--installed-emoji-fonts),
