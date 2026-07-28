@@ -39,6 +39,10 @@ html[data-theme="light"] .offline-status {
   color: #55310a;
 }
 
+html[data-theme="light"] a {
+  color: var(--accent);
+}
+
 html[data-theme="light"] kbd {
   border: 1px solid var(--border);
   border-bottom-width: 2px;

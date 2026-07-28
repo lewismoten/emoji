@@ -37,6 +37,10 @@ html[data-theme="dark"] {
   --shadow-order-footer: 0 0.5rem 1.5rem rgb(0 0 0 / 35%);
 }
 
+html[data-theme="dark"] a {
+  color: var(--accent);
+}
+
 html[data-theme="dark"] kbd {
   border: 1px solid var(--border);
   border-bottom-width: 2px;

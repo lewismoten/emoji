@@ -66,10 +66,6 @@ main {
   margin: 0 auto;
 }
 
-a {
-  color: var(--accent);
-}
-
 .skip-link {
   position: fixed;
   top: max(0.5rem, env(safe-area-inset-top));
