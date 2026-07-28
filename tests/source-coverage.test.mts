@@ -60,7 +60,6 @@ const legacyDirectCoverageAllowlist = new Set<string>([
   "src/app/browser-runtime-config.ts",
   "src/app/dialog-view-runtime.ts",
   "src/app/emoji-actions.ts",
-  "src/app/emoji-session-controller.ts",
   "src/app/explorer-bootstrap-bindings.ts",
   "src/app/explorer-bootstrap-controllers.ts",
   "src/app/explorer-bootstrap-options.ts",

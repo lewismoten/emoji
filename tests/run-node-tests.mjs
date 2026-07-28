@@ -5,7 +5,7 @@ import { availableParallelism } from "node:os";
 
 const root = path.resolve(process.argv[2] ?? "build/tests");
 const testPattern = /\.test\.(?:js|mjs|cjs)$/;
-const maximumDurationMs = 200;
+const maximumDurationMs = 100;
 const coverageEnabled = process.env.TEST_COVERAGE !== "0";
 const effectiveMaximumDurationMs = coverageEnabled ? 300 : maximumDurationMs;
 const coverageExcludes = [
