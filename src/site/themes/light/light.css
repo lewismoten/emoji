@@ -53,6 +53,30 @@ html[data-theme="light"] a {
   color: var(--accent);
 }
 
+html[data-theme="light"] .filter-picker-trigger,
+html[data-theme="light"] .compact-choice,
+html[data-theme="light"] .version-mode-toggle,
+html[data-theme="light"] .version-step,
+html[data-theme="light"] .modifier-filter-option,
+html[data-theme="light"] .pixel-comparison > button,
+html[data-theme="light"] .language-option,
+html[data-theme="light"] .language-picker,
+html[data-theme="light"] .saved-picker,
+html[data-theme="light"] .help-picker,
+html[data-theme="light"] .saved-emoji-list button,
+html[data-theme="light"] .emoji-copy-actions button,
+html[data-theme="light"] .emoji-code-toolbar button,
+html[data-theme="light"] .order-mode,
+html[data-theme="light"] .subgroup .emoji > [data-emoji-key],
+html[data-theme="light"] .sequence-type > .emoji > [data-emoji-key] {
+  transition:
+    background-color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    box-shadow var(--motion-fast) var(--motion-ease),
+    transform var(--motion-fast) var(--motion-ease);
+}
+
 html[data-theme="light"] .setting-row {
   border-top: 1px solid var(--border);
 }
@@ -83,4 +107,32 @@ html[data-theme="light"] kbd {
     Menlo,
     Consolas,
     monospace;
+}
+
+html[data-theme="light"] .subgroup .emoji > [data-emoji-key],
+html[data-theme="light"] .sequence-type > .emoji > [data-emoji-key] {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm-md);
+  background: transparent;
+  color: inherit;
+}
+
+html[data-theme="light"] .subgroup .emoji > [data-emoji-key]:hover,
+html[data-theme="light"] .sequence-type > .emoji > [data-emoji-key]:hover {
+  border-color: var(--accent);
+  background: var(--accent-surface);
+}
+
+html[data-theme="light"] .subgroup .emoji > [data-emoji-key]:focus-visible,
+html[data-theme="light"] .sequence-type > .emoji > [data-emoji-key]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+html[data-theme="light"] .subgroup .emoji > [data-emoji-key]:active,
+html[data-theme="light"] .sequence-type > .emoji > [data-emoji-key]:active {
+  background: var(--accent-surface-strong);
+  transform: scale(0.94);
 }

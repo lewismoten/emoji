@@ -247,7 +247,7 @@ fieldset input {
 }
 
 .emoji-preview,
-.subgroup .emoji > div,
-.sequence-type > .emoji > div {
+.subgroup .emoji > [data-emoji-key],
+.sequence-type > .emoji > [data-emoji-key] {
   font-family: var(--emoji-font);
 }

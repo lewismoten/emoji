@@ -105,14 +105,16 @@ html[data-theme="retro"] .emoji-composition-mode,
 html[data-theme="retro"] .emoji-copy-actions button,
 html[data-theme="retro"] .emoji-code-toolbar button,
 html[data-theme="retro"] .emoji-preview-copy-label,
-html[data-theme="retro"] .subgroup .emoji > div,
-html[data-theme="retro"] .sequence-type > .emoji > div,
+html[data-theme="retro"] .subgroup .emoji > [data-emoji-key],
+html[data-theme="retro"] .sequence-type > .emoji > [data-emoji-key],
 html[data-theme="retro"] .pixel-editor-toolbar button,
 html[data-theme="retro"] .pixel-editor-file button,
 html[data-theme="retro"] .pixel-editor-preview-actions button,
 html[data-theme="retro"] .pixel-editor-transfer button,
 html[data-theme="retro"] .pixel-editor-layer button,
 html[data-theme="retro"] .pixel-editor-trace-nudge {
+  appearance: none;
+  -webkit-appearance: none;
   border-width: 2px;
   border-top-color: var(--ega-white);
   border-left-color: var(--ega-white);
@@ -175,8 +177,8 @@ html[data-theme="retro"] .empty-actions button:hover,
 html[data-theme="retro"] .emoji-copy-actions button:hover,
 html[data-theme="retro"] .emoji-code-toolbar button:hover,
 html[data-theme="retro"] .saved-emoji-list button:hover,
-html[data-theme="retro"] .subgroup .emoji > div:hover,
-html[data-theme="retro"] .sequence-type > .emoji > div:hover,
+html[data-theme="retro"] .subgroup .emoji > [data-emoji-key]:hover,
+html[data-theme="retro"] .sequence-type > .emoji > [data-emoji-key]:hover,
 html[data-theme="retro"] .pixel-editor-toolbar button:hover,
 html[data-theme="retro"] .pixel-editor-file button:hover,
 html[data-theme="retro"]

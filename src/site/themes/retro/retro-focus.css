@@ -80,10 +80,10 @@ html[data-theme="retro"] .install-app:focus,
 html[data-theme="retro"] .install-app:focus-visible,
 html[data-theme="retro"] .order-mode:focus,
 html[data-theme="retro"] .order-mode:focus-visible,
-html[data-theme="retro"] .subgroup .emoji > div:focus,
-html[data-theme="retro"] .subgroup .emoji > div:focus-visible,
-html[data-theme="retro"] .sequence-type > .emoji > div:focus,
-html[data-theme="retro"] .sequence-type > .emoji > div:focus-visible {
+html[data-theme="retro"] .subgroup .emoji > [data-emoji-key]:focus,
+html[data-theme="retro"] .subgroup .emoji > [data-emoji-key]:focus-visible,
+html[data-theme="retro"] .sequence-type > .emoji > [data-emoji-key]:focus,
+html[data-theme="retro"] .sequence-type > .emoji > [data-emoji-key]:focus-visible {
   outline: var(--focus-outline);
   outline-offset: var(--focus-outline-offset);
 }

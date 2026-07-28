@@ -79,8 +79,9 @@ export function createEmojiListRenderers(options: {
   };
 
   const asEmojiCell = (key: string, groupId = 0, subGroupId = 0) => {
-    const element = document.createElement("div");
+    const element = document.createElement("button");
     const byId = options.byId();
+    element.type = "button";
     element.id = key;
     element.dataset.emojiKey = key;
     const accessibleName =

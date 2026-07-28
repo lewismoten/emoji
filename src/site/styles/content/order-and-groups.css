@@ -203,34 +203,19 @@
   flex-wrap: wrap;
   padding: 0.35rem;
 }
-.subgroup .emoji > div,
-.sequence-type > .emoji > div {
+.subgroup .emoji > [data-emoji-key],
+.sequence-type > .emoji > [data-emoji-key] {
   display: grid;
   width: 2.75rem;
   height: 2.75rem;
   place-items: center;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm-md);
+  padding: 0;
   cursor: pointer;
+  font: inherit;
   font-size: 1.4rem;
 }
-.subgroup .emoji > div:hover,
-.sequence-type > .emoji > div:hover {
-  border-color: var(--accent);
-  background: var(--accent-surface);
-}
-.subgroup .emoji > div:focus-visible,
-.sequence-type > .emoji > div:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 1px;
-}
-.subgroup .emoji > div:active,
-.sequence-type > .emoji > div:active {
-  background: var(--accent-surface-strong);
-  transform: scale(0.94);
-}
-.subgroup .emoji > div span,
-.sequence-type > .emoji > div span {
+.subgroup .emoji > [data-emoji-key] span,
+.sequence-type > .emoji > [data-emoji-key] span {
   width: 100%;
   text-align: center;
 }

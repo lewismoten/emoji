@@ -1,26 +1,3 @@
-.filter-picker-trigger,
-.compact-choice,
-.version-mode-toggle,
-.version-step,
-.modifier-filter-option,
-.pixel-comparison > button,
-.language-option,
-.language-picker,
-.saved-picker,
-.help-picker,
-.saved-emoji-list button,
-.emoji-copy-actions button,
-.emoji-code-toolbar button,
-.order-mode,
-.subgroup .emoji > div,
-.sequence-type > .emoji > div {
-  transition:
-    background-color var(--motion-fast) var(--motion-ease),
-    border-color var(--motion-fast) var(--motion-ease),
-    color var(--motion-fast) var(--motion-ease),
-    box-shadow var(--motion-fast) var(--motion-ease),
-    transform var(--motion-fast) var(--motion-ease);
-}
 .compact-choice:active,
 .version-mode-toggle:active,
 .modifier-filter-option:active,

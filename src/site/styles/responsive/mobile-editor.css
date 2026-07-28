@@ -135,8 +135,8 @@
   .subgroup {
     flex-basis: 100%;
   }
-  .subgroup .emoji > div,
-  .sequence-type > .emoji > div {
+  .subgroup .emoji > [data-emoji-key],
+  .sequence-type > .emoji > [data-emoji-key] {
     width: 2.75rem;
     height: 2.75rem;
   }
