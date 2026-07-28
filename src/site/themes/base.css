@@ -1,0 +1,175 @@
+:root {
+  color-scheme: light;
+  --page: #ffffff;
+  --panel: #ffffff;
+  --panel-strong: #ffffff;
+  --border: #000000;
+  --text: #000000;
+  --muted: #000000;
+  --accent: #000000;
+  --accent-strong: #000000;
+  --accent-surface: #ffffff;
+  --accent-surface-strong: #ffffff;
+  --accent-text: #000000;
+  --selected-control-bg: #000000;
+  --selected-control-text: #ffffff;
+  --section-header-bg: #ffffff;
+  --code: #ffffff;
+  --code-text: #000000;
+  --code-keyword: #000000;
+  --code-variable: #000000;
+  --code-native-function: #000000;
+  --code-string: #000000;
+  --code-comment: #000000;
+  --code-native-object: #000000;
+  --code-object: #000000;
+  --code-object-key: #000000;
+  --shadow-offline-status: 0 0.35rem 1rem rgb(0 0 0 / 12%);
+  --shadow-toolbar: 0 0.75rem 1.75rem rgb(0 0 0 / 10%);
+  --shadow-dialog: 0 1rem 3rem rgb(0 0 0 / 18%);
+  --shadow-selected-inset: inset 0 0 0 1px var(--accent);
+  --shadow-dirty-indicator: 0 0 0.35rem rgb(255 159 67 / 45%);
+  --shadow-saved-emoji-hover: 0 0.45rem 0.9rem rgb(0 0 0 / 16%);
+  --shadow-order-footer: 0 0.5rem 1.5rem rgb(0 0 0 / 14%);
+  --toolbar-height: 0px;
+  --ui-font:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --retro-ui-font:
+    var(--pixel-retro-latin-family, "Pixel Latin Retro"), "Press Start 2P",
+    "Silkscreen", "Perfect DOS VGA 437", "Px437 IBM VGA 8x16", "Courier New",
+    monospace;
+  --installed-emoji-fonts:
+    "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Twemoji Mozilla";
+  --system-emoji-font: var(--installed-emoji-fonts), sans-serif;
+  --emoji-font:
+    var(--pixel-emoji-released-family, "Pixel Emoji"),
+    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"),
+    var(--system-emoji-font);
+}
+
+html[data-theme="base"] {
+  color-scheme: light;
+  --interactive-transition: none;
+  --shadow-offline-status: none;
+  --shadow-toolbar: none;
+  --shadow-dialog: none;
+  --shadow-selected-inset: none;
+  --shadow-dirty-indicator: none;
+  --shadow-saved-emoji-hover: none;
+  --shadow-order-footer: none;
+  --ui-font: system-ui, sans-serif;
+  --retro-ui-font: system-ui, sans-serif;
+}
+
+html[data-theme="base"] *,
+html[data-theme="base"] *::before,
+html[data-theme="base"] *::after {
+  text-shadow: revert;
+  backdrop-filter: revert !important;
+  background-image: revert !important;
+  transition: revert !important;
+  animation: revert !important;
+  border-radius: revert !important;
+  box-shadow: revert !important;
+}
+
+html[data-theme="base"] .toolbar,
+html[data-theme="base"] .order-footer,
+html[data-theme="base"] .pixel-hero,
+html[data-theme="base"] .about-explorer,
+html[data-theme="base"] .help-pixel,
+html[data-theme="base"] .help-settings,
+html[data-theme="base"] .saved-section,
+html[data-theme="base"] .shortcut-list > div,
+html[data-theme="base"] .empty-results,
+html[data-theme="base"] .group,
+html[data-theme="base"] .subgroup-list,
+html[data-theme="base"] .unicode-subgroup,
+html[data-theme="base"] .sequence-type,
+html[data-theme="base"] .modifier-filters fieldset,
+html[data-theme="base"] dialog.example-dialog,
+html[data-theme="base"] dialog.language-dialog,
+html[data-theme="base"] dialog.saved-dialog,
+html[data-theme="base"] dialog.help-dialog,
+html[data-theme="base"] dialog.advanced-filters-dialog,
+html[data-theme="base"] dialog.filter-picker-dialog,
+html[data-theme="base"] dialog.install-dialog {
+  background: revert !important;
+  color: revert !important;
+  border-color: revert !important;
+}
+
+html[data-theme="base"] .emoji-copy-actions button,
+html[data-theme="base"] .emoji-code-toolbar button,
+html[data-theme="base"] .emoji-preview-copy-label {
+  background: revert !important;
+  color: revert !important;
+  border-color: revert !important;
+}
+
+html[data-theme="base"] dialog.example-dialog,
+html[data-theme="base"] dialog.language-dialog,
+html[data-theme="base"] dialog.saved-dialog,
+html[data-theme="base"] dialog.help-dialog,
+html[data-theme="base"] dialog.advanced-filters-dialog,
+html[data-theme="base"] dialog.filter-picker-dialog,
+html[data-theme="base"] dialog.install-dialog {
+  border: revert !important;
+  border-radius: revert !important;
+  background: revert !important;
+  color: revert !important;
+  box-shadow: revert !important;
+  padding: revert !important;
+}
+
+html[data-theme="base"] .example-dialog::backdrop,
+html[data-theme="base"] .language-dialog::backdrop,
+html[data-theme="base"] .saved-dialog::backdrop,
+html[data-theme="base"] .help-dialog::backdrop,
+html[data-theme="base"] .advanced-filters-dialog::backdrop,
+html[data-theme="base"] .filter-picker-dialog::backdrop,
+html[data-theme="base"] .install-dialog::backdrop {
+  background: revert !important;
+  backdrop-filter: none !important;
+  animation: none !important;
+}
+
+html[data-theme="base"] dialog[open],
+html[data-theme="base"] dialog[open]::backdrop {
+  animation: none !important;
+}
+
+html[data-emoji-font="system"] {
+  --emoji-font:
+    var(--installed-emoji-fonts),
+    var(--pixel-emoji-released-family, "Pixel Emoji"),
+    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"), sans-serif;
+}
+
+:lang(ar) {
+  --ui-font:
+    "Noto Sans Arabic", "Noto Naskh Arabic", "Geeza Pro", Tahoma, "Segoe UI",
+    Arial, sans-serif;
+  --retro-ui-font:
+    "Noto Kufi Arabic", "Noto Sans Arabic", "Noto Naskh Arabic", Tahoma,
+    "Courier New", monospace;
+}
+
+:lang(hi) {
+  --ui-font:
+    "Noto Sans Devanagari", "Kohinoor Devanagari", "Nirmala UI", Mangal,
+    system-ui, sans-serif;
+  --retro-ui-font:
+    "Noto Sans Devanagari", "Kohinoor Devanagari", "Nirmala UI", Mangal,
+    "Courier New", monospace;
+}
+
+:lang(zh) {
+  --ui-font:
+    "Noto Sans CJK SC", "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
+    "Heiti SC", system-ui, sans-serif;
+  --retro-ui-font:
+    "Noto Sans Mono CJK SC", "Noto Sans CJK SC", "Noto Sans SC", "PingFang SC",
+    "Microsoft YaHei", "Courier New", monospace;
+}

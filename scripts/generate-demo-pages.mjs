@@ -243,6 +243,10 @@ export const renderPage = (
       `<link id="retro-text-font-stylesheet" rel="stylesheet" href="./pixel-font/build-retro-text/pixel-latin-retro.css?v=${retroTextRevision}" data-font-revision="${retroTextRevision}">`,
     )
     .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/base\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/base.css?v=${assetVersion}">`,
+    )
+    .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/dark\.css")[^>]*\/?>/,
       `<link rel="stylesheet" href="./explorer/themes/dark.css?v=${assetVersion}">`,
     )
@@ -373,6 +377,10 @@ export const renderPage = (
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/retro\/retro-focus\.css")[^>]*\/?>/,
       `<link rel="stylesheet" href="./explorer/themes/retro/retro-focus.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/base\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/base.css?v=${assetVersion}">`,
     )
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/dark\.css")[^>]*\/?>/,

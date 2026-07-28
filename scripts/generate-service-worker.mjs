@@ -24,6 +24,7 @@ const appModules = fs
   .map((file) => `./app/${file.replace(/\.ts$/, ".js")}`);
 const coreAssets = [
   "./",
+  `./explorer/themes/base.css?v=${assetVersion}`,
   `./explorer/themes/dark.css?v=${assetVersion}`,
   `./explorer/themes/light/light.css?v=${assetVersion}`,
   `./explorer/themes/ega.css?v=${assetVersion}`,
@@ -55,6 +56,8 @@ const sourceFileForAsset = (asset) => {
   const file = asset.replace(/^\.\//, "").replace(/\?.*$/, "");
   if (!file) return "";
   if (file === "index.js") return path.join("src", "index.ts");
+  if (file === "explorer/themes/base.css")
+    return path.join("src", "site", "themes", "base.css");
   if (file === "explorer/themes/dark.css")
     return path.join("src", "site", "themes", "dark.css");
   if (file === "explorer/themes/light/light.css")

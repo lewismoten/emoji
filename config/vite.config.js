@@ -32,6 +32,7 @@ const devJsonAssetPaths = new Map([
   ["/proposed/", path.resolve("src/data/proposed")],
 ]);
 const devStylesheetRewrites = new Map([
+  ["./explorer/themes/base.css", "./src/site/themes/base.css"],
   ["./explorer/themes/dark.css", "./src/site/themes/dark.css"],
   ["./explorer/themes/light/light.css", "./src/site/themes/light/light.css"],
   ["./explorer/themes/ega.css", "./src/site/themes/ega.css"],
