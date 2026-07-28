@@ -100,6 +100,7 @@ const active = new FakeButton({ ariaPressed: "true" });
 const selected = new FakeButton({ selectedClass: "is-selected" });
 const tabStop = new FakeButton({ tabIndex: 0 });
 const plain = new FakeButton();
+const activeClassButton = new FakeButton({ activeClass: "is-active" });
 
 syncRovingGrid([invisible, active, selected, tabStop, plain] as any, undefined);
 assert.equal(active.tabIndex, 0);
@@ -112,6 +113,15 @@ assert.equal(explicitActive.tabIndex, 0);
 const emptyVisible = new FakeButton({ visible: false });
 syncRovingGrid([emptyVisible] as any, undefined);
 assert.equal(emptyVisible.tabIndex, -1);
+
+syncRovingGrid([invisible, activeClassButton, plain] as any, undefined);
+assert.equal(activeClassButton.tabIndex, 0);
+
+const firstFallback = new FakeButton();
+const secondFallback = new FakeButton();
+syncRovingGrid([firstFallback, secondFallback] as any, undefined);
+assert.equal(firstFallback.tabIndex, 0);
+assert.equal(secondFallback.tabIndex, -1);
 
 const rowButtons = [
   new FakeButton({ left: 0, top: 0 }),
@@ -164,7 +174,16 @@ rtlButtons[0].focus();
 event = keyEvent("ArrowLeft");
 rtlButtons[0].dispatch("keydown", event);
 assert.equal(rtlButtons[1].focused, true);
+event = keyEvent("ArrowRight");
+rtlButtons[1].dispatch("keydown", event);
+assert.equal(rtlButtons[0].focused, true);
 browserGlobal.document.documentElement.dir = "ltr";
+
+const singleButton = [new FakeButton({ left: 0, top: 0 })];
+bindRovingGrid(singleButton as any);
+event = keyEvent("ArrowUp");
+singleButton[0].dispatch("keydown", event);
+assert.equal(event.prevented, false);
 
 const paletteButtons = [
   new FakeButton(),
@@ -208,6 +227,45 @@ event = keyEvent("ArrowRight");
 paletteButtons[3].dispatch("keydown", event);
 assert.equal(paletteButtons[2].focused, true);
 browserGlobal.document.documentElement.dir = "ltr";
+
+const styleGridButtons = [new FakeButton(), new FakeButton(), new FakeButton()];
+styleGridButtons[1].dataset.gridRow = "2";
+styleGridButtons[1].dataset.gridColumn = "1";
+styleGridButtons[2].dataset.gridRow = "2";
+styleGridButtons[2].dataset.gridColumn = "2";
+bindPaletteGrid(styleGridButtons as any);
+styleGridButtons[0].focus();
+
+event = keyEvent("ArrowDown");
+styleGridButtons[0].dispatch("keydown", event);
+assert.equal(styleGridButtons[1].focused, true);
+
+const hiddenPaletteButton = new FakeButton({ hidden: true });
+hiddenPaletteButton.dataset.gridRow = "1";
+hiddenPaletteButton.dataset.gridColumn = "1";
+const visiblePaletteButton = new FakeButton();
+visiblePaletteButton.dataset.gridRow = "1";
+visiblePaletteButton.dataset.gridColumn = "2";
+bindPaletteGrid([hiddenPaletteButton, visiblePaletteButton] as any);
+event = keyEvent("ArrowRight");
+hiddenPaletteButton.dispatch("keydown", event);
+assert.equal(event.prevented, false);
+
+const edgePaletteButtons = [new FakeButton(), new FakeButton()];
+edgePaletteButtons[0].dataset.gridRow = "1";
+edgePaletteButtons[0].dataset.gridColumn = "1";
+edgePaletteButtons[1].dataset.gridRow = "2";
+edgePaletteButtons[1].dataset.gridColumn = "2";
+bindPaletteGrid(edgePaletteButtons as any);
+edgePaletteButtons[0].focus();
+event = keyEvent("ArrowLeft");
+edgePaletteButtons[0].dispatch("keydown", event);
+assert.equal(event.prevented, true);
+assert.equal(edgePaletteButtons[0].focused, true);
+
+event = keyEvent("PageDown");
+edgePaletteButtons[0].dispatch("keydown", event);
+assert.equal(event.prevented, false);
 
 browserGlobal.document = originalDocument;
 browserGlobal.getComputedStyle = originalGetComputedStyle;
