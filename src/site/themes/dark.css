@@ -135,6 +135,14 @@ html[data-theme="base"] dialog.install-dialog {
   background: var(--panel) !important;
 }
 
+html[data-theme="base"] .emoji-copy-actions button,
+html[data-theme="base"] .emoji-code-toolbar button,
+html[data-theme="base"] .emoji-preview-copy-label {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
 html[data-emoji-font="system"] {
   --emoji-font:
     var(--installed-emoji-fonts),
