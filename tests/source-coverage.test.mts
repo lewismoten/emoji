@@ -85,7 +85,6 @@ const legacyDirectCoverageAllowlist = new Set<string>([
   "src/explorer/advanced-filter-dialog-control.ts",
   "src/explorer/audio/explorer-audio-engine.ts",
   "src/explorer/control-startup.ts",
-  "src/explorer/dialog/dialog-navigation-controller.ts",
   "src/explorer/dialog/dialog-title-controls.ts",
   "src/explorer/event-accessibility.ts",
   "src/explorer/explorer-dom.ts",
