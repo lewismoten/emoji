@@ -88,7 +88,7 @@ const controller = createPixelEditorPaletteController({
     }),
   }),
   nearestPaletteColor: (r: number, g: number, b: number, colors: string[]) =>
-    colors.includes("#f5cfa0") && r === 4 && g === 5 && b === 6 ? "#f5cfa0" : colors[0],
+    colors.includes("#f2d2b6") && r === 4 && g === 5 && b === 6 ? "#f2d2b6" : colors[0],
   paletteButtons,
   setSelectedColor: (value: string) => {
     selectedColor = value;
@@ -102,6 +102,9 @@ const controller = createPixelEditorPaletteController({
 });
 
 assert.equal(controller.activePaletteColors().includes("#000000"), true);
+toneButton.hidden = true;
+assert.equal(controller.activePaletteColors().includes("#f2d2b6"), false);
+toneButton.hidden = false;
 
 controller.selectPaletteColor(colorButton as any);
 assert.equal(selectedColor, "#112233");
@@ -115,6 +118,8 @@ const firstToneColor = selectedColor;
 assert.equal(selectedSkinTone, "1F3FB");
 controller.selectPaletteColor(toneButton as any);
 assert.notEqual(selectedColor, firstToneColor);
+controller.selectPaletteColor(secondToneButton as any);
+assert.equal(selectedSkinTone, "1F3FF");
 
 (controller as any).updateSkinTonePalette(["1f3fb", "1f3ff"]);
 assert.equal(toneButton.hidden, false);
@@ -142,10 +147,79 @@ selectedSkinTone = "";
 (controller as any).updateSkinTonePalette([]);
 assert.equal(selectedColor, "transparent");
 
+(controller as any).updateSkinTonePalette(["1F3FB"]);
 selectedColor = "transparent";
 (controller as any).pickColor({ x: 0, y: 0 });
 assert.notEqual(selectedColor, "transparent");
+assert.equal(selectedSkinTone, "");
 
 pixels[3] = 0;
 (controller as any).pickColor({ x: 0, y: 0 });
 assert.notEqual(selectedColor, "transparent");
+assert.equal(selectedSkinTone, "1F3FB");
+assert.ok((toneButton.dataset.shade ?? "").length > 0);
+assert.ok((toneButton.dataset.cycleIndex ?? "").length > 0);
+assert.ok((toneButton.title ?? "").length > 0);
+
+const transparentTraceController = createPixelEditorPaletteController({
+  getPixels: () => pixels,
+  getSelectedColor: () => selectedColor,
+  getSelectedSkinTone: () => selectedSkinTone,
+  getTraceAlpha: () => ({ value: "0" }),
+  getTraceCanvas: () => ({
+    getContext: () => ({
+      getImageData: () => ({ data: tracePixels }),
+    }),
+  }),
+  nearestPaletteColor: () => "#000000",
+  paletteButtons,
+  setSelectedColor: (value: string) => {
+    selectedColor = value;
+  },
+  setSelectedSkinTone: (value: string) => {
+    selectedSkinTone = value;
+  },
+  translate: (key: string, fallback: string) => `${key}:${fallback}`,
+  view,
+  pixelOffset: (x: number, y: number) => (y * 1 + x) * 4,
+});
+
+selectedColor = "#000000";
+selectedSkinTone = "1F3FB";
+(transparentTraceController as any).pickColor({ x: 0, y: 0 });
+assert.equal(selectedColor, "transparent");
+assert.equal(selectedSkinTone, "");
+
+selectedColor = "#f2d2b6";
+selectedSkinTone = "";
+(controller as any).updatePaletteSelection();
+assert.equal(toneButton.getAttribute("aria-pressed"), "false");
+assert.equal(secondToneButton.getAttribute("aria-pressed"), "false");
+
+const unknownToneButton = new FakeButton({ skinTone: "UNKNOWN" });
+const unknownToneController = createPixelEditorPaletteController({
+  getPixels: () => pixels,
+  getSelectedColor: () => selectedColor,
+  getSelectedSkinTone: () => selectedSkinTone,
+  getTraceAlpha: () => ({ value: "0" }),
+  getTraceCanvas: () => ({
+    getContext: () => ({
+      getImageData: () => ({ data: tracePixels }),
+    }),
+  }),
+  nearestPaletteColor: () => "#000000",
+  paletteButtons: [unknownToneButton],
+  setSelectedColor: (value: string) => {
+    selectedColor = value;
+  },
+  setSelectedSkinTone: (value: string) => {
+    selectedSkinTone = value;
+  },
+  translate: (key: string, fallback: string) => `${key}:${fallback}`,
+  view,
+  pixelOffset: (x: number, y: number) => (y * 1 + x) * 4,
+});
+
+(unknownToneController as any).updateSkinTonePalette(["UNKNOWN"]);
+assert.equal(unknownToneButton.getAttribute("aria-label"), null);
+assert.equal(unknownToneButton.title, "");
