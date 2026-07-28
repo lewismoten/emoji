@@ -1,3 +1,4 @@
+// @ts-nocheck -- Transitional TypeScript migration.
 import { createPixelEditorDraftController } from "../data/pixel-editor-drafts.js";
 import {
   cloneFloatingLayer,

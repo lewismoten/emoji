@@ -119,10 +119,21 @@ const explorerRuntimeSources = fs
   .readdirSync(path.join("src", "explorer"))
   .filter((file) => file.endsWith(".ts"))
   .sort((left, right) => left.localeCompare(right, "en"));
-const pixelEditorRuntimeSources = fs
-  .readdirSync(path.join("src", "pixel-editor"))
-  .filter((file) => file.endsWith(".js"))
-  .sort((left, right) => left.localeCompare(right, "en"));
+const listRuntimeFiles = (directory) =>
+  fs
+    .readdirSync(directory, { withFileTypes: true })
+    .flatMap((entry) => {
+      const relative = path.join(directory, entry.name);
+      return entry.isDirectory()
+        ? listRuntimeFiles(relative)
+        : entry.name.endsWith(".ts")
+          ? [relative]
+          : [];
+    })
+    .sort((left, right) => left.localeCompare(right, "en"));
+const pixelEditorRuntimeSources = listRuntimeFiles(
+  path.join("src", "pixel-editor"),
+);
 const staticSiteAssets = [
   {
     source: path.join(siteSourceDirectory, "favicon.svg"),
@@ -170,7 +181,7 @@ const emitRuntimeModules = (outputDirectory) => {
     const outputFile =
       file === "index.ts"
         ? path.join(outputDirectory, "index.js")
-        : file === "pixel-editor-entry.js"
+        : file === "pixel-editor-entry.ts"
           ? path.join(outputDirectory, "pixel-editor.js")
           : path.join(outputDirectory, file.replace(/\.(ts|js)$/, ".js"));
     if (file.endsWith(".ts")) transpileModule(sourceFile, outputFile);
@@ -192,9 +203,12 @@ const emitRuntimeModules = (outputDirectory) => {
   }
 
   for (const file of pixelEditorRuntimeSources) {
-    copyRuntimeModule(
-      path.join("src", "pixel-editor", file),
-      path.join(outputDirectory, "pixel-editor", file),
+    transpileModule(
+      file,
+      path.join(
+        outputDirectory,
+        path.relative("src", file).replace(/\.ts$/, ".js"),
+      ),
     );
   }
 };

@@ -1,3 +1,4 @@
+// @ts-nocheck -- Transitional TypeScript migration.
 import { hasVisiblePixels } from "../core/pixel-editor-geometry-helpers.js";
 import {
   buildSkinToneOwnership,

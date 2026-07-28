@@ -1,3 +1,4 @@
+// @ts-nocheck -- Transitional TypeScript migration.
 import { CELL_SIZE } from "../core/pixel-editor-constants.js";
 import { effectiveLayerPixels } from "../layers/pixel-editor-layer-helpers.js";
 

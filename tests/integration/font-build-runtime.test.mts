@@ -12,11 +12,11 @@ import {
 } from "../shared/unit-fixtures.mjs";
 
 const pixelEditorRuntimeController = await fs.readFile(
-  path.join(root, "src/pixel-editor/controllers/pixel-editor-runtime.js"),
+  path.join(root, "src/pixel-editor/controllers/pixel-editor-runtime.ts"),
   "utf8",
 );
 const pixelEditorCanvasHelpers = await fs.readFile(
-  path.join(root, "src/pixel-editor/canvas/pixel-editor-canvas-helpers.js"),
+  path.join(root, "src/pixel-editor/canvas/pixel-editor-canvas-helpers.ts"),
   "utf8",
 );
 const pixelEditorFontRefreshSource = `${pixelEditorRuntimeController}\n${pixelEditorCanvasHelpers}`;

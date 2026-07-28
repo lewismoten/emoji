@@ -1,3 +1,4 @@
+// @ts-nocheck -- Transitional TypeScript migration.
 import { drawBitmapText } from "./pixel-editor/canvas/pixel-editor-canvas-helpers.js";
 import { createPixelEditorControllers } from "./pixel-editor/controllers/pixel-editor-controllers.js";
 import {

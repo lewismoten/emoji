@@ -1,3 +1,4 @@
+// @ts-nocheck -- Transitional TypeScript migration.
 function isVisibleControl(button) {
   return (
     button &&

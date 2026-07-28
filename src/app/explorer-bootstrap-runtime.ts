@@ -7,7 +7,7 @@ import {
 } from "../explorer/utility-controls.js";
 import { createUiBindingRuntime } from "./ui-binding-runtime.js";
 import { createStartupRuntime } from "./startup-runtime.js";
-import { createPixelEditorRuntime } from "./pixel-editor-runtime.js";
+import { createPixelEditorRuntime } from "./pixel-editor-loader-runtime.js";
 import { createVersionModeRuntime } from "./version-mode-runtime.js";
 import { createBrowserRuntimeConfig } from "./browser-runtime-config.js";
 import { createDialogRuntimeConfig } from "./dialog-runtime-config.js";

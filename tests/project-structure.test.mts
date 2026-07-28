@@ -126,6 +126,14 @@ for (const file of projectFiles) {
 }
 
 const structureProblems: string[] = [];
+const sourceJavaScriptFiles = projectFiles.filter(
+  (file) => file.startsWith("src/") && file.endsWith(".js"),
+);
+if (sourceJavaScriptFiles.length > 0) {
+  structureProblems.push(
+    `TypeScript source only under src; found JavaScript files: ${sourceJavaScriptFiles.join(", ")}`,
+  );
+}
 const measuredFiles = projectFiles.filter((file) =>
   /\.(?:js|jsx|mjs|cjs|ts|tsx|mts|cts|css|md|mdx)$/i.test(file),
 );

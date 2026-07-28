@@ -1,3 +1,4 @@
+// @ts-nocheck -- Transitional TypeScript migration.
 export const CELL_SIZE = 12;
 export const DISPLAY_SIZE = 384;
 export const ROTATION_ALPHA_THRESHOLD = 128;

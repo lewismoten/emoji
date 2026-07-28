@@ -1,3 +1,4 @@
+// @ts-nocheck -- Transitional TypeScript migration.
 import { CELL_SIZE } from "../core/pixel-editor-constants.js";
 
 export function createPixelEditorDraftController(options) {

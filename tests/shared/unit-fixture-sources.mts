@@ -148,14 +148,14 @@ const pixelEditorHelperFiles = await listFiles(
   path.join(root, "src/pixel-editor"),
 );
 const pixelEditorTemplateFile = pixelEditorHelperFiles.find((file) =>
-  file.endsWith("pixel-editor-template.js"),
+  file.endsWith("pixel-editor-template.ts"),
 );
 const pixelEditorOtherHelperFiles = pixelEditorHelperFiles.filter(
   (file) => file !== pixelEditorTemplateFile,
 );
 const pixelEditorSourceFiles = [
   ...(pixelEditorTemplateFile ? [pixelEditorTemplateFile] : []),
-  path.join(root, "src", "pixel-editor-entry.js"),
+  path.join(root, "src", "pixel-editor-entry.ts"),
   ...pixelEditorOtherHelperFiles,
 ];
 export const pixelEditorScript = (
@@ -170,7 +170,7 @@ export const {
   skinToneBaseSequence,
   skinToneSequence,
 } = (await import(
-  pathToFileURL(path.join(root, "src", "pixel-editor-entry.js")).href
+  pathToFileURL(path.join(root, "build", "demo-pages", "pixel-editor.js")).href
 )) as {
   buildSkinToneOwnership: (
     pixels: Uint8ClampedArray,

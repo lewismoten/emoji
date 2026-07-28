@@ -1,3 +1,4 @@
+// @ts-nocheck -- Transitional TypeScript migration.
 import { CELL_SIZE, EGA_COLORS } from "../core/pixel-editor-constants.js";
 import { syncRovingGrid } from "../core/pixel-editor-grid-navigation.js";
 import { findSkinTone, skinToneCycle } from "./pixel-editor-skin-tone.js";

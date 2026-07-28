@@ -12,19 +12,19 @@ import {
 } from "../../shared/unit-fixtures.mjs";
 
 const pixelEditorToolController = await fs.readFile(
-  path.join(root, "src/pixel-editor/controllers/pixel-editor-tools.js"),
+  path.join(root, "src/pixel-editor/controllers/pixel-editor-tools.ts"),
   "utf8",
 );
 const pixelEditorRuntimeController = await fs.readFile(
-  path.join(root, "src/pixel-editor/controllers/pixel-editor-runtime.js"),
+  path.join(root, "src/pixel-editor/controllers/pixel-editor-runtime.ts"),
   "utf8",
 );
 const pixelEditorStartupController = await fs.readFile(
-  path.join(root, "src/pixel-editor/controllers/pixel-editor-startup.js"),
+  path.join(root, "src/pixel-editor/controllers/pixel-editor-startup.ts"),
   "utf8",
 );
 const pixelEditorSessionController = await fs.readFile(
-  path.join(root, "src/pixel-editor/controllers/pixel-editor-session.js"),
+  path.join(root, "src/pixel-editor/controllers/pixel-editor-session.ts"),
   "utf8",
 );
 const pixelEditorTracingSource = `${pixelEditorScript}\n${pixelEditorToolController}\n${pixelEditorRuntimeController}\n${pixelEditorStartupController}\n${pixelEditorSessionController}`;

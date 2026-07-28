@@ -11,7 +11,7 @@ const topLevelModules = fs
     (file) =>
       (file.endsWith(".ts") || file.endsWith(".js")) &&
       file !== "explorer.tsconfig.json" &&
-      file !== "pixel-editor-entry.js",
+      file !== "pixel-editor-entry.ts",
   )
   .map((file) => `./${file.replace(/\.(ts|js)$/, ".js")}`);
 const explorerModules = fs

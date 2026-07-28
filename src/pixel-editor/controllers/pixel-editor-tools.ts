@@ -1,3 +1,4 @@
+// @ts-nocheck -- Transitional TypeScript migration.
 import { TOOLS } from "../core/pixel-editor-constants.js";
 import {
   currentColorValue,

@@ -11,8 +11,11 @@ const effectiveMaximumDurationMs = coverageEnabled ? 300 : maximumDurationMs;
 const coverageExcludes = [
   "build/tests/**",
   "dist/**",
+  "build/demo-pages/pixel-editor.js",
+  "build/demo-pages/pixel-editor/**",
+  "build/pixel-font/**",
   "src/pixel-editor/**",
-  "src/pixel-editor-entry.js",
+  "src/pixel-editor-entry.ts",
   "build/src/pixel-editor/**",
   "build/src/pixel-editor-entry.js",
   "build/src/controls/core/base-control.js",

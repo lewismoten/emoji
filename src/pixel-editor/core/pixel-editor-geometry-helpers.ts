@@ -1,3 +1,4 @@
+// @ts-nocheck -- Transitional TypeScript migration.
 import { CELL_SIZE } from "./pixel-editor-constants.js";
 
 export function pixelOffset(x, y) {

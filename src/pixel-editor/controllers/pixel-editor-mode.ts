@@ -1,3 +1,4 @@
+// @ts-nocheck -- Transitional TypeScript migration.
 import {
   flipPixels,
   layerTransformChangesPixels,

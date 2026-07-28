@@ -21,6 +21,7 @@ const inputs = [
 ];
 const outputs = [
   "build/demo-pages/index.ar.html",
+  "build/pixel-font/retro-text-bitmap.mjs",
   "build/demo-pages/service-worker.js",
   "build/tests/integration/package-core.test.mjs",
   "build/library",
@@ -69,6 +70,7 @@ if (await hasCurrentBundle(fingerprint)) {
   );
   if (serviceWorkerResult.status !== 0)
     process.exit(serviceWorkerResult.status ?? 1);
+  await copyBuildRuntimeSupport();
   await fs.mkdir(path.dirname(cacheFile), { recursive: true });
   await fs.writeFile(cacheFile, `${JSON.stringify({ fingerprint })}\n`);
 }
@@ -110,4 +112,11 @@ async function listInputFiles(input) {
         .map((entry) => listInputFiles(path.join(input, entry.name))),
     )
   ).flat();
+}
+
+async function copyBuildRuntimeSupport() {
+  const source = path.join(root, "pixel-font", "retro-text-bitmap.mjs");
+  const target = path.join(root, "build", "pixel-font", "retro-text-bitmap.mjs");
+  await fs.mkdir(path.dirname(target), { recursive: true });
+  await fs.copyFile(source, target);
 }

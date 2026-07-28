@@ -1,3 +1,4 @@
+// @ts-nocheck -- Transitional TypeScript migration.
 export function createPixelEditorRuntimeController(options) {
   const {
     currentEntry,
