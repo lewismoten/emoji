@@ -78,7 +78,6 @@ const legacyMissingTestPairs = new Set([
   "src/explorer/filter-picker-control.ts",
   "src/explorer/filter-summary.ts",
   "src/explorer/language/language-dialog-control.ts",
-  "src/explorer/language/search-language-lifecycle.ts",
   "src/explorer/list-controller.ts",
   "src/explorer/loading-state.ts",
   "src/explorer/pixel-artwork.ts",
