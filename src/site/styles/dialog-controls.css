@@ -65,6 +65,7 @@
 }
 
 .language-option {
+  position: relative;
   display: grid;
   grid-template-columns: 2rem 1fr;
   gap: 0.55rem;
@@ -80,6 +81,18 @@
   font: inherit;
   text-align: left;
   text-decoration: none;
+}
+
+.language-option-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .language-option:hover {

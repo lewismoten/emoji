@@ -151,6 +151,28 @@ html[data-theme="base"] .version-range {
   color: revert !important;
 }
 
+html[data-theme="base"] .language-option {
+  all: revert;
+  display: grid;
+  grid-template-columns: auto 2rem 1fr;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: default;
+}
+
+html[data-theme="base"] .language-option-input {
+  all: revert;
+  position: static;
+  width: auto;
+  height: auto;
+  margin: 0;
+  accent-color: revert !important;
+}
+
+html[data-theme="base"] .language-option::after {
+  content: none !important;
+}
+
 html[data-theme="base"] dialog.example-dialog,
 html[data-theme="base"] dialog.language-dialog,
 html[data-theme="base"] dialog.saved-dialog,

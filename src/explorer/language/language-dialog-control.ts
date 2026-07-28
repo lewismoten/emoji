@@ -62,7 +62,8 @@ export function createLanguageDialogControl(): LanguageDialogControl {
 
   const list = document.createElement("div");
   list.className = "language-list";
-  list.setAttribute("role", "list");
+  list.setAttribute("role", "radiogroup");
+  list.setAttribute("aria-labelledby", "language-title");
 
   dialog.append(heading, description, list);
   return { dialog, list };
@@ -80,10 +81,20 @@ export function buildLanguageOption(options: {
   ) => Promise<void>;
   locale: string;
 }) {
-  const option = document.createElement("a");
-  option.href = options.href;
+  const option = document.createElement("label");
   option.className = "language-option";
+  option.setAttribute("role", "radio");
+  option.setAttribute("aria-checked", String(options.selected));
+  option.tabIndex = options.selected ? 0 : -1;
   setPressedState(option, options.selected);
+
+  const input = document.createElement("input");
+  input.className = "language-option-input";
+  input.type = "radio";
+  input.name = "language-choice";
+  input.value = options.locale;
+  input.checked = options.selected;
+  input.tabIndex = -1;
 
   const flag = document.createElement("span");
   flag.className = "language-option-flag";
@@ -94,9 +105,9 @@ export function buildLanguageOption(options: {
   label.className = "language-option-label";
   label.textContent = options.label;
 
-  option.append(flag, label);
+  option.append(input, flag, label);
   option.addEventListener("click", (event) =>
-    options.onSelectLanguageLink(event, options.locale, option.href),
+    options.onSelectLanguageLink(event, options.locale, options.href),
   );
   return option;
 }
