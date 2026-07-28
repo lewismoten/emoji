@@ -179,6 +179,18 @@ assert.equal(ownership[1], 1);
 assert.ok([0, 1].includes(ownership[2]));
 assert.ok([0, 1].includes(ownership[3]));
 
+const tiedOwnership = buildSkinToneOwnershipAny(
+  new Uint8ClampedArray([
+    ...hexToRgba(light.color),
+    0, 0, 0, 0,
+    ...hexToRgba(dark.color),
+  ]),
+  [dark.codePoint, light.codePoint],
+  3,
+  1,
+)!;
+assert.equal(tiedOwnership[1], 0);
+
 assert.equal(
   buildSkinToneOwnershipAny(
     ownershipPixels,

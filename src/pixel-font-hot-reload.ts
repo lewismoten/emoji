@@ -1,5 +1,13 @@
-export function installPixelFontHotReload(options: any) {
-  if (!import.meta.hot) return;
+export function createPixelFontHotReloadController(
+  options: any,
+  dependencies = {
+    hot: import.meta.hot,
+    fetch: globalThis.fetch,
+    document: globalThis.document,
+    window: globalThis.window,
+    now: () => Date.now(),
+  },
+) {
   let revision: string | undefined;
   let refreshInFlight = false;
   let refreshQueued = false;
@@ -8,11 +16,11 @@ export function installPixelFontHotReload(options: any) {
       refreshQueued = true;
       return;
     }
-    if (document.hidden && !refreshInitial) return;
+    if (dependencies.document.hidden && !refreshInitial) return;
     refreshInFlight = true;
     try {
-      const response = await fetch(
-        `./pixel-font/font-build.revision?cache=${Date.now()}`,
+      const response = await dependencies.fetch(
+        `./pixel-font/font-build.revision?cache=${dependencies.now()}`,
         { cache: "no-store" },
       );
       if (!response.ok) return;
@@ -31,12 +39,22 @@ export function installPixelFontHotReload(options: any) {
       }
     }
   };
-  import.meta.hot.on("pixel-font:updated", () => void refresh(true));
-  void refresh(true);
-  window.setInterval(refresh, 5000);
-  document.addEventListener("visibilitychange", () => {
-    if (!document.hidden) void refresh();
-  });
+  return {
+    refresh,
+    start() {
+      dependencies.hot?.on("pixel-font:updated", () => void refresh(true));
+      void refresh(true);
+      dependencies.window.setInterval(refresh, 5000);
+      dependencies.document.addEventListener("visibilitychange", () => {
+        if (!dependencies.document.hidden) void refresh();
+      });
+    },
+  };
+}
+
+export function installPixelFontHotReload(options: any) {
+  if (!import.meta.hot) return;
+  createPixelFontHotReloadController(options).start();
 }
 
 export function refreshPixelFontStylesheet(options: any, revision: string) {

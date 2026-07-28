@@ -223,3 +223,16 @@ const unknownToneController = createPixelEditorPaletteController({
 (unknownToneController as any).updateSkinTonePalette(["UNKNOWN"]);
 assert.equal(unknownToneButton.getAttribute("aria-label"), null);
 assert.equal(unknownToneButton.title, "");
+
+toneButton.dataset.cycleIndex = "1";
+toneButton.title = "stale";
+toneButton.attributes.delete("aria-label");
+(controller as any).updateSkinTonePalette(["1F3FB"]);
+assert.equal(toneButton.dataset.cycleIndex, "1");
+assert.match(toneButton.getAttribute("aria-label") ?? "", /darkerColor/);
+assert.match(toneButton.title, /darkerColor/);
+
+secondToneButton.dataset.cycleIndex = "2";
+(controller as any).updateSkinTonePalette(["1F3FB"]);
+assert.equal(secondToneButton.hidden, true);
+assert.equal(secondToneButton.dataset.cycleIndex, "0");

@@ -112,7 +112,6 @@ const legacyMissingTestPairs = new Set([
   "src/pixel-editor/controllers/setup/pixel-editor-controller-visual.ts",
   "src/pixel-editor/data/pixel-editor-atlas-io.ts",
   "src/pixel-editor/data/pixel-editor-drafts.ts",
-  "src/pixel-font-hot-reload.ts",
 ]);
 
 function walk(directory: string, extension: string) {
