@@ -11,6 +11,7 @@ const item = (subGroup: string, shortName: string, emoji = "") => ({
 });
 
 assert.equal(titleCase("face-with-symbols"), "Face With Symbols");
+assert.equal(titleCase(""), "");
 assert.equal(
   getExplorerSubGroup(item("country-flag", "flag: United States", "🇺🇸")),
   "North America",
@@ -21,11 +22,19 @@ assert.equal(
 );
 assert.equal(getExplorerSubGroup(item("food-asian", "sushi")), "Asian");
 assert.equal(getExplorerSubGroup(item("food-fruit", "red apple")), "Fruit");
+assert.equal(getExplorerSubGroup(item("food-prepared", "sandwich")), "Prepared");
+assert.equal(getExplorerSubGroup(item("animal-bug", "lady beetle")), "Bugs");
+assert.equal(getExplorerSubGroup(item("animal-bird", "eagle")), "Birds");
+assert.equal(getExplorerSubGroup(item("animal-mammal", "dog face")), "Mammals");
 assert.equal(
   getExplorerSubGroup(item("animal-marine", "dolphin")),
   "Marine Animals",
 );
+assert.equal(getExplorerSubGroup(item("animal-reptile", "turtle")), "Reptiles");
+assert.equal(getExplorerSubGroup(item("animal-amphibian", "frog")), "Amphibians");
 assert.equal(getExplorerSubGroup(item("plant-flower", "rose")), "Flowers");
+assert.equal(getExplorerSubGroup(item("plant-other", "herb")), "Other Plants");
+assert.equal(getExplorerSubGroup(item("book-paper", "notebook")), "Books & Paper");
 assert.equal(getExplorerSubGroup(item("clothing", "running shoe")), "Shoes");
 assert.equal(
   getExplorerSubGroup(item("clothing", "billed cap")),
@@ -40,6 +49,7 @@ assert.equal(getExplorerSubGroup(item("geometric", "large orange circle")), "Cir
 assert.equal(getExplorerSubGroup(item("geometric", "red triangle pointed up")), "Triangles");
 assert.equal(getExplorerSubGroup(item("geometric", "small blue diamond")), "Diamonds");
 assert.equal(getExplorerSubGroup(item("geometric", "black square button")), "Squares");
+assert.equal(getExplorerSubGroup(item("geometric", "white parallelogram")), "Other Shapes");
 assert.equal(getExplorerSubGroup(item("family", "family: man, woman, girl")), "Families");
 assert.equal(getExplorerSubGroup(item("family", "kiss: woman, man")), "Kissing Couples");
 assert.equal(getExplorerSubGroup(item("family", "women holding hands")), "Holding Hands");
@@ -74,8 +84,16 @@ assert.equal(
   "Royalty",
 );
 assert.equal(
+  getExplorerSubGroup(item("person-role", "person wearing turban")),
+  "Cultural & Formal Wear",
+);
+assert.equal(
   getExplorerSubGroup(item("person-sport", "person swimming")),
   "Water Sports",
+);
+assert.equal(
+  getExplorerSubGroup(item("person-activity", "person in manual wheelchair")),
+  "Accessibility & Mobility",
 );
 assert.equal(
   getExplorerSubGroup(item("person-activity", "person getting haircut")),
@@ -88,6 +106,10 @@ assert.equal(
 assert.equal(
   getExplorerSubGroup(item("person-activity", "person standing")),
   "Poses",
+);
+assert.equal(
+  getExplorerSubGroup(item("person-activity", "person walking")),
+  "Movement",
 );
 assert.equal(
   getExplorerSubGroup(item("person-fantasy", "Mrs. Claus")),
@@ -106,6 +128,10 @@ assert.equal(
   "Merpeople",
 );
 assert.equal(
+  getExplorerSubGroup(item("person-fantasy", "zombie")),
+  "Monsters & Undead",
+);
+assert.equal(
   getExplorerSubGroup(item("person-gesture", "deaf woman")),
   "Accessibility",
 );
@@ -116,6 +142,10 @@ assert.equal(
 assert.equal(
   getExplorerSubGroup(item("person-gesture", "person tipping hand")),
   "Signals & Greetings",
+);
+assert.equal(
+  getExplorerSubGroup(item("person-gesture", "person bowing")),
+  "Respect & Apology",
 );
 assert.equal(
   getExplorerSubGroup(item("person-sport", "person mountain biking")),
@@ -138,6 +168,14 @@ assert.equal(
   "Competition",
 );
 assert.equal(
+  getExplorerSubGroup(item("person-sport", "person running")),
+  "Running & Movement",
+);
+assert.equal(
   getExplorerSubGroup(item("family", "couple with heart")),
   "Couples with Heart",
+);
+assert.equal(
+  getExplorerSubGroup(item("mystery-group", "unknown thing")),
+  "Mystery Group",
 );
