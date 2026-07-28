@@ -172,7 +172,15 @@ export function renderPixelFontToggle(options: any) {
   options.choices().forEach((choice: any) => {
     const selected =
       choice.dataset.emojiFont === (enabled ? "pixel" : "system");
+    choice.classList.toggle("is-active", selected);
+    choice.setAttribute("aria-checked", String(selected));
     choice.setAttribute("aria-pressed", String(selected));
+    choice.tabIndex = selected ? 0 : -1;
+    const input = choice.querySelector('input[type="radio"]') as HTMLInputElement | null;
+    if (input) {
+      input.checked = selected;
+      input.tabIndex = -1;
+    }
   });
   options.refreshRenderedPixelEmoji();
 }

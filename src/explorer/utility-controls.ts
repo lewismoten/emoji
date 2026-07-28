@@ -72,19 +72,27 @@ export function ensureUtilityControls() {
   const searchControls = document.querySelector(".search-controls");
   const fontComparison = document.querySelector(".pixel-comparison");
   if (fontComparison && !fontComparison.querySelector(".emoji-font-choice")) {
-    fontComparison.setAttribute("role", "group");
+    fontComparison.setAttribute("role", "radiogroup");
     fontComparison.dataset.i18nAriaLabel = "emojiStyle";
     fontComparison.setAttribute("aria-label", "Emoji style");
     Array.from(fontComparison.childNodes).forEach((preview, index) => {
       if (!preview || typeof preview !== "object") return;
-      const button = document.createElement("button");
       const font = index === 0 ? "system" : "pixel";
-      button.className = `emoji-font-choice emoji-font-choice-${font}`;
-      button.type = "button";
-      button.dataset.emojiFont = font;
-      button.setAttribute("aria-pressed", String(font === "pixel"));
-      button.append(...(preview as MinimalElement).childNodes);
-      (preview as MinimalElement).replaceWith(button);
+      const option = document.createElement("label");
+      option.className = `emoji-font-choice emoji-font-choice-${font}`;
+      option.dataset.emojiFont = font;
+      option.setAttribute("role", "radio");
+      option.setAttribute("aria-checked", String(font === "pixel"));
+      option.tabIndex = font === "pixel" ? 0 : -1;
+      const input = document.createElement("input");
+      input.className = "emoji-font-choice-input";
+      input.type = "radio";
+      input.name = "emoji-font-choice";
+      input.value = font;
+      input.checked = font === "pixel";
+      input.tabIndex = -1;
+      option.append(input, ...(preview as MinimalElement).childNodes);
+      (preview as MinimalElement).replaceWith(option);
     });
   }
   if (searchControls && !searchControls.querySelector(".saved-picker")) {

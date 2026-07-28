@@ -98,7 +98,8 @@
   flex: none;
   gap: 0.45rem;
 }
-.pixel-comparison > button {
+.emoji-font-choice {
+  position: relative;
   display: grid;
   grid-template-rows: 0.9rem 2.5rem;
   width: 4rem;
@@ -114,19 +115,34 @@
   cursor: pointer;
   font: inherit;
 }
-.pixel-comparison > button:hover {
+
+.emoji-font-choice-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.emoji-font-choice:hover {
   border-color: var(--accent);
 }
-.pixel-comparison > button[aria-pressed="true"] {
+.emoji-font-choice[aria-pressed="true"],
+.emoji-font-choice[aria-checked="true"] {
   border-color: var(--accent);
   background: var(--selected-control-bg);
   box-shadow: var(--shadow-selected-inset, none);
   color: var(--selected-control-text);
 }
-.pixel-comparison > button[aria-pressed="true"] small {
+.emoji-font-choice[aria-pressed="true"] small,
+.emoji-font-choice[aria-checked="true"] small {
   color: inherit;
 }
-.pixel-comparison > button:focus-visible {
+.emoji-font-choice:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }

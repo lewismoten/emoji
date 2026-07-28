@@ -9,7 +9,7 @@ export function getExplorerElements() {
     advancedFiltersButton: first<HTMLButtonElement>("advanced-filters-trigger"),
     copyStatus: first("copy-status"),
     developerModeToggle: first<HTMLInputElement>("developer-mode-toggle"),
-    emojiFontChoices: all<HTMLButtonElement>("emoji-font-choice"),
+    emojiFontChoices: all<HTMLElement>("emoji-font-choice"),
     emojiList: first("list"),
     emojiNext: first<HTMLButtonElement>("emoji-next"),
     emojiParent: first<HTMLButtonElement>("emoji-parent"),

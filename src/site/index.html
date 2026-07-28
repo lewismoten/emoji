@@ -353,28 +353,43 @@
         </div>
         <div
           class="pixel-comparison"
-          role="group"
+          role="radiogroup"
           data-i18n-aria-label="emojiStyle"
           aria-label="Emoji style"
         >
-          <button
+          <label
             class="emoji-font-choice emoji-font-choice-system"
-            type="button"
             data-emoji-font="system"
-            aria-pressed="false"
+            role="radio"
+            aria-checked="false"
+            tabindex="-1"
           >
+            <input
+              class="emoji-font-choice-input"
+              type="radio"
+              name="emoji-font-choice"
+              value="system"
+            />
             <small data-i18n="system">System</small
             ><b class="pixel-comparison-system" aria-hidden="true">😀</b>
-          </button>
-          <button
+          </label>
+          <label
             class="emoji-font-choice emoji-font-choice-pixel"
-            type="button"
             data-emoji-font="pixel"
-            aria-pressed="true"
+            role="radio"
+            aria-checked="true"
+            tabindex="0"
           >
+            <input
+              class="emoji-font-choice-input"
+              type="radio"
+              name="emoji-font-choice"
+              value="pixel"
+              checked
+            />
             <small data-i18n="pixel">Pixel</small
             ><b class="pixel-comparison-custom" aria-hidden="true">😀</b>
-          </button>
+          </label>
         </div>
       </section>
 
