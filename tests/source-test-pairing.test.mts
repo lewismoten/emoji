@@ -86,7 +86,6 @@ const legacyMissingTestPairs = new Set([
   "src/explorer/pixel-artwork.ts",
   "src/explorer/pixel-editor-loader.ts",
   "src/explorer/popular-keys.ts",
-  "src/explorer/pwa-panels.ts",
   "src/explorer/toolbar/help-settings-control.ts",
   "src/explorer/toolbar/theme-choice-control.ts",
   "src/explorer/toolbar/toolbar-layout.ts",
