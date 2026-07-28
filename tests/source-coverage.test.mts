@@ -77,7 +77,6 @@ const legacyDirectCoverageAllowlist = new Set<string>([
   "src/app/version-controller.ts",
   "src/app/version-mode-runtime.ts",
   "src/app/version-runtime.ts",
-  "src/category-representatives.ts",
   "src/controls/dialog/dialog-navigate-button.ts",
   "src/controls/filters/pickers/filter-picker-trigger.ts",
   "src/controls/pickers/language-picker.ts",

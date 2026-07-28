@@ -35,7 +35,6 @@ const legacyMissingTestPairs = new Set([
   "src/app/version-mode-controller.ts",
   "src/app/version-mode-runtime.ts",
   "src/app/version-runtime.ts",
-  "src/category-representatives.ts",
   "src/controls/dialog/dialog-navigate-button.ts",
   "src/controls/filters/pickers/advanced-filters-trigger.ts",
   "src/controls/filters/pickers/compact-choice-button.ts",
