@@ -32,6 +32,7 @@ export class LanguagePickerControl extends BaseControl<LanguagePickerState> {
     return DomFactory.button({
       attributes: {
         "aria-controls": this.state.controlsId,
+        "aria-label": this.state.accessibleLabel,
         "aria-haspopup": "dialog",
         "aria-labelledby": `${this.state.accessibleLabelId} ${this.state.labelId}`,
         type: "button",
