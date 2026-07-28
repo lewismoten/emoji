@@ -144,6 +144,20 @@ html[data-theme="retro"] .unicode-subgroup {
   background: var(--frame-bg);
 }
 
+html[data-theme="retro"] input,
+html[data-theme="retro"] select {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md-lg);
+  background: var(--panel);
+  color: var(--text);
+}
+
+html[data-theme="retro"] input:focus-visible,
+html[data-theme="retro"] select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 html[data-theme="retro"] .modifier-filters fieldset {
   border-color: var(--ega-black);
 }

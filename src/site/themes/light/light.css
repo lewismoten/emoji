@@ -57,6 +57,20 @@ html[data-theme="light"] .setting-row {
   border-top: 1px solid var(--border);
 }
 
+html[data-theme="light"] input,
+html[data-theme="light"] select {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md-lg);
+  background: var(--panel);
+  color: var(--text);
+}
+
+html[data-theme="light"] input:focus-visible,
+html[data-theme="light"] select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 html[data-theme="light"] kbd {
   border: 1px solid var(--border);
   border-bottom-width: 2px;
