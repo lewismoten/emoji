@@ -102,13 +102,13 @@ html[data-theme="base"] {
 html[data-theme="base"] *,
 html[data-theme="base"] *::before,
 html[data-theme="base"] *::after {
-  text-shadow: none;
-  backdrop-filter: none !important;
-  background-image: none !important;
-  transition: none !important;
-  animation: none !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
+  text-shadow: revert;
+  backdrop-filter: revert !important;
+  background-image: revert !important;
+  transition: revert !important;
+  animation: revert !important;
+  border-radius: revert !important;
+  box-shadow: revert !important;
 }
 
 html[data-theme="base"] .toolbar,
@@ -132,15 +132,17 @@ html[data-theme="base"] dialog.help-dialog,
 html[data-theme="base"] dialog.advanced-filters-dialog,
 html[data-theme="base"] dialog.filter-picker-dialog,
 html[data-theme="base"] dialog.install-dialog {
-  background: var(--panel) !important;
+  background: revert !important;
+  color: revert !important;
+  border-color: revert !important;
 }
 
 html[data-theme="base"] .emoji-copy-actions button,
 html[data-theme="base"] .emoji-code-toolbar button,
 html[data-theme="base"] .emoji-preview-copy-label {
-  background: #ffffff !important;
-  color: #000000 !important;
-  border-color: #000000 !important;
+  background: revert !important;
+  color: revert !important;
+  border-color: revert !important;
 }
 
 html[data-theme="base"] dialog.example-dialog,
