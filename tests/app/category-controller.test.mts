@@ -104,6 +104,9 @@ await fs.writeFile(
 await fs.writeFile(moduleFile, transformedSource);
 
 const module = await import(pathToFileURL(moduleFile).href);
+const exportedCreateCategoryController: typeof import("../../src/app/category-controller.js").createCategoryController =
+  module.createCategoryController;
+assert.equal(typeof exportedCreateCategoryController, "function");
 const filterPickerStub = await import(pathToFileURL(filterPickerStubFile).href);
 const categoryRendererStub = await import(
   pathToFileURL(categoryRendererStubFile).href

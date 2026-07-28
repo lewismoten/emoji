@@ -156,6 +156,15 @@ const missingTests = sourceFiles.filter(
     !expectedTestFiles(sourceFile).some((candidate) => testFiles.has(candidate)),
 );
 
+function expectedImportSpecifiers(sourceFile: string, testFile: string) {
+  const relative = path.posix.relative(
+    path.posix.dirname(testFile),
+    sourceFile,
+  );
+  const jsSpecifier = relative.replace(/\.ts$/, ".js");
+  return [jsSpecifier.startsWith(".") ? jsSpecifier : `./${jsSpecifier}`];
+}
+
 const pairingProblems: string[] = [];
 
 for (const sourceFile of missingTests) {
@@ -170,6 +179,24 @@ for (const sourceFile of legacyMissingTestPairs) {
   if (!missingTests.includes(sourceFile)) {
     pairingProblems.push(
       `${sourceFile} now has a matching test file; remove it from legacyMissingTestPairs`,
+    );
+  }
+}
+
+for (const sourceFile of sourceFiles) {
+  const matchingTests = expectedTestFiles(sourceFile).filter((candidate) =>
+    testFiles.has(candidate),
+  );
+  if (matchingTests.length === 0) continue;
+  const importsSource = matchingTests.some((testFile) => {
+    const contents = fs.readFileSync(path.join(root, testFile), "utf8");
+    return expectedImportSpecifiers(sourceFile, testFile).some((specifier) =>
+      contents.includes(specifier),
+    );
+  });
+  if (!importsSource) {
+    pairingProblems.push(
+      `${sourceFile} has a matching test file, but none of ${matchingTests.join(", ")} reference its source module`,
     );
   }
 }

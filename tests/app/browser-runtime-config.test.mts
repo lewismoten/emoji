@@ -95,6 +95,9 @@ const options = {
 };
 
 const result = module.createBrowserRuntimeConfig(options);
+const exportedCreateBrowserRuntimeConfig: typeof import("../../src/app/browser-runtime-config.js").createBrowserRuntimeConfig =
+  module.createBrowserRuntimeConfig;
+assert.equal(typeof exportedCreateBrowserRuntimeConfig, "function");
 assert.equal(result.initialized, true);
 assert.equal(result.options, stub.lastOptions);
 

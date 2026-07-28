@@ -1,0 +1,3 @@
+{
+  "extends": "./explorer.tsconfig.json"
+}

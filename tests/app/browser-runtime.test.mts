@@ -111,6 +111,12 @@ const panelStub = await import(pathToFileURL(panelStubFile).href);
 const pixelFontStub = await import(pathToFileURL(pixelFontStubFile).href);
 
 const { createUiFormatters, initializeBrowserRuntime } = browserRuntimeModule;
+const exportedCreateUiFormatters: typeof import("../../src/app/browser-runtime.js").createUiFormatters =
+  createUiFormatters;
+const exportedInitializeBrowserRuntime: typeof import("../../src/app/browser-runtime.js").initializeBrowserRuntime =
+  initializeBrowserRuntime;
+assert.equal(typeof exportedCreateUiFormatters, "function");
+assert.equal(typeof exportedInitializeBrowserRuntime, "function");
 
 const formatterCalls: Array<{
   type: "number" | "percent";

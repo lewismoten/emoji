@@ -18,5 +18,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "exclude": ["cache", "build", "src", "tests/package-exports.test.mts"]
+  "exclude": ["cache", "build", "src", "tests", "tests/package-exports.test.mts"]
 }

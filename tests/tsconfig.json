@@ -1,10 +1,15 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "lib": ["ESNext"],
-    "types": ["node"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "types": ["node", "vite/client"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "baseUrl": "..",
+    "paths": {
+      "@codejamboree/web-request-queue": ["./types/web-request-queue.d.ts"],
+      "@lewismoten/emoji/search": ["./library/search.ts"]
+    },
     "rootDir": "..",
     "outDir": "../build",
     "sourceMap": true,
