@@ -279,6 +279,14 @@ try {
   openFilterPicker(dialog as any, choices as any);
   assert.equal(dialog.open, true);
   assert.equal(selectedRadio.focused, true);
+  const fallbackDialog = new FakeElement("dialog");
+  const fallbackChoices = new FakeElement("div");
+  const fallbackRadio = new FakeElement("button");
+  fallbackRadio.setAttribute("role", "radio");
+  fallbackChoices.append(fallbackRadio);
+  openFilterPicker(fallbackDialog as any, fallbackChoices as any);
+  assert.equal(fallbackDialog.open, true);
+  assert.equal(fallbackRadio.focused, true);
   openFilterPicker(undefined, choices as any);
   openFilterPicker(dialog as any, undefined);
 
@@ -301,6 +309,8 @@ try {
   assert.equal(focusA.focused, true);
   focusCompactChoice(focusContainer as any, "missing");
   assert.equal(focusB.focused, true);
+  const emptyFocusContainer = new FakeElement("div");
+  focusCompactChoice(emptyFocusContainer as any, "missing");
 
   const navContainer = new FakeElement("div");
   const navButtons = [0, 1, 2, 3].map(() => {
