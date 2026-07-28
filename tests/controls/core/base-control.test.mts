@@ -22,7 +22,34 @@ class ExampleControl extends BaseControl<{
   }
 }
 
+class AssetChildControl extends BaseControl<{ label: string }> {
+  protected override stylesheets() {
+    return [{ href: "/child.css", id: "child-style" }];
+  }
+
+  protected render(): NodeSpec {
+    return { tag: "span", text: this.state.label };
+  }
+}
+
+class AssetParentControl extends BaseControl<{ label: string }> {
+  protected override stylesheets() {
+    return [{ href: "/parent.css", id: "parent-style" }];
+  }
+
+  protected override childControls() {
+    return [new AssetChildControl({ label: "Child" })];
+  }
+
+  protected render(): NodeSpec {
+    return { tag: "div", text: this.state.label };
+  }
+}
+
 const restore = installFakeDocument();
+const documentRef = (
+  globalThis as typeof globalThis & { document: { head: FakeElement } }
+).document;
 
 const instance = new ExampleControl();
 instance.update({ label: "Beta" });
@@ -47,5 +74,34 @@ assert.equal(
   }),
   '<span data-i18n="delta">Delta</span>',
 );
+
+const assetElement = new AssetParentControl({
+  label: "Parent",
+}).create() as unknown as FakeElement;
+assert.equal(assetElement.tagName, "DIV");
+assert.equal(documentRef.head.children.length, 2);
+assert.equal((documentRef.head.children[0] as FakeElement).id, "parent-style");
+assert.equal((documentRef.head.children[1] as FakeElement).id, "child-style");
+
+const fallbackHeadChildren: FakeElement[] = [];
+const originalDocument = (
+  globalThis as typeof globalThis & { document?: any }
+).document;
+(globalThis as typeof globalThis & { document: any }).document = {
+  createElement(tagName: string) {
+    return new FakeElement(tagName);
+  },
+  getElementById() {
+    return null;
+  },
+  head: {
+    append(node: FakeElement) {
+      fallbackHeadChildren.push(node);
+    },
+  },
+};
+new AssetParentControl({ label: "Fallback" }).create();
+assert.equal(fallbackHeadChildren.length, 2);
+(globalThis as typeof globalThis & { document: any }).document = originalDocument;
 
 restore();

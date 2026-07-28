@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 
 import { ToolbarTriggerButtonControl } from "../../../src/controls/toolbar/toolbar-trigger-button.js";
+import { FakeElement, installFakeDocument } from "../fake-dom.mjs";
 
 const favoriteMarkup = ToolbarTriggerButtonControl.toMarkup({
   ariaLabel: "Saved emoji",
@@ -33,3 +34,19 @@ const helpMarkup = ToolbarTriggerButtonControl.toMarkup({
 
 assert.ok(helpMarkup.includes('class="help-picker"'));
 assert.ok(!helpMarkup.includes("saved-picker-label"));
+
+const restore = installFakeDocument();
+const globals = globalThis as typeof globalThis & { document: { head: FakeElement } };
+ToolbarTriggerButtonControl.create({
+  ariaLabel: "Plain",
+  ariaLabelKey: "plain",
+  className: "plain-picker",
+  controls: "plain-dialog",
+  icon: "!",
+});
+assert.equal(globals.document.head.children.length, 1);
+assert.equal(
+  (globals.document.head.children[0] as FakeElement).id,
+  "toolbar-trigger-button-control-stylesheet",
+);
+restore();

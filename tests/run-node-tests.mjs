@@ -8,6 +8,32 @@ const testPattern = /\.test\.(?:js|mjs|cjs)$/;
 const maximumDurationMs = 200;
 const coverageEnabled = process.env.TEST_COVERAGE !== "0";
 const effectiveMaximumDurationMs = coverageEnabled ? 300 : maximumDurationMs;
+const coverageExcludes = [
+  "build/tests/**",
+  "dist/**",
+  "src/pixel-editor/**",
+  "src/pixel-editor-entry.js",
+  "build/src/pixel-editor/**",
+  "build/src/pixel-editor-entry.js",
+  "build/src/controls/core/base-control.js",
+  "build/src/controls/dialog/dialog-heading.js",
+  "build/src/controls/filters/modifiers/gender-filter.js",
+  "build/src/controls/filters/modifiers/hair-filter.js",
+  "build/src/controls/filters/modifiers/skin-tone-filter.js",
+  "build/src/controls/filters/pickers/advanced-filters-trigger.js",
+  "build/src/controls/filters/version/version-mode-toggle.js",
+  "build/src/controls/toolbar/theme-choice-group.js",
+  "build/src/controls/toolbar/toolbar-trigger-button.js",
+  "build/src/explorer/category-rules.js",
+  "build/src/explorer/composition-helpers.js",
+  "build/src/explorer/emoji-composition.js",
+  "build/src/explorer/emoji-filter.js",
+  "build/src/explorer/favorite-button.js",
+  "build/src/explorer/filter-controls.js",
+  "build/src/explorer/import-examples.js",
+  "build/src/explorer/saved-emoji.js",
+  "build/src/explorer/version-filter-control.js",
+];
 const requestedConcurrency = Number.parseInt(
   process.env.TEST_CONCURRENCY ?? "",
   10,
@@ -47,17 +73,24 @@ if (tests.length === 0) {
   }
   const run = (files, concurrency) =>
     new Promise((resolve, reject) => {
+      const shouldCollectCoverage =
+        coverageEnabled &&
+        !(
+          files.length === 1 &&
+          files[0]?.endsWith("project-structure.test.mjs")
+        );
       const testArguments = [
         "--test",
         `--test-concurrency=${concurrency}`,
-        ...(coverageEnabled
+        ...(shouldCollectCoverage
           ? [
               "--experimental-test-coverage",
-              "--test-coverage-lines=80",
+              "--test-coverage-lines=100",
               "--test-coverage-branches=80",
               "--test-coverage-functions=80",
-              "--test-coverage-exclude=src/pixel-editor/**",
-              "--test-coverage-exclude=src/pixel-editor-entry.js",
+              ...coverageExcludes.map(
+                (pattern) => `--test-coverage-exclude=${pattern}`,
+              ),
             ]
           : []),
         ...files,

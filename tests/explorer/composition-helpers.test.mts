@@ -16,8 +16,11 @@ const lookup = new Map([
 ]);
 
 assert.equal(isCondensedSequenceControl(0x200d), true);
+assert.equal(isCondensedSequenceControl(0xfe0f), true);
 assert.equal(isCondensedSequenceControl(0x1f600), false);
 assert.equal(findCompositionArtworkKey("1f44d", lookup), "thumbsUp");
+assert.equal(findCompositionArtworkKey("1f44d fe0f", lookup), "thumbsUp");
+assert.equal(findCompositionArtworkKey("1f600", lookup), undefined);
 assert.equal(
   findCompositionEmojiKey("1F3F4", "flagWales", lookup),
   "blackFlag",
@@ -56,11 +59,68 @@ assert.deepEqual(
     symbolic: true,
   },
 );
+assert.deepEqual(
+  describeCompositionPoint(0x200d, (_key, fallback) => fallback),
+  {
+    glyph: "ZWJ",
+    label: "Zero-width joiner",
+    symbolic: true,
+  },
+);
+assert.deepEqual(
+  describeCompositionPoint(0xfe0f, (_key, fallback) => fallback),
+  {
+    glyph: "VS16",
+    label: "Emoji presentation selector",
+    symbolic: true,
+  },
+);
+assert.deepEqual(
+  describeCompositionPoint(0x1f3fb, (_key, fallback) => fallback),
+  {
+    glyph: "🏻",
+    label: "Light skin tone",
+    symbolic: false,
+  },
+);
+assert.deepEqual(
+  describeCompositionPoint(0x1f1fa, (_key, fallback) => fallback),
+  {
+    glyph: "🇺",
+    label: "Regional indicator U",
+    symbolic: false,
+  },
+);
+assert.deepEqual(
+  describeCompositionPoint(0xe0020, (_key, fallback) => fallback),
+  {
+    glyph: "TAG ␠",
+    label: "Tag character ␠",
+    symbolic: true,
+  },
+);
+assert.deepEqual(
+  describeCompositionPoint(0x41, (_key, fallback) => fallback),
+  {
+    glyph: "A",
+    label: "U+41",
+    symbolic: false,
+  },
+);
 assert.equal(
   compositionTitle("grinningFace", { grinningFace: ["Grinning face"] }, {}),
   "Grinning face",
 );
 assert.equal(
+  compositionTitle("knownFace", {}, { knownFace: { shortName: "Known face" } }),
+  "Known face",
+);
+assert.equal(compositionTitle("wrappedGift", {}, {}), "Wrapped gift");
+assert.equal(
   compositionReductionLabel(4, 1, { dir: "ltr", locale: "en" }),
   "4→1",
+);
+assert.equal(
+  compositionReductionLabel(12, 3, { dir: "rtl", locale: "ar" }),
+  "3←12",
 );
