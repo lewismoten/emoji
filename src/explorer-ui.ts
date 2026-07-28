@@ -146,7 +146,6 @@ export function selectTheme(options: any, event: any) {
     : "dark";
   options.savePreference("theme", theme);
   options.renderThemeToggle();
-  if (event?.detail > 0) event.currentTarget.blur();
 }
 
 export function renderPixelFontToggle(options: any) {
