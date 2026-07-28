@@ -10,6 +10,7 @@ import {
   pixelOffset,
   pixelsEqual,
 } from "../core/pixel-editor-geometry-helpers.js";
+import { imageDataCanvas } from "../canvas/pixel-editor-canvas-helpers.js";
 
 export function nextLayerRotation(
   layer,
