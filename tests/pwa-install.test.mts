@@ -175,7 +175,7 @@ assert.match(
 );
 assert.match(
   pwaPanelsHelper,
-  /installedDisplayQueries[\s\S]*standalone[\s\S]*fullscreen[\s\S]*minimal-ui[\s\S]*window-controls-overlay[\s\S]*android-app:\/\//,
+  /getInstalledDisplayQueries[\s\S]*standalone[\s\S]*fullscreen[\s\S]*minimal-ui[\s\S]*window-controls-overlay[\s\S]*android-app:\/\//,
   "installed app detection must cover supported standalone display contexts",
 );
 assert.match(

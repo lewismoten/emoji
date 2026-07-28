@@ -2,6 +2,10 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import {
+  createUiFormatters as actualCreateUiFormatters,
+  initializeBrowserRuntime as actualInitializeBrowserRuntime,
+} from "../../src/app/browser-runtime.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 const sourceText = await fs.readFile(
@@ -192,6 +196,20 @@ assert.deepEqual(formatterCalls, [
   { type: "percent", value: 75, locale: "en-US", numberingSystem: undefined },
 ]);
 
+const actualUiFormatters = actualCreateUiFormatters({
+  document: englishDocument as Document,
+  selectedSearchLocale: () => "fr",
+  formatNumber: (value: number, locale?: string, numberingSystem?: string) =>
+    `n:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+  formatPercent: (
+    value: number,
+    locale?: string,
+    numberingSystem?: string,
+  ) => `p:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+});
+assert.equal(actualUiFormatters.formatUiNumber(99), "n:99:en-US:");
+assert.equal(actualUiFormatters.formatUiPercent(15), "p:15:en-US:");
+
 const originalWindow = (globalThis as any).window;
 const originalNavigator = (globalThis as any).navigator;
 const originalCaches = (globalThis as any).caches;
@@ -266,6 +284,68 @@ const ownerDocument = {
     return null;
   },
 };
+
+const actualWindowEvents: Record<string, (...args: unknown[]) => unknown> = {};
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: {
+    ...sharedWindow,
+    addEventListener(type: string, handler: (...args: unknown[]) => unknown) {
+      actualWindowEvents[type] = handler;
+    },
+  },
+});
+Object.defineProperty(globalThis, "navigator", {
+  configurable: true,
+  value: sharedNavigator,
+});
+Object.defineProperty(globalThis, "caches", {
+  configurable: true,
+  value: sharedCaches,
+});
+Object.defineProperty(globalThis, "document", {
+  configurable: true,
+  value: ownerDocument,
+});
+const actualRuntime = actualInitializeBrowserRuntime({
+  applyDialogUrlState() {},
+  closePanelDialog() {},
+  currentEmojiKey: () => "wave",
+  currentLoadId: () => 1,
+  dialog: () => undefined,
+  languageDialog: () => undefined,
+  languageFlags: {},
+  languageList: () => undefined,
+  languagePicker: () => ({ disabled: false }),
+  languagePickerFlag: () => undefined,
+  languagePickerLabel: () => undefined,
+  loadUiTranslations: async () => ({}),
+  nextLoadId: () => 1,
+  onPixelFontRevisionLoaded() {},
+  refreshLocalizedLabels() {},
+  restoreDeveloperMode() {},
+  saveExplorerPreference() {},
+  searchLocales: () => [],
+  selectedSearchLocale: () => "",
+  setApplyingUrlState() {},
+  setSearchAnnotations() {},
+  setSearchLabels() {},
+  setSearchLocales() {},
+  setSearchSubgroupLabels() {},
+  setSelectedLocale() {},
+  suppressedPanelCloses: () => new WeakSet(),
+  syncUrlState() {},
+  translate: (value: string) => value,
+  updateModifierArtwork() {},
+  updatePixelArtworkManifest() {},
+  updateWebAppManifest() {},
+});
+assert.equal(typeof actualRuntime.load, "function");
+assert.equal(typeof actualRuntime.render, "function");
+assert.equal(typeof actualRuntime.select, "function");
+assert.equal(typeof actualRuntime.set, "function");
+assert.equal(typeof actualRuntime.onPopState, "function");
+assert.equal(typeof actualWindowEvents.popstate, "function");
 const languageDialog = {
   dataset: { returnPanel: "help" },
   ownerDocument,

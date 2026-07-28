@@ -8,15 +8,18 @@ type BeforeInstallPromptEventLike = Event & {
   userChoice: Promise<unknown>;
 };
 
-export const installedDisplayQueries = [
-  "standalone",
-  "fullscreen",
-  "minimal-ui",
-  "window-controls-overlay",
-].map((mode) => window.matchMedia(`(display-mode: ${mode})`));
+export const getInstalledDisplayQueries = () => {
+  if (typeof window === "undefined") return [];
+  return [
+    "standalone",
+    "fullscreen",
+    "minimal-ui",
+    "window-controls-overlay",
+  ].map((mode) => window.matchMedia(`(display-mode: ${mode})`));
+};
 
 export const isInstalledApp = () =>
-  installedDisplayQueries.some((query) => query.matches) ||
+  getInstalledDisplayQueries().some((query) => query.matches) ||
   (window.navigator as BrowserNavigator).standalone === true ||
   document.referrer.startsWith("android-app://");
 

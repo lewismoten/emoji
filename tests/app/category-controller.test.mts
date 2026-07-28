@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { createCategoryController as actualCreateCategoryController } from "../../src/app/category-controller.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 const sourceText = await fs.readFile(
@@ -209,6 +210,43 @@ const controller = module.createCategoryController({
     "face-smiling": "faceSmilingLabel",
   },
 });
+
+const actualController = actualCreateCategoryController({
+  compactGroupChoices: {} as HTMLElement,
+  compactGroupLabel: {} as HTMLElement,
+  compactSequenceChoices: {} as HTMLElement,
+  compactSequenceLabel: {} as HTMLElement,
+  compactSubGroupChoices: {} as HTMLElement,
+  compactSubGroupLabel: {} as HTMLElement,
+  developerModeEnabled: () => false,
+  drawList() {},
+  getVersionKeys: () => state.versionKeys,
+  groupFilterDialog: undefined,
+  groupPickerTrigger: undefined,
+  groupSelector: () => groupSelector,
+  orderButtons: () => [],
+  savePreference() {},
+  sequenceTranslationKeys: { zwj: "zwjLabel" },
+  sequenceTypeEmoji: { zwj: "🧩" },
+  sequenceTypeLabels: { zwj: "ZWJ" },
+  sequenceTypeOrder: ["zwj"],
+  sequenceTypeSelector: () => sequenceTypeSelector,
+  state: () => state,
+  subGroupFilterDialog: undefined,
+  subGroupPickerTrigger: undefined,
+  subGroupSelector: () => subGroupSelector,
+  syncVersionRange() {},
+  translate: (value: string) => value,
+  unicodeGroupLabelKeys: {
+    "Smileys & Emotion": "smileysLabel",
+  },
+  unicodeSubgroupLabelKeys: {
+    "face-smiling": "faceSmilingLabel",
+  },
+});
+assert.equal(typeof actualController.buildRepresentatives, "function");
+assert.equal(typeof actualController.renderCategoryFilters, "function");
+assert.equal(typeof actualController.refreshLocalizedLabels, "function");
 
 assert.equal(controller.closeFilterPicker, filterPickerStub.closeFilterPicker);
 assert.equal(controller.focusCompactChoice, filterPickerStub.focusCompactChoice);

@@ -7,7 +7,7 @@ import { createFilterControlSetup } from "../explorer/filter-controls.js";
 import { observeToolbarHeight } from "../explorer/toolbar/toolbar-layout.js";
 import {
   closePanelDialog,
-  installedDisplayQueries,
+  getInstalledDisplayQueries,
   openPanelDialog,
 } from "../explorer/pwa-panels.js";
 import { createStartupOrchestrator } from "./startup-orchestrator.js";
@@ -51,7 +51,7 @@ export function createStartupRuntime(options: any) {
     installApp: options.installApp,
     installAppButton: () => options.installAppButton(),
     installDialog: () => options.installDialog(),
-    installedDisplayQueries,
+    installedDisplayQueries: getInstalledDisplayQueries(),
     languageDialog: () => options.languageDialog(),
     languageList: () => options.languageList(),
     languagePicker: () => options.languagePicker(),

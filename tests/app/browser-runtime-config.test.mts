@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { createBrowserRuntimeConfig as actualCreateBrowserRuntimeConfig } from "../../src/app/browser-runtime-config.js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 const sourceText = await fs.readFile(
@@ -189,3 +190,35 @@ assert.equal(stub.lastOptions.nextLoadId(), 5);
 assert.deepEqual(stub.lastOptions.searchLocales(), [{ code: "ar" }]);
 assert.equal(stub.lastOptions.selectedSearchLocale(), "ar");
 assert.equal(stub.lastOptions.suppressedPanelCloses(), 3);
+
+const originalWindowDescriptor = Object.getOwnPropertyDescriptor(globalThis, "window");
+const originalNavigatorDescriptor = Object.getOwnPropertyDescriptor(globalThis, "navigator");
+const windowEvents: Record<string, (...args: unknown[]) => unknown> = {};
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: {
+    addEventListener(type: string, handler: (...args: unknown[]) => unknown) {
+      windowEvents[type] = handler;
+    },
+  },
+});
+Object.defineProperty(globalThis, "navigator", {
+  configurable: true,
+  value: {},
+});
+try {
+  const actualResult = actualCreateBrowserRuntimeConfig(options);
+  assert.equal(typeof actualResult.load, "function");
+  assert.equal(typeof actualResult.render, "function");
+  assert.equal(typeof actualResult.select, "function");
+  assert.equal(typeof actualResult.set, "function");
+  assert.equal(typeof actualResult.onPopState, "function");
+  assert.equal(typeof windowEvents.popstate, "function");
+} finally {
+  if (originalWindowDescriptor)
+    Object.defineProperty(globalThis, "window", originalWindowDescriptor);
+  else Reflect.deleteProperty(globalThis, "window");
+  if (originalNavigatorDescriptor)
+    Object.defineProperty(globalThis, "navigator", originalNavigatorDescriptor);
+  else Reflect.deleteProperty(globalThis, "navigator");
+}
