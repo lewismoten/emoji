@@ -10,6 +10,10 @@ html[data-theme="retro"] a {
   color: var(--accent);
 }
 
+html[data-theme="retro"] .setting-row {
+  border-top: 1px solid var(--border);
+}
+
 html[data-theme="retro"] .toolbar,
 html[data-theme="retro"] .offline-status,
 html[data-theme="retro"] .pixel-hero,

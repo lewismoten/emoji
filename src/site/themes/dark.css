@@ -41,6 +41,10 @@ html[data-theme="dark"] a {
   color: var(--accent);
 }
 
+html[data-theme="dark"] .setting-row {
+  border-top: 1px solid var(--border);
+}
+
 html[data-theme="dark"] kbd {
   border: 1px solid var(--border);
   border-bottom-width: 2px;

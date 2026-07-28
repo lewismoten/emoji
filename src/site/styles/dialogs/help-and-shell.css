@@ -43,7 +43,6 @@
   justify-content: space-between;
   gap: 1rem;
   padding-top: 0.75rem;
-  border-top: 1px solid var(--border);
 }
 .setting-row > :first-child {
   min-width: 0;
