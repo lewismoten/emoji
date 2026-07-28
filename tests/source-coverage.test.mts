@@ -58,7 +58,6 @@ for (const sourceFile of srcFiles) {
 const seedFiles = new Set<string>();
 const legacyDirectCoverageAllowlist = new Set<string>([
   "src/app/browser-runtime-config.ts",
-  "src/app/category-controller.ts",
   "src/app/dialog-runtime-config.ts",
   "src/app/dialog-view-runtime.ts",
   "src/app/emoji-actions.ts",
