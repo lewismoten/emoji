@@ -5,7 +5,7 @@
     "types": ["node", "vite/client"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "ignoreDeprecations": "6.0",
+    "ignoreDeprecations": "5.0",
     "baseUrl": "..",
     "paths": {
       "@codejamboree/web-request-queue": ["./types/web-request-queue.d.ts"],
