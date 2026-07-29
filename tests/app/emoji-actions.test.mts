@@ -127,6 +127,9 @@ const dialog = {
       return false;
     },
   },
+  querySelector() {
+    return null;
+  },
 };
 const copyStatus = { textContent: "" };
 
@@ -159,6 +162,30 @@ const actions = createEmojiActions({
   urlStateReady: () => true,
 });
 
+const createActions = (overrides: Record<string, unknown> = {}) =>
+  createEmojiActions({
+    applyingUrlState: () => false,
+    applyPixelArtworkClass: () => {},
+    applyStandalonePixelArtwork: () => {},
+    copyStatus: () => copyStatus,
+    developerModeEnabled: () => true,
+    dialog: () => dialog,
+    normalizeCodePoints: (value: string) => value,
+    showEmoji: (key: string, openDialog: boolean) =>
+      showEmojiCalls.push([key, openDialog]),
+    state: () => state,
+    setDialogView: (...args: any[]) => {
+      currentView = args;
+    },
+    suppressDialogCloseSync: () => false,
+    syncUrlState: (...args: any[]) => syncUrlStateCalls.push(args),
+    translate: (_key: string, fallback: string) => fallback,
+    updateEmojiImportExamples: (item: any) => importExampleItems.push(item),
+    updateEmojiComposition: () => {},
+    urlStateReady: () => true,
+    ...overrides,
+  });
+
 assert.equal(actions.getIntroducedVersion("wrappedGift"), "17.0");
 assert.equal(actions.getIntroducedVersion("missing"), "—");
 
@@ -184,6 +211,28 @@ assert.deepEqual(showEmojiCalls, [["wrappedGift", true]]);
 actions.rebuildEmojiCodePointLookup();
 assert.equal(state.emojiKeyByCodePoints.get("1F381"), "wrappedGift");
 assert.equal(state.emojiKeyByCodePoints.get("1F44D 1F3FB"), "lightSkin");
+actions.updateEmojiComposition(state.byId.wrappedGift, "🎁");
+
+const originalBackCalled = (globalThis as any).window.history.backCalled;
+const originalSyncCalls = syncUrlStateCalls.length;
+
+createActions({
+  suppressDialogCloseSync: () => true,
+}).onEmojiDialogClose();
+assert.equal((globalThis as any).window.history.backCalled, originalBackCalled);
+assert.equal(syncUrlStateCalls.length, originalSyncCalls);
+
+createActions({
+  urlStateReady: () => false,
+}).onEmojiDialogClose();
+assert.equal((globalThis as any).window.history.backCalled, originalBackCalled);
+assert.equal(syncUrlStateCalls.length, originalSyncCalls);
+
+createActions({
+  applyingUrlState: () => true,
+}).onEmojiDialogClose();
+assert.equal((globalThis as any).window.history.backCalled, originalBackCalled);
+assert.equal(syncUrlStateCalls.length, originalSyncCalls);
 
 (globalThis as any).window.history.state = { emojiDialogEntry: true };
 actions.onEmojiDialogClose();
