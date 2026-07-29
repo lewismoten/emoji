@@ -64,10 +64,10 @@ retro text font.
 | Spanish-style punctuation | `¡ ¿` |
 | Navigation and status | `← ↑ → ↓ ↩ ⚠ ✓ ♪` |
 
-### Recommended next: Central and Eastern European coverage
+### Central and Eastern European coverage
 
-These are good candidates if the retro font later expands beyond Western
-European localization support.
+The current build now includes the commonly needed Latin extensions for the
+language groups below.
 
 | Language group | Often-needed characters |
 | - | - |
@@ -80,8 +80,8 @@ European localization support.
 | Hungarian | `Á É Í Ó Ö Ő Ú Ü Ű á é í ó ö ő ú ü ű` |
 
 Future additions may still be needed for other Latin-based languages, but the
-current Western European set is meant to keep common UI translations from
-being blocked on missing glyphs.
+current coverage now spans common Western, Central, and Eastern European
+Latin-script UI needs.
 
 ## Source format
 

@@ -28,9 +28,25 @@ const accentRows = {
   circumflex: ["00100", "01010"],
   caron: ["01010", "00100"],
   macron: ["11111"],
+  breve: ["01110"],
+  dotAbove: ["00100"],
+  doubleAcute: ["01010"],
   ring: ["00100", "01010"],
   tilde: ["01100", "00011"],
 };
+
+function replaceBottomRow(bitmap, row) {
+  const rows = splitRows(bitmap);
+  rows[rows.length - 1] = row;
+  return joinRows(rows);
+}
+
+function appendBottomMark(bitmap, row) {
+  const rows = splitRows(bitmap);
+  rows.shift();
+  rows.push(row);
+  return joinRows(rows);
+}
 
 const accentedUBase = rows(
   "00000",
@@ -96,16 +112,35 @@ const glyphOverrides = new Map(
     ["ã", overlayRows(roundedABase, accentRows.tilde)],
     ["ä", overlayRows(roundedABase, accentRows.diaeresis)],
     ["ā", overlayRows(roundedABase, accentRows.macron)],
+    ["ă", overlayRows(roundedABase, accentRows.breve)],
+    ["ą", replaceBottomRow(roundedABase, "00011")],
     ["å", ringABase],
+    ["ć", overlayRows(BITMAP_FONT_5X7.c, accentRows.acute)],
+    ["č", overlayRows(BITMAP_FONT_5X7.c, accentRows.caron)],
+    ["ď", overlayRows(BITMAP_FONT_5X7.d, accentRows.caron)],
+    ["đ", rows("00010", "00110", "00111", "01010", "01010", "01010", "00111")],
     ["é", overlayRows(BITMAP_FONT_5X7.e, accentRows.acute)],
     ["è", overlayRows(BITMAP_FONT_5X7.e, accentRows.grave)],
     ["ê", overlayRows(BITMAP_FONT_5X7.e, accentRows.circumflex)],
     ["ë", overlayRows(BITMAP_FONT_5X7.e, accentRows.diaeresis)],
+    ["ē", overlayRows(BITMAP_FONT_5X7.e, accentRows.macron)],
+    ["ę", replaceBottomRow(BITMAP_FONT_5X7.e, "00011")],
+    ["ě", overlayRows(BITMAP_FONT_5X7.e, accentRows.caron)],
+    ["ģ", appendBottomMark(BITMAP_FONT_5X7.g, "00100")],
     ["í", overlayRows(BITMAP_FONT_5X7.i, accentRows.acute)],
     ["ì", overlayRows(BITMAP_FONT_5X7.i, accentRows.grave)],
     ["î", overlayRows(BITMAP_FONT_5X7.i, accentRows.circumflex)],
     ["ï", overlayRows(BITMAP_FONT_5X7.i, accentRows.diaeresis)],
+    ["ī", overlayRows(BITMAP_FONT_5X7.i, accentRows.macron)],
     ["ǐ", overlayRows(BITMAP_FONT_5X7.i, accentRows.caron)],
+    ["ķ", appendBottomMark(BITMAP_FONT_5X7.k, "00100")],
+    ["ĺ", overlayRows(BITMAP_FONT_5X7.l, accentRows.acute)],
+    ["ļ", appendBottomMark(BITMAP_FONT_5X7.l, "00100")],
+    ["ľ", overlayRows(BITMAP_FONT_5X7.l, accentRows.caron)],
+    ["ł", rows("00110", "00100", "01110", "00100", "00100", "00100", "01110")],
+    ["ń", overlayRows(BITMAP_FONT_5X7.n, accentRows.acute)],
+    ["ņ", appendBottomMark(BITMAP_FONT_5X7.n, "00100")],
+    ["ň", overlayRows(BITMAP_FONT_5X7.n, accentRows.caron)],
     ["ñ", overlayRows(accentedNBase, accentRows.tilde)],
     ["ó", overlayRows(BITMAP_FONT_5X7.o, accentRows.acute)],
     ["ò", overlayRows(BITMAP_FONT_5X7.o, accentRows.grave)],
@@ -113,12 +148,60 @@ const glyphOverrides = new Map(
     ["õ", overlayRows(BITMAP_FONT_5X7.o, accentRows.tilde)],
     ["ö", overlayRows(BITMAP_FONT_5X7.o, accentRows.diaeresis)],
     ["ō", overlayRows(BITMAP_FONT_5X7.o, accentRows.macron)],
+    ["ő", overlayRows(BITMAP_FONT_5X7.o, accentRows.doubleAcute)],
+    ["ŕ", overlayRows(BITMAP_FONT_5X7.r, accentRows.acute)],
+    ["ř", overlayRows(BITMAP_FONT_5X7.r, accentRows.caron)],
+    ["ś", overlayRows(BITMAP_FONT_5X7.s, accentRows.acute)],
+    ["ș", appendBottomMark(BITMAP_FONT_5X7.s, "00010")],
+    ["š", overlayRows(BITMAP_FONT_5X7.s, accentRows.caron)],
+    ["ť", overlayRows(BITMAP_FONT_5X7.t, accentRows.caron)],
+    ["ț", appendBottomMark(BITMAP_FONT_5X7.t, "00010")],
     ["ú", overlayRows(accentedUBase, accentRows.acute)],
     ["ù", overlayRows(accentedUBase, accentRows.grave)],
     ["û", overlayRows(accentedUBase, accentRows.circumflex)],
     ["ü", overlayRows(accentedUBase, accentRows.diaeresis)],
+    ["ū", overlayRows(accentedUBase, accentRows.macron)],
+    ["ů", overlayRows(accentedUBase, accentRows.ring)],
+    ["ű", overlayRows(accentedUBase, accentRows.doubleAcute)],
     ["ý", overlayRows(BITMAP_FONT_5X7.y, accentRows.acute)],
     ["ÿ", overlayRows(BITMAP_FONT_5X7.y, accentRows.diaeresis)],
+    ["ź", overlayRows(BITMAP_FONT_5X7.z, accentRows.acute)],
+    ["ż", overlayRows(BITMAP_FONT_5X7.z, accentRows.dotAbove)],
+    ["ž", overlayRows(BITMAP_FONT_5X7.z, accentRows.caron)],
+    ["Ă", overlayRows(BITMAP_FONT_5X7.A, accentRows.breve)],
+    ["Ą", replaceBottomRow(BITMAP_FONT_5X7.A, "00011")],
+    ["Ć", overlayRows(BITMAP_FONT_5X7.C, accentRows.acute)],
+    ["Č", overlayRows(BITMAP_FONT_5X7.C, accentRows.caron)],
+    ["Ď", overlayRows(BITMAP_FONT_5X7.D, accentRows.caron)],
+    ["Đ", rows("11110", "10011", "11110", "10011", "10001", "10001", "11110")],
+    ["Ē", overlayRows(BITMAP_FONT_5X7.E, accentRows.macron)],
+    ["Ę", replaceBottomRow(BITMAP_FONT_5X7.E, "00011")],
+    ["Ě", overlayRows(BITMAP_FONT_5X7.E, accentRows.caron)],
+    ["Ģ", appendBottomMark(BITMAP_FONT_5X7.G, "00100")],
+    ["Ī", overlayRows(BITMAP_FONT_5X7.I, accentRows.macron)],
+    ["Ķ", appendBottomMark(BITMAP_FONT_5X7.K, "00100")],
+    ["Ĺ", overlayRows(BITMAP_FONT_5X7.L, accentRows.acute)],
+    ["Ļ", appendBottomMark(BITMAP_FONT_5X7.L, "00100")],
+    ["Ľ", overlayRows(BITMAP_FONT_5X7.L, accentRows.caron)],
+    ["Ł", rows("10010", "10010", "10110", "11010", "10010", "10010", "11111")],
+    ["Ń", overlayRows(BITMAP_FONT_5X7.N, accentRows.acute)],
+    ["Ņ", appendBottomMark(BITMAP_FONT_5X7.N, "00100")],
+    ["Ň", overlayRows(BITMAP_FONT_5X7.N, accentRows.caron)],
+    ["Ő", overlayRows(BITMAP_FONT_5X7.O, accentRows.doubleAcute)],
+    ["Ŕ", overlayRows(BITMAP_FONT_5X7.R, accentRows.acute)],
+    ["Ř", overlayRows(BITMAP_FONT_5X7.R, accentRows.caron)],
+    ["Ś", overlayRows(BITMAP_FONT_5X7.S, accentRows.acute)],
+    ["Ș", appendBottomMark(BITMAP_FONT_5X7.S, "00010")],
+    ["Š", overlayRows(BITMAP_FONT_5X7.S, accentRows.caron)],
+    ["Ť", overlayRows(BITMAP_FONT_5X7.T, accentRows.caron)],
+    ["Ț", appendBottomMark(BITMAP_FONT_5X7.T, "00010")],
+    ["Ū", overlayRows(BITMAP_FONT_5X7.U, accentRows.macron)],
+    ["Ů", overlayRows(BITMAP_FONT_5X7.U, accentRows.ring)],
+    ["Ű", overlayRows(BITMAP_FONT_5X7.U, accentRows.doubleAcute)],
+    ["Ź", overlayRows(BITMAP_FONT_5X7.Z, accentRows.acute)],
+    ["Ż", overlayRows(BITMAP_FONT_5X7.Z, accentRows.dotAbove)],
+    ["Ž", overlayRows(BITMAP_FONT_5X7.Z, accentRows.caron)],
+    ["Ā", overlayRows(BITMAP_FONT_5X7.A, accentRows.macron)],
   ].filter(([, bitmap]) => typeof bitmap === "string"),
 );
 
@@ -274,6 +357,12 @@ const supplementaryGlyphs = [
     bitmap: rows("00001", "00001", "00101", "01001", "11111", "01000", "00100"),
   },
 ];
+
+for (const [character, bitmap] of glyphOverrides) {
+  if (character.codePointAt(0) <= 0xff) continue;
+  if (supplementaryGlyphs.some((glyph) => glyph.character === character)) continue;
+  supplementaryGlyphs.push({ character, bitmap });
+}
 
 const symbolRows = Array.from({ length: 16 }, () => Array(16).fill(null));
 for (const [index, glyph] of supplementaryGlyphs.entries()) {
