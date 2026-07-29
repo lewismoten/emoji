@@ -297,6 +297,8 @@ try {
   assert.equal(noGroupsState.items.length, 1);
   assert.equal(noGroupsState.items[0].id, "lone");
   assert.equal(noGroupsState.items[0].tabIndex, 0);
+  noGroupsRenderers.asItem(noGroupsState, "missing");
+  assert.equal(noGroupsState.items[1].id, "missing");
 
   const sequenceState: any = {
     cellFragment: new FakeFragment(),
@@ -405,6 +407,63 @@ try {
 
   const orderedPopular = popularRenderers.orderedKeys(["alpha", "missing", "beta"]);
   assert.deepEqual(orderedPopular, ["beta", "alpha", "missing"]);
+
+  const subgroupShiftRenderers = createEmojiListRenderers({
+    applyPixelArtworkClass() {},
+    byId: () => ({
+      alpha: {
+        group: "Objects",
+        hasExplorerSections: true,
+        order: 2,
+        sequenceType: "single",
+        shortName: "Alpha",
+        subGroup: "First subgroup",
+        unicodeSubGroup: "mail",
+      },
+      beta: {
+        group: "Objects",
+        hasExplorerSections: true,
+        order: 1,
+        sequenceType: "modifier",
+        shortName: "Beta",
+        subGroup: "Second subgroup",
+        unicodeSubGroup: "mail",
+      },
+    }),
+    displayExplorerLabel: (name: string) => name,
+    displayGroupName: (name: string) => name,
+    displayUnicodeSubGroupName: (name: string) => name,
+    emojiByKey: () => ({ alpha: "📫", beta: "📪", missing: "❓" }),
+    focusedEmojiKey: () => "",
+    getIntroducedVersion: () => "—",
+    groups: () => ["Objects"],
+    orderMode: () => "sequence",
+    popularKeys: () => [],
+    searchAnnotations: () => ({}),
+    sequenceTranslationKeys: { modifier: "modifier", single: "single" },
+    sequenceTypeLabels: { modifier: "Modifier", single: "Single" },
+    sequenceTypeOrder: ["modifier", "single"],
+    subGroups: () => ({ Objects: ["mail"] }),
+    translate: (_key: string, fallback: string) => fallback,
+    unassigned: "Unassigned",
+  });
+  const subgroupShiftState: any = {
+    cellFragment: new FakeFragment(),
+    group: "Objects",
+    groupElement: groupedState.groupElement,
+    items: [],
+    subGroup: "Old subgroup",
+    subGroupElement: groupedState.subGroupElement,
+    unicodeSubGroup: "mail",
+    unicodeSubGroupElement: groupedState.unicodeSubGroupElement,
+  };
+  subgroupShiftRenderers.asItem(subgroupShiftState, "alpha");
+  subgroupShiftRenderers.flushEmojiCellFragment(subgroupShiftState);
+  assert.equal(subgroupShiftState.subGroup, "First subgroup");
+  assert.deepEqual(
+    subgroupShiftRenderers.orderedKeys(["alpha", "beta"]),
+    ["beta", "alpha"],
+  );
 
   const groupedOrderRenderers = createEmojiListRenderers({
     applyPixelArtworkClass() {},

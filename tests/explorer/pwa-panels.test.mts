@@ -241,6 +241,16 @@ try {
     renderInstallAppButton() {},
   });
   assert.equal(failedPrompt.deferredInstallPrompt, undefined);
+  const abortedPrompt = await installApp({
+    deferredInstallPrompt: {
+      async prompt() {
+        throw { name: "AbortError" };
+      },
+      userChoice: Promise.resolve({}),
+    } as any,
+    renderInstallAppButton() {},
+  });
+  assert.equal(abortedPrompt.deferredInstallPrompt, undefined);
 
   const suppressedPanelCloses = new WeakSet<any>();
   const dialogs = {

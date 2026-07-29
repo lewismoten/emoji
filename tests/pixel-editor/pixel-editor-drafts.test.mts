@@ -117,11 +117,20 @@ current.pixels = new Uint8ClampedArray([9, 9, 9, 255]);
 controller.updateDirtyState();
 assert.equal(dirtyIndicator.hidden, false);
 assert.equal(dirtyKeys.has("smile"), true);
+current.entry = { atlas: "faces.png", key: "smile" };
+current.floatingLayer = undefined;
+current.cellLoaded = true;
+persisted.set("smile", current.pixels.slice());
+controller.updateDirtyState();
+assert.equal(dirtyKeys.has("smile"), false);
+assert.equal(dirtyIndicator.hidden, true);
 
 current.cellLoaded = false;
 controller.updateDirtyState();
 assert.equal(dirtyIndicator.hidden, true);
 current.cellLoaded = true;
+dirtyKeys.add("smile");
+dirtyIndicator.hidden = false;
 
 controller.updateFileButtons();
 assert.equal(saveButton.disabled, false);
@@ -150,6 +159,13 @@ controller.updateFileButtons();
 assert.equal(saveButton.disabled, true);
 assert.equal(downloadButton.disabled, true);
 current.atlasBlob = { kind: "blob" };
+current.pixels = new Uint8ClampedArray([0, 0, 0, 0]);
+draftMap.set("ghost", {
+  entry: { atlas: "faces.png", key: "ghost" },
+  pixels: new Uint8ClampedArray([1, 1, 1, 255]),
+});
+assert.equal(controller.hasVisibleAtlasDraft(), true);
+current.pixels = new Uint8ClampedArray([9, 9, 9, 255]);
 
 controller.pushHistory();
 current.pixels = new Uint8ClampedArray([7, 7, 7, 255]);

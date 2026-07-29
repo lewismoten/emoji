@@ -321,6 +321,20 @@ try {
     false,
   );
 
+  dialogs.help.open = false;
+  currentState = {
+    compositionMode: "condensed",
+    emoji: undefined,
+    panel: "help",
+  };
+  navigation.applyDialogUrlState();
+  assert.equal(
+    panelCalls.some(
+      (call: any[]) => call[0] === "openPanelDialog" && call[1]?.panel === "help",
+    ),
+    true,
+  );
+
   navigation.syncUrlState("push");
   assert.deepEqual(historyCalls[0], [
     "push",

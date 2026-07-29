@@ -294,6 +294,8 @@ try {
   closeFilterPicker(dialog as any, closeTrigger as any);
   assert.equal(dialog.open, false);
   assert.equal(closeTrigger.focused, true);
+  dialog.open = false;
+  closeFilterPicker(dialog as any, closeTrigger as any);
   closeFilterPicker(undefined, undefined);
 
   const focusContainer = new FakeElement("div");
@@ -342,6 +344,14 @@ try {
   assert.equal(navButtons[0].tabIndex, -1);
 
   onCompactChoiceKeyDown({
+    key: "ArrowLeft",
+    currentTarget: navContainer,
+    target: navButtons[0],
+    preventDefault() {},
+  } as any);
+  assert.equal(navButtons[1].tabIndex, 0);
+
+  onCompactChoiceKeyDown({
     key: "ArrowDown",
     currentTarget: navContainer,
     target: navButtons[1],
@@ -356,6 +366,13 @@ try {
     preventDefault() {},
   } as any);
   assert.equal(navButtons[0].tabIndex, 0);
+  onCompactChoiceKeyDown({
+    key: "End",
+    currentTarget: navContainer,
+    target: navButtons[0],
+    preventDefault() {},
+  } as any);
+  assert.equal(navButtons[3].tabIndex, 0);
 
   documentStub.documentElement.dir = "rtl";
   onCompactChoiceKeyDown({
@@ -366,6 +383,14 @@ try {
   } as any);
   assert.equal(navButtons[1].tabIndex, 0);
   documentStub.documentElement.dir = "ltr";
+
+  onCompactChoiceKeyDown({
+    key: "ArrowUp",
+    currentTarget: navContainer,
+    target: navButtons[0],
+    preventDefault() {},
+  } as any);
+  assert.equal(navButtons[0].tabIndex, 0);
 
   const noMatchContainer = new FakeElement("div");
   onCompactChoiceKeyDown({
@@ -383,6 +408,16 @@ try {
     preventDefault() {
       throw new Error("unexpected preventDefault");
     },
+  } as any);
+  const orphanContainer = new FakeElement("div");
+  const orphanChoice = new FakeElement("button");
+  orphanChoice.setAttribute("role", "radio");
+  orphanContainer.append(orphanChoice);
+  onCompactChoiceKeyDown({
+    key: "ArrowDown",
+    currentTarget: orphanContainer,
+    target: orphanChoice,
+    preventDefault() {},
   } as any);
 
   assert.equal(

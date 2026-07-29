@@ -325,6 +325,20 @@ try {
     true,
   );
 
+  dialogs.help.open = false;
+  urlStateStub.setCurrentState({
+    compositionMode: "condensed",
+    emoji: undefined,
+    panel: "help",
+  });
+  navigation.applyDialogUrlState();
+  assert.equal(
+    panelStub.panelCalls.some(
+      (call: any[]) => call[0] === "openPanelDialog" && call[1]?.panel === "help",
+    ),
+    true,
+  );
+
   navigation.syncUrlState("push");
   assert.deepEqual(historyCalls[0], ["push", { page: 1 }, "/index.en.html?built=query#top"]);
 

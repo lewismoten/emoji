@@ -1,5 +1,10 @@
 import assert from "node:assert/strict";
-import { resolveImportExamples } from "../../src/explorer/import-examples.js";
+import {
+  ensureImportExamples,
+  loadPackageManifest,
+  renderImportExamples,
+  resolveImportExamples,
+} from "../../src/explorer/import-examples.js";
 
 const manifest = {
   packs: [
@@ -76,6 +81,195 @@ assert.deepEqual(
     showSubgroup: false,
   },
 );
+
+assert.deepEqual(
+  resolveImportExamples(
+    {
+      packs: [{ id: "popular", importPath: "@lewismoten/emoji/popular", keys: ["wave"] }],
+      categories: [],
+    } as any,
+    {
+      key: "wave",
+      group: "Objects",
+      unicodeSubGroup: "mail",
+    },
+  ),
+  {
+    allPath: "@lewismoten/emoji/all",
+    popularPath: "@lewismoten/emoji/popular",
+    showPopular: true,
+    categoryPath: "",
+    showCategory: false,
+    subgroupPath: "",
+    showSubgroup: false,
+  },
+);
+
+class FakeNode {
+  className = "";
+  hidden = false;
+  textContent: string | null = "";
+  childNodes: any[] = [];
+  parent: FakeNode | null = null;
+
+  constructor(className = "") {
+    this.className = className;
+  }
+
+  append(...nodes: any[]) {
+    for (const node of nodes) {
+      if (node instanceof FakeNode) node.parent = this;
+      this.childNodes.push(node);
+    }
+  }
+
+  after(...nodes: any[]) {
+    if (!this.parent) return;
+    const index = this.parent.childNodes.indexOf(this);
+    this.parent.childNodes.splice(index + 1, 0, ...nodes);
+    nodes.forEach((node) => {
+      if (node instanceof FakeNode) node.parent = this.parent;
+    });
+  }
+
+  replaceChildren(...nodes: any[]) {
+    this.childNodes = [];
+    this.append(...nodes);
+  }
+
+  querySelector(selector: string): FakeNode | null {
+    return this.querySelectorAll(selector)[0] ?? null;
+  }
+
+  querySelectorAll(selector: string): FakeNode[] {
+    const classes = selector
+      .split(/\s+/)
+      .map((value) => value.replace(/^\./, ""));
+    const results: FakeNode[] = [];
+    const walk = (node: FakeNode) => {
+      for (const child of node.childNodes) {
+        if (!(child instanceof FakeNode)) continue;
+        walk(child);
+        if (
+          classes.length === 1 &&
+          child.className.split(/\s+/).includes(classes[0]!)
+        ) {
+          results.push(child);
+        } else if (
+          classes.length === 2 &&
+          child.className.split(/\s+/).includes(classes[1]!) &&
+          child.parent?.className.split(/\s+/).includes(classes[0]!)
+        ) {
+          results.push(child);
+        }
+      }
+    };
+    walk(this);
+    return results;
+  }
+}
+
+const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalFetch = Object.getOwnPropertyDescriptor(globalThis, "fetch");
+const originalWarn = console.warn;
+
+try {
+  const queried = new Map<string, FakeNode>();
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      createElement() {
+        return new FakeNode();
+      },
+      querySelector(selector: string) {
+        return queried.get(selector) ?? null;
+      },
+    },
+  });
+
+  const dialog = new FakeNode("dialog");
+  const code = new FakeNode("code");
+  const line = new FakeNode("line");
+  const stringNode = new FakeNode("string");
+  line.append(stringNode);
+  code.append(line);
+  dialog.append(code);
+
+  queried.set(".emoji-import-path", new FakeNode("emoji-import-path"));
+  queried.set(".emoji-popular-import", new FakeNode("emoji-popular-import"));
+  queried.set(".emoji-popular-import-path", new FakeNode("emoji-popular-import-path"));
+  queried.set(".emoji-category-import", new FakeNode("emoji-category-import"));
+  queried.set(".emoji-category-import-path", new FakeNode("emoji-category-import-path"));
+  queried.set(".emoji-subgroup-import", new FakeNode("emoji-subgroup-import"));
+  queried.set(".emoji-subgroup-import-path", new FakeNode("emoji-subgroup-import-path"));
+
+  ensureImportExamples(dialog as any);
+  assert.equal(
+    stringNode.querySelector(".emoji-import-path")?.textContent,
+    "@lewismoten/emoji/all",
+  );
+  assert.equal(code.querySelectorAll(".line").length, 4);
+
+  renderImportExamples(manifest as any, {
+    key: "wave",
+    group: "Objects",
+    unicodeSubGroup: "mail",
+  });
+  assert.equal(queried.get(".emoji-import-path")?.textContent, "@lewismoten/emoji/all");
+  assert.equal(queried.get(".emoji-popular-import")?.hidden, false);
+  assert.equal(
+    queried.get(".emoji-category-import-path")?.textContent,
+    "@lewismoten/emoji/categories/objects",
+  );
+
+  let currentManifest: any = { packs: [], categories: [] };
+  let currentPromise: Promise<unknown> | undefined;
+  const warnings: any[][] = [];
+  console.warn = (...args: any[]) => warnings.push(args);
+  Object.defineProperty(globalThis, "fetch", {
+    configurable: true,
+    value: async () => ({
+      ok: false,
+      async json() {
+        return {};
+      },
+    }),
+  });
+
+  const promise = loadPackageManifest({
+    getManifest: () => currentManifest,
+    getPromise: () => currentPromise,
+    setManifest: (manifestValue) => {
+      currentManifest = manifestValue;
+    },
+    setPromise: (promiseValue) => {
+      currentPromise = promiseValue;
+    },
+  });
+  const loaded = await promise;
+  assert.deepEqual(loaded, { packs: [], categories: [] });
+  assert.equal(warnings.length, 1);
+  assert.equal(
+    loadPackageManifest({
+      getManifest: () => currentManifest,
+      getPromise: () => currentPromise,
+      setManifest: (manifestValue) => {
+        currentManifest = manifestValue;
+      },
+      setPromise: (promiseValue) => {
+        currentPromise = promiseValue;
+      },
+    }),
+    promise,
+  );
+} finally {
+  console.warn = originalWarn;
+  if (originalDocument)
+    Object.defineProperty(globalThis, "document", originalDocument);
+  else Reflect.deleteProperty(globalThis, "document");
+  if (originalFetch) Object.defineProperty(globalThis, "fetch", originalFetch);
+  else Reflect.deleteProperty(globalThis, "fetch");
+}
 
 assert.deepEqual(
   resolveImportExamples(
