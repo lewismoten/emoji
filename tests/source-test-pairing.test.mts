@@ -9,11 +9,6 @@ const root = path.resolve(
 );
 
 const legacyMissingTestPairs = new Set([
-  "src/app/explorer-bootstrap-controllers.ts",
-  "src/app/explorer-bootstrap-runtime.ts",
-  "src/app/explorer-bootstrap-session-runtime.ts",
-  "src/app/explorer-bootstrap-session.ts",
-  "src/app/explorer-bootstrap-shell.ts",
   "src/app/explorer-preferences.ts",
   "src/app/explorer-shell.ts",
   "src/app/list-orchestration.ts",
