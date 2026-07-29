@@ -11,6 +11,16 @@ function loadPreferences() {
 /** Initialize and persist Explorer preferences without coupling to the DOM. */
 export function initializeExplorerPreferences(state: any) {
   state.explorerPreferences = loadPreferences();
+  if (
+    !["standard", "advanced", "developer"].includes(
+      state.explorerPreferences.mode,
+    )
+  ) {
+    state.explorerPreferences.mode =
+      state.explorerPreferences.developerMode === true
+        ? "developer"
+        : "standard";
+  }
   state.developerModeFromUrl =
     new URLSearchParams(window.location.search).get("developer") === "1";
   state.favoriteEmojiKeys = Array.isArray(state.explorerPreferences.favorites)

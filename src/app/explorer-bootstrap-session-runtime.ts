@@ -23,7 +23,9 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         clearFiltersButton: () => options.bindings.clearFiltersButton,
         copyStatus: () => options.bindings.copyStatus,
         developerModeEnabled: options.shell.developerModeEnabled,
+        fullDeveloperModeEnabled: options.shell.fullDeveloperModeEnabled,
         developerModeToggle: () => options.bindings.developerModeToggle,
+        modeChoices: () => options.bindings.modeChoices,
         displayGroupName: options.controllers.displayGroupName,
         displayUnicodeSubGroupName:
           options.controllers.displayUnicodeSubGroupName,

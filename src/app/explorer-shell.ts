@@ -106,6 +106,7 @@ export function createExplorerShell(options: any, dependencies?: any) {
   }
 
   const developerMode = helpers.createDeveloperModeController({
+    choices: options.modeChoices,
     dialog: options.dialog,
     disableDeveloperFeatures,
     loadVersionData: options.loadVersionData,
@@ -153,6 +154,7 @@ export function createExplorerShell(options: any, dependencies?: any) {
     ...savedEmoji,
     bindAudioInteractions: audio.bindAudioInteractions,
     developerModeEnabled: developerMode.enabled,
+    fullDeveloperModeEnabled: developerMode.fullEnabled,
     installApp: explorerUi.installApp,
     loadUiTranslations: explorerUi.loadUiTranslations,
     renderMusicToggle: audio.renderMusicToggle,

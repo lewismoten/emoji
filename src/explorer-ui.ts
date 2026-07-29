@@ -124,23 +124,39 @@ function updateThemeColor() {
         : "#160622";
 }
 
+function resolveExplorerMode(state: any) {
+  if (
+    state.developerModeFromUrl &&
+    !state.developerModeUrlDismissed
+  ) {
+    return "developer";
+  }
+  return ["standard", "advanced", "developer"].includes(
+    state.explorerPreferences.mode,
+  )
+    ? state.explorerPreferences.mode
+    : state.explorerPreferences.developerMode === true
+      ? "developer"
+      : "standard";
+}
+
 function resolveThemePreference(
   preferredTheme: string | undefined,
-  developerMode: boolean,
+  fullDeveloperMode: boolean,
 ) {
-  if (preferredTheme === "base") return developerMode ? "base" : "dark";
+  if (preferredTheme === "base") return fullDeveloperMode ? "base" : "dark";
   return ["light", "retro"].includes(preferredTheme ?? "")
     ? preferredTheme
     : "dark";
 }
 
 export function renderThemeToggle(options: any) {
-  const developerMode = document.documentElement.hasAttribute(
-    "data-developer-mode",
+  const fullDeveloperMode = document.documentElement.hasAttribute(
+    "data-full-developer-mode",
   );
   const theme = resolveThemePreference(
     options.state().explorerPreferences.theme,
-    developerMode,
+    fullDeveloperMode,
   );
   document.documentElement.dataset.theme = theme;
   options.choices().forEach((choice: any) => {
@@ -201,33 +217,76 @@ export function selectEmojiFont(options: any, event: any) {
 }
 
 export function createDeveloperModeController(options: any) {
-  const enabled = () =>
-    (options.state().developerModeFromUrl &&
-      !options.state().developerModeUrlDismissed) ||
-    options.state().explorerPreferences.developerMode === true;
+  const mode = () => resolveExplorerMode(options.state());
+  const enabled = () => mode() !== "standard";
+  const fullEnabled = () => mode() === "developer";
   function render() {
     const active = enabled();
+    const full = fullEnabled();
+    document.documentElement.dataset.explorerMode = mode();
     document.documentElement.toggleAttribute("data-developer-mode", active);
-    const toggle = options.toggle();
-    if (toggle) {
-      toggle.checked = active;
-      toggle.setAttribute("aria-checked", String(active));
+    document.documentElement.toggleAttribute("data-full-developer-mode", full);
+    const choices = options.choices?.() ?? [];
+    if (choices.length > 0) {
+      choices.forEach((choice: any) => {
+        const selected = choice.dataset.mode === mode();
+        choice.classList.toggle("is-active", selected);
+        choice.setAttribute("aria-pressed", String(selected));
+        choice.setAttribute("aria-checked", String(selected));
+        choice.tabIndex = selected ? 0 : -1;
+        const input = choice.querySelector?.(
+          'input[type="radio"]',
+        ) as HTMLInputElement | null;
+        if (input) {
+          input.checked = selected;
+          input.tabIndex = -1;
+        }
+      });
+    } else {
+      const toggle = options.toggle?.();
+      if (toggle) {
+        toggle.checked = active;
+        toggle.setAttribute("aria-checked", String(active));
+      }
     }
   }
   function change(event: any) {
-    const active = event.currentTarget.checked;
-    options.state().developerModeUrlDismissed = !active;
+    const currentTarget =
+      event.currentTarget?.closest?.(".mode-choice") ?? event.currentTarget;
+    const hasChoices = (options.choices?.() ?? []).length > 0;
+    const requestedMode =
+      currentTarget?.dataset?.mode ??
+      event.target?.value ??
+      currentTarget?.querySelector?.('input[type="radio"]')?.value ??
+      (hasChoices
+        ? "standard"
+        : currentTarget?.checked
+          ? "developer"
+          : "standard");
+    const nextMode = ["standard", "advanced", "developer"].includes(requestedMode)
+      ? requestedMode
+      : "standard";
+    options.state().developerModeUrlDismissed = nextMode === "standard";
     options.state().developerModeFromUrl = false;
-    options.savePreference("developerMode", active);
-    if (!active && options.state().explorerPreferences.theme === "base") {
+    options.savePreference("mode", nextMode);
+    options.savePreference("developerMode", nextMode === "developer");
+    if (nextMode !== "developer" && options.state().explorerPreferences.theme === "base") {
       options.savePreference("theme", "dark");
     }
     render();
     options.renderThemeToggle?.();
-    if (active) void options.loadVersionData();
-    if (!active && options.dialog()?.open) options.setDialogView("details");
-    if (!active) options.disableDeveloperFeatures();
+    if (nextMode !== "standard") void options.loadVersionData();
+    if (
+      nextMode !== "developer" &&
+      options.dialog()?.classList?.contains?.("is-editor-view")
+    ) {
+      options.setDialogView("details");
+    }
+    if (nextMode === "standard" && options.dialog()?.open) {
+      options.setDialogView("details");
+    }
+    if (nextMode === "standard") options.disableDeveloperFeatures();
     options.syncUrlState();
   }
-  return { enabled, render, change };
+  return { enabled, fullEnabled, render, change, mode };
 }

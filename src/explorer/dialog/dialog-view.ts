@@ -1,5 +1,6 @@
 export function applyDialogView(options: {
   developerMode: boolean;
+  fullDeveloperMode?: boolean;
   dialog: HTMLElement;
   requestedMode: unknown;
   translate: (key: string, fallback: string) => string;
@@ -15,7 +16,13 @@ export function applyDialogView(options: {
           ? (options.requestedMode as string)
           : "details";
   const mode =
-    options.developerMode || requested === "details" ? requested : "details";
+    requested === "editor"
+      ? options.fullDeveloperMode
+        ? "editor"
+        : "details"
+      : options.developerMode || requested === "details"
+        ? requested
+        : "details";
   const details = mode === "details";
   options.dialog.classList.toggle("is-code-view", mode === "code");
   options.dialog.classList.toggle("is-editor-view", mode === "editor");
@@ -84,6 +91,7 @@ export function createEmojiDialogViewController(options: {
   currentEmojiKey: () => string;
   currentDialogParentStack?: () => string[];
   developerModeEnabled: () => boolean;
+  fullDeveloperModeEnabled?: () => boolean;
   dialog: () => any;
   emojiByKey: () => Record<string, string>;
   emojiParent: () => HTMLElement | undefined;
@@ -105,6 +113,7 @@ export function createEmojiDialogViewController(options: {
     }
     const { mode, showDetails } = applyDialogView({
       developerMode: options.developerModeEnabled(),
+      fullDeveloperMode: options.fullDeveloperModeEnabled?.() ?? options.developerModeEnabled(),
       dialog,
       requestedMode,
       translate: options.translate,

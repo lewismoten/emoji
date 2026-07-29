@@ -14,6 +14,7 @@ export function buildExplorerBootstrapRuntimeOptions(options: any) {
     copyStatus: () => options.copyStatus(),
     developerModeEnabled: options.developerModeEnabled,
     developerModeToggle: () => options.developerModeToggle(),
+    modeChoices: () => options.modeChoices?.(),
     displayGroupName: options.displayGroupName,
     displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
     drawList: (...args: any[]) => options.drawList(...args),

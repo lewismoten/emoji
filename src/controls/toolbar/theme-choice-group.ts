@@ -58,7 +58,12 @@ export class ThemeChoiceGroupControl extends BaseControl<ThemeChoiceGroupState> 
         ariaLabel: theme.text,
         dataAttributes: { theme: theme.theme },
         emoji: theme.emoji,
-        className: theme.theme === "base" ? "developer-only" : undefined,
+        className:
+          theme.theme === "base"
+            ? "full-developer-only"
+            : theme.theme === "retro"
+              ? "advanced-only"
+              : undefined,
         label: theme.text,
         labelKey: theme.key,
         selected: false,

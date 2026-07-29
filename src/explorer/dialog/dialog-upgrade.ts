@@ -115,7 +115,7 @@ function ensureRenderingDiagnostic(dialog: HTMLElement) {
   );
   if (!invitation && section) {
     invitation = document.createElement("section");
-    invitation.className = "pixel-design-invitation developer-only";
+    invitation.className = "pixel-design-invitation developer-only full-developer-only";
     invitation.hidden = true;
     invitation.innerHTML = `
       <strong data-i18n="pixelDesignMissing">This emoji has no pixel design yet.</strong>
@@ -130,7 +130,7 @@ function ensureCodeDialogView(dialog: HTMLElement) {
   addAction(actions, "show-emoji-code developer-only", "viewCode", "View code");
   addAction(
     actions,
-    "show-pixel-editor developer-only",
+    "show-pixel-editor developer-only full-developer-only",
     "editPixelArt",
     "Edit pixel art",
   );

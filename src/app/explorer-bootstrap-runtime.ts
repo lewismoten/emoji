@@ -161,6 +161,7 @@ export function createExplorerBootstrapRuntime(options: any) {
     clearFiltersButton: () => options.clearFiltersButton(),
     copiedEmojiKeys: () => options.state().copiedEmojiKeys,
     developerModeToggle: () => options.developerModeToggle(),
+    modeChoices: () => options.modeChoices(),
     dialog: () => explorerRuntime.get("exampleDialog"),
     drawList: (...args: any[]) => options.drawList(...args),
     emojiByKey: () => options.state().emojiByKey,

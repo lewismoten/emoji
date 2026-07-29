@@ -6,6 +6,7 @@ export function createDialogViewRuntime(options: any) {
     currentDialogParentStack: () => options.currentDialogParentStack(),
     currentEmojiKey: () => options.currentEmojiKey(),
     developerModeEnabled: options.developerModeEnabled,
+    fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     dialog: () => options.dialog(),
     emojiByKey: () => options.emojiByKey(),
     emojiParent: () => options.emojiParent(),

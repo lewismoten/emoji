@@ -23,6 +23,7 @@ export function createUiBindingRuntime(options: any) {
         advancedFiltersButton: elements.advancedFiltersButton,
         copyStatus: elements.copyStatus,
         developerModeToggle: elements.developerModeToggle,
+        modeChoices: elements.modeChoices,
         emojiFontChoices: elements.emojiFontChoices,
         emojiList: elements.emojiList,
         genderCheckboxes: elements.genderCheckboxes,

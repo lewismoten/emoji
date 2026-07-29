@@ -48,6 +48,9 @@ export function bindExplorerEvents(options: any) {
   const onThemeChoiceKeyDown = createThemeChoiceKeyDownHandler(
     options.themeChoices ?? [],
   );
+  const onModeChoiceKeyDown = createThemeChoiceKeyDownHandler(
+    options.modeChoices ?? [],
+  );
 
   window.addEventListener("online", options.updateOnlineStatus);
   window.addEventListener("offline", options.updateOnlineStatus);
@@ -143,10 +146,24 @@ export function bindExplorerEvents(options: any) {
   options.installDialog
     ?.querySelector(".install-dialog-close")
     ?.addEventListener("click", () => options.installDialog.close());
-  options.developerModeToggle?.addEventListener(
-    "change",
-    options.toggleDeveloperMode,
-  );
+  if (options.modeChoices?.length) {
+    options.modeChoices.forEach((choice: any) =>
+      choice.addEventListener("click", options.toggleDeveloperMode),
+    );
+    options.modeChoices.forEach((choice: any) =>
+      choice
+        .querySelector?.('input[type="radio"]')
+        ?.addEventListener("change", options.toggleDeveloperMode),
+    );
+    options.modeChoices.forEach((choice: any) =>
+      choice.addEventListener("keydown", onModeChoiceKeyDown),
+    );
+  } else {
+    options.developerModeToggle?.addEventListener(
+      "change",
+      options.toggleDeveloperMode,
+    );
+  }
   bindSavedDialogInteractions(options);
   options.emojiList.addEventListener("click", options.onClick);
   options.emojiList.addEventListener("focusin", options.onEmojiFocus);

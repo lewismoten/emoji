@@ -169,6 +169,7 @@ export function createExplorerBootstrapControllers(options: any) {
     currentDialogParentStack: () => state().currentDialogParentStack,
     currentEmojiKey: () => state().currentEmojiKey,
     developerModeEnabled: options.developerModeEnabled,
+    fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     dialog: options.dialog,
     emojiByKey: () => state().emojiByKey,
     emojiParent: options.emojiParent,

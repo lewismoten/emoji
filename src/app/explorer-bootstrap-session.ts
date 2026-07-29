@@ -58,6 +58,7 @@ const shell = createExplorerBootstrapShell(
     applyingUrlState: () => bindings.applyingUrlState,
     copyStatus: () => bindings.copyStatus,
     developerModeToggle: () => bindings.developerModeToggle,
+    modeChoices: () => bindings.modeChoices,
     dialog: () =>
       bindings.bootstrapRuntime?.explorerRuntime.get("exampleDialog"),
     drawList: () => bindings.drawList(),
@@ -106,6 +107,7 @@ const controllers = createExplorerBootstrapControllers(
     compactSubGroupLabel: () => bindings.compactSubGroupLabel,
     copyToClipboardValue: shell.copyToClipboardValue,
     developerModeEnabled: shell.developerModeEnabled,
+    fullDeveloperModeEnabled: shell.fullDeveloperModeEnabled,
     dialog: () =>
       bindings.bootstrapRuntime?.explorerRuntime.get("exampleDialog"),
     displayExplorerLabel,

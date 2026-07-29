@@ -12,6 +12,7 @@ export function createExplorerBootstrapBindings() {
     helpPicker: undefined,
     helpDialog: undefined,
     developerModeToggle: undefined,
+    modeChoices: [],
     emojiList: undefined,
     matchCount: undefined,
     toolbar: undefined,

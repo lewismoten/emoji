@@ -38,6 +38,7 @@ try {
 
   assert.deepEqual(state.explorerPreferences, {
     favorites: ["wave", "thumbsUp"],
+    mode: "standard",
     recentCopied: ["sparkles"],
     theme: "retro",
   });
@@ -48,11 +49,7 @@ try {
   preferences.save("theme", "dark");
   assert.equal(
     storage.get("@lewismoten/emoji:explorer-preferences"),
-    JSON.stringify({
-      favorites: ["wave", "thumbsUp"],
-      recentCopied: ["sparkles"],
-      theme: "dark",
-    }),
+    '{"favorites":["wave","thumbsUp"],"recentCopied":["sparkles"],"theme":"dark","mode":"standard"}',
   );
 
   storage.set("@lewismoten/emoji:explorer-preferences", "{bad json");
@@ -70,7 +67,7 @@ try {
 
   const fallbackState: Record<string, unknown> = {};
   const fallbackPreferences = initializeExplorerPreferences(fallbackState);
-  assert.deepEqual(fallbackState.explorerPreferences, {});
+  assert.deepEqual(fallbackState.explorerPreferences, { mode: "standard" });
   assert.equal(fallbackState.developerModeFromUrl, false);
   assert.deepEqual(fallbackState.favoriteEmojiKeys, []);
   assert.deepEqual(fallbackState.copiedEmojiKeys, []);
@@ -92,6 +89,10 @@ try {
 
   const arrayFallbackState: Record<string, unknown> = {};
   initializeExplorerPreferences(arrayFallbackState);
+  assert.equal(
+    (arrayFallbackState.explorerPreferences as Record<string, unknown>).mode,
+    "standard",
+  );
   assert.deepEqual(arrayFallbackState.favoriteEmojiKeys, []);
   assert.deepEqual(arrayFallbackState.copiedEmojiKeys, []);
 } finally {

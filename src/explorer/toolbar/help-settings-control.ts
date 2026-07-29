@@ -4,6 +4,7 @@ import {
   createTextBlock,
 } from "../dialog/dialog-control-helpers.js";
 import { createAudioChoiceGroupControl } from "./audio-choice-control.js";
+import { createModeChoiceGroupControl } from "./mode-choice-control.js";
 import { createThemeChoiceGroupControl } from "./theme-choice-control.js";
 
 type HelpDialogControl = {
@@ -22,9 +23,10 @@ function createSettingRow(options: {
   descriptionKey: string;
   description: string;
   control: HTMLElement;
+  rowClassName?: string;
 }) {
   const row = document.createElement("div");
-  row.className = "setting-row";
+  row.className = ["setting-row", options.rowClassName].filter(Boolean).join(" ");
 
   const content = document.createElement("div");
   content.append(
@@ -34,23 +36,6 @@ function createSettingRow(options: {
 
   row.append(content, options.control);
   return row;
-}
-
-function createSwitch(className: string, key: string, text: string) {
-  const label = document.createElement("label");
-  label.className = "setting-switch";
-
-  const input = document.createElement("input");
-  input.className = className;
-  input.type = "checkbox";
-  input.setAttribute("role", "switch");
-
-  const span = document.createElement("span");
-  span.dataset.i18n = key;
-  span.textContent = text;
-
-  label.append(input, span);
-  return label;
 }
 
 function createKeyboardShortcut(keys: string[], descriptionKey: string, description: string) {
@@ -130,18 +115,15 @@ function createHelpDialogElement() {
       description:
         "Sound effects and music are available in light, dark, and retro themes.",
       control: createAudioChoiceGroupControl(),
+      rowClassName: "advanced-only",
     }),
     createSettingRow({
-      titleKey: "developerMode",
-      title: "Developer mode",
-      descriptionKey: "developerModeDescription",
+      titleKey: "mode",
+      title: "Mode",
+      descriptionKey: "modeDescription",
       description:
-        "Show sequence construction, technical metadata, code tools, rendering diagnostics, and the pixel editor.",
-      control: createSwitch(
-        "developer-mode-toggle",
-        "developerMode",
-        "Developer mode",
-      ),
+        "Standard hides advanced tools, Advanced unlocks exploration tools, and Developer adds Base theme and the pixel editor.",
+      control: createModeChoiceGroupControl(),
     }),
   );
 

@@ -107,9 +107,13 @@ try {
     dataset: {} as Record<string, string>,
     dir: "ltr",
     hasAttribute(name: string) {
-      return name === "data-developer-mode"
-        ? Boolean(documentElement.dataset.developerMode)
-        : false;
+      if (name === "data-developer-mode") {
+        return Boolean(documentElement.dataset.developerMode);
+      }
+      if (name === "data-full-developer-mode") {
+        return Boolean(documentElement.dataset.fullDeveloperMode);
+      }
+      return false;
     },
     lang: "en",
     toggleAttribute(name: string, force?: boolean) {
@@ -371,6 +375,7 @@ try {
   });
 
   documentElement.dataset.developerMode = "1";
+  documentElement.dataset.fullDeveloperMode = "1";
   renderThemeToggle({
     choices: () => [
       baseThemeChoice,
@@ -386,6 +391,7 @@ try {
 
   state.explorerPreferences.theme = "base";
   delete documentElement.dataset.developerMode;
+  delete documentElement.dataset.fullDeveloperMode;
   renderThemeToggle({
     choices: () => [lightThemeChoice, darkThemeChoice, retroThemeChoice],
     state: () => state,

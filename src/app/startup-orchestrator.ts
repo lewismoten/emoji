@@ -76,6 +76,7 @@ export function createStartupOrchestrator(options: any) {
       closePanel: options.closePanel,
       copiedEmojiKeys: options.copiedEmojiKeys,
       developerModeToggle: options.developerModeToggle(),
+      modeChoices: options.modeChoices?.(),
       drawList: options.drawList,
       emojiFontChoices: options.emojiFontChoices(),
       emojiList: options.emojiList(),

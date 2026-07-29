@@ -38,6 +38,7 @@ export function createExplorerBootstrapShell(options: any) {
   const shell = createExplorerShell({
     applyPixelArtworkClass: () => pixelArtwork.applyPixelArtworkClass,
     developerModeToggle: options.developerModeToggle,
+    modeChoices: options.modeChoices,
     dialog: options.dialog,
     drawList: options.drawList,
     emojiFontChoices: options.emojiFontChoices,

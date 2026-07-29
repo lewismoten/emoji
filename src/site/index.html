@@ -1275,7 +1275,7 @@
               aria-label="Theme"
             >
               <label
-                class="setting-choice theme-choice developer-only"
+                class="setting-choice theme-choice full-developer-only"
                 data-theme="base"
                 aria-checked="false"
                 role="radio"
@@ -1323,7 +1323,7 @@
                 <span data-i18n="dark">Dark</span>
               </label>
               <label
-                class="setting-choice theme-choice"
+                class="setting-choice theme-choice advanced-only"
                 data-theme="retro"
                 aria-checked="false"
                 role="radio"
@@ -1340,7 +1340,7 @@
               </label>
             </div>
           </div>
-          <div class="setting-row">
+          <div class="setting-row advanced-only">
             <div>
               <h4 data-i18n="audio">Audio</h4>
               <p data-i18n="audioDescription">
@@ -1387,20 +1387,54 @@
           </div>
           <div class="setting-row">
             <div>
-              <h4 data-i18n="developerMode">Developer mode</h4>
-              <p data-i18n="developerModeDescription">
-                Show sequence construction, technical metadata, code tools,
-                rendering diagnostics, and the pixel editor.
+              <h4 data-i18n="mode">Mode</h4>
+              <p data-i18n="modeDescription">
+                Standard hides advanced tools, Advanced unlocks exploration
+                tools, and Developer adds Base theme and the pixel editor.
               </p>
             </div>
-            <label class="setting-switch">
-              <input
-                class="developer-mode-toggle"
-                type="checkbox"
-                role="switch"
-              />
-              <span data-i18n="developerMode">Developer mode</span>
-            </label>
+            <div
+              class="setting-choice-group mode-choices"
+              role="radiogroup"
+              aria-label="Mode"
+              data-i18n-aria-label="mode"
+              data-max-selectable="1"
+              data-min-selectable="1"
+            >
+              <span class="sr-only" id="mode-group-label" data-i18n="mode"
+                >Mode</span
+              >
+              <label class="setting-choice mode-choice" data-mode="standard">
+                <input
+                  class="mode-choice-input"
+                  name="mode-choice"
+                  type="radio"
+                  value="standard"
+                />
+                <span aria-hidden="true">🙂</span>
+                <span data-i18n="standard">Standard</span>
+              </label>
+              <label class="setting-choice mode-choice" data-mode="advanced">
+                <input
+                  class="mode-choice-input"
+                  name="mode-choice"
+                  type="radio"
+                  value="advanced"
+                />
+                <span aria-hidden="true">🔎</span>
+                <span data-i18n="advanced">Advanced</span>
+              </label>
+              <label class="setting-choice mode-choice" data-mode="developer">
+                <input
+                  class="mode-choice-input"
+                  name="mode-choice"
+                  type="radio"
+                  value="developer"
+                />
+                <span aria-hidden="true">🛠️</span>
+                <span data-i18n="developer">Developer</span>
+              </label>
+            </div>
           </div>
         </section>
         <h3 class="shortcut-heading" data-i18n="keyboardShortcuts">

@@ -30,6 +30,7 @@ export function createStartupRuntime(options: any) {
     copiedEmojiKeys: () => options.copiedEmojiKeys(),
     createFilterControlSetup,
     developerModeToggle: () => options.developerModeToggle(),
+    modeChoices: () => options.modeChoices?.(),
     dialog: () => options.dialog(),
     drawList: (...args: any[]) => options.drawList(...args),
     emojiByKey: () => options.emojiByKey(),
