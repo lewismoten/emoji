@@ -143,6 +143,36 @@ html[data-theme="base"] .dialog-mode-back {
   padding: revert !important;
 }
 
+html[data-theme="base"] .setting-choice {
+  all: revert;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: default;
+}
+
+html[data-theme="base"] .setting-choice-group {
+  all: revert;
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+html[data-theme="base"] .setting-choice input {
+  all: revert;
+  position: static;
+  width: auto;
+  min-height: 0;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  border: initial;
+  accent-color: revert !important;
+}
+
 html[data-theme="base"] .emoji-font-choice {
   all: revert;
   display: grid;

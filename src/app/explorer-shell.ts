@@ -72,6 +72,8 @@ export function createExplorerShell(options: any, dependencies?: any) {
       choices: options.themeChoices,
       state: options.state,
     });
+    audio.renderSoundEffectsToggle();
+    audio.renderMusicToggle();
     audio.syncHelpMusic();
   }
 
