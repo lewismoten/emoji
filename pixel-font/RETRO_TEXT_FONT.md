@@ -90,6 +90,10 @@ additional Latin-script language groups.
 | Esperanto | `Ĉ Ĝ Ĥ Ĵ Ŝ Ŭ ĉ ĝ ĥ ĵ ŝ ŭ` |
 | Welsh | `Ŵ Ŷ ŵ ŷ` |
 | Maltese | `Ċ Ġ Ħ Ż ċ ġ ħ ż` |
+| Azerbaijani | `Ə Ğ İ Ö Ş Ü Ç ə ğ ı ö ş ü ç` |
+| Lithuanian | `Ą Č Ę Ė Į Š Ų Ū Ž ą č ę ė į š ų ū ž` |
+| Sámi | `Á Č Đ Ŋ Š Ŧ Ž á č đ ŋ š ŧ ž` |
+| Vietnamese core letters | `Ă Â Ê Ô Ơ Ư Đ ă â ê ô ơ ư đ` |
 
 Future additions may still be needed for other Latin-based languages, but the
 current coverage now spans common Western, Central, Eastern, and several other
