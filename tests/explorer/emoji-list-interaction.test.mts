@@ -236,6 +236,47 @@ try {
   sequenceInteraction.renderEmojiList(["alpha"], false);
   assert.deepEqual(renderedStates.at(-1), ["sequence", "", "alpha"]);
 
+  (globalThis as any).window.scheduler = undefined;
+  const chunkStates: string[] = [];
+  const chunkInteraction = createEmojiListInteraction({
+    asItem(state: any, key: string) {
+      state.items.push({ key });
+      chunkStates.push(key);
+    },
+    asSequenceItem() {},
+    drawList() {},
+    emojiList: () => emojiList as any,
+    flushEmojiCellFragment() {},
+    focusedEmojiKey: () => focusedKey,
+    getDisplayedKeys: () => [],
+    nextRenderGeneration: () => 1,
+    onClick() {},
+    orderMode: () => "unicode",
+    renderGeneration: () => 1,
+    resetFilters() {},
+    revealExplorer() {},
+    searchText: () => searchText as any,
+    setFocusedEmojiKey() {},
+    translate: (_key: string, fallback: string) => fallback,
+    unassigned: "unassigned",
+  });
+  chunkInteraction.renderEmojiList(
+    Array.from({ length: 121 }, (_, index) => `key-${index}`),
+    false,
+  );
+  assert.equal(timers.length > 0, true);
+  while (timers.length > 0) {
+    timers.shift()?.();
+    await Promise.resolve();
+  }
+  assert.equal(chunkStates.length, 121);
+  (globalThis as any).window.scheduler = {
+    yield() {
+      yielded += 1;
+      return Promise.resolve();
+    },
+  };
+
   interaction.onEmojiFocus({
     target: listCells[2],
   } as any);

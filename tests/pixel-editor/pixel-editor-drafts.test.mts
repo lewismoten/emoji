@@ -131,6 +131,10 @@ current.entry = undefined as any;
 controller.updateFileButtons();
 assert.equal(downloadEmojiButton.disabled, true);
 current.entry = { atlas: "faces.png", key: "smile" };
+current.cellLoaded = false;
+controller.updateFileButtons();
+assert.equal(downloadEmojiButton.disabled, true);
+current.cellLoaded = true;
 
 current.floatingLayer = { id: 2 };
 controller.updateFileButtons();

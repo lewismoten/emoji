@@ -180,6 +180,49 @@ try {
   renderers.flushEmojiCellFragment(continuedState);
   assert.equal(continuedState.subGroupElement.className, "subgroup is-direct");
 
+  const unicodeShiftState: any = {
+    cellFragment: new FakeFragment(),
+    group: "Objects",
+    groupElement: groupedState.groupElement,
+    items: [],
+    subGroup: "Mail",
+    subGroupElement: groupedState.subGroupElement,
+    unicodeSubGroup: "mail",
+    unicodeSubGroupElement: groupedState.unicodeSubGroupElement,
+  };
+  const shiftedRenderers = createEmojiListRenderers({
+    applyPixelArtworkClass() {},
+    byId: () => ({
+      alpha: {
+        group: "Objects",
+        hasExplorerSections: true,
+        order: 20,
+        shortName: "Alpha",
+        subGroup: "Other",
+        unicodeSubGroup: "other",
+      },
+    }),
+    displayExplorerLabel: (name: string) => `explorer:${name}`,
+    displayGroupName: (name: string) => `group:${name}`,
+    displayUnicodeSubGroupName: (name: string) => `unicode:${name}`,
+    emojiByKey: () => ({ alpha: "📫" }),
+    focusedEmojiKey: () => "",
+    getIntroducedVersion: () => "—",
+    groups: () => ["Objects"],
+    orderMode: () => "unicode",
+    popularKeys: () => [],
+    searchAnnotations: () => ({}),
+    sequenceTranslationKeys: {},
+    sequenceTypeLabels: {},
+    sequenceTypeOrder: ["single"],
+    subGroups: () => ({ Objects: ["mail", "other"] }),
+    translate: (_key: string, fallback: string) => fallback,
+    unassigned: "Unassigned",
+  });
+  shiftedRenderers.asItem(unicodeShiftState, "alpha");
+  shiftedRenderers.flushEmojiCellFragment(unicodeShiftState);
+  assert.equal(unicodeShiftState.unicodeSubGroup, "other");
+
   const noGroupsRenderers = createEmojiListRenderers({
     applyPixelArtworkClass() {},
     byId: () => ({
@@ -268,8 +311,24 @@ try {
   const popularRenderers = createEmojiListRenderers({
     applyPixelArtworkClass() {},
     byId: () => ({
-      alpha: { group: "Objects", order: 20, subGroup: "Mail", unicodeSubGroup: "mail" },
-      beta: { group: "Objects", order: 10, subGroup: "Mail", unicodeSubGroup: "mail" },
+      alpha: {
+        group: "Objects",
+        order: 20,
+        subGroup: "Mail",
+        unicodeSubGroup: "mail",
+      },
+      beta: {
+        group: "Objects",
+        order: 10,
+        subGroup: "Mail",
+        unicodeSubGroup: "mail",
+      },
+      missing: {
+        group: "Objects",
+        order: 99,
+        subGroup: "Mail",
+        unicodeSubGroup: "mail",
+      },
     }),
     displayExplorerLabel: (name: string) => name,
     displayGroupName: (name: string) => name,
@@ -304,6 +363,8 @@ try {
   popularRenderers.asItem(popularState, "alpha");
   popularRenderers.flushEmojiCellFragment(popularState);
   assert.equal(popularState.items[0].childNodes[0].innerText, "Top 2");
+  popularRenderers.asItem(popularState, "missing");
+  assert.equal(popularState.group, "Top 0");
 
   const orderedPopular = popularRenderers.orderedKeys(["alpha", "missing", "beta"]);
   assert.deepEqual(orderedPopular, ["beta", "alpha", "missing"]);

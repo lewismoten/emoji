@@ -76,3 +76,26 @@ assert.deepEqual(
     showSubgroup: false,
   },
 );
+
+assert.deepEqual(
+  resolveImportExamples(
+    {
+      packs: [{ id: "popular", importPath: "@lewismoten/emoji/popular" }],
+      categories: [],
+    } as any,
+    {
+      key: "wave",
+      group: "Objects",
+      unicodeSubGroup: "mail",
+    },
+  ),
+  {
+    allPath: "@lewismoten/emoji/all",
+    popularPath: "",
+    showPopular: false,
+    categoryPath: "",
+    showCategory: false,
+    subgroupPath: "",
+    showSubgroup: false,
+  },
+);
