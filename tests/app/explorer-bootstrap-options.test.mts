@@ -1,0 +1,240 @@
+import assert from "node:assert/strict";
+import {
+  buildExplorerBootstrapControllerOptions,
+  buildExplorerBootstrapRuntimeSourceOptions,
+  buildExplorerBootstrapShellOptions,
+} from "../../src/app/explorer-bootstrap-options.js";
+
+const calls: Array<[string, unknown[]]> = [];
+const mark =
+  (name: string, value?: unknown) =>
+  (...args: unknown[]) => {
+    calls.push([name, args]);
+    return value ?? `${name}-value`;
+  };
+
+const state = { id: "state" };
+const options: any = {
+  activeFilterSummary: mark("activeFilterSummary"),
+  activeFilterText: mark("activeFilterText"),
+  advancedFilters: mark("advancedFilters"),
+  advancedFiltersButton: mark("advancedFiltersButton"),
+  animateCopy: mark("animateCopy"),
+  applyingUrlState: mark("applyingUrlState"),
+  applyBasicUrlState: mark("applyBasicUrlState"),
+  applyDialogUrlState: mark("applyDialogUrlState"),
+  applyPixelArtworkClass: mark("applyPixelArtworkClass"),
+  applyStandalonePixelArtwork: mark("applyStandalonePixelArtwork"),
+  bindAudioInteractions: mark("bindAudioInteractions"),
+  clearFiltersButton: mark("clearFiltersButton"),
+  compactGroupChoices: mark("compactGroupChoices"),
+  compactGroupLabel: mark("compactGroupLabel"),
+  compactSequenceChoices: mark("compactSequenceChoices"),
+  compactSequenceLabel: mark("compactSequenceLabel"),
+  compactSubGroupChoices: mark("compactSubGroupChoices"),
+  compactSubGroupLabel: mark("compactSubGroupLabel"),
+  copyStatus: mark("copyStatus"),
+  copyToClipboardValue: mark("copyToClipboardValue"),
+  developerModeEnabled: mark("developerModeEnabled"),
+  developerModeToggle: mark("developerModeToggle"),
+  dialog: mark("dialog"),
+  displayExplorerLabel: mark("displayExplorerLabel"),
+  displayGroupName: mark("displayGroupName"),
+  displayUnicodeSubGroupName: mark("displayUnicodeSubGroupName"),
+  drawList: mark("drawList"),
+  emojiFontChoices: mark("emojiFontChoices"),
+  emojiList: mark("emojiList"),
+  emojiParent: mark("emojiParent"),
+  ensurePixelEditor: mark("ensurePixelEditor"),
+  focusInitialEmojiDialogAction: mark("focusInitialEmojiDialogAction"),
+  formatNumber: mark("formatNumber"),
+  genderCheckboxes: mark("genderCheckboxes"),
+  genderFieldset: mark("genderFieldset"),
+  getEmojiGenders: mark("getEmojiGenders"),
+  getExplorerSubGroup: mark("getExplorerSubGroup"),
+  getIntroducedVersion: mark("getIntroducedVersion"),
+  getPixelEditor: mark("getPixelEditor"),
+  getPixelEditorPromise: mark("getPixelEditorPromise"),
+  groupFilterDialog: mark("groupFilterDialog"),
+  groupPickerTrigger: mark("groupPickerTrigger"),
+  groupSelector: mark("groupSelector"),
+  hairCheckboxes: mark("hairCheckboxes"),
+  hairFieldset: mark("hairFieldset"),
+  helpDialog: mark("helpDialog"),
+  helpPicker: mark("helpPicker"),
+  installApp: mark("installApp"),
+  installAppButton: mark("installAppButton"),
+  installDialog: mark("installDialog"),
+  isViteDevelopment: true,
+  languageDialog: mark("languageDialog"),
+  languageList: mark("languageList"),
+  languagePicker: mark("languagePicker"),
+  languagePickerFlag: mark("languagePickerFlag"),
+  languagePickerLabel: mark("languagePickerLabel"),
+  loadData: mark("loadData"),
+  loadPackageManifest: mark("loadPackageManifest"),
+  loadSearchLanguages: mark("loadSearchLanguages"),
+  loadUiTranslations: mark("loadUiTranslations"),
+  loadVersionData: mark("loadVersionData"),
+  matchCount: mark("matchCount"),
+  modifierFilters: mark("modifierFilters"),
+  navigateEmoji: mark("navigateEmoji"),
+  nextRenderGeneration: mark("nextRenderGeneration"),
+  nextSearchLoadId: mark("nextSearchLoadId"),
+  normalizeCodePoints: mark("normalizeCodePoints"),
+  offlineStatus: mark("offlineStatus"),
+  onClick: mark("onClick"),
+  onCompactChoiceKeyDown: mark("onCompactChoiceKeyDown"),
+  onDocumentKeyDown: mark("onDocumentKeyDown"),
+  onEmojiDialogClick: mark("onEmojiDialogClick"),
+  onEmojiDialogClose: mark("onEmojiDialogClose"),
+  onEmojiFocus: mark("onEmojiFocus"),
+  onEmojiKeyDown: mark("onEmojiKeyDown"),
+  onGenderChange: mark("onGenderChange"),
+  onHairChange: mark("onHairChange"),
+  onOrderModeChange: mark("onOrderModeChange"),
+  onSkinToneChange: mark("onSkinToneChange"),
+  onVersionRangeInput: mark("onVersionRangeInput"),
+  openFilterPicker: mark("openFilterPicker"),
+  openPanel: mark("openPanel"),
+  orderButtons: mark("orderButtons"),
+  panelDialogs: mark("panelDialogs"),
+  populateVersionModeOptions: mark("populateVersionModeOptions"),
+  recordCopiedEmoji: mark("recordCopiedEmoji"),
+  rebuildEmojiCodePointLookup: mark("rebuildEmojiCodePointLookup"),
+  refreshLocalizedLabels: mark("refreshLocalizedLabels"),
+  renderCategoryFilters: mark("renderCategoryFilters"),
+  renderDeveloperMode: mark("renderDeveloperMode"),
+  renderGeneration: mark("renderGeneration"),
+  renderInstallAppButton: mark("renderInstallAppButton"),
+  renderPixelFontToggle: mark("renderPixelFontToggle"),
+  renderSavedEmoji: mark("renderSavedEmoji"),
+  renderSearchLanguages: mark("renderSearchLanguages"),
+  renderThemeToggle: mark("renderThemeToggle"),
+  renderVersionModeToggle: mark("renderVersionModeToggle"),
+  resetFilters: mark("resetFilters"),
+  restoreDeveloperMode: mark("restoreDeveloperMode"),
+  revealExplorer: mark("revealExplorer"),
+  savePreference: mark("savePreference"),
+  savedDialog: mark("savedDialog"),
+  savedPicker: mark("savedPicker"),
+  scheduleSearchDraw: mark("scheduleSearchDraw"),
+  searchText: mark("searchText"),
+  selectEmojiFont: mark("selectEmojiFont"),
+  selectTheme: mark("selectTheme"),
+  sequenceTranslationKeys: { zwj: "zwjLabel" },
+  sequenceTypeEmoji: { zwj: "🧩" },
+  sequenceTypeLabels: { zwj: "ZWJ" },
+  sequenceTypeOrder: ["zwj"],
+  sequenceTypeSelector: mark("sequenceTypeSelector"),
+  setApplyingUrlState: mark("setApplyingUrlState"),
+  setControls: mark("setControls"),
+  setDialogView: mark("setDialogView"),
+  setElements: mark("setElements"),
+  setFieldsets: mark("setFieldsets"),
+  setPixelEditor: mark("setPixelEditor"),
+  setPixelEditorPromise: mark("setPixelEditorPromise"),
+  setSearchLanguage: mark("setSearchLanguage"),
+  setSuppressDialogCloseSync: mark("setSuppressDialogCloseSync"),
+  setUrlStateReady: mark("setUrlStateReady"),
+  showEmoji: mark("showEmoji"),
+  skinToneCheckboxes: mark("skinToneCheckboxes"),
+  skinToneFieldset: mark("skinToneFieldset"),
+  state: mark("state", state),
+  stepVersion: mark("stepVersion"),
+  subGroupFilterDialog: mark("subGroupFilterDialog"),
+  subGroupPickerTrigger: mark("subGroupPickerTrigger"),
+  subGroupSelector: mark("subGroupSelector"),
+  suppressedPanelCloses: mark("suppressedPanelCloses"),
+  syncUrlState: mark("syncUrlState"),
+  syncVersionRange: mark("syncVersionRange"),
+  themeChoices: mark("themeChoices"),
+  toggleDeveloperMode: mark("toggleDeveloperMode"),
+  toggleVersionMode: mark("toggleVersionMode"),
+  toolbar: mark("toolbar"),
+  translate: mark("translate"),
+  unassigned: "\u0000",
+  unicodeGroupLabelKeys: { A: "a" },
+  unicodeSubgroupLabelKeys: { B: "b" },
+  updateCompositionBackButton: mark("updateCompositionBackButton"),
+  updateDialogNavigation: mark("updateDialogNavigation"),
+  updateEmojiComposition: mark("updateEmojiComposition"),
+  updateEmojiImportExamples: mark("updateEmojiImportExamples"),
+  updateFavoriteButton: mark("updateFavoriteButton"),
+  updateModifierArtwork: mark("updateModifierArtwork"),
+  updateOnlineStatus: mark("updateOnlineStatus"),
+  updatePixelArtworkManifest: mark("updatePixelArtworkManifest"),
+  updateRenderingDiagnostic: mark("updateRenderingDiagnostic"),
+  urlStateReady: mark("urlStateReady"),
+  versionModeSelector: mark("versionModeSelector"),
+  versionModeToggle: mark("versionModeToggle"),
+  versionNext: mark("versionNext"),
+  versionPrevious: mark("versionPrevious"),
+  versionRange: mark("versionRange"),
+  versionRangeValue: mark("versionRangeValue"),
+  versionSelector: mark("versionSelector"),
+};
+
+const shell = buildExplorerBootstrapShellOptions(options);
+assert.equal(shell.normalizeCodePoints, options.normalizeCodePoints);
+assert.equal(shell.savePreference, options.savePreference);
+assert.equal(shell.translate, options.translate);
+assert.equal(shell.dialog(), "dialog-value");
+assert.equal(shell.state(), state);
+assert.deepEqual(calls.at(-1), ["state", []]);
+shell.setDialogView("code", false);
+shell.showEmoji("wrappedGift", true);
+shell.syncUrlState("replace", { ok: true });
+assert.deepEqual(calls.slice(-3), [
+  ["setDialogView", ["code", false]],
+  ["showEmoji", ["wrappedGift", true]],
+  ["syncUrlState", ["replace", { ok: true }]],
+]);
+
+const controller = buildExplorerBootstrapControllerOptions(options);
+assert.equal(controller.animateCopy, options.animateCopy);
+assert.equal(controller.applyPixelArtworkClass, options.applyPixelArtworkClass);
+assert.equal(controller.sequenceTranslationKeys, options.sequenceTranslationKeys);
+assert.equal(controller.unassigned, "\u0000");
+assert.equal(controller.groupSelector(), "groupSelector-value");
+assert.equal(controller.state(), state);
+controller.navigateEmoji(2);
+controller.setDialogView("details");
+controller.setSuppressDialogCloseSync(true);
+controller.showEmoji("partyPopper", false);
+controller.syncUrlState("push", { next: true });
+assert.deepEqual(calls.slice(-5), [
+  ["navigateEmoji", [2]],
+  ["setDialogView", ["details"]],
+  ["setSuppressDialogCloseSync", [true]],
+  ["showEmoji", ["partyPopper", false]],
+  ["syncUrlState", ["push", { next: true }]],
+]);
+
+const runtime = buildExplorerBootstrapRuntimeSourceOptions(options);
+assert.equal(runtime.applyBasicUrlState, options.applyBasicUrlState);
+assert.equal(runtime.applyDialogUrlState, options.applyDialogUrlState);
+assert.equal(runtime.bindAudioInteractions, options.bindAudioInteractions);
+assert.equal(runtime.installApp, options.installApp);
+assert.equal(runtime.panelDialogs, options.panelDialogs);
+assert.equal(runtime.translate, options.translate);
+assert.equal(runtime.toolbar(), "toolbar-value");
+assert.equal(runtime.state(), state);
+runtime.drawList("a");
+runtime.populateVersionModeOptions("b");
+runtime.renderCategoryFilters("c");
+runtime.setDialogView("editor");
+runtime.showEmoji("wrappedGift", true);
+runtime.syncUrlState("replace", { hello: "world" });
+runtime.syncVersionRange("x");
+runtime.toggleVersionMode("selected");
+assert.deepEqual(calls.slice(-8), [
+  ["drawList", ["a"]],
+  ["populateVersionModeOptions", ["b"]],
+  ["renderCategoryFilters", ["c"]],
+  ["setDialogView", ["editor"]],
+  ["showEmoji", ["wrappedGift", true]],
+  ["syncUrlState", ["replace", { hello: "world" }]],
+  ["syncVersionRange", ["x"]],
+  ["toggleVersionMode", ["selected"]],
+]);
