@@ -229,6 +229,24 @@ export default defineConfig({
             return;
           }
 
+          if (
+            pathname === "/manifest.webmanifest" &&
+            ["GET", "HEAD"].includes(method)
+          ) {
+            response.statusCode = 200;
+            response.setHeader(
+              "Content-Type",
+              "application/manifest+json; charset=utf-8",
+            );
+            response.setHeader("Cache-Control", "no-cache");
+            response.end(
+              method === "HEAD"
+                ? undefined
+                : renderManifest("en", "./", "en-US"),
+            );
+            return;
+          }
+
           const manifestLocale = pathname.match(localizedManifestPattern)?.[1];
           if (
             manifestLocale &&
