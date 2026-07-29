@@ -8,46 +8,25 @@ export function createEmojiSessionController(options: any) {
     navigationKeys?: string[],
     initialMode: "details" | "code" | "editor" = "details",
     parentPanel?: "" | "favorites" | "help" | "language",
-  ) =>
+  ) => {
+    const currentEmojiCopies = { value: options.state().currentEmojiCopies };
+    const currentEmojiKey = { value: options.state().currentEmojiKey };
+    const currentDialogParentStack = {
+      value: options.state().currentDialogParentStack,
+    };
+    const dialogNavigationKeys = { value: options.state().dialogNavigationKeys };
+
     showEmojiSession({
       applyPixelArtworkClass: options.applyPixelArtworkClass,
       applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
       byId: options.state().byId,
       compositionMode: options.state().compositionMode,
-      currentEmojiCopies: {
-        get value() {
-          return options.state().currentEmojiCopies;
-        },
-        set value(value) {
-          options.state().currentEmojiCopies = value;
-        },
-      },
-      currentEmojiKey: {
-        get value() {
-          return options.state().currentEmojiKey;
-        },
-        set value(value) {
-          options.state().currentEmojiKey = value;
-        },
-      },
-      currentDialogParentStack: {
-        get value() {
-          return options.state().currentDialogParentStack;
-        },
-        set value(value) {
-          options.state().currentDialogParentStack = value;
-        },
-      },
+      currentEmojiCopies,
+      currentEmojiKey,
+      currentDialogParentStack,
       developerMode: options.developerModeEnabled(),
       dialog: options.dialog(),
-      dialogNavigationKeys: {
-        get value() {
-          return options.state().dialogNavigationKeys;
-        },
-        set value(value) {
-          options.state().dialogNavigationKeys = value;
-        },
-      },
+      dialogNavigationKeys,
       displayGroupName: options.displayGroupName,
       displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
       displayedKeys: { value: options.state().displayedKeys },
@@ -72,6 +51,12 @@ export function createEmojiSessionController(options: any) {
       updateFavoriteButton: options.updateFavoriteButton,
       updateRenderingDiagnostic: options.updateRenderingDiagnostic,
     });
+
+    options.state().currentEmojiCopies = currentEmojiCopies.value;
+    options.state().currentEmojiKey = currentEmojiKey.value;
+    options.state().currentDialogParentStack = currentDialogParentStack.value;
+    options.state().dialogNavigationKeys = dialogNavigationKeys.value;
+  };
 
   return { showEmoji };
 }
