@@ -197,9 +197,13 @@ try {
   controller.renderSoundEffectsToggle();
   controller.renderMusicToggle();
   assert.equal(soundToggle.checked, false);
+  assert.equal(soundToggle.disabled, false);
   assert.equal(soundToggle.attributes.get("aria-checked"), "false");
+  assert.equal(soundToggle.attributes.get("aria-disabled"), "false");
   assert.equal(musicToggle.checked, true);
+  assert.equal(musicToggle.disabled, false);
   assert.equal(musicToggle.attributes.get("aria-checked"), "true");
+  assert.equal(musicToggle.attributes.get("aria-disabled"), "false");
 
   controller.bindAudioInteractions();
   controller.bindAudioInteractions();
@@ -248,6 +252,24 @@ try {
   listeners.get("change")?.[0]({ target: musicToggle });
   assert.deepEqual(saves[1], ["music", false]);
   assert.equal(musicToggle.attributes.get("aria-checked"), "false");
+
+  (globalThis.document as any).documentElement.dataset.theme = "base";
+  observerCallback?.([{ type: "attributes", attributeName: "data-theme" }]);
+  assert.equal(soundToggle.checked, false);
+  assert.equal(soundToggle.disabled, true);
+  assert.equal(soundToggle.attributes.get("aria-disabled"), "true");
+  assert.equal(musicToggle.checked, false);
+  assert.equal(musicToggle.disabled, true);
+  assert.equal(musicToggle.attributes.get("aria-disabled"), "true");
+
+  soundToggle.checked = true;
+  listeners.get("change")?.[0]({ target: soundToggle });
+  musicToggle.checked = true;
+  listeners.get("change")?.[0]({ target: musicToggle });
+  assert.deepEqual(saves, [
+    ["soundEffects", true],
+    ["music", false],
+  ]);
 
   const button = new FakeElement([], null);
   const interactive = new FakeElement([], null);

@@ -34,9 +34,11 @@ export function createExplorerAudioController(
   let hoverTarget: AudioTarget | null = null;
 
   const preferences = () => options.state().explorerPreferences;
+  const baseMode = () => document.documentElement.dataset.theme === "base";
   const retroMode = () => document.documentElement.dataset.theme === "retro";
-  const soundEffectsEnabled = () => preferences().soundEffects === true;
-  const musicEnabled = () => preferences().music === true;
+  const soundEffectsEnabled = () =>
+    !baseMode() && preferences().soundEffects === true;
+  const musicEnabled = () => !baseMode() && preferences().music === true;
 
   const soundEffectsToggle = () =>
     document.querySelector<HTMLInputElement>(".sound-effects-toggle");
@@ -102,7 +104,9 @@ export function createExplorerAudioController(
     if (!toggle) return;
     const enabled = soundEffectsEnabled();
     toggle.checked = enabled;
+    toggle.disabled = baseMode();
     toggle.setAttribute("aria-checked", String(enabled));
+    toggle.setAttribute("aria-disabled", String(baseMode()));
   }
 
   function renderMusicToggle() {
@@ -110,16 +114,27 @@ export function createExplorerAudioController(
     if (!toggle) return;
     const enabled = musicEnabled();
     toggle.checked = enabled;
+    toggle.disabled = baseMode();
     toggle.setAttribute("aria-checked", String(enabled));
+    toggle.setAttribute("aria-disabled", String(baseMode()));
   }
 
   function setSoundEffects(enabled: boolean) {
+    if (baseMode()) {
+      renderSoundEffectsToggle();
+      return;
+    }
     options.savePreference("soundEffects", enabled);
     renderSoundEffectsToggle();
     if (enabled) void audio.resumeAudioContext();
   }
 
   function setMusic(enabled: boolean) {
+    if (baseMode()) {
+      renderMusicToggle();
+      audio.syncHelpMusic();
+      return;
+    }
     options.savePreference("music", enabled);
     renderMusicToggle();
     audio.syncHelpMusic();
@@ -283,6 +298,8 @@ export function createExplorerAudioController(
           record.type === "attributes" && record.attributeName === "data-theme",
       );
       if (!changed) return;
+      renderSoundEffectsToggle();
+      renderMusicToggle();
       audio.restartMusic();
     });
     themeObserver.observe(document.documentElement, {
