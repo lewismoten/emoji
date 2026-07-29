@@ -8,19 +8,7 @@ const root = path.resolve(
   "../..",
 );
 
-const legacyMissingTestPairs = new Set([
-  "src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.ts",
-  "src/pixel-editor/canvas/pixel-editor-template.ts",
-  "src/pixel-editor/controllers/pixel-editor-atlas.ts",
-  "src/pixel-editor/controllers/pixel-editor-controllers.ts",
-  "src/pixel-editor/controllers/pixel-editor-mode.ts",
-  "src/pixel-editor/controllers/pixel-editor-session.ts",
-  "src/pixel-editor/controllers/pixel-editor-transfer.ts",
-  "src/pixel-editor/controllers/setup/pixel-editor-controller-session.ts",
-  "src/pixel-editor/controllers/setup/pixel-editor-controller-visual.ts",
-  "src/pixel-editor/data/pixel-editor-atlas-io.ts",
-  "src/pixel-editor/data/pixel-editor-drafts.ts",
-]);
+const legacyMissingTestPairs = new Set<string>([]);
 
 function walk(directory: string, extension: string) {
   let files: string[] = [];
