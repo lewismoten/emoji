@@ -58,8 +58,10 @@ await writeStub("explorer-audio-stub.mjs", [
   "export const calls = [];",
   "export const controller = {",
   "  bindAudioInteractions: 'bind-audio-interactions',",
-  "  renderMusicToggle: 'render-music-toggle',",
-  "  renderSoundEffectsToggle: 'render-sound-effects-toggle',",
+  "  renderMusicToggleCalls: 0,",
+  "  renderSoundEffectsToggleCalls: 0,",
+  "  renderMusicToggle() { this.renderMusicToggleCalls += 1; return 'render-music-toggle'; },",
+  "  renderSoundEffectsToggle() { this.renderSoundEffectsToggleCalls += 1; return 'render-sound-effects-toggle'; },",
   "  syncHelpMusicCalls: 0,",
   "  syncHelpMusic() { this.syncHelpMusicCalls += 1; return ['sync-help-music']; },",
   "};",
@@ -231,13 +233,16 @@ try {
   assert.equal(shell.developerModeEnabled, "developer-enabled");
   assert.equal(shell.installApp, "explorer-install-app");
   assert.equal(shell.loadUiTranslations, "load-ui-translations");
-  assert.equal(shell.renderMusicToggle, "render-music-toggle");
+  assert.equal(shell.renderMusicToggle, audioStub.controller.renderMusicToggle);
   assert.equal(
     shell.renderDeveloperMode,
     uiStub.developerModeController.render,
   );
   assert.equal(shell.renderInstallAppButton, "ui-render-install-app-button");
-  assert.equal(shell.renderSoundEffectsToggle, "render-sound-effects-toggle");
+  assert.equal(
+    shell.renderSoundEffectsToggle,
+    audioStub.controller.renderSoundEffectsToggle,
+  );
   assert.equal(shell.syncHelpMusic, audioStub.controller.syncHelpMusic);
   assert.equal(
     shell.toggleDeveloperMode,
@@ -262,6 +267,8 @@ try {
 
   shell.renderThemeToggle();
   assert.equal(uiStub.renderThemeToggleCalls.length, 1);
+  assert.equal(audioStub.controller.renderSoundEffectsToggleCalls, 1);
+  assert.equal(audioStub.controller.renderMusicToggleCalls, 1);
   assert.equal(audioStub.controller.syncHelpMusicCalls, 1);
 
   const emojiEvent = { type: "emoji-font" };

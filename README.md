@@ -122,11 +122,11 @@ PWA manifest.
 </p>
 
 <p>
-  <a href="./src/site/pwa/wide/screenshot-explorer.jpg">
-    <img src="./src/site/pwa/wide/screenshot-explorer.jpg" alt="Wide Emoji Explorer search and results layout" width="320">
+  <a href="./src/site/pwa/wide/screenshot-explorer-wide.jpg">
+    <img src="./src/site/pwa/wide/screenshot-explorer-wide.jpg" alt="Wide Emoji Explorer search and results layout" width="320">
   </a>
-  <a href="./src/site/pwa/wide/screenshot-emoji.jpg">
-    <img src="./src/site/pwa/wide/screenshot-emoji.jpg" alt="Wide emoji detail dialog layout" width="320">
+  <a href="./src/site/pwa/wide/screenshot-emoji-wide.jpg">
+    <img src="./src/site/pwa/wide/screenshot-emoji-wide.jpg" alt="Wide emoji detail dialog layout" width="320">
   </a>
 </p>
 

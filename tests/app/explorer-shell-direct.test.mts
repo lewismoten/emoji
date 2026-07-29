@@ -58,8 +58,16 @@ try {
   };
   const audioController = {
     bindAudioInteractions: "bind-audio-interactions",
-    renderMusicToggle: "render-music-toggle",
-    renderSoundEffectsToggle: "render-sound-effects-toggle",
+    renderMusicToggleCalls: 0,
+    renderSoundEffectsToggleCalls: 0,
+    renderMusicToggle() {
+      this.renderMusicToggleCalls += 1;
+      return "render-music-toggle";
+    },
+    renderSoundEffectsToggle() {
+      this.renderSoundEffectsToggleCalls += 1;
+      return "render-sound-effects-toggle";
+    },
     syncHelpMusicCalls: 0,
     syncHelpMusic() {
       this.syncHelpMusicCalls += 1;
@@ -217,10 +225,13 @@ try {
   assert.equal(shell.developerModeEnabled, "developer-enabled");
   assert.equal(shell.installApp, "explorer-install-app");
   assert.equal(shell.loadUiTranslations, "load-ui-translations");
-  assert.equal(shell.renderMusicToggle, "render-music-toggle");
+  assert.equal(shell.renderMusicToggle, audioController.renderMusicToggle);
   assert.equal(shell.renderDeveloperMode, "developer-render");
   assert.equal(shell.renderInstallAppButton, "ui-render-install-app-button");
-  assert.equal(shell.renderSoundEffectsToggle, "render-sound-effects-toggle");
+  assert.equal(
+    shell.renderSoundEffectsToggle,
+    audioController.renderSoundEffectsToggle,
+  );
   assert.equal(shell.syncHelpMusic, audioController.syncHelpMusic);
   assert.equal(shell.toggleDeveloperMode, "developer-change");
   assert.equal(shell.updateOnlineStatus, "update-online-status");
@@ -232,6 +243,8 @@ try {
 
   shell.renderThemeToggle();
   assert.equal(renderThemeToggleCalls.length, 1);
+  assert.equal(audioController.renderSoundEffectsToggleCalls, 1);
+  assert.equal(audioController.renderMusicToggleCalls, 1);
   assert.equal(audioController.syncHelpMusicCalls, 1);
 
   const emojiEvent = { type: "emoji-font" };

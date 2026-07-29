@@ -55,10 +55,10 @@ const coreAssets = [
   "./pwa/narrow/screenshot-emoji.jpg",
   "./pwa/narrow/screenshot-saved.jpg",
   "./pwa/narrow/screenshot-help.jpg",
-  "./pwa/wide/screenshot-explorer.jpg",
-  "./pwa/wide/screenshot-emoji.jpg",
-  "./pwa/wide/screenshot-saved.jpg",
-  "./pwa/wide/screenshot-help.jpg",
+  "./pwa/wide/screenshot-explorer-wide.jpg",
+  "./pwa/wide/screenshot-emoji-wide.jpg",
+  "./pwa/wide/screenshot-saved-wide.jpg",
+  "./pwa/wide/screenshot-help-wide.jpg",
   "./manifest.webmanifest",
   "./offline.html",
 ];
@@ -116,10 +116,10 @@ const sourceFileForAsset = (asset) => {
     file === "pwa/narrow/screenshot-emoji.jpg" ||
     file === "pwa/narrow/screenshot-saved.jpg" ||
     file === "pwa/narrow/screenshot-help.jpg" ||
-    file === "pwa/wide/screenshot-explorer.jpg" ||
-    file === "pwa/wide/screenshot-emoji.jpg" ||
-    file === "pwa/wide/screenshot-saved.jpg" ||
-    file === "pwa/wide/screenshot-help.jpg"
+    file === "pwa/wide/screenshot-explorer-wide.jpg" ||
+    file === "pwa/wide/screenshot-emoji-wide.jpg" ||
+    file === "pwa/wide/screenshot-saved-wide.jpg" ||
+    file === "pwa/wide/screenshot-help-wide.jpg"
   ) {
     return path.join("src", "site", file);
   }

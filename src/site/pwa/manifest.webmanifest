@@ -61,28 +61,28 @@
       "label": "Open Help and settings for language, theme, audio, and mode"
     },
     {
-      "src": "./pwa/wide/screenshot-explorer.jpg",
+      "src": "./pwa/wide/screenshot-explorer-wide.jpg",
       "sizes": "812x375",
       "type": "image/jpeg",
       "form_factor": "wide",
       "label": "Browse emoji results with search and quick filters"
     },
     {
-      "src": "./pwa/wide/screenshot-emoji.jpg",
+      "src": "./pwa/wide/screenshot-emoji-wide.jpg",
       "sizes": "812x375",
       "type": "image/jpeg",
       "form_factor": "wide",
       "label": "Inspect an emoji with previews, copy actions, and details"
     },
     {
-      "src": "./pwa/wide/screenshot-saved.jpg",
+      "src": "./pwa/wide/screenshot-saved-wide.jpg",
       "sizes": "812x375",
       "type": "image/jpeg",
       "form_factor": "wide",
       "label": "Review saved emoji and recently copied favorites"
     },
     {
-      "src": "./pwa/wide/screenshot-help.jpg",
+      "src": "./pwa/wide/screenshot-help-wide.jpg",
       "sizes": "812x375",
       "type": "image/jpeg",
       "form_factor": "wide",
