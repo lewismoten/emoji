@@ -61,11 +61,11 @@ managed by the hosting provider and are intentionally outside this script.
 
 - `npm run clean` removes generated `build` and `dist` directories.
 - `npm run generate` creates popular, complete, category, subgroup, and
-  variation source packs from `src/emoji-source/` and
-  `src/package-data/popular.json`, plus the generated package manifest at
-  `dist/manifest.json`.
+  variation source packs from `src/data/emoji/` and `src/data/popular.json`,
+  plus the generated package manifest at `dist/manifest.json`.
 - `npm run build` regenerates the library and compiles TypeScript.
-- `npm run bundle` produces the publishable JavaScript and TypeScript files.
+- `npm run bundle` produces the publishable JavaScript and TypeScript files and
+  refreshes the repository-tracked SVG and PNG preview assets.
 - `npm test` builds the package and verifies Unicode releases, public package
   specifiers, TypeScript declarations, localized demo pages, and PWA assets.
 - `npm start` runs the local Emoji Explorer.
@@ -80,6 +80,9 @@ managed by the hosting provider and are intentionally outside this script.
   regenerates the library data.
 - `npm run unicode:proposed` downloads the current official Unicode draft data.
 - `npm run versions:snapshot` refreshes the released version contract snapshot.
+- `npm run svg:render` synchronizes the site icon smiley from the configured
+  pixel-font atlas source and rasterizes tracked SVG-to-PNG assets such as the
+  social preview image.
 - `npm run pixel-font:generate` updates pixel-font atlas assignments without
   creating empty PNG sheets.
 - `npm run pixel-font:validate` verifies every active atlas assignment.
@@ -89,8 +92,25 @@ managed by the hosting provider and are intentionally outside this script.
   and manifests without individual PNG or SVG glyph output.
 - `npm run pixel-font:package` creates the fonts-only build, standalone npm
   package, and versioned GitHub Release assets.
+- `npm run pixel-font:text` builds the separate retro Latin UI font used by the
+  Explorer’s retro theme.
 - `npm run pixel-font:version -- patch` bumps the independent font version
   without changing the JavaScript package version.
+
+## Site assets and screenshots
+
+The website source now lives under `src/site/`. Notable files:
+
+- `src/site/index.html`, `index.css`, and `offline.html`
+- `src/site/pwa/manifest.webmanifest`
+- `src/site/pwa/narrow/` and `src/site/pwa/wide/` screenshots used by the PWA
+  manifest and README
+- `src/site/smiley-source.json`, which chooses the emoji key used to generate
+  the favicon, maskable icon, and social preview smiley from the pixel-font
+  atlases
+
+Changing `smiley-source.json` and rerunning `npm run svg:render` updates the
+SVG source files and their checked-in PNG counterparts automatically.
 
 ## Unicode update examples
 

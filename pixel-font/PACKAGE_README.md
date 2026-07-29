@@ -9,6 +9,13 @@ The package contains a stable **Pixel Emoji** family for released characters
 and a separate **Pixel Emoji Proposed** family for experimental draft
 characters. Draft sequences can change before Unicode publishes them.
 
+The same artwork is also used by Emoji Explorer as:
+
+- a rendering fallback for unsupported system emoji
+- a pixel-editor source atlas
+- the generated smiley used in the repository favicon, maskable icon, and
+  social preview artwork
+
 ## Install
 
 ```sh
@@ -46,6 +53,10 @@ entry's real `emoji` value.
 
 The stable font can also be installed directly from
 `font/pixel-emoji.ttf`. WOFF and WOFF2 files are provided for websites.
+
+If the browser or PDF toolchain cannot shape a full Unicode sequence
+reliably, use the manifest’s `privateUseCodePoint` alias only as a rendering
+fallback. Continue to store and exchange the real Unicode sequence.
 
 ## Metadata and embedding
 

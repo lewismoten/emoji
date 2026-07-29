@@ -42,11 +42,11 @@ npm run versions:snapshot
 
 This command rebuilds the snapshot from:
 
-- `src/emoji-source/codepoints.json`
-- `src/emoji-source/catalog.json`
-- `src/emoji-source/lookups.json`
-- `versions/manifest.json`
-- each released `versions/*.json` file
+- `src/data/emoji/codepoints.json`
+- `src/data/emoji/catalog.json`
+- `src/data/emoji/lookups.json`
+- `src/data/versions/manifest.json`
+- each released `src/data/versions/*.json` file
 
 It will also throw if a version file references a key that does not exist in
 the released emoji dataset.

@@ -177,7 +177,7 @@ accessibility, and clipboard operations.
 Draft names, sequences, code points, and release plans may change. Proposed
 artwork should therefore be considered experimental. After refreshing draft
 data with `npm run unicode:proposed`, rerun `npm run pixel-font:generate`.
-When Unicode releases that version and `src/emoji-source/` is updated,
+When Unicode releases that version and `src/data/emoji/` is updated,
 regeneration creates released assignments for its final entries. Copy the
 approved artwork into those released cells and rebuild; proposed pixels are not
 silently promoted because the final sequence or meaning may have changed.
@@ -419,6 +419,21 @@ Python is used and WOFF2 may be skipped if Brotli support is unavailable.
 
 After building, run `npm start` and open
 `http://localhost:5173/pixel-font/build/` to inspect the output.
+
+## Explorer and site integration
+
+Emoji Explorer uses Pixel Emoji in three related ways:
+
+- as an optional rendering mode for the visible emoji list and dialogs
+- as a fallback font for newer emoji that a device’s system fonts do not
+  support
+- as the backing artwork source for the pixel editor, generated SVG smiley
+  assets, and social-preview branding
+
+The repository’s site smiley is chosen by
+`src/site/smiley-source.json`. Running `npm run svg:render` updates the
+favicon, maskable icon, and social preview SVGs from that atlas source and
+then regenerates their PNG counterparts.
 
 ## Editing in Emoji Explorer
 

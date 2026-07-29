@@ -80,21 +80,31 @@ front end for the data and font projects. It provides:
 
 - localized names, keywords, group labels, and subgroup labels
 - browsing by Unicode group, subgroup, release, modifier, and sequence type
+- popular-mode browsing for the curated root-export emoji set
 - system-versus-Pixel Emoji comparisons and split-sequence diagnostics
 - visual explanations of ZWJ, modifier, flag, keycap, and tag sequences
 - favorites, recently copied emoji, keyboard navigation, and shareable URLs
 - an integrated 12×12 pixel-art editor
+- theme, mode, and audio controls
 - responsive dialogs and an installable offline PWA
 
 Casual browsing keeps search and category shortcuts immediately available.
-Developer mode, available from Help and settings, adds sequence construction,
-technical metadata, rendering diagnostics, code tools, sequence browsing, and
-the pixel editor without placing those controls in the default end-user
-interface.
+The app offers three user modes from Help and settings:
+
+- **Standard:** simple browsing, search, copy, favorites, and installation
+- **Advanced:** adds richer filtering, Unicode ordering, and technical lookup
+  tools without editor-focused controls
+- **Developer:** adds sequence construction, rendering diagnostics, code tools,
+  and the pixel editor
+
+This keeps end-user browsing lightweight while still exposing the deeper
+Unicode and font tooling when it is needed.
 
 ### Current app previews
 
-Click a thumbnail to view the full-size narrow capture:
+Click a thumbnail to view the full-size capture. Narrow screenshots show the
+mobile layout; wide screenshots show the short landscape layout used by the
+PWA manifest.
 
 <p>
   <a href="./src/site/pwa/narrow/screenshot-explorer.jpg">
@@ -108,6 +118,15 @@ Click a thumbnail to view the full-size narrow capture:
   </a>
   <a href="./src/site/pwa/narrow/screenshot-help.jpg">
     <img src="./src/site/pwa/narrow/screenshot-help.jpg" alt="Help and settings with theme, audio, and mode controls" width="180">
+  </a>
+</p>
+
+<p>
+  <a href="./src/site/pwa/wide/screenshot-explorer.jpg">
+    <img src="./src/site/pwa/wide/screenshot-explorer.jpg" alt="Wide Emoji Explorer search and results layout" width="320">
+  </a>
+  <a href="./src/site/pwa/wide/screenshot-emoji.jpg">
+    <img src="./src/site/pwa/wide/screenshot-emoji.jpg" alt="Wide emoji detail dialog layout" width="320">
   </a>
 </p>
 
@@ -136,6 +155,20 @@ npm install @lewismoten/pixel-emoji
 
 See [pixel-font/PIXEL_EMOJI.md](pixel-font/PIXEL_EMOJI.md) for coverage,
 design constraints, atlas details, sequence handling, and local build notes.
+
+## Repository asset pipeline
+
+Site-facing SVG assets are generated from live pixel-font artwork where
+appropriate. The icon smiley used by the favicon, maskable icon, and social
+preview is configured in
+[src/site/smiley-source.json](src/site/smiley-source.json), then synchronized
+into the SVG source files before their PNG counterparts are rendered.
+
+To refresh those assets directly:
+
+```bash
+npm run svg:render
+```
 
 ## Local development
 

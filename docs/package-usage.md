@@ -19,6 +19,10 @@ may change when Unicode adds or reorganizes emoji. The popular pack also lists
 its curated `keys`, allowing consumers to check whether a specific emoji is
 available from the root export.
 
+The root package export intentionally points at that curated popular pack, not
+the full emoji dataset. This keeps the default install and browser usage small
+for common “emoji picker” or reaction-list use cases.
+
 ## Categories and subgroups
 
 Categories are separate modules and can be imported normally or lazy-loaded:
@@ -112,6 +116,10 @@ from the base language. For example, `en-GB` exists, while an empty `en-US`
 override is omitted. Each base pack also includes `labels` for broad picker
 labels and `subgroups` for labels Unicode and CLDR do not translate directly.
 
+Locale-manifest entries also identify whether the locale is right-to-left and
+provide both English and native display labels so interfaces can present a
+language picker without hard-coding language names.
+
 The Emoji Explorer uses representative country flags to make languages easier
 to scan. These flags are visual identifiers only; a base language such as `es`
 or `ar` is not limited to one country or region.
@@ -154,6 +162,11 @@ console.log(proposed18.status); // "draft"
 Draft candidates may change or be removed before Unicode publishes the final
 release.
 
+The proposed manifest keeps the current draft `status`, `stage`, and expected
+release metadata separate from stable release metadata so applications can
+clearly distinguish “released”, “available in a selected release only”, and
+“future/draft” UI states.
+
 ## Direct browser use
 
 `dist/esm/index.js` is a self-contained browser module containing the complete
@@ -178,3 +191,8 @@ Or copy `dist/esm/index.js` and serve it with an application:
   console.log(emoji.clinkingBeerMugs);
 </script>
 ```
+
+That browser-oriented `dist/esm/index.js` is deliberately self-contained: it
+exports one large object rather than lazily importing category modules behind
+the scenes. This preserves the older “drop one file into a site and get every
+emoji key at once” workflow.
