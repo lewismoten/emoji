@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { Resvg } from "@resvg/resvg-js";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -13,70 +13,21 @@ const generatedIcons = [
   "icon-maskable.svg",
 ];
 
-const generateWithSips = (favicon, maskableFavicon, iconDirectory) => {
+const generateRasterIcons = (favicon, maskableFavicon, iconDirectory) => {
   const rasterTargets = [
-    ["icon-192.png", "192", favicon],
-    ["icon-512.png", "512", favicon],
-    ["icon-maskable-512.png", "512", maskableFavicon],
+    ["icon-192.png", 192, favicon],
+    ["icon-512.png", 512, favicon],
+    ["icon-maskable-512.png", 512, maskableFavicon],
   ];
   for (const [filename, size, sourceSvg] of rasterTargets) {
-    const result = spawnSync(
-      "sips",
-      [
-        "-s",
-        "format",
-        "png",
-        "-z",
-        size,
-        size,
-        sourceSvg,
-        "--out",
-        path.join(iconDirectory, filename),
-      ],
-      { stdio: "pipe" },
-    );
-    if (result.status !== 0) {
-      throw new Error(
-        `sips failed while generating ${filename}: ${result.stderr.toString("utf8")}`,
-      );
-    }
-  }
-  fs.copyFileSync(favicon, path.join(iconDirectory, "icon.svg"));
-  fs.copyFileSync(maskableFavicon, path.join(iconDirectory, "icon-maskable.svg"));
-};
-
-const generateWithFfmpegPlaceholders = (
-  favicon,
-  maskableFavicon,
-  iconDirectory,
-) => {
-  const rasterTargets = [
-    ["icon-192.png", "192"],
-    ["icon-512.png", "512"],
-    ["icon-maskable-512.png", "512"],
-  ];
-  for (const [filename, size] of rasterTargets) {
-    const result = spawnSync(
-      "ffmpeg",
-      [
-        "-f",
-        "lavfi",
-        "-i",
-        `color=c=#240c37:s=${size}x${size}`,
-        "-frames:v",
-        "1",
-        "-update",
-        "1",
-        "-y",
-        path.join(iconDirectory, filename),
-      ],
-      { stdio: "pipe" },
-    );
-    if (result.status !== 0) {
-      throw new Error(
-        `ffmpeg failed while generating ${filename}: ${result.stderr.toString("utf8")}`,
-      );
-    }
+    const svg = fs.readFileSync(sourceSvg, "utf8");
+    const resvg = new Resvg(svg, {
+      fitTo: {
+        mode: "width",
+        value: size,
+      },
+    });
+    fs.writeFileSync(path.join(iconDirectory, filename), resvg.render().asPng());
   }
   fs.copyFileSync(favicon, path.join(iconDirectory, "icon.svg"));
   fs.copyFileSync(maskableFavicon, path.join(iconDirectory, "icon-maskable.svg"));
@@ -88,44 +39,17 @@ export const generateSiteIcons = ({
   outputDirectory = path.join(root, "src", "site", "pwa", "icons"),
 } = {}) => {
   fs.mkdirSync(outputDirectory, { recursive: true });
-  const sipsAvailable =
-    spawnSync("sips", ["--help"], { stdio: "ignore" }).status === 0;
-  if (sipsAvailable) {
-    try {
-      generateWithSips(favicon, maskableFavicon, outputDirectory);
-      return {
-        generated: true,
-        outputDirectory,
-        files: generatedIcons,
-      };
-    } catch (error) {
-      console.warn(
-        `Unable to rasterize ${path.relative(root, favicon)} automatically: ${error instanceof Error ? error.message : String(error)}`,
-      );
-    }
-  }
-  const ffmpegAvailable =
-    spawnSync("ffmpeg", ["-version"], { stdio: "ignore" }).status === 0;
-  if (ffmpegAvailable) {
-    try {
-      generateWithFfmpegPlaceholders(
-        favicon,
-        maskableFavicon,
-        outputDirectory,
-      );
-      console.warn(
-        `Used ffmpeg placeholder PNGs for ${path.relative(root, outputDirectory)} because SVG rasterization is unavailable.`,
-      );
-      return {
-        generated: true,
-        outputDirectory,
-        files: generatedIcons,
-      };
-    } catch (error) {
-      console.warn(
-        `Unable to synthesize placeholder PNG icons automatically: ${error instanceof Error ? error.message : String(error)}`,
-      );
-    }
+  try {
+    generateRasterIcons(favicon, maskableFavicon, outputDirectory);
+    return {
+      generated: true,
+      outputDirectory,
+      files: generatedIcons,
+    };
+  } catch (error) {
+    console.warn(
+      `Unable to rasterize icon SVG assets automatically: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 
   const repositoryIconsDirectory = path.join(root, "src", "site", "pwa", "icons");

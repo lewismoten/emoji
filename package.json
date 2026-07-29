@@ -67,6 +67,7 @@
     "demo:locales": "node ./scripts/generate-demo-pages.mjs",
     "demo:pwa": "node ./scripts/generate-service-worker.mjs",
     "demo:validate": "node ./scripts/validate-pages-site.mjs",
+    "svg:render": "node ./scripts/render-svg-assets.mjs",
     "website:build": "node ./scripts/publish-website.mjs",
     "website:publish": "node ./scripts/publish-website.mjs --publish",
     "pixel-font:generate": "node ./pixel-font/scripts/generate-atlases.mjs",
@@ -102,6 +103,7 @@
   "devDependencies": {
     "@codejamboree/js-logger": "^2.2.3",
     "@codejamboree/web-request-queue": "^3.2.0",
+    "@resvg/resvg-js": "^2.6.2",
     "@rollup/plugin-commonjs": "^29.0.3",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
