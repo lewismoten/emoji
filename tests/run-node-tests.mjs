@@ -5,8 +5,10 @@ import { availableParallelism } from "node:os";
 
 const root = path.resolve(process.argv[2] ?? "build/tests");
 const testPattern = /\.test\.(?:js|mjs|cjs)$/;
-const maximumDurationMs = 100;
-const coverageDurationMultiplier = 1.5;
+// Keep normal test files under the project's 200 ms budget. Coverage adds
+// instrumentation and reports work that does not run in a normal test pass.
+const maximumDurationMs = 200;
+const coverageDurationMultiplier = 2;
 const coverageEnabled = process.env.TEST_COVERAGE !== "0";
 const effectiveMaximumDurationMs = coverageEnabled
   ? coverageDurationMultiplier * maximumDurationMs

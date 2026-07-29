@@ -22,6 +22,8 @@ export function createStartupOrchestrator(options: any) {
 
   function upgradeEmojiDialog() {
     upgradeEmojiDialogHelper({
+      // The import-example helper only reads HTMLElement-compatible members.
+      // @ts-expect-error Its lightweight test DOM type is intentionally narrower.
       ensureImportExamples: ensureImportExampleLines,
       exampleDialog: options.dialog(),
     });

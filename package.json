@@ -54,7 +54,7 @@
     "clean": "rm -rf build && rm -rf dist",
     "generate": "node ./scripts/generate-library.mjs && node ./scripts/generate-explorer-css.mjs",
     "build": "npm run clean && npm run generate && tsc && tsc -p src/explorer.tsconfig.json",
-    "bundle": "npm run build && node ./scripts/generate-browser.mjs && npx rollup -c ./build/config/rollup.config.js --silent",
+    "bundle": "npm run build && node ./scripts/generate-browser.mjs && npx rollup -c ./build/config/rollup.config.js --silent && node ./scripts/generate-type-declarations.mjs",
     "prepublishOnly": "npm run bundle",
     "start": "vite --config ./config/vite.config.js",
     "test": "node ./scripts/ensure-test-bundle.mjs && npm run demo:locales -- build/demo-pages && npm run demo:pwa -- build/demo-pages/service-worker.js && npm run test:node && tsc --noEmit --module NodeNext --moduleResolution NodeNext --target ESNext --strict tests/package-exports.test.mts && npm run pixel-font:validate",
@@ -99,16 +99,15 @@
   "devDependencies": {
     "@codejamboree/js-logger": "^2.2.3",
     "@codejamboree/web-request-queue": "^3.2.0",
-    "@types/node": "^22.0.0",
     "@rollup/plugin-commonjs": "^28.0.0",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@rollup/plugin-terser": "^1.0.0",
+    "@types/node": "^22.0.0",
+    "prettier": "3.9.6",
     "rollup": "^4.22.5",
-    "rollup-plugin-dts": "^6.1.1",
     "rollup-plugin-license": "^3.7.1",
     "rollup-plugin-typescript2": "^0.36.0",
-    "prettier": "3.9.6",
-    "typescript": "^5.6.2",
+    "typescript": "^7.0.2",
     "vite": "^8.1.5"
   }
 }

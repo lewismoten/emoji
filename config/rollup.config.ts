@@ -4,7 +4,6 @@ import path from "node:path";
 import commonjs from "@rollup/plugin-commonjs";
 import resolve from "@rollup/plugin-node-resolve";
 import terser from "@rollup/plugin-terser";
-import { dts } from "rollup-plugin-dts";
 import { OutputOptions, RollupOptions } from "rollup";
 
 const banner = `/*!
@@ -62,23 +61,9 @@ const javascript = (
   ],
 });
 
-const types = (format: "es" | "cjs"): RollupOptions => ({
-  input: inputs(sourceDirectory),
-  output: {
-    dir: `dist/${format === "es" ? "esm" : "commonjs"}/types`,
-    format,
-    preserveModules: true,
-    preserveModulesRoot: sourceDirectory,
-    entryFileNames: `[name].d.${format === "es" ? "mts" : "ts"}`,
-  },
-  plugins: [dts()],
-});
-
 export default [
   javascript("es", false),
   javascript("es", true),
   javascript("cjs", false),
   javascript("cjs", true),
-  types("es"),
-  types("cjs"),
 ] satisfies RollupOptions[];

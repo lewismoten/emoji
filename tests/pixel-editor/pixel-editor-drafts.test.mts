@@ -67,15 +67,18 @@ const controller = createPixelEditorDraftController({
   extractPixels: () => new Uint8ClampedArray([4, 5, 6, 255]),
   floatingLayer: () => current.floatingLayer,
   floatingLayerUndoState: () => ({ redoButton, undoButton }),
-  hasVisiblePixels: (value: Uint8ClampedArray) =>
+  hasVisiblePixels: (value: Uint8ClampedArray<ArrayBufferLike>) =>
     value.some((_, index) => index % 4 === 3 && value[index] > 0),
   persistedArtwork: () => persisted,
   pixels: () => current.pixels,
-  pixelsEqual: (left: Uint8ClampedArray, right: Uint8ClampedArray) =>
+  pixelsEqual: (
+    left: Uint8ClampedArray<ArrayBufferLike>,
+    right: Uint8ClampedArray<ArrayBufferLike>,
+  ) =>
     left.length === right.length &&
     left.every((value, index) => value === right[index]),
-  pixelsSetter: (value: Uint8ClampedArray) => {
-    current.pixels = value;
+  pixelsSetter: (value: Uint8ClampedArray<ArrayBufferLike>) => {
+    current.pixels = value as Uint8ClampedArray<ArrayBuffer>;
   },
   saveButton,
   selection: () => current.selection,

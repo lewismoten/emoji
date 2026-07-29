@@ -5,8 +5,6 @@
     "types": ["node", "vite/client"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "ignoreDeprecations": "5.0",
-    "baseUrl": "..",
     "paths": {
       "@codejamboree/web-request-queue": ["./types/web-request-queue.d.ts"],
       "@lewismoten/emoji/search": ["./library/search.ts"]

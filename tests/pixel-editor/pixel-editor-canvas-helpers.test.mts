@@ -258,14 +258,16 @@ const previewController = createPixelEditorPreviewController({
   floatingLayer: () => ({ x: 1, y: 2, width: 1, height: 1 }),
   fontPreview,
   imageDataCanvas: (
-    buffer: Uint8ClampedArray,
+    buffer: Uint8ClampedArray<ArrayBufferLike>,
     width: number,
     height: number,
   ) => {
     const canvas = new FakeCanvas();
     canvas.width = width;
     canvas.height = height;
-    canvas.context.imageData = { data: buffer };
+    canvas.context.imageData = {
+      data: buffer as Uint8ClampedArray<ArrayBuffer>,
+    };
     return canvas;
   },
   officialPreview,

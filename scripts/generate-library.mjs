@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
-import ts from "typescript";
 import { readEmojiDataSync } from "./emoji-data.mjs";
+import { compileTypeScriptSources } from "./transpile-typescript.mjs";
 
 const sourceDirectory = "library";
 const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
@@ -260,17 +260,10 @@ write(
   }),
 );
 
+const compiledTypeScript = compileTypeScriptSources();
+process.once("exit", () => compiledTypeScript.dispose());
 const transpileExplorerModule = (sourceFile, outputFile) => {
-  const source = fs.readFileSync(sourceFile, "utf8");
-  const build = ts.transpileModule(source, {
-    compilerOptions: {
-      target: ts.ScriptTarget.ESNext,
-      module: ts.ModuleKind.ESNext,
-      sourceMap: false,
-    },
-    fileName: sourceFile,
-  });
-  write(outputFile, build.outputText.trimEnd());
+  write(outputFile, compiledTypeScript.read(sourceFile).trimEnd());
 };
 for (const file of fs.readdirSync("src/explorer")) {
   if (!file.endsWith(".ts")) continue;

@@ -2,8 +2,8 @@ import fs from "node:fs";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import ts from "typescript";
 import { generateSiteIcons } from "./generate-site-icons.mjs";
+import { compileTypeScriptSources } from "./transpile-typescript.mjs";
 
 const defaultSiteUrl = "https://lewismoten.github.io/emoji/";
 const normalizeSiteUrl = (value) => `${value.replace(/\/+$/, "")}/`;
@@ -151,21 +151,12 @@ const prepareDeployedScript = (source) =>
       /(['"])\.\/explorer\/pixel-editor\.css\1/g,
       `'./explorer/pixel-editor.css?v=${assetVersion}'`,
     );
+const compiledTypeScript = compileTypeScriptSources();
+process.once("exit", () => compiledTypeScript.dispose());
 const transpileModule = (sourceFile, outputFile) => {
-  const source = fs.readFileSync(sourceFile, "utf8");
-  const build = ts.transpileModule(source, {
-    compilerOptions: {
-      target: ts.ScriptTarget.ESNext,
-      module: ts.ModuleKind.ESNext,
-      sourceMap: false,
-    },
-    fileName: sourceFile,
-  });
+  const output = compiledTypeScript.read(sourceFile);
   fs.mkdirSync(path.dirname(outputFile), { recursive: true });
-  fs.writeFileSync(
-    outputFile,
-    `${prepareDeployedScript(build.outputText.trimEnd())}\n`,
-  );
+  fs.writeFileSync(outputFile, `${prepareDeployedScript(output.trimEnd())}\n`);
 };
 const copyRuntimeModule = (sourceFile, outputFile) => {
   const source = fs.readFileSync(sourceFile, "utf8");
