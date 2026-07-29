@@ -94,6 +94,7 @@ additional Latin-script language groups.
 | Lithuanian | `Ą Č Ę Ė Į Š Ų Ū Ž ą č ę ė į š ų ū ž` |
 | Sámi | `Á Č Đ Ŋ Š Ŧ Ž á č đ ŋ š ŧ ž` |
 | Vietnamese core letters | `Ă Â Ê Ô Ơ Ư Đ ă â ê ô ơ ư đ` |
+| Latin Extended practical set | `Ĕ Ĩ Ĳ Ō Ŏ Ŗ Ţ Ũ ĕ ĩ ĳ ŏ ŗ ţ ũ` |
 
 Future additions may still be needed for other Latin-based languages, but the
 current coverage now spans common Western, Central, Eastern, and several other
@@ -134,6 +135,41 @@ The sample preview currently renders both of these sentences:
 > £10, €20 — “Voilà!”
 
 ![Pixel Latin Retro sample phrase](retro-text/example-phrase.png)
+
+## Current build size
+
+As of the current build, Pixel Latin Retro contains 333 glyphs and ships as:
+
+| File | Size |
+| - | -: |
+| `pixel-latin-retro.ttf` | 60,760 bytes |
+| `pixel-latin-retro.woff` | 8,464 bytes |
+| `pixel-latin-retro.woff2` | 4,264 bytes |
+| `pixel-latin-retro.css` | 290 bytes |
+
+For web use, the WOFF2 file is the main delivery target and is currently a
+little over 4 KB.
+
+## Optimization headroom
+
+The current bitmap set contains 333 glyph mappings backed by 314 unique 5×7
+bitmaps, so 19 glyphs currently reuse a shape that another character already
+uses. That is about 5.7% duplicate bitmap coverage.
+
+If every duplicate shape were intentionally aliased or removed with no visual
+tradeoffs, the rough upper-bound savings would be about:
+
+| File | Approximate maximum savings |
+| - | -: |
+| `pixel-latin-retro.ttf` | ~3.4 KB |
+| `pixel-latin-retro.woff` | ~0.5 KB |
+| `pixel-latin-retro.woff2` | ~0.2 KB |
+
+In practice, real savings would likely be a bit smaller, because some of those
+duplicate shapes are currently acceptable stand-ins while others may actually
+deserve distinct redraws. For example, some breve and macron variants still
+collapse into the same visible 5×7 silhouette, which is a design question as
+much as a compression question.
 
 ## Build
 
