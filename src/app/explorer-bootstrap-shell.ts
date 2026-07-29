@@ -6,26 +6,26 @@ import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from "..
 
 export function createExplorerBootstrapShell(options: any) {
   let developerModeEnabled = () => false;
+  const state = options.state;
 
   const pixelArtwork = createPixelArtworkManager({
-    byId: () => options.state().byId,
-    emojiByKey: () => options.state().emojiByKey,
-    emojiKeyByCodePoints: () => options.state().emojiKeyByCodePoints,
-    genderCheckboxes: () => options.genderCheckboxes(),
-    hairCheckboxes: () => options.hairCheckboxes(),
+    byId: () => state().byId,
+    emojiByKey: () => state().emojiByKey,
+    emojiKeyByCodePoints: () => state().emojiKeyByCodePoints,
+    genderCheckboxes: options.genderCheckboxes,
+    hairCheckboxes: options.hairCheckboxes,
     normalizeCodePoints: options.normalizeCodePoints,
-    pixelFontPreferred: () =>
-      options.state().explorerPreferences.pixelFont !== false,
+    pixelFontPreferred: () => state().explorerPreferences.pixelFont !== false,
     refreshEditor: () => {
       if (options.dialog()?.classList.contains("is-editor-view")) {
         options.getPixelEditor()?.refreshFontBuild();
       }
     },
-    skinToneCheckboxes: () => options.skinToneCheckboxes(),
+    skinToneCheckboxes: options.skinToneCheckboxes,
     updateRenderingDiagnostic: (values: any) =>
       updateRenderingDiagnosticHelper({
         ...values,
-        byId: options.state().byId,
+        byId: state().byId,
         developerMode: developerModeEnabled(),
         detailsVisible:
           !options.dialog()?.classList.contains("is-code-view") &&
@@ -37,49 +37,49 @@ export function createExplorerBootstrapShell(options: any) {
 
   const shell = createExplorerShell({
     applyPixelArtworkClass: () => pixelArtwork.applyPixelArtworkClass,
-    developerModeToggle: () => options.developerModeToggle(),
-    dialog: () => options.dialog(),
-    drawList: () => options.drawList(),
-    emojiFontChoices: () => options.emojiFontChoices(),
-    installAppButton: () => options.installAppButton(),
-    installDialog: () => options.installDialog(),
-    loadVersionData: () => options.loadVersionData(),
-    offlineStatus: () => options.offlineStatus(),
-    orderButtons: () => options.orderButtons(),
+    developerModeToggle: options.developerModeToggle,
+    dialog: options.dialog,
+    drawList: options.drawList,
+    emojiFontChoices: options.emojiFontChoices,
+    installAppButton: options.installAppButton,
+    installDialog: options.installDialog,
+    loadVersionData: options.loadVersionData,
+    offlineStatus: options.offlineStatus,
+    orderButtons: options.orderButtons,
     pixelEditor: () => options.getPixelEditor(),
     refreshRenderedPixelEmoji: pixelArtwork.refreshRenderedPixelEmoji,
-    renderCategoryFilters: () => options.renderCategoryFilters(),
-    renderSearchLanguages: () => options.renderSearchLanguages(),
-    renderVersionModeToggle: () => options.renderVersionModeToggle(),
-    savedDialog: () => options.savedDialog(),
+    renderCategoryFilters: options.renderCategoryFilters,
+    renderSearchLanguages: options.renderSearchLanguages,
+    renderVersionModeToggle: options.renderVersionModeToggle,
+    savedDialog: options.savedDialog,
     savePreference: options.savePreference,
-    setDialogView: (...args: any[]) => options.setDialogView(...args),
-    state: () => options.state(),
-    syncUrlState: () => options.syncUrlState(),
-    syncVersionRange: () => options.syncVersionRange(),
-    themeChoices: () => options.themeChoices(),
+    setDialogView: options.setDialogView,
+    state,
+    syncUrlState: options.syncUrlState,
+    syncVersionRange: options.syncVersionRange,
+    themeChoices: options.themeChoices,
     translate: options.translate,
-    versionModeSelector: () => options.versionModeSelector(),
-    versionSelector: () => options.versionSelector(),
+    versionModeSelector: options.versionModeSelector,
+    versionSelector: options.versionSelector,
   });
 
   developerModeEnabled = shell.developerModeEnabled;
 
   const emojiActions = createEmojiActions({
-    applyingUrlState: () => options.applyingUrlState(),
+    applyingUrlState: options.applyingUrlState,
     applyPixelArtworkClass: () => pixelArtwork.applyPixelArtworkClass,
     applyStandalonePixelArtwork: () => pixelArtwork.applyPixelArtworkClass,
-    copyStatus: () => options.copyStatus(),
+    copyStatus: options.copyStatus,
     developerModeEnabled: shell.developerModeEnabled,
-    dialog: () => options.dialog(),
+    dialog: options.dialog,
     normalizeCodePoints: options.normalizeCodePoints,
-    setDialogView: (...args: any[]) => options.setDialogView(...args),
-    showEmoji: (...args: any[]) => options.showEmoji(...args),
-    state: () => options.state(),
-    suppressDialogCloseSync: () => options.suppressDialogCloseSync(),
-    syncUrlState: (...args: any[]) => options.syncUrlState(...args),
+    setDialogView: options.setDialogView,
+    showEmoji: options.showEmoji,
+    state,
+    suppressDialogCloseSync: options.suppressDialogCloseSync,
+    syncUrlState: options.syncUrlState,
     translate: options.translate,
-    urlStateReady: () => options.urlStateReady(),
+    urlStateReady: options.urlStateReady,
   });
 
   return {

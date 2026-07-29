@@ -157,13 +157,7 @@ export function buildSkinToneOwnership(
       let nearest;
       for (const seed of seeds) {
         const distance = (x - seed.x) ** 2 + (y - seed.y) ** 2;
-        const tieBreaksEarlier =
-          nearest &&
-          distance === nearest.distance &&
-          seed.owner < nearest.owner;
-        if (!nearest || distance < nearest.distance || tieBreaksEarlier) {
-          nearest = { distance, owner: seed.owner };
-        }
+        nearest = selectNearestOwner(nearest, seed, distance);
       }
       ownership[y * width + x] = nearest.owner;
     }
@@ -210,4 +204,17 @@ function endpointSkinToneShade(codePoint, shadeKind) {
 
 function rgbHex(red, green, blue) {
   return `#${[red, green, blue].map((channel) => channel.toString(16).padStart(2, "0")).join("")}`;
+}
+
+function selectNearestOwner(nearest, seed, distance) {
+  if (!nearest) {
+    return { distance, owner: seed.owner };
+  }
+  if (distance < nearest.distance) {
+    return { distance, owner: seed.owner };
+  }
+  if (distance === nearest.distance && seed.owner < nearest.owner) {
+    return { distance, owner: seed.owner };
+  }
+  return nearest;
 }
