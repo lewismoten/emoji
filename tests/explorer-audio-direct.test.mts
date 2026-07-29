@@ -41,7 +41,10 @@ class FakeElement {
   }
 }
 
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 const originalMutationObserver = Object.getOwnPropertyDescriptor(
   globalThis,
   "MutationObserver",
@@ -64,7 +67,11 @@ try {
   let observedTarget: unknown;
   let observedOptions: unknown;
   let observerCallback: ((records: any[]) => void) | undefined;
-  const observers: Array<{ callback: (records: any[]) => void; target?: unknown; options?: unknown }> = [];
+  const observers: Array<{
+    callback: (records: any[]) => void;
+    target?: unknown;
+    options?: unknown;
+  }> = [];
   const dialogSelector =
     ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
   const soundToggle = new FakeElement([".sound-effects-toggle"]);
@@ -235,7 +242,10 @@ try {
     attributeFilter: ["open"],
   });
   assert.equal(observers.length, 2);
-  assert.equal(themeObserver?.target, (globalThis.document as any).documentElement);
+  assert.equal(
+    themeObserver?.target,
+    (globalThis.document as any).documentElement,
+  );
   assert.deepEqual(themeObserver?.options, {
     attributes: true,
     attributeFilter: ["data-theme"],
@@ -293,18 +303,24 @@ try {
   listeners.get("pointerout")?.[0]?.({ target, relatedTarget: interactive });
   listeners.get("pointerout")?.[0]?.({ target, relatedTarget: null });
   listeners.get("pointerout")?.[0]?.({ target: {}, relatedTarget: null });
-  assert.equal(engineCalls.some((call) => call[0] === "playClick"), true);
   assert.equal(
-    engineCalls.filter((call) => call[0] === "playHover").length,
-    1,
+    engineCalls.some((call) => call[0] === "playClick"),
+    true,
   );
+  assert.equal(engineCalls.filter((call) => call[0] === "playHover").length, 1);
 
   (globalThis.document as any).hidden = true;
   listeners.get("visibilitychange")?.[0]?.();
   (globalThis.document as any).hidden = false;
   listeners.get("visibilitychange")?.[0]?.();
-  assert.equal(engineCalls.some((call) => call[0] === "stopMusic"), true);
-  assert.equal(engineCalls.some((call) => call[0] === "syncHelpMusic"), true);
+  assert.equal(
+    engineCalls.some((call) => call[0] === "stopMusic"),
+    true,
+  );
+  assert.equal(
+    engineCalls.some((call) => call[0] === "syncHelpMusic"),
+    true,
+  );
 
   const otherDialog = new FakeElement();
   otherDialog.open = true;
@@ -315,13 +331,20 @@ try {
     { target: helpDialog },
     { target: savedDialog },
   ]);
-  assert.equal(engineCalls.some((call) => call[0] === "playDialogOpen"), true);
+  assert.equal(
+    engineCalls.some((call) => call[0] === "playDialogOpen"),
+    true,
+  );
   assert.equal(
     engineCalls.some((call) => call[0] === "playDialogClose"),
     true,
   );
   themeObserver?.callback([
-    { type: "attributes", attributeName: "data-theme", target: (globalThis.document as any).documentElement },
+    {
+      type: "attributes",
+      attributeName: "data-theme",
+      target: (globalThis.document as any).documentElement,
+    },
   ]);
   assert.equal(
     engineCalls.some((call) => call[0] === "restartMusic"),

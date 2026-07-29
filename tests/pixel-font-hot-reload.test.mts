@@ -87,7 +87,7 @@ await Promise.resolve();
 await flushTasks();
 assert.deepEqual(refreshCalls, ["rev-1"]);
 
-(controller as any);
+controller as any;
 
 fetchQueue.push(async () => ({
   ok: true,

@@ -300,7 +300,10 @@ assert.equal(controller.versionSliderLabel("18.0"), "✨ Emoji 18.0 beta");
 
 controller.populateVersionSelector();
 assert.equal(selector.appended.length, 3);
-assert.equal(selector.appended[0]?.text, "Emoji 15.0 (released:released 2022-09-13)");
+assert.equal(
+  selector.appended[0]?.text,
+  "Emoji 15.0 (released:released 2022-09-13)",
+);
 assert.equal(
   selector.appended[2]?.text,
   "Emoji 18.0 (beta · expected:expected 2026-09)",

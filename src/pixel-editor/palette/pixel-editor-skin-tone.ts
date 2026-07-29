@@ -157,7 +157,10 @@ export function buildSkinToneOwnership(
       let nearest;
       for (const seed of seeds) {
         const distance = (x - seed.x) ** 2 + (y - seed.y) ** 2;
-        const tieBreaksEarlier = nearest && distance === nearest.distance && seed.owner < nearest.owner;
+        const tieBreaksEarlier =
+          nearest &&
+          distance === nearest.distance &&
+          seed.owner < nearest.owner;
         if (!nearest || distance < nearest.distance || tieBreaksEarlier) {
           nearest = { distance, owner: seed.owner };
         }

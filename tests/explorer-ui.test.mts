@@ -312,7 +312,10 @@ try {
   assert.deepEqual(state.uiStrings, {});
   assert.equal(documentElement.lang, "en");
   assert.equal(documentElement.dir, "ltr");
-  assert.equal((globalThis.document as any).title, "Emoji Explorer – Unicode Emoji");
+  assert.equal(
+    (globalThis.document as any).title,
+    "Emoji Explorer – Unicode Emoji",
+  );
 
   Object.defineProperty(globalThis, "fetch", {
     configurable: true,

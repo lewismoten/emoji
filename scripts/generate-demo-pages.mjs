@@ -5,7 +5,10 @@ import { fileURLToPath } from "node:url";
 import { generateSiteIcons } from "./generate-site-icons.mjs";
 import { compileTypeScriptSources } from "./transpile-typescript.mjs";
 
-const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const projectRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+);
 const defaultSiteUrl = "https://lewismoten.github.io/emoji/";
 const normalizeSiteUrl = (value) => `${value.replace(/\/+$/, "")}/`;
 const siteUrl = normalizeSiteUrl(process.env.EMOJI_SITE_URL ?? defaultSiteUrl);

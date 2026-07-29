@@ -120,7 +120,10 @@ assert.equal(config.versionModeSelector(), "version-mode-selector");
 assert.equal(config.versionRange(), "version-range");
 assert.equal(config.versionSelector(), "version-selector");
 
-assert.equal(config.openEmoji("wave", true, ["a", "b"], "code")[0], "show-emoji");
+assert.equal(
+  config.openEmoji("wave", true, ["a", "b"], "code")[0],
+  "show-emoji",
+);
 assert.deepEqual(showEmojiCalls[0], ["wave", true, ["a", "b"], "code"]);
 config.openEmoji("sparkles");
 assert.deepEqual(showEmojiCalls[1], [

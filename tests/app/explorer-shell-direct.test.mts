@@ -25,12 +25,18 @@ Object.defineProperty(globalThis, "window", {
 
 try {
   const dependencyDefaults = createExplorerShellDependencies();
-  assert.equal(typeof dependencyDefaults.createSavedEmojiController, "function");
+  assert.equal(
+    typeof dependencyDefaults.createSavedEmojiController,
+    "function",
+  );
   assert.equal(
     typeof dependencyDefaults.createExplorerAudioController,
     "function",
   );
-  assert.equal(typeof dependencyDefaults.createExplorerUiController, "function");
+  assert.equal(
+    typeof dependencyDefaults.createExplorerUiController,
+    "function",
+  );
   assert.equal(
     typeof dependencyDefaults.createDeveloperModeController,
     "function",
@@ -231,14 +237,20 @@ try {
   const emojiEvent = { type: "emoji-font" };
   shell.selectEmojiFont(emojiEvent as unknown as Event);
   assert.deepEqual(selectEmojiFontCalls.at(-1), [
-    { renderPixelFontToggle: shell.renderPixelFontToggle, savePreference: "save-preference" },
+    {
+      renderPixelFontToggle: shell.renderPixelFontToggle,
+      savePreference: "save-preference",
+    },
     emojiEvent,
   ]);
 
   const themeEvent = { type: "theme" };
   shell.selectTheme(themeEvent as unknown as Event);
   assert.deepEqual(selectThemeCalls.at(-1), [
-    { renderThemeToggle: shell.renderThemeToggle, savePreference: "save-preference" },
+    {
+      renderThemeToggle: shell.renderThemeToggle,
+      savePreference: "save-preference",
+    },
     themeEvent,
   ]);
 

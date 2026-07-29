@@ -107,19 +107,19 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(path.join(tempDirectory, "explorer-bootstrap-shell.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "explorer-bootstrap-shell.mjs")).href
 );
 const pixelStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-artwork-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-artwork-stub.mjs")).href
 );
 const shellStub = await import(
-  pathToFileURL(path.join(tempDirectory, "explorer-shell-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "explorer-shell-stub.mjs")).href
 );
 const emojiStub = await import(
-  pathToFileURL(path.join(tempDirectory, "emoji-actions-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "emoji-actions-stub.mjs")).href
 );
 const dialogStub = await import(
-  pathToFileURL(path.join(tempDirectory, "dialog-render-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "dialog-render-stub.mjs")).href
 );
 
 let refreshed = 0;
@@ -183,10 +183,9 @@ const emojiOptions = emojiStub.emojiActionCalls[0];
 
 assert.deepEqual(pixelOptions.byId(), state.byId);
 assert.deepEqual(pixelOptions.emojiByKey(), state.emojiByKey);
-assert.deepEqual(
-  Array.from(pixelOptions.emojiKeyByCodePoints().entries()),
-  [["1F381", "wrappedGift"]],
-);
+assert.deepEqual(Array.from(pixelOptions.emojiKeyByCodePoints().entries()), [
+  ["1F381", "wrappedGift"],
+]);
 assert.deepEqual(pixelOptions.genderCheckboxes(), ["neutral"]);
 assert.deepEqual(pixelOptions.hairCheckboxes(), ["red"]);
 assert.equal(pixelOptions.normalizeCodePoints("1F381"), "norm:1F381");
@@ -244,7 +243,10 @@ assert.equal(shellOptions.installDialog(), "install-dialog");
 assert.equal(shellOptions.loadVersionData(), "load-version-data");
 assert.equal(shellOptions.offlineStatus(), "offline-status");
 assert.deepEqual(shellOptions.orderButtons(), ["grouped"]);
-assert.equal(shellOptions.pixelEditor().refreshFontBuild instanceof Function, true);
+assert.equal(
+  shellOptions.pixelEditor().refreshFontBuild instanceof Function,
+  true,
+);
 assert.equal(
   shellOptions.refreshRenderedPixelEmoji(),
   "refresh-rendered-pixel-emoji",
@@ -257,7 +259,10 @@ assert.equal(
 );
 assert.equal(shellOptions.savedDialog(), "saved-dialog");
 assert.equal(shellOptions.savePreference, "save-preference");
-assert.deepEqual(shellOptions.setDialogView("editor"), ["setDialogView", "editor"]);
+assert.deepEqual(shellOptions.setDialogView("editor"), [
+  "setDialogView",
+  "editor",
+]);
 assert.equal(shellOptions.state(), state);
 assert.deepEqual(shellOptions.syncUrlState(), ["syncUrlState"]);
 assert.equal(shellOptions.syncVersionRange(), "sync-version-range");
@@ -314,9 +319,15 @@ assert.equal(bootstrap.selectTheme(), "selectTheme");
 assert.equal(bootstrap.syncHelpMusic(), "syncHelpMusic");
 assert.equal(bootstrap.toggleDeveloperMode(), "toggleDeveloperMode");
 assert.equal(bootstrap.updateFavoriteButton(), "updateFavoriteButton");
-assert.equal(bootstrap.updateModifierPixelArtwork(), "updateModifierPixelArtwork");
+assert.equal(
+  bootstrap.updateModifierPixelArtwork(),
+  "updateModifierPixelArtwork",
+);
 assert.equal(bootstrap.updateOnlineStatus(), "updateOnlineStatus");
-assert.equal(bootstrap.updatePixelArtworkManifest(), "updatePixelArtworkManifest");
+assert.equal(
+  bootstrap.updatePixelArtworkManifest(),
+  "updatePixelArtworkManifest",
+);
 assert.equal(
   bootstrap.updateRenderingDiagnostic(),
   "pixel-update-rendering-diagnostic",

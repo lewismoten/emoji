@@ -117,7 +117,10 @@ Object.defineProperty(globalThis, "window", {
 Object.defineProperty(globalThis, "fetch", {
   configurable: true,
   value: async (input: string) => {
-    if (input === "versions/manifest.json" || input === "src/data/versions/manifest.json") {
+    if (
+      input === "versions/manifest.json" ||
+      input === "src/data/versions/manifest.json"
+    ) {
       return {
         ok: true,
         async json() {
@@ -200,7 +203,10 @@ config.openEmoji("wave", true, undefined, undefined);
 assert.deepEqual(clickCalls.at(-1), [{ target: { id: "wave" } }, true]);
 assert.deepEqual(dialogViewCalls, [["code", false]]);
 
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 Object.defineProperty(globalThis, "document", {
   configurable: true,
   value: {

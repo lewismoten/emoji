@@ -14,7 +14,9 @@ export function createEmojiSessionController(options: any) {
     const currentDialogParentStack = {
       value: options.state().currentDialogParentStack,
     };
-    const dialogNavigationKeys = { value: options.state().dialogNavigationKeys };
+    const dialogNavigationKeys = {
+      value: options.state().dialogNavigationKeys,
+    };
 
     showEmojiSession({
       applyPixelArtworkClass: options.applyPixelArtworkClass,

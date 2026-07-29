@@ -213,7 +213,10 @@ try {
     attributeFilter: ["open"],
   });
   assert.equal(observers.length, 2);
-  assert.equal(themeObserver?.target, (globalThis.document as any).documentElement);
+  assert.equal(
+    themeObserver?.target,
+    (globalThis.document as any).documentElement,
+  );
   assert.deepEqual(themeObserver?.options, {
     attributes: true,
     attributeFilter: ["data-theme"],

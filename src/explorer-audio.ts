@@ -48,10 +48,7 @@ export function createExplorerAudioController(
     retroMode,
     theme: () =>
       (document.documentElement.dataset.theme as
-        | "base"
-        | "dark"
-        | "light"
-        | "retro") ?? "dark",
+        "base" | "dark" | "light" | "retro") ?? "dark",
     savedDialogOpen: () => savedDialog()?.open === true,
     soundEffectsEnabled,
   });

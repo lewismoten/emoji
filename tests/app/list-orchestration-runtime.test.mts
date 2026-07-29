@@ -95,20 +95,20 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(path.join(tempDirectory, "list-orchestration.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "list-orchestration.mjs")).href
 );
 const renderStub = await import(
-  pathToFileURL(path.join(tempDirectory, "emoji-list-render-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "emoji-list-render-stub.mjs")).href
 );
 const listStub = await import(
-  pathToFileURL(path.join(tempDirectory, "list-controller-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "list-controller-stub.mjs")).href
 );
 const interactionStub = await import(
   pathToFileURL(path.join(tempDirectory, "emoji-list-interaction-stub.mjs"))
-    .href,
+    .href
 );
 const summaryStub = await import(
-  pathToFileURL(path.join(tempDirectory, "filter-summary-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "filter-summary-stub.mjs")).href
 );
 
 const state: any = {
@@ -185,7 +185,10 @@ assert.deepEqual(renderOptions.groups(), ["Objects"]);
 assert.equal(renderOptions.orderMode(), "grouped");
 assert.deepEqual(renderOptions.popularKeys(), ["wave", "sparkles"]);
 assert.deepEqual(renderOptions.searchAnnotations(), { wave: ["hello"] });
-assert.equal(renderOptions.sequenceTranslationKeys, "sequence-translation-keys");
+assert.equal(
+  renderOptions.sequenceTranslationKeys,
+  "sequence-translation-keys",
+);
 assert.equal(renderOptions.sequenceTypeLabels, "sequence-type-labels");
 assert.equal(renderOptions.sequenceTypeOrder, "sequence-type-order");
 assert.deepEqual(renderOptions.subGroups(), { Objects: ["mail"] });
@@ -267,9 +270,18 @@ assert.deepEqual(runtime.updateActiveFilterSummary(), [
   summaryStub.summaryCalls.at(-1),
 ]);
 
-assert.equal(summaryStub.summaryCalls[0].activeFilterSummary, "active-filter-summary");
-assert.equal(summaryStub.summaryCalls[0].activeFilterText, "active-filter-text");
-assert.equal(summaryStub.summaryCalls[0].displayGroupName, "display-group-name");
+assert.equal(
+  summaryStub.summaryCalls[0].activeFilterSummary,
+  "active-filter-summary",
+);
+assert.equal(
+  summaryStub.summaryCalls[0].activeFilterText,
+  "active-filter-text",
+);
+assert.equal(
+  summaryStub.summaryCalls[0].displayGroupName,
+  "display-group-name",
+);
 assert.equal(
   summaryStub.summaryCalls[0].displayUnicodeSubGroupName,
   "display-unicode-subgroup-name",
@@ -293,5 +305,8 @@ assert.equal(
 assert.deepEqual(summaryStub.summaryCalls[0].skinToneCheckboxes, ["1F3FB"]);
 assert.equal(summaryStub.summaryCalls[0].translate, "translate");
 assert.equal(summaryStub.summaryCalls[0].versionMode, "selected");
-assert.equal(summaryStub.summaryCalls[0].versionSliderLabel, "version-slider-label");
+assert.equal(
+  summaryStub.summaryCalls[0].versionSliderLabel,
+  "version-slider-label",
+);
 assert.equal(summaryStub.summaryCalls[0].versionValue, "17.0");

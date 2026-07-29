@@ -81,7 +81,9 @@ export function createPixelEditorPaletteController(options) {
     const activeButtons = paletteButtons.filter((button) => {
       if (!button.dataset.skinTone) return false;
       button.hidden = !activeCodePoints.has(button.dataset.skinTone);
-      button.style.removeProperty("grid-column"); delete button.dataset.gridColumn; delete button.dataset.gridRow;
+      button.style.removeProperty("grid-column");
+      delete button.dataset.gridColumn;
+      delete button.dataset.gridRow;
       if (button.hidden) setSkinToneShade(button, 0);
       else updateSkinToneShadeLabel(button);
       return !button.hidden;

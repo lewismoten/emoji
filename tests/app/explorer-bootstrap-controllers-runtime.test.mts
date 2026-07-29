@@ -139,26 +139,26 @@ await fs.writeFile(
 
 const module = await import(
   pathToFileURL(path.join(tempDirectory, "explorer-bootstrap-controllers.mjs"))
-    .href,
+    .href
 );
 const categoryStub = await import(
-  pathToFileURL(path.join(tempDirectory, "category-controller-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "category-controller-stub.mjs")).href
 );
 const versionStub = await import(
-  pathToFileURL(path.join(tempDirectory, "version-runtime-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "version-runtime-stub.mjs")).href
 );
 const listStub = await import(
-  pathToFileURL(path.join(tempDirectory, "list-orchestration-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "list-orchestration-stub.mjs")).href
 );
 const navigationStub = await import(
-  pathToFileURL(path.join(tempDirectory, "navigation-runtime-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "navigation-runtime-stub.mjs")).href
 );
 const dialogViewStub = await import(
-  pathToFileURL(path.join(tempDirectory, "dialog-view-runtime-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "dialog-view-runtime-stub.mjs")).href
 );
 const dialogClickStub = await import(
   pathToFileURL(path.join(tempDirectory, "emoji-dialog-click-runtime-stub.mjs"))
-    .href,
+    .href
 );
 
 const state: any = {
@@ -381,7 +381,10 @@ assert.equal(versionOptions.hairFieldset(), "hair-fieldset");
 assert.equal(versionOptions.isViteDevelopment, true);
 assert.equal(versionOptions.modifierFilters(), "modifier-filters");
 assert.equal(versionOptions.onClick, "on-click");
-assert.deepEqual(versionOptions.onGroupChange("x"), ["onGroupSelectorChange", "x"]);
+assert.deepEqual(versionOptions.onGroupChange("x"), [
+  "onGroupSelectorChange",
+  "x",
+]);
 assert.deepEqual(versionOptions.onSequenceTypeChange("x"), [
   "onSequenceTypeSelectorChange",
   "x",
@@ -396,7 +399,10 @@ assert.deepEqual(versionOptions.renderCategoryFilters("x"), [
   "x",
 ]);
 assert.equal(versionOptions.sequenceTypeSelector(), "sequence-selector");
-assert.deepEqual(versionOptions.setDialogView("code"), ["setDialogView", "code"]);
+assert.deepEqual(versionOptions.setDialogView("code"), [
+  "setDialogView",
+  "code",
+]);
 assert.deepEqual(versionOptions.skinToneCheckboxes(), ["skin"]);
 assert.equal(versionOptions.skinToneFieldset(), "skin-fieldset");
 assert.equal(versionOptions.state(), state);
@@ -420,7 +426,10 @@ assert.equal(navigationOptions.compositionMode(), "full");
 assert.equal(navigationOptions.currentEmojiKey(), "wrappedGift");
 assert.equal(navigationOptions.developerModeEnabled(), true);
 assert.deepEqual(navigationOptions.dialog(), { open: true });
-assert.deepEqual(navigationOptions.displayedKeys(), ["wrappedGift", "sparkles"]);
+assert.deepEqual(navigationOptions.displayedKeys(), [
+  "wrappedGift",
+  "sparkles",
+]);
 assert.deepEqual(navigationOptions.drawList("x"), ["drawList", "x"]);
 assert.deepEqual(navigationOptions.emojiByKey(), {
   wrappedGift: "🎁",
@@ -446,7 +455,10 @@ assert.deepEqual(navigationOptions.renderCategoryFilters("x"), [
   "x",
 ]);
 assert.equal(navigationOptions.renderSavedEmoji, "render-saved-emoji");
-assert.equal(navigationOptions.renderVersionModeToggle(), "render-version-toggle");
+assert.equal(
+  navigationOptions.renderVersionModeToggle(),
+  "render-version-toggle",
+);
 assert.equal(navigationOptions.searchText(), "search-text");
 navigationOptions.setCompositionMode("condensed");
 assert.equal(state.compositionMode, "condensed");
@@ -487,10 +499,10 @@ assert.equal(navigationOptions.versionModeSelector(), "version-mode-selector");
 assert.equal(navigationOptions.versionRange(), "version-range");
 assert.equal(navigationOptions.versionSelector(), "version-selector");
 
-assert.deepEqual(dialogViewOptions.byId(), { wrappedGift: { key: "wrappedGift" } });
-assert.deepEqual(dialogViewOptions.currentDialogParentStack(), [
-  "favorites",
-]);
+assert.deepEqual(dialogViewOptions.byId(), {
+  wrappedGift: { key: "wrappedGift" },
+});
+assert.deepEqual(dialogViewOptions.currentDialogParentStack(), ["favorites"]);
 assert.equal(dialogViewOptions.currentEmojiKey(), "wrappedGift");
 assert.equal(dialogViewOptions.developerModeEnabled(), true);
 assert.deepEqual(dialogViewOptions.dialog(), { open: true });
@@ -514,7 +526,9 @@ assert.equal(
 );
 
 assert.equal(dialogClickOptions.animateCopy, options.animateCopy);
-assert.deepEqual(dialogClickOptions.byId(), { wrappedGift: { key: "wrappedGift" } });
+assert.deepEqual(dialogClickOptions.byId(), {
+  wrappedGift: { key: "wrappedGift" },
+});
 assert.equal(dialogClickOptions.copy, "copyToClipboardValue");
 assert.deepEqual(dialogClickOptions.currentDialogParentStack(), ["favorites"]);
 assert.deepEqual(dialogClickOptions.currentEmojiCopies(), { emoji: "🎁" });

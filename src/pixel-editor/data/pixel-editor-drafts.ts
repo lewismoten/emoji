@@ -40,7 +40,11 @@ export function createPixelEditorDraftController(options) {
       (atlasExists() || hasVisibleAtlasDraft());
     saveButton.disabled = !canWrite || !hasDirtyAtlasDraft();
     downloadButton.disabled = !canWrite;
-    downloadEmojiButton.disabled = !currentEntry() || !cellLoaded() || Boolean(floatingLayer()) || !hasVisibleArtwork();
+    downloadEmojiButton.disabled =
+      !currentEntry() ||
+      !cellLoaded() ||
+      Boolean(floatingLayer()) ||
+      !hasVisibleArtwork();
   }
 
   function hasDirtyAtlasDraft() {

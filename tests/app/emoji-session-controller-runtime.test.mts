@@ -32,10 +32,10 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(path.join(tempDirectory, "emoji-session-controller.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "emoji-session-controller.mjs")).href
 );
 const stub = await import(
-  pathToFileURL(path.join(tempDirectory, "emoji-session-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "emoji-session-stub.mjs")).href
 );
 
 const state: any = {
