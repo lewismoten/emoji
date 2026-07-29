@@ -26,6 +26,7 @@ export const engineApi = {
   playDialogClose() { engineCalls.push(["playDialogClose"]); },
   playDialogOpen() { engineCalls.push(["playDialogOpen"]); },
   playHover() { engineCalls.push(["playHover"]); },
+  restartMusic() { engineCalls.push(["restartMusic"]); },
   resumeAudioContext() { engineCalls.push(["resumeAudioContext"]); return Promise.resolve(); },
   soundEffectsEnabled: () => false,
   stopMusic() { engineCalls.push(["stopMusic"]); },
@@ -108,6 +109,11 @@ try {
   let observedTarget: unknown;
   let observedOptions: unknown;
   let observerCallback: ((records: any[]) => void) | undefined;
+  const observers: Array<{
+    callback: (records: any[]) => void;
+    target?: unknown;
+    options?: unknown;
+  }> = [];
   const dialogSelector =
     ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
   const soundToggle = new FakeElement([".sound-effects-toggle"]);
@@ -137,8 +143,12 @@ try {
     value: class FakeMutationObserver {
       constructor(callback: (records: any[]) => void) {
         observerCallback = callback;
+        observers.push({ callback });
       }
       observe(target: unknown, options: unknown) {
+        const current = observers.at(-1)!;
+        current.target = target;
+        current.options = options;
         observedTarget = target;
         observedOptions = options;
       }
@@ -186,11 +196,27 @@ try {
 
   controller.bindAudioInteractions();
   controller.bindAudioInteractions();
-  assert.equal(observedTarget, body);
-  assert.deepEqual(observedOptions, {
+  const dialogObserver = observers.find(
+    (observer) =>
+      Array.isArray((observer.options as any)?.attributeFilter) &&
+      (observer.options as any).attributeFilter[0] === "open",
+  )!;
+  const themeObserver = observers.find(
+    (observer) =>
+      Array.isArray((observer.options as any)?.attributeFilter) &&
+      (observer.options as any).attributeFilter[0] === "data-theme",
+  )!;
+  assert.equal(dialogObserver?.target, body);
+  assert.deepEqual(dialogObserver?.options, {
     subtree: true,
     attributes: true,
     attributeFilter: ["open"],
+  });
+  assert.equal(observers.length, 2);
+  assert.equal(themeObserver?.target, (globalThis.document as any).documentElement);
+  assert.deepEqual(themeObserver?.options, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
   });
 
   engineStub.engineApi.soundEffectsEnabled = () => true;
@@ -246,7 +272,7 @@ try {
   const otherDialog = new FakeElement();
   otherDialog.open = true;
   otherDialog.matches = () => false;
-  observerCallback?.([
+  dialogObserver?.callback([
     { target: otherDialog },
     { target: helpDialog },
     { target: savedDialog },
@@ -260,10 +286,27 @@ try {
     true,
   );
 
+  themeObserver?.callback([
+    {
+      type: "attributes",
+      attributeName: "data-theme",
+      target: (globalThis.document as any).documentElement,
+    },
+  ]);
+  assert.equal(
+    engineStub.engineCalls.some((call: any[]) => call[0] === "restartMusic"),
+    true,
+  );
+  assert.equal(
+    engineStub.engineCalls.filter((call: any[]) => call[0] === "syncHelpMusic")
+      .length >= 1,
+    true,
+  );
+
   controller.syncHelpMusic();
   assert.equal(
     engineStub.engineCalls.filter((call: any[]) => call[0] === "syncHelpMusic")
-      .length >= 2,
+      .length >= 3,
     true,
   );
 } finally {

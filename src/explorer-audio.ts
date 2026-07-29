@@ -26,6 +26,7 @@ export function createExplorerAudioController(
   const helpers = dependencies ?? createExplorerAudioDependencies();
   let initialized = false;
   let dialogObserver: MutationObserver | undefined;
+  let themeObserver: MutationObserver | undefined;
   let hoverTarget: AudioTarget | null = null;
 
   const preferences = () => options.state().explorerPreferences;
@@ -45,6 +46,12 @@ export function createExplorerAudioController(
     helpDialogOpen: () => helpDialog()?.open === true,
     musicEnabled,
     retroMode,
+    theme: () =>
+      (document.documentElement.dataset.theme as
+        | "base"
+        | "dark"
+        | "light"
+        | "retro") ?? "dark",
     savedDialogOpen: () => savedDialog()?.open === true,
     soundEffectsEnabled,
   });
@@ -185,6 +192,19 @@ export function createExplorerAudioController(
         attributeFilter: ["open"],
       });
     }
+
+    themeObserver = new MutationObserver((records) => {
+      const changed = records.some(
+        (record) =>
+          record.type === "attributes" && record.attributeName === "data-theme",
+      );
+      if (!changed) return;
+      audio.restartMusic();
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
 
     renderSoundEffectsToggle();
     renderMusicToggle();

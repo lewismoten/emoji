@@ -111,10 +111,12 @@ try {
   let music = false;
   let helpOpen = false;
   let savedOpen = false;
+  let theme: "base" | "dark" | "light" | "retro" = "retro";
   const engine = createExplorerAudioEngine({
     helpDialogOpen: () => helpOpen,
     musicEnabled: () => music,
     retroMode: () => retro,
+    theme: () => theme,
     savedDialogOpen: () => savedOpen,
     soundEffectsEnabled: () => sfx,
   });
@@ -177,6 +179,7 @@ try {
     helpDialogOpen: () => false,
     musicEnabled: () => true,
     retroMode: () => true,
+    theme: () => "retro",
     savedDialogOpen: () => savedOnly,
     soundEffectsEnabled: () => false,
   });
@@ -201,6 +204,7 @@ try {
     helpDialogOpen: () => false,
     musicEnabled: () => true,
     retroMode: () => true,
+    theme: () => "retro",
     savedDialogOpen: () => false,
     soundEffectsEnabled: () => true,
   });
@@ -234,6 +238,7 @@ try {
     helpDialogOpen: () => false,
     musicEnabled: () => false,
     retroMode: () => true,
+    theme: () => "retro",
     savedDialogOpen: () => false,
     soundEffectsEnabled: () => false,
   });
@@ -253,11 +258,119 @@ try {
     helpDialogOpen: () => false,
     musicEnabled: () => false,
     retroMode: () => true,
+    theme: () => "retro",
     savedDialogOpen: () => false,
     soundEffectsEnabled: () => false,
   });
   const closedContext = await closedEngine.resumeAudioContext();
   assert.equal((closedContext as any)?.state, "closed");
+
+  FakeAudioContext.instances.length = 0;
+  const themedTimeouts: Array<() => void> = [];
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      AudioContext: FakeAudioContext,
+      clearTimeout() {},
+      setTimeout(callback: () => void) {
+        themedTimeouts.push(callback);
+        return themedTimeouts.length;
+      },
+    },
+  });
+  theme = "light";
+  retro = false;
+  music = true;
+  helpOpen = true;
+  savedOpen = false;
+  const lightEngine = createExplorerAudioEngine({
+    helpDialogOpen: () => helpOpen,
+    musicEnabled: () => music,
+    retroMode: () => retro,
+    theme: () => theme,
+    savedDialogOpen: () => savedOpen,
+    soundEffectsEnabled: () => false,
+  });
+  await lightEngine.resumeAudioContext();
+  lightEngine.syncHelpMusic();
+  await Promise.resolve();
+  assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 56);
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[0]?.type, "triangle");
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[1]?.type, "sine");
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[2]?.type, "triangle");
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[3]?.type, "square");
+
+  FakeAudioContext.instances.length = 0;
+  theme = "dark";
+  const darkEngine = createExplorerAudioEngine({
+    helpDialogOpen: () => helpOpen,
+    musicEnabled: () => music,
+    retroMode: () => retro,
+    theme: () => theme,
+    savedDialogOpen: () => savedOpen,
+    soundEffectsEnabled: () => false,
+  });
+  await darkEngine.resumeAudioContext();
+  darkEngine.syncHelpMusic();
+  await Promise.resolve();
+  assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 30);
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[0]?.type, "sine");
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[1]?.type, "sawtooth");
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[2]?.type, "triangle");
+
+  FakeAudioContext.instances.length = 0;
+  theme = "base";
+  const baseThemeEngine = createExplorerAudioEngine({
+    helpDialogOpen: () => helpOpen,
+    musicEnabled: () => true,
+    retroMode: () => false,
+    theme: () => theme,
+    savedDialogOpen: () => false,
+    soundEffectsEnabled: () => false,
+  });
+  await baseThemeEngine.resumeAudioContext();
+  baseThemeEngine.syncHelpMusic();
+  assert.equal(FakeAudioContext.instances[0]?.oscillators.length ?? 0, 0);
+
+  FakeAudioContext.instances.length = 0;
+  const restartTimeouts: Array<() => void> = [];
+  const restartCleared: number[] = [];
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      AudioContext: FakeAudioContext,
+      clearTimeout(value: number) {
+        restartCleared.push(value);
+      },
+      setTimeout(callback: () => void) {
+        restartTimeouts.push(callback);
+        return restartTimeouts.length;
+      },
+    },
+  });
+  theme = "light";
+  helpOpen = true;
+  music = true;
+  const restartEngine = createExplorerAudioEngine({
+    helpDialogOpen: () => helpOpen,
+    musicEnabled: () => music,
+    retroMode: () => false,
+    theme: () => theme,
+    savedDialogOpen: () => false,
+    soundEffectsEnabled: () => false,
+  });
+  await restartEngine.resumeAudioContext();
+  restartEngine.syncHelpMusic();
+  await Promise.resolve();
+  const beforeRestart = FakeAudioContext.instances[0]?.oscillators.length ?? 0;
+  theme = "dark";
+  restartEngine.restartMusic();
+  await Promise.resolve();
+  assert.equal(restartCleared.includes(1), true);
+  assert.equal(
+    (FakeAudioContext.instances[0]?.oscillators.length ?? 0) > beforeRestart,
+    true,
+  );
 } finally {
   if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");

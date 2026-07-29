@@ -139,7 +139,7 @@ function createHelpDialogElement() {
       title: "Music",
       descriptionKey: "musicDescription",
       description:
-        "In retro mode, the Help and settings dialog can play 8-bit music.",
+        "The Help and saved emoji dialogs can play theme music: 8-bit retro, bright light mode, or chill dark mode.",
       control: createSwitch("music-toggle", "music", "Music"),
     }),
     createSettingRow({

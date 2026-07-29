@@ -1,6 +1,13 @@
+import {
+  getExplorerMusicConfig,
+  scheduleExplorerMusic,
+  type ExplorerAudioTheme,
+} from "./explorer-audio-music.js";
+
 type ExplorerAudioEngineOptions = {
   musicEnabled: () => boolean;
   retroMode: () => boolean;
+  theme: () => ExplorerAudioTheme;
   savedDialogOpen: () => boolean;
   soundEffectsEnabled: () => boolean;
   helpDialogOpen: () => boolean;
@@ -119,8 +126,8 @@ export function createExplorerAudioEngine(
 
   function shouldPlayMusic() {
     return (
-      options.retroMode() &&
       options.musicEnabled() &&
+      options.theme() !== "base" &&
       (options.helpDialogOpen() || options.savedDialogOpen())
     );
   }
@@ -141,6 +148,18 @@ export function createExplorerAudioEngine(
     musicBeat = 0;
   }
 
+  function resetMusicPlayback() {
+    if (musicTimer) {
+      window.clearTimeout(musicTimer);
+      musicTimer = undefined;
+    }
+    if (musicGain) {
+      musicGain.disconnect();
+      musicGain = undefined;
+    }
+    musicBeat = 0;
+  }
+
   function scheduleMusic() {
     if (!shouldPlayMusic()) {
       stopMusic();
@@ -148,61 +167,19 @@ export function createExplorerAudioEngine(
     }
     const context = getAudioContext();
     if (!context || context.state !== "running" || !masterGain) return;
-    if (!musicGain) {
-      musicGain = context.createGain();
-      musicGain.gain.value = 0.09;
-      musicGain.connect(masterGain);
-    }
-
-    const beatLength = 0.18;
-    const pattern = [262, 330, 392, 330, 262, 392, 330, 294];
-    const bass = [131, 147, 165, 147];
-    const start = context.currentTime + 0.02;
-
-    for (let step = 0; step < pattern.length; step += 1) {
-      const beat = musicBeat + step;
-      const noteStart = start + step * beatLength;
-      const lead = context.createOscillator();
-      const leadGain = context.createGain();
-      lead.type = "square";
-      lead.frequency.setValueAtTime(pattern[beat % pattern.length], noteStart);
-      leadGain.gain.setValueAtTime(0.0001, noteStart);
-      leadGain.gain.exponentialRampToValueAtTime(0.24, noteStart + 0.01);
-      leadGain.gain.exponentialRampToValueAtTime(
-        0.0001,
-        noteStart + beatLength * 0.75,
-      );
-      lead.connect(leadGain);
-      leadGain.connect(musicGain);
-      lead.start(noteStart);
-      lead.stop(noteStart + beatLength * 0.85);
-
-      if (step % 2 === 0) {
-        const bassOscillator = context.createOscillator();
-        const bassGain = context.createGain();
-        bassOscillator.type = "triangle";
-        bassOscillator.frequency.setValueAtTime(
-          bass[(beat / 2) % bass.length],
-          noteStart,
-        );
-        bassGain.gain.setValueAtTime(0.0001, noteStart);
-        bassGain.gain.exponentialRampToValueAtTime(0.16, noteStart + 0.01);
-        bassGain.gain.exponentialRampToValueAtTime(
-          0.0001,
-          noteStart + beatLength * 1.6,
-        );
-        bassOscillator.connect(bassGain);
-        bassGain.connect(musicGain);
-        bassOscillator.start(noteStart);
-        bassOscillator.stop(noteStart + beatLength * 1.7);
-      }
-    }
-
-    musicBeat += pattern.length;
-    musicTimer = window.setTimeout(
-      scheduleMusic,
-      beatLength * pattern.length * 1000 - 60,
-    );
+    const scheduled = scheduleExplorerMusic({
+      context,
+      createGain: () => context.createGain(),
+      masterGain,
+      musicBeat,
+      musicGain,
+      scheduleNext: (callback, timeout) => window.setTimeout(callback, timeout),
+      schedulePlayback: scheduleMusic,
+      theme: options.theme(),
+    });
+    musicBeat = scheduled.musicBeat;
+    musicGain = scheduled.musicGain;
+    musicTimer = scheduled.musicTimer;
   }
 
   function syncHelpMusic() {
@@ -219,12 +196,21 @@ export function createExplorerAudioEngine(
     }
   }
 
+  function restartMusic() {
+    resetMusicPlayback();
+    if (!shouldPlayMusic()) return;
+    void resumeAudioContext().then(() => {
+      if (shouldPlayMusic() && !musicTimer) scheduleMusic();
+    });
+  }
+
   return {
     musicEnabled: options.musicEnabled,
     playClick,
     playDialogClose,
     playDialogOpen,
     playHover,
+    restartMusic,
     resumeAudioContext,
     soundEffectsEnabled: options.soundEffectsEnabled,
     stopMusic,

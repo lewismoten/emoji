@@ -64,6 +64,7 @@ try {
   let observedTarget: unknown;
   let observedOptions: unknown;
   let observerCallback: ((records: any[]) => void) | undefined;
+  const observers: Array<{ callback: (records: any[]) => void; target?: unknown; options?: unknown }> = [];
   const dialogSelector =
     ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
   const soundToggle = new FakeElement([".sound-effects-toggle"]);
@@ -93,8 +94,12 @@ try {
     value: class FakeMutationObserver {
       constructor(callback: (records: any[]) => void) {
         observerCallback = callback;
+        observers.push({ callback });
       }
       observe(target: unknown, options: unknown) {
+        const current = observers.at(-1)!;
+        current.target = target;
+        current.options = options;
         observedTarget = target;
         observedOptions = options;
       }
@@ -135,6 +140,9 @@ try {
     },
     playHover() {
       engineCalls.push(["playHover"]);
+    },
+    restartMusic() {
+      engineCalls.push(["restartMusic"]);
     },
     resumeAudioContext() {
       engineCalls.push(["resumeAudioContext"]);
@@ -210,12 +218,32 @@ try {
 
   controller.bindAudioInteractions();
   controller.bindAudioInteractions();
-  assert.equal(observedTarget, body);
-  assert.deepEqual(observedOptions, {
+  const dialogObserver = observers.find(
+    (observer) =>
+      Array.isArray((observer.options as any)?.attributeFilter) &&
+      (observer.options as any).attributeFilter[0] === "open",
+  )!;
+  const themeObserver = observers.find(
+    (observer) =>
+      Array.isArray((observer.options as any)?.attributeFilter) &&
+      (observer.options as any).attributeFilter[0] === "data-theme",
+  )!;
+  assert.equal(dialogObserver?.target, body);
+  assert.deepEqual(dialogObserver?.options, {
     subtree: true,
     attributes: true,
     attributeFilter: ["open"],
   });
+  assert.equal(observers.length, 2);
+  assert.equal(themeObserver?.target, (globalThis.document as any).documentElement);
+  assert.deepEqual(themeObserver?.options, {
+    attributes: true,
+    attributeFilter: ["data-theme"],
+  });
+  const engineOptions = engineCalls.find(
+    (call) => call[0] === "createExplorerAudioEngine",
+  )?.[1] as { theme?: () => string };
+  assert.equal(engineOptions.theme?.(), "retro");
 
   engine.soundEffectsEnabled = () => true;
   listeners.get("pointerdown")?.[0]?.();
@@ -281,7 +309,7 @@ try {
   const otherDialog = new FakeElement();
   otherDialog.open = true;
   otherDialog.matches = () => false;
-  observerCallback?.([
+  dialogObserver?.callback([
     { target: {} },
     { target: otherDialog },
     { target: helpDialog },
@@ -290,6 +318,17 @@ try {
   assert.equal(engineCalls.some((call) => call[0] === "playDialogOpen"), true);
   assert.equal(
     engineCalls.some((call) => call[0] === "playDialogClose"),
+    true,
+  );
+  themeObserver?.callback([
+    { type: "attributes", attributeName: "data-theme", target: (globalThis.document as any).documentElement },
+  ]);
+  assert.equal(
+    engineCalls.some((call) => call[0] === "restartMusic"),
+    true,
+  );
+  assert.equal(
+    engineCalls.filter((call) => call[0] === "syncHelpMusic").length >= 2,
     true,
   );
 
