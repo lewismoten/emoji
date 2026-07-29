@@ -2,8 +2,8 @@ import { loadExplorerCatalog } from "../explorer/catalog-loader.js";
 import { loadVersionCatalog } from "../explorer/version-data.js";
 import { createVersionController } from "./version-controller.js";
 
-export function createVersionRuntime(options: any) {
-  return createVersionController({
+export function createVersionConfig(options: any) {
+  return {
     applyLoadedUrlState: () => options.applyLoadedUrlState(),
     buildRepresentatives: options.buildRepresentatives,
     developerModeEnabled: options.developerModeEnabled,
@@ -64,5 +64,9 @@ export function createVersionRuntime(options: any) {
     versionRange: () => options.versionRange(),
     versionRangeValue: () => options.versionRangeValue(),
     versionSelector: () => options.versionSelector(),
-  });
+  };
+}
+
+export function createVersionRuntime(options: any) {
+  return createVersionController(createVersionConfig(options));
 }

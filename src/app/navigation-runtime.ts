@@ -1,7 +1,7 @@
 import { createExplorerNavigation } from "../explorer/explorer-navigation.js";
 
-export function createNavigationRuntime(options: any) {
-  return createExplorerNavigation({
+export function createNavigationConfig(options: any) {
+  return {
     allowedSequenceTypes: options.allowedSequenceTypes,
     applyingUrlState: () => options.applyingUrlState(),
     closeEmojiDialog: () => {
@@ -67,5 +67,9 @@ export function createNavigationRuntime(options: any) {
     versionModeSelector: () => options.versionModeSelector(),
     versionRange: () => options.versionRange(),
     versionSelector: () => options.versionSelector(),
-  });
+  };
+}
+
+export function createNavigationRuntime(options: any) {
+  return createExplorerNavigation(createNavigationConfig(options));
 }

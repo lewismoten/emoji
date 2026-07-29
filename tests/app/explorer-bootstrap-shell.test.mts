@@ -31,6 +31,9 @@ const registeredEvents = new Map<string, EventListener>();
   querySelector() {
     return null;
   },
+  querySelectorAll() {
+    return [];
+  },
 };
 
 const state = {
@@ -136,6 +139,64 @@ assert.deepEqual(saveCalls, [["recentCopied", ["wrappedGift"]]]);
 shell.addFavorite("wrappedGift");
 assert.deepEqual(state.favoriteEmojiKeys, ["wrappedGift"]);
 assert.deepEqual(saveCalls.at(-1), ["favorites", ["wrappedGift"]]);
+
+let refreshed = 0;
+const diagnosticDialog = {
+  classList: {
+    contains(value: string) {
+      return value === "is-editor-view";
+    },
+  },
+  querySelector() {
+    return null;
+  },
+};
+const exercisedShell = createExplorerBootstrapShell({
+  ...{
+    applyingUrlState: () => false,
+    copyStatus: () => undefined,
+    developerModeToggle: () => undefined,
+    drawList: () => {},
+    emojiFontChoices: () => [],
+    genderCheckboxes: () => [],
+    hairCheckboxes: () => [],
+    installAppButton: () => undefined,
+    installDialog: () => undefined,
+    loadVersionData: async () => undefined,
+    normalizeCodePoints: (value: string) => value,
+    offlineStatus: () => undefined,
+    orderButtons: () => [],
+    renderCategoryFilters: () => {},
+    renderSearchLanguages: () => {},
+    renderVersionModeToggle: () => {},
+    savePreference: () => {},
+    savedDialog: () => undefined,
+    setDialogView: () => {},
+    showEmoji: () => {},
+    skinToneCheckboxes: () => [],
+    suppressDialogCloseSync: () => false,
+    syncUrlState: () => {},
+    syncVersionRange: () => {},
+    themeChoices: () => [],
+    translate: (_key: string, fallback: string) => fallback,
+    urlStateReady: () => true,
+    versionModeSelector: () => undefined,
+    versionSelector: () => undefined,
+  },
+  dialog: () => diagnosticDialog,
+  getPixelEditor: () => ({
+    refreshFontBuild() {
+      refreshed += 1;
+    },
+  }),
+  state: () => state,
+});
+
+exercisedShell.refreshRenderedPixelEmoji();
+assert.equal(refreshed, 1);
+assert.doesNotThrow(() =>
+  exercisedShell.updateRenderingDiagnostic("wrappedGift", "🎁"),
+);
 
 (globalThis as any).window = originalWindow;
 (globalThis as any).document = originalDocument;
