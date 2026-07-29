@@ -47,7 +47,6 @@ const legacyMissingTestPairs = new Set([
   "src/explorer/control-startup.ts",
   "src/explorer/copy-feedback.ts",
   "src/explorer/dialog/dialog-control-helpers.ts",
-  "src/explorer/dialog/dialog-title-controls.ts",
   "src/explorer/emoji-list-interaction.ts",
   "src/explorer/emoji-list-render.ts",
   "src/explorer/event-accessibility.ts",
