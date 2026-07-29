@@ -150,6 +150,37 @@ try {
   assert.equal(fallbackCell.tabIndex, -1);
   assert.equal(fallbackCell.attributes.get("aria-label"), "Gamma");
 
+  const fallbackNameRenderers = createEmojiListRenderers({
+    applyPixelArtworkClass() {},
+    byId: () => ({}),
+    displayExplorerLabel: (name: string) => name,
+    displayGroupName: (name: string) => name,
+    displayUnicodeSubGroupName: (name: string) => name,
+    emojiByKey: () => ({ smilingFace: "😀" }),
+    focusedEmojiKey: () => "",
+    getIntroducedVersion: () => "16.0",
+    groups: () => [],
+    orderMode: () => "grouped",
+    popularKeys: () => [],
+    searchAnnotations: () => ({}),
+    sequenceTranslationKeys: {},
+    sequenceTypeLabels: {},
+    sequenceTypeOrder: ["single"],
+    subGroups: () => ({}),
+    translate: (_key: string, fallback: string) => fallback,
+    unassigned: "Unassigned",
+  });
+  const displayKeyCell = fallbackNameRenderers.asEmojiCell(
+    "smilingFace",
+    0,
+    0,
+  ) as any;
+  assert.equal(displayKeyCell.title, "Smiling face");
+  assert.equal(
+    displayKeyCell.attributes.get("aria-label"),
+    "Smiling face, Emoji version 16.0",
+  );
+
   const groupedState: any = {
     cellFragment: new FakeFragment(),
     group: "Unassigned",
@@ -222,6 +253,10 @@ try {
   shiftedRenderers.asItem(unicodeShiftState, "alpha");
   shiftedRenderers.flushEmojiCellFragment(unicodeShiftState);
   assert.equal(unicodeShiftState.unicodeSubGroup, "other");
+  assert.equal(
+    unicodeShiftState.unicodeSubGroupElement.lastChild.childNodes.length > 0,
+    true,
+  );
 
   const noGroupsRenderers = createEmojiListRenderers({
     applyPixelArtworkClass() {},
@@ -256,6 +291,8 @@ try {
     cellFragment: new FakeFragment(),
     items: [],
   };
+  const focusedCell = noGroupsRenderers.asEmojiCell("lone", 0, 0) as any;
+  assert.equal(focusedCell.tabIndex, 0);
   noGroupsRenderers.asItem(noGroupsState, "lone");
   assert.equal(noGroupsState.items.length, 1);
   assert.equal(noGroupsState.items[0].id, "lone");

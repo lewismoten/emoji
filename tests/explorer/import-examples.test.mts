@@ -99,3 +99,32 @@ assert.deepEqual(
     showSubgroup: false,
   },
 );
+
+assert.deepEqual(
+  resolveImportExamples(
+    {
+      packs: [{ id: "all", importPath: "@lewismoten/emoji/all-custom" }],
+      categories: [
+        {
+          label: "Objects",
+          importPath: "@lewismoten/emoji/categories/objects",
+          subcategories: [],
+        },
+      ],
+    } as any,
+    {
+      key: "abacus",
+      group: "Objects",
+      unicodeSubGroup: "tool",
+    },
+  ),
+  {
+    allPath: "@lewismoten/emoji/all-custom",
+    popularPath: "",
+    showPopular: false,
+    categoryPath: "@lewismoten/emoji/categories/objects",
+    showCategory: true,
+    subgroupPath: "",
+    showSubgroup: false,
+  },
+);

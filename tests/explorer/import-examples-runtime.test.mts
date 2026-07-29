@@ -120,6 +120,35 @@ code.children.push(lineOne, lineTwo);
 dialog.children.push(code);
 assert.equal(getCodeExampleText(dialog), 'import emoji from "a";');
 
+assert.deepEqual(
+  resolveImportExamples(
+    {
+      packs: [{ id: "all", importPath: "@lewismoten/emoji/all-custom" }],
+      categories: [
+        {
+          label: "Smileys & Emotion",
+          importPath: "@lewismoten/emoji/categories/smileys-and-emotion",
+          subcategories: [],
+        },
+      ],
+    } as any,
+    {
+      key: "rocket",
+      group: "Smileys & Emotion",
+      unicodeSubGroup: "face-negative",
+    },
+  ),
+  {
+    allPath: "@lewismoten/emoji/all-custom",
+    popularPath: "",
+    showPopular: false,
+    categoryPath: "@lewismoten/emoji/categories/smileys-and-emotion",
+    showCategory: true,
+    subgroupPath: "",
+    showSubgroup: false,
+  },
+);
+
 const allPath = createNode("emoji-import-path");
 const popularLine = createNode("emoji-popular-import");
 const popularPath = createNode("emoji-popular-import-path");
@@ -157,6 +186,22 @@ renderImportExamples(packageManifest, {
 assert.equal(allPath.textContent, "@lewismoten/emoji/all");
 assert.equal(popularLine.hidden, false);
 assert.equal(subgroupPath.textContent?.includes("face-smiling"), true);
+
+renderImportExamples(
+  {
+    packs: [{ id: "all", importPath: "@lewismoten/emoji/all-custom" }],
+    categories: [],
+  } as any,
+  {
+    key: "unknown",
+    group: "Objects",
+    unicodeSubGroup: "tool",
+  },
+);
+assert.equal(allPath.textContent, "@lewismoten/emoji/all-custom");
+assert.equal(popularLine.hidden, true);
+assert.equal(categoryLine.hidden, true);
+assert.equal(subgroupLine.hidden, true);
 
 let currentManifest = { packs: [], categories: [] };
 let currentPromise: Promise<unknown> | undefined;

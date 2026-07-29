@@ -158,6 +158,8 @@ assert.equal(selectedColor, "transparent");
 (controller as any).updateSkinTonePalette(["1F3FF"]);
 assert.equal(toneButton.hidden, true);
 assert.equal(toneButton.dataset.cycleIndex, "0");
+assert.equal(toneButton.dataset.gridColumn, undefined);
+assert.equal(toneButton.dataset.gridRow, undefined);
 
 (controller as any).updateSkinTonePalette(["1F3FB"]);
 selectedColor = "transparent";

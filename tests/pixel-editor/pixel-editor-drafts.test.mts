@@ -135,6 +135,10 @@ current.cellLoaded = false;
 controller.updateFileButtons();
 assert.equal(downloadEmojiButton.disabled, true);
 current.cellLoaded = true;
+current.pixels = new Uint8ClampedArray([0, 0, 0, 0]);
+controller.updateFileButtons();
+assert.equal(downloadEmojiButton.disabled, true);
+current.pixels = new Uint8ClampedArray([9, 9, 9, 255]);
 
 current.floatingLayer = { id: 2 };
 controller.updateFileButtons();

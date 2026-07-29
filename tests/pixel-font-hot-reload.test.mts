@@ -1,4 +1,7 @@
 import assert from "node:assert/strict";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 import {
   createPixelFontHotReloadController,
   installPixelFontHotReload,
@@ -234,6 +237,42 @@ await Promise.resolve();
 await Promise.resolve();
 await flushTasks();
 assert.equal(installRefreshCalls.join(","), "rev-install");
+
+const tempRoot = path.join(process.cwd(), "build/tests/.tmp");
+await fs.mkdir(tempRoot, { recursive: true });
+const tempDirectory = await fs.mkdtemp(
+  path.join(tempRoot, "pixel-font-hot-reload-"),
+);
+const transformedSource = (
+  await fs.readFile(
+    path.join(process.cwd(), "build/src/pixel-font-hot-reload.js"),
+    "utf8",
+  )
+).replaceAll("import.meta.hot", "globalThis.__pixelHot");
+await fs.writeFile(
+  path.join(tempDirectory, "pixel-font-hot-reload.mjs"),
+  transformedSource,
+);
+const transformedModule = await import(
+  pathToFileURL(path.join(tempDirectory, "pixel-font-hot-reload.mjs")).href
+);
+const installDefaultRefreshCalls: string[] = [];
+(globalThis as typeof globalThis & { __pixelHot?: any }).__pixelHot = {
+  on(event: string, handler: () => void) {
+    installHotEvents[event] = handler;
+  },
+};
+transformedModule.installPixelFontHotReload({
+  refreshStylesheet(revision: string) {
+    installDefaultRefreshCalls.push(revision);
+  },
+});
+await Promise.resolve();
+await Promise.resolve();
+await flushTasks();
+assert.equal(installDefaultRefreshCalls.join(","), "rev-install");
+delete (globalThis as typeof globalThis & { __pixelHot?: any }).__pixelHot;
+
 if (installOriginalDocument) {
   Object.defineProperty(globalThis, "document", {
     configurable: true,

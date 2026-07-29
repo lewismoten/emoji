@@ -216,6 +216,21 @@ const tiedOwnership = buildSkinToneOwnershipAny(
 )!;
 assert.equal(tiedOwnership[1], 0);
 
+const tiedOwnershipReversed = buildSkinToneOwnershipAny(
+  new Uint8ClampedArray([
+    ...hexToRgba(dark.color),
+    0,
+    0,
+    0,
+    0,
+    ...hexToRgba(light.color),
+  ]),
+  [dark.codePoint, light.codePoint],
+  3,
+  1,
+)!;
+assert.equal(tiedOwnershipReversed[1], 0);
+
 assert.equal(
   buildSkinToneOwnershipAny(
     ownershipPixels,
