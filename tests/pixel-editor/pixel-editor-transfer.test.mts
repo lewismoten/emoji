@@ -155,6 +155,7 @@ const skinToneStub = await import(
 );
 
 const originalFetch = Object.getOwnPropertyDescriptor(globalThis, "fetch");
+const originalWarn = console.warn;
 
 try {
   let currentEntry: any = {
@@ -288,8 +289,15 @@ try {
     }),
   });
   currentEntry = { ...currentEntry, atlas: "fail.png" };
+  const warnings: unknown[][] = [];
+  console.warn = (...args: unknown[]) => {
+    warnings.push(args);
+  };
   await controller.copyFontGlyph({ disabled: false });
+  console.warn = originalWarn;
   assert.equal(statuses.at(-1), "The custom font glyph could not be copied.");
+  assert.equal(warnings.length, 1);
+  assert.equal(String(warnings[0]?.[0]), "Unable to copy custom font glyph");
 
   Object.defineProperty(
     globalThis,
@@ -389,6 +397,7 @@ try {
     true,
   );
 } finally {
+  console.warn = originalWarn;
   if (originalFetch) Object.defineProperty(globalThis, "fetch", originalFetch);
   else Reflect.deleteProperty(globalThis, "fetch");
 }

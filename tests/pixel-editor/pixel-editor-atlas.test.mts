@@ -71,6 +71,7 @@ const originalImageData = Object.getOwnPropertyDescriptor(
   globalThis,
   "ImageData",
 );
+const originalWarn = console.warn;
 
 try {
   const statuses: string[] = [];
@@ -285,6 +286,7 @@ try {
       },
     },
   });
+  const warnings: unknown[][] = [];
   const warningController = module.createPixelEditorAtlasController({
     currentEntry: () => currentEntry,
     draftController: {
@@ -317,12 +319,19 @@ try {
       warningStatuses.push(value);
     },
   });
+  console.warn = (...args: unknown[]) => {
+    warnings.push(args);
+  };
   await warningController.saveAtlas();
+  console.warn = originalWarn;
   assert.equal(
     warningStatuses.at(-1),
     "Could not save group/file.png. Choose the pixel-font/atlases directory.",
   );
+  assert.equal(warnings.length, 1);
+  assert.equal(String(warnings[0]?.[0]), "Unable to save pixel atlas");
 } finally {
+  console.warn = originalWarn;
   if (originalWindow)
     Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");
