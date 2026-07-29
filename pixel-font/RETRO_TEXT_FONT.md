@@ -103,6 +103,19 @@ npm run pixel-font:text
 This rebuilds the generated bitmap module, refreshes the sample preview, and
 writes the compiled font output under `pixel-font/build-retro-text/`.
 
+At the moment, aggressive size optimization is not a priority because the
+compiled font is already small:
+
+- `pixel-latin-retro.ttf`: about 35.6 KB
+- `pixel-latin-retro.woff`: about 5.6 KB
+- `pixel-latin-retro.woff2`: about 3.0 KB
+
+For web delivery, the `woff2` output is the most relevant target, and it is
+already small enough that more advanced optimization work would likely add
+more build complexity than practical benefit. If the glyph set grows
+substantially later, then subset builds or composite accent reuse may become
+worth revisiting.
+
 ## Editing workflow
 
 1. Edit the relevant atlas PNG under `retro-text/` to change glyph pixels.
