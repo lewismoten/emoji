@@ -154,6 +154,14 @@ const supplementaryGlyphs = [
     bitmap: rows("00110", "01000", "11110", "01000", "11110", "01000", "00110"),
   },
   {
+    character: "Ÿ",
+    bitmap: rows("01010", "00000", "10001", "10001", "01010", "00100", "00100"),
+  },
+  {
+    character: "ẞ",
+    bitmap: rows("01110", "10001", "10010", "11100", "10010", "10001", "11110"),
+  },
+  {
     character: "ā",
     bitmap: glyphOverrides.get("ā"),
   },

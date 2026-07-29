@@ -29,6 +29,33 @@ yet confident that a Pinyin-only retro presentation would feel natural or
 helpful to native Chinese speakers. For now, non-Latin UI languages should be
 treated as system-font territory rather than retro-text targets.
 
+## Supported Latin coverage
+
+The current goal is practical support for common Western European
+Latin-script localization rather than every possible Latin-derived alphabet.
+
+| Language | Characters beyond common English |
+| - | - |
+| English | — |
+| Spanish | `Á É Í Ñ Ó Ú Ü á é í ñ ó ú ü` |
+| Portuguese | `Á Â Ã À Ç É Ê Í Ó Ô Õ Ú Ü á â ã à ç é ê í ó ô õ ú ü` |
+| Italian | `À È É Ì Í Î Ò Ó Ù à è é ì í î ò ó ù` |
+| French | `À Â Æ Ç É È Ê Ë Î Ï Ô Œ Ù Û Ü Ÿ à â æ ç é è ê ë î ï ô œ ù û ü ÿ` |
+| German | `Ä Ö Ü ẞ ß ä ö ü` |
+| Dutch | `Ë Ï Ö Ü ë ï ö ü` |
+| Danish | `Æ Ø Å æ ø å` |
+| Norwegian | `Æ Ø Å æ ø å` |
+| Swedish | `Å Ä Ö å ä ö` |
+| Icelandic | `Á Ð É Í Ó Ú Ý Þ Æ Ö á ð é í ó ú ý þ æ ö` |
+
+This coverage includes the character forms commonly needed by those
+translations, including accents, diaereses, ligatures, and symbols such as
+`Æ`, `Œ`, `ß`, `ẞ`, `ø`, `å`, and `Ÿ`.
+
+Future additions may still be needed for other Latin-based languages, but the
+current set is meant to keep common Western European UI translations from
+being blocked on missing glyphs.
+
 ## Source format
 
 The retro text font is now sourced from editable bitmap assets rather than a
