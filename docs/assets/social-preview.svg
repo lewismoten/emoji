@@ -29,32 +29,41 @@
 
   <g filter="url(#icon-shadow)">
     <rect x="136" y="130" width="356" height="356" rx="36" fill="url(#icon-panel)"/>
-    <g transform="translate(174 168) scale(4.7333333333)" shape-rendering="crispEdges">
-      <g fill="#ffff66">
-        <rect x="20" y="0" width="20" height="5"/>
-        <rect x="10" y="5" width="40" height="5"/>
-        <rect x="5" y="10" width="50" height="10"/>
-        <rect x="0" y="20" width="15" height="10"/>
-        <rect x="25" y="20" width="10" height="10"/>
-        <rect x="45" y="20" width="15" height="10"/>
-        <rect x="0" y="30" width="60" height="10"/>
-        <rect x="5" y="40" width="5" height="5"/>
-        <rect x="15" y="40" width="30" height="5"/>
-        <rect x="50" y="40" width="5" height="5"/>
-        <rect x="5" y="45" width="10" height="5"/>
-        <rect x="45" y="45" width="10" height="5"/>
-        <rect x="10" y="50" width="10" height="5"/>
-        <rect x="40" y="50" width="10" height="5"/>
-        <rect x="20" y="55" width="20" height="5"/>
-      </g>
-      <g fill="#000000">
-        <rect x="15" y="20" width="10" height="10"/>
-        <rect x="35" y="20" width="10" height="10"/>
-        <rect x="10" y="40" width="5" height="5"/>
-        <rect x="45" y="40" width="5" height="5"/>
-        <rect x="15" y="45" width="30" height="5"/>
-        <rect x="20" y="50" width="20" height="5"/>
-      </g>
+    <g transform="translate(174 168) scale(23.6666666667)" shape-rendering="crispEdges">
+      <!-- GENERATED_SMILEY_START -->
+    <g fill="#ffff55">
+      <rect x="4" y="0" width="4" height="1"/>
+      <rect x="2" y="1" width="8" height="1"/>
+      <rect x="1" y="2" width="10" height="1"/>
+      <rect x="1" y="3" width="10" height="1"/>
+      <rect x="0" y="4" width="3" height="1"/>
+      <rect x="5" y="4" width="2" height="1"/>
+      <rect x="9" y="4" width="3" height="1"/>
+      <rect x="0" y="5" width="3" height="1"/>
+      <rect x="5" y="5" width="2" height="1"/>
+      <rect x="9" y="5" width="3" height="1"/>
+      <rect x="0" y="6" width="12" height="1"/>
+      <rect x="0" y="7" width="12" height="1"/>
+      <rect x="1" y="8" width="1" height="1"/>
+      <rect x="3" y="8" width="6" height="1"/>
+      <rect x="10" y="8" width="1" height="1"/>
+      <rect x="1" y="9" width="2" height="1"/>
+      <rect x="9" y="9" width="2" height="1"/>
+      <rect x="2" y="10" width="2" height="1"/>
+      <rect x="8" y="10" width="2" height="1"/>
+      <rect x="4" y="11" width="4" height="1"/>
+    </g>
+    <g fill="#000000">
+      <rect x="3" y="4" width="2" height="1"/>
+      <rect x="7" y="4" width="2" height="1"/>
+      <rect x="3" y="5" width="2" height="1"/>
+      <rect x="7" y="5" width="2" height="1"/>
+      <rect x="2" y="8" width="1" height="1"/>
+      <rect x="9" y="8" width="1" height="1"/>
+      <rect x="3" y="9" width="6" height="1"/>
+      <rect x="4" y="10" width="4" height="1"/>
+    </g>
+      <!-- GENERATED_SMILEY_END -->
     </g>
   </g>
 

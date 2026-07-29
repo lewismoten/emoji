@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { generateSiteIcons } from "./generate-site-icons.mjs";
+import { renderSvgAssets, syncSvgSmileysFromAtlas } from "./render-svg-assets.mjs";
 import { compileTypeScriptSources } from "./transpile-typescript.mjs";
 
 const projectRoot = path.resolve(
@@ -161,6 +162,8 @@ const prepareDeployedScript = (source) =>
       /(['"])\.\/explorer\/pixel-editor\.css\1/g,
       `'./explorer/pixel-editor.css?v=${assetVersion}'`,
     );
+syncSvgSmileysFromAtlas();
+renderSvgAssets();
 const compiledTypeScript = compileTypeScriptSources();
 process.once("exit", () => compiledTypeScript.dispose());
 const transpileModule = (sourceFile, outputFile) => {

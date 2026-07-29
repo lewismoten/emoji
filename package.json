@@ -57,7 +57,7 @@
     "clean": "rm -rf build && rm -rf dist",
     "generate": "node ./scripts/generate-library.mjs && node ./scripts/generate-explorer-css.mjs",
     "build": "npm run clean && npm run generate && tsc && tsc -p src/explorer.tsconfig.json",
-    "bundle": "npm run build && node ./scripts/generate-browser.mjs && npx rollup -c ./build/config/rollup.config.js --silent && node ./scripts/generate-type-declarations.mjs",
+    "bundle": "npm run build && npm run svg:render && node ./scripts/generate-browser.mjs && npx rollup -c ./build/config/rollup.config.js --silent && node ./scripts/generate-type-declarations.mjs",
     "prepublishOnly": "npm run bundle",
     "start": "vite --config ./config/vite.config.js",
     "test": "node ./scripts/ensure-test-bundle.mjs && npm run demo:locales -- build/demo-pages && npm run demo:pwa -- build/demo-pages/service-worker.js && npm run test:node && tsc --noEmit --module NodeNext --moduleResolution NodeNext --target ESNext --strict tests/package-exports.test.mts && npm run pixel-font:validate",

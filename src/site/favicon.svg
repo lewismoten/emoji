@@ -1,30 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" shape-rendering="crispEdges">
   <rect width="64" height="64" fill="#240c37"/>
-  <g transform="translate(8 8) scale(0.8)">
-    <g fill="#ffff66">
-      <rect x="20" y="0" width="20" height="5"/>
-      <rect x="10" y="5" width="40" height="5"/>
-      <rect x="5" y="10" width="50" height="10"/>
-      <rect x="0" y="20" width="15" height="10"/>
-      <rect x="25" y="20" width="10" height="10"/>
-      <rect x="45" y="20" width="15" height="10"/>
-      <rect x="0" y="30" width="60" height="10"/>
-      <rect x="5" y="40" width="5" height="5"/>
-      <rect x="15" y="40" width="30" height="5"/>
-      <rect x="50" y="40" width="5" height="5"/>
-      <rect x="5" y="45" width="10" height="5"/>
-      <rect x="45" y="45" width="10" height="5"/>
-      <rect x="10" y="50" width="10" height="5"/>
-      <rect x="40" y="50" width="10" height="5"/>
-      <rect x="20" y="55" width="20" height="5"/>
+  <g transform="translate(8 8) scale(4)">
+    <!-- GENERATED_SMILEY_START -->
+    <g fill="#ffff55">
+      <rect x="4" y="0" width="4" height="1"/>
+      <rect x="2" y="1" width="8" height="1"/>
+      <rect x="1" y="2" width="10" height="1"/>
+      <rect x="1" y="3" width="10" height="1"/>
+      <rect x="0" y="4" width="3" height="1"/>
+      <rect x="5" y="4" width="2" height="1"/>
+      <rect x="9" y="4" width="3" height="1"/>
+      <rect x="0" y="5" width="3" height="1"/>
+      <rect x="5" y="5" width="2" height="1"/>
+      <rect x="9" y="5" width="3" height="1"/>
+      <rect x="0" y="6" width="12" height="1"/>
+      <rect x="0" y="7" width="12" height="1"/>
+      <rect x="1" y="8" width="1" height="1"/>
+      <rect x="3" y="8" width="6" height="1"/>
+      <rect x="10" y="8" width="1" height="1"/>
+      <rect x="1" y="9" width="2" height="1"/>
+      <rect x="9" y="9" width="2" height="1"/>
+      <rect x="2" y="10" width="2" height="1"/>
+      <rect x="8" y="10" width="2" height="1"/>
+      <rect x="4" y="11" width="4" height="1"/>
     </g>
     <g fill="#000000">
-      <rect x="15" y="20" width="10" height="10"/>
-      <rect x="35" y="20" width="10" height="10"/>
-      <rect x="10" y="40" width="5" height="5"/>
-      <rect x="45" y="40" width="5" height="5"/>
-      <rect x="15" y="45" width="30" height="5"/>
-      <rect x="20" y="50" width="20" height="5"/>
+      <rect x="3" y="4" width="2" height="1"/>
+      <rect x="7" y="4" width="2" height="1"/>
+      <rect x="3" y="5" width="2" height="1"/>
+      <rect x="7" y="5" width="2" height="1"/>
+      <rect x="2" y="8" width="1" height="1"/>
+      <rect x="9" y="8" width="1" height="1"/>
+      <rect x="3" y="9" width="6" height="1"/>
+      <rect x="4" y="10" width="4" height="1"/>
     </g>
+      <!-- GENERATED_SMILEY_END -->
   </g>
 </svg>
