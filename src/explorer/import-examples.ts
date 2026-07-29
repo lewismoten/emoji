@@ -24,6 +24,12 @@ export type ImportExampleResult = {
   showSubgroup: boolean;
 };
 
+type ImportExampleItem = {
+  key: string;
+  group: string;
+  unicodeSubGroup: string;
+};
+
 type MinimalNode = {
   className: string;
   hidden: boolean;
@@ -62,14 +68,7 @@ function ensureImportExampleLine(
   return line;
 }
 
-export function resolveImportExamples(
-  packageManifest: PackageManifest,
-  item: {
-    key: string;
-    group: string;
-    unicodeSubGroup: string;
-  },
-): ImportExampleResult {
+export function resolveImportExamples(packageManifest: PackageManifest, item: ImportExampleItem): ImportExampleResult {
   const popular = packageManifest.packs.find((pack) => pack.id === "popular");
   const allPath =
     packageManifest.packs.find((pack) => pack.id === "all")?.importPath ??
@@ -83,7 +82,7 @@ export function resolveImportExamples(
   const showPopular = popular?.keys?.includes(item.key) ?? false;
   return {
     allPath,
-    popularPath: showPopular ? (popular?.importPath ?? "") : "",
+    popularPath: showPopular && popular ? popular.importPath : "",
     showPopular,
     categoryPath: category?.importPath ?? "",
     showCategory: Boolean(category),
@@ -101,7 +100,7 @@ export function getCodeExampleText(dialog: MinimalNode) {
 
 export function renderImportExamples(
   packageManifest: PackageManifest,
-  item: { key: string; group: string; unicodeSubGroup: string },
+  item: ImportExampleItem,
 ) {
   const examples = resolveImportExamples(packageManifest, item);
   const set = (

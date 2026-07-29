@@ -40,11 +40,7 @@ export function createPixelEditorDraftController(options) {
       (atlasExists() || hasVisibleAtlasDraft());
     saveButton.disabled = !canWrite || !hasDirtyAtlasDraft();
     downloadButton.disabled = !canWrite;
-    downloadEmojiButton.disabled =
-      !currentEntry() ||
-      !cellLoaded() ||
-      Boolean(floatingLayer()) ||
-      !hasVisibleArtwork();
+    downloadEmojiButton.disabled = !currentEntry() || !cellLoaded() || Boolean(floatingLayer()) || !hasVisibleArtwork();
   }
 
   function hasDirtyAtlasDraft() {
@@ -65,7 +61,7 @@ export function createPixelEditorDraftController(options) {
   }
 
   function hasVisibleArtwork() {
-    return hasVisiblePixels(pixels());
+    return !!hasVisiblePixels(pixels());
   }
 
   function selectionHasVisibleArtwork() {

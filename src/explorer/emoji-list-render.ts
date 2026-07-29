@@ -171,9 +171,7 @@ export function createEmojiListRenderers(options: {
         state.unicodeSubGroupElement = asUnicodeSubGroup(meta.unicodeSubGroup);
         state.groupElement?.appendChild(state.unicodeSubGroupElement);
         state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
-        state.unicodeSubGroupElement.lastChild?.appendChild(
-          state.subGroupElement,
-        );
+        state.unicodeSubGroupElement.lastChild?.appendChild(state.subGroupElement);
         state.unicodeSubGroup = meta.unicodeSubGroup;
         state.subGroup = displaySubGroup;
       } else if (state.subGroup !== displaySubGroup) {

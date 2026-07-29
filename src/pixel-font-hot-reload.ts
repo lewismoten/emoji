@@ -54,17 +54,15 @@ export function createPixelFontHotReloadController(
 
 export function installPixelFontHotReload(options: any, hot = import.meta.hot) {
   if (!hot) return;
-  if (hot === import.meta.hot) {
-    createPixelFontHotReloadController(options).start();
-    return;
-  }
-  createPixelFontHotReloadController(options, {
+  if (hot === import.meta.hot) return createPixelFontHotReloadController(options).start();
+  const dependencies = {
     hot,
     fetch: globalThis.fetch,
     document: globalThis.document,
     window: globalThis.window,
     now: () => Date.now(),
-  }).start();
+  };
+  createPixelFontHotReloadController(options, dependencies).start();
 }
 
 export function refreshPixelFontStylesheet(options: any, revision: string) {

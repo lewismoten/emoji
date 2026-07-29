@@ -104,13 +104,7 @@ export function makeCompactChoice({
   selected,
   onSelect,
 }: ChoiceDefinition) {
-  return createCompactChoiceControl({
-    emoji,
-    label,
-    onSelect,
-    selected,
-    value,
-  });
+  return createCompactChoiceControl({ emoji, label, onSelect, selected, value });
 }
 
 export function renderFilterPickerTrigger(
@@ -127,35 +121,22 @@ export function renderFilterPickerTrigger(
   trigger.title = label;
 }
 
-export function openFilterPicker(
-  dialog: HTMLDialogElement | undefined,
-  choices: ChoiceContainerLike | undefined,
-) {
+export function openFilterPicker(dialog: HTMLDialogElement | undefined, choices: ChoiceContainerLike | undefined) {
   if (!dialog || !choices) return;
   dialog.showModal();
   window.requestAnimationFrame(() => {
-    const selected = choices.querySelector<HTMLElement>(
-      '[aria-checked="true"]',
-    );
+    const selected = choices.querySelector<HTMLElement>('[aria-checked="true"]');
     (selected ?? choices.querySelector<HTMLElement>('[role="radio"]'))?.focus();
   });
 }
 
-export function closeFilterPicker(
-  dialog: HTMLDialogElement | undefined,
-  trigger: HTMLElement | undefined,
-) {
+export function closeFilterPicker(dialog: HTMLDialogElement | undefined, trigger: HTMLElement | undefined) {
   if (dialog?.open) dialog.close();
   trigger?.focus();
 }
 
-export function focusCompactChoice(
-  container: ChoiceContainerLike,
-  value: string,
-) {
-  const choices = Array.from(
-    container.querySelectorAll<ChoiceButtonLike>('[role="radio"]'),
-  );
+export function focusCompactChoice(container: ChoiceContainerLike, value: string) {
+  const choices = Array.from(container.querySelectorAll<ChoiceButtonLike>('[role="radio"]'));
   const choice =
     choices.find((button) => button.dataset.value === value) ??
     choices.find((button) => button.getAttribute("aria-checked") === "true");
