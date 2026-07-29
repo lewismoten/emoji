@@ -1,0 +1,46 @@
+export const NOTE_LENGTHS = {
+  HALF: 2,
+  QUARTER: 1,
+  WHOLE: 4,
+} as const;
+
+export type ExplorerNoteLength =
+  (typeof NOTE_LENGTHS)[keyof typeof NOTE_LENGTHS];
+
+export const PITCHES = {
+  A1: 55,
+  A2: 110,
+  A3: 220,
+  A4: 440,
+  B1: 62,
+  B2: 123,
+  B3: 247,
+  B4: 494,
+  C2: 65,
+  C3: 131,
+  C4: 262,
+  C5: 523,
+  D2: 73,
+  D3: 147,
+  D4: 294,
+  D5: 587,
+  E2: 82,
+  E3: 165,
+  E4: 330,
+  E5: 659,
+  F3: 175,
+  F4: 349,
+  F5: 698,
+  FS3: 185,
+  FS4: 370,
+  G3: 196,
+  G4: 392,
+  G5: 784,
+  GS4: 415,
+  A5: 880,
+  B5: 988,
+  C6: 1047,
+  D6: 1175,
+  E6: 1319,
+  FS6: 1480,
+} as const;

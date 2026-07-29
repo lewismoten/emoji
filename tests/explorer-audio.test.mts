@@ -26,6 +26,7 @@ export const engineApi = {
   playDialogClose() { engineCalls.push(["playDialogClose"]); },
   playDialogOpen() { engineCalls.push(["playDialogOpen"]); },
   playHover() { engineCalls.push(["playHover"]); },
+  playInteraction(element, action) { engineCalls.push(["playInteraction", element, action]); },
   restartMusic() { engineCalls.push(["restartMusic"]); },
   resumeAudioContext() { engineCalls.push(["resumeAudioContext"]); return Promise.resolve(); },
   soundEffectsEnabled: () => false,
@@ -71,6 +72,8 @@ class FakeElement {
   disabled = false;
   checked = false;
   open = false;
+  tagName = "";
+  type = "";
   attributes = new Map<string, string>();
   listeners = new Map<string, any[]>();
   classList = {
@@ -117,7 +120,11 @@ try {
   const dialogSelector =
     ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
   const soundToggle = new FakeElement([".sound-effects-toggle"]);
+  soundToggle.tagName = "INPUT";
+  soundToggle.type = "checkbox";
   const musicToggle = new FakeElement([".music-toggle"]);
+  musicToggle.tagName = "INPUT";
+  musicToggle.type = "checkbox";
   const helpDialog = new FakeElement([dialogSelector]);
   helpDialog.classList.values.add("help-dialog");
   helpDialog.open = true;
@@ -244,17 +251,28 @@ try {
 
   const button = new FakeElement([], null);
   const interactive = new FakeElement([], null);
+  interactive.tagName = "BUTTON";
   const target = new FakeElement([], interactive);
   listeners.get("click")?.[0]({ target });
   listeners.get("pointerover")?.[0]({ target });
   listeners.get("pointerover")?.[0]({ target });
   listeners.get("pointerout")?.[0]({ target, relatedTarget: null });
   assert.equal(
-    engineStub.engineCalls.some((call: any[]) => call[0] === "playClick"),
+    engineStub.engineCalls.some(
+      (call: any[]) =>
+        call[0] === "playInteraction" &&
+        call[1] === "button" &&
+        call[2] === "click",
+    ),
     true,
   );
   assert.equal(
-    engineStub.engineCalls.filter((call: any[]) => call[0] === "playHover")
+    engineStub.engineCalls.filter(
+      (call: any[]) =>
+        call[0] === "playInteraction" &&
+        call[1] === "button" &&
+        call[2] === "hover",
+    )
       .length,
     1,
   );
@@ -281,11 +299,21 @@ try {
     { target: savedDialog },
   ]);
   assert.equal(
-    engineStub.engineCalls.some((call: any[]) => call[0] === "playDialogOpen"),
+    engineStub.engineCalls.some(
+      (call: any[]) =>
+        call[0] === "playInteraction" &&
+        call[1] === "dialog" &&
+        call[2] === "open",
+    ),
     true,
   );
   assert.equal(
-    engineStub.engineCalls.some((call: any[]) => call[0] === "playDialogClose"),
+    engineStub.engineCalls.some(
+      (call: any[]) =>
+        call[0] === "playInteraction" &&
+        call[1] === "dialog" &&
+        call[2] === "close",
+    ),
     true,
   );
 

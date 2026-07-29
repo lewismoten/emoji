@@ -33,6 +33,7 @@ class FakeGain {
 
 class FakeOscillator {
   type = "";
+  periodicWave: unknown;
   started: number[] = [];
   stopped: number[] = [];
   connectedTo: unknown[] = [];
@@ -48,6 +49,10 @@ class FakeOscillator {
 
   connect(target: unknown) {
     this.connectedTo.push(target);
+  }
+
+  setPeriodicWave(wave: unknown) {
+    this.periodicWave = wave;
   }
 
   start(time: number) {
@@ -66,6 +71,7 @@ class FakeAudioContext {
   destination = { id: "destination" };
   gains: FakeGain[] = [];
   oscillators: FakeOscillator[] = [];
+  periodicWaves: Array<{ imag: Float32Array; real: Float32Array }> = [];
 
   constructor() {
     FakeAudioContext.instances.push(this);
@@ -81,6 +87,12 @@ class FakeAudioContext {
     const oscillator = new FakeOscillator();
     this.oscillators.push(oscillator);
     return oscillator;
+  }
+
+  createPeriodicWave(real: Float32Array, imag: Float32Array) {
+    const wave = { imag, real };
+    this.periodicWaves.push(wave);
+    return wave as unknown as PeriodicWave;
   }
 
   async resume() {
@@ -296,9 +308,11 @@ try {
   await Promise.resolve();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 56);
   assert.equal(FakeAudioContext.instances[0]?.oscillators[0]?.type, "triangle");
-  assert.equal(FakeAudioContext.instances[0]?.oscillators[1]?.type, "sine");
-  assert.equal(FakeAudioContext.instances[0]?.oscillators[2]?.type, "triangle");
-  assert.equal(FakeAudioContext.instances[0]?.oscillators[3]?.type, "square");
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[0]?.periodicWave != null, true);
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[15]?.type, "triangle");
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[16]?.type, "sine");
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[32]?.type, "triangle");
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[40]?.type, "square");
 
   FakeAudioContext.instances.length = 0;
   theme = "dark";
@@ -315,8 +329,9 @@ try {
   await Promise.resolve();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 30);
   assert.equal(FakeAudioContext.instances[0]?.oscillators[0]?.type, "sine");
-  assert.equal(FakeAudioContext.instances[0]?.oscillators[1]?.type, "sawtooth");
-  assert.equal(FakeAudioContext.instances[0]?.oscillators[2]?.type, "triangle");
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[0]?.periodicWave != null, true);
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[12]?.type, "sawtooth");
+  assert.equal(FakeAudioContext.instances[0]?.oscillators[24]?.type, "triangle");
 
   FakeAudioContext.instances.length = 0;
   theme = "base";

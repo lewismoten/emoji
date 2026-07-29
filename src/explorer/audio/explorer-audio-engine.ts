@@ -1,16 +1,26 @@
 import {
   getExplorerMusicConfig,
   scheduleExplorerMusic,
-  type ExplorerAudioTheme,
 } from "./explorer-audio-music.js";
+import {
+  getExplorerSoundEffect,
+  resolveExplorerSoundEffect,
+  type ExplorerSoundEffectId,
+} from "./explorer-audio-sfx.js";
+import { scheduleExplorerTone } from "./explorer-audio-tone.js";
+import type {
+  ExplorerAudioAction,
+  ExplorerAudioElementType,
+  ExplorerAudioTheme,
+} from "./explorer-audio-types.js";
 
 type ExplorerAudioEngineOptions = {
+  helpDialogOpen: () => boolean;
   musicEnabled: () => boolean;
   retroMode: () => boolean;
-  theme: () => ExplorerAudioTheme;
   savedDialogOpen: () => boolean;
   soundEffectsEnabled: () => boolean;
-  helpDialogOpen: () => boolean;
+  theme: () => ExplorerAudioTheme;
 };
 
 export function createExplorerAudioEngine(
@@ -51,77 +61,26 @@ export function createExplorerAudioEngine(
     return context;
   }
 
-  function createTone(
-    frequency: number,
-    start: number,
-    duration: number,
-    volume: number,
-    type: OscillatorType = "square",
-    endFrequency?: number,
-  ) {
-    const context = getAudioContext();
-    if (!context || !masterGain) return;
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
-    oscillator.type = type;
-    oscillator.frequency.setValueAtTime(frequency, start);
-    if (endFrequency !== undefined) {
-      oscillator.frequency.exponentialRampToValueAtTime(
-        Math.max(endFrequency, 1),
-        start + duration,
-      );
-    }
-    gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(volume, start + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-    oscillator.connect(gain);
-    gain.connect(masterGain);
-    oscillator.start(start);
-    oscillator.stop(start + duration + 0.02);
-  }
-
-  function playEffect(
-    runner: (context: AudioContext) => void,
-    requiresRetro = true,
-  ) {
+  function playSoundEffect(effectId: ExplorerSoundEffectId) {
     if (!options.soundEffectsEnabled()) return;
-    if (requiresRetro && !options.retroMode()) return;
+    const effect = getExplorerSoundEffect(effectId);
+    if (!effect) return;
+    if (effect.requiresRetro && !options.retroMode()) return;
     const context = getAudioContext();
-    if (!context || context.state !== "running") return;
-    runner(context);
-  }
-
-  function playClick() {
-    playEffect((context) => {
-      const start = context.currentTime;
-      createTone(220, start, 0.05, 0.16, "square", 180);
-      createTone(110, start + 0.018, 0.06, 0.08, "square", 92);
+    if (!context || context.state !== "running" || !masterGain) return;
+    const start = context.currentTime;
+    effect.tones.forEach((tone) => {
+      scheduleExplorerTone({ context, output: masterGain!, start, tone });
     });
   }
 
-  function playHover() {
-    playEffect((context) => {
-      const start = context.currentTime;
-      createTone(320, start, 0.08, 0.05, "square", 620);
-    });
-  }
-
-  function playDialogOpen() {
-    playEffect((context) => {
-      const start = context.currentTime;
-      createTone(262, start, 0.08, 0.08, "square");
-      createTone(330, start + 0.035, 0.08, 0.08, "square");
-      createTone(392, start + 0.07, 0.1, 0.09, "square");
-    });
-  }
-
-  function playDialogClose() {
-    playEffect((context) => {
-      const start = context.currentTime;
-      createTone(392, start, 0.08, 0.08, "square");
-      createTone(294, start + 0.04, 0.08, 0.07, "square");
-      createTone(196, start + 0.08, 0.1, 0.07, "square");
-    });
+  function playInteraction(
+    elementType: ExplorerAudioElementType,
+    action: ExplorerAudioAction,
+  ) {
+    const effectId = resolveExplorerSoundEffect(elementType, action);
+    if (!effectId) return;
+    playSoundEffect(effectId);
   }
 
   function shouldPlayMusic() {
@@ -206,14 +165,17 @@ export function createExplorerAudioEngine(
 
   return {
     musicEnabled: options.musicEnabled,
-    playClick,
-    playDialogClose,
-    playDialogOpen,
-    playHover,
+    playClick: () => playInteraction("button", "click"),
+    playDialogClose: () => playInteraction("dialog", "close"),
+    playDialogOpen: () => playInteraction("dialog", "open"),
+    playHover: () => playInteraction("button", "hover"),
+    playInteraction,
+    playSoundEffect,
     restartMusic,
     resumeAudioContext,
     soundEffectsEnabled: options.soundEffectsEnabled,
     stopMusic,
     syncHelpMusic,
+    theme: () => getExplorerMusicConfig(options.theme()),
   };
 }

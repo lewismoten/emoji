@@ -9,6 +9,8 @@ class FakeElement {
   disabled = false;
   checked = false;
   open = false;
+  tagName = "";
+  type = "";
   attributes = new Map<string, string>();
   classList = {
     values: new Set<string>(),
@@ -75,7 +77,11 @@ try {
   const dialogSelector =
     ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
   const soundToggle = new FakeElement([".sound-effects-toggle"]);
+  soundToggle.tagName = "INPUT";
+  soundToggle.type = "checkbox";
   const musicToggle = new FakeElement([".music-toggle"]);
+  musicToggle.tagName = "INPUT";
+  musicToggle.type = "checkbox";
   const helpDialog = new FakeElement([dialogSelector]);
   helpDialog.classList.values.add("help-dialog");
   helpDialog.open = true;
@@ -133,7 +139,7 @@ try {
     },
   });
 
-  const engineCalls: Array<[string, unknown?]> = [];
+  const engineCalls: Array<unknown[]> = [];
   const engine = {
     musicEnabled: () => false,
     playClick() {
@@ -148,6 +154,12 @@ try {
     playHover() {
       engineCalls.push(["playHover"]);
     },
+    playInteraction(element: unknown, action: unknown) {
+      engineCalls.push(["playInteraction", element, action]);
+    },
+    playSoundEffect(effect: unknown) {
+      engineCalls.push(["playSoundEffect", effect]);
+    },
     restartMusic() {
       engineCalls.push(["restartMusic"]);
     },
@@ -161,6 +173,9 @@ try {
     },
     syncHelpMusic() {
       engineCalls.push(["syncHelpMusic"]);
+    },
+    theme() {
+      return { beatLength: 0.18, gain: 0.09, voices: [] };
     },
   };
 
@@ -284,6 +299,7 @@ try {
   listeners.get("change")?.[0]?.({ target: {} });
 
   const interactive = new FakeElement([], null);
+  interactive.tagName = "BUTTON";
   const target = new FakeElement([], interactive);
   listeners.get("click")?.[0]?.({ target });
   listeners.get("click")?.[0]?.({ target: {} });
@@ -304,10 +320,23 @@ try {
   listeners.get("pointerout")?.[0]?.({ target, relatedTarget: null });
   listeners.get("pointerout")?.[0]?.({ target: {}, relatedTarget: null });
   assert.equal(
-    engineCalls.some((call) => call[0] === "playClick"),
+    engineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "button" &&
+        call[2] === "click",
+    ),
     true,
   );
-  assert.equal(engineCalls.filter((call) => call[0] === "playHover").length, 1);
+  assert.equal(
+    engineCalls.filter(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "button" &&
+        call[2] === "hover",
+    ).length,
+    1,
+  );
 
   (globalThis.document as any).hidden = true;
   listeners.get("visibilitychange")?.[0]?.();
@@ -332,11 +361,21 @@ try {
     { target: savedDialog },
   ]);
   assert.equal(
-    engineCalls.some((call) => call[0] === "playDialogOpen"),
+    engineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "dialog" &&
+        call[2] === "open",
+    ),
     true,
   );
   assert.equal(
-    engineCalls.some((call) => call[0] === "playDialogClose"),
+    engineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "dialog" &&
+        call[2] === "close",
+    ),
     true,
   );
   themeObserver?.callback([
