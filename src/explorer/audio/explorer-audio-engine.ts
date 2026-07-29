@@ -5,7 +5,6 @@ import {
 import {
   getThemedExplorerSoundEffect,
   resolveExplorerSoundEffect,
-  type ExplorerSoundEffectId,
 } from "./explorer-audio-sfx.js";
 import { scheduleExplorerTone } from "./explorer-audio-tone.js";
 import type {
@@ -13,6 +12,7 @@ import type {
   ExplorerAudioElementType,
   ExplorerAudioTheme,
 } from "./explorer-audio-types.js";
+import type { ExplorerSoundEffectId } from "./sfx/explorer-audio-sfx-types.js";
 
 type ExplorerAudioEngineOptions = {
   helpDialogOpen: () => boolean;
