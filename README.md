@@ -94,12 +94,22 @@ interface.
 
 ### Current app previews
 
-Narrow-screen captures:
+Click a thumbnail to view the full-size narrow capture:
 
-![Emoji Explorer search, filters, and results](./docs/assets/narrow/screenshot-explorer.jpg)
-![Emoji detail dialog with previews, copy actions, and metadata](./docs/assets/narrow/screenshot-emoji.jpg)
-![Saved emoji and recently copied lists](./docs/assets/narrow/screenshot-saved.jpg)
-![Help and settings with theme, audio, and mode controls](./docs/assets/narrow/screenshot-help.jpg)
+<p>
+  <a href="./src/site/pwa/narrow/screenshot-explorer.jpg">
+    <img src="./src/site/pwa/narrow/screenshot-explorer.jpg" alt="Emoji Explorer search, filters, and results" width="180">
+  </a>
+  <a href="./src/site/pwa/narrow/screenshot-emoji.jpg">
+    <img src="./src/site/pwa/narrow/screenshot-emoji.jpg" alt="Emoji detail dialog with previews, copy actions, and metadata" width="180">
+  </a>
+  <a href="./src/site/pwa/narrow/screenshot-saved.jpg">
+    <img src="./src/site/pwa/narrow/screenshot-saved.jpg" alt="Saved emoji and recently copied lists" width="180">
+  </a>
+  <a href="./src/site/pwa/narrow/screenshot-help.jpg">
+    <img src="./src/site/pwa/narrow/screenshot-help.jpg" alt="Help and settings with theme, audio, and mode controls" width="180">
+  </a>
+</p>
 
 ## Pixel Emoji fallback font
 
