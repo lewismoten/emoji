@@ -66,18 +66,18 @@ class FakeAudioContext {
 const light = getExplorerMusicConfig("light");
 assert.equal(light.voices.length, 4);
 assert.equal(light.voices[0]?.events.length, 16);
-assert.equal(light.voices[0]?.instrument, "light-bell");
-assert.equal(light.voices[3]?.instrument, "light-drums");
+assert.equal(light.voices[0]?.instrument, "bell-bright");
+assert.equal(light.voices[3]?.instrument, "drum-chip");
 
 const dark = getExplorerMusicConfig("dark");
 assert.equal(dark.voices.length, 3);
 assert.equal(dark.voices[1]?.events.length > 0, true);
-assert.equal(dark.voices[1]?.instrument, "dark-pad");
+assert.equal(dark.voices[1]?.instrument, "pad-warm");
 
 const retro = getExplorerMusicConfig("retro");
 assert.equal(retro.voices.length, 2);
 assert.equal(retro.voices[0]?.events.length, 8);
-assert.equal(retro.voices[0]?.instrument, "retro-lead");
+assert.equal(retro.voices[0]?.instrument, "lead-chip");
 assert.equal(getExplorerMusicConfig("base"), retro);
 
 const context = new FakeAudioContext();

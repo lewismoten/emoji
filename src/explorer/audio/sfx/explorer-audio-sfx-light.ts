@@ -9,7 +9,7 @@ export const lightExplorerSoundEffects: Record<
 > = {
   "dialog-close": {
     tones: [
-      { duration: 0.09, frequency: 988, type: "triangle", volume: 0.045, waveform: "light-bell" },
+      { duration: 0.09, frequency: 988, type: "triangle", volume: 0.045, waveform: "bell-bright" },
       {
         duration: 0.11,
         endFrequency: 784,
@@ -17,20 +17,20 @@ export const lightExplorerSoundEffects: Record<
         offset: 0.02,
         type: "sine",
         volume: 0.04,
-        waveform: "light-pad",
+        waveform: "pad-soft",
       },
     ],
   },
   "dialog-open": {
     tones: [
-      { duration: 0.08, frequency: 784, type: "triangle", volume: 0.045, waveform: "light-bell" },
+      { duration: 0.08, frequency: 784, type: "triangle", volume: 0.045, waveform: "bell-bright" },
       {
         duration: 0.1,
         frequency: 988,
         offset: 0.02,
         type: "triangle",
         volume: 0.05,
-        waveform: "light-bell",
+        waveform: "bell-bright",
       },
       {
         duration: 0.13,
@@ -39,13 +39,13 @@ export const lightExplorerSoundEffects: Record<
         offset: 0.035,
         type: "sine",
         volume: 0.03,
-        waveform: "light-pad",
+        waveform: "pad-soft",
       },
     ],
   },
   "focus-soft": {
     tones: [
-      { duration: 0.05, frequency: 659, type: "triangle", volume: 0.02, waveform: "light-pad" },
+      { duration: 0.05, frequency: 659, type: "triangle", volume: 0.02, waveform: "pad-soft" },
     ],
   },
   "hover-soft": {
@@ -56,7 +56,7 @@ export const lightExplorerSoundEffects: Record<
         frequency: 784,
         type: "triangle",
         volume: 0.03,
-        waveform: "light-bell",
+        waveform: "bell-bright",
       },
     ],
   },
@@ -68,13 +68,13 @@ export const lightExplorerSoundEffects: Record<
         frequency: 784,
         type: "triangle",
         volume: 0.025,
-        waveform: "light-bell",
+        waveform: "bell-bright",
       },
     ],
   },
   "toggle-off": {
     tones: [
-      { duration: 0.045, frequency: 659, type: "triangle", volume: 0.03, waveform: "light-bell" },
+      { duration: 0.045, frequency: 659, type: "triangle", volume: 0.03, waveform: "bell-bright" },
       {
         duration: 0.06,
         endFrequency: 523,
@@ -82,13 +82,13 @@ export const lightExplorerSoundEffects: Record<
         offset: 0.02,
         type: "sine",
         volume: 0.025,
-        waveform: "light-pad",
+        waveform: "pad-soft",
       },
     ],
   },
   "toggle-on": {
     tones: [
-      { duration: 0.045, frequency: 659, type: "triangle", volume: 0.03, waveform: "light-bell" },
+      { duration: 0.045, frequency: 659, type: "triangle", volume: 0.03, waveform: "bell-bright" },
       {
         duration: 0.07,
         endFrequency: 988,
@@ -96,7 +96,7 @@ export const lightExplorerSoundEffects: Record<
         offset: 0.018,
         type: "triangle",
         volume: 0.035,
-        waveform: "light-bell",
+        waveform: "bell-bright",
       },
     ],
   },
@@ -108,7 +108,7 @@ export const lightExplorerSoundEffects: Record<
         frequency: 784,
         type: "triangle",
         volume: 0.04,
-        waveform: "light-bell",
+        waveform: "bell-bright",
       },
       {
         duration: 0.06,
@@ -117,7 +117,7 @@ export const lightExplorerSoundEffects: Record<
         offset: 0.012,
         type: "sine",
         volume: 0.025,
-        waveform: "light-pad",
+        waveform: "pad-soft",
       },
     ],
   },

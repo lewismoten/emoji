@@ -1,4 +1,4 @@
-import type { ExplorerInstrumentId } from "./explorer-audio-instruments.js";
+import type { ExplorerInstrumentId } from "../instruments/explorer-audio-instruments.js";
 import type { ExplorerNoteLength } from "./explorer-audio-notes.js";
 
 export type ExplorerSongEventOptions = {

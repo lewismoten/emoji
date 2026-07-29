@@ -40,7 +40,7 @@ export const lightExplorerSong: ExplorerMusicSong = {
   gain: 0.1,
   voices: [
     {
-      instrument: "light-bell",
+      instrument: "bell-bright",
       events: [
         C5Q,
         E5Q,
@@ -61,7 +61,7 @@ export const lightExplorerSong: ExplorerMusicSong = {
       ],
     },
     {
-      instrument: "light-pad",
+      instrument: "pad-soft",
       events: [
         G5QS,
         B5Q,
@@ -82,11 +82,11 @@ export const lightExplorerSong: ExplorerMusicSong = {
       ],
     },
     {
-      instrument: "light-bass",
+      instrument: "bass-round",
       events: [C3HS, E3H, G3HS, E3H, D3HS, G3H, A3HS, G3H],
     },
     {
-      instrument: "light-drums",
+      instrument: "drum-chip",
       events: [
         KICK,
         HAT,

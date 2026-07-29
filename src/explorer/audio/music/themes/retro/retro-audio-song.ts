@@ -18,11 +18,11 @@ export const retroExplorerSong: ExplorerMusicSong = {
   gain: 0.09,
   voices: [
     {
-      instrument: "retro-lead",
+      instrument: "lead-chip",
       events: [C4Q, E4Q, G4Q, E4Q, C4Q, G4Q, E4Q, D4QS],
     },
     {
-      instrument: "retro-bass",
+      instrument: "bass-chip",
       events: [C3HS, D3HS, E3HS, D3HS],
     },
   ],

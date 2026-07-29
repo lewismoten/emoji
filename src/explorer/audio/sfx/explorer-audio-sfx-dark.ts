@@ -9,7 +9,7 @@ export const darkExplorerSoundEffects: Record<
 > = {
   "dialog-close": {
     tones: [
-      { duration: 0.11, frequency: 330, type: "sine", volume: 0.05, waveform: "dark-pad" },
+      { duration: 0.11, frequency: 330, type: "sine", volume: 0.05, waveform: "pad-warm" },
       {
         duration: 0.12,
         endFrequency: 196,
@@ -17,13 +17,13 @@ export const darkExplorerSoundEffects: Record<
         offset: 0.028,
         type: "triangle",
         volume: 0.045,
-        waveform: "dark-bass",
+        waveform: "bass-warm",
       },
     ],
   },
   "dialog-open": {
     tones: [
-      { duration: 0.12, frequency: 262, type: "sine", volume: 0.05, waveform: "dark-pad" },
+      { duration: 0.12, frequency: 262, type: "sine", volume: 0.05, waveform: "pad-warm" },
       {
         duration: 0.14,
         endFrequency: 330,
@@ -31,13 +31,13 @@ export const darkExplorerSoundEffects: Record<
         offset: 0.025,
         type: "sine",
         volume: 0.055,
-        waveform: "dark-lead",
+        waveform: "lead-mellow",
       },
     ],
   },
   "focus-soft": {
     tones: [
-      { duration: 0.06, frequency: 220, type: "sine", volume: 0.025, waveform: "dark-pad" },
+      { duration: 0.06, frequency: 220, type: "sine", volume: 0.025, waveform: "pad-warm" },
     ],
   },
   "hover-soft": {
@@ -48,7 +48,7 @@ export const darkExplorerSoundEffects: Record<
         frequency: 247,
         type: "sine",
         volume: 0.035,
-        waveform: "dark-lead",
+        waveform: "lead-mellow",
       },
     ],
   },
@@ -60,13 +60,13 @@ export const darkExplorerSoundEffects: Record<
         frequency: 220,
         type: "triangle",
         volume: 0.03,
-        waveform: "dark-bass",
+        waveform: "bass-warm",
       },
     ],
   },
   "toggle-off": {
     tones: [
-      { duration: 0.055, frequency: 220, type: "triangle", volume: 0.04, waveform: "dark-bass" },
+      { duration: 0.055, frequency: 220, type: "triangle", volume: 0.04, waveform: "bass-warm" },
       {
         duration: 0.075,
         endFrequency: 196,
@@ -74,13 +74,13 @@ export const darkExplorerSoundEffects: Record<
         offset: 0.018,
         type: "sine",
         volume: 0.035,
-        waveform: "dark-pad",
+        waveform: "pad-warm",
       },
     ],
   },
   "toggle-on": {
     tones: [
-      { duration: 0.055, frequency: 247, type: "triangle", volume: 0.04, waveform: "dark-bass" },
+      { duration: 0.055, frequency: 247, type: "triangle", volume: 0.04, waveform: "bass-warm" },
       {
         duration: 0.08,
         endFrequency: 330,
@@ -88,7 +88,7 @@ export const darkExplorerSoundEffects: Record<
         offset: 0.018,
         type: "sine",
         volume: 0.04,
-        waveform: "dark-lead",
+        waveform: "lead-mellow",
       },
     ],
   },
@@ -100,7 +100,7 @@ export const darkExplorerSoundEffects: Record<
         frequency: 262,
         type: "triangle",
         volume: 0.05,
-        waveform: "dark-bass",
+        waveform: "bass-warm",
       },
       {
         duration: 0.07,
@@ -109,7 +109,7 @@ export const darkExplorerSoundEffects: Record<
         offset: 0.012,
         type: "sine",
         volume: 0.035,
-        waveform: "dark-lead",
+        waveform: "lead-mellow",
       },
     ],
   },

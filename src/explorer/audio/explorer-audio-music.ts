@@ -1,6 +1,6 @@
 import { scheduleExplorerTone } from "./explorer-audio-tone.js";
 import type { ExplorerAudioTheme } from "./explorer-audio-types.js";
-import { getExplorerInstrument } from "./music/explorer-audio-instruments.js";
+import { getExplorerInstrument } from "./instruments/explorer-audio-instruments.js";
 import type {
   ExplorerMusicSong,
   ExplorerSongEvent,

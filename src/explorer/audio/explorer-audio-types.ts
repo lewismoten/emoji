@@ -1,12 +1,12 @@
 export type ExplorerAudioTheme = "base" | "dark" | "light" | "retro";
 
 export type ExplorerWaveformId =
-  | "dark-bass"
-  | "dark-lead"
-  | "dark-pad"
-  | "light-bass"
-  | "light-bell"
-  | "light-pad";
+  | "bell-bright"
+  | "lead-mellow"
+  | "pad-soft"
+  | "pad-warm"
+  | "bass-round"
+  | "bass-warm";
 
 export type ExplorerAudioElementType =
   | "button"

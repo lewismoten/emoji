@@ -30,15 +30,15 @@ export const darkExplorerSong: ExplorerMusicSong = {
   gain: 0.08,
   voices: [
     {
-      instrument: "dark-lead",
+      instrument: "lead-mellow",
       events: [A3QS, C4Q, D4Q, C4Q, G3QS, A3Q, B3Q, A3Q, F3QS, G3Q, A3Q, G3Q],
     },
     {
-      instrument: "dark-pad",
+      instrument: "pad-warm",
       events: [E4QS, G4Q, A4Q, G4Q, D4QS, E4Q, FS4Q, E4Q, C4QS, D4Q, E4Q, D4Q],
     },
     {
-      instrument: "dark-bass",
+      instrument: "bass-warm",
       events: [A1HS, C2HS, D2HS, E2HS, D2HS, C2HS],
     },
   ],

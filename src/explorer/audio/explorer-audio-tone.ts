@@ -1,5 +1,5 @@
 import type { ExplorerToneShape } from "./explorer-audio-types.js";
-import { applyExplorerWaveform } from "./explorer-audio-waveforms.js";
+import { applyExplorerWaveform } from "./instruments/explorer-audio-waveforms.js";
 
 type ScheduleToneOptions = {
   context: AudioContext;
