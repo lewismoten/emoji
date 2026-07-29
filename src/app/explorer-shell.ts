@@ -13,8 +13,24 @@ import {
   selectTheme as selectThemeHelper,
 } from "../explorer-ui.js";
 
-export function createExplorerShell(options: any) {
-  const savedEmoji = createSavedEmojiController({
+export function createExplorerShellDependencies() {
+  return {
+    createDeveloperModeController,
+    createExplorerAudioController,
+    createExplorerUiController,
+    createSavedEmojiController,
+    installWebApp,
+    renderInstallAppButtonHelper,
+    renderPixelFontToggleHelper,
+    renderThemeToggleHelper,
+    selectEmojiFontHelper,
+    selectThemeHelper,
+  };
+}
+
+export function createExplorerShell(options: any, dependencies?: any) {
+  const helpers = dependencies ?? createExplorerShellDependencies();
+  const savedEmoji = helpers.createSavedEmojiController({
     applyPixelArtworkClass: () => options.applyPixelArtworkClass(),
     byId: () => options.state().byId,
     copiedEmojiKeys: () => options.state().copiedEmojiKeys,
@@ -31,13 +47,13 @@ export function createExplorerShell(options: any) {
     translate: options.translate,
   });
 
-  const audio = createExplorerAudioController({
+  const audio = helpers.createExplorerAudioController({
     savePreference: options.savePreference,
     state: options.state,
   });
 
   function renderPixelFontToggle() {
-    renderPixelFontToggleHelper({
+    helpers.renderPixelFontToggleHelper({
       choices: options.emojiFontChoices,
       refreshRenderedPixelEmoji: options.refreshRenderedPixelEmoji,
       state: options.state,
@@ -45,14 +61,14 @@ export function createExplorerShell(options: any) {
   }
 
   function selectEmojiFont(event: Event) {
-    selectEmojiFontHelper(
+    helpers.selectEmojiFontHelper(
       { renderPixelFontToggle, savePreference: options.savePreference },
       event,
     );
   }
 
   function renderThemeToggle() {
-    renderThemeToggleHelper({
+    helpers.renderThemeToggleHelper({
       choices: options.themeChoices,
       state: options.state,
     });
@@ -60,7 +76,7 @@ export function createExplorerShell(options: any) {
   }
 
   function selectTheme(event: Event) {
-    selectThemeHelper(
+    helpers.selectThemeHelper(
       { renderThemeToggle, savePreference: options.savePreference },
       event,
     );
@@ -89,7 +105,7 @@ export function createExplorerShell(options: any) {
     }
   }
 
-  const developerMode = createDeveloperModeController({
+  const developerMode = helpers.createDeveloperModeController({
     dialog: options.dialog,
     disableDeveloperFeatures,
     loadVersionData: options.loadVersionData,
@@ -105,7 +121,7 @@ export function createExplorerShell(options: any) {
   window.addEventListener("beforeinstallprompt", (event) => {
     event.preventDefault();
     deferredInstallPrompt = event;
-    renderInstallAppButtonHelper(options.installAppButton());
+    helpers.renderInstallAppButtonHelper(options.installAppButton());
   });
   window.addEventListener("appinstalled", () => {
     deferredInstallPrompt = undefined;
@@ -113,15 +129,15 @@ export function createExplorerShell(options: any) {
     if (installAppButton) installAppButton.hidden = true;
   });
 
-  const explorerUi = createExplorerUiController({
+  const explorerUi = helpers.createExplorerUiController({
     deferredInstallPrompt: () => deferredInstallPrompt,
     installAppButton: options.installAppButton,
     installDialog: options.installDialog,
-    installWebApp,
+    installWebApp: helpers.installWebApp,
     offlineStatus: options.offlineStatus,
     pixelEditor: options.pixelEditor,
     renderDeveloperMode: developerMode.render,
-    renderInstallAppButton: renderInstallAppButtonHelper,
+    renderInstallAppButton: helpers.renderInstallAppButtonHelper,
     renderMusicToggle: audio.renderMusicToggle,
     renderPixelFontToggle,
     renderSoundEffectsToggle: audio.renderSoundEffectsToggle,

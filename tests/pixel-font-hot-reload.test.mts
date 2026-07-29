@@ -79,6 +79,17 @@ fetchQueue.push(async () => ({
   ok: true,
   text: async () => "rev-1",
 }));
+visibilityEvents.visibilitychange();
+await Promise.resolve();
+await flushTasks();
+assert.deepEqual(refreshCalls, ["rev-1"]);
+
+(controller as any);
+
+fetchQueue.push(async () => ({
+  ok: true,
+  text: async () => "rev-1",
+}));
 (controller as any).refresh();
 await Promise.resolve();
 await flushTasks();
@@ -175,6 +186,79 @@ installPixelFontHotReload({
   },
 });
 
+const installHotEvents: Record<string, () => void> = {};
+const installRefreshCalls: string[] = [];
+const installOriginalDocument = globalThis.document;
+const installOriginalFetch = globalThis.fetch;
+const installOriginalWindow = globalThis.window;
+Object.defineProperty(globalThis, "fetch", {
+  configurable: true,
+  value: async () => ({
+    ok: true,
+    text: async () => "rev-install",
+  }),
+});
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: {
+    setInterval() {
+      return 1;
+    },
+    requestAnimationFrame(handler: () => void) {
+      pendingTasks.push(handler);
+      return 1;
+    },
+  },
+});
+Object.defineProperty(globalThis, "document", {
+  configurable: true,
+  value: {
+    hidden: false,
+    addEventListener() {},
+  },
+});
+installPixelFontHotReload(
+  {
+    refreshStylesheet(revision: string) {
+      installRefreshCalls.push(revision);
+    },
+  },
+  {
+    on(event: string, handler: () => void) {
+      installHotEvents[event] = handler;
+    },
+  } as any,
+);
+assert.equal(typeof installHotEvents["pixel-font:updated"], "function");
+await Promise.resolve();
+await Promise.resolve();
+await flushTasks();
+assert.equal(installRefreshCalls.join(","), "rev-install");
+if (installOriginalDocument) {
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: installOriginalDocument,
+  });
+} else {
+  Reflect.deleteProperty(globalThis, "document");
+}
+if (installOriginalFetch) {
+  Object.defineProperty(globalThis, "fetch", {
+    configurable: true,
+    value: installOriginalFetch,
+  });
+} else {
+  Reflect.deleteProperty(globalThis, "fetch");
+}
+if (installOriginalWindow) {
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: installOriginalWindow,
+  });
+} else {
+  Reflect.deleteProperty(globalThis, "window");
+}
+
 let stylesheetRemoved = false;
 let previousIdRemoved = false;
 let afterReplacement: any;
@@ -238,6 +322,26 @@ refreshPixelFontStylesheet(
     },
   },
   "rev-1",
+);
+
+Object.defineProperty(globalThis, "document", {
+  configurable: true,
+  value: {
+    querySelector() {
+      return null;
+    },
+    querySelectorAll() {
+      return [];
+    },
+  },
+});
+refreshPixelFontStylesheet(
+  {
+    onStylesheetLoaded() {
+      throw new Error("should not run without stylesheet");
+    },
+  },
+  "rev-missing",
 );
 
 const artworkCalls: Array<[unknown, string]> = [];

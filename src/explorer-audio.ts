@@ -13,7 +13,17 @@ const INTERACTIVE_SELECTOR =
 const DIALOG_SELECTOR =
   ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
 
-export function createExplorerAudioController(options: ExplorerAudioOptions) {
+export function createExplorerAudioDependencies() {
+  return {
+    createExplorerAudioEngine,
+  };
+}
+
+export function createExplorerAudioController(
+  options: ExplorerAudioOptions,
+  dependencies?: ReturnType<typeof createExplorerAudioDependencies>,
+) {
+  const helpers = dependencies ?? createExplorerAudioDependencies();
   let initialized = false;
   let dialogObserver: MutationObserver | undefined;
   let hoverTarget: AudioTarget | null = null;
@@ -31,7 +41,7 @@ export function createExplorerAudioController(options: ExplorerAudioOptions) {
     document.querySelector<HTMLDialogElement>(".help-dialog");
   const savedDialog = () =>
     document.querySelector<HTMLDialogElement>(".saved-dialog");
-  const audio = createExplorerAudioEngine({
+  const audio = helpers.createExplorerAudioEngine({
     helpDialogOpen: () => helpDialog()?.open === true,
     musicEnabled,
     retroMode,

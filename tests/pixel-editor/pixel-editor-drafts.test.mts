@@ -98,18 +98,43 @@ assert.equal(controller.hasVisibleAtlasDraft(), true);
 assert.equal(controller.hasDirtyAtlasDraft(), false);
 assert.equal(controller.hasPendingAtlasLayer(), false);
 
+current.selection = undefined as any;
+assert.equal(controller.selectionHasVisibleArtwork(), false);
+current.selection = { x: 0, y: 0, width: 1, height: 1 };
+
 controller.rememberCurrentDraft();
 assert.equal(draftMap.get("smile").selection.cloned, true);
+
+current.cellLoaded = false;
+controller.rememberCurrentDraft();
+assert.equal(draftMap.size, 2);
+current.cellLoaded = true;
 
 current.pixels = new Uint8ClampedArray([9, 9, 9, 255]);
 controller.updateDirtyState();
 assert.equal(dirtyIndicator.hidden, false);
 assert.equal(dirtyKeys.has("smile"), true);
 
+current.cellLoaded = false;
+controller.updateDirtyState();
+assert.equal(dirtyIndicator.hidden, true);
+current.cellLoaded = true;
+
 controller.updateFileButtons();
 assert.equal(saveButton.disabled, false);
 assert.equal(downloadButton.disabled, false);
 assert.equal(downloadEmojiButton.disabled, false);
+
+current.floatingLayer = { id: 2 };
+controller.updateFileButtons();
+assert.equal(downloadEmojiButton.disabled, true);
+current.floatingLayer = undefined;
+
+current.atlasBlob = undefined as any;
+controller.updateFileButtons();
+assert.equal(saveButton.disabled, true);
+assert.equal(downloadButton.disabled, true);
+current.atlasBlob = { kind: "blob" };
 
 controller.pushHistory();
 current.pixels = new Uint8ClampedArray([7, 7, 7, 255]);
@@ -120,6 +145,8 @@ controller.redo();
 assert.deepEqual(Array.from(current.pixels), [7, 7, 7, 255]);
 controller.resetHistory();
 assert.equal(undoButton.disabled, true);
+controller.undo();
+controller.redo();
 
 controller.markAtlasClean("faces.png");
 assert.equal(dirtyKeys.has("smile"), true);
@@ -145,3 +172,25 @@ assert.equal(
   "Save all unsaved pixel artwork before leaving.",
 );
 assert.equal(status.textContent, unloadEvent.returnValue);
+
+dirtyKeys.clear();
+status.textContent = "";
+const cleanUnloadEvent: any = {
+  preventDefaultCalled: false,
+  preventDefault() {
+    this.preventDefaultCalled = true;
+  },
+  returnValue: "",
+};
+controller.warnAboutDirtyArtwork(cleanUnloadEvent);
+assert.equal(cleanUnloadEvent.preventDefaultCalled, false);
+assert.equal(cleanUnloadEvent.returnValue, "");
+assert.equal(status.textContent, "");
+
+current.entry = undefined as any;
+current.pixels = new Uint8ClampedArray([0, 0, 0, 0]);
+assert.equal(controller.hasDirtyAtlasDraft(), false);
+assert.equal(controller.hasPendingAtlasLayer(), false);
+assert.equal(controller.hasVisibleAtlasDraft(), false);
+controller.updateDirtyState();
+assert.equal(dirtyIndicator.hidden, true);

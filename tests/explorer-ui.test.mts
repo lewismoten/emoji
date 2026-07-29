@@ -257,6 +257,12 @@ try {
   assert.equal(offlineStatus.textContent, "Offline — showing saved data");
   assert.equal(offlineStatus.hidden, false);
 
+  controller.renderInstallAppButton();
+  assert.ok(calls.includes("render-install"));
+
+  controller.applyTranslations();
+  assert.ok(calls.includes("refresh-translations"));
+
   await controller.loadUiTranslations("en-US");
   assert.deepEqual(fetchCalls, [
     "demo-locales/ui.en.json",
@@ -281,6 +287,7 @@ try {
 
   await controller.installApp(new Event("click"));
   assert.deepEqual(deferredInstallPrompt, { accepted: true });
+  assert.ok(calls.includes("set-install-prompt"));
 
   fetchCalls.length = 0;
   await controller.loadUiTranslations("ar", true);
@@ -291,6 +298,74 @@ try {
     (globalThis.document as any).title,
     "مستكشف الإيموجي – Unicode Emoji",
   );
+
+  Object.defineProperty(globalThis, "fetch", {
+    configurable: true,
+    value: async () => ({
+      ok: false,
+      async json() {
+        return {};
+      },
+    }),
+  });
+  await controller.loadUiTranslations("zz-ZZ");
+  assert.deepEqual(state.uiStrings, {});
+  assert.equal(documentElement.lang, "en");
+  assert.equal(documentElement.dir, "ltr");
+  assert.equal((globalThis.document as any).title, "Emoji Explorer – Unicode Emoji");
+
+  Object.defineProperty(globalThis, "fetch", {
+    configurable: true,
+    value: async (url: string) => {
+      fetchCalls.push(url);
+      if (url === "demo-locales/ui.en.json") {
+        return {
+          ok: false,
+          async json() {
+            return {};
+          },
+        };
+      }
+      if (url === "src/demo-locales/ui.en.json") {
+        return {
+          ok: true,
+          async json() {
+            return {
+              title: "Emoji Explorer",
+              offlineStatus: "Offline",
+              searchPlaceholder: "Find emoji",
+              theme: "Theme label",
+            };
+          },
+        };
+      }
+      if (url === "demo-locales/ui.en-US.json") {
+        return {
+          ok: false,
+          async json() {
+            return {};
+          },
+        };
+      }
+      if (url === "src/demo-locales/ui.en-US.json") {
+        return {
+          ok: true,
+          async json() {
+            return {};
+          },
+        };
+      }
+      if (url === "demo-locales/ui.ar.json") {
+        return {
+          ok: true,
+          async json() {
+            return { title: "مستكشف الإيموجي", offlineStatus: "غير متصل" };
+          },
+        };
+      }
+      throw new Error(`Unexpected fetch: ${url}`);
+    },
+  });
 
   documentElement.dataset.developerMode = "1";
   renderThemeToggle({
@@ -306,6 +381,7 @@ try {
   assert.equal(baseThemeChoice.classList.active.has("is-active"), true);
   assert.equal(baseInput.checked, true);
 
+  state.explorerPreferences.theme = "base";
   delete documentElement.dataset.developerMode;
   renderThemeToggle({
     choices: () => [lightThemeChoice, darkThemeChoice, retroThemeChoice],
@@ -313,6 +389,22 @@ try {
   });
   assert.equal(documentElement.dataset.theme, "dark");
   assert.equal(themeMeta.content, "#160622");
+
+  state.explorerPreferences.theme = "light";
+  renderThemeToggle({
+    choices: () => [lightThemeChoice, darkThemeChoice, retroThemeChoice],
+    state: () => state,
+  });
+  assert.equal(documentElement.dataset.theme, "light");
+  assert.equal(themeMeta.content, "#f6efe4");
+
+  state.explorerPreferences.theme = "retro";
+  renderThemeToggle({
+    choices: () => [lightThemeChoice, darkThemeChoice, retroThemeChoice],
+    state: () => state,
+  });
+  assert.equal(documentElement.dataset.theme, "retro");
+  assert.equal(themeMeta.content, "#0000aa");
 
   renderPixelFontToggle({
     choices: () => [pixelChoice, systemChoice],
@@ -322,6 +414,16 @@ try {
   assert.equal(documentElement.dataset.emojiFont, undefined);
   assert.equal(pixelChoice.classList.active.has("is-active"), true);
   assert.equal(pixelChoiceInput.checked, true);
+
+  state.explorerPreferences.pixelFont = false;
+  renderPixelFontToggle({
+    choices: () => [pixelChoice, systemChoice],
+    refreshRenderedPixelEmoji: () => calls.push("refresh-pixel-off"),
+    state: () => state,
+  });
+  assert.equal(documentElement.dataset.emojiFont, "system");
+  assert.equal(systemChoice.classList.active.has("is-active"), true);
+  assert.equal(systemChoiceInput.checked, true);
 
   const preferenceCalls: Array<[string, unknown]> = [];
   selectTheme(
@@ -353,6 +455,34 @@ try {
     ["pixelFont", false],
   ]);
 
+  selectTheme(
+    {
+      renderThemeToggle: () => calls.push("rerender-theme-fallback"),
+      savePreference(key: string, value: unknown) {
+        preferenceCalls.push([key, value]);
+      },
+    },
+    { currentTarget: { dataset: { theme: "mystery" } } },
+  );
+  assert.deepEqual(preferenceCalls.at(-1), ["theme", "dark"]);
+
+  selectEmojiFont(
+    {
+      renderPixelFontToggle: () => calls.push("rerender-font-no-blur"),
+      savePreference(key: string, value: unknown) {
+        preferenceCalls.push([key, value]);
+      },
+    },
+    {
+      currentTarget: {
+        blur: () => calls.push("blur-font-never"),
+        dataset: { emojiFont: "pixel" },
+      },
+      detail: 0,
+    },
+  );
+  assert.equal(calls.includes("blur-font-never"), false);
+
   const developerToggle = createElement();
   const developerDialog = { open: true };
   const developerController = createDeveloperModeController({
@@ -376,6 +506,7 @@ try {
   assert.equal(developerToggle.checked, true);
   assert.equal(developerToggle.attributes.get("aria-checked"), "true");
 
+  state.explorerPreferences.theme = "base";
   await developerController.change({ currentTarget: { checked: false } });
   assert.equal(state.developerModeFromUrl, false);
   assert.equal(state.developerModeUrlDismissed, true);

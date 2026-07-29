@@ -19,6 +19,22 @@ import {
 
 type Checkbox = { checked: boolean; value: string };
 
+export function createExplorerNavigationDependencies() {
+  return {
+    applyBasicUrlStateToControls,
+    applyExclusiveCheckboxSelection,
+    applyLoadedUrlStateToControls,
+    buildExplorerUrlQuery,
+    closePanelDialog,
+    getOpenPanel,
+    getPanelDialog,
+    openPanelDialog,
+    parseExplorerUrlState,
+    resetFilterControls,
+    stepVersionIndex,
+  };
+}
+
 export function createExplorerNavigation(options: {
   allowedSequenceTypes: string[];
   applyingUrlState: () => boolean;
@@ -72,9 +88,9 @@ export function createExplorerNavigation(options: {
   versionModeSelector: () => HTMLSelectElement;
   versionRange: () => HTMLInputElement;
   versionSelector: () => HTMLSelectElement;
-}) {
+}, dependencies = createExplorerNavigationDependencies()) {
   const getUrlState = () =>
-    parseExplorerUrlState({
+    dependencies.parseExplorerUrlState({
       search: window.location.search,
       developerMode: options.developerModeEnabled(),
       preferredOrder: options.preferredOrder(),
@@ -82,7 +98,7 @@ export function createExplorerNavigation(options: {
     });
 
   const applyBasicUrlState = () => {
-    const nextState = applyBasicUrlStateToControls({
+    const nextState = dependencies.applyBasicUrlStateToControls({
       state: getUrlState(),
       searchText: options.searchText(),
       orderButtons: options.orderButtons(),
@@ -93,7 +109,7 @@ export function createExplorerNavigation(options: {
   };
 
   const applyLoadedUrlState = () => {
-    const selections = applyLoadedUrlStateToControls({
+    const selections = dependencies.applyLoadedUrlStateToControls({
       state: getUrlState(),
       versionSelector: options.versionSelector(),
       versionModeSelector: options.versionModeSelector(),
@@ -116,20 +132,20 @@ export function createExplorerNavigation(options: {
     const dialogs = options.panelDialogs();
     if (state.emoji && options.emojiByKey()[state.emoji] !== undefined) {
       [dialogs.favorites, dialogs.help, dialogs.language, dialogs.filters].forEach((dialog) =>
-        closePanelDialog(dialog, options.suppressedPanelCloses()),
+        dependencies.closePanelDialog(dialog, options.suppressedPanelCloses()),
       );
       options.openEmoji(state.emoji, true, undefined, state.emojiMode);
       if (!options.dialog().open) options.showEmojiDialog();
       return;
     }
     if (options.dialog().open) options.closeEmojiDialog();
-    const desiredPanelDialog = getPanelDialog(state.panel, dialogs);
+    const desiredPanelDialog = dependencies.getPanelDialog(state.panel, dialogs);
     [dialogs.favorites, dialogs.help, dialogs.language, dialogs.filters].forEach((dialog) => {
       if (dialog !== desiredPanelDialog)
-        closePanelDialog(dialog, options.suppressedPanelCloses());
+        dependencies.closePanelDialog(dialog, options.suppressedPanelCloses());
     });
     if (desiredPanelDialog && !desiredPanelDialog.open) {
-      openPanelDialog({
+      dependencies.openPanelDialog({
         panel: state.panel as "favorites" | "help" | "language" | "filters",
         addHistory: false,
         dialogs,
@@ -150,7 +166,7 @@ export function createExplorerNavigation(options: {
         .filter((checkbox) => checkbox.checked)
         .map((checkbox) => checkbox.value);
     const dialog = options.dialog();
-    const query = buildExplorerUrlQuery({
+    const query = dependencies.buildExplorerUrlQuery({
       search: options.searchText().value,
       developerMode: options.developerModeEnabled(),
       latestReleasedVersion: options.latestReleasedVersion(),
@@ -171,7 +187,7 @@ export function createExplorerNavigation(options: {
         : dialog.classList.contains("is-code-view")
           ? "code"
           : "details",
-      panel: getOpenPanel(options.panelDialogs()),
+      panel: dependencies.getOpenPanel(options.panelDialogs()),
       dialogOpen: dialog.open,
     });
     const url = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
@@ -179,7 +195,7 @@ export function createExplorerNavigation(options: {
   };
 
   const resetFilters = () => {
-    resetFilterControls({
+    dependencies.resetFilterControls({
       searchText: options.searchText(),
       versionModeSelector: options.versionModeSelector(),
       versionSelector: options.versionSelector(),
@@ -199,7 +215,7 @@ export function createExplorerNavigation(options: {
   };
 
   const onGenderChange = (event: Event) => {
-    applyExclusiveCheckboxSelection(
+    dependencies.applyExclusiveCheckboxSelection(
       options.genderCheckboxes(),
       event.currentTarget as unknown as Checkbox,
     );
@@ -207,7 +223,7 @@ export function createExplorerNavigation(options: {
   };
 
   const onSkinToneChange = (event: Event) => {
-    applyExclusiveCheckboxSelection(
+    dependencies.applyExclusiveCheckboxSelection(
       options.skinToneCheckboxes(),
       event.currentTarget as unknown as Checkbox,
     );
@@ -215,7 +231,7 @@ export function createExplorerNavigation(options: {
   };
 
   const onHairChange = (event: Event) => {
-    applyExclusiveCheckboxSelection(
+    dependencies.applyExclusiveCheckboxSelection(
       options.hairCheckboxes(),
       event.currentTarget as unknown as Checkbox,
     );
@@ -224,7 +240,7 @@ export function createExplorerNavigation(options: {
 
   const stepVersion = (amount: number) => {
     const range = options.versionRange();
-    const nextIndex = stepVersionIndex(
+    const nextIndex = dependencies.stepVersionIndex(
       Number(range.value),
       options.versionSelector().options.length,
       amount,
@@ -245,7 +261,7 @@ export function createExplorerNavigation(options: {
       options.helpDialog()
     ) {
       event.preventDefault();
-      openPanelDialog({
+      dependencies.openPanelDialog({
         panel: "help",
         dialogs: options.panelDialogs(),
         languageList: options.languageList(),

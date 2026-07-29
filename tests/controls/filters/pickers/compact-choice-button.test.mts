@@ -21,6 +21,19 @@ assert.match(markup, /title="Smileys"/);
 assert.match(markup, /class="compact-choice-emoji"[^>]*>😀<\/span>/);
 assert.match(markup, /class="compact-choice-label">Smileys<\/span>/);
 
+const spec = CompactChoiceButtonControl.toSpec({
+  ariaLabel: "Travel and Places",
+  emoji: "✈️",
+  label: "Travel",
+  selected: false,
+  value: "travel",
+});
+
+assert.equal(spec.tag, "button");
+assert.equal(spec.attributes?.["aria-label"], "Travel and Places");
+assert.equal(spec.attributes?.tabindex, "-1");
+assert.equal(spec.dataset?.value, "travel");
+
 const restore = installFakeDocument();
 const globals = globalThis as typeof globalThis & {
   document: { head: FakeElement };

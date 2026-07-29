@@ -26,6 +26,7 @@ const transformedSource = sourceText
   .replace('from "../explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";')
   .replace('from "../explorer-ui.js";', 'from "./explorer-ui-stub.mjs";')
   .replace(/options: any/g, "options")
+  .replace(/dependencies\?: any/g, "dependencies")
   .replace(/keys: string\[\]/g, "keys")
   .replace(/event: Event/g, "event")
   .replace(/button: HTMLButtonElement/g, "button")
