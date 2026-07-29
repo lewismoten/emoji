@@ -152,6 +152,35 @@ try {
   engine.playDialogClose();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 9);
 
+  retro = false;
+  theme = "light";
+  const lightSfxStart = FakeAudioContext.instances[0]?.oscillators.length ?? 0;
+  engine.playClick();
+  engine.playHover();
+  engine.playDialogOpen();
+  assert.equal(
+    (FakeAudioContext.instances[0]?.oscillators.length ?? 0) > lightSfxStart,
+    true,
+  );
+  assert.equal(
+    FakeAudioContext.instances[0]?.periodicWaves.length > 0,
+    true,
+  );
+
+  theme = "dark";
+  const darkSfxStart = FakeAudioContext.instances[0]?.oscillators.length ?? 0;
+  engine.playDialogClose();
+  engine.playInteraction("checkbox", "check");
+  engine.playInteraction("button", "focus");
+  assert.equal(
+    (FakeAudioContext.instances[0]?.oscillators.length ?? 0) > darkSfxStart,
+    true,
+  );
+  assert.equal(
+    FakeAudioContext.instances[0]?.oscillators.at(-1)?.periodicWave != null,
+    true,
+  );
+
   music = true;
   helpOpen = true;
   engine.syncHelpMusic();

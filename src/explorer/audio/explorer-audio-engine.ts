@@ -3,7 +3,7 @@ import {
   scheduleExplorerMusic,
 } from "./explorer-audio-music.js";
 import {
-  getExplorerSoundEffect,
+  getThemedExplorerSoundEffect,
   resolveExplorerSoundEffect,
   type ExplorerSoundEffectId,
 } from "./explorer-audio-sfx.js";
@@ -63,9 +63,8 @@ export function createExplorerAudioEngine(
 
   function playSoundEffect(effectId: ExplorerSoundEffectId) {
     if (!options.soundEffectsEnabled()) return;
-    const effect = getExplorerSoundEffect(effectId);
+    const effect = getThemedExplorerSoundEffect(effectId, options.theme());
     if (!effect) return;
-    if (effect.requiresRetro && !options.retroMode()) return;
     const context = getAudioContext();
     if (!context || context.state !== "running" || !masterGain) return;
     const start = context.currentTime;
