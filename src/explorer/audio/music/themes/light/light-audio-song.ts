@@ -1,5 +1,5 @@
-import type { ExplorerMusicSong } from "./explorer-audio-song-types.js";
-import { NOTE_LENGTHS, PITCHES } from "./explorer-audio-notes.js";
+import type { ExplorerMusicSong } from "../../explorer-audio-song-types.js";
+import { NOTE_LENGTHS, PITCHES } from "../../explorer-audio-notes.js";
 
 const Q = NOTE_LENGTHS.QUARTER;
 const H = NOTE_LENGTHS.HALF;
@@ -83,16 +83,7 @@ export const lightExplorerSong: ExplorerMusicSong = {
     },
     {
       instrument: "light-bass",
-      events: [
-        C3HS,
-        E3H,
-        G3HS,
-        E3H,
-        D3HS,
-        G3H,
-        A3HS,
-        G3H,
-      ],
+      events: [C3HS, E3H, G3HS, E3H, D3HS, G3H, A3HS, G3H],
     },
     {
       instrument: "light-drums",

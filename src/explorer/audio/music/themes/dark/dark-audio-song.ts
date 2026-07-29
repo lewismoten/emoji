@@ -1,5 +1,5 @@
-import type { ExplorerMusicSong } from "./explorer-audio-song-types.js";
-import { NOTE_LENGTHS, PITCHES } from "./explorer-audio-notes.js";
+import type { ExplorerMusicSong } from "../../explorer-audio-song-types.js";
+import { NOTE_LENGTHS, PITCHES } from "../../explorer-audio-notes.js";
 
 const Q = NOTE_LENGTHS.QUARTER;
 const H = NOTE_LENGTHS.HALF;
@@ -31,48 +31,15 @@ export const darkExplorerSong: ExplorerMusicSong = {
   voices: [
     {
       instrument: "dark-lead",
-      events: [
-        A3QS,
-        C4Q,
-        D4Q,
-        C4Q,
-        G3QS,
-        A3Q,
-        B3Q,
-        A3Q,
-        F3QS,
-        G3Q,
-        A3Q,
-        G3Q,
-      ],
+      events: [A3QS, C4Q, D4Q, C4Q, G3QS, A3Q, B3Q, A3Q, F3QS, G3Q, A3Q, G3Q],
     },
     {
       instrument: "dark-pad",
-      events: [
-        E4QS,
-        G4Q,
-        A4Q,
-        G4Q,
-        D4QS,
-        E4Q,
-        FS4Q,
-        E4Q,
-        C4QS,
-        D4Q,
-        E4Q,
-        D4Q,
-      ],
+      events: [E4QS, G4Q, A4Q, G4Q, D4QS, E4Q, FS4Q, E4Q, C4QS, D4Q, E4Q, D4Q],
     },
     {
       instrument: "dark-bass",
-      events: [
-        A1HS,
-        C2HS,
-        D2HS,
-        E2HS,
-        D2HS,
-        C2HS,
-      ],
+      events: [A1HS, C2HS, D2HS, E2HS, D2HS, C2HS],
     },
   ],
 };

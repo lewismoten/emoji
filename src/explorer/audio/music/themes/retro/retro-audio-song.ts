@@ -1,5 +1,5 @@
-import type { ExplorerMusicSong } from "./explorer-audio-song-types.js";
-import { NOTE_LENGTHS, PITCHES } from "./explorer-audio-notes.js";
+import type { ExplorerMusicSong } from "../../explorer-audio-song-types.js";
+import { NOTE_LENGTHS, PITCHES } from "../../explorer-audio-notes.js";
 
 const Q = NOTE_LENGTHS.QUARTER;
 const H = NOTE_LENGTHS.HALF;
@@ -19,25 +19,11 @@ export const retroExplorerSong: ExplorerMusicSong = {
   voices: [
     {
       instrument: "retro-lead",
-      events: [
-        C4Q,
-        E4Q,
-        G4Q,
-        E4Q,
-        C4Q,
-        G4Q,
-        E4Q,
-        D4QS,
-      ],
+      events: [C4Q, E4Q, G4Q, E4Q, C4Q, G4Q, E4Q, D4QS],
     },
     {
       instrument: "retro-bass",
-      events: [
-        C3HS,
-        D3HS,
-        E3HS,
-        D3HS,
-      ],
+      events: [C3HS, D3HS, E3HS, D3HS],
     },
   ],
 };

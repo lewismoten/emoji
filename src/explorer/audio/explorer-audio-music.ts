@@ -1,13 +1,13 @@
 import { scheduleExplorerTone } from "./explorer-audio-tone.js";
 import type { ExplorerAudioTheme } from "./explorer-audio-types.js";
 import { getExplorerInstrument } from "./music/explorer-audio-instruments.js";
-import { darkExplorerSong } from "./music/explorer-audio-song-dark.js";
-import { lightExplorerSong } from "./music/explorer-audio-song-light.js";
-import { retroExplorerSong } from "./music/explorer-audio-song-retro.js";
 import type {
   ExplorerMusicSong,
   ExplorerSongEvent,
 } from "./music/explorer-audio-song-types.js";
+import { darkExplorerSong } from "./music/themes/dark/dark-audio-song.js";
+import { lightExplorerSong } from "./music/themes/light/light-audio-song.js";
+import { retroExplorerSong } from "./music/themes/retro/retro-audio-song.js";
 
 type ScheduledMusicOptions = {
   context: AudioContext;
