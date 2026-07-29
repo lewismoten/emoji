@@ -66,6 +66,20 @@ type InstallAppResult = {
   deferredInstallPrompt: BeforeInstallPromptEventLike | undefined;
 };
 
+function isInstallPromptCancellation(error: unknown) {
+  if (
+    error &&
+    typeof error === "object" &&
+    "name" in error &&
+    error.name === "AbortError"
+  ) {
+    return true;
+  }
+  if (!(error instanceof Error)) return false;
+  const message = error.message.toLowerCase();
+  return message.includes("cancel");
+}
+
 export async function installApp({
   deferredInstallPrompt,
   event,
@@ -94,7 +108,8 @@ export async function installApp({
     await promptEvent.prompt();
     await promptEvent.userChoice;
   } catch (error) {
-    console.warn("App installation unavailable", error);
+    if (!isInstallPromptCancellation(error))
+      console.warn("App installation unavailable", error);
   }
   if (releaseTriggerFocus) trigger?.blur?.();
   return { deferredInstallPrompt: undefined };
