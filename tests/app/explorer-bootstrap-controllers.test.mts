@@ -168,6 +168,7 @@ const options: any = {
 };
 
 const controllers = createExplorerBootstrapControllers(options);
+const controllerApi = controllers as any;
 
 assert.equal(typeof controllers.buildRepresentatives, "function");
 assert.equal(typeof controllers.closeFilterPicker, "function");
@@ -198,6 +199,51 @@ assert.equal(typeof controllers.syncVersionRange, "function");
 assert.equal(typeof controllers.updateActiveFilterSummary, "function");
 assert.equal(typeof controllers.updateAvailableCategories, "function");
 assert.equal(typeof controllers.versionSliderLabel, "function");
+assert.doesNotThrow(() => controllerApi.buildRepresentatives("gift"));
+assert.doesNotThrow(() => controllerApi.closeFilterPicker());
+assert.equal(controllerApi.displayGroupName("Objects"), "Objects");
+assert.equal(controllerApi.displayUnicodeSubGroupName("mail"), "Mail");
+assert.doesNotThrow(() => controllerApi.getGroupRepresentativeEmoji());
+assert.doesNotThrow(() => controllerApi.getSubGroupRepresentativeEmoji());
+assert.doesNotThrow(() => controllerApi.getVersionKeys());
+assert.doesNotThrow(() =>
+  controllerApi.onEmojiDialogClick({
+    target: {
+      closest() {
+        return null;
+      },
+    },
+  }),
+);
+assert.doesNotThrow(() =>
+  controllerApi.onEmojiFocus({
+    target: {
+      closest() {
+        return null;
+      },
+    },
+  }),
+);
+assert.doesNotThrow(() =>
+  controllerApi.onEmojiKeyDown({
+    key: "Enter",
+    preventDefault() {},
+    target: {
+      closest() {
+        return null;
+      },
+    },
+  }),
+);
+assert.doesNotThrow(() => controllerApi.openFilterPicker());
+assert.doesNotThrow(() => controllerApi.refreshLocalizedLabels());
+assert.equal(
+  controllerApi.subGroupSelectionKey("Objects", "mail"),
+  "Objects::mail",
+);
+assert.doesNotThrow(() => controllerApi.syncVersionRange("17.0"));
+assert.doesNotThrow(() => controllerApi.updateActiveFilterSummary());
+assert.doesNotThrow(() => controllerApi.versionSliderLabel("17.0"));
 
 (globalThis as any).window = {
   history: {

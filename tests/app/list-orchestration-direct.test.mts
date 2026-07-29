@@ -2,14 +2,31 @@ import assert from "node:assert/strict";
 import { createListOrchestration } from "../../src/app/list-orchestration.js";
 
 const originalDocument = globalThis.document;
+const originalWindow = globalThis.window;
 
 const createdFragments: Array<{ parts: unknown[] }> = [];
 
 (globalThis as any).document = {
+  activeElement: null,
+  createElement(tagName: string) {
+    return {
+      tagName: tagName.toUpperCase(),
+      className: "",
+      textContent: "",
+      addEventListener() {},
+      append() {},
+      appendChild() {},
+      replaceChildren() {},
+      setAttribute() {},
+    };
+  },
   createDocumentFragment() {
     const fragment = {
       parts: [] as unknown[],
       append(value: unknown) {
+        this.parts.push(value);
+      },
+      appendChild(value: unknown) {
         this.parts.push(value);
       },
       hasChildNodes() {
@@ -23,10 +40,23 @@ const createdFragments: Array<{ parts: unknown[] }> = [];
     return { textContent: value };
   },
 };
+(globalThis as any).window = {
+  clearTimeout() {},
+  setTimeout(handler: () => void) {
+    handler();
+    return 1;
+  },
+};
 
 try {
   const activeFilterSummary = { hidden: true };
   const replaced: unknown[] = [];
+  const emojiListElement = {
+    dataset: {},
+    appendChild() {},
+    replaceChildren() {},
+    setAttribute() {},
+  };
   const activeFilterText = {
     replaceChildren(value: unknown) {
       replaced.length = 0;
@@ -51,22 +81,31 @@ try {
   });
 
   const state: any = {
-    byId: {},
-    emojiByKey: {},
+    byId: {
+      wrappedGift: {
+        key: "wrappedGift",
+        shortName: "wrapped gift",
+        group: "Objects",
+        unicodeSubGroup: "mail",
+        sequenceType: "single",
+      },
+    },
+    emojiByKey: { wrappedGift: "🎁" },
     focusedEmojiKey: "",
     groups: [],
     orderMode: "grouped",
     searchAnnotations: {},
     subGroups: {},
     versionManifests: [{ version: "16.0" }, { version: "17.0" }],
-    allIds: new Set<string>(),
-    items: [],
+    allIds: ["wrappedGift"],
+    items: [undefined as any].map(() => undefined),
     displayedKeys: [],
     selectedGroup: "Objects",
     selectedSequenceType: "",
     selectedSubGroup: "Objects::mail",
     selectedSearchLocale: "en",
   };
+  state.items = [state.byId.wrappedGift];
 
   const runtime = createListOrchestration({
     activeFilterSummary: () => activeFilterSummary,
@@ -83,7 +122,7 @@ try {
     matchCount: () => ({ innerText: "" }),
     nextRenderGeneration: () => 1,
     onClick: () => {},
-    emojiList: () => ({ dataset: {}, setAttribute() {}, replaceChildren() {} }),
+    emojiList: () => emojiListElement,
     renderGeneration: () => 1,
     resetFilters: () => {},
     revealExplorer: () => {},
@@ -93,7 +132,7 @@ try {
     sequenceTypeOrder: ["single"],
     skinToneCheckboxes: () => [makeCheckbox("1F3FB")],
     state: () => state,
-    subGroupSelectionKey: () => "",
+    subGroupSelectionKey: () => "Objects::mail",
     syncUrlState: () => {},
     translate: (key: string, fallback: string) => `${key}:${fallback}`,
     unassigned: "unassigned",
@@ -102,12 +141,18 @@ try {
     versionSelector: () => ({ value: "17.0" }),
     versionSliderLabel: (value: string) => `version:${value}`,
   });
+  const runtimeApi = runtime as any;
 
   runtime.updateActiveFilterSummary();
+  assert.doesNotThrow(() => runtimeApi.drawList("gift"));
+  assert.doesNotThrow(() => runtimeApi.scheduleSearchDraw("gift"));
+  assert.doesNotThrow(() => runtimeApi.onEmojiFocus("wrappedGift"));
+  assert.doesNotThrow(() => runtimeApi.onEmojiKeyDown("ArrowRight"));
 
   assert.equal(activeFilterSummary.hidden, false);
   assert.equal(replaced.length, 1);
   assert.equal(createdFragments.length > 0, true);
 } finally {
   (globalThis as any).document = originalDocument;
+  (globalThis as any).window = originalWindow;
 }
