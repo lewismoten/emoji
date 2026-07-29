@@ -153,6 +153,16 @@ def wrap_text(words, max_line_length):
     return lines
 
 
+def collect_sample_lines(manifest):
+    sample_entries = manifest.get("samplePhrases")
+    if sample_entries:
+        lines = []
+        for entry in sample_entries:
+            lines.extend(wrap_text(entry["text"].split(), manifest.get("sampleWrap", 28)))
+        return lines
+    return wrap_text(manifest["samplePhrase"].split(), manifest.get("sampleWrap", 28))
+
+
 def render_sample(manifest_path, source_path, output_path):
     manifest, _ = load_manifest(manifest_path)
     glyph_source = json.loads(source_path.read_text("utf8"))
@@ -160,9 +170,7 @@ def render_sample(manifest_path, source_path, output_path):
     glyph_width = manifest["glyphBox"]["width"]
     glyph_height = manifest["glyphBox"]["height"]
     scale = manifest.get("sampleScale", 4)
-    spacing = manifest.get("sampleSpacing", 1)
-    words = manifest["samplePhrase"].split()
-    lines = wrap_text(words, manifest.get("sampleWrap", 28))
+    lines = collect_sample_lines(manifest)
     rendered_width = max(len(line) for line in lines) * (glyph_width + 1)
     rendered_height = len(lines) * (glyph_height + 2) - 1
     image = Image.new(

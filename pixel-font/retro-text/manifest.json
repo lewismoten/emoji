@@ -12,7 +12,18 @@
     "width": 5,
     "height": 7
   },
-  "samplePhrase": "À fuzzy wizard named Zoë quietly vexes Jack with six emoji: café, piñata, jalapeño, crème brûlée, smörgåsbord, Æsir, œuvre, Straße, £10, €20 — “Voilà!”",
+  "samplePhrases": [
+    {
+      "id": "english",
+      "label": "English example",
+      "text": "A fuzzy wizard quietly vexes Jack by throwing six emoji pompoms."
+    },
+    {
+      "id": "latin",
+      "label": "Latin example",
+      "text": "À fuzzy wizard named Zoë quietly vexes Jack with six emoji: café, piñata, jalapeño, crème brûlée, smörgåsbord, Æsir, œuvre, Straße, £10, €20 — “Voilà!”"
+    }
+  ],
   "sampleScale": 4,
   "sampleWrap": 28,
   "pages": [

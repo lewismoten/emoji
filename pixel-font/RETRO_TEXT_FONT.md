@@ -43,8 +43,10 @@ such as the euro sign, curly quotes, and arrow-key icons.
 
 ![Pixel Latin Retro symbols atlas](retro-text/symbols-and-punctuation.png)
 
-The sample phrase used to preview the face is:
+The sample preview currently renders both of these sentences:
 
+> A fuzzy wizard quietly vexes Jack by throwing six emoji pompoms.
+>
 > À fuzzy wizard named Zoë quietly vexes Jack with six emoji: café,
 > piñata, jalapeño, crème brûlée, smörgåsbord, Æsir, œuvre, Straße,
 > £10, €20 — “Voilà!”
