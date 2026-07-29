@@ -117,8 +117,7 @@ export function skinToneColorMap(sourceTone, targetTone) {
     if (sourceShade.kind === "normal") continue;
     const targetShade =
       findShadeByKind(targetCycle, sourceShade.kind) ??
-      endpointSkinToneShade(targetTone, sourceShade.kind) ??
-      firstNonNormalShade(targetCycle);
+      endpointSkinToneShade(targetTone, sourceShade.kind);
     colors.set(sourceShade.color, targetShade.color);
   }
   return colors;

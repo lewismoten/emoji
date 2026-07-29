@@ -307,6 +307,30 @@ assert.deepEqual(
   Array.from(helperUnknownOpaqueRemapped),
   [1, 2, 3, 255],
 );
+const helperWithoutOwnershipRemapped = remapSkinTonePixelsAny(
+  new Uint8ClampedArray([...hexToRgba(light.color)]),
+  [light.codePoint],
+  [dark.codePoint],
+  {},
+);
+assert.deepEqual(
+  Array.from(helperWithoutOwnershipRemapped),
+  hexToRgba(dark.color),
+);
+const helperWithDefaultOffsetsRemapped = remapSkinTonePixelsAny(
+  new Uint8ClampedArray([...hexToRgba(light.color)]),
+  [light.codePoint],
+  [dark.codePoint],
+  {
+    ownership: new Int8Array([0]),
+    ownershipWidth: 1,
+    width: 1,
+  },
+);
+assert.deepEqual(
+  Array.from(helperWithDefaultOffsetsRemapped),
+  hexToRgba(dark.color),
+);
 
 const transparentPixels = new Uint8ClampedArray([0, 0, 0, 0]);
 assert.deepEqual(
