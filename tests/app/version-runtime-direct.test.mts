@@ -4,6 +4,8 @@ import {
   createVersionConfig,
   createVersionRuntime,
 } from "../../src/app/version-runtime.js";
+import { loadExplorerCatalog } from "../../src/explorer/catalog-loader.js";
+import { loadVersionCatalog } from "../../src/explorer/version-data.js";
 
 const state = {
   allIds: ["wave"],
@@ -92,6 +94,95 @@ assert.equal(config.versionSelector(), "version-selector");
 
 assert.equal(typeof config.loadCatalog, "function");
 assert.equal(typeof config.loadVersionCatalog, "function");
+const originalCatalogDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
+const originalFetch = Object.getOwnPropertyDescriptor(globalThis, "fetch");
+Object.defineProperty(globalThis, "document", {
+  configurable: true,
+  value: {
+    querySelector() {
+      return null;
+    },
+  },
+});
+const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: {
+    location: { href: "https://example.test/" },
+  },
+});
+Object.defineProperty(globalThis, "fetch", {
+  configurable: true,
+  value: async (input: string) => {
+    if (input === "versions/manifest.json" || input === "src/data/versions/manifest.json") {
+      return {
+        ok: true,
+        async json() {
+          return { proposed: [], versions: [] };
+        },
+      };
+    }
+    if (input === "explorer/catalog.json") {
+      return {
+        ok: true,
+        async json() {
+          return {
+            fields: ["key", "emoji", "group", "subGroup"],
+            emoji: [["wave", "👋", "People & Body", "hand-fingers-open"]],
+          };
+        },
+      };
+    }
+    if (/^pixel-font\/build\/explorer-manifest\.json/.test(input)) {
+      return {
+        ok: true,
+        async json() {
+          return { glyphs: [] };
+        },
+      };
+    }
+    throw new Error(`Unexpected fetch: ${input}`);
+  },
+});
+try {
+  assert.deepEqual(
+    await config.loadCatalog(),
+    await loadExplorerCatalog({
+      getExplorerSubGroup: options.getExplorerSubGroup,
+      isViteDevelopment: options.isViteDevelopment,
+      updatePixelArtworkManifest: options.updatePixelArtworkManifest,
+    }),
+  );
+  assert.deepEqual(
+    await config.loadVersionCatalog(),
+    await loadVersionCatalog({
+      allIds: () => state.allIds,
+      byId: () => state.byId,
+      emojiByKey: () => state.emojiByKey,
+      getExplorerSubGroup: options.getExplorerSubGroup,
+      items: () => state.items,
+    }),
+  );
+} finally {
+  if (originalCatalogDocument) {
+    Object.defineProperty(globalThis, "document", originalCatalogDocument);
+  } else {
+    Reflect.deleteProperty(globalThis, "document");
+  }
+  if (originalWindow) {
+    Object.defineProperty(globalThis, "window", originalWindow);
+  } else {
+    Reflect.deleteProperty(globalThis, "window");
+  }
+  if (originalFetch) {
+    Object.defineProperty(globalThis, "fetch", originalFetch);
+  } else {
+    Reflect.deleteProperty(globalThis, "fetch");
+  }
+}
 
 config.openEmoji("wave", true, undefined, "code");
 assert.deepEqual(clickCalls.at(-1), [{ target: { id: "wave" } }, true]);

@@ -78,11 +78,17 @@ class FakeElement {
 
 try {
   const timers: Array<() => void> = [];
+  let yielded = 0;
   const focusedById = new Map<string, FakeElement>();
   Object.defineProperty(globalThis, "window", {
     configurable: true,
     value: {
-      scheduler: undefined,
+      scheduler: {
+        yield() {
+          yielded += 1;
+          return Promise.resolve();
+        },
+      },
       setTimeout(callback: () => void) {
         timers.push(callback);
         return timers.length;
@@ -199,6 +205,36 @@ try {
   ]);
   assert.equal(clicked.includes("reveal"), true);
   assert.equal(listCells[1].focused, true);
+  assert.equal(yielded, 0);
+
+  const sequenceInteraction = createEmojiListInteraction({
+    asItem(state: any, key: string) {
+      state.items.push({ key });
+    },
+    asSequenceItem(state: any, key: string) {
+      renderedStates.push(["sequence", state.type ?? "", key]);
+      state.items.push({ key });
+    },
+    drawList() {},
+    emojiList: () => emojiList as any,
+    flushEmojiCellFragment() {},
+    focusedEmojiKey: () => focusedKey,
+    getDisplayedKeys: () => ["alpha", "beta", "gamma"],
+    nextRenderGeneration: () => 1,
+    onClick() {},
+    orderMode: () => "sequence",
+    renderGeneration: () => 1,
+    resetFilters() {},
+    revealExplorer() {},
+    searchText: () => searchText as any,
+    setFocusedEmojiKey(key: string) {
+      focusedKey = key;
+    },
+    translate: (_key: string, fallback: string) => fallback,
+    unassigned: "unassigned",
+  });
+  sequenceInteraction.renderEmojiList(["alpha"], false);
+  assert.deepEqual(renderedStates.at(-1), ["sequence", "", "alpha"]);
 
   interaction.onEmojiFocus({
     target: listCells[2],
@@ -229,6 +265,26 @@ try {
   interaction.onEmojiKeyDown(downEvent as any);
   assert.equal(downEvent.preventDefaultCalled, true);
   assert.equal(listCells[2].focused, true);
+
+  const rightEvent = {
+    key: "ArrowRight",
+    preventDefaultCalled: false,
+    preventDefault() {
+      this.preventDefaultCalled = true;
+    },
+    target: listCells[0],
+  };
+  interaction.onEmojiKeyDown(rightEvent as any);
+  assert.equal(rightEvent.preventDefaultCalled, true);
+  assert.equal(listCells[1].focused, true);
+
+  const homeEvent = {
+    key: "Home",
+    preventDefault() {},
+    target: listCells[2],
+  };
+  interaction.onEmojiKeyDown(homeEvent as any);
+  assert.equal(listCells[0].focused, true);
 } finally {
   if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");

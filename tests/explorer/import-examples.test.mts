@@ -53,3 +53,26 @@ assert.deepEqual(
     showSubgroup: false,
   },
 );
+
+assert.deepEqual(
+  resolveImportExamples(
+    {
+      packs: [],
+      categories: [],
+    } as any,
+    {
+      key: "rocket",
+      group: "Travel & Places",
+      unicodeSubGroup: "sky",
+    },
+  ),
+  {
+    allPath: "@lewismoten/emoji/all",
+    popularPath: "",
+    showPopular: false,
+    categoryPath: "",
+    showCategory: false,
+    subgroupPath: "",
+    showSubgroup: false,
+  },
+);

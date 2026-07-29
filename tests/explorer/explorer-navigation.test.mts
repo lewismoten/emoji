@@ -314,6 +314,17 @@ try {
     false,
   );
 
+  urlStateStub.setCurrentState({
+    compositionMode: "condensed",
+    emoji: undefined,
+    panel: "",
+  });
+  navigation.applyDialogUrlState();
+  assert.equal(
+    drawCalls.filter((entry) => entry === "closeEmojiDialog").length >= 1,
+    true,
+  );
+
   navigation.syncUrlState("push");
   assert.deepEqual(historyCalls[0], ["push", { page: 1 }, "/index.en.html?built=query#top"]);
 

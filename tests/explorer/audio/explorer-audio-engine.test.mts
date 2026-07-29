@@ -213,6 +213,13 @@ try {
       throw new Error("resume failed");
     }
   }
+  class ClosedAudioContext extends FakeAudioContext {
+    override state: "running" | "suspended" = "running";
+    constructor() {
+      super();
+      (this as any).state = "closed";
+    }
+  }
   Object.defineProperty(globalThis, "window", {
     configurable: true,
     value: {
@@ -231,6 +238,26 @@ try {
     soundEffectsEnabled: () => false,
   });
   assert.equal(await rejectingEngine.resumeAudioContext(), undefined);
+
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      AudioContext: ClosedAudioContext,
+      clearTimeout() {},
+      setTimeout() {
+        return 0;
+      },
+    },
+  });
+  const closedEngine = createExplorerAudioEngine({
+    helpDialogOpen: () => false,
+    musicEnabled: () => false,
+    retroMode: () => true,
+    savedDialogOpen: () => false,
+    soundEffectsEnabled: () => false,
+  });
+  const closedContext = await closedEngine.resumeAudioContext();
+  assert.equal((closedContext as any)?.state, "closed");
 } finally {
   if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");

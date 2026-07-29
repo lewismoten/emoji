@@ -160,6 +160,10 @@ assert.deepEqual(
   Array.from(helperRemapped.slice(8, 12)),
   hexToRgba(mediumLight.color),
 );
+assert.deepEqual(
+  Array.from(helperRemapped.slice(4, 8)),
+  hexToRgba(medium.color),
+);
 
 const transparentPixels = new Uint8ClampedArray([0, 0, 0, 0]);
 assert.deepEqual(

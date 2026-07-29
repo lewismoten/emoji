@@ -262,7 +262,7 @@ try {
   listeners.get("pointerover")?.[0]?.({ target: {} });
   listeners.get("pointerover")?.[0]?.({ target: disabledTarget });
   listeners.get("pointerover")?.[0]?.({ target: ariaDisabledTarget });
-  listeners.get("pointerout")?.[0]?.({ target, relatedTarget: target });
+  listeners.get("pointerout")?.[0]?.({ target, relatedTarget: interactive });
   listeners.get("pointerout")?.[0]?.({ target, relatedTarget: null });
   listeners.get("pointerout")?.[0]?.({ target: {}, relatedTarget: null });
   assert.equal(engineCalls.some((call) => call[0] === "playClick"), true);

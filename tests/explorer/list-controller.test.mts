@@ -136,8 +136,11 @@ try {
   controller.schedule();
   controller.schedule();
   assert.deepEqual(cleared, [1]);
-  timers.get(2)?.();
-  assert.equal(filterStub.filterCalls.length, 2);
+  controller.draw();
+  assert.deepEqual(cleared, [1, 2]);
+  controller.schedule();
+  timers.get(3)?.();
+  assert.equal(filterStub.filterCalls.length, 3);
 
   searchInput.value = "";
   controller.draw();

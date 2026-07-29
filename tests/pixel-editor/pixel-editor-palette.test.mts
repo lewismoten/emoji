@@ -155,6 +155,9 @@ selectedColor = "#123456";
 selectedSkinTone = "";
 (controller as any).updateSkinTonePalette([]);
 assert.equal(selectedColor, "transparent");
+(controller as any).updateSkinTonePalette(["1F3FF"]);
+assert.equal(toneButton.hidden, true);
+assert.equal(toneButton.dataset.cycleIndex, "0");
 
 (controller as any).updateSkinTonePalette(["1F3FB"]);
 selectedColor = "transparent";
@@ -204,6 +207,11 @@ selectedSkinTone = "";
 (controller as any).updatePaletteSelection();
 assert.equal(toneButton.getAttribute("aria-pressed"), "false");
 assert.equal(secondToneButton.getAttribute("aria-pressed"), "false");
+selectedSkinTone = "1F3FB";
+selectedColor = "#654321";
+(controller as any).updatePaletteSelection();
+assert.equal(toneButton.getAttribute("aria-pressed"), "true");
+selectedSkinTone = "";
 
 const unknownToneButton = new FakeButton({ skinTone: "UNKNOWN" });
 const unknownToneController = createPixelEditorPaletteController({

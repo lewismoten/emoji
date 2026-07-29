@@ -301,6 +301,9 @@ try {
   assert.equal(popularState.group, "Top 2");
   popularRenderers.flushEmojiCellFragment(popularState);
   assert.equal(popularState.items.length, 1);
+  popularRenderers.asItem(popularState, "alpha");
+  popularRenderers.flushEmojiCellFragment(popularState);
+  assert.equal(popularState.items[0].childNodes[0].innerText, "Top 2");
 
   const orderedPopular = popularRenderers.orderedKeys(["alpha", "missing", "beta"]);
   assert.deepEqual(orderedPopular, ["beta", "alpha", "missing"]);

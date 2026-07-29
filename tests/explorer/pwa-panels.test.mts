@@ -179,6 +179,10 @@ try {
   assert.equal(isIosDevice(), false);
   windowStub.navigator.userAgentData = undefined;
   assert.equal(isIosDevice(), true);
+  windowStub.navigator.userAgent = "Macintosh Mobile";
+  windowStub.navigator.maxTouchPoints = 2;
+  assert.equal(isIosDevice(), true);
+  windowStub.navigator.userAgent = "iPhone";
 
   const installButton = new FakeElement();
   renderInstallAppButton(installButton as any);
@@ -227,6 +231,16 @@ try {
   assert.equal(renderedInstallButton, 1);
   assert.equal(trigger.blurred, true);
   assert.equal(promptResult.deferredInstallPrompt, undefined);
+  const failedPrompt = await installApp({
+    deferredInstallPrompt: {
+      async prompt() {
+        throw new Error("cancelled");
+      },
+      userChoice: Promise.resolve({}),
+    } as any,
+    renderInstallAppButton() {},
+  });
+  assert.equal(failedPrompt.deferredInstallPrompt, undefined);
 
   const suppressedPanelCloses = new WeakSet<any>();
   const dialogs = {
@@ -237,6 +251,7 @@ try {
   };
   assert.equal(getPanelDialog("help", dialogs as any), dialogs.help);
   assert.equal(getPanelDialog("", dialogs as any), undefined);
+  assert.equal(getOpenPanel({} as any), "");
   dialogs.language.open = true;
   assert.equal(getOpenPanel(dialogs as any), "language");
   dialogs.language.open = false;

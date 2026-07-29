@@ -190,6 +190,18 @@ try {
   });
   assert.equal(emptySelector.value, "");
   assert.equal(emptySelector.disabled, true);
+
+  globalThis.fetch = (async () => ({ ok: false })) as unknown as typeof fetch;
+  await assert.rejects(
+    loadVersionCatalog({
+      allIds: () => [],
+      byId: () => ({}),
+      emojiByKey: () => ({}),
+      getExplorerSubGroup: (item: any) => item.subGroup,
+      items: () => [],
+    }),
+    /Unable to load versions\/manifest\.json or src\/data\/versions\/manifest\.json/,
+  );
 } finally {
   globalThis.fetch = originalFetch;
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);

@@ -15,6 +15,55 @@ try {
   assert.equal(typeof defaults.buildExplorerUrlQuery, "function");
   assert.equal(typeof defaults.openPanelDialog, "function");
 
+  const defaultNavigation = createExplorerNavigation({
+    allowedSequenceTypes: [],
+    applyingUrlState: () => true,
+    closeEmojiDialog() {},
+    compositionMode: () => "full",
+    currentEmojiKey: () => "",
+    developerModeEnabled: () => false,
+    dialog: () => ({ open: false, classList: { contains: () => false } }) as any,
+    drawList() {},
+    emojiByKey: () => ({}),
+    genderCheckboxes: () => [],
+    getOrderMode: () => "unicode",
+    getSelectedGroup: () => "",
+    getSelectedSequenceType: () => "",
+    getSelectedSubGroup: () => "",
+    groups: () => [],
+    hairCheckboxes: () => [],
+    helpDialog: () => undefined,
+    languageList: () => undefined,
+    latestReleasedVersion: () => undefined,
+    navigateEmoji() {},
+    openEmoji() {},
+    orderButtons: () => [],
+    panelDialogs: () => ({}),
+    preferredOrder: () => "unicode",
+    renderCategoryFilters() {},
+    renderSavedEmoji() {},
+    renderVersionModeToggle() {},
+    searchText: () => ({ value: "", focus() {} }) as any,
+    setCompositionMode() {},
+    setDialogView() {},
+    setOrderMode() {},
+    setSelectedGroup() {},
+    setSelectedSequenceType() {},
+    setSelectedSubGroup() {},
+    showEmojiDialog() {},
+    skinToneCheckboxes: () => [],
+    subGroupSelectionKey: (group: string, subGroup: string) =>
+      `${group}::${subGroup}`,
+    subGroups: () => ({}),
+    suppressedPanelCloses: () => new WeakSet(),
+    syncVersionRange() {},
+    urlStateReady: () => false,
+    versionModeSelector: () => ({ value: "through" }) as any,
+    versionRange: () => ({ value: "0", dispatchEvent() {} }) as any,
+    versionSelector: () => ({ value: "", options: { length: 0 } }) as any,
+  });
+  assert.equal(typeof defaultNavigation.syncUrlState, "function");
+
   const historyCalls: Array<[string, unknown, string]> = [];
   const searchInput = {
     focused: false,

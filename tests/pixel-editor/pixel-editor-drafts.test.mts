@@ -109,6 +109,9 @@ current.cellLoaded = false;
 controller.rememberCurrentDraft();
 assert.equal(draftMap.size, 2);
 current.cellLoaded = true;
+current.entry = { atlas: "missing.png", key: "missing" } as any;
+controller.rememberCurrentDraft();
+current.entry = { atlas: "faces.png", key: "smile" };
 
 current.pixels = new Uint8ClampedArray([9, 9, 9, 255]);
 controller.updateDirtyState();
@@ -124,6 +127,10 @@ controller.updateFileButtons();
 assert.equal(saveButton.disabled, false);
 assert.equal(downloadButton.disabled, false);
 assert.equal(downloadEmojiButton.disabled, false);
+current.entry = undefined as any;
+controller.updateFileButtons();
+assert.equal(downloadEmojiButton.disabled, true);
+current.entry = { atlas: "faces.png", key: "smile" };
 
 current.floatingLayer = { id: 2 };
 controller.updateFileButtons();
@@ -151,6 +158,8 @@ controller.redo();
 controller.markAtlasClean("faces.png");
 assert.equal(dirtyKeys.has("smile"), true);
 assert.equal(dirtyIndicator.hidden, false);
+controller.markAtlasClean("hands.png");
+assert.equal(dirtyKeys.has("wave"), false);
 
 controller.updatePreviewActionLabels();
 assert.equal(saveButton.title, "Save atlas");
@@ -192,5 +201,6 @@ current.pixels = new Uint8ClampedArray([0, 0, 0, 0]);
 assert.equal(controller.hasDirtyAtlasDraft(), false);
 assert.equal(controller.hasPendingAtlasLayer(), false);
 assert.equal(controller.hasVisibleAtlasDraft(), false);
+assert.equal(controller.hasVisibleArtwork(), false);
 controller.updateDirtyState();
 assert.equal(dirtyIndicator.hidden, true);

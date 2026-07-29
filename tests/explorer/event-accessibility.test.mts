@@ -200,6 +200,13 @@ try {
   hair.listeners.get("keydown")?.(downEvent);
   assert.equal(downEvent.preventDefaultCalled, true);
   assert.equal(gender.focused, true);
+  hair.focused = false;
+  skin.listeners.get("keydown")?.({
+    currentTarget: skin,
+    key: "ArrowRight",
+    preventDefault() {},
+  });
+  assert.equal(hair.focused, true);
 
   const favoriteButton = new FakeButton("fav");
   favoriteButton.dataset.savedEmoji = "sparkles";
@@ -207,9 +214,12 @@ try {
   const copiedButton = new FakeButton("copied");
   copiedButton.dataset.savedEmoji = "mailbox";
   copiedButton.dataset.savedSource = "copied";
+  const copiedButtonTwo = new FakeButton("copied-two");
+  copiedButtonTwo.dataset.savedEmoji = "postbox";
+  copiedButtonTwo.dataset.savedSource = "copied";
   const favoritesList = new FakeList([favoriteButton]);
-  const copiedList = new FakeList([copiedButton]);
-  const allSavedButtons = [favoriteButton, copiedButton];
+  const copiedList = new FakeList([copiedButton, copiedButtonTwo]);
+  const allSavedButtons = [favoriteButton, copiedButton, copiedButtonTwo];
   const savedDialogListeners = new Map<string, (event: any) => void>();
   const savedDialog = {
     addEventListener(type: string, handler: (event: any) => void) {
@@ -290,8 +300,10 @@ try {
 
   favoriteButton.parentList = favoritesList;
   copiedButton.parentList = copiedList;
+  copiedButtonTwo.parentList = copiedList;
   favoriteButton.rect = { left: 0, top: 0, width: 10, height: 10 };
   copiedButton.rect = { left: 0, top: 20, width: 10, height: 10 };
+  copiedButtonTwo.rect = { left: 20, top: 20, width: 10, height: 10 };
   const arrowEvent = {
     key: "ArrowDown",
     preventDefaultCalled: false,
@@ -308,6 +320,19 @@ try {
   savedDialogListeners.get("keydown")?.(arrowEvent);
   assert.equal(arrowEvent.preventDefaultCalled, true);
   assert.equal(copiedButton.focused, true);
+  copiedButton.focused = false;
+  const rightEvent = {
+    key: "ArrowRight",
+    preventDefault() {},
+    target: {
+      closest(selector: string) {
+        if (selector === "[data-saved-emoji]") return copiedButton;
+        return null;
+      },
+    },
+  };
+  savedDialogListeners.get("keydown")?.(rightEvent);
+  assert.equal(copiedButtonTwo.focused, true);
 } finally {
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");
