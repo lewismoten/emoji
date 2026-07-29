@@ -20,7 +20,7 @@ jobs:
         run: git merge-base --is-ancestor "$GITHUB_SHA" origin/main
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
       - uses: actions/setup-python@v6
         with:
@@ -56,7 +56,7 @@ jobs:
           path: pixel-font/build
       - uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: 24.7.0
           registry-url: https://registry.npmjs.org/
       - name: Install npm with trusted-publishing support
         run: npm install --global npm@11.5.1

@@ -7,6 +7,9 @@
   "types": "./dist/esm/types/popular.d.mts",
   "module": "./dist/esm/popular.min.js",
   "sideEffects": false,
+  "engines": {
+    "node": ">=22.0.0"
+  },
   "exports": {
     ".": {
       "types": "./dist/esm/types/popular.d.mts",
@@ -102,10 +105,13 @@
     "@rollup/plugin-commonjs": "^29.0.3",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-terser": "^1.0.0",
-    "@types/node": "^22.0.0",
+    "@types/node": "^26.1.2",
     "prettier": "3.9.6",
     "rollup": "^4.22.5",
     "typescript": "^7.0.2",
     "vite": "^8.1.5"
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true
   }
 }
