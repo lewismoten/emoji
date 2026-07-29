@@ -12,7 +12,7 @@
     "width": 5,
     "height": 7
   },
-  "samplePhrase": "A fuzzy wizard quietly vexes Jack by throwing six emoji pompoms.",
+  "samplePhrase": "À fuzzy wizard named Zoë quietly vexes Jack with six emoji: café, piñata, jalapeño, crème brûlée, smörgåsbord, Æsir, œuvre, Straße, £10, €20 — “Voilà!”",
   "sampleScale": 4,
   "sampleWrap": 28,
   "pages": [
@@ -30,6 +30,21 @@
       },
       "rangeStart": 0,
       "rangeEnd": 255
+    },
+    {
+      "id": "symbols-and-punctuation",
+      "image": "symbols-and-punctuation.png",
+      "map": "symbols-and-punctuation.json",
+      "label": "Symbols & punctuation",
+      "cellSize": 16,
+      "glyphBox": {
+        "x": 5,
+        "y": 4,
+        "width": 5,
+        "height": 7
+      },
+      "rangeStart": 8192,
+      "rangeEnd": 8703
     }
   ]
 }

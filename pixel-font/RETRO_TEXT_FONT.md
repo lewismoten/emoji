@@ -22,8 +22,10 @@ package today.
 The retro text font is now sourced from editable bitmap assets rather than a
 hardcoded character table.
 
-- [Atlas PNG](retro-text/latin-1.png)
-- [Row/cell JSON map](retro-text/latin-1.json)
+- [Latin-1 atlas PNG](retro-text/latin-1.png)
+- [Latin-1 row/cell JSON map](retro-text/latin-1.json)
+- [Symbols & punctuation atlas PNG](retro-text/symbols-and-punctuation.png)
+- [Symbols & punctuation row/cell JSON map](retro-text/symbols-and-punctuation.json)
 - [Source manifest](retro-text/manifest.json)
 - [Sample phrase preview](retro-text/example-phrase.png)
 
@@ -33,13 +35,19 @@ of rows containing arrays of cells.
 
 That keeps the source easy to inspect visually, easy to edit in an image
 editor, and easy to extend later with more 256-cell pages for additional
-character ranges.
+character ranges. The first page currently covers Latin-1, while the second
+page holds extra punctuation and navigation symbols that the retro UI uses,
+such as the euro sign, curly quotes, and arrow-key icons.
 
-![Pixel Latin Retro atlas](retro-text/latin-1.png)
+![Pixel Latin Retro Latin-1 atlas](retro-text/latin-1.png)
+
+![Pixel Latin Retro symbols atlas](retro-text/symbols-and-punctuation.png)
 
 The sample phrase used to preview the face is:
 
-> A fuzzy wizard quietly vexes Jack by throwing six emoji pompoms.
+> À fuzzy wizard named Zoë quietly vexes Jack with six emoji: café,
+> piñata, jalapeño, crème brûlée, smörgåsbord, Æsir, œuvre, Straße,
+> £10, €20 — “Voilà!”
 
 ![Pixel Latin Retro sample phrase](retro-text/example-phrase.png)
 
@@ -56,14 +64,14 @@ writes the compiled font output under `pixel-font/build-retro-text/`.
 
 ## Editing workflow
 
-1. Edit `retro-text/latin-1.png` to change glyph pixels.
-2. Update `retro-text/latin-1.json` if a cell should map to a different
+1. Edit the relevant atlas PNG under `retro-text/` to change glyph pixels.
+2. Update the matching row/cell JSON map if a cell should map to a different
    character.
 3. Run `npm run pixel-font:text`.
 4. Review the refreshed preview image and rebuilt font files.
 
-When the font needs characters outside the current Latin-1 page, add another
-16×16 page to the manifest with its own PNG and row/cell JSON map.
+When the font needs characters outside the current pages, add another 16×16
+page to the manifest with its own PNG and row/cell JSON map.
 
 ## Relationship to Pixel Emoji
 
