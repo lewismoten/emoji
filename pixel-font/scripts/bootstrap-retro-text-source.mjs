@@ -9,6 +9,99 @@ import {
 } from "../retro-text-bitmap.mjs";
 
 const rows = (...values) => values.join("");
+const splitRows = (bitmap) =>
+  Array.from({ length: 7 }, (_, index) => bitmap.slice(index * 5, index * 5 + 5));
+const joinRows = (bitmapRows) => bitmapRows.join("");
+
+function overlayRows(bitmap, overlays, startRow = 0) {
+  const result = splitRows(bitmap);
+  overlays.forEach((overlay, index) => {
+    result[startRow + index] = overlay;
+  });
+  return joinRows(result);
+}
+
+const accentRows = {
+  acute: ["00010"],
+  grave: ["01000"],
+  diaeresis: ["01010"],
+  circumflex: ["00100", "01010"],
+  ring: ["00100", "01010"],
+  tilde: ["01100", "00011"],
+};
+
+const accentedUBase = rows(
+  "00000",
+  "00000",
+  "10001",
+  "10001",
+  "10001",
+  "10011",
+  "01101",
+);
+
+const accentedNBase = rows(
+  "00000",
+  "00000",
+  "00000",
+  "10110",
+  "11001",
+  "10001",
+  "10001",
+  "10000",
+);
+
+const roundedABase = rows(
+  "00000",
+  "00000",
+  "01101",
+  "10011",
+  "10001",
+  "10011",
+  "01101",
+);
+
+const ringABase = rows(
+  "00100",
+  "01010",
+  "00000",
+  "01101",
+  "10011",
+  "10001",
+  "10011",
+);
+
+const glyphOverrides = new Map(
+  [
+    ["a", roundedABase],
+    ["á", overlayRows(roundedABase, accentRows.acute)],
+    ["à", overlayRows(roundedABase, accentRows.grave)],
+    ["â", overlayRows(roundedABase, accentRows.circumflex)],
+    ["ã", overlayRows(roundedABase, accentRows.tilde)],
+    ["ä", overlayRows(roundedABase, accentRows.diaeresis)],
+    ["å", ringABase],
+    ["é", overlayRows(BITMAP_FONT_5X7.e, accentRows.acute)],
+    ["è", overlayRows(BITMAP_FONT_5X7.e, accentRows.grave)],
+    ["ê", overlayRows(BITMAP_FONT_5X7.e, accentRows.circumflex)],
+    ["ë", overlayRows(BITMAP_FONT_5X7.e, accentRows.diaeresis)],
+    ["í", overlayRows(BITMAP_FONT_5X7.i, accentRows.acute)],
+    ["ì", overlayRows(BITMAP_FONT_5X7.i, accentRows.grave)],
+    ["î", overlayRows(BITMAP_FONT_5X7.i, accentRows.circumflex)],
+    ["ï", overlayRows(BITMAP_FONT_5X7.i, accentRows.diaeresis)],
+    ["ñ", overlayRows(accentedNBase, accentRows.tilde)],
+    ["ó", overlayRows(BITMAP_FONT_5X7.o, accentRows.acute)],
+    ["ò", overlayRows(BITMAP_FONT_5X7.o, accentRows.grave)],
+    ["ô", overlayRows(BITMAP_FONT_5X7.o, accentRows.circumflex)],
+    ["õ", overlayRows(BITMAP_FONT_5X7.o, accentRows.tilde)],
+    ["ö", overlayRows(BITMAP_FONT_5X7.o, accentRows.diaeresis)],
+    ["ú", overlayRows(accentedUBase, accentRows.acute)],
+    ["ù", overlayRows(accentedUBase, accentRows.grave)],
+    ["û", overlayRows(accentedUBase, accentRows.circumflex)],
+    ["ü", overlayRows(accentedUBase, accentRows.diaeresis)],
+    ["ý", overlayRows(BITMAP_FONT_5X7.y, accentRows.acute)],
+    ["ÿ", overlayRows(BITMAP_FONT_5X7.y, accentRows.diaeresis)],
+  ].filter(([, bitmap]) => typeof bitmap === "string"),
+);
 
 const workspace = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const sourceDirectory = path.join(workspace, "retro-text");
@@ -27,7 +120,7 @@ for (let codePoint = 0; codePoint <= 0xff; codePoint += 1) {
 const glyphs = BITMAP_FONT_5X7_CHARACTERS.filter(
   (character) => character.codePointAt(0) <= 0xff,
 ).map((character) => ({
-  bitmap: BITMAP_FONT_5X7[character],
+  bitmap: glyphOverrides.get(character) ?? BITMAP_FONT_5X7[character],
   character,
   codePoint: character.codePointAt(0),
 }));
@@ -43,7 +136,7 @@ const supplementaryGlyphs = [
   },
   {
     character: "œ",
-    bitmap: rows("00000", "00000", "01101", "10011", "11111", "10000", "01111"),
+    bitmap: rows("00000", "00000", "01101", "10011", "10111", "10000", "01110"),
   },
   {
     character: "–",
