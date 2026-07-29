@@ -94,6 +94,7 @@ detailsDialog.selectors.set(".emoji-dialog-eyebrow", eyebrow);
 let translated: Array<[string, string]> = [];
 const detailsResult = applyDialogView({
   developerMode: true,
+  fullDeveloperMode: true,
   dialog: detailsDialog as unknown as HTMLElement,
   requestedMode: false,
   translate: (key, fallback) => {
@@ -115,6 +116,7 @@ assert.equal(eyebrow.textContent, "Emoji details:emojiDetails");
 translated = [];
 const codeResult = applyDialogView({
   developerMode: false,
+  fullDeveloperMode: false,
   dialog: detailsDialog as unknown as HTMLElement,
   requestedMode: true,
   translate: (key, fallback) => {
@@ -127,6 +129,7 @@ assert.equal(eyebrow.dataset.i18n, "emojiDetails");
 
 const editorResult = applyDialogView({
   developerMode: true,
+  fullDeveloperMode: true,
   dialog: detailsDialog as unknown as HTMLElement,
   requestedMode: "editor",
   translate: (key, fallback) => `${fallback}:${key}`,

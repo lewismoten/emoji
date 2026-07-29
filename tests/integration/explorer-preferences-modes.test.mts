@@ -26,8 +26,8 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="developer-mode-toggle"[^>]*role="switch"/,
-  "Help and settings must provide an accessible Developer mode switch",
+  /class="setting-choice-group mode-choices"[\s\S]*class="setting-choice mode-choice" data-mode="standard"[\s\S]*class="setting-choice mode-choice" data-mode="advanced"[\s\S]*class="setting-choice mode-choice" data-mode="developer"/,
+  "Help and settings must provide Standard, Advanced, and Developer mode choices",
 );
 assert.match(
   demoHtml,
@@ -40,29 +40,34 @@ assert.match(
   "cached version filters must also become developer-only",
 );
 assert.match(
-  `${explorerPreferencesSource}\n${explorerUi}`,
-  /new URLSearchParams\(window\.location\.search\)\.get\((["'])developer\1\) === (["'])1\2[\s\S]*const enabled = \(\) =>[\s\S]*developerModeFromUrl[\s\S]*developerModeUrlDismissed[\s\S]*developerMode === true[\s\S]*function change[\s\S]*developerModeUrlDismissed = !active[\s\S]*developerModeFromUrl = false[\s\S]*savePreference\((["'])developerMode\3/,
-  "Developer mode must support shared URL activation and persist explicit selection",
-);
-assert.match(
-  urlStateHelper,
-  /if \(options\.developerMode\)[\s\S]*params\.set\((["'])developer\1,\s*(["'])1\2\)[\s\S]*if \(options\.emojiMode === (["'])editor\3\) params\.set\((["'])emojiMode\4,\s*(["'])editor\5\)/,
-  "shared developer-only dialog URLs must preserve Developer mode",
-);
-assert.match(
-  `${explorerBootstrapSessionSource}\n${searchLanguageLifecycle}`,
-  /restoreDeveloperMode: \(\) => \{[\s\S]*developerModeFromUrl =[\s\S]*get\((["'])developer\1\) === (["'])1\2[\s\S]*renderDeveloperMode\(\)[\s\S]*const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.applyDialogUrlState\(\)/,
-  "browser navigation must restore Developer mode before applying dialog URL state",
+  explorerPreferencesSource,
+  /parseExplorerModeParam[\s\S]*explorerModeFromUrl/,
+  "Developer mode must read shared mode state from the URL",
 );
 assert.match(
   explorerUi,
-  /developerModeUrlDismissed = !active[\s\S]*options\.syncUrlState\(\)/,
-  "turning Developer mode off must clean URL state from the controller",
+  /const enabled = \(\) => mode\(\) !== "standard"[\s\S]*const fullEnabled = \(\) => mode\(\) === "developer"[\s\S]*function change[\s\S]*savePreference\((["'])mode\1,\s*(mode|nextMode)\)/,
+  "Developer mode must support shared URL activation and persist explicit mode selection",
+);
+assert.match(
+  urlStateHelper,
+  /if \(options\.explorerMode !== "standard"\)[\s\S]*params\.set\((["'])mode\1,\s*options\.explorerMode\)[\s\S]*if \(options\.emojiMode === (["'])editor\2\) params\.set\((["'])emojiMode\3,\s*(["'])editor\4\)/,
+  "shared advanced and developer dialog URLs must preserve explorer mode",
+);
+assert.match(
+  `${explorerBootstrapSessionSource}\n${searchLanguageLifecycle}`,
+  /restoreDeveloperMode: \(\) => \{[\s\S]*explorerModeFromUrl =[\s\S]*parseExplorerModeParam[\s\S]*renderDeveloperMode\(\)[\s\S]*const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.applyDialogUrlState\(\)/,
+  "browser navigation must restore explorer mode before applying dialog URL state",
+);
+assert.match(
+  explorerUi,
+  /savePreference\((["'])mode\1,\s*mode\)[\s\S]*options\.syncUrlState\(\)/,
+  "changing explorer mode must clean and rewrite URL state from the controller",
 );
 assert.match(
   searchLanguageLifecycle,
   /const onPopState[\s\S]*options\.restoreDeveloperMode\(\)[\s\S]*options\.syncUrlState\(\)/,
-  "turning Developer mode off must override and clean older URL history entries",
+  "changing explorer mode must override and clean older URL history entries",
 );
 assert.match(
   urlStateHelper,

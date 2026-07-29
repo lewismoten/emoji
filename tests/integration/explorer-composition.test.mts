@@ -44,7 +44,7 @@ assert.match(
 );
 assert.match(
   emojiCompositionHelper,
-  /createCompositionTerm\((["'])\+\1,\s*part\)/,
+  /createCompositionTerm\((["'])\+\1,\s*part\)|createCompositionOperator\(operator\)/,
   "composition operators must wrap with their following component",
 );
 assert.doesNotMatch(
@@ -241,7 +241,7 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="rendering-diagnostic developer-only"[\s\S]*system-render-glyph[\s\S]*pixel-render-glyph/,
+  /rendering-diagnostic-title[\s\S]*system-render-glyph[\s\S]*pixel-render-glyph/,
   "emoji details must compare system and Pixel Emoji rendering",
 );
 assert.match(

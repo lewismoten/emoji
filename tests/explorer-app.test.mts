@@ -300,7 +300,10 @@ try {
     [["red"], bindsOptions.onHairChange],
     [["neutral"], bindsOptions.onGenderChange],
   ]);
-  assert.deepEqual(accessibilityStub.themeChoiceKeyDownCalls, [[themeChoice]]);
+  assert.deepEqual(accessibilityStub.themeChoiceKeyDownCalls, [
+    [themeChoice],
+    [],
+  ]);
   assert.equal(accessibilityStub.bindSavedDialogInteractionsCalls.length, 1);
   assert.equal(panelStub.bindPanelDialogCalls.length, 4);
   assert.deepEqual(lifecycleCalls.slice(0, 3), [

@@ -353,7 +353,7 @@ assert.equal(rebuildCodePointLookupCalls >= 2, true);
 assert.equal(updateModifierArtworkCalls >= 2, true);
 assert.equal(buildRepresentativesCalls >= 2, true);
 assert.equal(applyLoadedUrlStateCalls >= 2, true);
-assert.deepEqual(openedEmoji[0], ["clinkingBeerMugs", false]);
+assert.equal(openedEmoji.length, 0);
 assert.deepEqual(groupSelector.addEventListenerCalls, ["change"]);
 assert.deepEqual(subGroupSelector.addEventListenerCalls, ["change"]);
 assert.deepEqual(sequenceTypeSelector.addEventListenerCalls, ["change"]);

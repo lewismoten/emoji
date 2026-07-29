@@ -91,8 +91,8 @@ assert.doesNotMatch(
 );
 assert.match(
   demoHtml,
-  /class="help-settings"[\s\S]*class="help-language-control"[\s\S]*class="language-picker"[\s\S]*class="developer-mode-toggle"/,
-  "Help and settings must contain both language and Developer mode preferences",
+  /class="help-settings"[\s\S]*class="help-language-control"[\s\S]*class="language-picker"[\s\S]*class="setting-choice-group mode-choices"/,
+  "Help and settings must contain both language and mode preferences",
 );
 assert.match(
   demoHtml,
