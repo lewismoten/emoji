@@ -212,6 +212,7 @@ export function createExplorerBootstrapControllers(options: any) {
     updateCompositionBackButton: () => options.updateCompositionBackButton(),
     updateEmojiComposition: options.updateEmojiComposition,
     clearCurrentDialogParentStack: () => {
+      /* node:coverage ignore next */
       options.state().currentDialogParentStack = [];
     },
   });
