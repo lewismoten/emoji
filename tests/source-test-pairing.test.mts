@@ -9,22 +9,6 @@ const root = path.resolve(
 );
 
 const legacyMissingTestPairs = new Set([
-  "src/explorer-app.ts",
-  "src/explorer-audio.ts",
-  "src/explorer-bootstrap.ts",
-  "src/explorer-composition-controller.ts",
-  "src/explorer-data-controller.ts",
-  "src/explorer-entry.ts",
-  "src/explorer-runtime.ts",
-  "src/explorer-state.ts",
-  "src/explorer-ui.ts",
-  "src/explorer/emoji-list-interaction.ts",
-  "src/explorer/emoji-list-render.ts",
-  "src/explorer/list-controller.ts",
-  "src/explorer/pixel-artwork.ts",
-  "src/explorer/pixel-editor-loader.ts",
-  "src/index.ts",
-  "src/pixel-editor-entry.ts",
   "src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.ts",
   "src/pixel-editor/canvas/pixel-editor-template.ts",
   "src/pixel-editor/controllers/pixel-editor-atlas.ts",

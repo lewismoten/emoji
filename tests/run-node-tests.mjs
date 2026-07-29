@@ -6,8 +6,9 @@ import { availableParallelism } from "node:os";
 const root = path.resolve(process.argv[2] ?? "build/tests");
 const testPattern = /\.test\.(?:js|mjs|cjs)$/;
 const maximumDurationMs = 100;
+const coverageDurationMultiplier = 1.5;
 const coverageEnabled = process.env.TEST_COVERAGE !== "0";
-const effectiveMaximumDurationMs = coverageEnabled ? 300 : maximumDurationMs;
+const effectiveMaximumDurationMs = coverageEnabled ? (coverageDurationMultiplier * maximumDurationMs) : maximumDurationMs;
 const coverageExcludes = [
   "build/tests/**",
   "build/tests/.tmp/**",
@@ -67,21 +68,21 @@ if (tests.length === 0) {
         `--test-concurrency=${concurrency}`,
         ...(shouldCollectCoverage
           ? [
-              "--experimental-test-coverage",
-              "--test-coverage-lines=100",
-              "--test-coverage-branches=100",
-              "--test-coverage-functions=100",
-              ...coverageExcludes.map(
-                (pattern) => `--test-coverage-exclude=${pattern}`,
-              ),
-            ]
+            "--experimental-test-coverage",
+            "--test-coverage-lines=100",
+            "--test-coverage-branches=100",
+            "--test-coverage-functions=100",
+            ...coverageExcludes.map(
+              (pattern) => `--test-coverage-exclude=${pattern}`,
+            ),
+          ]
           : []),
         ...files,
       ];
       const child = spawn(process.execPath, testArguments, {
-          env: childEnvironment,
-          stdio: ["inherit", "pipe", "pipe"],
-        });
+        env: childEnvironment,
+        stdio: ["inherit", "pipe", "pipe"],
+      });
       let output = "";
       child.stdout.on("data", (chunk) => {
         output += chunk;
