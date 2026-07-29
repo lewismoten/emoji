@@ -22,6 +22,11 @@
       "id": "latin",
       "label": "Latin example",
       "text": "À fuzzy wizard named Zoë quietly vexes Jack with six emoji: café, piñata, jalapeño, crème brûlée, smörgåsbord, Æsir, œuvre, Straße, £10, €20 — “Voilà!”"
+    },
+    {
+      "id": "african",
+      "label": "African Latin example",
+      "text": "Ɓ Ɗ Ƙ Ẹ Ọ Ṣ Ị Ṅ Ụ Ɖ Ɛ Ƒ Ɣ Ɔ Ʋ Ƴ Ɲ ɓ ɗ ƙ ẹ ọ ṣ ị ṅ ụ ɖ ɛ ƒ ɣ ɔ ʋ ƴ ɲ"
     }
   ],
   "sampleScale": 4,

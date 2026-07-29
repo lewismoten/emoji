@@ -19,13 +19,9 @@ const bitmapModuleFile = path.join(workspace, "retro-text-bitmap.mjs");
 await fs.rm(outputDirectory, { recursive: true, force: true });
 await fs.mkdir(outputDirectory, { recursive: true });
 
-try {
-  await fs.access(sourceManifestFile);
-} catch {
-  await run(process.execPath, [
-    path.join(workspace, "scripts", "bootstrap-retro-text-source.mjs"),
-  ]);
-}
+await run(process.execPath, [
+  path.join(workspace, "scripts", "bootstrap-retro-text-source.mjs"),
+]);
 
 const atlasPython = await pythonCommand(["PIL"]);
 const fontPython = await pythonCommand(["fontTools", "brotli"]);

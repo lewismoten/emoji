@@ -96,9 +96,26 @@ additional Latin-script language groups.
 | Vietnamese core letters | `Ă Â Ê Ô Ơ Ư Đ ă â ê ô ơ ư đ` |
 | Latin Extended practical set | `Ĕ Ĩ Ĳ Ō Ŏ Ŗ Ţ Ũ ĕ ĩ ĳ ŏ ŗ ţ ũ` |
 
+### African Latin coverage
+
+The current build also includes a practical batch of Latin letters commonly
+used by several African writing systems and regional orthographies.
+
+| Language group | Often-needed characters |
+| - | - |
+| Hausa core letters | `Ɓ Ɗ Ƙ ɓ ɗ ƙ` |
+| Yoruba | `Ẹ Ọ Ṣ ẹ ọ ṣ` |
+| Igbo | `Ị Ṅ Ọ Ụ ị ṅ ọ ụ` |
+| Fula / Fulfulde | `Ɓ Ɗ Ŋ Ñ Ƴ ɓ ɗ ŋ ñ ƴ` |
+| Ewe | `Ɖ Ɛ Ƒ Ɣ Ŋ Ɔ Ʋ ɖ ɛ ƒ ɣ ŋ ɔ ʋ` |
+| Akan / Twi | `Ɛ Ɔ ɛ ɔ` |
+| Bambara | `Ɛ Ɲ Ɔ ɛ ɲ ɔ` |
+| Lingala | `Ɛ Ɔ ɛ ɔ` |
+| Pan-Nigerian core set | `Ɓ Ɗ Ɛ Ƒ Ɠ Ƙ Ɲ Ɔ Ʋ Ƴ ɓ ɗ ɛ ƒ ɣ ƙ ɲ ɔ ʋ ƴ` |
+
 Future additions may still be needed for other Latin-based languages, but the
-current coverage now spans common Western, Central, Eastern, and several other
-practical Latin-script UI needs.
+current coverage now spans common Western, Central, Eastern, African, and
+several other practical Latin-script UI needs.
 
 ## Source format
 
@@ -133,18 +150,20 @@ The sample preview currently renders both of these sentences:
 > À fuzzy wizard named Zoë quietly vexes Jack with six emoji: café,
 > piñata, jalapeño, crème brûlée, smörgåsbord, Æsir, œuvre, Straße,
 > £10, €20 — “Voilà!”
+>
+> Ɓ Ɗ Ƙ Ẹ Ọ Ṣ Ị Ṅ Ụ Ɖ Ɛ Ƒ Ɣ Ɔ Ʋ Ƴ Ɲ ɓ ɗ ƙ ẹ ọ ṣ ị ṅ ụ ɖ ɛ ƒ ɣ ɔ ʋ ƴ ɲ
 
 ![Pixel Latin Retro sample phrase](retro-text/example-phrase.png)
 
 ## Current build size
 
-As of the current build, Pixel Latin Retro contains 333 glyphs and ships as:
+As of the current build, Pixel Latin Retro contains 368 glyphs and ships as:
 
 | File | Size |
 | - | -: |
-| `pixel-latin-retro.ttf` | 60,760 bytes |
-| `pixel-latin-retro.woff` | 8,464 bytes |
-| `pixel-latin-retro.woff2` | 4,264 bytes |
+| `pixel-latin-retro.ttf` | 67,372 bytes |
+| `pixel-latin-retro.woff` | 9,392 bytes |
+| `pixel-latin-retro.woff2` | 4,660 bytes |
 | `pixel-latin-retro.css` | 290 bytes |
 
 For web use, the WOFF2 file is the main delivery target and is currently a
@@ -152,8 +171,8 @@ little over 4 KB.
 
 ## Optimization headroom
 
-The current bitmap set contains 333 glyph mappings backed by 314 unique 5×7
-bitmaps, so 19 glyphs currently reuse a shape that another character already
+The current bitmap set contains 368 glyph mappings backed by 347 unique 5×7
+bitmaps, so 21 glyphs currently reuse a shape that another character already
 uses. That is about 5.7% duplicate bitmap coverage.
 
 If every duplicate shape were intentionally aliased or removed with no visual
@@ -161,9 +180,9 @@ tradeoffs, the rough upper-bound savings would be about:
 
 | File | Approximate maximum savings |
 | - | -: |
-| `pixel-latin-retro.ttf` | ~3.4 KB |
+| `pixel-latin-retro.ttf` | ~3.8 KB |
 | `pixel-latin-retro.woff` | ~0.5 KB |
-| `pixel-latin-retro.woff2` | ~0.2 KB |
+| `pixel-latin-retro.woff2` | ~0.3 KB |
 
 In practice, real savings would likely be a bit smaller, because some of those
 duplicate shapes are currently acceptable stand-ins while others may actually
