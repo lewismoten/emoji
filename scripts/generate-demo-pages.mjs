@@ -15,6 +15,7 @@ const siteUrl = normalizeSiteUrl(process.env.EMOJI_SITE_URL ?? defaultSiteUrl);
 export const locales = ["en", "en-GB", "es", "hi", "zh", "ar"];
 const rtlLocales = new Set(["ar"]);
 const siteSourceDirectory = path.join(projectRoot, "src", "site");
+const pwaSourceDirectory = path.join(siteSourceDirectory, "pwa");
 const template = fs.readFileSync(
   path.join(siteSourceDirectory, "index.html"),
   "utf8",
@@ -26,7 +27,7 @@ const english = JSON.parse(
 );
 const webAppManifest = JSON.parse(
   fs.readFileSync(
-    path.join(siteSourceDirectory, "manifest.webmanifest"),
+    path.join(pwaSourceDirectory, "manifest.webmanifest"),
     "utf8",
   ),
 );
@@ -143,6 +144,11 @@ const staticSiteAssets = [
   {
     source: path.join(siteSourceDirectory, "offline.html"),
     target: "offline.html",
+  },
+  {
+    source: pwaSourceDirectory,
+    target: "pwa",
+    directory: true,
   },
 ];
 const prepareDeployedScript = (source) =>
@@ -545,7 +551,13 @@ ${locales.map((locale) => `  <url><loc>${pageUrl(locale)}</loc></url>`).join("\n
     `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}sitemap.xml\n`,
   );
   for (const asset of staticSiteAssets) {
-    fs.copyFileSync(asset.source, path.join(outputDirectory, asset.target));
+    if (asset.directory) {
+      fs.cpSync(asset.source, path.join(outputDirectory, asset.target), {
+        recursive: true,
+      });
+    } else {
+      fs.copyFileSync(asset.source, path.join(outputDirectory, asset.target));
+    }
   }
   fs.cpSync(
     path.join("src", "data", "locales"),
@@ -584,7 +596,7 @@ ${locales.map((locale) => `  <url><loc>${pageUrl(locale)}</loc></url>`).join("\n
   );
   generateSiteIcons({
     favicon: path.join(siteSourceDirectory, "favicon.svg"),
-    outputDirectory: path.join(outputDirectory, "icons"),
+    outputDirectory: path.join(outputDirectory, "pwa", "icons"),
   });
 
   console.info(

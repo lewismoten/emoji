@@ -80,7 +80,7 @@ const generateWithFfmpegPlaceholders = (favicon, iconDirectory) => {
 
 export const generateSiteIcons = ({
   favicon = path.join(root, "src", "site", "favicon.svg"),
-  outputDirectory = path.join(root, "icons"),
+  outputDirectory = path.join(root, "src", "site", "pwa", "icons"),
 } = {}) => {
   fs.mkdirSync(outputDirectory, { recursive: true });
   const sipsAvailable =
@@ -119,7 +119,7 @@ export const generateSiteIcons = ({
     }
   }
 
-  const repositoryIconsDirectory = path.join(root, "icons");
+  const repositoryIconsDirectory = path.join(root, "src", "site", "pwa", "icons");
   if (
     path.resolve(outputDirectory) !== path.resolve(repositoryIconsDirectory)
   ) {

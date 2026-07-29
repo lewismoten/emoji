@@ -59,14 +59,13 @@ const generatedStructureFiles = new Set([
   "pixel-editor.js",
   "pixel-font/ATLASES.md",
   "robots.txt",
-  "screenshot.png",
   "social-preview.png",
   "social-preview.svg",
   "sitemap.xml",
 ]);
 const generatedFilenamePrefixes = [
   ...generatedStructurePrefixes,
-  "icons/",
+  "pwa/",
   "orders/",
   "pixel-font/atlases/",
   "proposed/",

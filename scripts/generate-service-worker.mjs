@@ -47,9 +47,10 @@ const coreAssets = [
   "./pixel-font/build-retro-text/pixel-latin-retro.css",
   "./pixel-font/build-retro-text/pixel-latin-retro.woff2",
   "./favicon.svg",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
-  "./icons/icon-maskable-512.png",
+  "./pwa/icons/icon-192.png",
+  "./pwa/icons/icon-512.png",
+  "./pwa/icons/icon-maskable-512.png",
+  "./pwa/screenshot.png",
   "./manifest.webmanifest",
   "./offline.html",
 ];
@@ -90,16 +91,18 @@ const sourceFileForAsset = (asset) => {
   if (file === "explorer/dialog-controls.css")
     return path.join("src", "site", "styles", "dialog-controls.css");
   if (file === "manifest.webmanifest")
-    return path.join("src", "site", "manifest.webmanifest");
+    return path.join("src", "site", "pwa", "manifest.webmanifest");
   if (file === "offline.html") return path.join("src", "site", "offline.html");
   if (file === "favicon.svg") return path.join("src", "site", "favicon.svg");
   if (
-    file === "icons/icon-192.png" ||
-    file === "icons/icon-512.png" ||
-    file === "icons/icon-maskable-512.png"
+    file === "pwa/icons/icon-192.png" ||
+    file === "pwa/icons/icon-512.png" ||
+    file === "pwa/icons/icon-maskable-512.png"
   ) {
     return path.join("src", "site", "favicon.svg");
   }
+  if (file === "pwa/screenshot.png")
+    return path.join("src", "site", "pwa", "screenshot.png");
   return file;
 };
 const existingCoreAssets = coreAssets.filter((asset) => {

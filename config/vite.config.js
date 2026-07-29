@@ -12,9 +12,9 @@ const localizedPagePattern = /^\/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/;
 const localizedManifestPattern =
   /^\/manifest\.([a-z]{2,3}(?:-[A-Z]{2})?)\.webmanifest$/;
 const iconAssetPattern =
-  /^\/icons\/(icon-192\.png|icon-512\.png|icon-maskable-512\.png|icon\.svg|icon-maskable\.svg)$/;
+  /^\/pwa\/icons\/(icon-192\.png|icon-512\.png|icon-maskable-512\.png|icon\.svg|icon-maskable\.svg)$/;
 const fallbackIconPng = [
-  "src/site/screenshot.png",
+  "src/site/pwa/screenshot.png",
   "docs/assets/social-preview.png",
 ]
   .map((file) => path.resolve(file))
@@ -208,6 +208,24 @@ export default defineConfig({
               "Content-Type",
               isSvg ? "image/svg+xml; charset=utf-8" : "image/png",
             );
+            response.setHeader("Cache-Control", "no-cache");
+            response.end(
+              method === "HEAD" ? undefined : fs.readFileSync(source),
+            );
+            return;
+          }
+          if (
+            pathname === "/pwa/screenshot.png" &&
+            ["GET", "HEAD"].includes(method)
+          ) {
+            const source = path.resolve("src/site/pwa/screenshot.png");
+            if (!fs.existsSync(source)) {
+              response.statusCode = 404;
+              response.end(method === "HEAD" ? undefined : "Not found");
+              return;
+            }
+            response.statusCode = 200;
+            response.setHeader("Content-Type", "image/png");
             response.setHeader("Cache-Control", "no-cache");
             response.end(
               method === "HEAD" ? undefined : fs.readFileSync(source),

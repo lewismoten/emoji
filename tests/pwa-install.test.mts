@@ -45,7 +45,7 @@ const readCssWithImports = async (
 };
 const readJson = async <T,>(file: string) => JSON.parse(await read(file)) as T;
 const webAppManifest = await readJson<WebAppManifest>(
-  "src/site/manifest.webmanifest",
+  "src/site/pwa/manifest.webmanifest",
 );
 const arabicWebAppManifest = await readJson<{
   id: string;
