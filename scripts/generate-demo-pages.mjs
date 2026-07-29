@@ -5,12 +5,13 @@ import { fileURLToPath } from "node:url";
 import { generateSiteIcons } from "./generate-site-icons.mjs";
 import { compileTypeScriptSources } from "./transpile-typescript.mjs";
 
+const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const defaultSiteUrl = "https://lewismoten.github.io/emoji/";
 const normalizeSiteUrl = (value) => `${value.replace(/\/+$/, "")}/`;
 const siteUrl = normalizeSiteUrl(process.env.EMOJI_SITE_URL ?? defaultSiteUrl);
 export const locales = ["en", "en-GB", "es", "hi", "zh", "ar"];
 const rtlLocales = new Set(["ar"]);
-const siteSourceDirectory = path.join("src", "site");
+const siteSourceDirectory = path.join(projectRoot, "src", "site");
 const template = fs.readFileSync(
   path.join(siteSourceDirectory, "index.html"),
   "utf8",

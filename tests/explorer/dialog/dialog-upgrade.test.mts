@@ -205,7 +205,10 @@ class FakeDocument {
   }
 }
 
-function matchesSimpleSelector(element: FakeElement, selector: string) {
+function matchesSimpleSelector(
+  element: FakeElement,
+  selector: string,
+): boolean {
   if (selector === "div") return element.tagName === "DIV";
   if (selector.startsWith(".")) {
     return element.classList.contains(selector.slice(1));

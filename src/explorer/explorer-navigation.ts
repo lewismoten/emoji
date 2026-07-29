@@ -89,6 +89,21 @@ export function createExplorerNavigation(options: {
   versionRange: () => HTMLInputElement;
   versionSelector: () => HTMLSelectElement;
 }, dependencies = createExplorerNavigationDependencies()) {
+  const panelDialogs = () => {
+    const dialogs = options.panelDialogs();
+    return {
+      dialogs,
+      all: [dialogs.favorites, dialogs.help, dialogs.language, dialogs.filters],
+    };
+  };
+  const createExclusiveCheckboxHandler = (checkboxes: () => Checkbox[]) =>
+    (event: Event) => {
+      dependencies.applyExclusiveCheckboxSelection(
+        checkboxes(),
+        event.currentTarget as unknown as Checkbox,
+      );
+      options.drawList();
+    };
   const getUrlState = () =>
     dependencies.parseExplorerUrlState({
       search: window.location.search,
@@ -129,9 +144,9 @@ export function createExplorerNavigation(options: {
   const applyDialogUrlState = () => {
     const state = getUrlState();
     options.setCompositionMode(state.compositionMode);
-    const dialogs = options.panelDialogs();
+    const { dialogs, all } = panelDialogs();
     if (state.emoji && options.emojiByKey()[state.emoji] !== undefined) {
-      [dialogs.favorites, dialogs.help, dialogs.language, dialogs.filters].forEach((dialog) =>
+      all.forEach((dialog) =>
         dependencies.closePanelDialog(dialog, options.suppressedPanelCloses()),
       );
       options.openEmoji(state.emoji, true, undefined, state.emojiMode);
@@ -140,7 +155,7 @@ export function createExplorerNavigation(options: {
     }
     if (options.dialog().open) options.closeEmojiDialog();
     const desiredPanelDialog = dependencies.getPanelDialog(state.panel, dialogs);
-    [dialogs.favorites, dialogs.help, dialogs.language, dialogs.filters].forEach((dialog) => {
+    all.forEach((dialog) => {
       if (dialog !== desiredPanelDialog)
         dependencies.closePanelDialog(dialog, options.suppressedPanelCloses());
     });
@@ -214,29 +229,13 @@ export function createExplorerNavigation(options: {
     options.searchText().focus();
   };
 
-  const onGenderChange = (event: Event) => {
-    dependencies.applyExclusiveCheckboxSelection(
-      options.genderCheckboxes(),
-      event.currentTarget as unknown as Checkbox,
-    );
-    options.drawList();
-  };
-
-  const onSkinToneChange = (event: Event) => {
-    dependencies.applyExclusiveCheckboxSelection(
-      options.skinToneCheckboxes(),
-      event.currentTarget as unknown as Checkbox,
-    );
-    options.drawList();
-  };
-
-  const onHairChange = (event: Event) => {
-    dependencies.applyExclusiveCheckboxSelection(
-      options.hairCheckboxes(),
-      event.currentTarget as unknown as Checkbox,
-    );
-    options.drawList();
-  };
+  const onGenderChange = createExclusiveCheckboxHandler(
+    options.genderCheckboxes,
+  );
+  const onSkinToneChange = createExclusiveCheckboxHandler(
+    options.skinToneCheckboxes,
+  );
+  const onHairChange = createExclusiveCheckboxHandler(options.hairCheckboxes);
 
   const stepVersion = (amount: number) => {
     const range = options.versionRange();
@@ -254,12 +253,7 @@ export function createExplorerNavigation(options: {
     const activeTag = document.activeElement?.tagName;
     const isTyping = ["INPUT", "TEXTAREA", "SELECT"].includes(activeTag ?? "");
     const hasOpenDialog = Boolean(document.querySelector("dialog[open]"));
-    if (
-      event.key === "?" &&
-      !isTyping &&
-      !hasOpenDialog &&
-      options.helpDialog()
-    ) {
+    if (event.key === "?" && !isTyping && !hasOpenDialog && options.helpDialog()) {
       event.preventDefault();
       dependencies.openPanelDialog({
         panel: "help",
@@ -275,11 +269,7 @@ export function createExplorerNavigation(options: {
       options.searchText().focus();
       return;
     }
-    if (
-      event.key === "Escape" &&
-      !hasOpenDialog &&
-      options.searchText().value
-    ) {
+    if (event.key === "Escape" && !hasOpenDialog && options.searchText().value) {
       options.searchText().value = "";
       options.drawList();
       options.searchText().focus();

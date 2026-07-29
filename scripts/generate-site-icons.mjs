@@ -61,6 +61,8 @@ const generateWithFfmpegPlaceholders = (favicon, iconDirectory) => {
         `color=c=#240c37:s=${size}x${size}`,
         "-frames:v",
         "1",
+        "-update",
+        "1",
         "-y",
         path.join(iconDirectory, filename),
       ],
