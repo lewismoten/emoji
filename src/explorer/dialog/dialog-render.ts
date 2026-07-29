@@ -47,6 +47,7 @@ export function updateEmojiComposition(options: {
 
 export function updateRenderingDiagnostic(options: {
   developerMode: boolean;
+  fullDeveloperMode?: boolean;
   detailsVisible: boolean;
   emojiKey: string;
   emojiValue: string;
@@ -70,7 +71,7 @@ export function updateRenderingDiagnostic(options: {
     emojiValue: options.emojiValue,
     painted: options.painted,
     privateUsePoint: options.privateUsePoint,
-    developerMode: options.developerMode,
+    developerMode: options.fullDeveloperMode ?? options.developerMode,
     detailsVisible: options.detailsVisible,
     systemEmojiAppearsSplit: options.systemEmojiAppearsSplit,
     translate: options.translate,
@@ -109,6 +110,7 @@ export function renderEmojiDialog(options: {
   compositionMode: string;
   currentEmojiKey: string;
   developerMode: boolean;
+  fullDeveloperMode?: boolean;
   dialogNavigationKeys: string[];
   displayGroupName: (name: string) => string;
   displayUnicodeSubGroupName: (name: string) => string;
@@ -128,7 +130,11 @@ export function renderEmojiDialog(options: {
   subGroup: string;
   translate: (key: string, fallback: string) => string;
   updateFavoriteButton: () => void;
-  updateRenderingDiagnostic: (emojiKey: string, value: string) => void;
+  updateRenderingDiagnostic: (
+    emojiKey: string,
+    value: string,
+    fullDeveloperMode?: boolean,
+  ) => void;
   updateEmojiComposition: (item: any, value: string) => void;
   value: string;
 }) {
@@ -164,7 +170,11 @@ export function renderEmojiDialog(options: {
   )[0] as HTMLElement;
   previewGlyph.innerText = options.value;
   options.applyPixelArtworkClass(previewGlyph, options.id);
-  options.updateRenderingDiagnostic(options.id, options.value);
+  options.updateRenderingDiagnostic(
+    options.id,
+    options.value,
+    options.fullDeveloperMode ?? options.developerMode,
+  );
   options.updateEmojiComposition(options.item, options.value);
   const englishNameElement = document.getElementsByClassName(
     "emoji-english-name",

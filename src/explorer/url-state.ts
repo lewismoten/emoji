@@ -15,6 +15,14 @@ export type ExplorerUrlState = {
   panel: "" | "favorites" | "help" | "language" | "filters";
 };
 
+export function parseExplorerModeParam(search: string) {
+  const params = new URLSearchParams(search);
+  const requested = params.get("mode") ?? "";
+  if (requested === "advanced") return "advanced";
+  if (requested === "developer") return "developer";
+  return "";
+}
+
 export function parseExplorerUrlState(options: {
   search: string;
   developerMode: boolean;
@@ -39,7 +47,7 @@ export function parseExplorerUrlState(options: {
     search: params.get("q") ?? "",
     version: options.developerMode ? (params.get("version") ?? "") : "",
     versionMode:
-      options.developerMode && params.get("mode") === "selected"
+      options.developerMode && params.get("versionMode") === "selected"
         ? "selected"
         : "through",
     group: params.get("group") ?? "",
@@ -71,7 +79,7 @@ export function parseExplorerUrlState(options: {
 
 export function buildExplorerUrlQuery(options: {
   search: string;
-  developerMode: boolean;
+  explorerMode: "standard" | "advanced" | "developer";
   latestReleasedVersion?: string;
   version: string;
   versionMode: "through" | "selected";
@@ -91,7 +99,7 @@ export function buildExplorerUrlQuery(options: {
   const params = new URLSearchParams();
   const search = options.search.trim();
   if (search) params.set("q", search);
-  if (options.developerMode) {
+  if (options.explorerMode !== "standard") {
     if (
       options.version &&
       (options.version !== options.latestReleasedVersion ||
@@ -99,8 +107,9 @@ export function buildExplorerUrlQuery(options: {
     ) {
       params.set("version", options.version);
     }
-    if (options.versionMode === "selected") params.set("mode", "selected");
-    params.set("developer", "1");
+    if (options.versionMode === "selected")
+      params.set("versionMode", "selected");
+    params.set("mode", options.explorerMode);
   }
   if (options.order !== "sequence" && options.group) {
     params.set("group", options.group);

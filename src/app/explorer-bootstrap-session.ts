@@ -17,6 +17,7 @@ import {
 import { animateCopyConfirmation as animateEmojiCopyConfirmation } from "../explorer/saved-emoji.js";
 import { openPanelDialog } from "../explorer/pwa-panels.js";
 import { createExplorerApp } from "../explorer-app.js";
+import { parseExplorerModeParam } from "../explorer/url-state.js";
 import { createExplorerState } from "../explorer-state.js";
 import { createUiFormatters } from "./browser-runtime.js";
 import { createExplorerBootstrapBindings } from "./explorer-bootstrap-bindings.js";
@@ -200,13 +201,16 @@ Object.assign(bindings, {
   setEmojiDialogView: controllers.setView,
 });
 
-bindings.bootstrapRuntime = initializeExplorerBootstrapSessionRuntime({
+  bindings.bootstrapRuntime = initializeExplorerBootstrapSessionRuntime({
   bindings,
   controllers,
   panelDialogs,
   restoreDeveloperMode: () => {
+    explorerState.explorerModeFromUrl = parseExplorerModeParam(
+      window.location.search,
+    );
     explorerState.developerModeFromUrl =
-      new URLSearchParams(window.location.search).get("developer") === "1";
+      explorerState.explorerModeFromUrl === "developer";
     shell.renderDeveloperMode();
   },
   savePreference: saveExplorerPreference,

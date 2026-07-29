@@ -24,6 +24,7 @@ export function showEmojiSession(options: any) {
     compositionMode: options.compositionMode,
     currentEmojiKey: options.id,
     developerMode: options.developerMode,
+    fullDeveloperMode: options.fullDeveloperMode,
     dialogNavigationKeys: options.dialogNavigationKeys.value,
     displayGroupName: options.displayGroupName,
     displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,

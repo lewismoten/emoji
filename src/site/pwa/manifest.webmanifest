@@ -33,11 +33,60 @@
   ],
   "screenshots": [
     {
-      "src": "./pwa/screenshot.png",
-      "sizes": "704x503",
-      "type": "image/png",
+      "src": "./pwa/narrow/screenshot-explorer.jpg",
+      "sizes": "375x812",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Browse emoji results with search and quick filters"
+    },
+    {
+      "src": "./pwa/narrow/screenshot-emoji.jpg",
+      "sizes": "375x812",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Inspect an emoji with previews, copy actions, and details"
+    },
+    {
+      "src": "./pwa/narrow/screenshot-saved.jpg",
+      "sizes": "375x812",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Review saved emoji and recently copied favorites"
+    },
+    {
+      "src": "./pwa/narrow/screenshot-help.jpg",
+      "sizes": "375x812",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Open Help and settings for language, theme, audio, and mode"
+    },
+    {
+      "src": "./pwa/wide/screenshot-explorer.jpg",
+      "sizes": "812x375",
+      "type": "image/jpeg",
       "form_factor": "wide",
-      "label": "Emoji Explorer search and filters"
+      "label": "Browse emoji results with search and quick filters"
+    },
+    {
+      "src": "./pwa/wide/screenshot-emoji.jpg",
+      "sizes": "812x375",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Inspect an emoji with previews, copy actions, and details"
+    },
+    {
+      "src": "./pwa/wide/screenshot-saved.jpg",
+      "sizes": "812x375",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Review saved emoji and recently copied favorites"
+    },
+    {
+      "src": "./pwa/wide/screenshot-help.jpg",
+      "sizes": "812x375",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Open Help and settings for language, theme, audio, and mode"
     }
   ]
 }

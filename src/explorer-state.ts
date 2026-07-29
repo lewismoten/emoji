@@ -11,6 +11,7 @@ export type ExplorerState = {
   currentEmojiKey: string;
   currentDialogParentStack: Array<"" | "favorites" | "help" | "language">;
   developerModeFromUrl: boolean;
+  explorerModeFromUrl: "" | "advanced" | "developer";
   developerModeUrlDismissed: boolean;
   emojiByKey: Record<string, string>;
   emojiKeyByCodePoints: Map<string, string>;
@@ -59,6 +60,7 @@ export function createExplorerState(): ExplorerState {
     currentEmojiKey: "",
     currentDialogParentStack: [],
     developerModeFromUrl: false,
+    explorerModeFromUrl: "",
     developerModeUrlDismissed: false,
     emojiByKey: {},
     emojiKeyByCodePoints: new Map(),

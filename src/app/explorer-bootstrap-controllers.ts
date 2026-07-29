@@ -120,6 +120,7 @@ export function createExplorerBootstrapControllers(options: any) {
     compositionMode: () => state().compositionMode,
     currentEmojiKey: () => state().currentEmojiKey,
     developerModeEnabled: options.developerModeEnabled,
+    fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     dialog: options.dialog,
     displayedKeys: () => state().displayedKeys,
     drawList: listOrchestration.drawList,

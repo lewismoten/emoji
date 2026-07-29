@@ -13,13 +13,13 @@ const generatedIcons = [
   "icon-maskable.svg",
 ];
 
-const generateWithSips = (favicon, iconDirectory) => {
+const generateWithSips = (favicon, maskableFavicon, iconDirectory) => {
   const rasterTargets = [
-    ["icon-192.png", "192"],
-    ["icon-512.png", "512"],
-    ["icon-maskable-512.png", "512"],
+    ["icon-192.png", "192", favicon],
+    ["icon-512.png", "512", favicon],
+    ["icon-maskable-512.png", "512", maskableFavicon],
   ];
-  for (const [filename, size] of rasterTargets) {
+  for (const [filename, size, sourceSvg] of rasterTargets) {
     const result = spawnSync(
       "sips",
       [
@@ -29,7 +29,7 @@ const generateWithSips = (favicon, iconDirectory) => {
         "-z",
         size,
         size,
-        favicon,
+        sourceSvg,
         "--out",
         path.join(iconDirectory, filename),
       ],
@@ -42,10 +42,14 @@ const generateWithSips = (favicon, iconDirectory) => {
     }
   }
   fs.copyFileSync(favicon, path.join(iconDirectory, "icon.svg"));
-  fs.copyFileSync(favicon, path.join(iconDirectory, "icon-maskable.svg"));
+  fs.copyFileSync(maskableFavicon, path.join(iconDirectory, "icon-maskable.svg"));
 };
 
-const generateWithFfmpegPlaceholders = (favicon, iconDirectory) => {
+const generateWithFfmpegPlaceholders = (
+  favicon,
+  maskableFavicon,
+  iconDirectory,
+) => {
   const rasterTargets = [
     ["icon-192.png", "192"],
     ["icon-512.png", "512"],
@@ -75,11 +79,12 @@ const generateWithFfmpegPlaceholders = (favicon, iconDirectory) => {
     }
   }
   fs.copyFileSync(favicon, path.join(iconDirectory, "icon.svg"));
-  fs.copyFileSync(favicon, path.join(iconDirectory, "icon-maskable.svg"));
+  fs.copyFileSync(maskableFavicon, path.join(iconDirectory, "icon-maskable.svg"));
 };
 
 export const generateSiteIcons = ({
   favicon = path.join(root, "src", "site", "favicon.svg"),
+  maskableFavicon = path.join(root, "src", "site", "pwa", "icon-maskable.svg"),
   outputDirectory = path.join(root, "src", "site", "pwa", "icons"),
 } = {}) => {
   fs.mkdirSync(outputDirectory, { recursive: true });
@@ -87,7 +92,7 @@ export const generateSiteIcons = ({
     spawnSync("sips", ["--help"], { stdio: "ignore" }).status === 0;
   if (sipsAvailable) {
     try {
-      generateWithSips(favicon, outputDirectory);
+      generateWithSips(favicon, maskableFavicon, outputDirectory);
       return {
         generated: true,
         outputDirectory,
@@ -103,7 +108,11 @@ export const generateSiteIcons = ({
     spawnSync("ffmpeg", ["-version"], { stdio: "ignore" }).status === 0;
   if (ffmpegAvailable) {
     try {
-      generateWithFfmpegPlaceholders(favicon, outputDirectory);
+      generateWithFfmpegPlaceholders(
+        favicon,
+        maskableFavicon,
+        outputDirectory,
+      );
       console.warn(
         `Used ffmpeg placeholder PNGs for ${path.relative(root, outputDirectory)} because SVG rasterization is unavailable.`,
       );
@@ -132,10 +141,13 @@ export const generateSiteIcons = ({
     }
   }
 
-  for (const file of ["icon.svg", "icon-maskable.svg"]) {
+  for (const [file, sourceSvg] of [
+    ["icon.svg", favicon],
+    ["icon-maskable.svg", maskableFavicon],
+  ]) {
     const target = path.join(outputDirectory, file);
-    if (!fs.existsSync(target) && fs.existsSync(favicon)) {
-      fs.copyFileSync(favicon, target);
+    if (!fs.existsSync(target) && fs.existsSync(sourceSvg)) {
+      fs.copyFileSync(sourceSvg, target);
     }
   }
 

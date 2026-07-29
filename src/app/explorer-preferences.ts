@@ -1,3 +1,5 @@
+import { parseExplorerModeParam } from "../explorer/url-state.js";
+
 const preferenceKey = "@lewismoten/emoji:explorer-preferences";
 
 function loadPreferences() {
@@ -21,8 +23,8 @@ export function initializeExplorerPreferences(state: any) {
         ? "developer"
         : "standard";
   }
-  state.developerModeFromUrl =
-    new URLSearchParams(window.location.search).get("developer") === "1";
+  state.explorerModeFromUrl = parseExplorerModeParam(window.location.search);
+  state.developerModeFromUrl = state.explorerModeFromUrl === "developer";
   state.favoriteEmojiKeys = Array.isArray(state.explorerPreferences.favorites)
     ? state.explorerPreferences.favorites
     : [];

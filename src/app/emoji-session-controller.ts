@@ -27,6 +27,7 @@ export function createEmojiSessionController(options: any) {
       currentEmojiKey,
       currentDialogParentStack,
       developerMode: options.developerModeEnabled(),
+      fullDeveloperMode: options.fullDeveloperModeEnabled?.(),
       dialog: options.dialog(),
       dialogNavigationKeys,
       displayGroupName: options.displayGroupName,

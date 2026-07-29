@@ -209,6 +209,7 @@ try {
 
   const state = {
     developerModeFromUrl: true,
+    explorerModeFromUrl: "developer",
     developerModeUrlDismissed: false,
     explorerPreferences: {
       developerMode: false,
@@ -518,6 +519,7 @@ try {
   state.explorerPreferences.theme = "base";
   await developerController.change({ currentTarget: { checked: false } });
   assert.equal(state.developerModeFromUrl, false);
+  assert.equal(state.explorerModeFromUrl, "");
   assert.equal(state.developerModeUrlDismissed, true);
   assert.equal(state.explorerPreferences.theme, "dark");
   assert.ok(calls.includes("dialog:details"));

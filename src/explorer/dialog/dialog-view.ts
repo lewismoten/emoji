@@ -36,8 +36,6 @@ export function applyDialogView(options: {
   setHidden(".emoji-code-view", mode !== "code");
   for (const selector of [
     ".emoji-composition",
-    ".rendering-diagnostic",
-    ".pixel-design-invitation",
   ]) {
     const element = options.dialog.querySelector<HTMLElement>(selector);
     if (element) {
@@ -46,6 +44,22 @@ export function applyDialogView(options: {
         !options.developerMode ||
         element.dataset.available !== "true";
     }
+  }
+  const pixelDesignInvitation =
+    options.dialog.querySelector<HTMLElement>(".pixel-design-invitation");
+  if (pixelDesignInvitation) {
+    pixelDesignInvitation.hidden =
+      !details ||
+      !options.fullDeveloperMode ||
+      pixelDesignInvitation.dataset.available !== "true";
+  }
+  const renderingDiagnostic =
+    options.dialog.querySelector<HTMLElement>(".rendering-diagnostic");
+  if (renderingDiagnostic) {
+    renderingDiagnostic.hidden =
+      !details ||
+      !options.fullDeveloperMode ||
+      renderingDiagnostic.dataset.available !== "true";
   }
   const eyebrow = options.dialog.querySelector<HTMLElement>(
     ".emoji-dialog-eyebrow",

@@ -1,6 +1,6 @@
 # @lewismoten/emoji
 
-[![Emoji Explorer — Unicode emoji for JavaScript](./assets/social-preview.png)](https://lewismoten.github.io/emoji/)
+[![Emoji Explorer — Unicode emoji for JavaScript](./docs/assets/social-preview.png)](https://lewismoten.github.io/emoji/)
 
 This repository brings together three connected projects:
 
@@ -91,6 +91,15 @@ Developer mode, available from Help and settings, adds sequence construction,
 technical metadata, rendering diagnostics, code tools, sequence browsing, and
 the pixel editor without placing those controls in the default end-user
 interface.
+
+### Current app previews
+
+Narrow-screen captures:
+
+![Emoji Explorer search, filters, and results](./docs/assets/narrow/screenshot-explorer.jpg)
+![Emoji detail dialog with previews, copy actions, and metadata](./docs/assets/narrow/screenshot-emoji.jpg)
+![Saved emoji and recently copied lists](./docs/assets/narrow/screenshot-saved.jpg)
+![Help and settings with theme, audio, and mode controls](./docs/assets/narrow/screenshot-help.jpg)
 
 ## Pixel Emoji fallback font
 

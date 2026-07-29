@@ -12,7 +12,7 @@ const queryEntries = (value: string) =>
 assert.deepEqual(
   parseExplorerUrlState({
     search:
-      "?q=gift&version=17.0&mode=selected&order=sequence&sequenceType=zwj&skin=1F3FB&hair=1F9B0&gender=female&composition=full&emoji=wrappedGift&emojiMode=code&panel=help",
+      "?q=gift&version=17.0&versionMode=selected&mode=developer&order=sequence&sequenceType=zwj&skin=1F3FB&hair=1F9B0&gender=female&composition=full&emoji=wrappedGift&emojiMode=code&panel=help",
     developerMode: true,
     preferredOrder: "unicode",
     allowedSequenceTypes: ["single", "zwj"],
@@ -112,7 +112,7 @@ assert.deepEqual(
 
 assert.deepEqual(
   parseExplorerUrlState({
-    search: "?version=18.0&mode=selected&emoji=wrappedGift&emojiMode=editor&panel=filters",
+    search: "?version=18.0&versionMode=selected&mode=developer&emoji=wrappedGift&emojiMode=editor&panel=filters",
     developerMode: false,
     preferredOrder: "",
     allowedSequenceTypes: ["single"],
@@ -189,7 +189,7 @@ assert.deepEqual(
   queryEntries(
     buildExplorerUrlQuery({
       search: "gift",
-      developerMode: true,
+      explorerMode: "developer",
       latestReleasedVersion: "17.0",
       version: "18.0",
       versionMode: "selected",
@@ -208,14 +208,14 @@ assert.deepEqual(
     }),
   ),
   queryEntries(
-    "q=gift&version=18.0&mode=selected&developer=1&sequenceType=zwj&skin=1F3FB&gender=female&order=sequence&composition=full&emoji=wrappedGift&emojiMode=editor",
+    "q=gift&version=18.0&versionMode=selected&mode=developer&sequenceType=zwj&skin=1F3FB&gender=female&order=sequence&composition=full&emoji=wrappedGift&emojiMode=editor",
   ),
 );
 
 assert.equal(
   buildExplorerUrlQuery({
     search: "gift",
-    developerMode: false,
+    explorerMode: "standard",
     latestReleasedVersion: "17.0",
     version: "17.0",
     versionMode: "through",
@@ -238,7 +238,7 @@ assert.equal(
 assert.equal(
   buildExplorerUrlQuery({
     search: "  gift  ",
-    developerMode: true,
+    explorerMode: "developer",
     latestReleasedVersion: "17.0",
     version: "17.0",
     versionMode: "through",
@@ -255,13 +255,13 @@ assert.equal(
     panel: "help",
     dialogOpen: true,
   }),
-  "q=gift&developer=1&group=Objects&subgroup=mail&skin=1F3FB&hair=1F9B0&gender=female&emoji=wrappedGift",
+  "q=gift&mode=developer&group=Objects&subgroup=mail&skin=1F3FB&hair=1F9B0&gender=female&emoji=wrappedGift",
 );
 
 assert.equal(
   buildExplorerUrlQuery({
     search: "",
-    developerMode: true,
+    explorerMode: "developer",
     latestReleasedVersion: "17.0",
     version: "17.0",
     versionMode: "through",
@@ -278,13 +278,13 @@ assert.equal(
     panel: "language",
     dialogOpen: false,
   }),
-  "developer=1&sequenceType=zwj&order=sequence&composition=full&panel=language",
+  "mode=developer&sequenceType=zwj&order=sequence&composition=full&panel=language",
 );
 
 assert.equal(
   buildExplorerUrlQuery({
     search: "",
-    developerMode: true,
+    explorerMode: "developer",
     latestReleasedVersion: "17.0",
     version: "18.0",
     versionMode: "selected",
@@ -301,13 +301,13 @@ assert.equal(
     panel: "",
     dialogOpen: true,
   }),
-  "version=18.0&mode=selected&developer=1&emoji=wrappedGift&emojiMode=code",
+  "version=18.0&versionMode=selected&mode=developer&emoji=wrappedGift&emojiMode=code",
 );
 
 assert.equal(
   buildExplorerUrlQuery({
     search: "",
-    developerMode: false,
+    explorerMode: "standard",
     latestReleasedVersion: "17.0",
     version: "",
     versionMode: "through",
@@ -330,7 +330,7 @@ assert.equal(
 assert.equal(
   buildExplorerUrlQuery({
     search: "",
-    developerMode: false,
+    explorerMode: "standard",
     latestReleasedVersion: "17.0",
     version: "17.0",
     versionMode: "through",
@@ -353,7 +353,7 @@ assert.equal(
 assert.equal(
   buildExplorerUrlQuery({
     search: "",
-    developerMode: true,
+    explorerMode: "developer",
     latestReleasedVersion: undefined,
     version: "18.0",
     versionMode: "through",
@@ -370,5 +370,5 @@ assert.equal(
     panel: "",
     dialogOpen: false,
   }),
-  "version=18.0&developer=1",
+  "version=18.0&mode=developer",
 );

@@ -8,6 +8,7 @@ export function initializeDialogRuntime(options: any) {
     applyPixelArtworkClass: options.applyPixelArtworkClass,
     applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
     developerModeEnabled: options.developerModeEnabled,
+    fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     dialog: options.dialog,
     displayGroupName: options.displayGroupName,
     displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,

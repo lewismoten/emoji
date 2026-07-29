@@ -52,8 +52,10 @@ export function createExplorerDataController(options: any) {
       .sequenceTypeSelector()
       .addEventListener("change", options.onSequenceTypeChange);
     options.renderCategoryFilters();
-    options.openEmoji("clinkingBeerMugs", false);
     options.applyLoadedUrlState();
+    if (!options.state().currentEmojiKey) {
+      options.openEmoji("clinkingBeerMugs", false);
+    }
     if (options.developerModeEnabled()) await loadVersionData();
   }
   async function loadVersionData() {

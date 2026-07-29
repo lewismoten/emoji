@@ -90,7 +90,7 @@ function ensureRenderingDiagnostic(dialog: HTMLElement) {
   let section = dialog.querySelector<HTMLElement>(".rendering-diagnostic");
   if (!section && details) {
     section = document.createElement("section");
-    section.className = "rendering-diagnostic developer-only";
+    section.className = "rendering-diagnostic full-developer-only";
     section.hidden = true;
     details.after(section);
   }

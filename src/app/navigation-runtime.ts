@@ -11,6 +11,7 @@ export function createNavigationConfig(options: any) {
     },
     compositionMode: () => options.compositionMode(),
     developerModeEnabled: options.developerModeEnabled,
+    fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     dialog: options.dialog,
     currentEmojiKey: () => options.currentEmojiKey(),
     drawList: options.drawList,

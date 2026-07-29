@@ -34,6 +34,7 @@ const transformedSource = sourceText
   .replace('from "../explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";')
   .replace('from "../explorer-app.js";', 'from "./explorer-app-stub.mjs";')
   .replace('from "../explorer-state.js";', 'from "./explorer-state-stub.mjs";')
+  .replace('from "../explorer/url-state.js";', 'from "./url-state-stub.mjs";')
   .replace('from "./browser-runtime.js";', 'from "./browser-runtime-stub.mjs";')
   .replace(
     'from "./explorer-bootstrap-bindings.js";',
@@ -118,9 +119,20 @@ await writeStub("explorer-state-stub.mjs", [
   "    uiStrings: { 'group.label': 'Translated Group' },",
   "    selectedSearchLocale: 'en',",
   "    developerModeFromUrl: false,",
+  "    explorerModeFromUrl: '',",
   "  };",
   "  states.push(state);",
   "  return state;",
+  "}",
+]);
+
+await writeStub("url-state-stub.mjs", [
+  "export function parseExplorerModeParam(search) {",
+  "  const params = new URLSearchParams(search);",
+  "  const value = params.get('mode') ?? '';",
+  "  if (value === 'advanced') return 'advanced';",
+  "  if (value === 'developer') return 'developer';",
+  "  return '';",
   "}",
 ]);
 
@@ -295,7 +307,7 @@ await fs.writeFile(
 );
 
 const globalDocument = { body: { dataset: {} } };
-const globalWindow = { location: { search: "?developer=1" } };
+const globalWindow = { location: { search: "?mode=developer" } };
 
 Object.assign(globalThis, {
   document: globalDocument,
@@ -402,6 +414,7 @@ assert.equal(bindings.bootstrapRuntime, runtime);
 
 sessionRuntimeInput.restoreDeveloperMode();
 assert.equal(state.developerModeFromUrl, true);
+assert.equal(state.explorerModeFromUrl, "developer");
 assert.deepEqual(shell.renderDeveloperMode(), ["render-developer-mode", []]);
 
 assert.equal(runtime.removeLegacyDialogElementsCalls, 1);

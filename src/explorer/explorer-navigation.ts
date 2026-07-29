@@ -41,6 +41,7 @@ export function createExplorerNavigation(options: {
   closeEmojiDialog: () => void;
   compositionMode: () => "condensed" | "full";
   developerModeEnabled: () => boolean;
+  fullDeveloperModeEnabled: () => boolean;
   dialog: () => HTMLDialogElement;
   currentEmojiKey: () => string;
   drawList: () => void;
@@ -183,7 +184,11 @@ export function createExplorerNavigation(options: {
     const dialog = options.dialog();
     const query = dependencies.buildExplorerUrlQuery({
       search: options.searchText().value,
-      developerMode: options.developerModeEnabled(),
+      explorerMode: options.fullDeveloperModeEnabled()
+        ? "developer"
+        : options.developerModeEnabled()
+          ? "advanced"
+          : "standard",
       latestReleasedVersion: options.latestReleasedVersion(),
       version: options.versionSelector().value,
       versionMode: options.versionModeSelector().value as

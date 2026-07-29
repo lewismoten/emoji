@@ -126,10 +126,10 @@ function updateThemeColor() {
 
 function resolveExplorerMode(state: any) {
   if (
-    state.developerModeFromUrl &&
+    state.explorerModeFromUrl &&
     !state.developerModeUrlDismissed
   ) {
-    return "developer";
+    return state.explorerModeFromUrl;
   }
   return ["standard", "advanced", "developer"].includes(
     state.explorerPreferences.mode,
@@ -267,6 +267,7 @@ export function createDeveloperModeController(options: any) {
       ? requestedMode
       : "standard";
     options.state().developerModeUrlDismissed = nextMode === "standard";
+    options.state().explorerModeFromUrl = "";
     options.state().developerModeFromUrl = false;
     options.savePreference("mode", nextMode);
     options.savePreference("developerMode", nextMode === "developer");

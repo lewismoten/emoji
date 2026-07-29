@@ -9,6 +9,7 @@ export function createDialogRuntimeConfig(options: any) {
     currentDialogParentStack: options.currentDialogParentStack,
     currentEmojiKey: options.currentEmojiKey,
     developerModeEnabled: options.developerModeEnabled,
+    fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     dialog: options.dialog,
     dialogNavigationKeys: options.dialogNavigationKeys,
     displayedKeys: options.displayedKeys,

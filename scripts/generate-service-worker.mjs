@@ -51,6 +51,14 @@ const coreAssets = [
   "./pwa/icons/icon-512.png",
   "./pwa/icons/icon-maskable-512.png",
   "./pwa/screenshot.png",
+  "./pwa/narrow/screenshot-explorer.jpg",
+  "./pwa/narrow/screenshot-emoji.jpg",
+  "./pwa/narrow/screenshot-saved.jpg",
+  "./pwa/narrow/screenshot-help.jpg",
+  "./pwa/wide/screenshot-explorer.jpg",
+  "./pwa/wide/screenshot-emoji.jpg",
+  "./pwa/wide/screenshot-saved.jpg",
+  "./pwa/wide/screenshot-help.jpg",
   "./manifest.webmanifest",
   "./offline.html",
 ];
@@ -103,6 +111,18 @@ const sourceFileForAsset = (asset) => {
   }
   if (file === "pwa/screenshot.png")
     return path.join("src", "site", "pwa", "screenshot.png");
+  if (
+    file === "pwa/narrow/screenshot-explorer.jpg" ||
+    file === "pwa/narrow/screenshot-emoji.jpg" ||
+    file === "pwa/narrow/screenshot-saved.jpg" ||
+    file === "pwa/narrow/screenshot-help.jpg" ||
+    file === "pwa/wide/screenshot-explorer.jpg" ||
+    file === "pwa/wide/screenshot-emoji.jpg" ||
+    file === "pwa/wide/screenshot-saved.jpg" ||
+    file === "pwa/wide/screenshot-help.jpg"
+  ) {
+    return path.join("src", "site", file);
+  }
   return file;
 };
 const existingCoreAssets = coreAssets.filter((asset) => {

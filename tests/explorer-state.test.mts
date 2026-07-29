@@ -16,6 +16,7 @@ assert.deepEqual(first.currentEmojiCopies, {});
 assert.equal(first.currentEmojiKey, "");
 assert.deepEqual(first.currentDialogParentStack, []);
 assert.equal(first.developerModeFromUrl, false);
+assert.equal(first.explorerModeFromUrl, "");
 assert.equal(first.developerModeUrlDismissed, false);
 assert.deepEqual(first.emojiByKey, {});
 assert.equal(first.emojiKeyByCodePoints.size, 0);

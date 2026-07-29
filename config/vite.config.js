@@ -6,6 +6,7 @@ import {
   renderManifest,
   renderPage,
 } from "../scripts/generate-demo-pages.mjs";
+import { generateSiteIcons } from "../scripts/generate-site-icons.mjs";
 import { renderServiceWorker } from "../scripts/generate-service-worker.mjs";
 
 const localizedPagePattern = /^\/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/;
@@ -13,13 +14,23 @@ const localizedManifestPattern =
   /^\/manifest\.([a-z]{2,3}(?:-[A-Z]{2})?)\.webmanifest$/;
 const iconAssetPattern =
   /^\/pwa\/icons\/(icon-192\.png|icon-512\.png|icon-maskable-512\.png|icon\.svg|icon-maskable\.svg)$/;
-const fallbackIconPng = [
-  "src/site/pwa/screenshot.png",
-  "docs/assets/social-preview.png",
-]
-  .map((file) => path.resolve(file))
-  .find((file) => fs.existsSync(file));
+try {
+  generateSiteIcons({
+    favicon: path.resolve("src/site/favicon.svg"),
+    maskableFavicon: path.resolve("src/site/pwa/icon-maskable.svg"),
+    outputDirectory: path.resolve("src/site/pwa/icons"),
+  });
+} catch (error) {
+  console.warn(
+    `Unable to prepare local PWA icons from favicon.svg: ${error instanceof Error ? error.message : String(error)}`,
+  );
+}
+const fallbackIconPng = path.resolve("src/site/pwa/icons/icon-512.png");
+const fallbackMaskableIconPng = path.resolve(
+  "src/site/pwa/icons/icon-maskable-512.png",
+);
 const fallbackIconSvg = path.resolve("src/site/favicon.svg");
+const fallbackMaskableIconSvg = path.resolve("src/site/pwa/icon-maskable.svg");
 const pixelFontStylesheet = path.resolve(
   "pixel-font/build/font/pixel-emoji.css",
 );
@@ -197,7 +208,13 @@ export default defineConfig({
           if (iconMatch && ["GET", "HEAD"].includes(method)) {
             const requested = iconMatch[1];
             const isSvg = requested.endsWith(".svg");
-            const source = isSvg ? fallbackIconSvg : fallbackIconPng;
+            const source = isSvg
+              ? requested === "icon-maskable.svg"
+                ? fallbackMaskableIconSvg
+                : fallbackIconSvg
+              : requested === "icon-maskable-512.png"
+                ? fallbackMaskableIconPng
+                : fallbackIconPng;
             if (!source || !fs.existsSync(source)) {
               response.statusCode = 404;
               response.end(method === "HEAD" ? undefined : "Not found");
@@ -226,6 +243,46 @@ export default defineConfig({
             }
             response.statusCode = 200;
             response.setHeader("Content-Type", "image/png");
+            response.setHeader("Cache-Control", "no-cache");
+            response.end(
+              method === "HEAD" ? undefined : fs.readFileSync(source),
+            );
+            return;
+          }
+          if (
+            /^\/pwa\/narrow\/screenshot-(explorer|emoji|saved|help)\.jpg$/.test(
+              pathname,
+            ) &&
+            ["GET", "HEAD"].includes(method)
+          ) {
+            const source = path.resolve(`src/site${pathname}`);
+            if (!fs.existsSync(source)) {
+              response.statusCode = 404;
+              response.end(method === "HEAD" ? undefined : "Not found");
+              return;
+            }
+            response.statusCode = 200;
+            response.setHeader("Content-Type", "image/jpeg");
+            response.setHeader("Cache-Control", "no-cache");
+            response.end(
+              method === "HEAD" ? undefined : fs.readFileSync(source),
+            );
+            return;
+          }
+          if (
+            /^\/pwa\/wide\/screenshot-(explorer|emoji|saved|help)\.jpg$/.test(
+              pathname,
+            ) &&
+            ["GET", "HEAD"].includes(method)
+          ) {
+            const source = path.resolve(`src/site${pathname}`);
+            if (!fs.existsSync(source)) {
+              response.statusCode = 404;
+              response.end(method === "HEAD" ? undefined : "Not found");
+              return;
+            }
+            response.statusCode = 200;
+            response.setHeader("Content-Type", "image/jpeg");
             response.setHeader("Cache-Control", "no-cache");
             response.end(
               method === "HEAD" ? undefined : fs.readFileSync(source),

@@ -22,6 +22,7 @@ try {
     compositionMode: () => "full",
     currentEmojiKey: () => "",
     developerModeEnabled: () => false,
+    fullDeveloperModeEnabled: () => false,
     dialog: () => ({ open: false, classList: { contains: () => false } }) as any,
     drawList() {},
     emojiByKey: () => ({}),
@@ -161,11 +162,12 @@ try {
       applyingUrlState: () => false,
       closeEmojiDialog() {
         drawCalls.push("closeEmojiDialog");
-      },
-      compositionMode: () => compositionMode as "condensed" | "full",
-      currentEmojiKey: () => "sparkles",
-      developerModeEnabled: () => true,
-      dialog: () => dialog as any,
+    },
+    compositionMode: () => compositionMode as "condensed" | "full",
+    currentEmojiKey: () => "sparkles",
+    developerModeEnabled: () => true,
+    fullDeveloperModeEnabled: () => false,
+    dialog: () => dialog as any,
       drawList() {
         drawCalls.push("drawList");
       },

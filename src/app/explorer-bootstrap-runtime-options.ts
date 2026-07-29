@@ -13,6 +13,7 @@ export function buildExplorerBootstrapRuntimeOptions(options: any) {
     clearFiltersButton: () => options.clearFiltersButton(),
     copyStatus: () => options.copyStatus(),
     developerModeEnabled: options.developerModeEnabled,
+    fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     developerModeToggle: () => options.developerModeToggle(),
     modeChoices: () => options.modeChoices?.(),
     displayGroupName: options.displayGroupName,

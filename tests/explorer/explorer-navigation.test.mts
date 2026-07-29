@@ -208,6 +208,7 @@ try {
     compositionMode: () => compositionMode as "condensed" | "full",
     currentEmojiKey: () => "sparkles",
     developerModeEnabled: () => true,
+    fullDeveloperModeEnabled: () => false,
     dialog: () => dialog as any,
     drawList() {
       drawCalls.push("drawList");

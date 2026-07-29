@@ -22,6 +22,7 @@ const options = {
   applyingUrlState: () => false,
   compositionMode: () => "condensed",
   developerModeEnabled: "developer-mode-enabled",
+  fullDeveloperModeEnabled: "full-developer-mode-enabled",
   dialog: () => closeDialog,
   currentEmojiKey: () => "wave",
   drawList: "draw-list",

@@ -21,7 +21,7 @@ try {
         storage.set(key, value);
       },
     },
-    location: { search: "?developer=1" },
+    location: { search: "?mode=developer" },
   });
 
   storage.set(
@@ -42,6 +42,7 @@ try {
     recentCopied: ["sparkles"],
     theme: "retro",
   });
+  assert.equal(state.explorerModeFromUrl, "developer");
   assert.equal(state.developerModeFromUrl, true);
   assert.deepEqual(state.favoriteEmojiKeys, ["wave", "thumbsUp"]);
   assert.deepEqual(state.copiedEmojiKeys, ["sparkles"]);
@@ -68,6 +69,7 @@ try {
   const fallbackState: Record<string, unknown> = {};
   const fallbackPreferences = initializeExplorerPreferences(fallbackState);
   assert.deepEqual(fallbackState.explorerPreferences, { mode: "standard" });
+  assert.equal(fallbackState.explorerModeFromUrl, "");
   assert.equal(fallbackState.developerModeFromUrl, false);
   assert.deepEqual(fallbackState.favoriteEmojiKeys, []);
   assert.deepEqual(fallbackState.copiedEmojiKeys, []);

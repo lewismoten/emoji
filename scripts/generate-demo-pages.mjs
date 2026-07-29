@@ -508,10 +508,7 @@ export const renderManifest = (locale, startUrl, htmlLocale = locale) => {
       lang: htmlLocale,
       dir: rtlLocales.has(htmlLocale) ? "rtl" : "ltr",
       start_url: startUrl,
-      screenshots: webAppManifest.screenshots?.map((screenshot) => ({
-        ...screenshot,
-        label: translations.aboutTitle,
-      })),
+      screenshots: webAppManifest.screenshots,
     },
     null,
     2,
