@@ -5,6 +5,47 @@ const originalWindow = globalThis.window;
 const originalDocument = globalThis.document;
 
 const registeredEvents = new Map<string, EventListener>();
+const documentListeners = new Map<string, EventListener[]>();
+const themeChoices = [
+  {
+    dataset: { theme: "dark" },
+    classList: { toggle() {} },
+    setAttribute() {},
+    tabIndex: -1,
+    querySelector() {
+      return null;
+    },
+  },
+  {
+    dataset: { theme: "light" },
+    classList: { toggle() {} },
+    setAttribute() {},
+    tabIndex: -1,
+    querySelector() {
+      return null;
+    },
+  },
+] as any[];
+const emojiFontChoices = [
+  {
+    dataset: { emojiFont: "pixel" },
+    classList: { toggle() {} },
+    setAttribute() {},
+    tabIndex: -1,
+    querySelector() {
+      return null;
+    },
+  },
+  {
+    dataset: { emojiFont: "system" },
+    classList: { toggle() {} },
+    setAttribute() {},
+    tabIndex: -1,
+    querySelector() {
+      return null;
+    },
+  },
+] as any[];
 
 (globalThis as any).window = {
   addEventListener(type: string, listener: EventListener) {
@@ -26,7 +67,14 @@ const registeredEvents = new Map<string, EventListener>();
     hasAttribute() {
       return false;
     },
+    setAttribute() {},
     toggleAttribute() {},
+  },
+  addEventListener(type: string, listener: EventListener) {
+    documentListeners.set(type, [
+      ...(documentListeners.get(type) ?? []),
+      listener,
+    ]);
   },
   querySelector() {
     return null;
@@ -64,7 +112,7 @@ const shell = createExplorerBootstrapShell({
   developerModeToggle: () => undefined,
   dialog: () => undefined,
   drawList: () => {},
-  emojiFontChoices: () => [],
+  emojiFontChoices: () => emojiFontChoices,
   genderCheckboxes: () => [],
   getPixelEditor: () => undefined,
   hairCheckboxes: () => [],
@@ -88,7 +136,7 @@ const shell = createExplorerBootstrapShell({
   suppressDialogCloseSync: () => false,
   syncUrlState: () => {},
   syncVersionRange: () => {},
-  themeChoices: () => [],
+  themeChoices: () => themeChoices,
   translate: (_key: string, fallback: string) => fallback,
   urlStateReady: () => true,
   versionModeSelector: () => undefined,
@@ -139,6 +187,23 @@ assert.deepEqual(saveCalls, [["recentCopied", ["wrappedGift"]]]);
 shell.addFavorite("wrappedGift");
 assert.deepEqual(state.favoriteEmojiKeys, ["wrappedGift"]);
 assert.deepEqual(saveCalls.at(-1), ["favorites", ["wrappedGift"]]);
+assert.doesNotThrow(() => shell.renderThemeToggle());
+assert.doesNotThrow(() => shell.renderPixelFontToggle());
+assert.doesNotThrow(() =>
+  shell.selectTheme({
+    currentTarget: { dataset: { theme: "light" } },
+  } as any),
+);
+assert.doesNotThrow(() =>
+  shell.selectEmojiFont({
+    currentTarget: { dataset: { emojiFont: "system" }, blur() {} },
+    detail: 1,
+  } as any),
+);
+assert.doesNotThrow(() => shell.renderMusicToggle());
+assert.doesNotThrow(() => shell.renderSoundEffectsToggle());
+assert.doesNotThrow(() => shell.renderInstallAppButton());
+assert.doesNotThrow(() => shell.toggleDeveloperMode({ currentTarget: { checked: true } } as any));
 
 let refreshed = 0;
 const diagnosticDialog = {
@@ -197,6 +262,10 @@ assert.equal(refreshed, 1);
 assert.doesNotThrow(() =>
   exercisedShell.updateRenderingDiagnostic("wrappedGift", "🎁"),
 );
+assert.doesNotThrow(() => exercisedShell.renderThemeToggle());
+assert.doesNotThrow(() => exercisedShell.renderPixelFontToggle());
+assert.doesNotThrow(() => exercisedShell.renderMusicToggle());
+assert.doesNotThrow(() => exercisedShell.renderSoundEffectsToggle());
 
 (globalThis as any).window = originalWindow;
 (globalThis as any).document = originalDocument;

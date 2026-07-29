@@ -36,6 +36,24 @@ assert.equal(typeof bindings.populateVersionModeOptions, "function");
 assert.equal(typeof bindings.toggleVersionMode, "function");
 assert.equal(typeof bindings.revealExplorer, "function");
 assert.equal(typeof bindings.resetFilters, "function");
+assert.doesNotThrow(() => bindings.drawList());
+assert.doesNotThrow(() => bindings.loadVersionData());
+assert.doesNotThrow(() => bindings.loadSearchLanguages());
+assert.doesNotThrow(() => bindings.renderSearchLanguages());
+assert.doesNotThrow(() => bindings.renderCategoryFilters());
+assert.doesNotThrow(() => bindings.renderVersionModeToggle());
+assert.doesNotThrow(() => bindings.setEmojiDialogView());
+assert.doesNotThrow(() => bindings.syncUrlState());
+assert.doesNotThrow(() => bindings.syncVersionRange());
+assert.doesNotThrow(() => bindings.showEmoji());
+assert.doesNotThrow(() => bindings.navigateEmoji());
+assert.doesNotThrow(() => bindings.updateDialogNavigation());
+assert.doesNotThrow(() => bindings.updateCompositionBackButton());
+assert.doesNotThrow(() => bindings.focusInitialEmojiDialogAction());
+assert.doesNotThrow(() => bindings.populateVersionModeOptions());
+assert.doesNotThrow(() => bindings.toggleVersionMode());
+assert.doesNotThrow(() => bindings.revealExplorer());
+assert.doesNotThrow(() => bindings.resetFilters());
 
 const controlValues = {
   searchText: { id: "search" },
