@@ -169,4 +169,7 @@
   .setting-switch {
     min-height: 2.75rem;
   }
+  .audio-choices {
+    width: 100%;
+  }
 }

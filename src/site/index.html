@@ -1342,33 +1342,48 @@
           </div>
           <div class="setting-row">
             <div>
-              <h4 data-i18n="soundEffects">Sound effects</h4>
-              <p data-i18n="soundEffectsDescription">
-                In retro mode, buttons and dialog windows can play 8-bit sound
-                effects.
+              <h4 data-i18n="audio">Audio</h4>
+              <p data-i18n="audioDescription">
+                Sound effects and music are available in light, dark, and retro
+                themes.
               </p>
             </div>
-            <label class="setting-switch">
-              <input
-                class="sound-effects-toggle"
-                type="checkbox"
-                role="switch"
-              />
-              <span data-i18n="soundEffects">Sound effects</span>
-            </label>
-          </div>
-          <div class="setting-row">
-            <div>
-              <h4 data-i18n="music">Music</h4>
-              <p data-i18n="musicDescription">
-                In retro mode, the Help and settings dialog can play 8-bit
-                music.
-              </p>
+            <div
+              class="setting-choice-group audio-choices"
+              role="group"
+              aria-label="Audio"
+              data-i18n-aria-label="audio"
+              data-max-selectable="2"
+              data-min-selectable="0"
+            >
+              <span class="sr-only" id="audio-group-label" data-i18n="audio"
+                >Audio</span
+              >
+              <label
+                class="setting-choice audio-choice"
+                data-audio-preference="soundEffects"
+              >
+                <input
+                  class="audio-choice-input sound-effects-toggle"
+                  type="checkbox"
+                  value="soundEffects"
+                />
+                <span aria-hidden="true">🔊</span>
+                <span data-i18n="soundEffects">Sound effects</span>
+              </label>
+              <label
+                class="setting-choice audio-choice"
+                data-audio-preference="music"
+              >
+                <input
+                  class="audio-choice-input music-toggle"
+                  type="checkbox"
+                  value="music"
+                />
+                <span aria-hidden="true">🎵</span>
+                <span data-i18n="music">Music</span>
+              </label>
             </div>
-            <label class="setting-switch">
-              <input class="music-toggle" type="checkbox" role="switch" />
-              <span data-i18n="music">Music</span>
-            </label>
           </div>
           <div class="setting-row">
             <div>

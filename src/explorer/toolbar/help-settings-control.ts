@@ -3,6 +3,7 @@ import {
   createHeading,
   createTextBlock,
 } from "../dialog/dialog-control-helpers.js";
+import { createAudioChoiceGroupControl } from "./audio-choice-control.js";
 import { createThemeChoiceGroupControl } from "./theme-choice-control.js";
 
 type HelpDialogControl = {
@@ -123,24 +124,12 @@ function createHelpDialogElement() {
       control: createThemeChoiceGroupControl(),
     }),
     createSettingRow({
-      titleKey: "soundEffects",
-      title: "Sound effects",
-      descriptionKey: "soundEffectsDescription",
+      titleKey: "audio",
+      title: "Audio",
+      descriptionKey: "audioDescription",
       description:
-        "In retro mode, buttons and dialog windows can play 8-bit sound effects.",
-      control: createSwitch(
-        "sound-effects-toggle",
-        "soundEffects",
-        "Sound effects",
-      ),
-    }),
-    createSettingRow({
-      titleKey: "music",
-      title: "Music",
-      descriptionKey: "musicDescription",
-      description:
-        "The Help and saved emoji dialogs can play theme music: 8-bit retro, bright light mode, or chill dark mode.",
-      control: createSwitch("music-toggle", "music", "Music"),
+        "Sound effects and music are available in light, dark, and retro themes.",
+      control: createAudioChoiceGroupControl(),
     }),
     createSettingRow({
       titleKey: "developerMode",

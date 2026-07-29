@@ -85,6 +85,11 @@ try {
   const themeRow = settingsSection?.children[2];
   assert.match(themeRow?.children[1]?.className ?? "", /theme-choices/);
 
+  const audioRow = settingsSection?.children[3];
+  assert.equal(audioRow?.children[1]?.className, "setting-choice-group audio-choices");
+  assert.equal(audioRow?.children[1]?.children[1]?.className, "setting-choice audio-choice");
+  assert.equal(audioRow?.children[1]?.children[2]?.className, "setting-choice audio-choice");
+
   const languagePicker = new FakeElement("button");
   languagePicker.className = "language-picker";
   control.mountLanguagePicker(languagePicker as any);

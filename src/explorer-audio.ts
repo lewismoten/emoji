@@ -107,6 +107,8 @@ export function createExplorerAudioController(
     toggle.disabled = baseMode();
     toggle.setAttribute("aria-checked", String(enabled));
     toggle.setAttribute("aria-disabled", String(baseMode()));
+    toggle.parentElement?.setAttribute("aria-pressed", String(enabled));
+    toggle.parentElement?.setAttribute("aria-disabled", String(baseMode()));
   }
 
   function renderMusicToggle() {
@@ -117,6 +119,8 @@ export function createExplorerAudioController(
     toggle.disabled = baseMode();
     toggle.setAttribute("aria-checked", String(enabled));
     toggle.setAttribute("aria-disabled", String(baseMode()));
+    toggle.parentElement?.setAttribute("aria-pressed", String(enabled));
+    toggle.parentElement?.setAttribute("aria-disabled", String(baseMode()));
   }
 
   function setSoundEffects(enabled: boolean) {

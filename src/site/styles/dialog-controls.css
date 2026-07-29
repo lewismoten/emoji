@@ -47,6 +47,34 @@
   outline-offset: var(--focus-outline-offset);
 }
 
+.setting-choice:has(input:checked) {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--accent-strong) 50%);
+  background: var(--selected-control-bg);
+  color: var(--selected-control-text);
+  box-shadow: var(--shadow-selected-inset, none);
+}
+
+.setting-choice:has(input:focus-visible) {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
+}
+
+.setting-choice input {
+  position: absolute;
+  width: 1px;
+  min-height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.setting-choice:has(input:disabled) {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 .setting-switch {
   display: inline-flex;
   flex: none;
@@ -56,6 +84,10 @@
   cursor: pointer;
   font-size: var(--ui-font-size-medium-small);
   font-weight: 700;
+}
+
+.audio-choices {
+  justify-content: flex-start;
 }
 
 .setting-switch input {
