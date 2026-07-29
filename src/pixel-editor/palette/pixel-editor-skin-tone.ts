@@ -65,15 +65,16 @@ export function remapSkinTonePixels(
   for (const { sourceTone, targetTone } of pairs) {
     const source = findSkinTone(sourceTone);
     const target = findSkinTone(targetTone);
-    if (source && target && !colors.has(source.color))
-      colors.set(source.color, target.color);
+    if (source && target) {
+      colors.set(source.color, colors.get(source.color) ?? target.color);
+    }
   }
   for (const { sourceTone, targetTone } of pairs) {
     for (const [sourceColor, targetColor] of skinToneColorMap(
       sourceTone,
       targetTone,
     )) {
-      if (!colors.has(sourceColor)) colors.set(sourceColor, targetColor);
+      colors.set(sourceColor, colors.get(sourceColor) ?? targetColor);
     }
   }
   for (let offset = 0; offset < result.length; offset += 4) {
@@ -105,22 +106,20 @@ export function remapSkinTonePixels(
   return result;
 }
 
-function skinToneColorMap(sourceTone, targetTone) {
+export function skinToneColorMap(sourceTone, targetTone) {
   const colors = new Map();
   const source = findSkinTone(sourceTone);
   const target = findSkinTone(targetTone);
   if (!source || !target) return colors;
   colors.set(source.color, target.color);
   const targetCycle = skinToneCycle(targetTone);
-  for (const sourceShade of skinToneCycle(sourceTone).filter(
-    (shade) => shade.kind !== "normal",
-  )) {
+  for (const sourceShade of skinToneCycle(sourceTone)) {
+    if (sourceShade.kind === "normal") continue;
     const targetShade =
-      targetCycle.find((shade) => shade.kind === sourceShade.kind) ??
+      findShadeByKind(targetCycle, sourceShade.kind) ??
       endpointSkinToneShade(targetTone, sourceShade.kind) ??
-      targetCycle.find((shade) => shade.kind !== "normal") ??
-      targetCycle[0];
-    if (targetShade) colors.set(sourceShade.color, targetShade.color);
+      firstNonNormalShade(targetCycle);
+    colors.set(sourceShade.color, targetShade.color);
   }
   return colors;
 }
@@ -156,7 +155,7 @@ export function buildSkinToneOwnership(
     for (let x = 0; x < width; x += 1) {
       let nearest;
       for (const seed of seeds) {
-        const distance = (x - seed.x) ** 2 + (y - seed.y) ** 2;
+        const distance = squaredDistance(x, y, seed.x, seed.y);
         nearest = selectNearestOwner(nearest, seed, distance);
       }
       ownership[y * width + x] = nearest.owner;
@@ -189,7 +188,7 @@ export function compareSkinToneHelpers(left, right) {
   );
 }
 
-function endpointSkinToneShade(codePoint, shadeKind) {
+export function endpointSkinToneShade(codePoint, shadeKind) {
   if (
     codePoint === SKIN_TONE_COLORS.at(-1)?.codePoint &&
     shadeKind === "darker"
@@ -202,11 +201,25 @@ function endpointSkinToneShade(codePoint, shadeKind) {
   return undefined;
 }
 
-function rgbHex(red, green, blue) {
+export function findShadeByKind(cycle, shadeKind) {
+  for (const shade of cycle) {
+    if (shade.kind === shadeKind) return shade;
+  }
+  return undefined;
+}
+
+export function firstNonNormalShade(cycle) {
+  for (const shade of cycle) {
+    if (shade.kind !== "normal") return shade;
+  }
+  return undefined;
+}
+
+export function rgbHex(red, green, blue) {
   return `#${[red, green, blue].map((channel) => channel.toString(16).padStart(2, "0")).join("")}`;
 }
 
-function selectNearestOwner(nearest, seed, distance) {
+export function selectNearestOwner(nearest, seed, distance) {
   if (!nearest) {
     return { distance, owner: seed.owner };
   }
@@ -217,4 +230,8 @@ function selectNearestOwner(nearest, seed, distance) {
     return { distance, owner: seed.owner };
   }
   return nearest;
+}
+
+export function squaredDistance(x, y, seedX, seedY) {
+  return (x - seedX) ** 2 + (y - seedY) ** 2;
 }
