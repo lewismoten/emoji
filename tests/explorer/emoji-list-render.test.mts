@@ -145,6 +145,11 @@ try {
   assert.deepEqual(cell.classList.values, ["group-2", "sub-group-3"]);
   assert.deepEqual(pixelCalls, ["alpha"]);
 
+  const fallbackCell = renderers.asEmojiCell("gamma", 0, 0) as any;
+  assert.equal(fallbackCell.title, "Gamma");
+  assert.equal(fallbackCell.tabIndex, -1);
+  assert.equal(fallbackCell.attributes.get("aria-label"), "Gamma");
+
   const groupedState: any = {
     cellFragment: new FakeFragment(),
     group: "Unassigned",
@@ -159,6 +164,59 @@ try {
   renderers.flushEmojiCellFragment(groupedState);
   assert.equal(groupedState.items.length, 1);
   assert.equal(groupedState.groupElement.className, "group");
+  assert.equal(groupedState.subGroupElement.className, "subgroup is-direct");
+
+  const continuedState: any = {
+    cellFragment: new FakeFragment(),
+    group: "Objects",
+    groupElement: groupedState.groupElement,
+    items: [],
+    subGroup: "Mail",
+    subGroupElement: groupedState.subGroupElement,
+    unicodeSubGroup: "mail",
+    unicodeSubGroupElement: groupedState.unicodeSubGroupElement,
+  };
+  renderers.asItem(continuedState, "beta");
+  renderers.flushEmojiCellFragment(continuedState);
+  assert.equal(continuedState.subGroupElement.className, "subgroup is-direct");
+
+  const noGroupsRenderers = createEmojiListRenderers({
+    applyPixelArtworkClass() {},
+    byId: () => ({
+      lone: {
+        group: "Ungrouped",
+        hasExplorerSections: false,
+        order: 1,
+        shortName: "Lone",
+        subGroup: "misc",
+        unicodeSubGroup: "misc",
+      },
+    }),
+    displayExplorerLabel: (name: string) => name,
+    displayGroupName: (name: string) => name,
+    displayUnicodeSubGroupName: (name: string) => name,
+    emojiByKey: () => ({ lone: "🪁" }),
+    focusedEmojiKey: () => "lone",
+    getIntroducedVersion: () => "—",
+    groups: () => [],
+    orderMode: () => "grouped",
+    popularKeys: () => [],
+    searchAnnotations: () => ({}),
+    sequenceTranslationKeys: {},
+    sequenceTypeLabels: {},
+    sequenceTypeOrder: ["single"],
+    subGroups: () => ({}),
+    translate: (_key: string, fallback: string) => fallback,
+    unassigned: "Unassigned",
+  });
+  const noGroupsState: any = {
+    cellFragment: new FakeFragment(),
+    items: [],
+  };
+  noGroupsRenderers.asItem(noGroupsState, "lone");
+  assert.equal(noGroupsState.items.length, 1);
+  assert.equal(noGroupsState.items[0].id, "lone");
+  assert.equal(noGroupsState.items[0].tabIndex, 0);
 
   const sequenceState: any = {
     cellFragment: new FakeFragment(),
@@ -170,6 +228,42 @@ try {
   renderers.flushEmojiCellFragment(sequenceState);
   assert.equal(sequenceState.items[0].className, "sequence-type");
   assert.equal(sequenceState.items[0].childNodes[0].innerText, "Modifier");
+  renderers.asSequenceItem(sequenceState, "gamma");
+  renderers.flushEmojiCellFragment(sequenceState);
+  assert.equal(sequenceState.items.length, 2);
+  assert.equal(sequenceState.items[1].childNodes[0].innerText, "ZWJ");
+
+  const fallbackSequenceRenderers = createEmojiListRenderers({
+    applyPixelArtworkClass() {},
+    byId: () => ({
+      plain: { order: 1, sequenceType: "mystery", shortName: "Plain" },
+    }),
+    displayExplorerLabel: (name: string) => name,
+    displayGroupName: (name: string) => name,
+    displayUnicodeSubGroupName: (name: string) => name,
+    emojiByKey: () => ({ plain: "🙂" }),
+    focusedEmojiKey: () => "",
+    getIntroducedVersion: () => "—",
+    groups: () => [],
+    orderMode: () => "sequence",
+    popularKeys: () => [],
+    searchAnnotations: () => ({}),
+    sequenceTranslationKeys: {},
+    sequenceTypeLabels: {},
+    sequenceTypeOrder: ["single"],
+    subGroups: () => ({}),
+    translate: (_key: string, fallback: string) => fallback,
+    unassigned: "Unassigned",
+  });
+  const fallbackSequenceState: any = {
+    cellFragment: new FakeFragment(),
+    emoji: null,
+    items: [],
+    type: "",
+  };
+  fallbackSequenceRenderers.asSequenceItem(fallbackSequenceState, "plain");
+  fallbackSequenceRenderers.flushEmojiCellFragment(fallbackSequenceState);
+  assert.equal(fallbackSequenceState.items[0].childNodes[0].innerText, "mystery");
 
   const popularRenderers = createEmojiListRenderers({
     applyPixelArtworkClass() {},
@@ -205,9 +299,47 @@ try {
   };
   popularRenderers.asItem(popularState, "beta");
   assert.equal(popularState.group, "Top 2");
+  popularRenderers.flushEmojiCellFragment(popularState);
+  assert.equal(popularState.items.length, 1);
+
+  const orderedPopular = popularRenderers.orderedKeys(["alpha", "missing", "beta"]);
+  assert.deepEqual(orderedPopular, ["beta", "alpha", "missing"]);
+
+  const groupedOrderRenderers = createEmojiListRenderers({
+    applyPixelArtworkClass() {},
+    byId: () => ({
+      a: { order: 99 },
+      b: { order: 1 },
+    }),
+    displayExplorerLabel: (name: string) => name,
+    displayGroupName: (name: string) => name,
+    displayUnicodeSubGroupName: (name: string) => name,
+    emojiByKey: () => ({ a: "a", b: "b" }),
+    focusedEmojiKey: () => "",
+    getIntroducedVersion: () => "—",
+    groups: () => [],
+    orderMode: () => "grouped",
+    popularKeys: () => [],
+    searchAnnotations: () => ({}),
+    sequenceTranslationKeys: {},
+    sequenceTypeLabels: {},
+    sequenceTypeOrder: ["single"],
+    subGroups: () => ({}),
+    translate: (_key: string, fallback: string) => fallback,
+    unassigned: "Unassigned",
+  });
+  assert.deepEqual(groupedOrderRenderers.orderedKeys(["a", "b"]), ["a", "b"]);
 
   const orderedUnicode = renderers.orderedKeys(["alpha", "beta", "gamma"]);
   assert.deepEqual(orderedUnicode, ["gamma", "beta", "alpha"]);
+
+  const emptyFragmentState: any = {
+    cellFragment: new FakeFragment(),
+    emoji: null,
+    items: [],
+    subGroupElement: null,
+  };
+  renderers.flushEmojiCellFragment(emptyFragmentState);
 } finally {
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");

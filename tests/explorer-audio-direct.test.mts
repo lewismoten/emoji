@@ -224,6 +224,14 @@ try {
     engineCalls.filter((call) => call[0] === "resumeAudioContext").length >= 2,
     true,
   );
+  engine.soundEffectsEnabled = () => false;
+  engine.musicEnabled = () => true;
+  listeners.get("pointerdown")?.[0]?.();
+  assert.equal(
+    engineCalls.filter((call) => call[0] === "resumeAudioContext").length >= 3,
+    true,
+  );
+  engine.musicEnabled = () => false;
 
   soundToggle.checked = true;
   listeners.get("change")?.[0]?.({ target: soundToggle });
@@ -241,9 +249,19 @@ try {
   const target = new FakeElement([], interactive);
   listeners.get("click")?.[0]?.({ target });
   listeners.get("click")?.[0]?.({ target: {} });
+  const disabledInteractive = new FakeElement([], null);
+  disabledInteractive.disabled = true;
+  const disabledTarget = new FakeElement([], disabledInteractive);
+  listeners.get("click")?.[0]?.({ target: disabledTarget });
+  const ariaDisabledInteractive = new FakeElement([], null);
+  ariaDisabledInteractive.setAttribute("aria-disabled", "true");
+  const ariaDisabledTarget = new FakeElement([], ariaDisabledInteractive);
+  listeners.get("click")?.[0]?.({ target: ariaDisabledTarget });
   listeners.get("pointerover")?.[0]?.({ target });
   listeners.get("pointerover")?.[0]?.({ target });
   listeners.get("pointerover")?.[0]?.({ target: {} });
+  listeners.get("pointerover")?.[0]?.({ target: disabledTarget });
+  listeners.get("pointerover")?.[0]?.({ target: ariaDisabledTarget });
   listeners.get("pointerout")?.[0]?.({ target, relatedTarget: target });
   listeners.get("pointerout")?.[0]?.({ target, relatedTarget: null });
   listeners.get("pointerout")?.[0]?.({ target: {}, relatedTarget: null });

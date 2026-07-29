@@ -152,6 +152,74 @@ try {
     "open:subgroup-filter-dialog",
   ]);
 
+  const noSliderField = {
+    classList: {
+      values: new Map<string, boolean>(),
+      toggle(name: string, value: boolean) {
+        this.values.set(name, value);
+      },
+    },
+  };
+  const noSliderVersionSelector = {
+    closest(selector: string) {
+      return selector === ".filter-field" ? noSliderField : null;
+    },
+  };
+  const fallbackSequenceSelector = {};
+  const initializedWithoutTriggers = initializeExplorerControls({
+    createFilterControlSetup() {
+      return {
+        ensureActiveFilterSummary() {
+          return {
+            clear: { id: "clear-2" },
+            summary: { id: "summary-2" },
+            text: { id: "text-2" },
+          };
+        },
+        ensureChoiceContainer(selector: unknown, className: string) {
+          if (
+            selector === noSliderVersionSelector &&
+            className === "compact-sequence-choices"
+          ) {
+            return compactSequenceChoices;
+          }
+          return compactGroupChoices;
+        },
+        ensureSelectionLabel(_selector: unknown, className: string) {
+          return { className };
+        },
+        ensureSequenceTypeFilter() {
+          return fallbackSequenceSelector;
+        },
+        ensureVersionModeToggle() {
+          return { id: "version-mode-toggle-2" };
+        },
+        ensureVersionSlider() {
+          return { range: null, output: null };
+        },
+      };
+    },
+    groupSelector,
+    onCompactChoiceKeyDown() {},
+    openFilterPicker() {
+      throw new Error("should not be called without triggers");
+    },
+    populateVersionModeOptions() {},
+    renderDeveloperMode() {},
+    subGroupSelector,
+    versionModeSelector: {},
+    versionRange: {},
+    versionSelector: noSliderVersionSelector,
+  });
+  assert.equal(
+    noSliderField.classList.values.get("has-version-slider"),
+    false,
+  );
+  assert.equal(
+    initializedWithoutTriggers.sequenceTypeSelector,
+    fallbackSequenceSelector,
+  );
+
   const startupCalls: string[] = [];
   await finalizeExplorerStartup({
     applyDialogUrlState() {
@@ -210,6 +278,68 @@ try {
     "loadSearchLanguages:ar",
     "loadData",
     "loadPackageManifest",
+    "drawList",
+    "finishExplorerLoading",
+    "applyDialogUrlState",
+    "setUrlStateReady:true",
+    "syncUrlState",
+  ]);
+
+  (globalThis.document as any).documentElement.dataset = {};
+  (globalThis.document as any).documentElement.dir = "ltr";
+  (globalThis.window as any).location.pathname = "/index.html";
+  const fallbackStartupCalls: string[] = [];
+  await finalizeExplorerStartup({
+    applyDialogUrlState() {
+      fallbackStartupCalls.push("applyDialogUrlState");
+    },
+    drawList() {
+      fallbackStartupCalls.push("drawList");
+    },
+    finishExplorerLoading() {
+      fallbackStartupCalls.push("finishExplorerLoading");
+    },
+    loadData() {
+      fallbackStartupCalls.push("loadData");
+      return Promise.resolve();
+    },
+    loadSearchLanguages(locale: string) {
+      fallbackStartupCalls.push(`loadSearchLanguages:${locale}`);
+      return Promise.resolve();
+    },
+    loadUiTranslations(locale: string, rtl: boolean) {
+      fallbackStartupCalls.push(`loadUiTranslations:${locale}:${rtl}`);
+      return Promise.resolve();
+    },
+    observeToolbarHeight(toolbar: { id: string }) {
+      fallbackStartupCalls.push(`observeToolbarHeight:${toolbar.id}`);
+    },
+    preferences: { locale: "es" },
+    renderPixelFontToggle() {
+      fallbackStartupCalls.push("renderPixelFontToggle");
+    },
+    renderThemeToggle() {
+      fallbackStartupCalls.push("renderThemeToggle");
+    },
+    renderVersionModeToggle() {
+      fallbackStartupCalls.push("renderVersionModeToggle");
+    },
+    setUrlStateReady(value: boolean) {
+      fallbackStartupCalls.push(`setUrlStateReady:${value}`);
+    },
+    syncUrlState() {
+      fallbackStartupCalls.push("syncUrlState");
+    },
+    toolbar: { id: "toolbar-2" },
+  });
+  assert.deepEqual(fallbackStartupCalls, [
+    "renderVersionModeToggle",
+    "renderThemeToggle",
+    "renderPixelFontToggle",
+    "observeToolbarHeight:toolbar-2",
+    "loadUiTranslations:en:false",
+    "loadSearchLanguages:es",
+    "loadData",
     "drawList",
     "finishExplorerLoading",
     "applyDialogUrlState",

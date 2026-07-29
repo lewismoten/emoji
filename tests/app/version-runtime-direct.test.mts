@@ -105,6 +105,10 @@ config.openEmoji("wave", true, undefined, "details");
 assert.deepEqual(clickCalls.at(-1), [{ target: { id: "wave" } }, true]);
 assert.deepEqual(dialogViewCalls, [["code", false]]);
 
+config.openEmoji("wave", true, undefined, undefined);
+assert.deepEqual(clickCalls.at(-1), [{ target: { id: "wave" } }, true]);
+assert.deepEqual(dialogViewCalls, [["code", false]]);
+
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
 Object.defineProperty(globalThis, "document", {
   configurable: true,

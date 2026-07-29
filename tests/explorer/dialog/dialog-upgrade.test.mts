@@ -210,12 +210,27 @@ function matchesSimpleSelector(element: FakeElement, selector: string) {
   if (selector.startsWith(".")) {
     return element.classList.contains(selector.slice(1));
   }
+  const notMatch = selector.match(/^(.*):not\((\.[^)]+)\)$/);
+  if (notMatch) {
+    return (
+      matchesSimpleSelector(element, notMatch[1]) &&
+      !matchesSimpleSelector(element, notMatch[2])
+    );
+  }
   const dataMatch = selector.match(/^\[data-([^=]+)="([^"]+)"\]$/);
   if (dataMatch) {
     const key = dataMatch[1].replace(/-([a-z])/g, (_match, letter: string) =>
       letter.toUpperCase(),
     );
     return element.dataset[key] === dataMatch[2];
+  }
+  const dataPresenceMatch = selector.match(/^\[data-([^\]]+)\]$/);
+  if (dataPresenceMatch) {
+    const key = dataPresenceMatch[1].replace(
+      /-([a-z])/g,
+      (_match, letter: string) => letter.toUpperCase(),
+    );
+    return key in element.dataset;
   }
   return false;
 }
@@ -273,10 +288,19 @@ copyActions.className = "emoji-copy-actions";
 const keyCopy = new FakeElement("button");
 keyCopy.dataset.copy = "key";
 keyCopy.textContent = "Copy key";
+const escapeCopy = new FakeElement("button");
+escapeCopy.dataset.copy = "escape";
+const existingLong = new FakeElement("span");
+existingLong.className = "copy-action-long";
+existingLong.textContent = "Keep existing";
+escapeCopy.append(existingLong);
 const emojiCopy = new FakeElement("button");
 emojiCopy.dataset.copy = "emoji";
 emojiCopy.textContent = "Copy emoji";
-copyActions.append(keyCopy, emojiCopy);
+const unknownCopy = new FakeElement("button");
+unknownCopy.dataset.copy = "mystery";
+unknownCopy.textContent = "Mystery";
+copyActions.append(keyCopy, escapeCopy, emojiCopy, unknownCopy);
 const legacyCopiedDescription = new FakeElement("p");
 legacyCopiedDescription.dataset.i18n = "copiedDescription";
 const exampleLink = new FakeElement("a");
@@ -369,6 +393,11 @@ const actionLink = copyActions.querySelector('[data-copy="link"]');
 assert.ok(showCode);
 assert.ok(showEditor);
 assert.ok(actionLink);
+assert.equal(escapeCopy.querySelector(".copy-action-long"), existingLong);
+assert.equal(escapeCopy.getAttribute("aria-label"), "Copy escape");
+assert.equal(escapeCopy.dataset.i18nAriaLabel, "copyEscape");
+assert.equal(unknownCopy.children.length, 0);
+assert.equal(unknownCopy.getAttribute("aria-label"), null);
 
 const copyStatus = exampleDialog.querySelector(".copy-status");
 assert.ok(copyStatus);
