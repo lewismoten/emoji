@@ -52,6 +52,9 @@ Latin-script localization rather than every possible Latin-derived alphabet.
 
 ### Shared symbols and punctuation
 
+The shared symbols listed below are implemented in the current build of the
+retro text font.
+
 | Category | Characters |
 | - | - |
 | Currency and commerce | `£ € ¥ ¢ №` |
