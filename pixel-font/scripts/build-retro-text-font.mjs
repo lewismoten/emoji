@@ -2,48 +2,58 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import {
-  BITMAP_FONT_5X7,
-  BITMAP_FONT_5X7_CHARACTERS,
-} from "../retro-text-bitmap.mjs";
+
+import { writeRetroTextBitmapModule } from "./retro-text-module.mjs";
 
 const workspace = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "..",
 );
 const outputDirectory = path.join(workspace, "build-retro-text");
+const sourceDirectory = path.join(workspace, "retro-text");
+const sourceManifestFile = path.join(sourceDirectory, "manifest.json");
 const sourceFile = path.join(outputDirectory, "retro-text-source.json");
 const manifestFile = path.join(outputDirectory, "manifest.json");
+const bitmapModuleFile = path.join(workspace, "retro-text-bitmap.mjs");
 
 await fs.rm(outputDirectory, { recursive: true, force: true });
 await fs.mkdir(outputDirectory, { recursive: true });
 
-const glyphs = BITMAP_FONT_5X7_CHARACTERS.map((character) => ({
-  character,
-  codePoint: character.codePointAt(0),
-  bitmap: BITMAP_FONT_5X7[character],
-}));
+try {
+  await fs.access(sourceManifestFile);
+} catch {
+  await run(process.execPath, [
+    path.join(workspace, "scripts", "bootstrap-retro-text-source.mjs"),
+  ]);
+}
 
-const source = {
-  familyName: "Pixel Latin Retro",
-  styleName: "Regular",
-  fontVersion: "1.0.0",
-  copyright: "Copyright (c) 2026, Lewis Moten",
-  designer: "Lewis Moten",
-  url: "https://lewismoten.com",
-  width: 5,
-  height: 7,
-  pixelSize: 128,
-  advanceWidth: 768,
-  lineGap: 128,
-  glyphs,
-};
+const atlasPython = await pythonCommand(["PIL"]);
+const fontPython = await pythonCommand(["fontTools", "brotli"]);
 
-await fs.writeFile(sourceFile, `${JSON.stringify(source, null, 2)}\n`);
-await run(await pythonCommand(), [
+await run(atlasPython, [
+  path.join(workspace, "scripts", "retro-text-atlas.py"),
+  "extract",
+  sourceManifestFile,
+  sourceFile,
+]);
+
+const source = JSON.parse(await fs.readFile(sourceFile, "utf8"));
+await writeRetroTextBitmapModule(
+  source.glyphs,
+  bitmapModuleFile,
+  "pixel-font/retro-text/manifest.json and atlas PNG pages",
+);
+await run(fontPython, [
   path.join(workspace, "scripts", "compile-retro-text-font.py"),
   sourceFile,
   outputDirectory,
+]);
+await run(atlasPython, [
+  path.join(workspace, "scripts", "retro-text-atlas.py"),
+  "render-sample",
+  sourceManifestFile,
+  sourceFile,
+  path.join(sourceDirectory, "example-phrase.png"),
 ]);
 
 await fs.writeFile(
@@ -57,7 +67,7 @@ await fs.writeFile(
     {
       familyName: source.familyName,
       fontVersion: source.fontVersion,
-      glyphCount: glyphs.length,
+      glyphCount: source.glyphs.length,
       characterSet: ["Basic Latin", "Latin-1 Supplement"],
       files: [
         "pixel-latin-retro.ttf",
@@ -65,6 +75,7 @@ await fs.writeFile(
         "pixel-latin-retro.woff2",
         "pixel-latin-retro.css",
       ],
+      sourceAssets: ["../retro-text/manifest.json", "../retro-text/latin-1.json", "../retro-text/latin-1.png", "../retro-text/example-phrase.png"],
     },
     null,
     2,
@@ -73,20 +84,39 @@ await fs.writeFile(
 
 await fs.rm(sourceFile, { force: true });
 console.info(
-  `Built ${source.familyName} with ${glyphs.length.toLocaleString()} glyphs in ${path.relative(process.cwd(), outputDirectory)}.`,
+  `Built ${source.familyName} with ${source.glyphs.length.toLocaleString()} glyphs in ${path.relative(process.cwd(), outputDirectory)}.`,
 );
 
-async function pythonCommand() {
+async function pythonCommand(requiredModules = []) {
   const virtualEnvironmentPython =
     process.platform === "win32"
       ? path.join(workspace, ".venv", "Scripts", "python.exe")
       : path.join(workspace, ".venv", "bin", "python");
   try {
     await fs.access(virtualEnvironmentPython);
-    return virtualEnvironmentPython;
+    if (await supportsModules(virtualEnvironmentPython, requiredModules))
+      return virtualEnvironmentPython;
   } catch {
-    return process.platform === "win32" ? "python" : "python3";
+    // Fall through to the system interpreter.
   }
+  const systemPython = process.platform === "win32" ? "python" : "python3";
+  if (await supportsModules(systemPython, requiredModules)) return systemPython;
+  throw new Error(
+    `Unable to find a Python interpreter with: ${requiredModules.join(", ") || "no extra modules"}`,
+  );
+}
+
+function supportsModules(command, modules) {
+  return new Promise((resolve) => {
+    const script = modules.length
+      ? modules.map((moduleName) => `import ${moduleName}`).join("; ")
+      : "pass";
+    const processHandle = spawn(command, ["-c", script], {
+      stdio: "ignore",
+    });
+    processHandle.on("error", () => resolve(false));
+    processHandle.on("close", (code) => resolve(code === 0));
+  });
 }
 
 function run(command, args) {

@@ -1,0 +1,35 @@
+{
+  "familyName": "Pixel Latin Retro",
+  "styleName": "Regular",
+  "fontVersion": "1.0.0",
+  "copyright": "Copyright (c) 2026, Lewis Moten",
+  "designer": "Lewis Moten",
+  "url": "https://lewismoten.com",
+  "pixelSize": 128,
+  "advanceWidth": 768,
+  "lineGap": 128,
+  "glyphBox": {
+    "width": 5,
+    "height": 7
+  },
+  "samplePhrase": "A fuzzy wizard quietly vexes Jack by throwing six emoji pompoms.",
+  "sampleScale": 4,
+  "sampleWrap": 28,
+  "pages": [
+    {
+      "id": "latin-1",
+      "image": "latin-1.png",
+      "map": "latin-1.json",
+      "label": "Latin-1",
+      "cellSize": 16,
+      "glyphBox": {
+        "x": 5,
+        "y": 4,
+        "width": 5,
+        "height": 7
+      },
+      "rangeStart": 0,
+      "rangeEnd": 255
+    }
+  ]
+}
