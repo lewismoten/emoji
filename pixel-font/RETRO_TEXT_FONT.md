@@ -31,8 +31,8 @@ treated as system-font territory rather than retro-text targets.
 
 ## Supported Latin coverage
 
-The current goal is practical support for common Western European
-Latin-script localization rather than every possible Latin-derived alphabet.
+The current goal is practical support for common Latin-script localization
+rather than every possible Latin-derived alphabet.
 
 ### Western European language coverage
 
@@ -79,9 +79,21 @@ language groups below.
 | Baltic languages | `Ā Č Ē Ģ Ī Ķ Ļ Ņ Š Ū Ž ā č ē ģ ī ķ ļ ņ š ū ž` |
 | Hungarian | `Á É Í Ó Ö Ő Ú Ü Ű á é í ó ö ő ú ü ű` |
 
+### Additional Latin coverage
+
+The current build also includes the commonly needed characters for these
+additional Latin-script language groups.
+
+| Language group | Often-needed characters |
+| - | - |
+| Turkish | `Ç Ğ İ Ö Ş Ü ç ğ ı ö ş ü` |
+| Esperanto | `Ĉ Ĝ Ĥ Ĵ Ŝ Ŭ ĉ ĝ ĥ ĵ ŝ ŭ` |
+| Welsh | `Ŵ Ŷ ŵ ŷ` |
+| Maltese | `Ċ Ġ Ħ Ż ċ ġ ħ ż` |
+
 Future additions may still be needed for other Latin-based languages, but the
-current coverage now spans common Western, Central, and Eastern European
-Latin-script UI needs.
+current coverage now spans common Western, Central, Eastern, and several other
+practical Latin-script UI needs.
 
 ## Source format
 
@@ -90,8 +102,8 @@ hardcoded character table.
 
 - [Latin-1 atlas PNG](retro-text/latin-1.png)
 - [Latin-1 row/cell JSON map](retro-text/latin-1.json)
-- [Symbols & punctuation atlas PNG](retro-text/symbols-and-punctuation.png)
-- [Symbols & punctuation row/cell JSON map](retro-text/symbols-and-punctuation.json)
+- [Extended Latin & symbols atlas PNG](retro-text/extended-latin-and-symbols.png)
+- [Extended Latin & symbols row/cell JSON map](retro-text/extended-latin-and-symbols.json)
 - [Source manifest](retro-text/manifest.json)
 - [Sample phrase preview](retro-text/example-phrase.png)
 
@@ -102,12 +114,12 @@ of rows containing arrays of cells.
 That keeps the source easy to inspect visually, easy to edit in an image
 editor, and easy to extend later with more 256-cell pages for additional
 character ranges. The first page currently covers Latin-1, while the second
-page holds extra punctuation and navigation symbols that the retro UI uses,
-such as the euro sign, curly quotes, and arrow-key icons.
+page holds supplementary Latin letters plus shared symbols that the retro UI
+uses, such as the euro sign, curly quotes, and arrow-key icons.
 
 ![Pixel Latin Retro Latin-1 atlas](retro-text/latin-1.png)
 
-![Pixel Latin Retro symbols atlas](retro-text/symbols-and-punctuation.png)
+![Pixel Latin Retro extended Latin and symbols atlas](retro-text/extended-latin-and-symbols.png)
 
 The sample preview currently renders both of these sentences:
 

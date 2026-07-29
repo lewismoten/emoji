@@ -43,10 +43,10 @@
       "rangeEnd": 255
     },
     {
-      "id": "symbols-and-punctuation",
-      "image": "symbols-and-punctuation.png",
-      "map": "symbols-and-punctuation.json",
-      "label": "Symbols & punctuation",
+      "id": "extended-latin-and-symbols",
+      "image": "extended-latin-and-symbols.png",
+      "map": "extended-latin-and-symbols.json",
+      "label": "Extended Latin & symbols",
       "cellSize": 16,
       "glyphBox": {
         "x": 5,
