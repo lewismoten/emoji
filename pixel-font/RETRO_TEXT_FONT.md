@@ -34,6 +34,8 @@ treated as system-font territory rather than retro-text targets.
 The current goal is practical support for common Western European
 Latin-script localization rather than every possible Latin-derived alphabet.
 
+### Western European language coverage
+
 | Language | Characters beyond common English |
 | - | - |
 | English | — |
@@ -48,12 +50,34 @@ Latin-script localization rather than every possible Latin-derived alphabet.
 | Swedish | `Å Ä Ö å ä ö` |
 | Icelandic | `Á Ð É Í Ó Ú Ý Þ Æ Ö á ð é í ó ú ý þ æ ö` |
 
-This coverage includes the character forms commonly needed by those
-translations, including accents, diaereses, ligatures, and symbols such as
-`Æ`, `Œ`, `ß`, `ẞ`, `ø`, `å`, and `Ÿ`.
+### Shared symbols and punctuation
+
+| Category | Characters |
+| - | - |
+| Currency and commerce | `£ € ¥ ¢ №` |
+| Quotes and dashes | `" ' “ ” ‘ ’ – — …` |
+| UI and editorial marks | `© ® ™ § ¶ † ‡ •` |
+| Math and signs | `× ÷ − ± °` |
+| Spanish-style punctuation | `¡ ¿` |
+| Navigation and status | `← ↑ → ↓ ↩ ⚠ ✓ ♪` |
+
+### Recommended next: Central and Eastern European coverage
+
+These are good candidates if the retro font later expands beyond Western
+European localization support.
+
+| Language group | Often-needed characters |
+| - | - |
+| Polish | `Ą Ć Ę Ł Ń Ó Ś Ź Ż ą ć ę ł ń ó ś ź ż` |
+| Czech | `Á Č Ď É Ě Í Ň Ó Ř Š Ť Ú Ů Ý Ž á č ď é ě í ň ó ř š ť ú ů ý ž` |
+| Slovak | `Á Ä Č Ď É Í Ĺ Ľ Ň Ó Ô Ŕ Š Ť Ú Ý Ž á ä č ď é í ĺ ľ ň ó ô ŕ š ť ú ý ž` |
+| Slovene / Croatian / Serbian (Latin) | `Č Ć Đ Š Ž č ć đ š ž` |
+| Romanian | `Ă Â Î Ș Ț ă â î ș ț` |
+| Baltic languages | `Ā Č Ē Ģ Ī Ķ Ļ Ņ Š Ū Ž ā č ē ģ ī ķ ļ ņ š ū ž` |
+| Hungarian | `Á É Í Ó Ö Ő Ú Ü Ű á é í ó ö ő ú ü ű` |
 
 Future additions may still be needed for other Latin-based languages, but the
-current set is meant to keep common Western European UI translations from
+current Western European set is meant to keep common UI translations from
 being blocked on missing glyphs.
 
 ## Source format
