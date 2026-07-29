@@ -26,6 +26,8 @@ const accentRows = {
   grave: ["01000"],
   diaeresis: ["01010"],
   circumflex: ["00100", "01010"],
+  caron: ["01010", "00100"],
+  macron: ["11111"],
   ring: ["00100", "01010"],
   tilde: ["01100", "00011"],
 };
@@ -71,6 +73,16 @@ const ringABase = rows(
   "10011",
 );
 
+const extraLatinGlyphs = [
+  {
+    character: '"',
+    bitmap: rows("01010", "01010", "00100", "00000", "00000", "00000", "00000"),
+  },
+];
+const extraLatinGlyphMap = new Map(
+  extraLatinGlyphs.map((glyph) => [glyph.character, glyph.bitmap]),
+);
+
 const glyphOverrides = new Map(
   [
     ["a", roundedABase],
@@ -79,6 +91,7 @@ const glyphOverrides = new Map(
     ["â", overlayRows(roundedABase, accentRows.circumflex)],
     ["ã", overlayRows(roundedABase, accentRows.tilde)],
     ["ä", overlayRows(roundedABase, accentRows.diaeresis)],
+    ["ā", overlayRows(roundedABase, accentRows.macron)],
     ["å", ringABase],
     ["é", overlayRows(BITMAP_FONT_5X7.e, accentRows.acute)],
     ["è", overlayRows(BITMAP_FONT_5X7.e, accentRows.grave)],
@@ -88,12 +101,14 @@ const glyphOverrides = new Map(
     ["ì", overlayRows(BITMAP_FONT_5X7.i, accentRows.grave)],
     ["î", overlayRows(BITMAP_FONT_5X7.i, accentRows.circumflex)],
     ["ï", overlayRows(BITMAP_FONT_5X7.i, accentRows.diaeresis)],
+    ["ǐ", overlayRows(BITMAP_FONT_5X7.i, accentRows.caron)],
     ["ñ", overlayRows(accentedNBase, accentRows.tilde)],
     ["ó", overlayRows(BITMAP_FONT_5X7.o, accentRows.acute)],
     ["ò", overlayRows(BITMAP_FONT_5X7.o, accentRows.grave)],
     ["ô", overlayRows(BITMAP_FONT_5X7.o, accentRows.circumflex)],
     ["õ", overlayRows(BITMAP_FONT_5X7.o, accentRows.tilde)],
     ["ö", overlayRows(BITMAP_FONT_5X7.o, accentRows.diaeresis)],
+    ["ō", overlayRows(BITMAP_FONT_5X7.o, accentRows.macron)],
     ["ú", overlayRows(accentedUBase, accentRows.acute)],
     ["ù", overlayRows(accentedUBase, accentRows.grave)],
     ["û", overlayRows(accentedUBase, accentRows.circumflex)],
@@ -113,22 +128,42 @@ const sourceFile = path.join(sourceDirectory, "retro-text-source.json");
 const latinRows = Array.from({ length: 16 }, () => Array(16).fill(null));
 for (let codePoint = 0; codePoint <= 0xff; codePoint += 1) {
   const character = String.fromCodePoint(codePoint);
-  if (!BITMAP_FONT_5X7[character]) continue;
+  if (!BITMAP_FONT_5X7[character] && !extraLatinGlyphMap.get(character)) continue;
   latinRows[Math.floor(codePoint / 16)][codePoint % 16] = character;
 }
 
-const glyphs = BITMAP_FONT_5X7_CHARACTERS.filter(
-  (character) => character.codePointAt(0) <= 0xff,
-).map((character) => ({
-  bitmap: glyphOverrides.get(character) ?? BITMAP_FONT_5X7[character],
-  character,
-  codePoint: character.codePointAt(0),
-}));
+const glyphs = [
+  ...new Set([
+    ...BITMAP_FONT_5X7_CHARACTERS.filter((character) => character.codePointAt(0) <= 0xff),
+    ...extraLatinGlyphs.map((glyph) => glyph.character),
+  ]),
+]
+  .sort((left, right) => left.codePointAt(0) - right.codePointAt(0))
+  .map((character) => ({
+    bitmap:
+      glyphOverrides.get(character) ??
+      extraLatinGlyphMap.get(character) ??
+      BITMAP_FONT_5X7[character],
+    character,
+    codePoint: character.codePointAt(0),
+  }));
 
 const supplementaryGlyphs = [
   {
     character: "€",
     bitmap: rows("00110", "01000", "11110", "01000", "11110", "01000", "00110"),
+  },
+  {
+    character: "ā",
+    bitmap: glyphOverrides.get("ā"),
+  },
+  {
+    character: "ō",
+    bitmap: glyphOverrides.get("ō"),
+  },
+  {
+    character: "ǐ",
+    bitmap: glyphOverrides.get("ǐ"),
   },
   {
     character: "Œ",
@@ -165,6 +200,26 @@ const supplementaryGlyphs = [
   {
     character: "…",
     bitmap: rows("00000", "00000", "00000", "00000", "00000", "00000", "10101"),
+  },
+  {
+    character: "−",
+    bitmap: rows("00000", "00000", "00000", "11111", "00000", "00000", "00000"),
+  },
+  {
+    character: "♪",
+    bitmap: rows("00010", "00011", "00010", "00010", "00110", "01110", "00100"),
+  },
+  {
+    character: "⚠",
+    bitmap: rows("00100", "00100", "01110", "01110", "11111", "00000", "00100"),
+  },
+  {
+    character: "✓",
+    bitmap: rows("00000", "00001", "00010", "10100", "01000", "00000", "00000"),
+  },
+  {
+    character: "〒",
+    bitmap: rows("11111", "00100", "11111", "00100", "00100", "00100", "01010"),
   },
   {
     character: "←",
