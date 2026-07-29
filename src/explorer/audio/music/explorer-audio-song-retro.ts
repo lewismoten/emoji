@@ -1,6 +1,18 @@
 import type { ExplorerMusicSong } from "./explorer-audio-song-types.js";
 import { NOTE_LENGTHS, PITCHES } from "./explorer-audio-notes.js";
 
+const Q = NOTE_LENGTHS.QUARTER;
+const H = NOTE_LENGTHS.HALF;
+
+const C4Q = [PITCHES.C4, Q] as const;
+const D4QS = [PITCHES.D4, Q, { sustain: true }] as const;
+const E4Q = [PITCHES.E4, Q] as const;
+const G4Q = [PITCHES.G4, Q] as const;
+
+const C3HS = [PITCHES.C3, H, { sustain: true }] as const;
+const D3HS = [PITCHES.D3, H, { sustain: true }] as const;
+const E3HS = [PITCHES.E3, H, { sustain: true }] as const;
+
 export const retroExplorerSong: ExplorerMusicSong = {
   beatLength: 0.18,
   gain: 0.09,
@@ -8,23 +20,23 @@ export const retroExplorerSong: ExplorerMusicSong = {
     {
       instrument: "retro-lead",
       events: [
-        [PITCHES.C4, NOTE_LENGTHS.QUARTER],
-        [PITCHES.E4, NOTE_LENGTHS.QUARTER],
-        [PITCHES.G4, NOTE_LENGTHS.QUARTER],
-        [PITCHES.E4, NOTE_LENGTHS.QUARTER],
-        [PITCHES.C4, NOTE_LENGTHS.QUARTER],
-        [PITCHES.G4, NOTE_LENGTHS.QUARTER],
-        [PITCHES.E4, NOTE_LENGTHS.QUARTER],
-        [PITCHES.D4, NOTE_LENGTHS.QUARTER, { sustain: true }],
+        C4Q,
+        E4Q,
+        G4Q,
+        E4Q,
+        C4Q,
+        G4Q,
+        E4Q,
+        D4QS,
       ],
     },
     {
       instrument: "retro-bass",
       events: [
-        [PITCHES.C3, NOTE_LENGTHS.HALF, { sustain: true }],
-        [PITCHES.D3, NOTE_LENGTHS.HALF, { sustain: true }],
-        [PITCHES.E3, NOTE_LENGTHS.HALF, { sustain: true }],
-        [PITCHES.D3, NOTE_LENGTHS.HALF, { sustain: true }],
+        C3HS,
+        D3HS,
+        E3HS,
+        D3HS,
       ],
     },
   ],
