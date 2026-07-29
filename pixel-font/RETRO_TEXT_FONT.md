@@ -17,6 +17,18 @@ The retro theme is meant to feel cohesive rather than merely recolored. The
 The font is used by the Explorer UI and is not published as a separate npm
 package today.
 
+Today this retro text font is only intended for Latin-based interface text,
+such as English and Spanish. It is a good fit for languages that can be shown
+clearly in a compact 5×7 bitmap style, but it is not meant to cover every
+script used by the Explorer.
+
+Chinese Pinyin was considered as a retro-friendly alternative because it uses
+Latin letters, but it has not been adopted. It would need its own separate
+translation layer rather than simply reusing the Chinese locale, and I am not
+yet confident that a Pinyin-only retro presentation would feel natural or
+helpful to native Chinese speakers. For now, non-Latin UI languages should be
+treated as system-font territory rather than retro-text targets.
+
 ## Source format
 
 The retro text font is now sourced from editable bitmap assets rather than a
