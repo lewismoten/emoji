@@ -54,15 +54,23 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-atlas.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-atlas.mjs")).href
 );
 const helperStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-canvas-helpers-stub.mjs")).href,
+  pathToFileURL(
+    path.join(tempDirectory, "pixel-editor-canvas-helpers-stub.mjs"),
+  ).href
 );
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
-const originalImageData = Object.getOwnPropertyDescriptor(globalThis, "ImageData");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
+const originalImageData = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "ImageData",
+);
 
 try {
   const statuses: string[] = [];
@@ -126,8 +134,20 @@ try {
     draftController: {
       artworkDrafts: () =>
         new Map([
-          ["thumbsUp", { entry: { atlas: "group/file.png", x: 1, y: 2 }, pixels: new Uint8ClampedArray([1, 2, 3, 4]) }],
-          ["wave", { entry: { atlas: "other.png", x: 0, y: 0 }, pixels: new Uint8ClampedArray([9]) }],
+          [
+            "thumbsUp",
+            {
+              entry: { atlas: "group/file.png", x: 1, y: 2 },
+              pixels: new Uint8ClampedArray([1, 2, 3, 4]),
+            },
+          ],
+          [
+            "wave",
+            {
+              entry: { atlas: "other.png", x: 0, y: 0 },
+              pixels: new Uint8ClampedArray([9]),
+            },
+          ],
         ]),
       markAtlasClean(atlas: string) {
         calls.push(`mark-clean:${atlas}`);
@@ -181,7 +201,10 @@ try {
   });
 
   const updated = await controller.renderUpdatedAtlas({ kind: "source-blob" });
-  assert.equal(sourceModuleSpecifier, "../../src/pixel-editor/controllers/pixel-editor-atlas.js");
+  assert.equal(
+    sourceModuleSpecifier,
+    "../../src/pixel-editor/controllers/pixel-editor-atlas.js",
+  );
   assert.deepEqual(updated, { kind: "updated-blob" });
   assert.equal(calls.includes("remember-draft"), true);
   assert.equal(calls.includes("draw-image"), true);
@@ -191,7 +214,9 @@ try {
   assert.equal(atlasExists, true);
   assert.equal(statuses.at(-1), "Updated atlas PNG downloaded.");
   assert.equal(
-    helperStub.helperCalls.some((entry: any[]) => entry[0] === "downloadBlob" && entry[2] === "file.png"),
+    helperStub.helperCalls.some(
+      (entry: any[]) => entry[0] === "downloadBlob" && entry[2] === "file.png",
+    ),
     true,
   );
 
@@ -205,7 +230,10 @@ try {
   await controller.downloadEmojiPng();
   assert.equal(statuses.at(-1), "12 by 12 emoji PNG downloaded.");
   assert.equal(
-    helperStub.helperCalls.some((entry: any[]) => entry[0] === "downloadBlob" && entry[2] === "thumbsUp.png"),
+    helperStub.helperCalls.some(
+      (entry: any[]) =>
+        entry[0] === "downloadBlob" && entry[2] === "thumbsUp.png",
+    ),
     true,
   );
 
@@ -295,10 +323,13 @@ try {
     "Could not save group/file.png. Choose the pixel-font/atlases directory.",
   );
 } finally {
-  if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
+  if (originalWindow)
+    Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");
-  if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+  if (originalDocument)
+    Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");
-  if (originalImageData) Object.defineProperty(globalThis, "ImageData", originalImageData);
+  if (originalImageData)
+    Object.defineProperty(globalThis, "ImageData", originalImageData);
   else Reflect.deleteProperty(globalThis, "ImageData");
 }

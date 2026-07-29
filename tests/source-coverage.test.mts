@@ -3,10 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "..",
-);
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const walk = (directory: string, extensions: string[]) => {
   let files: string[] = [];
@@ -28,7 +25,12 @@ const srcFiles = walk(path.join(root, "src"), [".ts"])
   .filter((file) => !file.endsWith(".d.ts"))
   .map((file) => path.relative(root, file).replaceAll(path.sep, "/"))
   .sort();
-const testFiles = walk(path.join(root, "tests"), [".mts", ".mjs", ".ts", ".js"]);
+const testFiles = walk(path.join(root, "tests"), [
+  ".mts",
+  ".mjs",
+  ".ts",
+  ".js",
+]);
 const testCorpus = testFiles
   .map((file) => fs.readFileSync(file, "utf8"))
   .join("\n");
@@ -98,7 +100,10 @@ const directlyCoveredFiles = [...seedFiles].sort();
 const directCoverageProblems: string[] = [];
 
 for (const sourceFile of srcFiles) {
-  if (!seedFiles.has(sourceFile) && !legacyDirectCoverageAllowlist.has(sourceFile)) {
+  if (
+    !seedFiles.has(sourceFile) &&
+    !legacyDirectCoverageAllowlist.has(sourceFile)
+  ) {
     directCoverageProblems.push(
       `${sourceFile} is not directly referenced by tests; add a direct test or explicitly allowlist it as legacy coverage debt`,
     );

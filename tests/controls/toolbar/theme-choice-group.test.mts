@@ -14,7 +14,9 @@ assert.ok(markup.includes('data-min-selectable="1"'));
 assert.ok(markup.includes('data-theme="base"'));
 
 const restore = installFakeDocument();
-const globals = globalThis as typeof globalThis & { document: { head: FakeElement } };
+const globals = globalThis as typeof globalThis & {
+  document: { head: FakeElement };
+};
 ThemeChoiceGroupControl.create({
   themes: [{ theme: "custom", emoji: "C", key: "custom", text: "Custom" }],
 });

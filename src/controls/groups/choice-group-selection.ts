@@ -23,7 +23,10 @@ export function isChoiceGroupItemDisabled(
   limits: ChoiceGroupSelectionLimits,
 ): boolean {
   const selectedCount = items.filter((entry) => entry.selected).length;
-  const { maxSelectable, minSelectable } = normalizeLimits(items.length, limits);
+  const { maxSelectable, minSelectable } = normalizeLimits(
+    items.length,
+    limits,
+  );
   const selected = Boolean(item.selected);
   if (!selected && maxSelectable === 1) return false;
   const canDeselect = selectedCount > minSelectable;
@@ -46,6 +49,8 @@ export function toggleChoiceGroupSelection(
   }
 
   return items.map((item) =>
-    item.value === value ? { ...item, selected: !Boolean(item.selected) } : item,
+    item.value === value
+      ? { ...item, selected: !Boolean(item.selected) }
+      : item,
   );
 }

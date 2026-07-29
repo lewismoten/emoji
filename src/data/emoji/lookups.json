@@ -1,8 +1,5 @@
 {
-  "statuses": [
-    "component",
-    "fully-qualified"
-  ],
+  "statuses": ["component", "fully-qualified"],
   "groups": [
     "Activities",
     "Animals & Nature",
@@ -117,12 +114,5 @@
     "writing",
     "zodiac"
   ],
-  "sequenceTypes": [
-    "flag",
-    "keycap",
-    "modifier",
-    "single",
-    "tag",
-    "zwj"
-  ]
+  "sequenceTypes": ["flag", "keycap", "modifier", "single", "tag", "zwj"]
 }

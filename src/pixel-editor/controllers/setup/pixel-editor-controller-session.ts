@@ -16,7 +16,8 @@ import { createPixelEditorAtlasController } from "../pixel-editor-atlas.js";
 import { createPixelEditorSessionController } from "../pixel-editor-session.js";
 
 export function createPixelEditorSessionControllers(options) {
-  const { dialog, draftController, elements, state, translate, visual } = options;
+  const { dialog, draftController, elements, state, translate, visual } =
+    options;
 
   const sessionController = createPixelEditorSessionController({
     artworkDrafts: () => state.artworkDrafts,

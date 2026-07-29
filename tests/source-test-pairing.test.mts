@@ -12,7 +12,9 @@ const legacyMissingTestPairs = new Set<string>([]);
 
 function walk(directory: string, extension: string) {
   let files: string[] = [];
-  for (const entry of fs.readdirSync(path.join(root, directory), { withFileTypes: true })) {
+  for (const entry of fs.readdirSync(path.join(root, directory), {
+    withFileTypes: true,
+  })) {
     if (entry.name === ".DS_Store") continue;
     const relative = path.posix.join(directory, entry.name);
     if (entry.isDirectory()) {
@@ -28,10 +30,7 @@ const sourceFiles = walk("src", ".ts")
   .filter((file) => !file.endsWith(".d.ts"))
   .sort();
 const testFiles = new Set(
-  [
-    ...walk("tests", ".test.mts"),
-    ...walk("tests", ".test.ts"),
-  ].sort(),
+  [...walk("tests", ".test.mts"), ...walk("tests", ".test.ts")].sort(),
 );
 
 function expectedTestFiles(sourceFile: string) {
@@ -48,7 +47,9 @@ function expectedTestFiles(sourceFile: string) {
 
 const missingTests = sourceFiles.filter(
   (sourceFile) =>
-    !expectedTestFiles(sourceFile).some((candidate) => testFiles.has(candidate)),
+    !expectedTestFiles(sourceFile).some((candidate) =>
+      testFiles.has(candidate),
+    ),
 );
 
 function expectedImportSpecifiers(sourceFile: string, testFile: string) {

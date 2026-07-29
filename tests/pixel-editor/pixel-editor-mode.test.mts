@@ -78,13 +78,17 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-mode.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-mode.mjs")).href
 );
 const geometryStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-geometry-helpers-stub.mjs")).href,
+  pathToFileURL(
+    path.join(tempDirectory, "pixel-editor-geometry-helpers-stub.mjs"),
+  ).href
 );
 const gridStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-grid-navigation-stub.mjs")).href,
+  pathToFileURL(
+    path.join(tempDirectory, "pixel-editor-grid-navigation-stub.mjs"),
+  ).href
 );
 
 const classList = () => {
@@ -177,7 +181,10 @@ const controller = module.createPixelEditorModeController({
   view,
 });
 
-assert.equal(sourceModuleSpecifier, "../../src/pixel-editor/controllers/pixel-editor-mode.js");
+assert.equal(
+  sourceModuleSpecifier,
+  "../../src/pixel-editor/controllers/pixel-editor-mode.js",
+);
 controller.updateTransferButtons();
 assert.equal(copyArtButton.disabled, false);
 assert.equal(copyFontButton.disabled, false);
@@ -211,7 +218,10 @@ assert.equal(layerHelp.hidden, false);
 assert.equal(previewActions.hidden, true);
 assert.equal(copyArtButton.hidden, false);
 assert.equal(copySelectionButton.hidden, true);
-assert.equal(toolButtons.every((button) => button.disabled === true), true);
+assert.equal(
+  toolButtons.every((button) => button.disabled === true),
+  true,
+);
 assert.equal(invertLayerButton.attributes.get("aria-pressed"), "true");
 assert.equal(invertLayerButton.classList.contains("is-active"), true);
 assert.equal(gridStub.rovingCalls.length >= 1, true);
@@ -221,7 +231,12 @@ assert.equal(layerNudgeButtons[0].disabled, false);
 assert.equal(layerNudgeButtons[1].disabled, false);
 assert.equal(layerTransformButtons[0].disabled, false);
 assert.equal(layerTransformButtons[1].disabled, false);
-assert.equal(geometryStub.geometryCalls.some((entry: any[]) => entry[0] === "layerPositionAllowed"), true);
+assert.equal(
+  geometryStub.geometryCalls.some(
+    (entry: any[]) => entry[0] === "layerPositionAllowed",
+  ),
+  true,
+);
 
 currentFloatingLayer = undefined;
 currentTool = "select";

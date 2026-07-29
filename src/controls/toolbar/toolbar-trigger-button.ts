@@ -1,7 +1,8 @@
 import { BaseControl } from "../core/base-control.js";
 import { DomFactory, type NodeSpec } from "../core/dom-factory.js";
 
-const toolbarTriggerButtonStylesheetId = "toolbar-trigger-button-control-stylesheet";
+const toolbarTriggerButtonStylesheetId =
+  "toolbar-trigger-button-control-stylesheet";
 const toolbarTriggerButtonStylesheetHref =
   "./explorer/controls/toolbar/toolbar-trigger-button.css";
 

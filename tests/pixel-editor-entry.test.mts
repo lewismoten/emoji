@@ -17,10 +17,7 @@ assert.match(
   source,
   /import \{ createPixelEditorControllers \} from "\.\/pixel-editor\/controllers\/pixel-editor-controllers\.js";/,
 );
-assert.match(
-  source,
-  /export function createPixelEditor\(\{/,
-);
+assert.match(source, /export function createPixelEditor\(\{/);
 assert.match(
   source,
   /export \{\s*buildSkinToneOwnership,[\s\S]*compareSkinToneHelpers,\s*\};/,

@@ -17,17 +17,35 @@ const structureLimits = {
 // directories receive no exception. Lower a budget whenever a split reduces it.
 const legacyLineBudgets: Record<string, number> = {};
 
-assert.deepEqual(Object.entries(legacyLineBudgets).filter(([key, value])=> value < structureLimits.linesPerScriptOrStylesheet), [], "Files specified below 300 line limits.");
+assert.deepEqual(
+  Object.entries(legacyLineBudgets).filter(
+    ([key, value]) => value < structureLimits.linesPerScriptOrStylesheet,
+  ),
+  [],
+  "Files specified below 300 line limits.",
+);
 
 const legacyFileCountBudgets: Record<string, number> = {
   src: 14,
   "src/app": 29,
   "src/explorer": 39,
 };
-assert.deepEqual(Object.entries(legacyFileCountBudgets).filter(([key, value])=> value < structureLimits.filesPerDirectory), [], "Files in directory specified below limits.");
+assert.deepEqual(
+  Object.entries(legacyFileCountBudgets).filter(
+    ([key, value]) => value < structureLimits.filesPerDirectory,
+  ),
+  [],
+  "Files in directory specified below limits.",
+);
 
 const legacyDirectoryCountBudgets: Record<string, number> = {};
-assert.deepEqual(Object.entries(legacyDirectoryCountBudgets).filter(([key, value])=> value < structureLimits.directoriesPerDirectory), [], "Directories in directory specified below limits.");
+assert.deepEqual(
+  Object.entries(legacyDirectoryCountBudgets).filter(
+    ([key, value]) => value < structureLimits.directoriesPerDirectory,
+  ),
+  [],
+  "Directories in directory specified below limits.",
+);
 
 const generatedStructurePrefixes = ["dist/", "explorer/", "library/"];
 generatedStructurePrefixes.push("pixel-font/build-retro-text/");

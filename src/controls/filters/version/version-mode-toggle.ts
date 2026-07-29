@@ -1,8 +1,7 @@
 import { BaseControl } from "../../core/base-control.js";
 import { ToggleButtonControl } from "../../core/toggle-button.js";
 
-const versionModeToggleStylesheetId =
-  "version-mode-toggle-control-stylesheet";
+const versionModeToggleStylesheetId = "version-mode-toggle-control-stylesheet";
 const versionModeToggleStylesheetHref =
   "./explorer/controls/filters/version/version-mode-toggle.css";
 

@@ -29,7 +29,10 @@ class FakeSelector {
   }
 }
 
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 Object.defineProperty(globalThis, "document", {
   configurable: true,
   value: {
@@ -76,7 +79,10 @@ try {
   assert.equal(selector.replacedChildren[0]?.value, "through");
   assert.equal(selector.replacedChildren[0]?.textContent, "All versions!");
   assert.equal(selector.replacedChildren[1]?.value, "selected");
-  assert.equal(selector.replacedChildren[1]?.textContent, "Selected version only!");
+  assert.equal(
+    selector.replacedChildren[1]?.textContent,
+    "Selected version only!",
+  );
   assert.equal(selector.value, "selected");
 
   controller.render();

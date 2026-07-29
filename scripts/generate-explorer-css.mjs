@@ -32,7 +32,13 @@ const sourceFiles = [
     output: path.join("themes", "retro", "retro-dialogs.css"),
   },
   {
-    source: path.join("src", "site", "themes", "retro", "retro-example-dialogs.css"),
+    source: path.join(
+      "src",
+      "site",
+      "themes",
+      "retro",
+      "retro-example-dialogs.css",
+    ),
     output: path.join("themes", "retro", "retro-example-dialogs.css"),
   },
   {
@@ -64,11 +70,21 @@ const sourceFiles = [
     output: path.join("controls", "dialog", "dialog-heading.css"),
   },
   {
-    source: path.join("src", "controls", "dialog", "dialog-navigate-button.css"),
+    source: path.join(
+      "src",
+      "controls",
+      "dialog",
+      "dialog-navigate-button.css",
+    ),
     output: path.join("controls", "dialog", "dialog-navigate-button.css"),
   },
   {
-    source: path.join("src", "controls", "dialog", "dialog-mode-back-button.css"),
+    source: path.join(
+      "src",
+      "controls",
+      "dialog",
+      "dialog-mode-back-button.css",
+    ),
     output: path.join("controls", "dialog", "dialog-mode-back-button.css"),
   },
   {
@@ -110,7 +126,12 @@ const sourceFiles = [
     ),
   },
   {
-    source: path.join("src", "controls", "toolbar", "toolbar-trigger-button.css"),
+    source: path.join(
+      "src",
+      "controls",
+      "toolbar",
+      "toolbar-trigger-button.css",
+    ),
     output: path.join("controls", "toolbar", "toolbar-trigger-button.css"),
   },
   {
@@ -334,8 +355,6 @@ generated.push({
 
 console.info(
   `Generated ${generated
-    .map(
-      ({ bytes, label }) => `${bytes.toLocaleString()} bytes of ${label}`,
-    )
+    .map(({ bytes, label }) => `${bytes.toLocaleString()} bytes of ${label}`)
     .join(", ")}.`,
 );

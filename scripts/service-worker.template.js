@@ -10,8 +10,10 @@ const NETWORK_FIRST_PATHS = new Set([
   new URL("./explorer/themes/ega.css", self.registration.scope).pathname,
   new URL("./explorer/themes/retro/retro.css", self.registration.scope)
     .pathname,
-  new URL("./explorer/themes/retro/retro-foundation.css", self.registration.scope)
-    .pathname,
+  new URL(
+    "./explorer/themes/retro/retro-foundation.css",
+    self.registration.scope,
+  ).pathname,
   new URL("./explorer/themes/retro/retro-dialogs.css", self.registration.scope)
     .pathname,
   new URL("./explorer/themes/retro/retro-buttons.css", self.registration.scope)

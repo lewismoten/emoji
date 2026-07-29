@@ -15,20 +15,48 @@ const source = await fs.readFile(
 );
 
 const replacements: Array<[string, string]> = [
-  ['from "../../canvas/pixel-editor-canvas-helpers.js";', 'from "./pixel-editor-canvas-helpers-stub.mjs";'],
-  ['from "../../canvas/pixel-editor-layer-canvas-controller.js";', 'from "./pixel-editor-layer-canvas-controller-stub.mjs";'],
-  ['from "../../core/pixel-editor-constants.js";', 'from "./pixel-editor-constants-stub.mjs";'],
-  ['from "../../core/pixel-editor-geometry-helpers.js";', 'from "./pixel-editor-geometry-helpers-stub.mjs";'],
-  ['from "../../data/pixel-editor-atlas-io.js";', 'from "./pixel-editor-atlas-io-stub.mjs";'],
-  ['from "../../layers/pixel-editor-layer-helpers.js";', 'from "./pixel-editor-layer-helpers-stub.mjs";'],
-  ['from "../../palette/pixel-editor-palette.js";', 'from "./pixel-editor-palette-stub.mjs";'],
+  [
+    'from "../../canvas/pixel-editor-canvas-helpers.js";',
+    'from "./pixel-editor-canvas-helpers-stub.mjs";',
+  ],
+  [
+    'from "../../canvas/pixel-editor-layer-canvas-controller.js";',
+    'from "./pixel-editor-layer-canvas-controller-stub.mjs";',
+  ],
+  [
+    'from "../../core/pixel-editor-constants.js";',
+    'from "./pixel-editor-constants-stub.mjs";',
+  ],
+  [
+    'from "../../core/pixel-editor-geometry-helpers.js";',
+    'from "./pixel-editor-geometry-helpers-stub.mjs";',
+  ],
+  [
+    'from "../../data/pixel-editor-atlas-io.js";',
+    'from "./pixel-editor-atlas-io-stub.mjs";',
+  ],
+  [
+    'from "../../layers/pixel-editor-layer-helpers.js";',
+    'from "./pixel-editor-layer-helpers-stub.mjs";',
+  ],
+  [
+    'from "../../palette/pixel-editor-palette.js";',
+    'from "./pixel-editor-palette-stub.mjs";',
+  ],
   ['from "../pixel-editor-mode.js";', 'from "./pixel-editor-mode-stub.mjs";'],
-  ['from "../pixel-editor-runtime.js";', 'from "./pixel-editor-runtime-stub.mjs";'],
+  [
+    'from "../pixel-editor-runtime.js";',
+    'from "./pixel-editor-runtime-stub.mjs";',
+  ],
   ['from "../pixel-editor-tools.js";', 'from "./pixel-editor-tools-stub.mjs";'],
-  ['from "../pixel-editor-transfer.js";', 'from "./pixel-editor-transfer-stub.mjs";'],
+  [
+    'from "../pixel-editor-transfer.js";',
+    'from "./pixel-editor-transfer-stub.mjs";',
+  ],
 ];
 let transformedSource = source;
-for (const [from, to] of replacements) transformedSource = transformedSource.replace(from, to);
+for (const [from, to] of replacements)
+  transformedSource = transformedSource.replace(from, to);
 
 const tempRoot = path.join(root, "build/tests/.tmp");
 await fs.mkdir(tempRoot, { recursive: true });
@@ -89,11 +117,31 @@ await fs.writeFile(
   ].join("\n"),
 );
 for (const [name, exportName, kind] of [
-  ["pixel-editor-palette-stub.mjs", "createPixelEditorPaletteController", "palette-controller"],
-  ["pixel-editor-mode-stub.mjs", "createPixelEditorModeController", "mode-controller"],
-  ["pixel-editor-runtime-stub.mjs", "createPixelEditorRuntimeController", "runtime-controller"],
-  ["pixel-editor-tools-stub.mjs", "createPixelEditorToolController", "tool-controller"],
-  ["pixel-editor-transfer-stub.mjs", "createPixelEditorTransferController", "transfer-controller"],
+  [
+    "pixel-editor-palette-stub.mjs",
+    "createPixelEditorPaletteController",
+    "palette-controller",
+  ],
+  [
+    "pixel-editor-mode-stub.mjs",
+    "createPixelEditorModeController",
+    "mode-controller",
+  ],
+  [
+    "pixel-editor-runtime-stub.mjs",
+    "createPixelEditorRuntimeController",
+    "runtime-controller",
+  ],
+  [
+    "pixel-editor-tools-stub.mjs",
+    "createPixelEditorToolController",
+    "tool-controller",
+  ],
+  [
+    "pixel-editor-transfer-stub.mjs",
+    "createPixelEditorTransferController",
+    "transfer-controller",
+  ],
 ]) {
   await fs.writeFile(
     path.join(tempDirectory, name),
@@ -120,30 +168,33 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(
-    path.join(tempDirectory, "pixel-editor-controller-visual.mjs"),
-  ).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-controller-visual.mjs"))
+    .href
 );
 const previewStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-canvas-helpers-stub.mjs")).href,
+  pathToFileURL(
+    path.join(tempDirectory, "pixel-editor-canvas-helpers-stub.mjs"),
+  ).href
 );
 const renderStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-layer-canvas-controller-stub.mjs")).href,
+  pathToFileURL(
+    path.join(tempDirectory, "pixel-editor-layer-canvas-controller-stub.mjs"),
+  ).href
 );
 const paletteStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-palette-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-palette-stub.mjs")).href
 );
 const modeStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-mode-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-mode-stub.mjs")).href
 );
 const runtimeStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-runtime-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-runtime-stub.mjs")).href
 );
 const toolStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-tools-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-tools-stub.mjs")).href
 );
 const transferStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-transfer-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-transfer-stub.mjs")).href
 );
 
 const state: any = {

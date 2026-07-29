@@ -21,7 +21,9 @@ assert.ok(customMarkup.includes('data-i18n="shortFilters"'));
 assert.ok(customMarkup.includes('data-i18n="longFilters"'));
 
 const restore = installFakeDocument();
-const globals = globalThis as typeof globalThis & { document: { head: FakeElement } };
+const globals = globalThis as typeof globalThis & {
+  document: { head: FakeElement };
+};
 AdvancedFiltersTriggerControl.create();
 assert.equal(globals.document.head.children.length, 1);
 assert.equal(

@@ -7,7 +7,8 @@ import { DomFactory } from "../core/dom-factory.js";
 import { TextControl } from "../core/text-control.js";
 
 const dialogHeadingStylesheetId = "dialog-heading-control-stylesheet";
-const dialogHeadingStylesheetHref = "./explorer/controls/dialog/dialog-heading.css";
+const dialogHeadingStylesheetHref =
+  "./explorer/controls/dialog/dialog-heading.css";
 
 type DialogHeadingState = {
   titleId: string;
@@ -83,9 +84,7 @@ export class DialogHeadingControl extends BaseControl<DialogHeadingState> {
           className: this.state.contentClassName ?? "dialog-title-row",
         }),
         DomFactory.element("div", {
-          children: [
-            this.createCloseButtonSpec(),
-          ],
+          children: [this.createCloseButtonSpec()],
           className: "dialog-controls",
         }),
       ],

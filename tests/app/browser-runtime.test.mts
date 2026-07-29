@@ -11,7 +11,10 @@ import {
   restoreLanguageParentPanel as actualRestoreLanguageParentPanel,
 } from "../../src/app/browser-runtime.js";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/browser-runtime.ts"),
   "utf8",
@@ -44,13 +47,16 @@ const transformedSource = sourceText
   )
   .replace(
     /const isViteDevelopment =[\s\S]*?import\.meta\.env\.DEV === true;/,
-    'const isViteDevelopment = globalThis.__TEST_VITE_DEV__ === true;',
+    "const isViteDevelopment = globalThis.__TEST_VITE_DEV__ === true;",
   )
   .replace(/options: any/g, "options")
   .replace(/registration: ServiceWorkerRegistration/g, "registration")
   .replace(/name: string/g, "name")
   .replace(/value: number/g, "value")
-  .replace(/locale\?: string,\n\s+numberingSystem\?: string,\n\s+\) => string;/g, "locale, numberingSystem) => string;")
+  .replace(
+    /locale\?: string,\n\s+numberingSystem\?: string,\n\s+\) => string;/g,
+    "locale, numberingSystem) => string;",
+  )
   .replace(/\(revision: string\)/g, "(revision)")
   .replace(/\(loadedRevision: string\)/g, "(loadedRevision)")
   .replace(/!\./g, ".")
@@ -159,11 +165,7 @@ const englishFormatters = createUiFormatters({
     });
     return `n:${value}:${locale ?? ""}:${numberingSystem ?? ""}`;
   },
-  formatPercent: (
-    value: number,
-    locale?: string,
-    numberingSystem?: string,
-  ) => {
+  formatPercent: (value: number, locale?: string, numberingSystem?: string) => {
     formatterCalls.push({
       type: "percent",
       value,
@@ -182,11 +184,8 @@ const arabicFormatters = createUiFormatters({
   selectedSearchLocale: () => "en",
   formatNumber: (value: number, locale?: string, numberingSystem?: string) =>
     `n:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
-  formatPercent: (
-    value: number,
-    locale?: string,
-    numberingSystem?: string,
-  ) => `p:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+  formatPercent: (value: number, locale?: string, numberingSystem?: string) =>
+    `p:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
 });
 assert.equal(arabicFormatters.formatUiNumber(7), "n:7:ar:arab");
 assert.equal(arabicFormatters.formatUiPercent(88), "p:88:ar:arab");
@@ -196,11 +195,8 @@ const fallbackFormatters = createUiFormatters({
   selectedSearchLocale: () => "ar-EG",
   formatNumber: (value: number, locale?: string, numberingSystem?: string) =>
     `n:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
-  formatPercent: (
-    value: number,
-    locale?: string,
-    numberingSystem?: string,
-  ) => `p:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+  formatPercent: (value: number, locale?: string, numberingSystem?: string) =>
+    `p:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
 });
 assert.equal(fallbackFormatters.formatUiNumber(3), "n:3:ar-EG:arab");
 assert.equal(fallbackFormatters.formatUiPercent(5), "p:5:ar-EG:arab");
@@ -215,11 +211,8 @@ const actualUiFormatters = actualCreateUiFormatters({
   selectedSearchLocale: () => "fr",
   formatNumber: (value: number, locale?: string, numberingSystem?: string) =>
     `n:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
-  formatPercent: (
-    value: number,
-    locale?: string,
-    numberingSystem?: string,
-  ) => `p:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+  formatPercent: (value: number, locale?: string, numberingSystem?: string) =>
+    `p:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
 });
 assert.equal(actualUiFormatters.formatUiNumber(99), "n:99:en-US:");
 assert.equal(actualUiFormatters.formatUiPercent(15), "p:15:en-US:");
@@ -229,10 +222,22 @@ const originalWindow = (globalThis as any).window;
 const originalNavigator = (globalThis as any).navigator;
 const originalCaches = (globalThis as any).caches;
 const originalDocument = (globalThis as any).document;
-const originalWindowDescriptor = Object.getOwnPropertyDescriptor(globalThis, "window");
-const originalNavigatorDescriptor = Object.getOwnPropertyDescriptor(globalThis, "navigator");
-const originalCachesDescriptor = Object.getOwnPropertyDescriptor(globalThis, "caches");
-const originalDocumentDescriptor = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalWindowDescriptor = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "window",
+);
+const originalNavigatorDescriptor = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "navigator",
+);
+const originalCachesDescriptor = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "caches",
+);
+const originalDocumentDescriptor = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 
 const serviceWorkerEvents: Record<string, () => unknown> = {};
 const registeredEvents: Record<string, () => unknown> = {};
@@ -412,7 +417,8 @@ await failingWindowEvents.load?.();
 assert.equal(
   directWarnings.entries.some(
     (entry: any) =>
-      entry[0] === "Could not clear local offline cache" && entry[1] instanceof Error,
+      entry[0] === "Could not clear local offline cache" &&
+      entry[1] instanceof Error,
   ),
   true,
 );
@@ -574,8 +580,10 @@ const closePanelCalls: unknown[][] = [];
 const syncUrlCalls: unknown[][] = [];
 const refreshStylesheetCalls: Array<{ revision: string; hasHandler: boolean }> =
   [];
-const refreshExplorerCalls: Array<{ revision: string; currentEmojiKey: string }> =
-  [];
+const refreshExplorerCalls: Array<{
+  revision: string;
+  currentEmojiKey: string;
+}> = [];
 
 const refreshOptions = actualCreatePixelFontRefreshOptions(
   {
@@ -687,8 +695,14 @@ const runtime = initializeBrowserRuntime({
 assert.equal(runtime.kind, "search-language-lifecycle");
 assert.equal(registeredEvents.popstate, runtime.onPopState);
 assert.equal(lifecycleStub.lifecycleOptions.languageFlags.en, "🇺🇸");
-assert.equal(typeof lifecycleStub.lifecycleOptions.restoreLanguageParentPanel, "function");
-assert.equal(pixelFontStub.hotReloadOptions.refreshStylesheet instanceof Function, true);
+assert.equal(
+  typeof lifecycleStub.lifecycleOptions.restoreLanguageParentPanel,
+  "function",
+);
+assert.equal(
+  pixelFontStub.hotReloadOptions.refreshStylesheet instanceof Function,
+  true,
+);
 
 await registeredEvents.load?.();
 assert.equal(registrations[0].unregisterCalls, 1);
@@ -701,7 +715,10 @@ assert.equal(panelStub.openPanelDialogCalls.length, 1);
 assert.equal(panelStub.openPanelDialogCalls[0].panel, "help");
 assert.equal(panelStub.openPanelDialogCalls[0].addHistory, false);
 assert.equal(panelStub.openPanelDialogCalls[0].dialogs.help, helpDialog);
-assert.equal(panelStub.openPanelDialogCalls[0].dialogs.language, languageDialog);
+assert.equal(
+  panelStub.openPanelDialogCalls[0].dialogs.language,
+  languageDialog,
+);
 assert.equal(panelStub.openPanelDialogCalls[0].dialogs.favorites, savedDialog);
 panelStub.openPanelDialogCalls[0].syncUrlState("panel", "help");
 assert.deepEqual(syncUrlCalls, [["panel", "help"]]);
@@ -763,7 +780,7 @@ const productionRuntime = initializeBrowserRuntime({
 });
 assert.equal(productionRuntime.kind, "search-language-lifecycle");
 
-(delete (sharedNavigator.serviceWorker as any).getRegistrations);
+delete (sharedNavigator.serviceWorker as any).getRegistrations;
 sharedNavigator.serviceWorker.register = async (url: string) => {
   registeredServiceWorkers.push(url);
   return { scope: url };
@@ -779,8 +796,7 @@ await registeredEvents.load?.();
 assert.equal(
   warnings.some(
     (entry) =>
-      entry[0] === "Offline support unavailable" &&
-      entry[1] instanceof Error,
+      entry[0] === "Offline support unavailable" && entry[1] instanceof Error,
   ),
   true,
 );

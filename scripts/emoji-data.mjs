@@ -86,7 +86,9 @@ export const parseSplitEmojiSourceData = (data) => {
   const groups = lookupData.groups ?? [];
   const subGroups = lookupData.subGroups ?? [];
   const sequenceTypes = lookupData.sequenceTypes ?? [];
-  const codepointEntries = Object.entries(data.codepoints ?? data.identity ?? {});
+  const codepointEntries = Object.entries(
+    data.codepoints ?? data.identity ?? {},
+  );
   return codepointEntries
     .map(([identityKey, codePointsValue]) => {
       const key = Array.isArray(codePointsValue)
@@ -248,7 +250,11 @@ export const writeEmojiSourceSync = (directory, records) => {
     emojiSourceManifest,
     2,
   );
-  writeJsonFileSync(path.join(directory, "codepoints.json"), source.codepoints, 2);
+  writeJsonFileSync(
+    path.join(directory, "codepoints.json"),
+    source.codepoints,
+    2,
+  );
   writeJsonFileSync(path.join(directory, "lookups.json"), source.lookups, 2);
   writeJsonFileSync(
     path.join(directory, "catalog.json"),

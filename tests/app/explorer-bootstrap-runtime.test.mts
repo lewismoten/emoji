@@ -5,7 +5,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 // coverage target: ../../src/app/explorer-bootstrap-runtime.js
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/explorer-bootstrap-runtime.ts"),
   "utf8",
@@ -28,10 +31,7 @@ const transformedSource = sourceText
     'from "./ui-binding-runtime.js";',
     'from "./ui-binding-runtime-stub.mjs";',
   )
-  .replace(
-    'from "./startup-runtime.js";',
-    'from "./startup-runtime-stub.mjs";',
-  )
+  .replace('from "./startup-runtime.js";', 'from "./startup-runtime-stub.mjs";')
   .replace(
     'from "./pixel-editor-loader-runtime.js";',
     'from "./pixel-editor-runtime-stub.mjs";',
@@ -52,10 +52,7 @@ const transformedSource = sourceText
     'from "../explorer/explorer-labels.js";',
     'from "./explorer-labels-stub.mjs";',
   )
-  .replace(
-    'from "../explorer/pwa-panels.js";',
-    'from "./pwa-panels-stub.mjs";',
-  )
+  .replace('from "../explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";')
   .replace(
     'from "../explorer/emoji-filter.js";',
     'from "./emoji-filter-stub.mjs";',
@@ -75,7 +72,10 @@ const tempDirectory = await fs.mkdtemp(
 );
 
 const writeStub = async (filename: string, lines: string[]) => {
-  await fs.writeFile(path.join(tempDirectory, filename), `${lines.join("\n")}\n`);
+  await fs.writeFile(
+    path.join(tempDirectory, filename),
+    `${lines.join("\n")}\n`,
+  );
 };
 
 await writeStub("explorer-runtime-stub.mjs", [
@@ -257,7 +257,10 @@ const options = {
   },
   translate: "translate",
   drawList: (...args: unknown[]) => ["draw-list", args],
-  renderCategoryFilters: (...args: unknown[]) => ["render-category-filters", args],
+  renderCategoryFilters: (...args: unknown[]) => [
+    "render-category-filters",
+    args,
+  ],
   versionModeSelector: () => "version-mode-selector",
   versionModeToggle: () => "version-mode-toggle",
   applyDialogUrlState: "apply-dialog-url-state",
@@ -324,7 +327,10 @@ const options = {
   openFilterPicker: "open-filter-picker",
   orderButtons: () => "order-buttons",
   panelDialogs: "panel-dialogs",
-  populateVersionModeOptions: (...args: unknown[]) => ["populate-version-mode-options", args],
+  populateVersionModeOptions: (...args: unknown[]) => [
+    "populate-version-mode-options",
+    args,
+  ],
   renderDeveloperMode: "render-developer-mode",
   renderInstallAppButton: "render-install-app-button",
   renderPixelFontToggle: "render-pixel-font-toggle",
@@ -346,7 +352,10 @@ const options = {
   subGroupSelector: () => "subgroup-selector",
   themeChoices: () => ["light", "dark", "retro"],
   toggleDeveloperMode: "toggle-developer-mode",
-  toggleVersionMode: (...args: unknown[]) => ["toggle-version-mode-option", args],
+  toggleVersionMode: (...args: unknown[]) => [
+    "toggle-version-mode-option",
+    args,
+  ],
   toolbar: () => "toolbar",
   updateOnlineStatus: "update-online-status",
   urlStateReady: () => true,
@@ -374,7 +383,8 @@ const versionModeRuntimeStub = await import(
   pathToFileURL(path.join(tempDirectory, "version-mode-runtime-stub.mjs")).href
 );
 const browserRuntimeConfigStub = await import(
-  pathToFileURL(path.join(tempDirectory, "browser-runtime-config-stub.mjs")).href
+  pathToFileURL(path.join(tempDirectory, "browser-runtime-config-stub.mjs"))
+    .href
 );
 const dialogRuntimeConfigStub = await import(
   pathToFileURL(path.join(tempDirectory, "dialog-runtime-config-stub.mjs")).href
@@ -433,7 +443,10 @@ assert.deepEqual(state.currentDialogParentStack, ["help"]);
 
 const startupRuntimeCall = startupRuntimeStub.calls[0];
 assert.equal(startupRuntimeCall.onPanelClose, "on-panel-dialog-close");
-assert.equal(startupRuntimeCall.positionFavoriteButton, "position-favorite-button");
+assert.equal(
+  startupRuntimeCall.positionFavoriteButton,
+  "position-favorite-button",
+);
 assert.deepEqual(startupRuntimeCall.resolveElements(), ["resolve-elements"]);
 assert.deepEqual(startupRuntimeCall.assignControls("controls"), [
   "assign-controls",
@@ -449,7 +462,10 @@ assert.deepEqual(startupRuntimeCall.loadSearchLanguages(), [
 
 assert.equal(runtime.explorerRuntime, explorerRuntimeStub.runtime);
 assert.equal(runtime.uiBindingRuntime, uiBindingStub.runtime);
-assert.equal(runtime.ensurePixelEditor, pixelEditorRuntimeStub.runtime.ensurePixelEditor);
+assert.equal(
+  runtime.ensurePixelEditor,
+  pixelEditorRuntimeStub.runtime.ensurePixelEditor,
+);
 assert.equal(
   runtime.populateVersionModeOptions,
   versionModeRuntimeStub.runtime.populateOptions,
@@ -459,15 +475,24 @@ assert.equal(
   versionModeRuntimeStub.runtime.render,
 );
 assert.equal(runtime.toggleVersionMode, versionModeRuntimeStub.runtime.toggle);
-assert.equal(runtime.loadSearchLanguages, browserRuntimeConfigStub.runtime.load);
+assert.equal(
+  runtime.loadSearchLanguages,
+  browserRuntimeConfigStub.runtime.load,
+);
 assert.equal(
   runtime.renderSearchLanguages,
   browserRuntimeConfigStub.runtime.render,
 );
-assert.equal(runtime.selectLanguageLink, browserRuntimeConfigStub.runtime.select);
+assert.equal(
+  runtime.selectLanguageLink,
+  browserRuntimeConfigStub.runtime.select,
+);
 assert.equal(runtime.setSearchLanguage, browserRuntimeConfigStub.runtime.set);
 assert.equal(runtime.showEmoji, dialogRuntimeConfigStub.runtime.showEmoji);
-assert.equal(runtime.navigateEmoji, dialogRuntimeConfigStub.runtime.navigateEmoji);
+assert.equal(
+  runtime.navigateEmoji,
+  dialogRuntimeConfigStub.runtime.navigateEmoji,
+);
 assert.equal(
   runtime.updateDialogNavigation,
   dialogRuntimeConfigStub.runtime.updateDialogNavigation,

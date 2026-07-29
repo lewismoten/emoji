@@ -57,9 +57,15 @@ const createElement = (
   };
 };
 
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 const originalFetch = Object.getOwnPropertyDescriptor(globalThis, "fetch");
-const originalNavigator = Object.getOwnPropertyDescriptor(globalThis, "navigator");
+const originalNavigator = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "navigator",
+);
 
 try {
   const i18nText = createElement({ i18n: "title" }, "Original title");
@@ -107,7 +113,9 @@ try {
     },
     lang: "en",
     toggleAttribute(name: string, force?: boolean) {
-      const key = name.replace(/^data-/, "").replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+      const key = name
+        .replace(/^data-/, "")
+        .replace(/-([a-z])/g, (_, c) => c.toUpperCase());
       if (force === false) delete documentElement.dataset[key];
       else documentElement.dataset[key] = "";
     },
@@ -129,7 +137,8 @@ try {
       documentElement,
       querySelector(selector: string) {
         if (selector === 'meta[name="application-name"]') return appMeta;
-        if (selector === 'meta[name="apple-mobile-web-app-title"]') return appleMeta;
+        if (selector === 'meta[name="apple-mobile-web-app-title"]')
+          return appleMeta;
         if (selector === 'meta[name="theme-color"]') return themeMeta;
         return null;
       },
@@ -210,7 +219,9 @@ try {
   const calls: string[] = [];
   const installButton = createElement();
   const installDialog = createElement();
-  const pixelEditor = { refreshTranslations: () => calls.push("refresh-translations") };
+  const pixelEditor = {
+    refreshTranslations: () => calls.push("refresh-translations"),
+  };
   let deferredInstallPrompt: unknown = { prompt: true };
 
   const controller = createExplorerUiController({
@@ -218,7 +229,9 @@ try {
     installAppButton: () => installButton,
     installDialog: () => installDialog,
     installWebApp: async (payload: Record<string, unknown>) => {
-      calls.push(`install:${String(payload.renderInstallAppButton !== undefined)}`);
+      calls.push(
+        `install:${String(payload.renderInstallAppButton !== undefined)}`,
+      );
       return { deferredInstallPrompt: { accepted: true } };
     },
     offlineStatus: () => offlineStatus,
@@ -257,7 +270,10 @@ try {
   assert.equal(i18nAria.attributes.get("aria-label"), "Theme label");
   assert.equal(documentElement.lang, "en-US");
   assert.equal(documentElement.dir, "ltr");
-  assert.equal((globalThis.document as any).title, "Emoji Explorer – Unicode Emoji");
+  assert.equal(
+    (globalThis.document as any).title,
+    "Emoji Explorer – Unicode Emoji",
+  );
   assert.equal(appMeta.content, "Emoji Explorer");
   assert.equal(appleMeta.content, "Emoji Explorer");
   assert.ok(calls.includes("render-version"));
@@ -271,7 +287,10 @@ try {
   assert.deepEqual(fetchCalls, ["demo-locales/ui.ar.json"]);
   assert.equal(documentElement.lang, "ar");
   assert.equal(documentElement.dir, "rtl");
-  assert.equal((globalThis.document as any).title, "مستكشف الإيموجي – Unicode Emoji");
+  assert.equal(
+    (globalThis.document as any).title,
+    "مستكشف الإيموجي – Unicode Emoji",
+  );
 
   documentElement.dataset.developerMode = "1";
   renderThemeToggle({
@@ -365,10 +384,12 @@ try {
   assert.ok(calls.includes("disable-developer"));
   assert.ok(calls.includes("sync-url"));
 } finally {
-  if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+  if (originalDocument)
+    Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");
   if (originalFetch) Object.defineProperty(globalThis, "fetch", originalFetch);
   else Reflect.deleteProperty(globalThis, "fetch");
-  if (originalNavigator) Object.defineProperty(globalThis, "navigator", originalNavigator);
+  if (originalNavigator)
+    Object.defineProperty(globalThis, "navigator", originalNavigator);
   else Reflect.deleteProperty(globalThis, "navigator");
 }

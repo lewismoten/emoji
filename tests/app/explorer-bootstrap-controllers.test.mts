@@ -88,7 +88,13 @@ const options: any = {
   getPixelEditor: () => undefined,
   groupFilterDialog: () => undefined,
   groupPickerTrigger: () => undefined,
-  groupSelector: () => ({ value: "", replaceChildren() {}, closest() { return null; } }),
+  groupSelector: () => ({
+    value: "",
+    replaceChildren() {},
+    closest() {
+      return null;
+    },
+  }),
   hairCheckboxes: () => [],
   hairFieldset: () => undefined,
   helpDialog: () => undefined,
@@ -117,7 +123,13 @@ const options: any = {
   sequenceTypeEmoji: {},
   sequenceTypeLabels: {},
   sequenceTypeOrder: [],
-  sequenceTypeSelector: () => ({ value: "", replaceChildren() {}, closest() { return null; } }),
+  sequenceTypeSelector: () => ({
+    value: "",
+    replaceChildren() {},
+    closest() {
+      return null;
+    },
+  }),
   setDialogView: () => {},
   setSuppressDialogCloseSync: () => {},
   showEmoji: () => {},
@@ -126,7 +138,13 @@ const options: any = {
   state: () => state,
   subGroupFilterDialog: () => undefined,
   subGroupPickerTrigger: () => undefined,
-  subGroupSelector: () => ({ value: "", replaceChildren() {}, closest() { return null; } }),
+  subGroupSelector: () => ({
+    value: "",
+    replaceChildren() {},
+    closest() {
+      return null;
+    },
+  }),
   suppressedPanelCloses: () => new WeakSet(),
   syncUrlState: () => {},
   translate: (_key: string, fallback: string) => fallback,

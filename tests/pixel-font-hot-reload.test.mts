@@ -22,8 +22,9 @@ const visibilityEvents: Record<string, () => void> = {};
 let intervalHandler: (() => void | Promise<void>) | undefined;
 const refreshCalls: string[] = [];
 
-const fetchQueue: Array<() => Promise<{ ok: boolean; text: () => Promise<string> }>> =
-  [];
+const fetchQueue: Array<
+  () => Promise<{ ok: boolean; text: () => Promise<string> }>
+> = [];
 const controller = createPixelFontHotReloadController(
   {
     refreshStylesheet(revision: string) {
@@ -86,7 +87,7 @@ assert.deepEqual(refreshCalls, ["rev-1"]);
 (controller as any).refresh = controller.refresh;
 (controller as any).refresh;
 
-const documentRef = (controller as any);
+const documentRef = controller as any;
 void documentRef;
 
 const hiddenDeps = {
@@ -125,7 +126,8 @@ await Promise.resolve();
 await flushTasks();
 assert.deepEqual(hiddenFetchCalls, ["hidden"]);
 
-let resolvePendingFetch: ((value: { ok: boolean; text: () => Promise<string> }) => void) | undefined;
+let resolvePendingFetch:
+  ((value: { ok: boolean; text: () => Promise<string> }) => void) | undefined;
 fetchQueue.push(
   () =>
     new Promise((resolve) => {

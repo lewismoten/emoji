@@ -192,14 +192,16 @@ await (async () => {
 })();
 
 await (async () => {
-  setFetch(async (input: string | URL | Request) =>
-    ({
-      ok: String(input).includes("helper.png"),
-      headers: {
-        get: () => (String(input).includes("helper.png") ? "image/png" : "text/plain"),
-      },
-      blob: async () => ({ input }),
-    }) as any,
+  setFetch(
+    async (input: string | URL | Request) =>
+      ({
+        ok: String(input).includes("helper.png"),
+        headers: {
+          get: () =>
+            String(input).includes("helper.png") ? "image/png" : "text/plain",
+        },
+        blob: async () => ({ input }),
+      }) as any,
   );
 
   const result = await findSkinTonePasteHelper({
@@ -249,14 +251,15 @@ await (async () => {
 })();
 
 await (async () => {
-  setFetch(async () =>
-    ({
-      ok: true,
-      headers: {
-        get: () => "text/plain",
-      },
-      blob: async () => ({}),
-    }) as any,
+  setFetch(
+    async () =>
+      ({
+        ok: true,
+        headers: {
+          get: () => "text/plain",
+        },
+        blob: async () => ({}),
+      }) as any,
   );
 
   const result = await findSkinTonePasteHelper({

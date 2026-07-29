@@ -94,7 +94,10 @@ browserGlobal.ImageData = class ImageData {
 assert.deepEqual(layerAxisBoundsAny(3), [0, CELL_SIZE - 3]);
 assert.deepEqual(layerAxisBoundsAny(CELL_SIZE + 2), [-2, 0]);
 assert.equal(layerPositionAllowedAny({ width: 3, height: 3 }, 0, 0), true);
-assert.equal(layerPositionAllowedAny({ width: 3, height: 3 }, CELL_SIZE, 0), false);
+assert.equal(
+  layerPositionAllowedAny({ width: 3, height: 3 }, CELL_SIZE, 0),
+  false,
+);
 
 assert.equal(
   layerTransformChangesPixelsAny(
@@ -118,35 +121,29 @@ assert.equal(
 );
 
 const quantized = quantizeToPaletteAny(
-  new Uint8ClampedArray([
-    10, 10, 10, 254,
-    240, 240, 240, 255,
-    1, 2, 3, 0,
-  ]),
+  new Uint8ClampedArray([10, 10, 10, 254, 240, 240, 240, 255, 1, 2, 3, 0]),
   ["#000000", "#ffffff"],
 );
-assert.deepEqual(Array.from(quantized), [
-  0, 0, 0, 255,
-  255, 255, 255, 255,
-  0, 0, 0, 0,
-]);
+assert.deepEqual(
+  Array.from(quantized),
+  [0, 0, 0, 255, 255, 255, 255, 255, 0, 0, 0, 0],
+);
 
 const flipSource = {
   width: 2,
   height: 2,
   pixels: new Uint8ClampedArray([
-    1, 0, 0, 255, 2, 0, 0, 255,
-    3, 0, 0, 255, 4, 0, 0, 255,
+    1, 0, 0, 255, 2, 0, 0, 255, 3, 0, 0, 255, 4, 0, 0, 255,
   ]),
 };
-assert.deepEqual(Array.from(flipPixelsAny(flipSource, true)), [
-  2, 0, 0, 255, 1, 0, 0, 255,
-  4, 0, 0, 255, 3, 0, 0, 255,
-]);
-assert.deepEqual(Array.from(flipPixelsAny(flipSource, false)), [
-  3, 0, 0, 255, 4, 0, 0, 255,
-  1, 0, 0, 255, 2, 0, 0, 255,
-]);
+assert.deepEqual(
+  Array.from(flipPixelsAny(flipSource, true)),
+  [2, 0, 0, 255, 1, 0, 0, 255, 4, 0, 0, 255, 3, 0, 0, 255],
+);
+assert.deepEqual(
+  Array.from(flipPixelsAny(flipSource, false)),
+  [3, 0, 0, 255, 4, 0, 0, 255, 1, 0, 0, 255, 2, 0, 0, 255],
+);
 
 const target = new Uint8ClampedArray(CELL_SIZE * CELL_SIZE * 4);
 compositeLayerAny(target, {
@@ -155,13 +152,15 @@ compositeLayerAny(target, {
   width: 2,
   height: 2,
   pixels: new Uint8ClampedArray([
-    5, 0, 0, 255, 0, 0, 0, 0,
-    6, 0, 0, 255, 7, 0, 0, 255,
+    5, 0, 0, 255, 0, 0, 0, 0, 6, 0, 0, 255, 7, 0, 0, 255,
   ]),
 });
 assert.deepEqual(Array.from(target.slice(0, 4)), [5, 0, 0, 255]);
 assert.deepEqual(Array.from(target.slice(4, 8)), [0, 0, 0, 0]);
-assert.deepEqual(Array.from(target.slice(CELL_SIZE * 4, CELL_SIZE * 4 + 4)), [6, 0, 0, 255]);
+assert.deepEqual(
+  Array.from(target.slice(CELL_SIZE * 4, CELL_SIZE * 4 + 4)),
+  [6, 0, 0, 255],
+);
 
 const clippedTarget = new Uint8ClampedArray(CELL_SIZE * CELL_SIZE * 4);
 compositeLayerAny(clippedTarget, {
@@ -170,8 +169,7 @@ compositeLayerAny(clippedTarget, {
   width: 2,
   height: 2,
   pixels: new Uint8ClampedArray([
-    1, 1, 1, 255, 2, 2, 2, 255,
-    3, 3, 3, 255, 4, 4, 4, 255,
+    1, 1, 1, 255, 2, 2, 2, 255, 3, 3, 3, 255, 4, 4, 4, 255,
   ]),
 });
 assert.deepEqual(Array.from(clippedTarget.slice(0, 4)), [4, 4, 4, 255]);
@@ -184,25 +182,19 @@ assert.equal(
 const inverted = effectiveLayerPixelsAny(
   {
     pixels: new Uint8ClampedArray([
-      0, 0, 0, 255,
-      100, 120, 140, 255,
-      1, 2, 3, 0,
+      0, 0, 0, 255, 100, 120, 140, 255, 1, 2, 3, 0,
     ]),
     inverted: true,
   },
   ["#000000", "#ffffff"],
 );
-assert.deepEqual(Array.from(inverted), [
-  255, 255, 255, 255,
-  255, 255, 255, 255,
-  0, 0, 0, 0,
-]);
+assert.deepEqual(
+  Array.from(inverted),
+  [255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 0],
+);
 
 const rotatedPixels = new Uint8ClampedArray([
-  250, 250, 250, 255,
-  10, 10, 10, 100,
-  20, 20, 20, 255,
-  30, 30, 30, 255,
+  250, 250, 250, 255, 10, 10, 10, 100, 20, 20, 20, 255, 30, 30, 30, 255,
 ]);
 const rotatedResultCanvas = new FakeCanvas();
 rotatedResultCanvas.context.returnedData = rotatedPixels;
@@ -232,7 +224,9 @@ assert.equal(rotatedResultCanvas.context.drawImages.length, 1);
 createdCanvases.length = 0;
 const sourceCanvasForNext = new FakeCanvas();
 const rotatedCanvasForNext = new FakeCanvas();
-rotatedCanvasForNext.context.returnedData = new Uint8ClampedArray([255, 255, 255, 255]);
+rotatedCanvasForNext.context.returnedData = new Uint8ClampedArray([
+  255, 255, 255, 255,
+]);
 createdCanvases.push(sourceCanvasForNext, rotatedCanvasForNext);
 browserGlobal.document.createElement = (tag: string) => {
   if (tag !== "canvas") throw new Error(`Unexpected ${tag}`);
@@ -267,17 +261,28 @@ const wrappedRotation = nextLayerRotationAny(
     pixels: new Uint8ClampedArray([1, 2, 3, 255]),
     width: 1,
     height: 1,
-    rotationSource: { pixels: new Uint8ClampedArray([9, 9, 9, 255]), width: 1, height: 1 },
+    rotationSource: {
+      pixels: new Uint8ClampedArray([9, 9, 9, 255]),
+      width: 1,
+      height: 1,
+    },
     rotationDegrees: 0,
   },
   false,
   ["#000000", "#ffffff"],
 );
 assert.equal(wrappedRotation.rotationDegrees, 315);
-assert.deepEqual(Array.from(wrappedRotation.rotationSource.pixels), [9, 9, 9, 255]);
+assert.deepEqual(
+  Array.from(wrappedRotation.rotationSource.pixels),
+  [9, 9, 9, 255],
+);
 
 const layerForReset: any = {
-  rotationSource: { pixels: new Uint8ClampedArray([1, 2, 3, 255]), width: 1, height: 1 },
+  rotationSource: {
+    pixels: new Uint8ClampedArray([1, 2, 3, 255]),
+    width: 1,
+    height: 1,
+  },
   rotationDegrees: 90,
 };
 resetLayerRotationAny(layerForReset);

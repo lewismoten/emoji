@@ -5,7 +5,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 // coverage target: ../../src/app/version-runtime.js
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/version-runtime.ts"),
   "utf8",
@@ -75,10 +78,18 @@ await fs.writeFile(
   transformedSource,
 );
 
-const module = await import(pathToFileURL(path.join(tempDirectory, "version-runtime.mjs")).href);
-const catalogStub = await import(pathToFileURL(path.join(tempDirectory, "catalog-loader-stub.mjs")).href);
-const versionDataStub = await import(pathToFileURL(path.join(tempDirectory, "version-data-stub.mjs")).href);
-const controllerStub = await import(pathToFileURL(path.join(tempDirectory, "version-controller-stub.mjs")).href);
+const module = await import(
+  pathToFileURL(path.join(tempDirectory, "version-runtime.mjs")).href
+);
+const catalogStub = await import(
+  pathToFileURL(path.join(tempDirectory, "catalog-loader-stub.mjs")).href
+);
+const versionDataStub = await import(
+  pathToFileURL(path.join(tempDirectory, "version-data-stub.mjs")).href
+);
+const controllerStub = await import(
+  pathToFileURL(path.join(tempDirectory, "version-controller-stub.mjs")).href
+);
 
 const state = {
   allIds: ["wave"],
@@ -168,7 +179,10 @@ assert.deepEqual(call.loadCatalog(), [
   "catalog-result",
   catalogStub.catalogCalls[0],
 ]);
-assert.equal(catalogStub.catalogCalls[0].getExplorerSubGroup, "get-explorer-subgroup");
+assert.equal(
+  catalogStub.catalogCalls[0].getExplorerSubGroup,
+  "get-explorer-subgroup",
+);
 assert.equal(catalogStub.catalogCalls[0].isViteDevelopment, "vite-dev");
 assert.equal(
   catalogStub.catalogCalls[0].updatePixelArtworkManifest,
@@ -182,8 +196,13 @@ assert.deepEqual(call.loadVersionCatalog(), [
 assert.deepEqual(versionDataStub.versionCatalogCalls[0].allIds(), ["wave"]);
 assert.equal(versionDataStub.versionCatalogCalls[0].byId().wave.key, "wave");
 assert.equal(versionDataStub.versionCatalogCalls[0].emojiByKey().wave, "👋");
-assert.equal(versionDataStub.versionCatalogCalls[0].getExplorerSubGroup, "get-explorer-subgroup");
-assert.deepEqual(versionDataStub.versionCatalogCalls[0].items(), [{ key: "wave" }]);
+assert.equal(
+  versionDataStub.versionCatalogCalls[0].getExplorerSubGroup,
+  "get-explorer-subgroup",
+);
+assert.deepEqual(versionDataStub.versionCatalogCalls[0].items(), [
+  { key: "wave" },
+]);
 
 call.openEmoji("wave", true, undefined, "code");
 assert.deepEqual(clickCalls, [[{ target: { id: "wave" } }, true]]);
@@ -197,7 +216,10 @@ call.openEmoji("wave", true, undefined, "details");
 assert.deepEqual(clickCalls.at(-1), [{ target: { id: "wave" } }, true]);
 assert.deepEqual(dialogViewCalls, [["code", false]]);
 
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 Object.defineProperty(globalThis, "document", {
   configurable: true,
   value: {

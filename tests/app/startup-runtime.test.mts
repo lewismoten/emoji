@@ -5,17 +5,17 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 // coverage target: ../../src/app/startup-runtime.js
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/startup-runtime.ts"),
   "utf8",
 );
 
 const transformedSource = sourceText
-  .replace(
-    'from "../explorer-app.js";',
-    'from "./explorer-app-stub.mjs";',
-  )
+  .replace('from "../explorer-app.js";', 'from "./explorer-app-stub.mjs";')
   .replace(
     'import { createFilterControlSetup } from "../explorer/filter-controls.js";',
     'import { createFilterControlSetup } from "./filter-controls-stub.mjs";',
@@ -24,10 +24,7 @@ const transformedSource = sourceText
     'import { observeToolbarHeight } from "../explorer/toolbar/toolbar-layout.js";',
     'import { observeToolbarHeight } from "./toolbar-layout-stub.mjs";',
   )
-  .replace(
-    'from "../explorer/pwa-panels.js";',
-    'from "./pwa-panels-stub.mjs";',
-  )
+  .replace('from "../explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";')
   .replace(
     'import { createStartupOrchestrator } from "./startup-orchestrator.js";',
     'import { createStartupOrchestrator } from "./startup-orchestrator-stub.mjs";',
@@ -43,7 +40,10 @@ const tempDirectory = await fs.mkdtemp(
 );
 
 const writeStub = async (filename: string, lines: string[]) => {
-  await fs.writeFile(path.join(tempDirectory, filename), `${lines.join("\n")}\n`);
+  await fs.writeFile(
+    path.join(tempDirectory, filename),
+    `${lines.join("\n")}\n`,
+  );
 };
 
 await writeStub("explorer-app-stub.mjs", [
@@ -146,7 +146,10 @@ const runtime = createStartupRuntime({
   openFilterPicker: "open-filter-picker",
   orderButtons: () => "order-buttons",
   panelDialogs: "panel-dialogs",
-  populateVersionModeOptions: (...args: unknown[]) => ["populate-version-mode-options", args],
+  populateVersionModeOptions: (...args: unknown[]) => [
+    "populate-version-mode-options",
+    args,
+  ],
   positionFavoriteButton: "position-favorite-button",
   preferences: () => "preferences",
   renderDeveloperMode: "render-developer-mode",
@@ -228,7 +231,10 @@ assert.equal(call.groupSelector(), "group-selector");
 assert.equal(call.hairCheckboxes(), "hair-checkboxes");
 assert.equal(call.helpDialog(), "help-dialog");
 assert.equal(call.helpPicker(), "help-picker");
-assert.equal(call.hideModifierEmojiAccessibility, "hide-modifier-emoji-accessibility");
+assert.equal(
+  call.hideModifierEmojiAccessibility,
+  "hide-modifier-emoji-accessibility",
+);
 assert.equal(call.initializeControls, "initialize-explorer-controls");
 assert.equal(call.installApp, "install-app");
 assert.equal(call.installAppButton(), "install-app-button");
@@ -287,10 +293,16 @@ assert.equal(call.subGroupPickerTrigger(), "subgroup-picker-trigger");
 assert.equal(call.subGroupSelector(), "subgroup-selector");
 assert.equal(call.suppressedPanelCloses(), "suppressed-panel-closes");
 assert.deepEqual(call.syncUrlState("replace"), ["sync-url-state", ["replace"]]);
-assert.deepEqual(call.syncVersionRange("through"), ["sync-version-range", ["through"]]);
+assert.deepEqual(call.syncVersionRange("through"), [
+  "sync-version-range",
+  ["through"],
+]);
 assert.equal(call.themeChoices(), "theme-choices");
 assert.equal(call.toggleDeveloperMode, "toggle-developer-mode");
-assert.deepEqual(call.toggleVersionMode("selected"), ["toggle-version-mode", ["selected"]]);
+assert.deepEqual(call.toggleVersionMode("selected"), [
+  "toggle-version-mode",
+  ["selected"],
+]);
 assert.equal(call.toolbar(), "toolbar");
 assert.equal(call.updateOnlineStatus, "update-online-status");
 assert.equal(call.urlStateReady(), true);

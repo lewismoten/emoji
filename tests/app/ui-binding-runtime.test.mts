@@ -162,7 +162,10 @@ assert.equal((fieldsetCalls[0] as any).skinToneFieldset.name, "skin");
 assert.equal((fieldsetCalls[0] as any).hairFieldset.name, "hair");
 assert.equal((fieldsetCalls[0] as any).genderFieldset.name, "gender");
 
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 const hiddenCalls: string[] = [];
 Object.defineProperty(globalThis, "document", {
   configurable: true,

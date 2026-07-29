@@ -6,7 +6,10 @@ const sourceModuleSpecifier =
 
 const markup = renderPixelEditorTemplate();
 
-assert.equal(sourceModuleSpecifier, "../../src/pixel-editor/canvas/pixel-editor-template.js");
+assert.equal(
+  sourceModuleSpecifier,
+  "../../src/pixel-editor/canvas/pixel-editor-template.js",
+);
 assert.equal(markup.includes('class="pixel-editor-toolbar"'), true);
 assert.equal(markup.includes('data-tool="pencil"'), true);
 assert.equal(markup.includes('data-tool="line"'), true);
@@ -32,9 +35,12 @@ assert.equal(markup.includes('data-layer-transform="rotate-left"'), true);
 assert.equal(markup.includes('data-layer-transform="rotate-right"'), true);
 assert.equal(markup.includes('data-layer-transform="flip-horizontal"'), true);
 assert.equal(markup.includes("flipLayerVertical"), true);
-assert.equal(markup.includes('class="pixel-editor-trace-alpha" type="range"'), true);
+assert.equal(
+  markup.includes('class="pixel-editor-trace-alpha" type="range"'),
+  true,
+);
 assert.equal(markup.includes('data-transparent="true"'), true);
-assert.equal(markup.includes('data-skin-tone='), true);
+assert.equal(markup.includes("data-skin-tone="), true);
 assert.equal(markup.includes('width="384"'), true);
 assert.equal(markup.includes('height="384"'), true);
 assert.equal(markup.includes('width="12"'), true);

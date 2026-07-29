@@ -138,8 +138,14 @@ try {
   assert.deepEqual(state.allIds, ["alpha"]);
   assert.equal(versionModeSelector.value, "through");
   assert.deepEqual(groupSelector.listeners[0], ["change", "onGroupChange"]);
-  assert.deepEqual(subGroupSelector.listeners[0], ["change", "onSubGroupChange"]);
-  assert.deepEqual(sequenceTypeSelector.listeners[0], ["change", "onSequenceTypeChange"]);
+  assert.deepEqual(subGroupSelector.listeners[0], [
+    "change",
+    "onSubGroupChange",
+  ]);
+  assert.deepEqual(sequenceTypeSelector.listeners[0], [
+    "change",
+    "onSequenceTypeChange",
+  ]);
   assert.equal(calls.includes("openEmoji:clinkingBeerMugs:false"), true);
   assert.equal(calls.includes("drawList"), true);
 
@@ -148,10 +154,7 @@ try {
   await samePromise;
   assert.deepEqual(state.versionManifests, [{ version: "16.0" }]);
   assert.deepEqual(state.proposedVersionManifests, [{ version: "18.0" }]);
-  assert.equal(
-    calls.includes("setIntroducedVersion:introduced:alpha"),
-    false,
-  );
+  assert.equal(calls.includes("setIntroducedVersion:introduced:alpha"), false);
 
   versionRange.value = "1";
   versionSelector.value = "15.0";

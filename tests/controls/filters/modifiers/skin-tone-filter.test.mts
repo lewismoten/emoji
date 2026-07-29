@@ -23,7 +23,9 @@ assert.ok(markup.includes('value="1F3FC"'));
 assert.ok(markup.includes('value="1F3FB"'));
 
 const restore = installFakeDocument();
-const globals = globalThis as typeof globalThis & { document: { head: FakeElement } };
+const globals = globalThis as typeof globalThis & {
+  document: { head: FakeElement };
+};
 SkinToneFilterControl.create();
 assert.equal(globals.document.head.children.length, 1);
 assert.equal(

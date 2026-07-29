@@ -5,7 +5,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 // coverage target: ../../src/app/explorer-bootstrap-session-runtime.js
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/explorer-bootstrap-session-runtime.ts"),
   "utf8",
@@ -132,7 +135,9 @@ const module = await import(pathToFileURL(moduleFile).href);
 const { initializeExplorerBootstrapSessionRuntime } =
   module as typeof import("../../src/app/explorer-bootstrap-session-runtime.js");
 
-const runtimeOptionsStub = await import(pathToFileURL(runtimeOptionsStubFile).href);
+const runtimeOptionsStub = await import(
+  pathToFileURL(runtimeOptionsStubFile).href
+);
 const runtimeSourceOptionsStub = await import(
   pathToFileURL(runtimeSourceOptionsStubFile).href
 );
@@ -176,8 +181,14 @@ const bindings: any = {
   pixelEditor: "pixel-editor",
   pixelEditorPromise: "pixel-editor-promise",
   populateVersionModeOptions: (...args: unknown[]) => ["populate", args],
-  renderSearchLanguages: (...args: unknown[]) => ["renderSearchLanguages", args],
-  renderVersionModeToggle: (...args: unknown[]) => ["renderVersionModeToggle", args],
+  renderSearchLanguages: (...args: unknown[]) => [
+    "renderSearchLanguages",
+    args,
+  ],
+  renderVersionModeToggle: (...args: unknown[]) => [
+    "renderVersionModeToggle",
+    args,
+  ],
   resetFilters: (...args: unknown[]) => ["resetFilters", args],
   savedDialog: "saved-dialog",
   savedPicker: "saved-picker",
@@ -192,7 +203,10 @@ const bindings: any = {
   syncUrlState: (...args: unknown[]) => ["syncUrlState", args],
   themeChoices: ["dark", "retro"],
   toolbar: "toolbar",
-  updateCompositionBackButton: (...args: unknown[]) => ["updateComposition", args],
+  updateCompositionBackButton: (...args: unknown[]) => [
+    "updateComposition",
+    args,
+  ],
   updateDialogNavigation: (...args: unknown[]) => ["updateDialog", args],
   urlStateReady: true,
   versionModeSelector: "version-mode-selector",
@@ -221,7 +235,10 @@ const controllers = {
   onVersionRangeInput: "version-range-input",
   openFilterPicker: "open-filter-picker",
   refreshLocalizedLabels: "refresh-localized-labels",
-  renderCategoryFilters: (...args: unknown[]) => ["renderCategoryFilters", args],
+  renderCategoryFilters: (...args: unknown[]) => [
+    "renderCategoryFilters",
+    args,
+  ],
   scheduleSearchDraw: "schedule-search-draw",
   stepVersion: "step-version",
   syncVersionRange: (...args: unknown[]) => ["syncVersionRange", args],
@@ -273,7 +290,10 @@ assert.equal(
   result.renderVersionModeToggleController,
   runtimeStub.stubRuntime.renderVersionModeToggleController,
 );
-assert.equal(result.toggleVersionMode, runtimeStub.stubRuntime.toggleVersionMode);
+assert.equal(
+  result.toggleVersionMode,
+  runtimeStub.stubRuntime.toggleVersionMode,
+);
 assert.equal(
   result.loadSearchLanguages,
   runtimeStub.stubRuntime.loadSearchLanguages,
@@ -441,10 +461,7 @@ assert.deepEqual(runtimeSourceCall.loadSearchLanguages(), [
   [],
 ]);
 assert.equal(runtimeSourceCall.matchCount(), "match-count");
-assert.deepEqual(runtimeSourceCall.navigateEmoji(2), [
-  "navigate-emoji",
-  [2],
-]);
+assert.deepEqual(runtimeSourceCall.navigateEmoji(2), ["navigate-emoji", [2]]);
 assert.equal(runtimeSourceCall.nextSearchLoadId(), 4);
 assert.equal(state.searchLoadId, 4);
 assert.equal(runtimeSourceCall.orderButtons(), "order-buttons");
@@ -463,10 +480,7 @@ assert.deepEqual(runtimeSourceCall.renderVersionModeToggle("c"), [
   "render-version-toggle",
   [],
 ]);
-assert.deepEqual(runtimeSourceCall.resetFilters("d"), [
-  "resetFilters",
-  [],
-]);
+assert.deepEqual(runtimeSourceCall.resetFilters("d"), ["resetFilters", []]);
 assert.equal(runtimeSourceCall.searchText(), "search-text");
 runtimeSourceCall.setApplyingUrlState(true);
 assert.equal(bindings.applyingUrlState, true);
@@ -482,10 +496,19 @@ runtimeSourceCall.setUrlStateReady(false);
 assert.equal(bindings.urlStateReady, false);
 assert.deepEqual(runtimeSourceCall.showEmoji("x"), ["show-emoji", ["x"]]);
 assert.deepEqual(runtimeSourceCall.skinToneCheckboxes(), ["1F3FB"]);
-assert.equal(runtimeSourceCall.subGroupFilterDialog(), "subgroup-filter-dialog");
-assert.equal(runtimeSourceCall.subGroupPickerTrigger(), "subgroup-picker-trigger");
+assert.equal(
+  runtimeSourceCall.subGroupFilterDialog(),
+  "subgroup-filter-dialog",
+);
+assert.equal(
+  runtimeSourceCall.subGroupPickerTrigger(),
+  "subgroup-picker-trigger",
+);
 assert.equal(runtimeSourceCall.subGroupSelector(), "subgroup-selector");
-assert.equal(runtimeSourceCall.suppressedPanelCloses(), bindings.suppressedPanelCloses);
+assert.equal(
+  runtimeSourceCall.suppressedPanelCloses(),
+  bindings.suppressedPanelCloses,
+);
 assert.deepEqual(runtimeSourceCall.syncUrlState("replace"), [
   "syncUrlState",
   ["replace"],

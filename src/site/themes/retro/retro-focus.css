@@ -48,8 +48,7 @@ html[data-theme="retro"] input:focus-visible,
 html[data-theme="retro"] select:focus,
 html[data-theme="retro"] select:focus-visible,
 html[data-theme="retro"] .modifier-filter-option:has(input:focus),
-html[data-theme="retro"]
-  .modifier-filter-option:has(input:focus-visible),
+html[data-theme="retro"] .modifier-filter-option:has(input:focus-visible),
 html[data-theme="retro"] .setting-choice:focus,
 html[data-theme="retro"] .setting-choice:focus-visible,
 html[data-theme="retro"] .language-option:focus,
@@ -83,7 +82,10 @@ html[data-theme="retro"] .order-mode:focus-visible,
 html[data-theme="retro"] .subgroup .emoji > [data-emoji-key]:focus,
 html[data-theme="retro"] .subgroup .emoji > [data-emoji-key]:focus-visible,
 html[data-theme="retro"] .sequence-type > .emoji > [data-emoji-key]:focus,
-html[data-theme="retro"] .sequence-type > .emoji > [data-emoji-key]:focus-visible {
+html[data-theme="retro"]
+  .sequence-type
+  > .emoji
+  > [data-emoji-key]:focus-visible {
   outline: var(--focus-outline);
   outline-offset: var(--focus-outline-offset);
 }
@@ -238,4 +240,5 @@ html[data-theme="retro"] .saved-section + .saved-section {
   html[data-theme="retro"] .dialog-title-row h2,
   html[data-theme="retro"] .dialog-heading h2#help-title {
     font-size: var(--retro-font-2);
-  }}
+  }
+}

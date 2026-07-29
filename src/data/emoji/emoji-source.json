@@ -26,11 +26,6 @@
   },
   "lookups": {
     "schemaVersion": 1,
-    "fields": [
-      "statuses",
-      "groups",
-      "subGroups",
-      "sequenceTypes"
-    ]
+    "fields": ["statuses", "groups", "subGroups", "sequenceTypes"]
   }
 }

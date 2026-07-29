@@ -46,9 +46,11 @@ export function installFakeDocument() {
       return new FakeElement(tagName);
     },
     getElementById(id: string) {
-      return head.children.find(
-        (node) => node instanceof FakeElement && node.id === id,
-      ) ?? null;
+      return (
+        head.children.find(
+          (node) => node instanceof FakeElement && node.id === id,
+        ) ?? null
+      );
     },
     head,
   };

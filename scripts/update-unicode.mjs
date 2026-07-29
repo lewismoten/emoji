@@ -1,10 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
-import {
-  escapeEmojiValue,
-  writeEmojiSourceSync,
-} from "./emoji-data.mjs";
+import { escapeEmojiValue, writeEmojiSourceSync } from "./emoji-data.mjs";
 
 const emojiVersion = process.argv[2] ?? "17.0";
 if (!/^\d+\.\d+(?:\.\d+)?$/.test(emojiVersion)) {
@@ -202,7 +199,9 @@ for (const [version, keys] of [...versions.entries()].sort(([a], [b]) =>
 const proposed = (previousManifest.proposed ?? []).filter(
   (version) => version.version !== emojiVersion,
 );
-fs.rmSync(path.join(proposedDirectory, `${emojiVersion}.json`), { force: true });
+fs.rmSync(path.join(proposedDirectory, `${emojiVersion}.json`), {
+  force: true,
+});
 fs.writeFileSync(
   manifestPath,
   `${JSON.stringify({ emojiVersion, versions: manifest, proposed }, null, "  ")}\n`,

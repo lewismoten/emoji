@@ -5,7 +5,9 @@ const skinToneFilterStylesheetHref =
   "./explorer/controls/filters/modifiers/modifier-filter-control.css";
 
 export class SkinToneFilterControl extends ModifierFilterControl {
-  constructor(state?: Partial<ConstructorParameters<typeof ModifierFilterControl>[0]>) {
+  constructor(
+    state?: Partial<ConstructorParameters<typeof ModifierFilterControl>[0]>,
+  ) {
     super({
       className: "skin-tone-filter",
       inputClassName: "skin-tone",
@@ -57,5 +59,4 @@ export class SkinToneFilterControl extends ModifierFilterControl {
       },
     ];
   }
-
 }

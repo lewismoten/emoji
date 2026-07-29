@@ -4,7 +4,10 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { createBrowserRuntimeConfig as actualCreateBrowserRuntimeConfig } from "../../src/app/browser-runtime-config.js";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/browser-runtime-config.ts"),
   "utf8",
@@ -131,7 +134,10 @@ assert.equal(
   options.saveExplorerPreference,
 );
 assert.equal(stub.lastOptions.setApplyingUrlState, options.setApplyingUrlState);
-assert.equal(stub.lastOptions.setSearchAnnotations, options.setSearchAnnotations);
+assert.equal(
+  stub.lastOptions.setSearchAnnotations,
+  options.setSearchAnnotations,
+);
 assert.equal(stub.lastOptions.setSearchLabels, options.setSearchLabels);
 assert.equal(stub.lastOptions.setSearchLocales, options.setSearchLocales);
 assert.equal(
@@ -148,7 +154,10 @@ assert.equal(
   stub.lastOptions.updatePixelArtworkManifest,
   options.updatePixelArtworkManifest,
 );
-assert.equal(stub.lastOptions.updateWebAppManifest, options.updateWebAppManifest);
+assert.equal(
+  stub.lastOptions.updateWebAppManifest,
+  options.updateWebAppManifest,
+);
 
 assert.equal(stub.lastOptions.currentEmojiKey(), "wave");
 assert.equal(stub.lastOptions.currentLoadId(), 1);
@@ -181,8 +190,12 @@ suppressedPanelClosesValue = 3;
 assert.equal(stub.lastOptions.currentEmojiKey(), "grin");
 assert.equal(stub.lastOptions.currentLoadId(), 4);
 assert.deepEqual(stub.lastOptions.dialog(), { id: "dialog-2" });
-assert.deepEqual(stub.lastOptions.languageDialog(), { id: "language-dialog-2" });
-assert.deepEqual(stub.lastOptions.languageList(), [{ code: "ar", name: "Arabic" }]);
+assert.deepEqual(stub.lastOptions.languageDialog(), {
+  id: "language-dialog-2",
+});
+assert.deepEqual(stub.lastOptions.languageList(), [
+  { code: "ar", name: "Arabic" },
+]);
 assert.deepEqual(stub.lastOptions.languagePicker(), { id: "picker-2" });
 assert.deepEqual(stub.lastOptions.languagePickerFlag(), { id: "flag-2" });
 assert.deepEqual(stub.lastOptions.languagePickerLabel(), { id: "label-2" });
@@ -191,8 +204,14 @@ assert.deepEqual(stub.lastOptions.searchLocales(), [{ code: "ar" }]);
 assert.equal(stub.lastOptions.selectedSearchLocale(), "ar");
 assert.equal(stub.lastOptions.suppressedPanelCloses(), 3);
 
-const originalWindowDescriptor = Object.getOwnPropertyDescriptor(globalThis, "window");
-const originalNavigatorDescriptor = Object.getOwnPropertyDescriptor(globalThis, "navigator");
+const originalWindowDescriptor = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "window",
+);
+const originalNavigatorDescriptor = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "navigator",
+);
 const windowEvents: Record<string, (...args: unknown[]) => unknown> = {};
 Object.defineProperty(globalThis, "window", {
   configurable: true,

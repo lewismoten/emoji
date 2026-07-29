@@ -119,4 +119,3 @@ assert.equal(state.persistedArtwork instanceof Map, true);
 assert.equal(state.dirtyKeys instanceof Set, true);
 
 browserGlobal.document = originalDocument;
-

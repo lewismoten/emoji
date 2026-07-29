@@ -5,7 +5,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 // coverage target: ../../src/app/startup-orchestrator.js
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/startup-orchestrator.ts"),
   "utf8",
@@ -33,7 +36,10 @@ const tempDirectory = await fs.mkdtemp(
 );
 
 const writeStub = async (filename: string, lines: string[]) => {
-  await fs.writeFile(path.join(tempDirectory, filename), `${lines.join("\n")}\n`);
+  await fs.writeFile(
+    path.join(tempDirectory, filename),
+    `${lines.join("\n")}\n`,
+  );
 };
 
 await writeStub("import-examples-stub.mjs", [
@@ -94,7 +100,10 @@ const dialogRoot: any = {
   },
 };
 
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 Object.defineProperty(globalThis, "document", {
   configurable: true,
   value: {
@@ -143,7 +152,8 @@ try {
     versionRange: () => "version-range-node",
     versionSelector: () => "version-selector-node",
     assignModifierFieldsets: () => push("assignModifierFieldsets", true),
-    hideModifierEmojiAccessibility: () => push("hideModifierEmojiAccessibility", true),
+    hideModifierEmojiAccessibility: () =>
+      push("hideModifierEmojiAccessibility", true),
     bindAudioInteractions: () => push("bindAudioInteractions", true),
     bindEvents: (value: unknown) => push("bindEvents", value),
     advancedFilters: () => "advanced-filters",
@@ -226,20 +236,33 @@ try {
     toolbar: () => "toolbar",
   });
 
-  const dialogUpgradeStub = await import(pathToFileURL(path.join(tempDirectory, "dialog-upgrade-stub.mjs")).href);
-  const loadingStateStub = await import(pathToFileURL(path.join(tempDirectory, "loading-state-stub.mjs")).href);
+  const dialogUpgradeStub = await import(
+    pathToFileURL(path.join(tempDirectory, "dialog-upgrade-stub.mjs")).href
+  );
+  const loadingStateStub = await import(
+    pathToFileURL(path.join(tempDirectory, "loading-state-stub.mjs")).href
+  );
 
   orchestrator.finishExplorerLoading();
   assert.equal(loadingStateStub.finishCalls.length, 1);
-  assert.equal(loadingStateStub.finishCalls[0].applyPixelArtworkClass, "apply-pixel-artwork-class");
+  assert.equal(
+    loadingStateStub.finishCalls[0].applyPixelArtworkClass,
+    "apply-pixel-artwork-class",
+  );
   assert.deepEqual(loadingStateStub.finishCalls[0].emojiByKey, { wave: "👋" });
 
   orchestrator.revealExplorer();
-  assert.deepEqual(loadingStateStub.revealCalls[0], ["emoji-list", "match-count"]);
+  assert.deepEqual(loadingStateStub.revealCalls[0], [
+    "emoji-list",
+    "match-count",
+  ]);
 
   orchestrator.upgradeEmojiDialog();
   assert.equal(dialogUpgradeStub.calls.length, 1);
-  assert.equal(dialogUpgradeStub.calls[0].ensureImportExamples, "ensure-import-examples");
+  assert.equal(
+    dialogUpgradeStub.calls[0].ensureImportExamples,
+    "ensure-import-examples",
+  );
   assert.equal(dialogUpgradeStub.calls[0].exampleDialog, "dialog-node");
 
   orchestrator.removeLegacyDialogElements();
@@ -271,13 +294,19 @@ try {
       versionSelector: "version-selector-node",
     },
   });
-  assert.equal(typeof calls.assignControls[0].initializedWith.versionRange, "function");
+  assert.equal(
+    typeof calls.assignControls[0].initializedWith.versionRange,
+    "function",
+  );
   assert.equal(calls.assignModifierFieldsets.length, 1);
   assert.equal(calls.hideModifierEmojiAccessibility.length, 1);
   assert.equal(calls.bindAudioInteractions.length, 1);
   assert.equal(calls.bindEvents.length, 1);
   assert.equal(calls.finalizeStartup.length, 1);
-  assert.equal(calls.finalizeStartup[0].finishExplorerLoading, orchestrator.finishExplorerLoading);
+  assert.equal(
+    calls.finalizeStartup[0].finishExplorerLoading,
+    orchestrator.finishExplorerLoading,
+  );
 } finally {
   if (originalDocument) {
     Object.defineProperty(globalThis, "document", originalDocument);

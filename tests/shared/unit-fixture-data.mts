@@ -161,14 +161,7 @@ export const demoStyles = (
       "utf8",
     ),
     fs.readFile(
-      path.join(
-        root,
-        "src",
-        "site",
-        "themes",
-        "retro",
-        "retro-foundation.css",
-      ),
+      path.join(root, "src", "site", "themes", "retro", "retro-foundation.css"),
       "utf8",
     ),
     fs.readFile(

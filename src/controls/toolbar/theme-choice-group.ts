@@ -2,7 +2,8 @@ import { BaseControl } from "../core/base-control.js";
 import { ChoiceGroupControl } from "../groups/choice-group.js";
 
 const themeChoiceGroupStylesheetId = "theme-choice-group-control-stylesheet";
-const themeChoiceGroupStylesheetHref = "./explorer/controls/toolbar/theme-choice-group.css";
+const themeChoiceGroupStylesheetHref =
+  "./explorer/controls/toolbar/theme-choice-group.css";
 
 type ThemeChoice = {
   emoji: string;

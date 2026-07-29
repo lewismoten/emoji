@@ -52,7 +52,7 @@ await fs.writeFile(
 const module = await import(
   pathToFileURL(
     path.join(tempDirectory, "pixel-editor-layer-canvas-controller.mjs"),
-  ).href,
+  ).href
 );
 
 const originalRequestAnimationFrame = Object.getOwnPropertyDescriptor(
@@ -180,7 +180,10 @@ try {
   });
 
   controller.draw();
-  assert.equal(sourceModuleSpecifier, "../../src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.js");
+  assert.equal(
+    sourceModuleSpecifier,
+    "../../src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.js",
+  );
   assert.equal(calls.includes("clear-rect"), true);
   assert.equal(calls.includes("draw-checkerboard"), true);
   assert.equal(calls.includes("draw-image"), true);
@@ -203,7 +206,10 @@ try {
     pixels: new Uint8ClampedArray([5, 6, 7, 255]),
   };
   controller.draw();
-  assert.equal(calls.filter((entry) => entry === "stroke-rect").length >= 1, true);
+  assert.equal(
+    calls.filter((entry) => entry === "stroke-rect").length >= 1,
+    true,
+  );
 
   assert.equal(controller.pointInFloatingLayer({ x: 1, y: 2 }), true);
   assert.equal(controller.pointInFloatingLayer({ x: 5, y: 5 }), false);

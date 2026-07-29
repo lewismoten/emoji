@@ -84,7 +84,8 @@ try {
     traceAlpha: { value: "42" },
     traceOutput: { value: "" },
     translate: (key: string, fallback: string) =>
-      ({ column: "column", row: "row" } as Record<string, string>)[key] ?? fallback,
+      (({ column: "column", row: "row" }) as Record<string, string>)[key] ??
+      fallback,
     updateLocation() {
       draftCalls.push("update-location");
     },
@@ -97,7 +98,10 @@ try {
   });
 
   controller.updateTraceOutput();
-  assert.equal(controller.renderLocationText(runtimeState.entry), "people/smile.png · row [2] · column [3]");
+  assert.equal(
+    controller.renderLocationText(runtimeState.entry),
+    "people/smile.png · row [2] · column [3]",
+  );
   assert.equal((controller as any).updateTraceOutput !== undefined, true);
   assert.equal((controller as any) !== undefined, true);
 
@@ -107,7 +111,10 @@ try {
   assert.equal(draftCalls.includes("preview-labels"), true);
   assert.deepEqual(paletteCalls, [["1F600"]]);
 
-  assert.equal(controller.renderLocationText(runtimeState.entry), "people/smile.png · row [2] · column [3]");
+  assert.equal(
+    controller.renderLocationText(runtimeState.entry),
+    "people/smile.png · row [2] · column [3]",
+  );
   controller.undo();
   controller.redo();
   assert.equal(renderCalls.length, 2);

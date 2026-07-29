@@ -76,22 +76,10 @@ const result = buildCategoryRepresentatives({
   ]),
 });
 
-assert.equal(
-  result.subGroups.get("Smileys & Emotion::face-smiling"),
-  "😁",
-);
-assert.equal(
-  result.subGroups.get("Smileys & Emotion::face-affection"),
-  "😍",
-);
-assert.equal(
-  result.subGroups.get("Animals & Nature::animal-mammal"),
-  "🐻",
-);
-assert.equal(
-  result.subGroups.get("Animals & Nature::plant-flower"),
-  "🌻",
-);
+assert.equal(result.subGroups.get("Smileys & Emotion::face-smiling"), "😁");
+assert.equal(result.subGroups.get("Smileys & Emotion::face-affection"), "😍");
+assert.equal(result.subGroups.get("Animals & Nature::animal-mammal"), "🐻");
+assert.equal(result.subGroups.get("Animals & Nature::plant-flower"), "🌻");
 assert.equal(result.subGroups.get("Flags::flag"), "🏴");
 
 assert.equal(result.groups.get("Smileys & Emotion"), "🫠");

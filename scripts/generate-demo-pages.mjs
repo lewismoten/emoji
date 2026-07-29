@@ -45,10 +45,7 @@ const retroTextRevision = fs.existsSync(
       .slice(0, 12)
   : "dev";
 const localeManifest = JSON.parse(
-  fs.readFileSync(
-    path.join("src", "data", "locales", "manifest.json"),
-    "utf8",
-  ),
+  fs.readFileSync(path.join("src", "data", "locales", "manifest.json"), "utf8"),
 );
 const runtimeLocalesDirectory = path.join("src", "data", "locales");
 const runtimeDemoLocalesDirectory = path.join("src", "demo-locales");
@@ -80,7 +77,7 @@ const translationsFor = (locale) => {
     base === "en"
       ? english
       : JSON.parse(
-            fs.readFileSync(
+          fs.readFileSync(
             path.join(runtimeDemoLocalesDirectory, `ui.${base}.json`),
             "utf8",
           ),

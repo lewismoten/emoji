@@ -5,7 +5,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 // coverage target: ../../src/app/explorer-bootstrap-session.js
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/explorer-bootstrap-session.ts"),
   "utf8",
@@ -28,22 +31,10 @@ const transformedSource = sourceText
     'from "../explorer/saved-emoji.js";',
     'from "./saved-emoji-stub.mjs";',
   )
-  .replace(
-    'from "../explorer/pwa-panels.js";',
-    'from "./pwa-panels-stub.mjs";',
-  )
-  .replace(
-    'from "../explorer-app.js";',
-    'from "./explorer-app-stub.mjs";',
-  )
-  .replace(
-    'from "../explorer-state.js";',
-    'from "./explorer-state-stub.mjs";',
-  )
-  .replace(
-    'from "./browser-runtime.js";',
-    'from "./browser-runtime-stub.mjs";',
-  )
+  .replace('from "../explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";')
+  .replace('from "../explorer-app.js";', 'from "./explorer-app-stub.mjs";')
+  .replace('from "../explorer-state.js";', 'from "./explorer-state-stub.mjs";')
+  .replace('from "./browser-runtime.js";', 'from "./browser-runtime-stub.mjs";')
   .replace(
     'from "./explorer-bootstrap-bindings.js";',
     'from "./bindings-stub.mjs";',
@@ -60,10 +51,7 @@ const transformedSource = sourceText
     'from "./explorer-bootstrap-session-runtime.js";',
     'from "./session-runtime-stub.mjs";',
   )
-  .replace(
-    'from "./explorer-bootstrap-shell.js";',
-    'from "./shell-stub.mjs";',
-  )
+  .replace('from "./explorer-bootstrap-shell.js";', 'from "./shell-stub.mjs";')
   .replace(
     'from "./explorer-preferences.js";',
     'from "./preferences-stub.mjs";',
@@ -76,7 +64,10 @@ const tempDirectory = await fs.mkdtemp(
 );
 
 const writeStub = async (filename: string, lines: string[]) => {
-  await fs.writeFile(path.join(tempDirectory, filename), `${lines.join("\n")}\n`);
+  await fs.writeFile(
+    path.join(tempDirectory, filename),
+    `${lines.join("\n")}\n`,
+  );
 };
 
 await writeStub("explorer-labels-stub.mjs", [
@@ -304,7 +295,7 @@ await fs.writeFile(
 );
 
 const globalDocument = { body: { dataset: {} } };
-const globalWindow = { location: { search: '?developer=1' } };
+const globalWindow = { location: { search: "?developer=1" } };
 
 Object.assign(globalThis, {
   document: globalDocument,
@@ -363,7 +354,10 @@ assert.equal(formatterCalls[0].selectedSearchLocale(), "en");
 assert.equal(shellCalls[0].kind, "shell-options");
 assert.equal(controllerCalls[0].kind, "controller-options");
 
-assert.equal(shellBuilderInput.translate("group.label", "fallback"), "Translated Group");
+assert.equal(
+  shellBuilderInput.translate("group.label", "fallback"),
+  "Translated Group",
+);
 assert.equal(shellBuilderInput.translate("missing", "fallback"), "fallback");
 assert.deepEqual(shellBuilderInput.drawList(), ["drawList", []]);
 assert.deepEqual(shellBuilderInput.normalizeCodePoints("1F44D"), [
@@ -374,7 +368,10 @@ assert.deepEqual(shellBuilderInput.normalizeCodePoints("1F44D"), [
 assert.equal(controllerBuilderInput.unassigned, "\u0000");
 assert.equal(controllerBuilderInput.getExplorerSubGroup("mail")[0], "subgroup");
 assert.equal(controllerBuilderInput.formatNumber("5")[0], "ui-number");
-assert.equal(controllerBuilderInput.displayExplorerLabel("group"), "Translated Group");
+assert.equal(
+  controllerBuilderInput.displayExplorerLabel("group"),
+  "Translated Group",
+);
 assert.deepEqual(controllerBuilderInput.openPanel("help"), [
   "open-panel-dialog",
   ["help"],
@@ -383,7 +380,10 @@ assert.deepEqual(controllerBuilderInput.openPanel("help"), [
 assert.deepEqual(bindings.drawList("emoji"), ["drawList", ["emoji"]]);
 assert.deepEqual(bindings.loadVersionData("v"), ["loadVersionData", ["v"]]);
 assert.deepEqual(bindings.resetFilters(), ["resetFilters", []]);
-assert.deepEqual(bindings.syncUrlState("replace"), ["syncUrlState", ["replace"]]);
+assert.deepEqual(bindings.syncUrlState("replace"), [
+  "syncUrlState",
+  ["replace"],
+]);
 assert.deepEqual(bindings.focusInitialEmojiDialogAction(), [
   "focusInitialAction",
   [],
@@ -394,7 +394,10 @@ assert.equal(sessionRuntimeInput.bindings, bindings);
 assert.equal(sessionRuntimeInput.controllers.drawList(...[])[0], "drawList");
 assert.equal(sessionRuntimeInput.shell, shell);
 assert.equal(sessionRuntimeInput.state(), state);
-assert.equal(sessionRuntimeInput.translate("group.label", "fallback"), "Translated Group");
+assert.equal(
+  sessionRuntimeInput.translate("group.label", "fallback"),
+  "Translated Group",
+);
 assert.equal(bindings.bootstrapRuntime, runtime);
 
 sessionRuntimeInput.restoreDeveloperMode();

@@ -5,16 +5,21 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 // coverage target: ../../src/app/version-mode-runtime.js
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/version-mode-runtime.ts"),
   "utf8",
 );
 
-const transformedSource = sourceText.replace(
-  'import { createVersionModeController } from "./version-mode-controller.js";',
-  'import { createVersionModeController } from "./version-mode-controller-stub.mjs";',
-).replace(/options: any/g, "options");
+const transformedSource = sourceText
+  .replace(
+    'import { createVersionModeController } from "./version-mode-controller.js";',
+    'import { createVersionModeController } from "./version-mode-controller-stub.mjs";',
+  )
+  .replace(/options: any/g, "options");
 
 const tempRoot = path.join(root, "build/tests/.tmp");
 await fs.mkdir(tempRoot, { recursive: true });

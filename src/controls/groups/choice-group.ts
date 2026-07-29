@@ -50,8 +50,11 @@ export class ChoiceGroupControl extends BaseControl<ChoiceGroupState> {
     const wrapperTag = this.state.wrapperTag ?? "div";
     const minSelectable = this.state.minSelectable ?? 0;
     const maxSelectable = this.state.maxSelectable ?? this.state.items.length;
-    const labelTag = this.state.labelTag ?? (wrapperTag === "fieldset" ? "legend" : "span");
-    const groupId = this.state.labelKey ? `${this.state.labelKey}-group-label` : undefined;
+    const labelTag =
+      this.state.labelTag ?? (wrapperTag === "fieldset" ? "legend" : "span");
+    const groupId = this.state.labelKey
+      ? `${this.state.labelKey}-group-label`
+      : undefined;
 
     return DomFactory.element(wrapperTag, {
       attributes: {
@@ -62,7 +65,9 @@ export class ChoiceGroupControl extends BaseControl<ChoiceGroupState> {
       className: this.state.className,
       dataset: {
         i18nAriaLabel:
-          wrapperTag === "fieldset" || !this.state.labelKey ? undefined : this.state.labelKey,
+          wrapperTag === "fieldset" || !this.state.labelKey
+            ? undefined
+            : this.state.labelKey,
         maxSelectable: String(maxSelectable),
         minSelectable: String(minSelectable),
       },
@@ -70,7 +75,9 @@ export class ChoiceGroupControl extends BaseControl<ChoiceGroupState> {
         DomFactory.element(labelTag, {
           attributes: groupId ? { id: groupId } : undefined,
           className: this.state.legendClassName,
-          dataset: this.state.labelKey ? { i18n: this.state.labelKey } : undefined,
+          dataset: this.state.labelKey
+            ? { i18n: this.state.labelKey }
+            : undefined,
           text: this.state.label,
         }),
         ...this.state.items.map((item) => {

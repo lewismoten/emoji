@@ -17,9 +17,20 @@ class FakeContext2D {
   font = "";
   textAlign = "";
   textBaseline = "";
-  fillRects: Array<{ x: number; y: number; w: number; h: number; color: string }> = [];
-  fillTexts: Array<{ value: string; x: number; y: number; font: string; color: string }> =
-    [];
+  fillRects: Array<{
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+    color: string;
+  }> = [];
+  fillTexts: Array<{
+    value: string;
+    x: number;
+    y: number;
+    font: string;
+    color: string;
+  }> = [];
   clearRects: Array<[number, number, number, number]> = [];
   drawImages: Array<any[]> = [];
   putImageDataCalls: Array<{ image: any; x: number; y: number }> = [];
@@ -31,7 +42,13 @@ class FakeContext2D {
   }
 
   fillText(value: string, x: number, y: number) {
-    this.fillTexts.push({ value, x, y, font: this.font, color: this.fillStyle });
+    this.fillTexts.push({
+      value,
+      x,
+      y,
+      font: this.font,
+      color: this.fillStyle,
+    });
   }
 
   clearRect(x: number, y: number, w: number, h: number) {
@@ -155,7 +172,10 @@ const successfulCanvas = new FakeCanvas();
 assert.equal(await canvasToPng(successfulCanvas as any), successfulCanvas.blob);
 const failedCanvas = new FakeCanvas();
 failedCanvas.blob = null;
-await assert.rejects(() => canvasToPng(failedCanvas as any), /PNG encoding failed/);
+await assert.rejects(
+  () => canvasToPng(failedCanvas as any),
+  /PNG encoding failed/,
+);
 
 downloadBlob({ type: "image/png" }, "emoji.png");
 assert.equal(createdAnchors[0].href, "blob:test");
@@ -202,7 +222,10 @@ const centeredContext = new FakeContext2D();
 drawCenteredEmoji(centeredContext as any, "😀", '12px "Pixel Emoji"', 1, 2);
 assert.equal(centeredContext.fillTexts.length, 1);
 assert.equal(centeredContext.fillTexts[0].x, CELL_SIZE / 2 + 1);
-centeredContext.measureResult = { actualBoundingBoxAscent: 0, actualBoundingBoxDescent: 0 };
+centeredContext.measureResult = {
+  actualBoundingBoxAscent: 0,
+  actualBoundingBoxDescent: 0,
+};
 drawCenteredEmoji(centeredContext as any, "😀", '12px "Pixel Emoji"');
 assert.equal(centeredContext.fillTexts.length, 2);
 
@@ -234,7 +257,11 @@ const previewController = createPixelEditorPreviewController({
   effectiveLayerPixels: () => floatingPixels,
   floatingLayer: () => ({ x: 1, y: 2, width: 1, height: 1 }),
   fontPreview,
-  imageDataCanvas: (buffer: Uint8ClampedArray, width: number, height: number) => {
+  imageDataCanvas: (
+    buffer: Uint8ClampedArray,
+    width: number,
+    height: number,
+  ) => {
     const canvas = new FakeCanvas();
     canvas.width = width;
     canvas.height = height;
@@ -244,7 +271,12 @@ const previewController = createPixelEditorPreviewController({
   officialPreview,
   paletteController: { activePaletteColors: () => ["#000000"] },
   pixels: () => pixels,
-  recolorVisibleCanvasPixels: (canvas: FakeCanvas, r: number, g: number, b: number) => {
+  recolorVisibleCanvasPixels: (
+    canvas: FakeCanvas,
+    r: number,
+    g: number,
+    b: number,
+  ) => {
     canvas.context.fillStyle = `${r},${g},${b}`;
   },
   traceCanvas,
@@ -271,7 +303,11 @@ const emptyFontPreviewController = createPixelEditorPreviewController({
   effectiveLayerPixels: () => new Uint8ClampedArray(),
   floatingLayer: () => undefined,
   fontPreview: new FakeCanvas(),
-  imageDataCanvas: (_buffer: Uint8ClampedArray, width: number, height: number) => {
+  imageDataCanvas: (
+    _buffer: Uint8ClampedArray,
+    width: number,
+    height: number,
+  ) => {
     const canvas = new FakeCanvas();
     canvas.width = width;
     canvas.height = height;

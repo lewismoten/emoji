@@ -5,7 +5,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 // coverage target: ../../src/app/pixel-editor-loader-runtime.js
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/pixel-editor-loader-runtime.ts"),
   "utf8",
@@ -64,7 +67,8 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-loader-runtime.mjs")).href
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-loader-runtime.mjs"))
+    .href
 );
 const loaderStub = await import(
   pathToFileURL(path.join(tempDirectory, "pixel-editor-loader-stub.mjs")).href

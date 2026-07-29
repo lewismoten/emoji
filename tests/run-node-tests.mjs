@@ -8,7 +8,9 @@ const testPattern = /\.test\.(?:js|mjs|cjs)$/;
 const maximumDurationMs = 100;
 const coverageDurationMultiplier = 1.5;
 const coverageEnabled = process.env.TEST_COVERAGE !== "0";
-const effectiveMaximumDurationMs = coverageEnabled ? (coverageDurationMultiplier * maximumDurationMs) : maximumDurationMs;
+const effectiveMaximumDurationMs = coverageEnabled
+  ? coverageDurationMultiplier * maximumDurationMs
+  : maximumDurationMs;
 const coverageExcludes = [
   "build/tests/**",
   "build/tests/.tmp/**",
@@ -16,7 +18,7 @@ const coverageExcludes = [
   "build/demo-pages/**",
   "**/build/demo-pages/**",
   "dist/**",
-  "**/dist/**"
+  "**/dist/**",
 ];
 const requestedConcurrency = Number.parseInt(
   process.env.TEST_CONCURRENCY ?? "",
@@ -60,22 +62,21 @@ if (tests.length === 0) {
       const shouldCollectCoverage =
         coverageEnabled &&
         !(
-          files.length === 1 &&
-          files[0]?.endsWith("project-structure.test.mjs")
+          files.length === 1 && files[0]?.endsWith("project-structure.test.mjs")
         );
       const testArguments = [
         "--test",
         `--test-concurrency=${concurrency}`,
         ...(shouldCollectCoverage
           ? [
-            "--experimental-test-coverage",
-            "--test-coverage-lines=100",
-            "--test-coverage-branches=100",
-            "--test-coverage-functions=100",
-            ...coverageExcludes.map(
-              (pattern) => `--test-coverage-exclude=${pattern}`,
-            ),
-          ]
+              "--experimental-test-coverage",
+              "--test-coverage-lines=100",
+              "--test-coverage-branches=100",
+              "--test-coverage-functions=100",
+              ...coverageExcludes.map(
+                (pattern) => `--test-coverage-exclude=${pattern}`,
+              ),
+            ]
           : []),
         ...files,
       ];

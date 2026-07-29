@@ -90,10 +90,7 @@ assert.match(
 );
 assert.match(
   await fs.readFile(
-    path.join(
-      root,
-      "src/controls/filters/version/version-mode-toggle.css",
-    ),
+    path.join(root, "src/controls/filters/version/version-mode-toggle.css"),
     "utf8",
   ),
   /\.version-mode-toggle:focus-visible\s*\{[^}]*outline:\s*2px dashed var\(--accent-strong\)[^}]*outline-offset:\s*var\(--focus-outline-offset\)/,
@@ -106,10 +103,7 @@ assert.match(
 );
 assert.match(
   await fs.readFile(
-    path.join(
-      root,
-      "src/controls/filters/pickers/compact-choice-button.css",
-    ),
+    path.join(root, "src/controls/filters/pickers/compact-choice-button.css"),
     "utf8",
   ),
   /\.compact-choice\[aria-checked="true"\]\s*\{[^}]*background:\s*var\(--selected-control-bg\)[^}]*color:\s*var\(--selected-control-text\)/,
@@ -117,10 +111,7 @@ assert.match(
 );
 assert.match(
   await fs.readFile(
-    path.join(
-      root,
-      "src/controls/filters/pickers/compact-choice-button.css",
-    ),
+    path.join(root, "src/controls/filters/pickers/compact-choice-button.css"),
     "utf8",
   ),
   /\.compact-choice:focus-visible\s*\{[^}]*outline:\s*2px dashed var\(--accent-strong\)/,

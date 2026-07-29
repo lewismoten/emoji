@@ -5,7 +5,10 @@ import { pathToFileURL } from "node:url";
 // Direct source under test: ../src/explorer-composition-controller.js
 
 const root = process.cwd();
-const sourcePath = path.join(root, "build/src/explorer-composition-controller.js");
+const sourcePath = path.join(
+  root,
+  "build/src/explorer-composition-controller.js",
+);
 const source = await fs.readFile(sourcePath, "utf8");
 
 const transformedSource = source.replace(
@@ -15,7 +18,9 @@ const transformedSource = source.replace(
 
 const tempRoot = path.join(root, "build/tests/.tmp");
 await fs.mkdir(tempRoot, { recursive: true });
-const tempDirectory = await fs.mkdtemp(path.join(tempRoot, "explorer-composition-controller-"));
+const tempDirectory = await fs.mkdtemp(
+  path.join(tempRoot, "explorer-composition-controller-"),
+);
 
 await fs.writeFile(
   path.join(tempDirectory, "dialog-render-stub.mjs"),
@@ -30,13 +35,17 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(path.join(tempDirectory, "explorer-composition-controller.mjs")).href
+  pathToFileURL(path.join(tempDirectory, "explorer-composition-controller.mjs"))
+    .href
 );
 const dialogRenderStub = await import(
   pathToFileURL(path.join(tempDirectory, "dialog-render-stub.mjs")).href
 );
 
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 try {
   Object.defineProperty(globalThis, "document", {
     configurable: true,
@@ -135,6 +144,7 @@ try {
   assert.equal(dialogRenderStub.calls[0].numberingSystem, undefined);
   assert.equal(dialogRenderStub.calls[0].detailsVisible, true);
 } finally {
-  if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+  if (originalDocument)
+    Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");
 }

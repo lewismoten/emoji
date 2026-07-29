@@ -2,7 +2,10 @@ import assert from "node:assert/strict";
 import { createPixelEditorToolController } from "../../src/pixel-editor/controllers/pixel-editor-tools.js";
 
 const pixels = new Uint8ClampedArray(12 * 12 * 4);
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 
 Object.defineProperty(globalThis, "document", {
   configurable: true,
@@ -162,5 +165,6 @@ floatingLayer = false;
 controller.selectTool("bogus");
 assert.equal(tool, "ellipse");
 
-if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+if (originalDocument)
+  Object.defineProperty(globalThis, "document", originalDocument);
 else Reflect.deleteProperty(globalThis, "document");

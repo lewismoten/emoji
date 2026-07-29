@@ -30,8 +30,14 @@ import { createPixelEditorToolController } from "../pixel-editor-tools.js";
 import { createPixelEditorTransferController } from "../pixel-editor-transfer.js";
 
 export function createPixelEditorVisualControllers(options) {
-  const { draftController, elements, formatNumber, formatPercent, state, translate } =
-    options;
+  const {
+    draftController,
+    elements,
+    formatNumber,
+    formatPercent,
+    state,
+    translate,
+  } = options;
   let modeController;
   const updateTransferButtons = () => modeController.updateTransferButtons();
   const updateEditorModePanels = () => modeController.updateEditorModePanels();

@@ -7,7 +7,10 @@ const sourceModuleSpecifier =
   "../../src/pixel-editor/controllers/pixel-editor-controllers.js";
 const root = process.cwd();
 const source = await fs.readFile(
-  path.join(root, "build/src/pixel-editor/controllers/pixel-editor-controllers.js"),
+  path.join(
+    root,
+    "build/src/pixel-editor/controllers/pixel-editor-controllers.js",
+  ),
   "utf8",
 );
 
@@ -110,23 +113,23 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-controllers.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-controllers.mjs")).href
 );
 const draftStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-drafts-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-drafts-stub.mjs")).href
 );
 const startupStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-startup-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-startup-stub.mjs")).href
 );
 const sessionStub = await import(
   pathToFileURL(
     path.join(tempDirectory, "pixel-editor-controller-session-stub.mjs"),
-  ).href,
+  ).href
 );
 const visualStub = await import(
   pathToFileURL(
     path.join(tempDirectory, "pixel-editor-controller-visual-stub.mjs"),
-  ).href,
+  ).href
 );
 
 const state: any = {

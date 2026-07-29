@@ -62,7 +62,11 @@ Object.defineProperty(globalThis, "navigator", {
 const manifest = {
   packs: [
     { id: "all", importPath: "@lewismoten/emoji/all" },
-    { id: "popular", importPath: "@lewismoten/emoji/popular", keys: ["wrappedGift"] },
+    {
+      id: "popular",
+      importPath: "@lewismoten/emoji/popular",
+      keys: ["wrappedGift"],
+    },
   ],
   categories: [
     {
@@ -90,7 +94,11 @@ const state: any = {
   emojiByKey: { wrappedGift: "🎁" },
   items: [
     { key: "wrappedGift", codePoints: "1F381", status: "fully-qualified" },
-    { key: "wrappedGiftCandidate", codePoints: "1F381", status: "minimally-qualified" },
+    {
+      key: "wrappedGiftCandidate",
+      codePoints: "1F381",
+      status: "minimally-qualified",
+    },
     { key: "lightSkin", codePoints: "1F44D 1F3FB", status: "fully-qualified" },
   ],
   currentDialogParentStack: [] as string[],

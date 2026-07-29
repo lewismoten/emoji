@@ -41,7 +41,11 @@ export class ToggleButtonControl extends BaseControl<ToggleButtonState> {
       attributes: {
         "aria-checked": role === "radio" ? String(Boolean(pressed)) : undefined,
         "aria-label": this.state.ariaLabel,
-        "aria-pressed": role ? undefined : pressed === undefined ? undefined : String(Boolean(pressed)),
+        "aria-pressed": role
+          ? undefined
+          : pressed === undefined
+            ? undefined
+            : String(Boolean(pressed)),
         role,
         tabindex: tabIndex === undefined ? undefined : String(tabIndex),
         title: this.state.title,
@@ -80,7 +84,9 @@ export class ToggleButtonControl extends BaseControl<ToggleButtonState> {
           ? [
               DomFactory.element("span", {
                 className: this.state.labelClassName,
-                dataset: this.state.labelKey ? { i18n: this.state.labelKey } : undefined,
+                dataset: this.state.labelKey
+                  ? { i18n: this.state.labelKey }
+                  : undefined,
                 text: this.state.label,
               }),
             ]

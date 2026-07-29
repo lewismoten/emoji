@@ -124,7 +124,10 @@ function updateThemeColor() {
         : "#160622";
 }
 
-function resolveThemePreference(preferredTheme: string | undefined, developerMode: boolean) {
+function resolveThemePreference(
+  preferredTheme: string | undefined,
+  developerMode: boolean,
+) {
   if (preferredTheme === "base") return developerMode ? "base" : "dark";
   return ["light", "retro"].includes(preferredTheme ?? "")
     ? preferredTheme
@@ -132,7 +135,9 @@ function resolveThemePreference(preferredTheme: string | undefined, developerMod
 }
 
 export function renderThemeToggle(options: any) {
-  const developerMode = document.documentElement.hasAttribute("data-developer-mode");
+  const developerMode = document.documentElement.hasAttribute(
+    "data-developer-mode",
+  );
   const theme = resolveThemePreference(
     options.state().explorerPreferences.theme,
     developerMode,
@@ -144,7 +149,9 @@ export function renderThemeToggle(options: any) {
     choice.setAttribute("aria-pressed", String(selected));
     choice.setAttribute("aria-checked", String(selected));
     choice.tabIndex = selected ? 0 : -1;
-    const input = choice.querySelector('input[type="radio"]') as HTMLInputElement | null;
+    const input = choice.querySelector(
+      'input[type="radio"]',
+    ) as HTMLInputElement | null;
     if (input) {
       input.checked = selected;
       input.tabIndex = -1;
@@ -156,8 +163,7 @@ export function renderThemeToggle(options: any) {
 export function selectTheme(options: any, event: any) {
   const requestedTheme = event.currentTarget.dataset.theme;
   const theme =
-    requestedTheme === "base" ||
-    ["light", "retro"].includes(requestedTheme)
+    requestedTheme === "base" || ["light", "retro"].includes(requestedTheme)
       ? requestedTheme
       : "dark";
   options.savePreference("theme", theme);
@@ -176,7 +182,9 @@ export function renderPixelFontToggle(options: any) {
     choice.setAttribute("aria-checked", String(selected));
     choice.setAttribute("aria-pressed", String(selected));
     choice.tabIndex = selected ? 0 : -1;
-    const input = choice.querySelector('input[type="radio"]') as HTMLInputElement | null;
+    const input = choice.querySelector(
+      'input[type="radio"]',
+    ) as HTMLInputElement | null;
     if (input) {
       input.checked = selected;
       input.tabIndex = -1;

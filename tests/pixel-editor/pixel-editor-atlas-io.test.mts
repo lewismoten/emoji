@@ -50,13 +50,18 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-atlas-io.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-atlas-io.mjs")).href
 );
 const helperStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-canvas-helpers-stub.mjs")).href,
+  pathToFileURL(
+    path.join(tempDirectory, "pixel-editor-canvas-helpers-stub.mjs"),
+  ).href
 );
 
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 const originalCreateImageBitmap = Object.getOwnPropertyDescriptor(
   globalThis,
   "createImageBitmap",
@@ -69,7 +74,10 @@ try {
       async getDirectoryHandle(name: string, options: { create: boolean }) {
         nestedCalls.push([name, options.create]);
         return {
-          async getDirectoryHandle(inner: string, innerOptions: { create: boolean }) {
+          async getDirectoryHandle(
+            inner: string,
+            innerOptions: { create: boolean },
+          ) {
             nestedCalls.push([inner, innerOptions.create]);
             return {
               getFileHandle(file: string, fileOptions: { create: boolean }) {
@@ -83,7 +91,10 @@ try {
     "people/smile/file.png",
     true,
   );
-  assert.equal(sourceModuleSpecifier, "../../src/pixel-editor/data/pixel-editor-atlas-io.js");
+  assert.equal(
+    sourceModuleSpecifier,
+    "../../src/pixel-editor/data/pixel-editor-atlas-io.js",
+  );
   assert.deepEqual(nestedCalls, [
     ["people", true],
     ["smile", true],
@@ -133,7 +144,11 @@ try {
   assert.deepEqual(blankAtlas, { kind: "png-blob" });
   assert.equal(fillCalls.length, 4);
   assert.equal(
-    helperStub.helperCalls.some((entry: any[]) => entry[0] === "drawBitmapText" && entry[3] === "SUBGROUP: face-smiling 2/3"),
+    helperStub.helperCalls.some(
+      (entry: any[]) =>
+        entry[0] === "drawBitmapText" &&
+        entry[3] === "SUBGROUP: face-smiling 2/3",
+    ),
     true,
   );
 
@@ -163,10 +178,7 @@ try {
       },
     },
   });
-  const extracted = await module.extractCell(
-    { kind: "blob" },
-    { x: 1, y: 2 },
-  );
+  const extracted = await module.extractCell({ kind: "blob" }, { x: 1, y: 2 });
   assert.equal(extracted.length, 12 * 12 * 4);
 
   const pointerCalls: string[] = [];
@@ -204,7 +216,12 @@ try {
   const editorCalls: string[] = [];
   const input = module.createPixelEditorInputController({
     bakeFloatingLayer: () => editorCalls.push("bake"),
-    boundsFromPoints: (_start: any, _end: any) => ({ x: 0, y: 0, width: 1, height: 1 }),
+    boundsFromPoints: (_start: any, _end: any) => ({
+      x: 0,
+      y: 0,
+      width: 1,
+      height: 1,
+    }),
     canvas: fakeCanvas,
     cancelFloatingLayer: () => editorCalls.push("cancel"),
     cellSize: 12,
@@ -240,7 +257,8 @@ try {
     setSelection: () => editorCalls.push("set-selection"),
     setShapeBase: () => editorCalls.push("set-shape-base"),
     toolState: () => "bucket",
-    transformFloatingLayer: (mode: string) => editorCalls.push(`transform:${mode}`),
+    transformFloatingLayer: (mode: string) =>
+      editorCalls.push(`transform:${mode}`),
     undo: () => editorCalls.push("undo"),
     undoButton: { disabled: false },
     updateTransferButtons: () => editorCalls.push("update-transfer-buttons"),
@@ -283,7 +301,12 @@ try {
 
   const floatingInput = module.createPixelEditorInputController({
     bakeFloatingLayer: () => editorCalls.push("bake-2"),
-    boundsFromPoints: (_start: any, _end: any) => ({ x: 0, y: 0, width: 1, height: 1 }),
+    boundsFromPoints: (_start: any, _end: any) => ({
+      x: 0,
+      y: 0,
+      width: 1,
+      height: 1,
+    }),
     canvas: fakeCanvas,
     cancelFloatingLayer: () => editorCalls.push("cancel-2"),
     cellSize: 12,
@@ -299,7 +322,8 @@ try {
     drawShape: () => editorCalls.push("draw-shape-2"),
     floodFill: () => editorCalls.push("flood-fill-2"),
     floatingLayer: () => ({ x: 0, y: 0, width: 1, height: 1 }),
-    moveFloatingLayer: (...args: number[]) => editorCalls.push(`move-layer:${args.join(",")}`),
+    moveFloatingLayer: (...args: number[]) =>
+      editorCalls.push(`move-layer:${args.join(",")}`),
     pasteArtButton: { disabled: false },
     pastePixelArt: () => editorCalls.push("paste-art-2"),
     paletteController: { pickColor: () => editorCalls.push("pick-color-2") },
@@ -327,7 +351,8 @@ try {
     setSelection: () => editorCalls.push("set-selection-2"),
     setShapeBase: () => editorCalls.push("set-shape-base-2"),
     toolState: () => "select",
-    transformFloatingLayer: (mode: string) => editorCalls.push(`transform-2:${mode}`),
+    transformFloatingLayer: (mode: string) =>
+      editorCalls.push(`transform-2:${mode}`),
     undo: () => editorCalls.push("undo-2"),
     undoButton: { disabled: false },
     updateTransferButtons: () => editorCalls.push("update-transfer-buttons-2"),
@@ -430,9 +455,14 @@ try {
   assert.equal(editorCalls.includes("copy-art"), true);
   assert.equal(editorCalls.includes("paste-art"), true);
 } finally {
-  if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+  if (originalDocument)
+    Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");
   if (originalCreateImageBitmap) {
-    Object.defineProperty(globalThis, "createImageBitmap", originalCreateImageBitmap);
+    Object.defineProperty(
+      globalThis,
+      "createImageBitmap",
+      originalCreateImageBitmap,
+    );
   } else Reflect.deleteProperty(globalThis, "createImageBitmap");
 }

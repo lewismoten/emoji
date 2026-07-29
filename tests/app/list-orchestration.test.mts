@@ -5,7 +5,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 // coverage target: ../../src/app/list-orchestration.js
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/list-orchestration.ts"),
   "utf8",
@@ -49,7 +52,10 @@ const tempDirectory = await fs.mkdtemp(
 );
 
 const writeStub = async (filename: string, lines: string[]) => {
-  await fs.writeFile(path.join(tempDirectory, filename), `${lines.join("\n")}\n`);
+  await fs.writeFile(
+    path.join(tempDirectory, filename),
+    `${lines.join("\n")}\n`,
+  );
 };
 
 await writeStub("popular-keys-stub.mjs", [
@@ -111,7 +117,8 @@ const listControllerStub = await import(
   pathToFileURL(path.join(tempDirectory, "list-controller-stub.mjs")).href
 );
 const interactionStub = await import(
-  pathToFileURL(path.join(tempDirectory, "emoji-list-interaction-stub.mjs")).href
+  pathToFileURL(path.join(tempDirectory, "emoji-list-interaction-stub.mjs"))
+    .href
 );
 const summaryStub = await import(
   pathToFileURL(path.join(tempDirectory, "filter-summary-stub.mjs")).href
@@ -222,7 +229,10 @@ assert.equal(interactionCall.asItem, "as-item");
 assert.equal(interactionCall.asSequenceItem, "as-sequence-item");
 assert.equal(interactionCall.drawList, runtime.drawList);
 assert.equal(interactionCall.emojiList, "emoji-list");
-assert.equal(interactionCall.flushEmojiCellFragment, "flush-emoji-cell-fragment");
+assert.equal(
+  interactionCall.flushEmojiCellFragment,
+  "flush-emoji-cell-fragment",
+);
 assert.equal(interactionCall.focusedEmojiKey(), "sparkles");
 assert.deepEqual(interactionCall.getDisplayedKeys(), ["sparkles"]);
 assert.equal(interactionCall.nextRenderGeneration, "next-render-generation");
@@ -237,7 +247,10 @@ assert.equal(state.focusedEmojiKey, "wave");
 
 const runtimeApi = runtime as any;
 assert.deepEqual(runtimeApi.drawList("x"), ["draw-list", ["x"]]);
-assert.deepEqual(runtimeApi.scheduleSearchDraw("y"), ["schedule-search-draw", ["y"]]);
+assert.deepEqual(runtimeApi.scheduleSearchDraw("y"), [
+  "schedule-search-draw",
+  ["y"],
+]);
 assert.deepEqual(runtimeApi.onEmojiFocus("z"), ["on-emoji-focus", ["z"]]);
 assert.deepEqual(runtimeApi.onEmojiKeyDown("k"), ["on-emoji-key-down", ["k"]]);
 assert.deepEqual(runtime.updateActiveFilterSummary(), [

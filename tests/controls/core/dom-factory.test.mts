@@ -31,12 +31,15 @@ assert.equal(
   '<div class="example" role="status" data-panel-id="helpDialog"><span data-i18n="helloLabel">Hello</span> world</div>',
 );
 
-assert.deepEqual(DomFactory.button({ text: "X", attributes: { "aria-label": "Close" } }), {
-  tag: "button",
-  text: "X",
-  attributes: { "aria-label": "Close" },
-  requireAriaLabel: true,
-});
+assert.deepEqual(
+  DomFactory.button({ text: "X", attributes: { "aria-label": "Close" } }),
+  {
+    tag: "button",
+    text: "X",
+    attributes: { "aria-label": "Close" },
+    requireAriaLabel: true,
+  },
+);
 
 assert.deepEqual(DomFactory.form(), { tag: "form" });
 

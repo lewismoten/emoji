@@ -75,7 +75,12 @@ const transparentButton = new FakeButton({ transparent: "true" });
 const colorButton = new FakeButton({ color: "#112233" });
 const toneButton = new FakeButton({ skinTone: "1F3FB" });
 const secondToneButton = new FakeButton({ skinTone: "1F3FF" });
-const paletteButtons = [transparentButton, colorButton, toneButton, secondToneButton];
+const paletteButtons = [
+  transparentButton,
+  colorButton,
+  toneButton,
+  secondToneButton,
+];
 
 const controller = createPixelEditorPaletteController({
   getPixels: () => pixels,
@@ -88,7 +93,9 @@ const controller = createPixelEditorPaletteController({
     }),
   }),
   nearestPaletteColor: (r: number, g: number, b: number, colors: string[]) =>
-    colors.includes("#f2d2b6") && r === 4 && g === 5 && b === 6 ? "#f2d2b6" : colors[0],
+    colors.includes("#f2d2b6") && r === 4 && g === 5 && b === 6
+      ? "#f2d2b6"
+      : colors[0],
   paletteButtons,
   setSelectedColor: (value: string) => {
     selectedColor = value;
@@ -130,7 +137,9 @@ assert.ok((toneButton.attributes.get("aria-label") ?? "").length > 0);
 
 (controller as any).updatePaletteSelection();
 assert.equal(
-  paletteButtons.some((button) => button.getAttribute("aria-pressed") === "true"),
+  paletteButtons.some(
+    (button) => button.getAttribute("aria-pressed") === "true",
+  ),
   true,
 );
 

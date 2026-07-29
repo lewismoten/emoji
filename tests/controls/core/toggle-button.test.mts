@@ -20,7 +20,10 @@ const markup = ToggleButtonControl.toMarkup({
 assert.match(markup, /^<label class="toggle-demo"/);
 assert.match(markup, /aria-label="Demo"/);
 assert.match(markup, /data-theme="dark"/);
-assert.match(markup, /<input class="toggle-input" checked="checked" type="checkbox" value="dark"><\/input>/);
+assert.match(
+  markup,
+  /<input class="toggle-input" checked="checked" type="checkbox" value="dark"><\/input>/,
+);
 assert.match(markup, /class="toggle-emoji" aria-hidden="true">🌙<\/span>/);
 assert.match(markup, /class="toggle-label" data-i18n="dark">Dark<\/span>/);
 

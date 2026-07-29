@@ -74,9 +74,15 @@ for (const asset of [
   );
 }
 assert.ok(
-  serviceWorker.includes(`"./explorer/themes/dark.css?v=${packageJson.version}"`) &&
-    serviceWorker.includes(`"./explorer/themes/light/light.css?v=${packageJson.version}"`) &&
-    serviceWorker.includes(`"./explorer/themes/ega.css?v=${packageJson.version}"`) &&
+  serviceWorker.includes(
+    `"./explorer/themes/dark.css?v=${packageJson.version}"`,
+  ) &&
+    serviceWorker.includes(
+      `"./explorer/themes/light/light.css?v=${packageJson.version}"`,
+    ) &&
+    serviceWorker.includes(
+      `"./explorer/themes/ega.css?v=${packageJson.version}"`,
+    ) &&
     serviceWorker.includes(
       `./explorer/themes/retro/retro.css?v=${packageJson.version}`,
     ) &&

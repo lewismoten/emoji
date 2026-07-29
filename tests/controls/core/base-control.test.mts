@@ -84,9 +84,8 @@ assert.equal((documentRef.head.children[0] as FakeElement).id, "parent-style");
 assert.equal((documentRef.head.children[1] as FakeElement).id, "child-style");
 
 const fallbackHeadChildren: FakeElement[] = [];
-const originalDocument = (
-  globalThis as typeof globalThis & { document?: any }
-).document;
+const originalDocument = (globalThis as typeof globalThis & { document?: any })
+  .document;
 (globalThis as typeof globalThis & { document: any }).document = {
   createElement(tagName: string) {
     return new FakeElement(tagName);
@@ -102,6 +101,7 @@ const originalDocument = (
 };
 new AssetParentControl({ label: "Fallback" }).create();
 assert.equal(fallbackHeadChildren.length, 2);
-(globalThis as typeof globalThis & { document: any }).document = originalDocument;
+(globalThis as typeof globalThis & { document: any }).document =
+  originalDocument;
 
 restore();

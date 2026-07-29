@@ -67,7 +67,10 @@ function createDocumentStub(locale = "en") {
   return { documentStub, byClass };
 }
 
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 const { documentStub, byClass } = createDocumentStub("en");
 Object.defineProperty(globalThis, "document", {
   configurable: true,
@@ -91,7 +94,9 @@ try {
     dialogNavigationKeys: ["old"],
     displayedKeys: ["missing", "wrappedGift"],
     emojiByKey: { wrappedGift: "🎁" },
-    items: [{ key: "wrappedGift", group: "Activities", unicodeSubGroup: "event" }],
+    items: [
+      { key: "wrappedGift", group: "Activities", unicodeSubGroup: "event" },
+    ],
     searchAnnotations: { wrappedGift: ["gift", "present"] },
     selectedSearchLocale: "en-GB",
   };
@@ -134,7 +139,13 @@ try {
   assert.equal(state.currentEmojiKey, "before");
   assert.equal(updateDialogNavigationCalls, 0);
 
-  controller.showEmoji("wrappedGift", false, ["missing", "wrappedGift"], "editor", "help");
+  controller.showEmoji(
+    "wrappedGift",
+    false,
+    ["missing", "wrappedGift"],
+    "editor",
+    "help",
+  );
   assert.equal(state.currentEmojiKey, "wrappedGift");
   assert.deepEqual(state.dialogNavigationKeys, ["wrappedGift"]);
   assert.deepEqual(state.currentDialogParentStack, ["help"]);

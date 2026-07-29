@@ -5,7 +5,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 // coverage target: ../../src/app/navigation-runtime.js
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/navigation-runtime.ts"),
   "utf8",
@@ -179,7 +182,12 @@ assert.equal(call.versionSelector(), "version-selector");
 assert.equal(call.openEmoji("wave", true, ["a", "b"], "code")[0], "show-emoji");
 assert.deepEqual(showEmojiCalls[0], ["wave", true, ["a", "b"], "code"]);
 call.openEmoji("sparkles");
-assert.deepEqual(showEmojiCalls[1], ["sparkles", false, ["wave", "sparkles"], undefined]);
+assert.deepEqual(showEmojiCalls[1], [
+  "sparkles",
+  false,
+  ["wave", "sparkles"],
+  undefined,
+]);
 
 call.closeEmojiDialog();
 assert.deepEqual(suppressCalls, [true, false]);

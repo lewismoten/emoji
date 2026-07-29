@@ -66,7 +66,10 @@ const markupAttributes = (spec: NodeSpec) => {
   });
   Object.entries(spec.dataset ?? {}).forEach(([name, value]) => {
     if (value !== undefined) {
-      const attribute = name.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
+      const attribute = name.replace(
+        /[A-Z]/g,
+        (letter) => `-${letter.toLowerCase()}`,
+      );
       values.push(`data-${attribute}="${escapeHtml(value)}"`);
     }
   });
@@ -84,7 +87,9 @@ export class DomFactory {
     const children = [
       ...(spec.text !== undefined ? [escapeHtml(spec.text)] : []),
       ...(spec.children ?? []).map((child) =>
-        typeof child === "string" ? escapeHtml(child) : DomFactory.toMarkup(child),
+        typeof child === "string"
+          ? escapeHtml(child)
+          : DomFactory.toMarkup(child),
       ),
     ].join("");
     return `<${spec.tag}${markupAttributes(spec)}>${children}</${spec.tag}>`;
@@ -106,4 +111,3 @@ export class DomFactory {
     return { ...spec, tag } satisfies NodeSpec;
   }
 }
-

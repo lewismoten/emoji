@@ -133,26 +133,25 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-transfer.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-transfer.mjs")).href
 );
 const geometryStub = await import(
   pathToFileURL(
     path.join(tempDirectory, "pixel-editor-geometry-helpers-stub.mjs"),
-  ).href,
+  ).href
 );
 const helperStub = await import(
   pathToFileURL(
     path.join(tempDirectory, "pixel-editor-transfer-skin-tone-stub.mjs"),
-  ).href,
+  ).href
 );
 const layerStub = await import(
-  pathToFileURL(
-    path.join(tempDirectory, "pixel-editor-layer-helpers-stub.mjs"),
-  ).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-layer-helpers-stub.mjs"))
+    .href
 );
 const skinToneStub = await import(
   pathToFileURL(path.join(tempDirectory, "pixel-editor-skin-tone-stub.mjs"))
-    .href,
+    .href
 );
 
 const originalFetch = Object.getOwnPropertyDescriptor(globalThis, "fetch");
@@ -262,7 +261,10 @@ try {
   });
 
   controller.copyPixelArt();
-  assert.equal(sourceModuleSpecifier, "../../src/pixel-editor/controllers/pixel-editor-transfer.js");
+  assert.equal(
+    sourceModuleSpecifier,
+    "../../src/pixel-editor/controllers/pixel-editor-transfer.js",
+  );
   assert.equal(clipboard.kind, "art");
   assert.deepEqual(Array.from(clipboard.pixels), [9, 9, 9, 255]);
   assert.equal(statuses.at(-1), "Pixel art copied.");
@@ -289,21 +291,25 @@ try {
   await controller.copyFontGlyph({ disabled: false });
   assert.equal(statuses.at(-1), "The custom font glyph could not be copied.");
 
-  Object.defineProperty(globalThis, "fetch", originalFetch?.value
-    ? originalFetch
-    : {
-        configurable: true,
-        value: async (url: string) => {
-          calls.push(`fetch:${url}`);
-          return {
-            ok: true,
-            async blob() {
-              return { atlas: "font-blob" };
-            },
-            headers: { get: () => "image/png" },
-          };
+  Object.defineProperty(
+    globalThis,
+    "fetch",
+    originalFetch?.value
+      ? originalFetch
+      : {
+          configurable: true,
+          value: async (url: string) => {
+            calls.push(`fetch:${url}`);
+            return {
+              ok: true,
+              async blob() {
+                return { atlas: "font-blob" };
+              },
+              headers: { get: () => "image/png" },
+            };
+          },
         },
-      });
+  );
 
   clipboard = {
     kind: "art",
@@ -323,7 +329,10 @@ try {
   assert.deepEqual(canvasFocusCalls.at(-1), { preventScroll: true });
   assert.equal(statuses.at(-1), "Artwork pasted as a floating layer.");
   assert.equal(helperStub.helperCalls.length, 1);
-  assert.equal(skinToneStub.skinToneCalls.some((entry: any[]) => entry[0] === "remap"), true);
+  assert.equal(
+    skinToneStub.skinToneCalls.some((entry: any[]) => entry[0] === "remap"),
+    true,
+  );
 
   floatingLayer = { ...floatingLayer, x: 1, y: 1, width: 2, height: 2 };
   controller.moveFloatingLayer(1, 2);
@@ -348,7 +357,14 @@ try {
   assert.equal(floatingLayer, undefined);
   assert.equal(statuses.at(-1), "Floating layer merged into the artwork.");
 
-  floatingLayer = { x: 0, y: 0, width: 1, height: 1, pixels: new Uint8ClampedArray([1, 1, 1, 255]), inverted: false };
+  floatingLayer = {
+    x: 0,
+    y: 0,
+    width: 1,
+    height: 1,
+    pixels: new Uint8ClampedArray([1, 1, 1, 255]),
+    inverted: false,
+  };
   controller.toggleFloatingLayerInversion();
   assert.equal(floatingLayer.inverted, true);
   controller.cancelFloatingLayer();
@@ -362,8 +378,16 @@ try {
   controller.copyPixelArt();
   controller.copySelection();
   await controller.pastePixelArt();
-  assert.equal(geometryStub.geometryCalls.some((entry: any[]) => entry[0] === "trimVisiblePixels"), true);
-  assert.equal(layerStub.layerCalls.some((entry: any[]) => entry[0] === "compositeLayer"), true);
+  assert.equal(
+    geometryStub.geometryCalls.some(
+      (entry: any[]) => entry[0] === "trimVisiblePixels",
+    ),
+    true,
+  );
+  assert.equal(
+    layerStub.layerCalls.some((entry: any[]) => entry[0] === "compositeLayer"),
+    true,
+  );
 } finally {
   if (originalFetch) Object.defineProperty(globalThis, "fetch", originalFetch);
   else Reflect.deleteProperty(globalThis, "fetch");

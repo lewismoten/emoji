@@ -9,7 +9,4 @@ const source = await fs.readFile(
 );
 
 assert.equal(moduleSpecifier, "../src/explorer-bootstrap.js");
-assert.match(
-  source,
-  /^import "\.\/app\/explorer-bootstrap-session\.js";\s*$/,
-);
+assert.match(source, /^import "\.\/app\/explorer-bootstrap-session\.js";\s*$/);

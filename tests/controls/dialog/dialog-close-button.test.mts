@@ -56,9 +56,9 @@ assert.match(customMarkup, /data-i18n-aria-label="close"/);
 assert.match(customMarkup, /aria-label="Close"/);
 
 DialogCloseButtonControl.create();
-const duplicateStylesheets = (documentRef.head.children as FakeElement[]).filter(
-  (child) => child.tagName === "LINK",
-);
+const duplicateStylesheets = (
+  documentRef.head.children as FakeElement[]
+).filter((child) => child.tagName === "LINK");
 assert.equal(duplicateStylesheets.length, 1);
 
 assert.throws(

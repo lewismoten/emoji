@@ -1,6 +1,9 @@
 // @ts-nocheck -- Transitional TypeScript migration.
 import { CELL_SIZE } from "../core/pixel-editor-constants.js";
-import { canvasToPng, drawBitmapText } from "../canvas/pixel-editor-canvas-helpers.js";
+import {
+  canvasToPng,
+  drawBitmapText,
+} from "../canvas/pixel-editor-canvas-helpers.js";
 
 export async function getNestedFileHandle(root, relativePath, create = false) {
   const parts = relativePath.split("/");

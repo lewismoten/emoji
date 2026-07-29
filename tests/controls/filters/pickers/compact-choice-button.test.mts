@@ -22,7 +22,9 @@ assert.match(markup, /class="compact-choice-emoji"[^>]*>😀<\/span>/);
 assert.match(markup, /class="compact-choice-label">Smileys<\/span>/);
 
 const restore = installFakeDocument();
-const globals = globalThis as typeof globalThis & { document: { head: FakeElement } };
+const globals = globalThis as typeof globalThis & {
+  document: { head: FakeElement };
+};
 const button = new CompactChoiceButtonControl({
   ariaLabel: "Objects",
   emoji: "📦",

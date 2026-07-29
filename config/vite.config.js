@@ -118,8 +118,7 @@ const devStylesheetRewrites = new Map([
   ["./explorer/index.css", "./src/site/index.css"],
 ]);
 
-const escapeRegExp = (value) =>
-  value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const rewriteDevelopmentStylesheets = (html) => {
   let result = html;
@@ -162,7 +161,10 @@ export default defineConfig({
             response.setHeader("Cache-Control", "no-store");
           }
           for (const [publicPrefix, sourceDirectory] of devJsonAssetPaths) {
-            if (pathname.startsWith(publicPrefix) && ["GET", "HEAD"].includes(method)) {
+            if (
+              pathname.startsWith(publicPrefix) &&
+              ["GET", "HEAD"].includes(method)
+            ) {
               const relativePath = pathname.slice(publicPrefix.length);
               const source = path.join(sourceDirectory, relativePath);
               if (!fs.existsSync(source)) {
@@ -171,9 +173,14 @@ export default defineConfig({
                 return;
               }
               response.statusCode = 200;
-              response.setHeader("Content-Type", "application/json; charset=utf-8");
+              response.setHeader(
+                "Content-Type",
+                "application/json; charset=utf-8",
+              );
               response.setHeader("Cache-Control", "no-cache");
-              response.end(method === "HEAD" ? undefined : fs.readFileSync(source));
+              response.end(
+                method === "HEAD" ? undefined : fs.readFileSync(source),
+              );
               return;
             }
           }

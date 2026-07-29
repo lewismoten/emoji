@@ -194,7 +194,10 @@ assert.deepEqual(calls.slice(-3), [
 const controller = buildExplorerBootstrapControllerOptions(options);
 assert.equal(controller.animateCopy, options.animateCopy);
 assert.equal(controller.applyPixelArtworkClass, options.applyPixelArtworkClass);
-assert.equal(controller.sequenceTranslationKeys, options.sequenceTranslationKeys);
+assert.equal(
+  controller.sequenceTranslationKeys,
+  options.sequenceTranslationKeys,
+);
 assert.equal(controller.unassigned, "\u0000");
 assert.equal(controller.groupSelector(), "groupSelector-value");
 assert.equal(controller.state(), state);

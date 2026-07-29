@@ -17,10 +17,7 @@ const transformedSource = source
     'from "./explorer/control-startup.js";',
     'from "./control-startup-stub.mjs";',
   )
-  .replace(
-    'from "./explorer/pwa-panels.js";',
-    'from "./pwa-panels-stub.mjs";',
-  );
+  .replace('from "./explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";');
 
 const tempRoot = path.join(root, "build/tests/.tmp");
 await fs.mkdir(tempRoot, { recursive: true });
@@ -74,20 +71,23 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(path.join(tempDirectory, "explorer-app.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "explorer-app.mjs")).href
 );
 const accessibilityStub = await import(
-  pathToFileURL(path.join(tempDirectory, "event-accessibility-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "event-accessibility-stub.mjs")).href
 );
 const controlStub = await import(
-  pathToFileURL(path.join(tempDirectory, "control-startup-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "control-startup-stub.mjs")).href
 );
 const panelStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pwa-panels-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pwa-panels-stub.mjs")).href
 );
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 
 const createEventTarget = () => {
   const listeners = new Map<string, Function[]>();
@@ -311,11 +311,26 @@ try {
   assert.equal(onlineOfflineListeners.get("online")?.length, 1);
   assert.equal(onlineOfflineListeners.get("offline")?.length, 1);
   assert.equal(mediaListeners.length, 1);
-  assert.equal(searchText.listeners.get("input")?.[0], bindsOptions.scheduleSearchDraw);
-  assert.equal(choiceOne.listeners.get("click")?.[0], bindsOptions.selectEmojiFont);
-  assert.equal(themeChoice.listeners.get("click")?.[0], bindsOptions.selectTheme);
-  assert.equal(themeChoice.listeners.get("keydown")?.[0], "theme-keydown-handler");
-  assert.equal(versionModeToggle.listeners.get("click")?.[0], bindsOptions.toggleVersionMode);
+  assert.equal(
+    searchText.listeners.get("input")?.[0],
+    bindsOptions.scheduleSearchDraw,
+  );
+  assert.equal(
+    choiceOne.listeners.get("click")?.[0],
+    bindsOptions.selectEmojiFont,
+  );
+  assert.equal(
+    themeChoice.listeners.get("click")?.[0],
+    bindsOptions.selectTheme,
+  );
+  assert.equal(
+    themeChoice.listeners.get("keydown")?.[0],
+    "theme-keydown-handler",
+  );
+  assert.equal(
+    versionModeToggle.listeners.get("click")?.[0],
+    bindsOptions.toggleVersionMode,
+  );
   versionPrevious.listeners.get("click")?.[0]();
   versionNext.listeners.get("click")?.[0]();
   emojiPrevious.listeners.get("click")?.[0]();
@@ -347,8 +362,10 @@ try {
   assert.deepEqual(controlStub.finalizeCalls, [{ id: "startup" }]);
   assert.equal(sourceModuleSpecifier, "../src/explorer-app.js");
 } finally {
-  if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
+  if (originalWindow)
+    Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");
-  if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+  if (originalDocument)
+    Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");
 }

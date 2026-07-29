@@ -34,7 +34,8 @@ class FakeElement {
 }
 
 const originalQueueMicrotask = globalThis.queueMicrotask;
-globalThis.queueMicrotask = ((callback: () => void) => callback()) as typeof queueMicrotask;
+globalThis.queueMicrotask = ((callback: () => void) =>
+  callback()) as typeof queueMicrotask;
 
 const dialog = new FakeElement();
 dialog.dataset.dialogParentPanel = "";
@@ -121,18 +122,21 @@ assert.equal(syncUrlStateCalls.length, 1);
 
 runtime.setView("code");
 await Promise.resolve();
-assert.equal((dialog.classList.contains("is-code-view")), true);
+assert.equal(dialog.classList.contains("is-code-view"), true);
 assert.equal(details.hidden, true);
 assert.equal(codeView.hidden, false);
 assert.equal(modeBack.hidden, false);
-assert.deepEqual(updateImportExamplesCalls, [{ key: "wrappedGift" }, { key: "wrappedGift" }]);
+assert.deepEqual(updateImportExamplesCalls, [
+  { key: "wrappedGift" },
+  { key: "wrappedGift" },
+]);
 assert.equal(eyebrow.textContent, "Code example:codeExample");
 
 runtime.focusInitialAction();
 assert.equal(codeCopy.focused, 1);
 
 runtime.setView("editor");
-assert.equal((dialog.classList.contains("is-editor-view")), true);
+assert.equal(dialog.classList.contains("is-editor-view"), true);
 assert.deepEqual(editorOpenCalls, [["wrappedGift", "🎁"]]);
 assert.equal(pixelEditor.element.hidden, false);
 

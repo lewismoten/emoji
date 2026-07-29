@@ -65,7 +65,13 @@ assert.deepEqual(
 assert.deepEqual(skinToneSequenceAny([]), []);
 
 assert.equal(
-  skinToneBaseSequenceAny([light.codePoint, "1f469", "200d", dark.codePoint, "1f52c"]),
+  skinToneBaseSequenceAny([
+    light.codePoint,
+    "1f469",
+    "200d",
+    dark.codePoint,
+    "1f52c",
+  ]),
   "1F469 200D 1F52C",
 );
 assert.equal(skinToneBaseSequenceAny([]), "");
@@ -79,13 +85,7 @@ assert.deepEqual(
   Array.from(unchangedPixels),
 );
 assert.deepEqual(
-  Array.from(
-    remapSkinTonePixelsAny(
-      unchangedPixels,
-      [light.codePoint],
-      [],
-    ),
-  ),
+  Array.from(remapSkinTonePixelsAny(unchangedPixels, [light.codePoint], [])),
   Array.from(unchangedPixels),
 );
 assert.deepEqual(
@@ -111,14 +111,20 @@ const remappedFallbackShade = remapSkinTonePixelsAny(
   [medium.codePoint],
   [dark.codePoint],
 );
-assert.deepEqual(Array.from(remappedFallbackShade), hexToRgba(mediumDark.color));
+assert.deepEqual(
+  Array.from(remappedFallbackShade),
+  hexToRgba(mediumDark.color),
+);
 
 const remappedEndpointLight = remapSkinTonePixelsAny(
   new Uint8ClampedArray([...hexToRgba(mediumLight.color)]),
   [medium.codePoint],
   [light.codePoint],
 );
-assert.deepEqual(Array.from(remappedEndpointLight), hexToRgba(EGA_COLORS.at(-1)!));
+assert.deepEqual(
+  Array.from(remappedEndpointLight),
+  hexToRgba(EGA_COLORS.at(-1)!),
+);
 
 const remappedEndpointDark = remapSkinTonePixelsAny(
   new Uint8ClampedArray([...hexToRgba(mediumDark.color)]),
@@ -146,8 +152,14 @@ const helperRemapped = remapSkinTonePixelsAny(
     offsetY: 0,
   },
 );
-assert.deepEqual(Array.from(helperRemapped.slice(0, 4)), hexToRgba(medium.color));
-assert.deepEqual(Array.from(helperRemapped.slice(8, 12)), hexToRgba(mediumLight.color));
+assert.deepEqual(
+  Array.from(helperRemapped.slice(0, 4)),
+  hexToRgba(medium.color),
+);
+assert.deepEqual(
+  Array.from(helperRemapped.slice(8, 12)),
+  hexToRgba(mediumLight.color),
+);
 
 const transparentPixels = new Uint8ClampedArray([0, 0, 0, 0]);
 assert.deepEqual(
@@ -164,8 +176,14 @@ assert.deepEqual(
 const ownershipPixels = new Uint8ClampedArray([
   ...hexToRgba(light.color),
   ...hexToRgba(dark.color),
-  0, 0, 0, 0,
-  0, 0, 0, 0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
 ]);
 const ownership = buildSkinToneOwnershipAny(
   ownershipPixels,
@@ -182,7 +200,10 @@ assert.ok([0, 1].includes(ownership[3]));
 const tiedOwnership = buildSkinToneOwnershipAny(
   new Uint8ClampedArray([
     ...hexToRgba(light.color),
-    0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
     ...hexToRgba(dark.color),
   ]),
   [dark.codePoint, light.codePoint],
@@ -215,10 +236,7 @@ assert.equal(
 );
 
 const twoPerson = buildTwoPersonOwnershipAny(5, 2);
-assert.deepEqual(Array.from(twoPerson), [
-  0, 0, 0, 1, 1,
-  0, 0, 0, 1, 1,
-]);
+assert.deepEqual(Array.from(twoPerson), [0, 0, 0, 1, 1, 0, 0, 0, 1, 1]);
 assert.equal(buildTwoPersonOwnershipAny().length, CELL_SIZE * CELL_SIZE);
 
 assert.equal(

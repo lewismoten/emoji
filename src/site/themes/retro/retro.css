@@ -60,7 +60,8 @@ html[data-theme="retro"] {
   --focus-size: 2px;
   --focus-offset: 4px;
   --focus-outline: var(--focus-size) var(--focus-style) var(--focus-color);
-  --focus-outline-strong: var(--focus-size) var(--focus-style) var(--focus-color);
+  --focus-outline-strong: var(--focus-size) var(--focus-style)
+    var(--focus-color);
   --focus-outline-offset: var(--focus-offset);
   --radius-xs: 0;
   --radius-sm: 0;

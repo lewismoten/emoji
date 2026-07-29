@@ -36,4 +36,7 @@ assert.match(
 assert.match(markup, /class="example-input"/);
 assert.match(markup, /value="alpha"/);
 assert.match(markup, /class="modifier-emoji" aria-hidden="true">🧪<\/span>/);
-assert.match(markup, /class="modifier-label" data-i18n="example">Example<\/span>/);
+assert.match(
+  markup,
+  /class="modifier-label" data-i18n="example">Example<\/span>/,
+);

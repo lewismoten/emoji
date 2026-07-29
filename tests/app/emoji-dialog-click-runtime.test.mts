@@ -52,8 +52,18 @@ const originalWindow = globalThis.window;
 };
 
 const dialog = new FakeDialog();
-const backButton = { focused: 0, focus() { this.focused += 1; } };
-const editorCanvas = { focused: 0, focus() { this.focused += 1; } };
+const backButton = {
+  focused: 0,
+  focus() {
+    this.focused += 1;
+  },
+};
+const editorCanvas = {
+  focused: 0,
+  focus() {
+    this.focused += 1;
+  },
+};
 dialog.focusTargets.set(".dialog-mode-back:not([hidden])", backButton);
 dialog.focusTargets.set(".pixel-editor-canvas", editorCanvas);
 
@@ -121,7 +131,9 @@ assert.deepEqual(syncUrlStateCalls[0], ["replace", { keep: true }]);
 
 handler({
   target: new FakeTarget({
-    "[data-composition-emoji]": { dataset: { compositionEmoji: "partyPopper" } },
+    "[data-composition-emoji]": {
+      dataset: { compositionEmoji: "partyPopper" },
+    },
   }),
 } as unknown as MouseEvent);
 assert.deepEqual(showEmojiCalls, [["partyPopper", false]]);
@@ -161,14 +173,12 @@ assert.equal(compositionToggles, 1);
 assert.equal(compositionRefreshes, 1);
 assert.deepEqual(syncUrlStateCalls.at(-1), []);
 
-const previewButton = new FakeTarget(
-  {
-    "[data-copy]": {
-      dataset: { copy: "emoji" },
-      matches: (selector: string) => selector === ".emoji-preview",
-    },
+const previewButton = new FakeTarget({
+  "[data-copy]": {
+    dataset: { copy: "emoji" },
+    matches: (selector: string) => selector === ".emoji-preview",
   },
-);
+});
 handler({ target: previewButton } as unknown as MouseEvent);
 await Promise.resolve();
 assert.deepEqual(copyCalls[0], ["🎁", "Emoji copied to the clipboard."]);

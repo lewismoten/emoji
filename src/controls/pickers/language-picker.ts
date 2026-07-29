@@ -2,7 +2,8 @@ import { BaseControl } from "../core/base-control.js";
 import { DomFactory } from "../core/dom-factory.js";
 
 const languagePickerStylesheetId = "language-picker-control-stylesheet";
-const languagePickerStylesheetHref = "./explorer/controls/pickers/language-picker.css";
+const languagePickerStylesheetHref =
+  "./explorer/controls/pickers/language-picker.css";
 
 type LanguagePickerState = {
   accessibleLabel: string;

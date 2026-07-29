@@ -25,7 +25,10 @@ const stylesheets = (documentRef.head.children as FakeElement[]).filter(
 );
 assert.equal(stylesheets.length, 2);
 assert.equal(stylesheets[0]?.id, "dialog-heading-control-stylesheet");
-assert.equal(stylesheets[0]?.href, "./explorer/controls/dialog/dialog-heading.css");
+assert.equal(
+  stylesheets[0]?.href,
+  "./explorer/controls/dialog/dialog-heading.css",
+);
 assert.equal(stylesheets[1]?.id, "dialog-close-button-control-stylesheet");
 assert.equal(
   stylesheets[1]?.href,
@@ -33,17 +36,23 @@ assert.equal(
 );
 assert.equal(heading.className, "dialog-heading");
 assert.equal(heading.children.length, 2);
-assert.equal((heading.children[0] as FakeElement).className, "dialog-title-row");
+assert.equal(
+  (heading.children[0] as FakeElement).className,
+  "dialog-title-row",
+);
 assert.equal((heading.children[1] as FakeElement).className, "dialog-controls");
-assert.equal((heading.children[1] as FakeElement).children[0] instanceof FakeElement, true);
+assert.equal(
+  (heading.children[1] as FakeElement).children[0] instanceof FakeElement,
+  true,
+);
 assert.equal(
   ((heading.children[1] as FakeElement).children[0] as FakeElement).tagName,
   "FORM",
 );
 assert.equal(
   (
-    (((heading.children[1] as FakeElement).children[0] as FakeElement)
-      .children[0] as FakeElement)
+    ((heading.children[1] as FakeElement).children[0] as FakeElement)
+      .children[0] as FakeElement
   ).className,
   "dialog-close",
 );
@@ -77,7 +86,10 @@ const headingWithCustomClose = DialogHeadingControl.toMarkup({
 assert.match(headingWithCustomClose, /class="dialog-close alt-close"/);
 assert.match(headingWithCustomClose, /class="custom-heading"/);
 assert.match(headingWithCustomClose, /class="custom-title-row"/);
-assert.match(headingWithCustomClose, /<h2 id="plain-title" data-i18n="plainTitle">Plain title<\/h2>/);
+assert.match(
+  headingWithCustomClose,
+  /<h2 id="plain-title" data-i18n="plainTitle">Plain title<\/h2>/,
+);
 assert.doesNotMatch(headingWithCustomClose, /class="eyebrow"/);
 
 const headingSpec = DialogHeadingControl.toSpec({
@@ -88,16 +100,19 @@ const headingSpec = DialogHeadingControl.toSpec({
 assert.equal(headingSpec.className, "dialog-heading");
 
 const closeMarkup = DialogCloseButtonControl.toMarkup();
-assert.match(headingMarkup, new RegExp(closeMarkup.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+assert.match(
+  headingMarkup,
+  new RegExp(closeMarkup.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")),
+);
 
 DialogHeadingControl.create({
   title: "Second",
   titleId: "second-title",
   titleKey: "secondTitle",
 });
-const duplicateStylesheets = (documentRef.head.children as FakeElement[]).filter(
-  (child) => child.tagName === "LINK",
-);
+const duplicateStylesheets = (
+  documentRef.head.children as FakeElement[]
+).filter((child) => child.tagName === "LINK");
 assert.equal(duplicateStylesheets.length, 2);
 
 restore();

@@ -94,18 +94,17 @@ await fs.writeFile(
 );
 
 const module = await import(
-  pathToFileURL(
-    path.join(tempDirectory, "pixel-editor-controller-session.mjs"),
-  ).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-controller-session.mjs"))
+    .href
 );
 const atlasStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-atlas-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-atlas-stub.mjs")).href
 );
 const inputStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-atlas-io-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-atlas-io-stub.mjs")).href
 );
 const sessionStub = await import(
-  pathToFileURL(path.join(tempDirectory, "pixel-editor-session-stub.mjs")).href,
+  pathToFileURL(path.join(tempDirectory, "pixel-editor-session-stub.mjs")).href
 );
 
 const state: any = {
@@ -199,13 +198,25 @@ const sessionOptions = sessionStub.sessionCalls[0];
 assert.equal(sessionOptions.cellSize, 12);
 assert.equal(sessionOptions.downloadButton, elements.downloadButton);
 assert.equal(sessionOptions.saveButton, elements.saveButton);
-assert.equal(sessionOptions.loadManifest, visual.runtimeController.loadManifest);
+assert.equal(
+  sessionOptions.loadManifest,
+  visual.runtimeController.loadManifest,
+);
 assert.equal(sessionOptions.paletteController, visual.paletteController);
 assert.equal(sessionOptions.previewController, visual.previewController);
 assert.equal(sessionOptions.renderController, visual.renderController);
-assert.equal(sessionOptions.refreshRuntimeFontBuild, visual.runtimeController.refreshFontBuild);
-assert.equal(sessionOptions.refreshRuntimeTranslations, visual.runtimeController.refreshTranslations);
-assert.equal(sessionOptions.renderLocationText, visual.runtimeController.renderLocationText);
+assert.equal(
+  sessionOptions.refreshRuntimeFontBuild,
+  visual.runtimeController.refreshFontBuild,
+);
+assert.equal(
+  sessionOptions.refreshRuntimeTranslations,
+  visual.runtimeController.refreshTranslations,
+);
+assert.equal(
+  sessionOptions.renderLocationText,
+  visual.runtimeController.renderLocationText,
+);
 sessionOptions.setAtlasDimensions(30, 40);
 sessionOptions.setCurrentEmoji("🙂");
 sessionOptions.setCurrentEntry({ key: "wave" });
@@ -263,8 +274,14 @@ assert.equal(inputOptions.canvas, elements.canvas);
 assert.equal(inputOptions.copyArtButton, elements.copyArtButton);
 assert.equal(inputOptions.copySelectionButton, elements.copySelectionButton);
 assert.equal(inputOptions.copyPixelArt, visual.transferController.copyPixelArt);
-assert.equal(inputOptions.copySelection, visual.transferController.copySelection);
-assert.equal(inputOptions.pastePixelArt, visual.transferController.pastePixelArt);
+assert.equal(
+  inputOptions.copySelection,
+  visual.transferController.copySelection,
+);
+assert.equal(
+  inputOptions.pastePixelArt,
+  visual.transferController.pastePixelArt,
+);
 assert.equal(inputOptions.undo, visual.runtimeController.undo);
 assert.equal(inputOptions.redo, visual.runtimeController.redo);
 assert.equal(inputOptions.paletteController, visual.paletteController);

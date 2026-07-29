@@ -48,7 +48,10 @@ const engineStub = await import(
   pathToFileURL(path.join(tempDirectory, "explorer-audio-engine-stub.mjs")).href
 );
 
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 const originalMutationObserver = Object.getOwnPropertyDescriptor(
   globalThis,
   "MutationObserver",
@@ -194,7 +197,9 @@ try {
   listeners.get("pointerdown")?.[0]();
   listeners.get("keydown")?.[0]();
   assert.equal(
-    engineStub.engineCalls.filter((call: any[]) => call[0] === "resumeAudioContext").length >= 2,
+    engineStub.engineCalls.filter(
+      (call: any[]) => call[0] === "resumeAudioContext",
+    ).length >= 2,
     true,
   );
 
@@ -220,7 +225,8 @@ try {
     true,
   );
   assert.equal(
-    engineStub.engineCalls.filter((call: any[]) => call[0] === "playHover").length,
+    engineStub.engineCalls.filter((call: any[]) => call[0] === "playHover")
+      .length,
     1,
   );
 
@@ -256,20 +262,32 @@ try {
 
   controller.syncHelpMusic();
   assert.equal(
-    engineStub.engineCalls.filter((call: any[]) => call[0] === "syncHelpMusic").length >= 2,
+    engineStub.engineCalls.filter((call: any[]) => call[0] === "syncHelpMusic")
+      .length >= 2,
     true,
   );
 } finally {
-  if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+  if (originalDocument)
+    Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");
   if (originalMutationObserver) {
-    Object.defineProperty(globalThis, "MutationObserver", originalMutationObserver);
+    Object.defineProperty(
+      globalThis,
+      "MutationObserver",
+      originalMutationObserver,
+    );
   } else Reflect.deleteProperty(globalThis, "MutationObserver");
-  if (originalElement) Object.defineProperty(globalThis, "Element", originalElement);
+  if (originalElement)
+    Object.defineProperty(globalThis, "Element", originalElement);
   else Reflect.deleteProperty(globalThis, "Element");
-  if (originalHTMLElement) Object.defineProperty(globalThis, "HTMLElement", originalHTMLElement);
+  if (originalHTMLElement)
+    Object.defineProperty(globalThis, "HTMLElement", originalHTMLElement);
   else Reflect.deleteProperty(globalThis, "HTMLElement");
   if (originalHTMLDialogElement) {
-    Object.defineProperty(globalThis, "HTMLDialogElement", originalHTMLDialogElement);
+    Object.defineProperty(
+      globalThis,
+      "HTMLDialogElement",
+      originalHTMLDialogElement,
+    );
   } else Reflect.deleteProperty(globalThis, "HTMLDialogElement");
 }

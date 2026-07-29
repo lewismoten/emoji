@@ -25,14 +25,19 @@ assert.match(
   markup,
   /class="sr-only" id="language-picker-accessible-label" data-i18n="chooseLanguage"/,
 );
-assert.match(markup, /class="language-picker-flag" aria-hidden="true">🇺🇸<\/span>/);
+assert.match(
+  markup,
+  /class="language-picker-flag" aria-hidden="true">🇺🇸<\/span>/,
+);
 assert.match(
   markup,
   /class="language-picker-label" id="language-picker-current-label" data-i18n="language"/,
 );
 
 const restore = installFakeDocument();
-const globals = globalThis as typeof globalThis & { document: { head: FakeElement } };
+const globals = globalThis as typeof globalThis & {
+  document: { head: FakeElement };
+};
 const button = new LanguagePickerControl({
   accessibleLabel: "Choose language",
   accessibleLabelId: "picker-accessible",

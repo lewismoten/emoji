@@ -5,7 +5,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 // coverage target: ../../src/app/explorer-shell.js
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/explorer-shell.ts"),
   "utf8",
@@ -20,14 +23,8 @@ const transformedSource = sourceText
     'import { createExplorerAudioController } from "../explorer-audio.js";',
     'import { createExplorerAudioController } from "./explorer-audio-stub.mjs";',
   )
-  .replace(
-    'from "../explorer/pwa-panels.js";',
-    'from "./pwa-panels-stub.mjs";',
-  )
-  .replace(
-    'from "../explorer-ui.js";',
-    'from "./explorer-ui-stub.mjs";',
-  )
+  .replace('from "../explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";')
+  .replace('from "../explorer-ui.js";', 'from "./explorer-ui-stub.mjs";')
   .replace(/options: any/g, "options")
   .replace(/keys: string\[\]/g, "keys")
   .replace(/event: Event/g, "event")
@@ -41,7 +38,10 @@ const tempDirectory = await fs.mkdtemp(
 );
 
 const writeStub = async (filename: string, lines: string[]) => {
-  await fs.writeFile(path.join(tempDirectory, filename), `${lines.join("\n")}\n`);
+  await fs.writeFile(
+    path.join(tempDirectory, filename),
+    `${lines.join("\n")}\n`,
+  );
 };
 
 await writeStub("saved-emoji-stub.mjs", [
@@ -134,7 +134,8 @@ Object.defineProperty(globalThis, "window", {
   configurable: true,
   value: {
     addEventListener(type: string, handler: (...args: unknown[]) => unknown) {
-      if (type === "beforeinstallprompt") beforeInstallHandlers.push(handler as any);
+      if (type === "beforeinstallprompt")
+        beforeInstallHandlers.push(handler as any);
       if (type === "appinstalled") appInstalledHandlers.push(handler as any);
     },
   },
@@ -189,7 +190,8 @@ try {
     refreshRenderedPixelEmoji: "refresh-rendered-pixel-emoji",
     renderVersionModeToggle: () => ["render-version-mode-toggle"],
     renderCategoryFilters: () => {
-      state.renderCategoryFiltersCalls = (state.renderCategoryFiltersCalls ?? 0) + 1;
+      state.renderCategoryFiltersCalls =
+        (state.renderCategoryFiltersCalls ?? 0) + 1;
     },
     savePreference: "save-preference",
     savedDialog: () => "saved-dialog",
@@ -203,10 +205,18 @@ try {
     versionSelector: () => versionSelector,
   });
 
-  const savedEmojiStub = await import(pathToFileURL(path.join(tempDirectory, "saved-emoji-stub.mjs")).href);
-  const audioStub = await import(pathToFileURL(path.join(tempDirectory, "explorer-audio-stub.mjs")).href);
-  const pwaStub = await import(pathToFileURL(path.join(tempDirectory, "pwa-panels-stub.mjs")).href);
-  const uiStub = await import(pathToFileURL(path.join(tempDirectory, "explorer-ui-stub.mjs")).href);
+  const savedEmojiStub = await import(
+    pathToFileURL(path.join(tempDirectory, "saved-emoji-stub.mjs")).href
+  );
+  const audioStub = await import(
+    pathToFileURL(path.join(tempDirectory, "explorer-audio-stub.mjs")).href
+  );
+  const pwaStub = await import(
+    pathToFileURL(path.join(tempDirectory, "pwa-panels-stub.mjs")).href
+  );
+  const uiStub = await import(
+    pathToFileURL(path.join(tempDirectory, "explorer-ui-stub.mjs")).href
+  );
 
   assert.equal(savedEmojiStub.calls.length, 1);
   assert.equal(audioStub.calls.length, 1);
@@ -221,18 +231,33 @@ try {
   assert.equal(shell.installApp, "explorer-install-app");
   assert.equal(shell.loadUiTranslations, "load-ui-translations");
   assert.equal(shell.renderMusicToggle, "render-music-toggle");
-  assert.equal(shell.renderDeveloperMode, uiStub.developerModeController.render);
+  assert.equal(
+    shell.renderDeveloperMode,
+    uiStub.developerModeController.render,
+  );
   assert.equal(shell.renderInstallAppButton, "ui-render-install-app-button");
   assert.equal(shell.renderSoundEffectsToggle, "render-sound-effects-toggle");
   assert.equal(shell.syncHelpMusic, audioStub.controller.syncHelpMusic);
-  assert.equal(shell.toggleDeveloperMode, uiStub.developerModeController.change);
+  assert.equal(
+    shell.toggleDeveloperMode,
+    uiStub.developerModeController.change,
+  );
   assert.equal(shell.updateOnlineStatus, "update-online-status");
   assert.equal(shell.applyUiTranslations, "apply-ui-translations");
 
   shell.renderPixelFontToggle();
   assert.equal(uiStub.renderPixelFontToggleCalls.length, 1);
-  assert.equal(uiStub.renderPixelFontToggleCalls[0].choices, optionsUndefinedSafe("emoji-font-choices", uiStub.renderPixelFontToggleCalls[0].choices));
-  assert.equal(uiStub.renderPixelFontToggleCalls[0].refreshRenderedPixelEmoji, "refresh-rendered-pixel-emoji");
+  assert.equal(
+    uiStub.renderPixelFontToggleCalls[0].choices,
+    optionsUndefinedSafe(
+      "emoji-font-choices",
+      uiStub.renderPixelFontToggleCalls[0].choices,
+    ),
+  );
+  assert.equal(
+    uiStub.renderPixelFontToggleCalls[0].refreshRenderedPixelEmoji,
+    "refresh-rendered-pixel-emoji",
+  );
 
   shell.renderThemeToggle();
   assert.equal(uiStub.renderThemeToggleCalls.length, 1);

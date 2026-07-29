@@ -67,11 +67,13 @@ const controller = createPixelEditorDraftController({
   extractPixels: () => new Uint8ClampedArray([4, 5, 6, 255]),
   floatingLayer: () => current.floatingLayer,
   floatingLayerUndoState: () => ({ redoButton, undoButton }),
-  hasVisiblePixels: (value: Uint8ClampedArray) => value.some((_, index) => index % 4 === 3 && value[index] > 0),
+  hasVisiblePixels: (value: Uint8ClampedArray) =>
+    value.some((_, index) => index % 4 === 3 && value[index] > 0),
   persistedArtwork: () => persisted,
   pixels: () => current.pixels,
   pixelsEqual: (left: Uint8ClampedArray, right: Uint8ClampedArray) =>
-    left.length === right.length && left.every((value, index) => value === right[index]),
+    left.length === right.length &&
+    left.every((value, index) => value === right[index]),
   pixelsSetter: (value: Uint8ClampedArray) => {
     current.pixels = value;
   },
@@ -83,7 +85,10 @@ const controller = createPixelEditorDraftController({
   translate: (_key: string, fallback: string) => fallback,
 });
 
-assert.equal(sourceModuleSpecifier, "../../src/pixel-editor/data/pixel-editor-drafts.js");
+assert.equal(
+  sourceModuleSpecifier,
+  "../../src/pixel-editor/data/pixel-editor-drafts.js",
+);
 assert.equal(controller.hasVisibleArtwork(), true);
 assert.equal(controller.selectionHasVisibleArtwork(), true);
 assert.equal(controller.hasVisibleAtlasDraft(), true);

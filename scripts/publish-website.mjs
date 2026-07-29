@@ -130,13 +130,7 @@ fs.rmSync(outputDirectory, { recursive: true, force: true });
 fs.mkdirSync(outputDirectory, { recursive: true });
 
 const files = [];
-const directories = [
-  "dist",
-  "explorer",
-  "orders",
-  "versions",
-  "proposed",
-];
+const directories = ["dist", "explorer", "orders", "versions", "proposed"];
 for (const file of files) {
   fs.copyFileSync(path.join(root, file), path.join(outputDirectory, file));
 }

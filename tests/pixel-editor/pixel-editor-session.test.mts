@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { createPixelEditorSessionController } from "../../src/pixel-editor/controllers/pixel-editor-session.js";
 
-const sourceModuleSpecifier = "../../src/pixel-editor/controllers/pixel-editor-session.js";
+const sourceModuleSpecifier =
+  "../../src/pixel-editor/controllers/pixel-editor-session.js";
 const originalFetch = Object.getOwnPropertyDescriptor(globalThis, "fetch");
 
 const pixels = new Uint8ClampedArray(12 * 12 * 4).fill(9);
@@ -29,7 +30,11 @@ try {
     [
       "smilingFace",
       {
-        floatingLayer: { pixels: new Uint8ClampedArray([8, 8, 8, 8]), width: 1, height: 1 },
+        floatingLayer: {
+          pixels: new Uint8ClampedArray([8, 8, 8, 8]),
+          width: 1,
+          height: 1,
+        },
         pixels: draftPixels,
         selection: { x: 1, y: 2, width: 3, height: 4 },
         traceOffsetX: 2,
@@ -76,7 +81,9 @@ try {
         async blob() {
           return { atlas: "blob" };
         },
-        headers: { get: (name: string) => (name === "content-type" ? "image/png" : null) },
+        headers: {
+          get: (name: string) => (name === "content-type" ? "image/png" : null),
+        },
       };
     },
   });
@@ -85,8 +92,11 @@ try {
     artworkDrafts: () => artworkDraftMap,
     cellSize: 12,
     cloneFloatingLayer: (value: any) =>
-      value ? { ...value, cloned: true, pixels: value.pixels.slice() } : undefined,
-    cloneSelection: (value: any) => (value ? { ...value, cloned: true } : undefined),
+      value
+        ? { ...value, cloned: true, pixels: value.pixels.slice() }
+        : undefined,
+    cloneSelection: (value: any) =>
+      value ? { ...value, cloned: true } : undefined,
     createBlankAtlas: async () => ({ atlas: "blank" }),
     currentEntry: () => current.entry,
     currentEmoji: () => current.emoji,
@@ -100,7 +110,9 @@ try {
     },
     downloadButton: { disabled: false },
     extractCell: async (blob: unknown, entry: any) => {
-      calls.push(`extract:${entry.key}:${String((blob as any).atlas ?? (blob as any).blob ?? "blob")}`);
+      calls.push(
+        `extract:${entry.key}:${String((blob as any).atlas ?? (blob as any).blob ?? "blob")}`,
+      );
       return loadedPixels;
     },
     getAtlasDimensions: () => ({ width: 0, height: 0 }),
@@ -176,22 +188,37 @@ try {
   });
 
   await controller.open("smilingFace", "😀");
-  assert.equal(sourceModuleSpecifier, "../../src/pixel-editor/controllers/pixel-editor-session.js");
+  assert.equal(
+    sourceModuleSpecifier,
+    "../../src/pixel-editor/controllers/pixel-editor-session.js",
+  );
   assert.deepEqual(setState.currentEmoji.at(-1), "😀");
-  assert.deepEqual(setState.traceOffsets.slice(0, 2), [[0, 0], [2, -1]]);
+  assert.deepEqual(setState.traceOffsets.slice(0, 2), [
+    [0, 0],
+    [2, -1],
+  ]);
   assert.equal(setState.currentEntry[0], undefined);
   assert.equal(setState.currentEntry.at(-1)?.key, "smilingFace");
   assert.deepEqual(setState.atlasDimensions.at(-1), [96, 48]);
   assert.deepEqual(setState.atlasExists.at(-1), true);
   assert.deepEqual(setState.cellLoaded.at(-1), true);
-  assert.deepEqual(Array.from(setState.pixels.at(-1) ?? []), Array.from(draftPixels));
+  assert.deepEqual(
+    Array.from(setState.pixels.at(-1) ?? []),
+    Array.from(draftPixels),
+  );
   assert.equal((setState.selection.at(-1) as any)?.cloned, true);
   assert.equal((setState.floatingLayer.at(-1) as any)?.cloned, true);
   assert.equal(setState.locationText.at(-1), "location:smilingFace");
   assert.equal(setState.statusText.at(-1), "");
-  assert.deepEqual(Array.from(persistedArtwork.get("smilingFace") ?? []), Array.from(loadedPixels));
+  assert.deepEqual(
+    Array.from(persistedArtwork.get("smilingFace") ?? []),
+    Array.from(loadedPixels),
+  );
   assert.equal(calls.includes("remember-draft"), true);
-  assert.equal(calls.filter((entry) => entry === "reset-history").length >= 2, true);
+  assert.equal(
+    calls.filter((entry) => entry === "reset-history").length >= 2,
+    true,
+  );
   assert.equal(calls.includes("palette:1F600"), true);
   assert.equal(calls.includes("update-transfer-buttons"), true);
 
@@ -256,7 +283,7 @@ try {
       setTraceOffsets() {},
       translate: (_key: string, fallback: string) => fallback,
       updateTransferButtons() {},
-    }) as any,
+    } as any),
   });
   await mismatchedController.open("smilingFace", "😀");
   fetchMode = "failure";

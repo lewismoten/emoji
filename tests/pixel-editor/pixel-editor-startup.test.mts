@@ -61,7 +61,10 @@ const previewButton = createTarget();
 const historyButton = createTarget();
 
 const calls: Array<any> = [];
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 const originalGetComputedStyle = Object.getOwnPropertyDescriptor(
   globalThis,
   "getComputedStyle",
@@ -81,7 +84,8 @@ Object.defineProperty(globalThis, "getComputedStyle", {
 
 try {
   initializePixelEditorUi({
-    adjustTraceOffsets: (x: number, y: number) => calls.push(["trace-offset", x, y]),
+    adjustTraceOffsets: (x: number, y: number) =>
+      calls.push(["trace-offset", x, y]),
     atlasController: {
       downloadAtlas: () => calls.push("download-atlas"),
       downloadEmojiPng: () => calls.push("download-emoji"),
@@ -144,20 +148,27 @@ try {
       copyFontGlyph: (button: unknown) => calls.push(["copy-font", button]),
       copyPixelArt: () => calls.push("copy-art"),
       copySelection: () => calls.push("copy-selection"),
-      moveFloatingLayer: (x: number, y: number) => calls.push(["move-layer", x, y]),
+      moveFloatingLayer: (x: number, y: number) =>
+        calls.push(["move-layer", x, y]),
       pastePixelArt: () => calls.push("paste-art"),
       toggleFloatingLayerInversion: () => calls.push("invert-layer"),
-      transformFloatingLayer: (mode: string) => calls.push(["transform-layer", mode]),
+      transformFloatingLayer: (mode: string) =>
+        calls.push(["transform-layer", mode]),
     },
     undoButton,
     redoButton,
     windowTarget: winTarget,
   });
 } finally {
-  if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+  if (originalDocument)
+    Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");
   if (originalGetComputedStyle) {
-    Object.defineProperty(globalThis, "getComputedStyle", originalGetComputedStyle);
+    Object.defineProperty(
+      globalThis,
+      "getComputedStyle",
+      originalGetComputedStyle,
+    );
   } else Reflect.deleteProperty(globalThis, "getComputedStyle");
 }
 
@@ -195,8 +206,25 @@ assert.deepEqual(calls.slice(0, 5), [
   "preview-action-labels",
   "draw",
 ]);
-assert.equal(calls.some((entry) => Array.isArray(entry) && entry[0] === "select-tool" && entry[1] === "ellipse"), true);
-assert.equal(calls.some((entry) => Array.isArray(entry) && entry[0] === "trace-offset" && entry[1] === 1 && entry[2] === -1), true);
+assert.equal(
+  calls.some(
+    (entry) =>
+      Array.isArray(entry) &&
+      entry[0] === "select-tool" &&
+      entry[1] === "ellipse",
+  ),
+  true,
+);
+assert.equal(
+  calls.some(
+    (entry) =>
+      Array.isArray(entry) &&
+      entry[0] === "trace-offset" &&
+      entry[1] === 1 &&
+      entry[2] === -1,
+  ),
+  true,
+);
 assert.equal(calls.includes("render-trace"), true);
 assert.equal(calls.includes("undo"), true);
 assert.equal(calls.includes("redo"), true);

@@ -5,7 +5,10 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 // coverage target: ../../src/app/version-controller.js
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const root = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../../..",
+);
 const sourceText = await fs.readFile(
   path.join(root, "src/app/version-controller.ts"),
   "utf8",
@@ -87,10 +90,19 @@ await fs.writeFile(
   transformedSource,
 );
 
-const module = await import(pathToFileURL(path.join(tempDirectory, "version-controller.mjs")).href);
-const categoryStub = await import(pathToFileURL(path.join(tempDirectory, "category-version-stub.mjs")).href);
-const versionDataStub = await import(pathToFileURL(path.join(tempDirectory, "version-data-stub.mjs")).href);
-const dataControllerStub = await import(pathToFileURL(path.join(tempDirectory, "explorer-data-controller-stub.mjs")).href);
+const module = await import(
+  pathToFileURL(path.join(tempDirectory, "version-controller.mjs")).href
+);
+const categoryStub = await import(
+  pathToFileURL(path.join(tempDirectory, "category-version-stub.mjs")).href
+);
+const versionDataStub = await import(
+  pathToFileURL(path.join(tempDirectory, "version-data-stub.mjs")).href
+);
+const dataControllerStub = await import(
+  pathToFileURL(path.join(tempDirectory, "explorer-data-controller-stub.mjs"))
+    .href
+);
 
 const selector = {
   value: "16.0",
@@ -148,21 +160,44 @@ const controller = module.createVersionController({
   updateModifierArtwork: "update-modifier-artwork",
 });
 
-assert.equal(controller.loadData, dataControllerStub.dataControllerResult.loadData);
-assert.equal(controller.loadVersionData, dataControllerStub.dataControllerResult.loadVersionData);
+assert.equal(
+  controller.loadData,
+  dataControllerStub.dataControllerResult.loadData,
+);
+assert.equal(
+  controller.loadVersionData,
+  dataControllerStub.dataControllerResult.loadVersionData,
+);
 
 assert.equal(controller.versionSliderLabel("18.0"), "label:18.0:1");
-assert.deepEqual(categoryStub.versionSliderLabelCalls, [["18.0", state.proposedVersionManifests]]);
+assert.deepEqual(categoryStub.versionSliderLabelCalls, [
+  ["18.0", state.proposedVersionManifests],
+]);
 
 assert.deepEqual(controller.populateVersionSelector(), [
   "populate-version-selector-result",
   versionDataStub.populateVersionSelectorCalls[0],
 ]);
-assert.equal(versionDataStub.populateVersionSelectorCalls[0].proposed, state.proposedVersionManifests);
-assert.equal(versionDataStub.populateVersionSelectorCalls[0].released, state.versionManifests);
-assert.equal(versionDataStub.populateVersionSelectorCalls[0].selectedLocale, "en");
-assert.equal(versionDataStub.populateVersionSelectorCalls[0].selector, selector);
-assert.equal(versionDataStub.populateVersionSelectorCalls[0].translate, "translate");
+assert.equal(
+  versionDataStub.populateVersionSelectorCalls[0].proposed,
+  state.proposedVersionManifests,
+);
+assert.equal(
+  versionDataStub.populateVersionSelectorCalls[0].released,
+  state.versionManifests,
+);
+assert.equal(
+  versionDataStub.populateVersionSelectorCalls[0].selectedLocale,
+  "en",
+);
+assert.equal(
+  versionDataStub.populateVersionSelectorCalls[0].selector,
+  selector,
+);
+assert.equal(
+  versionDataStub.populateVersionSelectorCalls[0].translate,
+  "translate",
+);
 assert.deepEqual(versionDataStub.populateVersionSelectorCalls[0].syncRange(), [
   "sync-version-range-result",
   categoryStub.syncVersionRangeCalls[0],
@@ -172,15 +207,24 @@ assert.deepEqual(controller.syncVersionRange(), [
   "sync-version-range-result",
   categoryStub.syncVersionRangeCalls.at(-1),
 ]);
-assert.equal(categoryStub.syncVersionRangeCalls.at(-1).proposedVersionManifests, state.proposedVersionManifests);
-assert.equal(categoryStub.syncVersionRangeCalls.at(-1).versionSelector, selector);
+assert.equal(
+  categoryStub.syncVersionRangeCalls.at(-1).proposedVersionManifests,
+  state.proposedVersionManifests,
+);
+assert.equal(
+  categoryStub.syncVersionRangeCalls.at(-1).versionSelector,
+  selector,
+);
 
 assert.deepEqual(controller.updateModifierAvailability(), [
   "update-modifier-availability-result",
   categoryStub.updateModifierAvailabilityCalls[0],
 ]);
 assert.equal(categoryStub.updateModifierAvailabilityCalls[0].byId, state.byId);
-assert.equal(categoryStub.updateModifierAvailabilityCalls[0].versionValue, "16.0");
+assert.equal(
+  categoryStub.updateModifierAvailabilityCalls[0].versionValue,
+  "16.0",
+);
 
 assert.deepEqual(controller.getVersionKeys(), [
   "version-keys-result",
@@ -209,6 +253,12 @@ assert.equal(dataCall.getEmojiGenders, "get-emoji-genders");
 assert.equal(dataCall.getVersionKeys, categoryStub.getVersionKeys);
 assert.equal(dataCall.loadCatalog, "load-catalog");
 assert.equal(dataCall.loadVersionCatalog, "load-version-catalog");
-assert.equal(dataCall.populateVersionSelector, versionDataStub.populateVersionSelector);
+assert.equal(
+  dataCall.populateVersionSelector,
+  versionDataStub.populateVersionSelector,
+);
 assert.equal(dataCall.syncVersionRange, categoryStub.syncVersionRange);
-assert.equal(dataCall.updateModifierAvailability, categoryStub.updateModifierAvailability);
+assert.equal(
+  dataCall.updateModifierAvailability,
+  categoryStub.updateModifierAvailability,
+);

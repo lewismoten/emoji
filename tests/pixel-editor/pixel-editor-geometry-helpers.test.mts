@@ -1,7 +1,5 @@
 import assert from "node:assert/strict";
-import {
-  CELL_SIZE,
-} from "../../src/pixel-editor/core/pixel-editor-constants.js";
+import { CELL_SIZE } from "../../src/pixel-editor/core/pixel-editor-constants.js";
 import {
   boundsFromPoints,
   clamp,
@@ -39,8 +37,8 @@ assert.deepEqual(boundsFromPoints({ x: 5, y: 1 }, { x: 2, y: 4 }), {
 });
 
 const source = new Uint8ClampedArray([
-  1, 2, 3, 255, 4, 5, 6, 255, 7, 8, 9, 255,
-  10, 11, 12, 255, 13, 14, 15, 255, 16, 17, 18, 255,
+  1, 2, 3, 255, 4, 5, 6, 255, 7, 8, 9, 255, 10, 11, 12, 255, 13, 14, 15, 255,
+  16, 17, 18, 255,
 ]);
 assert.deepEqual(
   Array.from(extractPixels(source, 3, 1, 0, 2, 2)),
@@ -94,9 +92,18 @@ assert.equal(clamp(5, 1, 4), 4);
 assert.equal(clamp(-1, 1, 4), 1);
 assert.equal(clamp(3, 1, 4), 3);
 
-assert.equal(pixelsEqual(new Uint8ClampedArray([1, 2]), new Uint8ClampedArray([1, 2])), true);
-assert.equal(pixelsEqual(new Uint8ClampedArray([1, 2]), new Uint8ClampedArray([2, 1])), false);
-assert.equal(pixelsEqual(new Uint8ClampedArray([1, 2]), new Uint8ClampedArray([1])), false);
+assert.equal(
+  pixelsEqual(new Uint8ClampedArray([1, 2]), new Uint8ClampedArray([1, 2])),
+  true,
+);
+assert.equal(
+  pixelsEqual(new Uint8ClampedArray([1, 2]), new Uint8ClampedArray([2, 1])),
+  false,
+);
+assert.equal(
+  pixelsEqual(new Uint8ClampedArray([1, 2]), new Uint8ClampedArray([1])),
+  false,
+);
 
 assert.deepEqual(layerAxisBounds(3, 12), [0, 9]);
 assert.deepEqual(layerAxisBounds(14, 12), [-2, 0]);
@@ -110,7 +117,12 @@ const canvasPixels = new Uint8ClampedArray(CELL_SIZE * CELL_SIZE * 4);
 paintPixelInto(canvasPixels, { x: 0, y: 0 }, [9, 8, 7, 255]);
 assert.deepEqual(Array.from(canvasPixels.slice(0, 4)), [9, 8, 7, 255]);
 
-drawLineOnPixels(canvasPixels, { x: 0, y: 0 }, { x: 2, y: 2 }, [255, 0, 0, 255]);
+drawLineOnPixels(
+  canvasPixels,
+  { x: 0, y: 0 },
+  { x: 2, y: 2 },
+  [255, 0, 0, 255],
+);
 assert.equal(alphaAt(canvasPixels, 1, 1), 255);
 assert.equal(redAt(canvasPixels, 2, 2), 255);
 
@@ -167,7 +179,10 @@ paintPixelInto(fillPixels, { x: 0, y: 1 }, [1, 1, 1, 255]);
 paintPixelInto(fillPixels, { x: 1, y: 1 }, [1, 1, 1, 255]);
 paintPixelInto(fillPixels, { x: 2, y: 2 }, [9, 9, 9, 255]);
 floodFillPixels(fillPixels, { x: 0, y: 0 }, [2, 2, 2, 255]);
-assert.deepEqual(Array.from(fillPixels.slice(0, 8)), [2, 2, 2, 255, 2, 2, 2, 255]);
+assert.deepEqual(
+  Array.from(fillPixels.slice(0, 8)),
+  [2, 2, 2, 255, 2, 2, 2, 255],
+);
 assert.deepEqual(
   Array.from(fillPixels.slice(pixelOffset(2, 2), pixelOffset(2, 2) + 4)),
   [9, 9, 9, 255],

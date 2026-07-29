@@ -1,10 +1,13 @@
 import { ModifierFilterControl } from "./modifier-filter-control.js";
 
 const genderFilterStylesheetId = "gender-filter-control-stylesheet";
-const genderFilterStylesheetHref = "./explorer/controls/filters/modifiers/modifier-filter-control.css";
+const genderFilterStylesheetHref =
+  "./explorer/controls/filters/modifiers/modifier-filter-control.css";
 
 export class GenderFilterControl extends ModifierFilterControl {
-  constructor(state?: Partial<ConstructorParameters<typeof ModifierFilterControl>[0]>) {
+  constructor(
+    state?: Partial<ConstructorParameters<typeof ModifierFilterControl>[0]>,
+  ) {
     super({
       className: "gender-filter",
       inputClassName: "gender",
@@ -44,5 +47,4 @@ export class GenderFilterControl extends ModifierFilterControl {
       },
     ];
   }
-
 }

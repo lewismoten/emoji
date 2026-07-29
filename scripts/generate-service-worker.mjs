@@ -68,13 +68,7 @@ const sourceFileForAsset = (asset) => {
   if (file === "explorer/themes/retro/retro.css")
     return path.join("src", "site", "themes", "retro", "retro.css");
   if (file === "explorer/themes/retro/retro-foundation.css")
-    return path.join(
-      "src",
-      "site",
-      "themes",
-      "retro",
-      "retro-foundation.css",
-    );
+    return path.join("src", "site", "themes", "retro", "retro-foundation.css");
   if (file === "explorer/themes/retro/retro-dialogs.css")
     return path.join("src", "site", "themes", "retro", "retro-dialogs.css");
   if (file === "explorer/themes/retro/retro-example-dialogs.css")

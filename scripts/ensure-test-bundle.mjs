@@ -55,10 +55,14 @@ if (await hasCurrentBundle(fingerprint)) {
   );
   if (testCompileResult.status !== 0)
     process.exit(testCompileResult.status ?? 1);
-  const demoResult = spawnSync(npm, ["run", "demo:locales", "--", "build/demo-pages"], {
-    cwd: root,
-    stdio: "inherit",
-  });
+  const demoResult = spawnSync(
+    npm,
+    ["run", "demo:locales", "--", "build/demo-pages"],
+    {
+      cwd: root,
+      stdio: "inherit",
+    },
+  );
   if (demoResult.status !== 0) process.exit(demoResult.status ?? 1);
   const serviceWorkerResult = spawnSync(
     npm,
@@ -116,7 +120,12 @@ async function listInputFiles(input) {
 
 async function copyBuildRuntimeSupport() {
   const source = path.join(root, "pixel-font", "retro-text-bitmap.mjs");
-  const target = path.join(root, "build", "pixel-font", "retro-text-bitmap.mjs");
+  const target = path.join(
+    root,
+    "build",
+    "pixel-font",
+    "retro-text-bitmap.mjs",
+  );
   await fs.mkdir(path.dirname(target), { recursive: true });
   await fs.copyFile(source, target);
 }

@@ -19,9 +19,7 @@ assert.ok(favoriteMarkup.includes('class="saved-picker"'));
 assert.ok(favoriteMarkup.includes('aria-controls="saved-dialog"'));
 assert.ok(favoriteMarkup.includes('data-i18n-aria-label="savedEmoji"'));
 assert.ok(
-  favoriteMarkup.includes(
-    'class="saved-picker-label" data-i18n="favorites"',
-  ),
+  favoriteMarkup.includes('class="saved-picker-label" data-i18n="favorites"'),
 );
 
 const helpMarkup = ToolbarTriggerButtonControl.toMarkup({
@@ -36,7 +34,9 @@ assert.ok(helpMarkup.includes('class="help-picker"'));
 assert.ok(!helpMarkup.includes("saved-picker-label"));
 
 const restore = installFakeDocument();
-const globals = globalThis as typeof globalThis & { document: { head: FakeElement } };
+const globals = globalThis as typeof globalThis & {
+  document: { head: FakeElement };
+};
 ToolbarTriggerButtonControl.create({
   ariaLabel: "Plain",
   ariaLabelKey: "plain",

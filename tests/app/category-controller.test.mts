@@ -159,7 +159,8 @@ class FakeElement {
       if (child.tagName === "OPTGROUP") {
         return child.children.filter(
           (grandchild): grandchild is FakeElement =>
-            grandchild instanceof FakeElement && grandchild.tagName === "OPTION",
+            grandchild instanceof FakeElement &&
+            grandchild.tagName === "OPTION",
         );
       }
       return [];
@@ -180,7 +181,8 @@ class FakeDocument {
     return (
       this.head.querySelector<FakeElement>(`#${id}`) ??
       this.head.children.find(
-        (child) => child instanceof FakeElement && child.getAttribute("id") === id,
+        (child) =>
+          child instanceof FakeElement && child.getAttribute("id") === id,
       ) ??
       null
     );
@@ -384,19 +386,31 @@ const controller = createCategoryController({
   },
 });
 
-assert.equal(controller.subGroupSelectionKey("Objects", "computer"), "Objects::computer");
-assert.equal(controller.displayGroupName("Smileys & Emotion"), "Localized Smileys");
+assert.equal(
+  controller.subGroupSelectionKey("Objects", "computer"),
+  "Objects::computer",
+);
+assert.equal(
+  controller.displayGroupName("Smileys & Emotion"),
+  "Localized Smileys",
+);
 assert.equal(controller.displayGroupName("Objects"), "Objects");
 assert.equal(
   controller.displayUnicodeSubGroupName("face-smiling"),
   "Localized Smiling Faces",
 );
-assert.equal(controller.displayUnicodeSubGroupName("book-paper"), "Books & Paper");
+assert.equal(
+  controller.displayUnicodeSubGroupName("book-paper"),
+  "Books & Paper",
+);
 
 controller.buildRepresentatives();
 assert.equal(controller.getGroupRepresentativeEmoji("Smileys & Emotion"), "😇");
 assert.equal(
-  controller.getSubGroupRepresentativeEmoji("Smileys & Emotion", "face-smiling"),
+  controller.getSubGroupRepresentativeEmoji(
+    "Smileys & Emotion",
+    "face-smiling",
+  ),
   "😀",
 );
 assert.equal(controller.getGroupRepresentativeEmoji("Missing"), "");
@@ -414,9 +428,15 @@ assert.equal(groupSelector.options.length, 2);
 assert.equal(groupSelector.options[0].textContent, "🌐 All");
 assert.equal(groupSelector.options[1].textContent, "😇 Localized Smileys");
 assert.equal(compactGroupLabel.textContent, "All");
-assert.equal(groupPickerTrigger.querySelector(".filter-picker-value")?.textContent, "All");
+assert.equal(
+  groupPickerTrigger.querySelector(".filter-picker-value")?.textContent,
+  "All",
+);
 assert.equal(compactGroupChoices.querySelectorAll('[role="radio"]').length, 2);
-assert.equal(compactSequenceChoices.querySelectorAll('[role="radio"]').length, 3);
+assert.equal(
+  compactSequenceChoices.querySelectorAll('[role="radio"]').length,
+  3,
+);
 
 groupSelector.value = "Smileys & Emotion";
 controller.onGroupSelectorChange();
@@ -452,9 +472,8 @@ assert.equal(groupField.hidden, true);
 assert.equal(sequenceField.hidden, false);
 assert.equal(drawListCalls.length, 4);
 
-const activeGroupChoice = compactGroupChoices.querySelectorAll<FakeElement>(
-  '[role="radio"]',
-)[1];
+const activeGroupChoice =
+  compactGroupChoices.querySelectorAll<FakeElement>('[role="radio"]')[1];
 activeGroupChoice.focus();
 controller.renderCategoryFilters();
 assert.equal(documentRef.activeElement?.dataset.value, "Smileys & Emotion");

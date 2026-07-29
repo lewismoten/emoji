@@ -124,7 +124,10 @@ html[data-theme="dark"] .sequence-type > .emoji > [data-emoji-key]:hover {
 }
 
 html[data-theme="dark"] .subgroup .emoji > [data-emoji-key]:focus-visible,
-html[data-theme="dark"] .sequence-type > .emoji > [data-emoji-key]:focus-visible {
+html[data-theme="dark"]
+  .sequence-type
+  > .emoji
+  > [data-emoji-key]:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 1px;
 }

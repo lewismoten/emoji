@@ -9,13 +9,8 @@ import {
 } from "../palette/pixel-editor-skin-tone.js";
 
 export async function findSkinTonePasteHelper(options) {
-  const {
-    artworkDrafts,
-    clipboard,
-    currentEntry,
-    extractCell,
-    loadManifest,
-  } = options;
+  const { artworkDrafts, clipboard, currentEntry, extractCell, loadManifest } =
+    options;
   const sourceTones = clipboard.skinTones ?? [];
   const targetTones = skinToneSequence(currentEntry.codePoints);
   if (
@@ -59,7 +54,8 @@ export async function findSkinTonePasteHelper(options) {
 async function loadHelperPixels(options) {
   const { artworkDrafts, entry, extractCell } = options;
   const draft = artworkDrafts().get(entry.key);
-  if (draft?.pixels && hasVisiblePixels(draft.pixels)) return draft.pixels.slice();
+  if (draft?.pixels && hasVisiblePixels(draft.pixels))
+    return draft.pixels.slice();
   const response = await fetch(`pixel-font/atlases/${entry.atlas}`).catch(
     () => undefined,
   );

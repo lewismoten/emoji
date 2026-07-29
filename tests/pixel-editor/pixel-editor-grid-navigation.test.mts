@@ -22,20 +22,23 @@ class FakeButton {
   private rect = { left: 0, top: 0, width: 20, height: 20 };
   focused = false;
 
-  constructor(options: {
-    ariaPressed?: string;
-    activeClass?: string;
-    selectedClass?: string;
-    tabIndex?: number;
-    left?: number;
-    top?: number;
-    width?: number;
-    height?: number;
-    hidden?: boolean;
-    disabled?: boolean;
-    visible?: boolean;
-  } = {}) {
-    if (options.ariaPressed) this.attributes.set("aria-pressed", options.ariaPressed);
+  constructor(
+    options: {
+      ariaPressed?: string;
+      activeClass?: string;
+      selectedClass?: string;
+      tabIndex?: number;
+      left?: number;
+      top?: number;
+      width?: number;
+      height?: number;
+      hidden?: boolean;
+      disabled?: boolean;
+      visible?: boolean;
+    } = {},
+  ) {
+    if (options.ariaPressed)
+      this.attributes.set("aria-pressed", options.ariaPressed);
     if (options.activeClass) this.classes.add(options.activeClass);
     if (options.selectedClass) this.classes.add(options.selectedClass);
     if (options.tabIndex !== undefined) this.tabIndex = options.tabIndex;
@@ -89,11 +92,10 @@ browserGlobal.document = {
   documentElement: { dir: "ltr" },
 };
 
-browserGlobal.getComputedStyle = (button: FakeButton) =>
-  ({
-    gridRowStart: button.dataset.gridRow ?? "1",
-    gridColumnStart: button.dataset.gridColumn ?? "1",
-  });
+browserGlobal.getComputedStyle = (button: FakeButton) => ({
+  gridRowStart: button.dataset.gridRow ?? "1",
+  gridColumnStart: button.dataset.gridColumn ?? "1",
+});
 
 const invisible = new FakeButton({ visible: false });
 const active = new FakeButton({ ariaPressed: "true" });
@@ -168,7 +170,10 @@ rowButtons[4].dispatch("keydown", event);
 assert.equal(event.prevented, false);
 
 browserGlobal.document.documentElement.dir = "rtl";
-const rtlButtons = [new FakeButton({ left: 0, top: 0 }), new FakeButton({ left: 40, top: 0 })];
+const rtlButtons = [
+  new FakeButton({ left: 0, top: 0 }),
+  new FakeButton({ left: 40, top: 0 }),
+];
 bindRovingGrid(rtlButtons as any);
 rtlButtons[0].focus();
 event = keyEvent("ArrowLeft");

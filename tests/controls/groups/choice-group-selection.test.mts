@@ -49,25 +49,17 @@ assert.deepEqual(
 );
 
 assert.equal(
-  isChoiceGroupItemDisabled(
-    { selected: false },
-    optionalSelection,
-    {
-      maxSelectable: 1,
-      minSelectable: 0,
-    },
-  ),
+  isChoiceGroupItemDisabled({ selected: false }, optionalSelection, {
+    maxSelectable: 1,
+    minSelectable: 0,
+  }),
   false,
 );
 
 assert.equal(
   isChoiceGroupItemDisabled(
     { selected: false },
-    [
-      { selected: true },
-      { selected: true },
-      { selected: false },
-    ],
+    [{ selected: true }, { selected: true }, { selected: false }],
     {
       maxSelectable: 2,
       minSelectable: 0,
@@ -103,11 +95,7 @@ assert.deepEqual(
 assert.equal(
   isChoiceGroupItemDisabled(
     { selected: true },
-    [
-      { selected: true },
-      { selected: false },
-      { selected: false },
-    ],
+    [{ selected: true }, { selected: false }, { selected: false }],
     {
       maxSelectable: 3,
       minSelectable: 0,
