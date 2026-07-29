@@ -1,0 +1,7 @@
+{
+  "key": "grinningFace",
+  "fallbackKeys": [
+    "smilingFace",
+    "smilingFaceWithSmilingEyes"
+  ]
+}

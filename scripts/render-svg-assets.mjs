@@ -5,41 +5,9 @@ import { Resvg } from "@resvg/resvg-js";
 import { cropRgba, decodeRgbaPng } from "../pixel-font/scripts/png.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const smileySourceConfigFile = path.join(root, "src", "site", "smiley-source.json");
 const generatedSmileyStart = "<!-- GENERATED_SMILEY_START -->";
 const generatedSmileyEnd = "<!-- GENERATED_SMILEY_END -->";
-
-const smileySources = [
-  {
-    key: "grinningFace",
-    mapping: path.join(
-      root,
-      "pixel-font",
-      "atlases",
-      "smileys-and-emotion",
-      "face-smiling.json",
-    ),
-  },
-  {
-    key: "smilingFace",
-    mapping: path.join(
-      root,
-      "pixel-font",
-      "atlases",
-      "smileys-and-emotion",
-      "face-affection.json",
-    ),
-  },
-  {
-    key: "smilingFaceWithSmilingEyes",
-    mapping: path.join(
-      root,
-      "pixel-font",
-      "atlases",
-      "smileys-and-emotion",
-      "face-smiling.json",
-    ),
-  },
-];
 
 const smileyTargets = [
   path.join(root, "src", "site", "favicon.svg"),
@@ -107,6 +75,45 @@ export const parseDimensions = (svg) => {
 const rgbaToHex = (red, green, blue) =>
   `#${[red, green, blue].map((value) => value.toString(16).padStart(2, "0")).join("")}`;
 
+const loadSmileySourceConfig = () => {
+  const defaults = {
+    key: "grinningFace",
+    fallbackKeys: ["smilingFace", "smilingFaceWithSmilingEyes"],
+  };
+  if (!fs.existsSync(smileySourceConfigFile)) return defaults;
+  const parsed = JSON.parse(fs.readFileSync(smileySourceConfigFile, "utf8"));
+  return {
+    key:
+      typeof parsed.key === "string" && parsed.key.trim()
+        ? parsed.key.trim()
+        : defaults.key,
+    fallbackKeys: Array.isArray(parsed.fallbackKeys)
+      ? parsed.fallbackKeys
+          .filter((value) => typeof value === "string" && value.trim())
+          .map((value) => value.trim())
+      : defaults.fallbackKeys,
+  };
+};
+
+const findAtlasCandidates = (emojiKey) => {
+  const atlasRoot = path.join(root, "pixel-font", "atlases");
+  const candidates = [];
+  for (const file of walkFiles(atlasRoot).filter((entry) => entry.endsWith(".json"))) {
+    const sidecar = JSON.parse(fs.readFileSync(file, "utf8"));
+    if (!Array.isArray(sidecar.entries)) continue;
+    const entry = sidecar.entries.find((item) => item.key === emojiKey);
+    if (!entry) continue;
+    candidates.push({
+      key: emojiKey,
+      mapping: file,
+      sidecar,
+      entry,
+      imageFile: path.join(atlasRoot, sidecar.image),
+    });
+  }
+  return candidates;
+};
+
 const buildSmileyMarkup = (image, indent = "    ") => {
   const runsByColor = new Map();
   for (let y = 0; y < image.height; y += 1) {
@@ -153,23 +160,31 @@ const buildSmileyMarkup = (image, indent = "    ") => {
 };
 
 const resolveSmileyImage = () => {
+  const config = loadSmileySourceConfig();
+  const desiredKeys = [config.key, ...config.fallbackKeys].filter(
+    (value, index, all) => all.indexOf(value) === index,
+  );
   const unavailable = [];
-  for (const source of smileySources) {
-    const sidecar = JSON.parse(fs.readFileSync(source.mapping, "utf8"));
-    const entry = sidecar.entries.find((item) => item.key === source.key);
-    if (!entry) {
-      unavailable.push(
-        `${source.key} missing from ${path.relative(root, source.mapping)}`,
+  for (const emojiKey of desiredKeys) {
+    const candidates = findAtlasCandidates(emojiKey);
+    if (candidates.length === 0) {
+      unavailable.push(`${emojiKey} is not mapped in pixel-font/atlases`);
+      continue;
+    }
+    for (const candidate of candidates) {
+      if (!fs.existsSync(candidate.imageFile)) {
+        unavailable.push(path.relative(root, candidate.imageFile));
+        continue;
+      }
+      const atlas = decodeRgbaPng(fs.readFileSync(candidate.imageFile));
+      return cropRgba(
+        atlas,
+        candidate.entry.x,
+        candidate.entry.y,
+        candidate.entry.width,
+        candidate.entry.height,
       );
-      continue;
     }
-    const imageFile = path.join(root, "pixel-font", "atlases", sidecar.image);
-    if (!fs.existsSync(imageFile)) {
-      unavailable.push(path.relative(root, imageFile));
-      continue;
-    }
-    const atlas = decodeRgbaPng(fs.readFileSync(imageFile));
-    return cropRgba(atlas, entry.x, entry.y, entry.width, entry.height);
   }
   throw new Error(
     `Unable to resolve a smiley atlas source. Missing assets: ${unavailable.join(", ")}`,
