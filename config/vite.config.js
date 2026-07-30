@@ -12,7 +12,7 @@ import { renderServiceWorker } from "../scripts/generate-service-worker.mjs";
 const localizedPagePattern = /^\/index\.([A-Za-z0-9-]+)\.html$/;
 const localizedManifestPattern = /^\/manifest\.([A-Za-z0-9-]+)\.webmanifest$/;
 const iconAssetPattern =
-  /^\/pwa\/icons\/(favicon\.ico|icon-16\.png|icon-32\.png|icon-192\.png|icon-512\.png|icon-maskable-512\.png|icon\.svg|icon-maskable\.svg)$/;
+  /^\/pwa\/icons\/(favicon\.ico|icon-\d+\.png|icon-maskable-\d+\.png|icon\.svg|icon-maskable\.svg)$/;
 try {
   generateSiteIcons({
     favicon: path.resolve("src/site/favicon.svg"),
