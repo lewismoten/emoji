@@ -72,6 +72,17 @@ try {
   const sameEditor = await ensureEditor();
   assert.notEqual(sameEditor, editor);
 
+  editorRef = {
+    element: {
+      remove() {
+        throw new Error("stale");
+      },
+    },
+  };
+  promiseRef = Promise.resolve(editorRef);
+  await ensureEditor();
+  assert.equal(editorRef?.element?.remove !== undefined, false);
+
   editorRef = undefined;
   promiseRef = undefined;
   canvas.focused = false;

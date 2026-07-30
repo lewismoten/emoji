@@ -42,7 +42,20 @@ try {
       this.attributes.set(name, value);
     },
   };
+  const layerPositionElement = {
+    attributes: new Map([["title", "Move floating layer"]]),
+    hasAttribute(name: string) {
+      return this.attributes.has(name);
+    },
+    setAttribute(name: string, value: string) {
+      this.attributes.set(name, value);
+    },
+  };
   const translatedRoot = {
+    querySelector(selector: string) {
+      if (selector === ".pixel-editor-layer-position") return layerPositionElement;
+      return null;
+    },
     querySelectorAll(selector: string) {
       if (selector === "[data-i18n]") return [translatedLabel];
       if (selector === "[data-i18n-aria-label]") return [translatedButton];
@@ -147,6 +160,10 @@ try {
   assert.equal(translatedLabel.textContent, "thing");
   assert.equal(translatedButton.getAttribute("aria-label"), "color pour");
   assert.equal(translatedButton.getAttribute("title"), "color pour");
+  assert.equal(
+    layerPositionElement.attributes.get("aria-label"),
+    "Move floating layer",
+  );
 
   assert.equal(
     controller.renderLocationText(runtimeState.entry),

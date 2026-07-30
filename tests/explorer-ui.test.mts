@@ -494,8 +494,29 @@ try {
   assert.equal(calls.includes("blur-font-never"), false);
 
   const developerToggle = createElement();
-  const developerDialog = { open: true };
+  const standardModeInput = createElement();
+  const advancedModeInput = createElement();
+  const developerModeInput = createElement();
+  const standardModeChoice = createElement({ mode: "standard" });
+  const advancedModeChoice = createElement({ mode: "advanced" });
+  const developerModeChoice = createElement({ mode: "developer" });
+  standardModeChoice.querySelector = () => standardModeInput;
+  advancedModeChoice.querySelector = () => advancedModeInput;
+  developerModeChoice.querySelector = () => developerModeInput;
+  const developerDialog = {
+    open: true,
+    classList: {
+      contains(name: string) {
+        return name === "is-editor-view";
+      },
+    },
+  };
   const developerController = createDeveloperModeController({
+    choices: () => [
+      standardModeChoice,
+      advancedModeChoice,
+      developerModeChoice,
+    ],
     dialog: () => developerDialog,
     disableDeveloperFeatures: () => calls.push("disable-developer"),
     loadVersionData: async () => {
@@ -513,11 +534,18 @@ try {
   });
 
   developerController.render();
-  assert.equal(developerToggle.checked, true);
-  assert.equal(developerToggle.attributes.get("aria-checked"), "true");
+  assert.equal(developerModeChoice.classList.active.has("is-active"), true);
+  assert.equal(developerModeChoice.attributes.get("aria-checked"), "true");
+  assert.equal(developerModeChoice.tabIndex, 0);
+  assert.equal(developerModeInput.checked, true);
+  assert.equal(standardModeChoice.tabIndex, -1);
 
   state.explorerPreferences.theme = "base";
-  await developerController.change({ currentTarget: { checked: false } });
+  await developerController.change({
+    currentTarget: {
+      closest: () => ({ dataset: { mode: "standard" } }),
+    },
+  });
   assert.equal(state.developerModeFromUrl, false);
   assert.equal(state.explorerModeFromUrl, "");
   assert.equal(state.developerModeUrlDismissed, true);
@@ -525,6 +553,21 @@ try {
   assert.ok(calls.includes("dialog:details"));
   assert.ok(calls.includes("disable-developer"));
   assert.ok(calls.includes("sync-url"));
+
+  const toggleOnlyController = createDeveloperModeController({
+    dialog: () => developerDialog,
+    disableDeveloperFeatures: () => undefined,
+    loadVersionData: async () => undefined,
+    renderThemeToggle: () => undefined,
+    savePreference: () => undefined,
+    setDialogView: () => undefined,
+    state: () => state,
+    syncUrlState: () => undefined,
+    toggle: () => developerToggle,
+  });
+  toggleOnlyController.render();
+  assert.equal(developerToggle.checked, false);
+  assert.equal(developerToggle.attributes.get("aria-checked"), "false");
 } finally {
   if (originalDocument)
     Object.defineProperty(globalThis, "document", originalDocument);

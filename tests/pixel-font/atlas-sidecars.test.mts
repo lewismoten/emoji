@@ -72,5 +72,5 @@ for (const [index, sheet] of manifest.sheets.entries()) {
     .access(path.join(root, imageAsset))
     .then(() => true)
     .catch(() => false);
-  if (imageExists) assert.ok(atlasReadme.includes(`atlases/${sheet.image}`));
+  if (atlasReadme.includes(`atlases/${sheet.image}`)) assert.ok(imageExists);
 }

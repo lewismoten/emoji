@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import { createExplorerAudioController as createDirectExplorerAudioController } from "../src/explorer-audio.js";
 // Direct source under test: ../src/explorer-audio.js
 
 const root = process.cwd();
@@ -296,6 +297,205 @@ try {
         call[2] === "hover",
     ).length,
     1,
+  );
+
+  const selectInteractive = new FakeElement([], null);
+  selectInteractive.tagName = "SELECT";
+  listeners.get("click")?.[0]({
+    target: new FakeElement([], selectInteractive),
+  });
+  const radioInteractive = new FakeElement([], null);
+  radioInteractive.tagName = "INPUT";
+  radioInteractive.type = "radio";
+  radioInteractive.checked = true;
+  listeners.get("change")?.[0]({
+    target: new FakeElement([], radioInteractive),
+  });
+  const linkInteractive = new FakeElement([], null);
+  linkInteractive.tagName = "A";
+  listeners.get("focusin")?.[0]({
+    target: new FakeElement([], linkInteractive),
+  });
+  listeners.get("focusout")?.[0]({
+    target: new FakeElement([], linkInteractive),
+  });
+  listeners.get("keydown")?.[1]({
+    target: new FakeElement([], linkInteractive),
+  });
+  const genericInteractive = new FakeElement([], null);
+  listeners.get("click")?.[0]({
+    target: new FakeElement([], genericInteractive),
+  });
+  assert.equal(
+    engineStub.engineCalls.some(
+      (call: any[]) =>
+        call[0] === "playInteraction" &&
+        call[1] === "dropdown" &&
+        call[2] === "click",
+    ),
+    true,
+  );
+  assert.equal(
+    engineStub.engineCalls.some(
+      (call: any[]) =>
+        call[0] === "playInteraction" &&
+        call[1] === "radio" &&
+        call[2] === "check",
+    ),
+    true,
+  );
+  assert.equal(
+    engineStub.engineCalls.some(
+      (call: any[]) =>
+        call[0] === "playInteraction" &&
+        call[1] === "link" &&
+        call[2] === "focus",
+    ),
+    true,
+  );
+  assert.equal(
+    engineStub.engineCalls.some(
+      (call: any[]) =>
+        call[0] === "playInteraction" &&
+        call[1] === "link" &&
+        call[2] === "blur",
+    ),
+    true,
+  );
+  assert.equal(
+    engineStub.engineCalls.some(
+      (call: any[]) =>
+        call[0] === "playInteraction" &&
+        call[1] === "link" &&
+        call[2] === "keydown",
+    ),
+    true,
+  );
+  assert.equal(
+    engineStub.engineCalls.some(
+      (call: any[]) =>
+        call[0] === "playInteraction" &&
+        call[1] === "generic" &&
+        call[2] === "click",
+    ),
+    true,
+  );
+
+  const directEngineCalls: any[][] = [];
+  let directEngineOptions: any;
+  const directController = createDirectExplorerAudioController(
+    {
+      savePreference(key: string, value: unknown) {
+        preferences.explorerPreferences[key] = value;
+        saves.push([`direct:${key}`, value]);
+      },
+      state: () => preferences,
+    },
+    {
+      createExplorerAudioEngine(options: any) {
+        directEngineOptions = options;
+        return {
+          musicEnabled: () => false,
+          playInteraction(element: string, action: string) {
+            directEngineCalls.push(["playInteraction", element, action]);
+          },
+          resumeAudioContext() {
+            directEngineCalls.push(["resumeAudioContext"]);
+            return Promise.resolve();
+          },
+          soundEffectsEnabled: () => true,
+          stopMusic() {
+            directEngineCalls.push(["stopMusic"]);
+          },
+          syncHelpMusic() {
+            directEngineCalls.push(["syncHelpMusic"]);
+          },
+          restartMusic() {
+            directEngineCalls.push(["restartMusic"]);
+          },
+        } as any;
+      },
+    } as any,
+  );
+  directController.bindAudioInteractions();
+  assert.equal(directEngineOptions.soundEffectsEnabled(), false);
+  assert.equal(directEngineOptions.musicEnabled(), false);
+  assert.equal(directEngineOptions.helpDialogOpen(), true);
+  assert.equal(directEngineOptions.savedDialogOpen(), false);
+  assert.equal(directEngineOptions.retroMode(), false);
+  assert.equal(directEngineOptions.theme(), "base");
+  const directClick = listeners.get("click")?.at(-1)!;
+  const directChange = listeners.get("change")?.at(-1)!;
+  const directFocusIn = listeners.get("focusin")?.at(-1)!;
+  const directFocusOut = listeners.get("focusout")?.at(-1)!;
+  const directKeyDown = listeners.get("keydown")?.at(-1)!;
+  const listboxInteractive = new FakeElement([], null);
+  listboxInteractive.attributes.set("aria-haspopup", "listbox");
+  directClick({ target: new FakeElement([], listboxInteractive) });
+  const roleRadioInteractive = new FakeElement([], null);
+  roleRadioInteractive.attributes.set("role", "radio");
+  roleRadioInteractive.attributes.set("aria-checked", "true");
+  directChange({ target: new FakeElement([], roleRadioInteractive) });
+  const roleLinkInteractive = new FakeElement([], null);
+  roleLinkInteractive.attributes.set("role", "link");
+  directFocusIn({ target: new FakeElement([], roleLinkInteractive) });
+  directFocusOut({ target: new FakeElement([], roleLinkInteractive) });
+  directKeyDown({ target: new FakeElement([], roleLinkInteractive) });
+  const genericDirectInteractive = new FakeElement([], null);
+  directClick({ target: new FakeElement([], genericDirectInteractive) });
+  assert.equal(
+    directEngineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "dropdown" &&
+        call[2] === "click",
+    ),
+    true,
+  );
+  assert.equal(
+    directEngineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "radio" &&
+        call[2] === "check",
+    ),
+    true,
+  );
+  assert.equal(
+    directEngineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "link" &&
+        call[2] === "focus",
+    ),
+    true,
+  );
+  assert.equal(
+    directEngineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "link" &&
+        call[2] === "blur",
+    ),
+    true,
+  );
+  assert.equal(
+    directEngineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "link" &&
+        call[2] === "keydown",
+    ),
+    true,
+  );
+  assert.equal(
+    directEngineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "generic" &&
+        call[2] === "click",
+    ),
+    true,
   );
 
   (globalThis.document as any).hidden = true;
