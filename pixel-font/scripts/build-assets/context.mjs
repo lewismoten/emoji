@@ -29,7 +29,10 @@ export async function loadBuildContext(argv = process.argv) {
     await fs.readFile(path.join(atlasDirectory, "manifest.json"), "utf8"),
   );
   const versionManifest = JSON.parse(
-    await fs.readFile(path.join(root, "versions", "manifest.json"), "utf8"),
+    await fs.readFile(
+      path.join(root, "src", "data", "versions", "manifest.json"),
+      "utf8",
+    ),
   );
 
   return {

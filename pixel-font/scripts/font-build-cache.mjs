@@ -11,7 +11,8 @@ export async function getFontBuildFingerprint({ root, workspace }) {
     path.join(workspace, "atlases"),
     path.join(workspace, "scripts"),
     path.join(root, "tests", "font-sequences.test.py"),
-    path.join(root, "versions"),
+    path.join(root, "src", "data", "versions"),
+    path.join(root, "src", "data", "proposed"),
   ];
   const files = (
     await Promise.all(inputs.map((input) => listFiles(input)))

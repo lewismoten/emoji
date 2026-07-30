@@ -24,6 +24,7 @@ import {
   renderAtlasMarkdown,
   renderPreview,
 } from "./build-assets/renderers.mjs";
+import { updateCoverageReleaseDocument } from "./build-assets/coverage-release-doc.mjs";
 
 const context = await loadBuildContext(process.argv);
 if (await canSkipBuild(context)) {
@@ -60,7 +61,7 @@ const releasedCoverage = await Promise.all(
   context.versionManifest.versions.map(async (version) => {
     const keys = JSON.parse(
       await fs.readFile(
-        path.join(context.root, "versions", version.file),
+        path.join(context.root, "src", "data", "versions", version.file),
         "utf8",
       ),
     );
@@ -70,7 +71,10 @@ const releasedCoverage = await Promise.all(
 const proposedCoverage = await Promise.all(
   (context.versionManifest.proposed ?? []).map(async (version) => {
     const proposal = JSON.parse(
-      await fs.readFile(path.join(context.root, version.file), "utf8"),
+      await fs.readFile(
+        path.join(context.root, "src", "data", version.file),
+        "utf8",
+      ),
     );
     return coverageEntry(
       version,
@@ -222,6 +226,10 @@ await fs.writeFile(
   path.join(context.workspace, "ATLASES.md"),
   renderAtlasMarkdown(manifest, paintedAtlasSheets),
 );
+await updateCoverageReleaseDocument({
+  workspace: context.workspace,
+  buildManifest,
+});
 await fs.writeFile(
   path.join(context.workspace, "font-build.revision"),
   `${Date.now()}\n`,

@@ -15,13 +15,19 @@ export async function loadAtlasGenerationContext() {
   );
   const emoji = readEmojiDataSync();
   const versionManifest = JSON.parse(
-    await fs.readFile(path.join(root, "versions", "manifest.json"), "utf8"),
+    await fs.readFile(
+      path.join(root, "src", "data", "versions", "manifest.json"),
+      "utf8",
+    ),
   );
   const proposedEmoji = (
     await Promise.all(
       (versionManifest.proposed ?? []).map(async (version) => {
         const proposal = JSON.parse(
-          await fs.readFile(path.join(root, version.file), "utf8"),
+          await fs.readFile(
+            path.join(root, "src", "data", version.file),
+            "utf8",
+          ),
         );
         return (proposal.emoji ?? []).map((item) => ({
           ...item,
