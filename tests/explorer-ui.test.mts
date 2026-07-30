@@ -258,6 +258,12 @@ try {
     state: () => state,
   });
 
+  assert.equal(typeof controller.applyTranslations, "function");
+  assert.equal(typeof controller.installApp, "function");
+  assert.equal(typeof controller.loadUiTranslations, "function");
+  assert.equal(typeof controller.renderInstallAppButton, "function");
+  assert.equal(typeof controller.updateOnlineStatus, "function");
+
   controller.updateOnlineStatus();
   assert.equal(offlineStatus.textContent, "Offline — showing saved data");
   assert.equal(offlineStatus.hidden, false);
@@ -492,6 +498,24 @@ try {
     },
   );
   assert.equal(calls.includes("blur-font-never"), false);
+
+  selectEmojiFont(
+    {
+      renderPixelFontToggle: () => calls.push("rerender-font-pixel"),
+      savePreference(key: string, value: unknown) {
+        preferenceCalls.push([key, value]);
+      },
+    },
+    {
+      currentTarget: {
+        blur: () => calls.push("blur-font-pixel"),
+        dataset: { emojiFont: "pixel" },
+      },
+      detail: 2,
+    },
+  );
+  assert.deepEqual(preferenceCalls.at(-1), ["pixelFont", true]);
+  assert.equal(calls.includes("blur-font-pixel"), true);
 
   const developerToggle = createElement();
   const standardModeInput = createElement();

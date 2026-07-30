@@ -208,10 +208,21 @@ actions.onClick({ target: clickTarget });
 assert.equal(cell.focused, 1);
 assert.deepEqual(showEmojiCalls, [["wrappedGift", true]]);
 
+const fallbackTarget = new FakeElement();
+fallbackTarget.id = "wrappedGift";
+actions.onClick({ target: fallbackTarget }, false);
+assert.deepEqual(showEmojiCalls.at(-1), ["wrappedGift", false]);
+
+actions.onClick({ target: { id: "missing", closest: () => null } });
+assert.deepEqual(showEmojiCalls.at(-1), ["wrappedGift", false]);
+
 actions.rebuildEmojiCodePointLookup();
 assert.equal(state.emojiKeyByCodePoints.get("1F381"), "wrappedGift");
 assert.equal(state.emojiKeyByCodePoints.get("1F44D 1F3FB"), "lightSkin");
 actions.updateEmojiComposition(state.byId.wrappedGift, "🎁");
+
+const cachedManifest = await actions.loadPackageManifest();
+assert.equal(cachedManifest, manifest);
 
 const originalBackCalled = (globalThis as any).window.history.backCalled;
 const originalSyncCalls = syncUrlStateCalls.length;
@@ -242,12 +253,17 @@ assert.equal(dialog.dataset.dialogParentPanel, "");
 assert.equal((globalThis as any).window.history.backCalled, 1);
 
 (globalThis as any).window.history.state = {
+  emojiDialogEntry: true,
+  dialogParentPanel: "favorites",
   keep: true,
   compositionParent: "wrappedGift",
-  dialogParentPanel: "favorites",
 };
 actions.onEmojiDialogClose();
-assert.deepEqual(syncUrlStateCalls.at(-1), ["replace", { keep: true }]);
+assert.deepEqual(syncUrlStateCalls.at(-1), [
+  "replace",
+  { emojiDialogEntry: true, keep: true },
+]);
+assert.equal((globalThis as any).window.history.backCalled, 1);
 
 (globalThis as any).document = originalDocument;
 (globalThis as any).window = originalWindow;

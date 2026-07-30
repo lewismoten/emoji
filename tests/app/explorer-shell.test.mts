@@ -148,8 +148,20 @@ try {
   const module = await import(
     pathToFileURL(path.join(tempDirectory, "explorer-shell.mjs")).href
   );
-  const { createExplorerShell } =
+  const { createExplorerShell, createExplorerShellDependencies } =
     module as typeof import("../../src/app/explorer-shell.js");
+
+  const dependencies = createExplorerShellDependencies();
+  assert.equal(typeof dependencies.createDeveloperModeController, "function");
+  assert.equal(typeof dependencies.createExplorerAudioController, "function");
+  assert.equal(typeof dependencies.createExplorerUiController, "function");
+  assert.equal(typeof dependencies.createSavedEmojiController, "function");
+  assert.equal(dependencies.installWebApp, "install-web-app");
+  assert.equal(typeof dependencies.renderInstallAppButtonHelper, "function");
+  assert.equal(typeof dependencies.renderPixelFontToggleHelper, "function");
+  assert.equal(typeof dependencies.renderThemeToggleHelper, "function");
+  assert.equal(typeof dependencies.selectEmojiFontHelper, "function");
+  assert.equal(typeof dependencies.selectThemeHelper, "function");
 
   const state: any = {
     byId: { wave: { key: "wave" } },
@@ -307,6 +319,58 @@ try {
   uiOptions.setDeferredInstallPrompt("later");
   assert.equal(uiOptions.deferredInstallPrompt(), "later");
   assert.equal(uiOptions.installWebApp, "install-web-app");
+
+  state.items = [];
+  state.orderMode = "grouped";
+  state.selectedSequenceType = "single";
+  versionModeSelector.value = "selected";
+  versionSelector.value = "15.0";
+  devModeOptions.disableDeveloperFeatures();
+  assert.equal(versionModeSelector.value, "through");
+  assert.equal(versionSelector.value, "16.0");
+  assert.equal(state.orderMode, "grouped");
+  assert.equal(state.selectedSequenceType, "single");
+  assert.equal(state.renderCategoryFiltersCalls, 1);
+
+  createExplorerShell(
+    {
+      applyPixelArtworkClass: () => "apply-pixel-artwork-class",
+      dialog: () => "dialog",
+      drawList: () => ["draw-list"],
+      emojiFontChoices: () => "emoji-font-choices",
+      installAppButton: () => installButton,
+      installDialog: () => "install-dialog",
+      loadVersionData: () => ["load-version-data"],
+      offlineStatus: () => "offline-status",
+      orderButtons: () => undefined,
+      pixelEditor: () => "pixel-editor",
+      refreshRenderedPixelEmoji: "refresh-rendered-pixel-emoji",
+      renderVersionModeToggle: () => ["render-version-mode-toggle"],
+      renderCategoryFilters: () => {
+        state.renderCategoryFiltersCalls =
+          (state.renderCategoryFiltersCalls ?? 0) + 1;
+      },
+      savePreference: "save-preference",
+      savedDialog: () => "saved-dialog",
+      setDialogView: (...args: unknown[]) => ["set-dialog-view", args],
+      state: () => ({
+        ...state,
+        items: [],
+        orderMode: "grouped",
+        selectedSequenceType: "single",
+        versionManifests: [],
+      }),
+      syncUrlState: (...args: unknown[]) => ["sync-url-state", args],
+      syncVersionRange: () => ["sync-version-range"],
+      themeChoices: () => "theme-choices",
+      translate: "translate",
+      versionModeSelector: () => undefined,
+      versionSelector: () => undefined,
+    },
+  );
+  const secondDevModeOptions = uiStub.developerModeCalls[1];
+  assert.equal(typeof secondDevModeOptions.disableDeveloperFeatures, "function");
+  assert.doesNotThrow(() => secondDevModeOptions.disableDeveloperFeatures());
 } finally {
   if (originalWindow) {
     Object.defineProperty(globalThis, "window", originalWindow);

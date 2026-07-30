@@ -27,6 +27,7 @@ assert.equal(
   ).length,
   24,
 );
+assert.deepEqual(nextCopiedEmojiKeys(["wave"], ""), ["wave"]);
 
 assert.equal(
   savedEmojiLabel(
@@ -37,6 +38,10 @@ assert.equal(
   "Grinning face",
 );
 assert.equal(savedEmojiLabel("wrappedGift", {}, {}), "Wrapped gift");
+assert.equal(
+  savedEmojiLabel("wrappedGift", {}, { wrappedGift: { shortName: "Wrapped gift" } }),
+  "Wrapped gift",
+);
 
 const createdButtons: Array<Record<string, unknown>> = [];
 const globals = globalThis as typeof globalThis & {
@@ -85,6 +90,28 @@ renderSavedEmojiList({
 assert.equal(container.children.length, 1);
 assert.equal((container.children[0] as any).dataset.savedEmoji, "wave");
 assert.equal(empty.hidden, true);
+assert.equal((container.children[0] as any).dataset.savedSource, "favorites");
+assert.equal((container.children[0] as any).tabIndex, 0);
+
+const emptyContainer = {
+  children: [] as unknown[],
+  replaceChildren(...nodes: unknown[]) {
+    this.children = nodes;
+  },
+};
+const emptyPlaceholder = { hidden: true };
+renderSavedEmojiList({
+  container: emptyContainer as never,
+  empty: emptyPlaceholder as never,
+  keys: ["missing"],
+  source: "copied",
+  emojiByKey: { wave: "👋" },
+  searchAnnotations: {},
+  byId: {},
+  applyPixelArtworkClass() {},
+});
+assert.deepEqual(emptyContainer.children, []);
+assert.equal(emptyPlaceholder.hidden, false);
 
 const favoriteGlyph = { dataset: {}, textContent: "", querySelector: () => null, setAttribute() {}, style: { setProperty() {} }, title: "" };
 const toggleButton = {
@@ -164,13 +191,37 @@ controller.recordCopiedEmoji("wave");
 assert.deepEqual(copiedEmojiKeys, ["wave", "grinningFace"]);
 controller.addFavorite("grinningFace");
 assert.deepEqual(favoriteEmojiKeys, ["grinningFace", "wave"]);
+controller.addFavorite("grinningFace");
+assert.deepEqual(favoriteEmojiKeys, ["grinningFace", "wave"]);
 controller.toggleFavorite("wave");
+assert.deepEqual(favoriteEmojiKeys, ["grinningFace"]);
+controller.toggleFavorite("");
 assert.deepEqual(favoriteEmojiKeys, ["grinningFace"]);
 controller.renderSavedEmoji();
 controller.updateFavoriteButton();
 assert.equal(savedPreferences.length >= 2, true);
 assert.equal(favoritesEmpty.hidden, true);
 assert.equal(copiedEmpty.hidden, true);
+
+const closedDialogController = createSavedEmojiController({
+  applyPixelArtworkClass: () => () => {},
+  byId: () => ({}),
+  copiedEmojiKeys: () => [],
+  currentEmojiKey: () => "",
+  favoriteEmojiKeys: () => [],
+  savePreference: () => {},
+  savedDialog: () => ({ open: false, querySelector: () => null } as never),
+  searchAnnotations: () => ({}),
+  setCopiedEmojiKeys: () => {},
+  setFavoriteEmojiKeys: () => {},
+  translate: (_key, fallback) => fallback,
+  emojiByKey: () => ({}),
+});
+assert.doesNotThrow(() => closedDialogController.renderSavedEmoji());
+assert.doesNotThrow(() =>
+  (closedDialogController as any).renderList(null, null, [], "favorites"),
+);
+assert.doesNotThrow(() => closedDialogController.toggleFavorite(""));
 
 if (originalDocument === undefined) {
   delete globals.document;

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import {
   ensureImportExamples,
+  getCodeExampleText,
   loadPackageManifest,
   renderImportExamples,
   resolveImportExamples,
@@ -210,6 +211,22 @@ try {
   );
   assert.equal(code.querySelectorAll(".line").length, 4);
 
+  const codeDialog = new FakeNode("dialog");
+  const codeRoot = new FakeNode("code");
+  const codeLineA = new FakeNode("line");
+  codeLineA.textContent = 'import emoji from "@lewismoten/emoji/all";';
+  const codeLineB = new FakeNode("line");
+  codeLineB.textContent = "console.log(emoji.wave);";
+  const hiddenLine = new FakeNode("line");
+  hiddenLine.hidden = true;
+  hiddenLine.textContent = "hidden";
+  codeRoot.append(codeLineA, codeLineB, hiddenLine);
+  codeDialog.append(codeRoot);
+  assert.equal(
+    getCodeExampleText(codeDialog as any),
+    'import emoji from "@lewismoten/emoji/all";\nconsole.log(emoji.wave);',
+  );
+
   renderImportExamples(manifest as any, {
     key: "wave",
     group: "Objects",
@@ -221,6 +238,22 @@ try {
     queried.get(".emoji-category-import-path")?.textContent,
     "@lewismoten/emoji/categories/objects",
   );
+  assert.equal(
+    queried.get(".emoji-subgroup-import-path")?.textContent,
+    "@lewismoten/emoji/categories/objects/mail",
+  );
+
+  queried.clear();
+  assert.doesNotThrow(() =>
+    renderImportExamples(manifest as any, {
+      key: "missing",
+      group: "Other",
+      unicodeSubGroup: "none",
+    }),
+  );
+
+  const blankDialog = new FakeNode("dialog");
+  assert.doesNotThrow(() => ensureImportExamples(blankDialog as any));
 
   let currentManifest: any = { packs: [], categories: [] };
   let currentPromise: Promise<unknown> | undefined;
@@ -262,6 +295,30 @@ try {
     }),
     promise,
   );
+
+  currentManifest = { packs: [], categories: [] };
+  currentPromise = undefined;
+  Object.defineProperty(globalThis, "fetch", {
+    configurable: true,
+    value: async () => ({
+      ok: true,
+      async json() {
+        return manifest;
+      },
+    }),
+  });
+  const loadedManifest = await loadPackageManifest({
+    getManifest: () => currentManifest,
+    getPromise: () => currentPromise,
+    setManifest: (manifestValue) => {
+      currentManifest = manifestValue;
+    },
+    setPromise: (promiseValue) => {
+      currentPromise = promiseValue;
+    },
+  });
+  assert.deepEqual(loadedManifest, manifest);
+  assert.deepEqual(currentManifest, manifest);
 } finally {
   console.warn = originalWarn;
   if (originalDocument)
