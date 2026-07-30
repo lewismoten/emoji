@@ -6,10 +6,9 @@ import {
   SKIN_TONE_COLORS,
 } from "../core/pixel-editor-constants.js";
 
-export function renderPixelEditorTemplate() {
-  const translate =
-    arguments[0] ??
-    ((key, fallback) => fallback);
+export function renderPixelEditorTemplate(
+  translate = (_key, fallback) => fallback,
+) {
   return `
     <div class="pixel-editor-toolbar">
       <div class="pixel-editor-tools" role="toolbar" data-i18n-aria-label="drawingTools" aria-label="${translate("drawingTools", "Drawing tools")}">
@@ -122,14 +121,14 @@ export function renderPixelEditorTemplate() {
           </div>
         </fieldset>
         <fieldset class="pixel-editor-layer-help" hidden>
-          <legend>Keyboard help</legend>
+          <legend>${translate("keyboardShortcuts", "Keyboard shortcuts")}</legend>
           <div aria-live="polite">
-            <span><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> <span>Move</span></span>
-            <span><kbd>Shift</kbd> + <kbd>←</kbd><kbd>→</kbd> <span>Flip ↔</span></span>
-            <span><kbd>Shift</kbd> + <kbd>↑</kbd><kbd>↓</kbd> <span>Flip ↕</span></span>
-            <span><kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>←</kbd><kbd>→</kbd> <span>Rotate</span></span>
-            <span><kbd>Enter</kbd> <span>Merge</span></span>
-            <span><kbd>Esc</kbd> <span>Cancel</span></span>
+            <span><kbd>←</kbd><kbd>↑</kbd><kbd>↓</kbd><kbd>→</kbd> <span data-i18n="moveLayer">${translate("moveLayer", "Move floating layer")}</span></span>
+            <span><kbd>Shift</kbd> + <kbd>←</kbd><kbd>→</kbd> <span data-i18n="flipLayerHorizontal">${translate("flipLayerHorizontal", "Flip layer horizontally")}</span></span>
+            <span><kbd>Shift</kbd> + <kbd>↑</kbd><kbd>↓</kbd> <span data-i18n="flipLayerVertical">${translate("flipLayerVertical", "Flip layer vertically")}</span></span>
+            <span><kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>←</kbd><kbd>→</kbd> <span data-i18n="rotateLayerRight">${translate("rotateLayerRight", "Rotate layer 45 degrees right")}</span></span>
+            <span><kbd>Enter</kbd> <span data-i18n="bakeLayer">${translate("bakeLayer", "Merge")}</span></span>
+            <span><kbd>Esc</kbd> <span data-i18n="cancelLayer">${translate("cancelLayer", "Cancel")}</span></span>
           </div>
         </fieldset>
         <div class="pixel-editor-file">

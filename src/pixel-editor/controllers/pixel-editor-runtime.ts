@@ -47,8 +47,65 @@ export function createPixelEditorRuntimeController(options) {
     });
   }
 
+  function applyVisibleEditorText(root) {
+    const setText = (selector, key, fallback) => {
+      const element = root?.querySelector?.(selector);
+      if (element) element.textContent = translate(key, fallback);
+    };
+    const setLabel = (selector, key, fallback) => {
+      const element = root?.querySelector?.(selector);
+      if (!element) return;
+      const label = translate(key, fallback);
+      element.setAttribute("aria-label", label);
+      if (element.hasAttribute("title")) element.setAttribute("title", label);
+    };
+
+    setText(".pixel-editor-undo [data-i18n='undo']", "undo", "Undo");
+    setText(".pixel-editor-redo [data-i18n='redo']", "redo", "Redo");
+    setText(
+      ".pixel-editor-paste-art [data-i18n='pasteAsLayer']",
+      "pasteAsLayer",
+      "Paste layer",
+    );
+    setText(
+      ".pixel-editor-layer > legend",
+      "floatingLayer",
+      "Floating layer",
+    );
+    setText(
+      ".pixel-editor-invert-layer [data-i18n='invertLayer']",
+      "invertLayer",
+      "Invert",
+    );
+    setText(".pixel-editor-bake-layer", "bakeLayer", "Merge");
+    setText(".pixel-editor-cancel-layer", "cancelLayer", "Cancel");
+    setLabel(".pixel-editor-layer-position", "moveLayer", "Move floating layer");
+    setLabel(
+      "[data-layer-transform='rotate-left']",
+      "rotateLayerLeft",
+      "Rotate layer 45 degrees left",
+    );
+    setLabel(
+      "[data-layer-transform='rotate-right']",
+      "rotateLayerRight",
+      "Rotate layer 45 degrees right",
+    );
+    setLabel(
+      "[data-layer-transform='flip-horizontal']",
+      "flipLayerHorizontal",
+      "Flip layer horizontally",
+    );
+    setLabel(
+      "[data-layer-transform='flip-vertical']",
+      "flipLayerVertical",
+      "Flip layer vertically",
+    );
+  }
+
   function refreshTranslations() {
-    applyTranslatedAttributes(status?.closest(".pixel-editor-view"));
+    const root = status?.closest(".pixel-editor-view");
+    applyTranslatedAttributes(root);
+    applyVisibleEditorText(root);
     if (currentEntry()) updateLocation();
     updateTraceOutput();
     updateShapeToolButtons();

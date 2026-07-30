@@ -12,9 +12,23 @@ export function createPixelEditorLoader(options: {
   setPromise: (promise: Promise<any> | undefined) => void;
   translate: (key: string, fallback: string) => string;
 }) {
+  const destroyEditor = (editor: any) => {
+    try {
+      editor?.element?.remove?.();
+    } catch {
+      // Ignore stale teardown failures; a fresh editor will be created.
+    }
+    options.setEditor(undefined);
+    options.setPromise(undefined);
+  };
+
   return async () => {
     const existing = options.getEditor();
-    if (existing) return existing;
+    const dialog = options.dialog();
+    if (existing && !dialog.classList.contains("is-editor-view")) return existing;
+    if (existing && dialog.classList.contains("is-editor-view")) {
+      destroyEditor(existing);
+    }
     let promise = options.getPromise();
     if (!promise) {
       promise = Promise.all([options.loadStylesheet(), options.loadEditor()])
@@ -37,7 +51,6 @@ export function createPixelEditorLoader(options: {
       options.setPromise(promise);
     }
     const editor = await promise;
-    const dialog = options.dialog();
     const key = options.currentEmojiKey();
     if (!editor || !dialog.classList.contains("is-editor-view")) return editor;
     editor.refreshTranslations();
