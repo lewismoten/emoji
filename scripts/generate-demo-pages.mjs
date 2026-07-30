@@ -258,6 +258,30 @@ export const renderPage = (
       `<script defer src="./index.js?v=${assetVersion}" type="module"></script>`,
     )
     .replace(
+      /<link rel="icon" href="\.\/favicon\.svg\?v=dev" sizes="any" type="image\/svg\+xml" \/>/,
+      `<link rel="icon" href="./favicon.svg?v=${assetVersion}" sizes="any" type="image/svg+xml" />`,
+    )
+    .replace(
+      /<link rel="icon" href="\.\/pwa\/icons\/icon-64\.png\?v=dev" sizes="64x64" type="image\/png" \/>/,
+      `<link rel="icon" href="./pwa/icons/icon-64.png?v=${assetVersion}" sizes="64x64" type="image/png" />`,
+    )
+    .replace(
+      /<link rel="icon" href="\.\/pwa\/icons\/icon-48\.png\?v=dev" sizes="48x48" type="image\/png" \/>/,
+      `<link rel="icon" href="./pwa/icons/icon-48.png?v=${assetVersion}" sizes="48x48" type="image/png" />`,
+    )
+    .replace(
+      /<link rel="icon" href="\.\/pwa\/icons\/icon-32\.png\?v=dev" sizes="32x32" type="image\/png" \/>/,
+      `<link rel="icon" href="./pwa/icons/icon-32.png?v=${assetVersion}" sizes="32x32" type="image/png" />`,
+    )
+    .replace(
+      /<link rel="icon" href="\.\/pwa\/icons\/icon-16\.png\?v=dev" sizes="16x16" type="image\/png" \/>/,
+      `<link rel="icon" href="./pwa/icons/icon-16.png?v=${assetVersion}" sizes="16x16" type="image/png" />`,
+    )
+    .replace(
+      /<link rel="shortcut icon" href="\.\/favicon\.ico\?v=dev" type="image\/x-icon" \/>/,
+      `<link rel="shortcut icon" href="./favicon.ico?v=${assetVersion}" type="image/x-icon" />`,
+    )
+    .replace(
       /<link\b(?=[^>]*\bid="pixel-font-stylesheet")[^>]*\/?>/,
       `<link id="pixel-font-stylesheet" rel="stylesheet" href="./pixel-font/build/font/pixel-emoji.css?v=${pixelFontRevision}" data-font-revision="${pixelFontRevision}">`,
     )

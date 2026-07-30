@@ -9,6 +9,8 @@ const generatedIcons = [
   "favicon.ico",
   "icon-16.png",
   "icon-32.png",
+  "icon-48.png",
+  "icon-64.png",
   "icon-192.png",
   "icon-512.png",
   "icon-maskable-512.png",
@@ -20,6 +22,8 @@ const generateRasterIcons = (favicon, maskableFavicon, iconDirectory) => {
   const rasterTargets = [
     ["icon-16.png", 16, favicon],
     ["icon-32.png", 32, favicon],
+    ["icon-48.png", 48, favicon],
+    ["icon-64.png", 64, favicon],
     ["icon-192.png", 192, favicon],
     ["icon-512.png", 512, favicon],
     ["icon-maskable-512.png", 512, maskableFavicon],
@@ -46,6 +50,7 @@ const generateRasterIcons = (favicon, maskableFavicon, iconDirectory) => {
     [
       fs.readFileSync(path.join(iconDirectory, "icon-16.png")),
       fs.readFileSync(path.join(iconDirectory, "icon-32.png")),
+      fs.readFileSync(path.join(iconDirectory, "icon-48.png")),
     ],
     path.join(iconDirectory, "favicon.ico"),
   );
