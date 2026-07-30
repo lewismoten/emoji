@@ -162,6 +162,19 @@ updateCompositionBackButton({
 });
 assert.equal(dialogPanelParent.title, "Back to Language");
 
+const helpPanelParent = new FakeButton();
+updateCompositionBackButton({
+  byId: {},
+  dialogParentPanel: "help",
+  currentDialogParentStack: [],
+  emojiByKey: {},
+  emojiParent: helpPanelParent as any,
+  historyState: {},
+  searchAnnotations: {},
+  translate: (_key, fallback) => fallback,
+});
+assert.equal(helpPanelParent.title, "Back to Help");
+
 const historyPanelParent = new FakeButton();
 updateCompositionBackButton({
   byId: {},
@@ -173,6 +186,19 @@ updateCompositionBackButton({
   translate: (_key, fallback) => fallback,
 });
 assert.equal(historyPanelParent.title, "Back");
+
+const missingCompositionParent = new FakeButton();
+updateCompositionBackButton({
+  byId: { wrappedGift: { shortName: "wrapped gift" } },
+  currentDialogParentStack: [],
+  emojiByKey: {},
+  emojiParent: missingCompositionParent as any,
+  historyState: { compositionParent: "wrappedGift" },
+  searchAnnotations: {},
+  translate: (_key, fallback) => fallback,
+});
+assert.equal(missingCompositionParent.hidden, true);
+assert.equal(missingCompositionParent.title, "");
 
 updateCompositionBackButton({
   byId: {},

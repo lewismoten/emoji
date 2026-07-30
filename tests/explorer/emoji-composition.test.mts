@@ -41,6 +41,26 @@ const originalDocument = (globalThis as typeof globalThis & { document?: any })
   },
 };
 
+assert.doesNotThrow(() =>
+  renderEmojiComposition({
+    section: null,
+    equation: null,
+    modeButton: null,
+    item: { key: "wrappedGift", codePoints: "1F381" },
+    value: "🎁",
+    developerMode: true,
+    detailsVisible: true,
+    compositionMode: "condensed",
+    emojiKeyByCodePoints: new Map(),
+    emojiByKey: { wrappedGift: "🎁" },
+    searchAnnotations: {},
+    byId: {},
+    translate: (_key, fallback) => fallback,
+    applyPixelArtworkClass() {},
+    applyStandalonePixelArtwork() {},
+  }),
+);
+
 const section = makeElement();
 const equation = makeElement();
 const modeButton = makeElement();
@@ -127,6 +147,83 @@ assert.deepEqual((multiModeButton as any).attributes, {
 assert.equal(multiAppended.length > 0, true);
 assert.equal(pixelArtworkKeys.includes("rainbowFlag"), true);
 assert.equal(standaloneArtworkKeys.length > 0, true);
+
+const fullSection = makeElement();
+const fullEquation = makeElement();
+const fullModeButton = makeElement();
+const fullAppended: unknown[] = [];
+fullEquation.append = (...nodes: unknown[]) => {
+  fullAppended.push(...nodes);
+};
+
+renderEmojiComposition({
+  section: fullSection,
+  equation: fullEquation,
+  modeButton: fullModeButton,
+  item: {
+    key: "rainbowFlag",
+    shortName: "rainbow flag",
+    codePoints: "1F3F3 FE0F 200D 1F308",
+  },
+  value: "🏳️‍🌈",
+  developerMode: true,
+  detailsVisible: true,
+  compositionMode: "full",
+  emojiKeyByCodePoints: new Map([
+    ["1F3F3 FE0F", "whiteFlag"],
+    ["1F308", "rainbow"],
+  ]),
+  emojiByKey: { whiteFlag: "🏳️", rainbow: "🌈", rainbowFlag: "🏳️‍🌈" },
+  searchAnnotations: { whiteFlag: ["white flag"], rainbow: ["rainbow"] },
+  byId: {
+    whiteFlag: { shortName: "white flag" },
+    rainbow: { shortName: "rainbow" },
+    rainbowFlag: { shortName: "rainbow flag" },
+  },
+  translate: (key, fallback) => `${key}:${fallback}`,
+  applyPixelArtworkClass() {},
+  applyStandalonePixelArtwork() {},
+  dir: "rtl",
+  locale: "ar",
+  numberingSystem: "arab",
+});
+
+assert.equal(fullModeButton.hidden, false);
+assert.equal(
+  fullModeButton.textContent,
+  "showCondensedSequence:Show condensed sequence",
+);
+assert.equal((fullModeButton as any).attributes["aria-pressed"], "true");
+assert.equal(fullAppended.length > multiAppended.length, true);
+
+const uncondensedSection = makeElement();
+const uncondensedEquation = makeElement();
+const uncondensedModeButton = makeElement();
+
+renderEmojiComposition({
+  section: uncondensedSection,
+  equation: uncondensedEquation,
+  modeButton: uncondensedModeButton,
+  item: {
+    key: "personAndRocket",
+    shortName: "person and rocket",
+    codePoints: "1F9D1 1F680",
+  },
+  value: "🧑🚀",
+  developerMode: true,
+  detailsVisible: true,
+  compositionMode: "condensed",
+  emojiKeyByCodePoints: new Map(),
+  emojiByKey: { personAndRocket: "🧑🚀" },
+  searchAnnotations: {},
+  byId: {},
+  translate: (_key, fallback) => fallback,
+  applyPixelArtworkClass() {},
+  applyStandalonePixelArtwork() {},
+});
+
+assert.equal(uncondensedSection.hidden, false);
+assert.equal(uncondensedModeButton.hidden, true);
 
 if (originalDocument === undefined) {
   delete (globalThis as typeof globalThis & { document?: any }).document;

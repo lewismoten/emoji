@@ -16,6 +16,7 @@ const lookup = new Map([
 ]);
 
 assert.equal(isCondensedSequenceControl(0x200d), true);
+assert.equal(isCondensedSequenceControl(0xfe0e), true);
 assert.equal(isCondensedSequenceControl(0xfe0f), true);
 assert.equal(isCondensedSequenceControl(0x1f600), false);
 assert.equal(findCompositionArtworkKey("1f44d", lookup), "thumbsUp");
@@ -50,6 +51,28 @@ assert.deepEqual(
   ],
 );
 assert.deepEqual(
+  condenseCompositionPoints(
+    [
+      { hex: "1F44D", point: 0x1f44d },
+      { hex: "FE0F", point: 0xfe0f },
+    ],
+    "thumbsUp",
+    lookup,
+  ),
+  [
+    { component: { hex: "1F44D", point: 0x1f44d } },
+    { component: { hex: "FE0F", point: 0xfe0f } },
+  ],
+);
+assert.deepEqual(
+  condenseCompositionPoints(
+    [{ hex: "1F680", point: 0x1f680 }],
+    "rocket",
+    lookup,
+  ),
+  [{ component: { hex: "1F680", point: 0x1f680 } }],
+);
+assert.deepEqual(
   describeCompositionPoint(0xe0067, (key, fallback) =>
     key === "tagAbbreviation" ? "TAG" : fallback,
   ),
@@ -76,10 +99,42 @@ assert.deepEqual(
   },
 );
 assert.deepEqual(
+  describeCompositionPoint(0xfe0e, (_key, fallback) => fallback),
+  {
+    glyph: "VS15",
+    label: "Text presentation selector",
+    symbolic: true,
+  },
+);
+assert.deepEqual(
+  describeCompositionPoint(0x20e3, (_key, fallback) => fallback),
+  {
+    glyph: "KEY",
+    label: "Combining keycap",
+    symbolic: true,
+  },
+);
+assert.deepEqual(
+  describeCompositionPoint(0xe007f, (_key, fallback) => fallback),
+  {
+    glyph: "END",
+    label: "Cancel tag",
+    symbolic: true,
+  },
+);
+assert.deepEqual(
   describeCompositionPoint(0x1f3fb, (_key, fallback) => fallback),
   {
     glyph: "🏻",
     label: "Light skin tone",
+    symbolic: false,
+  },
+);
+assert.deepEqual(
+  describeCompositionPoint(0x1f3ff, (_key, fallback) => fallback),
+  {
+    glyph: "🏿",
+    label: "Dark skin tone",
     symbolic: false,
   },
 );

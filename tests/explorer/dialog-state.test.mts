@@ -32,6 +32,7 @@ assert.equal(
   "U+1F469 U+200D U+1F52C",
 );
 assert.equal(formatEmojiCodePoints(""), "");
+assert.equal(formatEmojiCodePoints(undefined), "");
 
 assert.deepEqual(
   resolveDialogTitle({
@@ -89,6 +90,16 @@ assert.deepEqual(
     previousDisabled: true,
     nextDisabled: true,
     previousKey: "",
+    nextKey: "",
+  },
+);
+assert.deepEqual(
+  resolveDialogNavigationState(["wave", "gift", "rocket"], "rocket"),
+  {
+    index: 2,
+    previousDisabled: false,
+    nextDisabled: true,
+    previousKey: "gift",
     nextKey: "",
   },
 );
@@ -172,6 +183,50 @@ assert.deepEqual(
       key: "wrappedGift",
       escape: "\\u{1f381}",
       codePoints: "U+1F381",
+    },
+  },
+);
+
+assert.deepEqual(
+  resolveEmojiDialogDisplay({
+    emojiKey: "tagBlackFlag",
+    emojiValue: "🏴",
+    item: {
+      codePoints: "1F3F4 E0067 E0062",
+      sequenceType: "tag",
+      status: "component",
+    },
+    groupText: "Flags",
+    subGroupText: "Subdivision",
+    introducedVersion: "7.0",
+    selectedSearchLocale: "",
+    annotations: [],
+    sequenceTypeLabels: {},
+    sequenceTranslationKeys: {},
+    statusTranslationKeys: {},
+    translate: (_key: string, fallback: string) => fallback,
+  }),
+  {
+    groupText: "Flags",
+    subGroupText: "Subdivision",
+    keyText: "tagBlackFlag",
+    valueText: "🏴",
+    encodedText: "\\u{1f3f4}",
+    englishName: "Tag black flag",
+    versionText: "7.0",
+    sequenceTypeText: "tag",
+    statusText: "component",
+    dialogTitle: {
+      title: "Tag black flag",
+      showLocalized: false,
+      localizedKeywords: "",
+    },
+    hideEnglishName: true,
+    copyValues: {
+      emoji: "🏴",
+      key: "tagBlackFlag",
+      escape: "\\u{1f3f4}",
+      codePoints: "U+1F3F4 U+E0067 U+E0062",
     },
   },
 );
