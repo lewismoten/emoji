@@ -47,6 +47,9 @@ const coreAssets = [
   "./pixel-font/build-retro-text/pixel-latin-retro.css",
   "./pixel-font/build-retro-text/pixel-latin-retro.woff2",
   "./favicon.svg",
+  "./favicon.ico",
+  "./pwa/icons/icon-16.png",
+  "./pwa/icons/icon-32.png",
   "./pwa/icons/icon-192.png",
   "./pwa/icons/icon-512.png",
   "./pwa/icons/icon-maskable-512.png",
@@ -102,12 +105,16 @@ const sourceFileForAsset = (asset) => {
     return path.join("src", "site", "pwa", "manifest.webmanifest");
   if (file === "offline.html") return path.join("src", "site", "offline.html");
   if (file === "favicon.svg") return path.join("src", "site", "favicon.svg");
+  if (file === "favicon.ico")
+    return path.join("src", "site", "pwa", "icons", "favicon.ico");
   if (
+    file === "pwa/icons/icon-16.png" ||
+    file === "pwa/icons/icon-32.png" ||
     file === "pwa/icons/icon-192.png" ||
     file === "pwa/icons/icon-512.png" ||
     file === "pwa/icons/icon-maskable-512.png"
   ) {
-    return path.join("src", "site", "favicon.svg");
+    return path.join("src", "site", file);
   }
   if (file === "pwa/screenshot.png")
     return path.join("src", "site", "pwa", "screenshot.png");

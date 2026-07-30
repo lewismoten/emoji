@@ -147,6 +147,10 @@ const staticSiteAssets = [
     target: "favicon.svg",
   },
   {
+    source: path.join(siteSourceDirectory, "pwa", "icons", "favicon.ico"),
+    target: "favicon.ico",
+  },
+  {
     source: path.join(siteSourceDirectory, "offline.html"),
     target: "offline.html",
   },

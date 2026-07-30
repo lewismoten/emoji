@@ -6,6 +6,9 @@ import { Resvg } from "@resvg/resvg-js";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const generatedIcons = [
+  "favicon.ico",
+  "icon-16.png",
+  "icon-32.png",
   "icon-192.png",
   "icon-512.png",
   "icon-maskable-512.png",
@@ -15,6 +18,8 @@ const generatedIcons = [
 
 const generateRasterIcons = (favicon, maskableFavicon, iconDirectory) => {
   const rasterTargets = [
+    ["icon-16.png", 16, favicon],
+    ["icon-32.png", 32, favicon],
     ["icon-192.png", 192, favicon],
     ["icon-512.png", 512, favicon],
     ["icon-maskable-512.png", 512, maskableFavicon],
@@ -37,6 +42,38 @@ const generateRasterIcons = (favicon, maskableFavicon, iconDirectory) => {
     maskableFavicon,
     path.join(iconDirectory, "icon-maskable.svg"),
   );
+  writeIcoFile(
+    [
+      fs.readFileSync(path.join(iconDirectory, "icon-16.png")),
+      fs.readFileSync(path.join(iconDirectory, "icon-32.png")),
+    ],
+    path.join(iconDirectory, "favicon.ico"),
+  );
+};
+
+const writeIcoFile = (pngBuffers, targetFile) => {
+  const header = Buffer.alloc(6);
+  header.writeUInt16LE(0, 0);
+  header.writeUInt16LE(1, 2);
+  header.writeUInt16LE(pngBuffers.length, 4);
+
+  const directoryEntries = Buffer.alloc(pngBuffers.length * 16);
+  let offset = header.length + directoryEntries.length;
+  pngBuffers.forEach((buffer, index) => {
+    const width = buffer.readUInt32BE(16);
+    const height = buffer.readUInt32BE(20);
+    const entryOffset = index * 16;
+    directoryEntries.writeUInt8(width >= 256 ? 0 : width, entryOffset);
+    directoryEntries.writeUInt8(height >= 256 ? 0 : height, entryOffset + 1);
+    directoryEntries.writeUInt8(0, entryOffset + 2);
+    directoryEntries.writeUInt8(0, entryOffset + 3);
+    directoryEntries.writeUInt16LE(1, entryOffset + 4);
+    directoryEntries.writeUInt16LE(32, entryOffset + 6);
+    directoryEntries.writeUInt32LE(buffer.length, entryOffset + 8);
+    directoryEntries.writeUInt32LE(offset, entryOffset + 12);
+    offset += buffer.length;
+  });
+  fs.writeFileSync(targetFile, Buffer.concat([header, directoryEntries, ...pngBuffers]));
 };
 
 export const generateSiteIcons = ({

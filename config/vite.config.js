@@ -12,7 +12,7 @@ import { renderServiceWorker } from "../scripts/generate-service-worker.mjs";
 const localizedPagePattern = /^\/index\.([A-Za-z0-9-]+)\.html$/;
 const localizedManifestPattern = /^\/manifest\.([A-Za-z0-9-]+)\.webmanifest$/;
 const iconAssetPattern =
-  /^\/pwa\/icons\/(icon-192\.png|icon-512\.png|icon-maskable-512\.png|icon\.svg|icon-maskable\.svg)$/;
+  /^\/pwa\/icons\/(favicon\.ico|icon-16\.png|icon-32\.png|icon-192\.png|icon-512\.png|icon-maskable-512\.png|icon\.svg|icon-maskable\.svg)$/;
 try {
   generateSiteIcons({
     favicon: path.resolve("src/site/favicon.svg"),
@@ -25,6 +25,9 @@ try {
   );
 }
 const fallbackIconPng = path.resolve("src/site/pwa/icons/icon-512.png");
+const fallbackIcon16Png = path.resolve("src/site/pwa/icons/icon-16.png");
+const fallbackIcon32Png = path.resolve("src/site/pwa/icons/icon-32.png");
+const fallbackFaviconIco = path.resolve("src/site/pwa/icons/favicon.ico");
 const fallbackMaskableIconPng = path.resolve(
   "src/site/pwa/icons/icon-maskable-512.png",
 );
@@ -203,17 +206,40 @@ export default defineConfig({
             );
             return;
           }
+          if (pathname === "/favicon.ico" && ["GET", "HEAD"].includes(method)) {
+            if (!fs.existsSync(fallbackFaviconIco)) {
+              response.statusCode = 404;
+              response.end(method === "HEAD" ? undefined : "Not found");
+              return;
+            }
+            response.statusCode = 200;
+            response.setHeader("Content-Type", "image/x-icon");
+            response.setHeader("Cache-Control", "no-cache");
+            response.end(
+              method === "HEAD"
+                ? undefined
+                : fs.readFileSync(fallbackFaviconIco),
+            );
+            return;
+          }
           const iconMatch = pathname.match(iconAssetPattern);
           if (iconMatch && ["GET", "HEAD"].includes(method)) {
             const requested = iconMatch[1];
             const isSvg = requested.endsWith(".svg");
+            const isIco = requested.endsWith(".ico");
             const source = isSvg
               ? requested === "icon-maskable.svg"
                 ? fallbackMaskableIconSvg
                 : fallbackIconSvg
-              : requested === "icon-maskable-512.png"
-                ? fallbackMaskableIconPng
-                : fallbackIconPng;
+              : isIco
+                ? fallbackFaviconIco
+                : requested === "icon-16.png"
+                  ? fallbackIcon16Png
+                  : requested === "icon-32.png"
+                    ? fallbackIcon32Png
+                    : requested === "icon-maskable-512.png"
+                      ? fallbackMaskableIconPng
+                      : fallbackIconPng;
             if (!source || !fs.existsSync(source)) {
               response.statusCode = 404;
               response.end(method === "HEAD" ? undefined : "Not found");
@@ -222,7 +248,11 @@ export default defineConfig({
             response.statusCode = 200;
             response.setHeader(
               "Content-Type",
-              isSvg ? "image/svg+xml; charset=utf-8" : "image/png",
+              isSvg
+                ? "image/svg+xml; charset=utf-8"
+                : isIco
+                  ? "image/x-icon"
+                  : "image/png",
             );
             response.setHeader("Cache-Control", "no-cache");
             response.end(
