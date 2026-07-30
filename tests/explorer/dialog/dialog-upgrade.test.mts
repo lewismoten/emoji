@@ -331,6 +331,8 @@ upgradeEmojiDialog({
     ensureImportExamplesCalls.push(dialog as unknown as FakeElement);
   },
   exampleDialog: exampleDialog as unknown as HTMLElement,
+  translate: (key, fallback) =>
+    key === "emojiDetails" ? "--image know" : fallback,
 });
 
 assert.deepEqual(ensureImportExamplesCalls, [exampleDialog]);
@@ -352,7 +354,7 @@ assert.equal(parentButton?.hidden, true);
 assert.equal(parentButton?.textContent, "↩");
 
 assert.equal(eyebrow.dataset.i18n, "emojiDetails");
-assert.equal(eyebrow.textContent, "Emoji details");
+assert.equal(eyebrow.textContent, "--image know");
 
 const upgradedPreview = exampleDialog.querySelector(".emoji-preview");
 assert.equal(upgradedPreview?.tagName, "BUTTON");
@@ -411,6 +413,8 @@ const parentCountBefore = dialogControls.querySelectorAll(".emoji-parent").lengt
 upgradeEmojiDialog({
   ensureImportExamples: () => {},
   exampleDialog: exampleDialog as unknown as HTMLElement,
+  translate: (key, fallback) =>
+    key === "emojiDetails" ? "--image know" : fallback,
 });
 assert.equal(dialogControls.querySelectorAll(".emoji-parent").length, parentCountBefore);
 

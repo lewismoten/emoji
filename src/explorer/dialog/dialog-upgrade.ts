@@ -3,6 +3,7 @@ import { DialogNavigateButtonControl } from "../../controls/dialog/dialog-naviga
 export function upgradeEmojiDialog(options: {
   ensureImportExamples: (dialog: HTMLElement) => void;
   exampleDialog: HTMLElement;
+  translate?: (key: string, fallback: string) => string;
 }) {
   removeLegacyDialogElements();
   options.ensureImportExamples(options.exampleDialog);
@@ -25,7 +26,9 @@ export function upgradeEmojiDialog(options: {
   );
   if (eyebrow) {
     eyebrow.dataset.i18n = "emojiDetails";
-    eyebrow.textContent = "Emoji details";
+    eyebrow.textContent =
+      options.translate?.("emojiDetails", "Emoji details") ??
+      "Emoji details";
   }
   upgradeEmojiPreview(options.exampleDialog);
   if (!options.exampleDialog.querySelector(".copy-status")) {

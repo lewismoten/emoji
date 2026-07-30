@@ -13,6 +13,9 @@ It now follows a fairly specific direction: tiny root vocabulary, aggressive
 `un` negation, flat grammar, minimal tense/plural handling, and a deliberately
 blunt command-like tone.
 
+Newspeak rides on top of English as its fallback layer, so any missing
+Newspeak entry will still display in English until that override is added.
+
 - locale data: [src/data/locales/en-x-newspeak.json](../src/data/locales/en-x-newspeak.json)
 - demo UI strings: [src/demo-locales/ui.en-x-newspeak.json](../src/demo-locales/ui.en-x-newspeak.json)
 - notes, rules, and generated vocabulary list:

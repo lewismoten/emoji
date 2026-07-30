@@ -100,6 +100,8 @@ const dialogRoot: any = {
   },
 };
 
+const translate = (key: string, fallback: string) => `${key}:${fallback}`;
+
 const originalDocument = Object.getOwnPropertyDescriptor(
   globalThis,
   "document",
@@ -264,6 +266,7 @@ try {
     "ensure-import-examples",
   );
   assert.equal(dialogUpgradeStub.calls[0].exampleDialog, "dialog-node");
+  assert.equal(dialogUpgradeStub.calls[0].translate, translate);
 
   orchestrator.removeLegacyDialogElements();
   assert.deepEqual(dialogRoot.removed, [

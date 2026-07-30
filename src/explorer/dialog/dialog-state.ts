@@ -40,9 +40,7 @@ export function resolveDialogTitle(options: {
   selectedSearchLocale: string;
   annotations: string[];
 }) {
-  const localized = Boolean(
-    options.selectedSearchLocale && options.annotations.length > 0,
-  );
+  const localized = options.annotations.length > 0;
   return {
     title: localized
       ? options.annotations[0]

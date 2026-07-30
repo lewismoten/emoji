@@ -14,6 +14,18 @@ small satire on vocabulary compression, mood scoring, and over-reused UI words.
 - demo UI locale: [src/demo-locales/ui.en-x-newspeak.json](../src/demo-locales/ui.en-x-newspeak.json)
 - generator: [scripts/generate-newspeak-locale.mjs](../scripts/generate-newspeak-locale.mjs)
 
+## Fallback behavior
+
+Newspeak currently extends English rather than fully replacing it.
+
+- the package locale uses `baseLocale: "en"`
+- the demo UI locale is layered on top of `ui.en.json`
+- if a Newspeak key is missing, the Explorer falls back to English
+
+That fallback is intentional as a safety net, but the goal is still for
+Newspeak-specific files to provide their own values anywhere the parody should
+surface directly, including emoji dialog titles, search labels, and UI copy.
+
 ## Direction
 
 The current direction is narrow, repetitive, and intentionally suppressive.
@@ -137,25 +149,25 @@ are intentionally narrowed.
 ## Unique word inventory
 
 The table below is generated from the current values stored in both
-Newspeak locale files. It shows the root word set in use right now: 87 words.
+Newspeak locale files. It shows the root word set in use right now: 86 words.
 
-| 1     | 2      | 3      | 4     | 5         | 6       |
-| ----- | ------ | ------ | ----- | --------- | ------- |
-| above | again  | and    | app   | back      | bar     |
-| beast | body   | box    | by    | code      | command |
-| data  | deny   | divide | drink | face      | flag    |
-| for   | from   | get    | go    | good      | help    |
-| if    | image  | in     | join  | key       | kind    |
-| know  | left   | light  | list  | live      | machine |
-| make  | mark   | mode   | music | name      | net     |
-| new   | next   | now    | obey  | one       | only    |
-| open  | or     | other  | out   | overimage | place   |
-| plain | plant  | right  | same  | say       | see     |
-| seek  | set    | share  | show  | side      | sign    |
-| sound | speak  | still  | tag   | take      | then    |
-| there | thing  | think  | this  | time      | to      |
-| tool  | updown | use    | value | wait      | water   |
-| when  | word   | work   |       |           |         |
+| 1      | 2     | 3      | 4     | 5         | 6       |
+| ------ | ----- | ------ | ----- | --------- | ------- |
+| above  | again | and    | app   | back      | bar     |
+| beast  | body  | box    | by    | code      | command |
+| data   | deny  | divide | drink | face      | flag    |
+| for    | from  | get    | go    | good      | help    |
+| if     | image | in     | join  | key       | kind    |
+| know   | left  | light  | list  | live      | machine |
+| make   | mark  | mode   | music | name      | net     |
+| new    | next  | now    | obey  | one       | only    |
+| open   | or    | other  | out   | overimage | place   |
+| plain  | plant | right  | same  | say       | see     |
+| seek   | set   | share  | show  | side      | sign    |
+| sound  | speak | still  | take  | then      | there   |
+| thing  | think | this   | time  | to        | tool    |
+| updown | use   | value  | wait  | water     | when    |
+| word   | work  |        |       |           |         |
 <!-- newspeak-word-inventory:end -->
 
 <!-- newspeak-compound-inventory:start -->

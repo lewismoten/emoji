@@ -38,6 +38,7 @@ export function createSearchLanguageLifecycle(options: any) {
     options.setSearchAnnotations(result.searchAnnotations);
     options.setSearchLabels(result.searchLabels);
     options.setSearchSubgroupLabels(result.searchSubgroupLabels);
+    options.refreshLocalizedLabels();
     render();
   };
 

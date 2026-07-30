@@ -153,7 +153,6 @@ export async function setSearchLanguage({
     restoreLanguageParentPanel?.();
     await loadUiTranslations("en");
     saveExplorerPreference("locale", "");
-    refreshLocalizedLabels();
     return {
       loadId,
       selectedSearchLocale: "",
@@ -214,7 +213,6 @@ export async function setSearchLanguage({
     closeLanguageDialog();
     restoreLanguageParentPanel?.();
     saveExplorerPreference("locale", locale.locale);
-    refreshLocalizedLabels();
     return {
       loadId,
       selectedSearchLocale: locale.locale,
@@ -229,7 +227,6 @@ export async function setSearchLanguage({
       "languageNotLoaded",
       "Language not loaded",
     );
-    refreshLocalizedLabels();
     return {
       loadId,
       selectedSearchLocale: "",

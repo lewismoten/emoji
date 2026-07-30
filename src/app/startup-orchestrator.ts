@@ -26,6 +26,7 @@ export function createStartupOrchestrator(options: any) {
       // @ts-expect-error Its lightweight test DOM type is intentionally narrower.
       ensureImportExamples: ensureImportExampleLines,
       exampleDialog: options.dialog(),
+      translate: options.translate,
     });
   }
 
