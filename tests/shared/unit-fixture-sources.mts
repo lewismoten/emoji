@@ -93,6 +93,22 @@ export const utilityControlsHelper = await fs.readFile(
   path.join(root, "src/explorer/utility-controls.ts"),
   "utf8",
 );
+export const languageDialogControlSource = await fs.readFile(
+  path.join(root, "src/controls/dialog/content/language-dialog.ts"),
+  "utf8",
+);
+export const helpSettingsDialogControlSource = await fs.readFile(
+  path.join(root, "src/controls/dialog/content/help-settings-dialog.ts"),
+  "utf8",
+);
+export const emojiCompositionSectionControlSource = await fs.readFile(
+  path.join(root, "src/controls/dialog/content/emoji-composition-section.ts"),
+  "utf8",
+);
+export const savedDialogControlSource = await fs.readFile(
+  path.join(root, "src/controls/dialog/content/saved-dialog.ts"),
+  "utf8",
+);
 export const filterPickerHelper = await fs.readFile(
   path.join(root, "src/explorer/filter-picker.ts"),
   "utf8",

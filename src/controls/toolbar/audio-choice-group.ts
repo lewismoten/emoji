@@ -1,4 +1,5 @@
 import { BaseControl } from "../core/base-control.js";
+import type { NodeSpec } from "../core/dom-factory.js";
 import { ChoiceGroupControl } from "../groups/choice-group.js";
 
 type AudioChoice = {
@@ -35,6 +36,10 @@ export class AudioChoiceGroupControl extends BaseControl<AudioChoiceGroupState> 
       labelKey: "audio",
       ...state,
     });
+  }
+
+  static toSpec(state?: Partial<AudioChoiceGroupState>): NodeSpec {
+    return new AudioChoiceGroupControl(state).render();
   }
 
   protected render() {

@@ -8,6 +8,7 @@ import {
   dialogUpgradeHelper,
   emojiDialogEvents,
   emojiFormatHelper,
+  emojiCompositionSectionControlSource,
   emojiListInteractionHelper,
   emojiListSources,
   listController,
@@ -49,8 +50,8 @@ const readCssWithImports = async (
 };
 
 assert.match(
-  demoHtml,
-  /class="emoji-composition developer-only"/,
+  emojiCompositionSectionControlSource,
+  /className:\s*"emoji-composition developer-only"/,
   "emoji details must provide a sequence composition section",
 );
 assert.match(

@@ -9,6 +9,7 @@ import {
   demoStyles,
   dialogRenderHelper,
   dialogRuntimeHelper,
+  dialogUpgradeHelper,
   dialogViewHelper,
   emojiCompositionHelper,
   emojiDialogEvents,
@@ -20,6 +21,7 @@ import {
   versionData,
   urlStateHelper,
   categoryVersionHelper,
+  emojiCompositionSectionControlSource,
 } from "../shared/unit-fixtures.mjs";
 
 assert.match(
@@ -116,8 +118,8 @@ assert.match(
   "the initial copy focus ring must remain inside the sticky dialog header boundary",
 );
 assert.match(
-  demoHtml,
-  /class="emoji-composition-mode"/,
+  emojiCompositionSectionControlSource,
+  /className:\s*"emoji-composition-mode"|text:\s*"Show full sequence"/,
   "foldable compositions must provide a display-mode toggle",
 );
 assert.match(
@@ -231,21 +233,31 @@ assert.match(
 );
 assert.match(
   demoStyles,
-  /\.emoji-composition-code-point\s*\{\s*direction:\s*ltr;\s*unicode-bidi:\s*isolate;\s*\}/,
+  /\.emoji-composition-code-point\s*\{[\s\S]*direction:\s*ltr;[\s\S]*unicode-bidi:\s*isolate;[\s\S]*\}/,
   "individual code-point labels must retain LTR ordering",
 );
 assert.match(
   demoStyles,
-  /\.emoji-preview-glyph\.has-pixel-art\s*\{[\s\S]*font-size:\s*6rem;[\s\S]*\.emoji-composition-glyph\.has-pixel-art[\s\S]*font-size:\s*1\.5rem;[\s\S]*@media \(max-width: 560px\)[\s\S]*\.emoji-preview-glyph\.has-pixel-art[\s\S]*font-size:\s*3\.75rem;/,
-  "dialog pixel-font previews must use crisp multiples of the 12-pixel grid",
+  /\.emoji-preview-glyph\.has-pixel-art\s*\{[\s\S]*font-size:\s*6rem;/,
+  "dialog pixel-font previews must use a crisp 12-pixel multiple on wide screens",
 );
 assert.match(
-  demoHtml,
+  demoStyles,
+  /\.emoji-composition-glyph\.has-pixel-art\s*\{[\s\S]*font-size:\s*1\.5rem;/,
+  "composition glyph previews must use a crisp 12-pixel multiple",
+);
+assert.match(
+  demoStyles,
+  /@media \(max-width: 560px\)[\s\S]*\.emoji-preview-glyph\.has-pixel-art\s*\{[\s\S]*font-size:\s*3\.75rem;/,
+  "mobile dialog pixel-font previews must stay aligned to the painted grid",
+);
+assert.match(
+  dialogUpgradeHelper,
   /rendering-diagnostic-title[\s\S]*system-render-glyph[\s\S]*pixel-render-glyph/,
   "emoji details must compare system and Pixel Emoji rendering",
 );
 assert.match(
-  demoHtml,
-  /class="pixel-design-invitation(?: developer-only)? full-developer-only"[\s\S]*createPixelDesign/,
+  dialogUpgradeHelper,
+  /pixel-design-invitation developer-only full-developer-only[\s\S]*createPixelDesign/,
   "unfinished glyphs must invite visitors into the pixel editor",
 );

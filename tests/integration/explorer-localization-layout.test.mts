@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 import {
   arabicDemo,
@@ -6,9 +8,16 @@ import {
   demoHtml,
   demoStyles,
   explorerApp,
+  helpSettingsDialogControlSource,
+  languageDialogControlSource,
   pixelArtwork,
   utilityControlsHelper,
 } from "../shared/unit-fixtures.mjs";
+import { root } from "../shared/unit-fixture-data.mjs";
+
+const arabicUiLocale = JSON.parse(
+  await fs.readFile(path.join(root, "src/demo-locales/ui.ar.json"), "utf8"),
+) as Record<string, string>;
 
 assert.match(
   arabicDemo,
@@ -25,20 +34,20 @@ assert.match(
   /نسخ الرابط/,
   "Arabic demo must localize the copy-link action",
 );
-assert.match(
-  arabicDemo,
-  /اختصارات لوحة المفاتيح/,
-  "Arabic demo must localize keyboard help",
+assert.equal(
+  arabicUiLocale.keyboardShortcuts,
+  "اختصارات لوحة المفاتيح",
+  "Arabic UI locale must translate keyboard help",
 );
-assert.match(
-  arabicDemo,
-  /الرموز التعبيرية المحفوظة/,
-  "Arabic demo must localize saved emoji",
+assert.equal(
+  arabicUiLocale.savedEmoji,
+  "الرموز التعبيرية المحفوظة",
+  "Arabic UI locale must translate saved emoji",
 );
-assert.match(
-  arabicDemo,
-  /تحرير الرسم بالبكسل/,
-  "Arabic demo must localize the pixel editor",
+assert.equal(
+  arabicUiLocale.editPixelArt,
+  "تحرير الرسم بالبكسل",
+  "Arabic UI locale must translate the pixel editor",
 );
 assert.equal(
   demoHtml.match(/data-copy="link"/g)?.length,
@@ -90,13 +99,13 @@ assert.doesNotMatch(
   "the language picker must not occupy the primary search row",
 );
 assert.match(
-  demoHtml,
-  /class="help-settings"[\s\S]*class="help-language-control"[\s\S]*class="language-picker"[\s\S]*class="setting-choice-group mode-choices"/,
+  helpSettingsDialogControlSource,
+  /className:\s*"help-settings"[\s\S]*className:\s*"help-language-control"[\s\S]*ModeChoiceGroupControl\.toSpec/,
   "Help and settings must contain both language and mode preferences",
 );
 assert.match(
-  demoHtml,
-  /aria-labelledby="language-picker-accessible-label language-picker-current-label"[\s\S]*id="language-picker-current-label"/,
+  languageDialogControlSource,
+  /titleId:\s*"language-title"[\s\S]*className:\s*"language-list"/,
   "the language setting must expose its action and current native language as its accessible name",
 );
 assert.match(

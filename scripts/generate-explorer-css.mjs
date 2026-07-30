@@ -74,6 +74,46 @@ const sourceFiles = [
       "src",
       "controls",
       "dialog",
+      "content",
+      "language-dialog.css",
+    ),
+    output: path.join("controls", "dialog", "content", "language-dialog.css"),
+  },
+  {
+    source: path.join(
+      "src",
+      "controls",
+      "dialog",
+      "content",
+      "help-settings-dialog.css",
+    ),
+    output: path.join(
+      "controls",
+      "dialog",
+      "content",
+      "help-settings-dialog.css",
+    ),
+  },
+  {
+    source: path.join(
+      "src",
+      "controls",
+      "dialog",
+      "content",
+      "emoji-composition-section.css",
+    ),
+    output: path.join(
+      "controls",
+      "dialog",
+      "content",
+      "emoji-composition-section.css",
+    ),
+  },
+  {
+    source: path.join(
+      "src",
+      "controls",
+      "dialog",
       "dialog-navigate-button.css",
     ),
     output: path.join("controls", "dialog", "dialog-navigate-button.css"),
@@ -86,6 +126,16 @@ const sourceFiles = [
       "dialog-mode-back-button.css",
     ),
     output: path.join("controls", "dialog", "dialog-mode-back-button.css"),
+  },
+  {
+    source: path.join(
+      "src",
+      "controls",
+      "dialog",
+      "content",
+      "saved-dialog.css",
+    ),
+    output: path.join("controls", "dialog", "content", "saved-dialog.css"),
   },
   {
     source: path.join("src", "controls", "pickers", "language-picker.css"),

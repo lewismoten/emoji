@@ -1,4 +1,5 @@
 import { BaseControl } from "../core/base-control.js";
+import type { NodeSpec } from "../core/dom-factory.js";
 import { ChoiceGroupControl } from "../groups/choice-group.js";
 
 const themeChoiceGroupStylesheetId = "theme-choice-group-control-stylesheet";
@@ -36,6 +37,10 @@ export class ThemeChoiceGroupControl extends BaseControl<ThemeChoiceGroupState> 
       ],
       ...state,
     });
+  }
+
+  static toSpec(state?: Partial<ThemeChoiceGroupState>): NodeSpec {
+    return new ThemeChoiceGroupControl(state).render();
   }
 
   protected override stylesheets() {

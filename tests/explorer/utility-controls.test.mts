@@ -14,6 +14,14 @@ const transformedSource = source
     'import { createLanguageDialogControl, createLanguagePickerControl } from "./language-dialog-control-stub.mjs";',
   )
   .replace(
+    'import { EmojiCompositionSectionControl } from "../controls/dialog/content/emoji-composition-section.js";',
+    'import { EmojiCompositionSectionControl } from "./emoji-composition-section-stub.mjs";',
+  )
+  .replace(
+    'import { SavedDialogControl } from "../controls/dialog/content/saved-dialog.js";',
+    'import { SavedDialogControl } from "./saved-dialog-stub.mjs";',
+  )
+  .replace(
     'import { ensureDialogTitleRow, ensureFavoriteButton, positionFavoriteButton as positionFavoriteButtonHelper, } from "./dialog/dialog-title-controls.js";',
     'import { ensureDialogTitleRow, ensureFavoriteButton, positionFavoriteButton as positionFavoriteButtonHelper, calls as titleControlCalls } from "./dialog-title-controls-stub.mjs";',
   )
@@ -101,9 +109,20 @@ export function ensurePickerControls() {
 }`,
 );
 await fs.writeFile(
-  path.join(tempDirectory, "utility-control-markup-stub.mjs"),
-  `export const emojiCompositionMarkup = "<section class=\\"emoji-composition\\"></section>";
-export const savedDialogMarkup = "<dialog class=\\"saved-dialog\\"></dialog>";`,
+  path.join(tempDirectory, "emoji-composition-section-stub.mjs"),
+  `export const EmojiCompositionSectionControl = {
+  create() {
+    return { className: "emoji-composition", kind: "emoji-composition-control" };
+  },
+};`,
+);
+await fs.writeFile(
+  path.join(tempDirectory, "saved-dialog-stub.mjs"),
+  `export const SavedDialogControl = {
+  create() {
+    return { className: "saved-dialog", kind: "saved-dialog-control" };
+  },
+};`,
 );
 await fs.writeFile(
   path.join(tempDirectory, "utility-controls.mjs"),
@@ -166,6 +185,10 @@ class FakeNode {
   ) {}
 
   append(...nodes: any[]) {
+    this.childNodes.push(...nodes);
+  }
+
+  after(...nodes: any[]) {
     this.childNodes.push(...nodes);
   }
 
@@ -292,10 +315,9 @@ try {
   assert.equal(pixelFontToggle.removed, true);
   assert.deepEqual(pickerStub.calls, ["ensurePickerControls"]);
   assert.deepEqual(advancedStub.calls, ["ensureAdvancedFilterControls"]);
-  assert.equal(dialogDetails.inserted[0]?.[1], '<section class="emoji-composition"></section>');
-  assert.equal(compositionTitle.childNodes[0]?.className, "emoji-composition-heading");
-  assert.equal(main.inserted[0]?.[1], '<dialog class="saved-dialog"></dialog>');
-  assert.deepEqual(main.childNodes, [{ kind: "language-dialog" }, { kind: "help-dialog" }]);
+  assert.equal(dialogDetails.childNodes[0]?.kind, "emoji-composition-control");
+  assert.equal(main.childNodes[0]?.kind, "saved-dialog-control");
+  assert.deepEqual(main.childNodes.slice(1), [{ kind: "language-dialog" }, { kind: "help-dialog" }]);
   assert.deepEqual((globalThis as any).__mountedLanguagePicker, { kind: "language-picker-button" });
 } finally {
   delete (globalThis as any).__mountedLanguagePicker;

@@ -2,6 +2,8 @@ import {
   createLanguageDialogControl,
   createLanguagePickerControl,
 } from "./language/language-dialog-control.js";
+import { EmojiCompositionSectionControl } from "../controls/dialog/content/emoji-composition-section.js";
+import { SavedDialogControl } from "../controls/dialog/content/saved-dialog.js";
 import {
   ensureDialogTitleRow,
   ensureFavoriteButton,
@@ -14,12 +16,9 @@ import {
   createSavedPickerControl,
 } from "./toolbar/toolbar-trigger-controls.js";
 import { ensurePickerControls } from "./utility-picker-controls.js";
-import {
-  emojiCompositionMarkup,
-  savedDialogMarkup,
-} from "./utility-control-markup.js";
 
 type MinimalElement = {
+  after(...nodes: unknown[]): void;
   append(...nodes: unknown[]): void;
   before(...nodes: unknown[]): void;
   childNodes: unknown[];
@@ -131,37 +130,14 @@ export function ensureUtilityControls() {
     dialogDetails &&
     !document.querySelector(".example-dialog .emoji-composition")
   ) {
-    dialogDetails.insertAdjacentHTML("afterend", emojiCompositionMarkup);
-  }
-  const composition = document.querySelector(
-    ".example-dialog .emoji-composition",
-  );
-  if (composition && !composition.querySelector(".emoji-composition-heading")) {
-    const heading = document.createElement("div");
-    const title = composition.querySelector("h3");
-    heading.className = "emoji-composition-heading";
-    title?.before(heading);
-    if (title) heading.append(title);
-  }
-  const compositionHeading = composition?.querySelector(
-    ".emoji-composition-heading",
-  );
-  if (
-    compositionHeading &&
-    !compositionHeading.querySelector(".emoji-composition-mode")
-  ) {
-    const mode = document.createElement("button");
-    mode.className = "emoji-composition-mode";
-    mode.type = "button";
-    mode.hidden = true;
-    mode.setAttribute("aria-pressed", "false");
-    mode.textContent = "Show full sequence";
-    compositionHeading.append(mode);
+    dialogDetails.after(
+      EmojiCompositionSectionControl.create() as unknown as MinimalElement,
+    );
   }
 
   const main = document.querySelector("main");
   if (main && !document.querySelector(".saved-dialog")) {
-    main.insertAdjacentHTML("beforeend", savedDialogMarkup);
+    main.append(SavedDialogControl.create() as unknown as MinimalElement);
   }
   if (main && !document.querySelector(".language-dialog")) {
     const languageDialogControl = createLanguageDialogControl();

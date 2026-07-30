@@ -16,12 +16,9 @@ const INTERACTIVE_SELECTOR =
 
 const DIALOG_SELECTOR =
   ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
-
-export function createExplorerAudioDependencies() {
-  return {
-    createExplorerAudioEngine,
-  };
-}
+export const createExplorerAudioDependencies = () => ({
+  createExplorerAudioEngine,
+});
 
 export function createExplorerAudioController(
   options: ExplorerAudioOptions,
@@ -40,14 +37,10 @@ export function createExplorerAudioController(
     !baseMode() && preferences().soundEffects === true;
   const musicEnabled = () => !baseMode() && preferences().music === true;
 
-  const soundEffectsToggle = () =>
-    document.querySelector<HTMLInputElement>(".sound-effects-toggle");
-  const musicToggle = () =>
-    document.querySelector<HTMLInputElement>(".music-toggle");
-  const helpDialog = () =>
-    document.querySelector<HTMLDialogElement>(".help-dialog");
-  const savedDialog = () =>
-    document.querySelector<HTMLDialogElement>(".saved-dialog");
+  const soundEffectsToggle = () => document.querySelector<HTMLInputElement>(".sound-effects-toggle");
+  const musicToggle = () => document.querySelector<HTMLInputElement>(".music-toggle");
+  const helpDialog = () => document.querySelector<HTMLDialogElement>(".help-dialog");
+  const savedDialog = () => document.querySelector<HTMLDialogElement>(".saved-dialog");
   const audio = helpers.createExplorerAudioEngine({
     helpDialogOpen: () => helpDialog()?.open === true,
     musicEnabled,
@@ -292,10 +285,7 @@ export function createExplorerAudioController(
         } else {
           audio.playInteraction("dialog", "close");
         }
-        if (
-          dialog.classList.contains("help-dialog") ||
-          dialog.classList.contains("saved-dialog")
-        ) {
+        if (dialog.classList.contains("help-dialog") || dialog.classList.contains("saved-dialog")) {
           audio.syncHelpMusic();
         }
       });
@@ -310,10 +300,7 @@ export function createExplorerAudioController(
     }
 
     themeObserver = new MutationObserver((records) => {
-      const changed = records.some(
-        (record) =>
-          record.type === "attributes" && record.attributeName === "data-theme",
-      );
+      const changed = records.some((record) => record.type === "attributes" && record.attributeName === "data-theme");
       if (!changed) return;
       renderSoundEffectsToggle();
       renderMusicToggle();

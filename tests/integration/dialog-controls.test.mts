@@ -14,7 +14,7 @@ const wrappedCloseButtons = Array.from(
 );
 
 assert.ok(
-  closeButtons.length >= 7,
+  closeButtons.length >= 5,
   "dialog close controls should use one consistent form+button structure in the static page",
 );
 assert.equal(

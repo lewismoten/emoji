@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import fs from "node:fs/promises";
+import path from "node:path";
 
 import {
   arabicDemo,
@@ -11,6 +13,7 @@ import {
   explorerPreferencesSource,
   explorerUi,
   filterPickerHelper,
+  helpSettingsDialogControlSource,
   pixelArtwork,
   pixelEditorLoaderSource,
   pwaPanelsHelper,
@@ -18,6 +21,11 @@ import {
   urlStateHelper,
   versionFilterControl,
 } from "../shared/unit-fixtures.mjs";
+import { root } from "../shared/unit-fixture-data.mjs";
+
+const arabicUiLocale = JSON.parse(
+  await fs.readFile(path.join(root, "src/demo-locales/ui.ar.json"), "utf8"),
+) as Record<string, string>;
 
 assert.match(
   demoHtml,
@@ -25,8 +33,8 @@ assert.match(
   "category shortcuts must remain available outside the Advanced filters dialog trigger",
 );
 assert.match(
-  demoHtml,
-  /class="setting-choice-group mode-choices"[\s\S]*class="setting-choice mode-choice" data-mode="standard"[\s\S]*class="setting-choice mode-choice" data-mode="advanced"[\s\S]*class="setting-choice mode-choice" data-mode="developer"/,
+  helpSettingsDialogControlSource,
+  /ModeChoiceGroupControl\.toSpec\(\{\}\)/,
   "Help and settings must provide Standard, Advanced, and Developer mode choices",
 );
 assert.match(
@@ -84,10 +92,22 @@ assert.match(
   /html:not\(\[data-developer-mode\]\) \.example-dialog\[open\][\s\S]*grid-template-columns:\s*minmax\(0, 1fr\) 12rem;[\s\S]*width:\s*min\(44rem,/,
   "wide end-user emoji details must remain compact when developer panels are hidden",
 );
-assert.match(
-  arabicDemo,
-  /المساعدة والإعدادات[\s\S]*data-i18n="mode">الوضع<\/h4>[\s\S]*data-i18n="standard">قياسي<\/span>[\s\S]*data-i18n="advanced">متقدم<\/span>[\s\S]*data-i18n="developer">مطور<\/span>/,
-  "localized pages must translate the Mode setting and its choices",
+assert.deepEqual(
+  {
+    helpAndSettings: arabicUiLocale.helpAndSettings,
+    mode: arabicUiLocale.mode,
+    standard: arabicUiLocale.standard,
+    advanced: arabicUiLocale.advanced,
+    developer: arabicUiLocale.developer,
+  },
+  {
+    helpAndSettings: "المساعدة والإعدادات",
+    mode: "الوضع",
+    standard: "قياسي",
+    advanced: "متقدم",
+    developer: "مطور",
+  },
+  "localized UI dictionaries must translate the Mode setting and its choices",
 );
 assert.match(
   demoStyles,

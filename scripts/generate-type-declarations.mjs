@@ -13,9 +13,9 @@ const declarationFiles = (directory) =>
   });
 const esmImports = (contents) =>
   contents.replace(
-    /(from\s+["'])(\.[^"']+)(["'])/g,
-    (_match, prefix, specifier, suffix) =>
-      `${prefix}${specifier}.d.mts${suffix}`,
+    /(^import\s+)([^"'\\n]+from\s+["'])(\.[^"']+)(["'])/gm,
+    (_match, keyword, prefix, specifier, suffix) =>
+      `${keyword}type ${prefix}${specifier}.d.mts${suffix}`,
   );
 const writeDeclarations = (
   directory,

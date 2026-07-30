@@ -93,25 +93,35 @@ const ignoredRoots = new Set([
 const isAuditedSourceFile = (file: string) =>
   !file.includes("/") || file.startsWith("src/");
 
+const walkDirectory = (directory: string, files: string[]) => {
+  for (const entry of readdirSync(path.join(root, directory), {
+    withFileTypes: true,
+  })) {
+    if (entry.name === ".DS_Store") continue;
+    const relative = directory === "." ? entry.name : `${directory}/${entry.name}`;
+    if (entry.isDirectory()) {
+      if (ignoredRoots.has(relative) || ignoredRoots.has(entry.name)) continue;
+      walkDirectory(relative, files);
+      continue;
+    }
+    files.push(relative);
+  }
+};
+
 const gitFiles = () => {
   const files: string[] = [];
-  const visit = (directory: string) => {
-    for (const entry of readdirSync(path.join(root, directory), {
-      withFileTypes: true,
-    })) {
-      if (entry.name === ".DS_Store") continue;
-      const relative =
-        directory === "." ? entry.name : `${directory}/${entry.name}`;
-      if (entry.isDirectory()) {
-        if (ignoredRoots.has(relative) || ignoredRoots.has(entry.name))
-          continue;
-        visit(relative);
-        continue;
-      }
-      files.push(relative);
+  walkDirectory("src", files);
+  for (const entry of readdirSync(root, { withFileTypes: true })) {
+    if (entry.name === ".DS_Store" || entry.name === "src") continue;
+    if (
+      entry.isDirectory() ||
+      ignoredRoots.has(entry.name) ||
+      generatedFilenamePrefixes.some((prefix) => prefix.startsWith(`${entry.name}/`))
+    ) {
+      continue;
     }
-  };
-  visit(".");
+    files.push(entry.name);
+  }
   return files.filter(
     (file) =>
       !generatedStructurePrefixes.some((prefix) => file.startsWith(prefix)) &&

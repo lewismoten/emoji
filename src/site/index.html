@@ -187,11 +187,27 @@
     <link rel="stylesheet" href="./src/controls/dialog/dialog-heading.css" />
     <link
       rel="stylesheet"
+      href="./src/controls/dialog/content/language-dialog.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./src/controls/dialog/content/help-settings-dialog.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./src/controls/dialog/content/emoji-composition-section.css"
+    />
+    <link
+      rel="stylesheet"
       href="./src/controls/dialog/dialog-navigate-button.css"
     />
     <link
       rel="stylesheet"
       href="./src/controls/dialog/dialog-mode-back-button.css"
+    />
+    <link
+      rel="stylesheet"
+      href="./src/controls/dialog/content/saved-dialog.css"
     />
     <link rel="stylesheet" href="./src/controls/pickers/language-picker.css" />
     <link
@@ -745,20 +761,6 @@
             Create the 12×12 version
           </button>
         </section>
-        <section class="emoji-composition developer-only" hidden>
-          <div class="emoji-composition-heading">
-            <h3 data-i18n="builtFrom">Built from</h3>
-            <button
-              class="emoji-composition-mode"
-              type="button"
-              aria-pressed="false"
-              hidden
-            >
-              Show full sequence
-            </button>
-          </div>
-          <div class="emoji-composition-equation" dir="ltr"></div>
-        </section>
         <dl class="emoji-metadata">
           <div class="emoji-english-name-row">
             <dt data-i18n="englishName">English name</dt>
@@ -1136,333 +1138,6 @@
         </div>
       </dialog>
 
-      <dialog
-        class="language-dialog"
-        id="language-dialog"
-        aria-labelledby="language-title"
-      >
-        <div class="dialog-heading">
-          <div>
-            <p class="eyebrow" data-i18n="localizedSearch">Localized search</p>
-            <h2 id="language-title" data-i18n="chooseLanguage">
-              Choose a search language
-            </h2>
-          </div>
-          <form method="dialog">
-            <button
-              class="dialog-close"
-              type="submit"
-              data-i18n-aria-label="close"
-              aria-label="Close"
-            >
-              ×
-            </button>
-          </form>
-        </div>
-        <p class="dialog-description" data-i18n="chooseLanguageDescription">
-          Choose a language for emoji search.
-        </p>
-        <div class="language-list" role="list"></div>
-      </dialog>
-
-      <dialog
-        class="saved-dialog"
-        id="saved-dialog"
-        aria-labelledby="saved-title"
-      >
-        <div class="dialog-heading">
-          <h2 id="saved-title" data-i18n="savedEmoji">Saved emoji</h2>
-          <form method="dialog">
-            <button
-              class="dialog-close"
-              type="submit"
-              data-i18n-aria-label="close"
-              aria-label="Close"
-            >
-              ×
-            </button>
-          </form>
-        </div>
-        <section class="saved-section" aria-labelledby="favorites-title">
-          <h3 id="favorites-title" data-i18n="favorites">Favorites</h3>
-          <div class="saved-emoji-list favorites-list"></div>
-          <p class="saved-empty favorites-empty" data-i18n="noFavorites">
-            Favorite emoji will appear here.
-          </p>
-        </section>
-        <section class="saved-section" aria-labelledby="copied-title">
-          <h3 id="copied-title" data-i18n="recentlyCopied">Recently Copied</h3>
-          <div class="saved-emoji-list copied-list"></div>
-          <p class="saved-empty copied-empty" data-i18n="noRecentlyCopied">
-            Copied emoji will appear here.
-          </p>
-        </section>
-      </dialog>
-
-      <dialog class="help-dialog" id="help-dialog" aria-labelledby="help-title">
-        <div class="dialog-heading">
-          <h2 id="help-title" data-i18n="helpAndSettings">Help and settings</h2>
-          <form method="dialog">
-            <button
-              class="dialog-close"
-              type="submit"
-              data-i18n-aria-label="close"
-              aria-label="Close"
-            >
-              ×
-            </button>
-          </form>
-        </div>
-        <section class="help-pixel" aria-labelledby="help-pixel-title">
-          <h3 id="help-pixel-title" data-i18n="pixelHelpTitle">
-            Pixel Emoji in the Explorer
-          </h3>
-          <p data-i18n="pixelHelpDescription">
-            Pixel font: On uses the original 12×12 font when artwork is
-            available. Turn it off to prefer your system font; Pixel Emoji
-            remains a fallback for unsupported emoji.
-          </p>
-          <a
-            href="https://github.com/lewismoten/emoji/tree/main/pixel-font"
-            data-i18n="pixelHelpLink"
-            >Learn about and download Pixel Emoji</a
-          >
-        </section>
-        <section class="help-settings" aria-labelledby="help-settings-title">
-          <h3 id="help-settings-title" data-i18n="settings">Settings</h3>
-          <div class="setting-row">
-            <div>
-              <h4 data-i18n="language">Language</h4>
-              <p data-i18n="chooseLanguageDescription">
-                Choose a language for emoji search.
-              </p>
-            </div>
-            <div class="help-language-control">
-              <button
-                class="language-picker"
-                type="button"
-                aria-haspopup="dialog"
-                aria-controls="language-dialog"
-                aria-labelledby="language-picker-accessible-label language-picker-current-label"
-              >
-                <span
-                  id="language-picker-accessible-label"
-                  class="sr-only"
-                  data-i18n="chooseLanguage"
-                  >Choose a search language</span
-                >
-                <span class="language-picker-flag" aria-hidden="true">🌐</span>
-                <span
-                  id="language-picker-current-label"
-                  class="language-picker-label"
-                  data-i18n="language"
-                  >Language</span
-                >
-              </button>
-            </div>
-          </div>
-          <div class="setting-row">
-            <div>
-              <h4 data-i18n="theme">Theme</h4>
-              <p data-i18n="themeDescription">
-                Switch between dark, light, and retro themes.
-              </p>
-            </div>
-            <div
-              class="setting-choice-group theme-choices"
-              role="radiogroup"
-              data-i18n-aria-label="theme"
-              aria-label="Theme"
-            >
-              <label
-                class="setting-choice theme-choice full-developer-only"
-                data-theme="base"
-                aria-checked="false"
-                role="radio"
-                tabindex="-1"
-              >
-                <input
-                  class="theme-choice-input"
-                  type="radio"
-                  name="theme-choice"
-                  value="base"
-                />
-                <span aria-hidden="true">🧱</span>
-                <span data-i18n="base">Base</span>
-              </label>
-              <label
-                class="setting-choice theme-choice"
-                data-theme="light"
-                aria-checked="false"
-                role="radio"
-                tabindex="-1"
-              >
-                <input
-                  class="theme-choice-input"
-                  type="radio"
-                  name="theme-choice"
-                  value="light"
-                />
-                <span aria-hidden="true">☀️</span>
-                <span data-i18n="light">Light</span>
-              </label>
-              <label
-                class="setting-choice theme-choice"
-                data-theme="dark"
-                aria-checked="false"
-                role="radio"
-                tabindex="-1"
-              >
-                <input
-                  class="theme-choice-input"
-                  type="radio"
-                  name="theme-choice"
-                  value="dark"
-                />
-                <span aria-hidden="true">🌙</span>
-                <span data-i18n="dark">Dark</span>
-              </label>
-              <label
-                class="setting-choice theme-choice advanced-only"
-                data-theme="retro"
-                aria-checked="false"
-                role="radio"
-                tabindex="-1"
-              >
-                <input
-                  class="theme-choice-input"
-                  type="radio"
-                  name="theme-choice"
-                  value="retro"
-                />
-                <span aria-hidden="true">🕹️</span>
-                <span data-i18n="retro">Retro</span>
-              </label>
-            </div>
-          </div>
-          <div class="setting-row advanced-only">
-            <div>
-              <h4 data-i18n="audio">Audio</h4>
-              <p data-i18n="audioDescription">
-                Sound effects and music are available in light, dark, and retro
-                themes.
-              </p>
-            </div>
-            <div
-              class="setting-choice-group audio-choices"
-              role="group"
-              aria-label="Audio"
-              data-i18n-aria-label="audio"
-              data-max-selectable="2"
-              data-min-selectable="0"
-            >
-              <span class="sr-only" id="audio-group-label" data-i18n="audio"
-                >Audio</span
-              >
-              <label
-                class="setting-choice audio-choice"
-                data-audio-preference="soundEffects"
-              >
-                <input
-                  class="audio-choice-input sound-effects-toggle"
-                  type="checkbox"
-                  value="soundEffects"
-                />
-                <span aria-hidden="true">🔊</span>
-                <span data-i18n="soundEffects">Sound effects</span>
-              </label>
-              <label
-                class="setting-choice audio-choice"
-                data-audio-preference="music"
-              >
-                <input
-                  class="audio-choice-input music-toggle"
-                  type="checkbox"
-                  value="music"
-                />
-                <span aria-hidden="true">🎵</span>
-                <span data-i18n="music">Music</span>
-              </label>
-            </div>
-          </div>
-          <div class="setting-row">
-            <div>
-              <h4 data-i18n="mode">Mode</h4>
-              <p data-i18n="modeDescription">
-                Standard hides advanced tools, Advanced unlocks exploration
-                tools, and Developer adds Base theme and the pixel editor.
-              </p>
-            </div>
-            <div
-              class="setting-choice-group mode-choices"
-              role="radiogroup"
-              aria-label="Mode"
-              data-i18n-aria-label="mode"
-              data-max-selectable="1"
-              data-min-selectable="1"
-            >
-              <span class="sr-only" id="mode-group-label" data-i18n="mode"
-                >Mode</span
-              >
-              <label class="setting-choice mode-choice" data-mode="standard">
-                <input
-                  class="mode-choice-input"
-                  name="mode-choice"
-                  type="radio"
-                  value="standard"
-                />
-                <span aria-hidden="true">🙂</span>
-                <span data-i18n="standard">Standard</span>
-              </label>
-              <label class="setting-choice mode-choice" data-mode="advanced">
-                <input
-                  class="mode-choice-input"
-                  name="mode-choice"
-                  type="radio"
-                  value="advanced"
-                />
-                <span aria-hidden="true">🔎</span>
-                <span data-i18n="advanced">Advanced</span>
-              </label>
-              <label class="setting-choice mode-choice" data-mode="developer">
-                <input
-                  class="mode-choice-input"
-                  name="mode-choice"
-                  type="radio"
-                  value="developer"
-                />
-                <span aria-hidden="true">🛠️</span>
-                <span data-i18n="developer">Developer</span>
-              </label>
-            </div>
-          </div>
-        </section>
-        <h3 class="shortcut-heading" data-i18n="keyboardShortcuts">
-          Keyboard shortcuts
-        </h3>
-        <dl class="shortcut-list">
-          <div>
-            <dt><kbd>/</kbd></dt>
-            <dd data-i18n="shortcutSearch">Focus search</dd>
-          </div>
-          <div>
-            <dt><kbd>←</kbd> <kbd>→</kbd></dt>
-            <dd data-i18n="shortcutNavigate">Navigate emoji</dd>
-          </div>
-          <div>
-            <dt><kbd>Enter</kbd></dt>
-            <dd data-i18n="shortcutOpen">Open the selected emoji</dd>
-          </div>
-          <div>
-            <dt><kbd>Esc</kbd></dt>
-            <dd data-i18n="shortcutClose">Close a dialog or clear search</dd>
-          </div>
-          <div>
-            <dt><kbd>?</kbd></dt>
-            <dd data-i18n="shortcutHelp">Open Help and settings</dd>
-          </div>
-        </dl>
-      </dialog>
     </main>
   </body>
 </html>

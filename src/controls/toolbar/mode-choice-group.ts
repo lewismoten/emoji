@@ -1,4 +1,5 @@
 import { BaseControl } from "../core/base-control.js";
+import type { NodeSpec } from "../core/dom-factory.js";
 import { ChoiceGroupControl } from "../groups/choice-group.js";
 
 type ModeChoice = {
@@ -31,6 +32,10 @@ export class ModeChoiceGroupControl extends BaseControl<ModeChoiceGroupState> {
       ],
       ...state,
     });
+  }
+
+  static toSpec(state?: Partial<ModeChoiceGroupState>): NodeSpec {
+    return new ModeChoiceGroupControl(state).render();
   }
 
   protected render() {

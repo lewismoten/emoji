@@ -10,6 +10,18 @@ const testPattern = /\.test\.(?:js|mjs|cjs)$/;
 const maximumDurationMs = 200;
 const coverageDurationMultiplier = 2;
 const coverageEnabled = process.env.TEST_COVERAGE !== "0";
+const coverageLineThreshold = Number.parseInt(
+  process.env.TEST_COVERAGE_LINES ?? "100",
+  10,
+);
+const coverageBranchThreshold = Number.parseInt(
+  process.env.TEST_COVERAGE_BRANCHES ?? "",
+  10,
+);
+const coverageFunctionThreshold = Number.parseInt(
+  process.env.TEST_COVERAGE_FUNCTIONS ?? "",
+  10,
+);
 const effectiveMaximumDurationMs = coverageEnabled
   ? coverageDurationMultiplier * maximumDurationMs
   : maximumDurationMs;
@@ -72,9 +84,13 @@ if (tests.length === 0) {
         ...(shouldCollectCoverage
           ? [
               "--experimental-test-coverage",
-              "--test-coverage-lines=100",
-              "--test-coverage-branches=100",
-              "--test-coverage-functions=100",
+              `--test-coverage-lines=${coverageLineThreshold}`,
+              ...(Number.isInteger(coverageBranchThreshold)
+                ? [`--test-coverage-branches=${coverageBranchThreshold}`]
+                : []),
+              ...(Number.isInteger(coverageFunctionThreshold)
+                ? [`--test-coverage-functions=${coverageFunctionThreshold}`]
+                : []),
               ...coverageExcludes.map(
                 (pattern) => `--test-coverage-exclude=${pattern}`,
               ),

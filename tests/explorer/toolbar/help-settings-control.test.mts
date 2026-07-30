@@ -27,6 +27,12 @@ class FakeElement {
 
   setAttribute(name: string, value: string) {
     this.attributes.set(name, value);
+    if (name === "href") this.href = value;
+    if (name === "id") this.id = value;
+  }
+
+  getAttribute(name: string) {
+    return this.attributes.get(name) ?? null;
   }
 
   querySelector(selector: string): FakeElement | null {
@@ -64,7 +70,8 @@ try {
 
   const control = createHelpDialogControl();
   assert.equal(control.element.className, "help-dialog");
-  assert.equal(control.element.id, "help-dialog");
+  assert.equal(control.element.getAttribute("id"), "help-dialog");
+  assert.equal(control.element.getAttribute("aria-labelledby"), "help-title");
 
   const [heading, pixelSection, settingsSection, shortcutHeading, shortcutList] =
     control.element.children;

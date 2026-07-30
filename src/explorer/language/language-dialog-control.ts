@@ -1,8 +1,5 @@
-import {
-  createDialogHeading,
-  createTextBlock,
-  setPressedState,
-} from "../dialog/dialog-control-helpers.js";
+import { setPressedState } from "../dialog/dialog-control-helpers.js";
+import { LanguageDialogControl as SearchLanguageDialogControl } from "../../controls/dialog/content/language-dialog.js";
 import { LanguagePickerControl as SearchLanguagePickerButtonControl } from "../../controls/pickers/language-picker.js";
 
 type SearchLocale = {
@@ -40,32 +37,8 @@ export function createLanguagePickerControl(): LanguagePickerParts {
 }
 
 export function createLanguageDialogControl(): LanguageDialogControl {
-  const dialog = document.createElement("dialog");
-  dialog.className = "language-dialog";
-  dialog.id = "language-dialog";
-  dialog.setAttribute("aria-labelledby", "language-title");
-
-  const heading = createDialogHeading({
-    titleId: "language-title",
-    titleKey: "chooseLanguage",
-    title: "Choose a search language",
-    eyebrowKey: "localizedSearch",
-    eyebrow: "Localized search",
-  });
-
-  const description = createTextBlock(
-    "p",
-    "chooseLanguageDescription",
-    "Choose a language for emoji search.",
-  );
-  description.className = "dialog-description";
-
-  const list = document.createElement("div");
-  list.className = "language-list";
-  list.setAttribute("role", "radiogroup");
-  list.setAttribute("aria-labelledby", "language-title");
-
-  dialog.append(heading, description, list);
+  const dialog = SearchLanguageDialogControl.create() as HTMLDialogElement;
+  const list = dialog.querySelector(".language-list") as HTMLElement;
   return { dialog, list };
 }
 

@@ -199,6 +199,50 @@ export const demoStyles = (
       path.join(root, "src", "site", "styles", "dialog-controls.css"),
       "utf8",
     ),
+    fs.readFile(
+      path.join(
+        root,
+        "src",
+        "controls",
+        "dialog",
+        "content",
+        "emoji-composition-section.css",
+      ),
+      "utf8",
+    ),
+    fs.readFile(
+      path.join(
+        root,
+        "src",
+        "controls",
+        "dialog",
+        "content",
+        "language-dialog.css",
+      ),
+      "utf8",
+    ),
+    fs.readFile(
+      path.join(
+        root,
+        "src",
+        "controls",
+        "dialog",
+        "content",
+        "help-settings-dialog.css",
+      ),
+      "utf8",
+    ),
+    fs.readFile(
+      path.join(
+        root,
+        "src",
+        "controls",
+        "dialog",
+        "content",
+        "saved-dialog.css",
+      ),
+      "utf8",
+    ),
     readCssWithImports("src/site/index.css"),
   ])
 ).join("\n");

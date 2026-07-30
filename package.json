@@ -60,7 +60,7 @@
     "bundle": "npm run build && npm run svg:render && node ./scripts/generate-browser.mjs && npx rollup -c ./build/config/rollup.config.js --silent && node ./scripts/generate-type-declarations.mjs",
     "prepublishOnly": "npm run bundle",
     "start": "vite --config ./config/vite.config.js",
-    "test": "node ./scripts/ensure-test-bundle.mjs && npm run demo:locales -- build/demo-pages && npm run demo:pwa -- build/demo-pages/service-worker.js && npm run test:node && tsc --noEmit --module NodeNext --moduleResolution NodeNext --target ESNext --strict tests/package-exports.test.mts && npm run pixel-font:validate",
+    "test": "node ./scripts/ensure-test-bundle.mjs && npm run demo:locales -- build/demo-pages && npm run demo:pwa -- build/demo-pages/service-worker.js && npm run test:node && tsc --ignoreConfig --noEmit --module NodeNext --moduleResolution NodeNext --target ESNext --strict tests/package-exports.test.mts && npm run pixel-font:validate",
     "test:node": "npm run demo:locales -- build/demo-pages && npm run demo:pwa -- build/demo-pages/service-worker.js && node ./tests/run-node-tests.mjs ./build/tests",
     "format": "prettier --write . --ignore-unknown",
     "format:check": "prettier --check . --ignore-unknown",

@@ -111,6 +111,15 @@
     var(--pixel-emoji-released-family, "Pixel Emoji"), sans-serif;
   font-variant-emoji: normal;
 }
+.modifier-emoji.has-proposed-pixel-art,
+.emoji-glyph.has-proposed-pixel-art,
+.emoji-preview-glyph.has-proposed-pixel-art,
+.emoji-composition-glyph.has-proposed-pixel-art {
+  font-family:
+    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"),
+    var(--emoji-font);
+  font-variant-emoji: normal;
+}
 .rendering-result {
   margin: 0.45rem 0 0;
   color: var(--muted);

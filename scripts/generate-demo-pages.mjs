@@ -318,12 +318,28 @@ export const renderPage = (
       `<link rel="stylesheet" href="./explorer/controls/dialog/dialog-heading.css?v=${assetVersion}">`,
     )
     .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/content\/language-dialog\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/dialog/content/language-dialog.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/content\/help-settings-dialog\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/dialog/content/help-settings-dialog.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/content\/emoji-composition-section\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/dialog/content/emoji-composition-section.css?v=${assetVersion}">`,
+    )
+    .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/dialog-navigate-button\.css")[^>]*\/?>/,
       `<link rel="stylesheet" href="./explorer/controls/dialog/dialog-navigate-button.css?v=${assetVersion}">`,
     )
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/dialog-mode-back-button\.css")[^>]*\/?>/,
       `<link rel="stylesheet" href="./explorer/controls/dialog/dialog-mode-back-button.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/content\/saved-dialog\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/controls/dialog/content/saved-dialog.css?v=${assetVersion}">`,
     )
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/pickers\/language-picker\.css")[^>]*\/?>/,
