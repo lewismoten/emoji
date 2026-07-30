@@ -30,7 +30,25 @@ export function createPixelEditorRuntimeController(options) {
     return `${entry.atlas} · ${translate("row", "row")} ${formatNumber(entry.row + 1)} · ${translate("column", "column")} ${formatNumber(entry.column + 1)}`;
   }
 
+  function applyTranslatedAttributes(root) {
+    root?.querySelectorAll?.("[data-i18n]").forEach((element) => {
+      element.textContent = translate(
+        element.dataset.i18n,
+        element.textContent,
+      );
+    });
+    root?.querySelectorAll?.("[data-i18n-aria-label]").forEach((element) => {
+      const label = translate(
+        element.dataset.i18nAriaLabel,
+        element.getAttribute("aria-label"),
+      );
+      element.setAttribute("aria-label", label);
+      if (element.hasAttribute("title")) element.setAttribute("title", label);
+    });
+  }
+
   function refreshTranslations() {
+    applyTranslatedAttributes(status?.closest(".pixel-editor-view"));
     if (currentEntry()) updateLocation();
     updateTraceOutput();
     updateShapeToolButtons();

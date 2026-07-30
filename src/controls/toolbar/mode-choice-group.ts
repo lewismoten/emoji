@@ -22,7 +22,12 @@ export class ModeChoiceGroupControl extends BaseControl<ModeChoiceGroupState> {
       modes: [
         { emoji: "🙂", key: "standard", text: "Standard", value: "standard" },
         { emoji: "🔎", key: "advanced", text: "Advanced", value: "advanced" },
-        { emoji: "🛠️", key: "developer", text: "Developer", value: "developer" },
+        {
+          emoji: "🛠️",
+          key: "developer",
+          text: "Developer",
+          value: "developer",
+        },
       ],
       ...state,
     });

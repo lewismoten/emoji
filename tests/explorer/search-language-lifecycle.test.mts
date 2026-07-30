@@ -417,6 +417,48 @@ try {
     ignoredPopHarness.calls.filter((entry) => entry[0] === "setSelectedLocale"),
     [],
   );
+
+  Object.defineProperty(globalThis, "fetch", {
+    configurable: true,
+    value: async (url: string) => {
+      if (url === "locales/en-x-newspeak.json") {
+        return {
+          ok: true,
+          json: async () => ({
+            annotations: { grinningFace: ["++good face"] },
+            labels: { unicode: "--word" },
+            subgroups: { hand: "hand" },
+          }),
+        };
+      }
+      return { ok: false };
+    },
+  });
+  windowStub.location.pathname = "/emoji/index.en-x-newspeak.html";
+  const newspeakPopHarness = createLifecycleHarness({
+    nextLoadId: 10,
+    currentLoadId: 10,
+    initialLocales: [
+      {
+        locale: "en-x-newspeak",
+        label: "Newspeak",
+        nativeLabel: "Newspeak",
+        rtl: false,
+        file: "en-x-newspeak.json",
+      },
+    ],
+  });
+  await newspeakPopHarness.lifecycle.onPopState();
+  assert.equal(
+    newspeakPopHarness.getSelectedSearchLocale(),
+    "en-x-newspeak",
+  );
+  assert.ok(
+    newspeakPopHarness.calls.some(
+      (entry) =>
+        entry[0] === "setSelectedLocale" && entry[1] === "en-x-newspeak",
+    ),
+  );
 } finally {
   if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
   else delete (globalThis as any).window;

@@ -2,11 +2,11 @@
 import { CELL_SIZE } from "../core/pixel-editor-constants.js";
 import { renderPixelEditorTemplate } from "./pixel-editor-template.js";
 
-export function createPixelEditorElements(dialog) {
+export function createPixelEditorElements(dialog, translate) {
   const view = document.createElement("section");
   view.className = "pixel-editor-view";
   view.hidden = true;
-  view.innerHTML = renderPixelEditorTemplate();
+  view.innerHTML = renderPixelEditorTemplate(translate);
   dialog.append(view);
   const item = (selector) => view.querySelector(selector);
   const items = (selector) => [...view.querySelectorAll(selector)];

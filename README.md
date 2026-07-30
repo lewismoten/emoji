@@ -72,6 +72,8 @@ that include the emoji name and glyph.
 
 For the deeper package guide, examples, manifests, localization notes, and
 version filtering details, see [docs/package-usage.md](docs/package-usage.md).
+For easter eggs like the Newspeak locale, retro mode, audio, and the retro
+text font, see [docs/easter-eggs.md](docs/easter-eggs.md).
 
 ## Emoji Explorer
 

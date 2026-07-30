@@ -25,6 +25,30 @@ try {
       smilingFace: { key: "smilingFace", row: 0, column: 0 },
     },
   };
+  const translatedLabel = { dataset: { i18n: "pencil" }, textContent: "Pencil" };
+  const translatedButton = {
+    dataset: { i18nAriaLabel: "paintBucket" },
+    attributes: new Map([
+      ["aria-label", "Paint bucket"],
+      ["title", "Paint bucket"],
+    ]),
+    getAttribute(name: string) {
+      return this.attributes.get(name) ?? null;
+    },
+    hasAttribute(name: string) {
+      return this.attributes.has(name);
+    },
+    setAttribute(name: string, value: string) {
+      this.attributes.set(name, value);
+    },
+  };
+  const translatedRoot = {
+    querySelectorAll(selector: string) {
+      if (selector === "[data-i18n]") return [translatedLabel];
+      if (selector === "[data-i18n-aria-label]") return [translatedButton];
+      return [];
+    },
+  };
   const fetchCalls: Array<[string, any]> = [];
   Object.defineProperty(globalThis, "fetch", {
     configurable: true,
@@ -80,12 +104,22 @@ try {
       manifestPromise = value;
       setManifestValues.push(value);
     },
-    status: {},
+    status: {
+      closest(selector: string) {
+        return selector === ".pixel-editor-view" ? translatedRoot : null;
+      },
+    },
     traceAlpha: { value: "42" },
     traceOutput: { value: "" },
     translate: (key: string, fallback: string) =>
-      (({ column: "column", row: "row" }) as Record<string, string>)[key] ??
-      fallback,
+      (
+        {
+          column: "column",
+          row: "row",
+          pencil: "thing",
+          paintBucket: "color pour",
+        } as Record<string, string>
+      )[key] ?? fallback,
     updateLocation() {
       draftCalls.push("update-location");
     },
@@ -110,6 +144,9 @@ try {
   assert.equal(draftCalls.includes("shape-buttons"), true);
   assert.equal(draftCalls.includes("preview-labels"), true);
   assert.deepEqual(paletteCalls, [["1F600"]]);
+  assert.equal(translatedLabel.textContent, "thing");
+  assert.equal(translatedButton.getAttribute("aria-label"), "color pour");
+  assert.equal(translatedButton.getAttribute("title"), "color pour");
 
   assert.equal(
     controller.renderLocationText(runtimeState.entry),

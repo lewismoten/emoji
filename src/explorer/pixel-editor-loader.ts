@@ -40,8 +40,10 @@ export function createPixelEditorLoader(options: {
     const dialog = options.dialog();
     const key = options.currentEmojiKey();
     if (!editor || !dialog.classList.contains("is-editor-view")) return editor;
+    editor.refreshTranslations();
     editor.element.hidden = false;
     if (key) await editor.open(key, options.emojiByKey()[key]);
+    editor.refreshTranslations();
     editor.element
       .querySelector(".pixel-editor-canvas")
       ?.focus({ preventScroll: true });

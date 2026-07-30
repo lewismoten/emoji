@@ -338,12 +338,12 @@ try {
     applyingUrlState: false,
     event: { currentTarget: dialogs.help } as any,
     suppressedPanelCloses: new WeakSet(),
-    syncUrlState: () => {
-      syncCalls.push(["close"]);
+    syncUrlState: (...args: any[]) => {
+      syncCalls.push(args as any);
     },
     urlStateReady: true,
   });
-  assert.equal(historyBackCalls.length, 1);
+  assert.deepEqual(syncCalls.at(-1), ["replace", {}]);
 
   windowStub.history.state = undefined as any;
   onPanelDialogClose({

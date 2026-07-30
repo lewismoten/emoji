@@ -9,9 +9,8 @@ import {
 import { generateSiteIcons } from "../scripts/generate-site-icons.mjs";
 import { renderServiceWorker } from "../scripts/generate-service-worker.mjs";
 
-const localizedPagePattern = /^\/index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/;
-const localizedManifestPattern =
-  /^\/manifest\.([a-z]{2,3}(?:-[A-Z]{2})?)\.webmanifest$/;
+const localizedPagePattern = /^\/index\.([A-Za-z0-9-]+)\.html$/;
+const localizedManifestPattern = /^\/manifest\.([A-Za-z0-9-]+)\.webmanifest$/;
 const iconAssetPattern =
   /^\/pwa\/icons\/(icon-192\.png|icon-512\.png|icon-maskable-512\.png|icon\.svg|icon-maskable\.svg)$/;
 try {
@@ -270,7 +269,7 @@ export default defineConfig({
             return;
           }
           if (
-            /^\/pwa\/wide\/screenshot-(explorer|emoji|saved|help)\.jpg$/.test(
+            /^\/pwa\/wide\/screenshot-(explorer|emoji|saved|help)-wide\.jpg$/.test(
               pathname,
             ) &&
             ["GET", "HEAD"].includes(method)

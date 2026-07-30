@@ -125,10 +125,7 @@ function updateThemeColor() {
 }
 
 function resolveExplorerMode(state: any) {
-  if (
-    state.explorerModeFromUrl &&
-    !state.developerModeUrlDismissed
-  ) {
+  if (state.explorerModeFromUrl && !state.developerModeUrlDismissed) {
     return state.explorerModeFromUrl;
   }
   return ["standard", "advanced", "developer"].includes(
@@ -263,7 +260,9 @@ export function createDeveloperModeController(options: any) {
         : currentTarget?.checked
           ? "developer"
           : "standard");
-    const nextMode = ["standard", "advanced", "developer"].includes(requestedMode)
+    const nextMode = ["standard", "advanced", "developer"].includes(
+      requestedMode,
+    )
       ? requestedMode
       : "standard";
     options.state().developerModeUrlDismissed = nextMode === "standard";
@@ -271,7 +270,10 @@ export function createDeveloperModeController(options: any) {
     options.state().developerModeFromUrl = false;
     options.savePreference("mode", nextMode);
     options.savePreference("developerMode", nextMode === "developer");
-    if (nextMode !== "developer" && options.state().explorerPreferences.theme === "base") {
+    if (
+      nextMode !== "developer" &&
+      options.state().explorerPreferences.theme === "base"
+    ) {
       options.savePreference("theme", "dark");
     }
     render();

@@ -27,10 +27,16 @@ const generateRasterIcons = (favicon, maskableFavicon, iconDirectory) => {
         value: size,
       },
     });
-    fs.writeFileSync(path.join(iconDirectory, filename), resvg.render().asPng());
+    fs.writeFileSync(
+      path.join(iconDirectory, filename),
+      resvg.render().asPng(),
+    );
   }
   fs.copyFileSync(favicon, path.join(iconDirectory, "icon.svg"));
-  fs.copyFileSync(maskableFavicon, path.join(iconDirectory, "icon-maskable.svg"));
+  fs.copyFileSync(
+    maskableFavicon,
+    path.join(iconDirectory, "icon-maskable.svg"),
+  );
 };
 
 export const generateSiteIcons = ({
@@ -52,7 +58,13 @@ export const generateSiteIcons = ({
     );
   }
 
-  const repositoryIconsDirectory = path.join(root, "src", "site", "pwa", "icons");
+  const repositoryIconsDirectory = path.join(
+    root,
+    "src",
+    "site",
+    "pwa",
+    "icons",
+  );
   if (
     path.resolve(outputDirectory) !== path.resolve(repositoryIconsDirectory)
   ) {

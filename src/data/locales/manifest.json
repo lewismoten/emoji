@@ -44,6 +44,21 @@
       "cldrVersion": "48.2.0"
     },
     {
+      "locale": "en-x-newspeak",
+      "label": "Newspeak English",
+      "nativeLabel": "Newspeak",
+      "rtl": false,
+      "file": "en-x-newspeak.json",
+      "baseLocale": "en",
+      "count": 2773,
+      "totalCount": 2773,
+      "characterLabelCount": 86,
+      "totalCharacterLabelCount": 86,
+      "subgroupLabelCount": 100,
+      "totalSubgroupLabelCount": 100,
+      "cldrVersion": "custom"
+    },
+    {
       "locale": "es",
       "label": "Spanish",
       "nativeLabel": "español",

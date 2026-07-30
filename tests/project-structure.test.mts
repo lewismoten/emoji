@@ -171,7 +171,8 @@ const countLines = (text: string) => {
 
 const countMarkdownVirtualLines = (text: string) =>
   (text.split(/\r?\n/).length === 0 ? [""] : text.split(/\r?\n/)).reduce(
-    (total, line) => total + Math.max(1, Math.ceil(line.length / markdownVisualWidth)),
+    (total, line) =>
+      total + Math.max(1, Math.ceil(line.length / markdownVisualWidth)),
     0,
   );
 

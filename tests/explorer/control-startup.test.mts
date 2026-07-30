@@ -346,6 +346,68 @@ try {
     "setUrlStateReady:true",
     "syncUrlState",
   ]);
+
+  (globalThis.document as any).documentElement.dataset = {};
+  (globalThis.document as any).documentElement.dir = "ltr";
+  (globalThis.window as any).location.pathname = "/index.en-x-newspeak.html";
+  const newspeakStartupCalls: string[] = [];
+  await finalizeExplorerStartup({
+    applyDialogUrlState() {
+      newspeakStartupCalls.push("applyDialogUrlState");
+    },
+    drawList() {
+      newspeakStartupCalls.push("drawList");
+    },
+    finishExplorerLoading() {
+      newspeakStartupCalls.push("finishExplorerLoading");
+    },
+    loadData() {
+      newspeakStartupCalls.push("loadData");
+      return Promise.resolve();
+    },
+    loadSearchLanguages(locale: string) {
+      newspeakStartupCalls.push(`loadSearchLanguages:${locale}`);
+      return Promise.resolve();
+    },
+    loadUiTranslations(locale: string, rtl: boolean) {
+      newspeakStartupCalls.push(`loadUiTranslations:${locale}:${rtl}`);
+      return Promise.resolve();
+    },
+    observeToolbarHeight(toolbar: { id: string }) {
+      newspeakStartupCalls.push(`observeToolbarHeight:${toolbar.id}`);
+    },
+    preferences: {},
+    renderPixelFontToggle() {
+      newspeakStartupCalls.push("renderPixelFontToggle");
+    },
+    renderThemeToggle() {
+      newspeakStartupCalls.push("renderThemeToggle");
+    },
+    renderVersionModeToggle() {
+      newspeakStartupCalls.push("renderVersionModeToggle");
+    },
+    setUrlStateReady(value: boolean) {
+      newspeakStartupCalls.push(`setUrlStateReady:${value}`);
+    },
+    syncUrlState() {
+      newspeakStartupCalls.push("syncUrlState");
+    },
+    toolbar: { id: "toolbar-3" },
+  });
+  assert.deepEqual(newspeakStartupCalls, [
+    "renderVersionModeToggle",
+    "renderThemeToggle",
+    "renderPixelFontToggle",
+    "observeToolbarHeight:toolbar-3",
+    "loadUiTranslations:en-x-newspeak:false",
+    "loadSearchLanguages:en-x-newspeak",
+    "loadData",
+    "drawList",
+    "finishExplorerLoading",
+    "applyDialogUrlState",
+    "setUrlStateReady:true",
+    "syncUrlState",
+  ]);
 } finally {
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");

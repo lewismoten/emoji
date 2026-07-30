@@ -10,7 +10,9 @@ import {
 
 const rows = (...values) => values.join("");
 const splitRows = (bitmap) =>
-  Array.from({ length: 7 }, (_, index) => bitmap.slice(index * 5, index * 5 + 5));
+  Array.from({ length: 7 }, (_, index) =>
+    bitmap.slice(index * 5, index * 5 + 5),
+  );
 const joinRows = (bitmapRows) => bitmapRows.join("");
 
 function overlayRows(bitmap, overlays, startRow = 0) {
@@ -301,23 +303,32 @@ const glyphOverrides = new Map(
   ].filter(([, bitmap]) => typeof bitmap === "string"),
 );
 
-const workspace = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const workspace = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "..",
+);
 const sourceDirectory = path.join(workspace, "retro-text");
 const manifestFile = path.join(sourceDirectory, "manifest.json");
 const latinPageFile = path.join(sourceDirectory, "latin-1.json");
-const extendedPageFile = path.join(sourceDirectory, "extended-latin-and-symbols.json");
+const extendedPageFile = path.join(
+  sourceDirectory,
+  "extended-latin-and-symbols.json",
+);
 const sourceFile = path.join(sourceDirectory, "retro-text-source.json");
 
 const latinRows = Array.from({ length: 16 }, () => Array(16).fill(null));
 for (let codePoint = 0; codePoint <= 0xff; codePoint += 1) {
   const character = String.fromCodePoint(codePoint);
-  if (!BITMAP_FONT_5X7[character] && !extraLatinGlyphMap.get(character)) continue;
+  if (!BITMAP_FONT_5X7[character] && !extraLatinGlyphMap.get(character))
+    continue;
   latinRows[Math.floor(codePoint / 16)][codePoint % 16] = character;
 }
 
 const glyphs = [
   ...new Set([
-    ...BITMAP_FONT_5X7_CHARACTERS.filter((character) => character.codePointAt(0) <= 0xff),
+    ...BITMAP_FONT_5X7_CHARACTERS.filter(
+      (character) => character.codePointAt(0) <= 0xff,
+    ),
     ...extraLatinGlyphs.map((glyph) => glyph.character),
   ]),
 ]
@@ -456,7 +467,8 @@ const supplementaryGlyphs = [
 
 for (const [character, bitmap] of glyphOverrides) {
   if (character.codePointAt(0) <= 0xff) continue;
-  if (supplementaryGlyphs.some((glyph) => glyph.character === character)) continue;
+  if (supplementaryGlyphs.some((glyph) => glyph.character === character))
+    continue;
   supplementaryGlyphs.push({ character, bitmap });
 }
 
@@ -489,7 +501,7 @@ const manifest = {
     {
       id: "latin",
       label: "Latin example",
-      text: 'À fuzzy wizard named Zoë quietly vexes Jack with six emoji: café, piñata, jalapeño, crème brûlée, smörgåsbord, Æsir, œuvre, Straße, £10, €20 — “Voilà!”',
+      text: "À fuzzy wizard named Zoë quietly vexes Jack with six emoji: café, piñata, jalapeño, crème brûlée, smörgåsbord, Æsir, œuvre, Straße, £10, €20 — “Voilà!”",
     },
     {
       id: "african",

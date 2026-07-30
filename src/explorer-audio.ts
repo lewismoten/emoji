@@ -64,13 +64,18 @@ export function createExplorerAudioController(
   }
 
   function isInputWithType(target: AudioTarget, type: string) {
-    return hasTagName(target, "INPUT") && (target as HTMLInputElement).type === type;
+    return (
+      hasTagName(target, "INPUT") && (target as HTMLInputElement).type === type
+    );
   }
 
   function classifyInteractiveTarget(
     target: AudioTarget,
   ): ExplorerAudioElementType {
-    if (hasTagName(target, "SELECT") || target.getAttribute("aria-haspopup") === "listbox") {
+    if (
+      hasTagName(target, "SELECT") ||
+      target.getAttribute("aria-haspopup") === "listbox"
+    ) {
       return "dropdown";
     }
     if (
@@ -89,7 +94,10 @@ export function createExplorerAudioController(
     if (hasTagName(target, "A") || target.getAttribute("role") === "link") {
       return "link";
     }
-    if (hasTagName(target, "BUTTON") || target.getAttribute("role") === "button") {
+    if (
+      hasTagName(target, "BUTTON") ||
+      target.getAttribute("role") === "button"
+    ) {
       return "button";
     }
     return "generic";
@@ -179,20 +187,25 @@ export function createExplorerAudioController(
         if (target.matches(".sound-effects-toggle")) {
           const input = target as HTMLInputElement;
           setSoundEffects(input.checked);
-          playTargetAction(target as AudioTarget, input.checked ? "check" : "uncheck");
+          playTargetAction(
+            target as AudioTarget,
+            input.checked ? "check" : "uncheck",
+          );
         } else if (target.matches(".music-toggle")) {
           const input = target as HTMLInputElement;
           setMusic(input.checked);
-          playTargetAction(target as AudioTarget, input.checked ? "check" : "uncheck");
+          playTargetAction(
+            target as AudioTarget,
+            input.checked ? "check" : "uncheck",
+          );
         } else if (target instanceof HTMLElement) {
           const interactive = getInteractiveTarget(target);
           if (!interactive) return;
           const type = classifyInteractiveTarget(interactive);
           if (type === "checkbox" || type === "radio") {
-            const checked =
-              hasTagName(interactive, "INPUT")
-                ? (interactive as HTMLInputElement).checked
-                : interactive.getAttribute("aria-checked") === "true";
+            const checked = hasTagName(interactive, "INPUT")
+              ? (interactive as HTMLInputElement).checked
+              : interactive.getAttribute("aria-checked") === "true";
             audio.playInteraction(type, checked ? "check" : "uncheck");
           }
         }

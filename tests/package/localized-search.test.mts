@@ -44,7 +44,7 @@ const localeManifest = await readJson<{ locales: LocaleEntry[] }>(
 
 assert.deepEqual(
   localeManifest.locales.map((locale) => locale.locale),
-  ["ar", "en", "en-GB", "es", "hi", "zh"],
+  ["ar", "en", "en-GB", "en-x-newspeak", "es", "hi", "zh"],
 );
 assert.deepEqual(require("@lewismoten/emoji/locales/manifest"), localeManifest);
 for (const locale of localeManifest.locales) {

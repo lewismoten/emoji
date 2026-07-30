@@ -5,7 +5,12 @@ import { Resvg } from "@resvg/resvg-js";
 import { cropRgba, decodeRgbaPng } from "../pixel-font/scripts/png.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const smileySourceConfigFile = path.join(root, "src", "site", "smiley-source.json");
+const smileySourceConfigFile = path.join(
+  root,
+  "src",
+  "site",
+  "smiley-source.json",
+);
 const generatedSmileyStart = "<!-- GENERATED_SMILEY_START -->";
 const generatedSmileyEnd = "<!-- GENERATED_SMILEY_END -->";
 
@@ -44,7 +49,9 @@ export const discoverSiblingSvgTasks = (directories) =>
 export const dedupeTasks = (tasks) => {
   const seen = new Set();
   return tasks.filter((task) => {
-    const output = path.resolve(task.output ?? task.input.replace(/\.svg$/i, ".png"));
+    const output = path.resolve(
+      task.output ?? task.input.replace(/\.svg$/i, ".png"),
+    );
     if (seen.has(output)) return false;
     seen.add(output);
     return true;
@@ -98,7 +105,9 @@ const loadSmileySourceConfig = () => {
 const findAtlasCandidates = (emojiKey) => {
   const atlasRoot = path.join(root, "pixel-font", "atlases");
   const candidates = [];
-  for (const file of walkFiles(atlasRoot).filter((entry) => entry.endsWith(".json"))) {
+  for (const file of walkFiles(atlasRoot).filter((entry) =>
+    entry.endsWith(".json"),
+  )) {
     const sidecar = JSON.parse(fs.readFileSync(file, "utf8"));
     if (!Array.isArray(sidecar.entries)) continue;
     const entry = sidecar.entries.find((item) => item.key === emojiKey);
@@ -218,8 +227,7 @@ export const renderSvgAsset = ({
   height,
 }) => {
   const svg = fs.readFileSync(input, "utf8");
-  const dimensions =
-    width && height ? { width, height } : parseDimensions(svg);
+  const dimensions = width && height ? { width, height } : parseDimensions(svg);
   const resvg = new Resvg(svg, {
     fitTo: {
       mode: "width",
@@ -241,7 +249,7 @@ export const parseCliTasks = (args) => {
     ]);
   }
   const tasks = [];
-  for (let index = 0; index < args.length; ) {
+  for (let index = 0; index < args.length;) {
     const input = path.resolve(args[index++]);
     if (fs.existsSync(input) && fs.statSync(input).isDirectory()) {
       tasks.push(...discoverSiblingSvgTasks([input]));
@@ -252,7 +260,8 @@ export const parseCliTasks = (args) => {
       next && !/^\d+$/.test(next) ? path.resolve(args[index++]) : undefined;
     const widthArg = args[index];
     const heightArg = args[index + 1];
-    const width = widthArg && /^\d+$/.test(widthArg) ? Number(widthArg) : undefined;
+    const width =
+      widthArg && /^\d+$/.test(widthArg) ? Number(widthArg) : undefined;
     const height =
       heightArg && /^\d+$/.test(heightArg) ? Number(heightArg) : undefined;
     if (width !== undefined) index += 1;
@@ -262,8 +271,8 @@ export const parseCliTasks = (args) => {
   return dedupeTasks(tasks);
 };
 
-
-export const renderSvgAssets = (tasks = parseCliTasks([])) => tasks.map(renderSvgAsset);
+export const renderSvgAssets = (tasks = parseCliTasks([])) =>
+  tasks.map(renderSvgAsset);
 
 if (path.resolve(process.argv[1] ?? "") === fileURLToPath(import.meta.url)) {
   syncSvgSmileysFromAtlas();

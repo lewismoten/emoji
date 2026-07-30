@@ -3,7 +3,10 @@ import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { generateSiteIcons } from "./generate-site-icons.mjs";
-import { renderSvgAssets, syncSvgSmileysFromAtlas } from "./render-svg-assets.mjs";
+import {
+  renderSvgAssets,
+  syncSvgSmileysFromAtlas,
+} from "./render-svg-assets.mjs";
 import { compileTypeScriptSources } from "./transpile-typescript.mjs";
 
 const projectRoot = path.resolve(
@@ -13,7 +16,7 @@ const projectRoot = path.resolve(
 const defaultSiteUrl = "https://lewismoten.github.io/emoji/";
 const normalizeSiteUrl = (value) => `${value.replace(/\/+$/, "")}/`;
 const siteUrl = normalizeSiteUrl(process.env.EMOJI_SITE_URL ?? defaultSiteUrl);
-export const locales = ["en", "en-GB", "es", "hi", "zh", "ar"];
+export const locales = ["en", "en-GB", "en-x-newspeak", "es", "hi", "zh", "ar"];
 const rtlLocales = new Set(["ar"]);
 const siteSourceDirectory = path.join(projectRoot, "src", "site");
 const pwaSourceDirectory = path.join(siteSourceDirectory, "pwa");
@@ -62,6 +65,7 @@ const languageFlags = {
   ar: "🇸🇦",
   en: "🇺🇸",
   "en-GB": "🇬🇧",
+  "en-x-newspeak": "👁️",
   "en-US": "🇺🇸",
   es: "🇪🇸",
   hi: "🇮🇳",

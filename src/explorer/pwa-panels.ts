@@ -239,7 +239,14 @@ export function onPanelDialogClose({
   )
     return;
   if (window.history.state?.panelDialogEntry) {
-    window.history.back();
+    const nextState =
+      window.history.state &&
+      typeof window.history.state === "object" &&
+      !Array.isArray(window.history.state)
+        ? { ...window.history.state }
+        : {};
+    delete nextState.panelDialogEntry;
+    syncUrlState("replace", nextState);
   } else {
     syncUrlState();
   }

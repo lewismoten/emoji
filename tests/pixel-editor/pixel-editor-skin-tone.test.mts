@@ -177,7 +177,10 @@ assert.deepEqual(
 assert.deepEqual(
   Array.from(
     remapSkinTonePixelsAny(
-      new Uint8ClampedArray([...hexToRgba(light.color), ...hexToRgba(dark.color)]),
+      new Uint8ClampedArray([
+        ...hexToRgba(light.color),
+        ...hexToRgba(dark.color),
+      ]),
       [light.codePoint, dark.codePoint],
       [medium.codePoint],
     ),
@@ -187,7 +190,10 @@ assert.deepEqual(
 assert.deepEqual(
   Array.from(
     remapSkinTonePixelsAny(
-      new Uint8ClampedArray([...hexToRgba(light.color), ...hexToRgba(dark.color)]),
+      new Uint8ClampedArray([
+        ...hexToRgba(light.color),
+        ...hexToRgba(dark.color),
+      ]),
       [light.codePoint, dark.codePoint],
       [light.codePoint, medium.codePoint],
     ),
@@ -271,10 +277,7 @@ const helperOutOfRangeRemapped = remapSkinTonePixelsAny(
     offsetY: 0,
   },
 );
-assert.deepEqual(
-  Array.from(helperOutOfRangeRemapped),
-  hexToRgba(light.color),
-);
+assert.deepEqual(Array.from(helperOutOfRangeRemapped), hexToRgba(light.color));
 const helperOffsetFallbackRemapped = remapSkinTonePixelsAny(
   new Uint8ClampedArray([...hexToRgba(light.color)]),
   [light.codePoint],
@@ -303,10 +306,7 @@ const helperUnknownOpaqueRemapped = remapSkinTonePixelsAny(
     offsetY: 0,
   },
 );
-assert.deepEqual(
-  Array.from(helperUnknownOpaqueRemapped),
-  [1, 2, 3, 255],
-);
+assert.deepEqual(Array.from(helperUnknownOpaqueRemapped), [1, 2, 3, 255]);
 const helperWithoutOwnershipRemapped = remapSkinTonePixelsAny(
   new Uint8ClampedArray([...hexToRgba(light.color)]),
   [light.codePoint],
@@ -369,10 +369,16 @@ assert.ok([0, 1].includes(ownership[2]));
 assert.ok([0, 1].includes(ownership[3]));
 const ownershipWithUnknownOpaque = buildSkinToneOwnershipAny(
   new Uint8ClampedArray([
-    1, 2, 3, 255,
+    1,
+    2,
+    3,
+    255,
     ...hexToRgba(light.color),
     ...hexToRgba(dark.color),
-    0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
   ]),
   [light.codePoint, dark.codePoint],
   2,
@@ -430,8 +436,14 @@ assert.equal(tieBreaksEarlierOwnership[1], 0);
 const diagonalOwnership = buildSkinToneOwnershipAny(
   new Uint8ClampedArray([
     ...hexToRgba(light.color),
-    0, 0, 0, 0,
-    0, 0, 0, 0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
     ...hexToRgba(dark.color),
   ]),
   [light.codePoint, dark.codePoint],
@@ -442,10 +454,7 @@ assert.ok([0, 1].includes(diagonalOwnership[1]));
 assert.ok([0, 1].includes(diagonalOwnership[2]));
 
 const compactOwnership = buildSkinToneOwnershipAny(
-  new Uint8ClampedArray([
-    ...hexToRgba(light.color),
-    ...hexToRgba(dark.color),
-  ]),
+  new Uint8ClampedArray([...hexToRgba(light.color), ...hexToRgba(dark.color)]),
   [light.codePoint, dark.codePoint],
   2,
   1,
@@ -478,14 +487,14 @@ assert.equal(
 const twoPerson = buildTwoPersonOwnershipAny(5, 2);
 assert.deepEqual(Array.from(twoPerson), [0, 0, 0, 1, 1, 0, 0, 0, 1, 1]);
 assert.equal(buildTwoPersonOwnershipAny().length, CELL_SIZE * CELL_SIZE);
-assert.deepEqual(
-  endpointSkinToneShadeAny(dark.codePoint, "darker"),
-  { kind: "darker", color: EGA_COLORS[0] },
-);
-assert.deepEqual(
-  endpointSkinToneShadeAny(light.codePoint, "lighter"),
-  { kind: "lighter", color: EGA_COLORS.at(-1) },
-);
+assert.deepEqual(endpointSkinToneShadeAny(dark.codePoint, "darker"), {
+  kind: "darker",
+  color: EGA_COLORS[0],
+});
+assert.deepEqual(endpointSkinToneShadeAny(light.codePoint, "lighter"), {
+  kind: "lighter",
+  color: EGA_COLORS.at(-1),
+});
 assert.equal(endpointSkinToneShadeAny(medium.codePoint, "lighter"), undefined);
 assert.equal(endpointSkinToneShadeAny(dark.codePoint, "lighter"), undefined);
 assert.equal(endpointSkinToneShadeAny(light.codePoint, "darker"), undefined);
@@ -507,10 +516,7 @@ assert.equal(
   findShadeByKindAny(skinToneCycleAny(medium.codePoint), "lighter")?.color,
   mediumLight.color,
 );
-assert.equal(
-  findShadeByKindAny([], "lighter"),
-  undefined,
-);
+assert.equal(findShadeByKindAny([], "lighter"), undefined);
 assert.equal(
   findShadeByKindAny(skinToneCycleAny(medium.codePoint), "missing"),
   undefined,
@@ -535,10 +541,10 @@ assert.deepEqual(
 assert.equal(rgbHexAny(0, 0, 0), "#000000");
 assert.equal(rgbHexAny(255, 255, 255), "#ffffff");
 
-assert.deepEqual(
-  selectNearestOwnerAny(undefined, { owner: 1 }, 5),
-  { distance: 5, owner: 1 },
-);
+assert.deepEqual(selectNearestOwnerAny(undefined, { owner: 1 }, 5), {
+  distance: 5,
+  owner: 1,
+});
 assert.deepEqual(
   selectNearestOwnerAny({ distance: 6, owner: 1 }, { owner: 0 }, 5),
   { distance: 5, owner: 0 },

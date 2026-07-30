@@ -2,6 +2,7 @@ export const languageFlags: Record<string, string> = {
   ar: "🇸🇦",
   en: "🇺🇸",
   "en-GB": "🇬🇧",
+  "en-x-newspeak": "👁️",
   "en-US": "🇺🇸",
   es: "🇪🇸",
   hi: "🇮🇳",

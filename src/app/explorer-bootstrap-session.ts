@@ -201,7 +201,7 @@ Object.assign(bindings, {
   setEmojiDialogView: controllers.setView,
 });
 
-  bindings.bootstrapRuntime = initializeExplorerBootstrapSessionRuntime({
+bindings.bootstrapRuntime = initializeExplorerBootstrapSessionRuntime({
   bindings,
   controllers,
   panelDialogs,

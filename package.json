@@ -81,7 +81,8 @@
     "unicode:proposed": "node ./scripts/download-proposed-unicode.mjs",
     "versions:snapshot": "node ./scripts/update-version-export-snapshot.mjs",
     "cldr": "node ./scripts/update-cldr-locales.mjs && npm run format",
-    "locales:overrides": "node ./scripts/apply-locale-label-overrides.mjs && npm run format"
+    "locales:overrides": "node ./scripts/apply-locale-label-overrides.mjs && npm run format",
+    "locales:newspeak": "node ./scripts/generate-newspeak-locale.mjs"
   },
   "repository": {
     "type": "git",

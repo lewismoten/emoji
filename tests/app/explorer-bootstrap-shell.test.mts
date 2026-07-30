@@ -203,7 +203,9 @@ assert.doesNotThrow(() =>
 assert.doesNotThrow(() => shell.renderMusicToggle());
 assert.doesNotThrow(() => shell.renderSoundEffectsToggle());
 assert.doesNotThrow(() => shell.renderInstallAppButton());
-assert.doesNotThrow(() => shell.toggleDeveloperMode({ currentTarget: { checked: true } } as any));
+assert.doesNotThrow(() =>
+  shell.toggleDeveloperMode({ currentTarget: { checked: true } } as any),
+);
 
 let refreshed = 0;
 const diagnosticDialog = {

@@ -117,9 +117,19 @@ export function getLocalizedLanguageName(
   selectedSearchLocale: string,
 ) {
   const uiLocale = document.documentElement.lang || "en";
-  const localizedLabel =
-    new Intl.DisplayNames([uiLocale], { type: "language" }).of(locale.locale) ??
-    locale.label;
+  let localizedLabel = locale.label;
+  try {
+    localizedLabel =
+      new Intl.DisplayNames([uiLocale], { type: "language" }).of(
+        locale.locale,
+      ) ??
+      new Intl.DisplayNames([uiLocale], { type: "language" }).of(
+        locale.baseLocale ?? locale.locale.split("-")[0],
+      ) ??
+      locale.label;
+  } catch {
+    localizedLabel = locale.label;
+  }
   return locale.locale === selectedSearchLocale ||
     localizedLabel === locale.nativeLabel
     ? localizedLabel

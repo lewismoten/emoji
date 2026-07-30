@@ -294,8 +294,7 @@ try {
         call[0] === "playInteraction" &&
         call[1] === "button" &&
         call[2] === "hover",
-    )
-      .length,
+    ).length,
     1,
   );
 

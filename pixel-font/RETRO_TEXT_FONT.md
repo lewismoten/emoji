@@ -36,81 +36,81 @@ rather than every possible Latin-derived alphabet.
 
 ### Western European language coverage
 
-| Language | Characters beyond common English |
-| - | - |
-| English | — |
-| Spanish | `Á É Í Ñ Ó Ú Ü á é í ñ ó ú ü` |
-| Portuguese | `Á Â Ã À Ç É Ê Í Ó Ô Õ Ú Ü á â ã à ç é ê í ó ô õ ú ü` |
-| Italian | `À È É Ì Í Î Ò Ó Ù à è é ì í î ò ó ù` |
-| French | `À Â Æ Ç É È Ê Ë Î Ï Ô Œ Ù Û Ü Ÿ à â æ ç é è ê ë î ï ô œ ù û ü ÿ` |
-| German | `Ä Ö Ü ẞ ß ä ö ü` |
-| Dutch | `Ë Ï Ö Ü ë ï ö ü` |
-| Danish | `Æ Ø Å æ ø å` |
-| Norwegian | `Æ Ø Å æ ø å` |
-| Swedish | `Å Ä Ö å ä ö` |
-| Icelandic | `Á Ð É Í Ó Ú Ý Þ Æ Ö á ð é í ó ú ý þ æ ö` |
+| Language   | Characters beyond common English                                  |
+| ---------- | ----------------------------------------------------------------- |
+| English    | —                                                                 |
+| Spanish    | `Á É Í Ñ Ó Ú Ü á é í ñ ó ú ü`                                     |
+| Portuguese | `Á Â Ã À Ç É Ê Í Ó Ô Õ Ú Ü á â ã à ç é ê í ó ô õ ú ü`             |
+| Italian    | `À È É Ì Í Î Ò Ó Ù à è é ì í î ò ó ù`                             |
+| French     | `À Â Æ Ç É È Ê Ë Î Ï Ô Œ Ù Û Ü Ÿ à â æ ç é è ê ë î ï ô œ ù û ü ÿ` |
+| German     | `Ä Ö Ü ẞ ß ä ö ü`                                                 |
+| Dutch      | `Ë Ï Ö Ü ë ï ö ü`                                                 |
+| Danish     | `Æ Ø Å æ ø å`                                                     |
+| Norwegian  | `Æ Ø Å æ ø å`                                                     |
+| Swedish    | `Å Ä Ö å ä ö`                                                     |
+| Icelandic  | `Á Ð É Í Ó Ú Ý Þ Æ Ö á ð é í ó ú ý þ æ ö`                         |
 
 ### Shared symbols and punctuation
 
 The shared symbols listed below are implemented in the current build of the
 retro text font.
 
-| Category | Characters |
-| - | - |
-| Currency and commerce | `£ € ¥ ¢ №` |
-| Quotes and dashes | `" ' “ ” ‘ ’ – — …` |
-| UI and editorial marks | `© ® ™ § ¶ † ‡ •` |
-| Math and signs | `× ÷ − ± °` |
-| Spanish-style punctuation | `¡ ¿` |
-| Navigation and status | `← ↑ → ↓ ↩ ⚠ ✓ ♪` |
+| Category                  | Characters          |
+| ------------------------- | ------------------- |
+| Currency and commerce     | `£ € ¥ ¢ №`         |
+| Quotes and dashes         | `" ' “ ” ‘ ’ – — …` |
+| UI and editorial marks    | `© ® ™ § ¶ † ‡ •`   |
+| Math and signs            | `× ÷ − ± °`         |
+| Spanish-style punctuation | `¡ ¿`               |
+| Navigation and status     | `← ↑ → ↓ ↩ ⚠ ✓ ♪`   |
 
 ### Central and Eastern European coverage
 
 The current build now includes the commonly needed Latin extensions for the
 language groups below.
 
-| Language group | Often-needed characters |
-| - | - |
-| Polish | `Ą Ć Ę Ł Ń Ó Ś Ź Ż ą ć ę ł ń ó ś ź ż` |
-| Czech | `Á Č Ď É Ě Í Ň Ó Ř Š Ť Ú Ů Ý Ž á č ď é ě í ň ó ř š ť ú ů ý ž` |
-| Slovak | `Á Ä Č Ď É Í Ĺ Ľ Ň Ó Ô Ŕ Š Ť Ú Ý Ž á ä č ď é í ĺ ľ ň ó ô ŕ š ť ú ý ž` |
-| Slovene / Croatian / Serbian (Latin) | `Č Ć Đ Š Ž č ć đ š ž` |
-| Romanian | `Ă Â Î Ș Ț ă â î ș ț` |
-| Baltic languages | `Ā Č Ē Ģ Ī Ķ Ļ Ņ Š Ū Ž ā č ē ģ ī ķ ļ ņ š ū ž` |
-| Hungarian | `Á É Í Ó Ö Ő Ú Ü Ű á é í ó ö ő ú ü ű` |
+| Language group                       | Often-needed characters                                               |
+| ------------------------------------ | --------------------------------------------------------------------- |
+| Polish                               | `Ą Ć Ę Ł Ń Ó Ś Ź Ż ą ć ę ł ń ó ś ź ż`                                 |
+| Czech                                | `Á Č Ď É Ě Í Ň Ó Ř Š Ť Ú Ů Ý Ž á č ď é ě í ň ó ř š ť ú ů ý ž`         |
+| Slovak                               | `Á Ä Č Ď É Í Ĺ Ľ Ň Ó Ô Ŕ Š Ť Ú Ý Ž á ä č ď é í ĺ ľ ň ó ô ŕ š ť ú ý ž` |
+| Slovene / Croatian / Serbian (Latin) | `Č Ć Đ Š Ž č ć đ š ž`                                                 |
+| Romanian                             | `Ă Â Î Ș Ț ă â î ș ț`                                                 |
+| Baltic languages                     | `Ā Č Ē Ģ Ī Ķ Ļ Ņ Š Ū Ž ā č ē ģ ī ķ ļ ņ š ū ž`                         |
+| Hungarian                            | `Á É Í Ó Ö Ő Ú Ü Ű á é í ó ö ő ú ü ű`                                 |
 
 ### Additional Latin coverage
 
 The current build also includes the commonly needed characters for these
 additional Latin-script language groups.
 
-| Language group | Often-needed characters |
-| - | - |
-| Turkish | `Ç Ğ İ Ö Ş Ü ç ğ ı ö ş ü` |
-| Esperanto | `Ĉ Ĝ Ĥ Ĵ Ŝ Ŭ ĉ ĝ ĥ ĵ ŝ ŭ` |
-| Welsh | `Ŵ Ŷ ŵ ŷ` |
-| Maltese | `Ċ Ġ Ħ Ż ċ ġ ħ ż` |
-| Azerbaijani | `Ə Ğ İ Ö Ş Ü Ç ə ğ ı ö ş ü ç` |
-| Lithuanian | `Ą Č Ę Ė Į Š Ų Ū Ž ą č ę ė į š ų ū ž` |
-| Sámi | `Á Č Đ Ŋ Š Ŧ Ž á č đ ŋ š ŧ ž` |
-| Vietnamese core letters | `Ă Â Ê Ô Ơ Ư Đ ă â ê ô ơ ư đ` |
-| Latin Extended practical set | `Ĕ Ĩ Ĳ Ō Ŏ Ŗ Ţ Ũ ĕ ĩ ĳ ŏ ŗ ţ ũ` |
+| Language group               | Often-needed characters               |
+| ---------------------------- | ------------------------------------- |
+| Turkish                      | `Ç Ğ İ Ö Ş Ü ç ğ ı ö ş ü`             |
+| Esperanto                    | `Ĉ Ĝ Ĥ Ĵ Ŝ Ŭ ĉ ĝ ĥ ĵ ŝ ŭ`             |
+| Welsh                        | `Ŵ Ŷ ŵ ŷ`                             |
+| Maltese                      | `Ċ Ġ Ħ Ż ċ ġ ħ ż`                     |
+| Azerbaijani                  | `Ə Ğ İ Ö Ş Ü Ç ə ğ ı ö ş ü ç`         |
+| Lithuanian                   | `Ą Č Ę Ė Į Š Ų Ū Ž ą č ę ė į š ų ū ž` |
+| Sámi                         | `Á Č Đ Ŋ Š Ŧ Ž á č đ ŋ š ŧ ž`         |
+| Vietnamese core letters      | `Ă Â Ê Ô Ơ Ư Đ ă â ê ô ơ ư đ`         |
+| Latin Extended practical set | `Ĕ Ĩ Ĳ Ō Ŏ Ŗ Ţ Ũ ĕ ĩ ĳ ŏ ŗ ţ ũ`       |
 
 ### African Latin coverage
 
 The current build also includes a practical batch of Latin letters commonly
 used by several African writing systems and regional orthographies.
 
-| Language group | Often-needed characters |
-| - | - |
-| Hausa core letters | `Ɓ Ɗ Ƙ ɓ ɗ ƙ` |
-| Yoruba | `Ẹ Ọ Ṣ ẹ ọ ṣ` |
-| Igbo | `Ị Ṅ Ọ Ụ ị ṅ ọ ụ` |
-| Fula / Fulfulde | `Ɓ Ɗ Ŋ Ñ Ƴ ɓ ɗ ŋ ñ ƴ` |
-| Ewe | `Ɖ Ɛ Ƒ Ɣ Ŋ Ɔ Ʋ ɖ ɛ ƒ ɣ ŋ ɔ ʋ` |
-| Akan / Twi | `Ɛ Ɔ ɛ ɔ` |
-| Bambara | `Ɛ Ɲ Ɔ ɛ ɲ ɔ` |
-| Lingala | `Ɛ Ɔ ɛ ɔ` |
+| Language group        | Often-needed characters                   |
+| --------------------- | ----------------------------------------- |
+| Hausa core letters    | `Ɓ Ɗ Ƙ ɓ ɗ ƙ`                             |
+| Yoruba                | `Ẹ Ọ Ṣ ẹ ọ ṣ`                             |
+| Igbo                  | `Ị Ṅ Ọ Ụ ị ṅ ọ ụ`                         |
+| Fula / Fulfulde       | `Ɓ Ɗ Ŋ Ñ Ƴ ɓ ɗ ŋ ñ ƴ`                     |
+| Ewe                   | `Ɖ Ɛ Ƒ Ɣ Ŋ Ɔ Ʋ ɖ ɛ ƒ ɣ ŋ ɔ ʋ`             |
+| Akan / Twi            | `Ɛ Ɔ ɛ ɔ`                                 |
+| Bambara               | `Ɛ Ɲ Ɔ ɛ ɲ ɔ`                             |
+| Lingala               | `Ɛ Ɔ ɛ ɔ`                                 |
 | Pan-Nigerian core set | `Ɓ Ɗ Ɛ Ƒ Ɠ Ƙ Ɲ Ɔ Ʋ Ƴ ɓ ɗ ɛ ƒ ɣ ƙ ɲ ɔ ʋ ƴ` |
 
 Future additions may still be needed for other Latin-based languages, but the
@@ -159,12 +159,12 @@ The sample preview currently renders both of these sentences:
 
 As of the current build, Pixel Latin Retro contains 368 glyphs and ships as:
 
-| File | Size |
-| - | -: |
-| `pixel-latin-retro.ttf` | 67,372 bytes |
-| `pixel-latin-retro.woff` | 9,392 bytes |
-| `pixel-latin-retro.woff2` | 4,660 bytes |
-| `pixel-latin-retro.css` | 290 bytes |
+| File                      |         Size |
+| ------------------------- | -----------: |
+| `pixel-latin-retro.ttf`   | 67,372 bytes |
+| `pixel-latin-retro.woff`  |  9,392 bytes |
+| `pixel-latin-retro.woff2` |  4,660 bytes |
+| `pixel-latin-retro.css`   |    290 bytes |
 
 For web use, the WOFF2 file is the main delivery target and is currently a
 little over 4 KB.
@@ -178,11 +178,11 @@ uses. That is about 5.7% duplicate bitmap coverage.
 If every duplicate shape were intentionally aliased or removed with no visual
 tradeoffs, the rough upper-bound savings would be about:
 
-| File | Approximate maximum savings |
-| - | -: |
-| `pixel-latin-retro.ttf` | ~3.8 KB |
-| `pixel-latin-retro.woff` | ~0.5 KB |
-| `pixel-latin-retro.woff2` | ~0.3 KB |
+| File                      | Approximate maximum savings |
+| ------------------------- | --------------------------: |
+| `pixel-latin-retro.ttf`   |                     ~3.8 KB |
+| `pixel-latin-retro.woff`  |                     ~0.5 KB |
+| `pixel-latin-retro.woff2` |                     ~0.3 KB |
 
 In practice, real savings would likely be a bit smaller, because some of those
 duplicate shapes are currently acceptable stand-ins while others may actually

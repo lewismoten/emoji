@@ -77,7 +77,7 @@ export function createSearchLanguageLifecycle(options: any) {
       options.restoreDeveloperMode();
       const locale =
         window.location.pathname.match(
-          /index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/,
+          /index\.([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\.html$/,
         )?.[1] ?? "";
       if (
         !locale ||

@@ -39,6 +39,7 @@ export function createPixelEditorSessionController(options) {
 
   async function open(key, emoji) {
     const requestedLoadId = ++loadId;
+    refreshTranslations();
     draftController.rememberCurrentDraft();
     setCurrentEmoji(emoji);
     setTraceOffsets(0, 0);
@@ -111,6 +112,7 @@ export function createPixelEditorSessionController(options) {
       setStatusText("");
       previewController.renderTrace();
       renderController.draw();
+      refreshTranslations();
     } catch (error) {
       if (requestedLoadId !== loadId) return;
       console.warn("Pixel editor unavailable", error);

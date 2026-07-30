@@ -208,7 +208,8 @@ assert.equal(shell.versionModeSelector(), "versionModeSelector-value");
 assert.equal(shell.versionSelector(), "versionSelector-value");
 assert.equal(
   calls.some(
-    (call) => call[0] === "state" && Array.isArray(call[1]) && call[1].length === 0,
+    (call) =>
+      call[0] === "state" && Array.isArray(call[1]) && call[1].length === 0,
   ),
   true,
 );
@@ -234,9 +235,15 @@ assert.equal(controller.activeFilterText(), "activeFilterText-value");
 assert.equal(controller.applyingUrlState(), "applyingUrlState-value");
 assert.equal(controller.compactGroupChoices(), "compactGroupChoices-value");
 assert.equal(controller.compactGroupLabel(), "compactGroupLabel-value");
-assert.equal(controller.compactSequenceChoices(), "compactSequenceChoices-value");
+assert.equal(
+  controller.compactSequenceChoices(),
+  "compactSequenceChoices-value",
+);
 assert.equal(controller.compactSequenceLabel(), "compactSequenceLabel-value");
-assert.equal(controller.compactSubGroupChoices(), "compactSubGroupChoices-value");
+assert.equal(
+  controller.compactSubGroupChoices(),
+  "compactSubGroupChoices-value",
+);
 assert.equal(controller.compactSubGroupLabel(), "compactSubGroupLabel-value");
 assert.equal(controller.groupSelector(), "groupSelector-value");
 assert.equal(controller.dialog(), "dialog-value");
@@ -363,7 +370,8 @@ const recentCalls = calls.slice(-7);
 assert.equal(
   recentCalls.some(
     (call) =>
-      call[0] === "populateVersionModeOptions" && JSON.stringify(call[1]) === '["b"]',
+      call[0] === "populateVersionModeOptions" &&
+      JSON.stringify(call[1]) === '["b"]',
   ),
   true,
 );

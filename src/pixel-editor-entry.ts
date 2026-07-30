@@ -32,7 +32,7 @@ export function createPixelEditor({
   formatNumber = String,
   formatPercent = (value) => `${Math.round(value * 100)}%`,
 }) {
-  const elements = createPixelEditorElements(dialog);
+  const elements = createPixelEditorElements(dialog, translate);
   const state = createPixelEditorState();
   return {
     element: elements.view,

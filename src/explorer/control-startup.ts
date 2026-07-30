@@ -86,7 +86,7 @@ export async function finalizeExplorerStartup(options: any) {
   options.renderPixelFontToggle();
   options.observeToolbarHeight(options.toolbar);
   const routeLocale = window.location.pathname.match(
-    /index\.([a-z]{2,3}(?:-[A-Z]{2})?)\.html$/,
+    /index\.([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\.html$/,
   )?.[1];
   const initialUiLocale =
     routeLocale ?? document.documentElement.dataset.locale ?? "en";
