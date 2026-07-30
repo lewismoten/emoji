@@ -566,7 +566,7 @@ export const renderManifest = (locale, startUrl, htmlLocale = locale) => {
   )}\n`;
 };
 
-export const generateDemoPages = (outputDirectory = ".") => {
+export const generateDemoPages = (outputDirectory = "build/demo-pages") => {
   fs.mkdirSync(outputDirectory, { recursive: true });
   emitRuntimeModules(outputDirectory);
   fs.writeFileSync(
