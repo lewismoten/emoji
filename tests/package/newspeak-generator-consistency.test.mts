@@ -57,7 +57,7 @@ assert.equal(
 
 assert.equal(
   ui.systemRenderingSplit,
-  "-good: machine divide sign. graph join sign.",
+  "-good: machine divide sign. --image join sign.",
   "generated UI strings must keep the joined-sequence wording",
 );
 
@@ -69,7 +69,7 @@ assert.match(
 
 assert.match(
   markdown,
-  /- `--imagetime` = `--image` \+ `time`/,
+  /- `--image time` = `--image` \+ `time`/,
   "newspeak markdown must keep operator-scope documentation in sync with generated output",
 );
 
@@ -85,7 +85,7 @@ assert.ok(
 
 assert.match(
   markdown,
-  /intentionally limits compounds to `un` forms plus `oldspeak`\./,
+  /intentionally avoids introducing new fixed compounds beyond `un` forms and[\s\S]*`oldspeak`\./,
   "generated compound inventory must document the reduced compound model",
 );
 

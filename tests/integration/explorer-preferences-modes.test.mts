@@ -61,7 +61,7 @@ assert.match(
 );
 assert.match(
   explorerUi,
-  /savePreference\((["'])mode\1,\s*mode\)[\s\S]*options\.syncUrlState\(\)/,
+  /savePreference\((["'])mode\1,\s*(mode|nextMode)\)[\s\S]*options\.syncUrlState\(\)/,
   "changing explorer mode must clean and rewrite URL state from the controller",
 );
 assert.match(
@@ -71,12 +71,12 @@ assert.match(
 );
 assert.match(
   urlStateHelper,
-  /version:\s*options\.developerMode[\s\S]*versionMode:[\s\S]*options\.developerMode[\s\S]*if \(options\.developerMode\) \{[\s\S]*params\.set\((["'])version\1/,
+  /version:\s*options\.developerMode[\s\S]*versionMode:[\s\S]*options\.developerMode[\s\S]*if \(options\.explorerMode !== "standard"\) \{[\s\S]*params\.set\((["'])version\1/,
   "version-specific URL state must remain visible through Developer mode",
 );
 assert.match(
   demoStyles,
-  /html:not\(\[data-developer-mode\]\) \.developer-only\s*\{\s*display:\s*none !important;/,
+  /html:not\(\[data-developer-mode\]\) \.developer-only,[\s\S]*\.advanced-only\s*\{\s*display:\s*none !important;/,
   "developer-only controls must remain hidden in the default end-user interface",
 );
 assert.match(
@@ -86,8 +86,8 @@ assert.match(
 );
 assert.match(
   arabicDemo,
-  /المساعدة والإعدادات[\s\S]*وضع المطور/,
-  "localized pages must translate the Developer mode setting",
+  /المساعدة والإعدادات[\s\S]*data-i18n="mode">الوضع<\/h4>[\s\S]*data-i18n="standard">قياسي<\/span>[\s\S]*data-i18n="advanced">متقدم<\/span>[\s\S]*data-i18n="developer">مطور<\/span>/,
+  "localized pages must translate the Mode setting and its choices",
 );
 assert.match(
   demoStyles,

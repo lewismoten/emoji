@@ -246,6 +246,6 @@ assert.match(
 );
 assert.match(
   demoHtml,
-  /class="pixel-design-invitation developer-only"[\s\S]*createPixelDesign/,
+  /class="pixel-design-invitation(?: developer-only)? full-developer-only"[\s\S]*createPixelDesign/,
   "unfinished glyphs must invite visitors into the pixel editor",
 );

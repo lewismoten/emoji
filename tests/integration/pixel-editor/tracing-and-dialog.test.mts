@@ -144,7 +144,7 @@ assert.match(
 );
 assert.match(
   pixelEditorScript,
-  /toolButton\("select", "⌗", "selectRegion", "Select"\)/,
+  /toolButton\("select", "⌗", "selectRegion", translate\("selectRegion", "Select"\)\)/,
   "pixel editor must use the compact Select label",
 );
 assert.match(
@@ -194,6 +194,6 @@ assert.doesNotMatch(
 );
 assert.match(
   pixelEditorScript,
-  /role="group" data-i18n-aria-label="tracePosition" aria-label="Trace position"/,
+  /role="group" data-i18n-aria-label="tracePosition" aria-label="\$\{translate\("tracePosition", "Trace position"\)\}"/,
   "trace directional pad must retain its localized accessible group name",
 );

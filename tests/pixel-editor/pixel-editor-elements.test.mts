@@ -95,7 +95,10 @@ browserGlobal.document = {
   },
 };
 
-const elements = createPixelEditorElements(dialog as any);
+const elements = createPixelEditorElements(
+  dialog as any,
+  (_key: string, fallback: string) => fallback,
+);
 assert.equal(dialog.children.includes(view), true);
 assert.equal(view.className, "pixel-editor-view");
 assert.equal(view.hidden, true);

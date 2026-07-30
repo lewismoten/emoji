@@ -45,8 +45,8 @@ assert.match(
 
 assert.match(
   markdown,
-  /- `--imagetime` = `--image` \+ `time`/,
-  "newspeak samples must describe --imagetime as --image plus time",
+  /- `--image time` = `--image` \+ `time`/,
+  "newspeak samples must describe --image time as --image plus time",
 );
 
 const compoundSection = markdown.match(

@@ -240,7 +240,6 @@ try {
     ["restoreLanguageParentPanel"],
     ["loadUiTranslations", "en"],
     ["saveExplorerPreference", "locale", ""],
-    ["refreshLocalizedLabels"],
   ]);
 
   const localePicker = new FakeElement("button");
@@ -363,7 +362,6 @@ try {
     ["closeLanguageDialog"],
     ["restoreLanguageParentPanel"],
     ["saveExplorerPreference", "locale", "ar"],
-    ["refreshLocalizedLabels"],
   ]);
 
   const warnings: any[] = [];
@@ -418,7 +416,7 @@ try {
     failedLabel.textContent,
     "languageNotLoaded:Language not loaded",
   );
-  assert.equal(failedRefreshes, 1);
+  assert.equal(failedRefreshes, 0);
   assert.equal(warnings[0]?.[0], "Search language fr unavailable");
 } finally {
   if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);

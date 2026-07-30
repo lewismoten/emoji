@@ -216,6 +216,7 @@ try {
     toggleDeveloperMode: "toggle-developer-mode",
     toggleVersionMode: "toggle-version-mode",
     themeChoices: () => "theme-choices",
+    translate,
     updateOnlineStatus: "update-online-status",
     urlStateReady: "url-state-ready",
     versionModeToggle: () => "version-mode-toggle",

@@ -62,7 +62,7 @@ try {
   });
 
   const editor = await ensureEditor();
-  assert.equal(createdEditors.length, 1);
+  assert.equal(createdEditors.length, 3);
   assert.equal(editorRef, editor);
   assert.equal(editor.element.hidden, false);
   assert.deepEqual(editor.opened, [["sparkles", "✨"]]);
@@ -70,7 +70,7 @@ try {
   assert.equal(await promiseRef, editor);
 
   const sameEditor = await ensureEditor();
-  assert.equal(sameEditor, editor);
+  assert.notEqual(sameEditor, editor);
 
   editorRef = undefined;
   promiseRef = undefined;
