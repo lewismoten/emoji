@@ -225,6 +225,40 @@ renderEmojiComposition({
 assert.equal(uncondensedSection.hidden, false);
 assert.equal(uncondensedModeButton.hidden, true);
 
+const filteredSection = makeElement();
+const filteredEquation = makeElement();
+const filteredModeButton = makeElement();
+const filteredAppended: unknown[] = [];
+filteredEquation.append = (...nodes: unknown[]) => {
+  filteredAppended.push(...nodes);
+};
+
+renderEmojiComposition({
+  section: filteredSection,
+  equation: filteredEquation,
+  modeButton: filteredModeButton,
+  item: {
+    key: "plainText",
+    codePoints: "ZZZZ 0041",
+  },
+  value: "A",
+  developerMode: false,
+  detailsVisible: false,
+  compositionMode: "full",
+  emojiKeyByCodePoints: new Map(),
+  emojiByKey: {},
+  searchAnnotations: {},
+  byId: {},
+  translate: (_key, fallback) => fallback,
+  applyPixelArtworkClass() {},
+  applyStandalonePixelArtwork() {},
+});
+
+assert.equal(filteredSection.dataset.available, "false");
+assert.equal(filteredSection.hidden, true);
+assert.equal(filteredModeButton.hidden, true);
+assert.deepEqual(filteredAppended, []);
+
 if (originalDocument === undefined) {
   delete (globalThis as typeof globalThis & { document?: any }).document;
 } else {
