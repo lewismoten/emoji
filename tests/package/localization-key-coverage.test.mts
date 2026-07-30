@@ -27,6 +27,13 @@ function missingKeys(
   return Object.keys(base).filter((key) => !(key in candidate)).sort();
 }
 
+function extraKeys(
+  base: Record<string, unknown>,
+  candidate: Record<string, unknown>,
+) {
+  return Object.keys(candidate).filter((key) => !(key in base)).sort();
+}
+
 const baseUi = await readJson<UiLocale>("src/demo-locales/ui.en.json");
 for (const file of [
   "ui.ar.json",
@@ -40,6 +47,11 @@ for (const file of [
     missingKeys(baseUi, locale),
     [],
     `${file} is missing UI keys required by ui.en.json`,
+  );
+  assert.deepEqual(
+    extraKeys(baseUi, locale),
+    [],
+    `${file} contains UI keys that do not exist in ui.en.json`,
   );
 }
 
@@ -58,13 +70,28 @@ for (const file of [
     `${file} is missing annotation keys required by en.json`,
   );
   assert.deepEqual(
+    extraKeys(baseSearchLocale.annotations, locale.annotations),
+    [],
+    `${file} contains annotation keys that do not exist in en.json`,
+  );
+  assert.deepEqual(
     missingKeys(baseSearchLocale.labels, locale.labels),
     [],
     `${file} is missing character label keys required by en.json`,
   );
   assert.deepEqual(
+    extraKeys(baseSearchLocale.labels, locale.labels),
+    [],
+    `${file} contains character label keys that do not exist in en.json`,
+  );
+  assert.deepEqual(
     missingKeys(baseSearchLocale.subgroups, locale.subgroups),
     [],
     `${file} is missing subgroup keys required by en.json`,
+  );
+  assert.deepEqual(
+    extraKeys(baseSearchLocale.subgroups, locale.subgroups),
+    [],
+    `${file} contains subgroup keys that do not exist in en.json`,
   );
 }
