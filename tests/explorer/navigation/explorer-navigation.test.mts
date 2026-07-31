@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-// Direct source under test: ../../../src/explorer/navigation/explorer-navigation.js
+// Direct source under test: ../../../build/src/explorer/navigation/explorer-navigation.js
 
 const root = process.cwd();
 const sourcePath = path.join(root, "build/src/explorer/navigation/explorer-navigation.js");

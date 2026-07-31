@@ -1,8 +1,7 @@
 import assert from "node:assert/strict";
 
-import { DialogCloseButtonControl } from "../../../src/controls/dialog/dialog-close-button.js";
 import { DialogHeadingControl } from "../../../src/controls/dialog/dialog-heading.js";
-import { createDialogHeading } from "../../../src/explorer/dialog/dialog-control-helpers.js";
+import { DialogCloseButtonControl } from "../../../src/controls/dialog/dialog-close-button.js";
 import { FakeElement, installFakeDocument } from "../fake-dom.mjs";
 
 const restore = installFakeDocument();
@@ -13,7 +12,7 @@ const documentRef = (
     };
   }
 ).document;
-const heading = createDialogHeading({
+const heading = DialogHeadingControl.create({
   titleId: "dialog-title",
   titleKey: "example",
   title: "Example",

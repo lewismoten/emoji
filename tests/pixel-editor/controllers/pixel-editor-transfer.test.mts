@@ -4,11 +4,11 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 const sourceModuleSpecifier =
-  "../../../src/pixel-editor/controllers/pixel-editor-transfer.js";
+  "../../../src/pixel-editor/controllers/pixel-editor-transfer.ts";
 const root = process.cwd();
 const sourcePath = path.join(
   root,
-  "build/src/pixel-editor/controllers/pixel-editor-transfer.js",
+  "src/pixel-editor/controllers/pixel-editor-transfer.ts",
 );
 const source = await fs.readFile(sourcePath, "utf8");
 
@@ -264,7 +264,7 @@ try {
   controller.copyPixelArt();
   assert.equal(
     sourceModuleSpecifier,
-    "../../../src/pixel-editor/controllers/pixel-editor-transfer.js",
+    "../../../src/pixel-editor/controllers/pixel-editor-transfer.ts",
   );
   assert.equal(clipboard.kind, "art");
   assert.deepEqual(Array.from(clipboard.pixels), [9, 9, 9, 255]);

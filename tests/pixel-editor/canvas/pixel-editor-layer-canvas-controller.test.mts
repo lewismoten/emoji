@@ -4,12 +4,12 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 const sourceModuleSpecifier =
-  "../../../src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.js";
+  "../../../src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.ts";
 const root = process.cwd();
 const source = await fs.readFile(
   path.join(
     root,
-    "build/src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.js",
+    "src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.ts",
   ),
   "utf8",
 );
@@ -182,7 +182,7 @@ try {
   controller.draw();
   assert.equal(
     sourceModuleSpecifier,
-    "../../../src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.js",
+    "../../../src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.ts",
   );
   assert.equal(calls.includes("clear-rect"), true);
   assert.equal(calls.includes("draw-checkerboard"), true);

@@ -4,10 +4,10 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 const sourceModuleSpecifier =
-  "../../../src/pixel-editor/data/pixel-editor-atlas-io.js";
+  "../../../src/pixel-editor/data/pixel-editor-atlas-io.ts";
 const root = process.cwd();
 const source = await fs.readFile(
-  path.join(root, "build/src/pixel-editor/data/pixel-editor-atlas-io.js"),
+  path.join(root, "src/pixel-editor/data/pixel-editor-atlas-io.ts"),
   "utf8",
 );
 
@@ -93,7 +93,7 @@ try {
   );
   assert.equal(
     sourceModuleSpecifier,
-    "../../../src/pixel-editor/data/pixel-editor-atlas-io.js",
+    "../../../src/pixel-editor/data/pixel-editor-atlas-io.ts",
   );
   assert.deepEqual(nestedCalls, [
     ["people", true],

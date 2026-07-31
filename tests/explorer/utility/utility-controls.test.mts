@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-// Direct source under test: ../../../src/explorer/utility/utility-controls.js
+// Direct source under test: ../../../build/src/explorer/utility/utility-controls.js
 
 const root = process.cwd();
 const sourcePath = path.join(root, "build/src/explorer/utility/utility-controls.js");

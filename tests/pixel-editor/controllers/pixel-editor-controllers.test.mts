@@ -4,13 +4,10 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 const sourceModuleSpecifier =
-  "../../../src/pixel-editor/controllers/pixel-editor-controllers.js";
+  "../../../src/pixel-editor/controllers/pixel-editor-controllers.ts";
 const root = process.cwd();
 const source = await fs.readFile(
-  path.join(
-    root,
-    "build/src/pixel-editor/controllers/pixel-editor-controllers.js",
-  ),
+  path.join(root, "src/pixel-editor/controllers/pixel-editor-controllers.ts"),
   "utf8",
 );
 
@@ -185,7 +182,7 @@ const result = module.createPixelEditorControllers({
 
 assert.equal(
   sourceModuleSpecifier,
-  "../../../src/pixel-editor/controllers/pixel-editor-controllers.js",
+  "../../../src/pixel-editor/controllers/pixel-editor-controllers.ts",
 );
 assert.equal(typeof result.open, "function");
 assert.equal(typeof result.refreshTranslations, "function");
