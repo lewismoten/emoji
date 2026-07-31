@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+import { format } from "prettier";
 
 export const retroTextDocMarkers = {
   start: "<!-- retro-text-build-stats:start -->",
@@ -51,7 +52,11 @@ export async function updateRetroTextDoc(options) {
     ),
     replacement,
   );
-  await fs.writeFile(docPath, updated, "utf8");
+  await fs.writeFile(
+    docPath,
+    await format(updated, { parser: "markdown" }),
+    "utf8",
+  );
 }
 
 function escapeRegExp(value) {
