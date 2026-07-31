@@ -290,6 +290,10 @@ html[data-theme="retro"] .pixel-editor-swatch[data-color="#000000"] {
   border-color: var(--ega-light-gray);
 }
 
+html[data-theme="retro"] .pixel-editor-swatch.is-selected {
+  box-shadow: inset 0 0 0 2px var(--ega-white);
+}
+
 html[data-theme="retro"] .version-range,
 html[data-theme="retro"] .pixel-editor-controls input[type="range"] {
   appearance: none;

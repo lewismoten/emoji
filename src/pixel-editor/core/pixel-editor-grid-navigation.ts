@@ -102,6 +102,7 @@ export function bindRovingGrid(buttons) {
       const nextButton = findGridTarget(buttons, button, event.key);
       if (!nextButton) return;
       event.preventDefault();
+      event.stopPropagation();
       syncRovingGrid(buttons, nextButton);
       nextButton.focus();
     });
@@ -145,6 +146,7 @@ export function bindPaletteGrid(buttons) {
       const visible = visibleControls(buttons);
       if (!visible.includes(button)) return;
       event.preventDefault();
+      event.stopPropagation();
       if (event.key === "Home" || event.key === "End") {
         const nextButton = event.key === "Home" ? visible[0] : visible.at(-1);
         if (!nextButton) return;
