@@ -91,6 +91,7 @@ class FakeElement {
 }
 
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalIntlDisplayNames = Intl.DisplayNames;
 
 const documentStub: any = {
   documentElement: { lang: "en" },
@@ -163,6 +164,8 @@ try {
     locale: "ar",
     href: "./index.ar.html",
   });
+  assert.equal(selectedOption.children.length, 3);
+  assert.equal(selectedOption.listeners.get("click")?.length, 1);
 
   const unselectedOption = buildLanguageOption({
     flag: "🇬🇧",
@@ -170,12 +173,22 @@ try {
     href: "./index.en.html",
     selected: false,
     locale: "en",
-    onSelectLanguageLink: async () => {},
+    onSelectLanguageLink: async (event, locale, href) => {
+      clicks.push({ event, locale, href });
+    },
   }) as any;
   assert.equal(unselectedOption.getAttribute("aria-checked"), "false");
   assert.equal(unselectedOption.getAttribute("aria-pressed"), "false");
   assert.equal(unselectedOption.tabIndex, -1);
   assert.equal(unselectedOption.children[0].checked, false);
+  assert.equal(unselectedOption.children.length, 3);
+  assert.equal(unselectedOption.listeners.get("click")?.length, 1);
+  unselectedOption.dispatch("click", { type: "click-unselected" });
+  assert.deepEqual(clicks[1], {
+    event: { type: "click-unselected" },
+    locale: "en",
+    href: "./index.en.html",
+  });
 
   documentStub.documentElement.lang = "en";
   assert.equal(
@@ -332,7 +345,38 @@ try {
     ),
     "newspeak",
   );
+
+  Object.defineProperty(Intl, "DisplayNames", {
+    configurable: true,
+    value: class {
+      static supportedLocalesOf() {
+        return [];
+      }
+
+      constructor() {
+        throw new Error("unsupported");
+      }
+    },
+  });
+  documentStub.documentElement.lang = "fr";
+  assert.equal(
+    getLocalizedLanguageName(
+      {
+        locale: "de",
+        label: "German",
+        nativeLabel: "Deutsch",
+        rtl: false,
+        file: "de.json",
+      },
+      "",
+    ),
+    "German (Deutsch)",
+  );
 } finally {
+  Object.defineProperty(Intl, "DisplayNames", {
+    configurable: true,
+    value: originalIntlDisplayNames,
+  });
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
   else delete (globalThis as any).document;
 }
