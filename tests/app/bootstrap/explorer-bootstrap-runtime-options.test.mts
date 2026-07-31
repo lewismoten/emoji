@@ -130,206 +130,154 @@ const options: any = {
 
 const runtimeOptions = buildExplorerBootstrapRuntimeOptions(options);
 
-assert.equal(runtimeOptions.applyBasicUrlState, options.applyBasicUrlState);
-assert.equal(runtimeOptions.applyDialogUrlState, options.applyDialogUrlState);
-assert.equal(
-  runtimeOptions.applyPixelArtworkClass,
-  options.applyPixelArtworkClass,
-);
-assert.equal(
-  runtimeOptions.applyStandalonePixelArtwork,
-  options.applyStandalonePixelArtwork,
-);
-assert.equal(
-  runtimeOptions.bindAudioInteractions,
-  options.bindAudioInteractions,
-);
-assert.equal(runtimeOptions.developerModeEnabled, options.developerModeEnabled);
-assert.equal(runtimeOptions.displayGroupName, options.displayGroupName);
-assert.equal(
-  runtimeOptions.displayUnicodeSubGroupName,
-  options.displayUnicodeSubGroupName,
-);
-assert.equal(
-  runtimeOptions.focusInitialEmojiDialogAction,
-  options.focusInitialEmojiDialogAction,
-);
-assert.equal(runtimeOptions.installApp, options.installApp);
-assert.equal(runtimeOptions.loadData, options.loadData);
-assert.equal(runtimeOptions.loadUiTranslations, options.loadUiTranslations);
-assert.equal(runtimeOptions.onClick, options.onClick);
-assert.equal(
-  runtimeOptions.onCompactChoiceKeyDown,
-  options.onCompactChoiceKeyDown,
-);
-assert.equal(runtimeOptions.onDocumentKeyDown, options.onDocumentKeyDown);
-assert.equal(runtimeOptions.onEmojiDialogClick, options.onEmojiDialogClick);
-assert.equal(runtimeOptions.onEmojiDialogClose, options.onEmojiDialogClose);
-assert.equal(runtimeOptions.onEmojiFocus, options.onEmojiFocus);
-assert.equal(runtimeOptions.onHairChange, options.onHairChange);
-assert.equal(runtimeOptions.onEmojiKeyDown, options.onEmojiKeyDown);
-assert.equal(runtimeOptions.onGenderChange, options.onGenderChange);
-assert.equal(runtimeOptions.onSkinToneChange, options.onSkinToneChange);
-assert.equal(runtimeOptions.onOrderModeChange, options.onOrderModeChange);
-assert.equal(runtimeOptions.onVersionRangeInput, options.onVersionRangeInput);
-assert.equal(runtimeOptions.openFilterPicker, options.openFilterPicker);
-assert.equal(runtimeOptions.panelDialogs, options.panelDialogs);
-assert.equal(
-  runtimeOptions.refreshLocalizedLabels,
-  options.refreshLocalizedLabels,
-);
-assert.equal(runtimeOptions.renderDeveloperMode, options.renderDeveloperMode);
-assert.equal(
-  runtimeOptions.renderInstallAppButton,
-  options.renderInstallAppButton,
-);
-assert.equal(
-  runtimeOptions.renderPixelFontToggle,
-  options.renderPixelFontToggle,
-);
-assert.equal(runtimeOptions.renderSavedEmoji, options.renderSavedEmoji);
-assert.equal(runtimeOptions.renderThemeToggle, options.renderThemeToggle);
-assert.equal(runtimeOptions.restoreDeveloperMode, options.restoreDeveloperMode);
-assert.equal(runtimeOptions.savePreference, options.savePreference);
-assert.equal(runtimeOptions.scheduleSearchDraw, options.scheduleSearchDraw);
-assert.equal(runtimeOptions.selectEmojiFont, options.selectEmojiFont);
-assert.equal(runtimeOptions.selectTheme, options.selectTheme);
-assert.equal(runtimeOptions.setApplyingUrlState, options.setApplyingUrlState);
-assert.equal(runtimeOptions.setControls, options.setControls);
-assert.equal(runtimeOptions.setElements, options.setElements);
-assert.equal(runtimeOptions.setFieldsets, options.setFieldsets);
-assert.equal(runtimeOptions.setPixelEditor, options.setPixelEditor);
-assert.equal(
-  runtimeOptions.setPixelEditorPromise,
-  options.setPixelEditorPromise,
-);
-assert.equal(runtimeOptions.setSearchLanguage, options.setSearchLanguage);
-assert.equal(
-  runtimeOptions.setSuppressDialogCloseSync,
-  options.setSuppressDialogCloseSync,
-);
-assert.equal(runtimeOptions.setUrlStateReady, options.setUrlStateReady);
-assert.equal(runtimeOptions.stepVersion, options.stepVersion);
-assert.equal(runtimeOptions.toggleDeveloperMode, options.toggleDeveloperMode);
-assert.equal(runtimeOptions.translate, options.translate);
-assert.equal(
-  runtimeOptions.updateEmojiComposition,
-  options.updateEmojiComposition,
-);
-assert.equal(runtimeOptions.updateFavoriteButton, options.updateFavoriteButton);
-assert.equal(
-  runtimeOptions.updateModifierArtwork,
-  options.updateModifierArtwork,
-);
-assert.equal(runtimeOptions.updateOnlineStatus, options.updateOnlineStatus);
-assert.equal(
-  runtimeOptions.updatePixelArtworkManifest,
-  options.updatePixelArtworkManifest,
-);
-assert.equal(
-  runtimeOptions.updateRenderingDiagnostic,
-  options.updateRenderingDiagnostic,
-);
+for (const key of [
+  "applyBasicUrlState",
+  "applyDialogUrlState",
+  "applyPixelArtworkClass",
+  "applyStandalonePixelArtwork",
+  "bindAudioInteractions",
+  "developerModeEnabled",
+  "displayGroupName",
+  "displayUnicodeSubGroupName",
+  "focusInitialEmojiDialogAction",
+  "installApp",
+  "loadData",
+  "loadUiTranslations",
+  "onClick",
+  "onCompactChoiceKeyDown",
+  "onDocumentKeyDown",
+  "onEmojiDialogClick",
+  "onEmojiDialogClose",
+  "onEmojiFocus",
+  "onHairChange",
+  "onEmojiKeyDown",
+  "onGenderChange",
+  "onSkinToneChange",
+  "onOrderModeChange",
+  "onVersionRangeInput",
+  "openFilterPicker",
+  "panelDialogs",
+  "refreshLocalizedLabels",
+  "renderDeveloperMode",
+  "renderInstallAppButton",
+  "renderPixelFontToggle",
+  "renderSavedEmoji",
+  "renderThemeToggle",
+  "restoreDeveloperMode",
+  "savePreference",
+  "scheduleSearchDraw",
+  "selectEmojiFont",
+  "selectTheme",
+  "setApplyingUrlState",
+  "setControls",
+  "setElements",
+  "setFieldsets",
+  "setPixelEditor",
+  "setPixelEditorPromise",
+  "setSearchLanguage",
+  "setSuppressDialogCloseSync",
+  "setUrlStateReady",
+  "stepVersion",
+  "toggleDeveloperMode",
+  "translate",
+  "updateEmojiComposition",
+  "updateFavoriteButton",
+  "updateModifierArtwork",
+  "updateOnlineStatus",
+  "updatePixelArtworkManifest",
+  "updateRenderingDiagnostic",
+] as const) {
+  assert.equal(runtimeOptions[key], options[key]);
+}
 
 assert.equal(runtimeOptions.activeFilters(), "advancedFilters-value");
-assert.equal(runtimeOptions.advancedFilters(), "advancedFilters-value");
-assert.equal(
-  runtimeOptions.advancedFiltersButton(),
-  "advancedFiltersButton-value",
-);
-assert.equal(runtimeOptions.applyingUrlState(), "applyingUrlState-value");
-assert.equal(runtimeOptions.clearFiltersButton(), "clearFiltersButton-value");
-assert.equal(runtimeOptions.copyStatus(), "copyStatus-value");
-assert.equal(runtimeOptions.developerModeToggle(), "developerModeToggle-value");
-assert.equal(runtimeOptions.drawList("render"), "drawList-value");
-assert.equal(runtimeOptions.emojiFontChoices(), "emojiFontChoices-value");
-assert.equal(runtimeOptions.emojiList(), "emojiList-value");
-assert.equal(runtimeOptions.genderCheckboxes(), "genderCheckboxes-value");
-assert.equal(
-  runtimeOptions.getIntroducedVersion(),
-  "getIntroducedVersion-value",
-);
-assert.equal(runtimeOptions.getPixelEditor(), "getPixelEditor-value");
-assert.equal(
-  runtimeOptions.getPixelEditorPromise(),
-  "getPixelEditorPromise-value",
-);
-assert.equal(runtimeOptions.groupFilterDialog(), "groupFilterDialog-value");
-assert.equal(runtimeOptions.groupPickerTrigger(), "groupPickerTrigger-value");
-assert.equal(runtimeOptions.groupSelector(), "groupSelector-value");
-assert.equal(runtimeOptions.hairCheckboxes(), "hairCheckboxes-value");
-assert.equal(runtimeOptions.helpDialog(), "helpDialog-value");
-assert.equal(runtimeOptions.helpPicker(), "helpPicker-value");
-assert.equal(runtimeOptions.installAppButton(), "installAppButton-value");
-assert.equal(runtimeOptions.installDialog(), "installDialog-value");
-assert.equal(runtimeOptions.languageDialog(), "languageDialog-value");
-assert.equal(runtimeOptions.languageList(), "languageList-value");
-assert.equal(runtimeOptions.languagePicker(), "languagePicker-value");
-assert.equal(runtimeOptions.languagePickerFlag(), "languagePickerFlag-value");
-assert.equal(runtimeOptions.languagePickerLabel(), "languagePickerLabel-value");
-assert.equal(runtimeOptions.loadSearchLanguages(), "loadSearchLanguages-value");
-assert.equal(runtimeOptions.matchCount(), "matchCount-value");
-assert.equal(runtimeOptions.navigateEmoji(2), "navigateEmoji-value");
-assert.equal(runtimeOptions.nextSearchLoadId(), "nextSearchLoadId-value");
-assert.equal(runtimeOptions.orderButtons(), "orderButtons-value");
-assert.equal(
-  runtimeOptions.populateVersionModeOptions("through"),
-  "populateVersionModeOptions-value",
-);
-assert.equal(
-  runtimeOptions.renderCategoryFilters("filters"),
-  "renderCategoryFilters-value",
-);
-assert.equal(
-  runtimeOptions.renderVersionModeToggle(),
-  "renderVersionModeToggle-value",
-);
-assert.equal(runtimeOptions.resetFilters(), "resetFilters-value");
-assert.equal(runtimeOptions.savedDialog(), "savedDialog-value");
-assert.equal(runtimeOptions.savedPicker(), "savedPicker-value");
-assert.equal(runtimeOptions.searchText(), "searchText-value");
-assert.equal(runtimeOptions.setDialogView("code"), "setDialogView-value");
-assert.equal(runtimeOptions.showEmoji("wrappedGift", true), "showEmoji-value");
-assert.equal(runtimeOptions.skinToneCheckboxes(), "skinToneCheckboxes-value");
+for (const [key, expected] of [
+  ["advancedFilters", "advancedFilters-value"],
+  ["advancedFiltersButton", "advancedFiltersButton-value"],
+  ["applyingUrlState", "applyingUrlState-value"],
+  ["clearFiltersButton", "clearFiltersButton-value"],
+  ["copyStatus", "copyStatus-value"],
+  ["developerModeToggle", "developerModeToggle-value"],
+  ["drawList", "drawList-value"],
+  ["emojiFontChoices", "emojiFontChoices-value"],
+  ["emojiList", "emojiList-value"],
+  ["genderCheckboxes", "genderCheckboxes-value"],
+  ["getIntroducedVersion", "getIntroducedVersion-value"],
+  ["getPixelEditor", "getPixelEditor-value"],
+  ["getPixelEditorPromise", "getPixelEditorPromise-value"],
+  ["groupFilterDialog", "groupFilterDialog-value"],
+  ["groupPickerTrigger", "groupPickerTrigger-value"],
+  ["groupSelector", "groupSelector-value"],
+  ["hairCheckboxes", "hairCheckboxes-value"],
+  ["helpDialog", "helpDialog-value"],
+  ["helpPicker", "helpPicker-value"],
+  ["installAppButton", "installAppButton-value"],
+  ["installDialog", "installDialog-value"],
+  ["languageDialog", "languageDialog-value"],
+  ["languageList", "languageList-value"],
+  ["languagePicker", "languagePicker-value"],
+  ["languagePickerFlag", "languagePickerFlag-value"],
+  ["languagePickerLabel", "languagePickerLabel-value"],
+  ["loadSearchLanguages", "loadSearchLanguages-value"],
+  ["matchCount", "matchCount-value"],
+  ["navigateEmoji", "navigateEmoji-value"],
+  ["nextSearchLoadId", "nextSearchLoadId-value"],
+  ["orderButtons", "orderButtons-value"],
+  ["populateVersionModeOptions", "populateVersionModeOptions-value"],
+  ["renderCategoryFilters", "renderCategoryFilters-value"],
+  ["renderVersionModeToggle", "renderVersionModeToggle-value"],
+  ["resetFilters", "resetFilters-value"],
+  ["savedDialog", "savedDialog-value"],
+  ["savedPicker", "savedPicker-value"],
+  ["searchText", "searchText-value"],
+  ["setDialogView", "setDialogView-value"],
+  ["showEmoji", "showEmoji-value"],
+  ["skinToneCheckboxes", "skinToneCheckboxes-value"],
+  ["subGroupFilterDialog", "subGroupFilterDialog-value"],
+  ["subGroupPickerTrigger", "subGroupPickerTrigger-value"],
+  ["subGroupSelector", "subGroupSelector-value"],
+  ["suppressedPanelCloses", "suppressedPanelCloses-value"],
+  ["syncUrlState", "syncUrlState-value"],
+  ["syncVersionRange", "syncVersionRange-value"],
+  ["themeChoices", "themeChoices-value"],
+  ["toggleVersionMode", "toggleVersionMode-value"],
+  ["toolbar", "toolbar-value"],
+  ["updateCompositionBackButton", "updateCompositionBackButton-value"],
+  ["updateDialogNavigation", "updateDialogNavigation-value"],
+  ["urlStateReady", "urlStateReady-value"],
+  ["versionModeSelector", "versionModeSelector-value"],
+  ["versionModeToggle", "versionModeToggle-value"],
+  ["versionNext", "versionNext-value"],
+  ["versionPrevious", "versionPrevious-value"],
+  ["versionRange", "versionRange-value"],
+  ["versionSelector", "versionSelector-value"],
+] as const) {
+  const value =
+    key === "drawList"
+      ? runtimeOptions[key]("render")
+      : key === "navigateEmoji"
+        ? runtimeOptions[key](2)
+        : key === "populateVersionModeOptions"
+          ? runtimeOptions[key]("through")
+          : key === "renderCategoryFilters"
+            ? runtimeOptions[key]("filters")
+            : key === "setDialogView"
+              ? runtimeOptions[key]("code")
+              : key === "showEmoji"
+                ? runtimeOptions[key]("wrappedGift", true)
+                : key === "syncUrlState"
+                  ? runtimeOptions[key]("replace")
+                  : key === "syncVersionRange"
+                    ? runtimeOptions[key]("current")
+                    : key === "toggleVersionMode"
+                      ? runtimeOptions[key]("selected")
+                      : key === "updateCompositionBackButton"
+                        ? runtimeOptions[key]("stack")
+                        : key === "updateDialogNavigation"
+                          ? runtimeOptions[key]("next")
+                          : runtimeOptions[key]();
+  assert.equal(value, expected);
+}
 assert.equal(runtimeOptions.state(), state);
-assert.equal(
-  runtimeOptions.subGroupFilterDialog(),
-  "subGroupFilterDialog-value",
-);
-assert.equal(
-  runtimeOptions.subGroupPickerTrigger(),
-  "subGroupPickerTrigger-value",
-);
-assert.equal(runtimeOptions.subGroupSelector(), "subGroupSelector-value");
-assert.equal(
-  runtimeOptions.suppressedPanelCloses(),
-  "suppressedPanelCloses-value",
-);
-assert.equal(runtimeOptions.syncUrlState("replace"), "syncUrlState-value");
-assert.equal(
-  runtimeOptions.syncVersionRange("current"),
-  "syncVersionRange-value",
-);
-assert.equal(runtimeOptions.themeChoices(), "themeChoices-value");
-assert.equal(
-  runtimeOptions.toggleVersionMode("selected"),
-  "toggleVersionMode-value",
-);
-assert.equal(runtimeOptions.toolbar(), "toolbar-value");
-assert.equal(
-  runtimeOptions.updateCompositionBackButton("stack"),
-  "updateCompositionBackButton-value",
-);
-assert.equal(
-  runtimeOptions.updateDialogNavigation("next"),
-  "updateDialogNavigation-value",
-);
-assert.equal(runtimeOptions.urlStateReady(), "urlStateReady-value");
-assert.equal(runtimeOptions.versionModeSelector(), "versionModeSelector-value");
-assert.equal(runtimeOptions.versionModeToggle(), "versionModeToggle-value");
-assert.equal(runtimeOptions.versionNext(), "versionNext-value");
-assert.equal(runtimeOptions.versionPrevious(), "versionPrevious-value");
-assert.equal(runtimeOptions.versionRange(), "versionRange-value");
-assert.equal(runtimeOptions.versionSelector(), "versionSelector-value");
 
 assert.ok(calls.length > 30);
