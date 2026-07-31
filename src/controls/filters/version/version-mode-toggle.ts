@@ -1,5 +1,5 @@
 import { BaseControl } from "../../core/base-control.js";
-import { ToggleButtonControl } from "../../core/toggle-button.js";
+import { DomFactory } from "../../core/dom-factory.js";
 
 const versionModeToggleStyleId = "version-mode-toggle-control-style";
 const versionModeToggleStyleText = `
@@ -55,13 +55,20 @@ export class VersionModeToggleControl extends BaseControl<VersionModeToggleState
   }
 
   protected render() {
-    return ToggleButtonControl.toSpec({
-      ariaLabel: "Toggle selected version mode",
+    return DomFactory.button({
+      attributes: {
+        "aria-label": "Toggle selected version mode",
+        "aria-pressed": String(this.state.pressed),
+        type: "button",
+        title: "Toggle selected version mode",
+      },
       className: "version-mode-toggle",
-      emoji: this.state.emoji,
-      pressed: this.state.pressed,
-      title: "Toggle selected version mode",
-      value: "selected-version",
+      children: [
+        DomFactory.element("span", {
+          attributes: { "aria-hidden": "true" },
+          text: this.state.emoji,
+        }),
+      ],
     });
   }
 }

@@ -212,6 +212,10 @@ export async function setSearchLanguage({
     }
   }
   try {
+    if (updateUi) {
+      closeLanguageDialog();
+      restoreLanguageParentPanel?.();
+    }
     const packs = (await Promise.all([
       ...(locale.baseLocale
         ? [
@@ -246,8 +250,6 @@ export async function setSearchLanguage({
       if (languagePickerLabel) {
         languagePickerLabel.textContent = locale.nativeLabel;
       }
-      closeLanguageDialog();
-      restoreLanguageParentPanel?.();
     }
     saveExplorerPreference("locale", locale.locale);
     return {

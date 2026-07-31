@@ -124,6 +124,18 @@ function updateThemeColor() {
         : "#160622";
 }
 
+function syncChoiceInputSelection(input: HTMLInputElement | null, selected: boolean) {
+  if (!input) return;
+  input.checked = selected;
+  input.defaultChecked = selected;
+  input.tabIndex = -1;
+  if (selected) {
+    input.setAttribute("checked", "checked");
+  } else {
+    input.removeAttribute("checked");
+  }
+}
+
 function resolveExplorerMode(state: any) {
   if (state.explorerModeFromUrl && !state.developerModeUrlDismissed) {
     return state.explorerModeFromUrl;
@@ -166,10 +178,7 @@ export function renderThemeToggle(options: any) {
     const input = choice.querySelector(
       'input[type="radio"]',
     ) as HTMLInputElement | null;
-    if (input) {
-      input.checked = selected;
-      input.tabIndex = -1;
-    }
+    syncChoiceInputSelection(input, selected);
   });
   updateThemeColor();
 }
@@ -200,10 +209,7 @@ export function renderPixelFontToggle(options: any) {
     const input = choice.querySelector(
       'input[type="radio"]',
     ) as HTMLInputElement | null;
-    if (input) {
-      input.checked = selected;
-      input.tabIndex = -1;
-    }
+    syncChoiceInputSelection(input, selected);
   });
   options.refreshRenderedPixelEmoji();
 }
@@ -236,10 +242,7 @@ export function createDeveloperModeController(options: any) {
         const input = choice.querySelector?.(
           'input[type="radio"]',
         ) as HTMLInputElement | null;
-        if (input) {
-          input.checked = selected;
-          input.tabIndex = -1;
-        }
+        syncChoiceInputSelection(input, selected);
       });
     } else {
       const toggle = options.toggle?.();
