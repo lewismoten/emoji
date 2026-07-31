@@ -1,108 +1,14 @@
 import assert from "node:assert/strict";
 import { createEmojiListInteraction } from "../../../src/explorer/emoji/emoji-list-interaction.js";
+import {
+  FakeElement,
+  installEmojiListInteractionRuntime,
+} from "./interaction/emoji-list-interaction-fixture.js";
 
-const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
-const originalPerformance = Object.getOwnPropertyDescriptor(
-  globalThis,
-  "performance",
-);
-
-class FakeNode {
-  childNodes: any[] = [];
-  constructor(readonly text?: string) {}
-
-  appendChild(node: any) {
-    this.childNodes.push(node);
-    return node;
-  }
-
-  append(...nodes: any[]) {
-    this.childNodes.push(...nodes);
-  }
-
-  hasChildNodes() {
-    return this.childNodes.length > 0;
-  }
-}
-
-class FakeElement {
-  className = "";
-  textContent = "";
-  type = "";
-  hidden = false;
-  id = "";
-  tabIndex = -1;
-  dataset: Record<string, string> = {};
-  attributes = new Map<string, string>();
-  listeners = new Map<string, () => void>();
-  childNodes: any[] = [];
-  focused = false;
-  rect = { left: 0, top: 0, width: 10, height: 10 };
-
-  constructor(readonly tagName: string) {}
-
-  addEventListener(type: string, handler: () => void) {
-    this.listeners.set(type, handler);
-  }
-
-  append(...nodes: any[]) {
-    this.childNodes.push(...nodes);
-  }
-
-  appendChild(node: any) {
-    this.childNodes.push(node);
-    return node;
-  }
-
-  closest(selector: string) {
-    return selector === "[data-emoji-key]" ? this : null;
-  }
-
-  focus() {
-    this.focused = true;
-  }
-
-  getBoundingClientRect() {
-    return this.rect;
-  }
-
-  replaceChildren(...nodes: any[]) {
-    this.childNodes = nodes;
-  }
-
-  setAttribute(name: string, value: string) {
-    this.attributes.set(name, value);
-  }
-}
+const runtime = installEmojiListInteractionRuntime();
 
 try {
-  const timers: Array<() => void> = [];
-  let yielded = 0;
-  const focusedById = new Map<string, FakeElement>();
-  Object.defineProperty(globalThis, "window", {
-    configurable: true,
-    value: {
-      scheduler: {
-        yield() {
-          yielded += 1;
-          return Promise.resolve();
-        },
-      },
-      setTimeout(callback: () => void) {
-        timers.push(callback);
-        return timers.length;
-      },
-    },
-  });
-  Object.defineProperty(globalThis, "performance", {
-    configurable: true,
-    value: {
-      now() {
-        return 0;
-      },
-    },
-  });
+  const { focusedById, timers } = runtime;
 
   const emojiList = new FakeElement("div");
   emojiList.dataset = {};
@@ -121,22 +27,6 @@ try {
   focusedById.set("alpha", listCells[0]);
   focusedById.set("beta", listCells[1]);
   focusedById.set("gamma", listCells[2]);
-
-  Object.defineProperty(globalThis, "document", {
-    configurable: true,
-    value: {
-      createDocumentFragment() {
-        return new FakeNode();
-      },
-      createElement(tagName: string) {
-        return new FakeElement(tagName);
-      },
-      documentElement: { dir: "ltr" },
-      getElementById(id: string) {
-        return focusedById.get(id) ?? null;
-      },
-    },
-  });
 
   const searchText = {
     value: " query ",
@@ -205,7 +95,7 @@ try {
   ]);
   assert.equal(clicked.includes("reveal"), true);
   assert.equal(listCells[1].focused, true);
-  assert.equal(yielded, 0);
+  assert.equal(runtime.yielded, 0);
 
   const sequenceInteraction = createEmojiListInteraction({
     asItem(state: any, key: string) {
@@ -270,12 +160,11 @@ try {
     await Promise.resolve();
   }
   assert.equal(chunkStates.length, 121);
-  (globalThis as any).window.scheduler = {
+  runtime.setScheduler({
     yield() {
-      yielded += 1;
       return Promise.resolve();
     },
-  };
+  });
 
   interaction.onEmojiFocus({
     target: listCells[2],
@@ -327,10 +216,5 @@ try {
   interaction.onEmojiKeyDown(homeEvent as any);
   assert.equal(listCells[0].focused, true);
 } finally {
-  if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
-  else Reflect.deleteProperty(globalThis, "window");
-  if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
-  else Reflect.deleteProperty(globalThis, "document");
-  if (originalPerformance) Object.defineProperty(globalThis, "performance", originalPerformance);
-  else Reflect.deleteProperty(globalThis, "performance");
+  runtime.restore();
 }

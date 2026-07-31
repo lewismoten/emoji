@@ -17,6 +17,6 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["../../**/*.mts"],
+  "include": ["../../**/*.mts", "../../**/*.ts"],
   "exclude": ["../meta/package-exports.test.mts"]
 }

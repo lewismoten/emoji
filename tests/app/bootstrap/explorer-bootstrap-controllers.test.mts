@@ -170,71 +170,76 @@ const options: any = {
 const controllers = createExplorerBootstrapControllers(options);
 const controllerApi = controllers as any;
 
-assert.equal(typeof controllers.buildRepresentatives, "function");
-assert.equal(typeof controllers.closeFilterPicker, "function");
-assert.equal(typeof controllers.displayGroupName, "function");
-assert.equal(typeof controllers.displayUnicodeSubGroupName, "function");
-assert.equal(typeof controllers.drawList, "function");
-assert.equal(typeof controllers.focusInitialAction, "function");
-assert.equal(typeof controllers.focusCompactChoice, "function");
-assert.equal(typeof controllers.getGroupRepresentativeEmoji, "function");
-assert.equal(typeof controllers.getSubGroupRepresentativeEmoji, "function");
-assert.equal(typeof controllers.getVersionKeys, "function");
-assert.equal(typeof controllers.loadVersionData, "function");
-assert.equal(typeof controllers.onCompactChoiceKeyDown, "function");
-assert.equal(typeof controllers.onEmojiDialogClick, "function");
-assert.equal(typeof controllers.onEmojiFocus, "function");
-assert.equal(typeof controllers.onEmojiKeyDown, "function");
-assert.equal(typeof controllers.onGroupSelectorChange, "function");
-assert.equal(typeof controllers.onOrderModeChange, "function");
-assert.equal(typeof controllers.onSequenceTypeSelectorChange, "function");
-assert.equal(typeof controllers.onSubGroupSelectorChange, "function");
-assert.equal(typeof controllers.openFilterPicker, "function");
-assert.equal(typeof controllers.refreshLocalizedLabels, "function");
-assert.equal(typeof controllers.renderCategoryFilters, "function");
-assert.equal(typeof controllers.scheduleSearchDraw, "function");
-assert.equal(typeof controllers.setView, "function");
-assert.equal(typeof controllers.subGroupSelectionKey, "function");
-assert.equal(typeof controllers.syncVersionRange, "function");
-assert.equal(typeof controllers.updateActiveFilterSummary, "function");
-assert.equal(typeof controllers.updateAvailableCategories, "function");
-assert.equal(typeof controllers.versionSliderLabel, "function");
+for (const name of [
+  "buildRepresentatives",
+  "closeFilterPicker",
+  "displayGroupName",
+  "displayUnicodeSubGroupName",
+  "drawList",
+  "focusInitialAction",
+  "focusCompactChoice",
+  "getGroupRepresentativeEmoji",
+  "getSubGroupRepresentativeEmoji",
+  "getVersionKeys",
+  "loadVersionData",
+  "onCompactChoiceKeyDown",
+  "onEmojiDialogClick",
+  "onEmojiFocus",
+  "onEmojiKeyDown",
+  "onGroupSelectorChange",
+  "onOrderModeChange",
+  "onSequenceTypeSelectorChange",
+  "onSubGroupSelectorChange",
+  "openFilterPicker",
+  "refreshLocalizedLabels",
+  "renderCategoryFilters",
+  "scheduleSearchDraw",
+  "setView",
+  "subGroupSelectionKey",
+  "syncVersionRange",
+  "updateActiveFilterSummary",
+  "updateAvailableCategories",
+  "versionSliderLabel",
+] as const) {
+  assert.equal(typeof controllers[name], "function");
+}
 assert.doesNotThrow(() => controllerApi.buildRepresentatives("gift"));
 assert.doesNotThrow(() => controllerApi.closeFilterPicker());
 assert.equal(controllerApi.displayGroupName("Objects"), "Objects");
 assert.equal(controllerApi.displayUnicodeSubGroupName("mail"), "Mail");
-assert.doesNotThrow(() => controllerApi.getGroupRepresentativeEmoji());
-assert.doesNotThrow(() => controllerApi.getSubGroupRepresentativeEmoji());
-assert.doesNotThrow(() => controllerApi.getVersionKeys());
-assert.doesNotThrow(() =>
-  controllerApi.onEmojiDialogClick({
-    target: {
-      closest() {
-        return null;
+for (const action of [
+  () => controllerApi.getGroupRepresentativeEmoji(),
+  () => controllerApi.getSubGroupRepresentativeEmoji(),
+  () => controllerApi.getVersionKeys(),
+  () =>
+    controllerApi.onEmojiDialogClick({
+      target: {
+        closest() {
+          return null;
+        },
       },
-    },
-  }),
-);
-assert.doesNotThrow(() =>
-  controllerApi.onEmojiFocus({
-    target: {
-      closest() {
-        return null;
+    }),
+  () =>
+    controllerApi.onEmojiFocus({
+      target: {
+        closest() {
+          return null;
+        },
       },
-    },
-  }),
-);
-assert.doesNotThrow(() =>
-  controllerApi.onEmojiKeyDown({
-    key: "Enter",
-    preventDefault() {},
-    target: {
-      closest() {
-        return null;
+    }),
+  () =>
+    controllerApi.onEmojiKeyDown({
+      key: "Enter",
+      preventDefault() {},
+      target: {
+        closest() {
+          return null;
+        },
       },
-    },
-  }),
-);
+    }),
+] as const) {
+  assert.doesNotThrow(action);
+}
 assert.doesNotThrow(() => controllerApi.openFilterPicker());
 assert.doesNotThrow(() => controllerApi.refreshLocalizedLabels());
 assert.equal(
