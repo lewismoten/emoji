@@ -64,6 +64,7 @@ export class ToggleButtonControl extends BaseControl<ToggleButtonState> {
                 attributes: {
                   checked: pressed ? "checked" : undefined,
                   name: this.state.inputName,
+                  tabindex: "-1",
                   type: inputType,
                   value: this.state.value,
                 },

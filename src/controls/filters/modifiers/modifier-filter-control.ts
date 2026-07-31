@@ -20,6 +20,13 @@ export type ModifierFilterState = {
 };
 
 export abstract class ModifierFilterControl extends BaseControl<ModifierFilterState> {
+  static toSpec(
+    this: new (...args: any[]) => ModifierFilterControl,
+    state?: Partial<ModifierFilterState>,
+  ) {
+    return new this(state).render();
+  }
+
   protected render(): NodeSpec {
     return ChoiceGroupControl.toSpec({
       buttonClassName: "modifier-filter-option",

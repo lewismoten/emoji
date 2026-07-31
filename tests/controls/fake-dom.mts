@@ -34,6 +34,31 @@ export class FakeElement {
   getAttribute(name: string) {
     return this.attributes.get(name) ?? null;
   }
+
+  querySelector(selector: string) {
+    return this.querySelectorAll(selector)[0] ?? null;
+  }
+
+  querySelectorAll(selector: string) {
+    const results: FakeElement[] = [];
+    const matches = (node: FakeElement) => {
+      if (selector.startsWith(".")) {
+        return node.className.split(/\s+/).includes(selector.slice(1));
+      }
+      if (selector.startsWith("#")) {
+        return node.id === selector.slice(1);
+      }
+      return node.tagName === selector.toUpperCase();
+    };
+    const stack = [...this.children];
+    while (stack.length > 0) {
+      const current = stack.shift();
+      if (!(current instanceof FakeElement)) continue;
+      if (matches(current)) results.push(current);
+      stack.unshift(...current.children);
+    }
+    return results;
+  }
 }
 
 export function installFakeDocument() {

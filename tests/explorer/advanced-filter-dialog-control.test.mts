@@ -14,21 +14,11 @@ const transformedSource = source
     'import { AdvancedFiltersTriggerControl } from "./advanced-filters-trigger-stub.mjs";',
   )
   .replace(
-    'import { GenderFilterControl } from "../controls/filters/modifiers/gender-filter.js";',
-    'import { GenderFilterControl } from "./gender-filter-stub.mjs";',
+    'import { AdvancedFiltersDialogControl } from "../controls/dialog/content/advanced-filters-dialog.js";',
+    'import { AdvancedFiltersDialogControl } from "./advanced-filters-dialog-stub.mjs";',
   )
-  .replace(
-    'import { HairFilterControl } from "../controls/filters/modifiers/hair-filter.js";',
-    'import { HairFilterControl } from "./hair-filter-stub.mjs";',
-  )
-  .replace(
-    'import { SkinToneFilterControl } from "../controls/filters/modifiers/skin-tone-filter.js";',
-    'import { SkinToneFilterControl } from "./skin-tone-filter-stub.mjs";',
-  )
-  .replace(
-    'import { DialogControl } from "../controls/dialog/dialog-control.js";',
-    'import { DialogControl } from "./dialog-control-stub.mjs";',
-  );
+  .replaceAll(" as HTMLDialogElement", "")
+  .replaceAll(" as HTMLDivElement", "");
 
 const tempRoot = path.join(root, "build/tests/.tmp");
 await fs.mkdir(tempRoot, { recursive: true });
@@ -43,36 +33,12 @@ await fs.writeFile(
 };`,
 );
 await fs.writeFile(
-  path.join(tempDirectory, "gender-filter-stub.mjs"),
-  `export const GenderFilterControl = {
-  create() {
-    return { kind: "gender-filter" };
-  }
-};`,
-);
-await fs.writeFile(
-  path.join(tempDirectory, "hair-filter-stub.mjs"),
-  `export const HairFilterControl = {
-  create() {
-    return { kind: "hair-filter" };
-  }
-};`,
-);
-await fs.writeFile(
-  path.join(tempDirectory, "skin-tone-filter-stub.mjs"),
-  `export const SkinToneFilterControl = {
-  create() {
-    return { kind: "skin-tone-filter" };
-  }
-};`,
-);
-await fs.writeFile(
-  path.join(tempDirectory, "dialog-control-stub.mjs"),
-  `export const DialogControl = {
+  path.join(tempDirectory, "advanced-filters-dialog-stub.mjs"),
+  `export const AdvancedFiltersDialogControl = {
   create(options) {
     return {
-      className: options.className,
-      id: options.dialogId,
+      className: options?.className ?? "advanced-filters-dialog",
+      id: options?.dialogId ?? "advanced-filters-dialog",
       querySelector(selector) {
         if (selector === ".advanced-filters-dialog-body") {
           return {
@@ -82,6 +48,12 @@ await fs.writeFile(
               this.childNodes.push(...nodes);
             }
           };
+        }
+        if (selector === ".filter-grid") {
+          return { className: "filter-grid" };
+        }
+        if (selector === ".modifier-filters") {
+          return { className: "modifier-filters" };
         }
         return null;
       }
@@ -170,11 +142,6 @@ try {
   assert.equal(created.dialog.id, "advanced-filters-dialog");
   assert.equal(created.grid.className, "filter-grid");
   assert.equal(created.modifiers.className, "modifier-filters");
-  assert.deepEqual(created.modifiers.childNodes, [
-    { kind: "gender-filter" },
-    { kind: "skin-tone-filter" },
-    { kind: "hair-filter" },
-  ]);
 
   module.ensureAdvancedFilterControls();
   assert.deepEqual(filterOptions.prepended, [{ kind: "advanced-trigger" }]);

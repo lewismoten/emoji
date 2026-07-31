@@ -44,8 +44,15 @@ const validateSpec = (spec: NodeSpec) => {
 const setAttributes = (element: any, spec: NodeSpec) => {
   if (spec.className) element.className = spec.className;
   Object.entries(spec.attributes ?? {}).forEach(([name, value]) => {
-    if (value !== undefined) element.setAttribute(name, value);
+    if (value === undefined) return;
+    element.setAttribute(name, value);
+    if (name === "type") element.type = value;
+    if (name === "name") element.name = value;
+    if (name === "value") element.value = value;
+    if (name === "checked") element.checked = true;
+    if (name === "tabindex") element.tabIndex = Number(value);
   });
+  if (!element.dataset) element.dataset = {};
   Object.entries(spec.dataset ?? {}).forEach(([name, value]) => {
     if (value !== undefined) element.dataset[name] = value;
   });

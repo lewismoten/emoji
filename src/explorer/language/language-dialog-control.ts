@@ -2,6 +2,7 @@ import { setPressedState } from "../dialog/dialog-control-helpers.js";
 import { createDialogControlParts } from "../dialog/parts/dialog-control-parts.js";
 import { LanguageDialogControl as SearchLanguageDialogControl } from "../../controls/dialog/content/language-dialog.js";
 import { LanguagePickerControl as SearchLanguagePickerButtonControl } from "../../controls/pickers/language-picker.js";
+import { LanguageOptionControl } from "../../controls/pickers/language-option.js";
 
 type SearchLocale = {
   locale: string;
@@ -56,31 +57,14 @@ export function buildLanguageOption(options: {
   ) => Promise<void>;
   locale: string;
 }) {
-  const option = document.createElement("label");
-  option.className = "language-option";
-  option.setAttribute("role", "radio");
-  option.setAttribute("aria-checked", String(options.selected));
-  option.tabIndex = options.selected ? 0 : -1;
+  const option = LanguageOptionControl.create({
+    flag: options.flag,
+    href: options.href,
+    label: options.label,
+    locale: options.locale,
+    selected: options.selected,
+  }) as HTMLLabelElement;
   setPressedState(option, options.selected);
-
-  const input = document.createElement("input");
-  input.className = "language-option-input";
-  input.type = "radio";
-  input.name = "language-choice";
-  input.value = options.locale;
-  input.checked = options.selected;
-  input.tabIndex = -1;
-
-  const flag = document.createElement("span");
-  flag.className = "language-option-flag";
-  flag.setAttribute("aria-hidden", "true");
-  flag.textContent = options.flag;
-
-  const label = document.createElement("span");
-  label.className = "language-option-label";
-  label.textContent = options.label;
-
-  option.append(input, flag, label);
   option.addEventListener("click", (event) =>
     options.onSelectLanguageLink(event, options.locale, options.href),
   );

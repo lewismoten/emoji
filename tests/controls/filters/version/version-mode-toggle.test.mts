@@ -14,7 +14,7 @@ assert.match(markup, /aria-pressed="true"/);
 assert.match(markup, /title="Toggle selected version mode"/);
 assert.match(
   markup,
-  /<input checked="checked" type="checkbox" value="selected-version"><\/input>/,
+  /<input checked="checked" tabindex="-1" type="checkbox" value="selected-version"><\/input>/,
 );
 assert.match(markup, /aria-hidden="true">🎯<\/span>/);
 

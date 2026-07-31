@@ -22,7 +22,7 @@ assert.match(markup, /aria-label="Demo"/);
 assert.match(markup, /data-theme="dark"/);
 assert.match(
   markup,
-  /<input class="toggle-input" checked="checked" type="checkbox" value="dark"><\/input>/,
+  /<input class="toggle-input" checked="checked" tabindex="-1" type="checkbox" value="dark"><\/input>/,
 );
 assert.match(markup, /class="toggle-emoji" aria-hidden="true">🌙<\/span>/);
 assert.match(markup, /class="toggle-label" data-i18n="dark">Dark<\/span>/);
@@ -54,10 +54,13 @@ const minimalMarkup = ToggleButtonControl.toMarkup({
 });
 
 assert.match(minimalMarkup, /^<label class="plain-toggle"/);
-assert.match(minimalMarkup, /<input type="checkbox" value="plain"><\/input>/);
+assert.match(
+  minimalMarkup,
+  /<input tabindex="-1" type="checkbox" value="plain"><\/input>/,
+);
 assert.doesNotMatch(minimalMarkup, /aria-checked=/);
 assert.doesNotMatch(minimalMarkup, /aria-pressed=/);
-assert.doesNotMatch(minimalMarkup, /tabindex=/);
+assert.doesNotMatch(minimalMarkup, /<label[^>]*tabindex=/);
 
 const i18nAriaMarkup = ToggleButtonControl.toMarkup({
   ariaLabel: "Localized",

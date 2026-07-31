@@ -39,8 +39,5 @@ export async function writeRetroTextBitmapModule(
     "",
   ].join("\n");
 
-  await fs.writeFile(
-    outputFile,
-    await format(contents, { parser: "babel" }),
-  );
+  await fs.writeFile(outputFile, await format(contents, { parser: "babel" }));
 }

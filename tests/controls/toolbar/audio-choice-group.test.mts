@@ -20,9 +20,11 @@ assert.match(
 );
 assert.ok(
   markup.includes(
-    'class="audio-choice-input" type="checkbox" value="soundEffects"',
+    'class="audio-choice-input" tabindex="-1" type="checkbox" value="soundEffects"',
   ),
 );
 assert.ok(
-  markup.includes('class="audio-choice-input" type="checkbox" value="music"'),
+  markup.includes(
+    'class="audio-choice-input" tabindex="-1" type="checkbox" value="music"',
+  ),
 );
