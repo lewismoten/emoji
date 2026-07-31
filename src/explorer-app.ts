@@ -54,6 +54,34 @@ export function bindExplorerEvents(options: any) {
   const getLanguageList = () =>
     options.getLanguageList?.() ?? options.languageList;
 
+  const syncDialogChoiceGroup = (
+    dialog: HTMLElement | undefined | null,
+    selector: string,
+    datasetKey: string,
+    selectedValue: string,
+  ) => {
+    if (!dialog) return;
+    const choices = Array.from(
+      dialog.querySelectorAll<HTMLElement>(selector),
+    );
+    choices.forEach((choice) => {
+      const selected = choice.dataset[datasetKey] === selectedValue;
+      choice.classList.toggle("is-active", selected);
+      choice.setAttribute("aria-pressed", String(selected));
+      choice.setAttribute("aria-checked", String(selected));
+      choice.tabIndex = selected ? 0 : -1;
+      const input = choice.querySelector(
+        'input[type="radio"]',
+      ) as HTMLInputElement | null;
+      if (input) {
+        input.checked = selected;
+        input.defaultChecked = selected;
+        if (selected) input.setAttribute("checked", "checked");
+        else input.removeAttribute("checked");
+      }
+    });
+  };
+
   const bindThemeChoices = () => {
     const choices = Array.from(
       document.querySelectorAll<HTMLElement>(".theme-choice"),
@@ -177,6 +205,31 @@ export function bindExplorerEvents(options: any) {
     getDialog: getHelpDialog,
     getDialogs: () => options.panelDialogs(),
     getLanguageList,
+    onAfterOpen: async () => {
+      if (typeof window !== "undefined") {
+        await new Promise<void>((resolve) =>
+          window.requestAnimationFrame(() => resolve()),
+        );
+      }
+      options.refreshElements?.();
+      options.renderDeveloperMode?.();
+      options.renderThemeToggle?.();
+      options.renderSoundEffectsToggle?.();
+      options.renderMusicToggle?.();
+      const helpDialog = getHelpDialog();
+      syncDialogChoiceGroup(
+        helpDialog,
+        ".theme-choice",
+        "theme",
+        document.documentElement.dataset.theme ?? "dark",
+      );
+      syncDialogChoiceGroup(
+        helpDialog,
+        ".mode-choice",
+        "mode",
+        document.documentElement.dataset.explorerMode ?? "standard",
+      );
+    },
     openPanel: options.openPanel,
     panel: "help",
     renderSavedEmoji: options.renderSavedEmoji,

@@ -264,6 +264,7 @@ type BindPanelDialogOptions = PanelContext & {
   getLanguageList?: () => HTMLElement | undefined;
   onBeforeOpen?: () => void;
   onAfterClose?: () => void;
+  onAfterOpen?: () => Promise<void> | void;
   openPanel: (options: OpenPanelOptions) => void;
   panel: Exclude<PanelName, "">;
   suppressedPanelCloses: WeakSet<HTMLDialogElement>;
@@ -303,5 +304,6 @@ export function bindPanelDialog(options: BindPanelDialogOptions) {
       renderSavedEmoji: options.renderSavedEmoji,
       syncUrlState: options.syncUrlState,
     });
+    await options.onAfterOpen?.();
   });
 }
