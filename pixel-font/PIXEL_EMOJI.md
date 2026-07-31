@@ -79,6 +79,25 @@ components manually. During each build, the compiler separates painted glyphs
 into reusable masks, reuses identical geometry where possible, and records the
 optimization results in the build manifest.
 
+The current font build uses COLR/CPAL v0 layering. During compilation, the
+builder uses stable project key names internally, with helper glyph prefixes
+such as `emoji.`, `mask.`, and `fallback.` while assembling the font. The
+exported font itself currently uses `post` format 3.0, so custom glyph names
+are not preserved in the final binary.
+
+To keep the outlines smaller, the compiler now traces merged perimeters around
+connected pixel regions instead of emitting one independent rectangle per pixel
+row. In practice that means stacked or block-shaped areas can compile into a
+single composite outline with fewer points.
+
+The optional optimized build is currently conservative. It first looks for
+glyphs that share the exact same opaque silhouette, then tries a shared
+silhouette base color plus separate color overlays for those matching shapes.
+After that, it can decompose some masks into exact two-part unions when those
+parts are disjoint and reconstruct the original mask exactly. It does not
+currently run the more aggressive “largest mask first” strategy that was
+experimented with separately.
+
 ## Explorer and site integration
 
 Emoji Explorer uses Pixel Emoji in several related ways:

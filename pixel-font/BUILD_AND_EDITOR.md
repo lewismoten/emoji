@@ -43,6 +43,18 @@ Python is used and WOFF2 may be skipped if Brotli support is unavailable.
 After building, run `npm start` and open
 `http://localhost:5173/pixel-font/build/` to inspect the output.
 
+### Current compiler notes
+
+- The compiled color font currently uses COLR/CPAL v0.
+- The compiler uses emoji key-based names internally, but the exported font
+  currently writes `post` format 3.0, so custom glyph names are not preserved
+  in the final font file.
+- Fully black artwork is compiled as a recolorable silhouette glyph.
+- Connected pixel regions are traced as merged outlines so stacked rows can
+  become one larger composite path instead of many narrow row rectangles.
+- The optimized build currently applies only two conservative reuse steps:
+  exact silhouette sharing and exact disjoint two-part mask unions.
+
 ## Editing in Emoji Explorer
 
 Emoji Explorer includes a 12×12 pixel editor in each emoji’s details dialog.

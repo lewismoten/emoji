@@ -54,6 +54,10 @@ entry's real `emoji` value.
 The stable font can also be installed directly from
 `font/pixel-emoji.ttf`. WOFF and WOFF2 files are provided for websites.
 
+The current build uses COLR/CPAL v0. The compiler uses project emoji keys
+internally while assembling glyphs, but the exported font currently writes
+`post` format 3.0, so custom glyph names are not retained in the final font.
+
 If the browser or PDF toolchain cannot shape a full Unicode sequence
 reliably, use the manifest’s `privateUseCodePoint` alias only as a rendering
 fallback. Continue to store and exchange the real Unicode sequence.
