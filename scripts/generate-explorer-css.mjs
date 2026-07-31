@@ -4,6 +4,10 @@ import path from "node:path";
 const outputDirectory = "explorer";
 const sourceFiles = [
   {
+    source: path.join("src", "site", "themes", "base-theme-locales.css"),
+    output: path.join("themes", "base-theme-locales.css"),
+  },
+  {
     source: path.join("src", "site", "themes", "base-theme.css"),
     output: path.join("themes", "base-theme.css"),
   },

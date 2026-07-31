@@ -31,13 +31,6 @@ export function createPixelArtworkManager(options: any) {
       options.emojiByKey()[emojiKey] ?? options.byId()[emojiKey]?.emoji ?? "";
     const privateUsePoint = privateUseByKey.get(emojiKey);
     if (!value || !privateUsePoint) return value;
-    const sequenceLength = (options.byId()[emojiKey]?.codePoints ?? "")
-      .split(/\s+/)
-      .filter(
-        (point: string) =>
-          point && !["FE0E", "FE0F"].includes(point.toUpperCase()),
-      ).length;
-    if (sequenceLength <= 1) return value;
     if (
       options.pixelFontPreferred() ||
       proposedKeys.has(emojiKey) ||
