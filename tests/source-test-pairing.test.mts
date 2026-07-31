@@ -37,12 +37,21 @@ function expectedTestFiles(sourceFile: string) {
   const relative = sourceFile.replace(/^src\//, "").replace(/\.ts$/, "");
   const [topLevel] = relative.split("/");
   const basename = path.posix.basename(relative);
-  return [
+  const directMatches = [
     `tests/${relative}.test.mts`,
     `tests/${relative}.test.ts`,
     `tests/${topLevel}/${basename}.test.mts`,
     `tests/${topLevel}/${basename}.test.ts`,
   ];
+  const nestedMatches = [...testFiles]
+    .filter(
+      (candidate) =>
+        candidate.startsWith(`tests/${topLevel}/`) &&
+        (candidate.endsWith(`/${basename}.test.mts`) ||
+          candidate.endsWith(`/${basename}.test.ts`)),
+    )
+    .sort();
+  return [...new Set([...directMatches, ...nestedMatches])];
 }
 
 const missingTests = sourceFiles.filter(

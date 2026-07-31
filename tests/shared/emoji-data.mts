@@ -120,7 +120,20 @@ export const readEmojiJson = async (root: string, file = "emoji.json") => {
 };
 
 export const readEmojiSource = async (root: string) => {
-  const directory = path.join(root, "src/data/emoji");
+  const candidateDirectories = [
+    path.join(root, "src/data/emoji"),
+    path.join(process.cwd(), "src/data/emoji"),
+  ];
+  let directory = candidateDirectories[0];
+  for (const candidate of candidateDirectories) {
+    try {
+      await fs.access(path.join(candidate, "emoji-source.json"));
+      directory = candidate;
+      break;
+    } catch {
+      // try the next candidate
+    }
+  }
   const manifest = JSON.parse(
     await fs.readFile(path.join(directory, "emoji-source.json"), "utf8"),
   ) as {

@@ -5,7 +5,10 @@ import { pathToFileURL } from "node:url";
 // Direct source under test: ../../../src/explorer/filters/advanced-filter-dialog-control.js
 
 const root = process.cwd();
-const sourcePath = path.join(root, "src/explorer/filters/advanced-filter-dialog-control.ts");
+const sourcePath = path.join(
+  root,
+  "src/explorer/filters/advanced-filter-dialog-control.ts",
+);
 const source = await fs.readFile(sourcePath, "utf8");
 
 const transformedSource = source
