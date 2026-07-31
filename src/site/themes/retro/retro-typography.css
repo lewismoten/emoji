@@ -1,0 +1,33 @@
+html[data-theme="retro"] .order-footer {
+  border-color: var(--ega-dark-gray);
+}
+
+html[data-theme="retro"] .toolbar-heading {
+  margin: -0.55rem calc(clamp(0.75rem, 2vw, 1.25rem) * -1) 0;
+  padding: 0.45rem clamp(0.75rem, 2vw, 1.25rem);
+  border-bottom: 2px solid var(--ega-dark-gray);
+  background: var(--ega-black);
+}
+
+html[data-theme="retro"] .toolbar-heading h1,
+html[data-theme="retro"] .toolbar-heading .result-count,
+html[data-theme="retro"] .toolbar-heading .match-count {
+  color: var(--ega-white);
+}
+
+html[data-theme="retro"] .toolbar-heading h1,
+html[data-theme="retro"] .dialog-close,
+html[data-theme="retro"] .dialog-navigate,
+html[data-theme="retro"] .dialog-mode-back,
+html[data-theme="retro"] .version-step,
+html[data-theme="retro"] .language-option-flag,
+html[data-theme="retro"] .filter-picker-emoji,
+html[data-theme="retro"] .compact-choice-emoji {
+  font-size: var(--retro-font-3);
+}
+
+html[data-theme="retro"] h2,
+html[data-theme="retro"] .dialog-title-row h2,
+html[data-theme="retro"] .dialog-heading h2#help-title {
+  font-size: var(--retro-font-2);
+}

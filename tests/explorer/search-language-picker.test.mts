@@ -78,7 +78,12 @@ const documentStub = {
 };
 const historyCalls: any[] = [];
 const windowStub: any = {
-  location: { search: "?panel=help&emoji=wave&emojiMode=code&group=People" },
+  location: {
+    href: "http://localhost/index.en.html?panel=help&emoji=wave&emojiMode=code&group=People",
+    pathname: "/index.en.html",
+    search: "?panel=help&emoji=wave&emojiMode=code&group=People",
+    hash: "",
+  },
   history: {
     pushState(state: any, _unused: string, href: string) {
       historyCalls.push({ state, href });
@@ -167,7 +172,7 @@ try {
   assert.deepEqual(setCalls, ["es"]);
   assert.deepEqual(historyCalls[0], {
     state: { locale: "es" },
-    href: "./index.es.html?group=People",
+    href: "/index.es.html?panel=help&emoji=wave&emojiMode=code&group=People",
   });
 
   prevented = 0;

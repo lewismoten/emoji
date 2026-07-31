@@ -292,7 +292,10 @@ try {
     "",
     "./?group=Smileys",
   );
-  assert.equal(historyCalls[historyCalls.length - 1].href, "./?group=Smileys");
+  assert.equal(
+    historyCalls[historyCalls.length - 1].href,
+    "/emoji/?panel=help&group=Smileys#undefined",
+  );
 
   const manifestCalls: string[] = [];
   Object.defineProperty(globalThis, "fetch", {

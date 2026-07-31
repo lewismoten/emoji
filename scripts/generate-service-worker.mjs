@@ -33,6 +33,8 @@ const coreAssets = [
   `./explorer/themes/retro/retro-dialogs.css?v=${assetVersion}`,
   `./explorer/themes/retro/retro-example-dialogs.css?v=${assetVersion}`,
   `./explorer/themes/retro/retro-buttons.css?v=${assetVersion}`,
+  `./explorer/themes/retro/retro-choice-states.css?v=${assetVersion}`,
+  `./explorer/themes/retro/retro-typography.css?v=${assetVersion}`,
   `./explorer/themes/retro/retro-forms.css?v=${assetVersion}`,
   `./explorer/themes/retro/retro-focus.css?v=${assetVersion}`,
   `./explorer/toolbar-controls.css?v=${assetVersion}`,
@@ -93,6 +95,22 @@ const sourceFileForAsset = (asset) => {
     );
   if (file === "explorer/themes/retro/retro-buttons.css")
     return path.join("src", "site", "themes", "retro", "retro-buttons.css");
+  if (file === "explorer/themes/retro/retro-choice-states.css")
+    return path.join(
+      "src",
+      "site",
+      "themes",
+      "retro",
+      "retro-choice-states.css",
+    );
+  if (file === "explorer/themes/retro/retro-typography.css")
+    return path.join(
+      "src",
+      "site",
+      "themes",
+      "retro",
+      "retro-typography.css",
+    );
   if (file === "explorer/themes/retro/retro-forms.css")
     return path.join("src", "site", "themes", "retro", "retro-forms.css");
   if (file === "explorer/themes/retro/retro-focus.css")

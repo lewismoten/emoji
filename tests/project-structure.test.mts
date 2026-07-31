@@ -17,7 +17,7 @@ const markdownVisualWidth = 80;
 // These are ratcheting budgets for existing structural debt. New files and
 // directories receive no exception. Lower a budget whenever a split reduces it.
 const legacyLineBudgets: Record<string, number> = {
-  "src/explorer/explorer-navigation.ts": 305,
+  "src/explorer/explorer-navigation.ts": 300,
   "src/explorer-audio.ts": 326,
   "src/site/themes/base-theme.css": 307,
 };

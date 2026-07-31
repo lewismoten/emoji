@@ -18,6 +18,14 @@ const NETWORK_FIRST_PATHS = new Set([
     .pathname,
   new URL("./explorer/themes/retro/retro-buttons.css", self.registration.scope)
     .pathname,
+  new URL(
+    "./explorer/themes/retro/retro-choice-states.css",
+    self.registration.scope,
+  ).pathname,
+  new URL(
+    "./explorer/themes/retro/retro-typography.css",
+    self.registration.scope,
+  ).pathname,
   new URL("./explorer/themes/retro/retro-forms.css", self.registration.scope)
     .pathname,
   new URL("./explorer/themes/retro/retro-focus.css", self.registration.scope)

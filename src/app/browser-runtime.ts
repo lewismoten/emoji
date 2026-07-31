@@ -130,9 +130,8 @@ export function restoreLanguageParentPanel(
   openPanel = openPanelDialog,
 ) {
   const dialog = options.languageDialog();
-  const panel = dialog?.dataset?.returnPanel ?? "";
-  if (!panel) return;
-  delete dialog.dataset.returnPanel;
+  const panel = dialog?.dataset?.returnPanel ?? "help";
+  if (dialog?.dataset) delete dialog.dataset.returnPanel;
   if (panel === "help") {
     openPanel({
       panel: "help",
@@ -147,6 +146,7 @@ export function restoreLanguageParentPanel(
       renderSavedEmoji: () => {},
       syncUrlState: options.syncUrlState,
     });
+    options.syncUrlState();
   }
 }
 

@@ -67,6 +67,14 @@ const devStylesheetRewrites = new Map([
     "./src/site/themes/retro/retro-buttons.css",
   ],
   [
+    "./explorer/themes/retro/retro-choice-states.css",
+    "./src/site/themes/retro/retro-choice-states.css",
+  ],
+  [
+    "./explorer/themes/retro/retro-typography.css",
+    "./src/site/themes/retro/retro-typography.css",
+  ],
+  [
     "./explorer/themes/retro/retro-forms.css",
     "./src/site/themes/retro/retro-forms.css",
   ],

@@ -20,6 +20,10 @@ const transformedSource = source
   .replace(
     'import { closePanelDialog, getOpenPanel, getPanelDialog, openPanelDialog, } from "./pwa-panels.js";',
     'import { closePanelDialog, getOpenPanel, getPanelDialog, openPanelDialog, panelCalls } from "./pwa-panels-stub.mjs";',
+  )
+  .replace(
+    'import { applyLanguagePanelParent, } from "./navigation/panel-parent.js";',
+    'import { applyLanguagePanelParent } from "./panel-parent-stub.mjs";',
   );
 
 const tempRoot = path.join(root, "build/tests/.tmp");
@@ -95,6 +99,17 @@ export function getPanelDialog(panel, dialogs) {
 }
 export function openPanelDialog(options) {
   panelCalls.push(["openPanelDialog", options]);
+}`,
+);
+await fs.writeFile(
+  path.join(tempDirectory, "panel-parent-stub.mjs"),
+  `export function applyLanguagePanelParent(dialogs, panel, panelParent) {
+  if (!dialogs.language?.dataset) return;
+  if (panel === "language" && panelParent) {
+    dialogs.language.dataset.returnPanel = panelParent;
+    return;
+  }
+  delete dialogs.language.dataset.returnPanel;
 }`,
 );
 await fs.writeFile(

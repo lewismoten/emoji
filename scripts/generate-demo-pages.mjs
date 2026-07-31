@@ -326,6 +326,14 @@ export const renderPage = (
       `<link rel="stylesheet" href="./explorer/themes/retro/retro-buttons.css?v=${assetVersion}">`,
     )
     .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/retro\/retro-choice-states\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/retro/retro-choice-states.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/retro\/retro-typography\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/retro/retro-typography.css?v=${assetVersion}">`,
+    )
+    .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/themes\/retro\/retro-forms\.css")[^>]*\/?>/,
       `<link rel="stylesheet" href="./explorer/themes/retro/retro-forms.css?v=${assetVersion}">`,
     )
@@ -436,6 +444,14 @@ export const renderPage = (
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/retro\/retro-buttons\.css")[^>]*\/?>/,
       `<link rel="stylesheet" href="./explorer/themes/retro/retro-buttons.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/retro\/retro-choice-states\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/retro/retro-choice-states.css?v=${assetVersion}">`,
+    )
+    .replace(
+      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/retro\/retro-typography\.css")[^>]*\/?>/,
+      `<link rel="stylesheet" href="./explorer/themes/retro/retro-typography.css?v=${assetVersion}">`,
     )
     .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/explorer\/themes\/retro\/retro-forms\.css")[^>]*\/?>/,

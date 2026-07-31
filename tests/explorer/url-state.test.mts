@@ -186,6 +186,31 @@ assert.deepEqual(
 );
 
 assert.deepEqual(
+  parseExplorerUrlState({
+    search: "?panel=language",
+    developerMode: true,
+    preferredOrder: "grouped",
+    allowedSequenceTypes: ["single", "zwj"],
+  }),
+  {
+    search: "",
+    version: "",
+    versionMode: "through",
+    group: "",
+    subGroup: "",
+    sequenceType: "",
+    skin: [],
+    hair: [],
+    gender: [],
+    order: "grouped",
+    compositionMode: "condensed",
+    emoji: "",
+    emojiMode: "details",
+    panel: "language",
+  },
+);
+
+assert.deepEqual(
   queryEntries(
     buildExplorerUrlQuery({
       search: "gift",
@@ -279,6 +304,29 @@ assert.equal(
     dialogOpen: false,
   }),
   "mode=developer&sequenceType=zwj&order=sequence&composition=full&panel=language",
+);
+
+assert.equal(
+  buildExplorerUrlQuery({
+    search: "",
+    explorerMode: "developer",
+    latestReleasedVersion: "17.0",
+    version: "17.0",
+    versionMode: "through",
+    order: "grouped",
+    group: "",
+    subGroup: "",
+    sequenceType: "",
+    skin: [],
+    hair: [],
+    gender: [],
+    compositionMode: "condensed",
+    currentEmojiKey: "",
+    emojiMode: "details",
+    panel: "language",
+    dialogOpen: false,
+  }),
+  "mode=developer&panel=language",
 );
 
 assert.equal(

@@ -88,7 +88,18 @@ export async function selectLanguageLink(
     return;
   event.preventDefault();
   await setSearchLanguage(locale);
-  window.history.pushState({ locale }, "", href);
+  const baseUrl =
+    window.location.href ??
+    document.baseURI ??
+    `http://localhost${window.location.pathname ?? "/"}${window.location.search ?? ""}${window.location.hash ?? ""}`;
+  const target = new URL(href, baseUrl);
+  target.search = window.location.search;
+  target.hash = window.location.hash;
+  window.history.pushState(
+    { locale },
+    "",
+    `${target.pathname}${target.search}${target.hash}`,
+  );
 }
 
 type SetSearchLanguageOptions = {

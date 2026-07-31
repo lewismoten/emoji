@@ -43,7 +43,7 @@ export function parseExplorerUrlState(options: {
     : allowedOrders.includes(preferredOrder)
       ? (preferredOrder as ExplorerUrlState["order"])
       : "grouped";
-  return {
+  const state: ExplorerUrlState = {
     search: params.get("q") ?? "",
     version: options.developerMode ? (params.get("version") ?? "") : "",
     versionMode:
@@ -75,6 +75,7 @@ export function parseExplorerUrlState(options: {
       ? ((params.get("panel") ?? "") as ExplorerUrlState["panel"])
       : "",
   } satisfies ExplorerUrlState;
+  return state;
 }
 
 export function buildExplorerUrlQuery(options: {

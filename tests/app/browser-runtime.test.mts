@@ -305,6 +305,13 @@ const ownerDocument = {
   },
 };
 
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: {
+    location: { search: "" },
+  },
+});
+
 const actualPanelCalls: any[] = [];
 const directLanguageDialog = {
   dataset: { returnPanel: "help" },
@@ -322,6 +329,28 @@ actualRestoreLanguageParentPanel(
 );
 assert.equal(directLanguageDialog.dataset.returnPanel, undefined);
 assert.equal(actualPanelCalls.length, 1);
+
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: {
+    location: { search: "" },
+  },
+});
+const urlBackedDialog = {
+  dataset: {},
+  ownerDocument,
+};
+actualRestoreLanguageParentPanel(
+  {
+    languageDialog: () => urlBackedDialog,
+    languageList: () => [{ code: "en" }],
+    syncUrlState() {},
+  },
+  (panelOptions: any) => {
+    actualPanelCalls.push(panelOptions);
+  },
+);
+assert.equal(actualPanelCalls.length, 2);
 
 const ignoredDialog = {
   dataset: { returnPanel: "favorites" },
@@ -721,7 +750,7 @@ assert.equal(
 );
 assert.equal(panelStub.openPanelDialogCalls[0].dialogs.favorites, savedDialog);
 panelStub.openPanelDialogCalls[0].syncUrlState("panel", "help");
-assert.deepEqual(syncUrlCalls, [["panel", "help"]]);
+assert.deepEqual(syncUrlCalls, [[], ["panel", "help"]]);
 
 languageDialog.dataset.returnPanel = "";
 lifecycleStub.lifecycleOptions.restoreLanguageParentPanel();

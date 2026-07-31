@@ -96,6 +96,12 @@ assert.ok(
       `./explorer/themes/retro/retro-buttons.css?v=${packageJson.version}`,
     ) &&
     serviceWorker.includes(
+      `./explorer/themes/retro/retro-choice-states.css?v=${packageJson.version}`,
+    ) &&
+    serviceWorker.includes(
+      `./explorer/themes/retro/retro-typography.css?v=${packageJson.version}`,
+    ) &&
+    serviceWorker.includes(
       `./explorer/themes/retro/retro-forms.css?v=${packageJson.version}`,
     ) &&
     serviceWorker.includes(

@@ -184,6 +184,28 @@ export const demoStyles = (
       "utf8",
     ),
     fs.readFile(
+      path.join(
+        root,
+        "src",
+        "site",
+        "themes",
+        "retro",
+        "retro-choice-states.css",
+      ),
+      "utf8",
+    ),
+    fs.readFile(
+      path.join(
+        root,
+        "src",
+        "site",
+        "themes",
+        "retro",
+        "retro-typography.css",
+      ),
+      "utf8",
+    ),
+    fs.readFile(
       path.join(root, "src", "site", "themes", "retro", "retro-forms.css"),
       "utf8",
     ),

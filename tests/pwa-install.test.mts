@@ -80,6 +80,8 @@ const [
     read("src/site/themes/retro/retro-dialogs.css"),
     read("src/site/themes/retro/retro-example-dialogs.css"),
     read("src/site/themes/retro/retro-buttons.css"),
+    read("src/site/themes/retro/retro-choice-states.css"),
+    read("src/site/themes/retro/retro-typography.css"),
     read("src/site/themes/retro/retro-forms.css"),
     read("src/site/themes/retro/retro-focus.css"),
     read("src/site/styles/toolbar-controls.css"),

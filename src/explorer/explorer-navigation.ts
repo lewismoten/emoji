@@ -16,6 +16,9 @@ import {
   getPanelDialog,
   openPanelDialog,
 } from "./pwa-panels.js";
+import {
+  applyLanguagePanelParent,
+} from "./navigation/panel-parent.js";
 
 type Checkbox = { checked: boolean; value: string };
 
@@ -35,83 +38,84 @@ export function createExplorerNavigationDependencies() {
   };
 }
 
-export function createExplorerNavigation(options: {
-  allowedSequenceTypes: string[];
-  applyingUrlState: () => boolean;
-  closeEmojiDialog: () => void;
-  compositionMode: () => "condensed" | "full";
-  developerModeEnabled: () => boolean;
-  fullDeveloperModeEnabled: () => boolean;
-  dialog: () => HTMLDialogElement;
-  currentEmojiKey: () => string;
-  drawList: () => void;
-  emojiByKey: () => Record<string, string>;
-  genderCheckboxes: () => Checkbox[];
-  getOrderMode: () => "grouped" | "popular" | "unicode" | "sequence";
-  groups: () => string[];
-  getSelectedGroup: () => string;
-  getSelectedSequenceType: () => string;
-  getSelectedSubGroup: () => string;
-  hairCheckboxes: () => Checkbox[];
-  helpDialog: () => HTMLDialogElement | undefined;
-  latestReleasedVersion: () => string | undefined;
-  navigateEmoji: (amount: number) => void;
-  openEmoji: (
-    key: string,
-    openDialog?: boolean,
-    navigationKeys?: string[],
-    initialMode?: ExplorerUrlState["emojiMode"],
-  ) => void;
-  orderButtons: () => any[];
-  panelDialogs: () => any;
-  languageList: () => HTMLElement | undefined;
-  preferredOrder: () => string;
-  renderCategoryFilters: () => void;
-  renderSavedEmoji: () => void;
-  renderVersionModeToggle: () => void;
-  searchText: () => HTMLInputElement;
-  setCompositionMode: (mode: "condensed" | "full") => void;
-  setDialogView: (
-    mode: ExplorerUrlState["emojiMode"],
-    updateUrl: boolean,
-  ) => void;
-  setOrderMode: (mode: "grouped" | "popular" | "unicode" | "sequence") => void;
-  setSelectedGroup: (value: string) => void;
-  setSelectedSequenceType: (value: string) => void;
-  setSelectedSubGroup: (value: string) => void;
-  showEmojiDialog: () => void;
-  skinToneCheckboxes: () => Checkbox[];
-  subGroupSelectionKey: (group: string, subGroup: string) => string;
-  subGroups: () => Record<string, string[]>;
-  suppressedPanelCloses: () => WeakSet<HTMLDialogElement>;
-  syncVersionRange: () => void;
-  urlStateReady: () => boolean;
-  versionModeSelector: () => HTMLSelectElement;
-  versionRange: () => HTMLInputElement;
-  versionSelector: () => HTMLSelectElement;
-}, dependencies = createExplorerNavigationDependencies()) {
+export function createExplorerNavigation(
+  options: {
+    allowedSequenceTypes: string[];
+    applyingUrlState: () => boolean;
+    closeEmojiDialog: () => void;
+    compositionMode: () => "condensed" | "full";
+    developerModeEnabled: () => boolean;
+    fullDeveloperModeEnabled: () => boolean;
+    dialog: () => HTMLDialogElement;
+    currentEmojiKey: () => string;
+    drawList: () => void;
+    emojiByKey: () => Record<string, string>;
+    genderCheckboxes: () => Checkbox[];
+    getOrderMode: () => "grouped" | "popular" | "unicode" | "sequence";
+    groups: () => string[];
+    getSelectedGroup: () => string;
+    getSelectedSequenceType: () => string;
+    getSelectedSubGroup: () => string;
+    hairCheckboxes: () => Checkbox[];
+    helpDialog: () => HTMLDialogElement | undefined;
+    latestReleasedVersion: () => string | undefined;
+    navigateEmoji: (amount: number) => void;
+    openEmoji: (
+      key: string,
+      openDialog?: boolean,
+      navigationKeys?: string[],
+      initialMode?: ExplorerUrlState["emojiMode"],
+    ) => void;
+    orderButtons: () => any[];
+    panelDialogs: () => any;
+    languageList: () => HTMLElement | undefined;
+    preferredOrder: () => string;
+    renderCategoryFilters: () => void;
+    renderSavedEmoji: () => void;
+    renderVersionModeToggle: () => void;
+    searchText: () => HTMLInputElement;
+    setCompositionMode: (mode: "condensed" | "full") => void;
+    setDialogView: (
+      mode: ExplorerUrlState["emojiMode"],
+      updateUrl: boolean,
+    ) => void;
+    setOrderMode: (
+      mode: "grouped" | "popular" | "unicode" | "sequence",
+    ) => void;
+    setSelectedGroup: (value: string) => void;
+    setSelectedSequenceType: (value: string) => void;
+    setSelectedSubGroup: (value: string) => void;
+    showEmojiDialog: () => void;
+    skinToneCheckboxes: () => Checkbox[];
+    subGroupSelectionKey: (group: string, subGroup: string) => string;
+    subGroups: () => Record<string, string[]>;
+    suppressedPanelCloses: () => WeakSet<HTMLDialogElement>;
+    syncVersionRange: () => void;
+    urlStateReady: () => boolean;
+    versionModeSelector: () => HTMLSelectElement;
+    versionRange: () => HTMLInputElement;
+    versionSelector: () => HTMLSelectElement;
+  },
+  dependencies = createExplorerNavigationDependencies(),
+) {
   const panelDialogs = () => {
     const dialogs = options.panelDialogs();
-    return {
-      dialogs,
-      all: [dialogs.favorites, dialogs.help, dialogs.language, dialogs.filters],
-    };
+    return { dialogs, all: [dialogs.favorites, dialogs.help, dialogs.language, dialogs.filters] as (HTMLDialogElement | undefined)[] };
   };
-  const createExclusiveCheckboxHandler = (checkboxes: () => Checkbox[]) =>
-    (event: Event) => {
+  const createExclusiveCheckboxHandler =
+    (checkboxes: () => Checkbox[]) => (event: Event) => {
       dependencies.applyExclusiveCheckboxSelection(
         checkboxes(),
         event.currentTarget as unknown as Checkbox,
       );
       options.drawList();
     };
-  const getUrlState = () =>
-    dependencies.parseExplorerUrlState({
-      search: window.location.search,
-      developerMode: options.developerModeEnabled(),
-      preferredOrder: options.preferredOrder(),
-      allowedSequenceTypes: options.allowedSequenceTypes,
-    });
+  const getUrlState = () => dependencies.parseExplorerUrlState({
+    search: window.location.search,
+    developerMode: options.developerModeEnabled(),
+    preferredOrder: options.preferredOrder(),
+    allowedSequenceTypes: options.allowedSequenceTypes,
+  });
 
   const applyBasicUrlState = () => {
     const nextState = dependencies.applyBasicUrlStateToControls({
@@ -141,7 +145,6 @@ export function createExplorerNavigation(options: {
     options.renderVersionModeToggle();
     options.syncVersionRange();
   };
-
   const applyDialogUrlState = () => {
     const state = getUrlState();
     options.setCompositionMode(state.compositionMode);
@@ -156,6 +159,7 @@ export function createExplorerNavigation(options: {
     }
     if (options.dialog().open) options.closeEmojiDialog();
     const desiredPanelDialog = dependencies.getPanelDialog(state.panel, dialogs);
+    applyLanguagePanelParent(dialogs, state.panel, "help");
     all.forEach((dialog) => {
       if (dialog !== desiredPanelDialog)
         dependencies.closePanelDialog(dialog, options.suppressedPanelCloses());
@@ -171,7 +175,6 @@ export function createExplorerNavigation(options: {
       });
     }
   };
-
   const syncUrlState = (
     method: "replace" | "push" = "replace",
     historyState = window.history.state,
@@ -182,6 +185,7 @@ export function createExplorerNavigation(options: {
         .filter((checkbox) => checkbox.checked)
         .map((checkbox) => checkbox.value);
     const dialog = options.dialog();
+    const openPanel = dependencies.getOpenPanel(options.panelDialogs());
     const query = dependencies.buildExplorerUrlQuery({
       search: options.searchText().value,
       explorerMode: options.fullDeveloperModeEnabled()
@@ -207,13 +211,12 @@ export function createExplorerNavigation(options: {
         : dialog.classList.contains("is-code-view")
           ? "code"
           : "details",
-      panel: dependencies.getOpenPanel(options.panelDialogs()),
+      panel: openPanel,
       dialogOpen: dialog.open,
     });
     const url = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
     window.history[`${method}State`](historyState, "", url);
   };
-
   const resetFilters = () => {
     dependencies.resetFilterControls({
       searchText: options.searchText(),
@@ -233,15 +236,9 @@ export function createExplorerNavigation(options: {
     options.drawList();
     options.searchText().focus();
   };
-
-  const onGenderChange = createExclusiveCheckboxHandler(
-    options.genderCheckboxes,
-  );
-  const onSkinToneChange = createExclusiveCheckboxHandler(
-    options.skinToneCheckboxes,
-  );
+  const onGenderChange = createExclusiveCheckboxHandler(options.genderCheckboxes);
+  const onSkinToneChange = createExclusiveCheckboxHandler(options.skinToneCheckboxes);
   const onHairChange = createExclusiveCheckboxHandler(options.hairCheckboxes);
-
   const stepVersion = (amount: number) => {
     const range = options.versionRange();
     const nextIndex = dependencies.stepVersionIndex(
@@ -253,7 +250,6 @@ export function createExplorerNavigation(options: {
     range.value = String(nextIndex);
     range.dispatchEvent(new Event("input", { bubbles: true }));
   };
-
   const onDocumentKeyDown = (event: KeyboardEvent) => {
     const activeTag = document.activeElement?.tagName;
     const isTyping = ["INPUT", "TEXTAREA", "SELECT"].includes(activeTag ?? "");
@@ -288,7 +284,6 @@ export function createExplorerNavigation(options: {
       options.navigateEmoji((previous ? -1 : 1) * (rtl ? -1 : 1));
     }
   };
-
   return {
     applyBasicUrlState,
     applyDialogUrlState,
