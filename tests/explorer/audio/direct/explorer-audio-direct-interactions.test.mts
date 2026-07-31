@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createExplorerAudioController } from "../../../src/explorer-audio.js";
+import { createExplorerAudioController } from "../../../../src/explorer-audio.js";
 import {
   createAudioEngineFixture,
   FakeElement,

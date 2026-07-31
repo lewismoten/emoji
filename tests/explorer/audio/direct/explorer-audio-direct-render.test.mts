@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {
   createExplorerAudioController,
   createExplorerAudioDependencies,
-} from "../../../src/explorer-audio.js";
+} from "../../../../src/explorer-audio.js";
 import {
   createAudioEngineFixture,
   installAudioDomFixture,
