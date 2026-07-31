@@ -105,11 +105,22 @@ html[data-theme="retro"] .pixel-editor-tools button[aria-pressed="true"] {
 }
 
 html[data-theme="retro"] .language-dialog .language-option.is-selected {
-  border-top-color: var(--ega-dark-gray);
-  border-left-color: var(--ega-dark-gray);
+  border-top-color: var(--ega-light-gray);
+  border-left-color: var(--ega-light-gray);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  border-style: dotted;
+  background: var(--ega-black);
+  color: var(--ega-light-gray);
+}
+
+html[data-theme="retro"] .language-dialog .language-option.is-selected:hover {
+  border-top-color: var(--ega-black);
+  border-left-color: var(--ega-black);
   border-right-color: var(--ega-light-gray);
   border-bottom-color: var(--ega-light-gray);
-  background: var(--ega-black);
+  border-style: dotted;
+  background: var(--ega-dark-gray);
   color: var(--ega-light-gray);
 }
 
