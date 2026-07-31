@@ -1,4 +1,5 @@
 import { setPressedState } from "../dialog/dialog-control-helpers.js";
+import { createDialogControlParts } from "../dialog/parts/dialog-control-parts.js";
 import { LanguageDialogControl as SearchLanguageDialogControl } from "../../controls/dialog/content/language-dialog.js";
 import { LanguagePickerControl as SearchLanguagePickerButtonControl } from "../../controls/pickers/language-picker.js";
 
@@ -38,8 +39,9 @@ export function createLanguagePickerControl(): LanguagePickerParts {
 
 export function createLanguageDialogControl(): LanguageDialogControl {
   const dialog = SearchLanguageDialogControl.create() as HTMLDialogElement;
-  const list = dialog.querySelector(".language-list") as HTMLElement;
-  return { dialog, list };
+  return createDialogControlParts(dialog, {
+    list: ".language-list",
+  });
 }
 
 export function buildLanguageOption(options: {
