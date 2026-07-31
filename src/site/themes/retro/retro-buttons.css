@@ -250,6 +250,34 @@ html[data-theme="retro"] .help-dialog .theme-choice[aria-pressed="true"] {
   color: var(--ega-light-gray);
 }
 
+html[data-theme="retro"] .help-dialog .audio-choice[aria-pressed="true"],
+html[data-theme="retro"] .help-dialog .audio-choice:has(input:checked),
+html[data-theme="retro"] .help-dialog .mode-choice[aria-checked="true"],
+html[data-theme="retro"] .help-dialog .mode-choice:has(input:checked),
+html[data-theme="retro"] .help-dialog .setting-choice.is-active {
+  border-top-color: var(--ega-light-gray);
+  border-left-color: var(--ega-light-gray);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  background: var(--ega-black);
+  color: var(--ega-light-gray);
+  transform: translate(1px, 1px);
+}
+
+html[data-theme="retro"] .help-dialog .audio-choice[aria-pressed="true"]:hover,
+html[data-theme="retro"] .help-dialog .audio-choice:has(input:checked):hover,
+html[data-theme="retro"] .help-dialog .mode-choice[aria-checked="true"]:hover,
+html[data-theme="retro"] .help-dialog .mode-choice:has(input:checked):hover,
+html[data-theme="retro"] .help-dialog .setting-choice.is-active:hover {
+  border-top-color: var(--ega-black);
+  border-left-color: var(--ega-black);
+  border-right-color: var(--ega-light-gray);
+  border-bottom-color: var(--ega-light-gray);
+  background: var(--ega-dark-gray);
+  color: var(--ega-light-gray);
+  transform: translate(1px, 1px);
+}
+
 html[data-theme="retro"] .order-footer {
   border-color: var(--ega-dark-gray);
 }
