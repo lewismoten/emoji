@@ -279,9 +279,14 @@ const fallbackStyleButtons = [new FakeButton(), new FakeButton()];
 fallbackStyleButtons[1].dataset.gridRow = "2";
 fallbackStyleButtons[1].dataset.gridColumn = "1";
 browserGlobal.getComputedStyle = (button: FakeButton) => ({
-  gridRowStart: button === fallbackStyleButtons[0] ? "auto" : button.dataset.gridRow ?? "1",
+  gridRowStart:
+    button === fallbackStyleButtons[0]
+      ? "auto"
+      : (button.dataset.gridRow ?? "1"),
   gridColumnStart:
-    button === fallbackStyleButtons[0] ? "auto" : button.dataset.gridColumn ?? "1",
+    button === fallbackStyleButtons[0]
+      ? "auto"
+      : (button.dataset.gridColumn ?? "1"),
 });
 bindPaletteGrid(fallbackStyleButtons as any);
 fallbackStyleButtons[1].focus();
