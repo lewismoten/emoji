@@ -3,14 +3,14 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-// coverage target: ../../src/app/explorer-bootstrap-session-runtime.js
+// coverage target: ../../src/app/bootstrap/explorer-bootstrap-session-runtime.js
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../../..",
 );
 const sourceText = await fs.readFile(
-  path.join(root, "src/app/explorer-bootstrap-session-runtime.ts"),
+  path.join(root, "src/app/bootstrap/explorer-bootstrap-session-runtime.ts"),
   "utf8",
 );
 
@@ -133,7 +133,7 @@ await fs.writeFile(moduleFile, transformedSource);
 
 const module = await import(pathToFileURL(moduleFile).href);
 const { initializeExplorerBootstrapSessionRuntime } =
-  module as typeof import("../../src/app/explorer-bootstrap-session-runtime.js");
+  module as typeof import("../../src/app/bootstrap/explorer-bootstrap-session-runtime.js");
 
 const runtimeOptionsStub = await import(
   pathToFileURL(runtimeOptionsStubFile).href

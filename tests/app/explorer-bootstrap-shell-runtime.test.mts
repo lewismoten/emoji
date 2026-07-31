@@ -4,24 +4,27 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 const root = process.cwd();
-const sourcePath = path.join(root, "build/src/app/explorer-bootstrap-shell.js");
+const sourcePath = path.join(
+  root,
+  "build/src/app/bootstrap/explorer-bootstrap-shell.js",
+);
 const source = await fs.readFile(sourcePath, "utf8");
 
 const transformedSource = source
   .replace(
-    'import { createPixelArtworkManager } from "../explorer/pixel-artwork.js";',
+    'import { createPixelArtworkManager } from "../../explorer/pixel-artwork.js";',
     'import { createPixelArtworkManager, pixelArtworkCalls } from "./pixel-artwork-stub.mjs";',
   )
   .replace(
-    'import { createExplorerShell } from "./explorer-shell.js";',
+    'import { createExplorerShell } from "../explorer-shell.js";',
     'import { createExplorerShell, shellCalls } from "./explorer-shell-stub.mjs";',
   )
   .replace(
-    'import { createEmojiActions } from "./emoji-actions.js";',
+    'import { createEmojiActions } from "../emoji-actions.js";',
     'import { createEmojiActions, emojiActionCalls } from "./emoji-actions-stub.mjs";',
   )
   .replace(
-    'import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from "../explorer/dialog/dialog-render.js";',
+    'import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from "../../explorer/dialog/dialog-render.js";',
     'import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper, diagnosticCalls } from "./dialog-render-stub.mjs";',
   );
 

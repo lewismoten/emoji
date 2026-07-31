@@ -3,39 +3,51 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-// coverage target: ../../src/app/explorer-bootstrap-session.js
+// coverage target: ../../src/app/bootstrap/explorer-bootstrap-session.js
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../../..",
 );
 const sourceText = await fs.readFile(
-  path.join(root, "src/app/explorer-bootstrap-session.ts"),
+  path.join(root, "src/app/bootstrap/explorer-bootstrap-session.ts"),
   "utf8",
 );
 
 const transformedSource = sourceText
   .replace(
-    'from "../explorer/explorer-labels.js";',
+    'from "../../explorer/explorer-labels.js";',
     'from "./explorer-labels-stub.mjs";',
   )
   .replace(
-    'from "../explorer/category-rules.js";',
+    'from "../../explorer/category-rules.js";',
     'from "./category-rules-stub.mjs";',
   )
   .replace(
-    'from "../explorer/emoji-format.js";',
+    'from "../../explorer/emoji-format.js";',
     'from "./emoji-format-stub.mjs";',
   )
   .replace(
-    'from "../explorer/saved-emoji.js";',
+    'from "../../explorer/saved-emoji.js";',
     'from "./saved-emoji-stub.mjs";',
   )
-  .replace('from "../explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";')
-  .replace('from "../explorer-app.js";', 'from "./explorer-app-stub.mjs";')
-  .replace('from "../explorer-state.js";', 'from "./explorer-state-stub.mjs";')
-  .replace('from "../explorer/url-state.js";', 'from "./url-state-stub.mjs";')
-  .replace('from "./browser-runtime.js";', 'from "./browser-runtime-stub.mjs";')
+  .replace(
+    'from "../../explorer/pwa-panels.js";',
+    'from "./pwa-panels-stub.mjs";',
+  )
+  .replace('from "../../explorer-app.js";', 'from "./explorer-app-stub.mjs";')
+  .replace(
+    'from "../../explorer-state.js";',
+    'from "./explorer-state-stub.mjs";',
+  )
+  .replace(
+    'from "../../explorer/url-state.js";',
+    'from "./url-state-stub.mjs";',
+  )
+  .replace(
+    'from "../browser-runtime.js";',
+    'from "./browser-runtime-stub.mjs";',
+  )
   .replace(
     'from "./explorer-bootstrap-bindings.js";',
     'from "./bindings-stub.mjs";',
@@ -54,7 +66,7 @@ const transformedSource = sourceText
   )
   .replace('from "./explorer-bootstrap-shell.js";', 'from "./shell-stub.mjs";')
   .replace(
-    'from "./explorer-preferences.js";',
+    'from "../explorer-preferences.js";',
     'from "./preferences-stub.mjs";',
   );
 

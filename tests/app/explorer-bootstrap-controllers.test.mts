@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createExplorerBootstrapControllers } from "../../src/app/explorer-bootstrap-controllers.js";
+import { createExplorerBootstrapControllers } from "../../src/app/bootstrap/explorer-bootstrap-controllers.js";
 
 const originalDocument = globalThis.document;
 const originalWindow = globalThis.window;

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createExplorerBootstrapShell } from "../../src/app/explorer-bootstrap-shell.js";
+import { createExplorerBootstrapShell } from "../../src/app/bootstrap/explorer-bootstrap-shell.js";
 
 const originalWindow = globalThis.window;
 const originalDocument = globalThis.document;

@@ -3,14 +3,14 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-// coverage target: ../../src/app/explorer-bootstrap-runtime.js
+// coverage target: ../../src/app/bootstrap/explorer-bootstrap-runtime.js
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../../..",
 );
 const sourceText = await fs.readFile(
-  path.join(root, "src/app/explorer-bootstrap-runtime.ts"),
+  path.join(root, "src/app/bootstrap/explorer-bootstrap-runtime.ts"),
   "utf8",
 );
 
@@ -20,41 +20,47 @@ const transformedSource = sourceText
     'from "./explorer-runtime-stub.mjs";',
   )
   .replace(
-    'from "../explorer/explorer-dom.js";',
+    'from "../../explorer/explorer-dom.js";',
     'from "./explorer-dom-stub.mjs";',
   )
   .replace(
-    'from "../explorer/utility-controls.js";',
+    'from "../../explorer/utility-controls.js";',
     'from "./utility-controls-stub.mjs";',
   )
   .replace(
-    'from "./ui-binding-runtime.js";',
+    'from "../ui-binding-runtime.js";',
     'from "./ui-binding-runtime-stub.mjs";',
   )
-  .replace('from "./startup-runtime.js";', 'from "./startup-runtime-stub.mjs";')
   .replace(
-    'from "./pixel-editor-loader-runtime.js";',
+    'from "../startup-runtime.js";',
+    'from "./startup-runtime-stub.mjs";',
+  )
+  .replace(
+    'from "../pixel-editor-loader-runtime.js";',
     'from "./pixel-editor-runtime-stub.mjs";',
   )
   .replace(
-    'from "./version-mode-runtime.js";',
+    'from "../version-mode-runtime.js";',
     'from "./version-mode-runtime-stub.mjs";',
   )
   .replace(
-    'from "./browser-runtime-config.js";',
+    'from "../browser-runtime-config.js";',
     'from "./browser-runtime-config-stub.mjs";',
   )
   .replace(
-    'from "./dialog-runtime-config.js";',
+    'from "../dialog-runtime-config.js";',
     'from "./dialog-runtime-config-stub.mjs";',
   )
   .replace(
-    'from "../explorer/explorer-labels.js";',
+    'from "../../explorer/explorer-labels.js";',
     'from "./explorer-labels-stub.mjs";',
   )
-  .replace('from "../explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";')
   .replace(
-    'from "../explorer/emoji-filter.js";',
+    'from "../../explorer/pwa-panels.js";',
+    'from "./pwa-panels-stub.mjs";',
+  )
+  .replace(
+    'from "../../explorer/emoji-filter.js";',
     'from "./emoji-filter-stub.mjs";',
   )
   .replace(/value: string\[\]/g, "value")
@@ -211,7 +217,7 @@ const module = await import(
   pathToFileURL(path.join(tempDirectory, "explorer-bootstrap-runtime.mjs")).href
 );
 const { createExplorerBootstrapRuntime } =
-  module as typeof import("../../src/app/explorer-bootstrap-runtime.js");
+  module as typeof import("../../src/app/bootstrap/explorer-bootstrap-runtime.js");
 
 const state = {
   currentEmojiKey: "wave",

@@ -6,33 +6,33 @@ import { pathToFileURL } from "node:url";
 const root = process.cwd();
 const sourcePath = path.join(
   root,
-  "build/src/app/explorer-bootstrap-controllers.js",
+  "build/src/app/bootstrap/explorer-bootstrap-controllers.js",
 );
 const source = await fs.readFile(sourcePath, "utf8");
 
 const transformedSource = source
   .replace(
-    'import { createCategoryController } from "./category-controller.js";',
+    'import { createCategoryController } from "../category-controller.js";',
     'import { createCategoryController, categoryCalls } from "./category-controller-stub.mjs";',
   )
   .replace(
-    'import { createVersionRuntime } from "./version-runtime.js";',
+    'import { createVersionRuntime } from "../version-runtime.js";',
     'import { createVersionRuntime, versionCalls } from "./version-runtime-stub.mjs";',
   )
   .replace(
-    'import { createListOrchestration } from "./list-orchestration.js";',
+    'import { createListOrchestration } from "../list-orchestration.js";',
     'import { createListOrchestration, listCalls } from "./list-orchestration-stub.mjs";',
   )
   .replace(
-    'import { createNavigationRuntime } from "./navigation-runtime.js";',
+    'import { createNavigationRuntime } from "../navigation-runtime.js";',
     'import { createNavigationRuntime, navigationCalls } from "./navigation-runtime-stub.mjs";',
   )
   .replace(
-    'import { createDialogViewRuntime } from "./dialog-view-runtime.js";',
+    'import { createDialogViewRuntime } from "../dialog-view-runtime.js";',
     'import { createDialogViewRuntime, dialogViewCalls } from "./dialog-view-runtime-stub.mjs";',
   )
   .replace(
-    'import { createEmojiDialogClickRuntime } from "./emoji-dialog-click-runtime.js";',
+    'import { createEmojiDialogClickRuntime } from "../emoji-dialog-click-runtime.js";',
     'import { createEmojiDialogClickRuntime, dialogClickCalls } from "./emoji-dialog-click-runtime-stub.mjs";',
   );
 

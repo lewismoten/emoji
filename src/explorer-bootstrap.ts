@@ -1,1 +1,1 @@
-import "./app/explorer-bootstrap-session.js";
+import "./app/bootstrap/explorer-bootstrap-session.js";

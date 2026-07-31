@@ -60,8 +60,8 @@ for (const sourceFile of srcFiles) {
 const seedFiles = new Set<string>();
 const legacyDirectCoverageAllowlist = new Set<string>([
   "src/app/browser-runtime-config.ts",
-  "src/app/explorer-bootstrap-runtime.ts",
-  "src/app/explorer-bootstrap-session-runtime.ts",
+  "src/app/bootstrap/explorer-bootstrap-runtime.ts",
+  "src/app/bootstrap/explorer-bootstrap-session-runtime.ts",
   "src/app/startup-runtime.ts",
   "src/explorer/dialog/dialog-title-controls.ts",
   "src/explorer/popular-keys.ts",

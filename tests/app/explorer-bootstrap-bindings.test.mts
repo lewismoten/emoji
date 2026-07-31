@@ -4,7 +4,7 @@ import {
   assignExplorerBootstrapElements,
   assignExplorerBootstrapFieldsets,
   createExplorerBootstrapBindings,
-} from "../../src/app/explorer-bootstrap-bindings.js";
+} from "../../src/app/bootstrap/explorer-bootstrap-bindings.js";
 
 const bindings = createExplorerBootstrapBindings();
 

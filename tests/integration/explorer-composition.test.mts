@@ -182,7 +182,7 @@ assert.match(
 );
 assert.match(
   await fs.readFile(
-    path.join(root, "src/app/explorer-bootstrap-shell.ts"),
+    path.join(root, "src/app/bootstrap/explorer-bootstrap-shell.ts"),
     "utf8",
   ),
   /applyStandalonePixelArtwork:\s*\(\)\s*=>\s*pixelArtwork\.applyPixelArtworkClass[\s\S]*applyStandalonePixelArtwork:\s*pixelArtwork\.applyPixelArtworkClass/,

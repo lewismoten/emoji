@@ -3,7 +3,7 @@ import {
   buildExplorerBootstrapControllerOptions,
   buildExplorerBootstrapRuntimeSourceOptions,
   buildExplorerBootstrapShellOptions,
-} from "../../src/app/explorer-bootstrap-options.js";
+} from "../../src/app/bootstrap/explorer-bootstrap-options.js";
 
 const calls: Array<[string, unknown[]]> = [];
 const mark =

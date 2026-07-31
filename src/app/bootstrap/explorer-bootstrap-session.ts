@@ -7,19 +7,19 @@ import {
   sequenceTypeOrder,
   unicodeGroupLabelKeys,
   unicodeSubgroupLabelKeys,
-} from "../explorer/explorer-labels.js";
-import { getExplorerSubGroup } from "../explorer/category-rules.js";
+} from "../../explorer/explorer-labels.js";
+import { getExplorerSubGroup } from "../../explorer/category-rules.js";
 import {
   formatUiNumber as formatUiNumberValue,
   formatUiPercent as formatUiPercentValue,
   normalizeCodePoints,
-} from "../explorer/emoji-format.js";
-import { animateCopyConfirmation as animateEmojiCopyConfirmation } from "../explorer/saved-emoji.js";
-import { openPanelDialog } from "../explorer/pwa-panels.js";
-import { createExplorerApp } from "../explorer-app.js";
-import { parseExplorerModeParam } from "../explorer/url-state.js";
-import { createExplorerState } from "../explorer-state.js";
-import { createUiFormatters } from "./browser-runtime.js";
+} from "../../explorer/emoji-format.js";
+import { animateCopyConfirmation as animateEmojiCopyConfirmation } from "../../explorer/saved-emoji.js";
+import { openPanelDialog } from "../../explorer/pwa-panels.js";
+import { createExplorerApp } from "../../explorer-app.js";
+import { parseExplorerModeParam } from "../../explorer/url-state.js";
+import { createExplorerState } from "../../explorer-state.js";
+import { createUiFormatters } from "../browser-runtime.js";
 import { createExplorerBootstrapBindings } from "./explorer-bootstrap-bindings.js";
 import {
   buildExplorerBootstrapControllerOptions,
@@ -28,7 +28,7 @@ import {
 import { createExplorerBootstrapControllers } from "./explorer-bootstrap-controllers.js";
 import { initializeExplorerBootstrapSessionRuntime } from "./explorer-bootstrap-session-runtime.js";
 import { createExplorerBootstrapShell } from "./explorer-bootstrap-shell.js";
-import { initializeExplorerPreferences } from "./explorer-preferences.js";
+import { initializeExplorerPreferences } from "../explorer-preferences.js";
 
 const UNASSIGNED = "\u0000";
 const explorerState = createExplorerState();

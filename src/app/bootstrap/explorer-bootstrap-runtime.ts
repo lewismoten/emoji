@@ -1,30 +1,30 @@
 // @ts-nocheck -- Transitional bootstrap wiring.
 import { createExplorerRuntime } from "../explorer-runtime.js";
-import { getExplorerElements } from "../explorer/explorer-dom.js";
+import { getExplorerElements } from "../../explorer/explorer-dom.js";
 import {
   ensureUtilityControls,
   positionFavoriteButton,
-} from "../explorer/utility-controls.js";
-import { createUiBindingRuntime } from "./ui-binding-runtime.js";
-import { createStartupRuntime } from "./startup-runtime.js";
-import { createPixelEditorRuntime } from "./pixel-editor-loader-runtime.js";
-import { createVersionModeRuntime } from "./version-mode-runtime.js";
-import { createBrowserRuntimeConfig } from "./browser-runtime-config.js";
-import { createDialogRuntimeConfig } from "./dialog-runtime-config.js";
+} from "../../explorer/utility-controls.js";
+import { createUiBindingRuntime } from "../ui-binding-runtime.js";
+import { createStartupRuntime } from "../startup-runtime.js";
+import { createPixelEditorRuntime } from "../pixel-editor-loader-runtime.js";
+import { createVersionModeRuntime } from "../version-mode-runtime.js";
+import { createBrowserRuntimeConfig } from "../browser-runtime-config.js";
+import { createDialogRuntimeConfig } from "../dialog-runtime-config.js";
 import {
   languageFlags,
   sequenceTranslationKeys,
   sequenceTypeLabels,
   statusTranslationKeys,
   versionModeDefinitions,
-} from "../explorer/explorer-labels.js";
+} from "../../explorer/explorer-labels.js";
 import {
   closePanelDialog,
   onPanelDialogClose,
   openPanelDialog,
   updateWebAppManifest,
-} from "../explorer/pwa-panels.js";
-import { getEmojiGenders } from "../explorer/emoji-filter.js";
+} from "../../explorer/pwa-panels.js";
+import { getEmojiGenders } from "../../explorer/emoji-filter.js";
 
 export function createExplorerBootstrapRuntime(options: any) {
   const explorerRuntime = createExplorerRuntime({

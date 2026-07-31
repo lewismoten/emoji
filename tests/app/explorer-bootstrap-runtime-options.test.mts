@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { buildExplorerBootstrapRuntimeOptions } from "../../src/app/explorer-bootstrap-runtime-options.js";
+import { buildExplorerBootstrapRuntimeOptions } from "../../src/app/bootstrap/explorer-bootstrap-runtime-options.js";
 
 const calls: Array<[string, unknown[]]> = [];
 const mark =

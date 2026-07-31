@@ -65,11 +65,11 @@ export const versionModeController = await fs.readFile(
   "utf8",
 );
 export const explorerBootstrapSessionSource = await fs.readFile(
-  path.join(root, "src/app/explorer-bootstrap-session.ts"),
+  path.join(root, "src/app/bootstrap/explorer-bootstrap-session.ts"),
   "utf8",
 );
 export const explorerBootstrapShellSource = await fs.readFile(
-  path.join(root, "src/app/explorer-bootstrap-shell.ts"),
+  path.join(root, "src/app/bootstrap/explorer-bootstrap-shell.ts"),
   "utf8",
 );
 export const emojiDialogEvents = await fs.readFile(
