@@ -15,6 +15,7 @@ const ownerDocument = {
 };
 
 const directPanelCalls: any[] = [];
+const directSyncCalls: number[] = [];
 const directLanguageDialog = {
   dataset: { returnPanel: "help" },
   ownerDocument,
@@ -23,12 +24,54 @@ restoreLanguageParentPanel(
   {
     languageDialog: () => directLanguageDialog,
     languageList: () => [{ code: "en" }],
-    syncUrlState() {},
+    syncUrlState() {
+      directSyncCalls.push(1);
+    },
   },
   (panelOptions: any) => directPanelCalls.push(panelOptions),
 );
 assert.equal(directLanguageDialog.dataset.returnPanel, undefined);
 assert.equal(directPanelCalls.length, 1);
+assert.equal(directSyncCalls.length, 1);
+
+const untouchedPanelCalls: any[] = [];
+const untouchedSyncCalls: number[] = [];
+const untouchedLanguageDialog = {
+  dataset: { returnPanel: "favorites" },
+  ownerDocument,
+};
+restoreLanguageParentPanel(
+  {
+    languageDialog: () => untouchedLanguageDialog,
+    languageList: () => [{ code: "en" }],
+    syncUrlState() {
+      untouchedSyncCalls.push(1);
+    },
+  },
+  (panelOptions: any) => untouchedPanelCalls.push(panelOptions),
+);
+assert.equal(untouchedLanguageDialog.dataset.returnPanel, undefined);
+assert.equal(untouchedPanelCalls.length, 0);
+assert.equal(untouchedSyncCalls.length, 0);
+
+const defaultPanelCalls: any[] = [];
+const defaultPanelDialog = {
+  dataset: {},
+  ownerDocument,
+};
+restoreLanguageParentPanel(
+  {
+    languageDialog: () => defaultPanelDialog,
+    languageList: () => [{ code: "en" }],
+    syncUrlState() {
+      defaultPanelCalls.push("sync");
+    },
+  },
+  (panelOptions: any) => defaultPanelCalls.push(panelOptions),
+);
+assert.equal(defaultPanelCalls.length, 2);
+assert.equal(defaultPanelCalls[0].panel, "help");
+assert.equal(defaultPanelCalls[1], "sync");
 
 const directWarnings = { entries: [] as any[] };
 const directWindowEvents: Record<string, () => unknown> = {};
@@ -82,6 +125,7 @@ assert.deepEqual(directWarnings.entries, []);
 
 const installWindowEvents: Record<string, () => unknown> = {};
 const installCalls: string[] = [];
+const installWarnings: any[] = [];
 bindServiceWorkerRuntime({
   navigatorRef: {
     serviceWorker: {
@@ -99,6 +143,76 @@ bindServiceWorkerRuntime({
     },
   } as any,
   isViteDevelopment: false,
+  warn: (...args: any[]) => {
+    installWarnings.push(args);
+  },
 });
 await installWindowEvents.load?.();
 assert.deepEqual(installCalls, ["./service-worker.js"]);
+assert.deepEqual(installWarnings, []);
+
+const installFailureWindowEvents: Record<string, () => unknown> = {};
+const installFailureWarnings: any[] = [];
+bindServiceWorkerRuntime({
+  navigatorRef: {
+    serviceWorker: {
+      register: async () => {
+        throw new Error("register-failed");
+      },
+    },
+  } as any,
+  windowRef: {
+    isSecureContext: true,
+    location: { origin: "https://emoji.example" },
+    addEventListener(type: string, handler: () => unknown) {
+      installFailureWindowEvents[type] = handler;
+    },
+  } as any,
+  isViteDevelopment: false,
+  warn: (...args: any[]) => {
+    installFailureWarnings.push(args);
+  },
+});
+await installFailureWindowEvents.load?.();
+assert.equal(installFailureWarnings.length, 1);
+assert.equal(installFailureWarnings[0][0], "Offline support unavailable");
+
+const devFailureWindowEvents: Record<string, () => unknown> = {};
+const devFailureWarnings: any[] = [];
+bindServiceWorkerRuntime({
+  navigatorRef: {
+    serviceWorker: {
+      getRegistrations: async () => {
+        throw new Error("clear-failed");
+      },
+    },
+  } as any,
+  windowRef: {
+    isSecureContext: true,
+    location: { origin: "https://emoji.example" },
+    addEventListener(type: string, handler: () => unknown) {
+      devFailureWindowEvents[type] = handler;
+    },
+  } as any,
+  isViteDevelopment: true,
+  warn: (...args: any[]) => {
+    devFailureWarnings.push(args);
+  },
+});
+await devFailureWindowEvents.load?.();
+assert.equal(devFailureWarnings.length, 1);
+assert.equal(devFailureWarnings[0][0], "Could not clear local offline cache");
+
+const idleWindowEvents: Record<string, () => unknown> = {};
+bindServiceWorkerRuntime({
+  navigatorRef: { serviceWorker: {} } as any,
+  windowRef: {
+    isSecureContext: false,
+    location: { origin: "https://emoji.example" },
+    addEventListener(type: string, handler: () => unknown) {
+      idleWindowEvents[type] = handler;
+    },
+  } as any,
+  isViteDevelopment: false,
+});
+assert.deepEqual(Object.keys(idleWindowEvents), []);
