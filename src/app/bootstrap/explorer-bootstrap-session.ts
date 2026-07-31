@@ -170,6 +170,7 @@ const controllers = createExplorerBootstrapControllers(
     subGroupSelector: () => bindings.subGroupSelector,
     suppressedPanelCloses: () => bindings.suppressedPanelCloses,
     syncUrlState: (...args) => bindings.syncUrlState(...args),
+    toggleFavorite: shell.toggleFavorite,
     translate,
     unassigned: UNASSIGNED,
     unicodeGroupLabelKeys,

@@ -112,6 +112,7 @@ export function buildExplorerBootstrapControllerOptions(options: any) {
     subGroupSelector: () => options.subGroupSelector(),
     suppressedPanelCloses: () => options.suppressedPanelCloses(),
     syncUrlState: (...args: any[]) => options.syncUrlState(...args),
+    toggleFavorite: options.toggleFavorite,
     translate: options.translate,
     unassigned: options.unassigned,
     unicodeGroupLabelKeys: options.unicodeGroupLabelKeys,
