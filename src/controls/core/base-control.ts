@@ -79,10 +79,6 @@ export abstract class BaseControl<TState> {
     };
     const documentRef = runtime.document;
     if (!documentRef?.head) return;
-    const bundledStylesEnabled =
-      typeof document !== "undefined" &&
-      document.documentElement?.dataset?.bundledStyles === "1";
-    if (bundledStylesEnabled) return;
     if (documentRef.getElementById(stylesheet.id)) return;
     const element = documentRef.createElement("link");
     element.id = stylesheet.id;

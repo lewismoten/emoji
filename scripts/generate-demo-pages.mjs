@@ -158,32 +158,6 @@ const staticSiteAssets = [
   },
 ];
 const stripQuery = (value) => value.replace(/\?.*$/, "");
-const readCssWithImports = (file) => {
-  const absolute = path.isAbsolute(file) ? file : path.join(projectRoot, file);
-  const directory = path.dirname(absolute);
-  return fs
-    .readFileSync(absolute, "utf8")
-    .replace(/@import\s+["']([^"']+)["'];?/g, (match, relativeFile) =>
-      readCssWithImports(path.resolve(directory, relativeFile)),
-    );
-};
-const publishedThemeStylesheets = [
-  path.join("src", "site", "themes", "ega.css"),
-  path.join("src", "site", "themes", "base-theme.css"),
-  path.join("src", "site", "themes", "dark.css"),
-  path.join("src", "site", "themes", "light", "light.css"),
-  path.join("src", "site", "themes", "retro", "retro.css"),
-  path.join("src", "site", "themes", "retro", "retro-foundation.css"),
-  path.join("src", "site", "themes", "retro", "retro-dialogs.css"),
-  path.join("src", "site", "themes", "retro", "retro-example-dialogs.css"),
-  path.join("src", "site", "themes", "retro", "retro-buttons.css"),
-  path.join("src", "site", "themes", "retro", "retro-choice-states.css"),
-  path.join("src", "site", "themes", "retro", "retro-typography.css"),
-  path.join("src", "site", "themes", "retro", "retro-forms.css"),
-  path.join("src", "site", "themes", "retro", "retro-focus.css"),
-];
-const markBundledStyles = (html) =>
-  html.replace(/<html\b/, '<html data-bundled-styles="1"');
 const collapseInitialStylesheets = (html) => {
   let injected = false;
   return html.replace(/<link\b[^>]*\brel="stylesheet"[^>]*>/g, (tag) => {
@@ -212,16 +186,13 @@ const collapseInitialStylesheets = (html) => {
   });
 };
 const writeRootStylesheets = (outputDirectory) => {
-  const combinedThemeCss = publishedThemeStylesheets
-    .map((file) => readCssWithImports(file).trim())
-    .join("\n");
   fs.copyFileSync(
     path.join(projectRoot, "explorer", "pixel-editor.css"),
     path.join(outputDirectory, "pixel-editor.css"),
   );
-  fs.writeFileSync(
+  fs.copyFileSync(
+    path.join(projectRoot, "explorer", "index.css"),
     path.join(outputDirectory, "index.css"),
-    `${fs.readFileSync(path.join(projectRoot, "explorer", "index.css"), "utf8").trim()}\n${combinedThemeCss}\n`,
   );
 };
 const bundleDemoEntry = async ({
@@ -717,9 +688,7 @@ export const renderPage = (
     .trim();
 };
 const finalizeRenderedPage = (html) =>
-  collapseInitialStylesheets(markBundledStyles(html))
-    .replace(/>\s+</g, "><")
-    .trim();
+  collapseInitialStylesheets(html).replace(/>\s+</g, "><").trim();
 
 export const renderManifest = (locale, startUrl, htmlLocale = locale) => {
   const translations = translationsFor(locale);
@@ -825,6 +794,20 @@ ${locales.map((locale) => `  <url><loc>${pageUrl(locale)}</loc></url>`).join("\n
   fs.copyFileSync(
     path.join("explorer", "catalog.json"),
     path.join(outputDirectory, "explorer", "catalog.json"),
+  );
+  fs.cpSync(
+    path.join("explorer", "themes"),
+    path.join(outputDirectory, "explorer", "themes"),
+    {
+      recursive: true,
+    },
+  );
+  fs.cpSync(
+    path.join("explorer", "controls"),
+    path.join(outputDirectory, "explorer", "controls"),
+    {
+      recursive: true,
+    },
   );
   fs.cpSync(
     path.join("pixel-font", "build"),

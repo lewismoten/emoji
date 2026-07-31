@@ -4,6 +4,8 @@
 @import "./styles/content/order-and-groups.css";
 @import "./styles/content/interactive-effects.css";
 @import "./styles/content/saved-and-code.css";
+@import "./styles/toolbar-controls.css";
+@import "./styles/dialog-controls.css";
 @import "./styles/dialogs/help-and-shell.css";
 @import "./styles/dialogs/emoji-details.css";
 @import "./styles/dialogs/emoji-composition.css";

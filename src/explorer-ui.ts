@@ -140,10 +140,10 @@ function resolveExplorerMode(state: any) {
 function resolveThemePreference(
   preferredTheme: string | undefined,
   fullDeveloperMode: boolean,
-) {
+): "base" | "dark" | "light" | "retro" {
   if (preferredTheme === "base") return fullDeveloperMode ? "base" : "dark";
   return ["light", "retro"].includes(preferredTheme ?? "")
-    ? preferredTheme
+    ? (preferredTheme as "light" | "retro")
     : "dark";
 }
 
@@ -155,6 +155,7 @@ export function renderThemeToggle(options: any) {
     options.state().explorerPreferences.theme,
     fullDeveloperMode,
   );
+  void ensureThemeStyles(theme);
   document.documentElement.dataset.theme = theme;
   options.choices().forEach((choice: any) => {
     const selected = choice.dataset.theme === theme;
@@ -173,12 +174,13 @@ export function renderThemeToggle(options: any) {
   updateThemeColor();
 }
 
-export function selectTheme(options: any, event: any) {
+export async function selectTheme(options: any, event: any) {
   const requestedTheme = event.currentTarget.dataset.theme;
   const theme =
     requestedTheme === "base" || ["light", "retro"].includes(requestedTheme)
       ? requestedTheme
       : "dark";
+  await ensureThemeStyles(theme);
   options.savePreference("theme", theme);
   options.renderThemeToggle();
 }
@@ -293,3 +295,4 @@ export function createDeveloperModeController(options: any) {
   }
   return { enabled, fullEnabled, render, change, mode };
 }
+import { ensureThemeStyles } from "./explorer/theme/theme-styles.js";

@@ -115,6 +115,42 @@
               initialPreferences.theme === "retro"
             ? initialPreferences.theme
             : "dark";
+      const themeStylesheets = {
+        base: ["./explorer/themes/base-theme.css"],
+        dark: [
+          "./explorer/themes/base-theme.css",
+          "./explorer/themes/dark.css",
+        ],
+        light: [
+          "./explorer/themes/base-theme.css",
+          "./explorer/themes/light/light.css",
+        ],
+        retro: [
+          "./explorer/themes/ega.css",
+          "./explorer/themes/base-theme.css",
+          "./explorer/themes/retro/retro.css",
+          "./explorer/themes/retro/retro-foundation.css",
+          "./explorer/themes/retro/retro-dialogs.css",
+          "./explorer/themes/retro/retro-example-dialogs.css",
+          "./explorer/themes/retro/retro-buttons.css",
+          "./explorer/themes/retro/retro-choice-states.css",
+          "./explorer/themes/retro/retro-typography.css",
+          "./explorer/themes/retro/retro-forms.css",
+          "./explorer/themes/retro/retro-focus.css"
+        ]
+      };
+      const ensureThemeStyles = (theme) => {
+        const stylesheets = themeStylesheets[theme] ?? themeStylesheets.dark;
+        for (const href of stylesheets) {
+          if (document.querySelector(`link[rel="stylesheet"][href="${href}"]`))
+            continue;
+          const link = document.createElement("link");
+          link.rel = "stylesheet";
+          link.href = href;
+          document.head.appendChild(link);
+        }
+      };
+      ensureThemeStyles(initialTheme);
       document.documentElement.dataset.theme = initialTheme;
       const initialThemeColor = document.querySelector(
         'meta[name="theme-color"]',
@@ -192,95 +228,6 @@
       href="./pixel-font/build-retro-text/pixel-latin-retro.css?v=dev"
       data-font-revision="dev"
     />
-    <link rel="stylesheet" href="./src/site/themes/base-theme.css" />
-    <link rel="stylesheet" href="./src/site/themes/dark.css" />
-    <link rel="stylesheet" href="./src/site/themes/light/light.css" />
-    <link rel="stylesheet" href="./src/site/themes/ega.css" />
-    <link rel="stylesheet" href="./src/site/themes/retro/retro.css" />
-    <link
-      rel="stylesheet"
-      href="./src/site/themes/retro/retro-foundation.css"
-    />
-    <link rel="stylesheet" href="./src/site/themes/retro/retro-dialogs.css" />
-    <link
-      rel="stylesheet"
-      href="./src/site/themes/retro/retro-example-dialogs.css"
-    />
-    <link rel="stylesheet" href="./src/site/themes/retro/retro-buttons.css" />
-    <link
-      rel="stylesheet"
-      href="./src/site/themes/retro/retro-choice-states.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/site/themes/retro/retro-typography.css"
-    />
-    <link rel="stylesheet" href="./src/site/themes/retro/retro-forms.css" />
-    <link rel="stylesheet" href="./src/site/themes/retro/retro-focus.css" />
-    <link rel="stylesheet" href="./src/site/styles/toolbar-controls.css" />
-    <link
-      rel="stylesheet"
-      href="./src/controls/dialog/dialog-close-button.css"
-    />
-    <link rel="stylesheet" href="./src/controls/dialog/dialog-heading.css" />
-    <link
-      rel="stylesheet"
-      href="./src/controls/dialog/content/language-dialog.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/controls/dialog/content/help-settings-dialog.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/controls/dialog/content/emoji-composition-section.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/controls/dialog/dialog-navigate-button.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/controls/dialog/dialog-mode-back-button.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/controls/dialog/content/saved-dialog.css"
-    />
-    <link rel="stylesheet" href="./src/controls/pickers/language-picker.css" />
-    <link
-      rel="stylesheet"
-      href="./src/controls/filters/pickers/compact-choice-button.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/controls/toolbar/theme-choice-group.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/controls/filters/pickers/filter-picker-trigger.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/controls/toolbar/toolbar-trigger-button.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/controls/filters/pickers/advanced-filters-trigger.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/controls/filters/modifiers/modifier-filter-control.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/controls/filters/version/version-mode-toggle.css"
-    />
-    <link
-      rel="stylesheet"
-      href="./src/controls/filters/version/version-step-button.css"
-    />
-    <link rel="stylesheet" href="./src/site/styles/dialog-controls.css" />
     <link rel="stylesheet" href="./src/site/index.css" />
   </head>
 
