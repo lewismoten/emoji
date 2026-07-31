@@ -37,9 +37,11 @@ export function createExplorerAudioController(
     !baseMode() && preferences().soundEffects === true;
   const musicEnabled = () => !baseMode() && preferences().music === true;
   const soundEffectsToggle = () =>
-    document.querySelector<HTMLInputElement>(".sound-effects-toggle");
+    document.querySelector<HTMLInputElement>(
+      '.audio-choice-input[value="soundEffects"]',
+    );
   const musicToggle = () =>
-    document.querySelector<HTMLInputElement>(".music-toggle");
+    document.querySelector<HTMLInputElement>('.audio-choice-input[value="music"]');
   const helpDialog = () =>
     document.querySelector<HTMLDialogElement>(".help-dialog");
   const savedDialog = () =>
@@ -152,7 +154,12 @@ export function createExplorerAudioController(
       (event) => {
         const target = event.target;
         if (!(target instanceof Element)) return;
-        if (target.matches(".sound-effects-toggle")) {
+        if (
+          target.matches('.audio-choice-input[value="soundEffects"]') ||
+          target
+            .closest?.("[data-audio-preference]")
+            ?.matches?.('[data-audio-preference="soundEffects"]')
+        ) {
           const input = target as HTMLInputElement;
           setSoundEffects(input.checked);
           return playTargetAction(
@@ -160,7 +167,12 @@ export function createExplorerAudioController(
             input.checked ? "check" : "uncheck",
           );
         }
-        if (target.matches(".music-toggle")) {
+        if (
+          target.matches('.audio-choice-input[value="music"]') ||
+          target
+            .closest?.("[data-audio-preference]")
+            ?.matches?.('[data-audio-preference="music"]')
+        ) {
           const input = target as HTMLInputElement;
           setMusic(input.checked);
           return playTargetAction(

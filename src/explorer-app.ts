@@ -54,10 +54,82 @@ export function bindExplorerEvents(options: any) {
   const getLanguageList = () =>
     options.getLanguageList?.() ?? options.languageList;
 
+  const bindThemeChoices = () => {
+    const choices = Array.from(
+      document.querySelectorAll<HTMLElement>(".theme-choice"),
+    );
+    if (choices.length === 0) return;
+    const onKeyDown = createThemeChoiceKeyDownHandler(choices);
+    choices.forEach((choice) => {
+      if (choice.dataset.themeBound === "true") return;
+      choice.dataset.themeBound = "true";
+      choice.addEventListener("click", options.selectTheme);
+      choice.addEventListener("keydown", onKeyDown);
+    });
+  };
+
+  const bindModeChoices = () => {
+    const choices = Array.from(
+      document.querySelectorAll<HTMLElement>(".mode-choice"),
+    );
+    if (choices.length === 0) return;
+    const onKeyDown = createThemeChoiceKeyDownHandler(choices);
+    choices.forEach((choice) => {
+      if (choice.dataset.modeBound === "true") return;
+      choice.dataset.modeBound = "true";
+      choice.addEventListener("click", options.toggleDeveloperMode);
+      choice
+        .querySelector?.('input[type="radio"]')
+        ?.addEventListener("change", options.toggleDeveloperMode);
+      choice.addEventListener("keydown", onKeyDown);
+    });
+  };
+
+  const bindLanguagePicker = () => {
+    const button = document.querySelector<HTMLElement>(".language-picker");
+    if (!button || button.dataset.panelBound === "true") return;
+    button.dataset.panelBound = "true";
+    bindPanelDialog({
+      applyingUrlState: options.applyingUrlState,
+      button,
+      dialog: getLanguageDialog(),
+      ensureDialog: () => ensurePanelReady("language"),
+      getDialog: getLanguageDialog,
+      getDialogs: () => options.panelDialogs(),
+      getLanguageList,
+      onBeforeOpen: () => {
+        const helpDialog = getHelpDialog();
+        const languageDialog = getLanguageDialog();
+        if (helpDialog?.open) {
+          if (languageDialog) {
+            languageDialog.dataset.returnPanel = "help";
+          }
+          options.closePanel(helpDialog, options.suppressedPanelCloses);
+        } else if (languageDialog) {
+          delete languageDialog.dataset.returnPanel;
+        }
+      },
+      openPanel: options.openPanel,
+      panel: "language",
+      renderSavedEmoji: options.renderSavedEmoji,
+      suppressedPanelCloses: options.suppressedPanelCloses,
+      syncUrlState: options.syncUrlState,
+      urlStateReady: options.urlStateReady,
+    });
+  };
+
   const ensurePanelReady = async (panel: string) => {
     await options.ensureUtilityPanel?.(panel);
     options.refreshElements?.();
+    options.renderDeveloperMode?.();
+    options.renderThemeToggle?.();
+    options.renderPixelFontToggle?.();
+    options.renderSoundEffectsToggle?.();
+    options.renderMusicToggle?.();
     options.renderSearchLanguages?.();
+    bindThemeChoices();
+    bindModeChoices();
+    bindLanguagePicker();
     if (panel === "favorites" && getSavedDialog()) {
       const dialog = getSavedDialog();
       if (dialog && dialog.dataset.savedDialogBound !== "true") {
@@ -69,13 +141,6 @@ export function bindExplorerEvents(options: any) {
       }
     }
   };
-  const onThemeChoiceKeyDown = createThemeChoiceKeyDownHandler(
-    options.themeChoices ?? [],
-  );
-  const onModeChoiceKeyDown = createThemeChoiceKeyDownHandler(
-    options.modeChoices ?? [],
-  );
-
   window.addEventListener("online", options.updateOnlineStatus);
   window.addEventListener("offline", options.updateOnlineStatus);
   window
@@ -89,33 +154,6 @@ export function bindExplorerEvents(options: any) {
   bindModifierGroup(options.hairCheckboxes, options.onHairChange);
   bindModifierGroup(options.genderCheckboxes, options.onGenderChange);
   options.searchText.addEventListener("input", options.scheduleSearchDraw);
-  bindPanelDialog({
-    applyingUrlState: options.applyingUrlState,
-    button: options.languagePicker,
-    dialog: getLanguageDialog(),
-    ensureDialog: () => ensurePanelReady("language"),
-    getDialog: getLanguageDialog,
-    getDialogs: () => options.panelDialogs(),
-    getLanguageList,
-    onBeforeOpen: () => {
-      const helpDialog = getHelpDialog();
-      const languageDialog = getLanguageDialog();
-      if (helpDialog?.open) {
-        if (languageDialog) {
-          languageDialog.dataset.returnPanel = "help";
-        }
-        options.closePanel(helpDialog, options.suppressedPanelCloses);
-      } else if (languageDialog) {
-        delete languageDialog.dataset.returnPanel;
-      }
-    },
-    openPanel: options.openPanel,
-    panel: "language",
-    renderSavedEmoji: options.renderSavedEmoji,
-    suppressedPanelCloses: options.suppressedPanelCloses,
-    syncUrlState: options.syncUrlState,
-    urlStateReady: options.urlStateReady,
-  });
   bindPanelDialog({
     applyingUrlState: options.applyingUrlState,
     button: options.savedPicker,
@@ -167,12 +205,7 @@ export function bindExplorerEvents(options: any) {
   options.emojiFontChoices.forEach((choice: any) =>
     choice.addEventListener("click", options.selectEmojiFont),
   );
-  options.themeChoices?.forEach((choice: any) =>
-    choice.addEventListener("click", options.selectTheme),
-  );
-  options.themeChoices?.forEach((choice: any) =>
-    choice.addEventListener("keydown", onThemeChoiceKeyDown),
-  );
+  bindThemeChoices();
   options.installAppButton?.addEventListener("click", options.installApp);
   options.installedDisplayQueries.forEach((query: any) =>
     query.addEventListener?.("change", options.renderInstallAppButton),
@@ -180,24 +213,14 @@ export function bindExplorerEvents(options: any) {
   options.installDialog
     ?.querySelector(".install-dialog-close")
     ?.addEventListener("click", () => options.installDialog.close());
-  if (options.modeChoices?.length) {
-    options.modeChoices.forEach((choice: any) =>
-      choice.addEventListener("click", options.toggleDeveloperMode),
-    );
-    options.modeChoices.forEach((choice: any) =>
-      choice
-        .querySelector?.('input[type="radio"]')
-        ?.addEventListener("change", options.toggleDeveloperMode),
-    );
-    options.modeChoices.forEach((choice: any) =>
-      choice.addEventListener("keydown", onModeChoiceKeyDown),
-    );
-  } else {
+  if (!(options.modeChoices?.length)) {
     options.developerModeToggle?.addEventListener(
       "change",
       options.toggleDeveloperMode,
     );
   }
+  bindModeChoices();
+  bindLanguagePicker();
   if (getSavedDialog()) {
     bindSavedDialogInteractions({
       ...options,
