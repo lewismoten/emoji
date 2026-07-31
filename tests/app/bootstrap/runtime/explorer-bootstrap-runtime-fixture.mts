@@ -3,7 +3,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 const sourceReplacements = [
-  ['from "../explorer-runtime.js";', 'from "./explorer-runtime-stub.mjs";'],
+  ['from "../../explorer-runtime.js";', 'from "./explorer-runtime-stub.mjs";'],
   ['from "../../explorer/explorer-dom.js";', 'from "./explorer-dom-stub.mjs";'],
   [
     'from "../../explorer/utility/utility-controls.js";',

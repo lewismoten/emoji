@@ -1,5 +1,5 @@
 // @ts-nocheck -- Transitional bootstrap wiring.
-import { createExplorerRuntime } from "../explorer-runtime.js";
+import { createExplorerRuntime } from "../../explorer-runtime.js";
 import { getExplorerElements } from "../../explorer/explorer-dom.js";
 import {
   ensureUtilityControls,
