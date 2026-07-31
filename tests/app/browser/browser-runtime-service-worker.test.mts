@@ -203,6 +203,35 @@ await devFailureWindowEvents.load?.();
 assert.equal(devFailureWarnings.length, 1);
 assert.equal(devFailureWarnings[0][0], "Could not clear local offline cache");
 
+const devNoCacheWindowEvents: Record<string, () => unknown> = {};
+const devNoCacheRegistrations = [
+  {
+    scope: "https://emoji.example/app/",
+    unregisterCalls: 0,
+    unregister() {
+      this.unregisterCalls += 1;
+      return Promise.resolve(true);
+    },
+  },
+];
+bindServiceWorkerRuntime({
+  navigatorRef: {
+    serviceWorker: {
+      getRegistrations: async () => devNoCacheRegistrations,
+    },
+  } as any,
+  windowRef: {
+    isSecureContext: true,
+    location: { origin: "https://emoji.example" },
+    addEventListener(type: string, handler: () => unknown) {
+      devNoCacheWindowEvents[type] = handler;
+    },
+  } as any,
+  isViteDevelopment: true,
+});
+await devNoCacheWindowEvents.load?.();
+assert.equal(devNoCacheRegistrations[0].unregisterCalls, 1);
+
 const idleWindowEvents: Record<string, () => unknown> = {};
 bindServiceWorkerRuntime({
   navigatorRef: { serviceWorker: {} } as any,

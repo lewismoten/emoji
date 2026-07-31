@@ -8,6 +8,10 @@ type Version = {
   retrieved?: string;
 };
 
+declare const process: {
+  cwd(): string;
+};
+
 export async function loadVersionCatalog(options: {
   allIds: () => string[];
   byId: () => Record<string, any>;
@@ -15,9 +19,29 @@ export async function loadVersionCatalog(options: {
   getExplorerSubGroup: (item: any) => string;
   items: () => any[];
 }) {
+  const loadJsonFromFile = async (filePath: string) => {
+    const runtimeImport = new Function(
+      "specifier",
+      "return import(specifier);",
+    ) as (specifier: string) => Promise<any>;
+    const [{ readFile }, { resolve }] = (await Promise.all([
+      runtimeImport("node:fs/promises"),
+      runtimeImport("node:path"),
+    ])) as [
+      { readFile(path: string, encoding: string): Promise<string> },
+      { resolve(...paths: string[]): string },
+    ];
+    return JSON.parse(await readFile(resolve(process.cwd(), filePath), "utf8"));
+  };
+
   const fetchJsonWithFallback = async (primary: string, fallback: string) => {
-    const response = await fetch(primary);
-    if (response.ok) return response.json();
+    try {
+      const response = await fetch(primary);
+      if (response.ok) return response.json();
+    } catch {}
+    if (typeof window === "undefined") {
+      return loadJsonFromFile(fallback);
+    }
     const secondary = await fetch(fallback);
     if (!secondary.ok) {
       throw new Error(`Unable to load ${primary} or ${fallback}`);

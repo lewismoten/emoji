@@ -3,6 +3,7 @@ import { createExplorerBootstrapShell } from "../../../src/app/bootstrap/explore
 
 const originalWindow = globalThis.window;
 const originalDocument = globalThis.document;
+const originalMutationObserver = (globalThis as any).MutationObserver;
 
 const registeredEvents = new Map<string, EventListener>();
 const documentListeners = new Map<string, EventListener[]>();
@@ -52,6 +53,10 @@ const emojiFontChoices = [
     registeredEvents.set(type, listener);
   },
   AudioContext: undefined,
+};
+(globalThis as any).MutationObserver = class {
+  observe() {}
+  disconnect() {}
 };
 
 (globalThis as any).document = {
@@ -179,6 +184,15 @@ assert.equal(shell.developerModeEnabled(), false);
 assert.equal(shell.getIntroducedVersion("missing"), "—");
 assert.equal(registeredEvents.has("beforeinstallprompt"), true);
 assert.equal(registeredEvents.has("appinstalled"), true);
+assert.doesNotThrow(() => shell.bindAudioInteractions());
+assert.doesNotThrow(() => shell.copyToClipboardValue());
+assert.doesNotThrow(() => shell.renderDeveloperMode());
+assert.doesNotThrow(() => shell.renderSavedEmoji());
+assert.doesNotThrow(() => shell.syncHelpMusic());
+assert.doesNotThrow(() => shell.updateFavoriteButton());
+assert.doesNotThrow(() => shell.updateModifierPixelArtwork());
+assert.doesNotThrow(() => shell.updateOnlineStatus());
+assert.doesNotThrow(() => shell.applyUiTranslations());
 
 shell.recordCopiedEmoji("wrappedGift");
 assert.deepEqual(state.copiedEmojiKeys, ["wrappedGift"]);
@@ -189,6 +203,9 @@ assert.deepEqual(state.favoriteEmojiKeys, ["wrappedGift"]);
 assert.deepEqual(saveCalls.at(-1), ["favorites", ["wrappedGift"]]);
 assert.doesNotThrow(() => shell.renderThemeToggle());
 assert.doesNotThrow(() => shell.renderPixelFontToggle());
+assert.doesNotThrow(() => shell.renderInstallAppButton());
+assert.doesNotThrow(() => shell.renderMusicToggle());
+assert.doesNotThrow(() => shell.renderSoundEffectsToggle());
 assert.doesNotThrow(() =>
   shell.selectTheme({
     currentTarget: { dataset: { theme: "light" } },
@@ -205,6 +222,15 @@ assert.doesNotThrow(() => shell.renderSoundEffectsToggle());
 assert.doesNotThrow(() => shell.renderInstallAppButton());
 assert.doesNotThrow(() =>
   shell.toggleDeveloperMode({ currentTarget: { checked: true } } as any),
+);
+assert.doesNotThrow(() =>
+  shell.onClick({
+    target: {
+      closest() {
+        return null;
+      },
+    },
+  } as any),
 );
 
 let refreshed = 0;
@@ -271,3 +297,4 @@ assert.doesNotThrow(() => exercisedShell.renderSoundEffectsToggle());
 
 (globalThis as any).window = originalWindow;
 (globalThis as any).document = originalDocument;
+(globalThis as any).MutationObserver = originalMutationObserver;

@@ -2,9 +2,11 @@ import assert from "node:assert/strict";
 import { loadVersionCatalog } from "../../../../src/explorer/filters/version-data.js";
 
 const originalFetch = globalThis.fetch;
+const originalWindow = (globalThis as any).window;
 const fetchCalls: string[] = [];
 
 try {
+  (globalThis as any).window = {};
   globalThis.fetch = (async (input: string | URL | Request) => {
     const url = String(input);
     fetchCalls.push(url);
@@ -139,4 +141,5 @@ try {
   );
 } finally {
   globalThis.fetch = originalFetch;
+  (globalThis as any).window = originalWindow;
 }

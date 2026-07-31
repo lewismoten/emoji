@@ -55,3 +55,7 @@ assert.deepEqual(formatterCalls, [
 ]);
 
 assert.equal(isViteDevelopmentRuntime(), false);
+
+(globalThis as any).__TEST_VITE_DEV__ = true;
+assert.equal(isViteDevelopmentRuntime(), true);
+delete (globalThis as any).__TEST_VITE_DEV__;

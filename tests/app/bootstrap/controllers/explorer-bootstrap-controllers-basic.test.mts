@@ -7,7 +7,8 @@ import {
 const { restore } = installBootstrapControllerDom();
 
 try {
-  const { controllerApi } = createBootstrapControllersFixture();
+  const { controllerApi, state } = createBootstrapControllersFixture();
+  (state as any).allIds = [];
 
   for (const name of [
     "buildRepresentatives",
@@ -82,6 +83,7 @@ try {
   }
   assert.doesNotThrow(() => controllerApi.openFilterPicker());
   assert.doesNotThrow(() => controllerApi.refreshLocalizedLabels());
+  assert.doesNotThrow(() => controllerApi.loadVersionData());
   assert.equal(
     controllerApi.subGroupSelectionKey("Objects", "mail"),
     "Objects::mail",

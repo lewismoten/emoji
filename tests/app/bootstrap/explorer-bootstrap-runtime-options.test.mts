@@ -22,6 +22,7 @@ const options: any = {
   clearFiltersButton: mark("clearFiltersButton"),
   copyStatus: mark("copyStatus"),
   developerModeEnabled: mark("developerModeEnabled"),
+  fullDeveloperModeEnabled: mark("fullDeveloperModeEnabled"),
   developerModeToggle: mark("developerModeToggle"),
   displayGroupName: mark("displayGroupName"),
   displayUnicodeSubGroupName: mark("displayUnicodeSubGroupName"),
@@ -137,6 +138,7 @@ for (const key of [
   "applyStandalonePixelArtwork",
   "bindAudioInteractions",
   "developerModeEnabled",
+  "fullDeveloperModeEnabled",
   "displayGroupName",
   "displayUnicodeSubGroupName",
   "focusInitialEmojiDialogAction",
@@ -191,6 +193,7 @@ for (const key of [
 }
 
 assert.equal(runtimeOptions.activeFilters(), "advancedFilters-value");
+assert.equal(runtimeOptions.modeChoices(), undefined);
 for (const [key, expected] of [
   ["advancedFilters", "advancedFilters-value"],
   ["advancedFiltersButton", "advancedFiltersButton-value"],
@@ -279,5 +282,9 @@ for (const [key, expected] of [
   assert.equal(value, expected);
 }
 assert.equal(runtimeOptions.state(), state);
+
+options.modeChoices = mark("modeChoices");
+const runtimeWithModes = buildExplorerBootstrapRuntimeOptions(options);
+assert.equal(runtimeWithModes.modeChoices(), "modeChoices-value");
 
 assert.ok(calls.length > 30);

@@ -12,6 +12,7 @@ assert.equal(shell.normalizeCodePoints, options.normalizeCodePoints);
 assert.equal(shell.savePreference, options.savePreference);
 assert.equal(shell.translate, options.translate);
 assert.equal(shell.state(), state);
+assert.equal(shell.modeChoices(), "modeChoices-value");
 for (const [key, expected] of [
   ["applyingUrlState", "applyingUrlState-value"],
   ["copyStatus", "copyStatus-value"],
@@ -57,6 +58,10 @@ assert.deepEqual(calls.slice(-3), [
 const controller = buildExplorerBootstrapControllerOptions(options);
 assert.equal(controller.animateCopy, options.animateCopy);
 assert.equal(controller.applyPixelArtworkClass, options.applyPixelArtworkClass);
+assert.equal(
+  controller.fullDeveloperModeEnabled(),
+  "fullDeveloperModeEnabled-value",
+);
 assert.equal(
   controller.sequenceTranslationKeys,
   options.sequenceTranslationKeys,
@@ -113,6 +118,26 @@ for (const [key, expected] of [
   assert.equal(controller[key](), expected);
 }
 assert.equal(controller.getEmojiGenders("item"), "getEmojiGenders-value");
+assert.equal(controller.loadPackageManifest(), "loadPackageManifest-value");
+assert.equal(controller.recordCopiedEmoji(), "recordCopiedEmoji-value");
+assert.equal(
+  controller.rebuildEmojiCodePointLookup(),
+  "rebuildEmojiCodePointLookup-value",
+);
+assert.equal(controller.renderSavedEmoji(), "renderSavedEmoji-value");
+assert.equal(
+  controller.updateEmojiComposition(),
+  "updateEmojiComposition-value",
+);
+assert.equal(
+  controller.updateEmojiImportExamples(),
+  "updateEmojiImportExamples-value",
+);
+assert.equal(controller.updateModifierArtwork(), "updateModifierArtwork-value");
+assert.equal(
+  controller.updatePixelArtworkManifest(),
+  "updatePixelArtworkManifest-value",
+);
 controller.navigateEmoji(2);
 controller.openPanel("favorites");
 controller.setDialogView("details");

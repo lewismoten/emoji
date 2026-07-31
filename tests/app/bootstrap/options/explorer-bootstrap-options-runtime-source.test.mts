@@ -8,7 +8,13 @@ const runtime = buildExplorerBootstrapRuntimeSourceOptions(options);
 assert.equal(runtime.applyBasicUrlState, options.applyBasicUrlState);
 assert.equal(runtime.applyDialogUrlState, options.applyDialogUrlState);
 assert.equal(runtime.bindAudioInteractions, options.bindAudioInteractions);
+assert.equal(
+  runtime.fullDeveloperModeEnabled,
+  options.fullDeveloperModeEnabled,
+);
 assert.equal(runtime.installApp, options.installApp);
+assert.equal(runtime.loadPackageManifest, options.loadPackageManifest);
+assert.equal(runtime.modeChoices(), "modeChoices-value");
 assert.equal(runtime.panelDialogs, options.panelDialogs);
 assert.equal(runtime.translate, options.translate);
 assert.equal(runtime.state(), state);
@@ -70,25 +76,73 @@ for (const [key, expected] of [
 }
 runtime.populateVersionModeOptions("b");
 runtime.renderCategoryFilters("c");
+assert.equal(
+  runtime.focusInitialEmojiDialogAction(),
+  "focusInitialEmojiDialogAction-value",
+);
+assert.equal(runtime.refreshLocalizedLabels(), "refreshLocalizedLabels-value");
+assert.equal(runtime.restoreDeveloperMode(), "restoreDeveloperMode-value");
+assert.equal(runtime.scheduleSearchDraw(), "scheduleSearchDraw-value");
+assert.equal(runtime.selectEmojiFont(), "selectEmojiFont-value");
+assert.equal(runtime.selectTheme(), "selectTheme-value");
+assert.equal(runtime.setApplyingUrlState(), "setApplyingUrlState-value");
+assert.equal(runtime.setControls(), "setControls-value");
+assert.equal(runtime.setElements(), "setElements-value");
+assert.equal(runtime.setFieldsets(), "setFieldsets-value");
+assert.equal(runtime.setPixelEditor(), "setPixelEditor-value");
+assert.equal(runtime.setPixelEditorPromise(), "setPixelEditorPromise-value");
+assert.equal(runtime.setSearchLanguage(), "setSearchLanguage-value");
+assert.equal(
+  runtime.setSuppressDialogCloseSync(),
+  "setSuppressDialogCloseSync-value",
+);
+assert.equal(runtime.setUrlStateReady(), "setUrlStateReady-value");
+assert.equal(runtime.stepVersion(), "stepVersion-value");
 runtime.setDialogView("editor");
 runtime.showEmoji("wrappedGift", true);
 runtime.syncUrlState("replace", { hello: "world" });
 runtime.syncVersionRange("x");
+assert.equal(runtime.toggleDeveloperMode(), "toggleDeveloperMode-value");
 runtime.toggleVersionMode("selected");
-const recentCalls = calls.slice(-7);
+assert.equal(runtime.updateFavoriteButton(), "updateFavoriteButton-value");
+assert.equal(runtime.updateModifierArtwork(), "updateModifierArtwork-value");
+assert.equal(runtime.updateOnlineStatus(), "updateOnlineStatus-value");
 assert.equal(
-  recentCalls.some(
+  runtime.updatePixelArtworkManifest(),
+  "updatePixelArtworkManifest-value",
+);
+assert.equal(
+  runtime.updateRenderingDiagnostic(),
+  "updateRenderingDiagnostic-value",
+);
+assert.equal(
+  calls.some(
     (call) =>
       call[0] === "populateVersionModeOptions" &&
       JSON.stringify(call[1]) === '["b"]',
   ),
   true,
 );
-assert.deepEqual(recentCalls.slice(-6), [
+for (const expected of [
   ["renderCategoryFilters", ["c"]],
   ["setDialogView", ["editor"]],
   ["showEmoji", ["wrappedGift", true]],
   ["syncUrlState", ["replace", { hello: "world" }]],
   ["syncVersionRange", ["x"]],
+  ["toggleDeveloperMode", []],
   ["toggleVersionMode", ["selected"]],
-]);
+  ["updateFavoriteButton", []],
+  ["updateModifierArtwork", []],
+  ["updateOnlineStatus", []],
+  ["updatePixelArtworkManifest", []],
+  ["updateRenderingDiagnostic", []],
+] as const) {
+  assert.equal(
+    calls.some(
+      (call) =>
+        call[0] === expected[0] &&
+        JSON.stringify(call[1]) === JSON.stringify(expected[1]),
+    ),
+    true,
+  );
+}

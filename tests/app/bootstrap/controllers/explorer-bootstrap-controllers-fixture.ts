@@ -4,11 +4,37 @@ export function installBootstrapControllerDom() {
   const originalDocument = globalThis.document;
   const originalWindow = globalThis.window;
   (globalThis as any).document = {
+    createDocumentFragment() {
+      return {
+        append() {},
+        appendChild() {},
+        childNodes: [],
+      };
+    },
     createElement() {
       return {
+        append() {},
+        appendChild() {},
+        classList: {
+          add() {},
+          remove() {},
+          toggle() {},
+          contains() {
+            return false;
+          },
+        },
+        dataset: {},
         getContext() {
           return null;
         },
+        querySelector() {
+          return null;
+        },
+        querySelectorAll() {
+          return [];
+        },
+        setAttribute() {},
+        textContent: "",
       };
     },
     getElementsByClassName() {
