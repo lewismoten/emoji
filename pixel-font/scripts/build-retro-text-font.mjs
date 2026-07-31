@@ -15,6 +15,13 @@ const sourceManifestFile = path.join(sourceDirectory, "manifest.json");
 const sourceFile = path.join(outputDirectory, "retro-text-source.json");
 const manifestFile = path.join(outputDirectory, "manifest.json");
 const bitmapModuleFile = path.join(workspace, "retro-text-bitmap.mjs");
+const outputFiles = [
+  path.join(outputDirectory, "pixel-latin-retro.ttf"),
+  path.join(outputDirectory, "pixel-latin-retro.woff"),
+  path.join(outputDirectory, "pixel-latin-retro.woff2"),
+  path.join(outputDirectory, "pixel-latin-retro.css"),
+  manifestFile,
+];
 
 await fs.rm(outputDirectory, { recursive: true, force: true });
 await fs.mkdir(outputDirectory, { recursive: true });
@@ -87,7 +94,9 @@ await fs.writeFile(
 
 await fs.rm(sourceFile, { force: true });
 console.info(
-  `Built ${source.familyName} with ${source.glyphs.length.toLocaleString()} glyphs in ${path.relative(process.cwd(), outputDirectory)}.`,
+  `Built ${source.familyName} with ${source.glyphs.length.toLocaleString()} glyphs.\n` +
+    `Output directory: ${outputDirectory}\n` +
+    outputFiles.map((file) => `  - ${file}`).join("\n"),
 );
 
 async function pythonCommand(requiredModules = []) {

@@ -161,9 +161,9 @@ As of the current build, Pixel Latin Retro contains 368 glyphs and ships as:
 
 | File                      |         Size |
 | ------------------------- | -----------: |
-| `pixel-latin-retro.ttf`   | 67,372 bytes |
-| `pixel-latin-retro.woff`  |  9,392 bytes |
-| `pixel-latin-retro.woff2` |  4,660 bytes |
+| `pixel-latin-retro.ttf`   | 30,520 bytes |
+| `pixel-latin-retro.woff`  |  9,064 bytes |
+| `pixel-latin-retro.woff2` |  5,288 bytes |
 | `pixel-latin-retro.css`   |    290 bytes |
 
 For web use, the WOFF2 file is the main delivery target and is currently a
@@ -201,18 +201,36 @@ npm run pixel-font:text
 This rebuilds the generated bitmap module, refreshes the sample preview, and
 writes the compiled font output under `pixel-font/build-retro-text/`.
 
+## Current compiler behavior
+
+The current retro text compiler is intentionally simpler than the emoji font
+compiler:
+
+- glyphs are exported as monochrome TrueType outlines rather than COLR/CPAL
+  color layers
+- internal glyph names follow `uXXXX` code-point names such as `u0041`
+- connected bitmap regions are traced as merged outlines rather than emitted
+  one pixel-square at a time
+
+It does not have a separate optimization mode comparable to the emoji font’s
+optimized build. Because this font is monochrome, covers a relatively small
+character set, and already compiles into small TTF, WOFF, and WOFF2 files,
+the extra build complexity and time needed for deeper reusable-mask or
+component-search strategies do not currently pay for themselves.
+
 At the moment, aggressive size optimization is not a priority because the
 compiled font is already small:
 
-- `pixel-latin-retro.ttf`: about 35.6 KB
-- `pixel-latin-retro.woff`: about 5.6 KB
-- `pixel-latin-retro.woff2`: about 3.0 KB
+- `pixel-latin-retro.ttf`: about 67.4 KB
+- `pixel-latin-retro.ttf`: about 30.5 KB
+- `pixel-latin-retro.woff`: about 9.1 KB
+- `pixel-latin-retro.woff2`: about 5.3 KB
 
 For web delivery, the `woff2` output is the most relevant target, and it is
-already small enough that more advanced optimization work would likely add
-more build complexity than practical benefit. If the glyph set grows
-substantially later, then subset builds or composite accent reuse may become
-worth revisiting.
+already small enough that more aggressive optimization would likely add more
+build time and complexity than practical benefit. If the glyph set grows
+substantially later, then deeper component reuse or accent-specific
+optimization may become worth revisiting.
 
 ## Editing workflow
 
