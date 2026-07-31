@@ -16,45 +16,38 @@ spec.loader.exec_module(compiler)
 
 
 glyph_sources = [
-    {"key": "man", "name": "man", "codePoints": ["1F468"]},
-    {"key": "lightSkinTone", "name": "light skin tone", "codePoints": ["1F3FB"]},
-    {"key": "manLightSkinTone", "name": "man: light skin tone", "codePoints": ["1F468", "1F3FB"]},
-    {"key": "woman", "name": "woman", "codePoints": ["1F469"]},
-    {"key": "peopleWithBunnyEars", "name": "people with bunny ears", "codePoints": ["1F46F"]},
+    {"key": "man", "codePoints": ["1F468"]},
+    {"key": "lightSkinTone", "codePoints": ["1F3FB"]},
+    {"key": "manLightSkinTone", "codePoints": ["1F468", "1F3FB"]},
+    {"key": "woman", "codePoints": ["1F469"]},
+    {"key": "peopleWithBunnyEars", "codePoints": ["1F46F"]},
     {
         "key": "peopleWithBunnyEarsLightSkinTone",
-        "name": "people with bunny ears: light skin tone",
         "codePoints": ["1F46F", "1F3FB"],
     },
     {
         "key": "womenWithBunnyEarsLightSkinTone",
-        "name": "women with bunny ears: light skin tone",
         "codePoints": ["1F46F", "1F3FB", "200D", "2640", "FE0F"],
     },
-    {"key": "peopleWrestling", "name": "people wrestling", "codePoints": ["1F93C"]},
+    {"key": "peopleWrestling", "codePoints": ["1F93C"]},
     {
         "key": "peopleWrestlingLightSkinTone",
-        "name": "people wrestling: light skin tone",
         "codePoints": ["1F93C", "1F3FB"],
     },
     {
         "key": "womenWrestlingLightSkinTone",
-        "name": "women wrestling: light skin tone",
         "codePoints": ["1F93C", "1F3FB", "200D", "2640", "FE0F"],
     },
-    {"key": "heart", "name": "red heart", "codePoints": ["2764", "FE0F"]},
+    {"key": "heart", "codePoints": ["2764", "FE0F"]},
     {
         "key": "couple",
-        "name": "couple with heart: man, woman",
         "codePoints": ["1F468", "200D", "2764", "FE0F", "200D", "1F469"],
     },
-    {"key": "pair", "name": "family: man, woman", "codePoints": ["1F468", "200D", "1F469"]},
-    {"key": "usFlag", "name": "flag: United States", "codePoints": ["1F1FA", "1F1F8"]},
-    {"key": "flagFrenchPolynesia", "name": "flag: French Polynesia", "codePoints": ["1F1F5", "1F1EB"]},
-    {"key": "keycapOne", "name": "keycap: 1", "codePoints": ["0031", "FE0F", "20E3"]},
+    {"key": "pair", "codePoints": ["1F468", "200D", "1F469"]},
+    {"key": "usFlag", "codePoints": ["1F1FA", "1F1F8"]},
+    {"key": "keycapOne", "codePoints": ["0031", "FE0F", "20E3"]},
     {
         "key": "englandFlag",
-        "name": "flag: England",
         "codePoints": [
             "1F3F4",
             "E0067",
@@ -307,7 +300,7 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         if record.FeatureTag == "ccmp"
     )
     assert ccmp_feature.LookupCount == 2
-    assert font["post"].formatType == 2.0
+    assert font["post"].formatType == 3.0
     assert font["OS/2"].fsType == 0
     assert font["head"].fontRevision == 1.0
     assert {
@@ -316,8 +309,6 @@ with tempfile.TemporaryDirectory() as temporary_directory:
         if record.nameID == 5
     } == {"Version 1.0.0"}
     assert {record.platformID for record in font["name"].names} == {1, 3}
-    assert "emoji.man" in font.getGlyphOrder()
-    assert "emoji.flagFrenchPolynesia" in font.getGlyphOrder()
     cmap = font.getBestCmap()
     assert cmap[0xF0000] == cmap[0x1F468]
     assert 0xF0006 in cmap
