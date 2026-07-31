@@ -8,7 +8,7 @@ void pairedSource;
 
 const sourcePath = path.join(
   process.cwd(),
-  "src/pixel-editor/controllers/pixel-editor-session.js",
+  "src/pixel-editor/controllers/pixel-editor-session.ts",
 );
 
 assert.equal(fs.existsSync(sourcePath), true);

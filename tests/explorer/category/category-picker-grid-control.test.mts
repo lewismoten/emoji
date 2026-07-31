@@ -7,7 +7,7 @@ void pairedSource;
 
 const sourcePath = path.join(
   process.cwd(),
-  "src/explorer/category/category-picker-grid-control.js",
+  "src/explorer/category/category-picker-grid-control.ts",
 );
 
 assert.equal(fs.existsSync(sourcePath), true);
