@@ -7,14 +7,38 @@ type PositionFavoriteButtonOptions = {
 
 export function ensureDialogTitleRow(dialogTitle: HTMLElement | null) {
   if (!dialogTitle) return null;
-  let dialogTitleRow = dialogTitle.querySelector<HTMLElement>(".dialog-title-row");
-  if (dialogTitleRow) return dialogTitleRow;
+  let dialogTitleRow =
+    dialogTitle.querySelector<HTMLElement>(".dialog-title-row");
+  if (dialogTitleRow) {
+    ensureDialogTitleMain(dialogTitleRow);
+    return dialogTitleRow;
+  }
   dialogTitleRow = document.createElement("div");
   dialogTitleRow.className = "dialog-title-row";
   const title = dialogTitle.querySelector("h2");
   title?.before(dialogTitleRow);
-  if (title) dialogTitleRow.append(title);
+  if (title) {
+    const dialogTitleMain = ensureDialogTitleMain(dialogTitleRow);
+    dialogTitleMain?.append(title);
+  }
   return dialogTitleRow;
+}
+
+export function ensureDialogTitleMain(dialogTitleRow: HTMLElement | null) {
+  if (!dialogTitleRow) return null;
+  let dialogTitleMain =
+    dialogTitleRow.querySelector<HTMLElement>(".dialog-title-main");
+  if (dialogTitleMain) return dialogTitleMain;
+  dialogTitleMain = document.createElement("div");
+  dialogTitleMain.className = "dialog-title-main";
+  const title = dialogTitleRow.querySelector("h2");
+  if (title) {
+    title.before(dialogTitleMain);
+    dialogTitleMain.append(title);
+  } else {
+    dialogTitleRow.append(dialogTitleMain);
+  }
+  return dialogTitleMain;
 }
 
 export function createFavoriteButtonControl() {
@@ -61,6 +85,6 @@ export function positionFavoriteButton({
   if (compact) {
     dialogControls.querySelector("form")?.before(favoriteButton);
   } else {
-    dialogTitleRow.prepend(favoriteButton);
+    ensureDialogTitleMain(dialogTitleRow)?.prepend(favoriteButton);
   }
 }

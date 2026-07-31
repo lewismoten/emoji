@@ -33,6 +33,17 @@ const dialogHeadingStyleText = `
   gap: 0.15rem;
 }
 
+.dialog-title-main {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.dialog-title-main h2 {
+  min-width: 0;
+}
+
 .eyebrow {
   margin: 0 0 0.2rem;
   color: var(--accent-strong);
