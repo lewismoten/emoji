@@ -1,29 +1,20 @@
-import { BaseControl } from "../core/base-control.js";
-import { DomFactory, type NodeSpec } from "../core/dom-factory.js";
+import {
+  ActionButtonControl,
+  type ActionButtonState,
+} from "../core/action-button.js";
 
 const toolbarTriggerButtonStylesheetId =
   "toolbar-trigger-button-control-style";
 const toolbarTriggerButtonStyleText = `
 .saved-picker,
 .help-picker {
-  display: inline-flex;
   flex: 0 0 auto;
-  height: 2.25rem;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--panel);
-  color: var(--text);
-  cursor: pointer;
-  font: inherit;
+  min-height: 2.5rem;
 }
 
 .saved-picker {
   min-width: 6.5rem;
   max-width: 7rem;
-  gap: 0.3rem;
   padding: 0 0.55rem;
 }
 
@@ -37,19 +28,9 @@ const toolbarTriggerButtonStyleText = `
 }
 
 .help-picker {
-  width: 2.25rem;
+  width: 2.5rem;
+  padding: 0;
   font-weight: 800;
-}
-
-.saved-picker:hover,
-.help-picker:hover {
-  border-color: var(--accent);
-}
-
-.saved-picker:focus-visible,
-.help-picker:focus-visible {
-  outline: var(--focus-outline);
-  outline-offset: var(--focus-outline-offset);
 }
 `;
 
@@ -65,7 +46,7 @@ type ToolbarTriggerButtonState = {
   labelKey?: string;
 };
 
-export class ToolbarTriggerButtonControl extends BaseControl<ToolbarTriggerButtonState> {
+export class ToolbarTriggerButtonControl extends ActionButtonControl<ToolbarTriggerButtonState> {
   protected override styles() {
     return [
       {
@@ -75,34 +56,20 @@ export class ToolbarTriggerButtonControl extends BaseControl<ToolbarTriggerButto
     ];
   }
 
-  protected render(): NodeSpec {
-    return DomFactory.button({
+  protected render() {
+    return this.renderButton({
+      ariaLabel: this.state.ariaLabel,
       attributes: {
         "aria-controls": this.state.controls,
         "aria-haspopup": "dialog",
-        "aria-label": this.state.ariaLabel,
-        type: "button",
       },
-      className: this.state.className,
-      dataset: {
-        i18nAriaLabel: this.state.ariaLabelKey,
-      },
-      children: [
-        DomFactory.element("span", {
-          attributes: { "aria-hidden": "true" },
-          className: this.state.iconClassName,
-          text: this.state.icon,
-        }),
-        ...(this.state.label && this.state.labelKey
-          ? [
-              DomFactory.element("span", {
-                className: this.state.labelClassName,
-                dataset: { i18n: this.state.labelKey },
-                text: this.state.label,
-              }),
-            ]
-          : []),
-      ],
-    });
+      className: `setting-choice ${this.state.className}`,
+      emoji: this.state.icon,
+      emojiClassName: this.state.iconClassName,
+      i18nAriaLabel: this.state.ariaLabelKey,
+      label: this.state.label,
+      labelClassName: this.state.labelClassName,
+      labelKey: this.state.labelKey,
+    } satisfies ActionButtonState);
   }
 }

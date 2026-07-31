@@ -1,31 +1,14 @@
-import { BaseControl } from "../../core/base-control.js";
+import {
+  ActionButtonControl,
+  type ActionButtonState,
+} from "../../core/action-button.js";
 import { DomFactory, type NodeSpec } from "../../core/dom-factory.js";
 
 const advancedFiltersTriggerStylesheetId =
   "advanced-filters-trigger-control-style";
 const advancedFiltersTriggerStyleText = `
 .advanced-filters-trigger {
-  display: inline-flex;
-  min-height: 1.25rem;
   width: fit-content;
-  align-items: center;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--accent);
-  cursor: pointer;
-  font: inherit;
-  font-size: var(--ui-font-size-medium);
-  font-weight: 650;
-}
-
-.advanced-filters-trigger:hover {
-  color: var(--text);
-}
-
-.advanced-filters-trigger:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
 }
 `;
 
@@ -37,7 +20,7 @@ type AdvancedFiltersTriggerState = {
   longTextKey: string;
 };
 
-export class AdvancedFiltersTriggerControl extends BaseControl<AdvancedFiltersTriggerState> {
+export class AdvancedFiltersTriggerControl extends ActionButtonControl<AdvancedFiltersTriggerState> {
   constructor(state?: Partial<AdvancedFiltersTriggerState>) {
     super({
       controls: "advanced-filters-dialog",
@@ -59,17 +42,14 @@ export class AdvancedFiltersTriggerControl extends BaseControl<AdvancedFiltersTr
   }
 
   protected render(): NodeSpec {
-    return DomFactory.button({
+    return this.renderButton({
+      ariaLabel: this.state.longText,
       attributes: {
         "aria-controls": this.state.controls,
         "aria-haspopup": "dialog",
-        "aria-label": this.state.longText,
-        type: "button",
       },
-      className: "advanced-filters-trigger",
-      dataset: {
-        i18nAriaLabel: this.state.longTextKey,
-      },
+      className: "setting-choice advanced-filters-trigger",
+      i18nAriaLabel: this.state.longTextKey,
       children: [
         DomFactory.element("span", {
           className: "summary-long",
@@ -82,6 +62,6 @@ export class AdvancedFiltersTriggerControl extends BaseControl<AdvancedFiltersTr
           text: this.state.filtersText,
         }),
       ],
-    });
+    } satisfies ActionButtonState);
   }
 }

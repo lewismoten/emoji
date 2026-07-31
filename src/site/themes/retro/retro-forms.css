@@ -46,6 +46,29 @@ html[data-theme="retro"] .rendering-diagnostic h3 {
   font-size: var(--retro-font-2);
 }
 
+html[data-theme="retro"] .setting-choice,
+html[data-theme="retro"] .saved-picker,
+html[data-theme="retro"] .help-picker,
+html[data-theme="retro"] .language-picker,
+html[data-theme="retro"] .filter-picker-trigger,
+html[data-theme="retro"] .advanced-filters-trigger,
+html[data-theme="retro"] .compact-choice,
+html[data-theme="retro"] .version-mode-toggle,
+html[data-theme="retro"] input[type="search"] {
+  min-height: 2.25rem;
+}
+
+html[data-theme="retro"] .saved-picker,
+html[data-theme="retro"] .help-picker,
+html[data-theme="retro"] .language-picker,
+html[data-theme="retro"] .filter-picker-trigger,
+html[data-theme="retro"] .advanced-filters-trigger,
+html[data-theme="retro"] .compact-choice,
+html[data-theme="retro"] .version-mode-toggle,
+html[data-theme="retro"] input[type="search"] {
+  height: 2.25rem;
+}
+
 html[data-theme="retro"] .toolbar {
   background: var(--ega-dark-gray);
   border-bottom-color: var(--ega-black);
@@ -129,6 +152,7 @@ html[data-theme="retro"] .language-option:active,
 html[data-theme="retro"] .emoji-font-choice:active,
 html[data-theme="retro"] .modifier-filters fieldset label:active,
 html[data-theme="retro"] .filter-picker-trigger:active,
+html[data-theme="retro"] .advanced-filters-trigger:active,
 html[data-theme="retro"] .compact-choice:active,
 html[data-theme="retro"] .version-mode-toggle:active,
 html[data-theme="retro"] .version-step:active,
