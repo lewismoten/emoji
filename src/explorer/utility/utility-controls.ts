@@ -9,7 +9,7 @@ import {
   ensureDialogTitleRow,
   ensureFavoriteButton,
   positionFavoriteButton as positionFavoriteButtonHelper,
-} from "../dialog/dialog-title-controls.js";
+} from "../dialog/parts/dialog-title-controls.js";
 import { createHelpDialogControl } from "../toolbar/help-settings-control.js";
 import { ensureAdvancedFilterControls } from "../filters/advanced-filter-dialog-control.js";
 import {

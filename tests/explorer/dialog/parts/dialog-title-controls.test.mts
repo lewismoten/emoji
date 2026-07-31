@@ -4,7 +4,7 @@ import {
   ensureDialogTitleRow,
   ensureFavoriteButton,
   positionFavoriteButton,
-} from "../../../src/explorer/dialog/dialog-title-controls.js";
+} from "../../../../src/explorer/dialog/parts/dialog-title-controls.js";
 
 class FakeClassList {
   names = new Set<string>();

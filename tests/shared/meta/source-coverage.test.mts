@@ -1,12 +1,8 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
 
-const root = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../../..",
-);
+const root = process.cwd();
 
 const walk = (directory: string, extensions: string[]) => {
   let files: string[] = [];
@@ -66,7 +62,7 @@ const legacyDirectCoverageAllowlist = new Set<string>([
   "../src/app/bootstrap/explorer-bootstrap-runtime.ts",
   "../src/app/bootstrap/explorer-bootstrap-session-runtime.ts",
   "../src/app/startup/startup-runtime.ts",
-  "../src/explorer/dialog/dialog-title-controls.ts",
+  "../src/explorer/dialog/parts/dialog-title-controls.ts",
   "../src/explorer/emoji/popular-keys.ts",
   "../src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.ts",
   "../src/pixel-editor/canvas/pixel-editor-template.ts",
