@@ -86,7 +86,7 @@ export function createSearchLanguageLifecycle(options: any) {
       ) {
         await set(locale);
       }
-      options.applyDialogUrlState();
+      await options.applyDialogUrlState();
     } finally {
       options.setApplyingUrlState(false);
       options.syncUrlState();

@@ -124,6 +124,7 @@ export function createExplorerBootstrapControllers(options: any) {
     dialog: options.dialog,
     displayedKeys: () => state().displayedKeys,
     drawList: listOrchestration.drawList,
+    ensurePanelDialog: options.ensurePanelDialog,
     emojiByKey: () => state().emojiByKey,
     focusInitialAction: options.focusInitialEmojiDialogAction,
     genderCheckboxes: options.genderCheckboxes,

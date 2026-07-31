@@ -198,6 +198,8 @@ const writeRootStylesheets = (outputDirectory) => {
 const bundleDemoEntry = async ({
   input,
   output,
+  outputDirectory,
+  chunkDirectory,
   external = () => false,
   inlineDynamicImports = false,
 }) => {
@@ -208,8 +210,18 @@ const bundleDemoEntry = async ({
     plugins: [terser()],
   });
   try {
+    if (inlineDynamicImports) {
+      await bundle.write({
+        file: output,
+        format: "es",
+        inlineDynamicImports,
+      });
+      return;
+    }
     await bundle.write({
-      file: output,
+      dir: outputDirectory,
+      entryFileNames: path.basename(output),
+      chunkFileNames: `${chunkDirectory}/[name]-[hash].js`,
       format: "es",
       inlineDynamicImports,
     });
@@ -231,6 +243,7 @@ const removeExtraJavaScript = (outputDirectory) => {
         continue;
       }
       if (!entry.name.endsWith(".js")) continue;
+      if (target.includes(`${path.sep}chunks${path.sep}`)) continue;
       if (keep.has(target)) continue;
       fs.rmSync(target);
     }
@@ -238,23 +251,20 @@ const removeExtraJavaScript = (outputDirectory) => {
   visit(outputDirectory);
 };
 const bundleDemoRuntime = async (outputDirectory) => {
-  const bundledIndex = path.join(outputDirectory, "index.bundle.js");
-  const bundledPixelEditor = path.join(outputDirectory, "pixel-editor.bundle.js");
   await bundleDemoEntry({
     input: path.join(outputDirectory, "index.js"),
-    output: bundledIndex,
+    output: path.join(outputDirectory, "index.js"),
+    outputDirectory,
+    chunkDirectory: "chunks",
     external: (id) => id.includes("pixel-editor.js"),
   });
   await bundleDemoEntry({
     input: path.join(outputDirectory, "pixel-editor.js"),
-    output: bundledPixelEditor,
+    output: path.join(outputDirectory, "pixel-editor.js"),
+    outputDirectory,
+    chunkDirectory: "chunks",
     inlineDynamicImports: true,
   });
-  fs.renameSync(bundledIndex, path.join(outputDirectory, "index.js"));
-  fs.renameSync(
-    bundledPixelEditor,
-    path.join(outputDirectory, "pixel-editor.js"),
-  );
   removeExtraJavaScript(outputDirectory);
 };
 const prepareDeployedScript = (source) =>

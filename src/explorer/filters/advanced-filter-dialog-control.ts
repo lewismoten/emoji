@@ -1,11 +1,13 @@
 import { AdvancedFiltersTriggerControl } from "../../controls/filters/pickers/advanced-filters-trigger.js";
-import { AdvancedFiltersDialogControl } from "../../controls/dialog/content/advanced-filters-dialog.js";
 
 export function createAdvancedFiltersTriggerControl() {
   return AdvancedFiltersTriggerControl.create();
 }
 
-export function createAdvancedFiltersDialogControl() {
+export async function createAdvancedFiltersDialogControl() {
+  const { AdvancedFiltersDialogControl } = await import(
+    "../../controls/dialog/content/advanced-filters-dialog.js"
+  );
   const dialog = AdvancedFiltersDialogControl.create() as HTMLDialogElement;
   const body = dialog.querySelector(".advanced-filters-dialog-body");
   if (!body) {
@@ -34,6 +36,8 @@ export function ensureAdvancedFilterControls() {
   }
   const main = document.querySelector("main");
   if (main && !document.querySelector(".advanced-filters-dialog")) {
-    main.append(createAdvancedFiltersDialogControl().dialog);
+    void createAdvancedFiltersDialogControl().then((control) =>
+      main.append(control.dialog),
+    );
   }
 }

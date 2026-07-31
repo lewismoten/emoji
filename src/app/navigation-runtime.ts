@@ -15,6 +15,7 @@ export function createNavigationConfig(options: any) {
     dialog: options.dialog,
     currentEmojiKey: () => options.currentEmojiKey(),
     drawList: options.drawList,
+    ensurePanelDialog: options.ensurePanelDialog,
     emojiByKey: () => options.emojiByKey(),
     genderCheckboxes: () => options.genderCheckboxes(),
     getOrderMode: () => options.getOrderMode(),

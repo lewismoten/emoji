@@ -1,7 +1,5 @@
 import { setPressedState } from "../dialog/dialog-control-helpers.js";
 import { createDialogControlParts } from "../dialog/parts/dialog-control-parts.js";
-import { LanguageDialogControl as SearchLanguageDialogControl } from "../../controls/dialog/content/language-dialog.js";
-import { LanguagePickerControl as SearchLanguagePickerButtonControl } from "../../controls/pickers/language-picker.js";
 import { LanguageOptionControl } from "../../controls/pickers/language-option.js";
 
 type SearchLocale = {
@@ -24,7 +22,9 @@ export type LanguagePickerParts = {
   label: HTMLElement;
 };
 
-export function createLanguagePickerControl(): LanguagePickerParts {
+export async function createLanguagePickerControl(): Promise<LanguagePickerParts> {
+  const { LanguagePickerControl: SearchLanguagePickerButtonControl } =
+    await import("../../controls/pickers/language-picker.js");
   const button = SearchLanguagePickerButtonControl.create({
     accessibleLabel: "Choose a search language",
     accessibleLabelId: "language-picker-accessible-label",
@@ -38,7 +38,10 @@ export function createLanguagePickerControl(): LanguagePickerParts {
   return { button, flag, label };
 }
 
-export function createLanguageDialogControl(): LanguageDialogControl {
+export async function createLanguageDialogControl(): Promise<LanguageDialogControl> {
+  const { LanguageDialogControl: SearchLanguageDialogControl } = await import(
+    "../../controls/dialog/content/language-dialog.js"
+  );
   const dialog = SearchLanguageDialogControl.create() as HTMLDialogElement;
   return createDialogControlParts(dialog, {
     list: ".language-list",

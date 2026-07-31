@@ -2,8 +2,6 @@ import {
   createLanguageDialogControl,
   createLanguagePickerControl,
 } from "../language/language-dialog-control.js";
-import { EmojiCompositionSectionControl } from "../../controls/dialog/content/emoji-composition-section.js";
-import { SavedDialogControl } from "../../controls/dialog/content/saved-dialog.js";
 import { EmojiFontChoiceGroupControl } from "../../controls/toolbar/emoji-font-choice-group.js";
 import {
   ensureDialogTitleRow,
@@ -11,7 +9,10 @@ import {
   positionFavoriteButton as positionFavoriteButtonHelper,
 } from "../dialog/parts/dialog-title-controls.js";
 import { createHelpDialogControl } from "../toolbar/help-settings-control.js";
-import { ensureAdvancedFilterControls } from "../filters/advanced-filter-dialog-control.js";
+import {
+  createAdvancedFiltersDialogControl,
+  createAdvancedFiltersTriggerControl,
+} from "../filters/advanced-filter-dialog-control.js";
 import {
   createHelpPickerControl,
   createSavedPickerControl,
@@ -97,7 +98,15 @@ export function ensureUtilityControls() {
     searchControls.append(createHelpPickerControl() as unknown as MinimalElement);
   }
   ensurePickerControls();
-  ensureAdvancedFilterControls();
+  const filterOptions = document.querySelector(".filter-options");
+  if (
+    filterOptions &&
+    !filterOptions.querySelector(".advanced-filters-trigger")
+  ) {
+    filterOptions.prepend(
+      createAdvancedFiltersTriggerControl() as unknown as MinimalElement,
+    );
+  }
 
   const dialogTitle = document.querySelector(
     ".example-dialog .dialog-heading > div:first-child",
@@ -114,46 +123,95 @@ export function ensureUtilityControls() {
   if (dialogControls && favoriteButton) {
     positionFavoriteButton();
   }
-  const dialogDetails = document.querySelector(
-    ".example-dialog .emoji-dialog-details",
-  );
-  if (
-    dialogDetails &&
-    !document.querySelector(".example-dialog .emoji-composition")
-  ) {
+}
+
+const utilityPanelPromises = new Map<string, Promise<void>>();
+
+function rememberUtilityPanel(key: string, task: () => Promise<void>) {
+  const existing = utilityPanelPromises.get(key);
+  if (existing) return existing;
+  const pending = task().finally(() => {
+    utilityPanelPromises.delete(key);
+  });
+  utilityPanelPromises.set(key, pending);
+  return pending;
+}
+
+export async function ensureEmojiCompositionControl() {
+  if (document.querySelector(".example-dialog .emoji-composition")) return;
+  await rememberUtilityPanel("emoji-composition", async () => {
+    const dialogDetails = document.querySelector(
+      ".example-dialog .emoji-dialog-details",
+    );
+    if (
+      !dialogDetails ||
+      document.querySelector(".example-dialog .emoji-composition")
+    )
+      return;
+    const { EmojiCompositionSectionControl } = await import(
+      "../../controls/dialog/content/emoji-composition-section.js"
+    );
     dialogDetails.after(
       EmojiCompositionSectionControl.create() as unknown as MinimalElement,
     );
-  }
+  });
+}
 
+export async function ensureUtilityPanel(panel: string) {
   const main = document.querySelector("main");
-  if (main && !document.querySelector(".saved-dialog")) {
-    main.append(SavedDialogControl.create() as unknown as MinimalElement);
+  if (!main) return;
+  if (panel === "favorites") {
+    await rememberUtilityPanel("favorites", async () => {
+      if (document.querySelector(".saved-dialog")) return;
+      const { SavedDialogControl } = await import(
+        "../../controls/dialog/content/saved-dialog.js"
+      );
+      main.append(SavedDialogControl.create() as unknown as MinimalElement);
+    });
+    return;
   }
-  if (main && !document.querySelector(".language-dialog")) {
-    const languageDialogControl = createLanguageDialogControl();
-    main.append(languageDialogControl.dialog);
+  if (panel === "language") {
+    await rememberUtilityPanel("language", async () => {
+      if (document.querySelector(".language-dialog")) return;
+      const languageDialogControl = await createLanguageDialogControl();
+      main.append(languageDialogControl.dialog);
+    });
+    return;
   }
-  let helpDialogControl:
-    | ReturnType<typeof createHelpDialogControl>
-    | undefined;
-  if (main && !document.querySelector(".help-dialog")) {
-    helpDialogControl = createHelpDialogControl();
-    main.append(helpDialogControl.element);
+  if (panel === "help") {
+    await rememberUtilityPanel("help", async () => {
+      let helpDialogControl:
+        | Awaited<ReturnType<typeof createHelpDialogControl>>
+        | undefined;
+      if (!document.querySelector(".help-dialog")) {
+        helpDialogControl = await createHelpDialogControl();
+        main.append(helpDialogControl.element);
+      }
+      let languagePicker = document.querySelector(".language-picker");
+      if (!languagePicker) {
+        const languagePickerControl = await createLanguagePickerControl();
+        languagePicker = languagePickerControl.button as unknown as MinimalElement;
+      }
+      if (helpDialogControl && languagePicker) {
+        helpDialogControl.mountLanguagePicker(
+          languagePicker as unknown as HTMLElement,
+        );
+      } else {
+        const helpLanguageControl = document.querySelector(
+          ".help-dialog .help-language-control",
+        );
+        if (helpLanguageControl && languagePicker) {
+          helpLanguageControl.append(languagePicker);
+        }
+      }
+    });
+    return;
   }
-  let languagePicker = document.querySelector(".language-picker");
-  if (!languagePicker && helpDialogControl) {
-    const languagePickerControl = createLanguagePickerControl();
-    languagePicker = languagePickerControl.button as unknown as MinimalElement;
-  }
-  if (helpDialogControl && languagePicker) {
-    helpDialogControl.mountLanguagePicker(languagePicker as unknown as HTMLElement);
-  } else {
-    const helpLanguageControl = document.querySelector(
-      ".help-dialog .help-language-control",
-    );
-    if (helpLanguageControl && languagePicker) {
-      helpLanguageControl.append(languagePicker);
-    }
+  if (panel === "filters") {
+    await rememberUtilityPanel("filters", async () => {
+      if (document.querySelector(".advanced-filters-dialog")) return;
+      const control = await createAdvancedFiltersDialogControl();
+      main.append(control.dialog);
+    });
   }
 }

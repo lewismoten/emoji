@@ -106,7 +106,7 @@ export async function finalizeExplorerStartup(options: any) {
   ]);
   options.drawList();
   options.finishExplorerLoading();
-  options.applyDialogUrlState();
+  await options.applyDialogUrlState();
   options.setUrlStateReady(true);
   options.syncUrlState();
 }

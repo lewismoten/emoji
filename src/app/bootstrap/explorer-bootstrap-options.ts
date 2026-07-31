@@ -56,6 +56,7 @@ export function buildExplorerBootstrapControllerOptions(options: any) {
     dialog: () => options.dialog(),
     displayExplorerLabel: options.displayExplorerLabel,
     drawList: () => options.drawList(),
+    ensurePanelDialog: options.ensurePanelDialog,
     emojiList: () => options.emojiList(),
     emojiParent: () => options.emojiParent(),
     ensurePixelEditor: () => options.ensurePixelEditor(),

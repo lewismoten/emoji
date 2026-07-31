@@ -1,4 +1,3 @@
-import { HelpSettingsDialogControl } from "../../controls/dialog/content/help-settings-dialog.js";
 import {
   appendToDialogPart,
   createDialogControlParts,
@@ -11,7 +10,10 @@ type HelpDialogControl = {
   mountLanguagePicker: (languagePicker: HTMLElement | null) => void;
 };
 
-export function createHelpDialogControl(): HelpDialogControl {
+export async function createHelpDialogControl(): Promise<HelpDialogControl> {
+  const { HelpSettingsDialogControl } = await import(
+    "../../controls/dialog/content/help-settings-dialog.js"
+  );
   const element = HelpSettingsDialogControl.create() as HTMLDialogElement;
   const parts = createDialogControlParts(element, {
     languageControl: ".help-language-control",

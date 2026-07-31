@@ -125,7 +125,7 @@ type PanelDialogs = {
 };
 
 type PanelContext = {
-  dialogs: PanelDialogs;
+  dialogs?: PanelDialogs;
   languageList?: HTMLElement;
   renderSavedEmoji: () => void;
 };
@@ -195,6 +195,7 @@ export function openPanelDialog({
   syncUrlState,
   ...context
 }: OpenPanelOptions) {
+  if (!context.dialogs) return;
   const dialog = getPanelDialog(panel, context.dialogs);
   if (!dialog) return;
   if (!dialog.open) dialog.showModal();
@@ -256,6 +257,11 @@ type BindPanelDialogOptions = PanelContext & {
   applyingUrlState: () => boolean;
   button?: HTMLElement;
   dialog?: HTMLDialogElement;
+  dialogs?: PanelDialogs;
+  ensureDialog?: () => Promise<void> | void;
+  getDialog?: () => HTMLDialogElement | undefined;
+  getDialogs?: () => PanelDialogs;
+  getLanguageList?: () => HTMLElement | undefined;
   onBeforeOpen?: () => void;
   onAfterClose?: () => void;
   openPanel: (options: OpenPanelOptions) => void;
@@ -266,25 +272,36 @@ type BindPanelDialogOptions = PanelContext & {
 };
 
 export function bindPanelDialog(options: BindPanelDialogOptions) {
-  options.button?.addEventListener("click", () => {
+  const bindCloseHandler = (dialog: HTMLDialogElement | undefined) => {
+    if (!dialog || dialog.dataset.panelCloseBound === "true") return;
+    dialog.dataset.panelCloseBound = "true";
+    dialog.addEventListener("close", (event) => {
+      onPanelDialogClose({
+        event,
+        suppressedPanelCloses: options.suppressedPanelCloses,
+        urlStateReady: options.urlStateReady(),
+        applyingUrlState: options.applyingUrlState(),
+        syncUrlState: options.syncUrlState,
+      });
+      options.onAfterClose?.();
+    });
+  };
+
+  bindCloseHandler(options.dialog ?? options.getDialog?.());
+
+  options.button?.addEventListener("click", async () => {
     options.onBeforeOpen?.();
+    await options.ensureDialog?.();
+    const dialogs = options.getDialogs?.() ?? options.dialogs;
+    const dialog = options.getDialog?.() ?? options.dialog;
+    bindCloseHandler(dialog);
+    if (!dialogs) return;
     options.openPanel({
       panel: options.panel,
-      dialogs: options.dialogs,
-      languageList: options.languageList,
+      dialogs,
+      languageList: options.getLanguageList?.() ?? options.languageList,
       renderSavedEmoji: options.renderSavedEmoji,
       syncUrlState: options.syncUrlState,
     });
-  });
-
-  options.dialog?.addEventListener("close", (event) => {
-    onPanelDialogClose({
-      event,
-      suppressedPanelCloses: options.suppressedPanelCloses,
-      urlStateReady: options.urlStateReady(),
-      applyingUrlState: options.applyingUrlState(),
-      syncUrlState: options.syncUrlState,
-    });
-    options.onAfterClose?.();
   });
 }

@@ -20,7 +20,7 @@ type SearchLocalePack = {
 
 type RenderSearchLanguageOptions = {
   languageFlags: Record<string, string>;
-  languageList: HTMLElement;
+  languageList?: HTMLElement;
   searchLocales: SearchLocale[];
   selectedSearchLocale: string;
   translate: (key: string, fallback: string) => string;
@@ -48,6 +48,7 @@ export function renderSearchLanguages({
     (searchLocales.some((locale) => locale.locale === routeLocale)
       ? routeLocale
       : "");
+  if (!languageList) return;
   languageList.replaceChildren();
   const navigationParams = new URLSearchParams(window.location.search);
   navigationParams.delete("panel");

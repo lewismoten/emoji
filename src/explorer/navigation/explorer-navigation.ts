@@ -38,6 +38,9 @@ export function createExplorerNavigation(
     dialog: () => HTMLDialogElement;
     currentEmojiKey: () => string;
     drawList: () => void;
+    ensurePanelDialog?: (
+      panel: "" | "favorites" | "help" | "language" | "filters",
+    ) => Promise<void> | void;
     emojiByKey: () => Record<string, string>;
     genderCheckboxes: () => Checkbox[];
     getOrderMode: () => "grouped" | "popular" | "unicode" | "sequence";
@@ -140,10 +143,10 @@ export function createExplorerNavigation(
     options.renderVersionModeToggle();
     options.syncVersionRange();
   };
-  const applyDialogUrlState = () => {
+  const applyDialogUrlState = async () => {
     const state = getUrlState();
     options.setCompositionMode(state.compositionMode);
-    const { dialogs, all } = panelDialogs();
+    let { dialogs, all } = panelDialogs();
     if (state.emoji && options.emojiByKey()[state.emoji] !== undefined) {
       all.forEach((dialog) =>
         dependencies.closePanelDialog(dialog, options.suppressedPanelCloses()),
@@ -153,7 +156,14 @@ export function createExplorerNavigation(
       return;
     }
     if (options.dialog().open) options.closeEmojiDialog();
-    const desiredPanelDialog = dependencies.getPanelDialog(state.panel, dialogs);
+    let desiredPanelDialog = dependencies.getPanelDialog(state.panel, dialogs);
+    if (!desiredPanelDialog && state.panel) {
+      await options.ensurePanelDialog?.(
+        state.panel as "" | "favorites" | "help" | "language" | "filters",
+      );
+      ({ dialogs, all } = panelDialogs());
+      desiredPanelDialog = dependencies.getPanelDialog(state.panel, dialogs);
+    }
     applyLanguagePanelParent(dialogs, state.panel, "help");
     all.forEach((dialog) => {
       if (dialog !== desiredPanelDialog)

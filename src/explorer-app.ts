@@ -45,6 +45,30 @@ export function createExplorerApp(options: {
 
 /** Bind browser events after the Explorer has resolved its DOM references. */
 export function bindExplorerEvents(options: any) {
+  const getSavedDialog = () => options.getSavedDialog?.() ?? options.savedDialog;
+  const getHelpDialog = () => options.getHelpDialog?.() ?? options.helpDialog;
+  const getLanguageDialog = () =>
+    options.getLanguageDialog?.() ?? options.languageDialog;
+  const getAdvancedFiltersDialog = () =>
+    options.getAdvancedFiltersDialog?.() ?? options.advancedFilters;
+  const getLanguageList = () =>
+    options.getLanguageList?.() ?? options.languageList;
+
+  const ensurePanelReady = async (panel: string) => {
+    await options.ensureUtilityPanel?.(panel);
+    options.refreshElements?.();
+    options.renderSearchLanguages?.();
+    if (panel === "favorites" && getSavedDialog()) {
+      const dialog = getSavedDialog();
+      if (dialog && dialog.dataset.savedDialogBound !== "true") {
+        dialog.dataset.savedDialogBound = "true";
+        bindSavedDialogInteractions({
+          ...options,
+          savedDialog: dialog,
+        });
+      }
+    }
+  };
   const onThemeChoiceKeyDown = createThemeChoiceKeyDownHandler(
     options.themeChoices ?? [],
   );
@@ -68,17 +92,21 @@ export function bindExplorerEvents(options: any) {
   bindPanelDialog({
     applyingUrlState: options.applyingUrlState,
     button: options.languagePicker,
-    dialog: options.languageDialog,
-    dialogs: options.panelDialogs(),
-    languageList: options.languageList,
+    dialog: getLanguageDialog(),
+    ensureDialog: () => ensurePanelReady("language"),
+    getDialog: getLanguageDialog,
+    getDialogs: () => options.panelDialogs(),
+    getLanguageList,
     onBeforeOpen: () => {
-      if (options.helpDialog?.open) {
-        if (options.languageDialog) {
-          options.languageDialog.dataset.returnPanel = "help";
+      const helpDialog = getHelpDialog();
+      const languageDialog = getLanguageDialog();
+      if (helpDialog?.open) {
+        if (languageDialog) {
+          languageDialog.dataset.returnPanel = "help";
         }
-        options.closePanel(options.helpDialog, options.suppressedPanelCloses);
-      } else if (options.languageDialog) {
-        delete options.languageDialog.dataset.returnPanel;
+        options.closePanel(helpDialog, options.suppressedPanelCloses);
+      } else if (languageDialog) {
+        delete languageDialog.dataset.returnPanel;
       }
     },
     openPanel: options.openPanel,
@@ -91,9 +119,11 @@ export function bindExplorerEvents(options: any) {
   bindPanelDialog({
     applyingUrlState: options.applyingUrlState,
     button: options.savedPicker,
-    dialog: options.savedDialog,
-    dialogs: options.panelDialogs(),
-    languageList: options.languageList,
+    dialog: getSavedDialog(),
+    ensureDialog: () => ensurePanelReady("favorites"),
+    getDialog: getSavedDialog,
+    getDialogs: () => options.panelDialogs(),
+    getLanguageList,
     openPanel: options.openPanel,
     panel: "favorites",
     renderSavedEmoji: options.renderSavedEmoji,
@@ -104,9 +134,11 @@ export function bindExplorerEvents(options: any) {
   bindPanelDialog({
     applyingUrlState: options.applyingUrlState,
     button: options.helpPicker,
-    dialog: options.helpDialog,
-    dialogs: options.panelDialogs(),
-    languageList: options.languageList,
+    dialog: getHelpDialog(),
+    ensureDialog: () => ensurePanelReady("help"),
+    getDialog: getHelpDialog,
+    getDialogs: () => options.panelDialogs(),
+    getLanguageList,
     openPanel: options.openPanel,
     panel: "help",
     renderSavedEmoji: options.renderSavedEmoji,
@@ -117,9 +149,11 @@ export function bindExplorerEvents(options: any) {
   bindPanelDialog({
     applyingUrlState: options.applyingUrlState,
     button: options.advancedFiltersButton,
-    dialog: options.advancedFilters,
-    dialogs: options.panelDialogs(),
-    languageList: options.languageList,
+    dialog: getAdvancedFiltersDialog(),
+    ensureDialog: () => ensurePanelReady("filters"),
+    getDialog: getAdvancedFiltersDialog,
+    getDialogs: () => options.panelDialogs(),
+    getLanguageList,
     onAfterClose: () => {
       options.advancedFiltersButton?.focus();
     },
@@ -164,7 +198,13 @@ export function bindExplorerEvents(options: any) {
       options.toggleDeveloperMode,
     );
   }
-  bindSavedDialogInteractions(options);
+  if (getSavedDialog()) {
+    bindSavedDialogInteractions({
+      ...options,
+      savedDialog: getSavedDialog(),
+    });
+    getSavedDialog().dataset.savedDialogBound = "true";
+  }
   options.emojiList.addEventListener("click", options.onClick);
   options.emojiList.addEventListener("focusin", options.onEmojiFocus);
   options.emojiList.addEventListener("keydown", options.onEmojiKeyDown);

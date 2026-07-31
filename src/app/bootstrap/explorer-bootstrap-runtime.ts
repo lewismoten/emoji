@@ -2,6 +2,8 @@
 import { createExplorerRuntime } from "../../explorer-runtime.js";
 import { getExplorerElements } from "../../explorer/explorer-dom.js";
 import {
+  ensureEmojiCompositionControl,
+  ensureUtilityPanel,
   ensureUtilityControls,
   positionFavoriteButton,
 } from "../../explorer/utility/utility-controls.js";
@@ -40,6 +42,12 @@ export function createExplorerBootstrapRuntime(options: any) {
     hairCheckboxes: () => options.hairCheckboxes(),
     genderCheckboxes: () => options.genderCheckboxes(),
   });
+
+  const refreshElements = () => {
+    const elements = explorerRuntime.resolveElements();
+    options.setElements(elements);
+    return elements;
+  };
 
   const pixelEditorRuntime = createPixelEditorRuntime({
     currentEmojiKey: () => options.state().currentEmojiKey,
@@ -169,7 +177,12 @@ export function createExplorerBootstrapRuntime(options: any) {
     emojiList: () => options.emojiList(),
     emojiNext: () => explorerRuntime.get("emojiNext"),
     emojiPrevious: () => explorerRuntime.get("emojiPrevious"),
+    ensureEmojiCompositionControl,
     favoriteEmojiKeys: () => options.state().favoriteEmojiKeys,
+    ensureUtilityPanel: async (panel: string) => {
+      await ensureUtilityPanel(panel);
+      refreshElements();
+    },
     genderCheckboxes: () => options.genderCheckboxes(),
     groupFilterDialog: () => options.groupFilterDialog(),
     groupPickerTrigger: () => options.groupPickerTrigger(),
@@ -210,6 +223,7 @@ export function createExplorerBootstrapRuntime(options: any) {
       options.populateVersionModeOptions(...args),
     positionFavoriteButton,
     preferences: () => options.state().explorerPreferences,
+    refreshElements,
     renderDeveloperMode: options.renderDeveloperMode,
     renderInstallAppButton: options.renderInstallAppButton,
     renderPixelFontToggle: options.renderPixelFontToggle,
@@ -252,6 +266,7 @@ export function createExplorerBootstrapRuntime(options: any) {
   return {
     explorerRuntime,
     uiBindingRuntime,
+    ensureEmojiCompositionControl,
     ensurePixelEditor: pixelEditorRuntime.ensurePixelEditor,
     populateVersionModeOptions: versionModeRuntime.populateOptions,
     renderVersionModeToggleController: versionModeRuntime.render,

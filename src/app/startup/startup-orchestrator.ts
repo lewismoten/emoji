@@ -43,6 +43,7 @@ export function createStartupOrchestrator(options: any) {
   }
 
   async function onLoad() {
+    await options.ensureEmojiCompositionControl?.();
     const elements = options.resolveElements();
     options.assignElements(elements);
     options.assignControls(
@@ -86,6 +87,11 @@ export function createStartupOrchestrator(options: any) {
       hairCheckboxes: options.hairCheckboxes(),
       helpDialog: options.helpDialog(),
       helpPicker: options.helpPicker(),
+      getHelpDialog: options.helpDialog,
+      getLanguageDialog: options.languageDialog,
+      getLanguageList: options.languageList,
+      getSavedDialog: options.savedDialog,
+      getAdvancedFiltersDialog: options.advancedFilters,
       installApp: options.installApp,
       installAppButton: options.installAppButton(),
       installDialog: options.installDialog(),
@@ -93,6 +99,7 @@ export function createStartupOrchestrator(options: any) {
       languageDialog: options.languageDialog(),
       languageList: options.languageList(),
       languagePicker: options.languagePicker(),
+      ensureUtilityPanel: options.ensureUtilityPanel,
       navigateEmoji: options.navigateEmoji,
       onClick: options.onClick,
       onDocumentKeyDown: options.onDocumentKeyDown,
@@ -152,6 +159,7 @@ export function createStartupOrchestrator(options: any) {
       loadUiTranslations: options.loadUiTranslations,
       observeToolbarHeight: options.observeToolbarHeight,
       preferences: options.preferences(),
+      refreshElements: options.refreshElements,
       renderPixelFontToggle: options.renderPixelFontToggle,
       renderThemeToggle: options.renderThemeToggle,
       renderVersionModeToggle: options.renderVersionModeToggle,

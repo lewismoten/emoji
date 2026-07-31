@@ -113,6 +113,9 @@ const controllers = createExplorerBootstrapControllers(
       bindings.bootstrapRuntime?.explorerRuntime.get("exampleDialog"),
     displayExplorerLabel,
     drawList: () => bindings.drawList(),
+    ensurePanelDialog: async (panel) => {
+      await bindings.bootstrapRuntime?.ensureUtilityPanel?.(panel);
+    },
     emojiList: () => bindings.emojiList,
     emojiParent: () =>
       bindings.bootstrapRuntime?.explorerRuntime.get("emojiParent"),
