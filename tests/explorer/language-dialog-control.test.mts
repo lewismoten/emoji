@@ -218,6 +218,120 @@ try {
     ),
     "العربية",
   );
+  documentStub.documentElement.lang = "es";
+  assert.equal(
+    getLocalizedLanguageName(
+      {
+        locale: "en-x-newspeak",
+        label: "Newspeak English",
+        nativeLabel: "Newspeak",
+        rtl: false,
+        file: "en-x-newspeak.json",
+        baseLocale: "en",
+      },
+      "",
+    ),
+    "Neohabla (Newspeak)",
+  );
+  documentStub.documentElement.lang = "ar";
+  assert.equal(
+    getLocalizedLanguageName(
+      {
+        locale: "en-x-newspeak",
+        label: "Newspeak English",
+        nativeLabel: "Newspeak",
+        rtl: false,
+        file: "en-x-newspeak.json",
+        baseLocale: "en",
+      },
+      "",
+    ),
+    "لغة الأخبار (Newspeak)",
+  );
+  documentStub.documentElement.lang = "zh";
+  assert.equal(
+    getLocalizedLanguageName(
+      {
+        locale: "en-x-newspeak",
+        label: "Newspeak English",
+        nativeLabel: "Newspeak",
+        rtl: false,
+        file: "en-x-newspeak.json",
+        baseLocale: "en",
+      },
+      "",
+    ),
+    "新话 (Newspeak)",
+  );
+  assert.equal(
+    getLocalizedLanguageName(
+      {
+        locale: "en-x-newspeak",
+        label: "Newspeak English",
+        nativeLabel: "Newspeak",
+        rtl: false,
+        file: "en-x-newspeak.json",
+        baseLocale: "en",
+      },
+      "en-x-newspeak",
+    ),
+    "新话",
+  );
+  documentStub.documentElement.lang = "en-x-newspeak";
+  assert.equal(
+    getLocalizedLanguageName(
+      {
+        locale: "en",
+        label: "English",
+        nativeLabel: "English",
+        rtl: false,
+        file: "en.json",
+      },
+      "",
+    ),
+    "oldspeak (English)",
+  );
+  assert.equal(
+    getLocalizedLanguageName(
+      {
+        locale: "en-GB",
+        label: "British English",
+        nativeLabel: "British English",
+        rtl: false,
+        file: "en-GB.json",
+        baseLocale: "en",
+      },
+      "",
+    ),
+    "oldspeak (British English)",
+  );
+  assert.equal(
+    getLocalizedLanguageName(
+      {
+        locale: "es",
+        label: "Spanish",
+        nativeLabel: "Español",
+        rtl: false,
+        file: "es.json",
+      },
+      "",
+    ),
+    "other oldspeak (Español)",
+  );
+  assert.equal(
+    getLocalizedLanguageName(
+      {
+        locale: "en-x-newspeak",
+        label: "Newspeak English",
+        nativeLabel: "Newspeak",
+        rtl: false,
+        file: "en-x-newspeak.json",
+        baseLocale: "en",
+      },
+      "",
+    ),
+    "newspeak",
+  );
 } finally {
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
   else delete (globalThis as any).document;

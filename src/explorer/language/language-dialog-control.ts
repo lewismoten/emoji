@@ -87,11 +87,36 @@ export function buildLanguageOption(options: {
   return option;
 }
 
+const localizedNewspeakLabels: Record<string, string> = {
+  ar: "لغة الأخبار",
+  en: "Newspeak",
+  es: "Neohabla",
+  hi: "न्यूस्पीक",
+  zh: "新话",
+};
+
 export function getLocalizedLanguageName(
   locale: SearchLocale,
   selectedSearchLocale: string,
 ) {
   const uiLocale = document.documentElement.lang || "en";
+  if (uiLocale === "en-x-newspeak") {
+    if (locale.locale === "en-x-newspeak") return "newspeak";
+    const label = locale.locale.startsWith("en") ? "oldspeak" : "other oldspeak";
+    return locale.locale === selectedSearchLocale ||
+      label === locale.nativeLabel
+      ? label
+      : `${label} (${locale.nativeLabel})`;
+  }
+  if (locale.locale === "en-x-newspeak") {
+    const uiBaseLocale = uiLocale.toLowerCase().split("-")[0];
+    const localizedLabel =
+      localizedNewspeakLabels[uiBaseLocale] ?? localizedNewspeakLabels.en;
+    return locale.locale === selectedSearchLocale ||
+      localizedLabel === locale.nativeLabel
+      ? localizedLabel
+      : `${localizedLabel} (${locale.nativeLabel})`;
+  }
   let localizedLabel = locale.label;
   try {
     localizedLabel =
