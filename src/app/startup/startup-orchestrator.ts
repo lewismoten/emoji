@@ -43,6 +43,18 @@ export function createStartupOrchestrator(options: any) {
   }
 
   async function onLoad() {
+    const requestedPanel =
+      typeof window === "undefined"
+        ? ""
+        : new URLSearchParams(window.location.search).get("panel") ?? "";
+    if (
+      requestedPanel === "favorites" ||
+      requestedPanel === "help" ||
+      requestedPanel === "language" ||
+      requestedPanel === "filters"
+    ) {
+      await options.ensureUtilityPanel?.(requestedPanel);
+    }
     await options.ensureEmojiCompositionControl?.();
     const elements = options.resolveElements();
     options.assignElements(elements);

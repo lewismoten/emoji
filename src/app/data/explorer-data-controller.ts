@@ -43,7 +43,6 @@ export function createExplorerDataController(options: any) {
     options.rebuildCodePointLookup();
     options.updateModifierArtwork();
     options.buildRepresentatives();
-    options.versionModeSelector().value = "through";
     options.groupSelector().addEventListener("change", options.onGroupChange);
     options
       .subGroupSelector()
@@ -79,8 +78,10 @@ export function createExplorerDataController(options: any) {
           options.setIntroducedVersion(options.getIntroducedVersion(key));
       } catch (error) {
         console.warn("Version filters unavailable", error);
-        options.versionModeSelector().disabled = true;
-        options.versionSelector().disabled = true;
+        const versionModeSelector = options.versionModeSelector?.();
+        const versionSelector = options.versionSelector?.();
+        if (versionModeSelector) versionModeSelector.disabled = true;
+        if (versionSelector) versionSelector.disabled = true;
       }
     })();
     return options.state().versionDataPromise;

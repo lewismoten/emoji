@@ -81,6 +81,12 @@ export function initializeExplorerControls(options: any) {
 
 /** Complete the asynchronous page startup once controls and events exist. */
 export async function finalizeExplorerStartup(options: any) {
+  const waitForDialogControls = async () => {
+    if (typeof window === "undefined") return;
+    await new Promise<void>((resolve) => {
+      window.requestAnimationFrame(() => resolve());
+    });
+  };
   options.renderVersionModeToggle();
   options.renderThemeToggle();
   options.renderPixelFontToggle();
@@ -107,6 +113,14 @@ export async function finalizeExplorerStartup(options: any) {
   options.drawList();
   options.finishExplorerLoading();
   await options.applyDialogUrlState();
+  await waitForDialogControls();
+  options.renderDeveloperMode();
+  options.renderThemeToggle();
+  options.renderPixelFontToggle();
+  options.renderSoundEffectsToggle?.();
+  options.renderMusicToggle?.();
+  options.renderSearchLanguages?.();
+  options.renderVersionModeToggle();
   options.setUrlStateReady(true);
   options.syncUrlState();
 }
