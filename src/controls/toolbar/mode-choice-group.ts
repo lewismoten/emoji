@@ -56,6 +56,7 @@ export class ModeChoiceGroupControl extends BaseControl<ModeChoiceGroupState> {
       })),
       label: this.state.label,
       labelKey: this.state.labelKey,
+      legendClassName: "sr-only",
       maxSelectable: 1,
       minSelectable: 1,
       role: "radiogroup",
