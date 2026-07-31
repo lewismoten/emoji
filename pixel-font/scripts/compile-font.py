@@ -232,7 +232,7 @@ def main():
 
     font = builder.font
     font["head"].fontRevision = font_revision(font_version)
-    font["post"].formatType = 3.0
+    font["post"].formatType = 2.0
     font["post"].isFixedPitch = 1
     font["OS/2"].xAvgCharWidth = UNITS_PER_EM
     if color_glyphs:
@@ -385,8 +385,8 @@ def is_zero_width_component(codepoint):
     )
 
 
-def safe_name(key):
-    return "emoji." + re.sub(r"[^A-Za-z0-9_.]", "_", key)
+def safe_name(value):
+    return "emoji." + re.sub(r"[^A-Za-z0-9_.]", "_", value)
 
 
 def empty_glyph():
