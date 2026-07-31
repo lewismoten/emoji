@@ -149,6 +149,37 @@ try {
   });
   assert.equal(spanishOption.children[2]?.textContent, "Spanish (Español)");
 
+  windowStub.location.pathname = "/index.en.html";
+  const englishSelectedList = new FakeElement("div");
+  renderSearchLanguages({
+    languageFlags: { en: "🇬🇧", es: "🇪🇸" },
+    languageList: englishSelectedList as any,
+    searchLocales: [
+      {
+        locale: "en",
+        label: "English",
+        nativeLabel: "English",
+        rtl: false,
+        file: "en.json",
+      },
+      {
+        locale: "es",
+        label: "Spanish",
+        nativeLabel: "Español",
+        rtl: false,
+        file: "es.json",
+      },
+    ],
+    selectedSearchLocale: "",
+    translate: (key, fallback) => `${key}:${fallback}`,
+    onSelectLanguageLink: async () => undefined,
+  });
+  const [noneWhenEnglishRoute, englishWhenEnglishRoute] =
+    englishSelectedList.children;
+  assert.equal(noneWhenEnglishRoute.getAttribute("aria-checked"), "false");
+  assert.equal(englishWhenEnglishRoute.getAttribute("aria-checked"), "true");
+  windowStub.location.pathname = "/index.en.html";
+
   let prevented = 0;
   const setCalls: string[] = [];
   await selectLanguageLink(

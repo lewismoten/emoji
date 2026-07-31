@@ -39,6 +39,15 @@ export function renderSearchLanguages({
   translate,
   onSelectLanguageLink,
 }: RenderSearchLanguageOptions) {
+  const routeLocale =
+    window.location.pathname.match(
+      /index\.([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\.html$/,
+    )?.[1] ?? "";
+  const activeLocale =
+    selectedSearchLocale ||
+    (searchLocales.some((locale) => locale.locale === routeLocale)
+      ? routeLocale
+      : "");
   languageList.replaceChildren();
   const navigationParams = new URLSearchParams(window.location.search);
   navigationParams.delete("panel");
@@ -53,7 +62,7 @@ export function renderSearchLanguages({
       label: translate("noLanguagePack", "No language pack"),
       locale: "",
       onSelectLanguageLink,
-      selected: selectedSearchLocale === "",
+      selected: activeLocale === "",
     }),
   );
 
@@ -63,10 +72,10 @@ export function renderSearchLanguages({
       buildLanguageOption({
         flag,
         href: `./index.${locale.locale}.html${navigationSearch}`,
-        label: getLocalizedLanguageName(locale, selectedSearchLocale),
+        label: getLocalizedLanguageName(locale, activeLocale),
         locale: locale.locale,
         onSelectLanguageLink,
-        selected: locale.locale === selectedSearchLocale,
+        selected: locale.locale === activeLocale,
       }),
     );
   });
