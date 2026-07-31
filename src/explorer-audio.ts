@@ -14,8 +14,7 @@ type AudioTarget = HTMLElement;
 const INTERACTIVE_SELECTOR =
   'a[href], button, select, input, [role="button"], [role="checkbox"], [role="link"], [role="radio"], [role="switch"], [aria-haspopup="listbox"], .modifier-filter-option';
 
-const DIALOG_SELECTOR =
-  ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
+const DIALOG_SELECTOR = ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
 export const createExplorerAudioDependencies = () => ({
   createExplorerAudioEngine,
 });
@@ -33,68 +32,41 @@ export function createExplorerAudioController(
   const preferences = () => options.state().explorerPreferences;
   const baseMode = () => document.documentElement.dataset.theme === "base";
   const retroMode = () => document.documentElement.dataset.theme === "retro";
-  const soundEffectsEnabled = () =>
-    !baseMode() && preferences().soundEffects === true;
+  const soundEffectsEnabled = () => !baseMode() && preferences().soundEffects === true;
   const musicEnabled = () => !baseMode() && preferences().music === true;
 
-  const soundEffectsToggle = () =>
-    document.querySelector<HTMLInputElement>(".sound-effects-toggle");
-  const musicToggle = () =>
-    document.querySelector<HTMLInputElement>(".music-toggle");
-  const helpDialog = () =>
-    document.querySelector<HTMLDialogElement>(".help-dialog");
-  const savedDialog = () =>
-    document.querySelector<HTMLDialogElement>(".saved-dialog");
+  const soundEffectsToggle = () => document.querySelector<HTMLInputElement>(".sound-effects-toggle");
+  const musicToggle = () => document.querySelector<HTMLInputElement>(".music-toggle");
+  const helpDialog = () => document.querySelector<HTMLDialogElement>(".help-dialog");
+  const savedDialog = () => document.querySelector<HTMLDialogElement>(".saved-dialog");
   const audio = helpers.createExplorerAudioEngine({
     helpDialogOpen: () => helpDialog()?.open === true,
     musicEnabled,
     retroMode,
-    theme: () =>
-      (document.documentElement.dataset.theme as
-        "base" | "dark" | "light" | "retro") ?? "dark",
+    theme: () => (document.documentElement.dataset.theme as "base" | "dark" | "light" | "retro") ?? "dark",
     savedDialogOpen: () => savedDialog()?.open === true,
     soundEffectsEnabled,
   });
 
-  function hasTagName(target: AudioTarget, tagName: string) {
-    return target.tagName?.toUpperCase() === tagName;
-  }
+  const hasTagName = (target: AudioTarget, tagName: string) =>
+    target.tagName?.toUpperCase() === tagName;
+  const isInputWithType = (target: AudioTarget, type: string) =>
+    hasTagName(target, "INPUT") && (target as HTMLInputElement).type === type;
 
-  function isInputWithType(target: AudioTarget, type: string) {
-    return (
-      hasTagName(target, "INPUT") && (target as HTMLInputElement).type === type
-    );
-  }
-
-  function classifyInteractiveTarget(
-    target: AudioTarget,
-  ): ExplorerAudioElementType {
-    if (
-      hasTagName(target, "SELECT") ||
-      target.getAttribute("aria-haspopup") === "listbox"
-    ) {
+  function classifyInteractiveTarget(target: AudioTarget): ExplorerAudioElementType {
+    if (hasTagName(target, "SELECT") || target.getAttribute("aria-haspopup") === "listbox") {
       return "dropdown";
     }
-    if (
-      isInputWithType(target, "checkbox") ||
-      target.getAttribute("role") === "checkbox" ||
-      target.getAttribute("role") === "switch"
-    ) {
+    if (isInputWithType(target, "checkbox") || target.getAttribute("role") === "checkbox" || target.getAttribute("role") === "switch") {
       return "checkbox";
     }
-    if (
-      isInputWithType(target, "radio") ||
-      target.getAttribute("role") === "radio"
-    ) {
+    if (isInputWithType(target, "radio") || target.getAttribute("role") === "radio") {
       return "radio";
     }
     if (hasTagName(target, "A") || target.getAttribute("role") === "link") {
       return "link";
     }
-    if (
-      hasTagName(target, "BUTTON") ||
-      target.getAttribute("role") === "button"
-    ) {
+    if (hasTagName(target, "BUTTON") || target.getAttribute("role") === "button") {
       return "button";
     }
     return "generic";
@@ -104,10 +76,8 @@ export function createExplorerAudioController(
     audio.playInteraction(classifyInteractiveTarget(target), action);
   }
 
-  function renderSoundEffectsToggle() {
-    const toggle = soundEffectsToggle();
+  function renderAudioToggle(toggle: HTMLInputElement | null, enabled: boolean) {
     if (!toggle) return;
-    const enabled = soundEffectsEnabled();
     toggle.checked = enabled;
     toggle.disabled = baseMode();
     toggle.setAttribute("aria-checked", String(enabled));
@@ -116,17 +86,10 @@ export function createExplorerAudioController(
     toggle.parentElement?.setAttribute("aria-disabled", String(baseMode()));
   }
 
-  function renderMusicToggle() {
-    const toggle = musicToggle();
-    if (!toggle) return;
-    const enabled = musicEnabled();
-    toggle.checked = enabled;
-    toggle.disabled = baseMode();
-    toggle.setAttribute("aria-checked", String(enabled));
-    toggle.setAttribute("aria-disabled", String(baseMode()));
-    toggle.parentElement?.setAttribute("aria-pressed", String(enabled));
-    toggle.parentElement?.setAttribute("aria-disabled", String(baseMode()));
-  }
+  const renderSoundEffectsToggle = () =>
+    renderAudioToggle(soundEffectsToggle(), soundEffectsEnabled());
+  const renderMusicToggle = () =>
+    renderAudioToggle(musicToggle(), musicEnabled());
 
   function setSoundEffects(enabled: boolean) {
     if (baseMode()) {
@@ -149,9 +112,7 @@ export function createExplorerAudioController(
     audio.syncHelpMusic();
   }
 
-  function getInteractiveTarget(
-    target: EventTarget | null,
-  ): AudioTarget | null {
+  function getInteractiveTarget(target: EventTarget | null): AudioTarget | null {
     if (!(target instanceof Element)) return null;
     const interactive = target.closest(INTERACTIVE_SELECTOR);
     if (!(interactive instanceof HTMLElement)) return null;
@@ -164,11 +125,9 @@ export function createExplorerAudioController(
     if (initialized) return;
     initialized = true;
 
-    const prepareAudio = () => {
-      if (audio.soundEffectsEnabled() || audio.musicEnabled()) {
-        audio.resumeAudioContext();
-      }
-    };
+    const prepareAudio = () =>
+      (audio.soundEffectsEnabled() || audio.musicEnabled()) &&
+      audio.resumeAudioContext();
 
     document.addEventListener("pointerdown", prepareAudio, {
       capture: true,
@@ -184,51 +143,33 @@ export function createExplorerAudioController(
         if (target.matches(".sound-effects-toggle")) {
           const input = target as HTMLInputElement;
           setSoundEffects(input.checked);
-          playTargetAction(
-            target as AudioTarget,
-            input.checked ? "check" : "uncheck",
-          );
+          playTargetAction(target as AudioTarget, input.checked ? "check" : "uncheck");
         } else if (target.matches(".music-toggle")) {
           const input = target as HTMLInputElement;
           setMusic(input.checked);
-          playTargetAction(
-            target as AudioTarget,
-            input.checked ? "check" : "uncheck",
-          );
+          playTargetAction(target as AudioTarget, input.checked ? "check" : "uncheck");
         } else if (target instanceof HTMLElement) {
           const interactive = getInteractiveTarget(target);
           if (!interactive) return;
           const type = classifyInteractiveTarget(interactive);
           if (type === "checkbox" || type === "radio") {
-            const checked = hasTagName(interactive, "INPUT")
-              ? (interactive as HTMLInputElement).checked
-              : interactive.getAttribute("aria-checked") === "true";
+            const checked = hasTagName(interactive, "INPUT") ? (interactive as HTMLInputElement).checked : interactive.getAttribute("aria-checked") === "true";
             audio.playInteraction(type, checked ? "check" : "uncheck");
           }
         }
       },
       true,
     );
-
-    document.addEventListener(
-      "click",
-      (event) => {
-        const target = getInteractiveTarget(event.target);
-        if (target) playTargetAction(target, "click");
-      },
-      true,
-    );
-
-    document.addEventListener(
-      "pointerover",
-      (event) => {
-        const target = getInteractiveTarget(event.target);
-        if (!target || target === hoverTarget) return;
-        hoverTarget = target;
-        playTargetAction(target, "hover");
-      },
-      true,
-    );
+    document.addEventListener("click", (event) => {
+      const target = getInteractiveTarget(event.target);
+      if (target) playTargetAction(target, "click");
+    }, true);
+    document.addEventListener("pointerover", (event) => {
+      const target = getInteractiveTarget(event.target);
+      if (!target || target === hoverTarget) return;
+      hoverTarget = target;
+      playTargetAction(target, "hover");
+    }, true);
 
     document.addEventListener(
       "pointerout",
@@ -236,42 +177,18 @@ export function createExplorerAudioController(
         const target = getInteractiveTarget(event.target);
         if (!target || target !== hoverTarget) return;
         const relatedTarget = event.relatedTarget;
-        if (
-          relatedTarget instanceof Element &&
-          target.contains(relatedTarget)
-        ) {
+        if (relatedTarget instanceof Element && target.contains(relatedTarget)) {
           return;
         }
         hoverTarget = null;
       },
       true,
     );
-
-    document.addEventListener(
-      "focusin",
-      (event) => {
+    [["focusin", "focus"], ["focusout", "blur"], ["keydown", "keydown"]].forEach(([eventName, action]) =>
+      document.addEventListener(eventName, (event) => {
         const target = getInteractiveTarget(event.target);
-        if (target) playTargetAction(target, "focus");
-      },
-      true,
-    );
-
-    document.addEventListener(
-      "focusout",
-      (event) => {
-        const target = getInteractiveTarget(event.target);
-        if (target) playTargetAction(target, "blur");
-      },
-      true,
-    );
-
-    document.addEventListener(
-      "keydown",
-      (event) => {
-        const target = getInteractiveTarget(event.target);
-        if (target) playTargetAction(target, "keydown");
-      },
-      true,
+        if (target) playTargetAction(target, action as ExplorerAudioAction);
+      }, true),
     );
 
     document.addEventListener("visibilitychange", () => {
@@ -289,10 +206,7 @@ export function createExplorerAudioController(
         } else {
           audio.playInteraction("dialog", "close");
         }
-        if (
-          dialog.classList.contains("help-dialog") ||
-          dialog.classList.contains("saved-dialog")
-        ) {
+        if (dialog.classList.contains("help-dialog") || dialog.classList.contains("saved-dialog")) {
           audio.syncHelpMusic();
         }
       });

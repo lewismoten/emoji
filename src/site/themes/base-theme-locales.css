@@ -1,0 +1,33 @@
+html[data-emoji-font="system"] {
+  --emoji-font:
+    var(--installed-emoji-fonts),
+    var(--pixel-emoji-released-family, "Pixel Emoji"),
+    var(--pixel-emoji-proposed-family, "Pixel Emoji Proposed"), sans-serif;
+}
+
+:lang(ar) {
+  --ui-font:
+    "Noto Sans Arabic", "Noto Naskh Arabic", "Geeza Pro", Tahoma, "Segoe UI",
+    Arial, sans-serif;
+  --retro-ui-font:
+    "Noto Kufi Arabic", "Noto Sans Arabic", "Noto Naskh Arabic", Tahoma,
+    "Courier New", monospace;
+}
+
+:lang(hi) {
+  --ui-font:
+    "Noto Sans Devanagari", "Kohinoor Devanagari", "Nirmala UI", Mangal,
+    system-ui, sans-serif;
+  --retro-ui-font:
+    "Noto Sans Devanagari", "Kohinoor Devanagari", "Nirmala UI", Mangal,
+    "Courier New", monospace;
+}
+
+:lang(zh) {
+  --ui-font:
+    "Noto Sans CJK SC", "Noto Sans SC", "PingFang SC", "Microsoft YaHei",
+    "Heiti SC", system-ui, sans-serif;
+  --retro-ui-font:
+    "Noto Sans Mono CJK SC", "Noto Sans CJK SC", "Noto Sans SC", "PingFang SC",
+    "Microsoft YaHei", "Courier New", monospace;
+}
