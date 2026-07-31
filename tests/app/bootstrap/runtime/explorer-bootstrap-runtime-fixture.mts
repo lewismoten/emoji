@@ -41,6 +41,14 @@ const sourceReplacements = [
   ],
 ] as const;
 
+const createSelectLike = (value = "") => ({
+  appendChild() {},
+  disabled: false,
+  options: [] as Array<{ value: string }>,
+  replaceChildren() {},
+  value,
+});
+
 const stubFiles = {
   "explorer-runtime-stub.mjs": `export const runtimeCalls=[];export const runtime={get:(id)=>['runtime-get',id],resolveElements:()=>['resolve-elements']};export function createExplorerRuntime(options){runtimeCalls.push(options);return runtime;}`,
   "explorer-dom-stub.mjs": `export const getExplorerElements='get-explorer-elements';`,
@@ -168,7 +176,7 @@ export async function createBootstrapRuntimeFixture() {
       "render-category-filters",
       args,
     ],
-    versionModeSelector: () => "version-mode-selector",
+    versionModeSelector: () => ({ disabled: false, value: "through" }),
     versionModeToggle: () => "version-mode-toggle",
     applyDialogUrlState: "apply-dialog-url-state",
     applyPixelArtworkClass: "apply-pixel-artwork-class",
@@ -269,7 +277,7 @@ export async function createBootstrapRuntimeFixture() {
     versionNext: () => "version-next",
     versionPrevious: () => "version-previous",
     versionRange: () => "version-range",
-    versionSelector: () => "version-selector",
+    versionSelector: () => createSelectLike("17.0"),
   };
   const runtime = module.createExplorerBootstrapRuntime(options);
   return { runtime, state, options, stubs };

@@ -4,12 +4,20 @@ export function createListController(options: any) {
   let timer: number | undefined;
   const checked = (checkboxes: HTMLInputElement[]) =>
     checkboxes.filter((item) => item.checked).map((item) => item.value);
+  const getFocusedCell = () =>
+    typeof document === "undefined"
+      ? null
+      : document.activeElement?.closest?.("[data-emoji-key]");
+  const setMatchCount = (value: string) => {
+    const node = options.matchCount?.();
+    if (node) node.innerText = value;
+  };
   const draw = () => {
     if (timer !== undefined) {
       window.clearTimeout(timer);
       timer = undefined;
     }
-    const focusedCell = document.activeElement?.closest?.("[data-emoji-key]");
+    const focusedCell = getFocusedCell();
     const keys = options.orderedKeys(
       filterEmojiKeys({
         allIds: options.allIds(),
@@ -37,7 +45,7 @@ export function createListController(options: any) {
     if (!options.focusedEmojiKey() || !keys.includes(options.focusedEmojiKey()))
       options.setFocusedEmojiKey(keys[0] ?? "");
     options.renderEmojiList(keys, Boolean(focusedCell));
-    options.matchCount().innerText = options.formatNumber(keys.length);
+    setMatchCount(options.formatNumber(keys.length));
     options.updateFilterSummary();
     options.updateDialogNavigation();
     options.syncUrlState();

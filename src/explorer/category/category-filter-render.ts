@@ -15,6 +15,13 @@ import {
 } from "./category-picker-grid-control.js";
 
 export function createCategoryFilterRenderer(options: any) {
+  const getActiveChoice = () =>
+    typeof document === "undefined"
+      ? null
+      : (document.activeElement?.closest?.('[role="radio"]') as
+          | HTMLElement
+          | null);
+
   const availableSubGroupParents = () =>
     options.selectedGroup() &&
     options.availableGroups().includes(options.selectedGroup())
@@ -132,9 +139,7 @@ export function createCategoryFilterRenderer(options: any) {
   };
 
   const renderCategoryFilters = () => {
-    const activeChoice = document.activeElement?.closest?.(
-      '[role="radio"]',
-    ) as HTMLElement | null;
+    const activeChoice = getActiveChoice();
     const focusedChoices = activeChoice?.closest(".compact-group-choices")
       ? "group"
       : activeChoice?.closest(".compact-subgroup-choices")

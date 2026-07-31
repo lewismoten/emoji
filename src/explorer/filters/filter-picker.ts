@@ -17,6 +17,10 @@ type ChoiceDefinition = {
   onSelect: () => void;
 };
 
+const canBuildSelectOptions = () =>
+  typeof document !== "undefined" &&
+  typeof document.createElement === "function";
+
 export function populateGroupFilter(options: {
   availableGroups: string[];
   displayGroupName: (name: string) => string;
@@ -25,6 +29,7 @@ export function populateGroupFilter(options: {
   selectedGroup: string;
   translate: (key: string, fallback: string) => string;
 }) {
+  if (!canBuildSelectOptions()) return;
   const all = document.createElement("option");
   all.value = "";
   all.text = `🌐 ${options.translate("all", "All")}`;
@@ -51,6 +56,7 @@ export function populateSubGroupFilter(options: {
   subGroupSelector: HTMLSelectElement;
   translate: (key: string, fallback: string) => string;
 }) {
+  if (!canBuildSelectOptions()) return;
   const all = document.createElement("option");
   all.value = "";
   all.text = `🌐 ${options.translate("all", "All")}`;
@@ -82,6 +88,7 @@ export function populateSequenceTypeFilter(options: {
   sequenceTypeSelector: HTMLSelectElement;
   translate: (key: string, fallback: string) => string;
 }) {
+  if (!canBuildSelectOptions()) return;
   const all = document.createElement("option");
   all.value = "";
   all.text = `🌐 ${options.translate("all", "All")}`;

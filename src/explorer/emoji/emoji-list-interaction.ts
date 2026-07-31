@@ -21,6 +21,10 @@ export function createEmojiListInteraction(options: {
   translate: (key: string, fallback: string) => string;
   unassigned: string;
 }) {
+  const hasRenderableDocument = () =>
+    typeof document !== "undefined" &&
+    typeof document.createDocumentFragment === "function";
+
   const yieldForListRender = () => {
     if ((window as any).scheduler?.yield)
       return (window as any).scheduler.yield();
@@ -82,6 +86,7 @@ export function createEmojiListInteraction(options: {
     keys: string[],
     shouldRestoreEmojiFocus: boolean,
   ) => {
+    if (!hasRenderableDocument()) return;
     const generation = options.nextRenderGeneration();
     const renderRoot = document.createDocumentFragment();
     const emojiList = options.emojiList();

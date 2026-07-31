@@ -3,6 +3,14 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
+const createSelectLike = (value = "") => ({
+  appendChild() {},
+  disabled: false,
+  options: [] as Array<{ value: string }>,
+  replaceChildren() {},
+  value,
+});
+
 // coverage target: ../../../src/app/bootstrap/explorer-bootstrap-session-runtime.js
 
 const root = path.resolve(
@@ -209,12 +217,12 @@ const bindings: any = {
   ],
   updateDialogNavigation: (...args: unknown[]) => ["updateDialog", args],
   urlStateReady: true,
-  versionModeSelector: "version-mode-selector",
+  versionModeSelector: { disabled: false, value: "through" },
   versionModeToggle: "version-mode-toggle",
   versionNext: "version-next",
   versionPrevious: "version-previous",
   versionRange: "version-range",
-  versionSelector: "version-selector",
+  versionSelector: createSelectLike("17.0"),
 };
 
 const controllers = {
@@ -532,9 +540,12 @@ assert.deepEqual(runtimeSourceCall.updateDialogNavigation("nav"), [
   ["nav"],
 ]);
 assert.equal(runtimeSourceCall.urlStateReady(), false);
-assert.equal(runtimeSourceCall.versionModeSelector(), "version-mode-selector");
+assert.deepEqual(runtimeSourceCall.versionModeSelector(), {
+  disabled: false,
+  value: "through",
+});
 assert.equal(runtimeSourceCall.versionModeToggle(), "version-mode-toggle");
 assert.equal(runtimeSourceCall.versionNext(), "version-next");
 assert.equal(runtimeSourceCall.versionPrevious(), "version-previous");
 assert.equal(runtimeSourceCall.versionRange(), "version-range");
-assert.equal(runtimeSourceCall.versionSelector(), "version-selector");
+assert.equal(runtimeSourceCall.versionSelector().value, "17.0");

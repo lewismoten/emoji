@@ -1,8 +1,4 @@
-import {
-  buildExplorerUrlQuery,
-  parseExplorerUrlState,
-  type ExplorerUrlState,
-} from "./url-state.js";
+import { buildExplorerUrlQuery, parseExplorerUrlState, type ExplorerUrlState } from "./url-state.js";
 import {
   applyBasicUrlStateToControls,
   applyExclusiveCheckboxSelection,
@@ -10,15 +6,8 @@ import {
   resetFilterControls,
   stepVersionIndex,
 } from "../filters/filter-controls.js";
-import {
-  closePanelDialog,
-  getOpenPanel,
-  getPanelDialog,
-  openPanelDialog,
-} from "../pwa-panels.js";
-import {
-  applyLanguagePanelParent,
-} from "./panel-parent.js";
+import { closePanelDialog, getOpenPanel, getPanelDialog, openPanelDialog } from "../pwa-panels.js";
+import { applyLanguagePanelParent } from "./panel-parent.js";
 
 type Checkbox = { checked: boolean; value: string };
 
@@ -100,7 +89,10 @@ export function createExplorerNavigation(
 ) {
   const panelDialogs = () => {
     const dialogs = options.panelDialogs();
-    return { dialogs, all: [dialogs.favorites, dialogs.help, dialogs.language, dialogs.filters] as (HTMLDialogElement | undefined)[] };
+    return {
+      dialogs,
+      all: [dialogs.favorites, dialogs.help, dialogs.language, dialogs.filters] as (HTMLDialogElement | undefined)[],
+    };
   };
   const createExclusiveCheckboxHandler =
     (checkboxes: () => Checkbox[]) => (event: Event) => {
@@ -110,12 +102,15 @@ export function createExplorerNavigation(
       );
       options.drawList();
     };
-  const getUrlState = () => dependencies.parseExplorerUrlState({
-    search: window.location.search,
-    developerMode: options.developerModeEnabled(),
-    preferredOrder: options.preferredOrder(),
-    allowedSequenceTypes: options.allowedSequenceTypes,
-  });
+  const getWindowLocation = () => (typeof window === "undefined" ? undefined : window.location);
+  const getWindowHistory = () => (typeof window === "undefined" ? undefined : window.history);
+  const getUrlState = () =>
+    dependencies.parseExplorerUrlState({
+      search: getWindowLocation()?.search ?? "",
+      developerMode: options.developerModeEnabled(),
+      preferredOrder: options.preferredOrder(),
+      allowedSequenceTypes: options.allowedSequenceTypes,
+    });
 
   const applyBasicUrlState = () => {
     const nextState = dependencies.applyBasicUrlStateToControls({
@@ -177,9 +172,12 @@ export function createExplorerNavigation(
   };
   const syncUrlState = (
     method: "replace" | "push" = "replace",
-    historyState = window.history.state,
+    historyState = getWindowHistory()?.state,
   ) => {
     if (!options.urlStateReady() || options.applyingUrlState()) return;
+    const location = getWindowLocation();
+    const history = getWindowHistory();
+    if (!location || !history) return;
     const checkedValues = (checkboxes: Checkbox[]) =>
       checkboxes
         .filter((checkbox) => checkbox.checked)
@@ -214,8 +212,8 @@ export function createExplorerNavigation(
       panel: openPanel,
       dialogOpen: dialog.open,
     });
-    const url = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
-    window.history[`${method}State`](historyState, "", url);
+    const url = `${location.pathname}${query ? `?${query}` : ""}${location.hash}`;
+    history[`${method}State`](historyState, "", url);
   };
   const resetFilters = () => {
     dependencies.resetFilterControls({

@@ -5,6 +5,11 @@ import {
   renderFilterPickerTrigger,
 } from "../filters/filter-picker.js";
 
+const canRenderCompactChoices = (container: HTMLElement | undefined) =>
+  !!container &&
+  typeof document !== "undefined" &&
+  typeof document.createElement === "function";
+
 function replaceChoices(
   container: HTMLElement | undefined,
   choices: HTMLButtonElement[],
@@ -42,6 +47,7 @@ export function renderGroupPickerGrid(options: {
       : "🌐",
     selectedLabel,
   );
+  if (!canRenderCompactChoices(options.compactGroupChoices)) return;
   replaceChoices(options.compactGroupChoices, [
     makeCompactChoice({
       value: "",
@@ -114,6 +120,7 @@ export function renderSubGroupPickerGrid(options: {
   const choices = options.availableSubGroupParents.flatMap((group) =>
     options.availableSubGroups[group].map((name) => ({ group, name })),
   );
+  if (!canRenderCompactChoices(options.compactSubGroupChoices)) return;
   replaceChoices(options.compactSubGroupChoices, [
     makeCompactChoice({
       value: "",
@@ -179,6 +186,7 @@ export function renderSequencePickerGrid(options: {
     );
   }
   const container = options.compactSequenceChoices;
+  if (!canRenderCompactChoices(container)) return;
   replaceChoices(container, [
     makeCompactChoice({
       value: "",

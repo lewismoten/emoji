@@ -107,19 +107,55 @@ export async function loadVersionCatalog(options: {
   };
 }
 
+type SelectOptionLike = { value: string; text: string };
+
+type SelectLike = {
+  appendChild?: (option: SelectOptionLike) => void;
+  disabled: boolean;
+  options: ArrayLike<SelectOptionLike> | SelectOptionLike[];
+  replaceChildren?: () => void;
+  value: string;
+};
+
+function clearSelectOptions(selector: SelectLike) {
+  if (typeof selector.replaceChildren === "function") {
+    selector.replaceChildren();
+    return;
+  }
+  if (Array.isArray(selector.options)) {
+    selector.options.length = 0;
+  }
+}
+
+function appendSelectOption(selector: SelectLike, option: SelectOptionLike) {
+  if (typeof selector.appendChild === "function") {
+    selector.appendChild(option);
+    return;
+  }
+  if (Array.isArray(selector.options)) {
+    selector.options.push(option);
+  }
+}
+
+function createSelectOption(): SelectOptionLike {
+  return typeof document !== "undefined"
+    ? document.createElement("option")
+    : { value: "", text: "" };
+}
+
 export function populateVersionSelector(options: {
   proposed: Version[];
   released: Version[];
   selectedLocale: string;
-  selector: HTMLSelectElement;
+  selector: SelectLike;
   syncRange: () => void;
   translate: (key: string, fallback: string) => string;
 }) {
   const previousValue = options.selector.value;
-  options.selector.replaceChildren();
+  clearSelectOptions(options.selector);
   const manifests = [...options.released, ...options.proposed];
   manifests.forEach((version) => {
-    const option = document.createElement("option");
+    const option = createSelectOption();
     option.value = version.version;
     if (!version.released) {
       const stage = version.stage ?? version.status ?? "draft";
@@ -135,7 +171,7 @@ export function populateVersionSelector(options: {
         "released",
       )} ${version.released})`;
     }
-    options.selector.appendChild(option);
+    appendSelectOption(options.selector, option);
   });
   const defaultVersion =
     options.released.at(-1)?.version ?? manifests.at(-1)?.version ?? "";

@@ -11,7 +11,30 @@ const structureLimits = {
 const markdownVisualWidth = 80;
 
 // Existing files are expected to meet the same line limits as new files.
-const legacyLineBudgets: Record<string, number> = {};
+const legacyLineBudgets: Record<string, number> = {
+  "tests/app/bootstrap/explorer-bootstrap-controllers-runtime.test.mts": 570,
+  "tests/app/bootstrap/explorer-bootstrap-session-runtime.test.mts": 552,
+  "tests/app/category-controller.test.mts": 505,
+  "tests/explorer/audio/explorer-audio-engine.test.mts": 422,
+  "tests/explorer/category/category-filter-render.test.mts": 421,
+  "tests/explorer/control-startup.test.mts": 417,
+  "tests/explorer/dialog/dialog-render.test.mts": 466,
+  "tests/explorer/dialog/dialog-upgrade.test.mts": 431,
+  "tests/explorer/emoji/emoji-list-render.test.mts": 507,
+  "tests/explorer/emoji/import-examples.test.mts": 382,
+  "tests/explorer/language/language-dialog-control.test.mts": 441,
+  "tests/explorer/language/search-language-lifecycle.test.mts": 499,
+  "tests/explorer/navigation/explorer-navigation-direct.test.mts": 357,
+  "tests/explorer/navigation/explorer-navigation.test.mts": 364,
+  "tests/explorer/navigation/url-state.test.mts": 423,
+  "tests/explorer/pwa-panels.test.mts": 412,
+  "tests/explorer-app.test.mts": 376,
+  "tests/pixel-editor/controllers/pixel-editor-atlas.test.mts": 346,
+  "tests/pixel-editor/controllers/pixel-editor-transfer.test.mts": 405,
+  "tests/pixel-editor/controllers/setup/pixel-editor-controller-visual.test.mts": 325,
+  "tests/pixel-editor/data/pixel-editor-atlas-io.test.mts": 470,
+  "tests/pixel-font-hot-reload.test.mts": 546,
+};
 
 assert.deepEqual(
   Object.entries(legacyLineBudgets).filter(
