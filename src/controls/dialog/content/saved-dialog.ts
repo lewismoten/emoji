@@ -1,6 +1,6 @@
 import { BaseControl } from "../../core/base-control.js";
 import { DomFactory } from "../../core/dom-factory.js";
-import { DialogHeadingControl } from "../dialog-heading.js";
+import { DialogControl } from "../dialog-control.js";
 import { TextControl } from "../../core/text-control.js";
 
 const savedDialogStylesheetId = "saved-dialog-control-stylesheet";
@@ -56,7 +56,10 @@ export class SavedDialogControl extends BaseControl<SavedDialogState> {
 
   protected childControls() {
     return [
-      new DialogHeadingControl({
+      new DialogControl({
+        children: [],
+        className: "saved-dialog",
+        dialogId: this.state.dialogId,
         title: this.state.title,
         titleId: this.state.titleId,
         titleKey: this.state.titleKey,
@@ -97,18 +100,8 @@ export class SavedDialogControl extends BaseControl<SavedDialogState> {
   }
 
   protected render() {
-    return DomFactory.element("dialog", {
-      attributes: {
-        "aria-labelledby": this.state.titleId,
-        id: this.state.dialogId,
-      },
-      className: "saved-dialog",
+    return DialogControl.toSpec({
       children: [
-        DialogHeadingControl.toSpec({
-          title: this.state.title,
-          titleId: this.state.titleId,
-          titleKey: this.state.titleKey,
-        }),
         this.createSection({
           emptyClassName: "favorites-empty",
           emptyKey: this.state.favoritesEmptyKey,
@@ -128,6 +121,11 @@ export class SavedDialogControl extends BaseControl<SavedDialogState> {
           titleKey: this.state.copiedTitleKey,
         }),
       ],
+      className: "saved-dialog",
+      dialogId: this.state.dialogId,
+      title: this.state.title,
+      titleId: this.state.titleId,
+      titleKey: this.state.titleKey,
     });
   }
 }

@@ -1,6 +1,6 @@
 import { BaseControl } from "../../core/base-control.js";
 import { DomFactory } from "../../core/dom-factory.js";
-import { DialogHeadingControl } from "../dialog-heading.js";
+import { DialogControl } from "../dialog-control.js";
 import { TextControl } from "../../core/text-control.js";
 
 const languageDialogStylesheetId = "language-dialog-control-stylesheet";
@@ -44,7 +44,10 @@ export class LanguageDialogControl extends BaseControl<LanguageDialogState> {
 
   protected childControls() {
     return [
-      new DialogHeadingControl({
+      new DialogControl({
+        children: [],
+        className: "language-dialog",
+        dialogId: this.state.dialogId,
         eyebrow: this.state.eyebrow,
         eyebrowKey: this.state.eyebrowKey,
         title: this.state.title,
@@ -55,20 +58,8 @@ export class LanguageDialogControl extends BaseControl<LanguageDialogState> {
   }
 
   protected render() {
-    return DomFactory.element("dialog", {
-      attributes: {
-        "aria-labelledby": this.state.titleId,
-        id: this.state.dialogId,
-      },
-      className: "language-dialog",
+    return DialogControl.toSpec({
       children: [
-        DialogHeadingControl.toSpec({
-          eyebrow: this.state.eyebrow,
-          eyebrowKey: this.state.eyebrowKey,
-          title: this.state.title,
-          titleId: this.state.titleId,
-          titleKey: this.state.titleKey,
-        }),
         new TextControl({
           className: "dialog-description",
           i18nKey: this.state.descriptionKey,
@@ -83,6 +74,13 @@ export class LanguageDialogControl extends BaseControl<LanguageDialogState> {
           className: "language-list",
         }),
       ],
+      className: "language-dialog",
+      dialogId: this.state.dialogId,
+      eyebrow: this.state.eyebrow,
+      eyebrowKey: this.state.eyebrowKey,
+      title: this.state.title,
+      titleId: this.state.titleId,
+      titleKey: this.state.titleKey,
     });
   }
 }

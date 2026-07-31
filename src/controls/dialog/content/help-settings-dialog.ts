@@ -1,6 +1,6 @@
 import { BaseControl } from "../../core/base-control.js";
 import { DomFactory, type NodeSpec } from "../../core/dom-factory.js";
-import { DialogHeadingControl } from "../dialog-heading.js";
+import { DialogControl } from "../dialog-control.js";
 import { TextControl } from "../../core/text-control.js";
 import { AudioChoiceGroupControl } from "../../toolbar/audio-choice-group.js";
 import { ModeChoiceGroupControl } from "../../toolbar/mode-choice-group.js";
@@ -76,7 +76,10 @@ export class HelpSettingsDialogControl extends BaseControl<HelpSettingsDialogSta
 
   protected childControls() {
     return [
-      new DialogHeadingControl({
+      new DialogControl({
+        children: [],
+        className: "help-dialog",
+        dialogId: "help-dialog",
         title: this.state.headingTitle,
         titleId: this.state.headingTitleId,
         titleKey: this.state.headingTitleKey,
@@ -128,18 +131,8 @@ export class HelpSettingsDialogControl extends BaseControl<HelpSettingsDialogSta
   }
 
   protected render() {
-    return DomFactory.element("dialog", {
-      attributes: {
-        "aria-labelledby": this.state.headingTitleId,
-        id: "help-dialog",
-      },
-      className: "help-dialog",
+    return DialogControl.toSpec({
       children: [
-        DialogHeadingControl.toSpec({
-          title: this.state.headingTitle,
-          titleId: this.state.headingTitleId,
-          titleKey: this.state.headingTitleKey,
-        }),
         DomFactory.element("section", {
           attributes: { "aria-labelledby": "help-pixel-title" },
           className: "help-pixel",
@@ -222,6 +215,11 @@ export class HelpSettingsDialogControl extends BaseControl<HelpSettingsDialogSta
           ),
         }),
       ],
+      className: "help-dialog",
+      dialogId: "help-dialog",
+      title: this.state.headingTitle,
+      titleId: this.state.headingTitleId,
+      titleKey: this.state.headingTitleKey,
     });
   }
 }

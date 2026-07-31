@@ -26,8 +26,8 @@ const transformedSource = source
     'import { SkinToneFilterControl } from "./skin-tone-filter-stub.mjs";',
   )
   .replace(
-    'import { createDialogHeading } from "./dialog/dialog-control-helpers.js";',
-    'import { createDialogHeading } from "./dialog-control-helpers-stub.mjs";',
+    'import { DialogControl } from "../controls/dialog/dialog-control.js";',
+    'import { DialogControl } from "./dialog-control-stub.mjs";',
   );
 
 const tempRoot = path.join(root, "build/tests/.tmp");
@@ -67,10 +67,27 @@ await fs.writeFile(
 };`,
 );
 await fs.writeFile(
-  path.join(tempDirectory, "dialog-control-helpers-stub.mjs"),
-  `export function createDialogHeading(options) {
-  return { kind: "heading", options };
-}`,
+  path.join(tempDirectory, "dialog-control-stub.mjs"),
+  `export const DialogControl = {
+  create(options) {
+    return {
+      className: options.className,
+      id: options.dialogId,
+      querySelector(selector) {
+        if (selector === ".advanced-filters-dialog-body") {
+          return {
+            className: "advanced-filters-dialog-body",
+            childNodes: [],
+            append(...nodes) {
+              this.childNodes.push(...nodes);
+            }
+          };
+        }
+        return null;
+      }
+    };
+  }
+};`,
 );
 await fs.writeFile(
   path.join(tempDirectory, "advanced-filter-dialog-control.mjs"),

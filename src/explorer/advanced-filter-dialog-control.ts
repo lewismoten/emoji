@@ -2,7 +2,7 @@ import { AdvancedFiltersTriggerControl } from "../controls/filters/pickers/advan
 import { GenderFilterControl } from "../controls/filters/modifiers/gender-filter.js";
 import { HairFilterControl } from "../controls/filters/modifiers/hair-filter.js";
 import { SkinToneFilterControl } from "../controls/filters/modifiers/skin-tone-filter.js";
-import { createDialogHeading } from "./dialog/dialog-control-helpers.js";
+import { DialogControl } from "../controls/dialog/dialog-control.js";
 
 function createSequenceFilterField() {
   const field = document.createElement("div");
@@ -36,19 +36,19 @@ export function createAdvancedFiltersTriggerControl() {
 }
 
 export function createAdvancedFiltersDialogControl() {
-  const dialog = document.createElement("dialog");
-  dialog.className = "advanced-filters-dialog";
-  dialog.id = "advanced-filters-dialog";
-  dialog.setAttribute("aria-labelledby", "advanced-filters-dialog-title");
-  dialog.append(
-    createDialogHeading({
-      titleId: "advanced-filters-dialog-title",
-      titleKey: "advancedFilters",
-      title: "Advanced filters",
-    }),
-  );
-  const body = document.createElement("div");
-  body.className = "advanced-filters-dialog-body";
+  const dialog = DialogControl.create({
+    bodyClassName: "advanced-filters-dialog-body",
+    children: [],
+    className: "advanced-filters-dialog",
+    dialogId: "advanced-filters-dialog",
+    title: "Advanced filters",
+    titleId: "advanced-filters-dialog-title",
+    titleKey: "advancedFilters",
+  });
+  const body = dialog.querySelector(".advanced-filters-dialog-body");
+  if (!body) {
+    throw new Error("Advanced filters dialog body was not created.");
+  }
   const grid = document.createElement("div");
   grid.className = "filter-grid";
   grid.append(createSequenceFilterField());
@@ -60,7 +60,6 @@ export function createAdvancedFiltersDialogControl() {
     HairFilterControl.create(),
   );
   body.append(grid, modifiers);
-  dialog.append(body);
   return { dialog, body, grid, modifiers };
 }
 

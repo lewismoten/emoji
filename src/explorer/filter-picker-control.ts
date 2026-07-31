@@ -1,9 +1,10 @@
 import {
-  createDialogHeading,
   setPressedState,
 } from "./dialog/dialog-control-helpers.js";
 import { CompactChoiceButtonControl } from "../controls/filters/pickers/compact-choice-button.js";
 import { FilterPickerTriggerControl } from "../controls/filters/pickers/filter-picker-trigger.js";
+import { DialogControl } from "../controls/dialog/dialog-control.js";
+import { DomFactory } from "../controls/core/dom-factory.js";
 
 export function createFilterPickerDialogControl(options: {
   id: string;
@@ -13,23 +14,25 @@ export function createFilterPickerDialogControl(options: {
   title: string;
   choicesClassName: string;
 }) {
-  const dialog = document.createElement("dialog");
-  dialog.className = `filter-picker-dialog ${options.dialogClassName}`;
-  dialog.id = options.id;
-  dialog.setAttribute("aria-labelledby", options.titleId);
-
-  const heading = createDialogHeading({
+  const choicesSpec = DomFactory.element("div", {
+    attributes: {
+      "aria-labelledby": options.titleId,
+      role: "radiogroup",
+    },
+    className: `compact-choices ${options.choicesClassName}`,
+  });
+  const dialog = DialogControl.create({
+    children: [choicesSpec],
+    className: `filter-picker-dialog ${options.dialogClassName}`,
+    dialogId: options.id,
+    title: options.title,
     titleId: options.titleId,
     titleKey: options.titleKey,
-    title: options.title,
-  });
-
-  const choices = document.createElement("div");
-  choices.className = `compact-choices ${options.choicesClassName}`;
-  choices.setAttribute("role", "radiogroup");
-  choices.setAttribute("aria-labelledby", options.titleId);
-
-  dialog.append(heading, choices);
+  }) as HTMLDialogElement;
+  const choicesClassName = options.choicesClassName.trim().split(/\s+/).pop()!;
+  const choices = dialog.querySelector(
+    `.${choicesClassName}`,
+  ) as HTMLDivElement;
   return { dialog, choices };
 }
 
