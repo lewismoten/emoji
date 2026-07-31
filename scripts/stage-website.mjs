@@ -76,7 +76,27 @@ const server = createServer((request, response) => {
   fs.createReadStream(filePath).pipe(response);
 });
 
+let serverStarted = false;
+server.on("error", (error) => {
+  if (
+    error &&
+    typeof error === "object" &&
+    "code" in error &&
+    (error.code === "EPERM" || error.code === "EACCES")
+  ) {
+    console.warn(
+      `Staging site was prepared at ${outputDirectory}, but the local preview server could not listen on ${host}:${port}.`,
+    );
+    console.warn(
+      "Open that folder with any static file server, or rerun with --prepare-only.",
+    );
+    process.exit(0);
+  }
+  throw error;
+});
+
 server.listen(port, host, () => {
+  serverStarted = true;
   const localUrl = `http://${host}:${port}/`;
   console.info(`Staging site ready at ${outputDirectory}`);
   console.info(`Open ${localUrl}`);
@@ -87,6 +107,9 @@ server.listen(port, host, () => {
 
 for (const signal of ["SIGINT", "SIGTERM"]) {
   process.on(signal, () => {
+    if (!serverStarted) {
+      process.exit(0);
+    }
     server.close(() => process.exit(0));
   });
 }

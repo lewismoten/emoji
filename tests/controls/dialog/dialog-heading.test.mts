@@ -19,20 +19,12 @@ const heading = DialogHeadingControl.create({
   eyebrowKey: "details",
   eyebrow: "Details",
 }) as unknown as FakeElement;
-const stylesheets = (documentRef.head.children as FakeElement[]).filter(
-  (child) => child.tagName === "LINK",
+const styles = (documentRef.head.children as FakeElement[]).filter(
+  (child) => child.tagName === "STYLE",
 );
-assert.equal(stylesheets.length, 2);
-assert.equal(stylesheets[0]?.id, "dialog-heading-control-stylesheet");
-assert.equal(
-  stylesheets[0]?.href,
-  "./explorer/controls/dialog/dialog-heading.css",
-);
-assert.equal(stylesheets[1]?.id, "dialog-close-button-control-stylesheet");
-assert.equal(
-  stylesheets[1]?.href,
-  "./explorer/controls/dialog/dialog-close-button.css",
-);
+assert.equal(styles.length, 2);
+assert.equal(styles[0]?.id, "dialog-heading-control-style");
+assert.equal(styles[1]?.id, "dialog-close-button-control-style");
 assert.equal(heading.className, "dialog-heading");
 assert.equal(heading.children.length, 2);
 assert.equal(
@@ -111,7 +103,7 @@ DialogHeadingControl.create({
 });
 const duplicateStylesheets = (
   documentRef.head.children as FakeElement[]
-).filter((child) => child.tagName === "LINK");
+).filter((child) => child.tagName === "STYLE");
 assert.equal(duplicateStylesheets.length, 2);
 
 restore();

@@ -18,6 +18,11 @@ type ControlStylesheet = {
   id: string;
 };
 
+type ControlStyleBlock = {
+  id: string;
+  text: string;
+};
+
 export abstract class BaseControl<TState> {
   protected state: TState;
 
@@ -57,6 +62,9 @@ export abstract class BaseControl<TState> {
   }
 
   protected attachAssets() {
+    for (const style of this.styles()) {
+      BaseControl.ensureStyleBlock(style);
+    }
     for (const stylesheet of this.stylesheets()) {
       BaseControl.ensureStylesheet(stylesheet);
     }
@@ -66,6 +74,10 @@ export abstract class BaseControl<TState> {
   }
 
   protected stylesheets(): ControlStylesheet[] {
+    return [];
+  }
+
+  protected styles(): ControlStyleBlock[] {
     return [];
   }
 
@@ -84,6 +96,28 @@ export abstract class BaseControl<TState> {
     element.id = stylesheet.id;
     element.rel = "stylesheet";
     element.href = stylesheet.href;
+    if (typeof documentRef.head.appendChild === "function") {
+      documentRef.head.appendChild(element);
+      return;
+    }
+    documentRef.head.append?.(element);
+  }
+
+  protected static ensureStyleBlock(style: ControlStyleBlock) {
+    const runtime = globalThis as typeof globalThis & {
+      document?: ControlDocumentLike & {
+        createElement(tagName: string): {
+          id: string;
+          textContent?: string;
+        };
+      };
+    };
+    const documentRef = runtime.document;
+    if (!documentRef?.head) return;
+    if (documentRef.getElementById(style.id)) return;
+    const element = documentRef.createElement("style");
+    element.id = style.id;
+    element.textContent = style.text;
     if (typeof documentRef.head.appendChild === "function") {
       documentRef.head.appendChild(element);
       return;

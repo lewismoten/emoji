@@ -1,10 +1,23 @@
 import { BaseControl } from "../core/base-control.js";
 import { DomFactory } from "../core/dom-factory.js";
 
-const dialogModeBackButtonStylesheetId =
-  "dialog-mode-back-button-control-stylesheet";
-const dialogModeBackButtonStylesheetHref =
-  "./explorer/controls/dialog/dialog-mode-back-button.css";
+const dialogModeBackButtonStyleId = "dialog-mode-back-button-control-style";
+const dialogModeBackButtonStyleText = `
+.dialog-mode-back {
+  min-height: 2rem;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+}
+
+.dialog-mode-back[hidden] {
+  display: none;
+}
+`;
 
 export const dialogModeBackButtonClassName = "dialog-mode-back";
 
@@ -26,11 +39,11 @@ export class DialogModeBackButtonControl extends BaseControl<DialogModeBackButto
     return new DialogModeBackButtonControl(state).render();
   }
 
-  protected stylesheets() {
+  protected styles() {
     return [
       {
-        href: dialogModeBackButtonStylesheetHref,
-        id: dialogModeBackButtonStylesheetId,
+        id: dialogModeBackButtonStyleId,
+        text: dialogModeBackButtonStyleText,
       },
     ];
   }

@@ -1,10 +1,32 @@
 import { BaseControl } from "../core/base-control.js";
 import { DomFactory } from "../core/dom-factory.js";
 
-const dialogNavigateButtonStylesheetId =
-  "dialog-navigate-button-control-stylesheet";
-const dialogNavigateButtonStylesheetHref =
-  "./explorer/controls/dialog/dialog-navigate-button.css";
+const dialogNavigateButtonStyleId = "dialog-navigate-button-control-style";
+const dialogNavigateButtonStyleText = `
+.dialog-navigate {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--ui-font);
+  font-size: var(--ui-font-size-x-large);
+  line-height: 1;
+}
+
+[dir="rtl"] .dialog-navigate {
+  transform: scaleX(-1);
+}
+
+.dialog-navigate:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+`;
 
 export const dialogNavigateButtonClassName = "dialog-navigate";
 
@@ -25,11 +47,11 @@ export class DialogNavigateButtonControl extends BaseControl<DialogNavigateButto
     return new DialogNavigateButtonControl(state).render();
   }
 
-  protected stylesheets() {
+  protected styles() {
     return [
       {
-        href: dialogNavigateButtonStylesheetHref,
-        id: dialogNavigateButtonStylesheetId,
+        id: dialogNavigateButtonStyleId,
+        text: dialogNavigateButtonStyleText,
       },
     ];
   }

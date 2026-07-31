@@ -1,9 +1,33 @@
 import { BaseControl } from "../../core/base-control.js";
 import { DomFactory } from "../../core/dom-factory.js";
 
-const versionStepButtonStylesheetId = "version-step-button-control-stylesheet";
-const versionStepButtonStylesheetHref =
-  "./explorer/controls/filters/version/version-step-button.css";
+const versionStepButtonStyleId = "version-step-button-control-style";
+const versionStepButtonStyleText = `
+.version-step {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  font-size: calc(var(--ui-font-size-x-large) + 0.05rem);
+  font-weight: 800;
+}
+
+.version-step:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.version-step:disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+`;
 
 type VersionStepButtonState = {
   ariaLabel: string;
@@ -17,11 +41,11 @@ export class VersionStepButtonControl extends BaseControl<VersionStepButtonState
     super(state);
   }
 
-  protected stylesheets() {
+  protected styles() {
     return [
       {
-        href: versionStepButtonStylesheetHref,
-        id: versionStepButtonStylesheetId,
+        id: versionStepButtonStyleId,
+        text: versionStepButtonStyleText,
       },
     ];
   }

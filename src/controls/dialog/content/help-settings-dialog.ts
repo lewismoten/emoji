@@ -7,9 +7,88 @@ import { ModeChoiceGroupControl } from "../../toolbar/mode-choice-group.js";
 import { ThemeChoiceGroupControl } from "../../toolbar/theme-choice-group.js";
 
 const helpSettingsDialogStylesheetId =
-  "help-settings-dialog-control-stylesheet";
-const helpSettingsDialogStylesheetHref =
-  "./explorer/controls/dialog/content/help-settings-dialog.css";
+  "help-settings-dialog-control-style";
+const helpSettingsDialogStyleText = `
+.help-pixel {
+  margin: 1rem 1rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--panel-strong);
+}
+
+.help-pixel h3,
+.help-pixel p {
+  margin: 0;
+}
+
+.help-pixel p {
+  margin-block: 0.4rem 0.55rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.help-settings {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0.75rem 1rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--panel-strong);
+}
+
+.help-settings h3,
+.help-settings h4,
+.help-settings p,
+.shortcut-heading {
+  margin: 0;
+}
+
+.help-settings > h3 {
+  font-size: 0.9rem;
+}
+
+.help-settings h4 {
+  font-size: 0.8rem;
+}
+
+.help-settings p {
+  max-width: 27rem;
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.75rem;
+}
+
+.setting-row > :first-child {
+  min-width: 0;
+}
+
+.help-language-control {
+  flex: none;
+}
+
+.help-settings .language-picker {
+  flex: none;
+  width: min(13rem, 40vw);
+  min-width: 10rem;
+  height: 2.75rem;
+}
+
+.shortcut-heading {
+  padding: 1rem 1rem 0;
+  font-size: 0.9rem;
+}
+`;
 
 type HelpSettingsDialogState = {
   headingTitle: string;
@@ -70,10 +149,10 @@ export class HelpSettingsDialogControl extends BaseControl<HelpSettingsDialogSta
     });
   }
 
-  protected stylesheets() {
+  protected styles() {
     return [
       {
-        href: helpSettingsDialogStylesheetHref,
+        text: helpSettingsDialogStyleText,
         id: helpSettingsDialogStylesheetId,
       },
     ];

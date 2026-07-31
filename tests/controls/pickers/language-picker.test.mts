@@ -51,7 +51,7 @@ const button = new LanguagePickerControl({
 assert.equal(globals.document.head.children.length, 1);
 assert.equal(
   (globals.document.head.children[0] as FakeElement).id,
-  "language-picker-control-stylesheet",
+  "language-picker-control-style",
 );
 assert.equal(button.tagName, "BUTTON");
 assert.equal(button.className, "language-picker help-language-control");

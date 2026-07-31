@@ -1,9 +1,57 @@
 import { BaseControl } from "../core/base-control.js";
 import { DomFactory } from "../core/dom-factory.js";
 
-const languagePickerStylesheetId = "language-picker-control-stylesheet";
-const languagePickerStylesheetHref =
-  "./explorer/controls/pickers/language-picker.css";
+const languagePickerStyleId = "language-picker-control-style";
+const languagePickerStyleText = `
+.language-picker {
+  display: inline-flex;
+  flex: 0 1 13rem;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 10rem;
+  height: 2.25rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.language-picker:hover {
+  border-color: var(--accent);
+}
+
+.language-picker:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
+}
+
+.language-picker:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.language-picker-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.language-picker-flag {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  font-family: var(--emoji-font);
+  font-size: var(--emoji-control-size, var(--ui-font-size-display-medium));
+  line-height: var(--emoji-control-line-height, 1.2);
+  text-align: center;
+}
+`;
 
 type LanguagePickerState = {
   accessibleLabel: string;
@@ -20,11 +68,11 @@ export class LanguagePickerControl extends BaseControl<LanguagePickerState> {
     super(state);
   }
 
-  protected stylesheets() {
+  protected styles() {
     return [
       {
-        href: languagePickerStylesheetHref,
-        id: languagePickerStylesheetId,
+        id: languagePickerStyleId,
+        text: languagePickerStyleText,
       },
     ];
   }

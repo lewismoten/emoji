@@ -1,9 +1,5 @@
 import { ModifierFilterControl } from "./modifier-filter-control.js";
 
-const skinToneFilterStylesheetId = "skin-tone-filter-control-stylesheet";
-const skinToneFilterStylesheetHref =
-  "./explorer/controls/filters/modifiers/modifier-filter-control.css";
-
 export class SkinToneFilterControl extends ModifierFilterControl {
   constructor(
     state?: Partial<ConstructorParameters<typeof ModifierFilterControl>[0]>,
@@ -49,14 +45,5 @@ export class SkinToneFilterControl extends ModifierFilterControl {
       minSelectable: 0,
       ...state,
     });
-  }
-
-  protected override stylesheets() {
-    return [
-      {
-        href: skinToneFilterStylesheetHref,
-        id: skinToneFilterStylesheetId,
-      },
-    ];
   }
 }

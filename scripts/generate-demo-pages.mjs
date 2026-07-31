@@ -470,74 +470,6 @@ export const renderPage = (
       `<link rel="stylesheet" href="./explorer/toolbar-controls.css?v=${assetVersion}">`,
     )
     .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/dialog-close-button\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/dialog/dialog-close-button.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/dialog-heading\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/dialog/dialog-heading.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/content\/language-dialog\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/dialog/content/language-dialog.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/content\/help-settings-dialog\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/dialog/content/help-settings-dialog.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/content\/emoji-composition-section\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/dialog/content/emoji-composition-section.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/dialog-navigate-button\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/dialog/dialog-navigate-button.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/dialog-mode-back-button\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/dialog/dialog-mode-back-button.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/dialog\/content\/saved-dialog\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/dialog/content/saved-dialog.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/pickers\/language-picker\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/pickers/language-picker.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/filters\/pickers\/compact-choice-button\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/filters/pickers/compact-choice-button.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/toolbar\/theme-choice-group\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/toolbar/theme-choice-group.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/filters\/pickers\/filter-picker-trigger\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/filters/pickers/filter-picker-trigger.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/toolbar\/toolbar-trigger-button\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/toolbar/toolbar-trigger-button.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/filters\/pickers\/advanced-filters-trigger\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/filters/pickers/advanced-filters-trigger.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/filters\/modifiers\/modifier-filter-control\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/filters/modifiers/modifier-filter-control.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/filters\/version\/version-mode-toggle\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/filters/version/version-mode-toggle.css?v=${assetVersion}">`,
-    )
-    .replace(
-      /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/controls\/filters\/version\/version-step-button\.css")[^>]*\/?>/,
-      `<link rel="stylesheet" href="./explorer/controls/filters/version/version-step-button.css?v=${assetVersion}">`,
-    )
-    .replace(
       /<link\b(?=[^>]*\brel="stylesheet")(?=[^>]*\bhref="\.\/src\/site\/styles\/dialog-controls\.css")[^>]*\/?>/,
       `<link rel="stylesheet" href="./explorer/dialog-controls.css?v=${assetVersion}">`,
     )
@@ -798,13 +730,6 @@ ${locales.map((locale) => `  <url><loc>${pageUrl(locale)}</loc></url>`).join("\n
   fs.cpSync(
     path.join("explorer", "themes"),
     path.join(outputDirectory, "explorer", "themes"),
-    {
-      recursive: true,
-    },
-  );
-  fs.cpSync(
-    path.join("explorer", "controls"),
-    path.join(outputDirectory, "explorer", "controls"),
     {
       recursive: true,
     },

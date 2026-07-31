@@ -5,10 +5,26 @@ export const dialogCloseButtonLabel = "Close";
 export const dialogCloseButtonText = "×";
 export const dialogCloseButtonClassName = "dialog-close";
 export const dialogCloseButtonAriaKey = "close";
-export const dialogCloseButtonStylesheetId =
-  "dialog-close-button-control-stylesheet";
-export const dialogCloseButtonStylesheetHref =
-  "./explorer/controls/dialog/dialog-close-button.css";
+export const dialogCloseButtonStyleId = "dialog-close-button-control-style";
+export const dialogCloseButtonStyleText = `
+.dialog-close {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--ui-font);
+  font-weight: 400;
+  font-style: normal;
+  font-variant: normal;
+  font-size: var(--ui-font-size-display-medium-small);
+  line-height: 1;
+}
+`;
 
 type DialogCloseButtonState = {
   buttonClassName: string;
@@ -32,11 +48,11 @@ export class DialogCloseButtonControl extends BaseControl<DialogCloseButtonState
     return DialogCloseButtonControl.toSpec(this.state);
   }
 
-  protected stylesheets() {
+  protected styles() {
     return [
       {
-        href: dialogCloseButtonStylesheetHref,
-        id: dialogCloseButtonStylesheetId,
+        id: dialogCloseButtonStyleId,
+        text: dialogCloseButtonStyleText,
       },
     ];
   }

@@ -2,9 +2,32 @@ import { BaseControl } from "../../core/base-control.js";
 import { DomFactory, type NodeSpec } from "../../core/dom-factory.js";
 
 const advancedFiltersTriggerStylesheetId =
-  "advanced-filters-trigger-control-stylesheet";
-const advancedFiltersTriggerStylesheetHref =
-  "./explorer/controls/filters/pickers/advanced-filters-trigger.css";
+  "advanced-filters-trigger-control-style";
+const advancedFiltersTriggerStyleText = `
+.advanced-filters-trigger {
+  display: inline-flex;
+  min-height: 1.25rem;
+  width: fit-content;
+  align-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--ui-font-size-medium);
+  font-weight: 650;
+}
+
+.advanced-filters-trigger:hover {
+  color: var(--text);
+}
+
+.advanced-filters-trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+`;
 
 type AdvancedFiltersTriggerState = {
   controls: string;
@@ -26,10 +49,10 @@ export class AdvancedFiltersTriggerControl extends BaseControl<AdvancedFiltersTr
     });
   }
 
-  protected override stylesheets() {
+  protected override styles() {
     return [
       {
-        href: advancedFiltersTriggerStylesheetHref,
+        text: advancedFiltersTriggerStyleText,
         id: advancedFiltersTriggerStylesheetId,
       },
     ];

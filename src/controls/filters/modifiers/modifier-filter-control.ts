@@ -2,6 +2,13 @@ import { BaseControl } from "../../core/base-control.js";
 import { type NodeSpec } from "../../core/dom-factory.js";
 import { ChoiceGroupControl } from "../../groups/choice-group.js";
 
+const modifierFilterControlStyleId = "modifier-filter-control-style";
+const modifierFilterControlStyleText = `
+.modifier-filter {
+  min-inline-size: 0;
+}
+`;
+
 export type ModifierFilterItem = {
   emoji: string;
   label: string;
@@ -50,5 +57,14 @@ export abstract class ModifierFilterControl extends BaseControl<ModifierFilterSt
       toggleLabelClassName: "modifier-label",
       wrapperTag: "fieldset",
     });
+  }
+
+  protected styles() {
+    return [
+      {
+        id: modifierFilterControlStyleId,
+        text: modifierFilterControlStyleText,
+      },
+    ];
   }
 }

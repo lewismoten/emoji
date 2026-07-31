@@ -23,8 +23,8 @@ class ExampleControl extends BaseControl<{
 }
 
 class AssetChildControl extends BaseControl<{ label: string }> {
-  protected override stylesheets() {
-    return [{ href: "/child.css", id: "child-style" }];
+  protected override styles() {
+    return [{ id: "child-style", text: ".child {}" }];
   }
 
   protected render(): NodeSpec {
@@ -33,8 +33,8 @@ class AssetChildControl extends BaseControl<{ label: string }> {
 }
 
 class AssetParentControl extends BaseControl<{ label: string }> {
-  protected override stylesheets() {
-    return [{ href: "/parent.css", id: "parent-style" }];
+  protected override styles() {
+    return [{ id: "parent-style", text: ".parent {}" }];
   }
 
   protected override childControls() {
@@ -82,6 +82,10 @@ assert.equal(assetElement.tagName, "DIV");
 assert.equal(documentRef.head.children.length, 2);
 assert.equal((documentRef.head.children[0] as FakeElement).id, "parent-style");
 assert.equal((documentRef.head.children[1] as FakeElement).id, "child-style");
+assert.equal(
+  (documentRef.head.children[0] as FakeElement).textContent,
+  ".parent {}",
+);
 
 const fallbackHeadChildren: FakeElement[] = [];
 const originalDocument = (globalThis as typeof globalThis & { document?: any })
