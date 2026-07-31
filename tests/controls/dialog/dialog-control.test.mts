@@ -68,4 +68,25 @@ assert.match(markup, /id="plain-dialog"/);
 assert.match(markup, /class="dialog-copy"/);
 assert.doesNotMatch(markup, /dialog-body/);
 
+const emptyMarkup = DialogControl.toMarkup({
+  className: "empty-dialog",
+  dialogId: "empty-dialog",
+  title: "Empty",
+  titleId: "empty-dialog-title",
+  titleKey: "empty",
+});
+assert.match(emptyMarkup, /class="empty-dialog"/);
+assert.match(emptyMarkup, /id="empty-dialog"/);
+assert.doesNotMatch(emptyMarkup, /dialog-copy/);
+
+const spec = DialogControl.toSpec({
+  className: "empty-dialog",
+  dialogId: "empty-dialog",
+  title: "Empty",
+  titleId: "empty-dialog-title",
+  titleKey: "empty",
+});
+assert.equal(spec.tag, "dialog");
+assert.equal(spec.children?.length, 1);
+
 restore();

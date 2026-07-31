@@ -40,4 +40,17 @@ assert.match(markup, /class="emoji-composition-mode"/);
 assert.match(markup, /data-i18n="builtFrom"/);
 assert.match(markup, /data-i18n="showFullSequence"/);
 
+const customMarkup = EmojiCompositionSectionControl.toMarkup({
+  className: "emoji-composition custom",
+  headingKey: "sequenceHeading",
+  headingText: "Sequence",
+  modeButtonLabel: "Expand",
+  modeButtonLabelKey: undefined,
+});
+assert.match(customMarkup, /class="emoji-composition custom"/);
+assert.match(customMarkup, /data-i18n="sequenceHeading"/);
+assert.doesNotMatch(customMarkup, /data-i18n-aria-label=/);
+assert.doesNotMatch(customMarkup, /data-i18n="showFullSequence"/);
+assert.match(customMarkup, /aria-label="Expand"/);
+
 restore();
