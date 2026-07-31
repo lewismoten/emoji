@@ -290,6 +290,20 @@ try {
     ),
     "新话",
   );
+  assert.equal(
+    getLocalizedLanguageName(
+      {
+        locale: "en-x-newspeak",
+        label: "Newspeak English",
+        nativeLabel: "新话",
+        rtl: false,
+        file: "en-x-newspeak.json",
+        baseLocale: "en",
+      },
+      "",
+    ),
+    "新话",
+  );
   documentStub.documentElement.lang = "en-x-newspeak";
   assert.equal(
     getLocalizedLanguageName(
@@ -345,6 +359,19 @@ try {
     ),
     "newspeak",
   );
+  assert.equal(
+    getLocalizedLanguageName(
+      {
+        locale: "fr",
+        label: "French",
+        nativeLabel: "Français",
+        rtl: false,
+        file: "fr.json",
+      },
+      "fr",
+    ),
+    "other oldspeak",
+  );
 
   Object.defineProperty(Intl, "DisplayNames", {
     configurable: true,
@@ -371,6 +398,37 @@ try {
       "",
     ),
     "German (Deutsch)",
+  );
+  Object.defineProperty(Intl, "DisplayNames", {
+    configurable: true,
+    value: class {
+      static supportedLocalesOf() {
+        return [];
+      }
+
+      constructor() {}
+
+      of(value: string) {
+        if (value === "pt-BR") return undefined;
+        if (value === "pt") return "Portuguese";
+        return value;
+      }
+    },
+  });
+  documentStub.documentElement.lang = "en";
+  assert.equal(
+    getLocalizedLanguageName(
+      {
+        locale: "pt-BR",
+        label: "Portuguese",
+        nativeLabel: "Português",
+        rtl: false,
+        file: "pt-BR.json",
+        baseLocale: "pt",
+      },
+      "",
+    ),
+    "Portuguese (Português)",
   );
 } finally {
   Object.defineProperty(Intl, "DisplayNames", {

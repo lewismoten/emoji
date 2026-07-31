@@ -357,6 +357,18 @@ try {
     "locales/manifest.json",
     "src/data/locales/manifest.json",
   ]);
+  const noInitialHarness = createLifecycleHarness({});
+  await noInitialHarness.lifecycle.load("");
+  assert.deepEqual(
+    noInitialHarness.calls.filter((entry) => entry[0] === "setSelectedLocale"),
+    [],
+  );
+  const invalidInitialHarness = createLifecycleHarness({});
+  await invalidInitialHarness.lifecycle.load("fr");
+  assert.deepEqual(
+    invalidInitialHarness.calls.filter((entry) => entry[0] === "setSelectedLocale"),
+    [],
+  );
 
   const warnings: any[] = [];
   const originalWarn = console.warn;
@@ -419,6 +431,20 @@ try {
   assert.deepEqual(
     ignoredPopHarness.calls.filter((entry) => entry[0] === "setSelectedLocale"),
     [],
+  );
+  windowStub.location.pathname = "/emoji/";
+  const emptyPopHarness = createLifecycleHarness({
+    nextLoadId: 11,
+    currentLoadId: 11,
+    initialLocales: [
+      { locale: "en", label: "English", nativeLabel: "English", rtl: false, file: "en.json" },
+    ],
+  });
+  await emptyPopHarness.lifecycle.onPopState();
+  assert.ok(
+    emptyPopHarness.calls.some(
+      (entry) => entry[0] === "setSelectedLocale" && entry[1] === "",
+    ),
   );
 
   Object.defineProperty(globalThis, "fetch", {

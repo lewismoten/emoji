@@ -132,6 +132,23 @@ try {
   assert.deepEqual(renderCalls[0], [["alpha", "beta"], true]);
   assert.equal(matchCount.innerText, "#2");
   assert.equal(focusedEmojiKey, "alpha");
+  assert.equal(filterStub.filterCalls[0].selectedGroup, "Objects");
+  assert.equal(filterStub.filterCalls[0].selectedSubGroup, "Objects::mail");
+
+  focusedEmojiKey = "beta";
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      activeElement: {
+        closest() {
+          return null;
+        },
+      },
+    },
+  });
+  controller.draw();
+  assert.deepEqual(renderCalls.at(-1), [["alpha", "beta"], false]);
+  assert.equal(focusedEmojiKey, "beta");
 
   controller.schedule();
   controller.schedule();
@@ -140,12 +157,81 @@ try {
   assert.deepEqual(cleared, [1, 2]);
   controller.schedule();
   timers.get(3)?.();
-  assert.equal(filterStub.filterCalls.length, 3);
+  assert.equal(filterStub.filterCalls.length, 4);
 
   searchInput.value = "";
   controller.draw();
-  assert.equal(renderCalls.at(-1)?.[1], true);
+  assert.equal(renderCalls.at(-1)?.[1], false);
   assert.equal(searchInput.focused, false);
+
+  const emptyFilterCalls: any[] = [];
+  await fs.writeFile(
+    path.join(tempDirectory, "emoji-filter-empty-stub.mjs"),
+    `export const filterCalls = [];
+export function filterEmojiKeys(options) {
+  filterCalls.push(options);
+  return [];
+}`,
+  );
+  await fs.writeFile(
+    path.join(tempDirectory, "list-controller-empty.mjs"),
+    transformedSource.replace(
+      './emoji-filter-stub.mjs',
+      './emoji-filter-empty-stub.mjs',
+    ),
+  );
+  const emptyModule = await import(
+    pathToFileURL(path.join(tempDirectory, "list-controller-empty.mjs")).href
+  );
+  const emptyFilterStub = await import(
+    pathToFileURL(path.join(tempDirectory, "emoji-filter-empty-stub.mjs")).href
+  );
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: { activeElement: null },
+  });
+  const emptyMatchCount = { innerText: "" };
+  const emptyRenderCalls: Array<[string[], boolean]> = [];
+  const emptyFocusedKeys: string[] = [];
+  const emptyController = emptyModule.createListController({
+    allIds: () => [],
+    byId: () => ({}),
+    emojiByKey: () => ({}),
+    formatNumber: (value: number) => `${value}`,
+    genderCheckboxes: () => [],
+    getVersionKeys: () => [],
+    hairCheckboxes: () => [],
+    items: () => [],
+    nextRenderGeneration: () => 0,
+    focusedEmojiKey: () => "",
+    matchCount: () => emptyMatchCount,
+    orderedKeys: (keys: string[]) => keys,
+    orderMode: () => "unicode",
+    popularKeys: () => [],
+    renderEmojiList(keys: string[], restore: boolean) {
+      emptyRenderCalls.push([keys, restore]);
+    },
+    searchAnnotations: () => ({}),
+    searchText: () => ({ value: "" }) as any,
+    selectedGroup: () => "Objects",
+    selectedSearchLocale: () => "",
+    selectedSequenceType: () => "",
+    selectedSubGroup: () => "mail",
+    setDisplayedKeys(_keys: string[]) {},
+    setFocusedEmojiKey(key: string) {
+      emptyFocusedKeys.push(key);
+    },
+    skinToneCheckboxes: () => [],
+    subGroupSelectionKey: (_group: string, _subGroup: string) => "",
+    syncUrlState() {},
+    updateDialogNavigation() {},
+    updateFilterSummary() {},
+  });
+  emptyController.draw();
+  assert.equal(emptyFilterStub.filterCalls[0].selectedGroup, "");
+  assert.equal(emptyFilterStub.filterCalls[0].selectedSubGroup, "");
+  assert.deepEqual(emptyFocusedKeys, [""]);
+  assert.deepEqual(emptyRenderCalls[0], [[], false]);
 } finally {
   if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");

@@ -205,6 +205,28 @@ try {
     state: { locale: "es" },
     href: "/index.es.html?panel=help&emoji=wave&emojiMode=code&group=People",
   });
+  const originalHref = windowStub.location.href;
+  windowStub.location.href = undefined;
+  (documentStub as any).baseURI = "http://fallback.test/base/index.en.html";
+  await selectLanguageLink(
+    {
+      button: 0,
+      metaKey: false,
+      ctrlKey: false,
+      shiftKey: false,
+      altKey: false,
+      preventDefault() {},
+    } as any,
+    "ar",
+    "./index.ar.html",
+    async () => undefined,
+  );
+  assert.deepEqual(historyCalls[1], {
+    state: { locale: "ar" },
+    href: "/base/index.ar.html?panel=help&emoji=wave&emojiMode=code&group=People",
+  });
+  delete (documentStub as any).baseURI;
+  windowStub.location.href = originalHref;
 
   prevented = 0;
   await selectLanguageLink(
@@ -222,6 +244,24 @@ try {
     "./index.ar.html",
     async () => {
       throw new Error("modifier clicks should not select language");
+    },
+  );
+  assert.equal(prevented, 0);
+  await selectLanguageLink(
+    {
+      button: 0,
+      metaKey: true,
+      ctrlKey: false,
+      shiftKey: false,
+      altKey: false,
+      preventDefault() {
+        prevented += 1;
+      },
+    } as any,
+    "ar",
+    "./index.ar.html",
+    async () => {
+      throw new Error("meta clicks should not select language");
     },
   );
   assert.equal(prevented, 0);
@@ -276,6 +316,36 @@ try {
     ["restoreLanguageParentPanel"],
     ["loadUiTranslations", "en"],
     ["saveExplorerPreference", "locale", ""],
+  ]);
+  const emptyNoRestoreCalls: any[] = [];
+  await setSearchLanguage({
+    requestedLocale: "",
+    searchLoadId: 12,
+    searchLocales: [],
+    languagePicker: new FakeElement("button") as any,
+    languagePickerFlag: new FakeElement("span") as any,
+    languagePickerLabel: new FakeElement("span") as any,
+    languageFlags: {},
+    translate: (_key, fallback) => fallback,
+    loadUiTranslations: async () => {
+      emptyNoRestoreCalls.push("loadUiTranslations");
+    },
+    updateWebAppManifest: () => {
+      emptyNoRestoreCalls.push("updateWebAppManifest");
+    },
+    closeLanguageDialog: () => {
+      emptyNoRestoreCalls.push("closeLanguageDialog");
+    },
+    saveExplorerPreference: () => {
+      emptyNoRestoreCalls.push("saveExplorerPreference");
+    },
+    refreshLocalizedLabels: () => {},
+  });
+  assert.deepEqual(emptyNoRestoreCalls, [
+    "updateWebAppManifest",
+    "closeLanguageDialog",
+    "loadUiTranslations",
+    "saveExplorerPreference",
   ]);
 
   const localePicker = new FakeElement("button");
@@ -454,6 +524,47 @@ try {
   );
   assert.equal(failedRefreshes, 0);
   assert.equal(warnings[0]?.[0], "Search language fr unavailable");
+  Object.defineProperty(globalThis, "fetch", {
+    configurable: true,
+    value: async () => ({ ok: false }),
+  });
+  const failedLocaleWarnings: any[] = [];
+  console.warn = (...args: any[]) => {
+    failedLocaleWarnings.push(args);
+  };
+  const failedLocaleResult = await setSearchLanguage({
+    requestedLocale: "ar",
+    searchLoadId: 11,
+    searchLocales: [
+      {
+        locale: "ar",
+        label: "Arabic",
+        nativeLabel: "العربية",
+        rtl: true,
+        file: "ar.json",
+        baseLocale: "en",
+      },
+    ],
+    languagePicker: new FakeElement("button") as any,
+    languagePickerFlag: new FakeElement("span") as any,
+    languagePickerLabel: new FakeElement("span") as any,
+    languageFlags: { ar: "🇸🇦" },
+    translate: (key, fallback) => `${key}:${fallback}`,
+    loadUiTranslations: async () => {},
+    updateWebAppManifest: () => {},
+    closeLanguageDialog: () => {},
+    saveExplorerPreference: () => {},
+    refreshLocalizedLabels: () => {},
+  });
+  assert.deepEqual(failedLocaleResult, {
+    loadId: 11,
+    selectedSearchLocale: "",
+    searchAnnotations: {},
+    searchLabels: {},
+    searchSubgroupLabels: {},
+  });
+  console.warn = originalWarn;
+  assert.equal(failedLocaleWarnings[0]?.[0], "Search language ar unavailable");
 } finally {
   if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
   else delete (globalThis as any).window;
