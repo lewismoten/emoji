@@ -85,6 +85,12 @@ class FakeButton {
   }
 }
 
+function resetFocus(buttons: FakeButton[]) {
+  buttons.forEach((button) => {
+    button.focused = false;
+  });
+}
+
 const originalDocument = browserGlobal.document;
 const originalGetComputedStyle = browserGlobal.getComputedStyle;
 
@@ -157,6 +163,10 @@ event = keyEvent("ArrowDown");
 rowButtons[1].dispatch("keydown", event);
 assert.equal(rowButtons[4].focused, true);
 
+event = keyEvent("ArrowUp");
+rowButtons[4].dispatch("keydown", event);
+assert.equal(rowButtons[1].focused, true);
+
 event = keyEvent("Home");
 rowButtons[4].dispatch("keydown", event);
 assert.equal(rowButtons[0].focused, true);
@@ -168,6 +178,9 @@ assert.equal(rowButtons[4].focused, true);
 event = keyEvent("Escape");
 rowButtons[4].dispatch("keydown", event);
 assert.equal(event.prevented, false);
+
+rowButtons[2].click();
+assert.equal(rowButtons[2].tabIndex, 0);
 
 browserGlobal.document.documentElement.dir = "rtl";
 const rtlButtons = [
@@ -208,12 +221,22 @@ paletteButtons[3].dataset.gridColumn = "2";
 bindPaletteGrid(paletteButtons as any);
 paletteButtons[0].focus();
 
+resetFocus(paletteButtons);
 event = keyEvent("ArrowDown");
 paletteButtons[0].dispatch("keydown", event);
+assert.equal(event.prevented, true);
 assert.equal(paletteButtons[2].focused, true);
 
+resetFocus(paletteButtons);
+event = keyEvent("ArrowUp");
+paletteButtons[2].dispatch("keydown", event);
+assert.equal(event.prevented, true);
+assert.equal(paletteButtons[0].focused, true);
+
+resetFocus(paletteButtons);
 event = keyEvent("ArrowRight");
 paletteButtons[2].dispatch("keydown", event);
+assert.equal(event.prevented, true);
 assert.equal(paletteButtons[3].focused, true);
 
 event = keyEvent("Home");
@@ -224,12 +247,19 @@ event = keyEvent("End");
 paletteButtons[0].dispatch("keydown", event);
 assert.equal(paletteButtons[3].focused, true);
 
+paletteButtons[1].click();
+assert.equal(paletteButtons[1].tabIndex, 0);
+
 browserGlobal.document.documentElement.dir = "rtl";
+resetFocus(paletteButtons);
 event = keyEvent("ArrowLeft");
 paletteButtons[2].dispatch("keydown", event);
-assert.equal(paletteButtons[2].focused, true);
+assert.equal(event.prevented, true);
+assert.equal(paletteButtons[3].focused, true);
+resetFocus(paletteButtons);
 event = keyEvent("ArrowRight");
 paletteButtons[3].dispatch("keydown", event);
+assert.equal(event.prevented, true);
 assert.equal(paletteButtons[2].focused, true);
 browserGlobal.document.documentElement.dir = "ltr";
 
@@ -244,6 +274,39 @@ styleGridButtons[0].focus();
 event = keyEvent("ArrowDown");
 styleGridButtons[0].dispatch("keydown", event);
 assert.equal(styleGridButtons[1].focused, true);
+
+const fallbackStyleButtons = [new FakeButton(), new FakeButton()];
+fallbackStyleButtons[1].dataset.gridRow = "2";
+fallbackStyleButtons[1].dataset.gridColumn = "1";
+browserGlobal.getComputedStyle = (button: FakeButton) => ({
+  gridRowStart: button === fallbackStyleButtons[0] ? "auto" : button.dataset.gridRow ?? "1",
+  gridColumnStart:
+    button === fallbackStyleButtons[0] ? "auto" : button.dataset.gridColumn ?? "1",
+});
+bindPaletteGrid(fallbackStyleButtons as any);
+fallbackStyleButtons[1].focus();
+resetFocus(fallbackStyleButtons);
+event = keyEvent("ArrowUp");
+fallbackStyleButtons[1].dispatch("keydown", event);
+assert.equal(event.prevented, true);
+assert.equal(fallbackStyleButtons[0].focused, true);
+browserGlobal.getComputedStyle = (button: FakeButton) => ({
+  gridRowStart: button.dataset.gridRow ?? "1",
+  gridColumnStart: button.dataset.gridColumn ?? "1",
+});
+
+const horizontalPaletteButtons = [new FakeButton(), new FakeButton()];
+horizontalPaletteButtons[0].dataset.gridRow = "1";
+horizontalPaletteButtons[0].dataset.gridColumn = "1";
+horizontalPaletteButtons[1].dataset.gridRow = "1";
+horizontalPaletteButtons[1].dataset.gridColumn = "2";
+bindPaletteGrid(horizontalPaletteButtons as any);
+horizontalPaletteButtons[1].focus();
+resetFocus(horizontalPaletteButtons);
+event = keyEvent("ArrowLeft");
+horizontalPaletteButtons[1].dispatch("keydown", event);
+assert.equal(event.prevented, true);
+assert.equal(horizontalPaletteButtons[0].focused, true);
 
 const hiddenPaletteButton = new FakeButton({ hidden: true });
 hiddenPaletteButton.dataset.gridRow = "1";
