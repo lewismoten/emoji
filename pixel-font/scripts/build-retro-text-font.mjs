@@ -96,7 +96,7 @@ await fs.writeFile(
 const fileStats = await Promise.all(
   outputFiles.map(async (file) => ({
     file: path.basename(file),
-    size: (await fs.stat(file)).st_size,
+    size: (await fs.stat(file)).size,
   })),
 );
 await updateRetroTextDoc({
