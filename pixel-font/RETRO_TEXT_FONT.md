@@ -157,6 +157,8 @@ The sample preview currently renders both of these sentences:
 
 ## Current build size
 
+<!-- retro-text-build-stats:start -->
+
 As of the current build, Pixel Latin Retro contains 368 glyphs and ships as:
 
 | File                      |         Size |
@@ -165,9 +167,19 @@ As of the current build, Pixel Latin Retro contains 368 glyphs and ships as:
 | `pixel-latin-retro.woff`  |  9,064 bytes |
 | `pixel-latin-retro.woff2` |  5,288 bytes |
 | `pixel-latin-retro.css`   |    290 bytes |
+| `manifest.json`           |    570 bytes |
 
-For web use, the WOFF2 file is the main delivery target and is currently a
-little over 4 KB.
+At the moment, aggressive size optimization is not a priority because the compiled font is already small:
+
+- `pixel-latin-retro.ttf`: about 29.8 KB
+- `pixel-latin-retro.woff`: about 8.9 KB
+- `pixel-latin-retro.woff2`: about 5.2 KB
+- `manifest.json`: about 0.6 KB
+
+<!-- retro-text-build-stats:end -->
+
+For web use, the WOFF2 file is the main delivery target and is currently
+about 5 KB.
 
 ## Optimization headroom
 
@@ -217,14 +229,6 @@ optimized build. Because this font is monochrome, covers a relatively small
 character set, and already compiles into small TTF, WOFF, and WOFF2 files,
 the extra build complexity and time needed for deeper reusable-mask or
 component-search strategies do not currently pay for themselves.
-
-At the moment, aggressive size optimization is not a priority because the
-compiled font is already small:
-
-- `pixel-latin-retro.ttf`: about 67.4 KB
-- `pixel-latin-retro.ttf`: about 30.5 KB
-- `pixel-latin-retro.woff`: about 9.1 KB
-- `pixel-latin-retro.woff2`: about 5.3 KB
 
 For web delivery, the `woff2` output is the most relevant target, and it is
 already small enough that more aggressive optimization would likely add more

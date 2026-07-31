@@ -4,6 +4,7 @@ import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 import { writeRetroTextBitmapModule } from "./retro-text-module.mjs";
+import { updateRetroTextDoc } from "./update-retro-text-doc.mjs";
 
 const workspace = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -91,6 +92,18 @@ await fs.writeFile(
     2,
   )}\n`,
 );
+
+const fileStats = await Promise.all(
+  outputFiles.map(async (file) => ({
+    file: path.basename(file),
+    size: (await fs.stat(file)).st_size,
+  })),
+);
+await updateRetroTextDoc({
+  workspace,
+  glyphCount: source.glyphs.length,
+  fileStats,
+});
 
 await fs.rm(sourceFile, { force: true });
 console.info(
