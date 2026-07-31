@@ -165,7 +165,7 @@ As of the current build, Pixel Latin Retro contains 368 glyphs and ships as:
 | ------------------------- | -----------: |
 | `pixel-latin-retro.ttf`   | 30,520 bytes |
 | `pixel-latin-retro.woff`  |  9,064 bytes |
-| `pixel-latin-retro.woff2` |  5,284 bytes |
+| `pixel-latin-retro.woff2` |  5,292 bytes |
 | `pixel-latin-retro.css`   |    290 bytes |
 | `manifest.json`           |    563 bytes |
 

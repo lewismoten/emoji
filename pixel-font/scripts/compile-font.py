@@ -12,6 +12,7 @@ from fontTools.pens.ttGlyphPen import TTGlyphPen
 
 
 UNITS_PER_EM = 960
+DETERMINISTIC_FONT_TIMESTAMP = 0
 
 
 def main():
@@ -231,6 +232,8 @@ def main():
     builder.setupMaxp()
 
     font = builder.font
+    font["head"].created = DETERMINISTIC_FONT_TIMESTAMP
+    font["head"].modified = DETERMINISTIC_FONT_TIMESTAMP
     font["head"].fontRevision = font_revision(font_version)
     font["post"].formatType = 3.0
     font["post"].isFixedPitch = 1

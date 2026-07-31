@@ -3,8 +3,9 @@ import sys
 from pathlib import Path
 
 from fontTools.fontBuilder import FontBuilder
-from fontTools.misc.timeTools import timestampNow
 from fontTools.pens.ttGlyphPen import TTGlyphPen
+
+DETERMINISTIC_FONT_TIMESTAMP = 0
 
 
 def main():
@@ -81,8 +82,8 @@ def main():
     )
 
     font = builder.font
-    font["head"].created = timestampNow()
-    font["head"].modified = timestampNow()
+    font["head"].created = DETERMINISTIC_FONT_TIMESTAMP
+    font["head"].modified = DETERMINISTIC_FONT_TIMESTAMP
     font["post"].isFixedPitch = 1
     font["OS/2"].xAvgCharWidth = source["advanceWidth"]
     ttf_path = output_dir / "pixel-latin-retro.ttf"
