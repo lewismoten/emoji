@@ -47,7 +47,7 @@ if (await hasCurrentBundle(fingerprint)) {
   const tsc = process.platform === "win32" ? "npx.cmd" : "npx";
   const testCompileResult = spawnSync(
     tsc,
-    ["tsc", "-p", "tests/tsconfig.json"],
+    ["tsc", "-p", "tests/shared/config/tsconfig.json"],
     {
       cwd: root,
       stdio: "inherit",

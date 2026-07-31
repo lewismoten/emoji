@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createExplorerDataController } from "../src/explorer-data-controller.js";
+import { createExplorerDataController } from "../../../src/app/data/explorer-data-controller.js";
 
 const warnings: any[][] = [];
 const originalWarn = console.warn;

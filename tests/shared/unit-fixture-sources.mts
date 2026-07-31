@@ -45,7 +45,7 @@ export const versionData = await fs.readFile(
   "utf8",
 );
 export const explorerDataController = await fs.readFile(
-  path.join(root, "src/explorer-data-controller.ts"),
+  path.join(root, "src/app/data/explorer-data-controller.ts"),
   "utf8",
 );
 export const searchLanguageLifecycle = await fs.readFile(

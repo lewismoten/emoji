@@ -5,7 +5,7 @@ import {
   versionSliderLabel as versionSliderLabelHelper,
 } from "../../explorer/category/category-version.js";
 import { populateVersionSelector as populateVersionSelectorHelper } from "../../explorer/filters/version-data.js";
-import { createExplorerDataController } from "../../explorer-data-controller.js";
+import { createExplorerDataController } from "../data/explorer-data-controller.js";
 
 /** Coordinate version controls and the catalog/version data loader. */
 export function createVersionController(options: any) {

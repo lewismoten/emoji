@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+// Pairing source: ../../../src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.js
 
 const sourceModuleSpecifier =
   "../../../src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.ts";

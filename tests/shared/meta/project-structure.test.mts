@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
-  "../..",
+  "../../..",
 );
 const structureLimits = {
   linesPerScriptOrStylesheet: 300,
@@ -26,7 +26,7 @@ assert.deepEqual(
 );
 
 const legacyFileCountBudgets: Record<string, number> = {
-  src: 14,
+  src: 11,
 };
 assert.deepEqual(
   Object.entries(legacyFileCountBudgets).filter(

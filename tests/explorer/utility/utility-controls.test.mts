@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+// Pairing source: ../../../src/explorer/utility/utility-controls.js
 // Direct source under test: ../../../build/src/explorer/utility/utility-controls.js
 
 const root = process.cwd();

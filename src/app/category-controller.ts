@@ -6,7 +6,7 @@ import {
   openFilterPicker as openFilterPickerHelper,
 } from "../explorer/filters/filter-picker.js";
 import { createCategoryFilterRenderer } from "../explorer/category/category-filter-render.js";
-import { buildCategoryRepresentatives } from "../category-representatives.js";
+import { buildCategoryRepresentatives } from "../explorer/category/category-representatives.js";
 
 /** Own category selection, localized labels, and category filter rendering. */
 export function createCategoryController(options: any) {

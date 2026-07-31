@@ -28,7 +28,7 @@ export async function writeFontStylesheet(context, proposedGlyphs) {
 export async function compileFonts(context, proposedGlyphs) {
   const python = await pythonCommand(context.workspace);
   await run(python, [
-    path.join(context.root, "tests", "font-sequences.test.py"),
+    path.join(context.root, "tests", "pixel-font", "font-sequences.test.py"),
   ]);
   await runCompileFont(
     python,

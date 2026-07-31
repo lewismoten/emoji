@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import {
   createExplorerAudioController,
   createExplorerAudioDependencies,
-} from "../../src/explorer-audio.js";
+} from "../../../src/explorer-audio.js";
 
 class FakeElement {
   disabled = false;
@@ -192,7 +192,7 @@ try {
       state: () => preferences,
     },
     {
-      createExplorerAudioEngine(options) {
+      createExplorerAudioEngine(options: unknown) {
         engineCalls.push(["createExplorerAudioEngine", options]);
         return engine;
       },

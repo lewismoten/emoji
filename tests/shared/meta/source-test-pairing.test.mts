@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
-  "../..",
+  "../../..",
 );
 
 const legacyMissingTestPairs = new Set<string>([]);
@@ -35,23 +35,7 @@ const testFiles = new Set(
 
 function expectedTestFiles(sourceFile: string) {
   const relative = sourceFile.replace(/^src\//, "").replace(/\.ts$/, "");
-  const [topLevel] = relative.split("/");
-  const basename = path.posix.basename(relative);
-  const directMatches = [
-    `tests/${relative}.test.mts`,
-    `tests/${relative}.test.ts`,
-    `tests/${topLevel}/${basename}.test.mts`,
-    `tests/${topLevel}/${basename}.test.ts`,
-  ];
-  const nestedMatches = [...testFiles]
-    .filter(
-      (candidate) =>
-        candidate.startsWith(`tests/${topLevel}/`) &&
-        (candidate.endsWith(`/${basename}.test.mts`) ||
-          candidate.endsWith(`/${basename}.test.ts`)),
-    )
-    .sort();
-  return [...new Set([...directMatches, ...nestedMatches])];
+  return [`tests/${relative}.test.mts`, `tests/${relative}.test.ts`];
 }
 
 const missingTests = sourceFiles.filter(

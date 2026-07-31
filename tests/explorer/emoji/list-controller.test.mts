@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+// Pairing source: ../../../src/explorer/emoji/list-controller.js
 // Direct source under test: ../../../../build/src/explorer/emoji/list-controller.js
 
 const root = process.cwd();

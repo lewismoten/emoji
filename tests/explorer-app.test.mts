@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+// Pairing source: ../src/explorer-app.js
 
 const sourceModuleSpecifier = "build/src/explorer-app.js";
 const root = process.cwd();

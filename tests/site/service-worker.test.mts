@@ -20,7 +20,7 @@ const [
   read("build/demo-pages/index.ar.html"),
   read("src/index.ts"),
   read("src/explorer/catalog-loader.ts"),
-  read("src/explorer-data-controller.ts"),
+  read("src/app/data/explorer-data-controller.ts"),
   read("scripts/generate-demo-pages.mjs"),
   read("src/explorer/pixel-editor-loader.ts"),
 ]);

@@ -7,7 +7,7 @@ import {
   loadPackageManifest as loadPackageManifestHelper,
   renderImportExamples as renderImportExamplesHelper,
 } from "../../explorer/emoji/import-examples.js";
-import { updateExplorerComposition } from "../../explorer-composition-controller.js";
+import { updateExplorerComposition } from "../../explorer/dialog/explorer-composition-controller.js";
 import { copyToClipboard } from "../../explorer/saved-emoji.js";
 
 /** Coordinate emoji detail actions without retaining DOM state in index.ts. */

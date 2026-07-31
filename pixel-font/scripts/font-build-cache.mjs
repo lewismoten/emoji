@@ -10,7 +10,7 @@ export async function getFontBuildFingerprint({ root, workspace }) {
     path.join(workspace, "requirements.txt"),
     path.join(workspace, "atlases"),
     path.join(workspace, "scripts"),
-    path.join(root, "tests", "font-sequences.test.py"),
+    path.join(root, "tests", "pixel-font", "font-sequences.test.py"),
     path.join(root, "src", "data", "versions"),
     path.join(root, "src", "data", "proposed"),
   ];

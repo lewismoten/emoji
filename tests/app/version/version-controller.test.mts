@@ -24,7 +24,7 @@ const transformedSource = sourceText
     'import { populateVersionSelector as populateVersionSelectorHelper } from "./version-data-stub.mjs";',
   )
   .replace(
-    'import { createExplorerDataController } from "../../explorer-data-controller.js";',
+    'import { createExplorerDataController } from "../data/explorer-data-controller.js";',
     'import { createExplorerDataController } from "./explorer-data-controller-stub.mjs";',
   )
   .replace(/options: any/g, "options")

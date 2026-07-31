@@ -9,14 +9,14 @@
       "@codejamboree/web-request-queue": ["./types/web-request-queue.d.ts"],
       "@lewismoten/emoji/search": ["./library/search.ts"]
     },
-    "rootDir": "..",
-    "outDir": "../build",
+    "rootDir": "../../..",
+    "outDir": "../../../build",
     "sourceMap": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["./**/*.mts"],
-  "exclude": ["./package-exports.test.mts"]
+  "include": ["../../**/*.mts"],
+  "exclude": ["../meta/package-exports.test.mts"]
 }

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { buildCategoryRepresentatives } from "../src/category-representatives.js";
+import { buildCategoryRepresentatives } from "../../../src/explorer/category/category-representatives.js";
 
 const result = buildCategoryRepresentatives({
   groups: ["Smileys & Emotion", "Animals & Nature", "Flags"],

@@ -23,6 +23,6 @@
     "build",
     "src",
     "tests",
-    "tests/package-exports.test.mts"
+    "tests/shared/meta/package-exports.test.mts"
   ]
 }

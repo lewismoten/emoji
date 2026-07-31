@@ -2,17 +2,18 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-// Direct source under test: build/src/explorer-composition-controller.js
+// Pairing source: ../../../src/explorer/dialog/explorer-composition-controller.js
+// Direct source under test: build/src/explorer/dialog/explorer-composition-controller.js
 
 const root = process.cwd();
 const sourcePath = path.join(
   root,
-  "build/src/explorer-composition-controller.js",
+  "build/src/explorer/dialog/explorer-composition-controller.js",
 );
 const source = await fs.readFile(sourcePath, "utf8");
 
 const transformedSource = source.replace(
-  'import { updateEmojiComposition } from "./explorer/dialog/dialog-render.js";',
+  'import { updateEmojiComposition } from "./dialog-render.js";',
   'import { updateEmojiComposition, calls } from "./dialog-render-stub.mjs";',
 );
 
