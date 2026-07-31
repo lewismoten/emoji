@@ -78,20 +78,20 @@ html[data-theme="retro"] .order-footer .order-mode.is-active {
   color: var(--ega-light-gray);
 }
 
-html[data-theme="retro"] .pixel-comparison > button {
+html[data-theme="retro"] .emoji-font-choice {
   color: var(--ega-black);
 }
 
-html[data-theme="retro"] button.emoji-font-choice small {
+html[data-theme="retro"] .emoji-font-choice small {
   color: var(--ega-black);
 }
 
-html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"] {
+html[data-theme="retro"] .emoji-font-choice[aria-checked="true"] {
   background: var(--ega-black);
   color: var(--ega-light-gray);
 }
 
-html[data-theme="retro"] button.emoji-font-choice[aria-pressed="true"] small {
+html[data-theme="retro"] .emoji-font-choice[aria-checked="true"] small {
   color: var(--ega-light-gray);
 }
 
@@ -126,7 +126,7 @@ html[data-theme="retro"] .language-dialog .language-option.is-selected:hover {
 
 html[data-theme="retro"] .setting-choice:active,
 html[data-theme="retro"] .language-option:active,
-html[data-theme="retro"] .pixel-comparison > button:active,
+html[data-theme="retro"] .emoji-font-choice:active,
 html[data-theme="retro"] .modifier-filters fieldset label:active,
 html[data-theme="retro"] .filter-picker-trigger:active,
 html[data-theme="retro"] .compact-choice:active,

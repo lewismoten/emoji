@@ -11,6 +11,7 @@ export type ChoiceGroupItem = {
   className?: string;
   dataAttributes?: Record<string, string>;
   emoji?: string;
+  emojiClassName?: string;
   label?: string;
   labelKey?: string;
   selected?: boolean;
@@ -32,8 +33,11 @@ export type ChoiceGroupState = {
   maxSelectable?: number;
   minSelectable?: number;
   role?: "group" | "radiogroup";
+  toggleContentOrder?: "emoji-label" | "label-emoji";
   toggleEmojiClassName?: string;
+  toggleEmojiTag?: string;
   toggleLabelClassName?: string;
+  toggleLabelTag?: string;
   wrapperTag?: "div" | "fieldset";
 };
 
@@ -95,14 +99,18 @@ export class ChoiceGroupControl extends BaseControl<ChoiceGroupState> {
               ...(item.dataAttributes ?? {}),
               disabled: disabled ? "true" : "false",
             },
+            contentOrder: this.state.toggleContentOrder,
             emoji: item.emoji,
-            emojiClassName: this.state.toggleEmojiClassName,
+            emojiClassName:
+              item.emojiClassName ?? this.state.toggleEmojiClassName,
+            emojiTag: this.state.toggleEmojiTag,
             inputClassName: this.state.inputClassName,
             inputName: this.state.inputName,
             inputType: this.state.inputType,
             label: item.label,
             labelClassName: this.state.toggleLabelClassName,
             labelKey: item.labelKey,
+            labelTag: this.state.toggleLabelTag,
             pressed: selected,
             role: this.state.role === "radiogroup" ? "radio" : undefined,
             tabIndex: selected ? 0 : -1,

@@ -88,7 +88,7 @@ html[data-theme="retro"] .emoji-code-view .code {
 
 html[data-theme="retro"] .setting-choice,
 html[data-theme="retro"] .language-option,
-html[data-theme="retro"] .pixel-comparison > button,
+html[data-theme="retro"] .emoji-font-choice,
 html[data-theme="retro"] .modifier-filter-option,
 html[data-theme="retro"] .filter-picker-trigger,
 html[data-theme="retro"] .compact-choice,
@@ -162,7 +162,7 @@ html[data-theme="retro"] kbd {
 
 html[data-theme="retro"] .setting-choice:hover,
 html[data-theme="retro"] .language-option:hover,
-html[data-theme="retro"] .pixel-comparison > button:hover,
+html[data-theme="retro"] .emoji-font-choice:hover,
 html[data-theme="retro"] .modifier-filter-option:hover,
 html[data-theme="retro"] .filter-picker-trigger:hover,
 html[data-theme="retro"] .compact-choice:hover,
@@ -199,7 +199,7 @@ html[data-theme="retro"] .pixel-editor-trace-nudge:hover {
 html[data-theme="retro"] .setting-choice[aria-pressed="true"]:hover,
 html[data-theme="retro"] .compact-choice[aria-checked="true"]:hover,
 html[data-theme="retro"] .version-mode-toggle[aria-pressed="true"]:hover,
-html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"]:hover,
+html[data-theme="retro"] .emoji-font-choice[aria-checked="true"]:hover,
 html[data-theme="retro"] .language-option.is-selected:hover,
 html[data-theme="retro"] .order-mode.is-active:hover,
 html[data-theme="retro"] .modifier-filter-option:has(input:checked):hover {
@@ -215,7 +215,7 @@ html[data-theme="retro"] .modifier-filter-option:has(input:checked):hover {
 html[data-theme="retro"] .setting-choice.is-active,
 html[data-theme="retro"] .setting-choice[aria-pressed="true"],
 html[data-theme="retro"] .compact-choice[aria-checked="true"],
-html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"],
+html[data-theme="retro"] .emoji-font-choice[aria-checked="true"],
 html[data-theme="retro"] .language-option.is-selected,
 html[data-theme="retro"] .order-mode.is-active,
 html[data-theme="retro"] .pixel-editor-tools button[aria-pressed="true"],

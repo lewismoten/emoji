@@ -4,6 +4,7 @@ import {
 } from "./language/language-dialog-control.js";
 import { EmojiCompositionSectionControl } from "../controls/dialog/content/emoji-composition-section.js";
 import { SavedDialogControl } from "../controls/dialog/content/saved-dialog.js";
+import { EmojiFontChoiceGroupControl } from "../controls/toolbar/emoji-font-choice-group.js";
 import {
   ensureDialogTitleRow,
   ensureFavoriteButton,
@@ -75,28 +76,18 @@ export function ensureUtilityControls() {
   const searchControls = document.querySelector(".search-controls");
   const fontComparison = document.querySelector(".pixel-comparison");
   if (fontComparison && !fontComparison.querySelector(".emoji-font-choice")) {
+    const replacement = EmojiFontChoiceGroupControl.create() as unknown as MinimalElement;
+    fontComparison.className = replacement.className;
+    fontComparison.dataset.i18nAriaLabel = replacement.dataset.i18nAriaLabel;
     fontComparison.setAttribute("role", "radiogroup");
-    fontComparison.dataset.i18nAriaLabel = "emojiStyle";
     fontComparison.setAttribute("aria-label", "Emoji style");
-    Array.from(fontComparison.childNodes).forEach((preview, index) => {
-      if (!preview || typeof preview !== "object") return;
-      const font = index === 0 ? "system" : "pixel";
-      const option = document.createElement("label");
-      option.className = `emoji-font-choice emoji-font-choice-${font}`;
-      option.dataset.emojiFont = font;
-      option.setAttribute("role", "radio");
-      option.setAttribute("aria-checked", String(font === "pixel"));
-      option.tabIndex = font === "pixel" ? 0 : -1;
-      const input = document.createElement("input");
-      input.className = "emoji-font-choice-input";
-      input.type = "radio";
-      input.name = "emoji-font-choice";
-      input.value = font;
-      input.checked = font === "pixel";
-      input.tabIndex = -1;
-      option.append(input, ...(preview as MinimalElement).childNodes);
-      (preview as MinimalElement).replaceWith(option);
-    });
+    if ("childNodes" in fontComparison) {
+      fontComparison.innerHTML = "";
+      if (Array.isArray(fontComparison.childNodes)) {
+        fontComparison.childNodes.length = 0;
+      }
+      fontComparison.append(...replacement.childNodes);
+    }
   }
   if (searchControls && !searchControls.querySelector(".saved-picker")) {
     searchControls.append(createSavedPickerControl() as unknown as MinimalElement);

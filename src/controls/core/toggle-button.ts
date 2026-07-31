@@ -4,9 +4,11 @@ import { DomFactory, type NodeSpec } from "./dom-factory.js";
 export type ToggleButtonState = {
   ariaLabel: string;
   className: string;
+  contentOrder?: "emoji-label" | "label-emoji";
   dataAttributes?: Record<string, string>;
   emoji?: string;
   emojiClassName?: string;
+  emojiTag?: string;
   i18nAriaLabel?: string;
   inputClassName?: string;
   inputName?: string;
@@ -14,6 +16,7 @@ export type ToggleButtonState = {
   label?: string;
   labelClassName?: string;
   labelKey?: string;
+  labelTag?: string;
   pressed?: boolean;
   role?: string;
   tabIndex?: number;
@@ -36,6 +39,30 @@ export class ToggleButtonControl extends BaseControl<ToggleButtonState> {
     const role = this.state.role;
     const tabIndex = this.state.tabIndex;
     const isButton = inputType === "radio" || inputType === "checkbox";
+    const emojiNode = this.state.emoji
+      ? DomFactory.element(this.state.emojiTag ?? "span", {
+          attributes: { "aria-hidden": "true" },
+          className: this.state.emojiClassName,
+          text: this.state.emoji,
+        })
+      : null;
+    const labelNode = this.state.label
+      ? DomFactory.element(this.state.labelTag ?? "span", {
+          className: this.state.labelClassName,
+          dataset: this.state.labelKey
+            ? { i18n: this.state.labelKey }
+            : undefined,
+          text: this.state.label,
+        })
+      : null;
+    const contentOrder = this.state.contentOrder ?? "emoji-label";
+    const contentNodes =
+      contentOrder === "label-emoji"
+        ? [labelNode, emojiNode]
+        : [emojiNode, labelNode];
+    const renderedContentNodes = contentNodes.filter(
+      (node): node is Exclude<typeof node, null> => node !== null,
+    );
 
     return DomFactory.element("label", {
       attributes: {
@@ -72,26 +99,7 @@ export class ToggleButtonControl extends BaseControl<ToggleButtonState> {
               }),
             ]
           : []),
-        ...(this.state.emoji
-          ? [
-              DomFactory.element("span", {
-                attributes: { "aria-hidden": "true" },
-                className: this.state.emojiClassName,
-                text: this.state.emoji,
-              }),
-            ]
-          : []),
-        ...(this.state.label
-          ? [
-              DomFactory.element("span", {
-                className: this.state.labelClassName,
-                dataset: this.state.labelKey
-                  ? { i18n: this.state.labelKey }
-                  : undefined,
-                text: this.state.label,
-              }),
-            ]
-          : []),
+        ...renderedContentNodes,
       ],
     });
   }

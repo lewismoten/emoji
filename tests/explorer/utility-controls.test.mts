@@ -22,6 +22,10 @@ const transformedSource = source
     'import { SavedDialogControl } from "./saved-dialog-stub.mjs";',
   )
   .replace(
+    'import { EmojiFontChoiceGroupControl } from "../controls/toolbar/emoji-font-choice-group.js";',
+    'import { EmojiFontChoiceGroupControl } from "./emoji-font-choice-group-stub.mjs";',
+  )
+  .replace(
     'import { ensureDialogTitleRow, ensureFavoriteButton, positionFavoriteButton as positionFavoriteButtonHelper, } from "./dialog/dialog-title-controls.js";',
     'import { ensureDialogTitleRow, ensureFavoriteButton, positionFavoriteButton as positionFavoriteButtonHelper, calls as titleControlCalls } from "./dialog-title-controls-stub.mjs";',
   )
@@ -121,6 +125,21 @@ await fs.writeFile(
   `export const SavedDialogControl = {
   create() {
     return { className: "saved-dialog", kind: "saved-dialog-control" };
+  },
+};`,
+);
+await fs.writeFile(
+  path.join(tempDirectory, "emoji-font-choice-group-stub.mjs"),
+  `export const EmojiFontChoiceGroupControl = {
+  create() {
+    return {
+      className: "pixel-comparison",
+      dataset: { i18nAriaLabel: "emojiStyle" },
+      childNodes: [
+        { className: "emoji-font-choice emoji-font-choice-system" },
+        { className: "emoji-font-choice emoji-font-choice-pixel" },
+      ],
+    };
   },
 };`,
 );
@@ -308,8 +327,8 @@ try {
 
   assert.equal(fontComparison.attributes.get("role"), "radiogroup");
   assert.equal(fontComparison.dataset.i18nAriaLabel, "emojiStyle");
-  assert.equal(previewA.replacedWith[0]?.className, "emoji-font-choice emoji-font-choice-system");
-  assert.equal(previewB.replacedWith[0]?.className, "emoji-font-choice emoji-font-choice-pixel");
+  assert.equal(fontComparison.childNodes[0]?.className, "emoji-font-choice emoji-font-choice-system");
+  assert.equal(fontComparison.childNodes[1]?.className, "emoji-font-choice emoji-font-choice-pixel");
   assert.equal(searchControls.childNodes.some((node) => node?.className === "saved-picker"), true);
   assert.equal(searchControls.childNodes.some((node) => node?.className === "help-picker"), true);
   assert.equal(pixelFontToggle.removed, true);
