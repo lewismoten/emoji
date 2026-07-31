@@ -3,7 +3,6 @@ import os from "node:os";
 import path from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { generateSiteIcons } from "./generate-site-icons.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const defaultSiteUrl = "https://emoji.lewismoten.com/";
@@ -114,6 +113,16 @@ if (!skipBuild) {
   run(npm, ["run", "bundle"]);
   run(npm, ["run", "pixel-font:build", "--", "--fonts-only", "--optimize"]);
 }
+for (const required of [
+  path.join(root, "pixel-font", "build", "font", "pixel-emoji.css"),
+  path.join(root, "pixel-font", "build", "font", "pixel-emoji.woff2"),
+]) {
+  if (!fs.existsSync(required)) {
+    throw new Error(
+      "Pixel font build output is missing. Run `npm run pixel-font:build -- --fonts-only --optimize` before previewing or publishing the website.",
+    );
+  }
+}
 
 const forbiddenOutputs = new Set([
   path.parse(outputDirectory).root,
@@ -130,7 +139,7 @@ fs.rmSync(outputDirectory, { recursive: true, force: true });
 fs.mkdirSync(outputDirectory, { recursive: true });
 
 const files = [];
-const directories = ["dist", "explorer", "orders", "versions", "proposed"];
+const directories = ["dist"];
 for (const file of files) {
   fs.copyFileSync(path.join(root, file), path.join(outputDirectory, file));
 }
@@ -139,27 +148,11 @@ for (const directory of directories) {
     recursive: true,
   });
 }
-fs.mkdirSync(path.join(outputDirectory, "pixel-font"), { recursive: true });
-fs.cpSync(
-  path.join(root, "pixel-font", "build"),
-  path.join(outputDirectory, "pixel-font", "build"),
-  { recursive: true },
-);
-fs.cpSync(
-  path.join(root, "pixel-font", "atlases"),
-  path.join(outputDirectory, "pixel-font", "atlases"),
-  { recursive: true },
-);
-
 run(
   process.execPath,
   [path.join(root, "scripts", "generate-demo-pages.mjs"), outputDirectory],
   { env: { ...process.env, EMOJI_SITE_URL: siteUrl } },
 );
-generateSiteIcons({
-  favicon: path.join(root, "src", "site", "favicon.svg"),
-  outputDirectory: path.join(outputDirectory, "icons"),
-});
 run(process.execPath, [
   path.join(root, "scripts", "generate-service-worker.mjs"),
   path.join(outputDirectory, "service-worker.js"),

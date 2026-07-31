@@ -71,6 +71,7 @@
     "svg:render": "node ./scripts/render-svg-assets.mjs",
     "website:build": "node ./scripts/publish-website.mjs",
     "website:publish": "node ./scripts/publish-website.mjs --publish",
+    "website:staging": "node ./scripts/stage-website.mjs",
     "pixel-font:generate": "node ./pixel-font/scripts/generate-atlases.mjs",
     "pixel-font:build": "node ./pixel-font/scripts/build-assets.mjs",
     "pixel-font:build:optimized": "node ./pixel-font/scripts/build-assets.mjs --optimize",

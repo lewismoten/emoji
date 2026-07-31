@@ -26,6 +26,7 @@ These scripts compile fonts or validate atlas artwork:
 - `pixel-font:package`
 - `pixel-font:text`
 - `pixel-font:validate`
+- `website:staging`
 - `website:build`
 - `website:publish`
 
@@ -88,6 +89,7 @@ macOS Terminal, Linux, Git Bash, or WSL.
 | `npm run demo:pwa`                                           | Generates the service worker file.                                                                                                                                 | None beyond baseline requirements.                                                     |
 | `npm run demo:validate`                                      | Validates the generated pages-site output.                                                                                                                         | None beyond baseline requirements.                                                     |
 | `npm run svg:render`                                         | Synchronizes the configured smiley from pixel-art source into SVG assets and rerenders tracked PNG assets such as the social preview.                              | None beyond baseline requirements.                                                     |
+| `npm run website:staging`                                    | Builds the exact publishable website into `build/website-staging` and starts a plain static server so the deployed output can be tested locally without Vite.     | Python 3 plus `pixel-font/requirements.txt`.                                           |
 | `npm run website:build`                                      | Builds a complete website bundle for `emoji.lewismoten.com` under `build/website`.                                                                                 | Python 3 plus `pixel-font/requirements.txt`.                                           |
 | `npm run website:publish -- --target user@example.com:/path` | Builds and uploads the website bundle to a remote host.                                                                                                            | Python 3, `pixel-font/requirements.txt`, SSH, and `rsync` or `tar` on the remote path. |
 | `npm run pixel-font:generate`                                | Regenerates atlas assignment metadata without building compiled font output.                                                                                       | None beyond baseline requirements.                                                     |
@@ -186,7 +188,36 @@ npm run svg:render
 This updates the repository-tracked SVG and PNG preview assets. It does not
 replace `bundle`, but `bundle` already includes it.
 
-### 6. Regenerate Newspeak locale data
+### 6. Preview the exact published site locally
+
+Run this when you want to test the deployable website output without Vite:
+
+```bash
+npm run website:staging
+```
+
+This command:
+
+- builds the package output
+- builds the required pixel-font assets
+- generates the publishable site bundle
+- validates the generated pages and service worker
+- starts a plain static HTTP server
+- prints the local URL to open
+
+Useful variants:
+
+```bash
+npm run website:staging -- --skip-build
+npm run website:staging -- --prepare-only
+npm run website:staging -- --port 8080
+```
+
+Use `--skip-build` when the assets already exist and you only want to restage
+or reserve them. Use `--prepare-only` when you want the exact website output
+folder without starting the server.
+
+### 7. Regenerate Newspeak locale data
 
 Run this when you changed the Newspeak generator or want refreshed
 `en-x-newspeak` locale output:
@@ -198,7 +229,7 @@ npm run locales:newspeak
 You do not need to run this before `npm start` unless you changed the Newspeak
 source or generator and want those updates reflected locally.
 
-### 7. Refresh CLDR locale packs
+### 8. Refresh CLDR locale packs
 
 Run this when you want to pull updated upstream CLDR annotations:
 
@@ -208,7 +239,7 @@ npm run cldr
 
 This requires internet access and rewrites locale JSON output.
 
-### 8. Import a released Unicode update
+### 9. Import a released Unicode update
 
 Run this when adding a new released Unicode Emoji version:
 

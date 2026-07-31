@@ -29,6 +29,18 @@ npm start
 Then open <http://localhost:5173/>. Localized routes such as
 <http://localhost:5173/index.ar.html> are generated in memory by Vite.
 
+When you want to test the exact published output instead of the Vite
+development server, use:
+
+```bash
+npm run website:staging
+```
+
+That builds the deployable site bundle, validates it, starts a plain static
+server, and prints the URL to open. It is the best choice when you want to
+verify the final minified site, lazy-loaded assets, PWA manifests, and service
+worker behavior before publishing.
+
 ## Publishing the website
 
 Build a complete, validated copy of the Emoji Explorer and Pixel Emoji fonts
@@ -47,8 +59,8 @@ Recommended end-to-end publish order:
 
 1. `npm install`
 2. create the Python environment if you have not already
-3. `npm run website:build`
-4. verify the generated output
+3. `npm run website:staging`
+4. verify the staged output in a browser
 5. `npm run website:publish -- --target <destination>`
 
 The matching prerequisites and command variants are listed in
@@ -97,6 +109,8 @@ Commonly used commands:
 - `npm test` builds the package and verifies Unicode releases, public package
   specifiers, TypeScript declarations, localized demo pages, and PWA assets.
 - `npm start` runs the local Emoji Explorer.
+- `npm run website:staging` builds and serves the exact published site without
+  Vite.
 - `npm run website:build` creates and validates `build/website` for
   `emoji.lewismoten.com`.
 - `npm run website:publish -- --target <destination>` builds and uploads the

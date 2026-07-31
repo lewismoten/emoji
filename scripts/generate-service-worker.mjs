@@ -5,45 +5,12 @@ import { fileURLToPath } from "node:url";
 
 const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"));
 const assetVersion = packageJson.version;
-const topLevelModules = fs
-  .readdirSync("src")
-  .filter(
-    (file) =>
-      (file.endsWith(".ts") || file.endsWith(".js")) &&
-      file !== "explorer.tsconfig.json" &&
-      file !== "pixel-editor-entry.ts",
-  )
-  .map((file) => `./${file.replace(/\.(ts|js)$/, ".js")}`);
-const explorerModules = fs
-  .readdirSync("src/explorer")
-  .filter((file) => file.endsWith(".ts"))
-  .map((file) => `./explorer/${file.replace(/\.ts$/, ".js")}`);
-const appModules = fs
-  .readdirSync("src/app")
-  .filter((file) => file.endsWith(".ts"))
-  .map((file) => `./app/${file.replace(/\.ts$/, ".js")}`);
 const coreAssets = [
   "./",
-  `./explorer/themes/base-theme.css?v=${assetVersion}`,
-  `./explorer/themes/dark.css?v=${assetVersion}`,
-  `./explorer/themes/light/light.css?v=${assetVersion}`,
-  `./explorer/themes/ega.css?v=${assetVersion}`,
-  `./explorer/themes/retro/retro.css?v=${assetVersion}`,
-  `./explorer/themes/retro/retro-foundation.css?v=${assetVersion}`,
-  `./explorer/themes/retro/retro-dialogs.css?v=${assetVersion}`,
-  `./explorer/themes/retro/retro-example-dialogs.css?v=${assetVersion}`,
-  `./explorer/themes/retro/retro-buttons.css?v=${assetVersion}`,
-  `./explorer/themes/retro/retro-choice-states.css?v=${assetVersion}`,
-  `./explorer/themes/retro/retro-typography.css?v=${assetVersion}`,
-  `./explorer/themes/retro/retro-forms.css?v=${assetVersion}`,
-  `./explorer/themes/retro/retro-focus.css?v=${assetVersion}`,
-  `./explorer/toolbar-controls.css?v=${assetVersion}`,
-  `./explorer/dialog-controls.css?v=${assetVersion}`,
-  `./explorer/index.css?v=${assetVersion}`,
+  `./index.css?v=${assetVersion}`,
   `./index.js?v=${assetVersion}`,
-  ...topLevelModules,
-  ...explorerModules,
-  ...appModules,
+  `./pixel-editor.js?v=${assetVersion}`,
+  `./pixel-editor.css?v=${assetVersion}`,
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
   "./pixel-font/build-retro-text/pixel-latin-retro.css",
@@ -71,48 +38,11 @@ const sourceFileForAsset = (asset) => {
   const file = asset.replace(/^\.\//, "").replace(/\?.*$/, "");
   if (!file) return "";
   if (file === "index.js") return path.join("src", "index.ts");
-  if (file === "explorer/themes/base-theme.css")
-    return path.join("src", "site", "themes", "base-theme.css");
-  if (file === "explorer/themes/dark.css")
-    return path.join("src", "site", "themes", "dark.css");
-  if (file === "explorer/themes/light/light.css")
-    return path.join("src", "site", "themes", "light", "light.css");
-  if (file === "explorer/themes/ega.css")
-    return path.join("src", "site", "themes", "ega.css");
-  if (file === "explorer/themes/retro/retro.css")
-    return path.join("src", "site", "themes", "retro", "retro.css");
-  if (file === "explorer/themes/retro/retro-foundation.css")
-    return path.join("src", "site", "themes", "retro", "retro-foundation.css");
-  if (file === "explorer/themes/retro/retro-dialogs.css")
-    return path.join("src", "site", "themes", "retro", "retro-dialogs.css");
-  if (file === "explorer/themes/retro/retro-example-dialogs.css")
-    return path.join(
-      "src",
-      "site",
-      "themes",
-      "retro",
-      "retro-example-dialogs.css",
-    );
-  if (file === "explorer/themes/retro/retro-buttons.css")
-    return path.join("src", "site", "themes", "retro", "retro-buttons.css");
-  if (file === "explorer/themes/retro/retro-choice-states.css")
-    return path.join(
-      "src",
-      "site",
-      "themes",
-      "retro",
-      "retro-choice-states.css",
-    );
-  if (file === "explorer/themes/retro/retro-typography.css")
-    return path.join("src", "site", "themes", "retro", "retro-typography.css");
-  if (file === "explorer/themes/retro/retro-forms.css")
-    return path.join("src", "site", "themes", "retro", "retro-forms.css");
-  if (file === "explorer/themes/retro/retro-focus.css")
-    return path.join("src", "site", "themes", "retro", "retro-focus.css");
-  if (file === "explorer/toolbar-controls.css")
-    return path.join("src", "site", "styles", "toolbar-controls.css");
-  if (file === "explorer/dialog-controls.css")
-    return path.join("src", "site", "styles", "dialog-controls.css");
+  if (file === "index.css") return path.join("explorer", "index.css");
+  if (file === "pixel-editor.js")
+    return path.join("src", "pixel-editor-entry.ts");
+  if (file === "pixel-editor.css")
+    return path.join("explorer", "pixel-editor.css");
   if (file === "manifest.webmanifest")
     return path.join("src", "site", "pwa", "manifest.webmanifest");
   if (file === "offline.html") return path.join("src", "site", "offline.html");

@@ -2,6 +2,8 @@ import fs from "node:fs";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { rollup } from "rollup";
+import terser from "@rollup/plugin-terser";
 import { generateSiteIcons } from "./generate-site-icons.mjs";
 import {
   renderSvgAssets,
@@ -118,14 +120,6 @@ const topLevelRuntimeSources = fs
       file !== "explorer.tsconfig.json",
   )
   .sort((left, right) => left.localeCompare(right, "en"));
-const appRuntimeSources = fs
-  .readdirSync(path.join("src", "app"))
-  .filter((file) => file.endsWith(".ts"))
-  .sort((left, right) => left.localeCompare(right, "en"));
-const explorerRuntimeSources = fs
-  .readdirSync(path.join("src", "explorer"))
-  .filter((file) => file.endsWith(".ts"))
-  .sort((left, right) => left.localeCompare(right, "en"));
 const listRuntimeFiles = (directory) =>
   fs
     .readdirSync(directory, { withFileTypes: true })
@@ -138,6 +132,9 @@ const listRuntimeFiles = (directory) =>
           : [];
     })
     .sort((left, right) => left.localeCompare(right, "en"));
+const appRuntimeSources = listRuntimeFiles(path.join("src", "app"));
+const controlRuntimeSources = listRuntimeFiles(path.join("src", "controls"));
+const explorerRuntimeSources = listRuntimeFiles(path.join("src", "explorer"));
 const pixelEditorRuntimeSources = listRuntimeFiles(
   path.join("src", "pixel-editor"),
 );
@@ -160,15 +157,152 @@ const staticSiteAssets = [
     directory: true,
   },
 ];
+const stripQuery = (value) => value.replace(/\?.*$/, "");
+const readCssWithImports = (file) => {
+  const absolute = path.isAbsolute(file) ? file : path.join(projectRoot, file);
+  const directory = path.dirname(absolute);
+  return fs
+    .readFileSync(absolute, "utf8")
+    .replace(/@import\s+["']([^"']+)["'];?/g, (match, relativeFile) =>
+      readCssWithImports(path.resolve(directory, relativeFile)),
+    );
+};
+const publishedThemeStylesheets = [
+  path.join("src", "site", "themes", "ega.css"),
+  path.join("src", "site", "themes", "base-theme.css"),
+  path.join("src", "site", "themes", "dark.css"),
+  path.join("src", "site", "themes", "light", "light.css"),
+  path.join("src", "site", "themes", "retro", "retro.css"),
+  path.join("src", "site", "themes", "retro", "retro-foundation.css"),
+  path.join("src", "site", "themes", "retro", "retro-dialogs.css"),
+  path.join("src", "site", "themes", "retro", "retro-example-dialogs.css"),
+  path.join("src", "site", "themes", "retro", "retro-buttons.css"),
+  path.join("src", "site", "themes", "retro", "retro-choice-states.css"),
+  path.join("src", "site", "themes", "retro", "retro-typography.css"),
+  path.join("src", "site", "themes", "retro", "retro-forms.css"),
+  path.join("src", "site", "themes", "retro", "retro-focus.css"),
+];
+const markBundledStyles = (html) =>
+  html.replace(/<html\b/, '<html data-bundled-styles="1"');
+const collapseInitialStylesheets = (html) => {
+  let injected = false;
+  return html.replace(/<link\b[^>]*\brel="stylesheet"[^>]*>/g, (tag) => {
+    if (
+      tag.includes('id="pixel-font-stylesheet"') ||
+      tag.includes('id="retro-text-font-stylesheet"')
+    ) {
+      return tag;
+    }
+    const hrefMatch = /href="([^"]+)"/.exec(tag);
+    if (!hrefMatch) return tag;
+    const href = stripQuery(hrefMatch[1]);
+    const isLazyEditorStylesheet =
+      href === "./pixel-editor.css" || href === "./explorer/pixel-editor.css";
+    const isInitialExplorerStylesheet =
+      href.startsWith("./src/site/") ||
+      href.startsWith("./src/controls/") ||
+      href === "./src/site/index.css" ||
+      href.startsWith("./explorer/") ||
+      href === "./index.css";
+    if (isLazyEditorStylesheet) return "";
+    if (!isInitialExplorerStylesheet) return tag;
+    if (injected) return "";
+    injected = true;
+    return `<link rel="stylesheet" href="./index.css?v=${assetVersion}">`;
+  });
+};
+const writeRootStylesheets = (outputDirectory) => {
+  const combinedThemeCss = publishedThemeStylesheets
+    .map((file) => readCssWithImports(file).trim())
+    .join("\n");
+  fs.copyFileSync(
+    path.join(projectRoot, "explorer", "pixel-editor.css"),
+    path.join(outputDirectory, "pixel-editor.css"),
+  );
+  fs.writeFileSync(
+    path.join(outputDirectory, "index.css"),
+    `${fs.readFileSync(path.join(projectRoot, "explorer", "index.css"), "utf8").trim()}\n${combinedThemeCss}\n`,
+  );
+};
+const bundleDemoEntry = async ({
+  input,
+  output,
+  external = () => false,
+  inlineDynamicImports = false,
+}) => {
+  const bundle = await rollup({
+    input,
+    external,
+    treeshake: true,
+    plugins: [terser()],
+  });
+  try {
+    await bundle.write({
+      file: output,
+      format: "es",
+      inlineDynamicImports,
+    });
+  } finally {
+    await bundle.close();
+  }
+};
+const removeExtraJavaScript = (outputDirectory) => {
+  const keep = new Set([
+    path.join(outputDirectory, "index.js"),
+    path.join(outputDirectory, "pixel-editor.js"),
+  ]);
+  const visit = (directory) => {
+    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+      const target = path.join(directory, entry.name);
+      if (entry.isDirectory()) {
+        visit(target);
+        if (fs.readdirSync(target).length === 0) fs.rmSync(target, { recursive: true });
+        continue;
+      }
+      if (!entry.name.endsWith(".js")) continue;
+      if (keep.has(target)) continue;
+      fs.rmSync(target);
+    }
+  };
+  visit(outputDirectory);
+};
+const bundleDemoRuntime = async (outputDirectory) => {
+  const bundledIndex = path.join(outputDirectory, "index.bundle.js");
+  const bundledPixelEditor = path.join(outputDirectory, "pixel-editor.bundle.js");
+  await bundleDemoEntry({
+    input: path.join(outputDirectory, "index.js"),
+    output: bundledIndex,
+    external: (id) => id.includes("pixel-editor.js"),
+  });
+  await bundleDemoEntry({
+    input: path.join(outputDirectory, "pixel-editor.js"),
+    output: bundledPixelEditor,
+    inlineDynamicImports: true,
+  });
+  fs.renameSync(bundledIndex, path.join(outputDirectory, "index.js"));
+  fs.renameSync(
+    bundledPixelEditor,
+    path.join(outputDirectory, "pixel-editor.js"),
+  );
+  removeExtraJavaScript(outputDirectory);
+};
 const prepareDeployedScript = (source) =>
   source
+    .replaceAll(
+      "../../../pixel-font/retro-text-bitmap.mjs",
+      "../../pixel-font/retro-text-bitmap.mjs",
+    )
+    .replace(
+      /import\((['"])(\.+)\/pixel-editor-entry\.js\1\)/g,
+      `import('$2/pixel-editor.js?v=${assetVersion}')`,
+    )
     .replace(
       /import\((['"])(\.+)\/pixel-editor\.js\1\)/g,
       `import('$2/pixel-editor.js?v=${assetVersion}')`,
     )
     .replace(
       /(['"])\.\/explorer\/pixel-editor\.css\1/g,
-      `'./explorer/pixel-editor.css?v=${assetVersion}'`,
+      `'./pixel-editor.css?v=${assetVersion}'`,
     );
 syncSvgSmileysFromAtlas();
 renderSvgAssets();
@@ -199,15 +333,34 @@ const emitRuntimeModules = (outputDirectory) => {
 
   for (const file of appRuntimeSources) {
     transpileModule(
-      path.join("src", "app", file),
-      path.join(outputDirectory, "app", file.replace(/\.ts$/, ".js")),
+      file,
+      path.join(
+        outputDirectory,
+        "app",
+        path.relative(path.join("src", "app"), file).replace(/\.ts$/, ".js"),
+      ),
     );
   }
 
   for (const file of explorerRuntimeSources) {
     transpileModule(
-      path.join("src", "explorer", file),
-      path.join(outputDirectory, "explorer", file.replace(/\.ts$/, ".js")),
+      file,
+      path.join(
+        outputDirectory,
+        "explorer",
+        path.relative(path.join("src", "explorer"), file).replace(/\.ts$/, ".js"),
+      ),
+    );
+  }
+
+  for (const file of controlRuntimeSources) {
+    transpileModule(
+      file,
+      path.join(
+        outputDirectory,
+        "controls",
+        path.relative(path.join("src", "controls"), file).replace(/\.ts$/, ".js"),
+      ),
     );
   }
 
@@ -563,6 +716,10 @@ export const renderPage = (
     .replace(/>\s+</g, "><")
     .trim();
 };
+const finalizeRenderedPage = (html) =>
+  collapseInitialStylesheets(markBundledStyles(html))
+    .replace(/>\s+</g, "><")
+    .trim();
 
 export const renderManifest = (locale, startUrl, htmlLocale = locale) => {
   const translations = translationsFor(locale);
@@ -582,12 +739,18 @@ export const renderManifest = (locale, startUrl, htmlLocale = locale) => {
   )}\n`;
 };
 
-export const generateDemoPages = (outputDirectory = "build/demo-pages") => {
+export const generateDemoPages = async (outputDirectory = "build/demo-pages") => {
   fs.mkdirSync(outputDirectory, { recursive: true });
   emitRuntimeModules(outputDirectory);
+  writeRootStylesheets(outputDirectory);
+  fs.mkdirSync(path.join(outputDirectory, "pixel-font"), { recursive: true });
+  fs.copyFileSync(
+    path.join("pixel-font", "retro-text-bitmap.mjs"),
+    path.join(outputDirectory, "pixel-font", "retro-text-bitmap.mjs"),
+  );
   fs.writeFileSync(
     path.join(outputDirectory, "index.html"),
-    renderPage("en", siteUrl, "en-US", "en", ""),
+    finalizeRenderedPage(renderPage("en", siteUrl, "en-US", "en", "")),
   );
   fs.writeFileSync(
     path.join(outputDirectory, "manifest.webmanifest"),
@@ -596,7 +759,7 @@ export const generateDemoPages = (outputDirectory = "build/demo-pages") => {
   for (const locale of locales) {
     fs.writeFileSync(
       path.join(outputDirectory, `index.${locale}.html`),
-      renderPage(locale, pageUrl(locale)),
+      finalizeRenderedPage(renderPage(locale, pageUrl(locale))),
     );
     fs.writeFileSync(
       path.join(outputDirectory, manifestFile(locale)),
@@ -658,10 +821,41 @@ ${locales.map((locale) => `  <url><loc>${pageUrl(locale)}</loc></url>`).join("\n
       recursive: true,
     },
   );
+  fs.mkdirSync(path.join(outputDirectory, "explorer"), { recursive: true });
+  fs.copyFileSync(
+    path.join("explorer", "catalog.json"),
+    path.join(outputDirectory, "explorer", "catalog.json"),
+  );
+  fs.cpSync(
+    path.join("pixel-font", "build"),
+    path.join(outputDirectory, "pixel-font", "build"),
+    {
+      recursive: true,
+    },
+  );
+  if (fs.existsSync(path.join("pixel-font", "build-retro-text"))) {
+    fs.cpSync(
+      path.join("pixel-font", "build-retro-text"),
+      path.join(outputDirectory, "pixel-font", "build-retro-text"),
+      {
+        recursive: true,
+      },
+    );
+  }
+  if (fs.existsSync(path.join("pixel-font", "atlases"))) {
+    fs.cpSync(
+      path.join("pixel-font", "atlases"),
+      path.join(outputDirectory, "pixel-font", "atlases"),
+      {
+        recursive: true,
+      },
+    );
+  }
   generateSiteIcons({
     favicon: path.join(siteSourceDirectory, "favicon.svg"),
     outputDirectory: path.join(outputDirectory, "pwa", "icons"),
   });
+  await bundleDemoRuntime(outputDirectory);
 
   console.info(
     `Generated the en-US root and ${locales.length} localized demo pages in ${outputDirectory}.`,
@@ -672,5 +866,5 @@ if (
   process.argv[1] &&
   path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 ) {
-  generateDemoPages(process.argv[2] ?? ".");
+  await generateDemoPages(process.argv[2] ?? ".");
 }
