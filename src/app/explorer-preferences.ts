@@ -1,4 +1,4 @@
-import { parseExplorerModeParam } from "../explorer/url-state.js";
+import { parseExplorerModeParam } from "../explorer/navigation/url-state.js";
 
 const preferenceKey = "@lewismoten/emoji:explorer-preferences";
 

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createEmojiListInteraction } from "../../src/explorer/emoji-list-interaction.js";
+import { createEmojiListInteraction } from "../../src/explorer/emoji/emoji-list-interaction.js";
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");

@@ -2,14 +2,14 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { createDialogRuntimeConfig as actualCreateDialogRuntimeConfig } from "../../src/app/dialog-runtime-config.js";
+import { createDialogRuntimeConfig as actualCreateDialogRuntimeConfig } from "../../src/app/dialog/dialog-runtime-config.js";
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../../..",
 );
 const sourceText = await fs.readFile(
-  path.join(root, "src/app/dialog-runtime-config.ts"),
+  path.join(root, "src/app/dialog/dialog-runtime-config.ts"),
   "utf8",
 );
 

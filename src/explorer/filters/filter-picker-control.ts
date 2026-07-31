@@ -1,9 +1,9 @@
 import {
   setPressedState,
-} from "./dialog/dialog-control-helpers.js";
-import { CompactChoiceButtonControl } from "../controls/filters/pickers/compact-choice-button.js";
-import { FilterPickerDialogControl } from "../controls/filters/pickers/filter-picker-dialog.js";
-import { FilterPickerTriggerControl } from "../controls/filters/pickers/filter-picker-trigger.js";
+} from "../dialog/dialog-control-helpers.js";
+import { CompactChoiceButtonControl } from "../../controls/filters/pickers/compact-choice-button.js";
+import { FilterPickerDialogControl } from "../../controls/filters/pickers/filter-picker-dialog.js";
+import { FilterPickerTriggerControl } from "../../controls/filters/pickers/filter-picker-trigger.js";
 
 export function createFilterPickerDialogControl(options: {
   id: string;

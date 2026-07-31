@@ -9,23 +9,23 @@ const source = await fs.readFile(sourcePath, "utf8");
 
 const transformedSource = source
   .replace(
-    'import { createEmojiListRenderers } from "../explorer/emoji-list-render.js";',
+    'import { createEmojiListRenderers } from "../explorer/emoji/emoji-list-render.js";',
     'import { createEmojiListRenderers, renderCalls } from "./emoji-list-render-stub.mjs";',
   )
   .replace(
-    'import { createEmojiListInteraction } from "../explorer/emoji-list-interaction.js";',
+    'import { createEmojiListInteraction } from "../explorer/emoji/emoji-list-interaction.js";',
     'import { createEmojiListInteraction, interactionCalls } from "./emoji-list-interaction-stub.mjs";',
   )
   .replace(
-    'import { createListController } from "../explorer/list-controller.js";',
+    'import { createListController } from "../explorer/emoji/list-controller.js";',
     'import { createListController, listCalls } from "./list-controller-stub.mjs";',
   )
   .replace(
-    'import { updateActiveFilterSummary } from "../explorer/filter-summary.js";',
+    'import { updateActiveFilterSummary } from "../explorer/filters/filter-summary.js";',
     'import { updateActiveFilterSummary, summaryCalls } from "./filter-summary-stub.mjs";',
   )
   .replace(
-    'import { popularKeys } from "../explorer/popular-keys.js";',
+    'import { popularKeys } from "../explorer/emoji/popular-keys.js";',
     'import { popularKeys } from "./popular-keys-stub.mjs";',
   );
 

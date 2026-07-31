@@ -3,7 +3,7 @@ import {
   animateCopyConfirmation,
   announceStatus,
   copyToClipboard,
-} from "../../src/explorer/copy-feedback.js";
+} from "../../src/explorer/utility/copy-feedback.js";
 
 const globals = globalThis as typeof globalThis & {
   document?: any;

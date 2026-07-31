@@ -1,4 +1,4 @@
-import { createEmojiDialogViewController } from "../explorer/dialog/dialog-view.js";
+import { createEmojiDialogViewController } from "../../explorer/dialog/dialog-view.js";
 
 export function createDialogViewRuntime(options: any) {
   return createEmojiDialogViewController({

@@ -20,7 +20,7 @@ const transformedSource = source
     'import { createExplorerShell, shellCalls } from "./explorer-shell-stub.mjs";',
   )
   .replace(
-    'import { createEmojiActions } from "../emoji-actions.js";',
+    'import { createEmojiActions } from "../emoji/emoji-actions.js";',
     'import { createEmojiActions, emojiActionCalls } from "./emoji-actions-stub.mjs";',
   )
   .replace(

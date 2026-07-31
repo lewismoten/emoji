@@ -2,43 +2,43 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-// Direct source under test: ../../src/explorer/utility-controls.js
+// Direct source under test: ../../src/explorer/utility/utility-controls.js
 
 const root = process.cwd();
-const sourcePath = path.join(root, "build/src/explorer/utility-controls.js");
+const sourcePath = path.join(root, "build/src/explorer/utility/utility-controls.js");
 const source = await fs.readFile(sourcePath, "utf8");
 
 const transformedSource = source
   .replace(
-    'import { createLanguageDialogControl, createLanguagePickerControl, } from "./language/language-dialog-control.js";',
+    'import { createLanguageDialogControl, createLanguagePickerControl, } from "../language/language-dialog-control.js";',
     'import { createLanguageDialogControl, createLanguagePickerControl } from "./language-dialog-control-stub.mjs";',
   )
   .replace(
-    'import { EmojiCompositionSectionControl } from "../controls/dialog/content/emoji-composition-section.js";',
+    'import { EmojiCompositionSectionControl } from "../../controls/dialog/content/emoji-composition-section.js";',
     'import { EmojiCompositionSectionControl } from "./emoji-composition-section-stub.mjs";',
   )
   .replace(
-    'import { SavedDialogControl } from "../controls/dialog/content/saved-dialog.js";',
+    'import { SavedDialogControl } from "../../controls/dialog/content/saved-dialog.js";',
     'import { SavedDialogControl } from "./saved-dialog-stub.mjs";',
   )
   .replace(
-    'import { EmojiFontChoiceGroupControl } from "../controls/toolbar/emoji-font-choice-group.js";',
+    'import { EmojiFontChoiceGroupControl } from "../../controls/toolbar/emoji-font-choice-group.js";',
     'import { EmojiFontChoiceGroupControl } from "./emoji-font-choice-group-stub.mjs";',
   )
   .replace(
-    'import { ensureDialogTitleRow, ensureFavoriteButton, positionFavoriteButton as positionFavoriteButtonHelper, } from "./dialog/dialog-title-controls.js";',
+    'import { ensureDialogTitleRow, ensureFavoriteButton, positionFavoriteButton as positionFavoriteButtonHelper, } from "../dialog/dialog-title-controls.js";',
     'import { ensureDialogTitleRow, ensureFavoriteButton, positionFavoriteButton as positionFavoriteButtonHelper, calls as titleControlCalls } from "./dialog-title-controls-stub.mjs";',
   )
   .replace(
-    'import { createHelpDialogControl } from "./toolbar/help-settings-control.js";',
+    'import { createHelpDialogControl } from "../toolbar/help-settings-control.js";',
     'import { createHelpDialogControl } from "./help-settings-control-stub.mjs";',
   )
   .replace(
-    'import { ensureAdvancedFilterControls } from "./advanced-filter-dialog-control.js";',
+    'import { ensureAdvancedFilterControls } from "../filters/advanced-filter-dialog-control.js";',
     'import { ensureAdvancedFilterControls, calls as advancedFilterCalls } from "./advanced-filter-dialog-control-stub.mjs";',
   )
   .replace(
-    'import { createHelpPickerControl, createSavedPickerControl, } from "./toolbar/toolbar-trigger-controls.js";',
+    'import { createHelpPickerControl, createSavedPickerControl, } from "../toolbar/toolbar-trigger-controls.js";',
     'import { createHelpPickerControl, createSavedPickerControl } from "./toolbar-trigger-controls-stub.mjs";',
   )
   .replace(

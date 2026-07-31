@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { popularKeys } from "../../src/explorer/popular-keys.js";
+import { popularKeys } from "../../src/explorer/emoji/popular-keys.js";
 
 assert.equal(Array.isArray(popularKeys), true);
 assert.equal(popularKeys.length, 100);

@@ -16,7 +16,7 @@ const sourceText = await fs.readFile(
 
 const transformedSource = sourceText
   .replace(
-    'import { createExplorerNavigation } from "../explorer/explorer-navigation.js";',
+    'import { createExplorerNavigation } from "../explorer/navigation/explorer-navigation.js";',
     'import { createExplorerNavigation } from "./explorer-navigation-stub.mjs";',
   )
   .replace(/options: any/g, "options")

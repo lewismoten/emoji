@@ -49,7 +49,6 @@ assert.doesNotMatch(
 );
 for (const asset of [
   "./offline.html",
-  "./explorer/category-rules.js",
   "./explorer/explorer-labels.js",
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
@@ -59,6 +58,10 @@ for (const asset of [
     `service worker must precache ${asset}`,
   );
 }
+assert.ok(
+  !serviceWorker.includes('"./explorer/category/category-rules.js"'),
+  "service worker should load category rules on demand instead of precaching them",
+);
 for (const asset of [
   "./index.ar.html",
   "./manifest.ar.webmanifest",

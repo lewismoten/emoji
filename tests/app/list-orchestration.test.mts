@@ -16,23 +16,23 @@ const sourceText = await fs.readFile(
 
 const transformedSource = sourceText
   .replace(
-    'import { createEmojiListRenderers } from "../explorer/emoji-list-render.js";',
+    'import { createEmojiListRenderers } from "../explorer/emoji/emoji-list-render.js";',
     'import { createEmojiListRenderers } from "./emoji-list-render-stub.mjs";',
   )
   .replace(
-    'import { createEmojiListInteraction } from "../explorer/emoji-list-interaction.js";',
+    'import { createEmojiListInteraction } from "../explorer/emoji/emoji-list-interaction.js";',
     'import { createEmojiListInteraction } from "./emoji-list-interaction-stub.mjs";',
   )
   .replace(
-    'import { createListController } from "../explorer/list-controller.js";',
+    'import { createListController } from "../explorer/emoji/list-controller.js";',
     'import { createListController } from "./list-controller-stub.mjs";',
   )
   .replace(
-    'import { updateActiveFilterSummary } from "../explorer/filter-summary.js";',
+    'import { updateActiveFilterSummary } from "../explorer/filters/filter-summary.js";',
     'import { updateActiveFilterSummary } from "./filter-summary-stub.mjs";',
   )
   .replace(
-    'import { popularKeys } from "../explorer/popular-keys.js";',
+    'import { popularKeys } from "../explorer/emoji/popular-keys.js";',
     'import { popularKeys } from "./popular-keys-stub.mjs";',
   )
   .replace(/options: any/g, "options")

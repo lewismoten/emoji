@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import {
   createExplorerNavigation,
   createExplorerNavigationDependencies,
-} from "../../src/explorer/explorer-navigation.js";
+} from "../../src/explorer/navigation/explorer-navigation.js";
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");

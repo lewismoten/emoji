@@ -1,5 +1,5 @@
-import { loadExplorerCatalog } from "../explorer/catalog-loader.js";
-import { loadVersionCatalog } from "../explorer/version-data.js";
+import { loadExplorerCatalog } from "../../explorer/catalog-loader.js";
+import { loadVersionCatalog } from "../../explorer/filters/version-data.js";
 import { createVersionController } from "./version-controller.js";
 
 export function createVersionConfig(options: any) {

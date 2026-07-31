@@ -1,5 +1,5 @@
-import { AdvancedFiltersTriggerControl } from "../controls/filters/pickers/advanced-filters-trigger.js";
-import { AdvancedFiltersDialogControl } from "../controls/dialog/content/advanced-filters-dialog.js";
+import { AdvancedFiltersTriggerControl } from "../../controls/filters/pickers/advanced-filters-trigger.js";
+import { AdvancedFiltersDialogControl } from "../../controls/dialog/content/advanced-filters-dialog.js";
 
 export function createAdvancedFiltersTriggerControl() {
   return AdvancedFiltersTriggerControl.create();

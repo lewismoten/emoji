@@ -61,7 +61,10 @@ assert.ok(
   "the demo must watch and hot-swap rebuilt pixel font assets without repainting everything in one tight polling loop",
 );
 assert.match(
-  await fs.readFile(path.join(root, "src/app/browser-runtime.ts"), "utf8"),
+  await fs.readFile(
+    path.join(root, "src/app/browser/browser-runtime.ts"),
+    "utf8",
+  ),
   /onPixelFontRevisionLoaded\(\);[\s\S]*refreshExplorerPixelFont\(/,
   "the demo must hot-swap rebuilt pixel fonts without refreshing the page",
 );

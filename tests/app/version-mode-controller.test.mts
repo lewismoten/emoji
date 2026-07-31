@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createVersionModeController } from "../../src/app/version-mode-controller.js";
+import { createVersionModeController } from "../../src/app/version/version-mode-controller.js";
 
 class FakeOption {
   value = "";

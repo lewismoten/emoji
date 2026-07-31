@@ -1,8 +1,8 @@
-import { createEmojiListRenderers } from "../explorer/emoji-list-render.js";
-import { createEmojiListInteraction } from "../explorer/emoji-list-interaction.js";
-import { createListController } from "../explorer/list-controller.js";
-import { updateActiveFilterSummary } from "../explorer/filter-summary.js";
-import { popularKeys } from "../explorer/popular-keys.js";
+import { createEmojiListRenderers } from "../explorer/emoji/emoji-list-render.js";
+import { createEmojiListInteraction } from "../explorer/emoji/emoji-list-interaction.js";
+import { createListController } from "../explorer/emoji/list-controller.js";
+import { updateActiveFilterSummary } from "../explorer/filters/filter-summary.js";
+import { popularKeys } from "../explorer/emoji/popular-keys.js";
 
 /** Assemble list rendering, interaction, and active-filter summary behavior. */
 export function createListOrchestration(options: any) {

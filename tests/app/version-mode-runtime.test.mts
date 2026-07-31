@@ -3,14 +3,14 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-// coverage target: ../../src/app/version-mode-runtime.js
+// coverage target: ../../src/app/version/version-mode-runtime.js
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../../..",
 );
 const sourceText = await fs.readFile(
-  path.join(root, "src/app/version-mode-runtime.ts"),
+  path.join(root, "src/app/version/version-mode-runtime.ts"),
   "utf8",
 );
 

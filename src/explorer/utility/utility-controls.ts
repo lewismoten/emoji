@@ -1,21 +1,21 @@
 import {
   createLanguageDialogControl,
   createLanguagePickerControl,
-} from "./language/language-dialog-control.js";
-import { EmojiCompositionSectionControl } from "../controls/dialog/content/emoji-composition-section.js";
-import { SavedDialogControl } from "../controls/dialog/content/saved-dialog.js";
-import { EmojiFontChoiceGroupControl } from "../controls/toolbar/emoji-font-choice-group.js";
+} from "../language/language-dialog-control.js";
+import { EmojiCompositionSectionControl } from "../../controls/dialog/content/emoji-composition-section.js";
+import { SavedDialogControl } from "../../controls/dialog/content/saved-dialog.js";
+import { EmojiFontChoiceGroupControl } from "../../controls/toolbar/emoji-font-choice-group.js";
 import {
   ensureDialogTitleRow,
   ensureFavoriteButton,
   positionFavoriteButton as positionFavoriteButtonHelper,
-} from "./dialog/dialog-title-controls.js";
-import { createHelpDialogControl } from "./toolbar/help-settings-control.js";
-import { ensureAdvancedFilterControls } from "./advanced-filter-dialog-control.js";
+} from "../dialog/dialog-title-controls.js";
+import { createHelpDialogControl } from "../toolbar/help-settings-control.js";
+import { ensureAdvancedFilterControls } from "../filters/advanced-filter-dialog-control.js";
 import {
   createHelpPickerControl,
   createSavedPickerControl,
-} from "./toolbar/toolbar-trigger-controls.js";
+} from "../toolbar/toolbar-trigger-controls.js";
 import { ensurePickerControls } from "./utility-picker-controls.js";
 
 type MinimalElement = {

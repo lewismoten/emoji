@@ -1,6 +1,6 @@
-import { SequenceFilterFieldControl } from "../controls/filters/sequence/sequence-filter-field.js";
-import { VersionModeToggleControl } from "../controls/filters/version/version-mode-toggle.js";
-import { VersionRangeControl } from "../controls/filters/version/version-range-control.js";
+import { SequenceFilterFieldControl } from "../../controls/filters/sequence/sequence-filter-field.js";
+import { VersionModeToggleControl } from "../../controls/filters/version/version-mode-toggle.js";
+import { VersionRangeControl } from "../../controls/filters/version/version-range-control.js";
 
 export function ensureSequenceTypeFilterField(documentRef: any) {
   const existing = documentRef.getElementsByClassName("select-sequence-type")[0];

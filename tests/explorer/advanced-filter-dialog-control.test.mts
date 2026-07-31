@@ -2,19 +2,19 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-// Direct source under test: ../../src/explorer/advanced-filter-dialog-control.js
+// Direct source under test: ../../src/explorer/filters/advanced-filter-dialog-control.js
 
 const root = process.cwd();
-const sourcePath = path.join(root, "src/explorer/advanced-filter-dialog-control.ts");
+const sourcePath = path.join(root, "src/explorer/filters/advanced-filter-dialog-control.ts");
 const source = await fs.readFile(sourcePath, "utf8");
 
 const transformedSource = source
   .replace(
-    'import { AdvancedFiltersTriggerControl } from "../controls/filters/pickers/advanced-filters-trigger.js";',
+    'import { AdvancedFiltersTriggerControl } from "../../controls/filters/pickers/advanced-filters-trigger.js";',
     'import { AdvancedFiltersTriggerControl } from "./advanced-filters-trigger-stub.mjs";',
   )
   .replace(
-    'import { AdvancedFiltersDialogControl } from "../controls/dialog/content/advanced-filters-dialog.js";',
+    'import { AdvancedFiltersDialogControl } from "../../controls/dialog/content/advanced-filters-dialog.js";',
     'import { AdvancedFiltersDialogControl } from "./advanced-filters-dialog-stub.mjs";',
   )
   .replaceAll(" as HTMLDialogElement", "")

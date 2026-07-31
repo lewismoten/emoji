@@ -1,4 +1,4 @@
-import type { ExplorerUrlState } from "./url-state.js";
+import type { ExplorerUrlState } from "../navigation/url-state.js";
 import {
   ensureSequenceTypeFilterField,
   ensureVersionModeToggleControl,

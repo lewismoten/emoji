@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createCategoryFilterRenderer } from "../../src/explorer/category-filter-render.js";
+import { createCategoryFilterRenderer } from "../../src/explorer/category/category-filter-render.js";
 
 class FakeClassList {
   classes = new Set<string>();

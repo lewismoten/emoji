@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {
   renderCategoryFilterLayout,
   updateAvailableCategories,
-} from "../../src/explorer/category-filter-layout.js";
+} from "../../src/explorer/category/category-filter-layout.js";
 
 class FakeClassList {
   classes = new Set<string>();

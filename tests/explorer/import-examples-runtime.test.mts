@@ -6,7 +6,7 @@ import {
   loadPackageManifest,
   renderImportExamples,
   resolveImportExamples,
-} from "../../src/explorer/import-examples.js";
+} from "../../src/explorer/emoji/import-examples.js";
 
 type FakeNode = ReturnType<typeof createNode>;
 

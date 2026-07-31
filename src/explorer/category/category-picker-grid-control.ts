@@ -3,7 +3,7 @@ import {
   focusCompactChoice,
   makeCompactChoice,
   renderFilterPickerTrigger,
-} from "./filter-picker.js";
+} from "../filters/filter-picker.js";
 
 function replaceChoices(
   container: HTMLElement | undefined,

@@ -1,4 +1,4 @@
-import { createExplorerNavigation } from "../explorer/explorer-navigation.js";
+import { createExplorerNavigation } from "../explorer/navigation/explorer-navigation.js";
 
 export function createNavigationConfig(options: any) {
   return {

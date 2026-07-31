@@ -1,9 +1,9 @@
-import { ensureImportExamples as ensureImportExampleLines } from "../explorer/import-examples.js";
-import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from "../explorer/dialog/dialog-upgrade.js";
+import { ensureImportExamples as ensureImportExampleLines } from "../../explorer/emoji/import-examples.js";
+import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from "../../explorer/dialog/dialog-upgrade.js";
 import {
   finishExplorerLoading as finishExplorerLoadingHelper,
   revealExplorer as revealExplorerHelper,
-} from "../explorer/loading-state.js";
+} from "../../explorer/loading-state.js";
 
 export function createStartupOrchestrator(options: any) {
   function finishExplorerLoading() {

@@ -1,9 +1,9 @@
-import { getCodeExampleText as getCodeExampleTextValue } from "../explorer/import-examples.js";
+import { getCodeExampleText as getCodeExampleTextValue } from "../../explorer/emoji/import-examples.js";
 import {
   withoutDialogParentPanel,
   withoutCompositionParent,
-} from "../explorer/dialog/dialog-runtime-helpers.js";
-import { createEmojiDialogClickHandler } from "../explorer/dialog/emoji-dialog-events.js";
+} from "../../explorer/dialog/dialog-runtime-helpers.js";
+import { createEmojiDialogClickHandler } from "../../explorer/dialog/emoji-dialog-events.js";
 
 export function createEmojiDialogClickRuntime(options: any) {
   return createEmojiDialogClickHandler({

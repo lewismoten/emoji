@@ -3,7 +3,7 @@ import {
   ensureSequenceTypeFilterField,
   ensureVersionModeToggleControl,
   ensureVersionSliderControl,
-} from "../../src/explorer/version-filter-control.js";
+} from "../../src/explorer/filters/version-filter-control.js";
 
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
 

@@ -5,7 +5,7 @@ import {
   closestVerticalSavedEmoji,
   createThemeChoiceKeyDownHandler,
   syncSavedListFocus,
-} from "../../src/explorer/event-accessibility.js";
+} from "../../src/explorer/navigation/event-accessibility.js";
 
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
 

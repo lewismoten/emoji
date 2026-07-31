@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createDialogViewRuntime } from "../../src/app/dialog-view-runtime.js";
+import { createDialogViewRuntime } from "../../src/app/dialog/dialog-view-runtime.js";
 
 class FakeClassList {
   names = new Set<string>();

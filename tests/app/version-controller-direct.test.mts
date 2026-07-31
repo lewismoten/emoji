@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 
-import { createVersionController } from "../../src/app/version-controller.js";
+import { createVersionController } from "../../src/app/version/version-controller.js";
 
 type OptionLike = {
   value: string;

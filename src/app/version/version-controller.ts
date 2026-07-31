@@ -3,9 +3,9 @@ import {
   syncVersionRange as syncVersionRangeHelper,
   updateModifierAvailability as updateModifierAvailabilityHelper,
   versionSliderLabel as versionSliderLabelHelper,
-} from "../explorer/category-version.js";
-import { populateVersionSelector as populateVersionSelectorHelper } from "../explorer/version-data.js";
-import { createExplorerDataController } from "../explorer-data-controller.js";
+} from "../../explorer/category/category-version.js";
+import { populateVersionSelector as populateVersionSelectorHelper } from "../../explorer/filters/version-data.js";
+import { createExplorerDataController } from "../../explorer-data-controller.js";
 
 /** Coordinate version controls and the catalog/version data loader. */
 export function createVersionController(options: any) {

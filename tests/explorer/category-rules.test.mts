@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {
   getExplorerSubGroup,
   titleCase,
-} from "../../src/explorer/category-rules.js";
+} from "../../src/explorer/category/category-rules.js";
 
 const item = (subGroup: string, shortName: string, emoji = "") => ({
   emoji,

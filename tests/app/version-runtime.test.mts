@@ -3,25 +3,25 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-// coverage target: ../../src/app/version-runtime.js
+// coverage target: ../../src/app/version/version-runtime.js
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../../..",
 );
 const sourceText = await fs.readFile(
-  path.join(root, "src/app/version-runtime.ts"),
+  path.join(root, "src/app/version/version-runtime.ts"),
   "utf8",
 );
 
 const transformedSource = sourceText
   .replace(
-    'import { loadExplorerCatalog } from "../explorer/catalog-loader.js";',
-    'import { loadExplorerCatalog } from "./catalog-loader-stub.mjs";',
+    'import { loadExplorerCatalog } from "../../explorer/catalog-loader.js";',
+    'import { loadExplorerCatalog, catalogCalls } from "./catalog-loader-stub.mjs";',
   )
   .replace(
-    'import { loadVersionCatalog } from "../explorer/version-data.js";',
-    'import { loadVersionCatalog } from "./version-data-stub.mjs";',
+    'import { loadVersionCatalog } from "../../explorer/filters/version-data.js";',
+    'import { loadVersionCatalog, versionCatalogCalls } from "./version-data-stub.mjs";',
   )
   .replace(
     'import { createVersionController } from "./version-controller.js";',

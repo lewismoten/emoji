@@ -3,9 +3,9 @@ import assert from "node:assert/strict";
 import {
   createVersionConfig,
   createVersionRuntime,
-} from "../../src/app/version-runtime.js";
+} from "../../src/app/version/version-runtime.js";
 import { loadExplorerCatalog } from "../../src/explorer/catalog-loader.js";
-import { loadVersionCatalog } from "../../src/explorer/version-data.js";
+import { loadVersionCatalog } from "../../src/explorer/filters/version-data.js";
 
 const state = {
   allIds: ["wave"],

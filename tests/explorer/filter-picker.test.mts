@@ -10,7 +10,7 @@ import {
   populateSequenceTypeFilter,
   populateSubGroupFilter,
   renderFilterPickerTrigger,
-} from "../../src/explorer/filter-picker.js";
+} from "../../src/explorer/filters/filter-picker.js";
 
 class FakeElement {
   tagName: string;

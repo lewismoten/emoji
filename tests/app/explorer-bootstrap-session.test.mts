@@ -20,11 +20,11 @@ const transformedSource = sourceText
     'from "./explorer-labels-stub.mjs";',
   )
   .replace(
-    'from "../../explorer/category-rules.js";',
+    'from "../../explorer/category/category-rules.js";',
     'from "./category-rules-stub.mjs";',
   )
   .replace(
-    'from "../../explorer/emoji-format.js";',
+    'from "../../explorer/emoji/emoji-format.js";',
     'from "./emoji-format-stub.mjs";',
   )
   .replace(
@@ -41,11 +41,11 @@ const transformedSource = sourceText
     'from "./explorer-state-stub.mjs";',
   )
   .replace(
-    'from "../../explorer/url-state.js";',
+    'from "../../explorer/navigation/url-state.js";',
     'from "./url-state-stub.mjs";',
   )
   .replace(
-    'from "../browser-runtime.js";',
+    'from "../browser/browser-runtime.js";',
     'from "./browser-runtime-stub.mjs";',
   )
   .replace(

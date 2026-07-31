@@ -17,15 +17,15 @@ export const pixelFontHotReload = await fs.readFile(
   "utf8",
 );
 export const emojiListRenderHelper = await fs.readFile(
-  path.join(root, "src/explorer/emoji-list-render.ts"),
+  path.join(root, "src/explorer/emoji/emoji-list-render.ts"),
   "utf8",
 );
 export const emojiListInteractionHelper = await fs.readFile(
-  path.join(root, "src/explorer/emoji-list-interaction.ts"),
+  path.join(root, "src/explorer/emoji/emoji-list-interaction.ts"),
   "utf8",
 );
 export const emojiFilterHelper = await fs.readFile(
-  path.join(root, "src/explorer/emoji-filter.ts"),
+  path.join(root, "src/explorer/emoji/emoji-filter.ts"),
   "utf8",
 );
 export const dialogUpgradeHelper = await fs.readFile(
@@ -41,7 +41,7 @@ export const pixelArtwork = await fs.readFile(
   "utf8",
 );
 export const versionData = await fs.readFile(
-  path.join(root, "src/explorer/version-data.ts"),
+  path.join(root, "src/explorer/filters/version-data.ts"),
   "utf8",
 );
 export const explorerDataController = await fs.readFile(
@@ -61,7 +61,7 @@ export const explorerPreferencesSource = await fs.readFile(
   "utf8",
 );
 export const versionModeController = await fs.readFile(
-  path.join(root, "src/app/version-mode-controller.ts"),
+  path.join(root, "src/app/version/version-mode-controller.ts"),
   "utf8",
 );
 export const explorerBootstrapSessionSource = await fs.readFile(
@@ -85,12 +85,12 @@ export const loadingState = await fs.readFile(
   "utf8",
 );
 export const listController = await fs.readFile(
-  path.join(root, "src/explorer/list-controller.ts"),
+  path.join(root, "src/explorer/emoji/list-controller.ts"),
   "utf8",
 );
 export const emojiListSources = `${demoScript}\n${loadingState}\n${emojiListInteractionHelper}`;
 export const utilityControlsHelper = await fs.readFile(
-  path.join(root, "src/explorer/utility-controls.ts"),
+  path.join(root, "src/explorer/utility/utility-controls.ts"),
   "utf8",
 );
 export const languageDialogControlSource = await fs.readFile(
@@ -110,19 +110,19 @@ export const savedDialogControlSource = await fs.readFile(
   "utf8",
 );
 export const filterPickerHelper = await fs.readFile(
-  path.join(root, "src/explorer/filter-picker.ts"),
+  path.join(root, "src/explorer/filters/filter-picker.ts"),
   "utf8",
 );
 export const versionFilterControl = await fs.readFile(
-  path.join(root, "src/explorer/version-filter-control.ts"),
+  path.join(root, "src/explorer/filters/version-filter-control.ts"),
   "utf8",
 );
 export const categoryVersionHelper = await fs.readFile(
-  path.join(root, "src/explorer/category-version.ts"),
+  path.join(root, "src/explorer/category/category-version.ts"),
   "utf8",
 );
 export const filterControlsHelper = await fs.readFile(
-  path.join(root, "src/explorer/filter-controls.ts"),
+  path.join(root, "src/explorer/filters/filter-controls.ts"),
   "utf8",
 );
 export const dialogRenderHelper = await fs.readFile(
@@ -251,7 +251,7 @@ export const websitePublisher = await fs.readFile(
   "utf8",
 );
 export const renderingDiagnosticHelper = await fs.readFile(
-  path.join(root, "src/explorer/rendering-diagnostic.ts"),
+  path.join(root, "src/explorer/emoji/rendering-diagnostic.ts"),
   "utf8",
 );
 export const pixelEditorLoaderSource = await fs.readFile(
@@ -259,19 +259,19 @@ export const pixelEditorLoaderSource = await fs.readFile(
   "utf8",
 );
 export const emojiCompositionHelper = await fs.readFile(
-  path.join(root, "src/explorer/emoji-composition.ts"),
+  path.join(root, "src/explorer/emoji/emoji-composition.ts"),
   "utf8",
 );
 export const compositionHelpers = await fs.readFile(
-  path.join(root, "src/explorer/composition-helpers.ts"),
+  path.join(root, "src/explorer/emoji/composition-helpers.ts"),
   "utf8",
 );
 export const urlStateHelper = await fs.readFile(
-  path.join(root, "src/explorer/url-state.ts"),
+  path.join(root, "src/explorer/navigation/url-state.ts"),
   "utf8",
 );
 export const emojiFormatHelper = await fs.readFile(
-  path.join(root, "src/explorer/emoji-format.ts"),
+  path.join(root, "src/explorer/emoji/emoji-format.ts"),
   "utf8",
 );
 export const fontPublishWorkflow = await fs.readFile(

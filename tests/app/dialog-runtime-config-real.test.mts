@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createDialogRuntimeConfig } from "../../src/app/dialog-runtime-config.js";
+import { createDialogRuntimeConfig } from "../../src/app/dialog/dialog-runtime-config.js";
 
 class FakeClassList {
   contains() {

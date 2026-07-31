@@ -149,7 +149,10 @@ assert.match(
   "successful emoji copies must animate the preview button",
 );
 assert.match(
-  await fs.readFile(path.join(root, "src/explorer/copy-feedback.ts"), "utf8"),
+  await fs.readFile(
+    path.join(root, "src/explorer/utility/copy-feedback.ts"),
+    "utf8",
+  ),
   /prefers-reduced-motion: reduce[\s\S]*emoji-copy-confirmation[\s\S]*transform:\s*(["'])scale\(0\.9\)\1[\s\S]*transform:\s*(["'])scale\(1\.05\)\2/,
   "successful emoji copies must provide motion-aware visual confirmation",
 );

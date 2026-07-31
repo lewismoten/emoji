@@ -25,6 +25,12 @@ assert.match(markup, /id="custom-version-output"/);
 assert.match(markup, /for="custom-version-range"/);
 assert.match(markup, />—<\/output>/);
 
+const spec = VersionRangeControl.toSpec({
+  labelId: "custom-version-label",
+});
+assert.equal(spec.tag, "div");
+assert.equal(spec.children?.length, 2);
+
 const restore = installFakeDocument();
 const instance = new VersionRangeControl();
 assert.match(instance.toMarkup(), /class="compact-version"/);

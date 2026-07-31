@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { resolveRenderingDiagnostic } from "../../src/explorer/rendering-diagnostic.js";
+import { resolveRenderingDiagnostic } from "../../src/explorer/emoji/rendering-diagnostic.js";
 
 const translate = (key: string, fallback: string) => `${key}:${fallback}`;
 

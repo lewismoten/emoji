@@ -1,6 +1,6 @@
 import { resolveEmojiDialogDisplay } from "./dialog-state.js";
-import { renderEmojiComposition } from "../emoji-composition.js";
-import { resolveRenderingDiagnostic } from "../rendering-diagnostic.js";
+import { renderEmojiComposition } from "../emoji/emoji-composition.js";
+import { resolveRenderingDiagnostic } from "../emoji/rendering-diagnostic.js";
 
 export function updateEmojiComposition(options: {
   applyPixelArtworkClass: (element: any, emojiKey: string) => void;

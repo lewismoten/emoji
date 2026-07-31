@@ -1,13 +1,13 @@
-import { displayEmojiKey } from "./emoji-format.js";
+import { displayEmojiKey } from "./emoji/emoji-format.js";
 import {
   animateCopyConfirmation,
   announceStatus,
   copyToClipboard,
-} from "./copy-feedback.js";
+} from "./utility/copy-feedback.js";
 import {
   updateFavoriteGlyph,
   updateFavoriteToggleButton,
-} from "./favorite-button.js";
+} from "./utility/favorite-button.js";
 
 export { animateCopyConfirmation, announceStatus, copyToClipboard };
 

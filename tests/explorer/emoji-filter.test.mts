@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {
   filterEmojiKeys,
   getEmojiGenders,
-} from "../../src/explorer/emoji-filter.js";
+} from "../../src/explorer/emoji/emoji-filter.js";
 
 const emojiByKey = {
   manRunner: "🏃‍♂️",

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { updateActiveFilterSummary } from "../../src/explorer/filter-summary.js";
+import { updateActiveFilterSummary } from "../../src/explorer/filters/filter-summary.js";
 
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
 

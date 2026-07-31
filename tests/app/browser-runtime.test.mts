@@ -9,29 +9,29 @@ import {
   initializeBrowserRuntime as actualInitializeBrowserRuntime,
   isViteDevelopmentRuntime as actualIsViteDevelopmentRuntime,
   restoreLanguageParentPanel as actualRestoreLanguageParentPanel,
-} from "../../src/app/browser-runtime.js";
+} from "../../src/app/browser/browser-runtime.js";
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../../..",
 );
 const sourceText = await fs.readFile(
-  path.join(root, "src/app/browser-runtime.ts"),
+  path.join(root, "src/app/browser/browser-runtime.ts"),
   "utf8",
 );
 
 const transformedSource = sourceText
   .replace(
-    'import { createSearchLanguageLifecycle } from "../explorer/language/search-language-lifecycle.js";',
+    /import\s+\{\s*createSearchLanguageLifecycle\s*\}\s+from\s+"..\/..\/explorer\/language\/search-language-lifecycle\.js";/,
     'import { createSearchLanguageLifecycle } from "./search-language-lifecycle-stub.mjs";',
   )
   .replace(
-    'import { openPanelDialog } from "../explorer/pwa-panels.js";',
+    /import\s+\{\s*openPanelDialog\s*\}\s+from\s+"..\/..\/explorer\/pwa-panels\.js";/,
     'import { openPanelDialog } from "./pwa-panels-stub.mjs";',
   )
   .replace(
-    'import {\n  installPixelFontHotReload,\n  refreshExplorerPixelFont,\n  refreshPixelFontStylesheet,\n} from "../pixel-font-hot-reload.js";',
-    'import {\n  installPixelFontHotReload,\n  refreshExplorerPixelFont,\n  refreshPixelFontStylesheet,\n} from "./pixel-font-hot-reload-stub.mjs";',
+    /import\s+\{\s*installPixelFontHotReload,\s*refreshExplorerPixelFont,\s*refreshPixelFontStylesheet,\s*\}\s+from\s+"..\/..\/pixel-font-hot-reload\.js";/,
+    'import { installPixelFontHotReload, refreshExplorerPixelFont, refreshPixelFontStylesheet } from "./pixel-font-hot-reload-stub.mjs";',
   )
   .replace(
     /export function createUiFormatters\(options: \{[\s\S]*?\}\) \{/,
@@ -135,9 +135,9 @@ const panelStub = await import(pathToFileURL(panelStubFile).href);
 const pixelFontStub = await import(pathToFileURL(pixelFontStubFile).href);
 
 const { createUiFormatters, initializeBrowserRuntime } = browserRuntimeModule;
-const exportedCreateUiFormatters: typeof import("../../src/app/browser-runtime.js").createUiFormatters =
+const exportedCreateUiFormatters: typeof import("../../src/app/browser/browser-runtime.js").createUiFormatters =
   createUiFormatters;
-const exportedInitializeBrowserRuntime: typeof import("../../src/app/browser-runtime.js").initializeBrowserRuntime =
+const exportedInitializeBrowserRuntime: typeof import("../../src/app/browser/browser-runtime.js").initializeBrowserRuntime =
   initializeBrowserRuntime;
 assert.equal(typeof exportedCreateUiFormatters, "function");
 assert.equal(typeof exportedInitializeBrowserRuntime, "function");

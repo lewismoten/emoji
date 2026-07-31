@@ -88,7 +88,10 @@ assert.match(
   "pixel atlas row and column numbers must use the active locale",
 );
 assert.match(
-  await fs.readFile(path.join(root, "src/explorer/emoji-format.ts"), "utf8"),
+  await fs.readFile(
+    path.join(root, "src/explorer/emoji/emoji-format.ts"),
+    "utf8",
+  ),
   /export function formatUiPercent[\s\S]*numberingSystem\?: string[\s\S]*style:\s*(["'])percent\1/,
   "Arabic percentages must use Arabic digits and percent formatting",
 );

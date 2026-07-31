@@ -4,8 +4,8 @@ import {
   focusCompactChoice as focusCompactChoiceHelper,
   onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper,
   openFilterPicker as openFilterPickerHelper,
-} from "../explorer/filter-picker.js";
-import { createCategoryFilterRenderer } from "../explorer/category-filter-render.js";
+} from "../explorer/filters/filter-picker.js";
+import { createCategoryFilterRenderer } from "../explorer/category/category-filter-render.js";
 import { buildCategoryRepresentatives } from "../category-representatives.js";
 
 /** Own category selection, localized labels, and category filter rendering. */

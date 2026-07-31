@@ -8,18 +8,18 @@ import {
   unicodeGroupLabelKeys,
   unicodeSubgroupLabelKeys,
 } from "../../explorer/explorer-labels.js";
-import { getExplorerSubGroup } from "../../explorer/category-rules.js";
+import { getExplorerSubGroup } from "../../explorer/category/category-rules.js";
 import {
   formatUiNumber as formatUiNumberValue,
   formatUiPercent as formatUiPercentValue,
   normalizeCodePoints,
-} from "../../explorer/emoji-format.js";
+} from "../../explorer/emoji/emoji-format.js";
 import { animateCopyConfirmation as animateEmojiCopyConfirmation } from "../../explorer/saved-emoji.js";
 import { openPanelDialog } from "../../explorer/pwa-panels.js";
 import { createExplorerApp } from "../../explorer-app.js";
-import { parseExplorerModeParam } from "../../explorer/url-state.js";
+import { parseExplorerModeParam } from "../../explorer/navigation/url-state.js";
 import { createExplorerState } from "../../explorer-state.js";
-import { createUiFormatters } from "../browser-runtime.js";
+import { createUiFormatters } from "../browser/browser-runtime.js";
 import { createExplorerBootstrapBindings } from "./explorer-bootstrap-bindings.js";
 import {
   buildExplorerBootstrapControllerOptions,

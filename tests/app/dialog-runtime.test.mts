@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { initializeDialogRuntime } from "../../src/app/dialog-runtime.js";
+import { initializeDialogRuntime } from "../../src/app/dialog/dialog-runtime.js";
 
 class FakeClassList {
   constructor(private readonly containsValue = false) {}

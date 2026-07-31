@@ -9,16 +9,16 @@ import {
   applyLoadedUrlStateToControls,
   resetFilterControls,
   stepVersionIndex,
-} from "./filter-controls.js";
+} from "../filters/filter-controls.js";
 import {
   closePanelDialog,
   getOpenPanel,
   getPanelDialog,
   openPanelDialog,
-} from "./pwa-panels.js";
+} from "../pwa-panels.js";
 import {
   applyLanguagePanelParent,
-} from "./navigation/panel-parent.js";
+} from "./panel-parent.js";
 
 type Checkbox = { checked: boolean; value: string };
 

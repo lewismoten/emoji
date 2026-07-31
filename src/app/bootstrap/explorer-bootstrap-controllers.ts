@@ -1,10 +1,10 @@
 // @ts-nocheck -- Transitional bootstrap wiring.
 import { createCategoryController } from "../category-controller.js";
-import { createVersionRuntime } from "../version-runtime.js";
+import { createVersionRuntime } from "../version/version-runtime.js";
 import { createListOrchestration } from "../list-orchestration.js";
 import { createNavigationRuntime } from "../navigation-runtime.js";
-import { createDialogViewRuntime } from "../dialog-view-runtime.js";
-import { createEmojiDialogClickRuntime } from "../emoji-dialog-click-runtime.js";
+import { createDialogViewRuntime } from "../dialog/dialog-view-runtime.js";
+import { createEmojiDialogClickRuntime } from "../emoji/emoji-dialog-click-runtime.js";
 
 export function createExplorerBootstrapControllers(options: any) {
   const state = options.state;

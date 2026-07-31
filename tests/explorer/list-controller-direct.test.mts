@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createListController } from "../../src/explorer/list-controller.js";
+import { createListController } from "../../src/explorer/emoji/list-controller.js";
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");

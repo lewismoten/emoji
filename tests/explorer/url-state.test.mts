@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {
   buildExplorerUrlQuery,
   parseExplorerUrlState,
-} from "../../src/explorer/url-state.js";
+} from "../../src/explorer/navigation/url-state.js";
 
 const queryEntries = (value: string) =>
   Array.from(new URLSearchParams(value).entries()).sort(([left], [right]) =>

@@ -2,13 +2,13 @@ import {
   getIntroducedVersion as getIntroducedVersionHelper,
   withoutDialogParentPanel,
   withoutCompositionParent,
-} from "../explorer/dialog/dialog-runtime-helpers.js";
+} from "../../explorer/dialog/dialog-runtime-helpers.js";
 import {
   loadPackageManifest as loadPackageManifestHelper,
   renderImportExamples as renderImportExamplesHelper,
-} from "../explorer/import-examples.js";
-import { updateExplorerComposition } from "../explorer-composition-controller.js";
-import { copyToClipboard } from "../explorer/saved-emoji.js";
+} from "../../explorer/emoji/import-examples.js";
+import { updateExplorerComposition } from "../../explorer-composition-controller.js";
+import { copyToClipboard } from "../../explorer/saved-emoji.js";
 
 /** Coordinate emoji detail actions without retaining DOM state in index.ts. */
 export function createEmojiActions(options: any) {

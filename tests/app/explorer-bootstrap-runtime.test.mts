@@ -24,7 +24,7 @@ const transformedSource = sourceText
     'from "./explorer-dom-stub.mjs";',
   )
   .replace(
-    'from "../../explorer/utility-controls.js";',
+    'from "../../explorer/utility/utility-controls.js";',
     'from "./utility-controls-stub.mjs";',
   )
   .replace(
@@ -32,7 +32,7 @@ const transformedSource = sourceText
     'from "./ui-binding-runtime-stub.mjs";',
   )
   .replace(
-    'from "../startup-runtime.js";',
+    'from "../startup/startup-runtime.js";',
     'from "./startup-runtime-stub.mjs";',
   )
   .replace(
@@ -40,15 +40,15 @@ const transformedSource = sourceText
     'from "./pixel-editor-runtime-stub.mjs";',
   )
   .replace(
-    'from "../version-mode-runtime.js";',
+    'from "../version/version-mode-runtime.js";',
     'from "./version-mode-runtime-stub.mjs";',
   )
   .replace(
-    'from "../browser-runtime-config.js";',
+    'from "../browser/browser-runtime-config.js";',
     'from "./browser-runtime-config-stub.mjs";',
   )
   .replace(
-    'from "../dialog-runtime-config.js";',
+    'from "../dialog/dialog-runtime-config.js";',
     'from "./dialog-runtime-config-stub.mjs";',
   )
   .replace(
@@ -60,7 +60,7 @@ const transformedSource = sourceText
     'from "./pwa-panels-stub.mjs";',
   )
   .replace(
-    'from "../../explorer/emoji-filter.js";',
+    'from "../../explorer/emoji/emoji-filter.js";',
     'from "./emoji-filter-stub.mjs";',
   )
   .replace(/value: string\[\]/g, "value")

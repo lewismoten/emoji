@@ -6,7 +6,7 @@ import {
   createFilterControlSetup,
   resetFilterControls,
   stepVersionIndex,
-} from "../../src/explorer/filter-controls.js";
+} from "../../src/explorer/filters/filter-controls.js";
 
 class FakeElement {
   tagName: string;

@@ -3,28 +3,31 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-// coverage target: ../../src/app/startup-runtime.js
+// coverage target: ../../src/app/startup/startup-runtime.js
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../../..",
 );
 const sourceText = await fs.readFile(
-  path.join(root, "src/app/startup-runtime.ts"),
+  path.join(root, "src/app/startup/startup-runtime.ts"),
   "utf8",
 );
 
 const transformedSource = sourceText
-  .replace('from "../explorer-app.js";', 'from "./explorer-app-stub.mjs";')
+  .replace('from "../../explorer-app.js";', 'from "./explorer-app-stub.mjs";')
   .replace(
-    'import { createFilterControlSetup } from "../explorer/filter-controls.js";',
+    'import { createFilterControlSetup } from "../../explorer/filters/filter-controls.js";',
     'import { createFilterControlSetup } from "./filter-controls-stub.mjs";',
   )
   .replace(
-    'import { observeToolbarHeight } from "../explorer/toolbar/toolbar-layout.js";',
+    'import { observeToolbarHeight } from "../../explorer/toolbar/toolbar-layout.js";',
     'import { observeToolbarHeight } from "./toolbar-layout-stub.mjs";',
   )
-  .replace('from "../explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";')
+  .replace(
+    'from "../../explorer/pwa-panels.js";',
+    'from "./pwa-panels-stub.mjs";',
+  )
   .replace(
     'import { createStartupOrchestrator } from "./startup-orchestrator.js";',
     'import { createStartupOrchestrator } from "./startup-orchestrator-stub.mjs";',
@@ -82,7 +85,7 @@ const orchestratorStub = await import(
   pathToFileURL(path.join(tempDirectory, "startup-orchestrator-stub.mjs")).href
 );
 const { createStartupRuntime } =
-  module as typeof import("../../src/app/startup-runtime.js");
+  module as typeof import("../../src/app/startup/startup-runtime.js");
 
 let state = {
   copiedEmojiKeys: ["wave"],

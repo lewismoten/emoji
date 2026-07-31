@@ -7,7 +7,7 @@ import {
   findCompositionArtworkKey,
   findCompositionEmojiKey,
   isCondensedSequenceControl,
-} from "../../src/explorer/composition-helpers.js";
+} from "../../src/explorer/emoji/composition-helpers.js";
 
 const lookup = new Map([
   ["1F3F4", "blackFlag"],

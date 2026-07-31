@@ -2,14 +2,14 @@ import {
   bindExplorerEvents,
   finalizeExplorerStartup,
   initializeExplorerControls,
-} from "../explorer-app.js";
-import { createFilterControlSetup } from "../explorer/filter-controls.js";
-import { observeToolbarHeight } from "../explorer/toolbar/toolbar-layout.js";
+} from "../../explorer-app.js";
+import { createFilterControlSetup } from "../../explorer/filters/filter-controls.js";
+import { observeToolbarHeight } from "../../explorer/toolbar/toolbar-layout.js";
 import {
   closePanelDialog,
   getInstalledDisplayQueries,
   openPanelDialog,
-} from "../explorer/pwa-panels.js";
+} from "../../explorer/pwa-panels.js";
 import { createStartupOrchestrator } from "./startup-orchestrator.js";
 
 export function createStartupRuntime(options: any) {

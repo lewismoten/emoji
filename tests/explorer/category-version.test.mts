@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import * as categoryVersion from "../../src/explorer/category-version.js";
-import * as categoryFilterLayout from "../../src/explorer/category-filter-layout.js";
+import * as categoryVersion from "../../src/explorer/category/category-version.js";
+import * as categoryFilterLayout from "../../src/explorer/category/category-filter-layout.js";
 
 class FakeClassList {
   classes = new Set<string>();

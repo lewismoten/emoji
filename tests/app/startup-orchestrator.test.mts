@@ -3,28 +3,28 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-// coverage target: ../../src/app/startup-orchestrator.js
+// coverage target: ../../src/app/startup/startup-orchestrator.js
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../../..",
 );
 const sourceText = await fs.readFile(
-  path.join(root, "src/app/startup-orchestrator.ts"),
+  path.join(root, "src/app/startup/startup-orchestrator.ts"),
   "utf8",
 );
 
 const transformedSource = sourceText
   .replace(
-    'import { ensureImportExamples as ensureImportExampleLines } from "../explorer/import-examples.js";',
+    'import { ensureImportExamples as ensureImportExampleLines } from "../../explorer/emoji/import-examples.js";',
     'import { ensureImportExamples as ensureImportExampleLines } from "./import-examples-stub.mjs";',
   )
   .replace(
-    'import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from "../explorer/dialog/dialog-upgrade.js";',
+    'import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from "../../explorer/dialog/dialog-upgrade.js";',
     'import { upgradeEmojiDialog as upgradeEmojiDialogHelper } from "./dialog-upgrade-stub.mjs";',
   )
   .replace(
-    'from "../explorer/loading-state.js";',
+    'from "../../explorer/loading-state.js";',
     'from "./loading-state-stub.mjs";',
   )
   .replace(/options: any/g, "options");
@@ -121,7 +121,7 @@ try {
     pathToFileURL(path.join(tempDirectory, "startup-orchestrator.mjs")).href
   );
   const { createStartupOrchestrator } =
-    module as typeof import("../../src/app/startup-orchestrator.js");
+    module as typeof import("../../src/app/startup/startup-orchestrator.js");
 
   const calls: Record<string, any[]> = {};
   const push = (key: string, value: any) => {

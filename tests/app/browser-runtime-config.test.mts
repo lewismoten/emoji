@@ -2,14 +2,14 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { createBrowserRuntimeConfig as actualCreateBrowserRuntimeConfig } from "../../src/app/browser-runtime-config.js";
+import { createBrowserRuntimeConfig as actualCreateBrowserRuntimeConfig } from "../../src/app/browser/browser-runtime-config.js";
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../../..",
 );
 const sourceText = await fs.readFile(
-  path.join(root, "src/app/browser-runtime-config.ts"),
+  path.join(root, "src/app/browser/browser-runtime-config.ts"),
   "utf8",
 );
 
@@ -99,7 +99,7 @@ const options = {
 };
 
 const result = module.createBrowserRuntimeConfig(options);
-const exportedCreateBrowserRuntimeConfig: typeof import("../../src/app/browser-runtime-config.js").createBrowserRuntimeConfig =
+const exportedCreateBrowserRuntimeConfig: typeof import("../../src/app/browser/browser-runtime-config.js").createBrowserRuntimeConfig =
   module.createBrowserRuntimeConfig;
 assert.equal(typeof exportedCreateBrowserRuntimeConfig, "function");
 assert.equal(result.initialized, true);

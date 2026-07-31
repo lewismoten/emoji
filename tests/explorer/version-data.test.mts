@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {
   loadVersionCatalog,
   populateVersionSelector,
-} from "../../src/explorer/version-data.js";
+} from "../../src/explorer/filters/version-data.js";
 
 const originalFetch = globalThis.fetch;
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");

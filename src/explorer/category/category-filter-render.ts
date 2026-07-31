@@ -7,7 +7,7 @@ import {
   populateGroupFilter,
   populateSequenceTypeFilter,
   populateSubGroupFilter,
-} from "./filter-picker.js";
+} from "../filters/filter-picker.js";
 import {
   renderGroupPickerGrid,
   renderSequencePickerGrid,

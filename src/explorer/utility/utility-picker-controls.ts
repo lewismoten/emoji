@@ -1,7 +1,7 @@
 import {
   createFilterPickerDialogControl,
   createFilterPickerTriggerControl,
-} from "./filter-picker-control.js";
+} from "../filters/filter-picker-control.js";
 
 type TriggerConfig = {
   controlsId: string;

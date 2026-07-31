@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { ensurePickerControls } from "../../src/explorer/utility-picker-controls.js";
+import { ensurePickerControls } from "../../src/explorer/utility/utility-picker-controls.js";
 
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
 

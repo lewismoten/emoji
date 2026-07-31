@@ -3,7 +3,7 @@ import {
   createCompactChoiceControl,
   createFilterPickerDialogControl,
   createFilterPickerTriggerControl,
-} from "../../src/explorer/filter-picker-control.js";
+} from "../../src/explorer/filters/filter-picker-control.js";
 
 class FakeElement {
   tagName: string;

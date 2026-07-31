@@ -1,4 +1,4 @@
-import { titleCase } from "./category-rules.js";
+import { titleCase } from "../category/category-rules.js";
 import { createCompactChoiceControl } from "./filter-picker-control.js";
 
 type ChoiceButtonLike = HTMLButtonElement & {

@@ -4,13 +4,13 @@ import { getExplorerElements } from "../../explorer/explorer-dom.js";
 import {
   ensureUtilityControls,
   positionFavoriteButton,
-} from "../../explorer/utility-controls.js";
+} from "../../explorer/utility/utility-controls.js";
 import { createUiBindingRuntime } from "../ui-binding-runtime.js";
-import { createStartupRuntime } from "../startup-runtime.js";
+import { createStartupRuntime } from "../startup/startup-runtime.js";
 import { createPixelEditorRuntime } from "../pixel-editor-loader-runtime.js";
-import { createVersionModeRuntime } from "../version-mode-runtime.js";
-import { createBrowserRuntimeConfig } from "../browser-runtime-config.js";
-import { createDialogRuntimeConfig } from "../dialog-runtime-config.js";
+import { createVersionModeRuntime } from "../version/version-mode-runtime.js";
+import { createBrowserRuntimeConfig } from "../browser/browser-runtime-config.js";
+import { createDialogRuntimeConfig } from "../dialog/dialog-runtime-config.js";
 import {
   languageFlags,
   sequenceTranslationKeys,
@@ -24,7 +24,7 @@ import {
   openPanelDialog,
   updateWebAppManifest,
 } from "../../explorer/pwa-panels.js";
-import { getEmojiGenders } from "../../explorer/emoji-filter.js";
+import { getEmojiGenders } from "../../explorer/emoji/emoji-filter.js";
 
 export function createExplorerBootstrapRuntime(options: any) {
   const explorerRuntime = createExplorerRuntime({

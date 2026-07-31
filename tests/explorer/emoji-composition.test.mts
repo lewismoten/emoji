@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { renderEmojiComposition } from "../../src/explorer/emoji-composition.js";
+import { renderEmojiComposition } from "../../src/explorer/emoji/emoji-composition.js";
 
 const makeElement = () => ({
   attributes: {} as Record<string, string>,

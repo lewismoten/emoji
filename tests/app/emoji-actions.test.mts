@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createEmojiActions } from "../../src/app/emoji-actions.js";
+import { createEmojiActions } from "../../src/app/emoji/emoji-actions.js";
 
 class FakeElement {
   id = "";

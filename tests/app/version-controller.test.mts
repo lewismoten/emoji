@@ -3,28 +3,28 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-// coverage target: ../../src/app/version-controller.js
+// coverage target: ../../src/app/version/version-controller.js
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   "../../..",
 );
 const sourceText = await fs.readFile(
-  path.join(root, "src/app/version-controller.ts"),
+  path.join(root, "src/app/version/version-controller.ts"),
   "utf8",
 );
 
 const transformedSource = sourceText
   .replace(
-    'import {\n  getVersionKeys as getVersionKeysHelper,\n  syncVersionRange as syncVersionRangeHelper,\n  updateModifierAvailability as updateModifierAvailabilityHelper,\n  versionSliderLabel as versionSliderLabelHelper,\n} from "../explorer/category-version.js";',
+    'import {\n  getVersionKeys as getVersionKeysHelper,\n  syncVersionRange as syncVersionRangeHelper,\n  updateModifierAvailability as updateModifierAvailabilityHelper,\n  versionSliderLabel as versionSliderLabelHelper,\n} from "../../explorer/category/category-version.js";',
     'import {\n  getVersionKeys as getVersionKeysHelper,\n  syncVersionRange as syncVersionRangeHelper,\n  updateModifierAvailability as updateModifierAvailabilityHelper,\n  versionSliderLabel as versionSliderLabelHelper,\n} from "./category-version-stub.mjs";',
   )
   .replace(
-    'import { populateVersionSelector as populateVersionSelectorHelper } from "../explorer/version-data.js";',
+    'import { populateVersionSelector as populateVersionSelectorHelper } from "../../explorer/filters/version-data.js";',
     'import { populateVersionSelector as populateVersionSelectorHelper } from "./version-data-stub.mjs";',
   )
   .replace(
-    'import { createExplorerDataController } from "../explorer-data-controller.js";',
+    'import { createExplorerDataController } from "../../explorer-data-controller.js";',
     'import { createExplorerDataController } from "./explorer-data-controller-stub.mjs";',
   )
   .replace(/options: any/g, "options")

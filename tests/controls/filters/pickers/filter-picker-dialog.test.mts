@@ -22,6 +22,17 @@ assert.match(
   /class="compact-choices compact-group-choices" aria-labelledby="group-filter-dialog-title" role="radiogroup"/,
 );
 
+const spec = FilterPickerDialogControl.toSpec({
+  choicesClassName: "compact-group-choices",
+  className: "filter-picker-dialog group-filter-dialog",
+  dialogId: "group-filter-dialog",
+  title: "Choose a group",
+  titleId: "group-filter-dialog-title",
+  titleKey: "chooseGroup",
+});
+assert.equal(spec.tag, "dialog");
+assert.equal(spec.attributes?.id, "group-filter-dialog");
+
 const restore = installFakeDocument();
 const globals = globalThis as typeof globalThis & {
   document: { head: FakeElement };

@@ -2,10 +2,10 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-// Direct source under test: ../../src/explorer/explorer-navigation.js
+// Direct source under test: ../../src/explorer/navigation/explorer-navigation.js
 
 const root = process.cwd();
-const sourcePath = path.join(root, "build/src/explorer/explorer-navigation.js");
+const sourcePath = path.join(root, "build/src/explorer/navigation/explorer-navigation.js");
 const source = await fs.readFile(sourcePath, "utf8");
 
 const transformedSource = source
@@ -14,15 +14,15 @@ const transformedSource = source
     'import { buildExplorerUrlQuery, parseExplorerUrlState, urlStateCalls } from "./url-state-stub.mjs";',
   )
   .replace(
-    'import { applyBasicUrlStateToControls, applyExclusiveCheckboxSelection, applyLoadedUrlStateToControls, resetFilterControls, stepVersionIndex, } from "./filter-controls.js";',
+    'import { applyBasicUrlStateToControls, applyExclusiveCheckboxSelection, applyLoadedUrlStateToControls, resetFilterControls, stepVersionIndex, } from "../filters/filter-controls.js";',
     'import { applyBasicUrlStateToControls, applyExclusiveCheckboxSelection, applyLoadedUrlStateToControls, resetFilterControls, stepVersionIndex, filterControlCalls } from "./filter-controls-stub.mjs";',
   )
   .replace(
-    'import { closePanelDialog, getOpenPanel, getPanelDialog, openPanelDialog, } from "./pwa-panels.js";',
+    'import { closePanelDialog, getOpenPanel, getPanelDialog, openPanelDialog, } from "../pwa-panels.js";',
     'import { closePanelDialog, getOpenPanel, getPanelDialog, openPanelDialog, panelCalls } from "./pwa-panels-stub.mjs";',
   )
   .replace(
-    'import { applyLanguagePanelParent, } from "./navigation/panel-parent.js";',
+    'import { applyLanguagePanelParent, } from "./panel-parent.js";',
     'import { applyLanguagePanelParent } from "./panel-parent-stub.mjs";',
   );
 

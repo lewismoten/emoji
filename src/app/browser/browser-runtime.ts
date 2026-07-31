@@ -1,10 +1,10 @@
-import { createSearchLanguageLifecycle } from "../explorer/language/search-language-lifecycle.js";
-import { openPanelDialog } from "../explorer/pwa-panels.js";
+import { createSearchLanguageLifecycle } from "../../explorer/language/search-language-lifecycle.js";
+import { openPanelDialog } from "../../explorer/pwa-panels.js";
 import {
   installPixelFontHotReload,
   refreshExplorerPixelFont,
   refreshPixelFontStylesheet,
-} from "../pixel-font-hot-reload.js";
+} from "../../pixel-font-hot-reload.js";
 
 export function isViteDevelopmentRuntime() {
   const override = Reflect.get(globalThis, "__TEST_VITE_DEV__");

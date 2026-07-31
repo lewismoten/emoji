@@ -10,7 +10,7 @@ const source = await fs.readFile(sourcePath, "utf8");
 
 const transformedSource = source
   .replace(
-    'from "./explorer/event-accessibility.js";',
+    'from "./explorer/navigation/event-accessibility.js";',
     'from "./event-accessibility-stub.mjs";',
   )
   .replace(

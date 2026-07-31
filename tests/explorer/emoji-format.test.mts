@@ -6,7 +6,7 @@ import {
   formatUiPercent,
   normalizeCodePoints,
   normalizeDisplayName,
-} from "../../src/explorer/emoji-format.js";
+} from "../../src/explorer/emoji/emoji-format.js";
 
 assert.equal(
   displayEmojiKey("smilingFaceWithHearts"),

@@ -86,7 +86,7 @@ assert.match(
 );
 assert.match(
   await fs.readFile(
-    path.join(root, "src/app/emoji-dialog-click-runtime.ts"),
+    path.join(root, "src/app/emoji/emoji-dialog-click-runtime.ts"),
     "utf8",
   ),
   /compositionParent: parentEmojiKey/,
@@ -103,7 +103,10 @@ assert.match(
   "ordinary dialog navigation must clear stale component history",
 );
 assert.match(
-  await fs.readFile(path.join(root, "src/app/dialog-runtime.ts"), "utf8"),
+  await fs.readFile(
+    path.join(root, "src/app/dialog/dialog-runtime.ts"),
+    "utf8",
+  ),
   /showModal\(\);[\s\S]*options\.focusInitialAction\(\)/,
   "newly opened emoji dialogs must focus their primary copy action",
 );
@@ -134,7 +137,7 @@ assert.match(
 );
 assert.match(
   await fs.readFile(
-    path.join(root, "src/explorer/category-filter-layout.ts"),
+    path.join(root, "src/explorer/category/category-filter-layout.ts"),
     "utf8",
   ),
   /if \(options\.groupField\)\s*options\.groupField\.hidden = options\.sequenceMode;[\s\S]*if \(options\.sequenceField\)\s*options\.sequenceField\.hidden = !options\.sequenceMode;/,

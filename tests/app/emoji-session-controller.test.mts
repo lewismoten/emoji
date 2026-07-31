@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createEmojiSessionController } from "../../src/app/emoji-session-controller.js";
+import { createEmojiSessionController } from "../../src/app/emoji/emoji-session-controller.js";
 
 class FakeClassList {
   constructor(private readonly containsValue = false) {}

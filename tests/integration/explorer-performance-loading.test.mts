@@ -40,7 +40,10 @@ assert.doesNotMatch(
   "code points must not be repeated in a metadata card",
 );
 assert.match(
-  await fs.readFile(path.join(root, "src/app/startup-orchestrator.ts"), "utf8"),
+  await fs.readFile(
+    path.join(root, "src/app/startup/startup-orchestrator.ts"),
+    "utf8",
+  ),
   /\.emoji-code-points(["'])\)\?\.closest\((["'])div\2\)\?\.remove/,
   "cached code-point metadata rows must be removed",
 );

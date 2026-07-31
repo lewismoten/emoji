@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createEmojiListRenderers } from "../../src/explorer/emoji-list-render.js";
+import { createEmojiListRenderers } from "../../src/explorer/emoji/emoji-list-render.js";
 
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
 

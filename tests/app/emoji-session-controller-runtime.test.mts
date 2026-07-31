@@ -4,11 +4,14 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 const root = process.cwd();
-const sourcePath = path.join(root, "build/src/app/emoji-session-controller.js");
+const sourcePath = path.join(
+  root,
+  "build/src/app/emoji/emoji-session-controller.js",
+);
 const source = await fs.readFile(sourcePath, "utf8");
 
 const transformedSource = source.replace(
-  'import { showEmojiSession } from "../explorer/dialog/emoji-session.js";',
+  /import\s+\{\s*showEmojiSession\s*\}\s+from\s+"..\/..\/explorer\/dialog\/emoji-session\.js";/,
   'import { showEmojiSession, calls } from "./emoji-session-stub.mjs";',
 );
 

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import {
   emojiCompositionMarkup,
   savedDialogMarkup,
-} from "../../src/explorer/utility-control-markup.js";
+} from "../../src/explorer/utility/utility-control-markup.js";
 import { SavedDialogControl } from "../../src/controls/dialog/content/saved-dialog.js";
 
 assert.match(emojiCompositionMarkup, /emoji-composition/);

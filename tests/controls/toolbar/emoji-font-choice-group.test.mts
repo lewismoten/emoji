@@ -41,6 +41,10 @@ assert.ok(customMarkup.includes('aria-label="Glyph style"'));
 assert.ok(customMarkup.includes('data-emoji-font="custom"'));
 assert.ok(customMarkup.includes(">😎</b>"));
 
+const spec = EmojiFontChoiceGroupControl.toSpec();
+assert.equal(spec.tag, "div");
+assert.equal(spec.attributes?.role, "radiogroup");
+
 const restore = installFakeDocument();
 const control = new EmojiFontChoiceGroupControl();
 assert.match(control.toMarkup(), /emoji-font-choice-system/);

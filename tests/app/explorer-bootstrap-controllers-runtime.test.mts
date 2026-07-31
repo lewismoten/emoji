@@ -16,7 +16,7 @@ const transformedSource = source
     'import { createCategoryController, categoryCalls } from "./category-controller-stub.mjs";',
   )
   .replace(
-    'import { createVersionRuntime } from "../version-runtime.js";',
+    'import { createVersionRuntime } from "../version/version-runtime.js";',
     'import { createVersionRuntime, versionCalls } from "./version-runtime-stub.mjs";',
   )
   .replace(
@@ -28,11 +28,11 @@ const transformedSource = source
     'import { createNavigationRuntime, navigationCalls } from "./navigation-runtime-stub.mjs";',
   )
   .replace(
-    'import { createDialogViewRuntime } from "../dialog-view-runtime.js";',
+    'import { createDialogViewRuntime } from "../dialog/dialog-view-runtime.js";',
     'import { createDialogViewRuntime, dialogViewCalls } from "./dialog-view-runtime-stub.mjs";',
   )
   .replace(
-    'import { createEmojiDialogClickRuntime } from "../emoji-dialog-click-runtime.js";',
+    'import { createEmojiDialogClickRuntime } from "../emoji/emoji-dialog-click-runtime.js";',
     'import { createEmojiDialogClickRuntime, dialogClickCalls } from "./emoji-dialog-click-runtime-stub.mjs";',
   );
 

@@ -3,7 +3,7 @@ import {
   renderGroupPickerGrid,
   renderSequencePickerGrid,
   renderSubGroupPickerGrid,
-} from "../../src/explorer/category-picker-grid-control.js";
+} from "../../src/explorer/category/category-picker-grid-control.js";
 
 class FakeElement {
   tagName: string;

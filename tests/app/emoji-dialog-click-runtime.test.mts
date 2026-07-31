@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createEmojiDialogClickRuntime } from "../../src/app/emoji-dialog-click-runtime.js";
+import { createEmojiDialogClickRuntime } from "../../src/app/emoji/emoji-dialog-click-runtime.js";
 
 type ClosestMap = Record<string, any>;
 

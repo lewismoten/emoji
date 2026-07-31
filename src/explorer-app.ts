@@ -2,7 +2,7 @@ import {
   bindModifierGroup,
   bindSavedDialogInteractions,
   createThemeChoiceKeyDownHandler,
-} from "./explorer/event-accessibility.js";
+} from "./explorer/navigation/event-accessibility.js";
 import {
   finalizeExplorerStartup as finalizeExplorerStartupHelper,
   initializeExplorerControls as initializeExplorerControlsHelper,

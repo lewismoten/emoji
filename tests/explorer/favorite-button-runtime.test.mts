@@ -4,7 +4,7 @@ import {
   applyRetroFavoriteButtonState,
   updateFavoriteGlyph,
   updateFavoriteToggleButton,
-} from "../../src/explorer/favorite-button.js";
+} from "../../src/explorer/utility/favorite-button.js";
 
 const globals = globalThis as typeof globalThis & {
   document?: any;
