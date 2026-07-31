@@ -12,7 +12,7 @@ import type {
 type AudioTarget = HTMLElement;
 
 const INTERACTIVE_SELECTOR =
-  'a[href], button, select, input, [role="button"], [role="checkbox"], [role="link"], [role="radio"], [role="switch"], [aria-haspopup="listbox"], .modifier-filter-option';
+  'a[href], button, select, input, label, [tabindex], [role="button"], [role="checkbox"], [role="link"], [role="radio"], [role="switch"], [aria-haspopup="listbox"], .modifier-filter-option, .setting-choice, .theme-choice, .mode-choice, .audio-choice, .emoji-font-choice, .language-option, .saved-picker, .help-picker, .order-mode, .compact-choice, .version-mode-toggle, .version-step, .filter-picker-trigger, [data-emoji-key]';
 const DIALOG_SELECTOR =
   ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
 
@@ -122,6 +122,12 @@ export function createExplorerAudioController(
     }
     options.savePreference("music", enabled);
     renderMusicToggle();
+    if (enabled) {
+      void audio.resumeAudioContext().then(() => {
+        audio.restartMusic();
+      });
+      return;
+    }
     audio.syncHelpMusic();
   }
 

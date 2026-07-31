@@ -22,19 +22,25 @@ export function createVersionModeController(options: any) {
     const toggle = options.toggle();
     if (!toggle) return;
     populateOptions();
+    const selected = options.selector().value === "selected";
     const label = options.translate(
       "selectedVersionOnly",
       "Selected version only",
     );
-    toggle.setAttribute(
-      "aria-pressed",
-      String(options.selector().value === "selected"),
-    );
+    toggle.setAttribute("aria-pressed", String(selected));
     toggle.setAttribute("aria-label", label);
     toggle.title = label;
+    const input = toggle.querySelector?.(
+      'input[type="checkbox"]',
+    ) as HTMLInputElement | null;
+    if (input) {
+      input.checked = selected;
+      input.tabIndex = -1;
+    }
   }
 
   function toggleVersionMode(event: any) {
+    event?.preventDefault?.();
     const selector = options.selector();
     selector.value = selector.value === "selected" ? "through" : "selected";
     render();

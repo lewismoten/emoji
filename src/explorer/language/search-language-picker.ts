@@ -116,9 +116,9 @@ type SetSearchLanguageOptions = {
   requestedLocale: string;
   searchLoadId: number;
   searchLocales: SearchLocale[];
-  languagePicker: HTMLButtonElement;
-  languagePickerFlag: HTMLElement;
-  languagePickerLabel: HTMLElement;
+  languagePicker?: HTMLButtonElement;
+  languagePickerFlag?: HTMLElement;
+  languagePickerLabel?: HTMLElement;
   languageFlags: Record<string, string>;
   translate: (key: string, fallback: string) => string;
   loadUiTranslations: (locale: string, rtl?: boolean) => Promise<void>;
@@ -127,6 +127,7 @@ type SetSearchLanguageOptions = {
   restoreLanguageParentPanel?: () => void;
   saveExplorerPreference: (key: string, value: string) => void;
   refreshLocalizedLabels: () => void;
+  updateUi?: boolean;
 };
 
 type SetSearchLanguageResult = {
@@ -152,6 +153,7 @@ export async function setSearchLanguage({
   restoreLanguageParentPanel,
   saveExplorerPreference,
   refreshLocalizedLabels,
+  updateUi = true,
 }: SetSearchLanguageOptions): Promise<SetSearchLanguageResult> {
   const fetchJsonWithFallback = async (primary: string, fallback: string) => {
     const response = await fetch(primary);
@@ -165,13 +167,17 @@ export async function setSearchLanguage({
   const loadId = searchLoadId;
   if (!requestedLocale) {
     updateWebAppManifest();
-    languagePickerFlag.textContent = "🌐";
-    languagePickerLabel.textContent = translate(
-      "languageNotLoaded",
-      "Language not loaded",
-    );
-    closeLanguageDialog();
-    restoreLanguageParentPanel?.();
+    if (updateUi) {
+      if (languagePickerFlag) languagePickerFlag.textContent = "🌐";
+      if (languagePickerLabel) {
+        languagePickerLabel.textContent = translate(
+          "languageNotLoaded",
+          "Language not loaded",
+        );
+      }
+      closeLanguageDialog();
+      restoreLanguageParentPanel?.();
+    }
     await loadUiTranslations("en");
     saveExplorerPreference("locale", "");
     return {
@@ -196,11 +202,15 @@ export async function setSearchLanguage({
     };
   }
   updateWebAppManifest(locale.locale);
-  languagePicker.disabled = true;
-  languagePickerLabel.textContent = translate(
-    "loadingLanguage",
-    "Loading language…",
-  );
+  if (updateUi) {
+    if (languagePicker) languagePicker.disabled = true;
+    if (languagePickerLabel) {
+      languagePickerLabel.textContent = translate(
+        "loadingLanguage",
+        "Loading language…",
+      );
+    }
+  }
   try {
     const packs = (await Promise.all([
       ...(locale.baseLocale
@@ -229,10 +239,16 @@ export async function setSearchLanguage({
       ...packs.map((pack) => pack.subgroups ?? {}),
     );
     await loadUiTranslations(locale.locale, locale.rtl);
-    languagePickerFlag.textContent = languageFlags[locale.locale] ?? "🌐";
-    languagePickerLabel.textContent = locale.nativeLabel;
-    closeLanguageDialog();
-    restoreLanguageParentPanel?.();
+    if (updateUi) {
+      if (languagePickerFlag) {
+        languagePickerFlag.textContent = languageFlags[locale.locale] ?? "🌐";
+      }
+      if (languagePickerLabel) {
+        languagePickerLabel.textContent = locale.nativeLabel;
+      }
+      closeLanguageDialog();
+      restoreLanguageParentPanel?.();
+    }
     saveExplorerPreference("locale", locale.locale);
     return {
       loadId,
@@ -243,11 +259,15 @@ export async function setSearchLanguage({
     };
   } catch (error) {
     console.warn(`Search language ${requestedLocale} unavailable`, error);
-    languagePickerFlag.textContent = "🌐";
-    languagePickerLabel.textContent = translate(
-      "languageNotLoaded",
-      "Language not loaded",
-    );
+    if (updateUi) {
+      if (languagePickerFlag) languagePickerFlag.textContent = "🌐";
+      if (languagePickerLabel) {
+        languagePickerLabel.textContent = translate(
+          "languageNotLoaded",
+          "Language not loaded",
+        );
+      }
+    }
     return {
       loadId,
       selectedSearchLocale: "",
@@ -256,6 +276,6 @@ export async function setSearchLanguage({
       searchSubgroupLabels: {},
     };
   } finally {
-    languagePicker.disabled = false;
+    if (updateUi && languagePicker) languagePicker.disabled = false;
   }
 }

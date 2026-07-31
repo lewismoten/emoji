@@ -17,6 +17,11 @@ export function createSearchLanguageLifecycle(options: any) {
 
   const set = async (requestedLocale: string) => {
     const loadId = options.nextLoadId();
+    const hasLanguageUi = Boolean(
+      options.languagePicker?.() &&
+        options.languagePickerFlag?.() &&
+        options.languagePickerLabel?.(),
+    );
     const result = await setSearchLanguageHelper({
       requestedLocale,
       searchLoadId: loadId,
@@ -32,6 +37,7 @@ export function createSearchLanguageLifecycle(options: any) {
       restoreLanguageParentPanel: options.restoreLanguageParentPanel,
       saveExplorerPreference: options.saveExplorerPreference,
       refreshLocalizedLabels: options.refreshLocalizedLabels,
+      updateUi: hasLanguageUi,
     });
     if (result.loadId !== options.currentLoadId()) return;
     options.setSelectedLocale(result.selectedSearchLocale);

@@ -82,8 +82,11 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
           options.controllers.renderCategoryFilters(...args),
         renderDeveloperMode: options.shell.renderDeveloperMode,
         renderInstallAppButton: options.shell.renderInstallAppButton,
+        renderMusicToggle: options.shell.renderMusicToggle,
         renderPixelFontToggle: options.shell.renderPixelFontToggle,
         renderSavedEmoji: options.shell.renderSavedEmoji,
+        renderSearchLanguages: () => options.bindings.renderSearchLanguages(),
+        renderSoundEffectsToggle: options.shell.renderSoundEffectsToggle,
         renderThemeToggle: options.shell.renderThemeToggle,
         renderVersionModeToggle: () =>
           options.bindings.renderVersionModeToggle(),

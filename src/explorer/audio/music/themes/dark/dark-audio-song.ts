@@ -27,7 +27,7 @@ const E2HS = [PITCHES.E2, H, { sustain: true }] as const;
 
 export const darkExplorerSong: ExplorerMusicSong = {
   beatLength: 0.36,
-  gain: 0.08,
+  gain: 0.13,
   voices: [
     {
       instrument: "lead-mellow",

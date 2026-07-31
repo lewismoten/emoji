@@ -20,7 +20,10 @@ import { createExplorerApp } from "../../explorer-app.js";
 import { parseExplorerModeParam } from "../../explorer/navigation/url-state.js";
 import { createExplorerState } from "../../explorer-state.js";
 import { createUiFormatters } from "../browser/browser-runtime.js";
-import { createExplorerBootstrapBindings } from "./explorer-bootstrap-bindings.js";
+import {
+  assignExplorerBootstrapElements,
+  createExplorerBootstrapBindings,
+} from "./explorer-bootstrap-bindings.js";
 import {
   buildExplorerBootstrapControllerOptions,
   buildExplorerBootstrapShellOptions,
@@ -115,6 +118,17 @@ const controllers = createExplorerBootstrapControllers(
     drawList: () => bindings.drawList(),
     ensurePanelDialog: async (panel) => {
       await bindings.bootstrapRuntime?.ensureUtilityPanel?.(panel);
+      const elements =
+        bindings.bootstrapRuntime?.explorerRuntime?.resolveElements?.();
+      if (elements) {
+        assignExplorerBootstrapElements(bindings, elements);
+      }
+      shell.renderDeveloperMode();
+      shell.renderThemeToggle();
+      shell.renderPixelFontToggle();
+      shell.renderSoundEffectsToggle();
+      shell.renderMusicToggle();
+      bindings.renderSearchLanguages?.();
     },
     emojiList: () => bindings.emojiList,
     emojiParent: () =>
