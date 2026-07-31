@@ -27,7 +27,7 @@ assert.match(
 
 assert.match(
   markdown,
-  /\| `\+X` \| more, stronger, larger, or preferred X \|/,
+  /\|\s*`\+X`\s*\|\s*more, stronger, larger, or preferred X\s*\|/,
   "newspeak markdown must document operator meanings",
 );
 
