@@ -104,6 +104,188 @@ macOS Terminal, Linux, Git Bash, or WSL.
 | `npm run locales:overrides` | Applies repository-managed locale label overrides, then formats the results. | None beyond baseline requirements. |
 | `npm run locales:newspeak` | Regenerates the custom Newspeak locale data. | None beyond baseline requirements. |
 
+## Common workflows
+
+### 1. First local run
+
+If you only want to run Emoji Explorer with the committed generated assets:
+
+```bash
+npm install
+npm start
+```
+
+This is enough for normal browsing and UI work because the repository already
+contains the generated locale files, generated site pages, and current font
+assets needed by the Vite app.
+
+### 2. Full local rebuild after data or source changes
+
+Run this when you have changed package data, TypeScript, generated CSS, or any
+library-facing source that should be reflected in `dist/`:
+
+```bash
+npm install
+npm run bundle
+npm start
+```
+
+`bundle` already runs:
+
+- `build`
+- `svg:render`
+- browser bundle generation
+- Rollup packaging
+- declaration generation
+
+You do not need to run `generate` separately unless you are debugging that step
+by itself.
+
+### 3. Rebuild pixel emoji after atlas or font-source edits
+
+Run this when you changed files under `pixel-font/atlases/`, the atlas
+manifests, or the pixel-font build scripts:
+
+```bash
+npm run pixel-font:validate
+npm run pixel-font:build
+npm start
+```
+
+Use this optimized variant only when you want the slower production-style font
+optimization pass:
+
+```bash
+npm run pixel-font:build:optimized
+```
+
+### 4. Rebuild the retro text font
+
+Run this when you changed the retro text bitmap sources, related PNG sheets, or
+the retro text generator:
+
+```bash
+npm run pixel-font:text
+```
+
+You only need this step when the retro text font itself changed.
+
+### 5. Refresh icons, social preview, and favicon artwork
+
+Run this when you changed:
+
+- `src/site/smiley-source.json`
+- `src/site/favicon.svg`
+- maskable icon SVG assets
+- the pixel-art glyph used as the site smiley
+
+```bash
+npm run svg:render
+```
+
+This updates the repository-tracked SVG and PNG preview assets. It does not
+replace `bundle`, but `bundle` already includes it.
+
+### 6. Regenerate Newspeak locale data
+
+Run this when you changed the Newspeak generator or want refreshed
+`en-x-newspeak` locale output:
+
+```bash
+npm run locales:newspeak
+```
+
+You do not need to run this before `npm start` unless you changed the Newspeak
+source or generator and want those updates reflected locally.
+
+### 7. Refresh CLDR locale packs
+
+Run this when you want to pull updated upstream CLDR annotations:
+
+```bash
+npm run cldr
+```
+
+This requires internet access and rewrites locale JSON output.
+
+### 8. Import a released Unicode update
+
+Run this when adding a new released Unicode Emoji version:
+
+```bash
+npm run unicode -- 18.0
+npm run bundle
+npm test
+```
+
+If the release intentionally changes version contracts, follow with:
+
+```bash
+npm run versions:snapshot
+```
+
+### 9. Import the current Unicode draft
+
+Run this when updating proposed emoji data:
+
+```bash
+npm run unicode:proposed
+npm run bundle
+npm test
+```
+
+If you need to pin the expected draft version and stage metadata:
+
+```bash
+npm run unicode:proposed -- 18.0 --stage=beta --expected=2026-09
+```
+
+### 10. Prepare a production website build
+
+For a fresh local website bundle:
+
+```bash
+npm install
+python3 -m venv pixel-font/.venv
+pixel-font/.venv/bin/pip install -r pixel-font/requirements.txt
+npm run website:build
+```
+
+This performs the package build, fonts-only pixel font build, static page
+generation, service-worker generation, and site validation in the correct
+order.
+
+### 11. Publish the website
+
+After `website:build` succeeds, publish with:
+
+```bash
+npm run website:publish -- \
+  --identity ~/.ssh/id_rsa \
+  --target user@example.com:/var/www/emoji/
+```
+
+If the remote host does not support `rsync`, either let the script fall back to
+`tar` automatically or force it:
+
+```bash
+npm run website:publish -- \
+  --identity ~/.ssh/id_rsa \
+  --transport tar \
+  --target user@example.com:/var/www/emoji/
+```
+
+### 12. Package the standalone pixel font release
+
+Run this when publishing the separate pixel font package or release assets:
+
+```bash
+npm run pixel-font:package
+```
+
+That script already runs the optimized fonts-only build before packaging the
+release output.
+
 ## Related guides
 
 - [Development guide](development-guide.md)

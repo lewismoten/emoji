@@ -5,6 +5,20 @@
 After the first successful visit, the Explorer and its core Unicode data work
 offline. Search-language packs are cached after they are selected once.
 
+For the short answer, a normal first run is still:
+
+```bash
+npm install
+npm start
+```
+
+That works when the committed generated assets are already present, which is
+the normal repository state.
+
+If you changed generated inputs such as Unicode data, package packs, pixel-font
+atlases, retro text sources, or Newspeak generation, follow the matching
+workflow in [docs/npm-scripts.md](npm-scripts.md) first.
+
 Run the demo locally with Vite:
 
 ```bash
@@ -28,6 +42,17 @@ The deployable files are written to `build/website`. The command builds the
 package and fonts, generates every localized page and PWA manifest with the
 custom domain’s canonical URLs, creates the service worker, and verifies its
 precache assets and browser fonts.
+
+Recommended end-to-end publish order:
+
+1. `npm install`
+2. create the Python environment if you have not already
+3. `npm run website:build`
+4. verify the generated output
+5. `npm run website:publish -- --target <destination>`
+
+The matching prerequisites and command variants are listed in
+[docs/npm-scripts.md](npm-scripts.md).
 
 Publish over SSH with `rsync` by supplying your server destination:
 
