@@ -64,7 +64,8 @@ const tokenBuckets = Object.fromEntries(
     "+light": "fire flame hot burn burning",
     water: "water wave waves ocean river sea drop drops",
     sign: "sign signs symbol symbols button buttons arrow arrows keycap letter letters",
-    value: "number numbers quantity quantities count counts total totals amount amounts result results value values",
+    value:
+      "number numbers quantity quantities count counts total totals amount amounts result results value values",
     image: "image images icon icons picture pictures graphic graphics",
     "-mark": "tag tags mark marks tagged marking",
     flag: "flag flags country countries nation nations subdivision regional",
@@ -629,8 +630,8 @@ function decomposeCompoundForDisplay(compound) {
 }
 
 function choosePreferredCompound(left, right) {
-  const leftPrefixCount = (left[0].match(/^[-+]+/)?.[0].length ?? 0);
-  const rightPrefixCount = (right[0].match(/^[-+]+/)?.[0].length ?? 0);
+  const leftPrefixCount = left[0].match(/^[-+]+/)?.[0].length ?? 0;
+  const rightPrefixCount = right[0].match(/^[-+]+/)?.[0].length ?? 0;
   if (leftPrefixCount !== rightPrefixCount) {
     return leftPrefixCount < rightPrefixCount ? left : right;
   }
@@ -703,7 +704,11 @@ function updateNewspeakDoc(rootWordCount, wordTable, compoundTable) {
     "",
     compoundTable,
   ].join("\n");
-  let updated = replaceGeneratedSection(source, "newspeak-word-inventory", wordSection);
+  let updated = replaceGeneratedSection(
+    source,
+    "newspeak-word-inventory",
+    wordSection,
+  );
   updated = replaceGeneratedSection(
     updated,
     "newspeak-compound-inventory",

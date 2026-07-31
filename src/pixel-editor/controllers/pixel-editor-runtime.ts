@@ -67,11 +67,7 @@ export function createPixelEditorRuntimeController(options) {
       "pasteAsLayer",
       "Paste layer",
     );
-    setText(
-      ".pixel-editor-layer > legend",
-      "floatingLayer",
-      "Floating layer",
-    );
+    setText(".pixel-editor-layer > legend", "floatingLayer", "Floating layer");
     setText(
       ".pixel-editor-invert-layer [data-i18n='invertLayer']",
       "invertLayer",
@@ -79,7 +75,11 @@ export function createPixelEditorRuntimeController(options) {
     );
     setText(".pixel-editor-bake-layer", "bakeLayer", "Merge");
     setText(".pixel-editor-cancel-layer", "cancelLayer", "Cancel");
-    setLabel(".pixel-editor-layer-position", "moveLayer", "Move floating layer");
+    setLabel(
+      ".pixel-editor-layer-position",
+      "moveLayer",
+      "Move floating layer",
+    );
     setLabel(
       "[data-layer-transform='rotate-left']",
       "rotateLayerLeft",

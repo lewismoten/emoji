@@ -5,20 +5,14 @@ html[data-theme="retro"] .language-option.is-selected:hover,
 html[data-theme="retro"] .order-mode.is-active,
 html[data-theme="retro"] .order-mode.is-active:hover,
 html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"],
-html[data-theme="retro"]
-  .pixel-comparison
-  > button[aria-pressed="true"]:hover,
+html[data-theme="retro"] .pixel-comparison > button[aria-pressed="true"]:hover,
 html[data-theme="retro"] .help-dialog .mode-choice[aria-checked="true"],
 html[data-theme="retro"] .help-dialog .mode-choice:has(input:checked),
 html[data-theme="retro"] .help-dialog .mode-choice[aria-checked="true"]:hover,
-html[data-theme="retro"]
-  .help-dialog
-  .mode-choice:has(input:checked):hover,
+html[data-theme="retro"] .help-dialog .mode-choice:has(input:checked):hover,
 html[data-theme="retro"] .help-dialog .theme-choice[aria-pressed="true"],
 html[data-theme="retro"] .help-dialog .theme-choice[aria-pressed="true"]:hover,
 html[data-theme="retro"] .help-dialog .theme-choice:has(input:checked),
-html[data-theme="retro"]
-  .help-dialog
-  .theme-choice:has(input:checked):hover {
+html[data-theme="retro"] .help-dialog .theme-choice:has(input:checked):hover {
   border-style: dotted;
 }

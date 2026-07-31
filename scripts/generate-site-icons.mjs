@@ -78,7 +78,10 @@ const writeIcoFile = (pngBuffers, targetFile) => {
     directoryEntries.writeUInt32LE(offset, entryOffset + 12);
     offset += buffer.length;
   });
-  fs.writeFileSync(targetFile, Buffer.concat([header, directoryEntries, ...pngBuffers]));
+  fs.writeFileSync(
+    targetFile,
+    Buffer.concat([header, directoryEntries, ...pngBuffers]),
+  );
 };
 
 export const generateSiteIcons = ({

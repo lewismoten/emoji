@@ -104,13 +104,7 @@ const sourceFileForAsset = (asset) => {
       "retro-choice-states.css",
     );
   if (file === "explorer/themes/retro/retro-typography.css")
-    return path.join(
-      "src",
-      "site",
-      "themes",
-      "retro",
-      "retro-typography.css",
-    );
+    return path.join("src", "site", "themes", "retro", "retro-typography.css");
   if (file === "explorer/themes/retro/retro-forms.css")
     return path.join("src", "site", "themes", "retro", "retro-forms.css");
   if (file === "explorer/themes/retro/retro-focus.css")

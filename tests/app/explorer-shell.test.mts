@@ -332,44 +332,45 @@ try {
   assert.equal(state.selectedSequenceType, "single");
   assert.equal(state.renderCategoryFiltersCalls, 1);
 
-  createExplorerShell(
-    {
-      applyPixelArtworkClass: () => "apply-pixel-artwork-class",
-      dialog: () => "dialog",
-      drawList: () => ["draw-list"],
-      emojiFontChoices: () => "emoji-font-choices",
-      installAppButton: () => installButton,
-      installDialog: () => "install-dialog",
-      loadVersionData: () => ["load-version-data"],
-      offlineStatus: () => "offline-status",
-      orderButtons: () => undefined,
-      pixelEditor: () => "pixel-editor",
-      refreshRenderedPixelEmoji: "refresh-rendered-pixel-emoji",
-      renderVersionModeToggle: () => ["render-version-mode-toggle"],
-      renderCategoryFilters: () => {
-        state.renderCategoryFiltersCalls =
-          (state.renderCategoryFiltersCalls ?? 0) + 1;
-      },
-      savePreference: "save-preference",
-      savedDialog: () => "saved-dialog",
-      setDialogView: (...args: unknown[]) => ["set-dialog-view", args],
-      state: () => ({
-        ...state,
-        items: [],
-        orderMode: "grouped",
-        selectedSequenceType: "single",
-        versionManifests: [],
-      }),
-      syncUrlState: (...args: unknown[]) => ["sync-url-state", args],
-      syncVersionRange: () => ["sync-version-range"],
-      themeChoices: () => "theme-choices",
-      translate: "translate",
-      versionModeSelector: () => undefined,
-      versionSelector: () => undefined,
+  createExplorerShell({
+    applyPixelArtworkClass: () => "apply-pixel-artwork-class",
+    dialog: () => "dialog",
+    drawList: () => ["draw-list"],
+    emojiFontChoices: () => "emoji-font-choices",
+    installAppButton: () => installButton,
+    installDialog: () => "install-dialog",
+    loadVersionData: () => ["load-version-data"],
+    offlineStatus: () => "offline-status",
+    orderButtons: () => undefined,
+    pixelEditor: () => "pixel-editor",
+    refreshRenderedPixelEmoji: "refresh-rendered-pixel-emoji",
+    renderVersionModeToggle: () => ["render-version-mode-toggle"],
+    renderCategoryFilters: () => {
+      state.renderCategoryFiltersCalls =
+        (state.renderCategoryFiltersCalls ?? 0) + 1;
     },
-  );
+    savePreference: "save-preference",
+    savedDialog: () => "saved-dialog",
+    setDialogView: (...args: unknown[]) => ["set-dialog-view", args],
+    state: () => ({
+      ...state,
+      items: [],
+      orderMode: "grouped",
+      selectedSequenceType: "single",
+      versionManifests: [],
+    }),
+    syncUrlState: (...args: unknown[]) => ["sync-url-state", args],
+    syncVersionRange: () => ["sync-version-range"],
+    themeChoices: () => "theme-choices",
+    translate: "translate",
+    versionModeSelector: () => undefined,
+    versionSelector: () => undefined,
+  });
   const secondDevModeOptions = uiStub.developerModeCalls[1];
-  assert.equal(typeof secondDevModeOptions.disableDeveloperFeatures, "function");
+  assert.equal(
+    typeof secondDevModeOptions.disableDeveloperFeatures,
+    "function",
+  );
   assert.doesNotThrow(() => secondDevModeOptions.disableDeveloperFeatures());
 } finally {
   if (originalWindow) {

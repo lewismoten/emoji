@@ -24,14 +24,18 @@ function missingKeys(
   base: Record<string, unknown>,
   candidate: Record<string, unknown>,
 ) {
-  return Object.keys(base).filter((key) => !(key in candidate)).sort();
+  return Object.keys(base)
+    .filter((key) => !(key in candidate))
+    .sort();
 }
 
 function extraKeys(
   base: Record<string, unknown>,
   candidate: Record<string, unknown>,
 ) {
-  return Object.keys(candidate).filter((key) => !(key in base)).sort();
+  return Object.keys(candidate)
+    .filter((key) => !(key in base))
+    .sort();
 }
 
 const baseUi = await readJson<UiLocale>("src/demo-locales/ui.en.json");
@@ -55,7 +59,9 @@ for (const file of [
   );
 }
 
-const baseSearchLocale = await readJson<SearchLocale>("src/data/locales/en.json");
+const baseSearchLocale = await readJson<SearchLocale>(
+  "src/data/locales/en.json",
+);
 for (const file of [
   "ar.json",
   "en-x-newspeak.json",

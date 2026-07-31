@@ -42,7 +42,9 @@ export async function updateCoverageReleaseDocument(options) {
   const start = current.indexOf(coverageSummaryStartMarker);
   const end = current.indexOf(coverageSummaryEndMarker);
   if (start < 0 || end < 0 || end < start) {
-    throw new Error("Coverage summary markers are missing from COVERAGE_AND_RELEASES.md");
+    throw new Error(
+      "Coverage summary markers are missing from COVERAGE_AND_RELEASES.md",
+    );
   }
   const replacement = renderCoverageReleaseSummary(options.buildManifest);
   const updated =
@@ -61,7 +63,9 @@ function renderCompleteCoverageBullet(entry) {
 }
 
 function renderCoverageRow(entry) {
-  const label = entry.complete ? `**${renderReleaseLabel(entry)}**` : renderReleaseLabel(entry);
+  const label = entry.complete
+    ? `**${renderReleaseLabel(entry)}**`
+    : renderReleaseLabel(entry);
   const painted = formatCell(entry.paintedGlyphCount, entry.complete);
   const tracked = formatCell(entry.trackedGlyphCount, entry.complete);
   const coverage = formatCell(formatPercent(entry.coverage), entry.complete);
@@ -77,8 +81,7 @@ function renderCoverageTotalRow(entries) {
     (sum, entry) => sum + Number(entry.trackedGlyphCount ?? 0),
     0,
   );
-  const coverage =
-    trackedTotal === 0 ? 0 : (paintedTotal / trackedTotal) * 100;
+  const coverage = trackedTotal === 0 ? 0 : (paintedTotal / trackedTotal) * 100;
   return `| **Total** | **${paintedTotal.toLocaleString()}** | **${trackedTotal.toLocaleString()}** | **${formatPercent(coverage)}** |`;
 }
 

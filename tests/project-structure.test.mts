@@ -98,7 +98,8 @@ const walkDirectory = (directory: string, files: string[]) => {
     withFileTypes: true,
   })) {
     if (entry.name === ".DS_Store") continue;
-    const relative = directory === "." ? entry.name : `${directory}/${entry.name}`;
+    const relative =
+      directory === "." ? entry.name : `${directory}/${entry.name}`;
     if (entry.isDirectory()) {
       if (ignoredRoots.has(relative) || ignoredRoots.has(entry.name)) continue;
       walkDirectory(relative, files);
@@ -116,7 +117,9 @@ const gitFiles = () => {
     if (
       entry.isDirectory() ||
       ignoredRoots.has(entry.name) ||
-      generatedFilenamePrefixes.some((prefix) => prefix.startsWith(`${entry.name}/`))
+      generatedFilenamePrefixes.some((prefix) =>
+        prefix.startsWith(`${entry.name}/`),
+      )
     ) {
       continue;
     }

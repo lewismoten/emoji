@@ -10,7 +10,10 @@ const root = path.resolve(
 
 const [localeRaw, uiRaw, markdown] = await Promise.all([
   fs.readFile(path.join(root, "src/data/locales/en-x-newspeak.json"), "utf8"),
-  fs.readFile(path.join(root, "src/demo-locales/ui.en-x-newspeak.json"), "utf8"),
+  fs.readFile(
+    path.join(root, "src/demo-locales/ui.en-x-newspeak.json"),
+    "utf8",
+  ),
   fs.readFile(path.join(root, "docs/newspeak-locale.md"), "utf8"),
 ]);
 

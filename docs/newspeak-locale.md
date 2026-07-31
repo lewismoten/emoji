@@ -57,14 +57,14 @@ Newspeak here aims for:
 
 Newspeak values are built from approved roots and a small set of operators.
 
-| Form | Meaning |
-| --- | --- |
-| `unX` | opposite, absence, or negation of X |
-| `+X` | more, stronger, larger, or preferred X |
-| `++X` | greatly more, strongest, largest, or most preferred X |
-| `-X` | less, weaker, smaller, or disfavored X |
-| `--X` | greatly less, weakest, smallest, or most disfavored X |
-| `oldspeak` | the one approved fossil compound |
+| Form       | Meaning                                               |
+| ---------- | ----------------------------------------------------- |
+| `unX`      | opposite, absence, or negation of X                   |
+| `+X`       | more, stronger, larger, or preferred X                |
+| `++X`      | greatly more, strongest, largest, or most preferred X |
+| `-X`       | less, weaker, smaller, or disfavored X                |
+| `--X`      | greatly less, weakest, smallest, or most disfavored X |
+| `oldspeak` | the one approved fossil compound                      |
 
 Words do not change for tense, plurality, person, or grammatical case.
 Context and word order carry those distinctions.
@@ -135,17 +135,18 @@ are intentionally narrowed.
 
 ## Sample phrases
 
-| Source | Newspeak |
-| - | - |
-| Advanced filters | `++reveal` |
-| Emoji version | `--image time` |
-| Pixel editor | `make --image` |
-| Developer mode | `reveal` |
-| Favorites | `++good --image` |
-| This emoji has no pixel design yet. | `this --image no make yet. --good.` |
+| Source                                                                             | Newspeak                                         |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------ |
+| Advanced filters                                                                   | `++reveal`                                       |
+| Emoji version                                                                      | `--image time`                                   |
+| Pixel editor                                                                       | `make --image`                                   |
+| Developer mode                                                                     | `reveal`                                         |
+| Favorites                                                                          | `++good --image`                                 |
+| This emoji has no pixel design yet.                                                | `this --image no make yet. --good.`              |
 | The system displayed separate components; Pixel Emoji keeps the sequence together. | `-good: machine divide sign. --image join sign.` |
 
 <!-- newspeak-word-inventory:start -->
+
 ## Unique word inventory
 
 The table below is generated from the current values stored in both
@@ -168,9 +169,11 @@ Newspeak locale files. It shows the root word set in use right now: 86 words.
 | thing  | think | this   | time  | to        | tool    |
 | updown | use   | value  | wait  | water     | when    |
 | word   | work  |        |       |           |         |
+
 <!-- newspeak-word-inventory:end -->
 
 <!-- newspeak-compound-inventory:start -->
+
 ## Compound inventory
 
 These are the combined forms now in use, along with the root words they
@@ -188,4 +191,5 @@ are built from.
 | unsame     | un + same     | unshow     | un + show   |
 | unstill    | un + still    | unthing    | un + thing  |
 | unuse      | un + use      | unword     | un + word   |
+
 <!-- newspeak-compound-inventory:end -->

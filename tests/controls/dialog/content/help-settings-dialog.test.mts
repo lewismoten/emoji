@@ -19,7 +19,8 @@ assert.ok(stylesheets.length >= 4);
 assert.equal(
   stylesheets.some(
     (item) =>
-      item.href === "./explorer/controls/dialog/content/help-settings-dialog.css",
+      item.href ===
+      "./explorer/controls/dialog/content/help-settings-dialog.css",
   ),
   true,
 );
@@ -31,13 +32,15 @@ assert.equal(
 );
 assert.equal(
   stylesheets.some(
-    (item) => item.href === "./explorer/controls/dialog/dialog-close-button.css",
+    (item) =>
+      item.href === "./explorer/controls/dialog/dialog-close-button.css",
   ),
   true,
 );
 assert.equal(
   stylesheets.some(
-    (item) => item.href === "./explorer/controls/toolbar/theme-choice-group.css",
+    (item) =>
+      item.href === "./explorer/controls/toolbar/theme-choice-group.css",
   ),
   true,
 );

@@ -25,7 +25,10 @@ try {
       smilingFace: { key: "smilingFace", row: 0, column: 0 },
     },
   };
-  const translatedLabel = { dataset: { i18n: "pencil" }, textContent: "Pencil" };
+  const translatedLabel = {
+    dataset: { i18n: "pencil" },
+    textContent: "Pencil",
+  };
   const translatedButton = {
     dataset: { i18nAriaLabel: "paintBucket" },
     attributes: new Map([
@@ -53,7 +56,8 @@ try {
   };
   const translatedRoot = {
     querySelector(selector: string) {
-      if (selector === ".pixel-editor-layer-position") return layerPositionElement;
+      if (selector === ".pixel-editor-layer-position")
+        return layerPositionElement;
       return null;
     },
     querySelectorAll(selector: string) {
@@ -126,12 +130,12 @@ try {
     traceOutput: { value: "" },
     translate: (key: string, fallback: string) =>
       (
-        {
+        ({
           column: "column",
           row: "row",
           pencil: "thing",
           paintBucket: "color pour",
-        } as Record<string, string>
+        }) as Record<string, string>
       )[key] ?? fallback,
     updateLocation() {
       draftCalls.push("update-location");

@@ -24,7 +24,9 @@ function missingKeys(
   base: Record<string, unknown>,
   candidate: Record<string, unknown>,
 ) {
-  return Object.keys(base).filter((key) => !(key in candidate)).sort();
+  return Object.keys(base)
+    .filter((key) => !(key in candidate))
+    .sort();
 }
 
 function blankStringKeys(values: Record<string, string>) {
@@ -45,7 +47,9 @@ function blankAnnotationKeys(values: Record<string, string[]>) {
 }
 
 const baseUi = await readJson<UiLocale>("src/demo-locales/ui.en.json");
-const newspeakUi = await readJson<UiLocale>("src/demo-locales/ui.en-x-newspeak.json");
+const newspeakUi = await readJson<UiLocale>(
+  "src/demo-locales/ui.en-x-newspeak.json",
+);
 
 assert.deepEqual(
   missingKeys(baseUi, newspeakUi),
@@ -59,7 +63,9 @@ assert.deepEqual(
   "ui.en-x-newspeak.json contains blank UI values",
 );
 
-const baseSearchLocale = await readJson<SearchLocale>("src/data/locales/en.json");
+const baseSearchLocale = await readJson<SearchLocale>(
+  "src/data/locales/en.json",
+);
 const newspeakSearchLocale = await readJson<SearchLocale>(
   "src/data/locales/en-x-newspeak.json",
 );

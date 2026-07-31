@@ -10,13 +10,17 @@ const documentRef = (
   }
 ).document;
 
-const section = EmojiCompositionSectionControl.create() as unknown as FakeElement;
+const section =
+  EmojiCompositionSectionControl.create() as unknown as FakeElement;
 const stylesheets = documentRef.head.children.filter(
   (child) => child instanceof FakeElement && child.tagName === "LINK",
 ) as FakeElement[];
 
 assert.equal(stylesheets.length, 1);
-assert.equal(stylesheets[0]?.id, "emoji-composition-section-control-stylesheet");
+assert.equal(
+  stylesheets[0]?.id,
+  "emoji-composition-section-control-stylesheet",
+);
 assert.equal(
   stylesheets[0]?.href,
   "./explorer/controls/dialog/content/emoji-composition-section.css",

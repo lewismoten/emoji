@@ -6,7 +6,8 @@ import { AudioChoiceGroupControl } from "../../toolbar/audio-choice-group.js";
 import { ModeChoiceGroupControl } from "../../toolbar/mode-choice-group.js";
 import { ThemeChoiceGroupControl } from "../../toolbar/theme-choice-group.js";
 
-const helpSettingsDialogStylesheetId = "help-settings-dialog-control-stylesheet";
+const helpSettingsDialogStylesheetId =
+  "help-settings-dialog-control-stylesheet";
 const helpSettingsDialogStylesheetHref =
   "./explorer/controls/dialog/content/help-settings-dialog.css";
 
@@ -32,7 +33,11 @@ type Shortcut = {
 };
 
 const shortcuts: Shortcut[] = [
-  { description: "Focus search", descriptionKey: "shortcutSearch", keys: ["/"] },
+  {
+    description: "Focus search",
+    descriptionKey: "shortcutSearch",
+    keys: ["/"],
+  },
   {
     description: "Navigate emoji",
     descriptionKey: "shortcutNavigate",
@@ -92,7 +97,9 @@ export class HelpSettingsDialogControl extends BaseControl<HelpSettingsDialogSta
 
   private createSettingRow(options: SettingRowOptions) {
     return DomFactory.element("div", {
-      className: ["setting-row", options.rowClassName].filter(Boolean).join(" "),
+      className: ["setting-row", options.rowClassName]
+        .filter(Boolean)
+        .join(" "),
       children: [
         DomFactory.element("div", {
           children: [
