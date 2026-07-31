@@ -130,7 +130,8 @@ html[data-theme="retro"] .language-dialog .eyebrow {
 html[data-theme="retro"] .dialog-close,
 html[data-theme="retro"] .dialog-navigate,
 html[data-theme="retro"] .dialog-mode-back,
-html[data-theme="retro"] .example-dialog .toggle-favorite {
+html[data-theme="retro"] .example-dialog .toggle-favorite,
+html[data-theme="retro"] .emoji-preview-copy-label {
   appearance: none;
   -webkit-appearance: none;
   border: 2px solid var(--ega-light-gray);
@@ -141,15 +142,28 @@ html[data-theme="retro"] .example-dialog .toggle-favorite {
   border-radius: 0;
   background: var(--ega-light-gray);
   color: var(--ega-black);
+}
+
+html[data-theme="retro"] .dialog-close,
+html[data-theme="retro"] .dialog-navigate,
+html[data-theme="retro"] .dialog-mode-back,
+html[data-theme="retro"] .emoji-preview-copy-label {
   font-family: var(--retro-ui-font) !important;
   font-weight: 400 !important;
   font-synthesis-weight: none;
 }
 
+html[data-theme="retro"] .example-dialog .toggle-favorite,
+html[data-theme="retro"] .example-dialog .toggle-favorite .favorite-glyph {
+  font-family: var(--emoji-font) !important;
+  font-variant-emoji: normal;
+}
+
 html[data-theme="retro"] .dialog-close:hover,
 html[data-theme="retro"] .dialog-navigate:hover,
 html[data-theme="retro"] .dialog-mode-back:hover,
-html[data-theme="retro"] .example-dialog .toggle-favorite:hover {
+html[data-theme="retro"] .example-dialog .toggle-favorite:hover,
+html[data-theme="retro"] .emoji-preview:hover .emoji-preview-copy-label {
   border-top-color: var(--ega-white);
   border-left-color: var(--ega-white);
   border-right-color: var(--ega-light-gray);
@@ -189,6 +203,16 @@ html[data-theme="retro"] .example-dialog .toggle-favorite.is-favorite {
   background: var(--ega-yellow);
   color: var(--ega-black);
   transform: translate(0, 0);
+}
+
+html[data-theme="retro"] .emoji-preview:active .emoji-preview-copy-label {
+  border-top-color: var(--ega-dark-gray);
+  border-left-color: var(--ega-dark-gray);
+  border-right-color: var(--ega-white);
+  border-bottom-color: var(--ega-white);
+  background: var(--ega-light-gray);
+  color: var(--ega-black);
+  transform: translate(1px, 1px);
 }
 
 html[data-theme="retro"]
