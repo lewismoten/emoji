@@ -389,7 +389,7 @@ export const renderPage = (
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
     .replace(
       /<script\b(?=[^>]*\bsrc="\.\/src\/index\.ts")[^>]*><\/script>/,
-      `<script defer src="./index.js?v=${assetVersion}" type="module"></script>`,
+      `<script defer src="./index.js" type="module"></script>`,
     )
     .replace(
       /<link rel="icon" href="\.\/favicon\.svg\?v=dev" sizes="any" type="image\/svg\+xml" \/>/,

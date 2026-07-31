@@ -90,6 +90,22 @@ export function createExplorerNavigation(
   },
   dependencies = createExplorerNavigationDependencies(),
 ) {
+  const resolveExplorerMode = (): "standard" | "advanced" | "developer" => {
+    const datasetMode =
+      typeof document === "undefined"
+        ? ""
+        : (document.documentElement.dataset.explorerMode ?? "");
+    if (
+      datasetMode === "standard" ||
+      datasetMode === "advanced" ||
+      datasetMode === "developer"
+    ) {
+      return datasetMode;
+    }
+    if (options.fullDeveloperModeEnabled()) return "developer";
+    if (options.developerModeEnabled()) return "advanced";
+    return "standard";
+  };
   const panelDialogs = () => {
     const dialogs = options.panelDialogs();
     return {
@@ -110,7 +126,7 @@ export function createExplorerNavigation(
   const getUrlState = () =>
     dependencies.parseExplorerUrlState({
       search: getWindowLocation()?.search ?? "",
-      developerMode: options.developerModeEnabled(),
+      developerMode: resolveExplorerMode() !== "standard",
       preferredOrder: options.preferredOrder(),
       allowedSequenceTypes: options.allowedSequenceTypes,
     });
@@ -194,13 +210,10 @@ export function createExplorerNavigation(
         .map((checkbox) => checkbox.value);
     const dialog = options.dialog();
     const openPanel = dependencies.getOpenPanel(options.panelDialogs());
+    const explorerMode = resolveExplorerMode();
     const query = dependencies.buildExplorerUrlQuery({
       search: options.searchText().value,
-      explorerMode: options.fullDeveloperModeEnabled()
-        ? "developer"
-        : options.developerModeEnabled()
-          ? "advanced"
-          : "standard",
+      explorerMode,
       latestReleasedVersion: options.latestReleasedVersion(),
       version: options.versionSelector().value,
       versionMode: options.versionModeSelector().value as

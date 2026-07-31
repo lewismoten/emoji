@@ -68,6 +68,7 @@ export function createExplorerBootstrapRuntime(options: any) {
     renderCategoryFilters: (...args: any[]) =>
       options.renderCategoryFilters(...args),
     selector: () => options.versionModeSelector(),
+    syncUrlState: (...args: any[]) => options.syncUrlState(...args),
     toggle: () => options.versionModeToggle(),
     translate: options.translate,
   });

@@ -8,7 +8,7 @@ const assetVersion = packageJson.version;
 const coreAssets = [
   "./",
   `./index.css?v=${assetVersion}`,
-  `./index.js?v=${assetVersion}`,
+  "./index.js",
   `./pixel-editor.js?v=${assetVersion}`,
   `./pixel-editor.css?v=${assetVersion}`,
   "./pixel-font/build/font/pixel-emoji.css",

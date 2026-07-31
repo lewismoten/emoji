@@ -159,17 +159,25 @@ function resolveThemePreference(
     : "dark";
 }
 
+function resolveChoiceElements(
+  choices: (() => any[] | undefined) | undefined,
+  selector: string,
+) {
+  const supplied = choices?.() ?? [];
+  if (Array.isArray(supplied) && supplied.length > 0) return supplied;
+  if (typeof document === "undefined") return [];
+  return Array.from(document.querySelectorAll(selector));
+}
+
 export function renderThemeToggle(options: any) {
-  const fullDeveloperMode = document.documentElement.hasAttribute(
-    "data-full-developer-mode",
-  );
+  const fullDeveloperMode = resolveExplorerMode(options.state()) === "developer";
   const theme = resolveThemePreference(
     options.state().explorerPreferences.theme,
     fullDeveloperMode,
   );
   void ensureThemeStyles(theme);
   document.documentElement.dataset.theme = theme;
-  options.choices().forEach((choice: any) => {
+  resolveChoiceElements(options.choices, ".theme-choice").forEach((choice: any) => {
     const selected = choice.dataset.theme === theme;
     choice.classList.toggle("is-active", selected);
     choice.setAttribute("aria-pressed", String(selected));
@@ -199,7 +207,7 @@ export function renderPixelFontToggle(options: any) {
   document.documentElement.toggleAttribute("data-pixel-font", enabled);
   if (enabled) delete document.documentElement.dataset.emojiFont;
   else document.documentElement.dataset.emojiFont = "system";
-  options.choices().forEach((choice: any) => {
+  resolveChoiceElements(options.choices, ".emoji-font-choice").forEach((choice: any) => {
     const selected =
       choice.dataset.emojiFont === (enabled ? "pixel" : "system");
     choice.classList.toggle("is-active", selected);
@@ -231,7 +239,7 @@ export function createDeveloperModeController(options: any) {
     document.documentElement.dataset.explorerMode = mode();
     document.documentElement.toggleAttribute("data-developer-mode", active);
     document.documentElement.toggleAttribute("data-full-developer-mode", full);
-    const choices = options.choices?.() ?? [];
+    const choices = resolveChoiceElements(options.choices, ".mode-choice");
     if (choices.length > 0) {
       choices.forEach((choice: any) => {
         const selected = choice.dataset.mode === mode();

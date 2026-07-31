@@ -136,6 +136,7 @@ export function createStartupOrchestrator(options: any) {
       renderSavedEmoji: options.renderSavedEmoji,
       renderSearchLanguages: options.renderSearchLanguages,
       renderSoundEffectsToggle: options.renderSoundEffectsToggle,
+      refreshElements: options.refreshElements,
       resetFilters: options.resetFilters,
       savePreference: options.savePreference,
       savedDialog: options.savedDialog(),

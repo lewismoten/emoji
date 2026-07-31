@@ -77,6 +77,7 @@ const server = createServer((request, response) => {
 });
 
 let serverStarted = false;
+let shuttingDown = false;
 server.on("error", (error) => {
   if (
     error &&
@@ -107,9 +108,16 @@ server.listen(port, host, () => {
 
 for (const signal of ["SIGINT", "SIGTERM"]) {
   process.on(signal, () => {
-    if (!serverStarted) {
+    if (shuttingDown) {
+      console.log("\n...already shutting down\n");
       process.exit(0);
     }
+    if (!serverStarted) {
+      process.exit(0);
+      console.log("\nServer didn't start yet\n");
+    }
+    shuttingDown = true;
+    console.log("\nShutting Down\n");
     server.close(() => process.exit(0));
   });
 }
