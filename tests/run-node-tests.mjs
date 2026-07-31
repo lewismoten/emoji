@@ -38,10 +38,76 @@ const requestedConcurrency = Number.parseInt(
   process.env.TEST_CONCURRENCY ?? "",
   10,
 );
+const reportMode = process.env.TEST_REPORT === "full" ? "full" : "quiet";
 const testConcurrency =
   Number.isInteger(requestedConcurrency) && requestedConcurrency > 0
     ? requestedConcurrency
     : Math.min(availableParallelism(), 2);
+
+function stripAnsi(value) {
+  return value.replace(
+    // eslint-disable-next-line no-control-regex
+    /\u001B\[[0-?]*[ -/]*[@-~]/g,
+    "",
+  );
+}
+
+function isCoverageDataLine(line) {
+  return /^\u2139\s+.*\|\s+\d+\.\d+\s+\|\s+\d+\.\d+\s+\|\s+\d+\.\d+\s+\|/.test(
+    line,
+  );
+}
+
+function isFullyCoveredLine(line) {
+  const match = line.match(
+    /^\u2139\s+.*\|\s+(\d+\.\d+)\s+\|\s+(\d+\.\d+)\s+\|\s+(\d+\.\d+)\s+\|\s*(.*)$/,
+  );
+  if (!match) return false;
+  const [, lineCoverage, branchCoverage, functionCoverage, uncovered] = match;
+  return (
+    lineCoverage === "100.00" &&
+    branchCoverage === "100.00" &&
+    functionCoverage === "100.00" &&
+    uncovered.trim() === ""
+  );
+}
+
+function shouldPrintLine(line) {
+  if (reportMode === "full") return true;
+  const plainLine = stripAnsi(line);
+  if (plainLine.startsWith("✔ ")) return false;
+  if (plainLine.startsWith("\u2139 tests ")) return false;
+  if (plainLine.startsWith("\u2139 suites ")) return false;
+  if (plainLine.startsWith("\u2139 pass ")) return false;
+  if (plainLine.startsWith("\u2139 fail 0")) return false;
+  if (plainLine.startsWith("\u2139 cancelled ")) return false;
+  if (plainLine.startsWith("\u2139 skipped ")) return false;
+  if (plainLine.startsWith("\u2139 todo ")) return false;
+  if (plainLine.startsWith("\u2139 duration_ms ")) return false;
+  if (isCoverageDataLine(plainLine) && isFullyCoveredLine(plainLine)) {
+    return false;
+  }
+  return true;
+}
+
+function createLivePrinter() {
+  let buffered = "";
+  return {
+    flush() {
+      if (!buffered) return;
+      if (shouldPrintLine(buffered)) process.stdout.write(buffered);
+      buffered = "";
+    },
+    write(chunk) {
+      buffered += chunk;
+      const lines = buffered.split("\n");
+      buffered = lines.pop() ?? "";
+      for (const line of lines) {
+        if (shouldPrintLine(line)) process.stdout.write(`${line}\n`);
+      }
+    },
+  };
+}
 
 function findTests(directory) {
   if (!fs.existsSync(directory)) return [];
@@ -103,13 +169,18 @@ if (tests.length === 0) {
         stdio: ["inherit", "pipe", "pipe"],
       });
       let output = "";
+      const printer = createLivePrinter();
       child.stdout.on("data", (chunk) => {
-        output += chunk;
-        process.stdout.write(chunk);
+        const text = String(chunk);
+        output += text;
+        printer.write(text);
       });
       child.stderr.on("data", (chunk) => process.stderr.write(chunk));
       child.on("error", reject);
-      child.on("close", (status) => resolve({ output, status }));
+      child.on("close", (status) => {
+        printer.flush();
+        resolve({ output, status });
+      });
     });
   // The structure audit reads the whole repository. Give it an isolated worker
   // so concurrent test startup cannot make an otherwise fast audit exceed its
@@ -131,11 +202,7 @@ if (tests.length === 0) {
     output: results.map((entry) => entry.output).join(""),
     status: results.find((entry) => entry.status !== 0)?.status ?? 0,
   };
-  const plainOutput = result.output.replace(
-    // eslint-disable-next-line no-control-regex
-    /\u001B\[[0-?]*[ -/]*[@-~]/g,
-    "",
-  );
+  const plainOutput = stripAnsi(result.output);
   const durations = [...plainOutput.matchAll(/^✔ (.+) \(([\d.]+)ms\)$/gm)].map(
     (match) => ({ test: match[1], duration: Number(match[2]) }),
   );
