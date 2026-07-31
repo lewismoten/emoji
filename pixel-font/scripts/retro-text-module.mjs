@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import { format } from "prettier";
 
 function escapeCharacter(character) {
   return JSON.stringify(character);
@@ -38,5 +39,8 @@ export async function writeRetroTextBitmapModule(
     "",
   ].join("\n");
 
-  await fs.writeFile(outputFile, contents);
+  await fs.writeFile(
+    outputFile,
+    await format(contents, { parser: "babel" }),
+  );
 }
