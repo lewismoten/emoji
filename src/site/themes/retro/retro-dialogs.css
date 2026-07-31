@@ -141,6 +141,9 @@ html[data-theme="retro"] .example-dialog .toggle-favorite {
   border-radius: 0;
   background: var(--ega-light-gray);
   color: var(--ega-black);
+  font-family: var(--retro-ui-font) !important;
+  font-weight: 400 !important;
+  font-synthesis-weight: none;
 }
 
 html[data-theme="retro"] .dialog-close:hover,
