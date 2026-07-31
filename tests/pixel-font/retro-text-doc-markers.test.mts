@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 
-const root = path.resolve(import.meta.dirname, "..", "..");
+const root = process.cwd();
 const markdown = await fs.readFile(
   path.join(root, "pixel-font", "RETRO_TEXT_FONT.md"),
   "utf8",
