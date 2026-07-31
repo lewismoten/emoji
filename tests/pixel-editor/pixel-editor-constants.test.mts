@@ -7,6 +7,7 @@ import {
   ROTATION_ALPHA_THRESHOLD,
   SKIN_TONE_COLORS,
   TOOLS,
+  isViteDevelopment,
 } from "../../src/pixel-editor/core/pixel-editor-constants.js";
 
 assert.equal(CELL_SIZE, 12);
@@ -68,3 +69,6 @@ assert.equal(
   SKIN_TONE_COLORS.every((tone) => /^#[0-9a-f]{6}$/.test(tone.color)),
   true,
 );
+assert.equal(isViteDevelopment(undefined), false);
+assert.equal(isViteDevelopment({ DEV: false }), false);
+assert.equal(isViteDevelopment({ DEV: true }), true);

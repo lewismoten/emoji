@@ -2,8 +2,10 @@
 export const CELL_SIZE = 12;
 export const DISPLAY_SIZE = 384;
 export const ROTATION_ALPHA_THRESHOLD = 128;
-export const IS_VITE_DEVELOPMENT =
-  typeof import.meta.env !== "undefined" && import.meta.env.DEV === true;
+export function isViteDevelopment(environment?: { DEV?: boolean } | undefined) {
+  return typeof environment !== "undefined" && environment.DEV === true;
+}
+export const IS_VITE_DEVELOPMENT = isViteDevelopment(import.meta.env);
 export const TOOLS = [
   "pencil",
   "line",
