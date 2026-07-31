@@ -562,56 +562,129 @@ def expand_mask_key(key, decompositions):
 
 def mask_glyph(mask, cell_size, pixel_size, ascender):
     pen = TTGlyphPen(None)
-    for y in range(cell_size):
-        x = 0
-        while x < cell_size:
-            if not mask[y * cell_size + x]:
-                x += 1
-                continue
-            width = 1
-            while (
-                x + width < cell_size
-                and mask[y * cell_size + x + width]
-            ):
-                width += 1
-            add_pixel_run(pen, x, y, width, pixel_size, ascender)
-            x += width
+    trace_mask_outline(pen, mask, cell_size, pixel_size, ascender)
     return pen.glyph()
 
 
 def pixels_for_color(pixels, selected_color, cell_size, pixel_size, ascender):
     pen = TTGlyphPen(None)
+    mask = bytearray(cell_size * cell_size)
     for y in range(cell_size):
-        x = 0
-        while x < cell_size:
+        for x in range(cell_size):
             offset = (y * cell_size + x) * 4
             color = tuple(pixels[offset : offset + 4])
-            matches = color[3] > 0 and (selected_color is None or color == selected_color)
-            if not matches:
-                x += 1
-                continue
-            width = 1
-            while x + width < cell_size:
-                next_offset = (y * cell_size + x + width) * 4
-                next_color = tuple(pixels[next_offset : next_offset + 4])
-                if next_color[3] == 0 or (selected_color is not None and next_color != selected_color):
-                    break
-                width += 1
-            add_pixel_run(pen, x, y, width, pixel_size, ascender)
-            x += width
+            matches = color[3] > 0 and (
+                selected_color is None or color == selected_color
+            )
+            mask[y * cell_size + x] = 1 if matches else 0
+    trace_mask_outline(pen, bytes(mask), cell_size, pixel_size, ascender)
     return pen.glyph()
 
 
-def add_pixel_run(pen, x, y, width, pixel_size, ascender):
-    x_min = x * pixel_size
-    x_max = (x + width) * pixel_size
-    y_max = ascender - y * pixel_size
-    y_min = y_max - pixel_size
-    pen.moveTo((x_min, y_min))
-    pen.lineTo((x_min, y_max))
-    pen.lineTo((x_max, y_max))
-    pen.lineTo((x_max, y_min))
+def trace_mask_outline(pen, mask, cell_size, pixel_size, ascender):
+    edges = boundary_edges(mask, cell_size)
+    while edges:
+        start = min(edges)
+        contour = [start]
+        current = start
+        previous = None
+        while True:
+            options = edges.get(current, set())
+            if not options:
+                break
+            target = choose_next_point(current, previous, options)
+            options.remove(target)
+            if not options:
+                del edges[current]
+            previous, current = current, target
+            if current == start:
+                break
+            contour.append(current)
+        draw_contour(pen, contour, pixel_size, ascender)
+
+
+def boundary_edges(mask, cell_size):
+    edges = {}
+    for y in range(cell_size):
+        for x in range(cell_size):
+            if not mask[y * cell_size + x]:
+                continue
+            add_or_cancel_edge(edges, (x, y), (x + 1, y))
+            add_or_cancel_edge(edges, (x + 1, y), (x + 1, y + 1))
+            add_or_cancel_edge(edges, (x + 1, y + 1), (x, y + 1))
+            add_or_cancel_edge(edges, (x, y + 1), (x, y))
+    return edges
+
+
+def add_or_cancel_edge(edges, start, end):
+    reverse = edges.get(end)
+    if reverse and start in reverse:
+        reverse.remove(start)
+        if not reverse:
+            del edges[end]
+    else:
+        edges.setdefault(start, set()).add(end)
+
+
+def choose_next_point(current, previous, options):
+    if previous is None:
+        return min(options)
+    direction = (current[0] - previous[0], current[1] - previous[1])
+    priority = [direction, turn_left(direction), turn_right(direction), (-direction[0], -direction[1])]
+    for candidate_direction in priority:
+        target = (
+            current[0] + candidate_direction[0],
+            current[1] + candidate_direction[1],
+        )
+        if target in options:
+            return target
+    return min(options)
+
+
+def turn_left(direction):
+    x, y = direction
+    return (-y, x)
+
+
+def turn_right(direction):
+    x, y = direction
+    return (y, -x)
+
+
+def draw_contour(pen, contour, pixel_size, ascender):
+    points = simplify_contour(
+        [scale_point(point, pixel_size, ascender) for point in contour]
+    )
+    pen.moveTo(points[0])
+    for point in points[1:]:
+        pen.lineTo(point)
     pen.closePath()
+
+
+def simplify_contour(points):
+    if len(points) <= 2:
+        return points
+    simplified = []
+    total = len(points)
+    for index, point in enumerate(points):
+        previous = points[index - 1]
+        next_point = points[(index + 1) % total]
+        if is_collinear(previous, point, next_point):
+            continue
+        simplified.append(point)
+    return simplified or points
+
+
+def is_collinear(previous, current, next_point):
+    return (
+        (previous[0] == current[0] == next_point[0])
+        or (previous[1] == current[1] == next_point[1])
+    )
+
+
+def scale_point(point, pixel_size, ascender):
+    x, y = point
+    return (x * pixel_size, ascender - y * pixel_size)
 
 
 if __name__ == "__main__":

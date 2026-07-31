@@ -27,9 +27,24 @@ import {
 import { updateCoverageReleaseDocument } from "./build-assets/coverage-release-doc.mjs";
 
 const context = await loadBuildContext(process.argv);
+const releasedFontDirectory = path.join(context.buildDirectory, "font");
+const proposedFontDirectory = path.join(releasedFontDirectory, "proposed");
+const releasedFontFiles = [
+  path.join(releasedFontDirectory, "pixel-emoji.css"),
+  path.join(releasedFontDirectory, "pixel-emoji.ttf"),
+  path.join(releasedFontDirectory, "pixel-emoji.woff"),
+  path.join(releasedFontDirectory, "pixel-emoji.woff2"),
+];
+const proposedFontFiles = [
+  path.join(proposedFontDirectory, "pixel-emoji.ttf"),
+  path.join(proposedFontDirectory, "pixel-emoji.woff"),
+  path.join(proposedFontDirectory, "pixel-emoji.woff2"),
+];
 if (await canSkipBuild(context)) {
   console.log(
-    `Pixel font sources are unchanged; reused existing ${context.fontsOnly ? "font-only" : "full"} ${context.optimize ? "optimized " : ""}build.`,
+    `Pixel font sources are unchanged; reused existing ${context.fontsOnly ? "font-only" : "full"} ${context.optimize ? "optimized " : ""}build.\n` +
+      `Released fonts: ${releasedFontDirectory}\n` +
+      releasedFontFiles.map((file) => `  - ${file}`).join("\n"),
   );
   process.exit(0);
 }
@@ -243,5 +258,11 @@ await writeFontBuildState({
 
 console.log(
   `Built ${glyphs.length.toLocaleString()} painted glyph${glyphs.length === 1 ? "" : "s"}${context.fontsOnly ? " in fonts-only mode" : ""} ` +
-    `${context.optimize ? "with optimization " : "without optimization "}from ${manifest.sheets.length} atlases.`,
+    `${context.optimize ? "with optimization " : "without optimization "}from ${manifest.sheets.length} atlases.\n` +
+    `Released fonts: ${releasedFontDirectory}\n` +
+    releasedFontFiles.map((file) => `  - ${file}`).join("\n") +
+    (proposedGlyphs.length > 0
+      ? `\nProposed fonts: ${proposedFontDirectory}\n` +
+        proposedFontFiles.map((file) => `  - ${file}`).join("\n")
+      : ""),
 );

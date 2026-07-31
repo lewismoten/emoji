@@ -213,6 +213,37 @@ assert compiler.expand_mask_key(combined_mask, mask_decompositions) == [
     left_mask,
 ]
 
+merged_square_mask = bytes(
+    1 if x in (2, 3) and y in (2, 3) else 0
+    for y in range(12)
+    for x in range(12)
+)
+merged_square_glyph = compiler.mask_glyph(
+    merged_square_mask, 12, 80, 800
+)
+assert merged_square_glyph.numberOfContours == 1
+assert len(merged_square_glyph.coordinates) == 4
+
+stacked_pixels = [
+    value
+    for y in range(12)
+    for x in range(12)
+    for value in (
+        (255, 255, 255, 255)
+        if x in (2, 3) and y in (2, 3)
+        else (0, 0, 0, 0)
+    )
+]
+stacked_glyph = compiler.pixels_for_color(
+    stacked_pixels,
+    (255, 255, 255, 255),
+    12,
+    80,
+    800,
+)
+assert stacked_glyph.numberOfContours == 1
+assert len(stacked_glyph.coordinates) == 4
+
 
 with tempfile.TemporaryDirectory() as temporary_directory:
     temporary = Path(temporary_directory)
