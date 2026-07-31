@@ -35,12 +35,21 @@ export abstract class BaseControl<TState> {
     return DomFactory.createElement(this.render());
   }
 
+  createWithDocument(documentRef: { createElement(tagName: string): any }) {
+    this.attachAssets();
+    return DomFactory.createElementWithDocument(documentRef, this.render());
+  }
+
   toMarkup() {
     return DomFactory.toMarkup(this.render());
   }
 
   static create(this: any, state?: any) {
     return new this(state).create();
+  }
+
+  static createWithDocument(this: any, documentRef: any, state?: any) {
+    return new this(state).createWithDocument(documentRef);
   }
 
   static toMarkup(this: any, state?: any) {

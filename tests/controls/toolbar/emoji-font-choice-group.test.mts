@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 
 import { EmojiFontChoiceGroupControl } from "../../../src/controls/toolbar/emoji-font-choice-group.js";
+import { FakeElement, installFakeDocument } from "../fake-dom.mjs";
 
 const markup = EmojiFontChoiceGroupControl.toMarkup();
 
@@ -17,6 +18,7 @@ assert.ok(markup.includes('class="pixel-comparison-system"'));
 assert.ok(markup.includes('class="pixel-comparison-custom"'));
 assert.ok(markup.includes('data-i18n="system">System</small>'));
 assert.ok(markup.includes('data-i18n="pixel">Pixel</small>'));
+assert.ok(markup.includes(">😀</b>"));
 assert.match(markup, /tabindex="-1"[\s\S]*value="system"/);
 assert.match(markup, /tabindex="0"[\s\S]*value="pixel"/);
 
@@ -38,3 +40,11 @@ const customMarkup = EmojiFontChoiceGroupControl.toMarkup({
 assert.ok(customMarkup.includes('aria-label="Glyph style"'));
 assert.ok(customMarkup.includes('data-emoji-font="custom"'));
 assert.ok(customMarkup.includes(">😎</b>"));
+
+const restore = installFakeDocument();
+const control = new EmojiFontChoiceGroupControl();
+assert.match(control.toMarkup(), /emoji-font-choice-system/);
+const element = EmojiFontChoiceGroupControl.create() as unknown as FakeElement;
+assert.equal(element.className, "pixel-comparison");
+assert.equal(element.querySelectorAll(".emoji-font-choice").length, 2);
+restore();

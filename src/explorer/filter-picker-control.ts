@@ -2,9 +2,8 @@ import {
   setPressedState,
 } from "./dialog/dialog-control-helpers.js";
 import { CompactChoiceButtonControl } from "../controls/filters/pickers/compact-choice-button.js";
+import { FilterPickerDialogControl } from "../controls/filters/pickers/filter-picker-dialog.js";
 import { FilterPickerTriggerControl } from "../controls/filters/pickers/filter-picker-trigger.js";
-import { DialogControl } from "../controls/dialog/dialog-control.js";
-import { DomFactory } from "../controls/core/dom-factory.js";
 
 export function createFilterPickerDialogControl(options: {
   id: string;
@@ -14,15 +13,8 @@ export function createFilterPickerDialogControl(options: {
   title: string;
   choicesClassName: string;
 }) {
-  const choicesSpec = DomFactory.element("div", {
-    attributes: {
-      "aria-labelledby": options.titleId,
-      role: "radiogroup",
-    },
-    className: `compact-choices ${options.choicesClassName}`,
-  });
-  const dialog = DialogControl.create({
-    children: [choicesSpec],
+  const dialog = FilterPickerDialogControl.create({
+    choicesClassName: options.choicesClassName,
     className: `filter-picker-dialog ${options.dialogClassName}`,
     dialogId: options.id,
     title: options.title,

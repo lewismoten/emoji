@@ -32,18 +32,10 @@ class FakeElement {
   attributes = new Map<string, string>();
   parent: FakeElement | null = null;
   nodes = new Map<string, FakeElement>();
+  dataset: Record<string, string | undefined> = {};
 
   constructor(tagName: string) {
     this.tagName = tagName.toUpperCase();
-  }
-
-  set innerHTML(value: string) {
-    this._innerHTML = value;
-    if (value.includes('class="select-sequence-type"')) {
-      const select = new FakeElement("select");
-      select.className = "select-sequence-type";
-      this.nodes.set(".select-sequence-type", select);
-    }
   }
 
   get innerHTML() {
@@ -52,6 +44,12 @@ class FakeElement {
 
   setAttribute(name: string, value: string) {
     this.attributes.set(name, value);
+    if (name === "id") this.id = value;
+    if (name === "min") this.min = value;
+    if (name === "max") this.max = value;
+    if (name === "step") this.step = value;
+    if (name === "value") this.value = value;
+    if (name === "disabled") this.disabled = true;
   }
 
   append(...nodes: FakeElement[]) {
@@ -59,6 +57,7 @@ class FakeElement {
       node.parent = this;
       this.children.push(node);
       this.nodes.set(node.tagName.toLowerCase(), node);
+      this.register(node);
     });
   }
 
@@ -66,12 +65,14 @@ class FakeElement {
     node.parent = this;
     this.children.push(node);
     this.nodes.set(node.tagName.toLowerCase(), node);
+    this.register(node);
   }
 
   prepend(node: FakeElement) {
     node.parent = this;
     this.children.unshift(node);
     this.nodes.set(node.tagName.toLowerCase(), node);
+    this.register(node);
   }
 
   before(node: FakeElement) {
@@ -90,6 +91,17 @@ class FakeElement {
 
   closest(selector: string) {
     return selector === ".filter-field" ? this.parent : null;
+  }
+
+  private register(node: FakeElement) {
+    if (node.className) {
+      node.className
+        .split(/\s+/)
+        .filter(Boolean)
+        .forEach((name) => this.nodes.set(`.${name}`, node));
+    }
+    if (node.id) this.nodes.set(`#${node.id}`, node);
+    node.children.forEach((child) => this.register(child));
   }
 }
 
@@ -220,6 +232,40 @@ try {
   assert.equal(oldModeField.hidden, true);
   assert.equal(versionModeSelector.hidden, true);
   assert.equal(compactVersion.children[0], createdToggle);
+
+  const sharedField = new FakeElement("div");
+  const inlineModeSelector = new FakeElement("select");
+  inlineModeSelector.parent = sharedField;
+  inlineModeSelector.closest = (query: string) =>
+    query === ".filter-field" ? sharedField : null;
+  const inlineVersionSelector = new FakeElement("select");
+  inlineVersionSelector.parent = sharedField;
+  inlineVersionSelector.closest = (query: string) =>
+    query === ".filter-field" ? sharedField : null;
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      head: new FakeElement("head"),
+      createElement(tag: string) {
+        return new FakeElement(tag);
+      },
+      getElementById() {
+        return null;
+      },
+      getElementsByClassName() {
+        return [];
+      },
+    },
+  });
+  const inlineToggle = ensureVersionModeToggleControl({
+    document: globalThis.document,
+    versionModeSelector: inlineModeSelector as any,
+    versionRange: () => undefined,
+    versionSelector: inlineVersionSelector as any,
+  });
+  assert.equal(sharedField.hidden, false);
+  assert.equal(inlineModeSelector.hidden, true);
+  assert.equal(inlineToggle.className, "version-mode-toggle");
 
   const existingToggle = new FakeElement("button");
   Object.defineProperty(globalThis, "document", {

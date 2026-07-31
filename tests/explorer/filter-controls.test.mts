@@ -332,6 +332,36 @@ assert.deepEqual(loadedStateResult, {
   selectedGroup: "Objects",
   selectedSubGroup: "Objects:mail",
 });
+const missingVersionState = applyLoadedUrlStateToControls({
+  state: {
+    version: "99.0",
+    versionMode: "through",
+    group: "Missing",
+    subGroup: "none",
+    skin: [],
+    hair: [],
+    gender: [],
+  } as any,
+  versionSelector: versionSelector as any,
+  versionModeSelector: versionModeSelector as any,
+  groups: ["Objects", "Flags"],
+  subGroups: { Objects: ["mail", "computer"] },
+  skinToneCheckboxes: skinBoxes as any,
+  hairCheckboxes: hairBoxes as any,
+  genderCheckboxes: genderBoxes as any,
+  subGroupSelectionKey: (group: string, subGroup: string) =>
+    `${group}:${subGroup}`,
+});
+assert.equal(versionSelector.value, "17.0");
+assert.equal(versionModeSelector.value, "through");
+assert.deepEqual(
+  genderBoxes.map((box) => box.checked),
+  [false, false, false],
+);
+assert.deepEqual(missingVersionState, {
+  selectedGroup: "",
+  selectedSubGroup: "",
+});
 
 resetFilterControls({
   searchText,
@@ -348,6 +378,18 @@ assert.equal(versionSelector.value, "16.0");
 assert.equal(skinBoxes.every((box) => !box.checked), true);
 assert.equal(hairBoxes.every((box) => !box.checked), true);
 assert.equal(genderBoxes.every((box) => !box.checked), true);
+searchText.value = "keep";
+versionSelector.value = "15.1";
+resetFilterControls({
+  searchText,
+  versionModeSelector: versionModeSelector as any,
+  versionSelector: versionSelector as any,
+  skinToneCheckboxes: skinBoxes as any,
+  hairCheckboxes: hairBoxes as any,
+  genderCheckboxes: genderBoxes as any,
+});
+assert.equal(searchText.value, "");
+assert.equal(versionSelector.value, "15.1");
 
 const fakeDocument = new FakeDocument();
 const originalDocument = (globalThis as typeof globalThis & { document?: any })
@@ -392,6 +434,12 @@ assert.equal(summaryParts.summary.className, "active-filter-summary");
 assert.equal(summaryParts.summary.hidden, true);
 assert.equal(summaryParts.text?.className, "active-filter-text");
 assert.equal(summaryParts.clear?.className, "clear-filters");
+summaryParts.summary.setAttribute("role", "status");
+summaryParts.summary.setAttribute("aria-live", "polite");
+const reusedSummary = setup.ensureActiveFilterSummary();
+assert.equal(reusedSummary.summary, summaryParts.summary);
+assert.equal(reusedSummary.summary.getAttribute("role"), null);
+assert.equal(reusedSummary.summary.getAttribute("aria-live"), null);
 
 const choices = setup.ensureChoiceContainer(
   groupSelector as any,
@@ -406,6 +454,14 @@ assert.equal(
   filterGrid.children[0]?.tagName,
   "DIV",
 );
+assert.equal(
+  setup.ensureChoiceContainer(
+    groupSelector as any,
+    "compact-group-choices",
+    "group-filter-label",
+  ),
+  choices,
+);
 
 const selectionLabel = setup.ensureSelectionLabel(
   groupSelector as any,
@@ -417,10 +473,21 @@ assert.equal(
   filterGrid.children[0]?.querySelector(".filter-heading")?.className,
   "filter-heading",
 );
+assert.equal(
+  setup.ensureSelectionLabel(
+    groupSelector as any,
+    "compact-group-label",
+    "group-filter-label",
+  ),
+  selectionLabel,
+);
 
 const sequenceFilter = setup.ensureSequenceTypeFilter();
 assert.equal(sequenceFilter?.className, "select-sequence-type");
-assert.equal(filterGrid.children[1]?.className, "filter-field sequence-filter-field");
+assert.equal(
+  filterGrid.children[1]?.className,
+  "filter-field sequence-filter-field has-choice-buttons",
+);
 
 const slider = setup.ensureVersionSlider();
 assert.equal(slider.range.className, "version-range");
@@ -431,6 +498,41 @@ const versionModeButton = setup.ensureVersionModeToggle();
 assert.equal(versionModeButton.className, "version-mode-toggle");
 assert.equal(modeField.hidden, true);
 assert.equal(modeSelectElement.hidden, true);
+assert.equal(setup.ensureVersionModeToggle(), versionModeButton);
+
+const orphanDocument = new FakeDocument();
+const orphanSelector = orphanDocument.createElement("select");
+const orphanSetup = createFilterControlSetup({
+  document: orphanDocument as any,
+  versionModeSelector: orphanSelector as any,
+  versionRange: () => undefined,
+  versionSelector: orphanSelector as any,
+});
+const orphanSummary = orphanSetup.ensureActiveFilterSummary();
+assert.equal(orphanSummary.summary.className, "active-filter-summary");
+assert.equal(
+  orphanDocument.getElementsByClassName("active-filter-summary").length,
+  0,
+);
+const orphanChoices = orphanSetup.ensureChoiceContainer(
+  orphanSelector as any,
+  "compact-orphan-choices",
+  "orphan-filter-label",
+);
+assert.equal(orphanChoices.className, "compact-choices compact-orphan-choices");
+assert.equal(
+  orphanSetup.ensureSelectionLabel(
+    orphanSelector as any,
+    "compact-orphan-label",
+    "orphan-filter-label",
+  ),
+  undefined,
+);
+assert.equal(orphanSetup.ensureVersionSlider().range.className, "version-range");
+assert.equal(
+  orphanSetup.ensureVersionModeToggle().className,
+  "version-mode-toggle",
+);
 
 if (originalDocument === undefined) {
   delete (globalThis as typeof globalThis & { document?: any }).document;

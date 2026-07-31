@@ -131,14 +131,12 @@
 .emoji-font-choice:hover {
   border-color: var(--accent);
 }
-.emoji-font-choice[aria-pressed="true"],
 .emoji-font-choice[aria-checked="true"] {
   border-color: var(--accent);
   background: var(--selected-control-bg);
   box-shadow: var(--shadow-selected-inset, none);
   color: var(--selected-control-text);
 }
-.emoji-font-choice[aria-pressed="true"] small,
 .emoji-font-choice[aria-checked="true"] small {
   color: inherit;
 }

@@ -97,6 +97,87 @@ try {
   assert.equal(main.children.length, 2);
   assert.equal(main.children[0]?.className, "filter-picker-dialog group-filter-dialog");
   assert.equal(main.children[1]?.className, "filter-picker-dialog subgroup-filter-dialog");
+
+  const existingGrid = {
+    querySelector(selector: string) {
+      if (selector === ".group-picker-trigger") return new FakeElement("button");
+      if (selector === ".subgroup-picker-trigger") return new FakeElement("button");
+      if (selector === ".select-group") return { closest: () => groupField };
+      if (selector === ".select-subgroup") return {
+        closest: () => subGroupField,
+      };
+      return null;
+    },
+  };
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      createElement(tagName: string) {
+        return new FakeElement(tagName);
+      },
+      getElementById() {
+        return null;
+      },
+      head: {
+        appendChild() {},
+      },
+      querySelector(selector: string) {
+        if (selector === ".basic-filter-grid") return existingGrid;
+        if (selector === ".group-filter-dialog") return new FakeElement("dialog");
+        if (selector === ".subgroup-filter-dialog") return new FakeElement("dialog");
+        if (selector === "main") return main;
+        return null;
+      },
+    },
+  });
+  ensurePickerControls();
+  assert.equal(groupField.children.length, 1);
+  assert.equal(subGroupField.children.length, 1);
+  assert.equal(main.children.length, 2);
+
+  const missingFieldGrid = {
+    querySelector(selector: string) {
+      if (selector === ".group-picker-trigger") return null;
+      if (selector === ".subgroup-picker-trigger") return null;
+      if (selector === ".select-group") return { closest: () => null };
+      if (selector === ".select-subgroup") return null;
+      return null;
+    },
+  };
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      createElement(tagName: string) {
+        return new FakeElement(tagName);
+      },
+      getElementById() {
+        return null;
+      },
+      head: {
+        appendChild() {},
+      },
+      querySelector(selector: string) {
+        if (selector === ".basic-filter-grid") return missingFieldGrid;
+        if (selector === ".group-filter-dialog") return null;
+        if (selector === ".subgroup-filter-dialog") return null;
+        if (selector === "main") return null;
+        return null;
+      },
+    },
+  });
+  ensurePickerControls();
+  assert.equal(groupField.children.length, 1);
+  assert.equal(subGroupField.children.length, 1);
+
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      querySelector() {
+        return null;
+      },
+    },
+  });
+  ensurePickerControls();
 } finally {
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");

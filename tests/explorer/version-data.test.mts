@@ -141,6 +141,32 @@ try {
   assert.deepEqual(allIds, ["wave", "sparkles", "draftFace"]);
   assert.deepEqual(items.map((item) => item.key), ["wave", "draftFace"]);
 
+  fetchCalls.length = 0;
+  globalThis.fetch = (async (input: string | URL | Request) => {
+    const url = String(input);
+    fetchCalls.push(url);
+    if (url === "versions/manifest.json") {
+      return {
+        ok: true,
+        async json() {
+          return { versions: [], proposed: [] };
+        },
+      } as Response;
+    }
+    throw new Error(`Unexpected fast-path fetch ${url}`);
+  }) as typeof fetch;
+  const emptyCatalog = await loadVersionCatalog({
+    allIds: () => [],
+    byId: () => ({}),
+    emojiByKey: () => ({}),
+    getExplorerSubGroup: (item: any) => item.subGroup,
+    items: () => [],
+  });
+  assert.deepEqual(fetchCalls, ["versions/manifest.json"]);
+  assert.equal(emptyCatalog.released.length, 0);
+  assert.equal(emptyCatalog.proposed.length, 0);
+  assert.equal(emptyCatalog.versionKeys.size, 0);
+
   Object.defineProperty(globalThis, "document", {
     configurable: true,
     value: {
@@ -176,6 +202,73 @@ try {
   assert.equal(selector.value, "15.0");
   assert.equal(selector.disabled, false);
   assert.equal(syncCalls, 1);
+
+  const updatedSelector = new FakeSelect();
+  populateVersionSelector({
+    proposed: [
+      {
+        version: "19.0",
+        file: "proposed/19.0.json",
+        retrieved: "2026-07-01T00:00:00.000Z",
+      },
+    ],
+    released: [],
+    selectedLocale: "en-US",
+    selector: updatedSelector as any,
+    syncRange: () => {
+      syncCalls += 1;
+    },
+    translate: (key: string, fallback: string) =>
+      ({
+        expected: "expected",
+        updated: "updated",
+        released: "released",
+      })[key] ?? fallback,
+  });
+  assert.match(updatedSelector.options[0]?.text ?? "", /^Emoji 19.0 \(draft · updated /);
+  assert.equal(updatedSelector.value, "19.0");
+
+  const statusSelector = new FakeSelect();
+  populateVersionSelector({
+    proposed: [
+      {
+        version: "20.0",
+        file: "proposed/20.0.json",
+        status: "preview",
+        retrieved: "2026-08-01T00:00:00.000Z",
+      },
+    ],
+    released: [],
+    selectedLocale: "en-US",
+    selector: statusSelector as any,
+    syncRange: () => {
+      syncCalls += 1;
+    },
+    translate: (key: string, fallback: string) =>
+      ({
+        expected: "expected",
+        updated: "updated",
+        released: "released",
+      })[key] ?? fallback,
+  });
+  assert.match(
+    statusSelector.options[0]?.text ?? "",
+    /^Emoji 20.0 \(preview · updated /,
+  );
+
+  const fallbackSelector = new FakeSelect();
+  fallbackSelector.value = "missing";
+  populateVersionSelector({
+    proposed: [],
+    released: catalog.released,
+    selectedLocale: "en-US",
+    selector: fallbackSelector as any,
+    syncRange: () => {
+      syncCalls += 1;
+    },
+    translate: (_key: string, fallback: string) => fallback,
+  });
+  assert.equal(fallbackSelector.value, "16.0");
 
   const emptySelector = new FakeSelect();
   populateVersionSelector({

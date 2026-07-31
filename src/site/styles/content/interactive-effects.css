@@ -1,7 +1,7 @@
 .compact-choice:active,
 .version-mode-toggle:active,
 .modifier-filter-option:active,
-.pixel-comparison > button:active,
+.emoji-font-choice:active,
 .language-option:active,
 .order-mode:active {
   transform: scale(0.94);
@@ -9,7 +9,7 @@
 .compact-choice[aria-checked="true"],
 .version-mode-toggle[aria-pressed="true"],
 .modifier-filter-option:has(input:checked),
-.pixel-comparison > button[aria-pressed="true"],
+.emoji-font-choice[aria-checked="true"],
 .language-option.is-selected,
 .order-mode.is-active {
   animation: control-selected var(--motion-medium) var(--motion-ease);

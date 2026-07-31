@@ -1,19 +1,11 @@
+import { SequenceFilterFieldControl } from "../controls/filters/sequence/sequence-filter-field.js";
 import { VersionModeToggleControl } from "../controls/filters/version/version-mode-toggle.js";
+import { VersionRangeControl } from "../controls/filters/version/version-range-control.js";
 
 export function ensureSequenceTypeFilterField(documentRef: any) {
   const existing = documentRef.getElementsByClassName("select-sequence-type")[0];
   if (existing) return existing;
-  const field = documentRef.createElement("div");
-  field.className = "filter-field sequence-filter-field";
-  field.hidden = true;
-  field.innerHTML = `
-    <div class="filter-heading">
-      <span id="sequence-filter-label" data-i18n="sequenceType">Sequence type</span>
-      <span class="compact-sequence-label"></span>
-    </div>
-    <select class="select-sequence-type" aria-labelledby="sequence-filter-label"><option>Not loaded</option></select>
-    <div class="compact-choices compact-sequence-choices" role="radiogroup" aria-labelledby="sequence-filter-label"></div>
-  `;
+  const field = SequenceFilterFieldControl.createWithDocument(documentRef) as any;
   documentRef.querySelector(".filter-grid .version-field")?.before(field);
   return field.querySelector(".select-sequence-type");
 }
@@ -49,26 +41,12 @@ export function ensureVersionSliderControl(options: {
     "aria-labelledby",
     label?.id || "version-filter-label",
   );
-  const wrapper = options.document.createElement("div");
-  wrapper.className = "compact-version";
-  const range = options.document.createElement("input");
-  range.id = "version-range";
-  range.className = "version-range";
-  range.type = "range";
-  range.min = "0";
-  range.max = "0";
-  range.step = "1";
-  range.value = "0";
-  range.disabled = true;
-  range.setAttribute("aria-labelledby", label?.id || "version-filter-label");
-  range.setAttribute("aria-describedby", "version-range-value");
-  const output = options.document.createElement("output");
-  output.id = "version-range-value";
-  output.className = "version-range-value";
-  output.setAttribute("for", "version-range");
-  output.setAttribute("aria-live", "polite");
-  output.value = "—";
-  wrapper.append(range, output);
+  const wrapper = VersionRangeControl.createWithDocument(options.document, {
+    labelId: label?.id || "version-filter-label",
+  }) as any;
+  const range = wrapper.querySelector(".version-range");
+  const output = wrapper.querySelector(".version-range-value");
+  if (output) output.value = "—";
   field?.appendChild(wrapper);
   return { range, output };
 }

@@ -1,6 +1,8 @@
-declare const document: {
+type DocumentLike = {
   createElement(tagName: string): any;
 };
+
+declare const document: DocumentLike;
 
 type Child = NodeSpec | string;
 
@@ -41,7 +43,11 @@ const validateSpec = (spec: NodeSpec) => {
   });
 };
 
-const setAttributes = (element: any, spec: NodeSpec) => {
+const setAttributes = (
+  element: any,
+  spec: NodeSpec,
+  createChild: (spec: NodeSpec) => any,
+) => {
   if (spec.className) element.className = spec.className;
   Object.entries(spec.attributes ?? {}).forEach(([name, value]) => {
     if (value === undefined) return;
@@ -58,9 +64,7 @@ const setAttributes = (element: any, spec: NodeSpec) => {
   });
   if (spec.text !== undefined) element.textContent = spec.text;
   spec.children?.forEach((child) => {
-    element.append(
-      typeof child === "string" ? child : DomFactory.createElement(child),
-    );
+    element.append(typeof child === "string" ? child : createChild(child));
   });
   return element;
 };
@@ -85,8 +89,17 @@ const markupAttributes = (spec: NodeSpec) => {
 
 export class DomFactory {
   static createElement(spec: NodeSpec) {
+    return DomFactory.createElementWithDocument(document, spec);
+  }
+
+  static createElementWithDocument(documentRef: DocumentLike, spec: NodeSpec) {
     validateSpec(spec);
-    return setAttributes(document.createElement(spec.tag), spec);
+    return setAttributes(
+      documentRef.createElement(spec.tag),
+      spec,
+      (childSpec) =>
+        DomFactory.createElementWithDocument(documentRef, childSpec),
+    );
   }
 
   static toMarkup(spec: NodeSpec): string {
