@@ -153,12 +153,22 @@ html[data-theme="retro"] .version-step:focus-visible {
 }
 
 html[data-theme="retro"] kbd {
+  display: inline-flex;
+  min-width: 1.8rem;
+  min-height: 1.6rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.45rem;
+  border-style: solid;
+  border-width: 2px;
   border-top-color: var(--ega-light-gray);
   border-left-color: var(--ega-light-gray);
   border-right-color: var(--ega-black);
   border-bottom-color: var(--ega-black);
   background: var(--ega-white);
   color: var(--ega-black);
+  box-sizing: border-box;
+  vertical-align: middle;
 }
 
 html[data-theme="retro"] .setting-choice:hover,

@@ -29,7 +29,10 @@
 }
 .pixel-editor-toolbar button,
 .pixel-editor-file button,
-.pixel-editor-preview-actions button {
+.pixel-editor-preview-actions button,
+.pixel-editor-transfer button,
+.pixel-editor-layer button,
+.pixel-editor-trace-nudge {
   min-height: 2rem;
   padding: 0.3rem 0.55rem;
   border: 1px solid var(--border);
@@ -37,8 +40,10 @@
   background: var(--panel-strong);
   color: var(--text);
   cursor: pointer;
-  font: inherit;
+  font-family: var(--ui-font);
   font-size: 0.75rem;
+  font-weight: inherit;
+  line-height: inherit;
 }
 .pixel-editor-tools button {
   display: inline-flex;

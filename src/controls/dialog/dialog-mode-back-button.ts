@@ -11,7 +11,10 @@ const dialogModeBackButtonStyleText = `
   background: var(--panel);
   color: var(--text);
   cursor: pointer;
-  font: inherit;
+  font-family: var(--ui-font);
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
 }
 
 .dialog-mode-back[hidden] {

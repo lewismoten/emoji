@@ -9,9 +9,9 @@ import { TextControl } from "../core/text-control.js";
 const dialogHeadingStyleId = "dialog-heading-control-style";
 const dialogHeadingStyleText = `
 .dialog-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
   gap: 1rem;
   position: sticky;
   top: 0;
@@ -28,8 +28,9 @@ const dialogHeadingStyleText = `
 
 .dialog-title-row {
   display: flex;
-  align-items: center;
-  gap: 0.35rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
 }
 
 .eyebrow {
@@ -44,7 +45,9 @@ const dialogHeadingStyleText = `
 .dialog-controls {
   display: flex;
   align-items: center;
+  justify-self: end;
   gap: 0.35rem;
+  flex-wrap: nowrap;
 }
 
 .dialog-controls form {

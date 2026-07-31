@@ -42,7 +42,13 @@ html[data-theme="retro"] .language-option,
 html[data-theme="retro"] .favorite-glyph,
 html[data-theme="retro"] .dialog-mode-back,
 html[data-theme="retro"] .dialog-description,
-html[data-theme="retro"] .rendering-diagnostic h3 {
+html[data-theme="retro"] .rendering-diagnostic h3,
+html[data-theme="retro"] .pixel-editor-toolbar button,
+html[data-theme="retro"] .pixel-editor-file button,
+html[data-theme="retro"] .pixel-editor-preview-actions button,
+html[data-theme="retro"] .pixel-editor-transfer button,
+html[data-theme="retro"] .pixel-editor-layer button,
+html[data-theme="retro"] .pixel-editor-trace-nudge {
   font-size: var(--retro-font-2);
 }
 
@@ -54,6 +60,13 @@ html[data-theme="retro"] .filter-picker-trigger,
 html[data-theme="retro"] .advanced-filters-trigger,
 html[data-theme="retro"] .compact-choice,
 html[data-theme="retro"] .version-mode-toggle,
+html[data-theme="retro"] .dialog-mode-back,
+html[data-theme="retro"] .pixel-editor-toolbar button,
+html[data-theme="retro"] .pixel-editor-file button,
+html[data-theme="retro"] .pixel-editor-preview-actions button,
+html[data-theme="retro"] .pixel-editor-transfer button,
+html[data-theme="retro"] .pixel-editor-layer button,
+html[data-theme="retro"] .pixel-editor-trace-nudge,
 html[data-theme="retro"] input[type="search"] {
   min-height: 2.25rem;
 }
@@ -65,8 +78,46 @@ html[data-theme="retro"] .filter-picker-trigger,
 html[data-theme="retro"] .advanced-filters-trigger,
 html[data-theme="retro"] .compact-choice,
 html[data-theme="retro"] .version-mode-toggle,
+html[data-theme="retro"] .dialog-mode-back,
+html[data-theme="retro"] .pixel-editor-toolbar button,
+html[data-theme="retro"] .pixel-editor-file button,
+html[data-theme="retro"] .pixel-editor-preview-actions button,
+html[data-theme="retro"] .pixel-editor-transfer button,
+html[data-theme="retro"] .pixel-editor-layer button,
+html[data-theme="retro"] .pixel-editor-trace-nudge,
 html[data-theme="retro"] input[type="search"] {
   height: 2.25rem;
+}
+
+html[data-theme="retro"] .pixel-editor-view,
+html[data-theme="retro"] .pixel-editor-view legend,
+html[data-theme="retro"] .pixel-editor-view label,
+html[data-theme="retro"] .pixel-editor-view p,
+html[data-theme="retro"] .pixel-editor-view output,
+html[data-theme="retro"] .pixel-editor-view button,
+html[data-theme="retro"] .pixel-editor-view [data-i18n] {
+  font-family: var(--retro-ui-font) !important;
+  font-weight: 400;
+  font-synthesis-weight: none;
+}
+
+html[data-theme="retro"] .pixel-editor-toolbar button,
+html[data-theme="retro"] .pixel-editor-file button,
+html[data-theme="retro"] .pixel-editor-preview-actions button,
+html[data-theme="retro"] .pixel-editor-transfer button,
+html[data-theme="retro"] .pixel-editor-layer button,
+html[data-theme="retro"] .pixel-editor-trace-nudge,
+html[data-theme="retro"] .dialog-mode-back {
+  font-family: var(--retro-ui-font) !important;
+  font-weight: 400 !important;
+  font-synthesis-weight: none;
+  padding: 0.35rem 0.65rem;
+  line-height: 1.15;
+}
+
+html[data-theme="retro"] .pixel-editor-trace-nudge {
+  min-width: 2.25rem;
+  padding: 0.25rem;
 }
 
 html[data-theme="retro"] .toolbar {

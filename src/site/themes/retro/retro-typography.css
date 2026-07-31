@@ -26,6 +26,10 @@ html[data-theme="retro"] .compact-choice-emoji {
   font-size: var(--retro-font-3);
 }
 
+html[data-theme="retro"] .example-dialog .show-pixel-editor {
+  font-size: var(--retro-font-2);
+}
+
 html[data-theme="retro"] h2,
 html[data-theme="retro"] .dialog-title-row h2,
 html[data-theme="retro"] .dialog-heading h2#help-title {
