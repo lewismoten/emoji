@@ -186,6 +186,8 @@ Then open <http://localhost:5173/>. Localized routes such as
 
 For local publishing, website deployment, Unicode updates, snapshot refreshes,
 and development scripts, see [docs/development-guide.md](docs/development-guide.md).
+For the full npm script inventory and prerequisite notes, see
+[docs/npm-scripts.md](docs/npm-scripts.md).
 
 ## Version contract testing
 

@@ -59,10 +59,13 @@ managed by the hosting provider and are intentionally outside this script.
 
 ## Development scripts
 
+For the complete npm script inventory, including prerequisites such as Python,
+SSH, `rsync`, or network access where needed, see
+[docs/npm-scripts.md](npm-scripts.md).
+
+Commonly used commands:
+
 - `npm run clean` removes generated `build` and `dist` directories.
-- `npm run generate` creates popular, complete, category, subgroup, and
-  variation source packs from `src/data/emoji/` and `src/data/popular.json`,
-  plus the generated package manifest at `dist/manifest.json`.
 - `npm run build` regenerates the library and compiles TypeScript.
 - `npm run bundle` produces the publishable JavaScript and TypeScript files and
   refreshes the repository-tracked SVG and PNG preview assets.
@@ -72,30 +75,12 @@ managed by the hosting provider and are intentionally outside this script.
 - `npm run website:build` creates and validates `build/website` for
   `emoji.lewismoten.com`.
 - `npm run website:publish -- --target <destination>` builds and uploads the
-  site over `rsync`.
-- `npm run format` formats repository JSON files with Prettier.
-- `npm run cldr -- <locale>` downloads CLDR annotations and regenerates locale
-  packs. A regional locale automatically generates its base language first.
-- `npm run unicode -- <version>` downloads a released Unicode Emoji version and
-  regenerates the library data.
-- `npm run unicode:proposed` downloads the current official Unicode draft data.
-- `npm run versions:snapshot` refreshes the released version contract snapshot.
+  site over SSH.
 - `npm run svg:render` synchronizes the site icon smiley from the configured
-  pixel-font atlas source and rasterizes tracked SVG-to-PNG assets such as the
+  pixel-font atlas source and rerenders tracked SVG-to-PNG assets such as the
   social preview image.
-- `npm run pixel-font:generate` updates pixel-font atlas assignments without
-  creating empty PNG sheets.
-- `npm run pixel-font:validate` verifies every active atlas assignment.
 - `npm run pixel-font:build` creates the complete local font, glyph-image,
   manifest, and preview output.
-- `npm run pixel-font:build -- --fonts-only` creates the deployment font files
-  and manifests without individual PNG or SVG glyph output.
-- `npm run pixel-font:package` creates the fonts-only build, standalone npm
-  package, and versioned GitHub Release assets.
-- `npm run pixel-font:text` builds the separate retro Latin UI font used by the
-  Explorer’s retro theme.
-- `npm run pixel-font:version -- patch` bumps the independent font version
-  without changing the JavaScript package version.
 
 ## Site assets and screenshots
 
