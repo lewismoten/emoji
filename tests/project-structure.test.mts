@@ -84,7 +84,7 @@ const ignoredRoots = new Set([
 ]);
 
 const isAuditedSourceFile = (file: string) =>
-  !file.includes("/") || file.startsWith("src/");
+  !file.includes("/") || file.startsWith("src/") || file.startsWith("tests/");
 
 const walkDirectory = (directory: string, files: string[]) => {
   for (const entry of readdirSync(path.join(root, directory), {
@@ -105,6 +105,7 @@ const walkDirectory = (directory: string, files: string[]) => {
 const gitFiles = () => {
   const files: string[] = [];
   walkDirectory("src", files);
+  walkDirectory("tests", files);
   for (const entry of readdirSync(root, { withFileTypes: true })) {
     if (entry.name === ".DS_Store" || entry.name === "src") continue;
     if (
@@ -243,6 +244,7 @@ const filesByName = new Map<string, string[]>();
 for (const file of uniqueFilenameFiles) {
   const filename = path.posix.basename(file);
   if (!path.posix.extname(filename)) continue;
+  if (filename.toLocaleLowerCase("en") === "tsconfig.json") continue;
   const normalizedFilename = filename.toLocaleLowerCase("en");
   const matches = filesByName.get(normalizedFilename) ?? [];
   matches.push(file);
