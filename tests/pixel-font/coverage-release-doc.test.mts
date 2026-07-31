@@ -51,13 +51,22 @@ const buildManifest = {
 };
 
 const rendered = renderCoverageReleaseSummary(buildManifest);
+assert.match(rendered, /^<!-- coverage-summary:start -->\n\n- /);
 assert.match(rendered, /Emoji 16\.0/);
 assert.match(rendered, /Emoji 18\.0 beta draft/);
-assert.match(rendered, /\| \*\*16\.0\*\* \|/);
-assert.match(rendered, /\| 17\.0 \|/);
 assert.match(
   rendered,
-  /\| \*\*Total\*\* \| \*\*147\*\* \| \*\*190\*\* \| \*\*77\.4%\*\* \|/,
+  /\| Emoji release\s+\| Painted entries \| Tracked entries \|\s+Coverage \|/,
+);
+assert.match(rendered, /\| \*\*16\.0\*\*\s+\|/);
+assert.match(rendered, /\| 17\.0\s+\|/);
+assert.match(
+  rendered,
+  /\| \*\*Total\*\*\s+\|\s+\*\*147\*\*\s+\|\s+\*\*190\*\*\s+\|\s+\*\*77\.4%\*\* \|/,
+);
+assert.match(
+  rendered,
+  /\| \*\*Total\*\*\s+\|\s+\*\*147\*\*\s+\|\s+\*\*190\*\*\s+\|\s+\*\*77\.4%\*\* \|\n\n<!-- coverage-summary:end -->$/,
 );
 
 const workspace = await fs.mkdtemp(
@@ -89,7 +98,7 @@ assert.match(updated, /after/);
 assert.match(updated, /Emoji 18\.0 beta draft/);
 assert.match(
   updated,
-  /\| \*\*Total\*\* \| \*\*147\*\* \| \*\*190\*\* \| \*\*77\.4%\*\* \|/,
+  /\| \*\*Total\*\*\s+\|\s+\*\*147\*\*\s+\|\s+\*\*190\*\*\s+\|\s+\*\*77\.4%\*\* \|/,
 );
 assert.doesNotMatch(updated, /\nold\n/);
 

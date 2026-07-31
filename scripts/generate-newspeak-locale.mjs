@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { format } from "prettier";
 
 const root = process.cwd();
 const readJson = (file) =>
@@ -518,6 +519,20 @@ function buildNewspeakUi() {
   return ui;
 }
 
+function preserveExistingKeyOrder(file, value) {
+  const existingFile = path.join(root, file);
+  if (!fs.existsSync(existingFile)) return value;
+  const existing = JSON.parse(fs.readFileSync(existingFile, "utf8"));
+  const ordered = {};
+  for (const key of Object.keys(existing)) {
+    if (key in value) ordered[key] = value[key];
+  }
+  for (const [key, entry] of Object.entries(value)) {
+    if (!(key in ordered)) ordered[key] = entry;
+  }
+  return ordered;
+}
+
 function buildNewspeakLocale() {
   return {
     locale: "en-x-newspeak",
@@ -714,25 +729,35 @@ function updateNewspeakDoc(rootWordCount, wordTable, compoundTable) {
     "newspeak-compound-inventory",
     compoundSection,
   );
-  writeFile("docs/newspeak-locale.md", updated.trimEnd());
+  return updated.trimEnd();
+}
+
+async function formatJson(value) {
+  return (await format(JSON.stringify(value), { parser: "json" })).trimEnd();
+}
+
+async function formatMarkdown(value) {
+  return (await format(value, { parser: "markdown" })).trimEnd();
 }
 
 const locale = buildNewspeakLocale();
-const ui = buildNewspeakUi();
+const ui = preserveExistingKeyOrder(
+  "src/demo-locales/ui.en-x-newspeak.json",
+  buildNewspeakUi(),
+);
 const words = collectUniqueWords(locale, ui);
 
+writeFile("src/data/locales/en-x-newspeak.json", await formatJson(locale));
+writeFile("src/demo-locales/ui.en-x-newspeak.json", await formatJson(ui));
 writeFile(
-  "src/data/locales/en-x-newspeak.json",
-  JSON.stringify(locale, null, 2),
-);
-writeFile(
-  "src/demo-locales/ui.en-x-newspeak.json",
-  JSON.stringify(ui, null, 2),
-);
-updateNewspeakDoc(
-  words.rootWords.length,
-  buildWordTable(words.rootWords),
-  buildCompoundTable(words.compounds),
+  "docs/newspeak-locale.md",
+  await formatMarkdown(
+    updateNewspeakDoc(
+      words.rootWords.length,
+      buildWordTable(words.rootWords),
+      buildCompoundTable(words.compounds),
+    ),
+  ),
 );
 
 console.info(

@@ -255,12 +255,6 @@
   "atlasSaved": "thing",
   "atlasSaveFailed": "-good set think",
   "atlasDownloaded": "thing",
-  "row": "list",
-  "column": "unlist",
-  "pixelPreviews": "thing",
-  "officialEmoji": "thing",
-  "customFontEmoji": "thing",
-  "currentArtwork": "thing",
   "audio": "music",
   "audioDescription": "unmusic and music live in light, unlight, and unnew.",
   "soundEffects": "unmusic",
@@ -270,5 +264,11 @@
   "standard": "obey",
   "advanced": "think",
   "developer": "reveal",
-  "artWorkTransfer": "image go"
+  "artWorkTransfer": "image go",
+  "row": "list",
+  "column": "unlist",
+  "pixelPreviews": "thing",
+  "officialEmoji": "thing",
+  "customFontEmoji": "thing",
+  "currentArtwork": "thing"
 }

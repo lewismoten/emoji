@@ -17,14 +17,10 @@ export function renderCoverageReleaseSummary(buildManifest) {
           .map((entry) => `- ${renderCompleteCoverageBullet(entry)}`)
           .join("\n")
       : "- No Unicode releases have complete painted coverage yet.";
-  const table = [
-    "| Emoji release | Painted entries | Tracked entries | Coverage |",
-    "| ------------- | --------------: | --------------: | -------: |",
-    ...entries.map(renderCoverageRow),
-    renderCoverageTotalRow(entries),
-  ].join("\n");
+  const table = renderCoverageTable(entries);
   return [
     coverageSummaryStartMarker,
+    "",
     bullets,
     "",
     "“Complete” refers to the entries introduced by those versions, not all",
@@ -32,6 +28,7 @@ export function renderCoverageReleaseSummary(buildManifest) {
     "Unicode draft changes until their final release.",
     "",
     table,
+    "",
     coverageSummaryEndMarker,
   ].join("\n");
 }
@@ -66,10 +63,12 @@ function renderCoverageRow(entry) {
   const label = entry.complete
     ? `**${renderReleaseLabel(entry)}**`
     : renderReleaseLabel(entry);
-  const painted = formatCell(entry.paintedGlyphCount, entry.complete);
-  const tracked = formatCell(entry.trackedGlyphCount, entry.complete);
-  const coverage = formatCell(formatPercent(entry.coverage), entry.complete);
-  return `| ${label} | ${painted} | ${tracked} | ${coverage} |`;
+  return {
+    label,
+    painted: formatCell(entry.paintedGlyphCount, entry.complete),
+    tracked: formatCell(entry.trackedGlyphCount, entry.complete),
+    coverage: formatCell(formatPercent(entry.coverage), entry.complete),
+  };
 }
 
 function renderCoverageTotalRow(entries) {
@@ -82,7 +81,68 @@ function renderCoverageTotalRow(entries) {
     0,
   );
   const coverage = trackedTotal === 0 ? 0 : (paintedTotal / trackedTotal) * 100;
-  return `| **Total** | **${paintedTotal.toLocaleString()}** | **${trackedTotal.toLocaleString()}** | **${formatPercent(coverage)}** |`;
+  return {
+    label: "**Total**",
+    painted: `**${paintedTotal.toLocaleString()}**`,
+    tracked: `**${trackedTotal.toLocaleString()}**`,
+    coverage: `**${formatPercent(coverage)}**`,
+  };
+}
+
+function renderCoverageTable(entries) {
+  const header = {
+    label: "Emoji release",
+    painted: "Painted entries",
+    tracked: "Tracked entries",
+    coverage: "Coverage",
+  };
+  const rows = [
+    ...entries.map(renderCoverageRow),
+    renderCoverageTotalRow(entries),
+  ];
+  const widths = {
+    label: maxLength([header.label, ...rows.map((row) => row.label)]),
+    painted: maxLength([header.painted, ...rows.map((row) => row.painted)]),
+    tracked: maxLength([header.tracked, ...rows.map((row) => row.tracked)]),
+    coverage: maxLength([header.coverage, ...rows.map((row) => row.coverage)]),
+  };
+  return [
+    renderTableRow(header, widths),
+    renderDividerRow(widths),
+    ...rows.map((row) => renderTableRow(row, widths)),
+  ].join("\n");
+}
+
+function renderTableRow(row, widths) {
+  return [
+    "| ",
+    row.label.padEnd(widths.label),
+    " | ",
+    row.painted.padStart(widths.painted),
+    " | ",
+    row.tracked.padStart(widths.tracked),
+    " | ",
+    row.coverage.padStart(widths.coverage),
+    " |",
+  ].join("");
+}
+
+function renderDividerRow(widths) {
+  return [
+    "| ",
+    "-".repeat(widths.label),
+    " | ",
+    `${"-".repeat(widths.painted - 1)}:`,
+    " | ",
+    `${"-".repeat(widths.tracked - 1)}:`,
+    " | ",
+    `${"-".repeat(widths.coverage - 1)}:`,
+    " |",
+  ].join("");
+}
+
+function maxLength(values) {
+  return values.reduce((maximum, value) => Math.max(maximum, value.length), 0);
 }
 
 function renderReleaseLabel(entry) {
