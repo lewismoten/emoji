@@ -2,75 +2,51 @@ import fs from "node:fs";
 import path from "node:path";
 
 const outputDirectory = "explorer";
-const sourceFiles = [
+const themeBundleEntries = [
   {
-    source: path.join("src", "site", "themes", "base-theme-locales.css"),
-    output: path.join("themes", "base-theme-locales.css"),
-  },
-  {
-    source: path.join("src", "site", "themes", "base-theme.css"),
     output: path.join("themes", "base-theme.css"),
+    sources: [path.join("src", "site", "themes", "base-theme.css")],
   },
   {
-    source: path.join("src", "site", "themes", "dark.css"),
     output: path.join("themes", "dark.css"),
+    sources: [path.join("src", "site", "themes", "dark.css")],
   },
   {
-    source: path.join("src", "site", "themes", "light", "light.css"),
-    output: path.join("themes", "light", "light.css"),
+    output: path.join("themes", "light.css"),
+    sources: [path.join("src", "site", "themes", "light", "light.css")],
   },
   {
-    source: path.join("src", "site", "themes", "ega.css"),
     output: path.join("themes", "ega.css"),
+    sources: [path.join("src", "site", "themes", "ega.css")],
   },
   {
-    source: path.join("src", "site", "themes", "retro", "retro.css"),
-    output: path.join("themes", "retro", "retro.css"),
+    output: path.join("themes", "retro.css"),
+    sources: [
+      path.join("src", "site", "themes", "retro", "retro.css"),
+      path.join("src", "site", "themes", "retro", "retro-foundation.css"),
+      path.join("src", "site", "themes", "retro", "retro-dialogs.css"),
+      path.join(
+        "src",
+        "site",
+        "themes",
+        "retro",
+        "retro-example-dialogs.css",
+      ),
+      path.join("src", "site", "themes", "retro", "retro-buttons.css"),
+      path.join(
+        "src",
+        "site",
+        "themes",
+        "retro",
+        "retro-choice-states.css",
+      ),
+      path.join("src", "site", "themes", "retro", "retro-typography.css"),
+      path.join("src", "site", "themes", "retro", "retro-forms.css"),
+      path.join("src", "site", "themes", "retro", "retro-focus.css"),
+    ],
   },
-  {
-    source: path.join("src", "site", "themes", "retro", "retro-foundation.css"),
-    output: path.join("themes", "retro", "retro-foundation.css"),
-  },
-  {
-    source: path.join("src", "site", "themes", "retro", "retro-dialogs.css"),
-    output: path.join("themes", "retro", "retro-dialogs.css"),
-  },
-  {
-    source: path.join(
-      "src",
-      "site",
-      "themes",
-      "retro",
-      "retro-example-dialogs.css",
-    ),
-    output: path.join("themes", "retro", "retro-example-dialogs.css"),
-  },
-  {
-    source: path.join("src", "site", "themes", "retro", "retro-buttons.css"),
-    output: path.join("themes", "retro", "retro-buttons.css"),
-  },
-  {
-    source: path.join(
-      "src",
-      "site",
-      "themes",
-      "retro",
-      "retro-choice-states.css",
-    ),
-    output: path.join("themes", "retro", "retro-choice-states.css"),
-  },
-  {
-    source: path.join("src", "site", "themes", "retro", "retro-typography.css"),
-    output: path.join("themes", "retro", "retro-typography.css"),
-  },
-  {
-    source: path.join("src", "site", "themes", "retro", "retro-forms.css"),
-    output: path.join("themes", "retro", "retro-forms.css"),
-  },
-  {
-    source: path.join("src", "site", "themes", "retro", "retro-focus.css"),
-    output: path.join("themes", "retro", "retro-focus.css"),
-  },
+];
+const sourceFiles = [
   {
     source: path.join("src", "site", "styles", "toolbar-controls.css"),
     output: "toolbar-controls.css",
@@ -393,7 +369,39 @@ function minifyCss(source) {
 }
 
 fs.mkdirSync(outputDirectory, { recursive: true });
+for (const staleFile of [
+  path.join(outputDirectory, "themes", "base-theme-locales.css"),
+  path.join(outputDirectory, "themes", "retro-buttons.css"),
+  path.join(outputDirectory, "themes", "retro-dialogs.css"),
+  path.join(outputDirectory, "themes", "retro-focus.css"),
+  path.join(outputDirectory, "themes", "retro-forms.css"),
+  path.join(outputDirectory, "themes", "retro-foundation.css"),
+]) {
+  fs.rmSync(staleFile, { force: true });
+}
+fs.rmSync(path.join(outputDirectory, "themes", "light"), {
+  force: true,
+  recursive: true,
+});
+fs.rmSync(path.join(outputDirectory, "themes", "retro"), {
+  force: true,
+  recursive: true,
+});
 const generated = [];
+
+for (const entry of themeBundleEntries) {
+  const bundled = entry.sources
+    .map((source) => readCssWithImports(source).trim())
+    .join("\n");
+  const minified = minifyCss(bundled);
+  const outputFile = path.join(outputDirectory, entry.output);
+  fs.mkdirSync(path.dirname(outputFile), { recursive: true });
+  fs.writeFileSync(outputFile, `${minified}\n`);
+  generated.push({
+    bytes: Buffer.byteLength(minified),
+    label: entry.output,
+  });
+}
 
 for (const entry of sourceFiles) {
   const source = fs.readFileSync(entry.source, "utf8");

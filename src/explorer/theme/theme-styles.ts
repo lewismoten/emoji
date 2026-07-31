@@ -28,7 +28,7 @@ const themeStylesheets: Record<ThemeName, ThemeStylesheet[]> = {
       id: "theme-base-stylesheet",
     },
     {
-      href: "./explorer/themes/light/light.css",
+      href: "./explorer/themes/light.css",
       id: "theme-light-stylesheet",
     },
   ],
@@ -42,40 +42,8 @@ const themeStylesheets: Record<ThemeName, ThemeStylesheet[]> = {
       id: "theme-base-stylesheet",
     },
     {
-      href: "./explorer/themes/retro/retro.css",
+      href: "./explorer/themes/retro.css",
       id: "theme-retro-stylesheet",
-    },
-    {
-      href: "./explorer/themes/retro/retro-foundation.css",
-      id: "theme-retro-foundation-stylesheet",
-    },
-    {
-      href: "./explorer/themes/retro/retro-dialogs.css",
-      id: "theme-retro-dialogs-stylesheet",
-    },
-    {
-      href: "./explorer/themes/retro/retro-example-dialogs.css",
-      id: "theme-retro-example-dialogs-stylesheet",
-    },
-    {
-      href: "./explorer/themes/retro/retro-buttons.css",
-      id: "theme-retro-buttons-stylesheet",
-    },
-    {
-      href: "./explorer/themes/retro/retro-choice-states.css",
-      id: "theme-retro-choice-states-stylesheet",
-    },
-    {
-      href: "./explorer/themes/retro/retro-typography.css",
-      id: "theme-retro-typography-stylesheet",
-    },
-    {
-      href: "./explorer/themes/retro/retro-forms.css",
-      id: "theme-retro-forms-stylesheet",
-    },
-    {
-      href: "./explorer/themes/retro/retro-focus.css",
-      id: "theme-retro-focus-stylesheet",
     },
   ],
 };
