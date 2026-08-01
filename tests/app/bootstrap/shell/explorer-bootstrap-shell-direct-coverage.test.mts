@@ -19,6 +19,7 @@ const state: any = {
 let pixelOptions: any;
 let shellOptions: any;
 let emojiOptions: any;
+let refreshed = 0;
 const shell = createExplorerBootstrapShellWithFactories(
   {
     applyingUrlState: () => false,
@@ -28,7 +29,11 @@ const shell = createExplorerBootstrapShellWithFactories(
     drawList: () => "draw-list",
     emojiFontChoices: () => ["system", "pixel"],
     genderCheckboxes: () => ["neutral"],
-    getPixelEditor: () => ({ refreshFontBuild() {} }),
+    getPixelEditor: () => ({
+      refreshFontBuild() {
+        refreshed += 1;
+      },
+    }),
     hairCheckboxes: () => ["red"],
     installAppButton: () => "install-app",
     installDialog: () => "install-dialog",
@@ -88,6 +93,8 @@ assert.deepEqual(pixelOptions.genderCheckboxes(), ["neutral"]);
 assert.deepEqual(pixelOptions.hairCheckboxes(), ["red"]);
 assert.equal(pixelOptions.normalizeCodePoints("1F381"), "norm:1F381");
 assert.equal(pixelOptions.pixelFontPreferred(), true);
+pixelOptions.refreshEditor();
+assert.equal(refreshed, 1);
 assert.deepEqual(pixelOptions.skinToneCheckboxes(), ["1F3FB"]);
 const diagnostic = pixelOptions.updateRenderingDiagnostic({ ok: true });
 assert.equal(diagnostic.ok, true);
