@@ -5,10 +5,26 @@ import { createEmojiActions } from "../emoji/emoji-actions.js";
 import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from "../../explorer/dialog/dialog-render.js";
 
 export function createExplorerBootstrapShell(options: any) {
+  return createExplorerBootstrapShellWithFactories(options, {});
+}
+
+export function createExplorerBootstrapShellWithFactories(
+  options: any,
+  factories: any,
+) {
+  const createPixelArtworkManagerFactory =
+    factories.createPixelArtworkManager ?? createPixelArtworkManager;
+  const createExplorerShellFactory =
+    factories.createExplorerShell ?? createExplorerShell;
+  const createEmojiActionsFactory =
+    factories.createEmojiActions ?? createEmojiActions;
+  const updateRenderingDiagnosticFactory =
+    factories.updateRenderingDiagnostic ?? updateRenderingDiagnosticHelper;
+
   let developerModeEnabled = () => false;
   const state = options.state;
 
-  const pixelArtwork = createPixelArtworkManager({
+  const pixelArtwork = createPixelArtworkManagerFactory({
     byId: () => state().byId,
     emojiByKey: () => state().emojiByKey,
     emojiKeyByCodePoints: () => state().emojiKeyByCodePoints,
@@ -23,7 +39,7 @@ export function createExplorerBootstrapShell(options: any) {
     },
     skinToneCheckboxes: options.skinToneCheckboxes,
     updateRenderingDiagnostic: (values: any) =>
-      updateRenderingDiagnosticHelper({
+      updateRenderingDiagnosticFactory({
         ...values,
         byId: state().byId,
         developerMode: developerModeEnabled(),
@@ -35,7 +51,7 @@ export function createExplorerBootstrapShell(options: any) {
       }),
   });
 
-  const shell = createExplorerShell({
+  const shell = createExplorerShellFactory({
     applyPixelArtworkClass: () => pixelArtwork.applyPixelArtworkClass,
     developerModeToggle: options.developerModeToggle,
     modeChoices: options.modeChoices,
@@ -66,7 +82,7 @@ export function createExplorerBootstrapShell(options: any) {
 
   developerModeEnabled = shell.developerModeEnabled;
 
-  const emojiActions = createEmojiActions({
+  const emojiActions = createEmojiActionsFactory({
     applyingUrlState: options.applyingUrlState,
     applyPixelArtworkClass: () => pixelArtwork.applyPixelArtworkClass,
     applyStandalonePixelArtwork: () => pixelArtwork.applyPixelArtworkClass,

@@ -312,14 +312,17 @@ assert.equal(navigationOptions.applyingUrlState(), false);
 assert.equal(navigationOptions.compositionMode(), "full");
 assert.equal(navigationOptions.currentEmojiKey(), "wrappedGift");
 assert.equal(navigationOptions.developerModeEnabled(), true);
-assert.equal(navigationOptions.fullDeveloperModeEnabled, undefined);
+assert.equal(
+  navigationOptions.fullDeveloperModeEnabled(),
+  "full-developer-mode",
+);
 assert.deepEqual(navigationOptions.dialog(), { open: true });
 assert.deepEqual(navigationOptions.displayedKeys(), [
   "wrappedGift",
   "sparkles",
 ]);
 assert.deepEqual(navigationOptions.drawList("x"), ["drawList", "x"]);
-assert.equal(navigationOptions.ensurePanelDialog, undefined);
+assert.equal(navigationOptions.ensurePanelDialog(), "ensure-panel-dialog");
 assert.deepEqual(navigationOptions.emojiByKey(), {
   wrappedGift: "🎁",
   sparkles: "✨",
@@ -394,7 +397,10 @@ assert.deepEqual(dialogViewOptions.byId(), {
 assert.deepEqual(dialogViewOptions.currentDialogParentStack(), ["favorites"]);
 assert.equal(dialogViewOptions.currentEmojiKey(), "wrappedGift");
 assert.equal(dialogViewOptions.developerModeEnabled(), true);
-assert.equal(dialogViewOptions.fullDeveloperModeEnabled, undefined);
+assert.equal(
+  dialogViewOptions.fullDeveloperModeEnabled(),
+  "full-developer-mode",
+);
 assert.deepEqual(dialogViewOptions.dialog(), { open: true });
 assert.deepEqual(dialogViewOptions.emojiByKey(), {
   wrappedGift: "🎁",

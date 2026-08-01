@@ -7,9 +7,29 @@ import { createDialogViewRuntime } from "../dialog/dialog-view-runtime.js";
 import { createEmojiDialogClickRuntime } from "../emoji/emoji-dialog-click-runtime.js";
 
 export function createExplorerBootstrapControllers(options: any) {
+  return createExplorerBootstrapControllersWithFactories(options, {});
+}
+
+export function createExplorerBootstrapControllersWithFactories(
+  options: any,
+  factories: any,
+) {
+  const createCategoryControllerFactory =
+    factories.createCategoryController ?? createCategoryController;
+  const createVersionRuntimeFactory =
+    factories.createVersionRuntime ?? createVersionRuntime;
+  const createListOrchestrationFactory =
+    factories.createListOrchestration ?? createListOrchestration;
+  const createNavigationRuntimeFactory =
+    factories.createNavigationRuntime ?? createNavigationRuntime;
+  const createDialogViewRuntimeFactory =
+    factories.createDialogViewRuntime ?? createDialogViewRuntime;
+  const createEmojiDialogClickRuntimeFactory =
+    factories.createEmojiDialogClickRuntime ?? createEmojiDialogClickRuntime;
+
   const state = options.state;
 
-  const categoryController = createCategoryController({
+  const categoryController = createCategoryControllerFactory({
     compactGroupChoices: options.compactGroupChoices,
     compactGroupLabel: options.compactGroupLabel,
     compactSequenceChoices: options.compactSequenceChoices,
@@ -39,7 +59,7 @@ export function createExplorerBootstrapControllers(options: any) {
     unicodeSubgroupLabelKeys: options.unicodeSubgroupLabelKeys,
   });
 
-  const listOrchestration = createListOrchestration({
+  const listOrchestration = createListOrchestrationFactory({
     activeFilterSummary: options.activeFilterSummary,
     activeFilterText: options.activeFilterText,
     applyPixelArtworkClass: options.applyPixelArtworkClass,
@@ -75,7 +95,7 @@ export function createExplorerBootstrapControllers(options: any) {
       versionController.versionSliderLabel(...args),
   });
 
-  let versionController = createVersionRuntime({
+  let versionController = createVersionRuntimeFactory({
     applyLoadedUrlState: (...args: any[]) =>
       navigationRuntime.applyLoadedUrlState(...args),
     buildRepresentatives: categoryController.buildRepresentatives,
@@ -114,7 +134,7 @@ export function createExplorerBootstrapControllers(options: any) {
     versionSelector: options.versionSelector,
   });
 
-  const navigationRuntime = createNavigationRuntime({
+  const navigationRuntime = createNavigationRuntimeFactory({
     allowedSequenceTypes: options.sequenceTypeOrder,
     applyingUrlState: options.applyingUrlState,
     compositionMode: () => state().compositionMode,
@@ -166,7 +186,7 @@ export function createExplorerBootstrapControllers(options: any) {
     versionSelector: options.versionSelector,
   });
 
-  const dialogViewRuntime = createDialogViewRuntime({
+  const dialogViewRuntime = createDialogViewRuntimeFactory({
     byId: () => state().byId,
     currentDialogParentStack: () => state().currentDialogParentStack,
     currentEmojiKey: () => state().currentEmojiKey,
@@ -184,7 +204,7 @@ export function createExplorerBootstrapControllers(options: any) {
     updateImportExamples: options.updateEmojiImportExamples,
   });
 
-  const onEmojiDialogClick = createEmojiDialogClickRuntime({
+  const onEmojiDialogClick = createEmojiDialogClickRuntimeFactory({
     animateCopy: options.animateCopy,
     byId: () => state().byId,
     copy: options.copyToClipboardValue,

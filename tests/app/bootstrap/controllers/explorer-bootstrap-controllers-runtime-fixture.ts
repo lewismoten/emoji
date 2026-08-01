@@ -35,6 +35,8 @@ export function createExplorerBootstrapControllersRuntimeFixture() {
     compactSubGroupLabel: () => "compact-subgroup-label",
     copyToClipboardValue: "copyToClipboardValue",
     developerModeEnabled: () => true,
+    ensurePanelDialog: () => "ensure-panel-dialog",
+    fullDeveloperModeEnabled: () => "full-developer-mode",
     dialog: () => ({ open: true }),
     displayExplorerLabel: (label: string) => `explorer:${label}`,
     drawList: () => "drawList-option",

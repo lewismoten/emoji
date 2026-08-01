@@ -135,6 +135,7 @@ export function updateRenderingDiagnostic(values) {
     dialog: () => dialogState,
     drawList: () => "draw-list",
     emojiFontChoices: () => ["system", "pixel"],
+    modeChoices: () => ["standard", "advanced", "developer"],
     genderCheckboxes: () => ["neutral"],
     getPixelEditor: () => ({
       refreshFontBuild() {

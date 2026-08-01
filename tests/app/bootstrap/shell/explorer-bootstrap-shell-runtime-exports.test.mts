@@ -30,6 +30,11 @@ for (const [key, expected] of [
   assert.equal(shellOptions[key](), expected);
 }
 assert.deepEqual(shellOptions.emojiFontChoices(), ["system", "pixel"]);
+assert.deepEqual(shellOptions.modeChoices(), [
+  "standard",
+  "advanced",
+  "developer",
+]);
 assert.deepEqual(shellOptions.orderButtons(), ["grouped"]);
 assert.deepEqual(shellOptions.themeChoices(), ["light", "dark"]);
 assert.deepEqual(shellOptions.setDialogView("editor"), [
