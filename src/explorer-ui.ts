@@ -124,7 +124,10 @@ function updateThemeColor() {
         : "#160622";
 }
 
-function syncChoiceInputSelection(input: HTMLInputElement | null, selected: boolean) {
+function syncChoiceInputSelection(
+  input: HTMLInputElement | null,
+  selected: boolean,
+) {
   if (!input) return;
   input.checked = selected;
   input.defaultChecked = selected;
@@ -172,24 +175,27 @@ function resolveChoiceElements(
 }
 
 export function renderThemeToggle(options: any) {
-  const fullDeveloperMode = resolveExplorerMode(options.state()) === "developer";
+  const fullDeveloperMode =
+    resolveExplorerMode(options.state()) === "developer";
   const theme = resolveThemePreference(
     options.state().explorerPreferences.theme,
     fullDeveloperMode,
   );
   void ensureThemeStyles(theme);
   document.documentElement.dataset.theme = theme;
-  resolveChoiceElements(options.choices, ".theme-choice").forEach((choice: any) => {
-    const selected = choice.dataset.theme === theme;
-    choice.classList.toggle("is-active", selected);
-    choice.setAttribute("aria-pressed", String(selected));
-    choice.setAttribute("aria-checked", String(selected));
-    choice.tabIndex = selected ? 0 : -1;
-    const input = choice.querySelector(
-      'input[type="radio"]',
-    ) as HTMLInputElement | null;
-    syncChoiceInputSelection(input, selected);
-  });
+  resolveChoiceElements(options.choices, ".theme-choice").forEach(
+    (choice: any) => {
+      const selected = choice.dataset.theme === theme;
+      choice.classList.toggle("is-active", selected);
+      choice.setAttribute("aria-pressed", String(selected));
+      choice.setAttribute("aria-checked", String(selected));
+      choice.tabIndex = selected ? 0 : -1;
+      const input = choice.querySelector(
+        'input[type="radio"]',
+      ) as HTMLInputElement | null;
+      syncChoiceInputSelection(input, selected);
+    },
+  );
   updateThemeColor();
 }
 
@@ -209,18 +215,20 @@ export function renderPixelFontToggle(options: any) {
   document.documentElement.toggleAttribute("data-pixel-font", enabled);
   if (enabled) delete document.documentElement.dataset.emojiFont;
   else document.documentElement.dataset.emojiFont = "system";
-  resolveChoiceElements(options.choices, ".emoji-font-choice").forEach((choice: any) => {
-    const selected =
-      choice.dataset.emojiFont === (enabled ? "pixel" : "system");
-    choice.classList.toggle("is-active", selected);
-    choice.setAttribute("aria-checked", String(selected));
-    choice.setAttribute("aria-pressed", String(selected));
-    choice.tabIndex = selected ? 0 : -1;
-    const input = choice.querySelector(
-      'input[type="radio"]',
-    ) as HTMLInputElement | null;
-    syncChoiceInputSelection(input, selected);
-  });
+  resolveChoiceElements(options.choices, ".emoji-font-choice").forEach(
+    (choice: any) => {
+      const selected =
+        choice.dataset.emojiFont === (enabled ? "pixel" : "system");
+      choice.classList.toggle("is-active", selected);
+      choice.setAttribute("aria-checked", String(selected));
+      choice.setAttribute("aria-pressed", String(selected));
+      choice.tabIndex = selected ? 0 : -1;
+      const input = choice.querySelector(
+        'input[type="radio"]',
+      ) as HTMLInputElement | null;
+      syncChoiceInputSelection(input, selected);
+    },
+  );
   options.refreshRenderedPixelEmoji();
 }
 

@@ -92,10 +92,16 @@ html[data-theme="dark"] .filter-picker-dialog .compact-choice {
 html[data-theme="dark"] .basic-filter-grid .filter-picker-trigger:hover,
 html[data-theme="dark"] .filter-picker-dialog .compact-choice:hover {
   border-color: color-mix(in srgb, var(--accent) 45%, var(--accent-strong) 55%);
-  background: color-mix(in srgb, var(--panel-strong) 72%, var(--accent-strong) 28%);
+  background: color-mix(
+    in srgb,
+    var(--panel-strong) 72%,
+    var(--accent-strong) 28%
+  );
 }
 
-html[data-theme="dark"] .filter-picker-dialog .compact-choice[aria-checked="true"] {
+html[data-theme="dark"]
+  .filter-picker-dialog
+  .compact-choice[aria-checked="true"] {
   border-color: color-mix(in srgb, var(--accent) 45%, var(--accent-strong) 55%);
   background: var(--selected-control-bg);
   color: var(--selected-control-text);

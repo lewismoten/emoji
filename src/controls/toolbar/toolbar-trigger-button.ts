@@ -3,8 +3,7 @@ import {
   type ActionButtonState,
 } from "../core/action-button.js";
 
-const toolbarTriggerButtonStylesheetId =
-  "toolbar-trigger-button-control-style";
+const toolbarTriggerButtonStylesheetId = "toolbar-trigger-button-control-style";
 const toolbarTriggerButtonStyleText = `
 .saved-picker,
 .help-picker {

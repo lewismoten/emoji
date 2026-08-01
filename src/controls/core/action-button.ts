@@ -20,7 +20,9 @@ export type ActionButtonState = {
   type?: "button" | "submit" | "reset";
 };
 
-export class ActionButtonControl<TState = ActionButtonState> extends BaseControl<TState> {
+export class ActionButtonControl<
+  TState = ActionButtonState,
+> extends BaseControl<TState> {
   protected renderButton(state?: ActionButtonState): NodeSpec {
     const resolvedState = state ?? (this.state as ActionButtonState);
     const emojiNode = resolvedState.emoji

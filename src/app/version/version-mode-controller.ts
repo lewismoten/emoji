@@ -5,15 +5,13 @@ export function createVersionModeController(options: any) {
     ((typeof document === "undefined"
       ? undefined
       : document.querySelector?.(".select-version-mode")) as
-      | HTMLSelectElement
-      | undefined);
+      HTMLSelectElement | undefined);
   const toggle = () =>
     options.toggle?.() ??
     ((typeof document === "undefined"
       ? undefined
       : document.querySelector?.(".version-mode-toggle")) as
-      | HTMLElement
-      | undefined);
+      HTMLElement | undefined);
 
   function populateOptions() {
     const modeSelector = selector();

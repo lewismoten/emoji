@@ -67,8 +67,7 @@ const server = createServer((request, response) => {
     return;
   }
   const extension = path.extname(filePath).toLowerCase();
-  const contentType =
-    mimeTypes.get(extension) ?? "application/octet-stream";
+  const contentType = mimeTypes.get(extension) ?? "application/octet-stream";
   response.writeHead(200, {
     "Cache-Control": "no-store",
     "Content-Type": contentType,
@@ -104,7 +103,9 @@ server.listen(port, host, () => {
   console.info(`Also useful:`);
   console.info(`  ${localUrl}index.ar.html`);
   console.info(`  ${localUrl}index.en-x-newspeak.html`);
-  console.info(`Reminder: if styles ever seem stale, open DevTools → Application → Service Workers → Stop.`);
+  console.info(
+    `Reminder: if styles ever seem stale, open DevTools → Application → Service Workers → Stop.`,
+  );
 });
 
 for (const signal of ["SIGINT", "SIGTERM"]) {

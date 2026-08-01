@@ -46,7 +46,7 @@ export function createStartupOrchestrator(options: any) {
     const requestedPanel =
       typeof window === "undefined"
         ? ""
-        : new URLSearchParams(window.location.search).get("panel") ?? "";
+        : (new URLSearchParams(window.location.search).get("panel") ?? "");
     if (
       requestedPanel === "favorites" ||
       requestedPanel === "help" ||

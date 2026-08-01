@@ -41,7 +41,9 @@ export function createExplorerAudioController(
       '.audio-choice-input[value="soundEffects"]',
     );
   const musicToggle = () =>
-    document.querySelector<HTMLInputElement>('.audio-choice-input[value="music"]');
+    document.querySelector<HTMLInputElement>(
+      '.audio-choice-input[value="music"]',
+    );
   const helpDialog = () =>
     document.querySelector<HTMLDialogElement>(".help-dialog");
   const savedDialog = () =>

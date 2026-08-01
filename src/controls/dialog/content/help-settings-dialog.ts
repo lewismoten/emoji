@@ -6,8 +6,7 @@ import { AudioChoiceGroupControl } from "../../toolbar/audio-choice-group.js";
 import { ModeChoiceGroupControl } from "../../toolbar/mode-choice-group.js";
 import { ThemeChoiceGroupControl } from "../../toolbar/theme-choice-group.js";
 
-const helpSettingsDialogStylesheetId =
-  "help-settings-dialog-control-style";
+const helpSettingsDialogStylesheetId = "help-settings-dialog-control-style";
 const helpSettingsDialogStyleText = `
 .help-pixel {
   margin: 1rem 1rem 0;

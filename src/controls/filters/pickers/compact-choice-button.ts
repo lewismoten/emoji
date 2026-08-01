@@ -1,8 +1,7 @@
 import { BaseControl } from "../../core/base-control.js";
 import { DomFactory } from "../../core/dom-factory.js";
 
-const compactChoiceButtonStylesheetId =
-  "compact-choice-button-control-style";
+const compactChoiceButtonStylesheetId = "compact-choice-button-control-style";
 const compactChoiceButtonStyleText = `
 .compact-choices {
   display: flex;

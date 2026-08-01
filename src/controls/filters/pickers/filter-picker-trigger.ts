@@ -1,8 +1,7 @@
 import { BaseControl } from "../../core/base-control.js";
 import { DomFactory } from "../../core/dom-factory.js";
 
-const filterPickerTriggerStylesheetId =
-  "filter-picker-trigger-control-style";
+const filterPickerTriggerStylesheetId = "filter-picker-trigger-control-style";
 const filterPickerTriggerStyleText = `
 .filter-picker-trigger {
   display: grid;

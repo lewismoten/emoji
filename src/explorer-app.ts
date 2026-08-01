@@ -45,7 +45,8 @@ export function createExplorerApp(options: {
 
 /** Bind browser events after the Explorer has resolved its DOM references. */
 export function bindExplorerEvents(options: any) {
-  const getSavedDialog = () => options.getSavedDialog?.() ?? options.savedDialog;
+  const getSavedDialog = () =>
+    options.getSavedDialog?.() ?? options.savedDialog;
   const getHelpDialog = () => options.getHelpDialog?.() ?? options.helpDialog;
   const getLanguageDialog = () =>
     options.getLanguageDialog?.() ?? options.languageDialog;
@@ -61,9 +62,7 @@ export function bindExplorerEvents(options: any) {
     selectedValue: string,
   ) => {
     if (!dialog) return;
-    const choices = Array.from(
-      dialog.querySelectorAll<HTMLElement>(selector),
-    );
+    const choices = Array.from(dialog.querySelectorAll<HTMLElement>(selector));
     choices.forEach((choice) => {
       const selected = choice.dataset[datasetKey] === selectedValue;
       choice.classList.toggle("is-active", selected);
@@ -267,7 +266,7 @@ export function bindExplorerEvents(options: any) {
   options.installDialog
     ?.querySelector(".install-dialog-close")
     ?.addEventListener("click", () => options.installDialog.close());
-  if (!(options.modeChoices?.length)) {
+  if (!options.modeChoices?.length) {
     options.developerModeToggle?.addEventListener(
       "change",
       options.toggleDeveloperMode,

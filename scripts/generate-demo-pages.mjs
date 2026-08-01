@@ -239,7 +239,8 @@ const removeExtraJavaScript = (outputDirectory) => {
       const target = path.join(directory, entry.name);
       if (entry.isDirectory()) {
         visit(target);
-        if (fs.readdirSync(target).length === 0) fs.rmSync(target, { recursive: true });
+        if (fs.readdirSync(target).length === 0)
+          fs.rmSync(target, { recursive: true });
         continue;
       }
       if (!entry.name.endsWith(".js")) continue;
@@ -329,7 +330,9 @@ const emitRuntimeModules = (outputDirectory) => {
       path.join(
         outputDirectory,
         "explorer",
-        path.relative(path.join("src", "explorer"), file).replace(/\.ts$/, ".js"),
+        path
+          .relative(path.join("src", "explorer"), file)
+          .replace(/\.ts$/, ".js"),
       ),
     );
   }
@@ -340,7 +343,9 @@ const emitRuntimeModules = (outputDirectory) => {
       path.join(
         outputDirectory,
         "controls",
-        path.relative(path.join("src", "controls"), file).replace(/\.ts$/, ".js"),
+        path
+          .relative(path.join("src", "controls"), file)
+          .replace(/\.ts$/, ".js"),
       ),
     );
   }
@@ -650,7 +655,9 @@ export const renderManifest = (locale, startUrl, htmlLocale = locale) => {
   )}\n`;
 };
 
-export const generateDemoPages = async (outputDirectory = "build/demo-pages") => {
+export const generateDemoPages = async (
+  outputDirectory = "build/demo-pages",
+) => {
   fs.mkdirSync(outputDirectory, { recursive: true });
   emitRuntimeModules(outputDirectory);
   writeRootStylesheets(outputDirectory);
