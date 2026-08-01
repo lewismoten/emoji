@@ -17,6 +17,7 @@ try {
   const defaults = createExplorerNavigationDependencies();
   assert.equal(typeof defaults.parseExplorerUrlState, "function");
   assert.equal(typeof defaults.buildExplorerUrlQuery, "function");
+  assert.equal(typeof defaults.getPanelDialog, "function");
   assert.equal(typeof defaults.openPanelDialog, "function");
   const fixture = createExplorerNavigationDirectFixture();
 

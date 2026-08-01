@@ -50,6 +50,10 @@ try {
   );
   await ensureThemeStyles("retro");
   assert.equal(head.children.length, 3);
+  await ensureThemeStyles("unknown");
+  assert.equal(head.children.at(-1)?.id, "theme-dark-stylesheet");
+  Reflect.deleteProperty(globalThis, "document");
+  await assert.doesNotReject(() => ensureThemeStyles("base"));
 } finally {
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");

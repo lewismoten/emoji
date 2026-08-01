@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import {
   createFavoriteButtonControl,
+  ensureDialogTitleMain,
   ensureDialogTitleRow,
   ensureFavoriteButton,
   positionFavoriteButton,
@@ -180,6 +181,19 @@ assert.equal(titleMain.className, "dialog-title-main");
 assert.equal(titleMain.children[0], title);
 assert.equal(ensureDialogTitleRow(dialogTitle as unknown as HTMLElement), titleRow);
 assert.equal(ensureDialogTitleRow(null), null);
+assert.equal(
+  ensureDialogTitleMain(titleRow as unknown as HTMLElement),
+  titleMain,
+);
+
+const titlelessRow = new FakeElement("div");
+titlelessRow.className = "dialog-title-row";
+const createdTitleMain = ensureDialogTitleMain(
+  titlelessRow as unknown as HTMLElement,
+);
+assert.ok(createdTitleMain);
+assert.equal(titlelessRow.children[0], createdTitleMain);
+assert.equal(ensureDialogTitleMain(null), null);
 
 const exampleDialog = new FakeElement("dialog");
 exampleDialog.className = "example-dialog";

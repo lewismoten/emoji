@@ -262,6 +262,9 @@ try {
   assert.equal(getPanelDialog("help", dialogs as any), dialogs.help);
   assert.equal(getPanelDialog("", dialogs as any), undefined);
   assert.equal(getOpenPanel({} as any), "");
+  dialogs.filters.open = true;
+  assert.equal(getOpenPanel(dialogs as any), "filters");
+  dialogs.filters.open = false;
   dialogs.language.open = true;
   assert.equal(getOpenPanel(dialogs as any), "language");
   dialogs.language.open = false;
@@ -304,7 +307,24 @@ try {
   });
   assert.equal(filterTarget.focused, true);
 
+  dialogs.help.queryMap.set(".dialog-close", new FakeElement());
+  focusPanelDialog("help", dialogs.help as any, {
+    dialogs: dialogs as any,
+    renderSavedEmoji() {},
+  });
+  assert.equal(
+    (dialogs.help.queryMap.get(".dialog-close") as FakeElement).focused,
+    true,
+  );
+
   const syncCalls: any[] = [];
+  assert.doesNotThrow(() =>
+    openPanelDialog({
+      panel: "help",
+      renderSavedEmoji() {},
+      syncUrlState() {},
+    } as any),
+  );
   openPanelDialog({
     panel: "help",
     dialogs: dialogs as any,
@@ -316,9 +336,22 @@ try {
   });
   assert.equal(dialogs.help.open, true);
   assert.deepEqual(syncCalls, [["push", { ...historyState, panelDialogEntry: true }]]);
+  openPanelDialog({
+    addHistory: false,
+    panel: "help",
+    dialogs: dialogs as any,
+    renderSavedEmoji() {},
+    syncUrlState: (...args: any[]) => {
+      syncCalls.push(args as any);
+    },
+  });
+  assert.equal(syncCalls.length, 1);
 
   closePanelDialog(dialogs.help as any, suppressedPanelCloses);
   assert.equal(dialogs.help.open, false);
+  assert.doesNotThrow(() =>
+    closePanelDialog(new FakeDialog() as any, suppressedPanelCloses),
+  );
 
   dialogs.help.open = true;
   onPanelDialogClose({

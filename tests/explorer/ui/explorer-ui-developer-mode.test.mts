@@ -23,6 +23,9 @@ try {
   const standardModeChoice = createElement({ mode: "standard" });
   const advancedModeChoice = createElement({ mode: "advanced" });
   const developerModeChoice = createElement({ mode: "developer" });
+  (standardModeChoice as any).isConnected = true;
+  (advancedModeChoice as any).isConnected = true;
+  (developerModeChoice as any).isConnected = true;
   standardModeChoice.querySelector = () => standardModeInput;
   advancedModeChoice.querySelector = () => advancedModeInput;
   developerModeChoice.querySelector = () => developerModeInput;

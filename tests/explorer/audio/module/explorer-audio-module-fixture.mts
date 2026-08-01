@@ -119,10 +119,16 @@ export function installExplorerAudioDomFixture() {
   let observerCallback: ((records: any[]) => void) | undefined;
   const dialogSelector =
     ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
-  const soundToggle = new FakeElement([".sound-effects-toggle"]);
+  const soundToggle = new FakeElement([
+    ".sound-effects-toggle",
+    '.audio-choice-input[value="soundEffects"]',
+  ]);
   soundToggle.tagName = "INPUT";
   soundToggle.type = "checkbox";
-  const musicToggle = new FakeElement([".music-toggle"]);
+  const musicToggle = new FakeElement([
+    ".music-toggle",
+    '.audio-choice-input[value="music"]',
+  ]);
   musicToggle.tagName = "INPUT";
   musicToggle.type = "checkbox";
   const helpDialog = new FakeElement([dialogSelector]);
@@ -171,8 +177,16 @@ export function installExplorerAudioDomFixture() {
         listeners.set(type, list);
       },
       querySelector(selector: string) {
-        if (selector === ".sound-effects-toggle") return soundToggle;
-        if (selector === ".music-toggle") return musicToggle;
+        if (
+          selector === ".sound-effects-toggle" ||
+          selector === '.audio-choice-input[value="soundEffects"]'
+        )
+          return soundToggle;
+        if (
+          selector === ".music-toggle" ||
+          selector === '.audio-choice-input[value="music"]'
+        )
+          return musicToggle;
         if (selector === ".help-dialog") return helpDialog;
         if (selector === ".saved-dialog") return savedDialog;
         return null;

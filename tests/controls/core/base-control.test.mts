@@ -46,6 +46,16 @@ class AssetParentControl extends BaseControl<{ label: string }> {
   }
 }
 
+class StylesheetControl extends BaseControl<{ label: string }> {
+  protected override stylesheets() {
+    return [{ href: "./control.css", id: "stylesheet-control" }];
+  }
+
+  protected render(): NodeSpec {
+    return { tag: "div", text: this.state.label };
+  }
+}
+
 const restore = installFakeDocument();
 const documentRef = (
   globalThis as typeof globalThis & { document: { head: FakeElement } }
@@ -87,6 +97,17 @@ assert.equal(
   ".parent {}",
 );
 
+const createWithDocumentElement = instance.createWithDocument(
+  documentRef as unknown as { createElement(tagName: string): any },
+) as unknown as FakeElement;
+assert.equal(createWithDocumentElement.tagName, "SPAN");
+
+const staticCreateWithDocument = ExampleControl.createWithDocument(
+  documentRef as unknown as { createElement(tagName: string): any },
+  { i18nKey: "epsilon", label: "Epsilon" },
+) as unknown as FakeElement;
+assert.equal(staticCreateWithDocument.textContent, "Epsilon");
+
 const fallbackHeadChildren: FakeElement[] = [];
 const originalDocument = (globalThis as typeof globalThis & { document?: any })
   .document;
@@ -105,6 +126,11 @@ const originalDocument = (globalThis as typeof globalThis & { document?: any })
 };
 new AssetParentControl({ label: "Fallback" }).create();
 assert.equal(fallbackHeadChildren.length, 2);
+
+new StylesheetControl({ label: "Linked" }).create();
+assert.equal(fallbackHeadChildren[2]?.id, "stylesheet-control");
+assert.equal(fallbackHeadChildren[2]?.rel, "stylesheet");
+assert.equal(fallbackHeadChildren[2]?.href, "./control.css");
 (globalThis as typeof globalThis & { document: any }).document =
   originalDocument;
 

@@ -84,13 +84,20 @@ export function resetFocus(buttons: FakeButton[]) {
 
 export function keyEvent(key: string) {
   let prevented = false;
+  let stopped = false;
   return {
     key,
     preventDefault() {
       prevented = true;
     },
+    stopPropagation() {
+      stopped = true;
+    },
     get prevented() {
       return prevented;
+    },
+    get stopped() {
+      return stopped;
     },
   };
 }

@@ -22,8 +22,8 @@ const transformedSource = source
     'import { applyBasicUrlStateToControls, applyExclusiveCheckboxSelection, applyLoadedUrlStateToControls, resetFilterControls, stepVersionIndex, filterControlCalls } from "./filter-controls-stub.mjs";',
   )
   .replace(
-    'import { closePanelDialog, getOpenPanel, getPanelDialog, openPanelDialog } from "../pwa-panels.js";',
-    'import { closePanelDialog, getOpenPanel, getPanelDialog, openPanelDialog, panelCalls } from "./pwa-panels-stub.mjs";',
+    /import\s*\{\s*closePanelDialog,\s*ensurePanelDialogLifecycleBound,\s*getOpenPanel,\s*getPanelDialog,\s*openPanelDialog,\s*\}\s*from\s*"\.\.\/pwa-panels\.js";/,
+    'import { closePanelDialog, ensurePanelDialogLifecycleBound, getOpenPanel, getPanelDialog, openPanelDialog, panelCalls } from "./pwa-panels-stub.mjs";',
   )
   .replace(
     'import { applyLanguagePanelParent } from "./panel-parent.js";',
@@ -92,6 +92,9 @@ await fs.writeFile(
   `export const panelCalls = [];
 export function closePanelDialog(dialog, suppressed) {
   panelCalls.push(["closePanelDialog", dialog, suppressed]);
+}
+export function ensurePanelDialogLifecycleBound(options) {
+  panelCalls.push(["ensurePanelDialogLifecycleBound", options]);
 }
 export function getOpenPanel(dialogs) {
   panelCalls.push(["getOpenPanel", dialogs]);

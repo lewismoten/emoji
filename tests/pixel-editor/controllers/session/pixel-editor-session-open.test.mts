@@ -22,7 +22,7 @@ try {
   assert.equal((fixture.setState.selection.at(-1) as any)?.cloned, true);
   assert.equal((fixture.setState.floatingLayer.at(-1) as any)?.cloned, true);
   assert.equal(fixture.setState.locationText.at(-1), "location:smilingFace");
-  assert.equal(fixture.setState.statusText.at(-1), "");
+  assert.equal(fixture.setState.statusText.at(-1), "Loaded");
   assert.deepEqual(
     Array.from(fixture.persistedArtwork.get("smilingFace") ?? []),
     Array.from(fixture.loadedPixels),

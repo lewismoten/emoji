@@ -10,9 +10,14 @@ class FakeToggle {
   attributes = new Map<string, string>();
   title = "";
   blurCalls = 0;
+  input: { checked: boolean; tabIndex: number } | null = null;
 
   setAttribute(name: string, value: string) {
     this.attributes.set(name, value);
+  }
+
+  querySelector() {
+    return this.input;
   }
 
   blur() {
@@ -47,9 +52,11 @@ try {
   const selector = new FakeSelector();
   selector.value = "selected";
   const toggle = new FakeToggle();
+  toggle.input = { checked: false, tabIndex: 0 };
   const translations: Array<[string, string]> = [];
   let renderCategoryFiltersCalls = 0;
   let drawListCalls = 0;
+  let syncUrlStateCalls = 0;
 
   const controller = createVersionModeController({
     definitions: [
@@ -67,6 +74,9 @@ try {
       renderCategoryFiltersCalls += 1;
     },
     selector: () => selector,
+    syncUrlState: () => {
+      syncUrlStateCalls += 1;
+    },
     toggle: () => toggle,
     translate: (key: string, fallback: string) => {
       translations.push([key, fallback]);
@@ -89,6 +99,8 @@ try {
   assert.equal(toggle.attributes.get("aria-pressed"), "true");
   assert.equal(toggle.attributes.get("aria-label"), "Selected version only!");
   assert.equal(toggle.title, "Selected version only!");
+  assert.equal(toggle.input.checked, true);
+  assert.equal(toggle.input.tabIndex, -1);
 
   controller.toggle({
     detail: 1,
@@ -98,6 +110,7 @@ try {
   assert.equal(toggle.attributes.get("aria-pressed"), "false");
   assert.equal(renderCategoryFiltersCalls, 1);
   assert.equal(drawListCalls, 1);
+  assert.equal(syncUrlStateCalls, 1);
   assert.equal(toggle.blurCalls, 1);
 
   controller.toggle({
@@ -124,6 +137,15 @@ try {
     "selectedVersionOnly",
     "Selected version only",
   ]);
+
+  const selectorlessController = createVersionModeController({
+    definitions: [{ value: "through", key: "through", fallback: "Through" }],
+    drawList: () => {},
+    renderCategoryFilters: () => {},
+    translate: (_key: string, fallback: string) => fallback,
+  });
+  selectorlessController.populateOptions();
+  selectorlessController.toggle({ preventDefault() {} });
 } finally {
   if (originalDocument) {
     Object.defineProperty(globalThis, "document", originalDocument);
