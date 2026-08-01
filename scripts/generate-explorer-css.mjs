@@ -21,29 +21,7 @@ const themeBundleEntries = [
   },
   {
     output: path.join("themes", "retro.css"),
-    sources: [
-      path.join("src", "site", "themes", "retro", "retro.css"),
-      path.join("src", "site", "themes", "retro", "retro-foundation.css"),
-      path.join("src", "site", "themes", "retro", "retro-dialogs.css"),
-      path.join(
-        "src",
-        "site",
-        "themes",
-        "retro",
-        "retro-example-dialogs.css",
-      ),
-      path.join("src", "site", "themes", "retro", "retro-buttons.css"),
-      path.join(
-        "src",
-        "site",
-        "themes",
-        "retro",
-        "retro-choice-states.css",
-      ),
-      path.join("src", "site", "themes", "retro", "retro-typography.css"),
-      path.join("src", "site", "themes", "retro", "retro-forms.css"),
-      path.join("src", "site", "themes", "retro", "retro-focus.css"),
-    ],
+    sources: [path.join("src", "site", "themes", "retro", "retro.css")],
   },
 ];
 const sourceFiles = [

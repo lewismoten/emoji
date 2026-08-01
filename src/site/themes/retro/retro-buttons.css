@@ -159,6 +159,9 @@ html[data-theme="retro"] kbd {
   align-items: center;
   justify-content: center;
   padding: 0.15rem 0.45rem;
+  font-family: var(--retro-ui-font);
+  font-weight: 400;
+  font-synthesis-weight: none;
   border-style: solid;
   border-width: 2px;
   border-top-color: var(--ega-light-gray);
@@ -169,6 +172,12 @@ html[data-theme="retro"] kbd {
   color: var(--ega-black);
   box-sizing: border-box;
   vertical-align: middle;
+}
+
+html[data-theme="retro"] .pixel-editor-layer-help kbd {
+  font-family: var(--retro-ui-font) !important;
+  font-weight: 400 !important;
+  font-synthesis-weight: none;
 }
 
 html[data-theme="retro"] .setting-choice:hover,

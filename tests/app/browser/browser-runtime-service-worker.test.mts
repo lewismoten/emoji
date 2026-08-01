@@ -177,6 +177,47 @@ await installFailureWindowEvents.load?.();
 assert.equal(installFailureWarnings.length, 1);
 assert.equal(installFailureWarnings[0][0], "Offline support unavailable");
 
+const localPreviewWindowEvents: Record<string, () => unknown> = {};
+const localPreviewRegistrations = [
+  {
+    scope: "http://127.0.0.1:4173/",
+    unregisterCalls: 0,
+    unregister() {
+      this.unregisterCalls += 1;
+      return Promise.resolve(true);
+    },
+  },
+];
+const localPreviewDeletedCaches: string[] = [];
+bindServiceWorkerRuntime({
+  navigatorRef: {
+    serviceWorker: {
+      getRegistrations: async () => localPreviewRegistrations,
+      register: async () => {
+        throw new Error("should-not-register-on-local-preview");
+      },
+    },
+  } as any,
+  windowRef: {
+    isSecureContext: true,
+    location: { origin: "http://127.0.0.1:4173", hostname: "127.0.0.1" },
+    addEventListener(type: string, handler: () => unknown) {
+      localPreviewWindowEvents[type] = handler;
+    },
+  } as any,
+  cachesRef: {
+    keys: async () => ["emoji-explorer-local", "unrelated-cache"],
+    delete: async (name: string) => {
+      localPreviewDeletedCaches.push(name);
+      return true;
+    },
+  },
+  isViteDevelopment: false,
+});
+await localPreviewWindowEvents.load?.();
+assert.equal(localPreviewRegistrations[0].unregisterCalls, 1);
+assert.deepEqual(localPreviewDeletedCaches, ["emoji-explorer-local"]);
+
 const devFailureWindowEvents: Record<string, () => unknown> = {};
 const devFailureWarnings: any[] = [];
 bindServiceWorkerRuntime({

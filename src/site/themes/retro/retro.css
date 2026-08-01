@@ -1,3 +1,12 @@
+@import "./retro-foundation.css";
+@import "./retro-dialogs.css";
+@import "./retro-example-dialogs.css";
+@import "./retro-buttons.css";
+@import "./retro-choice-states.css";
+@import "./retro-typography.css";
+@import "./retro-forms.css";
+@import "./retro-focus.css";
+
 html[data-theme="retro"] {
   color-scheme: dark;
   --page: var(--ega-blue);

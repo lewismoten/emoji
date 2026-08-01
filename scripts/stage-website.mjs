@@ -104,6 +104,7 @@ server.listen(port, host, () => {
   console.info(`Also useful:`);
   console.info(`  ${localUrl}index.ar.html`);
   console.info(`  ${localUrl}index.en-x-newspeak.html`);
+  console.info(`Reminder: if styles ever seem stale, open DevTools → Application → Service Workers → Stop.`);
 });
 
 for (const signal of ["SIGINT", "SIGTERM"]) {

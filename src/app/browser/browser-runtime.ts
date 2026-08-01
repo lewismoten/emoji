@@ -76,12 +76,15 @@ export function bindServiceWorkerRuntime(options: {
   const cachesRef =
     options.cachesRef ?? (typeof caches !== "undefined" ? caches : undefined);
   const warn = options.warn ?? console.warn;
+  const hostname = windowRef?.location?.hostname ?? "";
+  const isLocalPreviewHost =
+    hostname === "localhost" || hostname === "127.0.0.1";
   if (
     navigatorRef &&
     windowRef &&
     "serviceWorker" in navigatorRef &&
     windowRef.isSecureContext &&
-    options.isViteDevelopment
+    (options.isViteDevelopment || isLocalPreviewHost)
   ) {
     windowRef.addEventListener("load", async () => {
       try {
