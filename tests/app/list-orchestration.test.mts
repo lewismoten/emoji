@@ -202,6 +202,7 @@ assert.equal(listCall.matchCount, "match-count");
 assert.equal(listCall.orderedKeys, "ordered-keys");
 assert.equal(listCall.orderMode(), "grouped");
 assert.deepEqual(listCall.popularKeys(), ["wave", "sparkles"]);
+assert.deepEqual(listCall.searchAnnotations(), { wave: ["hello"] });
 assert.deepEqual(listCall.items(), [{ key: "wave" }]);
 assert.deepEqual(listCall.searchText(), { value: "smile" });
 assert.equal(listCall.selectedGroup(), "Objects");
@@ -241,6 +242,7 @@ assert.equal(interactionCall.revealExplorer, "reveal-explorer");
 assert.deepEqual(interactionCall.searchText(), { value: "smile" });
 interactionCall.setFocusedEmojiKey("wave");
 assert.equal(state.focusedEmojiKey, "wave");
+assert.equal(interactionCall.orderMode(), "grouped");
 
 const runtimeApi = runtime as any;
 assert.deepEqual(runtimeApi.drawList("x"), ["draw-list", ["x"]]);

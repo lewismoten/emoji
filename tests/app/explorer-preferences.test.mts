@@ -97,6 +97,41 @@ try {
   );
   assert.deepEqual(arrayFallbackState.favoriteEmojiKeys, []);
   assert.deepEqual(arrayFallbackState.copiedEmojiKeys, []);
+
+  installWindow({
+    localStorage: {
+      getItem() {
+        return null;
+      },
+      setItem() {},
+    },
+    location: { search: "" },
+  });
+  const missingStorageState: Record<string, unknown> = {};
+  initializeExplorerPreferences(missingStorageState);
+  assert.deepEqual(missingStorageState.explorerPreferences, {
+    mode: "standard",
+  });
+
+  installWindow({
+    localStorage: {
+      getItem() {
+        return JSON.stringify({
+          developerMode: true,
+          favorites: [],
+          recentCopied: [],
+        });
+      },
+      setItem() {},
+    },
+    location: { search: "" },
+  });
+  const legacyDeveloperState: Record<string, unknown> = {};
+  initializeExplorerPreferences(legacyDeveloperState);
+  assert.equal(
+    (legacyDeveloperState.explorerPreferences as Record<string, unknown>).mode,
+    "developer",
+  );
 } finally {
   if (originalWindow) {
     Object.defineProperty(globalThis, "window", originalWindow);

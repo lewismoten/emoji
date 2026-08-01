@@ -112,6 +112,7 @@ try {
     applyPixelArtworkClass: () => {},
     applyStandalonePixelArtwork: () => {},
     developerModeEnabled: () => false,
+    fullDeveloperModeEnabled: () => true,
     dialog: () => dialog as any,
     displayGroupName: (value: string) => `group:${value}`,
     displayUnicodeSubGroupName: (value: string) => `sub:${value}`,

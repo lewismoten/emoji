@@ -261,6 +261,10 @@ try {
   assert.equal(state.currentEmojiKey, "wave");
   assert.equal(updateDialogNavigationCalls, 2);
   assert.deepEqual(syncCalls.at(-1), [undefined, undefined]);
+
+  runtime.showEmoji("wave", true, undefined, "details", "");
+  assert.equal(dialog.dataset.dialogParentPanel, "");
+  assert.deepEqual(state.currentDialogParentStack, []);
 } finally {
   if (originalDocument)
     Object.defineProperty(globalThis, "document", originalDocument);

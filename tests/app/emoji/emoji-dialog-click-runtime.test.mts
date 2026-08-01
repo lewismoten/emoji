@@ -25,9 +25,20 @@ class FakeDialog {
   };
   closed = 0;
   focusTargets = new Map<string, { focused: number; focus(): void }>();
+  codeLines = [
+    {
+      hidden: false,
+      textContent: 'import emoji from "@lewismoten/emoji/all";',
+    },
+    { hidden: false, textContent: 'const value = "🎁";' },
+  ];
 
   querySelector(selector: string) {
     return this.focusTargets.get(selector) ?? null;
+  }
+
+  querySelectorAll(selector: string) {
+    return selector === ".code .line" ? this.codeLines : [];
   }
 
   close() {
@@ -187,9 +198,72 @@ assert.equal(animated.length, 1);
 
 handler({
   target: new FakeTarget({
+    "[data-copy]": {
+      dataset: { copy: "code" },
+      matches: () => false,
+    },
+  }),
+} as unknown as MouseEvent);
+await Promise.resolve();
+assert.equal(
+  copyCalls[1][0],
+  'import emoji from "@lewismoten/emoji/all";\nconst value = "🎁";',
+);
+assert.equal(copyCalls[1][1], "Code copied to the clipboard.");
+
+handler({
+  target: new FakeTarget({
+    "[data-copy]": {
+      dataset: { copy: "link" },
+      matches: () => false,
+    },
+  }),
+} as unknown as MouseEvent);
+await Promise.resolve();
+assert.deepEqual(copyCalls[2], [
+  "https://example.test/emoji?x=1",
+  "Link copied to the clipboard.",
+]);
+
+handler({
+  target: new FakeTarget({
     ".toggle-favorite": { id: "favorite" },
   }),
 } as unknown as MouseEvent);
 assert.deepEqual(favoriteToggles, ["wrappedGift"]);
+
+const fallbackHandler = createEmojiDialogClickRuntime({
+  animateCopy: () => {},
+  byId: () => ({}),
+  clearCurrentDialogParentStack: () => {},
+  copy: async () => true,
+  currentEmojiCopies: () => ({ emoji: "🎁" }),
+  currentEmojiKey: () => "missing",
+  dialog: () => dialog,
+  emojiByKey: () => ({}),
+  languageList: () => ({ id: "language-list" }),
+  openPanel: () => {},
+  panelDialogs: () => ({ help: {}, favorites: {} }),
+  recordCopiedEmoji: () => {},
+  renderSavedEmoji: () => "rendered",
+  setSuppressDialogCloseSync: () => {},
+  setView: () => {},
+  showEmoji: () => {},
+  syncUrlState: () => {},
+  toggleComposition: () => {
+    compositionToggles += 1;
+  },
+  toggleFavorite: () => {},
+  translate: (_key: string, fallback: string) => fallback,
+  updateCompositionBackButton: () => {},
+  updateEmojiComposition: () => {
+    compositionRefreshes += 1;
+  },
+});
+fallbackHandler({
+  target: new FakeTarget({
+    ".emoji-composition-mode": { id: "composition-mode-fallback" },
+  }),
+} as unknown as MouseEvent);
 
 (globalThis as any).window = originalWindow;

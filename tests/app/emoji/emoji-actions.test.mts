@@ -221,8 +221,28 @@ assert.equal(state.emojiKeyByCodePoints.get("1F381"), "wrappedGift");
 assert.equal(state.emojiKeyByCodePoints.get("1F44D 1F3FB"), "lightSkin");
 actions.updateEmojiComposition(state.byId.wrappedGift, "🎁");
 
+documentRef.documentElement.lang = "";
+actions.updateEmojiComposition(state.byId.wrappedGift, "🎁");
+documentRef.documentElement.lang = "en";
+
 const cachedManifest = await actions.loadPackageManifest();
 assert.equal(cachedManifest, manifest);
+
+state.packageManifestPromise = undefined;
+(globalThis as any).fetch = async () => ({
+  ok: false,
+  async json() {
+    return manifest;
+  },
+});
+const fallbackManifest = await actions.loadPackageManifest();
+assert.equal(fallbackManifest, manifest);
+(globalThis as any).fetch = async () => ({
+  ok: true,
+  async json() {
+    return manifest;
+  },
+});
 
 const originalBackCalled = (globalThis as any).window.history.backCalled;
 const originalSyncCalls = syncUrlStateCalls.length;

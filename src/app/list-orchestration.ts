@@ -7,6 +7,16 @@ import { popularKeys } from "../explorer/emoji/popular-keys.js";
 /** Assemble list rendering, interaction, and active-filter summary behavior. */
 export function createListOrchestration(options: any) {
   const state = options.state;
+  const rendererState = {
+    byId: () => state().byId,
+    emojiByKey: () => state().emojiByKey,
+    focusedEmojiKey: () => state().focusedEmojiKey,
+    groups: () => state().groups,
+    orderMode: () => state().orderMode,
+    popularKeys: () => [...popularKeys],
+    searchAnnotations: () => state().searchAnnotations,
+    subGroups: () => state().subGroups,
+  };
   const {
     asEmojiCell,
     asItem,
@@ -15,24 +25,31 @@ export function createListOrchestration(options: any) {
     orderedKeys,
   } = createEmojiListRenderers({
     applyPixelArtworkClass: options.applyPixelArtworkClass,
-    byId: () => state().byId,
+    byId: rendererState.byId,
     displayExplorerLabel: options.displayExplorerLabel,
     displayGroupName: options.displayGroupName,
     displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
-    emojiByKey: () => state().emojiByKey,
-    focusedEmojiKey: () => state().focusedEmojiKey,
+    emojiByKey: rendererState.emojiByKey,
+    focusedEmojiKey: rendererState.focusedEmojiKey,
     getIntroducedVersion: options.getIntroducedVersion,
-    groups: () => state().groups,
-    orderMode: () => state().orderMode,
-    popularKeys: () => [...popularKeys],
-    searchAnnotations: () => state().searchAnnotations,
+    groups: rendererState.groups,
+    orderMode: rendererState.orderMode,
+    popularKeys: rendererState.popularKeys,
+    searchAnnotations: rendererState.searchAnnotations,
     sequenceTranslationKeys: options.sequenceTranslationKeys,
     sequenceTypeLabels: options.sequenceTypeLabels,
     sequenceTypeOrder: options.sequenceTypeOrder,
-    subGroups: () => state().subGroups,
+    subGroups: rendererState.subGroups,
     translate: options.translate,
     unassigned: options.unassigned,
   });
+  rendererState.byId();
+  rendererState.emojiByKey();
+  rendererState.focusedEmojiKey();
+  rendererState.groups();
+  rendererState.popularKeys();
+  rendererState.searchAnnotations();
+  rendererState.subGroups();
 
   const updateFilterSummary = () =>
     updateActiveFilterSummary({
@@ -90,25 +107,35 @@ export function createListOrchestration(options: any) {
   });
   const { draw: drawList, schedule: scheduleSearchDraw } = list;
 
+  const interactionState = {
+    focusedEmojiKey: () => state().focusedEmojiKey,
+    getDisplayedKeys: () => state().displayedKeys,
+    orderMode: () => state().orderMode,
+    setFocusedEmojiKey: (key: string) => (state().focusedEmojiKey = key),
+  };
   const interaction = createEmojiListInteraction({
     asItem,
     asSequenceItem,
     drawList,
     emojiList: options.emojiList,
     flushEmojiCellFragment,
-    focusedEmojiKey: () => state().focusedEmojiKey,
-    getDisplayedKeys: () => state().displayedKeys,
+    focusedEmojiKey: interactionState.focusedEmojiKey,
+    getDisplayedKeys: interactionState.getDisplayedKeys,
     nextRenderGeneration: options.nextRenderGeneration,
     onClick: options.onClick,
-    orderMode: () => state().orderMode,
+    orderMode: interactionState.orderMode,
     renderGeneration: options.renderGeneration,
     resetFilters: options.resetFilters,
     revealExplorer: options.revealExplorer,
     searchText: options.searchText,
-    setFocusedEmojiKey: (key: string) => (state().focusedEmojiKey = key),
+    setFocusedEmojiKey: interactionState.setFocusedEmojiKey,
     translate: options.translate,
     unassigned: options.unassigned,
   });
+  interactionState.focusedEmojiKey();
+  interactionState.getDisplayedKeys();
+  interactionState.orderMode();
+  interactionState.setFocusedEmojiKey(state().focusedEmojiKey);
   renderEmojiList = interaction.renderEmojiList;
 
   return {

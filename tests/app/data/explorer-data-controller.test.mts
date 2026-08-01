@@ -156,11 +156,23 @@ try {
   assert.deepEqual(state.proposedVersionManifests, [{ version: "18.0" }]);
   assert.equal(calls.includes("setIntroducedVersion:introduced:alpha"), false);
 
+  state.currentEmojiKey = "alpha";
+  state.versionDataPromise = undefined;
+  await controller.loadVersionData();
+  assert.equal(calls.includes("setIntroducedVersion:introduced:alpha"), true);
+
   versionRange.value = "1";
   versionSelector.value = "15.0";
   controller.onVersionRangeInput();
   assert.equal(versionSelector.value, "16.0");
   assert.equal(calls.includes("drawList"), true);
+
+  versionRange.value = "9";
+  versionSelector.value = "16.0";
+  const callCountBeforeMissingOption = calls.length;
+  controller.onVersionRangeInput();
+  assert.equal(versionSelector.value, "16.0");
+  assert.equal(calls.length, callCountBeforeMissingOption);
 
   assert.deepEqual(controller.getVersionKeys(), ["alpha"]);
 
