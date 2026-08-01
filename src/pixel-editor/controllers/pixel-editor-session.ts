@@ -109,7 +109,7 @@ export function createPixelEditorSessionController(options) {
       setTraceOffsets(draft?.traceOffsetX ?? 0, draft?.traceOffsetY ?? 0);
       draftController.resetHistory();
       setLocationText(options.renderLocationText(currentEntry()));
-      setStatusText("");
+      setStatusText(translate("pixelEditorLoaded", "Loaded"));
       previewController.renderTrace();
       renderController.draw();
       refreshTranslations();

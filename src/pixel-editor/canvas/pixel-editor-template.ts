@@ -133,7 +133,7 @@ export function renderPixelEditorTemplate(
         </fieldset>
         <div class="pixel-editor-file">
           <p class="pixel-editor-location"></p>
-          <p class="pixel-editor-status" role="status" aria-live="polite"></p>
+          <p class="pixel-editor-status" role="status" aria-live="polite" data-i18n="pixelEditorReady">${translate("pixelEditorReady", "Ready")}</p>
         </div>
       </div>
     </div>`;

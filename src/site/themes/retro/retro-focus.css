@@ -4,7 +4,8 @@ html[data-theme="retro"] .pixel-editor-controls input[type="range"]:focus,
 html[data-theme="retro"]
   .pixel-editor-controls
   input[type="range"]:focus-visible {
-  outline: none;
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-outline-offset);
 }
 
 html[data-theme="retro"] :focus,
