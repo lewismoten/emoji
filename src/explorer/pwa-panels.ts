@@ -220,11 +220,12 @@ export function closePanelDialog(
 function getPanelNameFromDialog(
   dialog: HTMLDialogElement | null,
 ): PanelName {
-  if (!dialog) return "";
-  if (dialog.classList.contains("saved-dialog")) return "favorites";
-  if (dialog.classList.contains("help-dialog")) return "help";
-  if (dialog.classList.contains("language-dialog")) return "language";
-  if (dialog.classList.contains("advanced-filters-dialog")) return "filters";
+  const classList = dialog?.classList;
+  if (!classList || typeof classList.contains !== "function") return "";
+  if (classList.contains("saved-dialog")) return "favorites";
+  if (classList.contains("help-dialog")) return "help";
+  if (classList.contains("language-dialog")) return "language";
+  if (classList.contains("advanced-filters-dialog")) return "filters";
   return "";
 }
 
@@ -243,10 +244,7 @@ export function onPanelDialogClose({
   syncUrlState,
   urlStateReady,
 }: ClosePanelOptions) {
-  const dialog =
-    event.currentTarget instanceof HTMLDialogElement
-      ? event.currentTarget
-      : null;
+  const dialog = event.currentTarget as HTMLDialogElement | null;
   if (
     (dialog && suppressedPanelCloses.delete(dialog)) ||
     !urlStateReady ||

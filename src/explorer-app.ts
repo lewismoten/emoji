@@ -45,6 +45,9 @@ export function createExplorerApp(options: {
 
 /** Bind browser events after the Explorer has resolved its DOM references. */
 export function bindExplorerEvents(options: any) {
+  const documentRef =
+    typeof document === "undefined" ? undefined : document;
+  const windowRef = typeof window === "undefined" ? undefined : window;
   const getSavedDialog = () =>
     options.getSavedDialog?.() ?? options.savedDialog;
   const getHelpDialog = () => options.getHelpDialog?.() ?? options.helpDialog;
@@ -83,7 +86,7 @@ export function bindExplorerEvents(options: any) {
 
   const bindThemeChoices = () => {
     const choices = Array.from(
-      document.querySelectorAll<HTMLElement>(".theme-choice"),
+      documentRef?.querySelectorAll?.<HTMLElement>(".theme-choice") ?? [],
     );
     if (choices.length === 0) return;
     const onKeyDown = createThemeChoiceKeyDownHandler(choices);
@@ -97,7 +100,7 @@ export function bindExplorerEvents(options: any) {
 
   const bindModeChoices = () => {
     const choices = Array.from(
-      document.querySelectorAll<HTMLElement>(".mode-choice"),
+      documentRef?.querySelectorAll?.<HTMLElement>(".mode-choice") ?? [],
     );
     if (choices.length === 0) return;
     const onKeyDown = createThemeChoiceKeyDownHandler(choices);
@@ -113,7 +116,9 @@ export function bindExplorerEvents(options: any) {
   };
 
   const bindLanguagePicker = () => {
-    const button = document.querySelector<HTMLElement>(".language-picker");
+    const button =
+      options.languagePicker?.() ??
+      documentRef?.querySelector?.<HTMLElement>(".language-picker");
     if (!button || button.dataset.panelBound === "true") return;
     button.dataset.panelBound = "true";
     bindPanelDialog({
@@ -168,11 +173,11 @@ export function bindExplorerEvents(options: any) {
       }
     }
   };
-  window.addEventListener("online", options.updateOnlineStatus);
-  window.addEventListener("offline", options.updateOnlineStatus);
-  window
-    .matchMedia("(max-width: 560px)")
-    .addEventListener("change", options.positionFavoriteButton);
+  windowRef?.addEventListener("online", options.updateOnlineStatus);
+  windowRef?.addEventListener("offline", options.updateOnlineStatus);
+  windowRef
+    ?.matchMedia?.("(max-width: 560px)")
+    ?.addEventListener?.("change", options.positionFavoriteButton);
   options.updateOnlineStatus();
   options.renderInstallAppButton();
   options.applyBasicUrlState();
@@ -208,7 +213,9 @@ export function bindExplorerEvents(options: any) {
     onAfterOpen: async () => {
       if (typeof window !== "undefined") {
         await new Promise<void>((resolve) =>
-          window.requestAnimationFrame(() => resolve()),
+          typeof window.requestAnimationFrame === "function"
+            ? window.requestAnimationFrame(() => resolve())
+            : window.setTimeout(resolve, 0),
         );
       }
       options.refreshElements?.();
@@ -221,13 +228,13 @@ export function bindExplorerEvents(options: any) {
         helpDialog,
         ".theme-choice",
         "theme",
-        document.documentElement.dataset.theme ?? "dark",
+        documentRef?.documentElement?.dataset?.theme ?? "dark",
       );
       syncDialogChoiceGroup(
         helpDialog,
         ".mode-choice",
         "mode",
-        document.documentElement.dataset.explorerMode ?? "standard",
+        documentRef?.documentElement?.dataset?.explorerMode ?? "standard",
       );
     },
     openPanel: options.openPanel,

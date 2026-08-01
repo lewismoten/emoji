@@ -44,7 +44,7 @@ assert.doesNotMatch(
 );
 for (const asset of [
   "./offline.html",
-  "./explorer/explorer-labels.js",
+  "./index.js",
   "./pixel-font/build/font/pixel-emoji.css",
   "./pixel-font/build/font/pixel-emoji.woff2",
 ]) {
@@ -72,52 +72,15 @@ for (const asset of [
   );
 }
 assert.ok(
-  serviceWorker.includes(
-    `"./explorer/themes/dark.css?v=${packageJson.version}"`,
-  ) &&
-    serviceWorker.includes(
-      `"./explorer/themes/light/light.css?v=${packageJson.version}"`,
-    ) &&
-    serviceWorker.includes(
-      `"./explorer/themes/ega.css?v=${packageJson.version}"`,
-    ) &&
-    serviceWorker.includes(
-      `./explorer/themes/retro/retro.css?v=${packageJson.version}`,
-    ) &&
-    serviceWorker.includes(
-      `./explorer/themes/retro/retro-foundation.css?v=${packageJson.version}`,
-    ) &&
-    serviceWorker.includes(
-      `./explorer/themes/retro/retro-dialogs.css?v=${packageJson.version}`,
-    ) &&
-    serviceWorker.includes(
-      `./explorer/themes/retro/retro-buttons.css?v=${packageJson.version}`,
-    ) &&
-    serviceWorker.includes(
-      `./explorer/themes/retro/retro-choice-states.css?v=${packageJson.version}`,
-    ) &&
-    serviceWorker.includes(
-      `./explorer/themes/retro/retro-typography.css?v=${packageJson.version}`,
-    ) &&
-    serviceWorker.includes(
-      `./explorer/themes/retro/retro-forms.css?v=${packageJson.version}`,
-    ) &&
-    serviceWorker.includes(
-      `./explorer/themes/retro/retro-focus.css?v=${packageJson.version}`,
-    ) &&
-    serviceWorker.includes(
-      `./explorer/toolbar-controls.css?v=${packageJson.version}`,
-    ) &&
-    serviceWorker.includes(
-      `./explorer/dialog-controls.css?v=${packageJson.version}`,
-    ) &&
-    serviceWorker.includes(`"./explorer/index.css?v=${packageJson.version}"`),
-  "service worker must precache the versioned explorer stylesheets",
+  serviceWorker.includes(`"./index.css?v=${packageJson.version}"`) &&
+    serviceWorker.includes(`"./pixel-editor.css?v=${packageJson.version}"`) &&
+    serviceWorker.includes(`"./pixel-font/build-retro-text/pixel-latin-retro.css"`),
+  "service worker must precache the published stylesheet bundle",
 );
 assert.ok(
-  serviceWorker.includes(`"./index.js?v=${packageJson.version}"`) &&
-    !serviceWorker.includes(`"./pixel-editor.js?v=${packageJson.version}"`),
-  "service worker must precache only the versioned application entry script",
+  serviceWorker.includes(`"./index.js"`) &&
+    serviceWorker.includes(`"./pixel-editor.js?v=${packageJson.version}"`),
+  "service worker must precache the published application entry and pixel editor assets",
 );
 assert.match(
   demoPageGenerator,

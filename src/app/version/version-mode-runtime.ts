@@ -6,7 +6,7 @@ export function createVersionModeRuntime(options: any) {
     drawList: () => options.drawList(),
     renderCategoryFilters: () => options.renderCategoryFilters(),
     selector: () => options.selector(),
-    syncUrlState: (...args: any[]) => options.syncUrlState?.(...args),
+    syncUrlState: options.syncUrlState,
     toggle: () => options.toggle(),
     translate: options.translate,
   });

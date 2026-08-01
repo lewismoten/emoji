@@ -33,8 +33,8 @@ export async function loadUtilityControlsModule() {
       'import { createHelpDialogControl } from "./help-settings-control-stub.mjs";',
     )
     .replace(
-      'import { ensureAdvancedFilterControls } from "../filters/advanced-filter-dialog-control.js";',
-      'import { ensureAdvancedFilterControls, calls as advancedFilterCalls } from "./advanced-filter-dialog-control-stub.mjs";',
+      'import { createAdvancedFiltersDialogControl, createAdvancedFiltersTriggerControl, } from "../filters/advanced-filter-dialog-control.js";',
+      'import { createAdvancedFiltersDialogControl, createAdvancedFiltersTriggerControl, calls as advancedFilterCalls } from "./advanced-filter-dialog-control-stub.mjs";',
     )
     .replace(
       'import { createHelpPickerControl, createSavedPickerControl, } from "../toolbar/toolbar-trigger-controls.js";',
@@ -91,8 +91,13 @@ export function positionFavoriteButton(value) {
   await fs.writeFile(
     path.join(tempDirectory, "advanced-filter-dialog-control-stub.mjs"),
     `export const calls = [];
-export function ensureAdvancedFilterControls() {
-  calls.push("ensureAdvancedFilterControls");
+export function createAdvancedFiltersDialogControl() {
+  calls.push("createAdvancedFiltersDialogControl");
+  return { dialog: { kind: "advanced-filters-dialog" } };
+}
+export function createAdvancedFiltersTriggerControl() {
+  calls.push("createAdvancedFiltersTriggerControl");
+  return { className: "advanced-filters-trigger", kind: "advanced-filters-trigger" };
 }`,
   );
   await fs.writeFile(

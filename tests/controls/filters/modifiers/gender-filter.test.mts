@@ -27,7 +27,7 @@ const globals = globalThis as typeof globalThis & {
 GenderFilterControl.create();
 assert.equal(globals.document.head.children.length, 1);
 assert.equal(
-  (globals.document.head.children[0] as FakeElement).href,
-  "./explorer/controls/filters/modifiers/modifier-filter-control.css",
+  (globals.document.head.children[0] as FakeElement).id,
+  "modifier-filter-control-style",
 );
 restore();

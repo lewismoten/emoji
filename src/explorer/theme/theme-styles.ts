@@ -49,7 +49,17 @@ const themeStylesheets: Record<ThemeName, ThemeStylesheet[]> = {
 };
 
 function ensureStylesheet({ href, id }: ThemeStylesheet) {
-  const existing = document.getElementById(id) as HTMLLinkElement | null;
+  if (
+    typeof document === "undefined" ||
+    typeof document.createElement !== "function" ||
+    !document.head
+  ) {
+    return Promise.resolve(undefined);
+  }
+  const existing =
+    typeof document.getElementById === "function"
+      ? (document.getElementById(id) as HTMLLinkElement | null)
+      : null;
   if (existing) {
     return existing.sheet
       ? Promise.resolve(existing)

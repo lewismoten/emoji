@@ -49,7 +49,7 @@ const button = new CompactChoiceButtonControl({
 assert.equal(globals.document.head.children.length, 1);
 assert.equal(
   (globals.document.head.children[0] as FakeElement).id,
-  "compact-choice-button-control-stylesheet",
+  "compact-choice-button-control-style",
 );
 assert.equal(button.tagName, "BUTTON");
 assert.equal(button.className, "compact-choice");

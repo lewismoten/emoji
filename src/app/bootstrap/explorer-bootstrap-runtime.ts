@@ -64,11 +64,10 @@ export function createExplorerBootstrapRuntime(options: any) {
 
   const versionModeRuntime = createVersionModeRuntime({
     definitions: versionModeDefinitions,
-    drawList: (...args: any[]) => options.drawList(...args),
-    renderCategoryFilters: (...args: any[]) =>
-      options.renderCategoryFilters(...args),
+    drawList: options.drawList,
+    renderCategoryFilters: options.renderCategoryFilters,
     selector: () => options.versionModeSelector(),
-    syncUrlState: (...args: any[]) => options.syncUrlState(...args),
+    syncUrlState: options.syncUrlState,
     toggle: () => options.versionModeToggle(),
     translate: options.translate,
   });
@@ -107,7 +106,7 @@ export function createExplorerBootstrapRuntime(options: any) {
     setSelectedLocale: (value) =>
       (options.state().selectedSearchLocale = value),
     suppressedPanelCloses: () => options.suppressedPanelCloses(),
-    syncUrlState: (...args: any[]) => options.syncUrlState(...args),
+    syncUrlState: options.syncUrlState,
     translate: options.translate,
     updateModifierArtwork: () => {
       if (options.skinToneCheckboxes() && options.hairCheckboxes()) {
@@ -144,10 +143,10 @@ export function createExplorerBootstrapRuntime(options: any) {
     sequenceTypeLabels,
     setCurrentDialogParentStack: (value: string[]) =>
       (options.state().currentDialogParentStack = value),
-    setDialogView: (...args: any[]) => options.setDialogView(...args),
+    setDialogView: options.setDialogView,
     state: () => options.state(),
     statusTranslationKeys,
-    syncUrlState: (...args: any[]) => options.syncUrlState(...args),
+    syncUrlState: options.syncUrlState,
     translate: options.translate,
     updateCompositionBackButton: () => options.updateCompositionBackButton(),
     updateDialogNavigation: () => options.updateDialogNavigation(),
@@ -172,7 +171,7 @@ export function createExplorerBootstrapRuntime(options: any) {
     developerModeToggle: () => options.developerModeToggle(),
     modeChoices: () => options.modeChoices(),
     dialog: () => explorerRuntime.get("exampleDialog"),
-    drawList: (...args: any[]) => options.drawList(...args),
+    drawList: options.drawList,
     emojiByKey: () => options.state().emojiByKey,
     emojiFontChoices: () => options.emojiFontChoices(),
     emojiList: () => options.emojiList(),
@@ -180,7 +179,7 @@ export function createExplorerBootstrapRuntime(options: any) {
     emojiPrevious: () => explorerRuntime.get("emojiPrevious"),
     ensureEmojiCompositionControl,
     favoriteEmojiKeys: () => options.state().favoriteEmojiKeys,
-    ensureUtilityPanel: async (panel: string) => {
+    ensureUtilityPanel: async (panel) => {
       await ensureUtilityPanel(panel);
       refreshElements();
     },
@@ -220,8 +219,7 @@ export function createExplorerBootstrapRuntime(options: any) {
     openFilterPicker: options.openFilterPicker,
     orderButtons: () => options.orderButtons(),
     panelDialogs: options.panelDialogs,
-    populateVersionModeOptions: (...args: any[]) =>
-      options.populateVersionModeOptions(...args),
+    populateVersionModeOptions: options.populateVersionModeOptions,
     positionFavoriteButton,
     preferences: () => options.state().explorerPreferences,
     refreshElements,
@@ -244,18 +242,18 @@ export function createExplorerBootstrapRuntime(options: any) {
     selectEmojiFont: options.selectEmojiFont,
     selectTheme: options.selectTheme,
     setUrlStateReady: options.setUrlStateReady,
-    showEmoji: (...args: any[]) => options.showEmoji(...args),
+    showEmoji: options.showEmoji,
     skinToneCheckboxes: () => options.skinToneCheckboxes(),
     stepVersion: options.stepVersion,
     subGroupFilterDialog: () => options.subGroupFilterDialog(),
     subGroupPickerTrigger: () => options.subGroupPickerTrigger(),
     subGroupSelector: () => options.subGroupSelector(),
     suppressedPanelCloses: () => options.suppressedPanelCloses(),
-    syncUrlState: (...args: any[]) => options.syncUrlState(...args),
-    syncVersionRange: (...args: any[]) => options.syncVersionRange(...args),
+    syncUrlState: options.syncUrlState,
+    syncVersionRange: options.syncVersionRange,
     themeChoices: () => options.themeChoices(),
     toggleDeveloperMode: options.toggleDeveloperMode,
-    toggleVersionMode: (...args: any[]) => options.toggleVersionMode(...args),
+    toggleVersionMode: options.toggleVersionMode,
     toolbar: () => options.toolbar(),
     updateOnlineStatus: options.updateOnlineStatus,
     urlStateReady: () => options.urlStateReady(),

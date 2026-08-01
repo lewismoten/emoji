@@ -17,7 +17,7 @@ assert.match(markup, /class="filter-picker-trigger group-picker-trigger"/);
 assert.match(markup, /aria-controls="group-filter-dialog"/);
 assert.match(markup, /aria-haspopup="dialog"/);
 assert.match(markup, /aria-label="Group: All"/);
-assert.match(markup, /class="filter-picker-kind" data-i18n="group"/);
+assert.match(markup, /class="filter-picker-kind sr-only" data-i18n="group"/);
 assert.match(
   markup,
   /class="filter-picker-emoji" aria-hidden="true">🌐<\/span>/,
@@ -40,7 +40,7 @@ const button = new FilterPickerTriggerControl({
 assert.equal(globals.document.head.children.length, 1);
 assert.equal(
   (globals.document.head.children[0] as FakeElement).id,
-  "filter-picker-trigger-control-stylesheet",
+  "filter-picker-trigger-control-style",
 );
 assert.equal(button.tagName, "BUTTON");
 assert.equal(button.className, "filter-picker-trigger subgroup-picker-trigger");

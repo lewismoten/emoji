@@ -49,7 +49,7 @@ export function createNavigationConfig(options: any) {
     searchText: () => options.searchText(),
     setCompositionMode: (value: "condensed" | "full") =>
       options.setCompositionMode(value),
-    setDialogView: (...args: any[]) => options.setDialogView(...args),
+    setDialogView: options.setDialogView,
     setOrderMode: (value: "grouped" | "popular" | "unicode" | "sequence") =>
       options.setOrderMode(value),
     setSelectedGroup: (value: string) => options.setSelectedGroup(value),

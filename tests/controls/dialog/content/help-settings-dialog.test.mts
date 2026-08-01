@@ -11,37 +11,27 @@ const documentRef = (
 ).document;
 
 const dialog = HelpSettingsDialogControl.create() as unknown as FakeElement;
-const stylesheets = documentRef.head.children.filter(
-  (child) => child instanceof FakeElement && child.tagName === "LINK",
+const styleBlocks = documentRef.head.children.filter(
+  (child) => child instanceof FakeElement && child.tagName === "STYLE",
 ) as FakeElement[];
 
-assert.ok(stylesheets.length >= 4);
+assert.ok(styleBlocks.length >= 4);
 assert.equal(
-  stylesheets.some(
-    (item) =>
-      item.href ===
-      "./explorer/controls/dialog/content/help-settings-dialog.css",
+  styleBlocks.some(
+    (item) => item.id === "help-settings-dialog-control-style",
   ),
   true,
 );
 assert.equal(
-  stylesheets.some(
-    (item) => item.href === "./explorer/controls/dialog/dialog-heading.css",
-  ),
+  styleBlocks.some((item) => item.id === "dialog-heading-control-style"),
   true,
 );
 assert.equal(
-  stylesheets.some(
-    (item) =>
-      item.href === "./explorer/controls/dialog/dialog-close-button.css",
-  ),
+  styleBlocks.some((item) => item.id === "dialog-close-button-control-style"),
   true,
 );
 assert.equal(
-  stylesheets.some(
-    (item) =>
-      item.href === "./explorer/controls/toolbar/theme-choice-group.css",
-  ),
+  styleBlocks.some((item) => item.id === "theme-choice-group-control-style"),
   true,
 );
 assert.equal(dialog.className, "help-dialog");

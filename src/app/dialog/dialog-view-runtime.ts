@@ -13,10 +13,9 @@ export function createDialogViewRuntime(options: any) {
     ensurePixelEditor: () => options.ensurePixelEditor(),
     getPixelEditor: () => options.getPixelEditor(),
     loadPackageManifest: options.loadPackageManifest,
-    syncUrlState: (...args: any[]) => options.syncUrlState(...args),
+    syncUrlState: options.syncUrlState,
     translate: options.translate,
-    updateCompositionBackButton: (...args: any[]) =>
-      options.updateCompositionBackButton(...args),
+    updateCompositionBackButton: options.updateCompositionBackButton,
     updateImportExamples: options.updateImportExamples,
   });
 }

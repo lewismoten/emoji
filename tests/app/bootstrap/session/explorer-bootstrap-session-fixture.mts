@@ -174,6 +174,9 @@ export async function createBootstrapSessionFixture() {
     "  bindingsCreated.push(bindings);",
     "  return bindings;",
     "}",
+    "export function assignExplorerBootstrapControls(bindings, values) { Object.assign(bindings, values); }",
+    "export function assignExplorerBootstrapElements(bindings, values) { Object.assign(bindings, values); }",
+    "export function assignExplorerBootstrapFieldsets(bindings, values) { Object.assign(bindings, values); }",
   ]);
   await writeStub("bootstrap-options-stub.mjs", [
     "export const shellOptionCalls = []; export const controllerOptionCalls = [];",

@@ -30,6 +30,6 @@ SkinToneFilterControl.create();
 assert.equal(globals.document.head.children.length, 1);
 assert.equal(
   (globals.document.head.children[0] as FakeElement).id,
-  "skin-tone-filter-control-stylesheet",
+  "modifier-filter-control-style",
 );
 restore();

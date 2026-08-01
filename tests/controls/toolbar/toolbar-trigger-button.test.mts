@@ -15,7 +15,7 @@ const favoriteMarkup = ToolbarTriggerButtonControl.toMarkup({
   labelKey: "favorites",
 });
 
-assert.ok(favoriteMarkup.includes('class="saved-picker"'));
+assert.ok(favoriteMarkup.includes('class="setting-choice saved-picker"'));
 assert.ok(favoriteMarkup.includes('aria-controls="saved-dialog"'));
 assert.ok(favoriteMarkup.includes('data-i18n-aria-label="savedEmoji"'));
 assert.ok(
@@ -30,7 +30,7 @@ const helpMarkup = ToolbarTriggerButtonControl.toMarkup({
   icon: "\\?",
 });
 
-assert.ok(helpMarkup.includes('class="help-picker"'));
+assert.ok(helpMarkup.includes('class="setting-choice help-picker"'));
 assert.ok(!helpMarkup.includes("saved-picker-label"));
 
 const restore = installFakeDocument();
@@ -47,6 +47,6 @@ ToolbarTriggerButtonControl.create({
 assert.equal(globals.document.head.children.length, 1);
 assert.equal(
   (globals.document.head.children[0] as FakeElement).id,
-  "toolbar-trigger-button-control-stylesheet",
+  "toolbar-trigger-button-control-style",
 );
 restore();

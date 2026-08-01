@@ -29,7 +29,7 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         displayGroupName: options.controllers.displayGroupName,
         displayUnicodeSubGroupName:
           options.controllers.displayUnicodeSubGroupName,
-        drawList: (...args: any[]) => options.bindings.drawList(...args),
+        drawList: options.bindings.drawList,
         emojiFontChoices: () => options.bindings.emojiFontChoices,
         emojiList: () => options.bindings.emojiList,
         genderCheckboxes: () => options.bindings.genderCheckboxes,
@@ -74,12 +74,10 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         openFilterPicker: options.controllers.openFilterPicker,
         orderButtons: () => options.bindings.orderButtons,
         panelDialogs: options.panelDialogs,
-        populateVersionModeOptions: (...args: any[]) =>
-          options.bindings.populateVersionModeOptions(...args),
+        populateVersionModeOptions: options.bindings.populateVersionModeOptions,
         refreshLocalizedLabels: options.controllers.refreshLocalizedLabels,
         resetFilters: () => options.bindings.resetFilters(),
-        renderCategoryFilters: (...args: any[]) =>
-          options.controllers.renderCategoryFilters(...args),
+        renderCategoryFilters: options.controllers.renderCategoryFilters,
         renderDeveloperMode: options.shell.renderDeveloperMode,
         renderInstallAppButton: options.shell.renderInstallAppButton,
         renderMusicToggle: options.shell.renderMusicToggle,
@@ -102,8 +100,7 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
           (options.bindings.applyingUrlState = value),
         setControls: (values: any) =>
           assignExplorerBootstrapControls(options.bindings, values),
-        setDialogView: (...args: any[]) =>
-          options.bindings.setEmojiDialogView(...args),
+        setDialogView: options.bindings.setEmojiDialogView,
         setElements: (values: any) =>
           assignExplorerBootstrapElements(options.bindings, values),
         setFieldsets: (values: any) =>
@@ -121,7 +118,7 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
           (options.bindings.suppressDialogCloseSync = value),
         setUrlStateReady: (value: any) =>
           (options.bindings.urlStateReady = value),
-        showEmoji: (...args: any[]) => options.bindings.showEmoji(...args),
+        showEmoji: options.bindings.showEmoji,
         skinToneCheckboxes: () => options.bindings.skinToneCheckboxes,
         stepVersion: options.controllers.stepVersion,
         state: options.state,
@@ -129,20 +126,15 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         subGroupPickerTrigger: () => options.bindings.subGroupPickerTrigger,
         subGroupSelector: () => options.bindings.subGroupSelector,
         suppressedPanelCloses: () => options.bindings.suppressedPanelCloses,
-        syncUrlState: (...args: any[]) =>
-          options.bindings.syncUrlState(...args),
-        syncVersionRange: (...args: any[]) =>
-          options.controllers.syncVersionRange(...args),
+        syncUrlState: options.bindings.syncUrlState,
+        syncVersionRange: options.controllers.syncVersionRange,
         themeChoices: () => options.bindings.themeChoices,
         toggleDeveloperMode: options.shell.toggleDeveloperMode,
-        toggleVersionMode: (...args: any[]) =>
-          options.bindings.toggleVersionMode(...args),
+        toggleVersionMode: options.bindings.toggleVersionMode,
         toolbar: () => options.bindings.toolbar,
         translate: options.translate,
-        updateCompositionBackButton: (...args: any[]) =>
-          options.bindings.updateCompositionBackButton(...args),
-        updateDialogNavigation: (...args: any[]) =>
-          options.bindings.updateDialogNavigation(...args),
+        updateCompositionBackButton: options.bindings.updateCompositionBackButton,
+        updateDialogNavigation: options.bindings.updateDialogNavigation,
         updateEmojiComposition: options.shell.updateEmojiComposition,
         updateFavoriteButton: options.shell.updateFavoriteButton,
         updateModifierArtwork: options.shell.updateModifierPixelArtwork,

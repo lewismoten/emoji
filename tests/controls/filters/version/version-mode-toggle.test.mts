@@ -8,14 +8,10 @@ const markup = VersionModeToggleControl.toMarkup({
   pressed: true,
 });
 
-assert.match(markup, /^<label class="version-mode-toggle"/);
+assert.match(markup, /^<button class="version-mode-toggle"/);
 assert.match(markup, /aria-label="Toggle selected version mode"/);
 assert.match(markup, /aria-pressed="true"/);
 assert.match(markup, /title="Toggle selected version mode"/);
-assert.match(
-  markup,
-  /<input checked="checked" tabindex="-1" type="checkbox" value="selected-version"><\/input>/,
-);
 assert.match(markup, /aria-hidden="true">🎯<\/span>/);
 
 const restore = installFakeDocument();
@@ -26,6 +22,6 @@ VersionModeToggleControl.create({ emoji: "✨", pressed: false });
 assert.equal(globals.document.head.children.length, 1);
 assert.equal(
   (globals.document.head.children[0] as FakeElement).id,
-  "version-mode-toggle-control-stylesheet",
+  "version-mode-toggle-control-style",
 );
 restore();

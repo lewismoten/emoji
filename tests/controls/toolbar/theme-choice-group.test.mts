@@ -23,6 +23,6 @@ ThemeChoiceGroupControl.create({
 assert.equal(globals.document.head.children.length, 1);
 assert.equal(
   (globals.document.head.children[0] as FakeElement).id,
-  "theme-choice-group-control-stylesheet",
+  "theme-choice-group-control-style",
 );
 restore();

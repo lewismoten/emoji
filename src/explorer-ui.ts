@@ -175,6 +175,7 @@ function resolveChoiceElements(
 }
 
 export function renderThemeToggle(options: any) {
+  if (typeof document === "undefined" || !document.documentElement) return;
   const fullDeveloperMode =
     resolveExplorerMode(options.state()) === "developer";
   const theme = resolveThemePreference(

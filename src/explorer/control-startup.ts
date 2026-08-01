@@ -84,7 +84,11 @@ export async function finalizeExplorerStartup(options: any) {
   const waitForDialogControls = async () => {
     if (typeof window === "undefined") return;
     await new Promise<void>((resolve) => {
-      window.requestAnimationFrame(() => resolve());
+      if (typeof window.requestAnimationFrame === "function") {
+        window.requestAnimationFrame(() => resolve());
+        return;
+      }
+      window.setTimeout(resolve, 0);
     });
   };
   options.renderVersionModeToggle();

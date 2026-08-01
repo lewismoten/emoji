@@ -33,7 +33,7 @@ const button = new DialogNavigateButtonControl({
 assert.equal(globals.document.head.children.length, 1);
 assert.equal(
   (globals.document.head.children[0] as FakeElement).id,
-  "dialog-navigate-button-control-stylesheet",
+  "dialog-navigate-button-control-style",
 );
 assert.equal(button.tagName, "BUTTON");
 assert.equal(button.className, "dialog-navigate previous");

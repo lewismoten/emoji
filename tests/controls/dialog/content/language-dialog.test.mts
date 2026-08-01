@@ -11,17 +11,17 @@ const documentRef = (
 ).document;
 
 const dialog = LanguageDialogControl.create() as unknown as FakeElement;
-const stylesheets = documentRef.head.children.filter(
-  (child) => child instanceof FakeElement && child.tagName === "LINK",
+const styleBlocks = documentRef.head.children.filter(
+  (child) => child instanceof FakeElement && child.tagName === "STYLE",
 ) as FakeElement[];
 
-assert.equal(stylesheets.length, 3);
+assert.equal(styleBlocks.length, 3);
 assert.deepEqual(
-  stylesheets.map((item) => item.href),
+  styleBlocks.map((item) => item.id),
   [
-    "./explorer/controls/dialog/content/language-dialog.css",
-    "./explorer/controls/dialog/dialog-heading.css",
-    "./explorer/controls/dialog/dialog-close-button.css",
+    "language-dialog-control-style",
+    "dialog-heading-control-style",
+    "dialog-close-button-control-style",
   ],
 );
 assert.equal(dialog.className, "language-dialog");

@@ -28,16 +28,16 @@ const dialog = DialogControl.create({
   titleKey: "example",
 }) as unknown as FakeElement;
 
-const stylesheets = documentRef.head.children.filter(
-  (child) => child instanceof FakeElement && child.tagName === "LINK",
+const styleBlocks = documentRef.head.children.filter(
+  (child) => child instanceof FakeElement && child.tagName === "STYLE",
 ) as FakeElement[];
 
-assert.equal(stylesheets.length, 2);
+assert.equal(styleBlocks.length, 2);
 assert.deepEqual(
-  stylesheets.map((item) => item.href),
+  styleBlocks.map((item) => item.id),
   [
-    "./explorer/controls/dialog/dialog-heading.css",
-    "./explorer/controls/dialog/dialog-close-button.css",
+    "dialog-heading-control-style",
+    "dialog-close-button-control-style",
   ],
 );
 assert.equal(dialog.tagName, "DIALOG");

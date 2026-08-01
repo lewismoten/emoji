@@ -101,7 +101,7 @@ export function createExplorerNavigation(
     const datasetMode =
       typeof document === "undefined"
         ? ""
-        : (document.documentElement.dataset.explorerMode ?? "");
+        : (document.documentElement?.dataset?.explorerMode ?? "");
     if (
       datasetMode === "standard" ||
       datasetMode === "advanced" ||
@@ -109,7 +109,7 @@ export function createExplorerNavigation(
     ) {
       return datasetMode;
     }
-    if (options.fullDeveloperModeEnabled()) return "developer";
+    if (options.fullDeveloperModeEnabled?.()) return "developer";
     if (options.developerModeEnabled()) return "advanced";
     return "standard";
   };
