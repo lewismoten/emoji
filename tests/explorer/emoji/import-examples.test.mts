@@ -281,7 +281,7 @@ try {
   });
   const loaded = await promise;
   assert.deepEqual(loaded, { packs: [], categories: [] });
-  assert.equal(warnings.length, 1);
+  assert.equal(warnings.length, 0);
   assert.equal(
     loadPackageManifest({
       getManifest: () => currentManifest,
@@ -319,6 +319,30 @@ try {
   });
   assert.deepEqual(loadedManifest, manifest);
   assert.deepEqual(currentManifest, manifest);
+
+  currentManifest = {} as any;
+  currentPromise = undefined;
+  Object.defineProperty(globalThis, "fetch", {
+    configurable: true,
+    value: async () => ({
+      ok: false,
+      async json() {
+        return {};
+      },
+    }),
+  });
+  const missingFallbackManifest = await loadPackageManifest({
+    getManifest: () => currentManifest,
+    getPromise: () => currentPromise,
+    setManifest: (manifestValue) => {
+      currentManifest = manifestValue;
+    },
+    setPromise: (promiseValue) => {
+      currentPromise = promiseValue;
+    },
+  });
+  assert.deepEqual(missingFallbackManifest, {});
+  assert.equal(warnings.length, 1);
 } finally {
   console.warn = originalWarn;
   if (originalDocument)

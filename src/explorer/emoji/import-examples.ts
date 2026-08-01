@@ -156,8 +156,14 @@ export function loadPackageManifest(options: {
       return typedManifest;
     })
     .catch((error) => {
-      console.warn("Package import options unavailable", error);
-      return options.getManifest();
+      const fallbackManifest = options.getManifest();
+      const hasFallbackManifest =
+        Array.isArray(fallbackManifest?.packs) &&
+        Array.isArray(fallbackManifest?.categories);
+      if (!hasFallbackManifest) {
+        console.warn("Package import options unavailable", error);
+      }
+      return fallbackManifest;
     });
   options.setPromise(promise);
   return promise;
