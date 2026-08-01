@@ -6,10 +6,10 @@ import {
   refreshPixelFontStylesheet,
 } from "../../pixel-font-hot-reload.js";
 
-export function isViteDevelopmentRuntime() {
+export function isViteDevelopmentRuntime(env = import.meta.env) {
   const override = Reflect.get(globalThis, "__TEST_VITE_DEV__");
   if (typeof override === "boolean") return override;
-  return typeof import.meta.env !== "undefined" && import.meta.env.DEV === true;
+  return typeof env !== "undefined" && env.DEV === true;
 }
 
 export function createUiFormatters(options: {

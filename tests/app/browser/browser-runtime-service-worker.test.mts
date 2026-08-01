@@ -28,7 +28,10 @@ restoreLanguageParentPanel(
       directSyncCalls.push(1);
     },
   },
-  (panelOptions: any) => directPanelCalls.push(panelOptions),
+  (panelOptions: any) => {
+    directPanelCalls.push(panelOptions);
+    panelOptions.renderSavedEmoji();
+  },
 );
 assert.equal(directLanguageDialog.dataset.returnPanel, undefined);
 assert.equal(directPanelCalls.length, 1);
@@ -67,11 +70,33 @@ restoreLanguageParentPanel(
       defaultPanelCalls.push("sync");
     },
   },
-  (panelOptions: any) => defaultPanelCalls.push(panelOptions),
+  (panelOptions: any) => {
+    defaultPanelCalls.push(panelOptions);
+    panelOptions.renderSavedEmoji();
+  },
 );
 assert.equal(defaultPanelCalls.length, 2);
 assert.equal(defaultPanelCalls[0].panel, "help");
 assert.equal(defaultPanelCalls[1], "sync");
+
+const missingDialogCalls: any[] = [];
+restoreLanguageParentPanel(
+  {
+    languageDialog: () => null,
+    languageList: () => [{ code: "en" }],
+    syncUrlState() {
+      missingDialogCalls.push("sync");
+    },
+  },
+  (panelOptions: any) => {
+    missingDialogCalls.push(panelOptions);
+    panelOptions.renderSavedEmoji();
+  },
+);
+assert.equal(missingDialogCalls.length, 2);
+assert.equal(missingDialogCalls[0].panel, "help");
+assert.equal(missingDialogCalls[0].dialogs.language, null);
+assert.equal(missingDialogCalls[1], "sync");
 
 const directWarnings = { entries: [] as any[] };
 const directWindowEvents: Record<string, () => unknown> = {};
@@ -218,6 +243,42 @@ await localPreviewWindowEvents.load?.();
 assert.equal(localPreviewRegistrations[0].unregisterCalls, 1);
 assert.deepEqual(localPreviewDeletedCaches, ["emoji-explorer-local"]);
 
+const localhostWindowEvents: Record<string, () => unknown> = {};
+const localhostRegistrations = [
+  {
+    scope: "http://localhost:4173/",
+    unregisterCalls: 0,
+    unregister() {
+      this.unregisterCalls += 1;
+      return Promise.resolve(true);
+    },
+  },
+];
+bindServiceWorkerRuntime({
+  navigatorRef: {
+    serviceWorker: {
+      getRegistrations: async () => localhostRegistrations,
+      register: async () => {
+        throw new Error("should-not-register-on-localhost-preview");
+      },
+    },
+  } as any,
+  windowRef: {
+    isSecureContext: true,
+    location: { origin: "http://localhost:4173", hostname: "localhost" },
+    addEventListener(type: string, handler: () => unknown) {
+      localhostWindowEvents[type] = handler;
+    },
+  } as any,
+  cachesRef: {
+    keys: async () => [],
+    delete: async () => true,
+  },
+  isViteDevelopment: false,
+});
+await localhostWindowEvents.load?.();
+assert.equal(localhostRegistrations[0].unregisterCalls, 1);
+
 const devFailureWindowEvents: Record<string, () => unknown> = {};
 const devFailureWarnings: any[] = [];
 bindServiceWorkerRuntime({
@@ -272,6 +333,145 @@ bindServiceWorkerRuntime({
 });
 await devNoCacheWindowEvents.load?.();
 assert.equal(devNoCacheRegistrations[0].unregisterCalls, 1);
+
+const unsupportedWindowEvents: Record<string, () => unknown> = {};
+bindServiceWorkerRuntime({
+  navigatorRef: {} as any,
+  windowRef: {
+    isSecureContext: true,
+    location: { origin: "https://emoji.example", hostname: "emoji.example" },
+    addEventListener(type: string, handler: () => unknown) {
+      unsupportedWindowEvents[type] = handler;
+    },
+  } as any,
+  isViteDevelopment: false,
+});
+assert.deepEqual(unsupportedWindowEvents, {});
+
+const insecureWindowEvents: Record<string, () => unknown> = {};
+bindServiceWorkerRuntime({
+  navigatorRef: {
+    serviceWorker: {
+      register: async () => ({ scope: "noop" }),
+    },
+  } as any,
+  windowRef: {
+    isSecureContext: false,
+    location: { origin: "https://emoji.example", hostname: "emoji.example" },
+    addEventListener(type: string, handler: () => unknown) {
+      insecureWindowEvents[type] = handler;
+    },
+  } as any,
+  isViteDevelopment: false,
+});
+assert.deepEqual(insecureWindowEvents, {});
+
+const originalWindowDescriptor = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "window",
+);
+const originalNavigatorDescriptor = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "navigator",
+);
+const originalCachesDescriptor = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "caches",
+);
+const globalWindowEvents: Record<string, () => unknown> = {};
+const globalRegistrations = [
+  {
+    scope: "https://emoji.example/app/",
+    unregisterCalls: 0,
+    unregister() {
+      this.unregisterCalls += 1;
+      return Promise.resolve(true);
+    },
+  },
+];
+const globalDeletedCaches: string[] = [];
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: {
+    isSecureContext: true,
+    location: { origin: "https://emoji.example", hostname: "emoji.example" },
+    addEventListener(type: string, handler: () => unknown) {
+      globalWindowEvents[type] = handler;
+    },
+  },
+});
+Object.defineProperty(globalThis, "navigator", {
+  configurable: true,
+  value: {
+    serviceWorker: {
+      getRegistrations: async () => globalRegistrations,
+    },
+  },
+});
+Object.defineProperty(globalThis, "caches", {
+  configurable: true,
+  value: {
+    keys: async () => ["emoji-explorer-global", "other-global-cache"],
+    delete: async (name: string) => {
+      globalDeletedCaches.push(name);
+      return true;
+    },
+  },
+});
+try {
+  bindServiceWorkerRuntime({ isViteDevelopment: true });
+  await globalWindowEvents.load?.();
+  assert.equal(globalRegistrations[0].unregisterCalls, 1);
+  assert.deepEqual(globalDeletedCaches, ["emoji-explorer-global"]);
+} finally {
+  if (originalWindowDescriptor) {
+    Object.defineProperty(globalThis, "window", originalWindowDescriptor);
+  } else {
+    delete (globalThis as any).window;
+  }
+  if (originalNavigatorDescriptor) {
+    Object.defineProperty(globalThis, "navigator", originalNavigatorDescriptor);
+  } else {
+    delete (globalThis as any).navigator;
+  }
+  if (originalCachesDescriptor) {
+    Object.defineProperty(globalThis, "caches", originalCachesDescriptor);
+  } else {
+    delete (globalThis as any).caches;
+  }
+}
+
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: undefined,
+});
+Object.defineProperty(globalThis, "navigator", {
+  configurable: true,
+  value: undefined,
+});
+Object.defineProperty(globalThis, "caches", {
+  configurable: true,
+  value: undefined,
+});
+try {
+  bindServiceWorkerRuntime({ isViteDevelopment: true });
+} finally {
+  if (originalWindowDescriptor) {
+    Object.defineProperty(globalThis, "window", originalWindowDescriptor);
+  } else {
+    delete (globalThis as any).window;
+  }
+  if (originalNavigatorDescriptor) {
+    Object.defineProperty(globalThis, "navigator", originalNavigatorDescriptor);
+  } else {
+    delete (globalThis as any).navigator;
+  }
+  if (originalCachesDescriptor) {
+    Object.defineProperty(globalThis, "caches", originalCachesDescriptor);
+  } else {
+    delete (globalThis as any).caches;
+  }
+}
 
 const idleWindowEvents: Record<string, () => unknown> = {};
 bindServiceWorkerRuntime({

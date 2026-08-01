@@ -49,12 +49,25 @@ const fallbackFormatters = createUiFormatters({
 assert.equal(fallbackFormatters.formatUiNumber(3), "n:3:ar-EG:arab");
 assert.equal(fallbackFormatters.formatUiPercent(5), "p:5:ar-EG:arab");
 
+const undefinedLocaleFormatters = createUiFormatters({
+  document: { documentElement: { lang: "" } } as Document,
+  selectedSearchLocale: () => "",
+  formatNumber: (value: number, locale?: string, numberingSystem?: string) =>
+    `n:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+  formatPercent: (value: number, locale?: string, numberingSystem?: string) =>
+    `p:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+});
+assert.equal(undefinedLocaleFormatters.formatUiNumber(1), "n:1::");
+assert.equal(undefinedLocaleFormatters.formatUiPercent(2), "p:2::");
+
 assert.deepEqual(formatterCalls, [
   { type: "number", value: 42, locale: "en-US", numberingSystem: undefined },
   { type: "percent", value: 75, locale: "en-US", numberingSystem: undefined },
 ]);
 
 assert.equal(isViteDevelopmentRuntime(), false);
+assert.equal(isViteDevelopmentRuntime({ DEV: true } as any), true);
+assert.equal(isViteDevelopmentRuntime({ DEV: false } as any), false);
 
 (globalThis as any).__TEST_VITE_DEV__ = true;
 assert.equal(isViteDevelopmentRuntime(), true);

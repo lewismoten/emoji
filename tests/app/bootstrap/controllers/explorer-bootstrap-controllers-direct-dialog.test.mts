@@ -112,6 +112,8 @@ assert.deepEqual(dialogClickOptions.syncUrlState("replace"), [
 ]);
 dialogClickOptions.toggleComposition();
 assert.equal(state.compositionMode, "condensed");
+dialogClickOptions.toggleComposition();
+assert.equal(state.compositionMode, "full");
 assert.equal(dialogClickOptions.toggleFavorite, "toggle-favorite");
 assert.equal(dialogClickOptions.translate("copy", "Copy"), "copy:Copy");
 assert.deepEqual(dialogClickOptions.updateCompositionBackButton("left"), [
