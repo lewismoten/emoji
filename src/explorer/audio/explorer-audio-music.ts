@@ -74,7 +74,7 @@ function scheduleSongVoices(
   return longestBeat;
 }
 
-function scheduleSongEvent(
+export function scheduleExplorerSongEventForTest(
   context: AudioContext,
   output: GainNode,
   beatLength: number,
@@ -106,4 +106,24 @@ function scheduleSongEvent(
       waveform: instrument.waveform,
     },
   });
+}
+
+function scheduleSongEvent(
+  context: AudioContext,
+  output: GainNode,
+  beatLength: number,
+  start: number,
+  beat: number,
+  voice: ExplorerMusicSong["voices"][number],
+  event: ExplorerSongEvent,
+) {
+  return scheduleExplorerSongEventForTest(
+    context,
+    output,
+    beatLength,
+    start,
+    beat,
+    voice,
+    event,
+  );
 }

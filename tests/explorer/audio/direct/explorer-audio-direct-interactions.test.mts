@@ -58,7 +58,12 @@ try {
 
   const engineOptions = engineCalls.find(
     (call) => call[0] === "createExplorerAudioEngine",
-  )?.[1] as { theme?: () => string };
+  )?.[1] as {
+    theme?: () => string;
+    helpDialogOpen?: () => boolean;
+    savedDialogOpen?: () => boolean;
+    retroMode?: () => boolean;
+  };
   assert.equal(engineOptions.theme?.(), "retro");
 
   engine.soundEffectsEnabled = () => true;
@@ -98,11 +103,31 @@ try {
   const ariaDisabledInteractive = new FakeElement([], null);
   ariaDisabledInteractive.setAttribute("aria-disabled", "true");
   const ariaDisabledTarget = new FakeElement([], ariaDisabledInteractive);
+  const roleButtonInteractive = new FakeElement([], null);
+  roleButtonInteractive.tagName = "DIV";
+  roleButtonInteractive.setAttribute("role", "button");
+  const roleButtonTarget = new FakeElement([], roleButtonInteractive);
+  const switchInteractive = new FakeElement([], null);
+  switchInteractive.tagName = "DIV";
+  switchInteractive.setAttribute("role", "switch");
+  switchInteractive.setAttribute("aria-checked", "false");
+  const switchTarget = new FakeElement([], switchInteractive);
+  const roleLinkInteractive = new FakeElement([], null);
+  roleLinkInteractive.tagName = "DIV";
+  roleLinkInteractive.setAttribute("role", "link");
+  const roleLinkTarget = new FakeElement([], roleLinkInteractive);
+  const dropdownInteractive = new FakeElement([], null);
+  dropdownInteractive.tagName = "DIV";
+  dropdownInteractive.setAttribute("aria-haspopup", "listbox");
+  const dropdownTarget = new FakeElement([], dropdownInteractive);
 
   fixture.listeners.get("click")?.[0]?.({ target });
   fixture.listeners.get("click")?.[0]?.({ target: checkboxTarget });
   fixture.listeners.get("click")?.[0]?.({ target: radioTarget });
   fixture.listeners.get("click")?.[0]?.({ target: linkTarget });
+  fixture.listeners.get("click")?.[0]?.({ target: roleButtonTarget });
+  fixture.listeners.get("click")?.[0]?.({ target: roleLinkTarget });
+  fixture.listeners.get("click")?.[0]?.({ target: dropdownTarget });
   fixture.listeners.get("click")?.[0]?.({ target: {} });
   fixture.listeners.get("click")?.[0]?.({ target: disabledTarget });
   fixture.listeners.get("click")?.[0]?.({ target: ariaDisabledTarget });
@@ -154,6 +179,37 @@ try {
     ),
     true,
   );
+  fixture.listeners.get("change")?.[0]?.({ target: switchTarget });
+  const wrappedSoundPreference = new FakeElement([], null);
+  wrappedSoundPreference.tagName = "DIV";
+  wrappedSoundPreference.checked = true;
+  wrappedSoundPreference.setAttribute("role", "switch");
+  wrappedSoundPreference.closest = () => ({
+    matches: (selector: string) =>
+      selector === '[data-audio-preference="soundEffects"]',
+  } as any);
+  fixture.listeners.get("change")?.[0]?.({ target: wrappedSoundPreference });
+  const wrappedMusicPreference = new FakeElement([], null);
+  wrappedMusicPreference.tagName = "DIV";
+  wrappedMusicPreference.checked = false;
+  wrappedMusicPreference.setAttribute("role", "switch");
+  wrappedMusicPreference.closest = () => ({
+    matches: (selector: string) =>
+      selector === '[data-audio-preference="music"]',
+  } as any);
+  fixture.listeners.get("change")?.[0]?.({ target: wrappedMusicPreference });
+  const nonElementClosest = new FakeElement([], null);
+  nonElementClosest.closest = () => ({}) as any;
+  fixture.listeners.get("click")?.[0]?.({ target: nonElementClosest });
+  assert.equal(
+    engineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "checkbox" &&
+        call[2] === "uncheck",
+    ),
+    true,
+  );
   assert.equal(
     engineCalls.filter(
       (call) =>
@@ -162,6 +218,15 @@ try {
         call[2] === "hover",
     ).length,
     1,
+  );
+  assert.equal(
+    engineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "checkbox" &&
+        call[2] === "check",
+    ),
+    true,
   );
 
   (globalThis.document as any).hidden = true;
@@ -174,6 +239,11 @@ try {
   const otherDialog = new FakeElement();
   otherDialog.open = true;
   otherDialog.matches = () => false;
+  fixture.helpDialog.open = true;
+  fixture.savedDialog.open = false;
+  assert.equal(engineOptions.helpDialogOpen?.(), true);
+  assert.equal(engineOptions.savedDialogOpen?.(), false);
+  assert.equal(engineOptions.retroMode?.(), true);
   dialogObserver?.callback([
     { target: {} },
     { target: otherDialog },

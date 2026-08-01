@@ -69,6 +69,25 @@ try {
   );
   assert.equal(fixture.offlineStatus.hidden, false);
 
+  const noStatusController = createExplorerUiController({
+    deferredInstallPrompt: () => null,
+    installAppButton: () => installButton,
+    installDialog: () => installDialog,
+    installWebApp: async () => ({ deferredInstallPrompt: null }),
+    offlineStatus: () => null,
+    pixelEditor: () => null,
+    renderDeveloperMode: () => calls.push("render-dev-no-status"),
+    renderInstallAppButton: () => calls.push("render-install-no-status"),
+    renderMusicToggle: () => calls.push("render-music-no-status"),
+    renderPixelFontToggle: () => calls.push("render-pixel-no-status"),
+    renderSearchLanguages: () => calls.push("render-search-no-status"),
+    renderSoundEffectsToggle: () => calls.push("render-sfx-no-status"),
+    renderVersionModeToggle: () => calls.push("render-version-no-status"),
+    setDeferredInstallPrompt: () => undefined,
+    state: () => state,
+  });
+  assert.doesNotThrow(() => noStatusController.updateOnlineStatus());
+
   controller.renderInstallAppButton();
   assert.ok(calls.includes("render-install"));
 
@@ -125,6 +144,25 @@ try {
     (globalThis.document as any).title,
     "Emoji Explorer – Unicode Emoji",
   );
+
+  const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      documentElement: fixture.documentElement,
+      querySelector() {
+        return null;
+      },
+      querySelectorAll() {
+        return [];
+      },
+      title: "",
+    },
+  });
+  await controller.loadUiTranslations("en");
+  if (originalDocument) {
+    Object.defineProperty(globalThis, "document", originalDocument);
+  }
 } finally {
   fixture.restore();
 }

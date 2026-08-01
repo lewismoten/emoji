@@ -257,6 +257,10 @@ assert.equal(
   dataCall.populateVersionSelector,
   versionDataStub.populateVersionSelector,
 );
+assert.equal(
+  dataCall.proposedVersionManifests(),
+  state.proposedVersionManifests,
+);
 assert.equal(dataCall.syncVersionRange, categoryStub.syncVersionRange);
 assert.equal(
   dataCall.updateModifierAvailability,

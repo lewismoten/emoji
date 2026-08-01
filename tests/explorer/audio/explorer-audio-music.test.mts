@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import {
   getExplorerMusicConfig,
+  scheduleExplorerSongEventForTest,
   scheduleExplorerMusic,
 } from "../../../src/explorer/audio/explorer-audio-music.js";
 
@@ -126,5 +127,40 @@ assert.equal(context.oscillators.length, 86);
 assert.equal((context.oscillators.at(-1) as FakeOscillator).periodicWave != null, true);
 assert.equal(
   (context.oscillators.at(-1) as FakeOscillator).frequency.calls.length > 0,
+  true,
+);
+
+const restContext = new FakeAudioContext();
+const restOutput = restContext.createGain() as unknown as GainNode;
+scheduleExplorerSongEventForTest(
+  restContext as unknown as AudioContext,
+  restOutput,
+  0.2,
+  1,
+  0,
+  { instrument: "lead-chip", events: [] } as any,
+  [440, 1, { rest: true }],
+);
+assert.equal(restContext.oscillators.length, 0);
+
+const fallbackReleaseContext = new FakeAudioContext();
+const fallbackOutput = fallbackReleaseContext.createGain() as unknown as GainNode;
+scheduleExplorerSongEventForTest(
+  fallbackReleaseContext as unknown as AudioContext,
+  fallbackOutput,
+  0.25,
+  2,
+  1,
+  { instrument: "bell-bright", events: [] } as any,
+  [330, 2],
+);
+assert.equal(fallbackReleaseContext.oscillators.length, 1);
+assert.equal(
+  (fallbackReleaseContext.oscillators[0] as FakeOscillator).stopped.length,
+  1,
+);
+assert.equal(
+  ((fallbackReleaseContext.oscillators[0] as FakeOscillator).stopped[0] ?? 0) >
+    2.25,
   true,
 );

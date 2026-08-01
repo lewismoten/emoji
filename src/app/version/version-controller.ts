@@ -9,9 +9,12 @@ import { createExplorerDataController } from "../data/explorer-data-controller.j
 
 /** Coordinate version controls and the catalog/version data loader. */
 export function createVersionController(options: any) {
+  const proposedVersionManifests = () =>
+    options.state().proposedVersionManifests;
+
   const populateVersionSelector = () =>
     populateVersionSelectorHelper({
-      proposed: options.state().proposedVersionManifests,
+      proposed: proposedVersionManifests(),
       released: options.state().versionManifests,
       selectedLocale: options.state().selectedSearchLocale,
       selector: options.versionSelector(),
@@ -20,11 +23,11 @@ export function createVersionController(options: any) {
     });
 
   const versionSliderLabel = (version: string) =>
-    versionSliderLabelHelper(version, options.state().proposedVersionManifests);
+    versionSliderLabelHelper(version, proposedVersionManifests());
 
   const syncVersionRange = () =>
     syncVersionRangeHelper({
-      proposedVersionManifests: options.state().proposedVersionManifests,
+      proposedVersionManifests: proposedVersionManifests(),
       updateModifierAvailability,
       versionNext: options.versionNext(),
       versionPrevious: options.versionPrevious(),
@@ -53,7 +56,7 @@ export function createVersionController(options: any) {
       hairCheckboxes: options.hairCheckboxes(),
       hairFieldset: options.hairFieldset(),
       modifierFilters: options.modifierFilters(),
-      proposedVersionManifests: options.state().proposedVersionManifests,
+      proposedVersionManifests: proposedVersionManifests(),
       skinToneCheckboxes: options.skinToneCheckboxes(),
       skinToneFieldset: options.skinToneFieldset(),
       versionKeys: options.state().versionKeys,
@@ -63,7 +66,7 @@ export function createVersionController(options: any) {
 
   const getVersionKeys = () =>
     getVersionKeysHelper({
-      proposedVersionManifests: options.state().proposedVersionManifests,
+      proposedVersionManifests: proposedVersionManifests(),
       releasedIds: options.state().releasedIds,
       versionKeys: options.state().versionKeys,
       versionManifests: options.state().versionManifests,
@@ -92,7 +95,7 @@ export function createVersionController(options: any) {
     onSubGroupChange: options.onSubGroupChange,
     openEmoji: options.openEmoji,
     populateVersionSelector: populateVersionSelectorHelper,
-    proposedVersionManifests: () => options.state().proposedVersionManifests,
+    proposedVersionManifests,
     rebuildCodePointLookup: options.rebuildCodePointLookup,
     renderCategoryFilters: options.renderCategoryFilters,
     setIntroducedVersion: options.setIntroducedVersion,

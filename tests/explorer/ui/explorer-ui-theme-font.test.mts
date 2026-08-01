@@ -88,6 +88,52 @@ try {
   assert.equal(fixture.documentElement.dataset.theme, "retro");
   assert.equal(fixture.themeMeta.content, "#0000aa");
 
+  renderThemeToggle({
+    choices: () => [],
+    state: () => ({
+      explorerModeFromUrl: "",
+      developerModeUrlDismissed: false,
+      explorerPreferences: { developerMode: true, theme: "mystery" },
+    }),
+  });
+  assert.equal(fixture.documentElement.dataset.theme, "dark");
+
+  fixture.themeMeta.content = "";
+  const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      documentElement: fixture.documentElement,
+      querySelector(selector: string) {
+        if (selector === 'meta[name="theme-color"]') return null;
+        return null;
+      },
+      querySelectorAll() {
+        return [];
+      },
+    },
+  });
+  renderThemeToggle({
+    choices: () => [lightThemeChoice],
+    state: () => ({
+      explorerModeFromUrl: "",
+      developerModeUrlDismissed: false,
+      explorerPreferences: { developerMode: false, theme: "light", mode: "mystery" },
+    }),
+  });
+  assert.equal(fixture.themeMeta.content, "");
+
+  Reflect.deleteProperty(globalThis, "document");
+  assert.doesNotThrow(() =>
+    renderThemeToggle({
+      choices: () => [],
+      state: () => state,
+    }),
+  );
+  if (originalDocument) {
+    Object.defineProperty(globalThis, "document", originalDocument);
+  }
+
   renderPixelFontToggle({
     choices: () => [pixelChoice, systemChoice],
     refreshRenderedPixelEmoji: () => calls.push("refresh-pixel"),
@@ -106,6 +152,12 @@ try {
   assert.equal(fixture.documentElement.dataset.emojiFont, "system");
   assert.equal(systemChoice.classList.active.has("is-active"), true);
   assert.equal(systemChoiceInput.checked, true);
+
+  renderPixelFontToggle({
+    choices: () => [],
+    refreshRenderedPixelEmoji: () => calls.push("refresh-pixel-empty"),
+    state: () => ({ explorerPreferences: { pixelFont: true } }),
+  });
 
   const preferenceCalls: Array<[string, unknown]> = [];
   await selectTheme(

@@ -151,6 +151,9 @@ try {
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 6);
   engine.playDialogClose();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 9);
+  engine.playSoundEffect("missing" as any);
+  engine.playInteraction("generic", "focus");
+  assert.equal(engine.theme().voices.length > 0, true);
 
   retro = false;
   theme = "light";
@@ -252,6 +255,20 @@ try {
   assert.equal(await silentEngine.resumeAudioContext(), undefined);
   silentEngine.playClick();
   silentEngine.syncHelpMusic();
+
+  let noContextHelpOpen = true;
+  const noContextMusicEngine = createExplorerAudioEngine({
+    helpDialogOpen: () => noContextHelpOpen,
+    musicEnabled: () => true,
+    retroMode: () => true,
+    theme: () => "retro",
+    savedDialogOpen: () => false,
+    soundEffectsEnabled: () => false,
+  });
+  noContextMusicEngine.syncHelpMusic();
+  noContextMusicEngine.restartMusic();
+  noContextHelpOpen = false;
+  noContextMusicEngine.restartMusic();
 
   class RejectingAudioContext extends FakeAudioContext {
     override async resume() {

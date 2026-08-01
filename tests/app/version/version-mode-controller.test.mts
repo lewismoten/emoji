@@ -138,6 +138,20 @@ try {
     "Selected version only",
   ]);
 
+  const selectorWithoutInput = new FakeSelector();
+  selectorWithoutInput.value = "through";
+  const toggleWithoutInput = new FakeToggle();
+  const noInputController = createVersionModeController({
+    definitions: [{ value: "through", key: "through", fallback: "Through" }],
+    drawList: () => {},
+    renderCategoryFilters: () => {},
+    selector: () => selectorWithoutInput,
+    toggle: () => toggleWithoutInput,
+    translate: (_key: string, fallback: string) => fallback,
+  });
+  assert.doesNotThrow(() => noInputController.render());
+  assert.equal(toggleWithoutInput.attributes.get("aria-pressed"), "false");
+
   const selectorlessController = createVersionModeController({
     definitions: [{ value: "through", key: "through", fallback: "Through" }],
     drawList: () => {},
@@ -146,6 +160,71 @@ try {
   });
   selectorlessController.populateOptions();
   selectorlessController.toggle({ preventDefault() {} });
+
+  const selectorOnlyController = createVersionModeController({
+    definitions: [{ value: "through", key: "through", fallback: "Through" }],
+    drawList: () => {},
+    renderCategoryFilters: () => {},
+    selector: () => selectorWithUnknownValue,
+    toggle: () => null,
+    translate: (_key: string, fallback: string) => fallback,
+  });
+  assert.doesNotThrow(() => selectorOnlyController.render());
+
+  Reflect.deleteProperty(globalThis, "document");
+  const noDocumentController = createVersionModeController({
+    definitions: [{ value: "through", key: "through", fallback: "Through" }],
+    drawList: () => {},
+    renderCategoryFilters: () => {},
+    translate: (_key: string, fallback: string) => fallback,
+  });
+  assert.doesNotThrow(() => noDocumentController.populateOptions());
+  assert.doesNotThrow(() => noDocumentController.render());
+  assert.doesNotThrow(() => noDocumentController.toggle(undefined));
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      createElement(tagName: string) {
+        assert.equal(tagName, "option");
+        return new FakeOption();
+      },
+    },
+  });
+
+  const queriedSelector = new FakeSelector();
+  queriedSelector.value = "selected";
+  const queriedToggle = new FakeToggle();
+  queriedToggle.input = { checked: false, tabIndex: 0 };
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      createElement(tagName: string) {
+        assert.equal(tagName, "option");
+        return new FakeOption();
+      },
+      querySelector(selectorText: string) {
+        if (selectorText === ".select-version-mode") return queriedSelector;
+        if (selectorText === ".version-mode-toggle") return queriedToggle;
+        return null;
+      },
+    },
+  });
+  const fallbackQueryController = createVersionModeController({
+    definitions: [
+      { value: "through", key: "allVersions", fallback: "All versions" },
+      {
+        value: "selected",
+        key: "selectedVersionOnly",
+        fallback: "Selected version only",
+      },
+    ],
+    drawList: () => {},
+    renderCategoryFilters: () => {},
+    translate: (_key: string, fallback: string) => fallback,
+  });
+  fallbackQueryController.render();
+  assert.equal(queriedToggle.attributes.get("aria-pressed"), "true");
+  assert.equal(queriedToggle.input.checked, true);
 } finally {
   if (originalDocument) {
     Object.defineProperty(globalThis, "document", originalDocument);

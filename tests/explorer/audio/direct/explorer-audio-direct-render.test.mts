@@ -37,16 +37,32 @@ try {
     },
   );
 
+  const parentAttributes = new Map<string, string>();
+  (fixture.soundToggle as any).parentElement = {
+    setAttribute(name: string, value: string) {
+      parentAttributes.set(name, value);
+    },
+  };
+  (fixture.musicToggle as any).parentElement = {
+    setAttribute(name: string, value: string) {
+      parentAttributes.set(`music:${name}`, value);
+    },
+  };
+
   controller.renderSoundEffectsToggle();
   controller.renderMusicToggle();
   assert.equal(fixture.soundToggle.checked, false);
   assert.equal(fixture.soundToggle.disabled, false);
   assert.equal(fixture.soundToggle.attributes.get("aria-checked"), "false");
   assert.equal(fixture.soundToggle.attributes.get("aria-disabled"), "false");
+  assert.equal(parentAttributes.get("aria-pressed"), "false");
+  assert.equal(parentAttributes.get("aria-disabled"), "false");
   assert.equal(fixture.musicToggle.checked, true);
   assert.equal(fixture.musicToggle.disabled, false);
   assert.equal(fixture.musicToggle.attributes.get("aria-checked"), "true");
   assert.equal(fixture.musicToggle.attributes.get("aria-disabled"), "false");
+  assert.equal(parentAttributes.get("music:aria-pressed"), "true");
+  assert.equal(parentAttributes.get("music:aria-disabled"), "false");
 
   fixture.setDocument({
     body: fixture.body,
@@ -102,6 +118,53 @@ try {
     ["music", false],
   ]);
   fixture.listeners.get("change")?.[0]?.({ target: {} });
+
+  const defaultDependencyController = createExplorerAudioController({
+    savePreference() {},
+    state: () => ({
+      explorerPreferences: { music: false, soundEffects: false },
+    }),
+  });
+  assert.equal(typeof defaultDependencyController.bindAudioInteractions, "function");
+
+  const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+  Reflect.deleteProperty(globalThis, "document");
+  const noDocumentCalls: Array<unknown[]> = [];
+  createExplorerAudioController(
+    {
+      savePreference() {},
+      state: () => ({
+        explorerPreferences: { music: false, soundEffects: false },
+      }),
+    },
+    {
+      createExplorerAudioEngine(options: any) {
+        noDocumentCalls.push([
+          "engine-options",
+          options.helpDialogOpen(),
+          options.savedDialogOpen(),
+          options.musicEnabled(),
+          options.soundEffectsEnabled(),
+          options.retroMode(),
+          options.theme(),
+        ]);
+        return engine;
+      },
+    },
+  );
+  assert.deepEqual(noDocumentCalls[0], [
+    "engine-options",
+    false,
+    false,
+    false,
+    false,
+    false,
+    "dark",
+  ]);
+  assert.doesNotThrow(() => defaultDependencyController.bindAudioInteractions());
+  if (originalDocument) {
+    Object.defineProperty(globalThis, "document", originalDocument);
+  }
 } finally {
   fixture.restore();
 }

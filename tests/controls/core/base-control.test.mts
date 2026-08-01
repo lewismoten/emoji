@@ -173,6 +173,44 @@ assert.equal(fallbackHeadChildren[2]?.href, "./control.css");
 (globalThis as typeof globalThis & { document: any }).document =
   originalDocument;
 
+const existingChildren: FakeElement[] = [];
+(globalThis as typeof globalThis & { document: any }).document = {
+  createElement(tagName: string) {
+    return new FakeElement(tagName);
+  },
+  getElementById(id: string) {
+    return id === "parent-style" || id === "stylesheet-control" ? { id } : null;
+  },
+  head: {
+    appendChild(node: FakeElement) {
+      existingChildren.push(node);
+    },
+  },
+};
+new AssetParentControl({ label: "Existing style" }).create();
+new StylesheetControl({ label: "Existing stylesheet" }).create();
+assert.equal(existingChildren.length, 1);
+assert.equal(existingChildren[0]?.id, "child-style");
+(globalThis as typeof globalThis & { document: any }).document =
+  originalDocument;
+
+(globalThis as typeof globalThis & { document: any }).document = {
+  createElement(tagName: string) {
+    return new FakeElement(tagName);
+  },
+  getElementById() {
+    return null;
+  },
+};
+assert.doesNotThrow(() =>
+  new AssetParentControl({ label: "No head available" }).exposeAttachAssets(),
+);
+assert.doesNotThrow(() =>
+  new StylesheetControl({ label: "No head available" }).create(),
+);
+(globalThis as typeof globalThis & { document: any }).document =
+  originalDocument;
+
 Reflect.deleteProperty(globalThis, "document");
 assert.doesNotThrow(() =>
   new MinimalControl({ label: "NoDoc" }).exposeAttachAssets(),
