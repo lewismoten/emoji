@@ -56,6 +56,16 @@ class StylesheetControl extends BaseControl<{ label: string }> {
   }
 }
 
+class MinimalControl extends BaseControl<{ label: string }> {
+  exposeAttachAssets() {
+    this.attachAssets();
+  }
+
+  protected render(): NodeSpec {
+    return { tag: "div", text: this.state.label };
+  }
+}
+
 const restore = installFakeDocument();
 const documentRef = (
   globalThis as typeof globalThis & { document: { head: FakeElement } }
@@ -108,6 +118,9 @@ const staticCreateWithDocument = ExampleControl.createWithDocument(
 ) as unknown as FakeElement;
 assert.equal(staticCreateWithDocument.textContent, "Epsilon");
 
+const noAssetElement = new MinimalControl({ label: "Plain" }).create();
+assert.equal((noAssetElement as unknown as FakeElement).textContent, "Plain");
+
 const fallbackHeadChildren: FakeElement[] = [];
 const originalDocument = (globalThis as typeof globalThis & { document?: any })
   .document;
@@ -131,6 +144,13 @@ new StylesheetControl({ label: "Linked" }).create();
 assert.equal(fallbackHeadChildren[2]?.id, "stylesheet-control");
 assert.equal(fallbackHeadChildren[2]?.rel, "stylesheet");
 assert.equal(fallbackHeadChildren[2]?.href, "./control.css");
+(globalThis as typeof globalThis & { document: any }).document =
+  originalDocument;
+
+Reflect.deleteProperty(globalThis, "document");
+assert.doesNotThrow(() =>
+  new MinimalControl({ label: "NoDoc" }).exposeAttachAssets(),
+);
 (globalThis as typeof globalThis & { document: any }).document =
   originalDocument;
 

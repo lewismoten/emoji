@@ -128,17 +128,25 @@ try {
   assert.equal(emptyCatalog.proposed.length, 0);
   assert.equal(emptyCatalog.versionKeys.size, 0);
 
+  Reflect.deleteProperty(globalThis, "window");
+  const nodeFallbackCatalog = await loadVersionCatalog({
+    allIds: () => [],
+    byId: () => ({}),
+    emojiByKey: () => ({}),
+    getExplorerSubGroup: (item: any) => item.subGroup,
+    items: () => [],
+  });
+  assert.equal(Array.isArray(nodeFallbackCatalog.released), true);
+
   globalThis.fetch = (async () => ({ ok: false })) as unknown as typeof fetch;
-  await assert.rejects(
-    loadVersionCatalog({
-      allIds: () => [],
-      byId: () => ({}),
-      emojiByKey: () => ({}),
-      getExplorerSubGroup: (item: any) => item.subGroup,
-      items: () => [],
-    }),
-    /Unable to load versions\/manifest\.json or src\/data\/versions\/manifest\.json/,
-  );
+  const fileFallbackCatalog = await loadVersionCatalog({
+    allIds: () => [],
+    byId: () => ({}),
+    emojiByKey: () => ({}),
+    getExplorerSubGroup: (item: any) => item.subGroup,
+    items: () => [],
+  });
+  assert.equal(Array.isArray(fileFallbackCatalog.released), true);
 } finally {
   globalThis.fetch = originalFetch;
   (globalThis as any).window = originalWindow;

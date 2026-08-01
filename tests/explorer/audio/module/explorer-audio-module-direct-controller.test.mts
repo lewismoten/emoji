@@ -79,6 +79,21 @@ try {
   directFocusOut({ target: new FakeElement([], roleLinkInteractive) });
   directKeyDown({ target: new FakeElement([], roleLinkInteractive) });
 
+  const checkboxInteractive = new FakeElement([], null);
+  checkboxInteractive.tagName = "INPUT";
+  checkboxInteractive.type = "checkbox";
+  checkboxInteractive.checked = true;
+  directChange({ target: new FakeElement([], checkboxInteractive) });
+
+  const switchInteractive = new FakeElement([], null);
+  switchInteractive.attributes.set("role", "switch");
+  switchInteractive.attributes.set("aria-checked", "false");
+  directChange({ target: new FakeElement([], switchInteractive) });
+
+  const buttonRoleInteractive = new FakeElement([], null);
+  buttonRoleInteractive.attributes.set("role", "button");
+  directClick({ target: new FakeElement([], buttonRoleInteractive) });
+
   const genericDirectInteractive = new FakeElement([], null);
   directClick({ target: new FakeElement([], genericDirectInteractive) });
 
@@ -124,6 +139,33 @@ try {
         call[0] === "playInteraction" &&
         call[1] === "link" &&
         call[2] === "keydown",
+    ),
+    true,
+  );
+  assert.equal(
+    directEngineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "checkbox" &&
+        call[2] === "check",
+    ),
+    true,
+  );
+  assert.equal(
+    directEngineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "checkbox" &&
+        call[2] === "uncheck",
+    ),
+    true,
+  );
+  assert.equal(
+    directEngineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "button" &&
+        call[2] === "click",
     ),
     true,
   );

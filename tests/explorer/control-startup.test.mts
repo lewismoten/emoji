@@ -166,6 +166,7 @@ try {
     },
   };
   const fallbackSequenceSelector = {};
+  let populateWithoutSliderCalls = 0;
   const initializedWithoutTriggers = initializeExplorerControls({
     createFilterControlSetup() {
       return {
@@ -204,7 +205,9 @@ try {
     openFilterPicker() {
       throw new Error("should not be called without triggers");
     },
-    populateVersionModeOptions() {},
+    populateVersionModeOptions() {
+      populateWithoutSliderCalls += 1;
+    },
     renderDeveloperMode() {},
     subGroupSelector,
     versionModeSelector: {},
@@ -219,6 +222,7 @@ try {
     initializedWithoutTriggers.sequenceTypeSelector,
     fallbackSequenceSelector,
   );
+  assert.equal(populateWithoutSliderCalls, 1);
 
   const startupCalls: string[] = [];
   await finalizeExplorerStartup({
@@ -417,6 +421,41 @@ try {
     "setUrlStateReady:true",
     "syncUrlState",
   ]);
+
+  const originalSetTimeout = globalThis.setTimeout;
+  const fallbackAsyncCalls: string[] = [];
+  (globalThis.window as any).requestAnimationFrame = undefined;
+  globalThis.setTimeout = ((handler: () => void) => {
+    fallbackAsyncCalls.push("setTimeout");
+    handler();
+    return 0;
+  }) as typeof setTimeout;
+  await finalizeExplorerStartup({
+    applyDialogUrlState() {
+      fallbackAsyncCalls.push("applyDialogUrlState");
+    },
+    drawList() {},
+    finishExplorerLoading() {},
+    loadData() {
+      return Promise.resolve();
+    },
+    loadSearchLanguages() {
+      return Promise.resolve();
+    },
+    loadUiTranslations() {
+      return Promise.resolve();
+    },
+    observeToolbarHeight() {},
+    preferences: {},
+    renderPixelFontToggle() {},
+    renderThemeToggle() {},
+    renderVersionModeToggle() {},
+    setUrlStateReady() {},
+    syncUrlState() {},
+    toolbar: { id: "toolbar-4" },
+  });
+  assert.deepEqual(fallbackAsyncCalls, ["applyDialogUrlState", "setTimeout"]);
+  globalThis.setTimeout = originalSetTimeout;
 } finally {
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");

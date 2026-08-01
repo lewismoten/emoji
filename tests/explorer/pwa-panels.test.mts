@@ -260,6 +260,9 @@ try {
     language: new FakeDialog(),
   };
   assert.equal(getPanelDialog("help", dialogs as any), dialogs.help);
+  assert.equal(getPanelDialog("filters", dialogs as any), dialogs.filters);
+  assert.equal(getPanelDialog("favorites", dialogs as any), dialogs.favorites);
+  assert.equal(getPanelDialog("language", dialogs as any), dialogs.language);
   assert.equal(getPanelDialog("", dialogs as any), undefined);
   assert.equal(getOpenPanel({} as any), "");
   dialogs.filters.open = true;
@@ -295,6 +298,15 @@ try {
     renderSavedEmoji() {},
   });
   assert.equal(selectedLanguage.focused, true);
+  const languageFallbackClose = new FakeElement();
+  dialogs.language.queryMap.set(".dialog-close", languageFallbackClose);
+  languageList.queryMap.delete(".is-selected");
+  focusPanelDialog("language", dialogs.language as any, {
+    dialogs: dialogs as any,
+    languageList: languageList as any,
+    renderSavedEmoji() {},
+  });
+  assert.equal(languageFallbackClose.focused, true);
 
   const filterTarget = new FakeElement();
   dialogs.filters.queryMap.set(
@@ -306,6 +318,16 @@ try {
     renderSavedEmoji() {},
   });
   assert.equal(filterTarget.focused, true);
+  const filterFallbackClose = new FakeElement();
+  dialogs.filters.queryMap.delete(
+    ".version-mode-toggle, .compact-choice, .modifier-filters label, .dialog-close",
+  );
+  dialogs.filters.queryMap.set(".dialog-close", filterFallbackClose);
+  focusPanelDialog("filters", dialogs.filters as any, {
+    dialogs: dialogs as any,
+    renderSavedEmoji() {},
+  });
+  assert.equal(filterFallbackClose.focused, true);
 
   dialogs.help.queryMap.set(".dialog-close", new FakeElement());
   focusPanelDialog("help", dialogs.help as any, {
@@ -346,6 +368,15 @@ try {
     },
   });
   assert.equal(syncCalls.length, 1);
+  openPanelDialog({
+    panel: "help",
+    dialogs: { ...dialogs, help: undefined } as any,
+    renderSavedEmoji() {},
+    syncUrlState() {
+      syncCalls.push(["unexpected"]);
+    },
+  });
+  assert.equal(syncCalls.some((entry) => entry[0] === "unexpected"), false);
 
   closePanelDialog(dialogs.help as any, suppressedPanelCloses);
   assert.equal(dialogs.help.open, false);
