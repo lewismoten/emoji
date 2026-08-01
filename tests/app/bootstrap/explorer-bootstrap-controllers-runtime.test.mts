@@ -247,8 +247,14 @@ assert.equal(
   "versionSliderLabel:a:b",
 );
 
-assert.deepEqual(versionOptions.applyLoadedUrlState("x"), ["applyLoadedUrlState", "x"]);
-assert.deepEqual(versionOptions.buildRepresentatives("x"), ["buildRepresentatives", "x"]);
+assert.deepEqual(versionOptions.applyLoadedUrlState("x"), [
+  "applyLoadedUrlState",
+  "x",
+]);
+assert.deepEqual(versionOptions.buildRepresentatives("x"), [
+  "buildRepresentatives",
+  "x",
+]);
 assert.equal(versionOptions.developerModeEnabled(), true);
 assert.deepEqual(versionOptions.drawList("x"), ["drawList", "x"]);
 assert.deepEqual(versionOptions.getEmojiGenders("x"), ["genders", "x"]);
@@ -311,7 +317,10 @@ assert.equal(
   "full-developer-mode",
 );
 assert.deepEqual(navigationOptions.dialog(), { open: true });
-assert.deepEqual(navigationOptions.displayedKeys(), ["wrappedGift", "sparkles"]);
+assert.deepEqual(navigationOptions.displayedKeys(), [
+  "wrappedGift",
+  "sparkles",
+]);
 assert.deepEqual(navigationOptions.drawList("x"), ["drawList", "x"]);
 assert.equal(navigationOptions.ensurePanelDialog(), "ensure-panel-dialog");
 assert.deepEqual(navigationOptions.emojiByKey(), {
