@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { createShellRuntimeFixture } from "./explorer-bootstrap-shell-runtime-fixture.mjs";
 
-const { bootstrap, emojiOptions, shellOptions, state } =
-  await createShellRuntimeFixture();
+const fixture = await createShellRuntimeFixture();
+const { bootstrap, dialogState, emojiOptions, shellOptions, state } = fixture;
 
 assert.equal(shellOptions.savePreference, "save-preference");
 assert.equal(shellOptions.state(), state);
@@ -13,6 +13,7 @@ assert.equal(
 for (const [key, expected] of [
   ["applyPixelArtworkClass", "pixel-class"],
   ["developerModeToggle", "developer-mode-toggle"],
+  ["dialog", dialogState],
   ["drawList", "draw-list"],
   ["installAppButton", "install-app-button"],
   ["installDialog", "install-dialog"],
@@ -45,6 +46,7 @@ for (const [key, expected] of [
   ["applyStandalonePixelArtwork", "pixel-class"],
   ["copyStatus", "copy-status"],
   ["developerModeEnabled", true],
+  ["dialog", dialogState],
   ["normalizeCodePoints", "norm:1F381"],
   ["setDialogView", ["setDialogView", "code"]],
   ["showEmoji", ["showEmoji-option", "wrappedGift"]],

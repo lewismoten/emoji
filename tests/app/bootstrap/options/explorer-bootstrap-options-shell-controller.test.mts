@@ -101,6 +101,8 @@ for (const [key, expected] of [
   ["orderButtons", "orderButtons-value"],
   ["panelDialogs", "panelDialogs-value"],
   ["renderCategoryFilters", "renderCategoryFilters-value"],
+  ["renderVersionModeToggle", "renderVersionModeToggle-value"],
+  ["resetFilters", "resetFilters-value"],
   ["renderGeneration", "renderGeneration-value"],
   ["searchText", "searchText-value"],
   ["sequenceTypeSelector", "sequenceTypeSelector-value"],
@@ -129,6 +131,11 @@ assert.equal(
   controller.getIntroducedVersion("item"),
   "getIntroducedVersion-value",
 );
+assert.equal(
+  controller.renderVersionModeToggle(),
+  "renderVersionModeToggle-value",
+);
+assert.equal(controller.resetFilters(), "resetFilters-value");
 assert.equal(controller.loadPackageManifest(), "loadPackageManifest-value");
 assert.equal(controller.recordCopiedEmoji(), "recordCopiedEmoji-value");
 assert.equal(

@@ -20,7 +20,7 @@ const legacyLineBudgets: Record<string, number> = {
   "src/explorer-ui.ts": 321,
   "src/site/themes/retro/retro-buttons.css": 301,
   "src/site/themes/retro/retro-forms.css": 362,
-  "tests/app/bootstrap/explorer-bootstrap-controllers-runtime.test.mts": 570,
+  "tests/app/bootstrap/explorer-bootstrap-controllers-runtime.test.mts": 522,
   "tests/app/bootstrap/explorer-bootstrap-session-runtime.test.mts": 549,
   "tests/app/category-controller.test.mts": 505,
   "tests/explorer/audio/explorer-audio-engine.test.mts": 422,
