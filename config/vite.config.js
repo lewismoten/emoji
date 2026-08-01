@@ -402,7 +402,7 @@ export default defineConfig({
               locale,
               isRootPage ? "" : locale,
             ).replace(
-              /<script defer src="\.\/index\.js\?v=[^"]+" type="module"><\/script>/,
+              /<script defer src="\.\/index\.js(?:\?v=[^"]+)?" type="module"><\/script>/,
               '<script defer src="./src/index.ts" type="module"></script>',
             );
             const developmentPageWithSourceStyles =
