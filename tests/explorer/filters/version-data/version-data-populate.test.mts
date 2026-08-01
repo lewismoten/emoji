@@ -112,6 +112,40 @@ try {
   });
   assert.equal(emptySelector.value, "");
   assert.equal(emptySelector.disabled, true);
+
+  const noDocumentSelector = new FakeSelect();
+  const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+  Reflect.deleteProperty(globalThis, "document");
+  populateVersionSelector({
+    proposed: [],
+    released: [{ version: "21.0", released: "2026-09-01" }],
+    selectedLocale: "en-US",
+    selector: noDocumentSelector as any,
+    syncRange: () => {
+      syncCalls += 1;
+    },
+    translate: (_key: string, fallback: string) => fallback,
+  });
+  assert.equal(noDocumentSelector.options[0]?.text, "Emoji 21.0 (released 2026-09-01)");
+  if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+
+  const arraySelector = {
+    disabled: false,
+    options: [] as Array<{ value: string; text: string }>,
+    value: "",
+  };
+  populateVersionSelector({
+    proposed: [{ version: "22.0", status: "draft" }],
+    released: [],
+    selectedLocale: "en-US",
+    selector: arraySelector as any,
+    syncRange: () => {
+      syncCalls += 1;
+    },
+    translate: (_key: string, fallback: string) => fallback,
+  });
+  assert.equal(arraySelector.options.length, 1);
+  assert.equal(arraySelector.options[0]?.value, "22.0");
 } finally {
   restoreDocument();
 }

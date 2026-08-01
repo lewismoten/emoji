@@ -81,6 +81,17 @@ try {
   const interactive = new FakeElement([], null);
   interactive.tagName = "BUTTON";
   const target = new FakeElement([], interactive);
+  const checkboxInteractive = new FakeElement([], null);
+  checkboxInteractive.tagName = "DIV";
+  checkboxInteractive.setAttribute("role", "checkbox");
+  const checkboxTarget = new FakeElement([], checkboxInteractive);
+  const radioInteractive = new FakeElement([], null);
+  radioInteractive.tagName = "DIV";
+  radioInteractive.setAttribute("role", "radio");
+  const radioTarget = new FakeElement([], radioInteractive);
+  const linkInteractive = new FakeElement([], null);
+  linkInteractive.tagName = "A";
+  const linkTarget = new FakeElement([], linkInteractive);
   const disabledInteractive = new FakeElement([], null);
   disabledInteractive.disabled = true;
   const disabledTarget = new FakeElement([], disabledInteractive);
@@ -89,6 +100,9 @@ try {
   const ariaDisabledTarget = new FakeElement([], ariaDisabledInteractive);
 
   fixture.listeners.get("click")?.[0]?.({ target });
+  fixture.listeners.get("click")?.[0]?.({ target: checkboxTarget });
+  fixture.listeners.get("click")?.[0]?.({ target: radioTarget });
+  fixture.listeners.get("click")?.[0]?.({ target: linkTarget });
   fixture.listeners.get("click")?.[0]?.({ target: {} });
   fixture.listeners.get("click")?.[0]?.({ target: disabledTarget });
   fixture.listeners.get("click")?.[0]?.({ target: ariaDisabledTarget });
@@ -109,6 +123,33 @@ try {
       (call) =>
         call[0] === "playInteraction" &&
         call[1] === "button" &&
+        call[2] === "click",
+    ),
+    true,
+  );
+  assert.equal(
+    engineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "checkbox" &&
+        call[2] === "click",
+    ),
+    true,
+  );
+  assert.equal(
+    engineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "radio" &&
+        call[2] === "click",
+    ),
+    true,
+  );
+  assert.equal(
+    engineCalls.some(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "link" &&
         call[2] === "click",
     ),
     true,

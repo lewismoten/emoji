@@ -147,6 +147,48 @@ try {
     items: () => [],
   });
   assert.equal(Array.isArray(fileFallbackCatalog.released), true);
+
+  (globalThis as any).window = {};
+  globalThis.fetch = (async (input: string | URL | Request) => {
+    const url = String(input);
+    if (url === "versions/manifest.json") {
+      return { ok: false } as Response;
+    }
+    if (url === "src/data/versions/manifest.json") {
+      return { ok: false } as Response;
+    }
+    throw new Error(`Unexpected error-path fetch ${url}`);
+  }) as typeof fetch;
+  await assert.rejects(
+    loadVersionCatalog({
+      allIds: () => [],
+      byId: () => ({}),
+      emojiByKey: () => ({}),
+      getExplorerSubGroup: (item: any) => item.subGroup,
+      items: () => [],
+    }),
+    /Unable to load versions\/manifest\.json or src\/data\/versions\/manifest\.json/,
+  );
+
+  Reflect.deleteProperty(globalThis, "window");
+  const fallbackFetchCalls: string[] = [];
+  globalThis.fetch = (async (input: string | URL | Request) => {
+    const url = String(input);
+    fallbackFetchCalls.push(url);
+    throw new Error(`Fallback fetch ${url}`);
+  }) as typeof fetch;
+  const fallbackCatalog = await loadVersionCatalog({
+    allIds: () => [],
+    byId: () => ({}),
+    emojiByKey: () => ({}),
+    getExplorerSubGroup: (item: any) => item.subGroup,
+    items: () => [],
+  });
+  assert.equal(fallbackFetchCalls.includes("versions/manifest.json"), true);
+  assert.equal(fallbackFetchCalls.includes("versions/15.0.json"), true);
+  assert.equal(fallbackFetchCalls.includes("proposed/18.0.json"), true);
+  assert.equal(fallbackCatalog.released.some((version) => version.version === "15.0"), true);
+  assert.equal(fallbackCatalog.proposed.some((version) => version.version === "18.0"), true);
 } finally {
   globalThis.fetch = originalFetch;
   (globalThis as any).window = originalWindow;

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import {
   bindPanelDialog,
   closePanelDialog,
+  ensurePanelDialogLifecycleBound,
   focusPanelDialog,
   getInstalledDisplayQueries,
   getOpenPanel,
@@ -108,6 +109,11 @@ const mediaQueries = [
   { matches: false },
 ];
 const windowStub: any = {
+  location: {
+    pathname: "/index.en.html",
+    search: "?panel=help&mode=developer",
+    hash: "#top",
+  },
   matchMedia(query: string) {
     const index = [
       "(display-mode: standalone)",
@@ -127,6 +133,9 @@ const windowStub: any = {
     state: historyState,
     back() {
       historyBackCalls.push("back");
+    },
+    replaceState(_state: any, _title: string, url: string) {
+      historyBackCalls.push(`replace:${url}`);
     },
   },
   requestAnimationFrame(handler: () => void) {
@@ -271,8 +280,16 @@ try {
   dialogs.language.open = true;
   assert.equal(getOpenPanel(dialogs as any), "language");
   dialogs.language.open = false;
+  dialogs.help.open = true;
+  assert.equal(getOpenPanel(dialogs as any), "help");
+  dialogs.help.open = false;
   dialogs.favorites.open = true;
   assert.equal(getOpenPanel(dialogs as any), "favorites");
+  dialogs.favorites.open = false;
+  dialogs.favorites.open = true;
+  dialogs.favorites.dataset.panelClosing = "true";
+  assert.equal(getOpenPanel(dialogs as any), "");
+  delete dialogs.favorites.dataset.panelClosing;
   dialogs.favorites.open = false;
 
   const savedButton = new FakeElement();
@@ -338,6 +355,17 @@ try {
     (dialogs.help.queryMap.get(".dialog-close") as FakeElement).focused,
     true,
   );
+  const emptyLanguageDialog = new FakeDialog();
+  assert.doesNotThrow(() =>
+    focusPanelDialog("language", emptyLanguageDialog as any, {
+      dialogs: dialogs as any,
+      renderSavedEmoji() {},
+    }),
+  );
+  assert.equal(
+    getPanelDialog("filters", { filters: undefined } as any),
+    undefined,
+  );
 
   const syncCalls: any[] = [];
   assert.doesNotThrow(() =>
@@ -358,6 +386,7 @@ try {
   });
   assert.equal(dialogs.help.open, true);
   assert.deepEqual(syncCalls, [["push", { ...historyState, panelDialogEntry: true }]]);
+  dialogs.help.dataset.panelClosing = "true";
   openPanelDialog({
     addHistory: false,
     panel: "help",
@@ -368,6 +397,7 @@ try {
     },
   });
   assert.equal(syncCalls.length, 1);
+  assert.equal(dialogs.help.dataset.panelClosing, undefined);
   openPanelDialog({
     panel: "help",
     dialogs: { ...dialogs, help: undefined } as any,
@@ -383,7 +413,86 @@ try {
   assert.doesNotThrow(() =>
     closePanelDialog(new FakeDialog() as any, suppressedPanelCloses),
   );
+  assert.equal(suppressedPanelCloses.has(dialogs.help as any), true);
 
+  const lifecycleDialog = new FakeDialog();
+  lifecycleDialog.dataset = {};
+  const lifecycleClose = new FakeElement();
+  const lifecycleForm = new FakeElement();
+  (lifecycleClose as any).closest = () => lifecycleForm;
+  lifecycleDialog.queryMap.set(".dialog-close", lifecycleClose);
+  let lifecycleAfterClose = 0;
+  ensurePanelDialogLifecycleBound({
+    applyingUrlState: () => false,
+    dialog: lifecycleDialog as any,
+    onAfterClose() {
+      lifecycleAfterClose += 1;
+    },
+    panel: "help",
+    suppressedPanelCloses: new WeakSet(),
+    syncUrlState() {},
+    urlStateReady: () => true,
+  });
+  lifecycleClose.dispatch("click");
+  assert.equal(lifecycleDialog.dataset.panelClosing, "true");
+  lifecycleDialog.dispatch("close");
+  assert.equal(lifecycleAfterClose, 1);
+  lifecycleForm.dispatch("submit");
+
+  const originalRequestAnimationFrame = windowStub.requestAnimationFrame;
+  windowStub.requestAnimationFrame = undefined;
+  windowStub.location.search = "?panel=help&mode=developer";
+  const immediateDialog = new FakeDialog();
+  immediateDialog.dataset = {};
+  const immediateClose = new FakeElement();
+  const immediateForm = new FakeElement();
+  (immediateClose as any).closest = () => immediateForm;
+  immediateDialog.queryMap.set(".dialog-close", immediateClose);
+  ensurePanelDialogLifecycleBound({
+    applyingUrlState: () => false,
+    dialog: immediateDialog as any,
+    panel: "help",
+    suppressedPanelCloses: new WeakSet(),
+    syncUrlState() {},
+    urlStateReady: () => true,
+  });
+  immediateClose.dispatch("click");
+  assert.equal(
+    historyBackCalls.at(-1),
+    "replace:/index.en.html?mode=developer#top",
+  );
+  immediateForm.dispatch("submit");
+
+  const noRafSyncCalls: any[] = [];
+  const directCloseDialog = new FakeDialog();
+  (directCloseDialog as any).classList = { contains: (name: string) => name === "help-dialog" };
+  directCloseDialog.dataset = {};
+  onPanelDialogClose({
+    applyingUrlState: false,
+    event: { currentTarget: directCloseDialog } as any,
+    suppressedPanelCloses: new WeakSet(),
+    syncUrlState: (...args: any[]) => {
+      noRafSyncCalls.push(args as any);
+    },
+    urlStateReady: true,
+  });
+  assert.deepEqual(noRafSyncCalls, [[]]);
+  windowStub.requestAnimationFrame = originalRequestAnimationFrame;
+
+  const unknownDialog = new FakeDialog();
+  (unknownDialog as any).classList = { contains: () => false };
+  onPanelDialogClose({
+    applyingUrlState: false,
+    event: { currentTarget: unknownDialog } as any,
+    suppressedPanelCloses: new WeakSet(),
+    syncUrlState: (...args: any[]) => {
+      syncCalls.push(args as any);
+    },
+    urlStateReady: true,
+  });
+  assert.deepEqual(syncCalls.at(-1), []);
+
+  syncCalls.length = 0;
   dialogs.help.open = true;
   onPanelDialogClose({
     applyingUrlState: false,
@@ -394,7 +503,7 @@ try {
     },
     urlStateReady: true,
   });
-  assert.equal(syncCalls.length, 1);
+  assert.equal(syncCalls.length, 0);
 
   dialogs.help.open = true;
   windowStub.history.state = { panelDialogEntry: true };
@@ -408,6 +517,10 @@ try {
     urlStateReady: true,
   });
   assert.deepEqual(syncCalls.at(-1), ["replace", {}]);
+  assert.equal(
+    historyBackCalls.at(-1),
+    "replace:/index.en.html?mode=developer#top",
+  );
 
   windowStub.history.state = undefined as any;
   onPanelDialogClose({

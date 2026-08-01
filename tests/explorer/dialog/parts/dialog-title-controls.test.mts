@@ -195,6 +195,27 @@ assert.ok(createdTitleMain);
 assert.equal(titlelessRow.children[0], createdTitleMain);
 assert.equal(ensureDialogTitleMain(null), null);
 
+const prebuiltTitleRow = new FakeElement("div");
+prebuiltTitleRow.className = "dialog-title-row";
+const prebuiltTitleMain = new FakeElement("div");
+prebuiltTitleMain.className = "dialog-title-main";
+prebuiltTitleRow.append(prebuiltTitleMain);
+assert.equal(
+  ensureDialogTitleMain(prebuiltTitleRow as unknown as HTMLElement),
+  prebuiltTitleMain,
+);
+
+const titledRow = new FakeElement("div");
+titledRow.className = "dialog-title-row";
+const titledHeading = new FakeElement("h2");
+titledHeading.textContent = "Thumbs up";
+titledRow.append(titledHeading);
+const insertedTitleMain = ensureDialogTitleMain(
+  titledRow as unknown as HTMLElement,
+);
+assert.equal(titledRow.children[0], insertedTitleMain);
+assert.equal((insertedTitleMain as unknown as FakeElement).children[0], titledHeading);
+
 const exampleDialog = new FakeElement("dialog");
 exampleDialog.className = "example-dialog";
 const dialogControls = new FakeElement("div");

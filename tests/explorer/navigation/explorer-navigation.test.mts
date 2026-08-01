@@ -143,6 +143,9 @@ const originalEvent = Object.getOwnPropertyDescriptor(globalThis, "Event");
 const asAny = (value: unknown) => value as any;
 
 try {
+  const defaults = module.createExplorerNavigationDependencies();
+  assert.equal(typeof defaults.getPanelDialog, "function");
+  assert.equal(typeof defaults.openPanelDialog, "function");
   const fixture = createExplorerNavigationDirectFixture();
   installExplorerNavigationGlobals(fixture);
 

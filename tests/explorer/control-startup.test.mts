@@ -137,6 +137,7 @@ try {
   assert.equal(initialized.compactGroupChoices, compactGroupChoices);
   assert.equal(initialized.compactSubGroupChoices, compactSubGroupChoices);
   assert.equal(initialized.compactSequenceChoices, compactSequenceChoices);
+  assert.equal(initialized.compactSequenceLabel.className, "compact-sequence-label");
   assert.equal(initialized.sequenceTypeSelector, sequenceTypeSelector);
   assert.equal(initialized.versionModeToggle.id, "version-mode-toggle");
   assert.equal(versionField.classList.values.get("has-version-slider"), true);
@@ -423,6 +424,8 @@ try {
   ]);
 
   const originalSetTimeout = globalThis.setTimeout;
+  const originalRequestAnimationFrame = (globalThis.window as any)
+    .requestAnimationFrame;
   const fallbackAsyncCalls: string[] = [];
   (globalThis.window as any).requestAnimationFrame = undefined;
   globalThis.setTimeout = ((handler: () => void) => {
@@ -456,6 +459,42 @@ try {
   });
   assert.deepEqual(fallbackAsyncCalls, ["applyDialogUrlState", "setTimeout"]);
   globalThis.setTimeout = originalSetTimeout;
+
+  const animationFrameCalls: string[] = [];
+  (globalThis.window as any).requestAnimationFrame = (handler: () => void) => {
+    animationFrameCalls.push("requestAnimationFrame");
+    handler();
+    return 0;
+  };
+  await finalizeExplorerStartup({
+    applyDialogUrlState() {
+      animationFrameCalls.push("applyDialogUrlState");
+    },
+    drawList() {},
+    finishExplorerLoading() {},
+    loadData() {
+      return Promise.resolve();
+    },
+    loadSearchLanguages() {
+      return Promise.resolve();
+    },
+    loadUiTranslations() {
+      return Promise.resolve();
+    },
+    observeToolbarHeight() {},
+    preferences: {},
+    renderPixelFontToggle() {},
+    renderThemeToggle() {},
+    renderVersionModeToggle() {},
+    setUrlStateReady() {},
+    syncUrlState() {},
+    toolbar: { id: "toolbar-5" },
+  });
+  assert.deepEqual(animationFrameCalls, [
+    "applyDialogUrlState",
+    "requestAnimationFrame",
+  ]);
+  (globalThis.window as any).requestAnimationFrame = originalRequestAnimationFrame;
 } finally {
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");

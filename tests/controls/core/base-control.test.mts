@@ -33,6 +33,10 @@ class AssetChildControl extends BaseControl<{ label: string }> {
 }
 
 class AssetParentControl extends BaseControl<{ label: string }> {
+  exposeAttachAssets() {
+    this.attachAssets();
+  }
+
   protected override styles() {
     return [{ id: "parent-style", text: ".parent {}" }];
   }
@@ -70,6 +74,7 @@ const restore = installFakeDocument();
 const documentRef = (
   globalThis as typeof globalThis & { document: { head: FakeElement } }
 ).document;
+const originalDocument = (globalThis as typeof globalThis & { document?: any }).document;
 
 const instance = new ExampleControl();
 instance.update({ label: "Beta" });
@@ -106,6 +111,7 @@ assert.equal(
   (documentRef.head.children[0] as FakeElement).textContent,
   ".parent {}",
 );
+new AssetParentControl({ label: "Explicit assets" }).exposeAttachAssets();
 
 const createWithDocumentElement = instance.createWithDocument(
   documentRef as unknown as { createElement(tagName: string): any },
@@ -121,9 +127,28 @@ assert.equal(staticCreateWithDocument.textContent, "Epsilon");
 const noAssetElement = new MinimalControl({ label: "Plain" }).create();
 assert.equal((noAssetElement as unknown as FakeElement).textContent, "Plain");
 
+const appendChildStylesheetChildren: FakeElement[] = [];
+(globalThis as typeof globalThis & { document: any }).document = {
+  createElement(tagName: string) {
+    return new FakeElement(tagName);
+  },
+  getElementById() {
+    return null;
+  },
+  head: {
+    appendChild(node: FakeElement) {
+      appendChildStylesheetChildren.push(node);
+    },
+  },
+};
+new StylesheetControl({ label: "Linked appendChild" }).create();
+assert.equal(appendChildStylesheetChildren[0]?.id, "stylesheet-control");
+assert.equal(appendChildStylesheetChildren[0]?.rel, "stylesheet");
+assert.equal(appendChildStylesheetChildren[0]?.href, "./control.css");
+(globalThis as typeof globalThis & { document: any }).document =
+  originalDocument;
+
 const fallbackHeadChildren: FakeElement[] = [];
-const originalDocument = (globalThis as typeof globalThis & { document?: any })
-  .document;
 (globalThis as typeof globalThis & { document: any }).document = {
   createElement(tagName: string) {
     return new FakeElement(tagName);

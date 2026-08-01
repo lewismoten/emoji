@@ -344,6 +344,245 @@ try {
   (globalThis.document as any).activeElement = { tagName: "INPUT" };
   navigation.onDocumentKeyDown(asAny(typingEvent));
   assert.equal(typingEvent.preventDefaultCalled, false);
+
+  Reflect.deleteProperty(globalThis, "document");
+  const noDocumentNavigation = createExplorerNavigation({
+    ...({
+      allowedSequenceTypes: [],
+      applyingUrlState: () => false,
+      closeEmojiDialog() {},
+      compositionMode: () => "full",
+      currentEmojiKey: () => "",
+      developerModeEnabled: () => false,
+      fullDeveloperModeEnabled: () => false,
+      dialog: () => asAny({ open: false, classList: { contains: () => false } }),
+      drawList() {},
+      emojiByKey: () => ({}),
+      genderCheckboxes: () => [],
+      getOrderMode: () => "unicode",
+      getSelectedGroup: () => "",
+      getSelectedSequenceType: () => "",
+      getSelectedSubGroup: () => "",
+      groups: () => [],
+      hairCheckboxes: () => [],
+      helpDialog: () => undefined,
+      languageList: () => undefined,
+      latestReleasedVersion: () => undefined,
+      navigateEmoji() {},
+      openEmoji() {},
+      orderButtons: () => [],
+      panelDialogs: () => ({}),
+      preferredOrder: () => "unicode",
+      renderCategoryFilters() {},
+      renderSavedEmoji() {},
+      renderVersionModeToggle() {},
+      searchText: () => asAny({ value: "" }),
+      setCompositionMode() {},
+      setDialogView() {},
+      setOrderMode() {},
+      setSelectedGroup() {},
+      setSelectedSequenceType() {},
+      setSelectedSubGroup() {},
+      showEmojiDialog() {},
+      skinToneCheckboxes: () => [],
+      subGroupSelectionKey: () => "",
+      subGroups: () => ({}),
+      suppressedPanelCloses: () => new WeakSet(),
+      syncVersionRange() {},
+      urlStateReady: () => true,
+      versionModeSelector: () => asAny({ value: "through" }),
+      versionRange: () => asAny({ value: "0", dispatchEvent() {} }),
+      versionSelector: () => asAny({ value: "", options: { length: 0 } }),
+    }) as any,
+  });
+  noDocumentNavigation.syncUrlState("replace");
+
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      documentElement: {
+        dataset: {},
+      },
+    },
+  });
+  const developerFallbackNavigation = createExplorerNavigation({
+    ...({
+      allowedSequenceTypes: [],
+      applyingUrlState: () => false,
+      closeEmojiDialog() {},
+      compositionMode: () => "full",
+      currentEmojiKey: () => "",
+      developerModeEnabled: () => false,
+      fullDeveloperModeEnabled: () => true,
+      dialog: () => asAny({ open: false, classList: { contains: () => false } }),
+      drawList() {},
+      emojiByKey: () => ({}),
+      genderCheckboxes: () => [],
+      getOrderMode: () => "unicode",
+      getSelectedGroup: () => "",
+      getSelectedSequenceType: () => "",
+      getSelectedSubGroup: () => "",
+      groups: () => [],
+      hairCheckboxes: () => [],
+      helpDialog: () => undefined,
+      languageList: () => undefined,
+      latestReleasedVersion: () => undefined,
+      navigateEmoji() {},
+      openEmoji() {},
+      orderButtons: () => [],
+      panelDialogs: () => ({}),
+      preferredOrder: () => "unicode",
+      renderCategoryFilters() {},
+      renderSavedEmoji() {},
+      renderVersionModeToggle() {},
+      searchText: () => asAny({ value: "" }),
+      setCompositionMode() {},
+      setDialogView() {},
+      setOrderMode() {},
+      setSelectedGroup() {},
+      setSelectedSequenceType() {},
+      setSelectedSubGroup() {},
+      showEmojiDialog() {},
+      skinToneCheckboxes: () => [],
+      subGroupSelectionKey: () => "",
+      subGroups: () => ({}),
+      suppressedPanelCloses: () => new WeakSet(),
+      syncVersionRange() {},
+      urlStateReady: () => true,
+      versionModeSelector: () => asAny({ value: "through" }),
+      versionRange: () => asAny({ value: "0", dispatchEvent() {} }),
+      versionSelector: () => asAny({ value: "", options: { length: 0 } }),
+    }) as any,
+  });
+  developerFallbackNavigation.applyBasicUrlState();
+
+  const lateDialogs = {
+    favorites: undefined,
+    filters: undefined,
+    help: undefined,
+    language: undefined,
+  } as any;
+  const ensuredPanels: string[] = [];
+  const ensuredPanelCalls: any[] = [];
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      activeElement: { tagName: "DIV" },
+      documentElement: { dataset: { explorerMode: "advanced" }, dir: "ltr" },
+      querySelector() {
+        return null;
+      },
+    },
+  });
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      history: {
+        state: {},
+        pushState() {},
+        replaceState() {},
+      },
+      location: { hash: "", pathname: "/index.en.html", search: "?panel=filters" },
+    },
+  });
+  const ensuredPanelNavigation = createExplorerNavigation(
+    {
+      ...( {
+        allowedSequenceTypes: [],
+        applyingUrlState: () => false,
+        closeEmojiDialog() {},
+        compositionMode: () => "full",
+        currentEmojiKey: () => "",
+        developerModeEnabled: () => false,
+        fullDeveloperModeEnabled: () => false,
+        dialog: () => asAny({ open: false, classList: { contains: () => false } }),
+        drawList() {},
+        emojiByKey: () => ({}),
+        genderCheckboxes: () => [],
+        getOrderMode: () => "unicode",
+        getSelectedGroup: () => "",
+        getSelectedSequenceType: () => "",
+        getSelectedSubGroup: () => "",
+        groups: () => [],
+        hairCheckboxes: () => [],
+        helpDialog: () => undefined,
+        languageList: () => undefined,
+        latestReleasedVersion: () => undefined,
+        navigateEmoji() {},
+        openEmoji() {},
+        orderButtons: () => [],
+        panelDialogs: () => lateDialogs,
+        preferredOrder: () => "unicode",
+        renderCategoryFilters() {},
+        renderSavedEmoji() {},
+        renderVersionModeToggle() {},
+        searchText: () => asAny({ value: "" }),
+        setCompositionMode() {},
+        setDialogView() {},
+        setOrderMode() {},
+        setSelectedGroup() {},
+        setSelectedSequenceType() {},
+        setSelectedSubGroup() {},
+        showEmojiDialog() {},
+        skinToneCheckboxes: () => [],
+        subGroupSelectionKey: () => "",
+        subGroups: () => ({}),
+        suppressedPanelCloses: () => new WeakSet(),
+        syncVersionRange() {},
+        urlStateReady: () => true,
+        versionModeSelector: () => asAny({ value: "through" }),
+        versionRange: () => asAny({ value: "0", dispatchEvent() {} }),
+        versionSelector: () => asAny({ value: "", options: { length: 0 } }),
+      }) as any,
+      ensurePanelDialog(panel: string) {
+        ensuredPanels.push(panel);
+        lateDialogs.filters = { id: "filters" };
+      },
+    },
+    {
+      ...defaults,
+      closePanelDialog() {},
+      ensurePanelDialogLifecycleBound(options: unknown) {
+        ensuredPanelCalls.push(["ensurePanelDialogLifecycleBound", options]);
+      },
+      getPanelDialog(panel: unknown, dialogsRef: any) {
+        ensuredPanelCalls.push(["getPanelDialog", panel, dialogsRef]);
+        return dialogsRef[panel as keyof typeof dialogsRef];
+      },
+      getOpenPanel() {
+        return "";
+      },
+      openPanelDialog(options: unknown) {
+        ensuredPanelCalls.push(["openPanelDialog", options]);
+      },
+      parseExplorerUrlState() {
+        return {
+          compositionMode: "full",
+          emoji: "",
+          emojiMode: "details",
+          group: "",
+          hair: [],
+          order: "unicode",
+          panel: "filters",
+          search: "",
+          sequenceType: "",
+          skin: [],
+          subGroup: "",
+          version: "",
+          versionMode: "through",
+          gender: [],
+        };
+      },
+    },
+  );
+  await ensuredPanelNavigation.applyDialogUrlState();
+  assert.deepEqual(ensuredPanels, ["filters"]);
+  assert.equal(
+    ensuredPanelCalls.some(
+      (call: any[]) => call[0] === "openPanelDialog" && call[1]?.panel === "filters",
+    ),
+    true,
+  );
 } finally {
   if (originalWindow) {
     Object.defineProperty(globalThis, "window", originalWindow);

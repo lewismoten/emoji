@@ -71,9 +71,14 @@ try {
   assert.deepEqual(saves[0], ["soundEffects", true]);
   assert.equal(fixture.soundToggle.attributes.get("aria-checked"), "true");
 
+  preferences.explorerPreferences.music = false;
+  fixture.musicToggle.checked = true;
+  fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  assert.deepEqual(saves[1], ["music", true]);
+
   fixture.musicToggle.checked = false;
   fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
-  assert.deepEqual(saves[1], ["music", false]);
+  assert.deepEqual(saves[2], ["music", false]);
   assert.equal(fixture.musicToggle.attributes.get("aria-checked"), "false");
 
   (globalThis.document as any).documentElement.dataset.theme = "base";
@@ -93,6 +98,7 @@ try {
   fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
   assert.deepEqual(saves, [
     ["soundEffects", true],
+    ["music", true],
     ["music", false],
   ]);
   fixture.listeners.get("change")?.[0]?.({ target: {} });
