@@ -30,30 +30,34 @@ export function createExplorerAudioController(
   let themeObserver: MutationObserver | undefined;
   let hoverTarget: AudioTarget | null = null;
 
+  const documentRef = () =>
+    typeof globalThis.document === "undefined" ? undefined : globalThis.document;
   const preferences = () => options.state().explorerPreferences;
-  const baseMode = () => document.documentElement.dataset.theme === "base";
-  const retroMode = () => document.documentElement.dataset.theme === "retro";
+  const baseMode = () =>
+    documentRef()?.documentElement?.dataset?.theme === "base";
+  const retroMode = () =>
+    documentRef()?.documentElement?.dataset?.theme === "retro";
   const soundEffectsEnabled = () =>
     !baseMode() && preferences().soundEffects === true;
   const musicEnabled = () => !baseMode() && preferences().music === true;
   const soundEffectsToggle = () =>
-    document.querySelector<HTMLInputElement>(
+    documentRef()?.querySelector<HTMLInputElement>(
       '.audio-choice-input[value="soundEffects"]',
-    );
+    ) ?? null;
   const musicToggle = () =>
-    document.querySelector<HTMLInputElement>(
+    documentRef()?.querySelector<HTMLInputElement>(
       '.audio-choice-input[value="music"]',
-    );
+    ) ?? null;
   const helpDialog = () =>
-    document.querySelector<HTMLDialogElement>(".help-dialog");
+    documentRef()?.querySelector<HTMLDialogElement>(".help-dialog") ?? null;
   const savedDialog = () =>
-    document.querySelector<HTMLDialogElement>(".saved-dialog");
+    documentRef()?.querySelector<HTMLDialogElement>(".saved-dialog") ?? null;
   const audio = helpers.createExplorerAudioEngine({
     helpDialogOpen: () => helpDialog()?.open === true,
     musicEnabled,
     retroMode,
     theme: () =>
-      (document.documentElement.dataset.theme as
+      (documentRef()?.documentElement?.dataset?.theme as
         "base" | "dark" | "light" | "retro") ?? "dark",
     savedDialogOpen: () => savedDialog()?.open === true,
     soundEffectsEnabled,
@@ -146,18 +150,20 @@ export function createExplorerAudioController(
 
   function bindAudioInteractions() {
     if (initialized) return;
+    const activeDocument = documentRef();
+    if (!activeDocument) return;
     initialized = true;
 
     const prepareAudio = () =>
       (audio.soundEffectsEnabled() || audio.musicEnabled()) &&
       audio.resumeAudioContext();
-    document.addEventListener("pointerdown", prepareAudio, {
+    activeDocument.addEventListener("pointerdown", prepareAudio, {
       capture: true,
       passive: true,
     });
-    document.addEventListener("keydown", prepareAudio, { capture: true });
+    activeDocument.addEventListener("keydown", prepareAudio, { capture: true });
 
-    document.addEventListener(
+    activeDocument.addEventListener(
       "change",
       (event) => {
         const target = event.target;
@@ -201,7 +207,7 @@ export function createExplorerAudioController(
       true,
     );
 
-    document.addEventListener(
+    activeDocument.addEventListener(
       "click",
       (event) => {
         const target = getInteractiveTarget(event.target);
@@ -209,7 +215,7 @@ export function createExplorerAudioController(
       },
       true,
     );
-    document.addEventListener(
+    activeDocument.addEventListener(
       "pointerover",
       (event) => {
         const target = getInteractiveTarget(event.target);
@@ -219,7 +225,7 @@ export function createExplorerAudioController(
       },
       true,
     );
-    document.addEventListener(
+    activeDocument.addEventListener(
       "pointerout",
       (event) => {
         const target = getInteractiveTarget(event.target);
@@ -236,7 +242,7 @@ export function createExplorerAudioController(
       ["focusout", "blur"],
       ["keydown", "keydown"],
     ].forEach(([eventName, action]) =>
-      document.addEventListener(
+      activeDocument.addEventListener(
         eventName,
         (event) => {
           const target = getInteractiveTarget(event.target);
@@ -246,8 +252,8 @@ export function createExplorerAudioController(
       ),
     );
 
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) audio.stopMusic();
+    activeDocument.addEventListener("visibilitychange", () => {
+      if (activeDocument.hidden) audio.stopMusic();
       else audio.syncHelpMusic();
     });
 
@@ -265,8 +271,8 @@ export function createExplorerAudioController(
         }
       });
     });
-    if (document.body) {
-      dialogObserver.observe(document.body, {
+    if (activeDocument.body) {
+      dialogObserver.observe(activeDocument.body, {
         subtree: true,
         attributes: true,
         attributeFilter: ["open"],
@@ -286,10 +292,12 @@ export function createExplorerAudioController(
       renderMusicToggle();
       audio.restartMusic();
     });
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["data-theme"],
-    });
+    if (activeDocument.documentElement) {
+      themeObserver.observe(activeDocument.documentElement, {
+        attributes: true,
+        attributeFilter: ["data-theme"],
+      });
+    }
 
     renderSoundEffectsToggle();
     renderMusicToggle();

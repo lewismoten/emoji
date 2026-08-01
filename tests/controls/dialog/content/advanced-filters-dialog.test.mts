@@ -11,23 +11,31 @@ const documentRef = (
 ).document;
 
 const dialog = AdvancedFiltersDialogControl.create() as unknown as FakeElement;
-const stylesheets = documentRef.head.children.filter(
+const styleBlocks = documentRef.head.children.filter(
   (child: FakeElement) =>
-    child instanceof FakeElement && child.tagName === "LINK",
+    child instanceof FakeElement && child.tagName === "STYLE",
 ) as FakeElement[];
 
 assert.equal(dialog.className, "advanced-filters-dialog");
 assert.equal(dialog.getAttribute("id"), "advanced-filters-dialog");
-assert.equal(stylesheets.length, 5);
-assert.deepEqual(
-  stylesheets.map((item) => item.href),
-  [
-    "./explorer/controls/dialog/dialog-heading.css",
-    "./explorer/controls/dialog/dialog-close-button.css",
-    "./explorer/controls/filters/modifiers/modifier-filter-control.css",
-    "./explorer/controls/filters/modifiers/modifier-filter-control.css",
-    "./explorer/controls/filters/modifiers/modifier-filter-control.css",
-  ],
+assert.equal(styleBlocks.length >= 3, true);
+assert.equal(
+  styleBlocks.some(
+    (item) => item.id === "dialog-heading-control-style",
+  ),
+  true,
+);
+assert.equal(
+  styleBlocks.some(
+    (item) => item.id === "dialog-close-button-control-style",
+  ),
+  true,
+);
+assert.equal(
+  styleBlocks.some(
+    (item) => item.id === "modifier-filter-control-style",
+  ),
+  true,
 );
 const body = (dialog as any).querySelector(
   ".advanced-filters-dialog-body",

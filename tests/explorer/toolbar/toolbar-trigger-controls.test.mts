@@ -47,14 +47,14 @@ try {
   });
 
   const saved = createSavedPickerControl() as FakeElement;
-  assert.equal(saved.className, "saved-picker");
+  assert.equal(saved.className, "setting-choice saved-picker");
   assert.equal(saved.attributes.get("aria-controls"), "saved-dialog");
   assert.equal(saved.dataset.i18nAriaLabel, "savedEmoji");
   assert.equal((saved.childNodes[0] as FakeElement).textContent, "⭐");
   assert.equal((saved.childNodes[1] as FakeElement).dataset.i18n, "favorites");
 
   const help = createHelpPickerControl() as FakeElement;
-  assert.equal(help.className, "help-picker");
+  assert.equal(help.className, "setting-choice help-picker");
   assert.equal(help.attributes.get("aria-controls"), "help-dialog");
   assert.equal(help.dataset.i18nAriaLabel, "helpAndSettings");
   assert.equal(help.childNodes.length, 1);

@@ -15,7 +15,7 @@ assert.deepEqual(fixture.subGroupSelector.addEventListenerCalls, ["change"]);
 assert.deepEqual(fixture.sequenceTypeSelector.addEventListenerCalls, [
   "change",
 ]);
-assert.equal(fixture.versionModeSelector.value, "through");
+assert.equal(fixture.versionModeSelector.value, "selected");
 assert.deepEqual(fixture.introducedVersions, ["16.0"]);
 
 const firstPromise = fixture.controller.loadVersionData();

@@ -57,6 +57,13 @@ export function bindExplorerEvents(options: any) {
     options.getAdvancedFiltersDialog?.() ?? options.advancedFilters;
   const getLanguageList = () =>
     options.getLanguageList?.() ?? options.languageList;
+  const ensureDataset = (value: unknown) => {
+    if (!value || typeof value !== "object") return undefined;
+    const target = value as { dataset?: Record<string, string> };
+    if (target.dataset) return target.dataset;
+    target.dataset = {};
+    return target.dataset;
+  };
 
   const syncDialogChoiceGroup = (
     dialog: HTMLElement | undefined | null,
@@ -117,10 +124,18 @@ export function bindExplorerEvents(options: any) {
 
   const bindLanguagePicker = () => {
     const button =
-      options.languagePicker?.() ??
+      (typeof options.languagePicker === "function"
+        ? options.languagePicker()
+        : options.languagePicker) ??
       documentRef?.querySelector?.<HTMLElement>(".language-picker");
-    if (!button || button.dataset.panelBound === "true") return;
-    button.dataset.panelBound = "true";
+    if (!button) return;
+    const buttonDataset =
+      "dataset" in button && button.dataset
+        ? button.dataset
+        : ((button as HTMLElement & { dataset: Record<string, string> }).dataset =
+            {});
+    if (buttonDataset.panelBound === "true") return;
+    buttonDataset.panelBound = "true";
     bindPanelDialog({
       applyingUrlState: options.applyingUrlState,
       button,
@@ -134,11 +149,11 @@ export function bindExplorerEvents(options: any) {
         const languageDialog = getLanguageDialog();
         if (helpDialog?.open) {
           if (languageDialog) {
-            languageDialog.dataset.returnPanel = "help";
+            ensureDataset(languageDialog)!.returnPanel = "help";
           }
           options.closePanel(helpDialog, options.suppressedPanelCloses);
-        } else if (languageDialog) {
-          delete languageDialog.dataset.returnPanel;
+        } else if (languageDialog && ensureDataset(languageDialog)) {
+          delete ensureDataset(languageDialog)!.returnPanel;
         }
       },
       openPanel: options.openPanel,
@@ -164,8 +179,9 @@ export function bindExplorerEvents(options: any) {
     bindLanguagePicker();
     if (panel === "favorites" && getSavedDialog()) {
       const dialog = getSavedDialog();
-      if (dialog && dialog.dataset.savedDialogBound !== "true") {
-        dialog.dataset.savedDialogBound = "true";
+      const dialogDataset = dialog ? ensureDataset(dialog) : undefined;
+      if (dialog && dialogDataset?.savedDialogBound !== "true") {
+        if (dialogDataset) dialogDataset.savedDialogBound = "true";
         bindSavedDialogInteractions({
           ...options,
           savedDialog: dialog,
@@ -282,11 +298,12 @@ export function bindExplorerEvents(options: any) {
   bindModeChoices();
   bindLanguagePicker();
   if (getSavedDialog()) {
+    const savedDialogDataset = ensureDataset(getSavedDialog());
     bindSavedDialogInteractions({
       ...options,
       savedDialog: getSavedDialog(),
     });
-    getSavedDialog().dataset.savedDialogBound = "true";
+    if (savedDialogDataset) savedDialogDataset.savedDialogBound = "true";
   }
   options.emojiList.addEventListener("click", options.onClick);
   options.emojiList.addEventListener("focusin", options.onEmojiFocus);

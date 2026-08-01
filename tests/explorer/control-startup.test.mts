@@ -281,6 +281,9 @@ try {
     "drawList",
     "finishExplorerLoading",
     "applyDialogUrlState",
+    "renderThemeToggle",
+    "renderPixelFontToggle",
+    "renderVersionModeToggle",
     "setUrlStateReady:true",
     "syncUrlState",
   ]);
@@ -343,6 +346,9 @@ try {
     "drawList",
     "finishExplorerLoading",
     "applyDialogUrlState",
+    "renderThemeToggle",
+    "renderPixelFontToggle",
+    "renderVersionModeToggle",
     "setUrlStateReady:true",
     "syncUrlState",
   ]);
@@ -405,6 +411,9 @@ try {
     "drawList",
     "finishExplorerLoading",
     "applyDialogUrlState",
+    "renderThemeToggle",
+    "renderPixelFontToggle",
+    "renderVersionModeToggle",
     "setUrlStateReady:true",
     "syncUrlState",
   ]);

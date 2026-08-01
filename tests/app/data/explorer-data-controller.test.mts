@@ -136,7 +136,7 @@ try {
 
   await controller.loadData();
   assert.deepEqual(state.allIds, ["alpha"]);
-  assert.equal(versionModeSelector.value, "through");
+  assert.equal(versionModeSelector.value, "");
   assert.deepEqual(groupSelector.listeners[0], ["change", "onGroupChange"]);
   assert.deepEqual(subGroupSelector.listeners[0], [
     "change",

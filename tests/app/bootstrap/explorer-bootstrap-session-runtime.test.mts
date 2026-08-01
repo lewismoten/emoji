@@ -477,7 +477,7 @@ assert.equal(runtimeSourceCall.savedDialog(), "saved-dialog");
 assert.equal(runtimeSourceCall.savedPicker(), "saved-picker");
 assert.equal(runtimeSourceCall.searchText(), "search-text");
 assert.deepEqual(runtimeSourceCall.populateVersionModeOptions("a"), [
-  "populate-version-modes",
+  "populate",
   ["a"],
 ]);
 assert.deepEqual(runtimeSourceCall.renderCategoryFilters("b"), [
@@ -502,7 +502,7 @@ runtimeSourceCall.setSuppressDialogCloseSync(true);
 assert.equal(bindings.suppressDialogCloseSync, true);
 runtimeSourceCall.setUrlStateReady(false);
 assert.equal(bindings.urlStateReady, false);
-assert.deepEqual(runtimeSourceCall.showEmoji("x"), ["show-emoji", ["x"]]);
+assert.deepEqual(runtimeSourceCall.showEmoji("x"), ["showEmoji", ["x"]]);
 assert.deepEqual(runtimeSourceCall.skinToneCheckboxes(), ["1F3FB"]);
 assert.equal(
   runtimeSourceCall.subGroupFilterDialog(),
@@ -526,17 +526,14 @@ assert.deepEqual(runtimeSourceCall.syncVersionRange("through"), [
   ["through"],
 ]);
 assert.deepEqual(runtimeSourceCall.themeChoices(), ["dark", "retro"]);
-assert.deepEqual(runtimeSourceCall.toggleVersionMode("selected"), [
-  "toggle-version-mode",
-  ["selected"],
-]);
+assert.equal(runtimeSourceCall.toggleVersionMode, undefined);
 assert.equal(runtimeSourceCall.toolbar(), "toolbar");
 assert.deepEqual(runtimeSourceCall.updateCompositionBackButton("up"), [
-  "update-composition-back-button",
+  "updateComposition",
   ["up"],
 ]);
 assert.deepEqual(runtimeSourceCall.updateDialogNavigation("nav"), [
-  "update-dialog-navigation",
+  "updateDialog",
   ["nav"],
 ]);
 assert.equal(runtimeSourceCall.urlStateReady(), false);

@@ -65,7 +65,7 @@ try {
   assert.equal(themeButtons[1]?.dataset.theme, "light");
   assert.equal(themeButtons[2]?.dataset.theme, "dark");
   assert.equal(themeButtons[3]?.dataset.theme, "retro");
-  assert.equal(appendedHead[0]?.href, "./explorer/controls/toolbar/theme-choice-group.css");
+  assert.equal(appendedHead[0]?.id, "theme-choice-group-control-style");
 } finally {
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");

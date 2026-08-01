@@ -6,7 +6,7 @@ export function initializeExplorerControls(options: any) {
     versionRange: options.versionRange,
     versionSelector: options.versionSelector,
   });
-  options.renderDeveloperMode();
+  options.renderDeveloperMode?.();
   const compactGroupChoices = controls.ensureChoiceContainer(
     options.groupSelector,
     "compact-group-choices",
@@ -88,7 +88,7 @@ export async function finalizeExplorerStartup(options: any) {
         window.requestAnimationFrame(() => resolve());
         return;
       }
-      window.setTimeout(resolve, 0);
+      globalThis.setTimeout(resolve, 0);
     });
   };
   options.renderVersionModeToggle();
@@ -118,7 +118,7 @@ export async function finalizeExplorerStartup(options: any) {
   options.finishExplorerLoading();
   await options.applyDialogUrlState();
   await waitForDialogControls();
-  options.renderDeveloperMode();
+  options.renderDeveloperMode?.();
   options.renderThemeToggle();
   options.renderPixelFontToggle();
   options.renderSoundEffectsToggle?.();
