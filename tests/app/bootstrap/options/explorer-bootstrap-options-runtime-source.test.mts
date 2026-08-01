@@ -55,6 +55,7 @@ for (const [key, expected] of [
   ["matchCount", "matchCount-value"],
   ["navigateEmoji", "navigateEmoji-value"],
   ["orderButtons", "orderButtons-value"],
+  ["resetFilters", "resetFilters-value"],
   ["savedDialog", "savedDialog-value"],
   ["savedPicker", "savedPicker-value"],
   ["searchText", "searchText-value"],
