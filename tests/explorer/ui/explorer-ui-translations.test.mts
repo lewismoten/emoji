@@ -68,6 +68,12 @@ try {
     "Offline — showing saved data",
   );
   assert.equal(fixture.offlineStatus.hidden, false);
+  Object.defineProperty(globalThis, "navigator", {
+    configurable: true,
+    value: { onLine: true },
+  });
+  controller.updateOnlineStatus();
+  assert.equal(fixture.offlineStatus.hidden, true);
 
   const noStatusController = createExplorerUiController({
     deferredInstallPrompt: () => null,
@@ -160,6 +166,19 @@ try {
     },
   });
   await controller.loadUiTranslations("en");
+
+  fixture.fetchCalls.length = 0;
+  fixture.setFetch(async (url: string) => {
+    fixture.fetchCalls.push(url);
+    return {
+      ok: true,
+      async json() {
+        return { title: "English direct" };
+      },
+    };
+  });
+  await controller.loadUiTranslations("en");
+  assert.deepEqual(fixture.fetchCalls, ["demo-locales/ui.en.json"]);
   if (originalDocument) {
     Object.defineProperty(globalThis, "document", originalDocument);
   }

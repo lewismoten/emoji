@@ -164,3 +164,40 @@ assert.equal(
     2.25,
   true,
 );
+
+const sustainContext = new FakeAudioContext();
+const sustainOutput = sustainContext.createGain() as unknown as GainNode;
+scheduleExplorerSongEventForTest(
+  sustainContext as unknown as AudioContext,
+  sustainOutput,
+  0.5,
+  3,
+  2,
+  { instrument: "pad-warm", events: [] } as any,
+  [220, 1, { sustain: true, endFrequency: 330 }],
+);
+assert.equal(sustainContext.oscillators.length, 1);
+assert.equal(
+  (sustainContext.oscillators[0] as FakeOscillator).frequency.calls.some(
+    ([name, value]) => name === "exponentialRampToValueAtTime" && value === 330,
+  ),
+  true,
+);
+
+const customReleaseContext = new FakeAudioContext();
+const customReleaseOutput =
+  customReleaseContext.createGain() as unknown as GainNode;
+scheduleExplorerSongEventForTest(
+  customReleaseContext as unknown as AudioContext,
+  customReleaseOutput,
+  0.4,
+  4,
+  1,
+  { instrument: "lead-chip", events: [] } as any,
+  [110, 2, { releaseRatio: 0.5 }],
+);
+assert.equal(customReleaseContext.oscillators.length, 1);
+assert.equal(
+  (customReleaseContext.oscillators[0] as FakeOscillator).stopped[0]! > 4.79,
+  true,
+);

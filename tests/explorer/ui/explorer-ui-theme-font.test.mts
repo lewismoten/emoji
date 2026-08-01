@@ -98,6 +98,37 @@ try {
   });
   assert.equal(fixture.documentElement.dataset.theme, "dark");
 
+  const selectorThemeChoice = createElement({ theme: "retro" });
+  selectorThemeChoice.querySelector = () => null;
+  const originalDocumentForSelector = Object.getOwnPropertyDescriptor(
+    globalThis,
+    "document",
+  );
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      documentElement: fixture.documentElement,
+      querySelector(selector: string) {
+        if (selector === 'meta[name="theme-color"]') return fixture.themeMeta;
+        return null;
+      },
+      querySelectorAll(selector: string) {
+        return selector === ".theme-choice" ? [selectorThemeChoice] : [];
+      },
+    },
+  });
+  renderThemeToggle({
+    state: () => ({
+      explorerModeFromUrl: "",
+      developerModeUrlDismissed: false,
+      explorerPreferences: { developerMode: false, theme: "retro", mode: "advanced" },
+    }),
+  });
+  assert.equal(selectorThemeChoice.classList.active.has("is-active"), true);
+  if (originalDocumentForSelector) {
+    Object.defineProperty(globalThis, "document", originalDocumentForSelector);
+  }
+
   fixture.themeMeta.content = "";
   const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
   Object.defineProperty(globalThis, "document", {
@@ -158,6 +189,29 @@ try {
     refreshRenderedPixelEmoji: () => calls.push("refresh-pixel-empty"),
     state: () => ({ explorerPreferences: { pixelFont: true } }),
   });
+
+  const selectorPixelChoice = createElement({ emojiFont: "system" });
+  selectorPixelChoice.querySelector = () => null;
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      documentElement: fixture.documentElement,
+      querySelector() {
+        return null;
+      },
+      querySelectorAll(selector: string) {
+        return selector === ".emoji-font-choice" ? [selectorPixelChoice] : [];
+      },
+    },
+  });
+  renderPixelFontToggle({
+    refreshRenderedPixelEmoji: () => calls.push("refresh-pixel-selector"),
+    state: () => ({ explorerPreferences: { pixelFont: false } }),
+  });
+  assert.equal(selectorPixelChoice.classList.active.has("is-active"), true);
+  if (originalDocument) {
+    Object.defineProperty(globalThis, "document", originalDocument);
+  }
 
   const preferenceCalls: Array<[string, unknown]> = [];
   await selectTheme(

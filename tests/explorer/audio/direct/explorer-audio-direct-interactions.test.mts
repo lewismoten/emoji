@@ -5,6 +5,11 @@ import {
   FakeElement,
   installAudioDomFixture,
 } from "./explorer-audio-direct-fixture.mjs";
+import {
+  assertHasInteraction,
+  createAudioTargets,
+  createWrappedPreferenceTarget,
+} from "./explorer-audio-direct-targets.mjs";
 
 const fixture = installAudioDomFixture();
 
@@ -83,133 +88,68 @@ try {
   );
   engine.musicEnabled = () => false;
 
-  const interactive = new FakeElement([], null);
-  interactive.tagName = "BUTTON";
-  const target = new FakeElement([], interactive);
-  const checkboxInteractive = new FakeElement([], null);
-  checkboxInteractive.tagName = "DIV";
-  checkboxInteractive.setAttribute("role", "checkbox");
-  const checkboxTarget = new FakeElement([], checkboxInteractive);
-  const radioInteractive = new FakeElement([], null);
-  radioInteractive.tagName = "DIV";
-  radioInteractive.setAttribute("role", "radio");
-  const radioTarget = new FakeElement([], radioInteractive);
-  const linkInteractive = new FakeElement([], null);
-  linkInteractive.tagName = "A";
-  const linkTarget = new FakeElement([], linkInteractive);
-  const disabledInteractive = new FakeElement([], null);
-  disabledInteractive.disabled = true;
-  const disabledTarget = new FakeElement([], disabledInteractive);
-  const ariaDisabledInteractive = new FakeElement([], null);
-  ariaDisabledInteractive.setAttribute("aria-disabled", "true");
-  const ariaDisabledTarget = new FakeElement([], ariaDisabledInteractive);
-  const roleButtonInteractive = new FakeElement([], null);
-  roleButtonInteractive.tagName = "DIV";
-  roleButtonInteractive.setAttribute("role", "button");
-  const roleButtonTarget = new FakeElement([], roleButtonInteractive);
-  const switchInteractive = new FakeElement([], null);
-  switchInteractive.tagName = "DIV";
-  switchInteractive.setAttribute("role", "switch");
-  switchInteractive.setAttribute("aria-checked", "false");
-  const switchTarget = new FakeElement([], switchInteractive);
-  const roleLinkInteractive = new FakeElement([], null);
-  roleLinkInteractive.tagName = "DIV";
-  roleLinkInteractive.setAttribute("role", "link");
-  const roleLinkTarget = new FakeElement([], roleLinkInteractive);
-  const dropdownInteractive = new FakeElement([], null);
-  dropdownInteractive.tagName = "DIV";
-  dropdownInteractive.setAttribute("aria-haspopup", "listbox");
-  const dropdownTarget = new FakeElement([], dropdownInteractive);
+  const {
+    ariaDisabledTarget,
+    buttonTarget,
+    checkboxInputTarget,
+    checkboxTarget,
+    disabledTarget,
+    dropdownTarget,
+    genericTarget,
+    linkTarget,
+    radioInputTarget,
+    radioTarget,
+    roleButtonTarget,
+    roleLinkTarget,
+    selectTarget,
+    switchTarget,
+  } = createAudioTargets();
 
-  fixture.listeners.get("click")?.[0]?.({ target });
+  fixture.listeners.get("click")?.[0]?.({ target: buttonTarget });
   fixture.listeners.get("click")?.[0]?.({ target: checkboxTarget });
   fixture.listeners.get("click")?.[0]?.({ target: radioTarget });
   fixture.listeners.get("click")?.[0]?.({ target: linkTarget });
   fixture.listeners.get("click")?.[0]?.({ target: roleButtonTarget });
   fixture.listeners.get("click")?.[0]?.({ target: roleLinkTarget });
   fixture.listeners.get("click")?.[0]?.({ target: dropdownTarget });
+  fixture.listeners.get("click")?.[0]?.({ target: selectTarget });
   fixture.listeners.get("click")?.[0]?.({ target: {} });
   fixture.listeners.get("click")?.[0]?.({ target: disabledTarget });
   fixture.listeners.get("click")?.[0]?.({ target: ariaDisabledTarget });
-  fixture.listeners.get("pointerover")?.[0]?.({ target });
-  fixture.listeners.get("pointerover")?.[0]?.({ target });
+  fixture.listeners.get("pointerover")?.[0]?.({ target: buttonTarget });
+  fixture.listeners.get("pointerover")?.[0]?.({ target: buttonTarget });
   fixture.listeners.get("pointerover")?.[0]?.({ target: {} });
   fixture.listeners.get("pointerover")?.[0]?.({ target: disabledTarget });
   fixture.listeners.get("pointerover")?.[0]?.({ target: ariaDisabledTarget });
   fixture.listeners.get("pointerout")?.[0]?.({
-    target,
-    relatedTarget: interactive,
+    target: buttonTarget,
+    relatedTarget: buttonTarget.closestResult,
   });
-  fixture.listeners.get("pointerout")?.[0]?.({ target, relatedTarget: null });
+  fixture.listeners.get("pointerout")?.[0]?.({
+    target: buttonTarget,
+    relatedTarget: null,
+  });
   fixture.listeners.get("pointerout")?.[0]?.({ target: {}, relatedTarget: null });
 
-  assert.equal(
-    engineCalls.some(
-      (call) =>
-        call[0] === "playInteraction" &&
-        call[1] === "button" &&
-        call[2] === "click",
-    ),
-    true,
-  );
-  assert.equal(
-    engineCalls.some(
-      (call) =>
-        call[0] === "playInteraction" &&
-        call[1] === "checkbox" &&
-        call[2] === "click",
-    ),
-    true,
-  );
-  assert.equal(
-    engineCalls.some(
-      (call) =>
-        call[0] === "playInteraction" &&
-        call[1] === "radio" &&
-        call[2] === "click",
-    ),
-    true,
-  );
-  assert.equal(
-    engineCalls.some(
-      (call) =>
-        call[0] === "playInteraction" &&
-        call[1] === "link" &&
-        call[2] === "click",
-    ),
-    true,
-  );
+  assertHasInteraction(engineCalls, "button", "click");
+  assertHasInteraction(engineCalls, "checkbox", "click");
+  assertHasInteraction(engineCalls, "radio", "click");
+  assertHasInteraction(engineCalls, "link", "click");
   fixture.listeners.get("change")?.[0]?.({ target: switchTarget });
-  const wrappedSoundPreference = new FakeElement([], null);
-  wrappedSoundPreference.tagName = "DIV";
-  wrappedSoundPreference.checked = true;
-  wrappedSoundPreference.setAttribute("role", "switch");
-  wrappedSoundPreference.closest = () => ({
-    matches: (selector: string) =>
-      selector === '[data-audio-preference="soundEffects"]',
-  } as any);
+  const wrappedSoundPreference = createWrappedPreferenceTarget(
+    "soundEffects",
+    true,
+  );
   fixture.listeners.get("change")?.[0]?.({ target: wrappedSoundPreference });
-  const wrappedMusicPreference = new FakeElement([], null);
-  wrappedMusicPreference.tagName = "DIV";
-  wrappedMusicPreference.checked = false;
-  wrappedMusicPreference.setAttribute("role", "switch");
-  wrappedMusicPreference.closest = () => ({
-    matches: (selector: string) =>
-      selector === '[data-audio-preference="music"]',
-  } as any);
+  const wrappedMusicPreference = createWrappedPreferenceTarget("music", false);
   fixture.listeners.get("change")?.[0]?.({ target: wrappedMusicPreference });
   const nonElementClosest = new FakeElement([], null);
   nonElementClosest.closest = () => ({}) as any;
   fixture.listeners.get("click")?.[0]?.({ target: nonElementClosest });
-  assert.equal(
-    engineCalls.some(
-      (call) =>
-        call[0] === "playInteraction" &&
-        call[1] === "checkbox" &&
-        call[2] === "uncheck",
-    ),
-    true,
-  );
+  fixture.listeners.get("focusin")?.[0]?.({ target: genericTarget });
+  fixture.listeners.get("focusout")?.[0]?.({ target: radioInputTarget });
+  fixture.listeners.get("keydown")?.[1]?.({ target: checkboxInputTarget });
+  assertHasInteraction(engineCalls, "checkbox", "uncheck");
   assert.equal(
     engineCalls.filter(
       (call) =>
@@ -228,6 +168,10 @@ try {
     ),
     true,
   );
+  assertHasInteraction(engineCalls, "dropdown", "click");
+  assertHasInteraction(engineCalls, "generic", "focus");
+  assertHasInteraction(engineCalls, "radio", "blur");
+  assertHasInteraction(engineCalls, "checkbox", "keydown");
 
   (globalThis.document as any).hidden = true;
   fixture.listeners.get("visibilitychange")?.[0]?.();
@@ -270,6 +214,11 @@ try {
   );
 
   themeObserver?.callback([
+    {
+      type: "attributes",
+      attributeName: "class",
+      target: (globalThis.document as any).documentElement,
+    },
     {
       type: "attributes",
       attributeName: "data-theme",
