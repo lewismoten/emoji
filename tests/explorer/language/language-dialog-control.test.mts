@@ -106,7 +106,8 @@ Object.defineProperty(globalThis, "document", {
 });
 
 try {
-  const picker = createLanguagePickerControl();
+  const picker = await createLanguagePickerControl();
+  const dialogControl = await createLanguageDialogControl();
   assert.equal(picker.button.tagName, "BUTTON");
   assert.equal(picker.button.getAttribute("aria-haspopup"), "dialog");
   assert.equal(picker.button.getAttribute("aria-controls"), "language-dialog");
@@ -117,7 +118,6 @@ try {
   assert.equal(picker.flag.textContent, "🌐");
   assert.equal(picker.label.textContent, "Language");
 
-  const dialogControl = createLanguageDialogControl();
   assert.equal(dialogControl.dialog.tagName, "DIALOG");
   assert.equal(dialogControl.dialog.className, "language-dialog");
   assert.equal(dialogControl.dialog.id, "language-dialog");

@@ -186,6 +186,12 @@ try {
       closePanelDialog(dialogRef: unknown, suppressed: unknown) {
         fixture.panelCalls.push(["closePanelDialog", dialogRef, suppressed]);
       },
+      ensurePanelDialogLifecycleBound(options: unknown) {
+        fixture.panelCalls.push([
+          "ensurePanelDialogLifecycleBound",
+          options,
+        ]);
+      },
       getOpenPanel(dialogsRef: unknown) {
         fixture.panelCalls.push(["getOpenPanel", dialogsRef]);
         return "favorites";

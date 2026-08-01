@@ -68,7 +68,7 @@ try {
     },
   });
 
-  const control = createHelpDialogControl();
+  const control = await createHelpDialogControl();
   assert.equal(control.element.className, "help-dialog");
   assert.equal(control.element.getAttribute("id"), "help-dialog");
   assert.equal(control.element.getAttribute("aria-labelledby"), "help-title");
