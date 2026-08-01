@@ -149,10 +149,12 @@ export function getPanelDialog(panel: PanelName, dialogs: PanelDialogs) {
 }
 
 export function getOpenPanel(dialogs: PanelDialogs): PanelName {
-  if (dialogs.favorites?.open) return "favorites";
-  if (dialogs.help?.open) return "help";
-  if (dialogs.language?.open) return "language";
-  if (dialogs.filters?.open) return "filters";
+  const isPanelOpen = (dialog: HTMLDialogElement | undefined) =>
+    Boolean(dialog?.open && dialog.dataset.panelClosing !== "true");
+  if (isPanelOpen(dialogs.favorites)) return "favorites";
+  if (isPanelOpen(dialogs.help)) return "help";
+  if (isPanelOpen(dialogs.language)) return "language";
+  if (isPanelOpen(dialogs.filters)) return "filters";
   return "";
 }
 
@@ -198,6 +200,7 @@ export function openPanelDialog({
   if (!context.dialogs) return;
   const dialog = getPanelDialog(panel, context.dialogs);
   if (!dialog) return;
+  delete dialog.dataset.panelClosing;
   if (!dialog.open) dialog.showModal();
   focusPanelDialog(panel, dialog, context);
   if (addHistory) {
@@ -212,6 +215,17 @@ export function closePanelDialog(
   if (!dialog?.open) return;
   suppressedPanelCloses.add(dialog);
   dialog.close();
+}
+
+function getPanelNameFromDialog(
+  dialog: HTMLDialogElement | null,
+): PanelName {
+  if (!dialog) return "";
+  if (dialog.classList.contains("saved-dialog")) return "favorites";
+  if (dialog.classList.contains("help-dialog")) return "help";
+  if (dialog.classList.contains("language-dialog")) return "language";
+  if (dialog.classList.contains("advanced-filters-dialog")) return "filters";
+  return "";
 }
 
 type ClosePanelOptions = {
@@ -239,18 +253,37 @@ export function onPanelDialogClose({
     applyingUrlState
   )
     return;
-  if (window.history.state?.panelDialogEntry) {
-    const nextState =
-      window.history.state &&
-      typeof window.history.state === "object" &&
-      !Array.isArray(window.history.state)
-        ? { ...window.history.state }
-        : {};
-    delete nextState.panelDialogEntry;
-    syncUrlState("replace", nextState);
-  } else {
-    syncUrlState();
+  if (dialog?.dataset) dialog.dataset.panelClosing = "true";
+  const closingPanel = getPanelNameFromDialog(dialog);
+  const syncAfterClose = () => {
+    if (window.history.state?.panelDialogEntry) {
+      const nextState =
+        window.history.state &&
+        typeof window.history.state === "object" &&
+        !Array.isArray(window.history.state)
+          ? { ...window.history.state }
+          : {};
+      delete nextState.panelDialogEntry;
+      syncUrlState("replace", nextState);
+    } else {
+      syncUrlState();
+    }
+    if (typeof window !== "undefined" && closingPanel) {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("panel") === closingPanel) {
+        params.delete("panel");
+        const query = params.toString();
+        const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
+        window.history.replaceState(window.history.state, "", nextUrl);
+      }
+    }
+    if (dialog?.dataset) delete dialog.dataset.panelClosing;
+  };
+  if (typeof window !== "undefined" && window.requestAnimationFrame) {
+    window.requestAnimationFrame(syncAfterClose);
+    return;
   }
+  syncAfterClose();
 }
 
 type BindPanelDialogOptions = PanelContext & {
@@ -272,30 +305,97 @@ type BindPanelDialogOptions = PanelContext & {
   urlStateReady: () => boolean;
 };
 
-export function bindPanelDialog(options: BindPanelDialogOptions) {
-  const bindCloseHandler = (dialog: HTMLDialogElement | undefined) => {
-    if (!dialog || dialog.dataset.panelCloseBound === "true") return;
-    dialog.dataset.panelCloseBound = "true";
-    dialog.addEventListener("close", (event) => {
-      onPanelDialogClose({
-        event,
-        suppressedPanelCloses: options.suppressedPanelCloses,
-        urlStateReady: options.urlStateReady(),
-        applyingUrlState: options.applyingUrlState(),
-        syncUrlState: options.syncUrlState,
-      });
-      options.onAfterClose?.();
-    });
+type EnsurePanelDialogLifecycleBoundOptions = {
+  applyingUrlState: () => boolean;
+  dialog?: HTMLDialogElement;
+  onAfterClose?: () => void;
+  panel: Exclude<PanelName, "">;
+  suppressedPanelCloses: WeakSet<HTMLDialogElement>;
+  syncUrlState: SyncUrlState;
+  urlStateReady: () => boolean;
+};
+
+export function ensurePanelDialogLifecycleBound(
+  options: EnsurePanelDialogLifecycleBoundOptions,
+) {
+  const dialog = options.dialog;
+  if (!dialog) return;
+
+  const clearPanelParam = () => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("panel") !== options.panel) return;
+    params.delete("panel");
+    const query = params.toString();
+    const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
+    window.history.replaceState(window.history.state, "", nextUrl);
   };
 
-  bindCloseHandler(options.dialog ?? options.getDialog?.());
+  const markPanelClosing = () => {
+    if (dialog.dataset) dialog.dataset.panelClosing = "true";
+  };
+
+  const closeButton = dialog.querySelector<HTMLElement>(".dialog-close");
+  if (closeButton && closeButton.dataset.panelDismissBound !== "true") {
+    closeButton.dataset.panelDismissBound = "true";
+    const handleDismiss = () => {
+      markPanelClosing();
+      clearPanelParam();
+      if (typeof window !== "undefined" && window.requestAnimationFrame) {
+        window.requestAnimationFrame(clearPanelParam);
+        return;
+      }
+      clearPanelParam();
+    };
+    closeButton.addEventListener("click", handleDismiss);
+    closeButton.closest("form")?.addEventListener("submit", handleDismiss);
+  }
+
+  if (dialog.dataset.panelCloseBound === "true") return;
+  dialog.dataset.panelCloseBound = "true";
+  dialog.addEventListener("close", (event) => {
+    onPanelDialogClose({
+      event,
+      suppressedPanelCloses: options.suppressedPanelCloses,
+      urlStateReady: options.urlStateReady(),
+      applyingUrlState: options.applyingUrlState(),
+      syncUrlState: options.syncUrlState,
+    });
+    options.onAfterClose?.();
+  });
+}
+
+export function bindPanelDialog(options: BindPanelDialogOptions) {
+  const resolveDialogs = () => options.getDialogs?.() ?? options.dialogs;
+  const resolveDialog = () =>
+    options.getDialog?.() ??
+    options.dialog ??
+    getPanelDialog(options.panel, resolveDialogs() ?? {});
+
+  ensurePanelDialogLifecycleBound({
+    applyingUrlState: options.applyingUrlState,
+    dialog: resolveDialog(),
+    onAfterClose: options.onAfterClose,
+    panel: options.panel,
+    suppressedPanelCloses: options.suppressedPanelCloses,
+    syncUrlState: options.syncUrlState,
+    urlStateReady: options.urlStateReady,
+  });
 
   options.button?.addEventListener("click", async () => {
     options.onBeforeOpen?.();
     await options.ensureDialog?.();
-    const dialogs = options.getDialogs?.() ?? options.dialogs;
-    const dialog = options.getDialog?.() ?? options.dialog;
-    bindCloseHandler(dialog);
+    const dialogs = resolveDialogs();
+    const dialog = resolveDialog();
+    ensurePanelDialogLifecycleBound({
+      applyingUrlState: options.applyingUrlState,
+      dialog,
+      onAfterClose: options.onAfterClose,
+      panel: options.panel,
+      suppressedPanelCloses: options.suppressedPanelCloses,
+      syncUrlState: options.syncUrlState,
+      urlStateReady: options.urlStateReady,
+    });
     if (!dialogs) return;
     options.openPanel({
       panel: options.panel,

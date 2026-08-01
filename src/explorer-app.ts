@@ -197,6 +197,7 @@ export function bindExplorerEvents(options: any) {
     syncUrlState: options.syncUrlState,
     urlStateReady: options.urlStateReady,
   });
+  bindLanguagePicker();
   bindPanelDialog({
     applyingUrlState: options.applyingUrlState,
     button: options.helpPicker,

@@ -6,7 +6,13 @@ import {
   resetFilterControls,
   stepVersionIndex,
 } from "../filters/filter-controls.js";
-import { closePanelDialog, getOpenPanel, getPanelDialog, openPanelDialog } from "../pwa-panels.js";
+import {
+  closePanelDialog,
+  ensurePanelDialogLifecycleBound,
+  getOpenPanel,
+  getPanelDialog,
+  openPanelDialog,
+} from "../pwa-panels.js";
 import { applyLanguagePanelParent } from "./panel-parent.js";
 
 type Checkbox = { checked: boolean; value: string };
@@ -18,6 +24,7 @@ export function createExplorerNavigationDependencies() {
     applyLoadedUrlStateToControls,
     buildExplorerUrlQuery,
     closePanelDialog,
+    ensurePanelDialogLifecycleBound,
     getOpenPanel,
     getPanelDialog,
     openPanelDialog,
@@ -182,8 +189,16 @@ export function createExplorerNavigation(
     }
     applyLanguagePanelParent(dialogs, state.panel, "help");
     all.forEach((dialog) => {
-      if (dialog !== desiredPanelDialog)
+    if (dialog !== desiredPanelDialog)
         dependencies.closePanelDialog(dialog, options.suppressedPanelCloses());
+    });
+    dependencies.ensurePanelDialogLifecycleBound?.({
+      applyingUrlState: options.applyingUrlState,
+      dialog: desiredPanelDialog,
+      panel: state.panel as "favorites" | "help" | "language" | "filters",
+      suppressedPanelCloses: options.suppressedPanelCloses(),
+      syncUrlState,
+      urlStateReady: options.urlStateReady,
     });
     if (desiredPanelDialog && !desiredPanelDialog.open) {
       dependencies.openPanelDialog({
