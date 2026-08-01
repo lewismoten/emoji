@@ -84,6 +84,7 @@ try {
   assert.doesNotThrow(() => controllerApi.openFilterPicker());
   assert.doesNotThrow(() => controllerApi.refreshLocalizedLabels());
   assert.doesNotThrow(() => controllerApi.loadVersionData());
+  assert.doesNotThrow(() => controllerApi.setView("details"));
   assert.equal(
     controllerApi.subGroupSelectionKey("Objects", "mail"),
     "Objects::mail",

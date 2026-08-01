@@ -8,12 +8,19 @@ const runtime = buildExplorerBootstrapRuntimeSourceOptions(options);
 assert.equal(runtime.applyBasicUrlState, options.applyBasicUrlState);
 assert.equal(runtime.applyDialogUrlState, options.applyDialogUrlState);
 assert.equal(runtime.bindAudioInteractions, options.bindAudioInteractions);
+assert.equal(runtime.applyPixelArtworkClass, options.applyPixelArtworkClass);
+assert.equal(
+  runtime.applyStandalonePixelArtwork,
+  options.applyStandalonePixelArtwork,
+);
 assert.equal(
   runtime.fullDeveloperModeEnabled,
   options.fullDeveloperModeEnabled,
 );
 assert.equal(runtime.installApp, options.installApp);
 assert.equal(runtime.loadPackageManifest, options.loadPackageManifest);
+assert.equal(runtime.loadData, options.loadData);
+assert.equal(runtime.loadUiTranslations, options.loadUiTranslations);
 assert.equal(runtime.modeChoices(), "modeChoices-value");
 assert.equal(runtime.panelDialogs, options.panelDialogs);
 assert.equal(runtime.translate, options.translate);
@@ -98,7 +105,32 @@ assert.equal(
 );
 assert.equal(runtime.setUrlStateReady(), "setUrlStateReady-value");
 assert.equal(runtime.stepVersion(), "stepVersion-value");
-runtime.setDialogView("editor");
+assert.equal(runtime.savePreference("music", true), "savePreference-value");
+assert.equal(runtime.translate("theme", "Theme"), "translate-value");
+assert.equal(runtime.developerModeEnabled(), "developerModeEnabled-value");
+assert.equal(
+  runtime.fullDeveloperModeEnabled(),
+  "fullDeveloperModeEnabled-value",
+);
+assert.equal(runtime.displayGroupName("Objects"), "displayGroupName-value");
+assert.equal(
+  runtime.displayUnicodeSubGroupName("mail"),
+  "displayUnicodeSubGroupName-value",
+);
+assert.equal(runtime.getIntroducedVersion("gift"), "getIntroducedVersion-value");
+assert.equal(runtime.openFilterPicker(), "openFilterPicker-value");
+assert.equal(runtime.onCompactChoiceKeyDown(), "onCompactChoiceKeyDown-value");
+assert.equal(runtime.onDocumentKeyDown(), "onDocumentKeyDown-value");
+assert.equal(runtime.onEmojiDialogClick(), "onEmojiDialogClick-value");
+assert.equal(runtime.onEmojiDialogClose(), "onEmojiDialogClose-value");
+assert.equal(runtime.onEmojiFocus(), "onEmojiFocus-value");
+assert.equal(runtime.onEmojiKeyDown(), "onEmojiKeyDown-value");
+assert.equal(runtime.onHairChange(), "onHairChange-value");
+assert.equal(runtime.onGenderChange(), "onGenderChange-value");
+assert.equal(runtime.onSkinToneChange(), "onSkinToneChange-value");
+assert.equal(runtime.onOrderModeChange(), "onOrderModeChange-value");
+assert.equal(runtime.onVersionRangeInput(), "onVersionRangeInput-value");
+  runtime.setDialogView("editor");
 runtime.showEmoji("wrappedGift", true);
 runtime.syncUrlState("replace", { hello: "world" });
 runtime.syncVersionRange("x");

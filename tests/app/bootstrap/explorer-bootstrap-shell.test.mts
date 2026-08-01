@@ -178,6 +178,7 @@ assert.equal(typeof shell.updateOnlineStatus, "function");
 assert.equal(typeof shell.updatePixelArtworkManifest, "function");
 assert.equal(typeof shell.updateRenderingDiagnostic, "function");
 assert.equal(typeof shell.applyUiTranslations, "function");
+assert.equal(typeof shell.fullDeveloperModeEnabled, "function");
 
 assert.equal(shell.developerModeEnabled(), false);
 assert.equal(shell.getIntroducedVersion("missing"), "—");
@@ -192,6 +193,7 @@ assert.doesNotThrow(() => shell.updateFavoriteButton());
 assert.doesNotThrow(() => shell.updateModifierPixelArtwork());
 assert.doesNotThrow(() => shell.updateOnlineStatus());
 assert.doesNotThrow(() => shell.applyUiTranslations());
+assert.equal(shell.fullDeveloperModeEnabled(), false);
 
 shell.recordCopiedEmoji("wrappedGift");
 assert.deepEqual(state.copiedEmojiKeys, ["wrappedGift"]);
@@ -231,6 +233,7 @@ assert.doesNotThrow(() =>
     },
   } as any),
 );
+assert.doesNotThrow(() => shell.getIntroducedVersion("wrappedGift"));
 
 let refreshed = 0;
 const diagnosticDialog = {
