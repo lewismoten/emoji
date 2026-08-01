@@ -320,14 +320,8 @@ try {
     choiceOne.listeners.get("click")?.[0],
     bindsOptions.selectEmojiFont,
   );
-  assert.equal(
-    themeChoice.listeners.get("click")?.[0],
-    undefined,
-  );
-  assert.equal(
-    themeChoice.listeners.get("keydown")?.[0],
-    undefined,
-  );
+  assert.equal(themeChoice.listeners.get("click")?.[0], undefined);
+  assert.equal(themeChoice.listeners.get("keydown")?.[0], undefined);
   assert.equal(
     versionModeToggle.listeners.get("click")?.[0],
     bindsOptions.toggleVersionMode,

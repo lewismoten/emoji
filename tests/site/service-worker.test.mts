@@ -74,7 +74,9 @@ for (const asset of [
 assert.ok(
   serviceWorker.includes(`"./index.css?v=${packageJson.version}"`) &&
     serviceWorker.includes(`"./pixel-editor.css?v=${packageJson.version}"`) &&
-    serviceWorker.includes(`"./pixel-font/build-retro-text/pixel-latin-retro.css"`),
+    serviceWorker.includes(
+      `"./pixel-font/build-retro-text/pixel-latin-retro.css"`,
+    ),
   "service worker must precache the published stylesheet bundle",
 );
 assert.ok(

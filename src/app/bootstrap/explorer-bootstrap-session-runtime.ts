@@ -133,7 +133,8 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         toggleVersionMode: options.bindings.toggleVersionMode,
         toolbar: () => options.bindings.toolbar,
         translate: options.translate,
-        updateCompositionBackButton: options.bindings.updateCompositionBackButton,
+        updateCompositionBackButton:
+          options.bindings.updateCompositionBackButton,
         updateDialogNavigation: options.bindings.updateDialogNavigation,
         updateEmojiComposition: options.shell.updateEmojiComposition,
         updateFavoriteButton: options.shell.updateFavoriteButton,

@@ -20,21 +20,15 @@ assert.equal(dialog.className, "advanced-filters-dialog");
 assert.equal(dialog.getAttribute("id"), "advanced-filters-dialog");
 assert.equal(styleBlocks.length >= 3, true);
 assert.equal(
-  styleBlocks.some(
-    (item) => item.id === "dialog-heading-control-style",
-  ),
+  styleBlocks.some((item) => item.id === "dialog-heading-control-style"),
   true,
 );
 assert.equal(
-  styleBlocks.some(
-    (item) => item.id === "dialog-close-button-control-style",
-  ),
+  styleBlocks.some((item) => item.id === "dialog-close-button-control-style"),
   true,
 );
 assert.equal(
-  styleBlocks.some(
-    (item) => item.id === "modifier-filter-control-style",
-  ),
+  styleBlocks.some((item) => item.id === "modifier-filter-control-style"),
   true,
 );
 const body = (dialog as any).querySelector(

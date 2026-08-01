@@ -45,8 +45,7 @@ export function createExplorerApp(options: {
 
 /** Bind browser events after the Explorer has resolved its DOM references. */
 export function bindExplorerEvents(options: any) {
-  const documentRef =
-    typeof document === "undefined" ? undefined : document;
+  const documentRef = typeof document === "undefined" ? undefined : document;
   const windowRef = typeof window === "undefined" ? undefined : window;
   const getSavedDialog = () =>
     options.getSavedDialog?.() ?? options.savedDialog;
@@ -132,8 +131,9 @@ export function bindExplorerEvents(options: any) {
     const buttonDataset =
       "dataset" in button && button.dataset
         ? button.dataset
-        : ((button as HTMLElement & { dataset: Record<string, string> }).dataset =
-            {});
+        : ((
+            button as HTMLElement & { dataset: Record<string, string> }
+          ).dataset = {});
     if (buttonDataset.panelBound === "true") return;
     buttonDataset.panelBound = "true";
     bindPanelDialog({

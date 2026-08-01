@@ -35,10 +35,7 @@ const styleBlocks = documentRef.head.children.filter(
 assert.equal(styleBlocks.length, 2);
 assert.deepEqual(
   styleBlocks.map((item) => item.id),
-  [
-    "dialog-heading-control-style",
-    "dialog-close-button-control-style",
-  ],
+  ["dialog-heading-control-style", "dialog-close-button-control-style"],
 );
 assert.equal(dialog.tagName, "DIALOG");
 assert.equal(dialog.className, "example-dialog");

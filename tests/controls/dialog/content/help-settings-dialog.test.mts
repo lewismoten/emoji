@@ -17,9 +17,7 @@ const styleBlocks = documentRef.head.children.filter(
 
 assert.ok(styleBlocks.length >= 4);
 assert.equal(
-  styleBlocks.some(
-    (item) => item.id === "help-settings-dialog-control-style",
-  ),
+  styleBlocks.some((item) => item.id === "help-settings-dialog-control-style"),
   true,
 );
 assert.equal(

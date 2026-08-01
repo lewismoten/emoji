@@ -17,10 +17,7 @@ const styleBlocks = documentRef.head.children.filter(
 ) as FakeElement[];
 
 assert.equal(styleBlocks.length, 1);
-assert.equal(
-  styleBlocks[0]?.id,
-  "emoji-composition-section-control-style",
-);
+assert.equal(styleBlocks[0]?.id, "emoji-composition-section-control-style");
 assert.equal(section.tagName, "SECTION");
 assert.equal(section.className, "emoji-composition developer-only");
 assert.equal(section.getAttribute("hidden"), "");

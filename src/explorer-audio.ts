@@ -31,7 +31,9 @@ export function createExplorerAudioController(
   let hoverTarget: AudioTarget | null = null;
 
   const documentRef = () =>
-    typeof globalThis.document === "undefined" ? undefined : globalThis.document;
+    typeof globalThis.document === "undefined"
+      ? undefined
+      : globalThis.document;
   const preferences = () => options.state().explorerPreferences;
   const baseMode = () =>
     documentRef()?.documentElement?.dataset?.theme === "base";
