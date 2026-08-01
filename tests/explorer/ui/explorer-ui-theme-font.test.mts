@@ -25,13 +25,20 @@ try {
   const darkThemeChoice = createElement({ theme: "dark" });
   const retroThemeChoice = createElement({ theme: "retro" });
   const baseThemeChoice = createElement({ theme: "base" });
+  (lightThemeChoice as any).isConnected = true;
+  (darkThemeChoice as any).isConnected = true;
+  (retroThemeChoice as any).isConnected = true;
+  (baseThemeChoice as any).isConnected = true;
   lightThemeChoice.querySelector = () => lightInput;
   darkThemeChoice.querySelector = () => darkInput;
   retroThemeChoice.querySelector = () => retroInput;
   baseThemeChoice.querySelector = () => baseInput;
+  (pixelChoice as any).isConnected = true;
+  (systemChoice as any).isConnected = true;
 
   const state = {
     explorerPreferences: {
+      mode: "developer",
       pixelFont: true,
       theme: "base",
     },
@@ -51,9 +58,10 @@ try {
   });
   assert.equal(fixture.documentElement.dataset.theme, "base");
   assert.equal(baseThemeChoice.classList.active.has("is-active"), true);
-  assert.equal(baseInput.checked, true);
+  assert.equal(baseInput.getAttribute("checked"), "checked");
 
   state.explorerPreferences.theme = "base";
+  state.explorerPreferences.mode = "standard";
   delete fixture.documentElement.dataset.developerMode;
   delete fixture.documentElement.dataset.fullDeveloperMode;
   renderThemeToggle({
@@ -61,6 +69,7 @@ try {
     state: () => state,
   });
   assert.equal(fixture.documentElement.dataset.theme, "dark");
+  assert.equal(darkThemeChoice.classList.active.has("is-active"), true);
   assert.equal(fixture.themeMeta.content, "#160622");
 
   state.explorerPreferences.theme = "light";
@@ -99,7 +108,7 @@ try {
   assert.equal(systemChoiceInput.checked, true);
 
   const preferenceCalls: Array<[string, unknown]> = [];
-  selectTheme(
+  await selectTheme(
     {
       renderThemeToggle: () => calls.push("rerender-theme"),
       savePreference(key: string, value: unknown) {
@@ -128,7 +137,7 @@ try {
     ["pixelFont", false],
   ]);
 
-  selectTheme(
+  await selectTheme(
     {
       renderThemeToggle: () => calls.push("rerender-theme-fallback"),
       savePreference(key: string, value: unknown) {

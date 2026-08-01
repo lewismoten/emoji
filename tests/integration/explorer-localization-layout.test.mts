@@ -7,6 +7,7 @@ import {
   catalogLoader,
   demoHtml,
   demoStyles,
+  emojiCompositionSectionControlSource,
   explorerApp,
   helpSettingsDialogControlSource,
   languageDialogControlSource,
@@ -110,7 +111,7 @@ assert.match(
 );
 assert.match(
   explorerApp,
-  /bindPanelDialog\(\{[\s\S]*button:\s*options\.languagePicker,[\s\S]*dialog:\s*options\.languageDialog,[\s\S]*onBeforeOpen:\s*\(\)\s*=>\s*\{[\s\S]*options\.helpDialog\?\.open[\s\S]*options\.closePanel\(options\.helpDialog,\s*options\.suppressedPanelCloses\)[\s\S]*panel:\s*(["'])language\1/m,
+  /bindPanelDialog\(\{[\s\S]*dialog:\s*getLanguageDialog\(\)[\s\S]*onBeforeOpen:\s*\(\)\s*=>\s*\{[\s\S]*const helpDialog = getHelpDialog\(\);[\s\S]*helpDialog\?\.open[\s\S]*options\.closePanel\(helpDialog,\s*options\.suppressedPanelCloses\)[\s\S]*panel:\s*(["'])language\1/m,
   "opening the language picker from Help must transition between modal dialogs",
 );
 assert.match(
@@ -134,7 +135,7 @@ assert.match(
   "modifier buttons must display native component glyphs instead of blank font components",
 );
 assert.match(
-  demoStyles,
+  emojiCompositionSectionControlSource,
   /\.emoji-composition-glyph\s*\{[\s\S]*font-family:\s*var\(--system-emoji-font\);[\s\S]*\.emoji-composition-glyph\.has-pixel-art\s*\{[\s\S]*font-family:\s*var\(--emoji-font\);/,
   "sequence parts must use native glyphs unless painted artwork is available",
 );

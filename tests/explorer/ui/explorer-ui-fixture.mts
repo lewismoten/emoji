@@ -13,6 +13,7 @@ type FakeElement = {
   lang?: string;
   placeholder?: string;
   querySelector?: (selector: string) => FakeElement | null;
+  removeAttribute: (name: string) => void;
   setAttribute: (name: string, value: string) => void;
   tabIndex?: number;
   textContent?: string;
@@ -40,6 +41,9 @@ export const createElement = (
     dataset,
     getAttribute(name: string) {
       return attributes.get(name) ?? null;
+    },
+    removeAttribute(name: string) {
+      attributes.delete(name);
     },
     setAttribute(name: string, value: string) {
       attributes.set(name, value);

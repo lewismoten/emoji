@@ -93,9 +93,9 @@ try {
   assert.equal(successLabel.textContent, "العربية");
   assert.deepEqual(successCalls, [
     ["updateWebAppManifest", "ar"],
-    ["loadUiTranslations", "ar", true],
     ["closeLanguageDialog"],
     ["restoreLanguageParentPanel"],
+    ["loadUiTranslations", "ar", true],
     ["saveExplorerPreference", "locale", "ar"],
   ]);
 } finally {

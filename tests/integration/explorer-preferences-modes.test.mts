@@ -29,7 +29,7 @@ const arabicUiLocale = JSON.parse(
 
 assert.match(
   demoHtml,
-  /class="basic-filter-grid"[\s\S]*class="filter-options"[\s\S]*class="advanced-filters-trigger"/,
+  /class="basic-filter-grid"[\s\S]*class="filter-options"[\s\S]*class="setting-choice advanced-filters-trigger"/,
   "category shortcuts must remain available outside the Advanced filters dialog trigger",
 );
 assert.match(
@@ -121,7 +121,7 @@ assert.doesNotMatch(
 );
 assert.match(
   demoHtml,
-  /class="advanced-filters-trigger"[\s\S]*aria-controls="advanced-filters-dialog"[\s\S]*class="advanced-filters-dialog"/,
+  /class="setting-choice advanced-filters-trigger"[\s\S]*aria-controls="advanced-filters-dialog"[\s\S]*class="advanced-filters-dialog"/,
   "advanced filters must open from a dedicated dialog trigger instead of inline disclosure content",
 );
 assert.match(

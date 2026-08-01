@@ -40,7 +40,7 @@ assert.match(
   "emoji compositions must identify zero-width joiners",
 );
 assert.match(
-  demoStyles,
+  emojiCompositionSectionControlSource,
   /\.emoji-composition-equation[\s\S]*flex-wrap: wrap/,
   "long emoji compositions must wrap",
 );
@@ -75,7 +75,7 @@ assert.match(
   "composition links must recognize presentation variants without linking to the current emoji",
 );
 assert.match(
-  demoStyles,
+  emojiCompositionSectionControlSource,
   /button\.emoji-composition-part:hover/,
   "linked composition parts must appear interactive",
 );
@@ -230,27 +230,36 @@ assert.match(
   "RTL composition reductions must begin at the right and point left",
 );
 assert.match(
-  demoStyles,
+  emojiCompositionSectionControlSource,
   /\[dir="rtl"\] \.emoji-composition-equation \{[\s\S]*direction: rtl;[\s\S]*justify-content: flex-start;/,
   "RTL compositions must begin at the right and progress leftward",
 );
 assert.match(
-  demoStyles,
+  await fs.readFile(
+    path.join(root, "src/site/styles/dialogs/emoji-composition.css"),
+    "utf8",
+  ),
   /\.emoji-composition-code-point\s*\{[\s\S]*direction:\s*ltr;[\s\S]*unicode-bidi:\s*isolate;[\s\S]*\}/,
   "individual code-point labels must retain LTR ordering",
 );
 assert.match(
-  demoStyles,
+  await fs.readFile(
+    path.join(root, "src/site/styles/dialogs/emoji-details.css"),
+    "utf8",
+  ),
   /\.emoji-preview-glyph\.has-pixel-art\s*\{[\s\S]*font-size:\s*6rem;/,
   "dialog pixel-font previews must use a crisp 12-pixel multiple on wide screens",
 );
 assert.match(
-  demoStyles,
+  emojiCompositionSectionControlSource,
   /\.emoji-composition-glyph\.has-pixel-art\s*\{[\s\S]*font-size:\s*1\.5rem;/,
   "composition glyph previews must use a crisp 12-pixel multiple",
 );
 assert.match(
-  demoStyles,
+  await fs.readFile(
+    path.join(root, "src/site/styles/responsive/mobile-editor.css"),
+    "utf8",
+  ),
   /@media \(max-width: 560px\)[\s\S]*\.emoji-preview-glyph\.has-pixel-art\s*\{[\s\S]*font-size:\s*3\.75rem;/,
   "mobile dialog pixel-font previews must stay aligned to the painted grid",
 );

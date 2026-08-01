@@ -175,7 +175,9 @@ const titleRow = ensureDialogTitleRow(dialogTitle as unknown as HTMLElement);
 assert.ok(titleRow);
 assert.equal(titleRow?.className, "dialog-title-row");
 assert.equal(dialogTitle.children[0], titleRow);
-assert.equal((titleRow as unknown as FakeElement).children[0], title);
+const titleMain = (titleRow as unknown as FakeElement).children[0] as FakeElement;
+assert.equal(titleMain.className, "dialog-title-main");
+assert.equal(titleMain.children[0], title);
 assert.equal(ensureDialogTitleRow(dialogTitle as unknown as HTMLElement), titleRow);
 assert.equal(ensureDialogTitleRow(null), null);
 
@@ -217,7 +219,9 @@ positionFavoriteButton({
   dialogTitleRow: dialogTitleRow as unknown as HTMLElement,
   favoriteButton: ensuredFavorite as unknown as HTMLElement,
 });
-assert.equal(dialogTitleRow.children[0], ensuredFavorite);
+const positionedTitleMain = dialogTitleRow.children[0] as FakeElement;
+assert.equal(positionedTitleMain.className, "dialog-title-main");
+assert.equal(positionedTitleMain.children[0], ensuredFavorite);
 
 positionFavoriteButton({
   compact: true,

@@ -173,7 +173,7 @@ try {
   assert.equal(trigger.getAttribute("aria-haspopup"), "dialog");
   assert.equal(trigger.getAttribute("type"), "button");
   assert.equal(trigger.children.length, 3);
-  assert.equal(trigger.children[0].className, "filter-picker-kind");
+  assert.equal(trigger.children[0].className, "filter-picker-kind sr-only");
   assert.equal(trigger.children[0].dataset.i18n, "group");
   assert.equal(trigger.children[0].textContent, "Group");
   assert.equal(trigger.children[1].className, "filter-picker-emoji");
@@ -223,10 +223,10 @@ try {
 
   const stylesheetIds = documentStub.head.children.map((child) => child.id).sort();
   assert.deepEqual(stylesheetIds, [
-    "compact-choice-button-control-stylesheet",
-    "dialog-close-button-control-stylesheet",
-    "dialog-heading-control-stylesheet",
-    "filter-picker-trigger-control-stylesheet",
+    "compact-choice-button-control-style",
+    "dialog-close-button-control-style",
+    "dialog-heading-control-style",
+    "filter-picker-trigger-control-style",
   ]);
 } finally {
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);

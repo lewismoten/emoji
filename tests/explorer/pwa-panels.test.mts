@@ -384,6 +384,7 @@ try {
     urlStateReady: () => true,
   });
   button.dispatch("click");
+  await Promise.resolve();
   assert.equal(beforeOpen, 1);
   assert.equal(panelOpens.length, 1);
   dialog.dispatch("close");

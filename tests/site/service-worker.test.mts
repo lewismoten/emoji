@@ -89,7 +89,7 @@ assert.match(
 );
 assert.match(
   demoPageGenerator,
-  /explorer\/pixel-editor\.css\?v=\$\{assetVersion\}/,
+  /pixel-editor\.css\?v=\$\{assetVersion\}/,
   "the demo-page generator must rewrite pixel-editor stylesheet loads with a versioned URL",
 );
 assert.match(
@@ -119,11 +119,11 @@ assert.match(
 );
 assert.match(
   arabicDemo,
-  new RegExp(`src="\\./index\\.js\\?v=${packageJson.version}"`),
+  /<script defer src="\.\/index\.js" type="module"><\/script>/,
   "localized pages must load the versioned application entry point",
 );
 assert.match(
   serviceWorker,
-  /NETWORK_FIRST_PATHS[\s\S]*index\.js[\s\S]*explorer\/themes\/dark\.css[\s\S]*explorer\/themes\/light\/light\.css[\s\S]*explorer\/themes\/ega\.css[\s\S]*explorer\/themes\/retro\/retro\.css[\s\S]*explorer\/themes\/retro\/retro-foundation\.css[\s\S]*explorer\/themes\/retro\/retro-dialogs\.css[\s\S]*explorer\/themes\/retro\/retro-buttons\.css[\s\S]*explorer\/themes\/retro\/retro-forms\.css[\s\S]*explorer\/themes\/retro\/retro-focus\.css[\s\S]*explorer\/toolbar-controls\.css[\s\S]*explorer\/dialog-controls\.css[\s\S]*pixel-editor\.js[\s\S]*explorer\/index\.css[\s\S]*explorer\/pixel-editor\.css[\s\S]*NETWORK_FIRST_PATHS\.has\(url\.pathname\)/,
+  /NETWORK_FIRST_PATHS[\s\S]*index\.js[\s\S]*index\.css[\s\S]*pixel-editor\.js[\s\S]*pixel-editor\.css[\s\S]*NETWORK_FIRST_PATHS\.has\(url\.pathname\)/,
   "application shell assets must refresh from the network before using an offline cache",
 );

@@ -17,8 +17,8 @@ const transformedSource = source
     'import { AdvancedFiltersTriggerControl } from "./advanced-filters-trigger-stub.mjs";',
   )
   .replace(
-    'import { AdvancedFiltersDialogControl } from "../../controls/dialog/content/advanced-filters-dialog.js";',
-    'import { AdvancedFiltersDialogControl } from "./advanced-filters-dialog-stub.mjs";',
+    '"../../controls/dialog/content/advanced-filters-dialog.js"',
+    '"./advanced-filters-dialog-stub.mjs"',
   )
   .replaceAll(" as HTMLDialogElement", "")
   .replaceAll(" as HTMLDivElement", "");
@@ -140,13 +140,16 @@ try {
     kind: "advanced-trigger",
   });
 
-  const created = module.createAdvancedFiltersDialogControl();
+  const created = await module.createAdvancedFiltersDialogControl();
   assert.equal(created.dialog.className, "advanced-filters-dialog");
   assert.equal(created.dialog.id, "advanced-filters-dialog");
   assert.equal(created.grid.className, "filter-grid");
   assert.equal(created.modifiers.className, "modifier-filters");
 
   module.ensureAdvancedFilterControls();
+  await Promise.resolve();
+  await Promise.resolve();
+  await new Promise((resolve) => setTimeout(resolve, 0));
   assert.deepEqual(filterOptions.prepended, [{ kind: "advanced-trigger" }]);
   assert.equal(main.appended.length, 1);
   assert.equal(main.appended[0]?.id, "advanced-filters-dialog");

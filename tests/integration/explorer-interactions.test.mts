@@ -91,7 +91,7 @@ assert.match(
 );
 assert.match(
   await fs.readFile(
-    path.join(root, "src/controls/filters/version/version-mode-toggle.css"),
+    path.join(root, "src/controls/filters/version/version-mode-toggle.ts"),
     "utf8",
   ),
   /\.version-mode-toggle:focus-visible\s*\{[^}]*outline:\s*2px dashed var\(--accent-strong\)[^}]*outline-offset:\s*var\(--focus-outline-offset\)/,
@@ -104,7 +104,7 @@ assert.match(
 );
 assert.match(
   await fs.readFile(
-    path.join(root, "src/controls/filters/pickers/compact-choice-button.css"),
+    path.join(root, "src/controls/filters/pickers/compact-choice-button.ts"),
     "utf8",
   ),
   /\.compact-choice\[aria-checked="true"\]\s*\{[^}]*background:\s*var\(--selected-control-bg\)[^}]*color:\s*var\(--selected-control-text\)/,
@@ -112,7 +112,7 @@ assert.match(
 );
 assert.match(
   await fs.readFile(
-    path.join(root, "src/controls/filters/pickers/compact-choice-button.css"),
+    path.join(root, "src/controls/filters/pickers/compact-choice-button.ts"),
     "utf8",
   ),
   /\.compact-choice:focus-visible\s*\{[^}]*outline:\s*2px dashed var\(--accent-strong\)/,
@@ -162,7 +162,10 @@ assert.match(
   "saved emoji must receive a capped stagger position",
 );
 assert.match(
-  demoStyles,
+  await fs.readFile(
+    path.join(root, "src/controls/dialog/content/saved-dialog.ts"),
+    "utf8",
+  ),
   /\.saved-emoji-list button \{[\s\S]*animation: saved-emoji-enter 320ms[\s\S]*animation-delay: calc\(var\(--saved-index, 0\) \* 24ms\)[\s\S]*@media \(hover: hover\)[\s\S]*translateY\(-0\.2rem\) rotate\(-2deg\) scale\(1\.08\)[\s\S]*@keyframes saved-emoji-enter[\s\S]*scale\(0\.72\)[\s\S]*scale\(1\.08\)/,
   "saved emoji must enter in a friendly stagger and lift on hover",
 );

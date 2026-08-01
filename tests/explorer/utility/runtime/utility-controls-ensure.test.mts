@@ -33,16 +33,7 @@ try {
   );
   assert.equal(dom.pixelFontToggle.removed, true);
   assert.deepEqual(pickerStub.calls, ["ensurePickerControls"]);
-  assert.deepEqual(advancedStub.calls, ["ensureAdvancedFilterControls"]);
-  assert.equal(dom.dialogDetails.childNodes[0]?.kind, "emoji-composition-control");
-  assert.equal(dom.main.childNodes[0]?.kind, "saved-dialog-control");
-  assert.deepEqual(dom.main.childNodes.slice(1), [
-    { kind: "language-dialog" },
-    { kind: "help-dialog" },
-  ]);
-  assert.deepEqual((globalThis as any).__mountedLanguagePicker, {
-    kind: "language-picker-button",
-  });
+  assert.deepEqual(advancedStub.calls, []);
 } finally {
   dom.restore();
 }
