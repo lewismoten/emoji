@@ -85,7 +85,7 @@ export class FilterPickerTriggerControl extends BaseControl<FilterPickerTriggerS
       className: `filter-picker-trigger ${this.state.triggerClassName}`,
       children: [
         DomFactory.element("span", {
-          className: "filter-picker-kind",
+          className: "filter-picker-kind sr-only",
           dataset: { i18n: this.state.kindKey },
           requireI18n: true,
           text: this.state.kind,

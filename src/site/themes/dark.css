@@ -75,6 +75,39 @@ html[data-theme="dark"] .sequence-type > .emoji > [data-emoji-key] {
     transform var(--motion-fast) var(--motion-ease);
 }
 
+html[data-theme="dark"] .basic-filter-grid .filter-picker-trigger,
+html[data-theme="dark"] .filter-picker-dialog .compact-choice {
+  appearance: none;
+  -webkit-appearance: none;
+  border-color: color-mix(in srgb, var(--border) 78%, var(--accent-strong) 22%);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: var(--radius-pill);
+  background: var(--panel-strong);
+  background-image: none;
+  color: var(--text);
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .basic-filter-grid .filter-picker-trigger:hover,
+html[data-theme="dark"] .filter-picker-dialog .compact-choice:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--accent-strong) 55%);
+  background: color-mix(in srgb, var(--panel-strong) 72%, var(--accent-strong) 28%);
+}
+
+html[data-theme="dark"] .filter-picker-dialog .compact-choice[aria-checked="true"] {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--accent-strong) 55%);
+  background: var(--selected-control-bg);
+  color: var(--selected-control-text);
+  box-shadow: none;
+}
+
+html[data-theme="dark"] .basic-filter-grid .filter-picker-trigger:focus-visible,
+html[data-theme="dark"] .filter-picker-dialog .compact-choice:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 html[data-theme="dark"] .setting-row {
   border-top: 1px solid var(--border);
 }

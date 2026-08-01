@@ -42,6 +42,58 @@
   margin: 0;
 }
 
+.dialog-close,
+.dialog-navigate {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+}
+
+.dialog-close,
+.dialog-navigate,
+.dialog-mode-back {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  font-family: var(--ui-font);
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+}
+
+.dialog-close {
+  font-weight: 400;
+  font-size: var(--ui-font-size-display-medium-small);
+}
+
+.dialog-navigate {
+  font-size: var(--ui-font-size-x-large);
+}
+
+[dir="rtl"] .dialog-navigate {
+  transform: scaleX(-1);
+}
+
+.dialog-mode-back {
+  min-height: 2rem;
+  padding: 0.3rem 0.65rem;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.dialog-mode-back[hidden] {
+  display: none;
+}
+
+.dialog-navigate:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
 .setting-choice-group {
   display: inline-flex;
   flex: none;
