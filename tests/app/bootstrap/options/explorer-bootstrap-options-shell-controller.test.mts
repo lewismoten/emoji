@@ -121,9 +121,15 @@ for (const [key, expected] of [
   assert.equal(controller[key](), expected);
 }
 assert.equal(controller.getEmojiGenders("item"), "getEmojiGenders-value");
-assert.equal(controller.getExplorerSubGroup("item"), "getExplorerSubGroup-value");
-assert.equal(controller.getIntroducedVersion("item"), "getIntroducedVersion-value");
-  assert.equal(controller.loadPackageManifest(), "loadPackageManifest-value");
+assert.equal(
+  controller.getExplorerSubGroup("item"),
+  "getExplorerSubGroup-value",
+);
+assert.equal(
+  controller.getIntroducedVersion("item"),
+  "getIntroducedVersion-value",
+);
+assert.equal(controller.loadPackageManifest(), "loadPackageManifest-value");
 assert.equal(controller.recordCopiedEmoji(), "recordCopiedEmoji-value");
 assert.equal(
   controller.rebuildEmojiCodePointLookup(),
@@ -144,11 +150,17 @@ assert.equal(
   "updatePixelArtworkManifest-value",
 );
 assert.equal(controller.translate("copy", "Copy"), "translate-value");
-assert.equal(controller.savePreference("order", "popular"), "savePreference-value");
+assert.equal(
+  controller.savePreference("order", "popular"),
+  "savePreference-value",
+);
 assert.equal(controller.animateCopy(), "animateCopy-value");
 assert.equal(controller.copyToClipboardValue(), "copyToClipboardValue-value");
 assert.equal(controller.developerModeEnabled(), "developerModeEnabled-value");
-assert.equal(controller.displayExplorerLabel("x"), "displayExplorerLabel-value");
+assert.equal(
+  controller.displayExplorerLabel("x"),
+  "displayExplorerLabel-value",
+);
 assert.equal(controller.formatNumber(12), "formatNumber-value");
 assert.equal(controller.isViteDevelopment, true);
 controller.navigateEmoji(2);

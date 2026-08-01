@@ -574,7 +574,10 @@ assert.deepEqual(controllers.buildRepresentatives("sparkles"), [
 assert.equal(controllers.closeFilterPicker(), "closeFilterPicker");
 assert.equal(controllers.displayGroupName("Objects"), "group:Objects");
 assert.equal(controllers.displayUnicodeSubGroupName("money"), "sub:money");
-assert.deepEqual(controllers.drawList("wrappedGift"), ["drawList", "wrappedGift"]);
+assert.deepEqual(controllers.drawList("wrappedGift"), [
+  "drawList",
+  "wrappedGift",
+]);
 assert.equal(controllers.focusInitialAction(), "focusInitialAction");
 assert.equal(controllers.focusCompactChoice(), "focusCompactChoice");
 assert.equal(controllers.getGroupRepresentativeEmoji(), "😀");
@@ -613,8 +616,14 @@ assert.deepEqual(controllers.syncVersionRange("17.0"), [
   "syncVersionRange",
   "17.0",
 ]);
-assert.equal(controllers.updateActiveFilterSummary(), "updateActiveFilterSummary");
-assert.equal(controllers.updateAvailableCategories(), "updateAvailableCategories");
+assert.equal(
+  controllers.updateActiveFilterSummary(),
+  "updateActiveFilterSummary",
+);
+assert.equal(
+  controllers.updateAvailableCategories(),
+  "updateAvailableCategories",
+);
 assert.equal(
   controllers.versionSliderLabel("16.0", "17.0"),
   "versionSliderLabel:16.0:17.0",

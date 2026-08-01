@@ -117,7 +117,10 @@ assert.equal(
   runtime.displayUnicodeSubGroupName("mail"),
   "displayUnicodeSubGroupName-value",
 );
-assert.equal(runtime.getIntroducedVersion("gift"), "getIntroducedVersion-value");
+assert.equal(
+  runtime.getIntroducedVersion("gift"),
+  "getIntroducedVersion-value",
+);
 assert.equal(runtime.openFilterPicker(), "openFilterPicker-value");
 assert.equal(runtime.onCompactChoiceKeyDown(), "onCompactChoiceKeyDown-value");
 assert.equal(runtime.onDocumentKeyDown(), "onDocumentKeyDown-value");
@@ -130,7 +133,7 @@ assert.equal(runtime.onGenderChange(), "onGenderChange-value");
 assert.equal(runtime.onSkinToneChange(), "onSkinToneChange-value");
 assert.equal(runtime.onOrderModeChange(), "onOrderModeChange-value");
 assert.equal(runtime.onVersionRangeInput(), "onVersionRangeInput-value");
-  runtime.setDialogView("editor");
+runtime.setDialogView("editor");
 runtime.showEmoji("wrappedGift", true);
 runtime.syncUrlState("replace", { hello: "world" });
 runtime.syncVersionRange("x");

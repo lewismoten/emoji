@@ -74,7 +74,8 @@ const restore = installFakeDocument();
 const documentRef = (
   globalThis as typeof globalThis & { document: { head: FakeElement } }
 ).document;
-const originalDocument = (globalThis as typeof globalThis & { document?: any }).document;
+const originalDocument = (globalThis as typeof globalThis & { document?: any })
+  .document;
 
 const instance = new ExampleControl();
 instance.update({ label: "Beta" });
