@@ -93,11 +93,16 @@ assert.equal(runtime.renderInstallAppButton(), "renderInstallAppButton-value");
 assert.equal(runtime.renderMusicToggle(), "renderMusicToggle-value");
 assert.equal(runtime.renderPixelFontToggle(), "renderPixelFontToggle-value");
 assert.equal(runtime.renderSavedEmoji(), "renderSavedEmoji-value");
+assert.equal(runtime.renderSearchLanguages(), "renderSearchLanguages-value");
 assert.equal(
   runtime.renderSoundEffectsToggle(),
   "renderSoundEffectsToggle-value",
 );
 assert.equal(runtime.renderThemeToggle(), "renderThemeToggle-value");
+assert.equal(
+  runtime.renderVersionModeToggle(),
+  "renderVersionModeToggle-value",
+);
 assert.equal(runtime.restoreDeveloperMode(), "restoreDeveloperMode-value");
 assert.equal(runtime.scheduleSearchDraw(), "scheduleSearchDraw-value");
 assert.equal(runtime.selectEmojiFont(), "selectEmojiFont-value");

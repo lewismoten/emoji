@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { createExplorerBootstrapShell } from "../../../src/app/bootstrap/explorer-bootstrap-shell.js";
 const originalWindow = globalThis.window,
-  originalDocument = globalThis.document;
-const originalMutationObserver = (globalThis as any).MutationObserver;
+  originalDocument = globalThis.document,
+  originalMutationObserver = (globalThis as any).MutationObserver;
 const registeredEvents = new Map<string, EventListener>();
 const documentListeners = new Map<string, EventListener[]>();
 const themeChoices = [

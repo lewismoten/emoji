@@ -20,6 +20,7 @@ let pixelOptions: any;
 let shellOptions: any;
 let emojiOptions: any;
 let refreshed = 0;
+let initialDiagnostic: any;
 const shell = createExplorerBootstrapShellWithFactories(
   {
     applyingUrlState: () => false,
@@ -63,6 +64,7 @@ const shell = createExplorerBootstrapShellWithFactories(
   {
     createPixelArtworkManager(options: any) {
       pixelOptions = options;
+      initialDiagnostic = options.updateRenderingDiagnostic({ boot: true });
       return {
         applyPixelArtworkClass: "pixel-class",
         refreshRenderedPixelEmoji: () => "refresh-rendered",
@@ -86,6 +88,8 @@ const shell = createExplorerBootstrapShellWithFactories(
   },
 );
 
+assert.equal(initialDiagnostic.boot, true);
+assert.equal(initialDiagnostic.developerMode, false);
 assert.equal(pixelOptions.byId().wrappedGift.key, "wrappedGift");
 assert.equal(pixelOptions.emojiByKey().wrappedGift, "🎁");
 assert.equal(pixelOptions.emojiKeyByCodePoints().get("1F381"), "wrappedGift");

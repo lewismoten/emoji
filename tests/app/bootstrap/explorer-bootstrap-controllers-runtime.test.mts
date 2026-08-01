@@ -467,27 +467,35 @@ assert.deepEqual(controllers.buildRepresentatives("sparkles"), [
   "buildRepresentatives",
   "sparkles",
 ]);
-assert.equal(controllers.closeFilterPicker(), "closeFilterPicker");
+for (const [method, expected] of [
+  ["closeFilterPicker", "closeFilterPicker"],
+  ["focusInitialAction", "focusInitialAction"],
+  ["focusCompactChoice", "focusCompactChoice"],
+  ["getGroupRepresentativeEmoji", "😀"],
+  ["getSubGroupRepresentativeEmoji", "🎁"],
+  ["getVersionKeys", "version-keys"],
+  ["loadVersionData", "loadVersionData"],
+  ["onCompactChoiceKeyDown", "onCompactChoiceKeyDown"],
+  ["onEmojiFocus", "onEmojiFocus"],
+  ["onEmojiKeyDown", "onEmojiKeyDown"],
+  ["onOrderModeChange", "onOrderModeChange"],
+  ["openFilterPicker", "openFilterPicker"],
+  ["refreshLocalizedLabels", "refreshLocalizedLabels"],
+  ["scheduleSearchDraw", "scheduleSearchDraw"],
+  ["updateActiveFilterSummary", "updateActiveFilterSummary"],
+  ["updateAvailableCategories", "updateAvailableCategories"],
+] as const)
+  assert.equal((controllers as any)[method](), expected);
 assert.equal(controllers.displayGroupName("Objects"), "group:Objects");
 assert.equal(controllers.displayUnicodeSubGroupName("money"), "sub:money");
 assert.deepEqual(controllers.drawList("wrappedGift"), [
   "drawList",
   "wrappedGift",
 ]);
-assert.equal(controllers.focusInitialAction(), "focusInitialAction");
-assert.equal(controllers.focusCompactChoice(), "focusCompactChoice");
-assert.equal(controllers.getGroupRepresentativeEmoji(), "😀");
-assert.equal(controllers.getSubGroupRepresentativeEmoji(), "🎁");
-assert.equal(controllers.getVersionKeys(), "version-keys");
-assert.equal(controllers.loadVersionData(), "loadVersionData");
-assert.equal(controllers.onCompactChoiceKeyDown(), "onCompactChoiceKeyDown");
-assert.equal(controllers.onEmojiFocus(), "onEmojiFocus");
-assert.equal(controllers.onEmojiKeyDown(), "onEmojiKeyDown");
 assert.deepEqual(controllers.onGroupSelectorChange("gift"), [
   "onGroupSelectorChange",
   "gift",
 ]);
-assert.equal(controllers.onOrderModeChange(), "onOrderModeChange");
 assert.deepEqual(controllers.onSequenceTypeSelectorChange("single"), [
   "onSequenceTypeSelectorChange",
   "single",
@@ -496,13 +504,10 @@ assert.deepEqual(controllers.onSubGroupSelectorChange("money"), [
   "onSubGroupSelectorChange",
   "money",
 ]);
-assert.equal(controllers.openFilterPicker(), "openFilterPicker");
-assert.equal(controllers.refreshLocalizedLabels(), "refreshLocalizedLabels");
 assert.deepEqual(controllers.renderCategoryFilters("Objects"), [
   "renderCategoryFilters",
   "Objects",
 ]);
-assert.equal(controllers.scheduleSearchDraw(), "scheduleSearchDraw");
 assert.deepEqual(controllers.setView("code"), ["setView", "code"]);
 assert.equal(
   controllers.subGroupSelectionKey("Objects", "money"),
@@ -512,14 +517,6 @@ assert.deepEqual(controllers.syncVersionRange("17.0"), [
   "syncVersionRange",
   "17.0",
 ]);
-assert.equal(
-  controllers.updateActiveFilterSummary(),
-  "updateActiveFilterSummary",
-);
-assert.equal(
-  controllers.updateAvailableCategories(),
-  "updateAvailableCategories",
-);
 assert.equal(
   controllers.versionSliderLabel("16.0", "17.0"),
   "versionSliderLabel:16.0:17.0",

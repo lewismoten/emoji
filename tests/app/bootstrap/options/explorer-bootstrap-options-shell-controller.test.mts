@@ -95,6 +95,7 @@ for (const [key, expected] of [
   ["hairCheckboxes", "hairCheckboxes-value"],
   ["hairFieldset", "hairFieldset-value"],
   ["helpDialog", "helpDialog-value"],
+  ["languageList", "languageList-value"],
   ["matchCount", "matchCount-value"],
   ["modifierFilters", "modifierFilters-value"],
   ["nextRenderGeneration", "nextRenderGeneration-value"],
