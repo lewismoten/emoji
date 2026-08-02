@@ -52,7 +52,7 @@ export function createExplorerUiController(options: any) {
     options.renderSoundEffectsToggle();
     options.renderMusicToggle();
     options.renderDeveloperMode();
-    options.pixelEditor()?.refreshTranslations();
+    options.pixelEditor?.()?.refreshTranslations();
   }
 
   function renderInstallAppButton() {
