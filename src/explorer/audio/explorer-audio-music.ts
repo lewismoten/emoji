@@ -100,7 +100,7 @@ export function scheduleExplorerSongEventForTest(
         duration *
         (options?.sustain
           ? 0.98
-          : (options?.releaseRatio ?? instrument.releaseRatio ?? 0.85)),
+          : (options?.releaseRatio ?? instrument.releaseRatio)),
       type: instrument.type,
       volume: instrument.volume,
       waveform: instrument.waveform,

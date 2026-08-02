@@ -1,12 +1,8 @@
 import assert from "node:assert/strict";
 import {
-  renderPixelFontToggle,
-  renderThemeToggle,
-  selectEmojiFont,
-  selectTheme,
+  renderPixelFontToggle, renderThemeToggle, selectEmojiFont, selectTheme,
 } from "../../../src/explorer-ui.js";
 import { createElement, installExplorerUiFixture } from "./explorer-ui-fixture.mjs";
-
 const fixture = installExplorerUiFixture();
 
 try {
@@ -16,7 +12,6 @@ try {
   const systemChoice = createElement({ emojiFont: "system" });
   pixelChoice.querySelector = () => pixelChoiceInput;
   systemChoice.querySelector = () => systemChoiceInput;
-
   const lightInput = createElement();
   const darkInput = createElement();
   const retroInput = createElement();
@@ -94,6 +89,16 @@ try {
       explorerModeFromUrl: "",
       developerModeUrlDismissed: false,
       explorerPreferences: { developerMode: true, theme: "mystery" },
+    }),
+  });
+  assert.equal(fixture.documentElement.dataset.theme, "dark");
+
+  renderThemeToggle({
+    choices: () => [],
+    state: () => ({
+      explorerModeFromUrl: "",
+      developerModeUrlDismissed: false,
+      explorerPreferences: { developerMode: false, mode: "standard" },
     }),
   });
   assert.equal(fixture.documentElement.dataset.theme, "dark");

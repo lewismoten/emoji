@@ -136,6 +136,7 @@ try {
   assertHasInteraction(engineCalls, "radio", "click");
   assertHasInteraction(engineCalls, "link", "click");
   fixture.listeners.get("change")?.[0]?.({ target: switchTarget });
+  fixture.listeners.get("change")?.[0]?.({ target: checkboxInputTarget });
   const wrappedSoundPreference = createWrappedPreferenceTarget(
     "soundEffects",
     true,
@@ -146,6 +147,11 @@ try {
   const nonElementClosest = new FakeElement([], null);
   nonElementClosest.closest = () => ({}) as any;
   fixture.listeners.get("click")?.[0]?.({ target: nonElementClosest });
+  const noTagInteractive = new FakeElement([], null);
+  (noTagInteractive as any).tagName = undefined;
+  fixture.listeners.get("click")?.[0]?.({
+    target: new FakeElement([], noTagInteractive),
+  });
   fixture.listeners.get("focusin")?.[0]?.({ target: genericTarget });
   fixture.listeners.get("focusout")?.[0]?.({ target: radioInputTarget });
   fixture.listeners.get("keydown")?.[1]?.({ target: checkboxInputTarget });

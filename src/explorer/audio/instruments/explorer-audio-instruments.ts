@@ -13,7 +13,7 @@ export type ExplorerInstrumentId =
 
 export type ExplorerInstrument = {
   attack?: number;
-  releaseRatio?: number;
+  releaseRatio: number;
   type: OscillatorType;
   volume: number;
   waveform?: ExplorerWaveformId;
