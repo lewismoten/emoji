@@ -51,6 +51,9 @@ export async function loadExplorerAudioModuleFixture() {
   ).replace(
     'import { createExplorerAudioEngine } from "./explorer/audio/explorer-audio-engine.js";',
     'import { createExplorerAudioEngine, engineCalls, engineApi } from "./explorer-audio-engine-stub.mjs";',
+  ).replace(
+    'import * as audioHelpers from "./explorer/audio/audio-helpers.js";',
+    'import * as audioHelpers from "./audio-helpers-stub.mjs";',
   )
     .replace(
       'import * as dialogListeners from "./controls/dialog/dialog-listeners.js";',
@@ -146,6 +149,16 @@ export const isTheme = (name) => documentRef()?.documentElement?.dataset?.theme 
 export const isBaseTheme = () => isTheme("base");
 export const isRetroTheme = () => isTheme("retro");
 export const canThemeSupportAudio = () => !isTheme("base");
+`,
+  );
+  await fs.writeFile(
+    path.join(tempDirectory, "audio-helpers-stub.mjs"),
+    `import * as preferences from "./preferences-stub.mjs";
+import { canThemeSupportAudio } from "./themes-stub.mjs";
+const isEnabled = (name) => canThemeSupportAudio() && preferences.getBoolean(name);
+export const isSoundEffectsEnabled = () => isEnabled("soundEffects");
+export const isMusicEnabled = () => isEnabled("music");
+export const isAudioEnabled = () => isSoundEffectsEnabled() || isMusicEnabled();
 `,
   );
   await fs.writeFile(

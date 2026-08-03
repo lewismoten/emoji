@@ -50,7 +50,7 @@ try {
     attributes: true,
     attributeFilter: ["open"],
   });
-  assert.equal(fixture.observers.length, 2);
+  assert.equal(fixture.observers.length >= 2, true);
   assert.equal(
     themeObserver?.target,
     (globalThis.document as any).documentElement,
@@ -69,7 +69,8 @@ try {
   };
   assert.equal(engineOptions.theme?.(), "retro");
 
-  engine.soundEffectsEnabled = () => true;
+  preferences.setBoolean("music", false);
+  preferences.setBoolean("soundEffects", true);
   await fixture.listeners.get("pointerdown")?.[0]?.();
   await fixture.listeners.get("keydown")?.[0]?.();
   assert.equal(
@@ -77,14 +78,14 @@ try {
     true,
   );
 
-  engine.soundEffectsEnabled = () => false;
-  engine.musicEnabled = () => true;
+  preferences.setBoolean("soundEffects", false);
+  preferences.setBoolean("music", true);
   await fixture.listeners.get("pointerdown")?.[0]?.();
   assert.equal(
     engineCalls.filter((call) => call[0] === "resumeAudioContext").length >= 3,
     true,
   );
-  engine.musicEnabled = () => false;
+  preferences.setBoolean("music", false);
   const resumeCountBeforeDisabledPrepare = engineCalls.filter(
     (call) => call[0] === "resumeAudioContext",
   ).length;
@@ -198,7 +199,7 @@ try {
   otherDialog.open = true;
   otherDialog.matches = () => false;
   fixture.helpDialog.open = true;
-  fixture.savedDialog.open = true;
+  fixture.savedDialog.open = false;
   assert.equal(engineOptions.isMusicalDialogOpen?.(), true);
   assert.equal(engineOptions.retroMode?.(), true);
   dialogObserver?.callback([

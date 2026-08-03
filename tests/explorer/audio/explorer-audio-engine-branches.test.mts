@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
+import * as preferences from "../../../src/preferences.js";
 import { createExplorerAudioEngine } from "../../../src/explorer/audio/explorer-audio-engine.js";
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
+const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
 
 class FakeGain {
   gain = {
@@ -43,10 +45,19 @@ class FakeAudioContext {
 
 try {
   const timeouts: Array<() => void> = [];
+  const storage = new Map<string, string>();
   Object.defineProperty(globalThis, "window", {
     configurable: true,
     value: {
       AudioContext: FakeAudioContext,
+      localStorage: {
+        getItem(key: string) {
+          return storage.get(key) ?? null;
+        },
+        setItem(key: string, value: string) {
+          storage.set(key, value);
+        },
+      },
       clearTimeout() {},
       setTimeout(callback: () => void) {
         timeouts.push(callback);
@@ -54,10 +65,15 @@ try {
       },
     },
   });
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      documentElement: { dataset: { theme: "retro" } },
+    },
+  });
+  preferences.init({ soundEffects: true, music: false });
 
   let musicalDialogOpen = false;
-  let music = false;
-  let sfx = true;
   let theme: "base" | "dark" | "light" | "retro" = "retro";
   const engine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => musicalDialogOpen,
@@ -75,12 +91,14 @@ try {
   engine.playInteraction("generic", "check");
   assert.equal(timeouts.length, 0);
   theme = "base";
-  music = true;
+  (globalThis.document as any).documentElement.dataset.theme = "base";
+  preferences.setBoolean("music", true);
   musicalDialogOpen = true;
   engine.syncHelpMusic();
   assert.equal(timeouts.length, 0);
 
   theme = "retro";
+  (globalThis.document as any).documentElement.dataset.theme = "retro";
   musicalDialogOpen = true;
   engine.syncHelpMusic();
   await Promise.resolve();
@@ -93,6 +111,14 @@ try {
     configurable: true,
     value: {
       AudioContext: ClosedAudioContext,
+      localStorage: {
+        getItem(key: string) {
+          return storage.get(key) ?? null;
+        },
+        setItem(key: string, value: string) {
+          storage.set(key, value);
+        },
+      },
       clearTimeout() {},
       setTimeout(callback: () => void) {
         timeouts.push(callback);
@@ -113,4 +139,6 @@ try {
 } finally {
   if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");
+  if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+  else Reflect.deleteProperty(globalThis, "document");
 }

@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
+import * as preferences from "../../../src/preferences.js";
 import { createExplorerAudioEngine } from "../../../src/explorer/audio/explorer-audio-engine.js";
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
+const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
 
 class FakeGain {
   connectedTo: unknown[] = [];
@@ -103,11 +105,20 @@ class FakeAudioContext {
 try {
   const timeouts: Array<() => void> = [];
   const cleared: number[] = [];
+  const storage = new Map<string, string>();
   FakeAudioContext.instances.length = 0;
   Object.defineProperty(globalThis, "window", {
     configurable: true,
     value: {
       AudioContext: FakeAudioContext,
+      localStorage: {
+        getItem(key: string) {
+          return storage.get(key) ?? null;
+        },
+        setItem(key: string, value: string) {
+          storage.set(key, value);
+        },
+      },
       clearTimeout(value: number) {
         cleared.push(value);
       },
@@ -117,10 +128,15 @@ try {
       },
     },
   });
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      documentElement: { dataset: { theme: "retro" } },
+    },
+  });
+  preferences.init({});
 
   let retro = false;
-  let sfx = false;
-  let music = false;
   let musicalDialogOpen = false;
   let theme: "base" | "dark" | "light" | "retro" = "retro";
   const engine = createExplorerAudioEngine({
@@ -138,7 +154,7 @@ try {
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 0);
 
   retro = true;
-  sfx = true;
+  preferences.setBoolean("soundEffects", true);
   engine.playClick();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 2);
   engine.playHover();
@@ -153,6 +169,7 @@ try {
 
   retro = false;
   theme = "light";
+  (globalThis.document as any).documentElement.dataset.theme = "light";
   const lightSfxStart = FakeAudioContext.instances[0]?.oscillators.length ?? 0;
   engine.playClick();
   engine.playHover();
@@ -167,6 +184,7 @@ try {
   );
 
   theme = "dark";
+  (globalThis.document as any).documentElement.dataset.theme = "dark";
   const darkSfxStart = FakeAudioContext.instances[0]?.oscillators.length ?? 0;
   engine.playDialogClose();
   engine.playInteraction("checkbox", "check");
@@ -180,7 +198,7 @@ try {
     true,
   );
 
-  music = true;
+  preferences.setBoolean("music", true);
   musicalDialogOpen = true;
   engine.syncHelpMusic();
   await Promise.resolve();
@@ -207,6 +225,14 @@ try {
     configurable: true,
     value: {
       webkitAudioContext: FakeAudioContext,
+      localStorage: {
+        getItem(key: string) {
+          return storage.get(key) ?? null;
+        },
+        setItem(key: string, value: string) {
+          storage.set(key, value);
+        },
+      },
       clearTimeout() {},
       setTimeout() {
         return 0;
@@ -214,6 +240,8 @@ try {
     },
   });
   let savedOnly = true;
+  preferences.init({ music: true });
+  (globalThis.document as any).documentElement.dataset.theme = "retro";
   const fallbackEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => savedOnly,
     retroMode: () => true,
@@ -318,7 +346,7 @@ try {
   });
   theme = "light";
   retro = false;
-  music = true;
+  preferences.setBoolean("music", true);
   musicalDialogOpen = true;
   const lightEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => musicalDialogOpen,
@@ -381,7 +409,8 @@ try {
   });
   theme = "light";
   musicalDialogOpen = true;
-  music = true;
+  preferences.setBoolean("music", true);
+  (globalThis.document as any).documentElement.dataset.theme = "light";
   const restartEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => musicalDialogOpen,
     retroMode: () => false,
@@ -402,4 +431,6 @@ try {
 } finally {
   if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");
+  if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
+  else Reflect.deleteProperty(globalThis, "document");
 }
