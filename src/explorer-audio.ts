@@ -6,8 +6,6 @@ import type {
   ExplorerAudioElementType,
 } from "./explorer/audio/explorer-audio-types.js";
 import documentRef, {
-  querySelector,
-  selectAll,
   addEventListener,
 } from "./utils/document.js";
 import {
@@ -62,21 +60,7 @@ export function createExplorerAudioController(
   let themeObserver: MutationObserver | undefined;
   let hoverTarget: AudioTarget | null = null;
 
-  const soundEffectsToggle = () =>
-    querySelector<HTMLInputElement>(
-      '.audio-choice-input[value="soundEffects"]',
-    ) ?? null;
-  const musicToggle = () =>
-    querySelector<HTMLInputElement>('.audio-choice-input[value="music"]') ??
-    null;
-
-  const isMusicalDialogOpen = () =>
-    Array.from(selectAll<HTMLDialogElement>(".dialog.musical")).some(
-      (dialog) => dialog.open,
-    );
-
   const audio = helpers.createExplorerAudioEngine({
-    isMusicalDialogOpen,
     retroMode: isRetroTheme,
     theme: () =>
       (documentRef()?.documentElement?.dataset?.theme as
@@ -130,11 +114,11 @@ export function createExplorerAudioController(
   };
   const renderSoundEffectsToggle = () =>
     renderAudioToggle(
-      soundEffectsToggle(),
+      audioHelpers.soundEffectsToggle(),
       audioHelpers.isSoundEffectsEnabled(),
     );
   const renderMusicToggle = () =>
-    renderAudioToggle(musicToggle(), audioHelpers.isMusicEnabled());
+    renderAudioToggle(audioHelpers.musicToggle(), audioHelpers.isMusicEnabled());
 
   function setSoundEffects(enabled: boolean) {
     if (isBaseTheme()) return void renderSoundEffectsToggle();

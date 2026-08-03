@@ -16,7 +16,6 @@ import type { ExplorerSoundEffectId } from "./sfx/explorer-audio-sfx-types.js";
 import * as audioHelpers from './audio-helpers.js';
 
 type ExplorerAudioEngineOptions = {
-  isMusicalDialogOpen: () => boolean;
   retroMode: () => boolean;
   theme: () => ExplorerAudioTheme;
 };
@@ -84,7 +83,7 @@ export function createExplorerAudioEngine(
     return (
       audioHelpers.isMusicEnabled() &&
       options.theme() !== "base" &&
-      options.isMusicalDialogOpen()
+      audioHelpers.isMusicalDialogOpen()
     );
   }
 
