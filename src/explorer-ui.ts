@@ -1,7 +1,12 @@
 import * as aria from "./utils/aria.js";
 import { translate, applyTranslations, setTranslations } from "./utils/i18n.js";
 import * as preferences from "./preferences.js";
-import * as themes from "./utils/themes.js";
+import resolveChoiceElements from "./resolve-choice-elements.js";
+import buildDeveloperModeControllerChange from "./developer-mode-controller-change.js";
+import resolveExplorerMode from "./resolve-explorer-mode.js";
+import { ensureThemeStyles } from "./explorer/theme/theme-styles.js";
+import { DeveloperModeControllerOptions } from "./developer-mode-controller-options.js";
+import syncChoiceInputSelection from "./sync-choice-input-selection.js";
 
 export function createExplorerUiController(options: any) {
   const fetchJsonWithFallback = async (primary: string, fallback: string) => {
@@ -68,88 +73,6 @@ export function createExplorerUiController(options: any) {
   };
 }
 
-function updateThemeColor() {
-  const meta = document.querySelector(
-    'meta[name="theme-color"]',
-  ) as HTMLMetaElement | null;
-  if (!meta) return;
-  meta.content = themes.getColor();
-}
-
-function syncChoiceInputSelection(
-  input: HTMLInputElement | null,
-  selected: boolean,
-) {
-  if (!input) return;
-  input.checked = selected;
-  input.defaultChecked = selected;
-  input.tabIndex = -1;
-  if (selected) {
-    input.setAttribute("checked", "checked");
-  } else {
-    input.removeAttribute("checked");
-  }
-}
-
-function resolveExplorerMode(state: any) {
-  if (state.explorerModeFromUrl && !state.developerModeUrlDismissed) {
-    return state.explorerModeFromUrl;
-  }
-  return ["standard", "advanced", "developer"].includes(
-    preferences.getString("mode"),
-  )
-    ? preferences.getString("mode")
-    : "standard";
-}
-
-function resolveThemePreference(
-  preferredTheme: string | undefined,
-  fullDeveloperMode: boolean,
-): "base" | "dark" | "light" | "retro" {
-  if (preferredTheme === "base") return fullDeveloperMode ? "base" : "dark";
-  return ["light", "retro"].includes(preferredTheme ?? "")
-    ? (preferredTheme as "light" | "retro")
-    : "dark";
-}
-
-function resolveChoiceElements(
-  choices: (() => any[] | undefined) | undefined,
-  selector: string,
-) {
-  const supplied = (choices?.() ?? []).filter(
-    (choice) => choice && typeof choice === "object" && choice.isConnected,
-  );
-  if (Array.isArray(supplied) && supplied.length > 0) return supplied;
-  if (typeof document === "undefined") return [];
-  return Array.from(document.querySelectorAll(selector));
-}
-
-export function renderThemeToggle(options: any) {
-  if (typeof document === "undefined" || !document.documentElement) return;
-  const fullDeveloperMode =
-    resolveExplorerMode(options.state()) === "developer";
-  const theme = resolveThemePreference(
-    preferences.getString("theme"),
-    fullDeveloperMode,
-  );
-  void ensureThemeStyles(theme);
-  document.documentElement.dataset.theme = theme;
-  resolveChoiceElements(options.choices, ".theme-choice").forEach(
-    (choice: any) => {
-      const selected = choice.dataset.theme === theme;
-      choice.classList.toggle("is-active", selected);
-      aria.setPressed(choice, selected);
-      aria.setChecked(choice, selected);
-      choice.tabIndex = selected ? 0 : -1;
-      const input = choice.querySelector(
-        'input[type="radio"]',
-      ) as HTMLInputElement | null;
-      syncChoiceInputSelection(input, selected);
-    },
-  );
-  updateThemeColor();
-}
-
 export async function selectTheme(options: any, event: any) {
   const requestedTheme = event.currentTarget.dataset.theme;
   const theme =
@@ -190,7 +113,9 @@ export function selectEmojiFont(options: any, event: any) {
   if (event?.detail > 0) event.currentTarget.blur();
 }
 
-export function createDeveloperModeController(options: any) {
+export function createDeveloperModeController(
+  options: DeveloperModeControllerOptions,
+) {
   const mode = () => resolveExplorerMode(options.state());
   const enabled = () => mode() !== "standard";
   const fullEnabled = () => mode() === "developer";
@@ -221,46 +146,7 @@ export function createDeveloperModeController(options: any) {
       }
     }
   }
-  function change(event: any) {
-    const currentTarget =
-      event.currentTarget?.closest?.(".mode-choice") ?? event.currentTarget;
-    const hasChoices = (options.choices?.() ?? []).length > 0;
-    const requestedMode =
-      currentTarget?.dataset?.mode ??
-      event.target?.value ??
-      currentTarget?.querySelector?.('input[type="radio"]')?.value ??
-      (hasChoices
-        ? "standard"
-        : currentTarget?.checked
-          ? "developer"
-          : "standard");
-    const nextMode = ["standard", "advanced", "developer"].includes(
-      requestedMode,
-    )
-      ? requestedMode
-      : "standard";
-    options.state().developerModeUrlDismissed = nextMode === "standard";
-    options.state().explorerModeFromUrl = "";
-    options.state().developerModeFromUrl = false;
-    preferences.setString("mode", nextMode);
-    if (nextMode !== "developer" && preferences.getString("theme") === "base") {
-      preferences.setString("theme", "dark");
-    }
-    render();
-    options.renderThemeToggle?.();
-    if (nextMode !== "standard") void options.loadVersionData();
-    if (
-      nextMode !== "developer" &&
-      options.dialog()?.classList?.contains?.("is-editor-view")
-    ) {
-      options.setDialogView("details");
-    }
-    if (nextMode === "standard" && options.dialog()?.open) {
-      options.setDialogView("details");
-    }
-    if (nextMode === "standard") options.disableDeveloperFeatures();
-    options.syncUrlState();
-  }
+  const change = buildDeveloperModeControllerChange(options, render);
+
   return { enabled, fullEnabled, render, change, mode };
 }
-import { ensureThemeStyles } from "./explorer/theme/theme-styles.js";

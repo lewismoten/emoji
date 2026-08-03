@@ -141,6 +141,9 @@ try {
 
   const selectorThemeChoice = createElement({ theme: "retro" });
   selectorThemeChoice.querySelector = () => null;
+  const mixedLightChoice = createElement({ theme: "light" });
+  (mixedLightChoice as any).isConnected = true;
+  mixedLightChoice.querySelector = () => null;
   const originalDocumentForSelector = Object.getOwnPropertyDescriptor(
     globalThis,
     "document",
@@ -160,13 +163,18 @@ try {
   });
   preferences.setString("theme", "retro");
   renderThemeToggle({
+    choices: () => [null as any, "bad-choice" as any, mixedLightChoice],
     state: () => ({
       explorerModeFromUrl: "",
       developerModeUrlDismissed: false,
-      explorerPreferences: { developerMode: false, theme: "retro", mode: "advanced" },
+      explorerPreferences: {
+        developerMode: false,
+        theme: "retro",
+        mode: "advanced",
+      },
     }),
   });
-  assert.equal(selectorThemeChoice.classList.active.has("is-active"), true);
+  assert.equal(mixedLightChoice.classList.active.has("is-active"), false);
   if (originalDocumentForSelector) {
     Object.defineProperty(globalThis, "document", originalDocumentForSelector);
   }
@@ -197,6 +205,24 @@ try {
   assert.equal(fixture.themeMeta.content, "");
 
   Reflect.deleteProperty(globalThis, "document");
+  assert.doesNotThrow(() =>
+    renderThemeToggle({
+      choices: () => [],
+      state: () => state,
+    }),
+  );
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      documentElement: null,
+      querySelector() {
+        return null;
+      },
+      querySelectorAll() {
+        return [];
+      },
+    },
+  });
   assert.doesNotThrow(() =>
     renderThemeToggle({
       choices: () => [],
