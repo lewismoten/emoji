@@ -12,6 +12,7 @@ import {
   selectEmojiFont as selectEmojiFontHelper,
   selectTheme as selectThemeHelper,
 } from "../explorer-ui.js";
+import * as audioToggle from "../controls/audio/audio-toggle.js";
 
 export function createExplorerShellDependencies() {
   return {
@@ -65,8 +66,7 @@ export function createExplorerShell(options: any, dependencies?: any) {
       choices: options.themeChoices,
       state: options.state,
     });
-    audio.renderSoundEffectsToggle();
-    audio.renderMusicToggle();
+    audioToggle.render();
     audio.syncHelpMusic();
   }
 

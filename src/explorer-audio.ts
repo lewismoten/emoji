@@ -1,12 +1,11 @@
-import * as preferences from "./preferences.js";
 import { createExplorerAudioEngine } from "./explorer/audio/explorer-audio-engine.js";
 import * as dialogListeners from "./controls/dialog/dialog-listeners.js";
 import type { ExplorerAudioAction } from "./explorer/audio/explorer-audio-types.js";
 import documentRef, { addEventListener } from "./utils/document.js";
-import { isBaseTheme, canThemeSupportAudio } from "./utils/themes.js";
 import * as aria from "./utils/aria.js";
 import * as audioHelpers from "./explorer/audio/audio-helpers.js";
 import { classifyElement, isInput } from "./utils/element.js";
+import * as audioToggle from "./controls/audio/audio-toggle.js";
 
 const INTERACTIVE_SELECTOR = [
   "a[href]",
@@ -54,53 +53,21 @@ export function createExplorerAudioController(
 
   const playTargetAction = (target: HTMLElement, action: ExplorerAudioAction) =>
     audio.playInteraction(classifyElement(target), action);
-  const renderAudioToggle = (
-    toggle: HTMLInputElement | null,
-    enabled: boolean,
-  ) => {
-    if (!toggle) return;
-    const audioDisabled = !canThemeSupportAudio();
-    toggle.checked = enabled;
-    toggle.disabled = audioDisabled;
-    aria.setChecked(toggle, enabled);
-    aria.setDisabled(toggle, audioDisabled);
-    if (!toggle.parentElement) return;
-    aria.setPressed(toggle.parentElement, enabled);
-    aria.setDisabled(toggle.parentElement, audioDisabled);
-  };
-  const renderSoundEffectsToggle = () =>
-    renderAudioToggle(
-      audioHelpers.soundEffectsToggle(),
-      audioHelpers.isSoundEffectsEnabled(),
-    );
-  const renderMusicToggle = () =>
-    renderAudioToggle(
-      audioHelpers.musicToggle(),
-      audioHelpers.isMusicEnabled(),
-    );
 
-  function setSoundEffects(enabled: boolean) {
-    if (isBaseTheme()) return void renderSoundEffectsToggle();
-    preferences.setBoolean("soundEffects", enabled);
-    renderSoundEffectsToggle();
-    if (enabled) void audio.resumeAudioContext();
-  }
-
-  function setMusic(enabled: boolean) {
-    if (isBaseTheme()) {
-      renderMusicToggle();
-      return void audio.syncHelpMusic();
+  const setSoundEffects = async (enabled: boolean) => {
+    if (await audioToggle.enableSoundEffects(enabled)) {
+      audio.resumeAudioContext();
     }
-    preferences.setBoolean("music", enabled);
-    renderMusicToggle();
-    if (enabled) {
-      void audio.resumeAudioContext().then(() => {
+  };
+
+  const setMusic = async (enabled: boolean) => {
+    if (await audioToggle.enableMusic(enabled)) {
+      return void audio.resumeAudioContext().then(() => {
         audio.restartMusic();
       });
-      return;
     }
-    audio.syncHelpMusic();
-  }
+    return void audio.syncHelpMusic();
+  };
 
   const getInteractiveTarget = (
     target: EventTarget | null,
@@ -119,8 +86,10 @@ export function createExplorerAudioController(
     if (!activeDocument) return;
     initialized = true;
 
-    const prepareAudio = () =>
-      audioHelpers.isAudioEnabled() && audio.resumeAudioContext();
+    const prepareAudio = async () => {
+      const enabled = await audioHelpers.isAudioEnabled();
+      return enabled && audio.resumeAudioContext();
+    };
     addEventListener("pointerdown", prepareAudio, {
       capture: true,
       passive: true,
@@ -236,8 +205,7 @@ export function createExplorerAudioController(
         )
       )
         return;
-      renderSoundEffectsToggle();
-      renderMusicToggle();
+      audioToggle.render();
       audio.restartMusic();
     });
     if (activeDocument.documentElement) {
@@ -247,15 +215,12 @@ export function createExplorerAudioController(
       });
     }
 
-    renderSoundEffectsToggle();
-    renderMusicToggle();
+    audioToggle.render();
     audio.syncHelpMusic();
   }
 
   return {
     bindAudioInteractions,
-    renderMusicToggle,
-    renderSoundEffectsToggle,
     syncHelpMusic: audio.syncHelpMusic,
   };
 }

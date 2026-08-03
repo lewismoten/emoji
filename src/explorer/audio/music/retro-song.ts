@@ -1,5 +1,5 @@
-import type { ExplorerMusicSong } from "../../explorer-audio-song-types.js";
-import { NOTE_LENGTHS, PITCHES } from "../../explorer-audio-notes.js";
+import type { ExplorerMusicSong } from "./explorer-audio-song-types.js";
+import { NOTE_LENGTHS, PITCHES } from "./explorer-audio-notes.js";
 
 const Q = NOTE_LENGTHS.QUARTER;
 const H = NOTE_LENGTHS.HALF;
@@ -13,7 +13,7 @@ const C3HS = [PITCHES.C3, H, { sustain: true }] as const;
 const D3HS = [PITCHES.D3, H, { sustain: true }] as const;
 const E3HS = [PITCHES.E3, H, { sustain: true }] as const;
 
-export const retroExplorerSong: ExplorerMusicSong = {
+const song:ExplorerMusicSong = {
   beatLength: 0.18,
   gain: 0.09,
   voices: [
@@ -27,3 +27,4 @@ export const retroExplorerSong: ExplorerMusicSong = {
     },
   ],
 };
+export default song;

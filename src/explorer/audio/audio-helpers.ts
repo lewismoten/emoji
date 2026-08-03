@@ -7,11 +7,17 @@ import {
   selectAll,
 } from "../../utils/document.js";
 
-const isEnabled = (name: keyof typeof preferences.preferences) => 
-    canThemeSupportAudio() && preferences.getBoolean(name);
-export const isSoundEffectsEnabled = () => isEnabled("soundEffects");
-export const isMusicEnabled = () => isEnabled("music");
-export const isAudioEnabled = () => isSoundEffectsEnabled() || isMusicEnabled();
+const isEnabled = async (name: keyof typeof preferences.preferences) => {
+  const enabled = await canThemeSupportAudio();
+  if(!enabled) return false;
+  return preferences.getBoolean(name);
+}
+export const isSoundEffectsEnabled = async () => isEnabled("soundEffects");
+export const isMusicEnabled = async () => isEnabled("music");
+export const isAudioEnabled = async () => Promise.all([
+    isSoundEffectsEnabled(),
+    isMusicEnabled()
+  ]).then(status => status.some(Boolean));
 
 const toggleInput = (name:string) => 
   querySelector<HTMLInputElement>(

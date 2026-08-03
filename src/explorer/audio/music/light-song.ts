@@ -1,5 +1,5 @@
-import type { ExplorerMusicSong } from "../../explorer-audio-song-types.js";
-import { NOTE_LENGTHS, PITCHES } from "../../explorer-audio-notes.js";
+import type { ExplorerMusicSong } from "./explorer-audio-song-types.js";
+import { NOTE_LENGTHS, PITCHES } from "./explorer-audio-notes.js";
 
 const Q = NOTE_LENGTHS.QUARTER;
 const H = NOTE_LENGTHS.HALF;
@@ -35,7 +35,7 @@ const HAT_ALT = [300, Q, { endFrequency: 135, releaseRatio: 0.22 }] as const;
 const HAT_RISE = [320, Q, { endFrequency: 144, releaseRatio: 0.22 }] as const;
 const HAT_PEAK = [340, Q, { endFrequency: 153, releaseRatio: 0.22 }] as const;
 
-export const lightExplorerSong: ExplorerMusicSong = {
+const song:ExplorerMusicSong = {
   beatLength: 0.21,
   gain: 0.1,
   voices: [
@@ -108,3 +108,4 @@ export const lightExplorerSong: ExplorerMusicSong = {
     },
   ],
 };
+export default song;

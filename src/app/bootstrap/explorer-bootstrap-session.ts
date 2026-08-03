@@ -124,8 +124,7 @@ const controllers = createExplorerBootstrapControllers(
       shell.renderDeveloperMode();
       shell.renderThemeToggle();
       shell.renderPixelFontToggle();
-      shell.renderSoundEffectsToggle();
-      shell.renderMusicToggle();
+      audioToggle.render();
       bindings.renderSearchLanguages?.();
     },
     emojiList: () => bindings.emojiList,

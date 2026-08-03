@@ -1,13 +1,9 @@
 import { scheduleExplorerTone } from "./explorer-audio-tone.js";
-import type { ExplorerAudioTheme } from "./explorer-audio-types.js";
 import { getExplorerInstrument } from "./instruments/explorer-audio-instruments.js";
 import type {
   ExplorerMusicSong,
   ExplorerSongEvent,
 } from "./music/explorer-audio-song-types.js";
-import { darkExplorerSong } from "./music/themes/dark/dark-audio-song.js";
-import { lightExplorerSong } from "./music/themes/light/light-audio-song.js";
-import { retroExplorerSong } from "./music/themes/retro/retro-audio-song.js";
 import * as themes from '../../utils/themes.js';
 
 type ScheduledMusicOptions = {
@@ -20,14 +16,7 @@ type ScheduledMusicOptions = {
   schedulePlayback: () => void;
 };
 
-export function getExplorerMusicConfig() {
-  const theme = themes.getTheme();
-  if (theme === "light") return lightExplorerSong;
-  if (theme === "dark") return darkExplorerSong;
-  return retroExplorerSong;
-}
-
-export function scheduleExplorerMusic({
+export const scheduleExplorerMusic = async ({
   context,
   createGain,
   masterGain,
@@ -35,8 +24,9 @@ export function scheduleExplorerMusic({
   musicGain,
   scheduleNext,
   schedulePlayback
-}: ScheduledMusicOptions) {
-  const config = getExplorerMusicConfig();
+}: ScheduledMusicOptions) => {
+  const config = await themes.getSong();
+  if(!config) return;
   const output = musicGain ?? createGain();
   if (!musicGain) {
     output.gain.value = config.gain;

@@ -50,8 +50,9 @@ export function createExplorerAudioEngine() {
     return context;
   }
 
-  function playSoundEffect(effectId: ExplorerSoundEffectId) {
-    if (!audioHelpers.isSoundEffectsEnabled()) return;
+  const playSoundEffect = async (effectId: ExplorerSoundEffectId) => {
+    const isEnabled = await audioHelpers.isSoundEffectsEnabled();
+    if (!isEnabled) return;
     const effect = getThemedExplorerSoundEffect(effectId);
     if (!effect) return;
     const context = getAudioContext();
@@ -62,20 +63,18 @@ export function createExplorerAudioEngine() {
     });
   }
 
-  function playInteraction(
+  const playInteraction = async (
     elementType: ExplorerAudioElementType,
     action: ExplorerAudioAction,
-  ) {
+  ) => {
     const effectId = resolveExplorerSoundEffect(elementType, action);
     if (!effectId) return;
-    playSoundEffect(effectId);
+    await playSoundEffect(effectId);
   }
 
-  function shouldPlayMusic() {
-    return (
-      audioHelpers.isMusicEnabled() &&
-      audioHelpers.isMusicalDialogOpen()
-    );
+  const shouldPlayMusic = async (): Promise<boolean> => {
+    if(!audioHelpers.isMusicalDialogOpen()) return false;
+    return audioHelpers.isMusicEnabled();
   }
 
   function stopMusic() {
@@ -113,7 +112,7 @@ export function createExplorerAudioEngine() {
     }
     const context = getAudioContext();
     if (!context || context.state !== "running" || !masterGain) return;
-    const scheduled = scheduleExplorerMusic({
+    const scheduled = await scheduleExplorerMusic({
       context,
       createGain: () => context.createGain(),
       masterGain,
@@ -122,30 +121,37 @@ export function createExplorerAudioEngine() {
       scheduleNext: (callback, timeout) => window.setTimeout(callback, timeout),
       schedulePlayback: scheduleMusic
     });
+    if(!scheduled) return;
     musicBeat = scheduled.musicBeat;
     musicGain = scheduled.musicGain;
     musicTimer = scheduled.musicTimer;
   }
 
-  function syncHelpMusic() {
-    if (shouldPlayMusic()) {
-      if (!musicTimer) {
-        void resumeAudioContext().then(() => {
-          if (shouldPlayMusic() && !musicTimer) scheduleMusic();
-        });
-      } else {
-        void resumeAudioContext();
-      }
-    } else {
+  const syncHelpMusic = async () => {
+    const enabled = await shouldPlayMusic();
+    if(!enabled) {
       stopMusic();
+      return;
+    }
+    if (!musicTimer) {
+      void resumeAudioContext()
+      .then(shouldPlayMusic)
+      .then((enabled) => {
+        if (enabled && !musicTimer) scheduleMusic();
+      });
+    } else {
+      void resumeAudioContext();
     }
   }
 
-  function restartMusic() {
+  const restartMusic = async () => {
     resetMusicPlayback();
-    if (!shouldPlayMusic()) return;
-    void resumeAudioContext().then(() => {
-      if (shouldPlayMusic() && !musicTimer) scheduleMusic();
+    const enabled = await shouldPlayMusic();
+    if (!enabled) return;
+    void resumeAudioContext()
+    .then(shouldPlayMusic)
+    .then(enabled => {
+      if (enabled && !musicTimer) scheduleMusic();
     });
   }
 
