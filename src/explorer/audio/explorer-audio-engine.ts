@@ -11,7 +11,20 @@ import type {
 import type { ExplorerSoundEffectId } from "./sfx/explorer-audio-sfx-types.js";
 import * as audioHelpers from './audio-helpers.js';
 
-export function createExplorerAudioEngine() {
+export interface ExplorerAudioEngine {
+    playClick: () => Promise<void>,
+    playDialogClose: () => Promise<void>,
+    playDialogOpen: () => Promise<void>,
+    playHover: () => Promise<void>,
+    playInteraction: (elementType: ExplorerAudioElementType,
+    action: ExplorerAudioAction,) => Promise<void>,
+    playSoundEffect: (effectId: ExplorerSoundEffectId) => Promise<void>,
+    restartMusic: () => Promise<void>,
+    resumeAudioContext: () => Promise<AudioContext | undefined>,
+    stopMusic: () => void,
+    syncHelpMusic: () => Promise<void>,
+}
+export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
   let audioContext: AudioContext | undefined;
   let masterGain: GainNode | undefined;
   let musicTimer: number | undefined;
