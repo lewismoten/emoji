@@ -52,7 +52,7 @@ try {
   (pixelChoice as any).isConnected = true;
   (systemChoice as any).isConnected = true;
 
-  const state = {
+  const state: any = {
     explorerPreferences: {
       mode: "developer",
       pixelFont: true,
@@ -113,8 +113,9 @@ try {
     state: () => ({
       explorerModeFromUrl: "",
       developerModeUrlDismissed: false,
+      developerModeFromUrl: false,
       explorerPreferences: { developerMode: true, theme: "mystery" },
-    }),
+    } as any),
   });
   assert.equal(fixture.documentElement.dataset.theme, "retro");
 
@@ -124,8 +125,9 @@ try {
     state: () => ({
       explorerModeFromUrl: "",
       developerModeUrlDismissed: false,
+      developerModeFromUrl: false,
       explorerPreferences: { developerMode: false, mode: "standard" },
-    }),
+    } as any),
   });
   assert.equal(fixture.documentElement.dataset.theme, "dark");
   preferences.setString("theme", "");
@@ -134,8 +136,9 @@ try {
     state: () => ({
       explorerModeFromUrl: "",
       developerModeUrlDismissed: false,
+      developerModeFromUrl: false,
       explorerPreferences: { developerMode: false, mode: "standard" },
-    }),
+    } as any),
   });
   assert.equal(fixture.documentElement.dataset.theme, "dark");
 
@@ -167,12 +170,13 @@ try {
     state: () => ({
       explorerModeFromUrl: "",
       developerModeUrlDismissed: false,
+      developerModeFromUrl: false,
       explorerPreferences: {
         developerMode: false,
         theme: "retro",
         mode: "advanced",
       },
-    }),
+    } as any),
   });
   assert.equal(mixedLightChoice.classList.active.has("is-active"), false);
   if (originalDocumentForSelector) {
@@ -199,8 +203,9 @@ try {
     state: () => ({
       explorerModeFromUrl: "",
       developerModeUrlDismissed: false,
+      developerModeFromUrl: false,
       explorerPreferences: { developerMode: false, theme: "light", mode: "mystery" },
-    }),
+    } as any),
   });
   assert.equal(fixture.themeMeta.content, "");
 

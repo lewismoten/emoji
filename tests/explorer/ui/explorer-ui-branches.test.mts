@@ -31,7 +31,7 @@ try {
   preferences.setString("mode", "mystery" as never);
   preferences.setString("theme", "base");
 
-  const state = {
+  const state: any = {
     developerModeFromUrl: false,
     explorerModeFromUrl: "advanced",
     developerModeUrlDismissed: true,
@@ -303,8 +303,9 @@ try {
     state: () => ({
       developerModeUrlDismissed: false,
       explorerModeFromUrl: "",
+      developerModeFromUrl: false,
       explorerPreferences: { mode: "standard", theme: "dark" },
-    }),
+    } as any),
   });
   assert.equal(fixture.documentElement.dataset.theme, "dark");
 
@@ -323,7 +324,7 @@ try {
   assert.doesNotThrow(() =>
     renderThemeToggle({
       choices: () => [],
-      state: () => state,
+      state: () => state as any,
     }),
   );
   if (originalDocument) {

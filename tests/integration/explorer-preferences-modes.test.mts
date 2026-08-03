@@ -5,6 +5,7 @@ import path from "node:path";
 import {
   arabicDemo,
   catalogLoader,
+  developerModeControllerChangeSource,
   demoHtml,
   demoScript,
   demoStyles,
@@ -53,8 +54,8 @@ assert.match(
   "Developer mode must read shared mode state from the URL",
 );
 assert.match(
-  explorerUi,
-  /const enabled = \(\) => mode\(\) !== "standard"[\s\S]*const fullEnabled = \(\) => mode\(\) === "developer"[\s\S]*function change[\s\S]*preferences\.setString\((["'])mode\1,\s*nextMode\)/,
+  `${explorerUi}\n${developerModeControllerChangeSource}`,
+  /const enabled = \(\) => mode\(\) !== "standard"[\s\S]*const fullEnabled = \(\) => mode\(\) === "developer"[\s\S]*const handler = \(event: any\) =>[\s\S]*preferences\.setString\((["'])mode\1,\s*nextMode\)/,
   "Developer mode must support shared URL activation and persist explicit mode selection",
 );
 assert.match(
@@ -68,7 +69,7 @@ assert.match(
   "browser navigation must restore explorer mode before applying dialog URL state",
 );
 assert.match(
-  explorerUi,
+  developerModeControllerChangeSource,
   /preferences\.setString\((["'])mode\1,\s*nextMode\)[\s\S]*options\.syncUrlState\(\)/,
   "changing explorer mode must clean and rewrite URL state from the controller",
 );

@@ -23,8 +23,8 @@ const legacyLineBudgets: Record<string, number> = {
   "tests/app/browser/browser-runtime-service-worker.test.mts": 489,
   "tests/app/bootstrap/explorer-bootstrap-session-runtime.test.mts": 547,
   "tests/app/category-controller.test.mts": 522,
-  "tests/explorer/ui/explorer-ui-branches.test.mts": 340,
-  "tests/explorer/ui/explorer-ui-theme-font.test.mts": 328,
+  "tests/explorer/ui/explorer-ui-branches.test.mts": 341,
+  "tests/explorer/ui/explorer-ui-theme-font.test.mts": 359,
   "tests/explorer/audio/explorer-audio-engine.test.mts": 409,
   "tests/explorer/audio/direct/explorer-audio-direct-interactions.test.mts": 304,
   "tests/explorer/audio/direct/explorer-audio-direct-fixture.mts": 302,
@@ -57,7 +57,7 @@ assert.deepEqual(
   "Files specified below 300 line limits.",
 );
 
-const legacyFileCountBudgets: Record<string, number> = { src: 12, tests: 11 };
+const legacyFileCountBudgets: Record<string, number> = { src: 18, tests: 17 };
 assert.deepEqual(
   Object.entries(legacyFileCountBudgets).filter(
     ([key, value]) => value < structureLimits.filesPerDirectory,

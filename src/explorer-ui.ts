@@ -5,6 +5,7 @@ import resolveChoiceElements from "./resolve-choice-elements.js";
 import buildDeveloperModeControllerChange from "./developer-mode-controller-change.js";
 import resolveExplorerMode from "./resolve-explorer-mode.js";
 import { ensureThemeStyles } from "./explorer/theme/theme-styles.js";
+export { renderThemeToggle } from "./render-theme-toggle.js";
 import { DeveloperModeControllerOptions } from "./developer-mode-controller-options.js";
 import syncChoiceInputSelection from "./sync-choice-input-selection.js";
 
@@ -142,7 +143,7 @@ export function createDeveloperModeController(
       const toggle = options.toggle?.();
       if (toggle) {
         toggle.checked = active;
-        aria.setPressed(toggle, active);
+        aria.setPressed(toggle as any, active);
       }
     }
   }

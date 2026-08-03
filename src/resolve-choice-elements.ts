@@ -1,4 +1,4 @@
-import { selectAll } from "./utils/document";
+import { selectAll } from "./utils/document.js";
 
 function resolveChoiceElements(
   choices: (() => any[] | undefined) | undefined,

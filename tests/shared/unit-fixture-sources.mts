@@ -56,6 +56,10 @@ export const explorerUi = await fs.readFile(
   path.join(root, "src/explorer-ui.ts"),
   "utf8",
 );
+export const developerModeControllerChangeSource = await fs.readFile(
+  path.join(root, "src/developer-mode-controller-change.ts"),
+  "utf8",
+);
 export const explorerPreferencesSource = await fs.readFile(
   path.join(root, "src/app/explorer-preferences.ts"),
   "utf8",

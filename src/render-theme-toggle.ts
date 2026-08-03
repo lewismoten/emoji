@@ -1,11 +1,19 @@
 import resolveExplorerMode from "./resolve-explorer-mode.js";
 import * as preferences from "./preferences.js";
-import { DeveloperModeControllerOptions } from "./developer-mode-controller-options.js";
 import * as aria from "./utils/aria.js";
 import { ensureThemeStyles } from "./explorer/theme/theme-styles.js";
 import resolveChoiceElements from "./resolve-choice-elements.js";
 import syncChoiceInputSelection from "./sync-choice-input-selection.js";
 import * as themes from "./utils/themes.js";
+
+type RenderThemeToggleOptions = {
+  choices?: () => any[] | undefined;
+  state: () => {
+    developerModeUrlDismissed: boolean;
+    developerModeFromUrl?: boolean;
+    explorerModeFromUrl?: "" | "standard" | "advanced" | "developer";
+  };
+};
 
 function resolveThemePreference(
   preferredTheme: string | undefined,
@@ -25,7 +33,7 @@ function updateThemeColor() {
   meta.content = themes.getColor();
 }
 
-export function renderThemeToggle(options: DeveloperModeControllerOptions) {
+export function renderThemeToggle(options: RenderThemeToggleOptions) {
   if (typeof document === "undefined" || !document.documentElement) return;
   const fullDeveloperMode =
     resolveExplorerMode(options.state()) === "developer";

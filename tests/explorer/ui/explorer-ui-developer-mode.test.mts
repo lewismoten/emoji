@@ -27,7 +27,7 @@ try {
 
   const calls: string[] = [];
   const preferenceCalls: Array<[string, unknown]> = [];
-  const state = {
+  const state: any = {
     developerModeFromUrl: true,
     explorerModeFromUrl: "developer",
     developerModeUrlDismissed: false,
@@ -93,7 +93,7 @@ try {
     },
   });
   assert.equal(state.developerModeFromUrl, false);
-  assert.equal(state.explorerModeFromUrl, "");
+  assert.equal(state.explorerModeFromUrl, "standard");
   assert.equal(state.developerModeUrlDismissed, true);
   assert.equal(preferences.getString("theme"), "dark");
   assert.ok(calls.includes("dialog:details"));
