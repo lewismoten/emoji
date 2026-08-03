@@ -52,7 +52,7 @@ export function createExplorerAudioEngine() {
 
   function playSoundEffect(effectId: ExplorerSoundEffectId) {
     if (!audioHelpers.isSoundEffectsEnabled()) return;
-    const effect = getThemedExplorerSoundEffect(effectId, options.theme());
+    const effect = getThemedExplorerSoundEffect(effectId);
     if (!effect) return;
     const context = getAudioContext();
     if (!context || context.state !== "running" || !masterGain) return;

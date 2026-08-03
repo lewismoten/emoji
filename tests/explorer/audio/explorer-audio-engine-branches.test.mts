@@ -80,9 +80,7 @@ try {
   preferences.init({ soundEffects: true, music: false });
 
   let theme: "base" | "dark" | "light" | "retro" = "retro";
-  const engine = createExplorerAudioEngine({
-    theme: () => theme,
-  });
+  const engine = createExplorerAudioEngine();
 
   engine.stopMusic();
   const context = (await engine.resumeAudioContext()) as any;
@@ -129,9 +127,7 @@ try {
       },
     },
   });
-  const closedMusicEngine = createExplorerAudioEngine({
-    theme: () => "retro",
-  });
+  const closedMusicEngine = createExplorerAudioEngine();
   helpDialog.open = true;
   await closedMusicEngine.resumeAudioContext();
   const beforeClosedAttempt = timeouts.length;

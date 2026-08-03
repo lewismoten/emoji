@@ -76,6 +76,10 @@ export async function loadExplorerAudioModuleFixture() {
       'import { isBaseTheme, isRetroTheme, canThemeSupportAudio } from "./themes-stub.mjs";',
     )
     .replace(
+      'import { isBaseTheme, canThemeSupportAudio } from "./utils/themes.js";',
+      'import { isBaseTheme, canThemeSupportAudio } from "./themes-stub.mjs";',
+    )
+    .replace(
       'import * as aria from "./utils/aria.js";',
       'import * as aria from "./aria-stub.mjs";',
     );

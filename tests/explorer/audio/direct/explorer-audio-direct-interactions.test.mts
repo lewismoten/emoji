@@ -24,8 +24,8 @@ try {
   const engineCalls: Array<unknown[]> = [];
   const engine = createAudioEngineFixture(engineCalls);
   const controller = createExplorerAudioController({
-    createExplorerAudioEngine(options: unknown) {
-      engineCalls.push(["createExplorerAudioEngine", options]);
+    createExplorerAudioEngine() {
+      engineCalls.push(["createExplorerAudioEngine"]);
       return engine;
     },
   });
@@ -60,13 +60,10 @@ try {
     attributeFilter: ["data-theme"],
   });
 
-  const engineOptions = engineCalls.find(
-    (call) => call[0] === "createExplorerAudioEngine",
-  )?.[1] as {
-    theme?: () => string;
-    retroMode?: () => boolean;
-  };
-  assert.equal(engineOptions.theme?.(), "retro");
+  assert.equal(
+    engineCalls.some((call) => call[0] === "createExplorerAudioEngine"),
+    true,
+  );
 
   preferences.setBoolean("music", false);
   preferences.setBoolean("soundEffects", true);
@@ -199,7 +196,6 @@ try {
   otherDialog.matches = () => false;
   fixture.helpDialog.open = true;
   fixture.savedDialog.open = false;
-  assert.equal(engineOptions.retroMode?.(), true);
   dialogObserver?.callback([
     { target: {} },
     { target: otherDialog },
@@ -272,15 +268,15 @@ try {
     documentElement: {},
   });
   const fallbackThemeController = createExplorerAudioController({
-    createExplorerAudioEngine(options: any) {
-      engineCalls.push(["fallback-theme", options.theme()]);
+    createExplorerAudioEngine() {
+      engineCalls.push(["fallback-theme"]);
       return engine;
     },
   });
   fallbackThemeController.bindAudioInteractions();
   assert.deepEqual(
     engineCalls.find((call) => call[0] === "fallback-theme"),
-    ["fallback-theme", "dark"],
+    ["fallback-theme"],
   );
 
   fixture.setDocument({

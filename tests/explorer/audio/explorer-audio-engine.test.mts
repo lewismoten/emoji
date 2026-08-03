@@ -142,11 +142,8 @@ try {
   });
   preferences.init({});
 
-  let retro = false;
   let theme: "base" | "dark" | "light" | "retro" = "retro";
-  const engine = createExplorerAudioEngine({
-    theme: () => theme,
-  });
+  const engine = createExplorerAudioEngine();
 
   await engine.resumeAudioContext();
   assert.equal(FakeAudioContext.instances.length, 1);
@@ -156,7 +153,6 @@ try {
   engine.playClick();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 0);
 
-  retro = true;
   preferences.setBoolean("soundEffects", true);
   engine.playClick();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 2);
@@ -170,7 +166,6 @@ try {
   engine.playInteraction("generic", "focus");
   assert.equal(engine.theme().voices.length > 0, true);
 
-  retro = false;
   theme = "light";
   (globalThis.document as any).documentElement.dataset.theme = "light";
   const lightSfxStart = FakeAudioContext.instances[0]?.oscillators.length ?? 0;
@@ -245,9 +240,7 @@ try {
   let savedOnly = true;
   preferences.init({ music: true });
   (globalThis.document as any).documentElement.dataset.theme = "retro";
-  const fallbackEngine = createExplorerAudioEngine({
-    theme: () => "retro",
-  });
+  const fallbackEngine = createExplorerAudioEngine();
   helpDialog.open = false;
   savedDialog.open = savedOnly;
   await fallbackEngine.resumeAudioContext();
@@ -268,18 +261,12 @@ try {
       },
     },
   });
-  const silentEngine = createExplorerAudioEngine({
-    retroMode: () => true,
-    theme: () => "retro",
-  });
+  const silentEngine = createExplorerAudioEngine();
   assert.equal(await silentEngine.resumeAudioContext(), undefined);
   silentEngine.playClick();
   silentEngine.syncHelpMusic();
 
-  const noContextMusicEngine = createExplorerAudioEngine({
-    retroMode: () => true,
-    theme: () => "retro",
-  });
+  const noContextMusicEngine = createExplorerAudioEngine();
   helpDialog.open = true;
   noContextMusicEngine.syncHelpMusic();
   noContextMusicEngine.restartMusic();
@@ -308,10 +295,7 @@ try {
       },
     },
   });
-  const rejectingEngine = createExplorerAudioEngine({
-    retroMode: () => true,
-    theme: () => "retro",
-  });
+  const rejectingEngine = createExplorerAudioEngine();
   assert.equal(await rejectingEngine.resumeAudioContext(), undefined);
 
   Object.defineProperty(globalThis, "window", {
@@ -324,10 +308,7 @@ try {
       },
     },
   });
-  const closedEngine = createExplorerAudioEngine({
-    retroMode: () => true,
-    theme: () => "retro",
-  });
+  const closedEngine = createExplorerAudioEngine();
   const closedContext = await closedEngine.resumeAudioContext();
   assert.equal((closedContext as any)?.state, "closed");
 
@@ -345,13 +326,10 @@ try {
     },
   });
   theme = "light";
-  retro = false;
+  (globalThis.document as any).documentElement.dataset.theme = "light";
   preferences.setBoolean("music", true);
   helpDialog.open = true;
-  const lightEngine = createExplorerAudioEngine({
-    retroMode: () => retro,
-    theme: () => theme,
-  });
+  const lightEngine = createExplorerAudioEngine();
   await lightEngine.resumeAudioContext();
   lightEngine.syncHelpMusic();
   await Promise.resolve();
@@ -365,10 +343,8 @@ try {
 
   FakeAudioContext.instances.length = 0;
   theme = "dark";
-  const darkEngine = createExplorerAudioEngine({
-    retroMode: () => retro,
-    theme: () => theme,
-  });
+  (globalThis.document as any).documentElement.dataset.theme = "dark";
+  const darkEngine = createExplorerAudioEngine();
   await darkEngine.resumeAudioContext();
   darkEngine.syncHelpMusic();
   await Promise.resolve();
@@ -380,10 +356,8 @@ try {
 
   FakeAudioContext.instances.length = 0;
   theme = "base";
-  const baseThemeEngine = createExplorerAudioEngine({
-    retroMode: () => false,
-    theme: () => theme,
-  });
+  (globalThis.document as any).documentElement.dataset.theme = "base";
+  const baseThemeEngine = createExplorerAudioEngine();
   await baseThemeEngine.resumeAudioContext();
   baseThemeEngine.syncHelpMusic();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length ?? 0, 0);
@@ -408,10 +382,7 @@ try {
   helpDialog.open = true;
   preferences.setBoolean("music", true);
   (globalThis.document as any).documentElement.dataset.theme = "light";
-  const restartEngine = createExplorerAudioEngine({
-    retroMode: () => false,
-    theme: () => theme,
-  });
+  const restartEngine = createExplorerAudioEngine();
   await restartEngine.resumeAudioContext();
   restartEngine.syncHelpMusic();
   await Promise.resolve();

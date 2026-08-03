@@ -26,8 +26,8 @@ try {
   const engine = createAudioEngineFixture(engineCalls);
 
   const controller = createExplorerAudioController({
-    createExplorerAudioEngine(options: unknown) {
-      engineCalls.push(["createExplorerAudioEngine", options]);
+    createExplorerAudioEngine() {
+      engineCalls.push(["createExplorerAudioEngine"]);
       return engine;
     },
   });
@@ -123,14 +123,12 @@ try {
   Reflect.deleteProperty(globalThis, "document");
   const noDocumentCalls: Array<unknown[]> = [];
   createExplorerAudioController({
-    createExplorerAudioEngine(options: any) {
+    createExplorerAudioEngine() {
       noDocumentCalls.push([
         "engine-options",
         audioHelpers.isMusicalDialogOpen(),
         audioHelpers.isMusicEnabled(),
         audioHelpers.isSoundEffectsEnabled(),
-        options.retroMode(),
-        options.theme(),
       ]);
       return engine;
     },
@@ -140,8 +138,6 @@ try {
     false,
     false,
     true,
-    false,
-    "dark",
   ]);
   assert.doesNotThrow(() => defaultDependencyController.bindAudioInteractions());
   if (originalDocument) {

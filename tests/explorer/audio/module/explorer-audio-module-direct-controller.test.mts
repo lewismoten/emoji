@@ -12,10 +12,9 @@ try {
   preferencesStub.init({ music: true, soundEffects: false });
 
   const directEngineCalls: any[][] = [];
-  let directEngineOptions: any;
   const directController = module.createExplorerAudioController({
-    createExplorerAudioEngine(options: any) {
-      directEngineOptions = options;
+    createExplorerAudioEngine() {
+      directEngineCalls.push(["createExplorerAudioEngine"]);
       return {
         musicEnabled: () => false,
         playInteraction(element: string, action: string) {
@@ -40,9 +39,10 @@ try {
   } as any);
 
   directController.bindAudioInteractions();
-  assert.equal("soundEffectsEnabled" in directEngineOptions, false);
-  assert.equal(directEngineOptions.retroMode(), true);
-  assert.equal(directEngineOptions.theme(), "retro");
+  assert.equal(
+    directEngineCalls.some((call) => call[0] === "createExplorerAudioEngine"),
+    true,
+  );
 
   const directClick = fixture.listeners.get("click")?.at(-1)!;
   const directChange = fixture.listeners.get("change")?.at(-1)!;

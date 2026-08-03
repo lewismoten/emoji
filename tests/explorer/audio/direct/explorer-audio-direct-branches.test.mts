@@ -115,10 +115,7 @@ try {
   );
   fixture.helpDialog.open = false;
   fixture.savedDialog.open = true;
-  const createdOptions = dependencies.createExplorerAudioEngine({
-    retroMode: () => false,
-    theme: () => "dark" as any,
-  });
+  const createdOptions = dependencies.createExplorerAudioEngine();
   assert.equal(typeof createdOptions.playInteraction, "function");
 
   const textTarget = new FakeElement([], null);
