@@ -7,7 +7,7 @@ export const selectAll = <T extends Element = Element>(
   selector: string,
 ): NodeListOf<T> =>
   documentRef()?.querySelectorAll<T>(selector) ??
-  (new NodeList() as NodeListOf<T>);
+  ([] as unknown as NodeListOf<T>);
 
 export const selectAllAndApply = <T extends Element = Element>(
   selector: string,

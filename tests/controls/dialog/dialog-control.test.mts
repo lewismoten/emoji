@@ -38,7 +38,7 @@ assert.deepEqual(
   ["dialog-heading-control-style", "dialog-close-button-control-style"],
 );
 assert.equal(dialog.tagName, "DIALOG");
-assert.equal(dialog.className, "example-dialog");
+assert.equal(dialog.className, "dialog example-dialog");
 assert.equal(dialog.getAttribute("id"), "example-dialog");
 assert.equal(dialog.children.length, 2);
 assert.equal(
@@ -60,7 +60,7 @@ const markup = DialogControl.toMarkup({
   titleId: "plain-dialog-title",
   titleKey: "plain",
 });
-assert.match(markup, /class="plain-dialog"/);
+assert.match(markup, /class="dialog plain-dialog"/);
 assert.match(markup, /id="plain-dialog"/);
 assert.match(markup, /class="dialog-copy"/);
 assert.doesNotMatch(markup, /dialog-body/);
@@ -72,7 +72,7 @@ const emptyMarkup = DialogControl.toMarkup({
   titleId: "empty-dialog-title",
   titleKey: "empty",
 });
-assert.match(emptyMarkup, /class="empty-dialog"/);
+assert.match(emptyMarkup, /class="dialog empty-dialog"/);
 assert.match(emptyMarkup, /id="empty-dialog"/);
 assert.doesNotMatch(emptyMarkup, /dialog-copy/);
 

@@ -1,4 +1,4 @@
-import documentRef from "../../utils/document";
+import documentRef from "../../utils/document.js";
 
 type DialogEventListener = (
   action: "open" | "close",
@@ -28,14 +28,21 @@ export const clear = () => {
 const actionType = (dialog: HTMLDialogElement) =>
   dialog.open ? "open" : "close";
 
-const observer = new MutationObserver((records) => {
-  records.forEach((record) => {
-    if (!(record.target instanceof HTMLDialogElement)) return;
-    const dialog = record.target;
-    if (!dialog.matches(".dialog")) return;
-    listeners.forEach((fn) => fn(actionType(dialog), dialog));
+let observer: MutationObserver | undefined;
+
+const getObserver = () => {
+  if (observer) return observer;
+  if (typeof MutationObserver === "undefined") return undefined;
+  observer = new MutationObserver((records) => {
+    records.forEach((record) => {
+      if (!(record.target instanceof HTMLDialogElement)) return;
+      const dialog = record.target;
+      if (!dialog.matches(".dialog")) return;
+      listeners.forEach((fn) => fn(actionType(dialog), dialog));
+    });
   });
-});
+  return observer;
+};
 
 const ATTRIBUTE = "data-dialog-observer";
 
@@ -60,8 +67,10 @@ const hasBody = (
   return true;
 };
 const registerObserver = (doc: Document) => {
+  const activeObserver = getObserver();
+  if (!activeObserver) return;
   doc.body.setAttribute(ATTRIBUTE, "true");
-  observer.observe(doc.body, {
+  activeObserver.observe(doc.body, {
     subtree: true,
     attributes: true,
     attributeFilter: ["open"],
@@ -69,7 +78,7 @@ const registerObserver = (doc: Document) => {
 };
 const unregisterObserver = (doc: Document) => {
   doc.body.removeAttribute(ATTRIBUTE);
-  observer.disconnect();
+  observer?.disconnect();
 };
 const setupObserver = () => {
   if (typeof MutationObserver === "undefined") return;

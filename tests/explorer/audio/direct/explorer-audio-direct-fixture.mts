@@ -76,12 +76,32 @@ export function installAudioDomFixture() {
   musicToggle.tagName = "INPUT";
   musicToggle.type = "checkbox";
   const helpDialog = new FakeElement([dialogSelector]);
+  helpDialog.matchesSet.push(".dialog");
+  helpDialog.classList.values.add("dialog");
   helpDialog.classList.values.add("help-dialog");
+  helpDialog.classList.values.add("musical");
   helpDialog.open = true;
   const savedDialog = new FakeElement([dialogSelector]);
+  savedDialog.matchesSet.push(".dialog");
+  savedDialog.classList.values.add("dialog");
   savedDialog.classList.values.add("saved-dialog");
+  savedDialog.classList.values.add("musical");
   savedDialog.open = false;
-  const body = {};
+  const bodyAttributes = new Map<string, string>();
+  const body = {
+    getAttribute(name: string) {
+      return bodyAttributes.get(name) ?? null;
+    },
+    hasAttribute(name: string) {
+      return bodyAttributes.has(name);
+    },
+    removeAttribute(name: string) {
+      bodyAttributes.delete(name);
+    },
+    setAttribute(name: string, value: string) {
+      bodyAttributes.set(name, value);
+    },
+  };
 
   Object.defineProperty(globalThis, "Element", {
     configurable: true,
@@ -135,6 +155,16 @@ export function installAudioDomFixture() {
           if (selector === ".help-dialog") return helpDialog;
           if (selector === ".saved-dialog") return savedDialog;
           return null;
+        },
+        querySelectorAll(selector: string) {
+          if (selector === ".dialog.musical") {
+            return [helpDialog, savedDialog].filter(
+              (dialog) =>
+                dialog.classList.contains("dialog") &&
+                dialog.classList.contains("musical"),
+            );
+          }
+          return [];
         },
         ...overrides,
       },

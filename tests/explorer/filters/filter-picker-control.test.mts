@@ -137,7 +137,7 @@ try {
   assert.equal(dialogControl.dialog.tagName, "DIALOG");
   assert.equal(
     dialogControl.dialog.className,
-    "filter-picker-dialog group-picker-dialog",
+    "dialog filter-picker-dialog group-picker-dialog",
   );
   assert.equal(dialogControl.dialog.id, "group-picker-dialog");
   assert.equal(

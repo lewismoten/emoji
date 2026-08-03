@@ -50,8 +50,12 @@ export async function loadExplorerAudioModuleFixture() {
     'import { createExplorerAudioEngine, engineCalls, engineApi } from "./explorer-audio-engine-stub.mjs";',
   )
     .replace(
-      'import documentRef, { querySelector, addEventListener, } from "./utils/document.js";',
-      'import documentRef, { querySelector, addEventListener } from "./document-stub.mjs";',
+      'import * as dialogListeners from "./controls/dialog/dialog-listeners.js";',
+      'import * as dialogListeners from "./dialog-listeners-stub.mjs";',
+    )
+    .replace(
+      'import documentRef, { querySelector, selectAll, addEventListener, } from "./utils/document.js";',
+      'import documentRef, { querySelector, selectAll, addEventListener } from "./document-stub.mjs";',
     )
     .replace(
       'import { isBaseTheme, isRetroTheme, canThemeSupportAudio, } from "./utils/themes.js";',
@@ -88,9 +92,26 @@ export function createExplorerAudioEngine(options) {
 }`,
   );
   await fs.writeFile(
+    path.join(tempDirectory, "dialog-listeners-stub.mjs"),
+    `export const listenerCalls = [];
+export const add = (fn) => {
+  listenerCalls.push(["add", fn]);
+  return true;
+};
+export const remove = (fn) => {
+  listenerCalls.push(["remove", fn]);
+  return true;
+};
+export const clear = () => {
+  listenerCalls.push(["clear"]);
+};
+`,
+  );
+  await fs.writeFile(
     path.join(tempDirectory, "document-stub.mjs"),
     `export default function documentRef() { return globalThis.document; }
 export function querySelector(selector) { return globalThis.document?.querySelector?.(selector) ?? null; }
+export function selectAll(selector) { return globalThis.document?.querySelectorAll?.(selector) ?? []; }
 export function addEventListener(type, listener, options) { return globalThis.document?.addEventListener?.(type, listener, options); }
 `,
   );
@@ -125,8 +146,11 @@ export const hasPopupListbox = (el) => el?.getAttribute("aria-haspopup") === "li
     pathToFileURL(path.join(tempDirectory, "explorer-audio-engine-stub.mjs"))
       .href
   );
+  const dialogListenersStub = await import(
+    pathToFileURL(path.join(tempDirectory, "dialog-listeners-stub.mjs")).href
+  );
 
-  return { engineStub, module };
+  return { dialogListenersStub, engineStub, module };
 }
 
 export function installExplorerAudioDomFixture() {
@@ -170,12 +194,32 @@ export function installExplorerAudioDomFixture() {
   musicToggle.tagName = "INPUT";
   musicToggle.type = "checkbox";
   const helpDialog = new FakeElement([dialogSelector]);
+  helpDialog.matchesSet.push(".dialog");
   helpDialog.classList.values.add("help-dialog");
+  helpDialog.classList.values.add("dialog");
+  helpDialog.classList.values.add("musical");
   helpDialog.open = true;
   const savedDialog = new FakeElement([dialogSelector]);
+  savedDialog.matchesSet.push(".dialog");
   savedDialog.classList.values.add("saved-dialog");
+  savedDialog.classList.values.add("dialog");
+  savedDialog.classList.values.add("musical");
   savedDialog.open = false;
-  const body = {};
+  const bodyAttributes = new Map<string, string>();
+  const body = {
+    getAttribute(name: string) {
+      return bodyAttributes.get(name) ?? null;
+    },
+    hasAttribute(name: string) {
+      return bodyAttributes.has(name);
+    },
+    removeAttribute(name: string) {
+      bodyAttributes.delete(name);
+    },
+    setAttribute(name: string, value: string) {
+      bodyAttributes.set(name, value);
+    },
+  };
 
   Object.defineProperty(globalThis, "Element", {
     configurable: true,
@@ -228,6 +272,16 @@ export function installExplorerAudioDomFixture() {
         if (selector === ".help-dialog") return helpDialog;
         if (selector === ".saved-dialog") return savedDialog;
         return null;
+      },
+      querySelectorAll(selector: string) {
+        if (selector === ".dialog.musical") {
+          return [helpDialog, savedDialog].filter(
+            (dialog) =>
+              dialog.classList.contains("dialog") &&
+              dialog.classList.contains("musical"),
+          );
+        }
+        return [];
       },
     },
   });

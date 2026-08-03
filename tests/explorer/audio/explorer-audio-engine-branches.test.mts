@@ -55,16 +55,14 @@ try {
     },
   });
 
-  let helpOpen = false;
-  let savedOpen = false;
+  let musicalDialogOpen = false;
   let music = false;
   let sfx = true;
   let theme: "base" | "dark" | "light" | "retro" = "retro";
   const engine = createExplorerAudioEngine({
-    helpDialogOpen: () => helpOpen,
+    isMusicalDialogOpen: () => musicalDialogOpen,
     musicEnabled: () => music,
     retroMode: () => false,
-    savedDialogOpen: () => savedOpen,
     soundEffectsEnabled: () => sfx,
     theme: () => theme,
   });
@@ -80,13 +78,12 @@ try {
   assert.equal(timeouts.length, 0);
   theme = "base";
   music = true;
-  helpOpen = true;
+  musicalDialogOpen = true;
   engine.syncHelpMusic();
   assert.equal(timeouts.length, 0);
 
   theme = "retro";
-  helpOpen = false;
-  savedOpen = true;
+  musicalDialogOpen = true;
   engine.syncHelpMusic();
   await Promise.resolve();
   assert.equal(timeouts.length > 0, true);
@@ -106,10 +103,9 @@ try {
     },
   });
   const closedMusicEngine = createExplorerAudioEngine({
-    helpDialogOpen: () => true,
+    isMusicalDialogOpen: () => true,
     musicEnabled: () => true,
     retroMode: () => false,
-    savedDialogOpen: () => false,
     soundEffectsEnabled: () => false,
     theme: () => "retro",
   });

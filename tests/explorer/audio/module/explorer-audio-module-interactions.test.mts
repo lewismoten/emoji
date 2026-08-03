@@ -6,7 +6,8 @@ import {
 } from "./explorer-audio-module-fixture.mjs";
 
 const fixture = installExplorerAudioDomFixture();
-const { engineStub, module } = await loadExplorerAudioModuleFixture();
+const { dialogListenersStub, engineStub, module } =
+  await loadExplorerAudioModuleFixture();
 
 try {
   const preferences: {
@@ -23,23 +24,14 @@ try {
 
   controller.bindAudioInteractions();
   controller.bindAudioInteractions();
-  const dialogObserver = fixture.observers.find(
-    (observer) =>
-      Array.isArray((observer.options as any)?.attributeFilter) &&
-      (observer.options as any).attributeFilter[0] === "open",
-  )!;
   const themeObserver = fixture.observers.find(
     (observer) =>
       Array.isArray((observer.options as any)?.attributeFilter) &&
       (observer.options as any).attributeFilter[0] === "data-theme",
   )!;
-  assert.equal(dialogObserver?.target, fixture.body);
-  assert.deepEqual(dialogObserver?.options, {
-    subtree: true,
-    attributes: true,
-    attributeFilter: ["open"],
-  });
-  assert.equal(fixture.observers.length, 2);
+  assert.equal(dialogListenersStub.listenerCalls.length, 1);
+  assert.equal(dialogListenersStub.listenerCalls[0]?.[0], "add");
+  assert.equal(fixture.observers.length, 1);
   assert.equal(
     themeObserver?.target,
     (globalThis.document as any).documentElement,
@@ -183,11 +175,12 @@ try {
   const otherDialog = new FakeElement();
   otherDialog.open = true;
   otherDialog.matches = () => false;
-  dialogObserver?.callback([
-    { target: otherDialog },
-    { target: fixture.helpDialog },
-    { target: fixture.savedDialog },
-  ]);
+  const dialogListener = dialogListenersStub.listenerCalls[0]?.[1] as
+    | ((action: "open" | "close", dialog: FakeElement) => void)
+    | undefined;
+  dialogListener?.("open", otherDialog);
+  dialogListener?.("open", fixture.helpDialog);
+  dialogListener?.("close", fixture.savedDialog);
   assert.equal(
     engineStub.engineCalls.some(
       (call: any[]) =>

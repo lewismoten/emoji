@@ -95,8 +95,8 @@ try {
   assert.equal(groupField.children[0]?.className, "filter-picker-trigger group-picker-trigger");
   assert.equal(subGroupField.children[0]?.className, "filter-picker-trigger subgroup-picker-trigger");
   assert.equal(main.children.length, 2);
-  assert.equal(main.children[0]?.className, "filter-picker-dialog group-filter-dialog");
-  assert.equal(main.children[1]?.className, "filter-picker-dialog subgroup-filter-dialog");
+  assert.equal(main.children[0]?.className, "dialog filter-picker-dialog group-filter-dialog");
+  assert.equal(main.children[1]?.className, "dialog filter-picker-dialog subgroup-filter-dialog");
 
   const existingGrid = {
     querySelector(selector: string) {

@@ -25,12 +25,12 @@ assert.deepEqual(
   ],
 );
 assert.equal(dialog.tagName, "DIALOG");
-assert.equal(dialog.className, "saved-dialog");
+assert.equal(dialog.className, "dialog saved-dialog");
 assert.equal(dialog.getAttribute("id"), "saved-dialog");
 assert.equal(dialog.children.length, 3);
 
 const markup = SavedDialogControl.toMarkup();
-assert.match(markup, /class="saved-dialog"/);
+assert.match(markup, /class="dialog saved-dialog"/);
 assert.match(markup, /class="saved-emoji-list favorites-list"/);
 assert.match(markup, /class="saved-emoji-list copied-list"/);
 assert.match(markup, /data-i18n="savedEmoji"/);

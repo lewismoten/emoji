@@ -119,7 +119,7 @@ try {
   assert.equal(picker.label.textContent, "Language");
 
   assert.equal(dialogControl.dialog.tagName, "DIALOG");
-  assert.equal(dialogControl.dialog.className, "language-dialog");
+  assert.equal(dialogControl.dialog.className, "dialog language-dialog");
   assert.equal(dialogControl.dialog.id, "language-dialog");
   assert.equal(
     dialogControl.dialog.getAttribute("aria-labelledby"),

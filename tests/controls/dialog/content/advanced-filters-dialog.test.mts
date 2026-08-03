@@ -16,7 +16,7 @@ const styleBlocks = documentRef.head.children.filter(
     child instanceof FakeElement && child.tagName === "STYLE",
 ) as FakeElement[];
 
-assert.equal(dialog.className, "advanced-filters-dialog");
+assert.equal(dialog.className, "dialog advanced-filters-dialog");
 assert.equal(dialog.getAttribute("id"), "advanced-filters-dialog");
 assert.equal(styleBlocks.length >= 3, true);
 assert.equal(
@@ -45,7 +45,7 @@ assert.equal(grid.children.length, 1);
 assert.equal(modifiers.children.length, 3);
 
 const markup = AdvancedFiltersDialogControl.toMarkup();
-assert.match(markup, /class="advanced-filters-dialog"/);
+assert.match(markup, /class="dialog advanced-filters-dialog"/);
 assert.match(markup, /class="filter-grid"/);
 assert.match(markup, /class="modifier-filters"/);
 assert.match(markup, /data-i18n="advancedFilters"/);

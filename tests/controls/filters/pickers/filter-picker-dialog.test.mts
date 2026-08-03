@@ -13,7 +13,7 @@ const markup = FilterPickerDialogControl.toMarkup({
 });
 
 assert.match(markup, /^<dialog /);
-assert.match(markup, /class="filter-picker-dialog group-filter-dialog"/);
+assert.match(markup, /class="dialog filter-picker-dialog group-filter-dialog"/);
 assert.match(markup, /id="group-filter-dialog"/);
 assert.match(markup, /aria-labelledby="group-filter-dialog-title"/);
 assert.match(markup, /data-i18n="chooseGroup">Choose a group</);
@@ -57,7 +57,10 @@ const dialog = FilterPickerDialogControl.create({
 
 assert.equal(globals.document.head.children.length, 2);
 assert.equal(dialog.tagName, "DIALOG");
-assert.equal(dialog.className, "filter-picker-dialog subgroup-filter-dialog");
+assert.equal(
+  dialog.className,
+  "dialog filter-picker-dialog subgroup-filter-dialog",
+);
 assert.equal(dialog.getAttribute("id"), "subgroup-filter-dialog");
 assert.equal(dialog.children.length, 2);
 assert.equal(

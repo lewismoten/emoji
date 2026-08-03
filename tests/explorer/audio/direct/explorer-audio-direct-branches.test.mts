@@ -68,6 +68,7 @@ try {
   fixture.musicToggle.checked = true;
   fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
   await Promise.resolve();
+  await Promise.resolve();
   assert.equal(engineCalls.some((call) => call[0] === "resumeAudioContext"), true);
   assert.equal(engineCalls.some((call) => call[0] === "restartMusic"), true);
 
@@ -108,7 +109,8 @@ try {
       Array.isArray((observer.options as any)?.attributeFilter) &&
       (observer.options as any)?.attributeFilter[0] === "open",
   )!;
-  const exampleDialog = new FakeElement([fixture.dialogSelector]);
+  const exampleDialog = new FakeElement([fixture.dialogSelector, ".dialog"]);
+  exampleDialog.classList.values.add("dialog");
   exampleDialog.classList.values.add("example-dialog");
   exampleDialog.open = true;
   dialogObserver.callback?.([{ target: exampleDialog }]);
@@ -124,10 +126,9 @@ try {
   fixture.helpDialog.open = false;
   fixture.savedDialog.open = true;
   const createdOptions = dependencies.createExplorerAudioEngine({
-    helpDialogOpen: () => false,
+    isMusicalDialogOpen: () => true,
     musicEnabled: () => false,
     retroMode: () => false,
-    savedDialogOpen: () => true,
     soundEffectsEnabled: () => false,
     theme: () => "dark" as any,
   });

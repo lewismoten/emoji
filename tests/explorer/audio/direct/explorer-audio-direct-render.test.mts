@@ -141,8 +141,7 @@ try {
       createExplorerAudioEngine(options: any) {
         noDocumentCalls.push([
           "engine-options",
-          options.helpDialogOpen(),
-          options.savedDialogOpen(),
+          options.isMusicalDialogOpen(),
           options.musicEnabled(),
           options.soundEffectsEnabled(),
           options.retroMode(),
@@ -154,7 +153,6 @@ try {
   );
   assert.deepEqual(noDocumentCalls[0], [
     "engine-options",
-    false,
     false,
     false,
     false,

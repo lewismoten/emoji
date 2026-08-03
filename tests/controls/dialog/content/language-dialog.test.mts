@@ -24,12 +24,12 @@ assert.deepEqual(
     "dialog-close-button-control-style",
   ],
 );
-assert.equal(dialog.className, "language-dialog");
+assert.equal(dialog.className, "dialog language-dialog");
 assert.equal(dialog.getAttribute("id"), "language-dialog");
 assert.equal(dialog.children.length, 3);
 
 const markup = LanguageDialogControl.toMarkup();
-assert.match(markup, /class="language-dialog"/);
+assert.match(markup, /class="dialog language-dialog"/);
 assert.match(markup, /class="dialog-description"/);
 assert.match(markup, /class="language-list"/);
 assert.match(markup, /data-i18n="localizedSearch"/);
