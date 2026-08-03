@@ -35,7 +35,6 @@ export function createSearchLanguageLifecycle(options: any) {
       updateWebAppManifest: options.updateWebAppManifest,
       closeLanguageDialog: options.closeLanguageDialog,
       restoreLanguageParentPanel: options.restoreLanguageParentPanel,
-      saveExplorerPreference: options.saveExplorerPreference,
       refreshLocalizedLabels: options.refreshLocalizedLabels,
       updateUi: hasLanguageUi,
     });

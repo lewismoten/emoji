@@ -1,5 +1,6 @@
 import * as aria from "./utils/aria.js";
 import { translate, applyTranslations, setTranslations } from "./utils/i18n.js";
+import * as preferences from "./preferences.js";
 
 export function createExplorerUiController(options: any) {
   const fetchJsonWithFallback = async (primary: string, fallback: string) => {
@@ -99,12 +100,10 @@ function resolveExplorerMode(state: any) {
     return state.explorerModeFromUrl;
   }
   return ["standard", "advanced", "developer"].includes(
-    state.explorerPreferences.mode,
+    preferences.getString("mode"),
   )
-    ? state.explorerPreferences.mode
-    : state.explorerPreferences.developerMode === true
-      ? "developer"
-      : "standard";
+    ? preferences.getString("mode")
+    : "standard";
 }
 
 function resolveThemePreference(
@@ -134,7 +133,7 @@ export function renderThemeToggle(options: any) {
   const fullDeveloperMode =
     resolveExplorerMode(options.state()) === "developer";
   const theme = resolveThemePreference(
-    options.state().explorerPreferences.theme,
+    preferences.getString("theme"),
     fullDeveloperMode,
   );
   void ensureThemeStyles(theme);
@@ -162,12 +161,12 @@ export async function selectTheme(options: any, event: any) {
       ? requestedTheme
       : "dark";
   await ensureThemeStyles(theme);
-  options.savePreference("theme", theme);
+  preferences.setString("theme", theme);
   options.renderThemeToggle();
 }
 
 export function renderPixelFontToggle(options: any) {
-  const enabled = options.state().explorerPreferences.pixelFont !== false;
+  const enabled = !preferences.getBoolean("pixelFont");
   document.documentElement.toggleAttribute("data-pixel-font", enabled);
   if (enabled) delete document.documentElement.dataset.emojiFont;
   else document.documentElement.dataset.emojiFont = "system";
@@ -190,7 +189,7 @@ export function renderPixelFontToggle(options: any) {
 
 export function selectEmojiFont(options: any, event: any) {
   const pixelFont = event.currentTarget.dataset.emojiFont === "pixel";
-  options.savePreference("pixelFont", pixelFont);
+  preferences.setBoolean("pixelFont", pixelFont);
   options.renderPixelFontToggle();
   if (event?.detail > 0) event.currentTarget.blur();
 }
@@ -247,13 +246,9 @@ export function createDeveloperModeController(options: any) {
     options.state().developerModeUrlDismissed = nextMode === "standard";
     options.state().explorerModeFromUrl = "";
     options.state().developerModeFromUrl = false;
-    options.savePreference("mode", nextMode);
-    options.savePreference("developerMode", nextMode === "developer");
-    if (
-      nextMode !== "developer" &&
-      options.state().explorerPreferences.theme === "base"
-    ) {
-      options.savePreference("theme", "dark");
+    preferences.setString("mode", nextMode);
+    if (nextMode !== "developer" && preferences.getString("theme") === "base") {
+      preferences.setString("theme", "dark");
     }
     render();
     options.renderThemeToggle?.();

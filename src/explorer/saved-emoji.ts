@@ -8,6 +8,7 @@ import {
   updateFavoriteGlyph,
   updateFavoriteToggleButton,
 } from "./utility/favorite-button.js";
+import * as preferences from "../preferences.js";
 
 export { animateCopyConfirmation, announceStatus, copyToClipboard };
 
@@ -108,7 +109,6 @@ export function createSavedEmojiController(options: {
   copiedEmojiKeys: () => string[];
   currentEmojiKey: () => string;
   favoriteEmojiKeys: () => string[];
-  savePreference: (key: string, value: string[]) => void;
   savedDialog: () => MinimalElement | undefined;
   searchAnnotations: () => Record<string, string[]>;
   setCopiedEmojiKeys: (keys: string[]) => void;
@@ -173,7 +173,7 @@ export function createSavedEmojiController(options: {
     if (!key) return;
     const keys = nextFavoriteEmojiKeys(options.favoriteEmojiKeys(), key);
     options.setFavoriteEmojiKeys(keys);
-    options.savePreference("favorites", keys);
+    preferences.setStringArray("favorites", keys);
     updateFavoriteButton();
     if (options.savedDialog()?.open) renderSavedEmoji();
   }
@@ -186,7 +186,7 @@ export function createSavedEmojiController(options: {
   function recordCopiedEmoji(key: string) {
     const keys = nextCopiedEmojiKeys(options.copiedEmojiKeys(), key);
     options.setCopiedEmojiKeys(keys);
-    options.savePreference("recentCopied", keys);
+    preferences.setStringArray("recentCopied", keys);
   }
 
   return {

@@ -1,8 +1,4 @@
-type ExplorerAudioOptions = {
-  savePreference: (key: string, value: unknown) => void;
-  state: () => { explorerPreferences: Record<string, any> };
-};
-
+import * as preferences from "./preferences.js";
 import { createExplorerAudioEngine } from "./explorer/audio/explorer-audio-engine.js";
 import * as dialogListeners from "./controls/dialog/dialog-listeners.js";
 import type {
@@ -58,7 +54,6 @@ export const createExplorerAudioDependencies = () => ({
 });
 
 export function createExplorerAudioController(
-  options: ExplorerAudioOptions,
   dependencies?: ReturnType<typeof createExplorerAudioDependencies>,
 ) {
   const helpers = dependencies ?? createExplorerAudioDependencies();
@@ -66,11 +61,10 @@ export function createExplorerAudioController(
   let themeObserver: MutationObserver | undefined;
   let hoverTarget: AudioTarget | null = null;
 
-  const preferences = () => options.state().explorerPreferences;
   const soundEffectsEnabled = () =>
-    canThemeSupportAudio() && preferences().soundEffects === true;
+    canThemeSupportAudio() && preferences.getBoolean("soundEffects");
   const musicEnabled = () =>
-    canThemeSupportAudio() && preferences().music === true;
+    canThemeSupportAudio() && preferences.getBoolean("music");
   const soundEffectsToggle = () =>
     querySelector<HTMLInputElement>(
       '.audio-choice-input[value="soundEffects"]',
@@ -146,7 +140,7 @@ export function createExplorerAudioController(
 
   function setSoundEffects(enabled: boolean) {
     if (isBaseTheme()) return void renderSoundEffectsToggle();
-    options.savePreference("soundEffects", enabled);
+    preferences.setBoolean("soundEffects", enabled);
     renderSoundEffectsToggle();
     if (enabled) void audio.resumeAudioContext();
   }
@@ -156,7 +150,7 @@ export function createExplorerAudioController(
       renderMusicToggle();
       return void audio.syncHelpMusic();
     }
-    options.savePreference("music", enabled);
+    preferences.setBoolean("music", enabled);
     renderMusicToggle();
     if (enabled) {
       void audio.resumeAudioContext().then(() => {

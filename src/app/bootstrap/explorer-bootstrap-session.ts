@@ -37,8 +37,7 @@ import { translate } from "../../utils/i18n.js";
 const UNASSIGNED = "\u0000";
 const explorerState = createExplorerState();
 const bindings = createExplorerBootstrapBindings();
-const { save: saveExplorerPreference } =
-  initializeExplorerPreferences(explorerState);
+initializeExplorerPreferences(explorerState);
 const displayExplorerLabel = (label) =>
   translate(explorerLabelKeys[label], label);
 const panelDialogs = () => ({
@@ -79,7 +78,6 @@ const shell = createExplorerBootstrapShell(
     renderCategoryFilters: () => bindings.renderCategoryFilters(),
     renderSearchLanguages: () => bindings.renderSearchLanguages(),
     renderVersionModeToggle: () => bindings.renderVersionModeToggle(),
-    savePreference: saveExplorerPreference,
     savedDialog: () => bindings.savedDialog,
     setDialogView: (...args) => bindings.setEmojiDialogView(...args),
     showEmoji: (...args) => bindings.showEmoji(...args),
@@ -168,7 +166,6 @@ const controllers = createExplorerBootstrapControllers(
     renderVersionModeToggle: () => bindings.renderVersionModeToggle(),
     resetFilters: () => bindings.resetFilters(),
     revealExplorer: () => bindings.revealExplorer(),
-    savePreference: saveExplorerPreference,
     searchText: () => bindings.searchText,
     sequenceTranslationKeys,
     sequenceTypeEmoji,
@@ -231,7 +228,6 @@ bindings.bootstrapRuntime = initializeExplorerBootstrapSessionRuntime({
       explorerState.explorerModeFromUrl === "developer";
     shell.renderDeveloperMode();
   },
-  savePreference: saveExplorerPreference,
   shell,
   state: () => explorerState,
   translate,

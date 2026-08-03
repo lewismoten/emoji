@@ -89,7 +89,6 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         renderVersionModeToggle: () =>
           options.bindings.renderVersionModeToggle(),
         restoreDeveloperMode: options.restoreDeveloperMode,
-        savePreference: options.savePreference,
         savedDialog: () => options.bindings.savedDialog,
         savedPicker: () => options.bindings.savedPicker,
         scheduleSearchDraw: options.controllers.scheduleSearchDraw,

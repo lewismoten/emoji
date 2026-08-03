@@ -207,7 +207,6 @@ export function initializeBrowserRuntime(options: any) {
     nextLoadId: options.nextLoadId,
     refreshLocalizedLabels: options.refreshLocalizedLabels,
     restoreDeveloperMode: options.restoreDeveloperMode,
-    saveExplorerPreference: options.saveExplorerPreference,
     searchLocales: options.searchLocales,
     selectedSearchLocale: options.selectedSearchLocale,
     setApplyingUrlState: options.setApplyingUrlState,

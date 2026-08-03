@@ -20,7 +20,6 @@ export function createBrowserRuntimeConfig(options: any) {
     onPixelFontRevisionLoaded: options.onPixelFontRevisionLoaded,
     refreshLocalizedLabels: options.refreshLocalizedLabels,
     restoreDeveloperMode: options.restoreDeveloperMode,
-    saveExplorerPreference: options.saveExplorerPreference,
     searchLocales: options.searchLocales,
     selectedSearchLocale: options.selectedSearchLocale,
     setApplyingUrlState: options.setApplyingUrlState,

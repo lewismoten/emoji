@@ -1,4 +1,6 @@
-import { selectAllAndApply, setLocale, setTitle } from "./document.js";
+import * as doc from "./document.js";
+import * as win from "./window.js";
+
 import { pascalToDashed } from "./nameTransformers.js";
 
 const KEY_I18N = "i18n";
@@ -34,18 +36,20 @@ type AriaLabelElement = DatasetElement & {
 };
 const keyMap = new Map<string, string>();
 
+export const getLocale = () => win.routeLocale() ?? doc.getLocale();
+
 export const setTranslations = (
   locale: string,
   rtl: boolean,
   translations: Record<string, string>[] = [{}],
 ) => {
   const merged = Object.assign({}, ...translations) as Record<string, string>;
-  setLocale(locale, rtl ? "rtl" : "ltr");
+  doc.setLocale(locale, rtl ? "rtl" : "ltr");
   keyMap.clear();
   for (const [key, value] of Object.entries(merged)) {
     keyMap.set(key, value);
   }
-  setTitle(translate("title", "Emoji Explorer"));
+  doc.setTitle(translate("title", "Emoji Explorer"));
   applyTranslations();
 };
 
@@ -71,16 +75,16 @@ const updateAttr = (
 };
 
 export const applyTranslations = () => {
-  selectAllAndApply<TextContentElement>(dataSelector(KEY_I18N), (el) => {
+  doc.selectAllAndApply<TextContentElement>(dataSelector(KEY_I18N), (el) => {
     updateProp(el, "textContent", KEY_I18N);
   });
-  selectAllAndApply<PlaceholderElement>(
+  doc.selectAllAndApply<PlaceholderElement>(
     dataSelector(KEY_I18N_PLACEHOLDER),
     (el) => {
       updateProp(el, "placeholder", KEY_I18N_PLACEHOLDER);
     },
   );
-  selectAllAndApply<AriaLabelElement>(
+  doc.selectAllAndApply<AriaLabelElement>(
     dataSelector(KEY_I18N_ARIA_LABEL),
     (el) => {
       updateAttr(el, "aria-label", KEY_I18N_ARIA_LABEL);

@@ -3,6 +3,7 @@ import { createPixelArtworkManager } from "../../explorer/pixel-artwork.js";
 import { createExplorerShell } from "../explorer-shell.js";
 import { createEmojiActions } from "../emoji/emoji-actions.js";
 import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from "../../explorer/dialog/dialog-render.js";
+import * as preferences from "../../preferences.js";
 
 export function createExplorerBootstrapShell(options: any) {
   return createExplorerBootstrapShellWithFactories(options, {});
@@ -31,7 +32,7 @@ export function createExplorerBootstrapShellWithFactories(
     genderCheckboxes: options.genderCheckboxes,
     hairCheckboxes: options.hairCheckboxes,
     normalizeCodePoints: options.normalizeCodePoints,
-    pixelFontPreferred: () => state().explorerPreferences.pixelFont !== false,
+    pixelFontPreferred: () => !preferences.getBoolean("pixelFont"),
     refreshEditor: () => {
       if (options.dialog()?.classList.contains("is-editor-view")) {
         options.getPixelEditor()?.refreshFontBuild();
@@ -69,7 +70,6 @@ export function createExplorerBootstrapShellWithFactories(
     renderSearchLanguages: options.renderSearchLanguages,
     renderVersionModeToggle: options.renderVersionModeToggle,
     savedDialog: options.savedDialog,
-    savePreference: options.savePreference,
     setDialogView: options.setDialogView,
     state,
     syncUrlState: options.syncUrlState,

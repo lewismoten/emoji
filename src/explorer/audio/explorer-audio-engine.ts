@@ -1,4 +1,3 @@
-import { querySelector } from "../../utils/document.js";
 import {
   getExplorerMusicConfig,
   scheduleExplorerMusic,

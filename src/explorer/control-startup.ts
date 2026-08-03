@@ -1,4 +1,9 @@
 /** Create the dynamic filter controls after the static page has loaded. */
+import * as preferences from "../preferences.js";
+import * as doc from "../utils/document.js";
+import * as i18n from "../utils/i18n.js";
+import * as win from "../utils/window.js";
+
 export function initializeExplorerControls(options: any) {
   const controls = options.createFilterControlSetup({
     document,
@@ -95,19 +100,14 @@ export async function finalizeExplorerStartup(options: any) {
   options.renderThemeToggle();
   options.renderPixelFontToggle();
   options.observeToolbarHeight(options.toolbar);
-  const routeLocale = window.location.pathname.match(
-    /index\.([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\.html$/,
-  )?.[1];
-  const initialUiLocale =
-    routeLocale ?? document.documentElement.dataset.locale ?? "en";
   const initialSearchLocale =
-    routeLocale ??
-    (Object.hasOwn(options.preferences, "locale")
-      ? options.preferences.locale
-      : initialUiLocale);
+    win.routeLocale() ?? 
+    (preferences.has("locale")
+      ? preferences.getString("locale")
+      : i18n.getLocale());
   await options.loadUiTranslations(
-    initialUiLocale,
-    document.documentElement.dir === "rtl",
+     i18n.getLocale(),
+     doc.getRtl()
   );
   await options.loadSearchLanguages(initialSearchLocale);
   await Promise.all([

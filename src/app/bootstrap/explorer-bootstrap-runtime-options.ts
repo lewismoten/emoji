@@ -75,7 +75,6 @@ export function buildExplorerBootstrapRuntimeOptions(options: any) {
     renderVersionModeToggle: () => options.renderVersionModeToggle(),
     resetFilters: () => options.resetFilters(),
     restoreDeveloperMode: options.restoreDeveloperMode,
-    savePreference: options.savePreference,
     savedDialog: () => options.savedDialog(),
     savedPicker: () => options.savedPicker(),
     scheduleSearchDraw: options.scheduleSearchDraw,

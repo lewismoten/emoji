@@ -7,6 +7,7 @@ import {
 } from "../explorer/filters/filter-picker.js";
 import { createCategoryFilterRenderer } from "../explorer/category/category-filter-render.js";
 import { buildCategoryRepresentatives } from "../explorer/category/category-representatives.js";
+import * as preferences from "../preferences.js";
 
 /** Own category selection, localized labels, and category filter rendering. */
 export function createCategoryController(options: any) {
@@ -75,7 +76,7 @@ export function createCategoryController(options: any) {
       return;
     const state = options.state();
     state.orderMode = event.currentTarget.dataset.order;
-    options.savePreference("order", state.orderMode);
+    preferences.setString("order", state.orderMode);
     options.orderButtons().forEach((button: HTMLButtonElement) => {
       const active = button.dataset.order === state.orderMode;
       button.classList.toggle("is-active", active);

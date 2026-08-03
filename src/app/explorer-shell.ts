@@ -37,7 +37,6 @@ export function createExplorerShell(options: any, dependencies?: any) {
     currentEmojiKey: () => options.state().currentEmojiKey,
     emojiByKey: () => options.state().emojiByKey,
     favoriteEmojiKeys: () => options.state().favoriteEmojiKeys,
-    savePreference: options.savePreference,
     savedDialog: options.savedDialog,
     searchAnnotations: () => options.state().searchAnnotations,
     setCopiedEmojiKeys: (keys: string[]) =>
@@ -48,7 +47,6 @@ export function createExplorerShell(options: any, dependencies?: any) {
   });
 
   const audio = helpers.createExplorerAudioController({
-    savePreference: options.savePreference,
     state: options.state,
   });
 
@@ -61,10 +59,7 @@ export function createExplorerShell(options: any, dependencies?: any) {
   }
 
   function selectEmojiFont(event: Event) {
-    helpers.selectEmojiFontHelper(
-      { renderPixelFontToggle, savePreference: options.savePreference },
-      event,
-    );
+    helpers.selectEmojiFontHelper({ renderPixelFontToggle }, event);
   }
 
   function renderThemeToggle() {
@@ -78,10 +73,7 @@ export function createExplorerShell(options: any, dependencies?: any) {
   }
 
   function selectTheme(event: Event) {
-    helpers.selectThemeHelper(
-      { renderThemeToggle, savePreference: options.savePreference },
-      event,
-    );
+    helpers.selectThemeHelper({ renderThemeToggle }, event);
   }
 
   function disableDeveloperFeatures() {
@@ -113,7 +105,6 @@ export function createExplorerShell(options: any, dependencies?: any) {
     disableDeveloperFeatures,
     loadVersionData: options.loadVersionData,
     renderThemeToggle,
-    savePreference: options.savePreference,
     setDialogView: options.setDialogView,
     state: options.state,
     syncUrlState: options.syncUrlState,

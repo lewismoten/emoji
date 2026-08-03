@@ -5,7 +5,7 @@ import { createListOrchestration } from "../list-orchestration.js";
 import { createNavigationRuntime } from "../navigation-runtime.js";
 import { createDialogViewRuntime } from "../dialog/dialog-view-runtime.js";
 import { createEmojiDialogClickRuntime } from "../emoji/emoji-dialog-click-runtime.js";
-
+import * as preferences from "../../preferences.js";
 export function createExplorerBootstrapControllers(options: any) {
   return createExplorerBootstrapControllersWithFactories(options, {});
 }
@@ -43,7 +43,6 @@ export function createExplorerBootstrapControllersWithFactories(
     groupPickerTrigger: options.groupPickerTrigger,
     groupSelector: options.groupSelector,
     orderButtons: options.orderButtons,
-    savePreference: options.savePreference,
     sequenceTranslationKeys: options.sequenceTranslationKeys,
     sequenceTypeEmoji: options.sequenceTypeEmoji,
     sequenceTypeLabels: options.sequenceTypeLabels,
@@ -160,7 +159,7 @@ export function createExplorerBootstrapControllersWithFactories(
     navigateEmoji: options.navigateEmoji,
     orderButtons: options.orderButtons,
     panelDialogs: options.panelDialogs,
-    preferredOrder: () => state().explorerPreferences.order,
+    preferredOrder: () => preferences.getString("order"),
     renderCategoryFilters: categoryController.renderCategoryFilters,
     renderSavedEmoji: options.renderSavedEmoji,
     renderVersionModeToggle: options.renderVersionModeToggle,

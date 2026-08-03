@@ -18,7 +18,6 @@ export type ExplorerState = {
   dialogNavigationKeys: string[];
   displayedKeys: string[];
   focusedEmojiKey: string;
-  explorerPreferences: Record<string, any>;
   favoriteEmojiKeys: string[];
   groupRepresentativeEmoji: Map<string, string>;
   groupedKeys: Record<string, string[]>;
@@ -66,7 +65,6 @@ export function createExplorerState(): ExplorerState {
     dialogNavigationKeys: [],
     displayedKeys: [],
     focusedEmojiKey: "",
-    explorerPreferences: {},
     favoriteEmojiKeys: [],
     groupRepresentativeEmoji: new Map(),
     groupedKeys: {},

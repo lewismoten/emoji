@@ -2,6 +2,7 @@ import {
   buildLanguageOption,
   getLocalizedLanguageName,
 } from "./language-dialog-control.js";
+import * as preferences from "../../preferences.js";
 
 type SearchLocale = {
   locale: string;
@@ -125,7 +126,6 @@ type SetSearchLanguageOptions = {
   updateWebAppManifest: (locale?: string) => void;
   closeLanguageDialog: () => void;
   restoreLanguageParentPanel?: () => void;
-  saveExplorerPreference: (key: string, value: string) => void;
   refreshLocalizedLabels: () => void;
   updateUi?: boolean;
 };
@@ -151,7 +151,6 @@ export async function setSearchLanguage({
   updateWebAppManifest,
   closeLanguageDialog,
   restoreLanguageParentPanel,
-  saveExplorerPreference,
   refreshLocalizedLabels,
   updateUi = true,
 }: SetSearchLanguageOptions): Promise<SetSearchLanguageResult> {
@@ -179,7 +178,7 @@ export async function setSearchLanguage({
       restoreLanguageParentPanel?.();
     }
     await loadUiTranslations("en");
-    saveExplorerPreference("locale", "");
+    preferences.set("locale", "");
     return {
       loadId,
       selectedSearchLocale: "",
@@ -251,7 +250,7 @@ export async function setSearchLanguage({
         languagePickerLabel.textContent = locale.nativeLabel;
       }
     }
-    saveExplorerPreference("locale", locale.locale);
+    preferences.setString("locale", locale.locale);
     return {
       loadId,
       selectedSearchLocale: locale.locale,

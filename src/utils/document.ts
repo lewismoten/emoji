@@ -19,14 +19,27 @@ export const addEventListener = <K extends keyof DocumentEventMap>(
   listener: (this: Document, ev: DocumentEventMap[K]) => any,
   options?: boolean | AddEventListenerOptions,
 ): void => documentRef()?.addEventListener(type, listener, options);
+
 export const setDocAttribute = (name: string, value: string) => {
   documentRef()?.documentElement.setAttribute(name, value);
+};
+export const getLocale = () => {
+  const doc = documentRef()?.documentElement;
+  if (!doc) return;
+  return (
+    doc.getAttribute("lang") ?? document.documentElement.dataset.locale ?? "en"
+  );
 };
 export const setLocale = (lang: string, dir: "rtl" | "ltr") => {
   const doc = documentRef()?.documentElement;
   if (!doc) return;
   doc.setAttribute("lang", lang);
   doc.setAttribute("dir", dir);
+};
+export const getRtl = () => {
+  const doc = documentRef()?.documentElement;
+  if (!doc) return;
+  return doc.dir === "rtl";
 };
 export const setTitle = (title: string) => {
   const doc = documentRef();
