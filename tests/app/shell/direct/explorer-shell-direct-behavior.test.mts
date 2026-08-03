@@ -9,8 +9,8 @@ try {
 
   fixture.shell.renderThemeToggle();
   assert.equal(fixture.renderThemeToggleCalls.length, 1);
-  assert.equal(fixture.audioController.renderSoundEffectsToggleCalls, 1);
-  assert.equal(fixture.audioController.renderMusicToggleCalls, 1);
+  assert.equal(fixture.audioController.renderSoundEffectsToggleCalls, 0);
+  assert.equal(fixture.audioController.renderMusicToggleCalls, 0);
   assert.equal(fixture.audioController.syncHelpMusicCalls, 1);
 
   const emojiEvent = { type: "emoji-font" };

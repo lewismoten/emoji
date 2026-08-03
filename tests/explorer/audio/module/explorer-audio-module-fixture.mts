@@ -54,6 +54,9 @@ export async function loadExplorerAudioModuleFixture() {
   ).replace(
     'import * as audioHelpers from "./explorer/audio/audio-helpers.js";',
     'import * as audioHelpers from "./audio-helpers-stub.mjs";',
+  ).replace(
+    'import * as audioToggle from "./controls/audio/audio-toggle.js";',
+    'import * as audioToggle from "./audio-toggle-stub.mjs";',
   )
     .replace(
       'import * as dialogListeners from "./controls/dialog/dialog-listeners.js";',
@@ -72,12 +75,12 @@ export async function loadExplorerAudioModuleFixture() {
       'import documentRef, { addEventListener } from "./document-stub.mjs";',
     )
     .replace(
-      'import { isBaseTheme, isRetroTheme, canThemeSupportAudio, } from "./utils/themes.js";',
-      'import { isBaseTheme, isRetroTheme, canThemeSupportAudio } from "./themes-stub.mjs";',
+      'import { canThemeSupportAudio, } from "./utils/themes.js";',
+      'import { canThemeSupportAudio } from "./themes-stub.mjs";',
     )
     .replace(
-      'import { isBaseTheme, canThemeSupportAudio } from "./utils/themes.js";',
-      'import { isBaseTheme, canThemeSupportAudio } from "./themes-stub.mjs";',
+      'import { canThemeSupportAudio } from "./utils/themes.js";',
+      'import { canThemeSupportAudio } from "./themes-stub.mjs";',
     )
     .replace(
       'import * as aria from "./utils/aria.js";',
@@ -97,16 +100,16 @@ export async function loadExplorerAudioModuleFixture() {
     `export const engineCalls = [];
 export const engineApi = {
   musicEnabled: () => false,
-  playClick() { engineCalls.push(["playClick"]); },
-  playDialogClose() { engineCalls.push(["playDialogClose"]); },
-  playDialogOpen() { engineCalls.push(["playDialogOpen"]); },
-  playHover() { engineCalls.push(["playHover"]); },
-  playInteraction(element, action) { engineCalls.push(["playInteraction", element, action]); },
-  restartMusic() { engineCalls.push(["restartMusic"]); },
+  playClick() { engineCalls.push(["playClick"]); return Promise.resolve(); },
+  playDialogClose() { engineCalls.push(["playDialogClose"]); return Promise.resolve(); },
+  playDialogOpen() { engineCalls.push(["playDialogOpen"]); return Promise.resolve(); },
+  playHover() { engineCalls.push(["playHover"]); return Promise.resolve(); },
+  playInteraction(element, action) { engineCalls.push(["playInteraction", element, action]); return Promise.resolve(); },
+  restartMusic() { engineCalls.push(["restartMusic"]); return Promise.resolve(); },
   resumeAudioContext() { engineCalls.push(["resumeAudioContext"]); return Promise.resolve(); },
   soundEffectsEnabled: () => false,
   stopMusic() { engineCalls.push(["stopMusic"]); },
-  syncHelpMusic() { engineCalls.push(["syncHelpMusic"]); },
+  syncHelpMusic() { engineCalls.push(["syncHelpMusic"]); return Promise.resolve(); },
 };
 export function createExplorerAudioEngine(options) {
   engineCalls.push(["createExplorerAudioEngine", options]);
@@ -162,8 +165,6 @@ export function addEventListener(type, listener, options) { return globalThis.do
     path.join(tempDirectory, "themes-stub.mjs"),
     `import documentRef from "./document-stub.mjs";
 export const isTheme = (name) => documentRef()?.documentElement?.dataset?.theme === name;
-export const isBaseTheme = () => isTheme("base");
-export const isRetroTheme = () => isTheme("retro");
 export const canThemeSupportAudio = () => !isTheme("base");
 `,
   );
@@ -182,6 +183,51 @@ export const musicToggle = () =>
   globalThis.document?.querySelector?.('.audio-choice-input[value="music"]') ?? null;
 export const isMusicalDialogOpen = () =>
   Array.from(selectAll(".dialog.musical")).some((dialog) => dialog.open);
+`,
+  );
+  await fs.writeFile(
+    path.join(tempDirectory, "audio-toggle-stub.mjs"),
+    `import * as preferences from "./preferences-stub.mjs";
+import { canThemeSupportAudio } from "./themes-stub.mjs";
+import * as audioHelpers from "./audio-helpers-stub.mjs";
+import * as aria from "./aria-stub.mjs";
+const renderAudioToggle = async (toggle, enabled) => {
+  if (!toggle) return;
+  const disabled = !(await canThemeSupportAudio());
+  const isEnabled = await enabled;
+  toggle.checked = isEnabled;
+  toggle.disabled = disabled;
+  aria.setChecked(toggle, isEnabled);
+  aria.setDisabled(toggle, disabled);
+  if (!toggle.parentElement) return;
+  aria.setPressed(toggle.parentElement, isEnabled);
+  aria.setDisabled(toggle.parentElement, disabled);
+};
+export const renderSoundEffects = async () =>
+  renderAudioToggle(audioHelpers.soundEffectsToggle(), audioHelpers.isSoundEffectsEnabled());
+export const renderMusic = async () =>
+  renderAudioToggle(audioHelpers.musicToggle(), audioHelpers.isMusicEnabled());
+export const render = async () => Promise.all([renderSoundEffects(), renderMusic()]);
+export const enableSoundEffects = async (enabled) => {
+  const disabled = !(await canThemeSupportAudio());
+  if (disabled) {
+    await renderSoundEffects();
+    return false;
+  }
+  preferences.setBoolean("soundEffects", enabled);
+  await renderSoundEffects();
+  return enabled;
+};
+export const enableMusic = async (enabled) => {
+  const disabled = !(await canThemeSupportAudio());
+  if (disabled) {
+    await renderMusic();
+    return false;
+  }
+  preferences.setBoolean("music", enabled);
+  await renderMusic();
+  return enabled;
+};
 `,
   );
   await fs.writeFile(

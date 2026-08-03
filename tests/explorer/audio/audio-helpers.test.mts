@@ -32,21 +32,21 @@ try {
   });
 
   preferences.init({});
-  assert.equal(isSoundEffectsEnabled(), false);
-  assert.equal(isMusicEnabled(), false);
-  assert.equal(isAudioEnabled(), false);
+  assert.equal(await isSoundEffectsEnabled(), false);
+  assert.equal(await isMusicEnabled(), false);
+  assert.equal(await isAudioEnabled(), false);
 
   preferences.setBoolean("soundEffects", true);
-  assert.equal(isSoundEffectsEnabled(), true);
-  assert.equal(isAudioEnabled(), true);
+  assert.equal(await isSoundEffectsEnabled(), true);
+  assert.equal(await isAudioEnabled(), true);
 
   preferences.setBoolean("music", true);
-  assert.equal(isMusicEnabled(), true);
+  assert.equal(await isMusicEnabled(), true);
 
   (globalThis.document as any).documentElement.dataset.theme = "base";
-  assert.equal(isSoundEffectsEnabled(), false);
-  assert.equal(isMusicEnabled(), false);
-  assert.equal(isAudioEnabled(), false);
+  assert.equal(await isSoundEffectsEnabled(), false);
+  assert.equal(await isMusicEnabled(), false);
+  assert.equal(await isAudioEnabled(), false);
 } finally {
   if (originalWindow) {
     Object.defineProperty(globalThis, "window", originalWindow);

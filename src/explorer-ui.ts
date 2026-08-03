@@ -1,6 +1,7 @@
 import * as aria from "./utils/aria.js";
 import { translate, applyTranslations, setTranslations } from "./utils/i18n.js";
 import * as preferences from "./preferences.js";
+import * as themes from "./utils/themes.js";
 
 export function createExplorerUiController(options: any) {
   const fetchJsonWithFallback = async (primary: string, fallback: string) => {
@@ -72,12 +73,7 @@ function updateThemeColor() {
     'meta[name="theme-color"]',
   ) as HTMLMetaElement | null;
   if (!meta) return;
-  meta.content =
-    document.documentElement.dataset.theme === "light"
-      ? "#f6efe4"
-      : document.documentElement.dataset.theme === "retro"
-        ? "#0000aa"
-        : "#160622";
+  meta.content = themes.getColor();
 }
 
 function syncChoiceInputSelection(

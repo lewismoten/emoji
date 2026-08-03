@@ -8,12 +8,12 @@ import {
   initializeExplorerControls as initializeExplorerControlsHelper,
 } from "./explorer/control-startup.js";
 import { bindPanelDialog } from "./explorer/pwa-panels.js";
-
+import * as themes from "./utils/themes.js";
 type ApplicationWindow = {
   addEventListener(type: "load", listener: () => void): void;
   document: { readyState: string };
 };
-
+import * as audioToggle from "./controls/audio/audio-toggle.js";
 /**
  * The Explorer composition root. Feature modules remain independent; this
  * controller owns only application lifecycle and will gradually take over the
@@ -171,8 +171,7 @@ export function bindExplorerEvents(options: any) {
     options.renderDeveloperMode?.();
     options.renderThemeToggle?.();
     options.renderPixelFontToggle?.();
-    options.renderSoundEffectsToggle?.();
-    options.renderMusicToggle?.();
+    audioToggle.render();
     options.renderSearchLanguages?.();
     bindThemeChoices();
     bindModeChoices();
@@ -237,14 +236,13 @@ export function bindExplorerEvents(options: any) {
       options.refreshElements?.();
       options.renderDeveloperMode?.();
       options.renderThemeToggle?.();
-      options.renderSoundEffectsToggle?.();
-      options.renderMusicToggle?.();
+      audioToggle.render();
       const helpDialog = getHelpDialog();
       syncDialogChoiceGroup(
         helpDialog,
         ".theme-choice",
         "theme",
-        documentRef?.documentElement?.dataset?.theme ?? "dark",
+        themes.getTheme(),
       );
       syncDialogChoiceGroup(
         helpDialog,

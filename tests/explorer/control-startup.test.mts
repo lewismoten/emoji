@@ -51,6 +51,9 @@ try {
         dataset: { locale: "fr" },
         dir: "rtl",
       },
+      querySelector() {
+        return null;
+      },
     },
   });
   Object.defineProperty(globalThis, "window", {

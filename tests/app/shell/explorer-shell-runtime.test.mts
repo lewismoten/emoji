@@ -13,9 +13,10 @@ try {
 
   fixture.shell.renderThemeToggle();
   assert.equal(fixture.uiStub.renderThemeToggleCalls.length, 1);
-  assert.equal(fixture.audioStub.controller.renderSoundEffectsToggleCalls, 1);
-  assert.equal(fixture.audioStub.controller.renderMusicToggleCalls, 1);
+  assert.equal(fixture.audioStub.controller.renderSoundEffectsToggleCalls, 0);
+  assert.equal(fixture.audioStub.controller.renderMusicToggleCalls, 0);
   assert.equal(fixture.audioStub.controller.syncHelpMusicCalls, 1);
+  assert.equal(fixture.audioToggleStub.renderCalls.length, 1);
 
   const emojiEvent = { type: "emoji-font" };
   fixture.shell.selectEmojiFont(emojiEvent as Event);

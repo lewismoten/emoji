@@ -3,6 +3,7 @@ import * as preferences from "../preferences.js";
 import * as doc from "../utils/document.js";
 import * as i18n from "../utils/i18n.js";
 import * as win from "../utils/window.js";
+import * as audioToggle from '../controls/audio/audio-toggle.js';
 
 export function initializeExplorerControls(options: any) {
   const controls = options.createFilterControlSetup({
@@ -121,8 +122,7 @@ export async function finalizeExplorerStartup(options: any) {
   options.renderDeveloperMode?.();
   options.renderThemeToggle();
   options.renderPixelFontToggle();
-  options.renderSoundEffectsToggle?.();
-  options.renderMusicToggle?.();
+  audioToggle.render();
   options.renderSearchLanguages?.();
   options.renderVersionModeToggle();
   options.setUrlStateReady(true);

@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import * as preferences from "../../../../src/preferences.js";
+import * as audioToggle from "../../../../src/controls/audio/audio-toggle.js";
 import {
   createExplorerAudioController,
   createExplorerAudioDependencies,
@@ -20,6 +21,12 @@ const preferenceWindow = installPreferenceWindow({
   music: false,
   soundEffects: false,
 });
+const flush = async () => {
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+};
 
 try {
   preferences.init({});
@@ -42,8 +49,8 @@ try {
 
   controller.bindAudioInteractions();
 
-  fixture.listeners.get("pointerdown")?.[0]?.();
-  fixture.listeners.get("keydown")?.[0]?.();
+  await fixture.listeners.get("pointerdown")?.[0]?.();
+  await fixture.listeners.get("keydown")?.[0]?.();
   assert.equal(typeof fixture.listeners.get("pointerdown")?.[0], "function");
   assert.equal(typeof fixture.listeners.get("keydown")?.[0], "function");
 
@@ -52,33 +59,35 @@ try {
       Array.isArray((observer.options as any)?.attributeFilter) &&
       (observer.options as any)?.attributeFilter[0] === "data-theme",
   )!;
-  themeObserver.callback?.([{ type: "attributes", attributeName: "class" }]);
+  await themeObserver.callback?.([{ type: "attributes", attributeName: "class" }]);
 
   preferences.setBoolean("music", true);
   fixture.musicToggle.checked = true;
-  fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
-  await Promise.resolve();
-  await Promise.resolve();
+  await fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  await flush();
   assert.equal(engineCalls.some((call) => call[0] === "resumeAudioContext"), true);
   assert.equal(engineCalls.some((call) => call[0] === "restartMusic"), true);
 
   (globalThis.document as any).documentElement.dataset.theme = "base";
   fixture.musicToggle.checked = false;
-  fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  await fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  await flush();
   assert.equal(engineCalls.some((call) => call[0] === "syncHelpMusic"), true);
   assert.equal(fixture.musicToggle.disabled, true);
 
   fixture.soundToggle.checked = true;
-  fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
+  await fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
+  await flush();
   assert.equal(fixture.soundToggle.disabled, true);
   assert.equal(toggleParent.attributes.get("aria-pressed"), "false");
   assert.equal(toggleParent.attributes.get("aria-disabled"), "true");
 
   (globalThis.document as any).documentElement.dataset.theme = "retro";
   fixture.soundToggle.checked = false;
-  fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
+  await fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
   fixture.soundToggle.checked = true;
-  fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
+  await fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
+  await flush();
   assert.equal(toggleParent.attributes.get("aria-pressed"), "true");
   assert.equal(toggleParent.attributes.get("aria-disabled"), "false");
   assert.equal(
@@ -88,7 +97,8 @@ try {
 
   preferences.setBoolean("music", false);
   fixture.musicToggle.checked = false;
-  fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  await fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  await flush();
   assert.equal(
     engineCalls.filter((call) => call[0] === "syncHelpMusic").length >= 2,
     true,
@@ -201,8 +211,8 @@ try {
   });
   (fixture.soundToggle as any).parentElement = null;
   (fixture.musicToggle as any).parentElement = null;
-  assert.doesNotThrow(() => noParentController.renderSoundEffectsToggle());
-  assert.doesNotThrow(() => noParentController.renderMusicToggle());
+  await audioToggle.renderSoundEffects();
+  await audioToggle.renderMusic();
 
   fixture.setDocument({
     ...globalThis.document,
@@ -210,8 +220,8 @@ try {
       return null;
     },
   });
-  assert.doesNotThrow(() => controller.renderSoundEffectsToggle());
-  assert.doesNotThrow(() => controller.renderMusicToggle());
+  await audioToggle.renderSoundEffects();
+  await audioToggle.renderMusic();
 
   const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
   Reflect.deleteProperty(globalThis, "document");
@@ -221,8 +231,8 @@ try {
     },
   });
   assert.doesNotThrow(() => documentlessController.bindAudioInteractions());
-  assert.doesNotThrow(() => documentlessController.renderSoundEffectsToggle());
-  assert.doesNotThrow(() => documentlessController.renderMusicToggle());
+  await audioToggle.renderSoundEffects();
+  await audioToggle.renderMusic();
   if (originalDocument) {
     Object.defineProperty(globalThis, "document", originalDocument);
   }

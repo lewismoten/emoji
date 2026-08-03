@@ -34,18 +34,10 @@ try {
   assert.equal(fixture.shell.fullDeveloperModeEnabled, undefined);
   assert.equal(fixture.shell.installApp, "explorer-install-app");
   assert.equal(fixture.shell.loadUiTranslations, "load-ui-translations");
-  assert.equal(
-    fixture.shell.renderMusicToggle,
-    fixture.audioController.renderMusicToggle,
-  );
   assert.equal(fixture.shell.renderDeveloperMode, "developer-render");
   assert.equal(
     fixture.shell.renderInstallAppButton,
     "ui-render-install-app-button",
-  );
-  assert.equal(
-    fixture.shell.renderSoundEffectsToggle,
-    fixture.audioController.renderSoundEffectsToggle,
   );
   assert.equal(
     fixture.shell.syncHelpMusic,

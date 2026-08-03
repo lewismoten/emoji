@@ -4,6 +4,12 @@ import { createExplorerAudioEngine } from "../../../src/explorer/audio/explorer-
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const flush = async () => {
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+};
 
 class FakeGain {
   connectedTo: unknown[] = [];
@@ -150,28 +156,27 @@ try {
   assert.equal(FakeAudioContext.instances[0]?.state, "running");
   assert.equal(await engine.resumeAudioContext(), FakeAudioContext.instances[0]);
 
-  engine.playClick();
+  await engine.playClick();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 0);
 
   preferences.setBoolean("soundEffects", true);
-  engine.playClick();
+  await engine.playClick();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 2);
-  engine.playHover();
+  await engine.playHover();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 3);
-  engine.playDialogOpen();
+  await engine.playDialogOpen();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 6);
-  engine.playDialogClose();
+  await engine.playDialogClose();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 9);
-  engine.playSoundEffect("missing" as any);
-  engine.playInteraction("generic", "focus");
-  assert.equal(engine.theme().voices.length > 0, true);
+  await engine.playSoundEffect("missing" as any);
+  await engine.playInteraction("generic", "focus");
 
   theme = "light";
   (globalThis.document as any).documentElement.dataset.theme = "light";
   const lightSfxStart = FakeAudioContext.instances[0]?.oscillators.length ?? 0;
-  engine.playClick();
-  engine.playHover();
-  engine.playDialogOpen();
+  await engine.playClick();
+  await engine.playHover();
+  await engine.playDialogOpen();
   assert.equal(
     (FakeAudioContext.instances[0]?.oscillators.length ?? 0) > lightSfxStart,
     true,
@@ -184,9 +189,9 @@ try {
   theme = "dark";
   (globalThis.document as any).documentElement.dataset.theme = "dark";
   const darkSfxStart = FakeAudioContext.instances[0]?.oscillators.length ?? 0;
-  engine.playDialogClose();
-  engine.playInteraction("checkbox", "check");
-  engine.playInteraction("button", "focus");
+  await engine.playDialogClose();
+  await engine.playInteraction("checkbox", "check");
+  await engine.playInteraction("button", "focus");
   assert.equal(
     (FakeAudioContext.instances[0]?.oscillators.length ?? 0) > darkSfxStart,
     true,
@@ -198,21 +203,21 @@ try {
 
   preferences.setBoolean("music", true);
   helpDialog.open = true;
-  engine.syncHelpMusic();
-  await Promise.resolve();
+  await engine.syncHelpMusic();
+  await flush();
   assert.equal(timeouts.length > 0, true);
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length > 7, true);
   const oscillatorsAfterFirstSchedule =
     FakeAudioContext.instances[0]?.oscillators.length ?? 0;
-  engine.syncHelpMusic();
-  await Promise.resolve();
+  await engine.syncHelpMusic();
+  await flush();
   assert.equal(
     FakeAudioContext.instances[0]?.oscillators.length,
     oscillatorsAfterFirstSchedule,
   );
 
   helpDialog.open = false;
-  engine.syncHelpMusic();
+  await engine.syncHelpMusic();
   assert.deepEqual(cleared, [1]);
   assert.equal(timeouts.length >= 2, true);
   timeouts[0]?.();
@@ -245,12 +250,12 @@ try {
   savedDialog.open = savedOnly;
   await fallbackEngine.resumeAudioContext();
   assert.equal(FakeAudioContext.instances.length, 1);
-  fallbackEngine.syncHelpMusic();
+  await fallbackEngine.syncHelpMusic();
   await Promise.resolve();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length > 0, true);
   savedOnly = false;
   savedDialog.open = savedOnly;
-  fallbackEngine.syncHelpMusic();
+  await fallbackEngine.syncHelpMusic();
 
   Object.defineProperty(globalThis, "window", {
     configurable: true,
@@ -263,15 +268,15 @@ try {
   });
   const silentEngine = createExplorerAudioEngine();
   assert.equal(await silentEngine.resumeAudioContext(), undefined);
-  silentEngine.playClick();
-  silentEngine.syncHelpMusic();
+  await silentEngine.playClick();
+  await silentEngine.syncHelpMusic();
 
   const noContextMusicEngine = createExplorerAudioEngine();
   helpDialog.open = true;
-  noContextMusicEngine.syncHelpMusic();
-  noContextMusicEngine.restartMusic();
+  await noContextMusicEngine.syncHelpMusic();
+  await noContextMusicEngine.restartMusic();
   helpDialog.open = false;
-  noContextMusicEngine.restartMusic();
+  await noContextMusicEngine.restartMusic();
 
   class RejectingAudioContext extends FakeAudioContext {
     override async resume() {
@@ -331,7 +336,7 @@ try {
   helpDialog.open = true;
   const lightEngine = createExplorerAudioEngine();
   await lightEngine.resumeAudioContext();
-  lightEngine.syncHelpMusic();
+  await lightEngine.syncHelpMusic();
   await Promise.resolve();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 56);
   assert.equal(FakeAudioContext.instances[0]?.oscillators[0]?.type, "triangle");
@@ -346,7 +351,7 @@ try {
   (globalThis.document as any).documentElement.dataset.theme = "dark";
   const darkEngine = createExplorerAudioEngine();
   await darkEngine.resumeAudioContext();
-  darkEngine.syncHelpMusic();
+  await darkEngine.syncHelpMusic();
   await Promise.resolve();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length, 30);
   assert.equal(FakeAudioContext.instances[0]?.oscillators[0]?.type, "sine");
@@ -359,7 +364,7 @@ try {
   (globalThis.document as any).documentElement.dataset.theme = "base";
   const baseThemeEngine = createExplorerAudioEngine();
   await baseThemeEngine.resumeAudioContext();
-  baseThemeEngine.syncHelpMusic();
+  await baseThemeEngine.syncHelpMusic();
   assert.equal(FakeAudioContext.instances[0]?.oscillators.length ?? 0, 0);
 
   FakeAudioContext.instances.length = 0;
@@ -384,11 +389,11 @@ try {
   (globalThis.document as any).documentElement.dataset.theme = "light";
   const restartEngine = createExplorerAudioEngine();
   await restartEngine.resumeAudioContext();
-  restartEngine.syncHelpMusic();
+  await restartEngine.syncHelpMusic();
   await Promise.resolve();
   const beforeRestart = FakeAudioContext.instances[0]?.oscillators.length ?? 0;
   theme = "dark";
-  restartEngine.restartMusic();
+  await restartEngine.restartMusic();
   await Promise.resolve();
   assert.equal(restartCleared.includes(1), true);
   assert.equal(

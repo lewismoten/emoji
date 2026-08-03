@@ -1,7 +1,4 @@
-import {
-  getExplorerMusicConfig,
-  scheduleExplorerMusic,
-} from "./explorer-audio-music.js";
+import { scheduleExplorerMusic } from "./explorer-audio-music.js";
 import {
   getThemedExplorerSoundEffect,
   resolveExplorerSoundEffect,
@@ -105,8 +102,9 @@ export function createExplorerAudioEngine() {
     musicBeat = 0;
   }
 
-  function scheduleMusic() {
-    if (!shouldPlayMusic()) {
+  const scheduleMusic = async () => {
+    const enabled = await shouldPlayMusic();
+    if (!enabled) {
       stopMusic();
       return;
     }
@@ -125,35 +123,35 @@ export function createExplorerAudioEngine() {
     musicBeat = scheduled.musicBeat;
     musicGain = scheduled.musicGain;
     musicTimer = scheduled.musicTimer;
-  }
+  };
 
   const syncHelpMusic = async () => {
     const enabled = await shouldPlayMusic();
-    if(!enabled) {
+    if (!enabled) {
       stopMusic();
       return;
     }
     if (!musicTimer) {
-      void resumeAudioContext()
-      .then(shouldPlayMusic)
-      .then((enabled) => {
-        if (enabled && !musicTimer) scheduleMusic();
-      });
-    } else {
-      void resumeAudioContext();
+      const context = await resumeAudioContext();
+      if (!context) return;
+      if (await shouldPlayMusic()) {
+        await scheduleMusic();
+      }
+      return;
     }
-  }
+    await resumeAudioContext();
+  };
 
   const restartMusic = async () => {
     resetMusicPlayback();
     const enabled = await shouldPlayMusic();
     if (!enabled) return;
-    void resumeAudioContext()
-    .then(shouldPlayMusic)
-    .then(enabled => {
-      if (enabled && !musicTimer) scheduleMusic();
-    });
-  }
+    const context = await resumeAudioContext();
+    if (!context) return;
+    if (await shouldPlayMusic() && !musicTimer) {
+      await scheduleMusic();
+    }
+  };
 
   return {
     playClick: () => playInteraction("button", "click"),
@@ -166,6 +164,5 @@ export function createExplorerAudioEngine() {
     resumeAudioContext,
     stopMusic,
     syncHelpMusic,
-    theme: () => getExplorerMusicConfig(),
   };
 }

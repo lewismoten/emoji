@@ -56,17 +56,17 @@ export function createExplorerAudioController(
 
   const setSoundEffects = async (enabled: boolean) => {
     if (await audioToggle.enableSoundEffects(enabled)) {
-      audio.resumeAudioContext();
+      await audio.resumeAudioContext();
     }
   };
 
   const setMusic = async (enabled: boolean) => {
     if (await audioToggle.enableMusic(enabled)) {
-      return void audio.resumeAudioContext().then(() => {
-        audio.restartMusic();
-      });
+      await audio.resumeAudioContext();
+      await audio.restartMusic();
+      return;
     }
-    return void audio.syncHelpMusic();
+    await audio.syncHelpMusic();
   };
 
   const getInteractiveTarget = (
@@ -98,7 +98,7 @@ export function createExplorerAudioController(
 
     addEventListener(
       "change",
-      (event) => {
+      async (event) => {
         const target = event.target;
         if (!(target instanceof Element)) return;
         if (
@@ -108,7 +108,7 @@ export function createExplorerAudioController(
             ?.matches?.('[data-audio-preference="soundEffects"]')
         ) {
           const input = target as HTMLInputElement;
-          setSoundEffects(input.checked);
+          await setSoundEffects(input.checked);
           return playTargetAction(
             target as HTMLElement,
             input.checked ? "check" : "uncheck",
@@ -121,7 +121,7 @@ export function createExplorerAudioController(
             ?.matches?.('[data-audio-preference="music"]')
         ) {
           const input = target as HTMLInputElement;
-          setMusic(input.checked);
+          await setMusic(input.checked);
           return playTargetAction(
             target as HTMLElement,
             input.checked ? "check" : "uncheck",
@@ -196,7 +196,7 @@ export function createExplorerAudioController(
       if (dialog.classList.contains("musical")) audio.syncHelpMusic();
     });
 
-    themeObserver = new MutationObserver((records) => {
+    themeObserver = new MutationObserver(async (records) => {
       if (
         !records.some(
           (record) =>
@@ -205,8 +205,8 @@ export function createExplorerAudioController(
         )
       )
         return;
-      audioToggle.render();
-      audio.restartMusic();
+      await audioToggle.render();
+      await audio.restartMusic();
     });
     if (activeDocument.documentElement) {
       themeObserver.observe(activeDocument.documentElement, {

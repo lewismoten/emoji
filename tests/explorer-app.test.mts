@@ -18,7 +18,13 @@ const transformedSource = source
     'from "./explorer/control-startup.js";',
     'from "./control-startup-stub.mjs";',
   )
-  .replace('from "./explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";');
+  .replace('from "./explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";')
+  .replace(
+    'from "./controls/audio/audio-toggle.js";',
+    'from "./audio-toggle-stub.mjs";',
+  )
+  .replace("from './utils/themes.js';", 'from "./themes-stub.mjs";')
+  .replace('from "./utils/themes.js";', 'from "./themes-stub.mjs";');
 
 const tempRoot = path.join(root, "build/tests/.tmp");
 await fs.mkdir(tempRoot, { recursive: true });
@@ -65,6 +71,19 @@ await fs.writeFile(
     "  bindPanelDialogCalls.push(options);",
     "}",
   ].join("\n"),
+);
+await fs.writeFile(
+  path.join(tempDirectory, "audio-toggle-stub.mjs"),
+  [
+    "export const renderCalls = [];",
+    "export function render(...args) {",
+    "  renderCalls.push(args);",
+    "}",
+  ].join("\n"),
+);
+await fs.writeFile(
+  path.join(tempDirectory, "themes-stub.mjs"),
+  ['export const getTheme = () => "dark";'].join("\n"),
 );
 await fs.writeFile(
   path.join(tempDirectory, "explorer-app.mjs"),

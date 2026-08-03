@@ -262,25 +262,25 @@ export function installAudioDomFixture() {
 export function createAudioEngineFixture(engineCalls: Array<unknown[]>) {
   return {
     musicEnabled: () => false,
-    playClick() {
+    async playClick() {
       engineCalls.push(["playClick"]);
     },
-    playDialogClose() {
+    async playDialogClose() {
       engineCalls.push(["playDialogClose"]);
     },
-    playDialogOpen() {
+    async playDialogOpen() {
       engineCalls.push(["playDialogOpen"]);
     },
-    playHover() {
+    async playHover() {
       engineCalls.push(["playHover"]);
     },
-    playInteraction(element: unknown, action: unknown) {
+    async playInteraction(element: unknown, action: unknown) {
       engineCalls.push(["playInteraction", element, action]);
     },
-    playSoundEffect(effect: unknown) {
+    async playSoundEffect(effect: unknown) {
       engineCalls.push(["playSoundEffect", effect]);
     },
-    restartMusic() {
+    async restartMusic() {
       engineCalls.push(["restartMusic"]);
     },
     resumeAudioContext() {
@@ -291,11 +291,11 @@ export function createAudioEngineFixture(engineCalls: Array<unknown[]>) {
     stopMusic() {
       engineCalls.push(["stopMusic"]);
     },
-    syncHelpMusic() {
+    async syncHelpMusic() {
       engineCalls.push(["syncHelpMusic"]);
     },
     theme() {
-      return { beatLength: 0.18, gain: 0.09, voices: [] };
+      return Promise.resolve({ beatLength: 0.18, gain: 0.09, voices: [] });
     },
   };
 }

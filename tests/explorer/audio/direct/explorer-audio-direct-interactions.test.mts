@@ -18,6 +18,12 @@ const preferenceWindow = installPreferenceWindow({
   music: true,
   soundEffects: false,
 });
+const flush = async () => {
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+};
 
 try {
   preferences.init({});
@@ -139,15 +145,16 @@ try {
   assertHasInteraction(engineCalls, "checkbox", "click");
   assertHasInteraction(engineCalls, "radio", "click");
   assertHasInteraction(engineCalls, "link", "click");
-  fixture.listeners.get("change")?.[0]?.({ target: switchTarget });
-  fixture.listeners.get("change")?.[0]?.({ target: checkboxInputTarget });
+  await fixture.listeners.get("change")?.[0]?.({ target: switchTarget });
+  await fixture.listeners.get("change")?.[0]?.({ target: checkboxInputTarget });
   const wrappedSoundPreference = createWrappedPreferenceTarget(
     "soundEffects",
     true,
   );
-  fixture.listeners.get("change")?.[0]?.({ target: wrappedSoundPreference });
+  await fixture.listeners.get("change")?.[0]?.({ target: wrappedSoundPreference });
   const wrappedMusicPreference = createWrappedPreferenceTarget("music", false);
-  fixture.listeners.get("change")?.[0]?.({ target: wrappedMusicPreference });
+  await fixture.listeners.get("change")?.[0]?.({ target: wrappedMusicPreference });
+  await flush();
   const nonElementClosest = new FakeElement([], null);
   nonElementClosest.closest = () => ({}) as any;
   fixture.listeners.get("click")?.[0]?.({ target: nonElementClosest });
@@ -246,7 +253,7 @@ try {
     hoverCountBeforeReset + 2,
   );
 
-  themeObserver?.callback([
+  await themeObserver?.callback([
     {
       type: "attributes",
       attributeName: "class",
@@ -258,6 +265,7 @@ try {
       target: (globalThis.document as any).documentElement,
     },
   ]);
+  await flush();
   assert.equal(engineCalls.some((call) => call[0] === "restartMusic"), true);
   assert.equal(
     engineCalls.filter((call) => call[0] === "syncHelpMusic").length >= 2,

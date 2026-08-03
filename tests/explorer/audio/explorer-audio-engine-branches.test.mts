@@ -4,6 +4,12 @@ import { createExplorerAudioEngine } from "../../../src/explorer/audio/explorer-
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const flush = async () => {
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+};
 
 class FakeGain {
   gain = {
@@ -85,24 +91,24 @@ try {
   engine.stopMusic();
   const context = (await engine.resumeAudioContext()) as any;
   context.state = "suspended";
-  engine.playSoundEffect("ui-click");
+  await engine.playSoundEffect("ui-click");
   assert.equal(timeouts.length, 0);
 
   context.state = "running";
-  engine.playInteraction("generic", "check");
+  await engine.playInteraction("generic", "check");
   assert.equal(timeouts.length, 0);
   theme = "base";
   (globalThis.document as any).documentElement.dataset.theme = "base";
   preferences.setBoolean("music", true);
   helpDialog.open = true;
-  engine.syncHelpMusic();
+  await engine.syncHelpMusic();
   assert.equal(timeouts.length, 0);
 
   theme = "retro";
   (globalThis.document as any).documentElement.dataset.theme = "retro";
   helpDialog.open = true;
-  engine.syncHelpMusic();
-  await Promise.resolve();
+  await engine.syncHelpMusic();
+  await flush();
   assert.equal(timeouts.length > 0, true);
 
   class ClosedAudioContext extends FakeAudioContext {
@@ -131,7 +137,7 @@ try {
   helpDialog.open = true;
   await closedMusicEngine.resumeAudioContext();
   const beforeClosedAttempt = timeouts.length;
-  closedMusicEngine.syncHelpMusic();
+  await closedMusicEngine.syncHelpMusic();
   await Promise.resolve();
   assert.equal(timeouts.length, beforeClosedAttempt);
 } finally {

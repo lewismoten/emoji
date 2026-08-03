@@ -1,6 +1,5 @@
 import assert from "node:assert/strict";
 import {
-  getExplorerMusicConfig,
   scheduleExplorerSongEventForTest,
   scheduleExplorerMusic,
 } from "../../../src/explorer/audio/explorer-audio-music.js";
@@ -74,32 +73,11 @@ try {
     },
   });
 
-  const light = getExplorerMusicConfig();
-  assert.equal(light.voices.length, 4);
-  assert.equal(light.voices[0]?.events.length, 16);
-  assert.equal(light.voices[0]?.instrument, "bell-bright");
-  assert.equal(light.voices[3]?.instrument, "drum-chip");
-
-  (globalThis.document as any).documentElement.dataset.theme = "dark";
-  const dark = getExplorerMusicConfig();
-  assert.equal(dark.voices.length, 3);
-  assert.equal(dark.voices[1]?.events.length > 0, true);
-  assert.equal(dark.voices[1]?.instrument, "pad-warm");
-
-  (globalThis.document as any).documentElement.dataset.theme = "retro";
-  const retro = getExplorerMusicConfig();
-  assert.equal(retro.voices.length, 2);
-  assert.equal(retro.voices[0]?.events.length, 8);
-  assert.equal(retro.voices[0]?.instrument, "lead-chip");
-
-  (globalThis.document as any).documentElement.dataset.theme = "base";
-  assert.equal(getExplorerMusicConfig(), retro);
-
   const context = new FakeAudioContext();
   const masterGain = context.createGain() as unknown as GainNode;
   const firstTimeouts: number[] = [];
   (globalThis.document as any).documentElement.dataset.theme = "light";
-  const lightSchedule = scheduleExplorerMusic({
+  const lightSchedule = (await scheduleExplorerMusic({
     context: context as unknown as AudioContext,
     createGain: () => context.createGain() as unknown as GainNode,
     masterGain,
@@ -109,19 +87,19 @@ try {
       return 7;
     },
     schedulePlayback() {},
-  });
+  }))!;
   assert.equal(lightSchedule.musicBeat, 20);
   assert.equal(lightSchedule.musicTimer, 7);
   assert.equal((lightSchedule.musicGain as unknown as FakeGain).gain.value, 0.1);
   assert.equal((lightSchedule.musicGain as unknown as FakeGain).connectedTo[0], masterGain);
-  assert.equal(firstTimeouts[0], light.beatLength * 16 * 1000 - 60);
+  assert.equal(firstTimeouts[0], 0.21 * 16 * 1000 - 60);
   assert.equal(context.oscillators.length, 56);
   assert.equal(context.periodicWaves.length > 0, true);
   assert.equal((context.oscillators[0] as FakeOscillator).periodicWave != null, true);
 
   const secondTimeouts: number[] = [];
   (globalThis.document as any).documentElement.dataset.theme = "dark";
-  const darkSchedule = scheduleExplorerMusic({
+  const darkSchedule = (await scheduleExplorerMusic({
     context: context as unknown as AudioContext,
     createGain: () => context.createGain() as unknown as GainNode,
     masterGain,
@@ -132,11 +110,11 @@ try {
       return 8;
     },
     schedulePlayback() {},
-  });
+  }))!;
   assert.equal(darkSchedule.musicBeat, 12);
   assert.equal(darkSchedule.musicTimer, 8);
   assert.equal(darkSchedule.musicGain, lightSchedule.musicGain);
-  assert.equal(secondTimeouts[0], dark.beatLength * 12 * 1000 - 60);
+  assert.equal(secondTimeouts[0], 0.36 * 12 * 1000 - 60);
   assert.equal(context.oscillators.length, 86);
   assert.equal((context.oscillators.at(-1) as FakeOscillator).periodicWave != null, true);
   assert.equal(

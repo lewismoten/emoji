@@ -19,6 +19,10 @@ export async function loadExplorerShellFixture() {
       'import { createExplorerAudioController } from "./explorer-audio-stub.mjs";',
     )
     .replace(
+      'import * as audioToggle from "../controls/audio/audio-toggle.js";',
+      'import * as audioToggle from "./audio-toggle-stub.mjs";',
+    )
+    .replace(
       'from "../explorer/pwa-panels.js";',
       'from "./pwa-panels-stub.mjs";',
     )
@@ -60,6 +64,10 @@ export async function loadExplorerShellFixture() {
     "  syncHelpMusic() { this.syncHelpMusicCalls += 1; return ['sync-help-music']; },",
     "};",
     "export function createExplorerAudioController(options) { calls.push(options); return controller; }",
+  ]);
+  await writeStub("audio-toggle-stub.mjs", [
+    "export const renderCalls = [];",
+    "export function render(...args) { renderCalls.push(args); return ['render-audio-toggle', args]; }",
   ]);
   await writeStub("pwa-panels-stub.mjs", [
     "export const installApp = 'install-web-app';",
@@ -121,6 +129,9 @@ export async function loadExplorerShellFixture() {
   );
   const audioStub = await import(
     pathToFileURL(path.join(tempDirectory, "explorer-audio-stub.mjs")).href
+  );
+  const audioToggleStub = await import(
+    pathToFileURL(path.join(tempDirectory, "audio-toggle-stub.mjs")).href
   );
   const pwaStub = await import(
     pathToFileURL(path.join(tempDirectory, "pwa-panels-stub.mjs")).href
@@ -189,6 +200,7 @@ export async function loadExplorerShellFixture() {
   return {
     appInstalledHandlers,
     audioStub,
+    audioToggleStub,
     beforeInstallHandlers,
     createExplorerShell,
     createExplorerShellDependencies,

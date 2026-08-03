@@ -8,6 +8,12 @@ import {
 const fixture = installExplorerAudioDomFixture();
 const { dialogListenersStub, engineStub, module, preferencesStub } =
   await loadExplorerAudioModuleFixture();
+const flush = async () => {
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+};
 
 try {
   preferencesStub.init({ music: true, soundEffects: false });
@@ -32,9 +38,9 @@ try {
     attributeFilter: ["data-theme"],
   });
 
-  engineStub.engineApi.soundEffectsEnabled = () => true;
-  fixture.listeners.get("pointerdown")?.[0]();
-  fixture.listeners.get("keydown")?.[0]();
+  preferencesStub.state.soundEffects = true;
+  await fixture.listeners.get("pointerdown")?.[0]();
+  await fixture.listeners.get("keydown")?.[0]();
   assert.equal(
     engineStub.engineCalls.filter(
       (call: any[]) => call[0] === "resumeAudioContext",
@@ -77,7 +83,7 @@ try {
   radioInteractive.tagName = "INPUT";
   radioInteractive.type = "radio";
   radioInteractive.checked = true;
-  fixture.listeners.get("change")?.[0]({
+  await fixture.listeners.get("change")?.[0]({
     target: new FakeElement([], radioInteractive),
   });
   const linkInteractive = new FakeElement([], null);
@@ -191,13 +197,14 @@ try {
     true,
   );
 
-  themeObserver?.callback([
+  await themeObserver?.callback([
     {
       type: "attributes",
       attributeName: "data-theme",
       target: (globalThis.document as any).documentElement,
     },
   ]);
+  await flush();
   assert.equal(
     engineStub.engineCalls.some((call: any[]) => call[0] === "restartMusic"),
     true,
@@ -208,7 +215,7 @@ try {
     true,
   );
 
-  controller.syncHelpMusic();
+  await controller.syncHelpMusic();
   assert.equal(
     engineStub.engineCalls.filter((call: any[]) => call[0] === "syncHelpMusic")
       .length >= 3,

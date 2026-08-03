@@ -44,7 +44,7 @@ try {
       documentElement: { dataset: { theme: "retro" } },
     },
   });
-  const retroSchedule = scheduleExplorerMusic({
+  const retroSchedule = (await scheduleExplorerMusic({
     context: context as unknown as AudioContext,
     createGain: () => context.createGain(),
     masterGain,
@@ -54,7 +54,7 @@ try {
       return 11;
     },
     schedulePlayback() {},
-  });
+  }))!;
 
   assert.equal(retroSchedule.musicTimer, 11);
   assert.equal(retroSchedule.musicBeat > 1, true);

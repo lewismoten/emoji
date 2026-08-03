@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import * as preferences from "../../../../src/preferences.js";
+import * as audioToggle from "../../../../src/controls/audio/audio-toggle.js";
 import {
   createExplorerAudioController,
   createExplorerAudioDependencies,
@@ -16,6 +17,12 @@ const preferenceWindow = installPreferenceWindow({
   music: true,
   soundEffects: false,
 });
+const flush = async () => {
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+  await Promise.resolve();
+};
 
 try {
   preferences.init({});
@@ -44,8 +51,8 @@ try {
     },
   };
 
-  controller.renderSoundEffectsToggle();
-  controller.renderMusicToggle();
+  await audioToggle.renderSoundEffects();
+  await audioToggle.renderMusic();
   assert.equal(fixture.soundToggle.checked, false);
   assert.equal(fixture.soundToggle.disabled, false);
   assert.equal(fixture.soundToggle.attributes.get("aria-checked"), "false");
@@ -72,30 +79,34 @@ try {
       return null;
     },
   });
-  controller.renderSoundEffectsToggle();
-  controller.renderMusicToggle();
+  await audioToggle.renderSoundEffects();
+  await audioToggle.renderMusic();
   fixture.setDocument();
 
   controller.bindAudioInteractions();
   fixture.soundToggle.checked = true;
-  fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
+  await fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
+  await flush();
   assert.equal(preferences.getBoolean("soundEffects"), true);
   assert.equal(fixture.soundToggle.attributes.get("aria-checked"), "true");
 
   preferences.setBoolean("music", false);
   fixture.musicToggle.checked = true;
-  fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  await fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  await flush();
   assert.equal(preferences.getBoolean("music"), true);
 
   fixture.musicToggle.checked = false;
-  fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  await fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  await flush();
   assert.equal(preferences.getBoolean("music"), false);
   assert.equal(fixture.musicToggle.attributes.get("aria-checked"), "false");
 
   (globalThis.document as any).documentElement.dataset.theme = "base";
-  fixture.observers[1]?.callback?.([
+  await fixture.observers[1]?.callback?.([
     { type: "attributes", attributeName: "data-theme" },
   ]);
+  await flush();
   assert.equal(fixture.soundToggle.checked, false);
   assert.equal(fixture.soundToggle.disabled, true);
   assert.equal(fixture.soundToggle.attributes.get("aria-disabled"), "true");
@@ -104,16 +115,17 @@ try {
   assert.equal(fixture.musicToggle.attributes.get("aria-disabled"), "true");
 
   fixture.soundToggle.checked = true;
-  fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
+  await fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
   fixture.musicToggle.checked = true;
-  fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  await fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  await flush();
   assert.deepEqual(preferenceWindow.read(), {
     mode: "standard",
     music: false,
     soundEffects: true,
     theme: "dark",
   });
-  fixture.listeners.get("change")?.[0]?.({ target: {} });
+  await fixture.listeners.get("change")?.[0]?.({ target: {} });
 
   preferences.init({ music: false, soundEffects: false });
   const defaultDependencyController = createExplorerAudioController();
@@ -121,19 +133,21 @@ try {
 
   const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
   Reflect.deleteProperty(globalThis, "document");
-  const noDocumentCalls: Array<unknown[]> = [];
+  const noDocumentCalls: Array<Promise<unknown[]>> = [];
   createExplorerAudioController({
     createExplorerAudioEngine() {
-      noDocumentCalls.push([
-        "engine-options",
-        audioHelpers.isMusicalDialogOpen(),
-        audioHelpers.isMusicEnabled(),
-        audioHelpers.isSoundEffectsEnabled(),
-      ]);
+      noDocumentCalls.push(
+        Promise.all([
+          Promise.resolve("engine-options"),
+          Promise.resolve(audioHelpers.isMusicalDialogOpen()),
+          audioHelpers.isMusicEnabled(),
+          audioHelpers.isSoundEffectsEnabled(),
+        ]),
+      );
       return engine;
     },
   });
-  assert.deepEqual(noDocumentCalls[0], [
+  assert.deepEqual(await noDocumentCalls[0], [
     "engine-options",
     false,
     false,

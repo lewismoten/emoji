@@ -158,10 +158,8 @@ assert.equal(typeof shell.recordCopiedEmoji, "function");
 assert.equal(typeof shell.refreshRenderedPixelEmoji, "function");
 assert.equal(typeof shell.renderDeveloperMode, "function");
 assert.equal(typeof shell.renderInstallAppButton, "function");
-assert.equal(typeof shell.renderMusicToggle, "function");
 assert.equal(typeof shell.renderPixelFontToggle, "function");
 assert.equal(typeof shell.renderSavedEmoji, "function");
-assert.equal(typeof shell.renderSoundEffectsToggle, "function");
 assert.equal(typeof shell.renderThemeToggle, "function");
 assert.equal(typeof shell.selectEmojiFont, "function");
 assert.equal(typeof shell.selectTheme, "function");
@@ -199,8 +197,6 @@ for (const action of [
   () => shell.renderThemeToggle(),
   () => shell.renderPixelFontToggle(),
   () => shell.renderInstallAppButton(),
-  () => shell.renderMusicToggle(),
-  () => shell.renderSoundEffectsToggle(),
 ])
   assert.doesNotThrow(action);
 assert.doesNotThrow(() =>
@@ -288,8 +284,6 @@ assert.doesNotThrow(() =>
 for (const action of [
   () => exercisedShell.renderThemeToggle(),
   () => exercisedShell.renderPixelFontToggle(),
-  () => exercisedShell.renderMusicToggle(),
-  () => exercisedShell.renderSoundEffectsToggle(),
 ])
   assert.doesNotThrow(action);
 
