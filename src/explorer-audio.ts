@@ -4,12 +4,14 @@ type ExplorerAudioOptions = {
 };
 
 import { createExplorerAudioEngine } from "./explorer/audio/explorer-audio-engine.js";
+import * as dialogListeners from "./controls/dialog/dialog-listeners.js";
 import type {
   ExplorerAudioAction,
   ExplorerAudioElementType,
 } from "./explorer/audio/explorer-audio-types.js";
 import documentRef, {
   querySelector,
+  selectAll,
   addEventListener,
 } from "./utils/document.js";
 import {
@@ -21,10 +23,35 @@ import * as aria from "./utils/aria.js";
 
 type AudioTarget = HTMLElement;
 
-const INTERACTIVE_SELECTOR =
-  'a[href], button, select, input, label, [tabindex], [role="button"], [role="checkbox"], [role="link"], [role="radio"], [role="switch"], [aria-haspopup="listbox"], .modifier-filter-option, .setting-choice, .theme-choice, .mode-choice, .audio-choice, .emoji-font-choice, .language-option, .saved-picker, .help-picker, .order-mode, .compact-choice, .version-mode-toggle, .version-step, .filter-picker-trigger, [data-emoji-key]';
-const DIALOG_SELECTOR =
-  ".example-dialog, .help-dialog, .saved-dialog, .language-dialog, .filter-picker-dialog, .install-dialog";
+const INTERACTIVE_SELECTOR = [
+  "a[href]",
+  "button",
+  "select",
+  "input",
+  "label",
+  "[tabindex]",
+  '[role="button"]',
+  '[role="checkbox"]',
+  '[role="link"]',
+  '[role="radio"]',
+  '[role="switch"]',
+  '[aria-haspopup="listbox"]',
+  ".modifier-filter-option",
+  ".setting-choice",
+  ".theme-choice",
+  ".mode-choice",
+  ".audio-choice",
+  ".emoji-font-choice",
+  ".language-option",
+  ".saved-picker",
+  ".help-picker",
+  ".order-mode",
+  ".compact-choice",
+  ".version-mode-toggle",
+  ".version-step",
+  ".filter-picker-trigger",
+  "[data-emoji-key]",
+].join(", ");
 
 export const createExplorerAudioDependencies = () => ({
   createExplorerAudioEngine,
@@ -36,7 +63,6 @@ export function createExplorerAudioController(
 ) {
   const helpers = dependencies ?? createExplorerAudioDependencies();
   let initialized = false;
-  let dialogObserver: MutationObserver | undefined;
   let themeObserver: MutationObserver | undefined;
   let hoverTarget: AudioTarget | null = null;
 
@@ -52,18 +78,19 @@ export function createExplorerAudioController(
   const musicToggle = () =>
     querySelector<HTMLInputElement>('.audio-choice-input[value="music"]') ??
     null;
-  const helpDialog = () =>
-    querySelector<HTMLDialogElement>(".help-dialog") ?? null;
-  const savedDialog = () =>
-    querySelector<HTMLDialogElement>(".saved-dialog") ?? null;
+
+  const isMusicalDialogOpen = () =>
+    Array.from(selectAll<HTMLDialogElement>(".dialog.musical")).some(
+      (dialog) => dialog.open,
+    );
+
   const audio = helpers.createExplorerAudioEngine({
-    helpDialogOpen: () => helpDialog()?.open === true,
+    isMusicalDialogOpen,
     musicEnabled,
     retroMode: isRetroTheme,
     theme: () =>
       (documentRef()?.documentElement?.dataset?.theme as
         "base" | "dark" | "light" | "retro") ?? "dark",
-    savedDialogOpen: () => savedDialog()?.open === true,
     soundEffectsEnabled,
   });
 
@@ -261,27 +288,10 @@ export function createExplorerAudioController(
       else audio.syncHelpMusic();
     });
 
-    dialogObserver = new MutationObserver((records) => {
-      records.forEach((record) => {
-        if (!(record.target instanceof HTMLDialogElement)) return;
-        const dialog = record.target;
-        if (!dialog.matches(DIALOG_SELECTOR)) return;
-        audio.playInteraction("dialog", dialog.open ? "open" : "close");
-        if (
-          dialog.classList.contains("help-dialog") ||
-          dialog.classList.contains("saved-dialog")
-        ) {
-          audio.syncHelpMusic();
-        }
-      });
+    dialogListeners.add((action, dialog) => {
+      audio.playInteraction("dialog", action);
+      if (dialog.classList.contains("musical")) audio.syncHelpMusic();
     });
-    if (activeDocument.body) {
-      dialogObserver.observe(activeDocument.body, {
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["open"],
-      });
-    }
 
     themeObserver = new MutationObserver((records) => {
       if (

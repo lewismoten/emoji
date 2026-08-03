@@ -1,3 +1,4 @@
+import { querySelector } from "../../utils/document.js";
 import {
   getExplorerMusicConfig,
   scheduleExplorerMusic,
@@ -15,10 +16,9 @@ import type {
 import type { ExplorerSoundEffectId } from "./sfx/explorer-audio-sfx-types.js";
 
 type ExplorerAudioEngineOptions = {
-  helpDialogOpen: () => boolean;
+  isMusicalDialogOpen: () => boolean;
   musicEnabled: () => boolean;
   retroMode: () => boolean;
-  savedDialogOpen: () => boolean;
   soundEffectsEnabled: () => boolean;
   theme: () => ExplorerAudioTheme;
 };
@@ -86,7 +86,7 @@ export function createExplorerAudioEngine(
     return (
       options.musicEnabled() &&
       options.theme() !== "base" &&
-      (options.helpDialogOpen() || options.savedDialogOpen())
+      options.isMusicalDialogOpen()
     );
   }
 

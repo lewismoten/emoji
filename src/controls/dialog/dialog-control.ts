@@ -1,3 +1,4 @@
+import { unique } from "../../utils/lists.js";
 import { BaseControl } from "../core/base-control.js";
 import { DomFactory, type NodeSpec } from "../core/dom-factory.js";
 import { DialogHeadingControl } from "./dialog-heading.js";
@@ -5,7 +6,7 @@ import { DialogHeadingControl } from "./dialog-heading.js";
 type DialogControlState = {
   bodyClassName?: string;
   children?: NodeSpec[];
-  className: string;
+  className?: string;
   dialogId: string;
   eyebrow?: string;
   eyebrowKey?: string;
@@ -15,6 +16,7 @@ type DialogControlState = {
   title: string;
   titleId: string;
   titleKey: string;
+  isMusical?: boolean;
 };
 
 export class DialogControl extends BaseControl<DialogControlState> {
@@ -72,7 +74,13 @@ export class DialogControl extends BaseControl<DialogControlState> {
         }),
         ...this.createChildren(),
       ],
-      className: this.state.className,
+      className: unique(
+        "dialog",
+        this.state.isMusical ? "musical" : undefined,
+        this.state.className,
+      )
+        .filter(Boolean)
+        .join(" "),
     });
   }
 }

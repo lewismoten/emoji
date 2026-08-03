@@ -139,6 +139,7 @@ export class SavedDialogControl extends BaseControl<SavedDialogState> {
         title: this.state.title,
         titleId: this.state.titleId,
         titleKey: this.state.titleKey,
+        isMusical: true,
       }),
     ];
   }

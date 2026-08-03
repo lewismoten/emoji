@@ -166,6 +166,7 @@ export class HelpSettingsDialogControl extends BaseControl<HelpSettingsDialogSta
         title: this.state.headingTitle,
         titleId: this.state.headingTitleId,
         titleKey: this.state.headingTitleKey,
+        isMusical: true,
       }),
       new ThemeChoiceGroupControl(),
       new AudioChoiceGroupControl(),
