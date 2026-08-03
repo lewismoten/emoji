@@ -10,6 +10,7 @@ import type {
 } from "./explorer-audio-types.js";
 import type { ExplorerSoundEffectId } from "./sfx/explorer-audio-sfx-types.js";
 import * as audioHelpers from './audio-helpers.js';
+import * as win from '../../utils/window.js';
 
 export interface ExplorerAudioEngine {
     playClick: () => Promise<void>,
@@ -33,10 +34,7 @@ export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
 
   function getAudioContext() {
     if (audioContext) return audioContext;
-    const AudioContextConstructor =
-      window.AudioContext ||
-      (window as Window & { webkitAudioContext?: typeof AudioContext })
-        .webkitAudioContext;
+    const AudioContextConstructor = win.getAudioContext();
     if (!AudioContextConstructor) return undefined;
     audioContext = new AudioContextConstructor();
     masterGain = audioContext.createGain();
@@ -89,13 +87,13 @@ export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
 
   function stopMusic() {
     if (musicTimer) {
-      window.clearTimeout(musicTimer);
+      win.clearTimeout(musicTimer);
       musicTimer = undefined;
     }
     if (musicGain && audioContext) {
       musicGain.gain.cancelScheduledValues(audioContext.currentTime);
       musicGain.gain.setTargetAtTime(0.0001, audioContext.currentTime, 0.04);
-      window.setTimeout(() => {
+      win.setTimeout(() => {
         musicGain?.disconnect();
         musicGain = undefined;
       }, 120);
@@ -105,7 +103,7 @@ export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
 
   function resetMusicPlayback() {
     if (musicTimer) {
-      window.clearTimeout(musicTimer);
+      win.clearTimeout(musicTimer);
       musicTimer = undefined;
     }
     if (musicGain) {
@@ -129,7 +127,7 @@ export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
       masterGain,
       musicBeat,
       musicGain,
-      scheduleNext: (callback, timeout) => window.setTimeout(callback, timeout),
+      scheduleNext: (callback, timeout) => win.setTimeout(callback, timeout),
       schedulePlayback: scheduleMusic
     });
     if(!scheduled) return;
