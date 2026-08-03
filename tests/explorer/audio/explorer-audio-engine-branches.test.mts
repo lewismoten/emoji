@@ -61,9 +61,7 @@ try {
   let theme: "base" | "dark" | "light" | "retro" = "retro";
   const engine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => musicalDialogOpen,
-    musicEnabled: () => music,
     retroMode: () => false,
-    soundEffectsEnabled: () => sfx,
     theme: () => theme,
   });
 
@@ -104,9 +102,7 @@ try {
   });
   const closedMusicEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => true,
-    musicEnabled: () => true,
     retroMode: () => false,
-    soundEffectsEnabled: () => false,
     theme: () => "retro",
   });
   await closedMusicEngine.resumeAudioContext();

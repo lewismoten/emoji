@@ -13,12 +13,11 @@ import type {
   ExplorerAudioTheme,
 } from "./explorer-audio-types.js";
 import type { ExplorerSoundEffectId } from "./sfx/explorer-audio-sfx-types.js";
+import * as audioHelpers from './audio-helpers.js';
 
 type ExplorerAudioEngineOptions = {
   isMusicalDialogOpen: () => boolean;
-  musicEnabled: () => boolean;
   retroMode: () => boolean;
-  soundEffectsEnabled: () => boolean;
   theme: () => ExplorerAudioTheme;
 };
 
@@ -61,7 +60,7 @@ export function createExplorerAudioEngine(
   }
 
   function playSoundEffect(effectId: ExplorerSoundEffectId) {
-    if (!options.soundEffectsEnabled()) return;
+    if (!audioHelpers.isSoundEffectsEnabled()) return;
     const effect = getThemedExplorerSoundEffect(effectId, options.theme());
     if (!effect) return;
     const context = getAudioContext();
@@ -83,7 +82,7 @@ export function createExplorerAudioEngine(
 
   function shouldPlayMusic() {
     return (
-      options.musicEnabled() &&
+      audioHelpers.isMusicEnabled() &&
       options.theme() !== "base" &&
       options.isMusicalDialogOpen()
     );
@@ -162,7 +161,6 @@ export function createExplorerAudioEngine(
   }
 
   return {
-    musicEnabled: options.musicEnabled,
     playClick: () => playInteraction("button", "click"),
     playDialogClose: () => playInteraction("dialog", "close"),
     playDialogOpen: () => playInteraction("dialog", "open"),
@@ -171,7 +169,6 @@ export function createExplorerAudioEngine(
     playSoundEffect,
     restartMusic,
     resumeAudioContext,
-    soundEffectsEnabled: options.soundEffectsEnabled,
     stopMusic,
     syncHelpMusic,
     theme: () => getExplorerMusicConfig(options.theme()),

@@ -9,6 +9,7 @@ import {
   installPreferenceWindow,
   installAudioDomFixture,
 } from "./explorer-audio-direct-fixture.mjs";
+import * as audioHelpers from '../../../../src/explorer/audio/audio-helpers.js';
 
 const fixture = installAudioDomFixture();
 const preferenceWindow = installPreferenceWindow({
@@ -126,8 +127,8 @@ try {
       noDocumentCalls.push([
         "engine-options",
         options.isMusicalDialogOpen(),
-        options.musicEnabled(),
-        options.soundEffectsEnabled(),
+        audioHelpers.isMusicEnabled(),
+        audioHelpers.isSoundEffectsEnabled(),
         options.retroMode(),
         options.theme(),
       ]);

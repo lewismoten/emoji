@@ -16,6 +16,7 @@ import {
   canThemeSupportAudio,
 } from "./utils/themes.js";
 import * as aria from "./utils/aria.js";
+import * as audioHelpers from "./explorer/audio/audio-helpers.js";
 
 type AudioTarget = HTMLElement;
 
@@ -61,10 +62,6 @@ export function createExplorerAudioController(
   let themeObserver: MutationObserver | undefined;
   let hoverTarget: AudioTarget | null = null;
 
-  const soundEffectsEnabled = () =>
-    canThemeSupportAudio() && preferences.getBoolean("soundEffects");
-  const musicEnabled = () =>
-    canThemeSupportAudio() && preferences.getBoolean("music");
   const soundEffectsToggle = () =>
     querySelector<HTMLInputElement>(
       '.audio-choice-input[value="soundEffects"]',
@@ -80,12 +77,10 @@ export function createExplorerAudioController(
 
   const audio = helpers.createExplorerAudioEngine({
     isMusicalDialogOpen,
-    musicEnabled,
     retroMode: isRetroTheme,
     theme: () =>
       (documentRef()?.documentElement?.dataset?.theme as
         "base" | "dark" | "light" | "retro") ?? "dark",
-    soundEffectsEnabled,
   });
 
   const hasTagName = (target: AudioTarget, tagName: string) =>
@@ -134,9 +129,12 @@ export function createExplorerAudioController(
     aria.setDisabled(toggle.parentElement, audioDisabled);
   };
   const renderSoundEffectsToggle = () =>
-    renderAudioToggle(soundEffectsToggle(), soundEffectsEnabled());
+    renderAudioToggle(
+      soundEffectsToggle(),
+      audioHelpers.isSoundEffectsEnabled(),
+    );
   const renderMusicToggle = () =>
-    renderAudioToggle(musicToggle(), musicEnabled());
+    renderAudioToggle(musicToggle(), audioHelpers.isMusicEnabled());
 
   function setSoundEffects(enabled: boolean) {
     if (isBaseTheme()) return void renderSoundEffectsToggle();
@@ -179,8 +177,7 @@ export function createExplorerAudioController(
     initialized = true;
 
     const prepareAudio = () =>
-      (audio.soundEffectsEnabled() || audio.musicEnabled()) &&
-      audio.resumeAudioContext();
+      audioHelpers.isAudioEnabled() && audio.resumeAudioContext();
     addEventListener("pointerdown", prepareAudio, {
       capture: true,
       passive: true,

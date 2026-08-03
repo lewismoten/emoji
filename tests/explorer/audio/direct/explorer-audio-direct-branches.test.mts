@@ -117,9 +117,7 @@ try {
   fixture.savedDialog.open = true;
   const createdOptions = dependencies.createExplorerAudioEngine({
     isMusicalDialogOpen: () => true,
-    musicEnabled: () => false,
     retroMode: () => false,
-    soundEffectsEnabled: () => false,
     theme: () => "dark" as any,
   });
   assert.equal(typeof createdOptions.playInteraction, "function");

@@ -125,10 +125,8 @@ try {
   let theme: "base" | "dark" | "light" | "retro" = "retro";
   const engine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => musicalDialogOpen,
-    musicEnabled: () => music,
     retroMode: () => retro,
     theme: () => theme,
-    soundEffectsEnabled: () => sfx,
   });
 
   await engine.resumeAudioContext();
@@ -218,10 +216,8 @@ try {
   let savedOnly = true;
   const fallbackEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => savedOnly,
-    musicEnabled: () => true,
     retroMode: () => true,
     theme: () => "retro",
-    soundEffectsEnabled: () => false,
   });
   await fallbackEngine.resumeAudioContext();
   assert.equal(FakeAudioContext.instances.length, 1);
@@ -242,10 +238,8 @@ try {
   });
   const silentEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => false,
-    musicEnabled: () => true,
     retroMode: () => true,
     theme: () => "retro",
-    soundEffectsEnabled: () => true,
   });
   assert.equal(await silentEngine.resumeAudioContext(), undefined);
   silentEngine.playClick();
@@ -254,10 +248,8 @@ try {
   let noContextMusicalDialogOpen = true;
   const noContextMusicEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => noContextMusicalDialogOpen,
-    musicEnabled: () => true,
     retroMode: () => true,
     theme: () => "retro",
-    soundEffectsEnabled: () => false,
   });
   noContextMusicEngine.syncHelpMusic();
   noContextMusicEngine.restartMusic();
@@ -288,10 +280,8 @@ try {
   });
   const rejectingEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => false,
-    musicEnabled: () => false,
     retroMode: () => true,
     theme: () => "retro",
-    soundEffectsEnabled: () => false,
   });
   assert.equal(await rejectingEngine.resumeAudioContext(), undefined);
 
@@ -307,10 +297,8 @@ try {
   });
   const closedEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => false,
-    musicEnabled: () => false,
     retroMode: () => true,
     theme: () => "retro",
-    soundEffectsEnabled: () => false,
   });
   const closedContext = await closedEngine.resumeAudioContext();
   assert.equal((closedContext as any)?.state, "closed");
@@ -334,10 +322,8 @@ try {
   musicalDialogOpen = true;
   const lightEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => musicalDialogOpen,
-    musicEnabled: () => music,
     retroMode: () => retro,
     theme: () => theme,
-    soundEffectsEnabled: () => false,
   });
   await lightEngine.resumeAudioContext();
   lightEngine.syncHelpMusic();
@@ -354,10 +340,8 @@ try {
   theme = "dark";
   const darkEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => musicalDialogOpen,
-    musicEnabled: () => music,
     retroMode: () => retro,
     theme: () => theme,
-    soundEffectsEnabled: () => false,
   });
   await darkEngine.resumeAudioContext();
   darkEngine.syncHelpMusic();
@@ -372,10 +356,8 @@ try {
   theme = "base";
   const baseThemeEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => musicalDialogOpen,
-    musicEnabled: () => true,
     retroMode: () => false,
     theme: () => theme,
-    soundEffectsEnabled: () => false,
   });
   await baseThemeEngine.resumeAudioContext();
   baseThemeEngine.syncHelpMusic();
@@ -402,10 +384,8 @@ try {
   music = true;
   const restartEngine = createExplorerAudioEngine({
     isMusicalDialogOpen: () => musicalDialogOpen,
-    musicEnabled: () => music,
     retroMode: () => false,
     theme: () => theme,
-    soundEffectsEnabled: () => false,
   });
   await restartEngine.resumeAudioContext();
   restartEngine.syncHelpMusic();

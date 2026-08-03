@@ -2,7 +2,7 @@ import * as win from "./utils/window.js";
 
 const KEY = "@lewismoten/emoji:explorer-preferences";
 
-enum preferences {
+export enum preferences {
   soundEffects,
   music,
   mode,

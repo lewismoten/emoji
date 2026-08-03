@@ -41,7 +41,6 @@ try {
 
   directController.bindAudioInteractions();
   assert.equal(directEngineOptions.soundEffectsEnabled(), false);
-  assert.equal(directEngineOptions.musicEnabled(), true);
   assert.equal(directEngineOptions.isMusicalDialogOpen(), true);
   assert.equal(directEngineOptions.retroMode(), true);
   assert.equal(directEngineOptions.theme(), "retro");
