@@ -230,7 +230,6 @@ export function createExplorerBootstrapControllersWithFactories(
     updateCompositionBackButton: options.updateCompositionBackButton,
     updateEmojiComposition: options.updateEmojiComposition,
     clearCurrentDialogParentStack: () => {
-      /* node:coverage ignore next */
       state().currentDialogParentStack = [];
     },
   });
