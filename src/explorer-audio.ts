@@ -5,9 +5,7 @@ import type {
   ExplorerAudioAction,
   ExplorerAudioElementType,
 } from "./explorer/audio/explorer-audio-types.js";
-import documentRef, {
-  addEventListener,
-} from "./utils/document.js";
+import documentRef, { addEventListener } from "./utils/document.js";
 import {
   isBaseTheme,
   isRetroTheme,
@@ -118,7 +116,10 @@ export function createExplorerAudioController(
       audioHelpers.isSoundEffectsEnabled(),
     );
   const renderMusicToggle = () =>
-    renderAudioToggle(audioHelpers.musicToggle(), audioHelpers.isMusicEnabled());
+    renderAudioToggle(
+      audioHelpers.musicToggle(),
+      audioHelpers.isMusicEnabled(),
+    );
 
   function setSoundEffects(enabled: boolean) {
     if (isBaseTheme()) return void renderSoundEffectsToggle();

@@ -64,6 +64,14 @@ export async function loadExplorerAudioModuleFixture() {
       'import documentRef, { querySelector, selectAll, addEventListener } from "./document-stub.mjs";',
     )
     .replace(
+      'import documentRef, { addEventListener, } from "./utils/document.js";',
+      'import documentRef, { addEventListener } from "./document-stub.mjs";',
+    )
+    .replace(
+      'import documentRef, { addEventListener } from "./utils/document.js";',
+      'import documentRef, { addEventListener } from "./document-stub.mjs";',
+    )
+    .replace(
       'import { isBaseTheme, isRetroTheme, canThemeSupportAudio, } from "./utils/themes.js";',
       'import { isBaseTheme, isRetroTheme, canThemeSupportAudio } from "./themes-stub.mjs";',
     )
@@ -155,10 +163,17 @@ export const canThemeSupportAudio = () => !isTheme("base");
     path.join(tempDirectory, "audio-helpers-stub.mjs"),
     `import * as preferences from "./preferences-stub.mjs";
 import { canThemeSupportAudio } from "./themes-stub.mjs";
+import { selectAll } from "./document-stub.mjs";
 const isEnabled = (name) => canThemeSupportAudio() && preferences.getBoolean(name);
 export const isSoundEffectsEnabled = () => isEnabled("soundEffects");
 export const isMusicEnabled = () => isEnabled("music");
 export const isAudioEnabled = () => isSoundEffectsEnabled() || isMusicEnabled();
+export const soundEffectsToggle = () =>
+  globalThis.document?.querySelector?.('.audio-choice-input[value="soundEffects"]') ?? null;
+export const musicToggle = () =>
+  globalThis.document?.querySelector?.('.audio-choice-input[value="music"]') ?? null;
+export const isMusicalDialogOpen = () =>
+  Array.from(selectAll(".dialog.musical")).some((dialog) => dialog.open);
 `,
   );
   await fs.writeFile(

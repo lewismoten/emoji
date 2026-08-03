@@ -63,7 +63,6 @@ try {
   const engineOptions = engineCalls.find(
     (call) => call[0] === "createExplorerAudioEngine",
   )?.[1] as {
-    isMusicalDialogOpen?: () => boolean;
     theme?: () => string;
     retroMode?: () => boolean;
   };
@@ -200,7 +199,6 @@ try {
   otherDialog.matches = () => false;
   fixture.helpDialog.open = true;
   fixture.savedDialog.open = false;
-  assert.equal(engineOptions.isMusicalDialogOpen?.(), true);
   assert.equal(engineOptions.retroMode?.(), true);
   dialogObserver?.callback([
     { target: {} },

@@ -46,6 +46,8 @@ class FakeAudioContext {
 try {
   const timeouts: Array<() => void> = [];
   const storage = new Map<string, string>();
+  const helpDialog = { open: false };
+  const savedDialog = { open: false };
   Object.defineProperty(globalThis, "window", {
     configurable: true,
     value: {
@@ -69,14 +71,16 @@ try {
     configurable: true,
     value: {
       documentElement: { dataset: { theme: "retro" } },
+      querySelectorAll(selector: string) {
+        if (selector === ".dialog.musical") return [helpDialog, savedDialog];
+        return [];
+      },
     },
   });
   preferences.init({ soundEffects: true, music: false });
 
-  let musicalDialogOpen = false;
   let theme: "base" | "dark" | "light" | "retro" = "retro";
   const engine = createExplorerAudioEngine({
-    isMusicalDialogOpen: () => musicalDialogOpen,
     retroMode: () => false,
     theme: () => theme,
   });
@@ -93,13 +97,13 @@ try {
   theme = "base";
   (globalThis.document as any).documentElement.dataset.theme = "base";
   preferences.setBoolean("music", true);
-  musicalDialogOpen = true;
+  helpDialog.open = true;
   engine.syncHelpMusic();
   assert.equal(timeouts.length, 0);
 
   theme = "retro";
   (globalThis.document as any).documentElement.dataset.theme = "retro";
-  musicalDialogOpen = true;
+  helpDialog.open = true;
   engine.syncHelpMusic();
   await Promise.resolve();
   assert.equal(timeouts.length > 0, true);
@@ -127,10 +131,10 @@ try {
     },
   });
   const closedMusicEngine = createExplorerAudioEngine({
-    isMusicalDialogOpen: () => true,
     retroMode: () => false,
     theme: () => "retro",
   });
+  helpDialog.open = true;
   await closedMusicEngine.resumeAudioContext();
   const beforeClosedAttempt = timeouts.length;
   closedMusicEngine.syncHelpMusic();

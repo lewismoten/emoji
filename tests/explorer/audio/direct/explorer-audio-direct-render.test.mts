@@ -126,7 +126,7 @@ try {
     createExplorerAudioEngine(options: any) {
       noDocumentCalls.push([
         "engine-options",
-        options.isMusicalDialogOpen(),
+        audioHelpers.isMusicalDialogOpen(),
         audioHelpers.isMusicEnabled(),
         audioHelpers.isSoundEffectsEnabled(),
         options.retroMode(),

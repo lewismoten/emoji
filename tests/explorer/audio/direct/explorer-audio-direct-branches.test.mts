@@ -116,7 +116,6 @@ try {
   fixture.helpDialog.open = false;
   fixture.savedDialog.open = true;
   const createdOptions = dependencies.createExplorerAudioEngine({
-    isMusicalDialogOpen: () => true,
     retroMode: () => false,
     theme: () => "dark" as any,
   });
