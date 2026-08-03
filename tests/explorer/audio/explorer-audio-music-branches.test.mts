@@ -63,6 +63,19 @@ try {
     (retroSchedule.musicGain as unknown as FakeGain).connectedTo[0],
     masterGain,
   );
+
+  (globalThis.document as any).documentElement.dataset.theme = "base";
+  assert.equal(
+    await scheduleExplorerMusic({
+      context: context as unknown as AudioContext,
+      createGain: () => context.createGain(),
+      masterGain,
+      musicBeat: 0,
+      scheduleNext: () => 0,
+      schedulePlayback() {},
+    }),
+    undefined,
+  );
 } finally {
   if (originalDocument) {
     Object.defineProperty(globalThis, "document", originalDocument);

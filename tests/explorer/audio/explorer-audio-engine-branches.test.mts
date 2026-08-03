@@ -140,6 +140,29 @@ try {
   await closedMusicEngine.syncHelpMusic();
   await Promise.resolve();
   assert.equal(timeouts.length, beforeClosedAttempt);
+
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      localStorage: {
+        getItem(key: string) {
+          return storage.get(key) ?? null;
+        },
+        setItem(key: string, value: string) {
+          storage.set(key, value);
+        },
+      },
+      clearTimeout() {},
+      setTimeout(callback: () => void) {
+        timeouts.push(callback);
+        return timeouts.length;
+      },
+    },
+  });
+  const noContextEngine = createExplorerAudioEngine();
+  assert.equal(await noContextEngine.resumeAudioContext(), undefined);
+  await noContextEngine.playSoundEffect("ui-click");
+  await noContextEngine.restartMusic();
 } finally {
   if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");
