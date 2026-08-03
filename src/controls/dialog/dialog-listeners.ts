@@ -30,10 +30,10 @@ const actionType = (dialog: HTMLDialogElement) =>
 
 let observer: MutationObserver | undefined;
 
-const getObserver = () => {
-  if (observer) return observer;
-  if (typeof MutationObserver === "undefined") return undefined;
-  observer = new MutationObserver((records) => {
+const ATTRIBUTE = "data-dialog-observer";
+
+const createObserver = () =>
+  new MutationObserver((records) => {
     records.forEach((record) => {
       if (!(record.target instanceof HTMLDialogElement)) return;
       const dialog = record.target;
@@ -41,54 +41,32 @@ const getObserver = () => {
       listeners.forEach((fn) => fn(actionType(dialog), dialog));
     });
   });
-  return observer;
-};
 
-const ATTRIBUTE = "data-dialog-observer";
+const isObserverRegistered = (body: HTMLBodyElement) =>
+  body.hasAttribute(ATTRIBUTE) && body.getAttribute(ATTRIBUTE) !== "true";
 
-const isObserverRegistered = (doc: Document | undefined) => {
-  if (!hasBody(doc)) return false;
-  return !canRegister(doc);
-};
-const canRegister = (doc: Document | undefined) => {
-  if (!hasBody(doc)) return false;
-  if (
-    doc.body.hasAttribute(ATTRIBUTE) &&
-    doc.body.getAttribute(ATTRIBUTE) !== "true"
-  )
-    return false;
-  return true;
-};
-const hasBody = (
-  doc: Document | undefined,
-): doc is Document & { body: HTMLBodyElement } => {
-  if (!doc) return false;
-  if (!doc.body) return false;
-  return true;
-};
-const registerObserver = (doc: Document) => {
-  const activeObserver = getObserver();
-  if (!activeObserver) return;
-  doc.body.setAttribute(ATTRIBUTE, "true");
-  activeObserver.observe(doc.body, {
+const registerObserver = (body: HTMLBodyElement) => {
+  observer ??= createObserver();
+  body.setAttribute(ATTRIBUTE, "true");
+  observer.observe(body, {
     subtree: true,
     attributes: true,
     attributeFilter: ["open"],
   });
 };
-const unregisterObserver = (doc: Document) => {
-  doc.body.removeAttribute(ATTRIBUTE);
+const unregisterObserver = (body: HTMLBodyElement) => {
+  body.removeAttribute(ATTRIBUTE);
   observer?.disconnect();
 };
 const setupObserver = () => {
   if (typeof MutationObserver === "undefined") return;
-  const doc = documentRef();
-  if (!hasBody(doc)) return;
-  if (isObserverRegistered(doc)) {
-    if (listeners.size === 0) unregisterObserver(doc);
+  const body = documentRef()?.body as HTMLBodyElement | undefined;
+  if (!body) return;
+  if (isObserverRegistered(body)) {
+    if (listeners.size === 0) unregisterObserver(body);
     return;
   }
   if (listeners.size > 0) {
-    registerObserver(doc);
+    registerObserver(body);
   }
 };

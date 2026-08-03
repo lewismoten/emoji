@@ -127,6 +127,25 @@ try {
     value: { body },
   });
 
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {},
+  });
+  const missingBodyWithObserverListener = () => {};
+  assert.equal(
+    dialogListeners.add(missingBodyWithObserverListener as any),
+    true,
+  );
+  assert.equal(
+    dialogListeners.remove(missingBodyWithObserverListener as any),
+    true,
+  );
+  dialogListeners.clear();
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: { body },
+  });
+
   body.setAttribute("data-dialog-observer", "true");
   const registeredListener = () => {};
   assert.equal(dialogListeners.add(registeredListener as any), true);
