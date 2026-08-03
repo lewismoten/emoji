@@ -80,6 +80,7 @@ export function installExplorerUiFixture() {
   const themeMeta = { content: "" };
 
   const documentElement = {
+    attributes: new Map<string, string>(),
     dataset: {} as Record<string, string>,
     dir: "ltr",
     hasAttribute(name: string) {
@@ -91,7 +92,15 @@ export function installExplorerUiFixture() {
       }
       return false;
     },
+    getAttribute(name: string) {
+      return documentElement.attributes.get(name) ?? null;
+    },
     lang: "en",
+    setAttribute(name: string, value: string) {
+      documentElement.attributes.set(name, value);
+      if (name === "lang") documentElement.lang = value;
+      if (name === "dir") documentElement.dir = value;
+    },
     toggleAttribute(name: string, force?: boolean) {
       const key = name
         .replace(/^data-/, "")

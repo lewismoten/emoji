@@ -9,6 +9,11 @@ export const selectAll = <T extends Element = Element>(
   documentRef()?.querySelectorAll<T>(selector) ??
   (new NodeList() as NodeListOf<T>);
 
+export const selectAllAndApply = <T extends Element = Element>(
+  selector: string,
+  fn: (el: T) => void,
+) => selectAll<T>(selector).forEach((el) => fn(el));
+
 export const addEventListener = <K extends keyof DocumentEventMap>(
   type: K,
   listener: (this: Document, ev: DocumentEventMap[K]) => any,

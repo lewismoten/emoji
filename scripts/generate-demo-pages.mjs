@@ -138,6 +138,7 @@ const explorerRuntimeSources = listRuntimeFiles(path.join("src", "explorer"));
 const pixelEditorRuntimeSources = listRuntimeFiles(
   path.join("src", "pixel-editor"),
 );
+const utilsRuntimeSources = listRuntimeFiles(path.join("src", "utils"));
 const staticSiteAssets = [
   {
     source: path.join(siteSourceDirectory, "favicon.svg"),
@@ -351,6 +352,16 @@ const emitRuntimeModules = (outputDirectory) => {
   }
 
   for (const file of pixelEditorRuntimeSources) {
+    transpileModule(
+      file,
+      path.join(
+        outputDirectory,
+        path.relative("src", file).replace(/\.ts$/, ".js"),
+      ),
+    );
+  }
+
+  for (const file of utilsRuntimeSources) {
     transpileModule(
       file,
       path.join(

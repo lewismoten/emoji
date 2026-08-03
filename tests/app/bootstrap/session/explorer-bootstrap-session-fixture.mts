@@ -66,7 +66,8 @@ export async function createBootstrapSessionFixture() {
     .replace(
       'from "../explorer-preferences.js";',
       'from "./preferences-stub.mjs";',
-    );
+    )
+    .replace('from "../../utils/i18n.js";', 'from "./i18n-stub.mjs";');
 
   const tempRoot = path.join(root, "build/tests/.tmp");
   await fs.mkdir(tempRoot, { recursive: true });
@@ -218,6 +219,14 @@ export async function createBootstrapSessionFixture() {
   await writeStub("preferences-stub.mjs", [
     "export const preferenceCalls = [];",
     "export function initializeExplorerPreferences(state) { preferenceCalls.push(state); return { save: (...args) => ['save-preference', args] }; }",
+  ]);
+  await writeStub("i18n-stub.mjs", [
+    "const translations = {",
+    "  'group.label': 'Translated Group',",
+    "};",
+    "export function translate(key, fallback) {",
+    "  return translations[key] ?? fallback;",
+    "}",
   ]);
 
   await fs.writeFile(

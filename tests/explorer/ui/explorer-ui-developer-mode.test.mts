@@ -93,7 +93,7 @@ try {
   });
   toggleOnlyController.render();
   assert.equal(developerToggle.checked, false);
-  assert.equal(developerToggle.attributes.get("aria-checked"), "false");
+  assert.equal(developerToggle.attributes.get("aria-pressed"), "false");
 
   state.explorerPreferences = { developerMode: true, theme: "dark" };
   state.explorerModeFromUrl = "";

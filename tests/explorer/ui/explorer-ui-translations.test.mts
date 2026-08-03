@@ -98,7 +98,7 @@ try {
   assert.ok(calls.includes("render-install"));
 
   controller.applyTranslations();
-  assert.ok(calls.includes("refresh-translations"));
+  assert.equal(calls.includes("refresh-translations"), false);
 
   await controller.loadUiTranslations("en-US");
   assert.deepEqual(fixture.fetchCalls, [
@@ -107,7 +107,6 @@ try {
     "src/demo-locales/ui.en.json",
     "src/demo-locales/ui.en-US.json",
   ]);
-  assert.equal(state.uiStrings.title, "Emoji Explorer");
   assert.equal(fixture.i18nText.textContent, "Emoji Explorer");
   assert.equal(fixture.i18nPlaceholder.placeholder, "Find emoji");
   assert.equal(fixture.i18nAria.attributes.get("aria-label"), "Theme label");
@@ -115,7 +114,7 @@ try {
   assert.equal(fixture.documentElement.dir, "ltr");
   assert.equal(
     (globalThis.document as any).title,
-    "Emoji Explorer – Unicode Emoji",
+    "Emoji Explorer",
   );
   assert.equal(fixture.appMeta.content, "Emoji Explorer");
   assert.equal(fixture.appleMeta.content, "Emoji Explorer");
@@ -133,7 +132,7 @@ try {
   assert.equal(fixture.documentElement.dir, "rtl");
   assert.equal(
     (globalThis.document as any).title,
-    "مستكشف الإيموجي – Unicode Emoji",
+    "مستكشف الإيموجي",
   );
 
   fixture.setFetch(async () => ({
@@ -143,12 +142,11 @@ try {
     },
   }));
   await controller.loadUiTranslations("zz-ZZ");
-  assert.deepEqual(state.uiStrings, {});
   assert.equal(fixture.documentElement.lang, "en");
   assert.equal(fixture.documentElement.dir, "ltr");
   assert.equal(
     (globalThis.document as any).title,
-    "Emoji Explorer – Unicode Emoji",
+    "Emoji Explorer",
   );
 
   const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");

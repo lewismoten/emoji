@@ -42,9 +42,9 @@ export function createExplorerAudioController(
 
   const preferences = () => options.state().explorerPreferences;
   const soundEffectsEnabled = () =>
-    !canThemeSupportAudio() && preferences().soundEffects === true;
+    canThemeSupportAudio() && preferences().soundEffects === true;
   const musicEnabled = () =>
-    !canThemeSupportAudio() && preferences().music === true;
+    canThemeSupportAudio() && preferences().music === true;
   const soundEffectsToggle = () =>
     querySelector<HTMLInputElement>(
       '.audio-choice-input[value="soundEffects"]',

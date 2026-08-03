@@ -48,7 +48,19 @@ export async function loadExplorerAudioModuleFixture() {
   const transformedSource = source.replace(
     'import { createExplorerAudioEngine } from "./explorer/audio/explorer-audio-engine.js";',
     'import { createExplorerAudioEngine, engineCalls, engineApi } from "./explorer-audio-engine-stub.mjs";',
-  );
+  )
+    .replace(
+      'import documentRef, { querySelector, addEventListener, } from "./utils/document-ref.js";',
+      'import documentRef, { querySelector, addEventListener } from "./document-ref-stub.mjs";',
+    )
+    .replace(
+      'import { isBaseTheme, isRetroTheme, canThemeSupportAudio, } from "./utils/themes.js";',
+      'import { isBaseTheme, isRetroTheme, canThemeSupportAudio } from "./themes-stub.mjs";',
+    )
+    .replace(
+      'import * as aria from "./utils/aria.js";',
+      'import * as aria from "./aria-stub.mjs";',
+    );
 
   const tempRoot = path.join(root, "build/tests/.tmp");
   await fs.mkdir(tempRoot, { recursive: true });
@@ -74,6 +86,32 @@ export function createExplorerAudioEngine(options) {
   engineCalls.push(["createExplorerAudioEngine", options]);
   return engineApi;
 }`,
+  );
+  await fs.writeFile(
+    path.join(tempDirectory, "document-ref-stub.mjs"),
+    `export default function documentRef() { return globalThis.document; }
+export function querySelector(selector) { return globalThis.document?.querySelector?.(selector) ?? null; }
+export function addEventListener(type, listener, options) { return globalThis.document?.addEventListener?.(type, listener, options); }
+`,
+  );
+  await fs.writeFile(
+    path.join(tempDirectory, "themes-stub.mjs"),
+    `import documentRef from "./document-ref-stub.mjs";
+export const isTheme = (name) => documentRef()?.documentElement?.dataset?.theme === name;
+export const isBaseTheme = () => isTheme("base");
+export const isRetroTheme = () => isTheme("retro");
+export const canThemeSupportAudio = () => !isTheme("base");
+`,
+  );
+  await fs.writeFile(
+    path.join(tempDirectory, "aria-stub.mjs"),
+    `export const setDisabled = (el, value) => el?.setAttribute("aria-disabled", String(value));
+export const setChecked = (el, value) => el?.setAttribute("aria-checked", String(value));
+export const setPressed = (el, value) => el?.setAttribute("aria-pressed", String(value));
+export const isDisabled = (el) => el?.getAttribute("aria-disabled") === "true";
+export const isChecked = (el) => el?.getAttribute("aria-checked") === "true";
+export const hasPopupListbox = (el) => el?.getAttribute("aria-haspopup") === "listbox";
+`,
   );
   await fs.writeFile(
     path.join(tempDirectory, "explorer-audio.mjs"),

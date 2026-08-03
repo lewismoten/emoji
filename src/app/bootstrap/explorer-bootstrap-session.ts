@@ -32,7 +32,7 @@ import { createExplorerBootstrapControllers } from "./explorer-bootstrap-control
 import { initializeExplorerBootstrapSessionRuntime } from "./explorer-bootstrap-session-runtime.js";
 import { createExplorerBootstrapShell } from "./explorer-bootstrap-shell.js";
 import { initializeExplorerPreferences } from "../explorer-preferences.js";
-import { translate } from "../utils/i18n.js";
+import { translate } from "../../utils/i18n.js";
 
 const UNASSIGNED = "\u0000";
 const explorerState = createExplorerState();

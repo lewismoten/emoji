@@ -34,26 +34,18 @@ try {
     installWebApp: async () => ({ deferredInstallPrompt: null }),
     offlineStatus: () => null,
     pixelEditor: () => null,
-    renderDeveloperMode: () => uiCalls.push("renderDeveloperMode"),
+    renderDeveloperMode: () => (uiCalls as string[]).push("renderDeveloperMode"),
     renderInstallAppButton: () => undefined,
-    renderMusicToggle: () => uiCalls.push("renderMusicToggle"),
-    renderPixelFontToggle: () => uiCalls.push("renderPixelFontToggle"),
-    renderSearchLanguages: () => uiCalls.push("renderSearchLanguages"),
-    renderSoundEffectsToggle: () => uiCalls.push("renderSoundEffectsToggle"),
-    renderVersionModeToggle: () => uiCalls.push("renderVersionModeToggle"),
+    renderMusicToggle: () => (uiCalls as string[]).push("renderMusicToggle"),
+    renderPixelFontToggle: () => (uiCalls as string[]).push("renderPixelFontToggle"),
+    renderSearchLanguages: () => (uiCalls as string[]).push("renderSearchLanguages"),
+    renderSoundEffectsToggle: () => (uiCalls as string[]).push("renderSoundEffectsToggle"),
+    renderVersionModeToggle: () => (uiCalls as string[]).push("renderVersionModeToggle"),
     setDeferredInstallPrompt: () => undefined,
     state: () => state,
   });
   controller.applyTranslations();
-  assert.deepEqual(
-    uiCalls.slice(0, 4),
-    [
-      "renderPixelFontToggle",
-      "renderSoundEffectsToggle",
-      "renderMusicToggle",
-      "renderDeveloperMode",
-    ],
-  );
+  assert.deepEqual(uiCalls, []);
   assert.doesNotThrow(() =>
     createExplorerUiController({
       deferredInstallPrompt: () => null,
@@ -61,6 +53,7 @@ try {
       installDialog: () => null,
       installWebApp: async () => ({ deferredInstallPrompt: null }),
       offlineStatus: () => null,
+      pixelEditor: () => null,
       renderDeveloperMode: () => undefined,
       renderInstallAppButton: () => undefined,
       renderMusicToggle: () => undefined,
@@ -100,7 +93,7 @@ try {
     toggle: () => toggle,
   });
   toggleController.render();
-  assert.equal(toggle.attributes.get("aria-checked"), "false");
+  assert.equal(toggle.attributes.get("aria-pressed"), "false");
 
   const undefinedChoicesController = createDeveloperModeController({
     dialog: () => ({ open: false, classList: { contains: () => false } }),
@@ -161,14 +154,15 @@ try {
   const preferenceCalls: Array<[string, unknown]> = [];
   const noBlurEvent = {
     currentTarget: {
-      blur: () => uiCalls.push("blur"),
+      blur: () => (uiCalls as string[]).push("blur"),
       dataset: { emojiFont: "pixel" },
     },
     detail: 0,
   };
   selectEmojiFont(
     {
-      renderPixelFontToggle: () => uiCalls.push("renderPixelFontToggleAgain"),
+      renderPixelFontToggle: () =>
+        (uiCalls as string[]).push("renderPixelFontToggleAgain"),
       savePreference(key: string, value: unknown) {
         preferenceCalls.push([key, value]);
       },
@@ -176,22 +170,28 @@ try {
     noBlurEvent,
   );
   assert.deepEqual(preferenceCalls, [["pixelFont", true]]);
-  assert.equal(uiCalls.includes("blur"), false);
+  assert.equal((uiCalls as string[]).includes("blur"), false);
   selectEmojiFont(
     {
-      renderPixelFontToggle: () => uiCalls.push("renderPixelFontToggleNoDetail"),
+      renderPixelFontToggle: () =>
+        (uiCalls as string[]).push("renderPixelFontToggleNoDetail"),
       savePreference(key: string, value: unknown) {
         preferenceCalls.push([key, value]);
       },
     },
-    { currentTarget: { blur: () => uiCalls.push("blur-no-detail"), dataset: { emojiFont: "system" } } },
+    {
+      currentTarget: {
+        blur: () => (uiCalls as string[]).push("blur-no-detail"),
+        dataset: { emojiFont: "system" },
+      },
+    },
   );
   assert.deepEqual(preferenceCalls.at(-1), ["pixelFont", false]);
-  assert.equal(uiCalls.includes("blur-no-detail"), false);
+  assert.equal((uiCalls as string[]).includes("blur-no-detail"), false);
 
   await selectTheme(
     {
-      renderThemeToggle: () => uiCalls.push("renderThemeToggle"),
+      renderThemeToggle: () => (uiCalls as string[]).push("renderThemeToggle"),
       savePreference(key: string, value: unknown) {
         preferenceCalls.push([key, value]);
       },
@@ -201,7 +201,8 @@ try {
   assert.deepEqual(preferenceCalls.at(-1), ["theme", "base"]);
   await selectTheme(
     {
-      renderThemeToggle: () => uiCalls.push("renderThemeToggleLight"),
+      renderThemeToggle: () =>
+        (uiCalls as string[]).push("renderThemeToggleLight"),
       savePreference(key: string, value: unknown) {
         preferenceCalls.push([key, value]);
       },

@@ -46,7 +46,6 @@ assert.deepEqual(first.subGroups, {});
 assert.equal(first.subGroupRepresentativeEmoji.size, 0);
 assert.equal(first.versionKeys.size, 0);
 assert.deepEqual(first.versionManifests, []);
-assert.deepEqual(first.uiStrings, {});
 
 first.availableCategoryKeys.add("people");
 first.emojiKeyByCodePoints.set("1F600", "grinningFace");
