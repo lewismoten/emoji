@@ -1,4 +1,4 @@
-import { ExplorerAudioEngine } from "../explorer-audio-engine"
+import type { ExplorerAudioEngine } from "../explorer-audio-engine.js";
 
 export type AudioEventDependencies = {
   getInteractiveTarget: (target: EventTarget|null) => HTMLElement|null, 

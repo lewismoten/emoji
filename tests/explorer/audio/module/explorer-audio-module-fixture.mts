@@ -57,6 +57,9 @@ export async function loadExplorerAudioModuleFixture() {
   ).replace(
     'import * as audioToggle from "./controls/audio/audio-toggle.js";',
     'import * as audioToggle from "./audio-toggle-stub.mjs";',
+  ).replace(
+    'import buildAudioHandlers from "./explorer/audio/events/audio-handlers.js";',
+    'import buildAudioHandlers from "./audio-handlers-stub.mjs";',
   )
     .replace(
       'import * as dialogListeners from "./controls/dialog/dialog-listeners.js";',
@@ -262,6 +265,159 @@ export const classifyElement = (el) => {
   if (isButton(el)) return "button";
   return "generic";
 };
+`,
+  );
+  await fs.writeFile(
+    path.join(tempDirectory, "audio-handlers-stub.mjs"),
+    `import * as audioHelpers from "./audio-helpers-stub.mjs";
+import * as audioToggle from "./audio-toggle-stub.mjs";
+import * as aria from "./aria-stub.mjs";
+import { classifyElement, isInput } from "./element-stub.mjs";
+
+const INTERACTIVE_SELECTOR = [
+  "a[href]",
+  "button",
+  "select",
+  "input",
+  "label",
+  "[tabindex]",
+  '[role="button"]',
+  '[role="checkbox"]',
+  '[role="link"]',
+  '[role="radio"]',
+  '[role="switch"]',
+  '[aria-haspopup="listbox"]',
+  ".modifier-filter-option",
+  ".setting-choice",
+  ".theme-choice",
+  ".mode-choice",
+  ".audio-choice",
+  ".emoji-font-choice",
+  ".language-option",
+  ".saved-picker",
+  ".help-picker",
+  ".order-mode",
+  ".compact-choice",
+  ".version-mode-toggle",
+  ".version-step",
+  ".filter-picker-trigger",
+  "[data-emoji-key]",
+].join(", ");
+
+const getInteractiveTarget = (target) => {
+  if (!(target instanceof Element)) return null;
+  const interactive = target.closest(INTERACTIVE_SELECTOR);
+  if (!(interactive instanceof HTMLElement)) return null;
+  if ("disabled" in interactive && interactive.disabled) return null;
+  if (aria.isDisabled(interactive)) return null;
+  return interactive;
+};
+
+export default function buildAudioHandlers(dependencies) {
+  const complete = {
+    ...dependencies,
+    getInteractiveTarget,
+  };
+
+  const playTargetAction = (target, action) =>
+    complete.audio.playInteraction(classifyElement(target), action);
+
+  const setSoundEffects = async (enabled) => {
+    if (await audioToggle.enableSoundEffects(enabled)) {
+      await complete.audio.resumeAudioContext();
+    }
+  };
+
+  const setMusic = async (enabled) => {
+    if (await audioToggle.enableMusic(enabled)) {
+      await complete.audio.resumeAudioContext();
+      await complete.audio.restartMusic();
+      return;
+    }
+    await complete.audio.syncHelpMusic();
+  };
+
+  return {
+    pointer: {
+      down: async () => {
+        const enabled = await audioHelpers.isAudioEnabled();
+        return enabled && complete.audio.resumeAudioContext();
+      },
+      click: (event) => {
+        const target = complete.getInteractiveTarget(event.target);
+        if (target) complete.audio.playInteraction(classifyElement(target), "click");
+      },
+      over: (event) => {
+        const target = complete.getInteractiveTarget(event.target);
+        if (!target || target === complete.getHoverTarget()) return;
+        complete.setHoverTarget(target);
+        complete.audio.playInteraction(classifyElement(target), "hover");
+      },
+      out: (event) => {
+        const target = complete.getInteractiveTarget(event.target);
+        if (!target || target !== complete.getHoverTarget()) return;
+        const relatedTarget = event.relatedTarget;
+        if (relatedTarget instanceof Element && target.contains(relatedTarget)) return;
+        complete.setHoverTarget(null);
+      },
+    },
+    focus: {
+      in: (event) => {
+        const target = complete.getInteractiveTarget(event.target);
+        if (target) playTargetAction(target, "focus");
+      },
+      out: (event) => {
+        const target = complete.getInteractiveTarget(event.target);
+        if (target) complete.audio.playInteraction(classifyElement(target), "blur");
+      },
+    },
+    keyboard: {
+      down: (event) => {
+        const target = complete.getInteractiveTarget(event.target);
+        if (target) complete.audio.playInteraction(classifyElement(target), "keydown");
+      },
+    },
+    visibility: {
+      change: () => {
+        if (complete.document.hidden) complete.audio.stopMusic();
+        else complete.audio.syncHelpMusic();
+      },
+    },
+    dialog: (action, dialog) => {
+      complete.audio.playInteraction("dialog", action);
+      if (dialog.classList.contains("musical")) complete.audio.syncHelpMusic();
+    },
+    change: async (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      if (
+        target.matches('.audio-choice-input[value="soundEffects"]') ||
+        target.closest?.("[data-audio-preference]")?.matches?.('[data-audio-preference="soundEffects"]')
+      ) {
+        const input = target;
+        await setSoundEffects(input.checked);
+        return playTargetAction(target, input.checked ? "check" : "uncheck");
+      }
+      if (
+        target.matches('.audio-choice-input[value="music"]') ||
+        target.closest?.("[data-audio-preference]")?.matches?.('[data-audio-preference="music"]')
+      ) {
+        const input = target;
+        await setMusic(input.checked);
+        return playTargetAction(target, input.checked ? "check" : "uncheck");
+      }
+      if (!(target instanceof HTMLElement)) return;
+      const interactive = complete.getInteractiveTarget(target);
+      if (!interactive) return;
+      const type = classifyElement(interactive);
+      if (type !== "checkbox" && type !== "radio") return;
+      const checked = isInput(interactive)
+        ? interactive.checked
+        : aria.isChecked(interactive);
+      complete.audio.playInteraction(type, checked ? "check" : "uncheck");
+    },
+  };
+}
 `,
   );
   await fs.writeFile(
