@@ -39,7 +39,6 @@ try {
     loadUiTranslations: async () => {},
     updateWebAppManifest: () => {},
     closeLanguageDialog: () => {},
-    saveExplorerPreference: () => {},
     refreshLocalizedLabels: () => {
       failedRefreshes += 1;
     },
@@ -85,7 +84,6 @@ try {
     loadUiTranslations: async () => {},
     updateWebAppManifest: () => {},
     closeLanguageDialog: () => {},
-    saveExplorerPreference: () => {},
     refreshLocalizedLabels: () => {},
   });
   assert.deepEqual(failedLocaleResult, {

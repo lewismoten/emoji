@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { initializeExplorerPreferences } from "../../src/app/explorer-preferences.js";
+import * as preferences from "../../src/preferences.js";
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 
@@ -34,20 +35,14 @@ try {
   );
 
   const state: Record<string, unknown> = {};
-  const preferences = initializeExplorerPreferences(state);
+  initializeExplorerPreferences(state);
 
-  assert.deepEqual(state.explorerPreferences, {
-    favorites: ["wave", "thumbsUp"],
-    mode: "standard",
-    recentCopied: ["sparkles"],
-    theme: "retro",
-  });
   assert.equal(state.explorerModeFromUrl, "developer");
   assert.equal(state.developerModeFromUrl, true);
   assert.deepEqual(state.favoriteEmojiKeys, ["wave", "thumbsUp"]);
   assert.deepEqual(state.copiedEmojiKeys, ["sparkles"]);
 
-  preferences.save("theme", "dark");
+  preferences.setString("theme", "dark");
   assert.equal(
     storage.get("@lewismoten/emoji:explorer-preferences"),
     '{"favorites":["wave","thumbsUp"],"recentCopied":["sparkles"],"theme":"dark","mode":"standard"}',
@@ -67,14 +62,13 @@ try {
   });
 
   const fallbackState: Record<string, unknown> = {};
-  const fallbackPreferences = initializeExplorerPreferences(fallbackState);
-  assert.deepEqual(fallbackState.explorerPreferences, { mode: "standard" });
+  initializeExplorerPreferences(fallbackState);
   assert.equal(fallbackState.explorerModeFromUrl, "");
   assert.equal(fallbackState.developerModeFromUrl, false);
   assert.deepEqual(fallbackState.favoriteEmojiKeys, []);
   assert.deepEqual(fallbackState.copiedEmojiKeys, []);
 
-  assert.doesNotThrow(() => fallbackPreferences.save("theme", "light"));
+  assert.doesNotThrow(() => preferences.setString("theme", "light"));
 
   installWindow({
     localStorage: {
@@ -91,10 +85,6 @@ try {
 
   const arrayFallbackState: Record<string, unknown> = {};
   initializeExplorerPreferences(arrayFallbackState);
-  assert.equal(
-    (arrayFallbackState.explorerPreferences as Record<string, unknown>).mode,
-    "standard",
-  );
   assert.deepEqual(arrayFallbackState.favoriteEmojiKeys, []);
   assert.deepEqual(arrayFallbackState.copiedEmojiKeys, []);
 
@@ -109,9 +99,8 @@ try {
   });
   const missingStorageState: Record<string, unknown> = {};
   initializeExplorerPreferences(missingStorageState);
-  assert.deepEqual(missingStorageState.explorerPreferences, {
-    mode: "standard",
-  });
+  assert.deepEqual(missingStorageState.favoriteEmojiKeys, []);
+  assert.deepEqual(missingStorageState.copiedEmojiKeys, []);
 
   installWindow({
     localStorage: {
@@ -128,10 +117,8 @@ try {
   });
   const legacyDeveloperState: Record<string, unknown> = {};
   initializeExplorerPreferences(legacyDeveloperState);
-  assert.equal(
-    (legacyDeveloperState.explorerPreferences as Record<string, unknown>).mode,
-    "developer",
-  );
+  assert.deepEqual(legacyDeveloperState.favoriteEmojiKeys, []);
+  assert.deepEqual(legacyDeveloperState.copiedEmojiKeys, []);
 } finally {
   if (originalWindow) {
     Object.defineProperty(globalThis, "window", originalWindow);

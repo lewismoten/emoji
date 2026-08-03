@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import * as preferences from "../../../src/preferences.js";
 import {
   createDeveloperModeController,
   createExplorerUiController,
@@ -9,8 +10,27 @@ import {
 import { createElement, installExplorerUiFixture } from "./explorer-ui-fixture.mjs";
 
 const fixture = installExplorerUiFixture();
+const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 
 try {
+  const storage = new Map<string, string>();
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      localStorage: {
+        getItem(key: string) {
+          return storage.get(key) ?? null;
+        },
+        setItem(key: string, value: string) {
+          storage.set(key, value);
+        },
+      },
+    },
+  });
+  preferences.init({});
+  preferences.setString("mode", "mystery" as never);
+  preferences.setString("theme", "base");
+
   const state = {
     developerModeFromUrl: false,
     explorerModeFromUrl: "advanced",
@@ -114,7 +134,7 @@ try {
     },
     target: {},
   });
-  assert.equal(state.explorerPreferences.mode, "developer");
+  assert.equal(preferences.getString("mode"), "developer");
 
   const choiceA = createElement({ mode: "standard" });
   const choiceB = createElement({ mode: "advanced" });
@@ -140,7 +160,7 @@ try {
     },
     target: { value: "advanced" },
   });
-  assert.equal(state.explorerPreferences.mode, "advanced");
+  assert.equal(preferences.getString("mode"), "advanced");
 
   await queryModeController.change({
     currentTarget: {
@@ -149,9 +169,8 @@ try {
     },
     target: {},
   });
-  assert.equal(state.explorerPreferences.mode, "standard");
+  assert.equal(preferences.getString("mode"), "standard");
 
-  const preferenceCalls: Array<[string, unknown]> = [];
   const noBlurEvent = {
     currentTarget: {
       blur: () => (uiCalls as string[]).push("blur"),
@@ -163,21 +182,15 @@ try {
     {
       renderPixelFontToggle: () =>
         (uiCalls as string[]).push("renderPixelFontToggleAgain"),
-      savePreference(key: string, value: unknown) {
-        preferenceCalls.push([key, value]);
-      },
     },
     noBlurEvent,
   );
-  assert.deepEqual(preferenceCalls, [["pixelFont", true]]);
+  assert.equal(preferences.getBoolean("pixelFont"), true);
   assert.equal((uiCalls as string[]).includes("blur"), false);
   selectEmojiFont(
     {
       renderPixelFontToggle: () =>
         (uiCalls as string[]).push("renderPixelFontToggleNoDetail"),
-      savePreference(key: string, value: unknown) {
-        preferenceCalls.push([key, value]);
-      },
     },
     {
       currentTarget: {
@@ -186,30 +199,24 @@ try {
       },
     },
   );
-  assert.deepEqual(preferenceCalls.at(-1), ["pixelFont", false]);
+  assert.equal(preferences.getBoolean("pixelFont"), false);
   assert.equal((uiCalls as string[]).includes("blur-no-detail"), false);
 
   await selectTheme(
     {
       renderThemeToggle: () => (uiCalls as string[]).push("renderThemeToggle"),
-      savePreference(key: string, value: unknown) {
-        preferenceCalls.push([key, value]);
-      },
     },
     { currentTarget: { dataset: { theme: "base" } } },
   );
-  assert.deepEqual(preferenceCalls.at(-1), ["theme", "base"]);
+  assert.equal(preferences.getString("theme"), "base");
   await selectTheme(
     {
       renderThemeToggle: () =>
         (uiCalls as string[]).push("renderThemeToggleLight"),
-      savePreference(key: string, value: unknown) {
-        preferenceCalls.push([key, value]);
-      },
     },
     { currentTarget: { dataset: { theme: "light" } } },
   );
-  assert.deepEqual(preferenceCalls.at(-1), ["theme", "light"]);
+  assert.equal(preferences.getString("theme"), "light");
 
   await queryModeController.change({
     currentTarget: {
@@ -217,8 +224,9 @@ try {
     },
     target: {},
   });
-  assert.equal(state.explorerPreferences.mode, "standard");
+  assert.equal(preferences.getString("mode"), "standard");
 
+  preferences.setString("theme", "dark");
   renderThemeToggle({
     choices: () => [null, "not-a-choice", { isConnected: false }],
     state: () => ({
@@ -251,5 +259,10 @@ try {
     Object.defineProperty(globalThis, "document", originalDocument);
   }
 } finally {
+  if (originalWindow) {
+    Object.defineProperty(globalThis, "window", originalWindow);
+  } else {
+    Reflect.deleteProperty(globalThis, "window");
+  }
   fixture.restore();
 }

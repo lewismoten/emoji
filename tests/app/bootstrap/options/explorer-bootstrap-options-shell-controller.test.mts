@@ -9,7 +9,6 @@ const { calls, options, state } = createBootstrapOptionsFixture();
 
 const shell = buildExplorerBootstrapShellOptions(options);
 assert.equal(shell.normalizeCodePoints, options.normalizeCodePoints);
-assert.equal(shell.savePreference, options.savePreference);
 assert.equal(shell.translate, options.translate);
 assert.equal(shell.state(), state);
 assert.equal(shell.modeChoices(), "modeChoices-value");
@@ -56,8 +55,6 @@ assert.deepEqual(calls.slice(-3), [
   ["syncUrlState", ["replace", { ok: true }]],
 ]);
 assert.equal(shell.translate("group", "Group"), "translate-value");
-assert.equal(shell.savePreference("theme", "retro"), "savePreference-value");
-
 const controller = buildExplorerBootstrapControllerOptions(options);
 assert.equal(controller.animateCopy, options.animateCopy);
 assert.equal(controller.applyPixelArtworkClass, options.applyPixelArtworkClass);
@@ -160,10 +157,6 @@ assert.equal(
   "updatePixelArtworkManifest-value",
 );
 assert.equal(controller.translate("copy", "Copy"), "translate-value");
-assert.equal(
-  controller.savePreference("order", "popular"),
-  "savePreference-value",
-);
 assert.equal(controller.animateCopy(), "animateCopy-value");
 assert.equal(controller.copyToClipboardValue(), "copyToClipboardValue-value");
 assert.equal(controller.developerModeEnabled(), "developerModeEnabled-value");

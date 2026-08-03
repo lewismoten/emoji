@@ -26,7 +26,6 @@ assert.deepEqual(call.populateVersionModeOptions("a"), [
   ["a"],
 ]);
 assert.equal(call.positionFavoriteButton, "position-favorite-button");
-assert.equal(call.preferences(), "preferences");
 assert.equal(call.renderDeveloperMode, "render-developer-mode");
 assert.equal(call.renderInstallAppButton, "render-install-app-button");
 assert.equal(call.renderPixelFontToggle, "render-pixel-font-toggle");
@@ -35,7 +34,6 @@ assert.equal(call.renderThemeToggle, "render-theme-toggle");
 assert.equal(call.renderVersionModeToggle(), "render-version-mode-toggle");
 assert.equal(call.resolveElements(), "resolve-elements");
 assert.deepEqual(call.resetFilters(), ["reset-filters"]);
-assert.equal(call.savePreference, "save-preference");
 assert.equal(call.savedDialog(), "saved-dialog");
 assert.equal(call.savedPicker(), "saved-picker");
 assert.equal(call.scheduleSearchDraw, "schedule-search-draw");

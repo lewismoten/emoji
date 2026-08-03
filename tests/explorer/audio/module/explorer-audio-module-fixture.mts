@@ -46,6 +46,9 @@ export async function loadExplorerAudioModuleFixture() {
   const sourcePath = path.join(root, "build/src/explorer-audio.js");
   const source = await fs.readFile(sourcePath, "utf8");
   const transformedSource = source.replace(
+    'import * as preferences from "./preferences.js";',
+    'import * as preferences from "./preferences-stub.mjs";',
+  ).replace(
     'import { createExplorerAudioEngine } from "./explorer/audio/explorer-audio-engine.js";',
     'import { createExplorerAudioEngine, engineCalls, engineApi } from "./explorer-audio-engine-stub.mjs";',
   )
@@ -108,6 +111,27 @@ export const clear = () => {
 `,
   );
   await fs.writeFile(
+    path.join(tempDirectory, "preferences-stub.mjs"),
+    `export const state = {};
+export const calls = [];
+export const init = (value = {}) => {
+  calls.push(["init", value]);
+  for (const key of Object.keys(state)) delete state[key];
+  Object.assign(state, value);
+};
+export const getBoolean = (name) => state[name] === true;
+export const setBoolean = (name, value) => {
+  calls.push(["setBoolean", name, value]);
+  state[name] = value;
+};
+export const getString = (name) => String(state[name] ?? "");
+export const setString = (name, value) => {
+  calls.push(["setString", name, value]);
+  state[name] = value;
+};
+`,
+  );
+  await fs.writeFile(
     path.join(tempDirectory, "document-stub.mjs"),
     `export default function documentRef() { return globalThis.document; }
 export function querySelector(selector) { return globalThis.document?.querySelector?.(selector) ?? null; }
@@ -149,8 +173,11 @@ export const hasPopupListbox = (el) => el?.getAttribute("aria-haspopup") === "li
   const dialogListenersStub = await import(
     pathToFileURL(path.join(tempDirectory, "dialog-listeners-stub.mjs")).href
   );
+  const preferencesStub = await import(
+    pathToFileURL(path.join(tempDirectory, "preferences-stub.mjs")).href
+  );
 
-  return { dialogListenersStub, engineStub, module };
+  return { dialogListenersStub, engineStub, module, preferencesStub };
 }
 
 export function installExplorerAudioDomFixture() {

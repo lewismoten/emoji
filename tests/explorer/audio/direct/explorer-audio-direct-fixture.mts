@@ -36,6 +36,44 @@ export class FakeElement {
   }
 }
 
+export const PREFERENCE_KEY = "@lewismoten/emoji:explorer-preferences";
+
+export function installPreferenceWindow(
+  initialPreferences: Record<string, unknown> = {},
+) {
+  const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
+  const storage = new Map<string, string>();
+  storage.set(PREFERENCE_KEY, JSON.stringify(initialPreferences));
+
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      localStorage: {
+        getItem(key: string) {
+          return storage.get(key) ?? null;
+        },
+        setItem(key: string, value: string) {
+          storage.set(key, value);
+        },
+      },
+    },
+  });
+
+  return {
+    read() {
+      return JSON.parse(storage.get(PREFERENCE_KEY) ?? "{}");
+    },
+    restore() {
+      if (originalWindow) {
+        Object.defineProperty(globalThis, "window", originalWindow);
+      } else {
+        Reflect.deleteProperty(globalThis, "window");
+      }
+    },
+    storage,
+  };
+}
+
 export function installAudioDomFixture() {
   const originalDocument = Object.getOwnPropertyDescriptor(
     globalThis,

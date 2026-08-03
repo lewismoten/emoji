@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
+import * as preferences from "../../../../src/preferences.js";
 import { createExplorerAudioController } from "../../../../src/explorer-audio.js";
 import {
   createAudioEngineFixture,
   FakeElement,
+  installPreferenceWindow,
   installAudioDomFixture,
 } from "./explorer-audio-direct-fixture.mjs";
 import {
@@ -12,24 +14,21 @@ import {
 } from "./explorer-audio-direct-targets.mjs";
 
 const fixture = installAudioDomFixture();
+const preferenceWindow = installPreferenceWindow({
+  music: true,
+  soundEffects: false,
+});
 
 try {
+  preferences.init({});
   const engineCalls: Array<unknown[]> = [];
   const engine = createAudioEngineFixture(engineCalls);
-  const controller = createExplorerAudioController(
-    {
-      savePreference() {},
-      state: () => ({
-        explorerPreferences: { music: true, soundEffects: false },
-      }),
+  const controller = createExplorerAudioController({
+    createExplorerAudioEngine(options: unknown) {
+      engineCalls.push(["createExplorerAudioEngine", options]);
+      return engine;
     },
-    {
-      createExplorerAudioEngine(options: unknown) {
-        engineCalls.push(["createExplorerAudioEngine", options]);
-        return engine;
-      },
-    },
-  );
+  });
 
   controller.bindAudioInteractions();
   controller.bindAudioInteractions();
@@ -239,18 +238,13 @@ try {
     ...globalThis.document,
     body: null,
   });
-  const secondController = createExplorerAudioController(
-    {
-      savePreference() {},
-      state: () => ({ explorerPreferences: {} }),
+  const secondController = createExplorerAudioController({
+    createExplorerAudioEngine() {
+      return engine;
     },
-    {
-      createExplorerAudioEngine() {
-        return engine;
-      },
-    },
-  );
+  });
   secondController.bindAudioInteractions();
 } finally {
+  preferenceWindow.restore();
   fixture.restore();
 }

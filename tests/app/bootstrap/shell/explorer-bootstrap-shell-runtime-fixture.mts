@@ -25,6 +25,10 @@ export async function createShellRuntimeFixture() {
     .replace(
       'import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from "../../explorer/dialog/dialog-render.js";',
       'import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper, diagnosticCalls } from "./dialog-render-stub.mjs";',
+    )
+    .replace(
+      'import * as preferences from "../../preferences.js";',
+      'import * as preferences from "./preferences-stub.mjs";',
     );
 
   const tempRoot = path.join(root, "build/tests/.tmp");
@@ -98,6 +102,14 @@ export function updateRenderingDiagnostic(values) {
 }`,
   );
   await fs.writeFile(
+    path.join(tempDirectory, "preferences-stub.mjs"),
+    `export function getBoolean(key) {
+  if (key === "pixelFont") return false;
+  return false;
+}
+`,
+  );
+  await fs.writeFile(
     path.join(tempDirectory, "explorer-bootstrap-shell.mjs"),
     transformedSource,
   );
@@ -152,7 +164,6 @@ export function updateRenderingDiagnostic(values) {
     renderCategoryFilters: () => "render-category-filters",
     renderSearchLanguages: () => "render-search-languages",
     renderVersionModeToggle: () => "render-version-mode-toggle",
-    savePreference: "save-preference",
     savedDialog: () => "saved-dialog",
     setDialogView: (...args: any[]) => ["setDialogView", ...args],
     showEmoji: (...args: any[]) => ["showEmoji-option", ...args],

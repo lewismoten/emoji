@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import * as preferences from "../../src/preferences.js";
 import { createCategoryController } from "../../src/app/category-controller.js";
 
 class FakeClassList {
@@ -342,9 +343,28 @@ const state = {
 };
 
 const drawListCalls: string[] = [];
-const savePreferenceCalls: string[][] = [];
 let syncVersionRangeCalls = 0;
 let developerModeEnabled = false;
+const originalPreferenceWindow = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "window",
+);
+const preferenceStorage = new Map<string, string>();
+
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: {
+    localStorage: {
+      getItem(key: string) {
+        return preferenceStorage.get(key) ?? null;
+      },
+      setItem(key: string, value: string) {
+        preferenceStorage.set(key, value);
+      },
+    },
+  },
+});
+preferences.init({});
 
 const controller = createCategoryController({
   compactGroupChoices: () => compactGroupChoices,
@@ -362,9 +382,6 @@ const controller = createCategoryController({
   groupPickerTrigger: () => groupPickerTrigger,
   groupSelector: () => groupSelector,
   orderButtons: () => [unicodeButton, sequenceButton, groupsButton],
-  savePreference: (key: string, value: string) => {
-    savePreferenceCalls.push([key, value]);
-  },
   sequenceTranslationKeys: { single: "singleLabel", zwj: "zwjLabel" },
   sequenceTypeEmoji: { single: "🙂", zwj: "🧩" },
   sequenceTypeLabels: { single: "Single", zwj: "ZWJ" },
@@ -459,12 +476,12 @@ assert.equal(drawListCalls.length, 3);
 
 controller.onOrderModeChange({ currentTarget: sequenceButton });
 assert.equal(state.orderMode, "unicode");
-assert.deepEqual(savePreferenceCalls, []);
+assert.equal(preferences.getString("order"), "");
 
 developerModeEnabled = true;
 controller.onOrderModeChange({ currentTarget: sequenceButton });
 assert.equal(state.orderMode, "sequence");
-assert.deepEqual(savePreferenceCalls, [["order", "sequence"]]);
+assert.equal(preferences.getString("order"), "sequence");
 assert.equal(sequenceButton.classList.contains("is-active"), true);
 assert.equal(sequenceButton.getAttribute("aria-pressed"), "true");
 assert.equal(unicodeButton.getAttribute("aria-pressed"), "false");
@@ -497,8 +514,8 @@ if (originalDocument === undefined) {
   runtime.document = originalDocument;
 }
 
-if (originalWindow === undefined) {
-  delete runtime.window;
+if (originalPreferenceWindow === undefined) {
+  Reflect.deleteProperty(globalThis, "window");
 } else {
-  runtime.window = originalWindow;
+  Object.defineProperty(globalThis, "window", originalPreferenceWindow);
 }

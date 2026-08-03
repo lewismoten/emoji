@@ -1,11 +1,32 @@
 import assert from "node:assert/strict";
+import * as preferences from "../../../src/preferences.js";
 import {
   renderPixelFontToggle, renderThemeToggle, selectEmojiFont, selectTheme,
 } from "../../../src/explorer-ui.js";
 import { createElement, installExplorerUiFixture } from "./explorer-ui-fixture.mjs";
 const fixture = installExplorerUiFixture();
+const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 
 try {
+  const storage = new Map<string, string>();
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      localStorage: {
+        getItem(key: string) {
+          return storage.get(key) ?? null;
+        },
+        setItem(key: string, value: string) {
+          storage.set(key, value);
+        },
+      },
+    },
+  });
+  preferences.init({});
+  preferences.setString("mode", "developer");
+  preferences.setString("theme", "base");
+  preferences.setBoolean("pixelFont", true);
+
   const pixelChoiceInput = createElement();
   const systemChoiceInput = createElement();
   const pixelChoice = createElement({ emojiFont: "pixel" });
@@ -57,6 +78,8 @@ try {
 
   state.explorerPreferences.theme = "base";
   state.explorerPreferences.mode = "standard";
+  preferences.setString("mode", "standard");
+  preferences.setString("theme", "base");
   delete fixture.documentElement.dataset.developerMode;
   delete fixture.documentElement.dataset.fullDeveloperMode;
   renderThemeToggle({
@@ -68,6 +91,7 @@ try {
   assert.equal(fixture.themeMeta.content, "#160622");
 
   state.explorerPreferences.theme = "light";
+  preferences.setString("theme", "light");
   renderThemeToggle({
     choices: () => [lightThemeChoice, darkThemeChoice, retroThemeChoice],
     state: () => state,
@@ -76,6 +100,7 @@ try {
   assert.equal(fixture.themeMeta.content, "#f6efe4");
 
   state.explorerPreferences.theme = "retro";
+  preferences.setString("theme", "retro");
   renderThemeToggle({
     choices: () => [lightThemeChoice, darkThemeChoice, retroThemeChoice],
     state: () => state,
@@ -91,8 +116,9 @@ try {
       explorerPreferences: { developerMode: true, theme: "mystery" },
     }),
   });
-  assert.equal(fixture.documentElement.dataset.theme, "dark");
+  assert.equal(fixture.documentElement.dataset.theme, "retro");
 
+  preferences.setString("theme", "dark");
   renderThemeToggle({
     choices: () => [],
     state: () => ({
@@ -122,6 +148,7 @@ try {
       },
     },
   });
+  preferences.setString("theme", "retro");
   renderThemeToggle({
     state: () => ({
       explorerModeFromUrl: "",
@@ -175,19 +202,20 @@ try {
     refreshRenderedPixelEmoji: () => calls.push("refresh-pixel"),
     state: () => state,
   });
-  assert.equal(fixture.documentElement.dataset.emojiFont, undefined);
-  assert.equal(pixelChoice.classList.active.has("is-active"), true);
-  assert.equal(pixelChoiceInput.checked, true);
+  assert.equal(fixture.documentElement.dataset.emojiFont, "system");
+  assert.equal(systemChoice.classList.active.has("is-active"), true);
+  assert.equal(systemChoiceInput.checked, true);
 
   state.explorerPreferences.pixelFont = false;
+  preferences.setBoolean("pixelFont", false);
   renderPixelFontToggle({
     choices: () => [pixelChoice, systemChoice],
     refreshRenderedPixelEmoji: () => calls.push("refresh-pixel-off"),
     state: () => state,
   });
-  assert.equal(fixture.documentElement.dataset.emojiFont, "system");
-  assert.equal(systemChoice.classList.active.has("is-active"), true);
-  assert.equal(systemChoiceInput.checked, true);
+  assert.equal(fixture.documentElement.dataset.emojiFont, undefined);
+  assert.equal(pixelChoice.classList.active.has("is-active"), true);
+  assert.equal(pixelChoiceInput.checked, true);
 
   renderPixelFontToggle({
     choices: () => [],
@@ -213,27 +241,20 @@ try {
     refreshRenderedPixelEmoji: () => calls.push("refresh-pixel-selector"),
     state: () => ({ explorerPreferences: { pixelFont: false } }),
   });
-  assert.equal(selectorPixelChoice.classList.active.has("is-active"), true);
+  assert.equal(selectorPixelChoice.classList.active.has("is-active"), false);
   if (originalDocument) {
     Object.defineProperty(globalThis, "document", originalDocument);
   }
 
-  const preferenceCalls: Array<[string, unknown]> = [];
   await selectTheme(
     {
       renderThemeToggle: () => calls.push("rerender-theme"),
-      savePreference(key: string, value: unknown) {
-        preferenceCalls.push([key, value]);
-      },
     },
     { currentTarget: { dataset: { theme: "retro" } } },
   );
   selectEmojiFont(
     {
       renderPixelFontToggle: () => calls.push("rerender-font"),
-      savePreference(key: string, value: unknown) {
-        preferenceCalls.push([key, value]);
-      },
     },
     {
       currentTarget: {
@@ -243,28 +264,20 @@ try {
       detail: 1,
     },
   );
-  assert.deepEqual(preferenceCalls, [
-    ["theme", "retro"],
-    ["pixelFont", false],
-  ]);
+  assert.equal(preferences.getString("theme"), "retro");
+  assert.equal(preferences.getBoolean("pixelFont"), false);
 
   await selectTheme(
     {
       renderThemeToggle: () => calls.push("rerender-theme-fallback"),
-      savePreference(key: string, value: unknown) {
-        preferenceCalls.push([key, value]);
-      },
     },
     { currentTarget: { dataset: { theme: "mystery" } } },
   );
-  assert.deepEqual(preferenceCalls.at(-1), ["theme", "dark"]);
+  assert.equal(preferences.getString("theme"), "dark");
 
   selectEmojiFont(
     {
       renderPixelFontToggle: () => calls.push("rerender-font-no-blur"),
-      savePreference(key: string, value: unknown) {
-        preferenceCalls.push([key, value]);
-      },
     },
     {
       currentTarget: {
@@ -279,9 +292,6 @@ try {
   selectEmojiFont(
     {
       renderPixelFontToggle: () => calls.push("rerender-font-pixel"),
-      savePreference(key: string, value: unknown) {
-        preferenceCalls.push([key, value]);
-      },
     },
     {
       currentTarget: {
@@ -291,8 +301,13 @@ try {
       detail: 2,
     },
   );
-  assert.deepEqual(preferenceCalls.at(-1), ["pixelFont", true]);
+  assert.equal(preferences.getBoolean("pixelFont"), true);
   assert.equal(calls.includes("blur-font-pixel"), true);
 } finally {
+  if (originalWindow) {
+    Object.defineProperty(globalThis, "window", originalWindow);
+  } else {
+    Reflect.deleteProperty(globalThis, "window");
+  }
   fixture.restore();
 }

@@ -69,9 +69,6 @@ try {
     restoreLanguageParentPanel: () => {
       successCalls.push(["restoreLanguageParentPanel"]);
     },
-    saveExplorerPreference: (key, value) => {
-      successCalls.push(["saveExplorerPreference", key, value]);
-    },
     refreshLocalizedLabels: () => {
       successCalls.push(["refreshLocalizedLabels"]);
     },
@@ -96,7 +93,6 @@ try {
     ["closeLanguageDialog"],
     ["restoreLanguageParentPanel"],
     ["loadUiTranslations", "ar", true],
-    ["saveExplorerPreference", "locale", "ar"],
   ]);
 } finally {
   fixture.restore();

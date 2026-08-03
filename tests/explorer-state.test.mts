@@ -23,7 +23,6 @@ assert.equal(first.emojiKeyByCodePoints.size, 0);
 assert.deepEqual(first.dialogNavigationKeys, []);
 assert.deepEqual(first.displayedKeys, []);
 assert.equal(first.focusedEmojiKey, "");
-assert.deepEqual(first.explorerPreferences, {});
 assert.deepEqual(first.favoriteEmojiKeys, []);
 assert.equal(first.groupRepresentativeEmoji.size, 0);
 assert.deepEqual(first.groupedKeys, {});

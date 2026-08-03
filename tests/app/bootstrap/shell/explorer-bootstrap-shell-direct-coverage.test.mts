@@ -46,7 +46,6 @@ const shell = createExplorerBootstrapShellWithFactories(
     renderCategoryFilters: () => "render-categories",
     renderSearchLanguages: () => "render-languages",
     renderVersionModeToggle: () => "render-version-toggle",
-    savePreference: "save-preference",
     savedDialog: () => "saved-dialog",
     setDialogView: (...args: any[]) => ["setDialogView", ...args],
     showEmoji: (...args: any[]) => ["showEmoji", ...args],
@@ -132,7 +131,6 @@ assert.equal(shellOptions.renderCategoryFilters(), "render-categories");
 assert.equal(shellOptions.renderSearchLanguages(), "render-languages");
 assert.equal(shellOptions.renderVersionModeToggle(), "render-version-toggle");
 assert.equal(shellOptions.savedDialog(), "saved-dialog");
-assert.equal(shellOptions.savePreference, "save-preference");
 assert.deepEqual(shellOptions.setDialogView("code"), ["setDialogView", "code"]);
 assert.equal(shellOptions.state(), state);
 assert.deepEqual(shellOptions.syncUrlState("replace"), [

@@ -192,11 +192,9 @@ assert.equal(shell.fullDeveloperModeEnabled(), false);
 
 shell.recordCopiedEmoji("wrappedGift");
 assert.deepEqual(state.copiedEmojiKeys, ["wrappedGift"]);
-assert.deepEqual(saveCalls, [["recentCopied", ["wrappedGift"]]]);
 
 shell.addFavorite("wrappedGift");
 assert.deepEqual(state.favoriteEmojiKeys, ["wrappedGift"]);
-assert.deepEqual(saveCalls.at(-1), ["favorites", ["wrappedGift"]]);
 for (const action of [
   () => shell.renderThemeToggle(),
   () => shell.renderPixelFontToggle(),

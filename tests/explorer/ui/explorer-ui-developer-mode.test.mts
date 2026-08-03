@@ -1,10 +1,30 @@
 import assert from "node:assert/strict";
+import * as preferences from "../../../src/preferences.js";
 import { createDeveloperModeController } from "../../../src/explorer-ui.js";
 import { createElement, installExplorerUiFixture } from "./explorer-ui-fixture.mjs";
 
 const fixture = installExplorerUiFixture();
+const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 
 try {
+  const storage = new Map<string, string>();
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      localStorage: {
+        getItem(key: string) {
+          return storage.get(key) ?? null;
+        },
+        setItem(key: string, value: string) {
+          storage.set(key, value);
+        },
+      },
+    },
+  });
+  preferences.init({});
+  preferences.setString("mode", "developer");
+  preferences.setString("theme", "base");
+
   const calls: string[] = [];
   const preferenceCalls: Array<[string, unknown]> = [];
   const state = {
@@ -75,7 +95,7 @@ try {
   assert.equal(state.developerModeFromUrl, false);
   assert.equal(state.explorerModeFromUrl, "");
   assert.equal(state.developerModeUrlDismissed, true);
-  assert.equal(state.explorerPreferences.theme, "dark");
+  assert.equal(preferences.getString("theme"), "dark");
   assert.ok(calls.includes("dialog:details"));
   assert.ok(calls.includes("disable-developer"));
   assert.ok(calls.includes("sync-url"));
@@ -98,6 +118,8 @@ try {
   state.explorerPreferences = { developerMode: true, theme: "dark" };
   state.explorerModeFromUrl = "";
   state.developerModeUrlDismissed = false;
+  preferences.setString("mode", "developer");
+  preferences.setString("theme", "dark");
   const legacyController = createDeveloperModeController({
     choices: () => [],
     dialog: () => ({ open: false, classList: { contains: () => false } }),
@@ -127,7 +149,7 @@ try {
     },
     target: { value: "advanced" },
   });
-  assert.equal(state.explorerPreferences.mode, "advanced");
+  assert.equal(preferences.getString("mode"), "advanced");
   assert.ok(calls.includes("load-version-data-legacy"));
 
   await legacyController.change({
@@ -137,12 +159,14 @@ try {
     },
     target: {},
   });
-  assert.equal(state.explorerPreferences.mode, "standard");
+  assert.equal(preferences.getString("mode"), "standard");
   assert.ok(calls.includes("disable-legacy"));
 
   state.explorerPreferences = { theme: "dark", mode: "advanced" };
   state.explorerModeFromUrl = "";
   state.developerModeUrlDismissed = false;
+  preferences.setString("mode", "advanced");
+  preferences.setString("theme", "dark");
   const noChoicesDialog = {
     open: false,
     classList: { contains: () => false },
@@ -171,7 +195,7 @@ try {
     },
     target: {},
   });
-  assert.equal(state.explorerPreferences.mode, "developer");
+  assert.equal(preferences.getString("mode"), "developer");
 
   await noChoicesController.change({
     currentTarget: {
@@ -180,7 +204,12 @@ try {
     },
     target: {},
   });
-  assert.equal(state.explorerPreferences.mode, "standard");
+  assert.equal(preferences.getString("mode"), "standard");
 } finally {
+  if (originalWindow) {
+    Object.defineProperty(globalThis, "window", originalWindow);
+  } else {
+    Reflect.deleteProperty(globalThis, "window");
+  }
   fixture.restore();
 }

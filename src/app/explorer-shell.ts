@@ -46,9 +46,7 @@ export function createExplorerShell(options: any, dependencies?: any) {
     translate: options.translate,
   });
 
-  const audio = helpers.createExplorerAudioController({
-    state: options.state,
-  });
+  const audio = helpers.createExplorerAudioController();
 
   function renderPixelFontToggle() {
     helpers.renderPixelFontToggleHelper({

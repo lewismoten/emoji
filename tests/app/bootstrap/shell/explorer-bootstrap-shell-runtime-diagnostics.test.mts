@@ -46,7 +46,7 @@ assert.deepEqual(pixelOptions.updateRenderingDiagnostic({ next: true }), {
 
 dialogState.classList.contains = () => false;
 state.explorerPreferences.pixelFont = false;
-assert.equal(pixelOptions.pixelFontPreferred(), false);
+assert.equal(pixelOptions.pixelFontPreferred(), true);
 assert.deepEqual(pixelOptions.updateRenderingDiagnostic({ final: true }), {
   final: true,
   byId: state.byId,

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import * as preferences from "../../src/preferences.js";
 import {
   createSavedEmojiController,
   nextCopiedEmojiKeys,
@@ -46,8 +47,25 @@ assert.equal(
 const createdButtons: Array<Record<string, unknown>> = [];
 const globals = globalThis as typeof globalThis & {
   document?: any;
+  window?: any;
 };
 const originalDocument = globals.document;
+const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
+const preferenceStorage = new Map<string, string>();
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: {
+    localStorage: {
+      getItem(key: string) {
+        return preferenceStorage.get(key) ?? null;
+      },
+      setItem(key: string, value: string) {
+        preferenceStorage.set(key, value);
+      },
+    },
+  },
+});
+preferences.init({});
 globals.document = {
   createElement() {
     const element = {
@@ -167,14 +185,12 @@ globals.document.querySelector = (selector: string) => {
 };
 let favoriteEmojiKeys = ["wave"];
 let copiedEmojiKeys = ["grinningFace"];
-const savedPreferences: Array<[string, string[]]> = [];
 const controller = createSavedEmojiController({
   applyPixelArtworkClass: () => () => {},
   byId: () => ({ wave: { shortName: "Wave" }, grinningFace: { shortName: "Grinning face" } }),
   copiedEmojiKeys: () => copiedEmojiKeys,
   currentEmojiKey: () => "wave",
   favoriteEmojiKeys: () => favoriteEmojiKeys,
-  savePreference: (key, value) => savedPreferences.push([key, value]),
   savedDialog: () => dialog as never,
   searchAnnotations: () => ({}),
   setCopiedEmojiKeys: (keys) => {
@@ -199,7 +215,11 @@ controller.toggleFavorite("");
 assert.deepEqual(favoriteEmojiKeys, ["grinningFace"]);
 controller.renderSavedEmoji();
 controller.updateFavoriteButton();
-assert.equal(savedPreferences.length >= 2, true);
+assert.deepEqual(preferences.getStringArray("recentCopied"), [
+  "wave",
+  "grinningFace",
+]);
+assert.deepEqual(preferences.getStringArray("favorites"), ["grinningFace"]);
 assert.equal(favoritesEmpty.hidden, true);
 assert.equal(copiedEmpty.hidden, true);
 
@@ -209,7 +229,6 @@ const closedDialogController = createSavedEmojiController({
   copiedEmojiKeys: () => [],
   currentEmojiKey: () => "",
   favoriteEmojiKeys: () => [],
-  savePreference: () => {},
   savedDialog: () => ({ open: false, querySelector: () => null } as never),
   searchAnnotations: () => ({}),
   setCopiedEmojiKeys: () => {},
@@ -227,4 +246,9 @@ if (originalDocument === undefined) {
   delete globals.document;
 } else {
   globals.document = originalDocument;
+}
+if (originalWindow) {
+  Object.defineProperty(globalThis, "window", originalWindow);
+} else {
+  Reflect.deleteProperty(globalThis, "window");
 }

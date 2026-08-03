@@ -166,7 +166,6 @@ for (const key of [
   "renderSavedEmoji",
   "renderThemeToggle",
   "restoreDeveloperMode",
-  "savePreference",
   "scheduleSearchDraw",
   "selectEmojiFont",
   "selectTheme",

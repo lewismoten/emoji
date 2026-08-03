@@ -13,6 +13,10 @@ const source = await fs.readFile(sourcePath, "utf8");
 
 const transformedSource = source
   .replace(
+    'import * as preferences from "../../preferences.js";',
+    'import * as preferences from "./preferences-stub.mjs";',
+  )
+  .replace(
     'import { createCategoryController } from "../category-controller.js";',
     'import { createCategoryController, categoryCalls } from "./category-controller-stub.mjs";',
   )
@@ -41,6 +45,15 @@ const tempRoot = path.join(root, "build/tests/.tmp");
 await fs.mkdir(tempRoot, { recursive: true });
 const tempDirectory = await fs.mkdtemp(
   path.join(tempRoot, "explorer-bootstrap-controllers-runtime-"),
+);
+
+await fs.writeFile(
+  path.join(tempDirectory, "preferences-stub.mjs"),
+  `export const preferenceCalls = [];
+export const getString = (name) => {
+  preferenceCalls.push(["getString", name]);
+  return name === "order" ? "grouped" : "";
+};`,
 );
 
 await fs.writeFile(
@@ -193,7 +206,6 @@ assert.equal(categoryOptions.groupFilterDialog(), "group-dialog");
 assert.equal(categoryOptions.groupPickerTrigger(), "group-trigger");
 assert.equal(categoryOptions.groupSelector(), "group-selector");
 assert.deepEqual(categoryOptions.orderButtons(), ["order-buttons"]);
-assert.equal(categoryOptions.savePreference, "save-preference");
 assert.deepEqual(categoryOptions.sequenceTranslationKeys, { single: "single" });
 assert.deepEqual(categoryOptions.sequenceTypeEmoji, { single: "1️⃣" });
 assert.deepEqual(categoryOptions.sequenceTypeLabels, { single: "Single" });

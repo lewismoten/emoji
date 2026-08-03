@@ -27,7 +27,9 @@ export const getLocale = () => {
   const doc = documentRef()?.documentElement;
   if (!doc) return;
   return (
-    doc.getAttribute("lang") ?? document.documentElement.dataset.locale ?? "en"
+    doc.getAttribute?.("lang") ??
+    document.documentElement.dataset.locale ??
+    "en"
   );
 };
 export const setLocale = (lang: string, dir: "rtl" | "ltr") => {

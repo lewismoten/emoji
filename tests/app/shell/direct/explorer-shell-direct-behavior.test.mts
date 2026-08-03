@@ -18,7 +18,6 @@ try {
   assert.deepEqual(fixture.selectEmojiFontCalls.at(-1), [
     {
       renderPixelFontToggle: fixture.shell.renderPixelFontToggle,
-      savePreference: "save-preference",
     },
     emojiEvent,
   ]);
@@ -28,7 +27,6 @@ try {
   assert.deepEqual(fixture.selectThemeCalls.at(-1), [
     {
       renderThemeToggle: fixture.shell.renderThemeToggle,
-      savePreference: "save-preference",
     },
     themeEvent,
   ]);

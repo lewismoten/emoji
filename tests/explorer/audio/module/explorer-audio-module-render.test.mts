@@ -5,20 +5,11 @@ import {
 } from "./explorer-audio-module-fixture.mjs";
 
 const fixture = installExplorerAudioDomFixture();
-const { module } = await loadExplorerAudioModuleFixture();
+const { module, preferencesStub } = await loadExplorerAudioModuleFixture();
 
 try {
-  const preferences: {
-    explorerPreferences: Record<string, unknown>;
-  } = { explorerPreferences: { music: true, soundEffects: false } };
-  const saves: Array<[string, unknown]> = [];
-  const controller = module.createExplorerAudioController({
-    savePreference(key: string, value: unknown) {
-      preferences.explorerPreferences[key] = value;
-      saves.push([key, value]);
-    },
-    state: () => preferences,
-  });
+  preferencesStub.init({ music: true, soundEffects: false });
+  const controller = module.createExplorerAudioController();
 
   controller.renderSoundEffectsToggle();
   controller.renderMusicToggle();
@@ -34,12 +25,12 @@ try {
   controller.bindAudioInteractions();
   fixture.soundToggle.checked = true;
   fixture.listeners.get("change")?.[0]({ target: fixture.soundToggle });
-  assert.deepEqual(saves[0], ["soundEffects", true]);
+  assert.equal(preferencesStub.state.soundEffects, true);
   assert.equal(fixture.soundToggle.attributes.get("aria-checked"), "true");
 
   fixture.musicToggle.checked = false;
   fixture.listeners.get("change")?.[0]({ target: fixture.musicToggle });
-  assert.deepEqual(saves[1], ["music", false]);
+  assert.equal(preferencesStub.state.music, false);
   assert.equal(fixture.musicToggle.attributes.get("aria-checked"), "false");
 
   (globalThis.document as any).documentElement.dataset.theme = "base";
@@ -55,7 +46,10 @@ try {
   fixture.listeners.get("change")?.[0]({ target: fixture.soundToggle });
   fixture.musicToggle.checked = true;
   fixture.listeners.get("change")?.[0]({ target: fixture.musicToggle });
-  assert.deepEqual(saves, [["soundEffects", true], ["music", false]]);
+  assert.deepEqual(preferencesStub.state, {
+    music: false,
+    soundEffects: true,
+  });
 } finally {
   fixture.restore();
 }

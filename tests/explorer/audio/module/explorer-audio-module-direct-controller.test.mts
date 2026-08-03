@@ -1,54 +1,43 @@
 import assert from "node:assert/strict";
-import { createExplorerAudioController as createDirectExplorerAudioController } from "../../../../src/explorer-audio.js";
 import {
   FakeElement,
   installExplorerAudioDomFixture,
+  loadExplorerAudioModuleFixture,
 } from "./explorer-audio-module-fixture.mjs";
 
 const fixture = installExplorerAudioDomFixture();
+const { module, preferencesStub } = await loadExplorerAudioModuleFixture();
 
 try {
-  const preferences: {
-    explorerPreferences: Record<string, unknown>;
-  } = { explorerPreferences: { music: true, soundEffects: false } };
-  const saves: Array<[string, unknown]> = [];
+  preferencesStub.init({ music: true, soundEffects: false });
 
   const directEngineCalls: any[][] = [];
   let directEngineOptions: any;
-  const directController = createDirectExplorerAudioController(
-    {
-      savePreference(key: string, value: unknown) {
-        preferences.explorerPreferences[key] = value;
-        saves.push([`direct:${key}`, value]);
-      },
-      state: () => preferences,
+  const directController = module.createExplorerAudioController({
+    createExplorerAudioEngine(options: any) {
+      directEngineOptions = options;
+      return {
+        musicEnabled: () => false,
+        playInteraction(element: string, action: string) {
+          directEngineCalls.push(["playInteraction", element, action]);
+        },
+        resumeAudioContext() {
+          directEngineCalls.push(["resumeAudioContext"]);
+          return Promise.resolve();
+        },
+        soundEffectsEnabled: () => true,
+        stopMusic() {
+          directEngineCalls.push(["stopMusic"]);
+        },
+        syncHelpMusic() {
+          directEngineCalls.push(["syncHelpMusic"]);
+        },
+        restartMusic() {
+          directEngineCalls.push(["restartMusic"]);
+        },
+      } as any;
     },
-    {
-      createExplorerAudioEngine(options: any) {
-        directEngineOptions = options;
-        return {
-          musicEnabled: () => false,
-          playInteraction(element: string, action: string) {
-            directEngineCalls.push(["playInteraction", element, action]);
-          },
-          resumeAudioContext() {
-            directEngineCalls.push(["resumeAudioContext"]);
-            return Promise.resolve();
-          },
-          soundEffectsEnabled: () => true,
-          stopMusic() {
-            directEngineCalls.push(["stopMusic"]);
-          },
-          syncHelpMusic() {
-            directEngineCalls.push(["syncHelpMusic"]);
-          },
-          restartMusic() {
-            directEngineCalls.push(["restartMusic"]);
-          },
-        } as any;
-      },
-    } as any,
-  );
+  } as any);
 
   directController.bindAudioInteractions();
   assert.equal(directEngineOptions.soundEffectsEnabled(), false);

@@ -29,6 +29,8 @@ const coverageExcludes = [
   "build/tests/**",
   "build/tests/.tmp/**",
   "**/build/tests/.tmp/**",
+  "build/library/**",
+  "**/build/library/**",
   "build/demo-pages/**",
   "**/build/demo-pages/**",
   "dist/**",

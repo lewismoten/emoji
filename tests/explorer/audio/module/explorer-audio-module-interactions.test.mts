@@ -6,21 +6,12 @@ import {
 } from "./explorer-audio-module-fixture.mjs";
 
 const fixture = installExplorerAudioDomFixture();
-const { dialogListenersStub, engineStub, module } =
+const { dialogListenersStub, engineStub, module, preferencesStub } =
   await loadExplorerAudioModuleFixture();
 
 try {
-  const preferences: {
-    explorerPreferences: Record<string, unknown>;
-  } = { explorerPreferences: { music: true, soundEffects: false } };
-  const saves: Array<[string, unknown]> = [];
-  const controller = module.createExplorerAudioController({
-    savePreference(key: string, value: unknown) {
-      preferences.explorerPreferences[key] = value;
-      saves.push([key, value]);
-    },
-    state: () => preferences,
-  });
+  preferencesStub.init({ music: true, soundEffects: false });
+  const controller = module.createExplorerAudioController();
 
   controller.bindAudioInteractions();
   controller.bindAudioInteractions();

@@ -218,7 +218,7 @@ export async function createBootstrapSessionFixture() {
   ]);
   await writeStub("preferences-stub.mjs", [
     "export const preferenceCalls = [];",
-    "export function initializeExplorerPreferences(state) { preferenceCalls.push(state); return { save: (...args) => ['save-preference', args] }; }",
+    "export function initializeExplorerPreferences(state) { preferenceCalls.push(state); }",
   ]);
   await writeStub("i18n-stub.mjs", [
     "const translations = {",

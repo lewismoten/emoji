@@ -4,7 +4,6 @@ import { createShellRuntimeFixture } from "./explorer-bootstrap-shell-runtime-fi
 const fixture = await createShellRuntimeFixture();
 const { bootstrap, dialogState, emojiOptions, shellOptions, state } = fixture;
 
-assert.equal(shellOptions.savePreference, "save-preference");
 assert.equal(shellOptions.state(), state);
 assert.equal(
   shellOptions.pixelEditor().refreshFontBuild instanceof Function,

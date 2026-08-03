@@ -283,7 +283,6 @@ const result = initializeExplorerBootstrapSessionRuntime({
   controllers,
   panelDialogs: "panel-dialogs",
   restoreDeveloperMode: "restore-developer-mode",
-  savePreference: "save-preference",
   shell,
   state: getState,
   translate: "translate",
@@ -406,7 +405,6 @@ assert.equal(
 assert.equal(runtimeSourceCall.renderSavedEmoji, "render-saved-emoji");
 assert.equal(runtimeSourceCall.renderThemeToggle, "render-theme-toggle");
 assert.equal(runtimeSourceCall.restoreDeveloperMode, "restore-developer-mode");
-assert.equal(runtimeSourceCall.savePreference, "save-preference");
 assert.equal(runtimeSourceCall.scheduleSearchDraw, "schedule-search-draw");
 assert.equal(runtimeSourceCall.selectEmojiFont, "select-emoji-font");
 assert.equal(runtimeSourceCall.selectTheme, "select-theme");

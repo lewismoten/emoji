@@ -78,7 +78,6 @@ const options = {
   onPixelFontRevisionLoaded: Symbol("onPixelFontRevisionLoaded"),
   refreshLocalizedLabels: Symbol("refreshLocalizedLabels"),
   restoreDeveloperMode: Symbol("restoreDeveloperMode"),
-  saveExplorerPreference: Symbol("saveExplorerPreference"),
   searchLocales: () => searchLocalesValue,
   selectedSearchLocale: () => selectedSearchLocaleValue,
   setApplyingUrlState: Symbol("setApplyingUrlState"),
@@ -128,10 +127,6 @@ assert.equal(
 assert.equal(
   stub.lastOptions.restoreDeveloperMode,
   options.restoreDeveloperMode,
-);
-assert.equal(
-  stub.lastOptions.saveExplorerPreference,
-  options.saveExplorerPreference,
 );
 assert.equal(stub.lastOptions.setApplyingUrlState, options.setApplyingUrlState);
 assert.equal(

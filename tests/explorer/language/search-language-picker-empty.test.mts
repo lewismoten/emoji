@@ -33,9 +33,6 @@ try {
     restoreLanguageParentPanel: () => {
       emptyCalls.push(["restoreLanguageParentPanel"]);
     },
-    saveExplorerPreference: (key, value) => {
-      emptyCalls.push(["saveExplorerPreference", key, value]);
-    },
     refreshLocalizedLabels: () => {
       emptyCalls.push(["refreshLocalizedLabels"]);
     },
@@ -57,7 +54,6 @@ try {
     ["closeLanguageDialog"],
     ["restoreLanguageParentPanel"],
     ["loadUiTranslations", "en"],
-    ["saveExplorerPreference", "locale", ""],
   ]);
 
   const emptyNoRestoreCalls: any[] = [];
@@ -79,16 +75,12 @@ try {
     closeLanguageDialog: () => {
       emptyNoRestoreCalls.push("closeLanguageDialog");
     },
-    saveExplorerPreference: () => {
-      emptyNoRestoreCalls.push("saveExplorerPreference");
-    },
     refreshLocalizedLabels: () => {},
   });
   assert.deepEqual(emptyNoRestoreCalls, [
     "updateWebAppManifest",
     "closeLanguageDialog",
     "loadUiTranslations",
-    "saveExplorerPreference",
   ]);
 
   const localePicker = new FakeElement("button");
@@ -108,7 +100,6 @@ try {
       throw new Error("unknown locale should not update manifest");
     },
     closeLanguageDialog: () => {},
-    saveExplorerPreference: () => {},
     refreshLocalizedLabels: () => {},
   });
   assert.deepEqual(notFoundResult, {

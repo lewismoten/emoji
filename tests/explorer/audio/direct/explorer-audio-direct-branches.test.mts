@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import * as preferences from "../../../../src/preferences.js";
 import {
   createExplorerAudioController,
   createExplorerAudioDependencies,
@@ -6,6 +7,7 @@ import {
 import {
   createAudioEngineFixture,
   FakeElement,
+  installPreferenceWindow,
   installAudioDomFixture,
 } from "./explorer-audio-direct-fixture.mjs";
 import {
@@ -14,18 +16,17 @@ import {
 } from "./explorer-audio-direct-targets.mjs";
 
 const fixture = installAudioDomFixture();
+const preferenceWindow = installPreferenceWindow({
+  music: false,
+  soundEffects: false,
+});
 
 try {
+  preferences.init({});
   const dependencies = createExplorerAudioDependencies();
   assert.equal(typeof dependencies.createExplorerAudioEngine, "function");
   assert.doesNotThrow(() =>
-    createExplorerAudioController(
-      {
-        savePreference() {},
-        state: () => ({ explorerPreferences: {} }),
-      },
-      undefined,
-    ),
+    createExplorerAudioController(undefined),
   );
 
   const engineCalls: Array<unknown[]> = [];
@@ -33,22 +34,11 @@ try {
   const toggleParent = new FakeElement([], null);
   (fixture.soundToggle as any).parentElement = toggleParent;
   (fixture.musicToggle as any).parentElement = toggleParent;
-  const state = {
-    explorerPreferences: { music: false, soundEffects: false },
-  };
-  const controller = createExplorerAudioController(
-    {
-      savePreference(key: string, value: unknown) {
-        (state.explorerPreferences as Record<string, unknown>)[key] = value;
-      },
-      state: () => state,
+  const controller = createExplorerAudioController({
+    createExplorerAudioEngine() {
+      return engine;
     },
-    {
-      createExplorerAudioEngine() {
-        return engine;
-      },
-    },
-  );
+  });
 
   controller.bindAudioInteractions();
 
@@ -64,7 +54,7 @@ try {
   )!;
   themeObserver.callback?.([{ type: "attributes", attributeName: "class" }]);
 
-  state.explorerPreferences.music = true;
+  preferences.setBoolean("music", true);
   fixture.musicToggle.checked = true;
   fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
   await Promise.resolve();
@@ -96,7 +86,7 @@ try {
     true,
   );
 
-  state.explorerPreferences.music = false;
+  preferences.setBoolean("music", false);
   fixture.musicToggle.checked = false;
   fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
   assert.equal(
@@ -211,17 +201,11 @@ try {
 
   const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
   Reflect.deleteProperty(globalThis, "document");
-  const documentlessController = createExplorerAudioController(
-    {
-      savePreference() {},
-      state: () => ({ explorerPreferences: {} }),
+  const documentlessController = createExplorerAudioController({
+    createExplorerAudioEngine() {
+      return engine;
     },
-    {
-      createExplorerAudioEngine() {
-        return engine;
-      },
-    },
-  );
+  });
   assert.doesNotThrow(() => documentlessController.bindAudioInteractions());
   assert.doesNotThrow(() => documentlessController.renderSoundEffectsToggle());
   assert.doesNotThrow(() => documentlessController.renderMusicToggle());
@@ -234,18 +218,13 @@ try {
     body: null,
     documentElement: null,
   });
-  const documentElementlessController = createExplorerAudioController(
-    {
-      savePreference() {},
-      state: () => ({ explorerPreferences: {} }),
+  const documentElementlessController = createExplorerAudioController({
+    createExplorerAudioEngine() {
+      return engine;
     },
-    {
-      createExplorerAudioEngine() {
-        return engine;
-      },
-    },
-  );
+  });
   assert.doesNotThrow(() => documentElementlessController.bindAudioInteractions());
 } finally {
+  preferenceWindow.restore();
   fixture.restore();
 }

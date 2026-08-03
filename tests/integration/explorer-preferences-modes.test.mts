@@ -54,7 +54,7 @@ assert.match(
 );
 assert.match(
   explorerUi,
-  /const enabled = \(\) => mode\(\) !== "standard"[\s\S]*const fullEnabled = \(\) => mode\(\) === "developer"[\s\S]*function change[\s\S]*savePreference\((["'])mode\1,\s*(mode|nextMode)\)/,
+  /const enabled = \(\) => mode\(\) !== "standard"[\s\S]*const fullEnabled = \(\) => mode\(\) === "developer"[\s\S]*function change[\s\S]*preferences\.setString\((["'])mode\1,\s*nextMode\)/,
   "Developer mode must support shared URL activation and persist explicit mode selection",
 );
 assert.match(
@@ -69,7 +69,7 @@ assert.match(
 );
 assert.match(
   explorerUi,
-  /savePreference\((["'])mode\1,\s*(mode|nextMode)\)[\s\S]*options\.syncUrlState\(\)/,
+  /preferences\.setString\((["'])mode\1,\s*nextMode\)[\s\S]*options\.syncUrlState\(\)/,
   "changing explorer mode must clean and rewrite URL state from the controller",
 );
 assert.match(
@@ -151,7 +151,7 @@ assert.match(
 );
 assert.match(
   explorerUi,
-  /export function selectEmojiFont[\s\S]*dataset\.emojiFont[\s\S]*options\.savePreference\((["'])pixelFont\1/,
+  /export function selectEmojiFont[\s\S]*dataset\.emojiFont[\s\S]*preferences\.setBoolean\((["'])pixelFont\1/,
   "the system and pixel previews must control the font preference",
 );
 assert.match(
@@ -191,7 +191,7 @@ assert.match(
 );
 assert.match(
   `${explorerUi}\n${explorerBootstrapShellSource}`,
-  /explorerPreferences\.pixelFont !== false/,
+  /!preferences\.getBoolean\((["'])pixelFont\1\)/,
   "pixel font must be enabled by default",
 );
 assert.match(

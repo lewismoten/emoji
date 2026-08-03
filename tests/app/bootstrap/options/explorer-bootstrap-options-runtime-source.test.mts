@@ -122,7 +122,6 @@ assert.equal(
 );
 assert.equal(runtime.setUrlStateReady(), "setUrlStateReady-value");
 assert.equal(runtime.stepVersion(), "stepVersion-value");
-assert.equal(runtime.savePreference("music", true), "savePreference-value");
 assert.equal(runtime.translate("theme", "Theme"), "translate-value");
 assert.equal(runtime.developerModeEnabled(), "developerModeEnabled-value");
 assert.equal(

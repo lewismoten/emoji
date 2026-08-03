@@ -1,9 +1,23 @@
 import assert from "node:assert/strict";
+import * as preferences from "../../../../src/preferences.js";
 import { createExplorerBootstrapControllersWithFactories } from "../../../../src/app/bootstrap/explorer-bootstrap-controllers.js";
 import { createExplorerBootstrapControllersRuntimeFixture } from "./explorer-bootstrap-controllers-runtime-fixture.js";
 
 const { calls, options, state } =
   createExplorerBootstrapControllersRuntimeFixture();
+const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
+Object.defineProperty(globalThis, "window", {
+  configurable: true,
+  value: {
+    localStorage: {
+      getItem() {
+        return JSON.stringify({ order: "grouped" });
+      },
+      setItem() {},
+    },
+  },
+});
+preferences.init({});
 
 let categoryOptions: any;
 let listOptions: any;
@@ -275,3 +289,8 @@ assert.equal(navigationOptions.urlStateReady(), true);
 assert.equal(navigationOptions.versionModeSelector(), "version-mode-selector");
 assert.equal(navigationOptions.versionRange(), "version-range");
 assert.equal(navigationOptions.versionSelector(), "version-selector");
+if (originalWindow) {
+  Object.defineProperty(globalThis, "window", originalWindow);
+} else {
+  Reflect.deleteProperty(globalThis, "window");
+}

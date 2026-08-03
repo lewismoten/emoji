@@ -62,7 +62,7 @@ for (const locale of localeManifest.locales) {
 }
 
 const { createEmojiSearch, mergeEmojiLocalePacks } =
-  await import("@lewismoten/emoji/search");
+  await import("../../../library/search.js");
 const searchEnglish = createEmojiSearch(
   require("@lewismoten/emoji/locales/en") as LocalePack,
 );
