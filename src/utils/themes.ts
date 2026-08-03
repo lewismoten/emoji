@@ -1,4 +1,4 @@
-import documentRef from "./document-ref.js";
+import documentRef from "./document.js";
 
 export const isTheme = (name: string): boolean =>
   documentRef()?.documentElement?.dataset?.theme === name;

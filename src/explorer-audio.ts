@@ -11,7 +11,7 @@ import type {
 import documentRef, {
   querySelector,
   addEventListener,
-} from "./utils/document-ref.js";
+} from "./utils/document.js";
 import {
   isBaseTheme,
   isRetroTheme,

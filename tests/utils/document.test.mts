@@ -6,7 +6,7 @@ import documentRef, {
   setDocAttribute,
   setLocale,
   setTitle,
-} from "../../src/utils/document-ref.js";
+} from "../../src/utils/document.js";
 
 const originalDocument = Object.getOwnPropertyDescriptor(
   globalThis,

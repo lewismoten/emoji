@@ -1,43 +1,37 @@
-import { selectAllAndApply, setLocale, setTitle } from "./document-ref.js";
+import { selectAllAndApply, setLocale, setTitle } from "./document.js";
+import { pascalToDashed } from "./nameTransformers.js";
 
 const KEY_I18N = "i18n";
 const KEY_I18N_PLACEHOLDER = "i18nPlaceholder";
 const KEY_I18N_ARIA_LABEL = "i18nAriaLabel";
 
-enum i18nKeys {
-  i18n = KEY_I18N,
-  i18nPlaceholder = KEY_I18N_PLACEHOLDER,
-  i18nAriaLabel = KEY_I18N_ARIA_LABEL,
-}
+type i18nKeys =
+  typeof KEY_I18N | typeof KEY_I18N_PLACEHOLDER | typeof KEY_I18N_ARIA_LABEL;
 
-const pascalToDashed = (str: string) =>
-  str.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
-const dataKey = (key: keyof typeof i18nKeys) => `data-${pascalToDashed(key)}`;
-const selector = (key: keyof typeof i18nKeys) => `[${dataKey(key)}]`;
+const dataSelector = (key: i18nKeys) => `[data-${pascalToDashed(key)}]`;
+
+type Dataset = Partial<Record<i18nKeys, string>>;
 
 type DatasetElement = Element & {
-  dataset: {
-    [key in i18nKeys]?: string;
-  };
+  dataset: Dataset;
 };
-type TextContentElement = Element & {
+type TextContentElement = DatasetElement & {
   textContent: string;
-  dataset: {
-    [i18nKeys.i18n]: string;
+  dataset: Dataset & {
+    [KEY_I18N]: string;
   };
 };
-type PlaceholderElement = Element & {
+type PlaceholderElement = DatasetElement & {
   placeholder: string;
-  dataset: {
-    [i18nKeys.i18nPlaceholder]: string;
+  dataset: Dataset & {
+    [KEY_I18N_PLACEHOLDER]: string;
   };
 };
-type AriaLabelElement = Element & {
-  dataset: {
-    [i18nKeys.i18nAriaLabel]: string;
+type AriaLabelElement = DatasetElement & {
+  dataset: Dataset & {
+    [KEY_I18N_ARIA_LABEL]: string;
   };
 };
-
 const keyMap = new Map<string, string>();
 
 export const setTranslations = (
@@ -58,32 +52,38 @@ export const setTranslations = (
 export const translate = (key: string | undefined, fallback: string) =>
   key ? (keyMap.get(key) ?? fallback) : fallback;
 
-const data = (el: DatasetElement, name: keyof typeof i18nKeys) =>
-  el.dataset[name];
-
-const translateElement = (
-  el: DatasetElement,
-  attrName: string,
-  i18nDataKey: keyof typeof i18nKeys,
+const updateProp = <T extends DatasetElement, K extends keyof T & string>(
+  el: T,
+  name: K,
+  dataKey: i18nKeys,
 ) => {
-  const i18nKey = data(el, i18nDataKey);
-  el.setAttribute(
-    attrName,
-    translate(i18nKey, el.getAttribute(attrName) ?? ""),
-  );
+  const i18nKey = el.dataset[dataKey];
+  el[name] = translate(i18nKey, String(el[name] ?? "")) as T[K];
+};
+
+const updateAttr = (
+  el: Element & DatasetElement,
+  name: string,
+  dataKey: i18nKeys,
+) => {
+  const i18nKey = el.dataset[dataKey];
+  el.setAttribute(name, translate(i18nKey, el.getAttribute(name) ?? ""));
 };
 
 export const applyTranslations = () => {
-  selectAllAndApply<TextContentElement>(selector(KEY_I18N), (el) => {
-    translateElement(el, "textContent", KEY_I18N);
+  selectAllAndApply<TextContentElement>(dataSelector(KEY_I18N), (el) => {
+    updateProp(el, "textContent", KEY_I18N);
   });
   selectAllAndApply<PlaceholderElement>(
-    selector(KEY_I18N_PLACEHOLDER),
+    dataSelector(KEY_I18N_PLACEHOLDER),
     (el) => {
-      translateElement(el, "placeholder", KEY_I18N_PLACEHOLDER);
+      updateProp(el, "placeholder", KEY_I18N_PLACEHOLDER);
     },
   );
-  selectAllAndApply<AriaLabelElement>(selector(KEY_I18N_ARIA_LABEL), (el) => {
-    translateElement(el, "aria-label", KEY_I18N_ARIA_LABEL);
-  });
+  selectAllAndApply<AriaLabelElement>(
+    dataSelector(KEY_I18N_ARIA_LABEL),
+    (el) => {
+      updateAttr(el, "aria-label", KEY_I18N_ARIA_LABEL);
+    },
+  );
 };

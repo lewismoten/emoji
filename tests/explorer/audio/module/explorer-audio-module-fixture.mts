@@ -50,8 +50,8 @@ export async function loadExplorerAudioModuleFixture() {
     'import { createExplorerAudioEngine, engineCalls, engineApi } from "./explorer-audio-engine-stub.mjs";',
   )
     .replace(
-      'import documentRef, { querySelector, addEventListener, } from "./utils/document-ref.js";',
-      'import documentRef, { querySelector, addEventListener } from "./document-ref-stub.mjs";',
+      'import documentRef, { querySelector, addEventListener, } from "./utils/document.js";',
+      'import documentRef, { querySelector, addEventListener } from "./document-stub.mjs";',
     )
     .replace(
       'import { isBaseTheme, isRetroTheme, canThemeSupportAudio, } from "./utils/themes.js";',
@@ -88,7 +88,7 @@ export function createExplorerAudioEngine(options) {
 }`,
   );
   await fs.writeFile(
-    path.join(tempDirectory, "document-ref-stub.mjs"),
+    path.join(tempDirectory, "document-stub.mjs"),
     `export default function documentRef() { return globalThis.document; }
 export function querySelector(selector) { return globalThis.document?.querySelector?.(selector) ?? null; }
 export function addEventListener(type, listener, options) { return globalThis.document?.addEventListener?.(type, listener, options); }
@@ -96,7 +96,7 @@ export function addEventListener(type, listener, options) { return globalThis.do
   );
   await fs.writeFile(
     path.join(tempDirectory, "themes-stub.mjs"),
-    `import documentRef from "./document-ref-stub.mjs";
+    `import documentRef from "./document-stub.mjs";
 export const isTheme = (name) => documentRef()?.documentElement?.dataset?.theme === name;
 export const isBaseTheme = () => isTheme("base");
 export const isRetroTheme = () => isTheme("retro");
