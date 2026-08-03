@@ -6,11 +6,7 @@ import type {
   ExplorerAudioElementType,
 } from "./explorer/audio/explorer-audio-types.js";
 import documentRef, { addEventListener } from "./utils/document.js";
-import {
-  isBaseTheme,
-  isRetroTheme,
-  canThemeSupportAudio,
-} from "./utils/themes.js";
+import { isBaseTheme, canThemeSupportAudio } from "./utils/themes.js";
 import * as aria from "./utils/aria.js";
 import * as audioHelpers from "./explorer/audio/audio-helpers.js";
 
@@ -58,12 +54,7 @@ export function createExplorerAudioController(
   let themeObserver: MutationObserver | undefined;
   let hoverTarget: AudioTarget | null = null;
 
-  const audio = helpers.createExplorerAudioEngine({
-    retroMode: isRetroTheme,
-    theme: () =>
-      (documentRef()?.documentElement?.dataset?.theme as
-        "base" | "dark" | "light" | "retro") ?? "dark",
-  });
+  const audio = helpers.createExplorerAudioEngine();
 
   const hasTagName = (target: AudioTarget, tagName: string) =>
     target.tagName?.toUpperCase() === tagName;

@@ -1,7 +1,6 @@
 import type {
   ExplorerAudioAction,
   ExplorerAudioElementType,
-  ExplorerAudioTheme,
 } from "./explorer-audio-types.js";
 import { darkExplorerSoundEffects } from "./sfx/explorer-audio-sfx-dark.js";
 import { lightExplorerSoundEffects } from "./sfx/explorer-audio-sfx-light.js";
@@ -10,6 +9,7 @@ import type {
   ExplorerSoundEffectDefinition,
   ExplorerSoundEffectId,
 } from "./sfx/explorer-audio-sfx-types.js";
+import * as themes from '../../utils/themes.js';
 
 const defaultActionEffects: Partial<
   Record<ExplorerAudioAction, ExplorerSoundEffectId>
@@ -48,7 +48,7 @@ const elementActionEffects: Partial<
 };
 
 const themeSoundEffects: Record<
-  ExplorerAudioTheme,
+  string,
   Record<ExplorerSoundEffectId, ExplorerSoundEffectDefinition>
 > = {
   base: lightExplorerSoundEffects,
@@ -58,17 +58,15 @@ const themeSoundEffects: Record<
 };
 
 export function getExplorerSoundEffect(
-  id: ExplorerSoundEffectId,
-  theme: ExplorerAudioTheme = "retro",
+  id: ExplorerSoundEffectId
 ) {
-  return themeSoundEffects[theme][id];
+  return themeSoundEffects[themes.getTheme()][id];
 }
 
 export function getThemedExplorerSoundEffect(
   id: ExplorerSoundEffectId,
-  theme: ExplorerAudioTheme,
 ) {
-  return getExplorerSoundEffect(id, theme);
+  return getExplorerSoundEffect(id);
 }
 
 export function resolveExplorerSoundEffect(

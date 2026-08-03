@@ -145,7 +145,6 @@ try {
   let retro = false;
   let theme: "base" | "dark" | "light" | "retro" = "retro";
   const engine = createExplorerAudioEngine({
-    retroMode: () => retro,
     theme: () => theme,
   });
 
@@ -247,7 +246,6 @@ try {
   preferences.init({ music: true });
   (globalThis.document as any).documentElement.dataset.theme = "retro";
   const fallbackEngine = createExplorerAudioEngine({
-    retroMode: () => true,
     theme: () => "retro",
   });
   helpDialog.open = false;

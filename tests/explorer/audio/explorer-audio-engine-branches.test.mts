@@ -81,7 +81,6 @@ try {
 
   let theme: "base" | "dark" | "light" | "retro" = "retro";
   const engine = createExplorerAudioEngine({
-    retroMode: () => false,
     theme: () => theme,
   });
 
@@ -131,7 +130,6 @@ try {
     },
   });
   const closedMusicEngine = createExplorerAudioEngine({
-    retroMode: () => false,
     theme: () => "retro",
   });
   helpDialog.open = true;

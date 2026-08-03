@@ -10,19 +10,11 @@ import { scheduleExplorerTone } from "./explorer-audio-tone.js";
 import type {
   ExplorerAudioAction,
   ExplorerAudioElementType,
-  ExplorerAudioTheme,
 } from "./explorer-audio-types.js";
 import type { ExplorerSoundEffectId } from "./sfx/explorer-audio-sfx-types.js";
 import * as audioHelpers from './audio-helpers.js';
 
-type ExplorerAudioEngineOptions = {
-  retroMode: () => boolean;
-  theme: () => ExplorerAudioTheme;
-};
-
-export function createExplorerAudioEngine(
-  options: ExplorerAudioEngineOptions,
-) {
+export function createExplorerAudioEngine() {
   let audioContext: AudioContext | undefined;
   let masterGain: GainNode | undefined;
   let musicTimer: number | undefined;
@@ -82,7 +74,6 @@ export function createExplorerAudioEngine(
   function shouldPlayMusic() {
     return (
       audioHelpers.isMusicEnabled() &&
-      options.theme() !== "base" &&
       audioHelpers.isMusicalDialogOpen()
     );
   }
@@ -129,8 +120,7 @@ export function createExplorerAudioEngine(
       musicBeat,
       musicGain,
       scheduleNext: (callback, timeout) => window.setTimeout(callback, timeout),
-      schedulePlayback: scheduleMusic,
-      theme: options.theme(),
+      schedulePlayback: scheduleMusic
     });
     musicBeat = scheduled.musicBeat;
     musicGain = scheduled.musicGain;
@@ -170,6 +160,6 @@ export function createExplorerAudioEngine(
     resumeAudioContext,
     stopMusic,
     syncHelpMusic,
-    theme: () => getExplorerMusicConfig(options.theme()),
+    theme: () => getExplorerMusicConfig(),
   };
 }
