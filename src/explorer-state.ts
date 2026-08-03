@@ -43,7 +43,6 @@ export type ExplorerState = {
   versionDataPromise?: Promise<unknown>;
   versionKeys: Map<string, Set<string>>;
   versionManifests: any[];
-  uiStrings: Record<string, string>;
 };
 
 export function createExplorerState(): ExplorerState {
@@ -90,6 +89,5 @@ export function createExplorerState(): ExplorerState {
     subGroupRepresentativeEmoji: new Map(),
     versionKeys: new Map(),
     versionManifests: [],
-    uiStrings: {},
   };
 }

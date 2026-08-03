@@ -8,21 +8,39 @@ import {
   FakeElement,
   installAudioDomFixture,
 } from "./explorer-audio-direct-fixture.mjs";
+import {
+  createAudioTargets,
+  createWrappedPreferenceTarget,
+} from "./explorer-audio-direct-targets.mjs";
 
 const fixture = installAudioDomFixture();
 
 try {
   const dependencies = createExplorerAudioDependencies();
   assert.equal(typeof dependencies.createExplorerAudioEngine, "function");
+  assert.doesNotThrow(() =>
+    createExplorerAudioController(
+      {
+        savePreference() {},
+        state: () => ({ explorerPreferences: {} }),
+      },
+      undefined,
+    ),
+  );
 
   const engineCalls: Array<unknown[]> = [];
   const engine = createAudioEngineFixture(engineCalls);
+  const toggleParent = new FakeElement([], null);
+  (fixture.soundToggle as any).parentElement = toggleParent;
+  (fixture.musicToggle as any).parentElement = toggleParent;
   const state = {
     explorerPreferences: { music: false, soundEffects: false },
   };
   const controller = createExplorerAudioController(
     {
-      savePreference() {},
+      savePreference(key: string, value: unknown) {
+        (state.explorerPreferences as Record<string, unknown>)[key] = value;
+      },
       state: () => state,
     },
     {
@@ -62,6 +80,28 @@ try {
   fixture.soundToggle.checked = true;
   fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
   assert.equal(fixture.soundToggle.disabled, true);
+  assert.equal(toggleParent.attributes.get("aria-pressed"), "false");
+  assert.equal(toggleParent.attributes.get("aria-disabled"), "true");
+
+  (globalThis.document as any).documentElement.dataset.theme = "retro";
+  fixture.soundToggle.checked = false;
+  fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
+  fixture.soundToggle.checked = true;
+  fixture.listeners.get("change")?.[0]?.({ target: fixture.soundToggle });
+  assert.equal(toggleParent.attributes.get("aria-pressed"), "true");
+  assert.equal(toggleParent.attributes.get("aria-disabled"), "false");
+  assert.equal(
+    engineCalls.filter((call) => call[0] === "resumeAudioContext").length >= 2,
+    true,
+  );
+
+  state.explorerPreferences.music = false;
+  fixture.musicToggle.checked = false;
+  fixture.listeners.get("change")?.[0]?.({ target: fixture.musicToggle });
+  assert.equal(
+    engineCalls.filter((call) => call[0] === "syncHelpMusic").length >= 2,
+    true,
+  );
 
   const dialogObserver = fixture.observers.find(
     (observer) =>
@@ -81,6 +121,17 @@ try {
     ),
     true,
   );
+  fixture.helpDialog.open = false;
+  fixture.savedDialog.open = true;
+  const createdOptions = dependencies.createExplorerAudioEngine({
+    helpDialogOpen: () => false,
+    musicEnabled: () => false,
+    retroMode: () => false,
+    savedDialogOpen: () => true,
+    soundEffectsEnabled: () => false,
+    theme: () => "dark" as any,
+  });
+  assert.equal(typeof createdOptions.playInteraction, "function");
 
   const textTarget = new FakeElement([], null);
   textTarget.tagName = "DIV";
@@ -121,6 +172,32 @@ try {
     ).length,
     hoverCount,
   );
+
+  const {
+    checkboxInputTarget,
+    checkboxTarget,
+    genericTarget,
+    radioInputTarget,
+    radioTarget,
+    roleLinkTarget,
+    selectTarget,
+  } = createAudioTargets();
+  fixture.listeners.get("click")?.[0]?.({ target: roleLinkTarget });
+  fixture.listeners.get("click")?.[0]?.({ target: selectTarget });
+  fixture.listeners.get("focusin")?.[0]?.({ target: genericTarget });
+  fixture.listeners.get("focusout")?.[0]?.({ target: radioInputTarget });
+  fixture.listeners.get("change")?.[0]?.({ target: checkboxInputTarget });
+  fixture.listeners.get("change")?.[0]?.({ target: radioTarget });
+  fixture.listeners.get("change")?.[0]?.({ target: checkboxTarget });
+  fixture.listeners.get("change")?.[0]?.({ target: createWrappedPreferenceTarget("soundEffects", true) });
+  fixture.listeners.get("change")?.[0]?.({ target: createWrappedPreferenceTarget("music", false) });
+  const nonElementInteractive = { target: "not-an-element" };
+  fixture.listeners.get("change")?.[0]?.(nonElementInteractive);
+  fixture.listeners.get("click")?.[0]?.(nonElementInteractive);
+  fixture.listeners.get("focusin")?.[0]?.(nonElementInteractive);
+  const closestWithoutHtml = new FakeElement([], null);
+  closestWithoutHtml.closest = () => ({}) as any;
+  fixture.listeners.get("click")?.[0]?.({ target: closestWithoutHtml });
 
   fixture.setDocument({
     ...globalThis.document,

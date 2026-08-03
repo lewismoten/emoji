@@ -32,13 +32,13 @@ import { createExplorerBootstrapControllers } from "./explorer-bootstrap-control
 import { initializeExplorerBootstrapSessionRuntime } from "./explorer-bootstrap-session-runtime.js";
 import { createExplorerBootstrapShell } from "./explorer-bootstrap-shell.js";
 import { initializeExplorerPreferences } from "../explorer-preferences.js";
+import { translate } from "../utils/i18n.js";
 
 const UNASSIGNED = "\u0000";
 const explorerState = createExplorerState();
 const bindings = createExplorerBootstrapBindings();
 const { save: saveExplorerPreference } =
   initializeExplorerPreferences(explorerState);
-const translate = (key, fallback) => explorerState.uiStrings[key] ?? fallback;
 const displayExplorerLabel = (label) =>
   translate(explorerLabelKeys[label], label);
 const panelDialogs = () => ({

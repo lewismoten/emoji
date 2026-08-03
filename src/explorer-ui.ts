@@ -1,3 +1,6 @@
+import * as aria from "./utils/aria.js";
+import { translate, applyTranslations, setTranslations } from "./utils/i18n.js";
+
 export function createExplorerUiController(options: any) {
   const fetchJsonWithFallback = async (primary: string, fallback: string) => {
     const response = await fetch(primary);
@@ -8,8 +11,6 @@ export function createExplorerUiController(options: any) {
     }
     return secondary.json();
   };
-  const translate = (key: string, fallback: string) =>
-    options.state().uiStrings[key] ?? fallback;
 
   function updateOnlineStatus() {
     const status = options.offlineStatus();
@@ -19,40 +20,6 @@ export function createExplorerUiController(options: any) {
       "Offline — showing saved data",
     );
     status.hidden = navigator.onLine;
-  }
-
-  function applyTranslations() {
-    document.querySelectorAll("[data-i18n]").forEach((element: any) => {
-      element.textContent = translate(
-        element.dataset.i18n,
-        element.textContent,
-      );
-    });
-    document
-      .querySelectorAll("[data-i18n-placeholder]")
-      .forEach((element: any) => {
-        element.placeholder = translate(
-          element.dataset.i18nPlaceholder,
-          element.placeholder,
-        );
-      });
-    document
-      .querySelectorAll("[data-i18n-aria-label]")
-      .forEach((element: any) => {
-        element.setAttribute(
-          "aria-label",
-          translate(
-            element.dataset.i18nAriaLabel,
-            element.getAttribute("aria-label"),
-          ),
-        );
-      });
-    updateOnlineStatus();
-    options.renderPixelFontToggle();
-    options.renderSoundEffectsToggle();
-    options.renderMusicToggle();
-    options.renderDeveloperMode();
-    options.pixelEditor?.()?.refreshTranslations();
   }
 
   function renderInstallAppButton() {
@@ -81,21 +48,9 @@ export function createExplorerUiController(options: any) {
           );
         }),
       );
-      options.state().uiStrings = Object.assign({}, ...packs);
-      document.documentElement.lang = locale;
-      document.documentElement.dir = rtl ? "rtl" : "ltr";
+      setTranslations(locale, rtl, packs);
     } catch {
-      options.state().uiStrings = {};
-      document.documentElement.lang = "en";
-      document.documentElement.dir = "ltr";
-    }
-    const name = translate("title", "Emoji Explorer");
-    document.title = `${name} – Unicode Emoji`;
-    for (const metaName of ["application-name", "apple-mobile-web-app-title"]) {
-      const meta = document.querySelector(
-        `meta[name="${metaName}"]`,
-      ) as HTMLMetaElement | null;
-      if (meta) meta.content = name;
+      setTranslations("en", false);
     }
     applyTranslations();
     options.renderVersionModeToggle();
@@ -188,8 +143,8 @@ export function renderThemeToggle(options: any) {
     (choice: any) => {
       const selected = choice.dataset.theme === theme;
       choice.classList.toggle("is-active", selected);
-      choice.setAttribute("aria-pressed", String(selected));
-      choice.setAttribute("aria-checked", String(selected));
+      aria.setPressed(choice, selected);
+      aria.setChecked(choice, selected);
       choice.tabIndex = selected ? 0 : -1;
       const input = choice.querySelector(
         'input[type="radio"]',
@@ -221,8 +176,8 @@ export function renderPixelFontToggle(options: any) {
       const selected =
         choice.dataset.emojiFont === (enabled ? "pixel" : "system");
       choice.classList.toggle("is-active", selected);
-      choice.setAttribute("aria-checked", String(selected));
-      choice.setAttribute("aria-pressed", String(selected));
+      aria.setPressed(choice, selected);
+      aria.setChecked(choice, selected);
       choice.tabIndex = selected ? 0 : -1;
       const input = choice.querySelector(
         'input[type="radio"]',
@@ -255,8 +210,8 @@ export function createDeveloperModeController(options: any) {
       choices.forEach((choice: any) => {
         const selected = choice.dataset.mode === mode();
         choice.classList.toggle("is-active", selected);
-        choice.setAttribute("aria-pressed", String(selected));
-        choice.setAttribute("aria-checked", String(selected));
+        aria.setPressed(choice, selected);
+        aria.setChecked(choice, selected);
         choice.tabIndex = selected ? 0 : -1;
         const input = choice.querySelector?.(
           'input[type="radio"]',
@@ -267,7 +222,7 @@ export function createDeveloperModeController(options: any) {
       const toggle = options.toggle?.();
       if (toggle) {
         toggle.checked = active;
-        toggle.setAttribute("aria-checked", String(active));
+        aria.setPressed(toggle, active);
       }
     }
   }
