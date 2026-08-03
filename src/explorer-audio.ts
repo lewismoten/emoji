@@ -1,16 +1,12 @@
 import * as preferences from "./preferences.js";
 import { createExplorerAudioEngine } from "./explorer/audio/explorer-audio-engine.js";
 import * as dialogListeners from "./controls/dialog/dialog-listeners.js";
-import type {
-  ExplorerAudioAction,
-  ExplorerAudioElementType,
-} from "./explorer/audio/explorer-audio-types.js";
+import type { ExplorerAudioAction } from "./explorer/audio/explorer-audio-types.js";
 import documentRef, { addEventListener } from "./utils/document.js";
 import { isBaseTheme, canThemeSupportAudio } from "./utils/themes.js";
 import * as aria from "./utils/aria.js";
 import * as audioHelpers from "./explorer/audio/audio-helpers.js";
-
-type AudioTarget = HTMLElement;
+import { classifyElement, isInput } from "./utils/element.js";
 
 const INTERACTIVE_SELECTOR = [
   "a[href]",
@@ -52,41 +48,12 @@ export function createExplorerAudioController(
   const helpers = dependencies ?? createExplorerAudioDependencies();
   let initialized = false;
   let themeObserver: MutationObserver | undefined;
-  let hoverTarget: AudioTarget | null = null;
+  let hoverTarget: HTMLElement | null = null;
 
   const audio = helpers.createExplorerAudioEngine();
 
-  const hasTagName = (target: AudioTarget, tagName: string) =>
-    target.tagName?.toUpperCase() === tagName;
-  const isInputWithType = (target: AudioTarget, type: string) =>
-    hasTagName(target, "INPUT") && (target as HTMLInputElement).type === type;
-  const classifyInteractiveTarget = (
-    target: AudioTarget,
-  ): ExplorerAudioElementType => {
-    if (hasTagName(target, "SELECT") || aria.hasPopupListbox(target))
-      return "dropdown";
-    if (
-      isInputWithType(target, "checkbox") ||
-      target.getAttribute("role") === "checkbox" ||
-      target.getAttribute("role") === "switch"
-    )
-      return "checkbox";
-    if (
-      isInputWithType(target, "radio") ||
-      target.getAttribute("role") === "radio"
-    )
-      return "radio";
-    if (hasTagName(target, "A") || target.getAttribute("role") === "link")
-      return "link";
-    if (
-      hasTagName(target, "BUTTON") ||
-      target.getAttribute("role") === "button"
-    )
-      return "button";
-    return "generic";
-  };
-  const playTargetAction = (target: AudioTarget, action: ExplorerAudioAction) =>
-    audio.playInteraction(classifyInteractiveTarget(target), action);
+  const playTargetAction = (target: HTMLElement, action: ExplorerAudioAction) =>
+    audio.playInteraction(classifyElement(target), action);
   const renderAudioToggle = (
     toggle: HTMLInputElement | null,
     enabled: boolean,
@@ -137,7 +104,7 @@ export function createExplorerAudioController(
 
   const getInteractiveTarget = (
     target: EventTarget | null,
-  ): AudioTarget | null => {
+  ): HTMLElement | null => {
     if (!(target instanceof Element)) return null;
     const interactive = target.closest(INTERACTIVE_SELECTOR);
     if (!(interactive instanceof HTMLElement)) return null;
@@ -174,7 +141,7 @@ export function createExplorerAudioController(
           const input = target as HTMLInputElement;
           setSoundEffects(input.checked);
           return playTargetAction(
-            target as AudioTarget,
+            target as HTMLElement,
             input.checked ? "check" : "uncheck",
           );
         }
@@ -187,17 +154,17 @@ export function createExplorerAudioController(
           const input = target as HTMLInputElement;
           setMusic(input.checked);
           return playTargetAction(
-            target as AudioTarget,
+            target as HTMLElement,
             input.checked ? "check" : "uncheck",
           );
         }
         if (!(target instanceof HTMLElement)) return;
         const interactive = getInteractiveTarget(target);
         if (!interactive) return;
-        const type = classifyInteractiveTarget(interactive);
+        const type = classifyElement(interactive);
         if (type !== "checkbox" && type !== "radio") return;
-        const checked = hasTagName(interactive, "INPUT")
-          ? (interactive as HTMLInputElement).checked
+        const checked = isInput(interactive)
+          ? interactive.checked
           : aria.isChecked(interactive);
         audio.playInteraction(type, checked ? "check" : "uncheck");
       },
