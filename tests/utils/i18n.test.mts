@@ -22,7 +22,7 @@ const ariaAttributes = new Map<string, string>();
 const ariaElement = {
   dataset: { i18nAriaLabel: "themeLabel" },
   getAttribute(name: string) {
-    return ariaAttributes.get(name) ?? "";
+    return ariaAttributes.get(name) ?? null;
   },
   setAttribute(name: string, value: string) {
     ariaAttributes.set(name, value);
@@ -72,11 +72,34 @@ assert.equal(documentElementAttributes.get("dir"), "rtl");
 assert.equal((globalThis.document as Document).title, "مستكشف الإيموجي");
 assert.equal(metaByName.get("application-name")?.content, "مستكشف الإيموجي");
 assert.equal(translate("greeting", "fallback"), "مرحبا");
+assert.equal(translate(undefined, "fallback"), "fallback");
 
 textElement.textContent = "fallback";
+placeholderElement.placeholder = "placeholder";
+ariaAttributes.set("aria-label", "Theme");
 setTranslations("en", false, [{}]);
 applyTranslations();
 assert.equal(translate("greeting", "fallback"), "fallback");
+assert.equal(textElement.textContent, "fallback");
+assert.equal(placeholderElement.placeholder, "placeholder");
+assert.equal(ariaAttributes.get("aria-label"), "Theme");
+
+textElement.textContent = undefined as unknown as string;
+placeholderElement.placeholder = undefined as unknown as string;
+ariaAttributes.clear();
+setTranslations("en", false, [
+  {
+    greeting: "Hello",
+    search: "Find",
+    themeLabel: "Theme label",
+  },
+]);
+assert.equal(textElement.textContent, "Hello");
+assert.equal(placeholderElement.placeholder, "Find");
+assert.equal(ariaAttributes.get("aria-label"), "Theme label");
+
+textElement.textContent = "fallback";
+setTranslations("en", false);
 assert.equal(textElement.textContent, "fallback");
 
 if (originalDocument) {

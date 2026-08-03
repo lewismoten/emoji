@@ -72,12 +72,33 @@ assert.equal(
   metaByName.get("apple-mobile-web-app-title")?.content,
   "Emoji Explorer",
 );
+Object.defineProperty(globalThis, "document", {
+  configurable: true,
+  value: {
+    documentElement: null,
+    querySelector() {
+      return null;
+    },
+    querySelectorAll() {
+      return allResult;
+    },
+    title: "Original title",
+  },
+});
+assert.throws(() => setDocAttribute("data-theme", "retro"));
+assert.doesNotThrow(() => setLocale("en", "ltr"));
+setTitle("No metas");
+assert.equal((globalThis.document as Document).title, "No metas");
 
 Reflect.deleteProperty(globalThis, "document");
 const emptyList = selectAll(".missing");
 assert.equal(emptyList.length, 0);
 assert.equal(querySelector(".missing"), null);
 assert.equal(documentRef(), undefined);
+assert.doesNotThrow(() => addEventListener("click", () => undefined));
+assert.doesNotThrow(() => setDocAttribute("data-theme", "retro"));
+assert.doesNotThrow(() => setLocale("en", "ltr"));
+assert.doesNotThrow(() => setTitle("Missing doc"));
 
 if (originalDocument) {
   Object.defineProperty(globalThis, "document", originalDocument);

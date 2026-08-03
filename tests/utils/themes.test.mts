@@ -29,6 +29,12 @@ assert.equal(canThemeSupportAudio(), true);
 assert.equal(isBaseTheme(), true);
 assert.equal(canThemeSupportAudio(), false);
 
+Reflect.deleteProperty(globalThis, "document");
+assert.equal(isTheme("retro"), false);
+assert.equal(isRetroTheme(), false);
+assert.equal(isBaseTheme(), false);
+assert.equal(canThemeSupportAudio(), true);
+
 if (originalDocument) {
   Object.defineProperty(globalThis, "document", originalDocument);
 } else {
