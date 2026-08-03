@@ -128,6 +128,16 @@ try {
     }),
   });
   assert.equal(fixture.documentElement.dataset.theme, "dark");
+  preferences.setString("theme", "");
+  renderThemeToggle({
+    choices: () => [],
+    state: () => ({
+      explorerModeFromUrl: "",
+      developerModeUrlDismissed: false,
+      explorerPreferences: { developerMode: false, mode: "standard" },
+    }),
+  });
+  assert.equal(fixture.documentElement.dataset.theme, "dark");
 
   const selectorThemeChoice = createElement({ theme: "retro" });
   selectorThemeChoice.querySelector = () => null;
@@ -205,6 +215,8 @@ try {
   assert.equal(fixture.documentElement.dataset.emojiFont, "system");
   assert.equal(systemChoice.classList.active.has("is-active"), true);
   assert.equal(systemChoiceInput.checked, true);
+  assert.equal(pixelChoiceInput.checked, false);
+  assert.equal(pixelChoiceInput.getAttribute("checked"), null);
 
   state.explorerPreferences.pixelFont = false;
   preferences.setBoolean("pixelFont", false);
@@ -216,6 +228,8 @@ try {
   assert.equal(fixture.documentElement.dataset.emojiFont, undefined);
   assert.equal(pixelChoice.classList.active.has("is-active"), true);
   assert.equal(pixelChoiceInput.checked, true);
+  assert.equal(systemChoiceInput.checked, false);
+  assert.equal(systemChoiceInput.getAttribute("checked"), null);
 
   renderPixelFontToggle({
     choices: () => [],

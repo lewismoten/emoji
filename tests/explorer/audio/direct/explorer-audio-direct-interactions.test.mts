@@ -85,6 +85,15 @@ try {
     true,
   );
   engine.musicEnabled = () => false;
+  const resumeCountBeforeDisabledPrepare = engineCalls.filter(
+    (call) => call[0] === "resumeAudioContext",
+  ).length;
+  await fixture.listeners.get("pointerdown")?.[0]?.();
+  await fixture.listeners.get("keydown")?.[0]?.();
+  assert.equal(
+    engineCalls.filter((call) => call[0] === "resumeAudioContext").length,
+    resumeCountBeforeDisabledPrepare,
+  );
 
   const {
     ariaDisabledTarget,
@@ -153,6 +162,7 @@ try {
   fixture.listeners.get("focusin")?.[0]?.({ target: genericTarget });
   fixture.listeners.get("focusout")?.[0]?.({ target: radioInputTarget });
   fixture.listeners.get("keydown")?.[1]?.({ target: checkboxInputTarget });
+  fixture.listeners.get("keydown")?.[1]?.({ target: "not-an-element" });
   assertHasInteraction(engineCalls, "checkbox", "uncheck");
   assert.equal(
     engineCalls.filter(
@@ -188,7 +198,7 @@ try {
   otherDialog.open = true;
   otherDialog.matches = () => false;
   fixture.helpDialog.open = true;
-  fixture.savedDialog.open = false;
+  fixture.savedDialog.open = true;
   assert.equal(engineOptions.isMusicalDialogOpen?.(), true);
   assert.equal(engineOptions.retroMode?.(), true);
   dialogObserver?.callback([
@@ -215,6 +225,31 @@ try {
     ),
     true,
   );
+  assert.equal(
+    engineCalls.filter((call) => call[0] === "syncHelpMusic").length >= 3,
+    true,
+  );
+  const hoverCountBeforeReset = engineCalls.filter(
+    (call) =>
+      call[0] === "playInteraction" &&
+      call[1] === "button" &&
+      call[2] === "hover",
+  ).length;
+  fixture.listeners.get("pointerover")?.[0]?.({ target: buttonTarget });
+  fixture.listeners.get("pointerout")?.[0]?.({
+    target: buttonTarget,
+    relatedTarget: null,
+  });
+  fixture.listeners.get("pointerover")?.[0]?.({ target: buttonTarget });
+  assert.equal(
+    engineCalls.filter(
+      (call) =>
+        call[0] === "playInteraction" &&
+        call[1] === "button" &&
+        call[2] === "hover",
+    ).length,
+    hoverCountBeforeReset + 2,
+  );
 
   themeObserver?.callback([
     {
@@ -232,6 +267,21 @@ try {
   assert.equal(
     engineCalls.filter((call) => call[0] === "syncHelpMusic").length >= 2,
     true,
+  );
+  fixture.setDocument({
+    ...globalThis.document,
+    documentElement: {},
+  });
+  const fallbackThemeController = createExplorerAudioController({
+    createExplorerAudioEngine(options: any) {
+      engineCalls.push(["fallback-theme", options.theme()]);
+      return engine;
+    },
+  });
+  fallbackThemeController.bindAudioInteractions();
+  assert.deepEqual(
+    engineCalls.find((call) => call[0] === "fallback-theme"),
+    ["fallback-theme", "dark"],
   );
 
   fixture.setDocument({

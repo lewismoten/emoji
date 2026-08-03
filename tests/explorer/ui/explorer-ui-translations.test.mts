@@ -125,6 +125,28 @@ try {
   assert.deepEqual(deferredInstallPrompt, { accepted: true });
   assert.ok(calls.includes("set-install-prompt"));
 
+  const installWithoutPromptController = createExplorerUiController({
+    deferredInstallPrompt: () => null,
+    installAppButton: () => installButton,
+    installDialog: () => installDialog,
+    installWebApp: async () => ({ deferredInstallPrompt: null }),
+    offlineStatus: () => fixture.offlineStatus,
+    pixelEditor: () => pixelEditor,
+    renderDeveloperMode: () => undefined,
+    renderInstallAppButton: () => undefined,
+    renderMusicToggle: () => undefined,
+    renderPixelFontToggle: () => undefined,
+    renderSearchLanguages: () => undefined,
+    renderSoundEffectsToggle: () => undefined,
+    renderVersionModeToggle: () => undefined,
+    setDeferredInstallPrompt: (value: unknown) => {
+      deferredInstallPrompt = value;
+    },
+    state: () => state,
+  });
+  await installWithoutPromptController.installApp(new Event("submit"));
+  assert.equal(deferredInstallPrompt, null);
+
   fixture.fetchCalls.length = 0;
   await controller.loadUiTranslations("ar", true);
   assert.deepEqual(fixture.fetchCalls, ["demo-locales/ui.ar.json"]);
@@ -177,6 +199,27 @@ try {
   });
   await controller.loadUiTranslations("en");
   assert.deepEqual(fixture.fetchCalls, ["demo-locales/ui.en.json"]);
+
+  const documentWithoutRoot = Object.getOwnPropertyDescriptor(
+    globalThis,
+    "document",
+  );
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      querySelector() {
+        return null;
+      },
+      querySelectorAll() {
+        return [];
+      },
+      title: "",
+    },
+  });
+  await controller.loadUiTranslations("en");
+  if (documentWithoutRoot) {
+    Object.defineProperty(globalThis, "document", documentWithoutRoot);
+  }
   if (originalDocument) {
     Object.defineProperty(globalThis, "document", originalDocument);
   }

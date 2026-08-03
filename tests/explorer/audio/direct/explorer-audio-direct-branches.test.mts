@@ -165,14 +165,18 @@ try {
   );
 
   const {
+    buttonTarget,
+    genericTarget,
+    linkTarget,
+    radioTarget,
     checkboxInputTarget,
     checkboxTarget,
-    genericTarget,
     radioInputTarget,
-    radioTarget,
     roleLinkTarget,
     selectTarget,
   } = createAudioTargets();
+  fixture.listeners.get("click")?.[0]?.({ target: buttonTarget });
+  fixture.listeners.get("click")?.[0]?.({ target: linkTarget });
   fixture.listeners.get("click")?.[0]?.({ target: roleLinkTarget });
   fixture.listeners.get("click")?.[0]?.({ target: selectTarget });
   fixture.listeners.get("focusin")?.[0]?.({ target: genericTarget });
@@ -180,6 +184,13 @@ try {
   fixture.listeners.get("change")?.[0]?.({ target: checkboxInputTarget });
   fixture.listeners.get("change")?.[0]?.({ target: radioTarget });
   fixture.listeners.get("change")?.[0]?.({ target: checkboxTarget });
+  const checkedRoleRadioInteractive = new FakeElement([], null);
+  checkedRoleRadioInteractive.tagName = "DIV";
+  checkedRoleRadioInteractive.checked = true;
+  checkedRoleRadioInteractive.setAttribute("role", "radio");
+  fixture.listeners.get("change")?.[0]?.({
+    target: new FakeElement([], checkedRoleRadioInteractive),
+  });
   fixture.listeners.get("change")?.[0]?.({ target: createWrappedPreferenceTarget("soundEffects", true) });
   fixture.listeners.get("change")?.[0]?.({ target: createWrappedPreferenceTarget("music", false) });
   const nonElementInteractive = { target: "not-an-element" };
@@ -189,6 +200,15 @@ try {
   const closestWithoutHtml = new FakeElement([], null);
   closestWithoutHtml.closest = () => ({}) as any;
   fixture.listeners.get("click")?.[0]?.({ target: closestWithoutHtml });
+  const noParentController = createExplorerAudioController({
+    createExplorerAudioEngine() {
+      return engine;
+    },
+  });
+  (fixture.soundToggle as any).parentElement = null;
+  (fixture.musicToggle as any).parentElement = null;
+  assert.doesNotThrow(() => noParentController.renderSoundEffectsToggle());
+  assert.doesNotThrow(() => noParentController.renderMusicToggle());
 
   fixture.setDocument({
     ...globalThis.document,

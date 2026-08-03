@@ -114,6 +114,27 @@ try {
   });
   toggleController.render();
   assert.equal(toggle.attributes.get("aria-pressed"), "false");
+  preferences.setString("mode", "advanced");
+  state.explorerModeFromUrl = "developer";
+  state.developerModeUrlDismissed = true;
+  assert.equal(toggleController.mode(), "advanced");
+  preferences.setString("mode", "");
+  state.explorerModeFromUrl = "";
+  state.developerModeUrlDismissed = false;
+  assert.equal(toggleController.mode(), "standard");
+  const choiceWithoutQuery = createElement({ mode: "standard" });
+  (choiceWithoutQuery as any).isConnected = true;
+  const querylessRenderController = createDeveloperModeController({
+    choices: () => [choiceWithoutQuery],
+    dialog: () => ({ open: false, classList: { contains: () => false } }),
+    disableDeveloperFeatures: () => undefined,
+    loadVersionData: async () => undefined,
+    setDialogView: () => undefined,
+    state: () => state,
+    syncUrlState: () => undefined,
+    toggle: () => null,
+  });
+  querylessRenderController.render();
 
   const undefinedChoicesController = createDeveloperModeController({
     dialog: () => ({ open: false, classList: { contains: () => false } }),
@@ -170,6 +191,56 @@ try {
     target: {},
   });
   assert.equal(preferences.getString("mode"), "standard");
+  const querySelectorFallbackController = createDeveloperModeController({
+    choices: () => [],
+    dialog: () => ({ open: false, classList: { contains: () => false } }),
+    disableDeveloperFeatures: () => undefined,
+    loadVersionData: async () => undefined,
+    setDialogView: () => undefined,
+    state: () => state,
+    syncUrlState: () => undefined,
+    toggle: () => null,
+  });
+  await querySelectorFallbackController.change({
+    currentTarget: {
+      checked: true,
+      querySelector: () => ({ value: "developer" }),
+    },
+    target: {},
+  });
+  assert.equal(preferences.getString("mode"), "developer");
+  const checkedFallbackController = createDeveloperModeController({
+    choices: () => [],
+    dialog: () => ({ open: false, classList: { contains: () => false } }),
+    disableDeveloperFeatures: () => undefined,
+    loadVersionData: async () => undefined,
+    setDialogView: () => undefined,
+    state: () => state,
+    syncUrlState: () => undefined,
+    toggle: () => null,
+  });
+  await checkedFallbackController.change({
+    currentTarget: { checked: true },
+  });
+  assert.equal(preferences.getString("mode"), "developer");
+  await checkedFallbackController.change({
+    currentTarget: { checked: false },
+  });
+  assert.equal(preferences.getString("mode"), "standard");
+  const noRenderThemeController = createDeveloperModeController({
+    choices: () => [],
+    dialog: () => ({ open: false, classList: { contains: () => false } }),
+    disableDeveloperFeatures: () => undefined,
+    loadVersionData: async () => undefined,
+    setDialogView: () => undefined,
+    state: () => state,
+    syncUrlState: () => undefined,
+    toggle: () => null,
+  });
+  await noRenderThemeController.change({
+    currentTarget: { checked: true },
+  });
+  assert.equal(preferences.getString("mode"), "developer");
 
   const noBlurEvent = {
     currentTarget: {
