@@ -86,4 +86,23 @@ const spec = DialogControl.toSpec({
 assert.equal(spec.tag, "dialog");
 assert.equal(spec.children?.length, 1);
 
+const musicalMarkup = DialogControl.toMarkup({
+  className: "music-dialog",
+  dialogId: "music-dialog",
+  isMusical: true,
+  title: "Music",
+  titleId: "music-dialog-title",
+  titleKey: "music",
+});
+assert.match(musicalMarkup, /class="dialog musical music-dialog"/);
+
+const bareMarkup = DialogControl.toMarkup({
+  dialogId: "bare-dialog",
+  title: "Bare",
+  titleId: "bare-dialog-title",
+  titleKey: "bare",
+});
+assert.match(bareMarkup, /class="dialog"/);
+assert.doesNotMatch(bareMarkup, /class="dialog /);
+
 restore();

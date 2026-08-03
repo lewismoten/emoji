@@ -127,6 +127,32 @@ try {
     value: { body },
   });
 
+  body.setAttribute("data-dialog-observer", "true");
+  const registeredListener = () => {};
+  assert.equal(dialogListeners.add(registeredListener as any), true);
+  assert.equal(observerRecords.length, 1);
+  assert.deepEqual(observerRecords[0]?.observed.at(-1), {
+    target: body,
+    options: {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["open"],
+    },
+  });
+  assert.equal((observerRecords[0]?.observed.length ?? 0) >= 1, true);
+  assert.equal(dialogListeners.remove(registeredListener as any), true);
+  assert.equal(body.hasAttribute("data-dialog-observer"), true);
+  assert.equal(observerRecords[0]?.disconnects, 0);
+
+  body.setAttribute("data-dialog-observer", "false");
+  const blockedListener = () => {};
+  assert.equal(dialogListeners.add(blockedListener as any), true);
+  assert.equal(body.getAttribute("data-dialog-observer"), "false");
+  assert.equal(observerRecords.length, 1);
+  assert.equal(dialogListeners.remove(blockedListener as any), true);
+  assert.equal(body.hasAttribute("data-dialog-observer"), false);
+  assert.equal(observerRecords[0]?.disconnects, 1);
+
   const calls: Array<[string, FakeDialog]> = [];
   const listener = ((action: "open" | "close", dialog: FakeDialog) => {
     calls.push([action, dialog]);
@@ -135,16 +161,14 @@ try {
   assert.equal(dialogListeners.add(listener), true);
   assert.equal(body.getAttribute("data-dialog-observer"), "true");
   assert.equal(observerRecords.length, 1);
-  assert.deepEqual(observerRecords[0]?.observed, [
-    {
-      target: body,
-      options: {
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["open"],
-      },
+  assert.deepEqual(observerRecords[0]?.observed.at(-1), {
+    target: body,
+    options: {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["open"],
     },
-  ]);
+  });
 
   assert.equal(dialogListeners.add(listener), false);
   assert.equal(observerRecords.length, 1);
@@ -170,12 +194,12 @@ try {
 
   assert.equal(dialogListeners.remove(listener), true);
   assert.equal(body.hasAttribute("data-dialog-observer"), true);
-  assert.equal(observerRecords[0]?.disconnects, 0);
+  assert.equal(observerRecords[0]?.disconnects, 1);
 
   body.setAttribute("data-dialog-observer", "false");
   assert.doesNotThrow(() => dialogListeners.clear());
   assert.equal(body.hasAttribute("data-dialog-observer"), false);
-  assert.equal(observerRecords[0]?.disconnects, 1);
+  assert.equal(observerRecords[0]?.disconnects, 2);
 } finally {
   restoreGlobals();
 }
