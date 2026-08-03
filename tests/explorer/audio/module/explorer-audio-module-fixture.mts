@@ -82,6 +82,10 @@ export async function loadExplorerAudioModuleFixture() {
     .replace(
       'import * as aria from "./utils/aria.js";',
       'import * as aria from "./aria-stub.mjs";',
+    )
+    .replace(
+      'import { classifyElement, isInput } from "./utils/element.js";',
+      'import { classifyElement, isInput } from "./element-stub.mjs";',
     );
 
   const tempRoot = path.join(root, "build/tests/.tmp");
@@ -188,6 +192,30 @@ export const setPressed = (el, value) => el?.setAttribute("aria-pressed", String
 export const isDisabled = (el) => el?.getAttribute("aria-disabled") === "true";
 export const isChecked = (el) => el?.getAttribute("aria-checked") === "true";
 export const hasPopupListbox = (el) => el?.getAttribute("aria-haspopup") === "listbox";
+`,
+  );
+  await fs.writeFile(
+    path.join(tempDirectory, "element-stub.mjs"),
+    `import * as aria from "./aria-stub.mjs";
+const hasTag = (el, tagName) => el?.tagName?.toUpperCase() === tagName.toUpperCase();
+const hasRole = (el, name) => el?.getAttribute?.("role") === name;
+export const isInput = (el) => hasTag(el, "INPUT");
+const isInputType = (el, type) => isInput(el) && el.type === type;
+const isSelect = (el) => hasTag(el, "SELECT");
+export const isDropdown = (el) => isSelect(el) || aria.hasPopupListbox(el);
+export const isCheckbox = (el) =>
+  isInputType(el, "checkbox") || hasRole(el, "checkbox") || hasRole(el, "switch");
+export const isRadio = (el) => isInputType(el, "radio") || hasRole(el, "radio");
+export const isLink = (el) => hasTag(el, "A") || hasRole(el, "link");
+export const isButton = (el) => hasTag(el, "BUTTON") || hasRole(el, "button");
+export const classifyElement = (el) => {
+  if (isDropdown(el)) return "dropdown";
+  if (isCheckbox(el)) return "checkbox";
+  if (isRadio(el)) return "radio";
+  if (isLink(el)) return "link";
+  if (isButton(el)) return "button";
+  return "generic";
+};
 `,
   );
   await fs.writeFile(
