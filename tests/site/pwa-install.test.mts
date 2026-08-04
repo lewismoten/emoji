@@ -66,6 +66,7 @@ const [
   Promise.all([
     read("src/explorer-app.ts"),
     read("src/app/explorer-app-events.ts"),
+    read("src/app/emoji/explorer-app-events-runtime.ts"),
   ]).then((parts) => parts.join("\n")),
   read("src/app/explorer-shell.ts"),
   read("src/explorer/pwa/pwa-panels.ts"),

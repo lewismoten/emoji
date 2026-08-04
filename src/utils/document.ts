@@ -20,6 +20,12 @@ export const addEventListener = <K extends keyof DocumentEventMap>(
   options?: boolean | AddEventListenerOptions,
 ): void => documentRef()?.addEventListener(type, listener, options);
 
+export const removeEventListener = <K extends keyof DocumentEventMap>(
+  type: K,
+  listener: (this: Document, ev: DocumentEventMap[K]) => any,
+  options?: boolean | EventListenerOptions | undefined,
+): void => documentRef()?.removeEventListener(type, listener, options);
+
 export const setDocAttribute = (name: string, value: string) => {
   documentRef()?.documentElement.setAttribute(name, value);
 };

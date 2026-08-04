@@ -6,7 +6,7 @@ const originalDocument = Object.getOwnPropertyDescriptor(
   globalThis,
   "document",
 );
-const historyCalls: any[] = [];
+const historyCalls: unknown[] = [];
 
 try {
   Object.defineProperty(globalThis, "window", {
@@ -40,6 +40,16 @@ try {
   assert.equal(route.hasHistory(), true);
   assert.equal(route.getSearch(), "?mode=developer&panel=help&x=1");
   assert.equal(route.getHash(), "#top");
+  assert.equal(
+    route.getSearch(
+      "https://emoji.example/index.ar.html?panel=favorites#sheet",
+    ),
+    "?panel=favorites",
+  );
+  assert.equal(
+    route.getHash("https://emoji.example/index.ar.html?panel=favorites#sheet"),
+    "#sheet",
+  );
   assert.equal(route.getParam("x"), "1");
   assert.equal(route.getParam("missing"), "");
   assert.equal(route.getLocale(), "en");
@@ -61,6 +71,10 @@ try {
   assert.equal(
     route.getSearchParams({ ignore: ["panel", "x"], add: { locale: "ar" } }),
     "?mode=developer&locale=ar",
+  );
+  assert.equal(
+    route.getSearchParams({ add: { locale: "fr" } }),
+    "?mode=developer&panel=help&x=1&locale=fr",
   );
   assert.equal(
     route.getLocationUrl({ ignore: "panel", add: { locale: "ar" } }),
@@ -93,14 +107,39 @@ try {
     ["replace", { page: 2 }, "/index.en.html?panel=filters"],
   ]);
 
+  (globalThis.window as any).location = {
+    origin: "https://emoji.example",
+    pathname: "/index.en.html",
+    search: "?mode=advanced&panel=favorites",
+    hash: "",
+  };
+  assert.equal(route.getMode(), "advanced");
+  assert.equal(route.getPanel(), "favorites");
+
+  (globalThis.window as any).location.search = "?panel=language";
+  assert.equal(route.getPanel(), "language");
+
+  (globalThis.window as any).location.search = "?panel=filters";
+  assert.equal(route.getPanel(), "filters");
+
   (globalThis.window as any).location = { pathname: "/local/index.html" };
   assert.equal(route.getLocale(), undefined);
   assert.equal(route.getHref(), "http://localhost/local/index.html");
+  assert.equal(route.hasHistory(), true);
 
   Reflect.deleteProperty((globalThis as any).window, "location");
   assert.equal(
     route.buildUrl("./index.fr.html").href,
     "https://fallback.example/base/index.fr.html",
+  );
+  assert.equal(route.hasLocation(), false);
+
+  Reflect.deleteProperty(globalThis.window as any, "history");
+  assert.equal(route.hasHistory(), false);
+  (globalThis.document as any).baseURI = undefined;
+  assert.equal(
+    route.buildUrl({ search: "?fallback=1", hash: "#hash" } as any).href,
+    "http://localhost/?fallback=1#hash",
   );
 
   (globalThis.window as any).location = {
@@ -109,9 +148,19 @@ try {
     search: "",
     hash: "",
   };
+  (globalThis.window as any).history = {
+    state: { page: 1 },
+    pushState(state: unknown, _title: string, url: string) {
+      historyCalls.push(["push", state, url] as any);
+    },
+    replaceState(state: unknown, _title: string, url: string) {
+      historyCalls.push(["replace", state, url] as any);
+    },
+  };
   assert.equal(route.isLocalPreview(), true);
   assert.equal(route.getPanel(), "");
   assert.equal(route.getMode(), "");
+  assert.equal(route.getSearchParams(), "");
 } finally {
   if (originalWindow)
     Object.defineProperty(globalThis, "window", originalWindow);

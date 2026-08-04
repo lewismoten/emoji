@@ -111,7 +111,7 @@ assert.match(
 );
 assert.match(
   explorerApp,
-  /bindPanelDialog\(\{[\s\S]*dialog:\s*getLanguageDialog\(\)[\s\S]*onBeforeOpen:\s*\(\)\s*=>\s*\{[\s\S]*const helpDialog = getHelpDialog\(\);[\s\S]*helpDialog\?\.open[\s\S]*options\.closePanel\(helpDialog,\s*options\.suppressedPanelCloses\)[\s\S]*panel:\s*(["'])language\1/m,
+  /bindPanelDialog\(\{[\s\S]*dialog:\s*getLanguageDialog\(\)[\s\S]*onBeforeOpen:\s*createLanguageBeforeOpen\([\s\S]*getHelpDialog,[\s\S]*getLanguageDialog,[\s\S]*options\.closePanel,[\s\S]*options\.suppressedPanelCloses[\s\S]*panel:\s*(["'])language\1/m,
   "opening the language picker from Help must transition between modal dialogs",
 );
 assert.match(

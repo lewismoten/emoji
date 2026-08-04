@@ -1,5 +1,4 @@
 export const sourceModuleSpecifier = "build/src/app/explorer-app-events.js";
-
 const createEventTarget = () => {
   const listeners = new Map<string, Function[]>();
   return {
@@ -91,7 +90,6 @@ export async function createExplorerAppEventsFixture() {
       this.renderCalls.push(args);
     },
   };
-
   Object.defineProperty(globalThis, "window", {
     configurable: true,
     value: {
@@ -226,8 +224,14 @@ export async function createExplorerAppEventsFixture() {
     orderButtons: [orderButton],
     panelDialogs: () => panelDialogsValue,
     positionFavoriteButton: () => lifecycleCalls.push("position-favorite"),
+    refreshElements: () => lifecycleCalls.push("refresh-elements"),
+    renderDeveloperMode: () => lifecycleCalls.push("render-developer-mode"),
     renderInstallAppButton: () => lifecycleCalls.push("render-install-button"),
+    renderPixelFontToggle: () =>
+      lifecycleCalls.push("render-pixel-font-toggle"),
     renderSavedEmoji: () => lifecycleCalls.push("render-saved"),
+    renderSearchLanguages: () => lifecycleCalls.push("render-search-languages"),
+    renderThemeToggle: () => lifecycleCalls.push("render-theme-toggle"),
     resetFilters: () => lifecycleCalls.push("reset-filters"),
     savedDialog,
     savedPicker,
@@ -250,8 +254,9 @@ export async function createExplorerAppEventsFixture() {
     versionPrevious,
     versionRange,
     versionSelector,
+    ensureUtilityPanel: (panel: string) =>
+      lifecycleCalls.push(`ensure-panel:${panel}`),
   };
-
   return {
     accessibilityStub,
     bindsOptions,
