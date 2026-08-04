@@ -1,9 +1,6 @@
 import { onPanelDialogClose } from "./pwa-on-panel-dialog-close.js";
 import type { EnsurePanelDialogLifecycleBoundOptions } from "./pwa-types.js";
-
-type UrlBits = Pick<Location, "pathname" | "search" | "hash">;
-const URL_BASE = "https://emoji.test";
-const buildUrl = ({pathname:p, search:s, hash:h}: UrlBits) => `${p}${s}${h}`;
+import * as route from '../../app/route.js';
 
 export const ensurePanelDialogLifecycleBound = (
   options: EnsurePanelDialogLifecycleBoundOptions,
@@ -12,16 +9,9 @@ export const ensurePanelDialogLifecycleBound = (
   if (!dialog) return;
 
   const clearPanelParam = () => {
-    if (typeof window === "undefined") return;
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("panel") !== options.panel) return;
-    const nextUrl = new URL(buildUrl(window.location), URL_BASE);
-    nextUrl.searchParams.delete("panel");
-    window.history.replaceState(
-      window.history.state,
-      "",
-      buildUrl(nextUrl)
-    );
+    if (route.getPanel() !== options.panel) return;
+    const nextUrl = route.getLocationUrl({ignore: "panel"});
+    route.applyHistory("replace", nextUrl);
   };
 
   const markPanelClosing = () => {

@@ -23,6 +23,8 @@ export const addEventListener = <K extends keyof DocumentEventMap>(
 export const setDocAttribute = (name: string, value: string) => {
   documentRef()?.documentElement.setAttribute(name, value);
 };
+export const getBaseUri = () => documentRef()?.baseURI;
+
 export const getLocale = () => {
   const doc = documentRef()?.documentElement;
   if (!doc) return;

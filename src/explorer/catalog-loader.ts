@@ -1,3 +1,6 @@
+import {querySelector} from '../utils/document.js';
+import * as route from '../app/route.js';
+
 export type CatalogState = {
   allIds: string[];
   byId: Record<string, any>;
@@ -15,14 +18,14 @@ export async function loadExplorerCatalog(options: {
   updatePixelArtworkManifest: (manifest: any) => void;
 }): Promise<CatalogState> {
   const pixelFontRevision =
-    document.querySelector<HTMLLinkElement>("#pixel-font-stylesheet")?.dataset
+    querySelector<HTMLLinkElement>("#pixel-font-stylesheet")?.dataset
       .fontRevision ??
     (() => {
-      const href = document.querySelector<HTMLLinkElement>(
+      const href = querySelector<HTMLLinkElement>(
         "#pixel-font-stylesheet",
       )?.href;
       if (!href) return "";
-      return new URL(href, window.location.href).searchParams.get("v") ?? "";
+      return route.getParam("v", href);
     })();
   const pixelFontManifestUrl = options.isViteDevelopment
     ? `pixel-font/build/explorer-manifest.json?v=${Date.now()}`

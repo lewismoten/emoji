@@ -4,6 +4,7 @@ import {
   withoutCompositionParent,
 } from "../../explorer/dialog/dialog-runtime-helpers.js";
 import { createEmojiDialogClickHandler } from "../../explorer/dialog/emoji-dialog-events.js";
+import * as route from "../route.js";
 
 export function createEmojiDialogClickRuntime(options: any) {
   return createEmojiDialogClickHandler({
@@ -13,7 +14,7 @@ export function createEmojiDialogClickRuntime(options: any) {
       kind === "code"
         ? getCodeExampleTextValue(options.dialog())
         : kind === "link"
-          ? window.location.href
+          ? route.getHref()
           : options.currentEmojiCopies()[kind],
     currentEmojiKey: options.currentEmojiKey,
     dialog: options.dialog,

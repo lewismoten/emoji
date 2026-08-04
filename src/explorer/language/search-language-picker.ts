@@ -3,7 +3,7 @@ import {
   getLocalizedLanguageName,
 } from "./language-dialog-control.js";
 import * as preferences from "../../preferences.js";
-
+import * as route from '../../app/route.js';
 type SearchLocale = {
   locale: string;
   label: string;
@@ -40,10 +40,7 @@ export function renderSearchLanguages({
   translate,
   onSelectLanguageLink,
 }: RenderSearchLanguageOptions) {
-  const routeLocale =
-    window.location.pathname.match(
-      /index\.([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\.html$/,
-    )?.[1] ?? "";
+  const routeLocale = route.getLocale() ?? "";
   const activeLocale =
     selectedSearchLocale ||
     (searchLocales.some((locale) => locale.locale === routeLocale)
@@ -51,16 +48,12 @@ export function renderSearchLanguages({
       : "");
   if (!languageList) return;
   languageList.replaceChildren();
-  const navigationParams = new URLSearchParams(window.location.search);
-  navigationParams.delete("panel");
-  navigationParams.delete("emoji");
-  navigationParams.delete("emojiMode");
-  const navigationQuery = navigationParams.toString();
-  const navigationSearch = navigationQuery ? `?${navigationQuery}` : "";
+  const search = route.getSearchParams({ignore: ["panel", "emoji", "emojiMode"]});
+
   languageList.appendChild(
     buildLanguageOption({
       flag: "🌐",
-      href: `./${navigationSearch}`,
+      href: `./${search}`,
       label: translate("noLanguagePack", "No language pack"),
       locale: "",
       onSelectLanguageLink,
@@ -73,7 +66,7 @@ export function renderSearchLanguages({
     languageList.appendChild(
       buildLanguageOption({
         flag,
-        href: `./index.${locale.locale}.html${navigationSearch}`,
+        href: `./index.${locale.locale}.html${search}`,
         label: getLocalizedLanguageName(locale, activeLocale),
         locale: locale.locale,
         onSelectLanguageLink,
@@ -99,18 +92,10 @@ export async function selectLanguageLink(
     return;
   event.preventDefault();
   await setSearchLanguage(locale);
-  const baseUrl =
-    window.location.href ??
-    document.baseURI ??
-    `http://localhost${window.location.pathname ?? "/"}${window.location.search ?? ""}${window.location.hash ?? ""}`;
-  const target = new URL(href, baseUrl);
-  target.search = window.location.search;
-  target.hash = window.location.hash;
-  window.history.pushState(
-    { locale },
-    "",
-    `${target.pathname}${target.search}${target.hash}`,
-  );
+  const target = route.buildUrl(href);
+  target.search = route.getSearch();
+  target.hash = route.getHash();
+  route.push(locale, target);
 }
 
 type SetSearchLanguageOptions = {

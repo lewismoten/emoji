@@ -8,6 +8,7 @@ import {
   unicodeGroupLabelKeys,
   unicodeSubgroupLabelKeys,
 } from "../../explorer/explorer-labels.js";
+import * as route from "../route.js";
 import { getExplorerSubGroup } from "../../explorer/category/category-rules.js";
 import {
   formatUiNumber as formatUiNumberValue,
@@ -220,11 +221,8 @@ bindings.bootstrapRuntime = initializeExplorerBootstrapSessionRuntime({
   controllers,
   panelDialogs,
   restoreDeveloperMode: () => {
-    explorerState.explorerModeFromUrl = parseExplorerModeParam(
-      window.location.search,
-    );
-    explorerState.developerModeFromUrl =
-      explorerState.explorerModeFromUrl === "developer";
+    explorerState.explorerModeFromUrl = route.getMode();
+    explorerState.developerModeFromUrl = route.getIsDeveloper();
     shell.renderDeveloperMode();
   },
   shell,

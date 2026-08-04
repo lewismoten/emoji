@@ -1,5 +1,6 @@
 import { getPanelNameFromDialog } from "./pwa-get-panel-name-from-dialog.js";
 import type { ClosePanelOptions } from "./pwa-types.js";
+import * as route from '../../app/route.js';
 
 export const onPanelDialogClose = (options: ClosePanelOptions) => {
   const {
@@ -32,12 +33,9 @@ export const onPanelDialogClose = (options: ClosePanelOptions) => {
       syncUrlState();
     }
     if (typeof window !== "undefined" && closingPanel) {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("panel") === closingPanel) {
-        params.delete("panel");
-        const query = params.toString();
-        const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
-        window.history.replaceState(window.history.state, "", nextUrl);
+      if (route.getPanel() === closingPanel) {
+        const nextUrl = route.getLocationUrl({ignore: "panel"})
+        route.applyHistory("replace", nextUrl);
       }
     }
     if (dialog?.dataset) delete dialog.dataset.panelClosing;

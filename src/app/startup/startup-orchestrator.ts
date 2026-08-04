@@ -4,6 +4,7 @@ import {
   finishExplorerLoading as finishExplorerLoadingHelper,
   revealExplorer as revealExplorerHelper,
 } from "../../explorer/loading-state.js";
+import * as route from "../route.js";
 
 export function createStartupOrchestrator(options: any) {
   function finishExplorerLoading() {
@@ -43,16 +44,8 @@ export function createStartupOrchestrator(options: any) {
   }
 
   async function onLoad() {
-    const requestedPanel =
-      typeof window === "undefined"
-        ? ""
-        : (new URLSearchParams(window.location.search).get("panel") ?? "");
-    if (
-      requestedPanel === "favorites" ||
-      requestedPanel === "help" ||
-      requestedPanel === "language" ||
-      requestedPanel === "filters"
-    ) {
+    const requestedPanel = route.getPanel();
+    if (requestedPanel !== "") {
       await options.ensureUtilityPanel?.(requestedPanel);
     }
     await options.ensureEmojiCompositionControl?.();

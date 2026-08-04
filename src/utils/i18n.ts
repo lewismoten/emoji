@@ -1,5 +1,5 @@
 import * as doc from "./document.js";
-import * as win from "./window.js";
+import * as route from "../app/route.js";
 
 import { pascalToDashed } from "./nameTransformers.js";
 
@@ -36,7 +36,7 @@ type AriaLabelElement = DatasetElement & {
 };
 const keyMap = new Map<string, string>();
 
-export const getLocale = () => win.routeLocale() ?? doc.getLocale();
+export const getLocale = () => route.getLocale() ?? doc.getLocale();
 
 export const setTranslations = (
   locale: string,

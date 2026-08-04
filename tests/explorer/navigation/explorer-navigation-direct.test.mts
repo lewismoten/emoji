@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
 import {
   createExplorerNavigation,
+} from "../../../src/explorer/navigation/explorer-navigation-controller.js";
+import {
   createExplorerNavigationDependencies,
-} from "../../../src/explorer/navigation/explorer-navigation.js";
+} from "../../../src/explorer/navigation/explorer-navigation-dependencies.js";
 import {
   createExplorerNavigationDirectFixture,
   installExplorerNavigationGlobals,
@@ -12,7 +14,6 @@ const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
 const originalEvent = Object.getOwnPropertyDescriptor(globalThis, "Event");
 const asAny = (value: unknown) => value as any;
-
 try {
   const defaults = createExplorerNavigationDependencies();
   assert.equal(typeof defaults.parseExplorerUrlState, "function");

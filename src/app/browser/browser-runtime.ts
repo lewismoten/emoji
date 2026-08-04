@@ -5,6 +5,7 @@ import {
   refreshExplorerPixelFont,
   refreshPixelFontStylesheet,
 } from "../../pixel-font-hot-reload.js";
+import * as route from "../route.js";
 
 export function isViteDevelopmentRuntime(env = import.meta.env) {
   const override = Reflect.get(globalThis, "__TEST_VITE_DEV__");
@@ -76,15 +77,12 @@ export function bindServiceWorkerRuntime(options: {
   const cachesRef =
     options.cachesRef ?? (typeof caches !== "undefined" ? caches : undefined);
   const warn = options.warn ?? console.warn;
-  const hostname = windowRef?.location?.hostname ?? "";
-  const isLocalPreviewHost =
-    hostname === "localhost" || hostname === "127.0.0.1";
   if (
     navigatorRef &&
     windowRef &&
     "serviceWorker" in navigatorRef &&
     windowRef.isSecureContext &&
-    (options.isViteDevelopment || isLocalPreviewHost)
+    (options.isViteDevelopment || route.isLocalPreview())
   ) {
     windowRef.addEventListener("load", async () => {
       try {
@@ -93,7 +91,7 @@ export function bindServiceWorkerRuntime(options: {
         await Promise.all(
           registrations
             .filter((registration) =>
-              registration.scope.startsWith(windowRef.location.origin),
+              registration.scope.startsWith(route.getOrigin()),
             )
             .map((registration) => registration.unregister()),
         );

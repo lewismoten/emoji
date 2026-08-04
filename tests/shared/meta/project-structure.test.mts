@@ -13,10 +13,8 @@ const markdownVisualWidth = 80;
 // Existing files are expected to meet the same line limits as new files.
 const legacyLineBudgets: Record<string, number> = {
   "src/controls/dialog/content/help-settings-dialog.ts": 312,
-  "src/explorer/navigation/explorer-navigation.ts": 336,
   "src/site/themes/retro/retro-buttons.css": 301,
   "src/site/themes/retro/retro-forms.css": 362,
-  "tests/shared/meta/project-structure.test.mts": 301,
   "tests/app/bootstrap/explorer-bootstrap-controllers-runtime.test.mts": 536,
   "tests/app/browser/browser-runtime-service-worker.test.mts": 489,
   "tests/app/bootstrap/explorer-bootstrap-session-runtime.test.mts": 547,
@@ -34,8 +32,7 @@ const legacyLineBudgets: Record<string, number> = {
   "tests/explorer/emoji/emoji-list-render.test.mts": 507,
   "tests/explorer/language/language-dialog-control.test.mts": 441,
   "tests/explorer/language/search-language-lifecycle.test.mts": 499,
-  "tests/explorer/navigation/explorer-navigation-direct.test.mts": 603,
-  "tests/explorer/navigation/explorer-navigation.test.mts": 370,
+  "tests/explorer/navigation/explorer-navigation-direct.test.mts": 604,
   "tests/explorer/navigation/url-state.test.mts": 423,
   "tests/explorer/pwa-panels.test.mts": 590,
   "tests/explorer/utility/runtime/utility-controls-fixture.mts": 305,

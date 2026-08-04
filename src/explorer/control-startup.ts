@@ -2,7 +2,7 @@
 import * as preferences from "../preferences.js";
 import * as doc from "../utils/document.js";
 import * as i18n from "../utils/i18n.js";
-import * as win from "../utils/window.js";
+import * as route from "../app/route.js";
 import * as audioToggle from '../controls/audio/audio-toggle.js';
 
 export function initializeExplorerControls(options: any) {
@@ -102,7 +102,7 @@ export async function finalizeExplorerStartup(options: any) {
   options.renderPixelFontToggle();
   options.observeToolbarHeight(options.toolbar);
   const initialSearchLocale =
-    win.routeLocale() ?? 
+    route.getLocale() ?? 
     (preferences.has("locale")
       ? preferences.getString("locale")
       : i18n.getLocale());

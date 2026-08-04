@@ -3,7 +3,7 @@ import {
   selectLanguageLink,
   setSearchLanguage as setSearchLanguageHelper,
 } from "./search-language-picker.js";
-
+import * as route from '../../app/route.js';
 export function createSearchLanguageLifecycle(options: any) {
   const render = () =>
     renderSearchLanguages({
@@ -81,10 +81,7 @@ export function createSearchLanguageLifecycle(options: any) {
     options.setApplyingUrlState(true);
     try {
       options.restoreDeveloperMode();
-      const locale =
-        window.location.pathname.match(
-          /index\.([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)\.html$/,
-        )?.[1] ?? "";
+      const locale = route.getLocale() ?? "";
       if (
         !locale ||
         options.searchLocales().some((entry: any) => entry.locale === locale)
