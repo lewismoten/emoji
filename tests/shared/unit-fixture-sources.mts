@@ -8,10 +8,12 @@ export const demoScript = await fs.readFile(
   path.join(root, "src/index.ts"),
   "utf8",
 );
-export const explorerApp = await fs.readFile(
-  path.join(root, "src/explorer-app.ts"),
-  "utf8",
-);
+export const explorerApp = (
+  await Promise.all([
+    fs.readFile(path.join(root, "src/explorer-app.ts"), "utf8"),
+    fs.readFile(path.join(root, "src/app/explorer-app-events.ts"), "utf8"),
+  ])
+).join("\n");
 export const pixelFontHotReload = await fs.readFile(
   path.join(root, "src/pixel-font-hot-reload.ts"),
   "utf8",

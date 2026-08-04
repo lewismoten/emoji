@@ -63,7 +63,10 @@ const [
 ] = await Promise.all([
   read("src/site/index.html"),
   read("src/index.ts"),
-  read("src/explorer-app.ts"),
+  Promise.all([
+    read("src/explorer-app.ts"),
+    read("src/app/explorer-app-events.ts"),
+  ]).then((parts) => parts.join("\n")),
   read("src/app/explorer-shell.ts"),
   read("src/explorer/pwa/pwa-panels.ts"),
   Promise.all([
@@ -177,8 +180,13 @@ assert.match(
   "installed app detection must cover supported standalone display contexts",
 );
 assert.match(
-  `${demoScript}\n${explorerShell}\n${explorerApp}`,
-  /appinstalled[\s\S]*installAppButton\.hidden = true[\s\S]*installedDisplayQueries\.forEach[\s\S]*change/,
+  explorerShell,
+  /appinstalled[\s\S]*installAppButton\.hidden = true/,
+  "installation must immediately hide the install action",
+);
+assert.match(
+  explorerApp,
+  /installedDisplayQueries\.forEach[\s\S]*change/,
   "installation and display-mode changes must immediately hide the install action",
 );
 assert.match(
