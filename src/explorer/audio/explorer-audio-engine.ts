@@ -1,4 +1,3 @@
-import { scheduleExplorerMusic } from "./explorer-audio-music.js";
 import {
   getThemedExplorerSoundEffect,
   resolveExplorerSoundEffect,
@@ -11,6 +10,9 @@ import type {
 import type { ExplorerSoundEffectId } from "./sfx/explorer-audio-sfx-types.js";
 import * as audioHelpers from './audio-helpers.js';
 import * as win from '../../utils/window.js';
+import buildScheduler from "./schedule-music.js";
+import buildRestart from "./restart-music.js";
+import buildSyncMusic from "./sync-help-music.js";
 
 export interface ExplorerAudioEngine {
     playClick: () => Promise<void>,
@@ -25,26 +27,48 @@ export interface ExplorerAudioEngine {
     stopMusic: () => void,
     syncHelpMusic: () => Promise<void>,
 }
-export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
-  let audioContext: AudioContext | undefined;
-  let masterGain: GainNode | undefined;
-  let musicTimer: number | undefined;
-  let musicBeat = 0;
-  let musicGain: GainNode | undefined;
+type EngineProps = {
+  audioContext: AudioContext | undefined;
+   masterGain: GainNode | undefined;
+   musicTimer: number | undefined;
+   musicBeat: number;
+   musicGain: GainNode | undefined;
 
-  function getAudioContext() {
-    if (audioContext) return audioContext;
-    const AudioContextConstructor = win.getAudioContext();
-    if (!AudioContextConstructor) return undefined;
-    audioContext = new AudioContextConstructor();
-    masterGain = audioContext.createGain();
-    masterGain.gain.value = 0.08;
-    masterGain.connect(audioContext.destination);
-    return audioContext;
+    stopMusic: () => void;
+    getAudioContext: () => AudioContext | undefined;
+    resumeAudioContext: () => Promise<AudioContext | undefined>;
+    scheduleMusic: () => Promise<void>;
+    resetMusicPlayback: () => void;
+}
+export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
+  
+
+  const props: EngineProps = {
+    audioContext: undefined,
+   masterGain: undefined,
+   musicTimer: undefined,
+   musicBeat: 0,
+   musicGain: undefined,
+   stopMusic: () => undefined,
+   getAudioContext: () => undefined,
+   resumeAudioContext:  () => Promise.resolve(undefined),
+   scheduleMusic: () => Promise.resolve(),
+   resetMusicPlayback: () => undefined
   }
 
-  async function resumeAudioContext() {
-    const context = getAudioContext();
+  props.getAudioContext = () => {
+    if (props.audioContext) return props.audioContext;
+    const AudioContextConstructor = win.getAudioContext();
+    if (!AudioContextConstructor) return undefined;
+    props.audioContext = new AudioContextConstructor();
+    props.masterGain = props.audioContext.createGain();
+    props.masterGain.gain.value = 0.08;
+    props.masterGain.connect(props.audioContext.destination);
+    return props.audioContext;
+  }
+
+  props.resumeAudioContext = async () => {
+    const context = props.getAudioContext();
     if (!context) return undefined;
     if (context.state === "running") return context;
     if (context.state === "suspended") {
@@ -63,7 +87,8 @@ export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
     if (!isEnabled) return;
     const effect = getThemedExplorerSoundEffect(effectId);
     if (!effect) return;
-    const context = getAudioContext();
+    const context = props.getAudioContext();
+    const { masterGain } = props;
     if (!context || context.state !== "running" || !masterGain) return;
     const start = context.currentTime;
     effect.tones.forEach((tone) => {
@@ -80,89 +105,42 @@ export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
     await playSoundEffect(effectId);
   }
 
-  const shouldPlayMusic = async (): Promise<boolean> => {
-    if(!audioHelpers.isMusicalDialogOpen()) return false;
-    return audioHelpers.isMusicEnabled();
-  }
-
-  function stopMusic() {
+  props.stopMusic = () => {
+    const {musicTimer,musicGain,audioContext} = props;
     if (musicTimer) {
       win.clearTimeout(musicTimer);
-      musicTimer = undefined;
+      props.musicTimer = undefined;
     }
     if (musicGain && audioContext) {
-      musicGain.gain.cancelScheduledValues(audioContext.currentTime);
-      musicGain.gain.setTargetAtTime(0.0001, audioContext.currentTime, 0.04);
+      const {gain} = musicGain;
+      const {currentTime} = audioContext;
+      gain.cancelScheduledValues(currentTime);
+      gain.setTargetAtTime(0.0001, currentTime, 0.04);
       win.setTimeout(() => {
         musicGain?.disconnect();
-        musicGain = undefined;
+        props.musicGain = undefined;
       }, 120);
     }
-    musicBeat = 0;
+    props.musicBeat = 0;
   }
 
-  function resetMusicPlayback() {
+  props.resetMusicPlayback = () => {
+    const {musicTimer, musicGain} = props;
     if (musicTimer) {
       win.clearTimeout(musicTimer);
-      musicTimer = undefined;
+      props.musicTimer = undefined;
     }
     if (musicGain) {
       musicGain.disconnect();
-      musicGain = undefined;
+      props.musicGain = undefined;
     }
-    musicBeat = 0;
+    props.musicBeat = 0;
   }
 
-  const scheduleMusic = async () => {
-    const enabled = await shouldPlayMusic();
-    if (!enabled) {
-      stopMusic();
-      return;
-    }
-    const context = getAudioContext();
-    if (!context || context.state !== "running" || !masterGain) return;
-    const scheduled = await scheduleExplorerMusic({
-      context,
-      createGain: () => context.createGain(),
-      masterGain,
-      musicBeat,
-      musicGain,
-      scheduleNext: (callback, timeout) => win.setTimeout(callback, timeout),
-      schedulePlayback: scheduleMusic
-    });
-    if(!scheduled) return;
-    musicBeat = scheduled.musicBeat;
-    musicGain = scheduled.musicGain;
-    musicTimer = scheduled.musicTimer;
-  };
+  props.scheduleMusic = buildScheduler(props);
 
-  const syncHelpMusic = async () => {
-    const enabled = await shouldPlayMusic();
-    if (!enabled) {
-      stopMusic();
-      return;
-    }
-    if (!musicTimer) {
-      const context = await resumeAudioContext();
-      if (!context) return;
-      if (await shouldPlayMusic()) {
-        await scheduleMusic();
-      }
-      return;
-    }
-    await resumeAudioContext();
-  };
-
-  const restartMusic = async () => {
-    resetMusicPlayback();
-    const enabled = await shouldPlayMusic();
-    if (!enabled) return;
-    const context = await resumeAudioContext();
-    if (!context) return;
-    if (await shouldPlayMusic() && !musicTimer) {
-      await scheduleMusic();
-    }
-  };
+  const syncHelpMusic = buildSyncMusic(props);
+  const restartMusic = buildRestart(props);
 
   return {
     playClick: () => playInteraction("button", "click"),
@@ -172,8 +150,8 @@ export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
     playInteraction,
     playSoundEffect,
     restartMusic,
-    resumeAudioContext,
-    stopMusic,
+    resumeAudioContext: props.resumeAudioContext,
+    stopMusic: props.stopMusic,
     syncHelpMusic,
   };
 }

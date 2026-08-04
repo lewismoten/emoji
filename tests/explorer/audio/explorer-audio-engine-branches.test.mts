@@ -193,6 +193,32 @@ try {
   assert.equal(await noContextEngine.resumeAudioContext(), undefined);
   await noContextEngine.playSoundEffect("ui-click");
   await noContextEngine.restartMusic();
+
+  class FlakyDialogAudioContext extends FakeAudioContext {
+    override state: "running" | "suspended" = "suspended";
+    override async resume() {
+      helpDialog.open = false;
+      this.state = "running";
+    }
+  }
+  Object.defineProperty(globalThis, "AudioContext", {
+    configurable: true,
+    value: FlakyDialogAudioContext,
+  });
+  const flakyMusicEngine = createExplorerAudioEngine();
+  preferences.setBoolean("music", true);
+  helpDialog.open = true;
+  savedDialog.open = false;
+  const beforeFlakySync = timeouts.length;
+  await flakyMusicEngine.syncHelpMusic();
+  await Promise.resolve();
+  assert.equal(timeouts.length, beforeFlakySync);
+
+  helpDialog.open = true;
+  const beforeFlakyRestart = timeouts.length;
+  await flakyMusicEngine.restartMusic();
+  await Promise.resolve();
+  assert.equal(timeouts.length, beforeFlakyRestart + 1);
 } finally {
   if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");

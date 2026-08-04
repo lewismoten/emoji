@@ -19,6 +19,11 @@ export const isAudioEnabled = async () => Promise.all([
     isMusicEnabled()
   ]).then(status => status.some(Boolean));
 
+export const shouldPlayMusic = async (): Promise<boolean> => {
+    if(!isMusicalDialogOpen()) return false;
+    return isMusicEnabled();
+}
+
 const toggleInput = (name:string) => 
   querySelector<HTMLInputElement>(
     `.audio-choice-input[value="${name}"]`
