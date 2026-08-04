@@ -69,3 +69,113 @@ assert.equal(
   (openCalls[0] as { dialogs: typeof dialogs }).dialogs,
   dialogs,
 );
+
+const fallbackButton = new FakeButton();
+const fallbackDialog = {
+  dataset: {},
+  querySelector() {
+    return null;
+  },
+  addEventListener() {},
+} as unknown as HTMLDialogElement;
+const fallbackDialogs = {
+  favorites: undefined,
+  filters: undefined,
+  help: fallbackDialog,
+  language: undefined,
+};
+const fallbackOpenCalls: unknown[] = [];
+let getDialogsCalls = 0;
+let getDialogCalls = 0;
+let getLanguageListCalls = 0;
+const resolvedLanguageList = { id: "language-list" } as unknown as HTMLElement;
+
+bindPanelDialog({
+  applyingUrlState: () => false,
+  button: fallbackButton as unknown as HTMLElement,
+  getDialog: () => {
+    getDialogCalls += 1;
+    return undefined;
+  },
+  getDialogs: () => {
+    getDialogsCalls += 1;
+    return fallbackDialogs;
+  },
+  getLanguageList: () => {
+    getLanguageListCalls += 1;
+    return resolvedLanguageList;
+  },
+  openPanel(options) {
+    fallbackOpenCalls.push(options);
+  },
+  panel: "help",
+  renderSavedEmoji() {},
+  suppressedPanelCloses: new WeakSet<HTMLDialogElement>(),
+  syncUrlState() {},
+  urlStateReady: () => true,
+});
+
+await fallbackButton.click();
+
+assert.equal(getDialogsCalls > 0, true);
+assert.equal(getDialogCalls > 0, true);
+assert.equal(getLanguageListCalls, 1);
+assert.equal(fallbackOpenCalls.length, 1);
+assert.equal(
+  (fallbackOpenCalls[0] as { languageList: HTMLElement }).languageList,
+  resolvedLanguageList,
+);
+
+let openedWithoutDialogs = false;
+const missingDialogsButton = new FakeButton();
+bindPanelDialog({
+  applyingUrlState: () => false,
+  button: missingDialogsButton as unknown as HTMLElement,
+  openPanel() {
+    openedWithoutDialogs = true;
+  },
+  panel: "help",
+  renderSavedEmoji() {},
+  suppressedPanelCloses: new WeakSet<HTMLDialogElement>(),
+  syncUrlState() {},
+  urlStateReady: () => true,
+});
+
+await missingDialogsButton.click();
+
+assert.equal(openedWithoutDialogs, false);
+
+const eagerDialog = {
+  dataset: {},
+  querySelector() {
+    return null;
+  },
+  addEventListener() {},
+} as unknown as HTMLDialogElement;
+let directDialogCalls = 0;
+const directDialogButton = new FakeButton();
+
+bindPanelDialog({
+  applyingUrlState: () => false,
+  button: directDialogButton as unknown as HTMLElement,
+  getDialog: () => {
+    directDialogCalls += 1;
+    return eagerDialog;
+  },
+  getDialogs: () => ({
+    favorites: undefined,
+    filters: undefined,
+    help: eagerDialog,
+    language: undefined,
+  }),
+  openPanel() {},
+  panel: "help",
+  renderSavedEmoji() {},
+  suppressedPanelCloses: new WeakSet<HTMLDialogElement>(),
+  syncUrlState() {},
+  urlStateReady: () => true,
+});
+
+await directDialogButton.click();
+
+assert.equal(directDialogCalls > 0, true);

@@ -61,6 +61,16 @@ Object.defineProperty(globalThis, "window", {
 });
 
 try {
+  assert.doesNotThrow(() =>
+    ensurePanelDialogLifecycleBound({
+      applyingUrlState: () => false,
+      panel: "help",
+      suppressedPanelCloses: new WeakSet<HTMLDialogElement>(),
+      syncUrlState() {},
+      urlStateReady: () => true,
+    }),
+  );
+
   const dialog = new FakeDialog();
   const syncCalls: string[] = [];
   const afterCloseCalls: string[] = [];
@@ -91,6 +101,72 @@ try {
   } as unknown as Event);
   assert.deepEqual(syncCalls, ["sync"]);
   assert.deepEqual(afterCloseCalls, ["after-close"]);
+
+  const alreadyBoundDialog = new FakeDialog();
+  alreadyBoundDialog.dataset.panelCloseBound = "true";
+  alreadyBoundDialog.closeButton.dataset.panelDismissBound = "true";
+  ensurePanelDialogLifecycleBound({
+    applyingUrlState: () => false,
+    dialog: alreadyBoundDialog as unknown as HTMLDialogElement,
+    panel: "help",
+    suppressedPanelCloses: new WeakSet<HTMLDialogElement>(),
+    syncUrlState() {},
+    urlStateReady: () => true,
+  });
+  assert.equal(
+    alreadyBoundDialog.listeners.get("close")?.length ?? 0,
+    0,
+  );
+  assert.equal(
+    alreadyBoundDialog.closeButton.listeners.get("click")?.length ?? 0,
+    0,
+  );
+
+  const noCloseButtonDialog = {
+    dataset: {},
+    querySelector() {
+      return null;
+    },
+    addEventListener() {},
+  };
+  assert.doesNotThrow(() =>
+    ensurePanelDialogLifecycleBound({
+      applyingUrlState: () => false,
+      dialog: noCloseButtonDialog as unknown as HTMLDialogElement,
+      panel: "filters",
+      suppressedPanelCloses: new WeakSet<HTMLDialogElement>(),
+      syncUrlState() {},
+      urlStateReady: () => true,
+    }),
+  );
+
+  const noFormDialog = new FakeDialog();
+  noFormDialog.closeButton.closest = () => null as unknown as {
+    addEventListener: () => void;
+  };
+  ensurePanelDialogLifecycleBound({
+    applyingUrlState: () => false,
+    dialog: noFormDialog as unknown as HTMLDialogElement,
+    panel: "filters",
+    suppressedPanelCloses: new WeakSet<HTMLDialogElement>(),
+    syncUrlState() {},
+    urlStateReady: () => true,
+  });
+  noFormDialog.closeButton.listeners.get("click")?.[0]?.();
+  assert.equal(noFormDialog.dataset.panelClosing, "true");
+
+  const foreignPanelReplacements = replaceCalls.length;
+  const foreignPanelDialog = new FakeDialog();
+  ensurePanelDialogLifecycleBound({
+    applyingUrlState: () => false,
+    dialog: foreignPanelDialog as unknown as HTMLDialogElement,
+    panel: "filters",
+    suppressedPanelCloses: new WeakSet<HTMLDialogElement>(),
+    syncUrlState() {},
+    urlStateReady: () => true,
+  });
+  foreignPanelDialog.closeButton.listeners.get("click")?.[0]?.();
+  assert.equal(replaceCalls.length, foreignPanelReplacements);
 } finally {
   if (originalWindow) {
     Object.defineProperty(globalThis, "window", originalWindow);
