@@ -6,6 +6,7 @@ import {
 import { bindPanelDialog } from "../explorer/pwa/pwa-panels.js";
 import * as audioToggle from "../controls/audio/audio-toggle.js";
 import * as themes from "../utils/themes.js";
+import * as aria from "../utils/aria.js";
 
 export function createExplorerAppEventDependencies() {
   return {
@@ -41,6 +42,8 @@ export function bindExplorerEvents(
     target.dataset = {};
     return target.dataset;
   };
+  const getChoices = (selector: string) =>
+    Array.from(documentRef?.querySelectorAll?.<HTMLElement>(selector) ?? []);
 
   const syncDialogChoiceGroup = (
     dialog: HTMLElement | undefined | null,
@@ -50,11 +53,15 @@ export function bindExplorerEvents(
   ) => {
     if (!dialog) return;
     const choices = Array.from(dialog.querySelectorAll<HTMLElement>(selector));
-    choices.forEach((choice) => {
+    choices.forEach(renderChoiceSelected(datasetKey, selectedValue));
+  };
+
+  const renderChoiceSelected =
+    (datasetKey: string, selectedValue: string) => (choice: HTMLElement) => {
       const selected = choice.dataset[datasetKey] === selectedValue;
       choice.classList.toggle("is-active", selected);
-      choice.setAttribute("aria-pressed", String(selected));
-      choice.setAttribute("aria-checked", String(selected));
+      aria.setPressed(choice, selected);
+      aria.setChecked(choice, selected);
       choice.tabIndex = selected ? 0 : -1;
       const input = choice.querySelector(
         'input[type="radio"]',
@@ -65,39 +72,33 @@ export function bindExplorerEvents(
         if (selected) input.setAttribute("checked", "checked");
         else input.removeAttribute("checked");
       }
-    });
-  };
+    };
 
   const bindThemeChoices = () => {
-    const choices = Array.from(
-      documentRef?.querySelectorAll?.<HTMLElement>(".theme-choice") ?? [],
-    );
+    const choices = getChoices(".theme-choice");
     if (choices.length === 0) return;
-    const onKeyDown = dependencies.createThemeChoiceKeyDownHandler(choices);
-    choices.forEach((choice) => {
-      if (choice.dataset.themeBound === "true") return;
-      choice.dataset.themeBound = "true";
-      choice.addEventListener("click", options.selectTheme);
-      choice.addEventListener("keydown", onKeyDown);
-    });
+    const onKeyDown = createThemeChoiceKeyDownHandler(choices);
+    choices.forEach(bindChoiceEvents(onKeyDown, options.selectTheme));
   };
 
   const bindModeChoices = () => {
-    const choices = Array.from(
-      documentRef?.querySelectorAll?.<HTMLElement>(".mode-choice") ?? [],
-    );
+    const choices = getChoices(".mode-choice");
     if (choices.length === 0) return;
-    const onKeyDown = dependencies.createThemeChoiceKeyDownHandler(choices);
-    choices.forEach((choice) => {
+    const onKeyDown = createThemeChoiceKeyDownHandler(choices);
+    choices.forEach(bindChoiceEvents(onKeyDown, options.toggleDeveloperMode));
+  };
+
+  const bindChoiceEvents =
+    (onKeyDown: (event: KeyboardEvent) => void, toggleCallback: () => void) =>
+    (choice: HTMLElement) => {
       if (choice.dataset.modeBound === "true") return;
       choice.dataset.modeBound = "true";
-      choice.addEventListener("click", options.toggleDeveloperMode);
+      choice.addEventListener("click", toggleCallback);
+      choice.addEventListener("keydown", onKeyDown);
       choice
         .querySelector?.('input[type="radio"]')
-        ?.addEventListener("change", options.toggleDeveloperMode);
-      choice.addEventListener("keydown", onKeyDown);
-    });
-  };
+        ?.addEventListener("change", toggleCallback);
+    };
 
   const ensurePanelReady = async (panel: string) => {
     await options.ensureUtilityPanel?.(panel);
