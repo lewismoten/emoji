@@ -1,6 +1,9 @@
 import assert from "node:assert/strict";
 import * as preferences from "../../../src/preferences.js";
-import buildScheduler from "../../../src/explorer/audio/schedule-music.js";
+import buildScheduler, {
+  canSchedule,
+  schedule,
+} from "../../../src/explorer/audio/schedule-music.js";
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
@@ -92,6 +95,23 @@ try {
   };
   const scheduleMusic = buildScheduler(props);
 
+  assert.equal(canSchedule({}), false);
+  assert.equal(canSchedule({ context: context as unknown as AudioContext }), false);
+  assert.equal(
+    canSchedule({
+      context: { ...context, state: "suspended" } as AudioContext,
+      masterGain: masterGain as GainNode,
+    }),
+    false,
+  );
+  assert.equal(
+    canSchedule({
+      context: context as unknown as AudioContext,
+      masterGain: masterGain as GainNode,
+    }),
+    true,
+  );
+
   await scheduleMusic();
   assert.equal(props.stopMusicCalls, 1);
 
@@ -116,12 +136,43 @@ try {
   await scheduleMusic();
   assert.equal(props.musicTimer, undefined);
 
+  const directProps: any = {
+    musicBeat: 10,
+    musicGain: undefined,
+    musicTimer: undefined,
+  };
+  await schedule(
+    directProps,
+    {
+      context: context as unknown as AudioContext,
+      masterGain: masterGain as GainNode,
+    },
+    async () => undefined,
+  );
+  assert.equal(directProps.musicTimer, undefined);
+
   (globalThis.document as any).documentElement.dataset.theme = "retro";
   await scheduleMusic();
   assert.equal((props.musicBeat ?? 0) > 0, true);
   assert.equal((props.musicTimer ?? 0) > 0, true);
   assert.equal(props.musicGain != null, true);
   assert.equal(timeouts.length > 0, true);
+
+  const directScheduledProps: any = {
+    musicBeat: 1,
+    musicGain: undefined,
+    musicTimer: undefined,
+  };
+  await schedule(
+    directScheduledProps,
+    {
+      context: context as unknown as AudioContext,
+      masterGain: masterGain as GainNode,
+    },
+    async () => undefined,
+  );
+  assert.equal((directScheduledProps.musicBeat ?? 0) > 1, true);
+  assert.equal((directScheduledProps.musicTimer ?? 0) > 0, true);
 } finally {
   if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");

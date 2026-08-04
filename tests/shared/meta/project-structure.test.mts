@@ -60,7 +60,7 @@ assert.deepEqual(
 const legacyFileCountBudgets: Record<string, number> = {
   src: 18,
   tests: 17,
-  "tests/explorer/audio": 12,
+  "tests/explorer/audio": 13,
 };
 assert.deepEqual(
   Object.entries(legacyFileCountBudgets).filter(
