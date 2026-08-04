@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import syncChoiceInputSelection from "../src/sync-choice-input-selection.js";
+import syncChoiceInputSelection from "../../../../src/sync-choice-input-selection.js";
 
 const attributes = new Map<string, string>();
 const input = {

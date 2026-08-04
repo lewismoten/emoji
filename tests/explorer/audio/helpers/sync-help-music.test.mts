@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import * as preferences from "../../../src/preferences.js";
-import buildSyncMusic from "../../../src/explorer/audio/sync-help-music.js";
+import * as preferences from "../../../../src/preferences.js";
+import buildSyncMusic from "../../../../src/explorer/audio/sync-help-music.js";
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");

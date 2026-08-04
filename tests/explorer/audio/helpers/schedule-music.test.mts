@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
-import * as preferences from "../../../src/preferences.js";
+import * as preferences from "../../../../src/preferences.js";
 import buildScheduler, {
   canSchedule,
   schedule,
-} from "../../../src/explorer/audio/schedule-music.js";
+} from "../../../../src/explorer/audio/schedule-music.js";
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");

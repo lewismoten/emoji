@@ -6,7 +6,7 @@ import {
   renderThemeToggle,
   selectEmojiFont,
   selectTheme,
-} from "../src/explorer-ui.js";
+} from "../../../src/explorer-ui.js";
 
 assert.equal(typeof createExplorerUiController, "function");
 assert.equal(typeof createDeveloperModeController, "function");

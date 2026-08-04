@@ -34,11 +34,16 @@ function expectedTestFiles(sourceFile: string) {
   return [`tests/${relative}.test.mts`, `tests/${relative}.test.ts`];
 }
 
+function matchingTestFiles(sourceFile: string) {
+  const base = path.posix.basename(sourceFile).replace(/\.ts$/, "");
+  return [...testFiles].filter((candidate) => {
+    const name = path.posix.basename(candidate);
+    return name === `${base}.test.mts` || name === `${base}.test.ts`;
+  });
+}
+
 const missingTests = sourceFiles.filter(
-  (sourceFile) =>
-    !expectedTestFiles(sourceFile).some((candidate) =>
-      testFiles.has(candidate),
-    ),
+  (sourceFile) => matchingTestFiles(sourceFile).length === 0,
 );
 
 function expectedImportSpecifiers(sourceFile: string, testFile: string) {
@@ -69,9 +74,7 @@ for (const sourceFile of legacyMissingTestPairs) {
 }
 
 for (const sourceFile of sourceFiles) {
-  const matchingTests = expectedTestFiles(sourceFile).filter((candidate) =>
-    testFiles.has(candidate),
-  );
+  const matchingTests = matchingTestFiles(sourceFile);
   if (matchingTests.length === 0) continue;
   const importsSource = matchingTests.some((testFile) => {
     const contents = fs.readFileSync(path.join(root, testFile), "utf8");

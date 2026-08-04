@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import * as preferences from "../src/preferences.js";
-import resolveExplorerMode from "../src/resolve-explorer-mode.js";
+import * as preferences from "../../../../src/preferences.js";
+import resolveExplorerMode from "../../../../src/resolve-explorer-mode.js";
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 

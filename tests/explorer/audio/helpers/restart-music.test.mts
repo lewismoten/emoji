@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import * as preferences from "../../../src/preferences.js";
-import buildRestart from "../../../src/explorer/audio/restart-music.js";
+import * as preferences from "../../../../src/preferences.js";
+import buildRestart from "../../../../src/explorer/audio/restart-music.js";
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");

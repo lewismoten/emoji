@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import type { EngineProps } from "../../../src/explorer/audio/engine-props.js";
+import type { EngineProps } from "../../../../src/explorer/audio/engine-props.js";
 
 const props: EngineProps = {
   audioContext: undefined,

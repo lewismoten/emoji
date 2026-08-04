@@ -3,7 +3,7 @@ import type {
   DeveloperModeControllerOptions,
   ExplorerMode,
   ExplorerState,
-} from "../src/developer-mode-controller-options.js";
+} from "../../../../src/developer-mode-controller-options.js";
 
 const state: ExplorerState = {
   developerModeFromUrl: false,

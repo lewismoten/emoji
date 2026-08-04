@@ -18,7 +18,7 @@ const legacyLineBudgets: Record<string, number> = {
   "src/explorer-app.ts": 344,
   "src/site/themes/retro/retro-buttons.css": 301,
   "src/site/themes/retro/retro-forms.css": 362,
-  "tests/shared/meta/project-structure.test.mts": 305,
+  "tests/shared/meta/project-structure.test.mts": 301,
   "tests/app/bootstrap/explorer-bootstrap-controllers-runtime.test.mts": 536,
   "tests/app/browser/browser-runtime-service-worker.test.mts": 489,
   "tests/app/bootstrap/explorer-bootstrap-session-runtime.test.mts": 547,
@@ -59,8 +59,6 @@ assert.deepEqual(
 
 const legacyFileCountBudgets: Record<string, number> = {
   src: 18,
-  tests: 17,
-  "tests/explorer/audio": 13,
 };
 assert.deepEqual(
   Object.entries(legacyFileCountBudgets).filter(
@@ -70,9 +68,7 @@ assert.deepEqual(
   "Files in directory specified below limits.",
 );
 
-const legacyDirectoryCountBudgets: Record<string, number> = {
-  "tests/explorer": 11,
-};
+const legacyDirectoryCountBudgets: Record<string, number> = {};
 assert.deepEqual(
   Object.entries(legacyDirectoryCountBudgets).filter(
     ([key, value]) => value < structureLimits.directoriesPerDirectory,

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
-import * as preferences from "../src/preferences.js";
-import buildHandler from "../src/developer-mode-controller-change.js";
+import * as preferences from "../../../../src/preferences.js";
+import buildHandler from "../../../../src/developer-mode-controller-change.js";
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 
