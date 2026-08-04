@@ -77,12 +77,16 @@ export function bindServiceWorkerRuntime(options: {
   const cachesRef =
     options.cachesRef ?? (typeof caches !== "undefined" ? caches : undefined);
   const warn = options.warn ?? console.warn;
+  const origin = windowRef?.location?.origin ?? "";
+  const hostname =
+    windowRef?.location?.hostname ?? (origin ? new URL(origin).hostname : "");
+  const isLocalPreview = ["127.0.0.1", "localhost"].includes(hostname);
   if (
     navigatorRef &&
     windowRef &&
     "serviceWorker" in navigatorRef &&
     windowRef.isSecureContext &&
-    (options.isViteDevelopment || route.isLocalPreview())
+    (options.isViteDevelopment || isLocalPreview)
   ) {
     windowRef.addEventListener("load", async () => {
       try {
@@ -90,9 +94,7 @@ export function bindServiceWorkerRuntime(options: {
           await navigatorRef.serviceWorker!.getRegistrations!();
         await Promise.all(
           registrations
-            .filter((registration) =>
-              registration.scope.startsWith(route.getOrigin()),
-            )
+            .filter((registration) => registration.scope.startsWith(origin))
             .map((registration) => registration.unregister()),
         );
         if (!cachesRef) return;

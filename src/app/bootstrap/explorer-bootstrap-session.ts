@@ -221,8 +221,9 @@ bindings.bootstrapRuntime = initializeExplorerBootstrapSessionRuntime({
   controllers,
   panelDialogs,
   restoreDeveloperMode: () => {
-    explorerState.explorerModeFromUrl = route.getMode();
-    explorerState.developerModeFromUrl = route.getIsDeveloper();
+    const explorerModeFromUrl = parseExplorerModeParam(route.getSearch());
+    explorerState.explorerModeFromUrl = explorerModeFromUrl;
+    explorerState.developerModeFromUrl = explorerModeFromUrl !== "";
     shell.renderDeveloperMode();
   },
   shell,
