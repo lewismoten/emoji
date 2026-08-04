@@ -41,20 +41,13 @@ type EngineProps = {
     resetMusicPlayback: () => void;
 }
 export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
-  
-
-  const props: EngineProps = {
+  const props = {
     audioContext: undefined,
-   masterGain: undefined,
-   musicTimer: undefined,
-   musicBeat: 0,
-   musicGain: undefined,
-   stopMusic: () => undefined,
-   getAudioContext: () => undefined,
-   resumeAudioContext:  () => Promise.resolve(undefined),
-   scheduleMusic: () => Promise.resolve(),
-   resetMusicPlayback: () => undefined
-  }
+    masterGain: undefined,
+    musicTimer: undefined,
+    musicBeat: 0,
+    musicGain: undefined,
+  } as EngineProps;
 
   props.getAudioContext = () => {
     if (props.audioContext) return props.audioContext;
