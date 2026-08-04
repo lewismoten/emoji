@@ -14,11 +14,10 @@ const markdownVisualWidth = 80;
 const legacyLineBudgets: Record<string, number> = {
   "src/controls/dialog/content/help-settings-dialog.ts": 312,
   "src/explorer/navigation/explorer-navigation.ts": 336,
-  "src/explorer/pwa-panels.ts": 408,
   "src/explorer-app.ts": 344,
   "src/site/themes/retro/retro-buttons.css": 301,
   "src/site/themes/retro/retro-forms.css": 362,
-  "tests/shared/meta/project-structure.test.mts": 301,
+  "tests/shared/meta/project-structure.test.mts": 303,
   "tests/app/bootstrap/explorer-bootstrap-controllers-runtime.test.mts": 536,
   "tests/app/browser/browser-runtime-service-worker.test.mts": 489,
   "tests/app/bootstrap/explorer-bootstrap-session-runtime.test.mts": 547,
@@ -41,7 +40,7 @@ const legacyLineBudgets: Record<string, number> = {
   "tests/explorer/navigation/url-state.test.mts": 423,
   "tests/explorer/pwa-panels.test.mts": 590,
   "tests/explorer/utility/runtime/utility-controls-fixture.mts": 305,
-  "tests/explorer-app.test.mts": 386,
+  "tests/explorer-app.test.mts": 389,
   "tests/pixel-editor/controllers/pixel-editor-atlas.test.mts": 346,
   "tests/pixel-editor/controllers/pixel-editor-transfer.test.mts": 405,
   "tests/pixel-editor/controllers/setup/pixel-editor-controller-visual.test.mts": 325,
@@ -68,7 +67,10 @@ assert.deepEqual(
   "Files in directory specified below limits.",
 );
 
-const legacyDirectoryCountBudgets: Record<string, number> = {};
+const legacyDirectoryCountBudgets: Record<string, number> = {
+  "src/explorer": 11,
+  "tests/explorer": 11,
+};
 assert.deepEqual(
   Object.entries(legacyDirectoryCountBudgets).filter(
     ([key, value]) => value < structureLimits.directoriesPerDirectory,

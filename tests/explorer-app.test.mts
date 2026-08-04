@@ -18,7 +18,10 @@ const transformedSource = source
     'from "./explorer/control-startup.js";',
     'from "./control-startup-stub.mjs";',
   )
-  .replace('from "./explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";')
+  .replace(
+    'from "./explorer/pwa/pwa-panels.js";',
+    'from "./pwa-panels-stub.mjs";',
+  )
   .replace(
     'from "./controls/audio/audio-toggle.js";',
     'from "./audio-toggle-stub.mjs";',

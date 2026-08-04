@@ -1,14 +1,14 @@
-import { getPanelNameFromDialog } from "./pwa-get-panel-name-from-dialog";
-import { ClosePanelOptions } from "./pwa-types";
+import { getPanelNameFromDialog } from "./pwa-get-panel-name-from-dialog.js";
+import type { ClosePanelOptions } from "./pwa-types.js";
 
-export const onPanelDialogClose = (options: ClosePanelOptions)  =>{
+export const onPanelDialogClose = (options: ClosePanelOptions) => {
   const {
-  applyingUrlState,
-  event,
-  suppressedPanelCloses,
-  syncUrlState,
-  urlStateReady,
-} = options;
+    applyingUrlState,
+    event,
+    suppressedPanelCloses,
+    syncUrlState,
+    urlStateReady,
+  } = options;
   const dialog = event.currentTarget as HTMLDialogElement | null;
   if (
     (dialog && suppressedPanelCloses.delete(dialog)) ||
@@ -47,4 +47,4 @@ export const onPanelDialogClose = (options: ClosePanelOptions)  =>{
     return;
   }
   syncAfterClose();
-}
+};

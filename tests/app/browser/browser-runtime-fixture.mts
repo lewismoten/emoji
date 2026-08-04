@@ -15,7 +15,7 @@ export async function createBrowserRuntimeFixture() {
       'import { createSearchLanguageLifecycle } from "./search-language-lifecycle-stub.mjs";',
     )
     .replace(
-      /import\s+\{\s*openPanelDialog\s*\}\s+from\s+"..\/..\/explorer\/pwa-panels\.js";/,
+      /import\s+\{\s*openPanelDialog\s*\}\s+from\s+"..\/..\/explorer\/pwa\/pwa-panels\.js";/,
       'import { openPanelDialog } from "./pwa-panels-stub.mjs";',
     )
     .replace(

@@ -27,7 +27,7 @@ export async function createBootstrapSessionFixture() {
       'from "./saved-emoji-stub.mjs";',
     )
     .replace(
-      'from "../../explorer/pwa-panels.js";',
+      'from "../../explorer/pwa/pwa-panels.js";',
       'from "./pwa-panels-stub.mjs";',
     )
     .replace('from "../../explorer-app.js";', 'from "./explorer-app-stub.mjs";')

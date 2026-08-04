@@ -144,6 +144,9 @@ export function restoreLanguageParentPanel(
         language: dialog,
         favorites:
           dialog?.ownerDocument?.querySelector("#saved-dialog") ?? null,
+        filters:
+          dialog?.ownerDocument?.querySelector("#advanced-filters-dialog") ??
+          null,
       },
       languageList: options.languageList(),
       renderSavedEmoji: () => {},

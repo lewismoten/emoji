@@ -65,7 +65,7 @@ const [
   read("src/index.ts"),
   read("src/explorer-app.ts"),
   read("src/app/explorer-shell.ts"),
-  read("src/explorer/pwa-panels.ts"),
+  read("src/explorer/pwa/pwa-panels.ts"),
   Promise.all([
     read("src/site/themes/base-theme.css"),
     read("src/site/themes/dark.css"),

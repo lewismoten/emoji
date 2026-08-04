@@ -23,7 +23,7 @@ export async function loadExplorerShellFixture() {
       'import * as audioToggle from "./audio-toggle-stub.mjs";',
     )
     .replace(
-      'from "../explorer/pwa-panels.js";',
+      'from "../explorer/pwa/pwa-panels.js";',
       'from "./pwa-panels-stub.mjs";',
     )
     .replace('from "../explorer-ui.js";', 'from "./explorer-ui-stub.mjs";')

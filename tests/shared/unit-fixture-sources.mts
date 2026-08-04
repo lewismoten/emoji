@@ -142,7 +142,7 @@ export const dialogViewHelper = await fs.readFile(
   "utf8",
 );
 export const pwaPanelsHelper = await fs.readFile(
-  path.join(root, "src/explorer/pwa-panels.ts"),
+  path.join(root, "src/explorer/pwa/pwa-panels.ts"),
   "utf8",
 );
 export const explorerGeneratorScript = await fs.readFile(

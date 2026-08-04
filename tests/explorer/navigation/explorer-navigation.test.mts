@@ -22,7 +22,7 @@ const transformedSource = source
     'import { applyBasicUrlStateToControls, applyExclusiveCheckboxSelection, applyLoadedUrlStateToControls, resetFilterControls, stepVersionIndex, filterControlCalls } from "./filter-controls-stub.mjs";',
   )
   .replace(
-    /import\s*\{\s*closePanelDialog,\s*ensurePanelDialogLifecycleBound,\s*getOpenPanel,\s*getPanelDialog,\s*openPanelDialog,\s*\}\s*from\s*"\.\.\/pwa-panels\.js";/,
+    /import\s*\{\s*closePanelDialog,\s*ensurePanelDialogLifecycleBound,\s*getOpenPanel,\s*getPanelDialog,\s*openPanelDialog,\s*\}\s*from\s*"\.\.\/pwa\/pwa-panels\.js";/,
     'import { closePanelDialog, ensurePanelDialogLifecycleBound, getOpenPanel, getPanelDialog, openPanelDialog, panelCalls } from "./pwa-panels-stub.mjs";',
   )
   .replace(

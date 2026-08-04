@@ -34,7 +34,7 @@ const sourceReplacements = [
     'from "../../explorer/explorer-labels.js";',
     'from "./explorer-labels-stub.mjs";',
   ],
-  ['from "../../explorer/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";'],
+  ['from "../../explorer/pwa/pwa-panels.js";', 'from "./pwa-panels-stub.mjs";'],
   [
     'from "../../explorer/emoji/emoji-filter.js";',
     'from "./emoji-filter-stub.mjs";',

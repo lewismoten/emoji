@@ -15,7 +15,7 @@ import {
   normalizeCodePoints,
 } from "../../explorer/emoji/emoji-format.js";
 import { animateCopyConfirmation as animateEmojiCopyConfirmation } from "../../explorer/saved-emoji.js";
-import { openPanelDialog } from "../../explorer/pwa-panels.js";
+import { openPanelDialog } from "../../explorer/pwa/pwa-panels.js";
 import { createExplorerApp } from "../../explorer-app.js";
 import { parseExplorerModeParam } from "../../explorer/navigation/url-state.js";
 import { createExplorerState } from "../../explorer-state.js";

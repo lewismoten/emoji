@@ -7,7 +7,11 @@ import type {
   PanelContext,
   OpenPanelOptions
 } from './pwa-types.js';
-import { getPanelDialog} from './pwa-get-panel-dialog.js';
+import { getPanelDialog } from "./pwa-get-panel-dialog.js";
+export { bindPanelDialog } from "./pwa-bind-panel-dialog.js";
+export { ensurePanelDialogLifecycleBound } from "./pwa-ensure-panel-dialog-lifecycle-bound.js";
+export { getPanelDialog } from "./pwa-get-panel-dialog.js";
+export { onPanelDialogClose } from "./pwa-on-panel-dialog-close.js";
 
 export const getInstalledDisplayQueries = () => {
   if (typeof window === "undefined") return [];

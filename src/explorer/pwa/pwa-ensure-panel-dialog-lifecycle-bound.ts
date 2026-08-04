@@ -1,5 +1,5 @@
-import { onPanelDialogClose } from "./pwa-on-panel-dialog-close";
-import { EnsurePanelDialogLifecycleBoundOptions } from "./pwa-types";
+import { onPanelDialogClose } from "./pwa-on-panel-dialog-close.js";
+import type { EnsurePanelDialogLifecycleBoundOptions } from "./pwa-types.js";
 
 export const ensurePanelDialogLifecycleBound = (
   options: EnsurePanelDialogLifecycleBoundOptions,
@@ -49,4 +49,4 @@ export const ensurePanelDialogLifecycleBound = (
     });
     options.onAfterClose?.();
   });
-}
+};

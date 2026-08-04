@@ -1,8 +1,8 @@
-import { ensurePanelDialogLifecycleBound } from "./ensure-panel-dialog-lifecycle-bound";
-import { getPanelDialog } from "./pwa-get-panel-dialog";
-import { BindPanelDialogOptions } from "./pwa-types";
+import { ensurePanelDialogLifecycleBound } from "./pwa-ensure-panel-dialog-lifecycle-bound.js";
+import { getPanelDialog } from "./pwa-get-panel-dialog.js";
+import type { BindPanelDialogOptions } from "./pwa-types.js";
 
-export const bindPanelDialog =(options: BindPanelDialogOptions) => {
+export const bindPanelDialog = (options: BindPanelDialogOptions) => {
   const resolveDialogs = () => options.getDialogs?.() ?? options.dialogs;
   const resolveDialog = () =>
     options.getDialog?.() ??
@@ -43,4 +43,4 @@ export const bindPanelDialog =(options: BindPanelDialogOptions) => {
     });
     await options.onAfterOpen?.();
   });
-}
+};
