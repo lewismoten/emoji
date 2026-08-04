@@ -47,7 +47,7 @@ try {
   assert.equal(route.getOrigin(), "https://emoji.example");
   assert.equal(
     route.getHref(),
-    "https://fallback.example/index.en.html?mode=developer&panel=help&x=1#top",
+    "https://emoji.example/index.en.html?mode=developer&panel=help&x=1#top",
   );
   assert.equal(route.isLocalPreview(), false);
   assert.equal(route.getMode(), "developer");
@@ -68,7 +68,7 @@ try {
   );
   assert.equal(
     route.buildUrl("./index.ar.html").href,
-    "https://fallback.example/index.ar.html",
+    "https://emoji.example/index.ar.html",
   );
   assert.equal(
     route.buildUrl({
@@ -76,7 +76,7 @@ try {
       search: "?panel=language",
       hash: "#dialog",
     }).href,
-    "https://fallback.example/index.ar.html?panel=language#dialog",
+    "https://emoji.example/index.ar.html?panel=language#dialog",
   );
   assert.deepEqual(route.getHistoryState(), { page: 1 });
   route.push("ar", {
@@ -85,6 +85,9 @@ try {
     hash: "",
   });
   route.applyHistory("replace", "/index.en.html?panel=filters", { page: 2 });
+  route.applyHistory("noop" as any, "/index.en.html?panel=ignored", {
+    page: 3,
+  });
   assert.deepEqual(historyCalls, [
     ["push", { locale: "ar" }, "/index.ar.html?panel=help"],
     ["replace", { page: 2 }, "/index.en.html?panel=filters"],
@@ -92,7 +95,13 @@ try {
 
   (globalThis.window as any).location = { pathname: "/local/index.html" };
   assert.equal(route.getLocale(), undefined);
-  assert.equal(route.getHref(), "https://fallback.example/local/index.html");
+  assert.equal(route.getHref(), "http://localhost/local/index.html");
+
+  Reflect.deleteProperty((globalThis as any).window, "location");
+  assert.equal(
+    route.buildUrl("./index.fr.html").href,
+    "https://fallback.example/base/index.fr.html",
+  );
 
   (globalThis.window as any).location = {
     origin: "http://localhost:4173",

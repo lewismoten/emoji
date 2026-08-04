@@ -134,7 +134,7 @@ try {
   );
   assert.deepEqual(fixture.historyCalls[1], {
     state: { locale: "ar" },
-    href: "/base/index.ar.html",
+    href: "/index.ar.html?panel=help&emoji=wave&emojiMode=code&group=People",
   });
   delete (fixture.documentStub as any).baseURI;
   fixture.windowStub.location.href = originalHref;

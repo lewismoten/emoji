@@ -12,6 +12,41 @@ const createEventTarget = () => {
   };
 };
 
+const createChoice = (dataset: Record<string, string>) => {
+  const inputListeners = new Map<string, Function[]>();
+  const input = {
+    checked: false,
+    defaultChecked: false,
+    addEventListener(type: string, handler: Function) {
+      const list = inputListeners.get(type) ?? [];
+      list.push(handler);
+      inputListeners.set(type, list);
+    },
+    listeners: inputListeners,
+    removeAttribute() {},
+    setAttribute() {},
+  };
+  return {
+    ...createEventTarget(),
+    attributes: new Map<string, string>(),
+    classStates: new Map<string, boolean>(),
+    classList: {
+      toggle(name: string, active: boolean) {
+        this.owner.classStates.set(name, active);
+      },
+      owner: undefined as any,
+    },
+    dataset,
+    querySelector(selector: string) {
+      return selector === 'input[type="radio"]' ? input : null;
+    },
+    setAttribute(name: string, value: string) {
+      this.attributes.set(name, value);
+    },
+    tabIndex: -1,
+  };
+};
+
 export async function createExplorerAppEventsFixture() {
   const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
   const originalDocument = Object.getOwnPropertyDescriptor(
@@ -21,6 +56,14 @@ export async function createExplorerAppEventsFixture() {
   const mediaListeners: Function[] = [];
   const onlineOfflineListeners = new Map<string, Function[]>();
   const documentListeners = new Map<string, Function[]>();
+  const themeChoiceOne = createChoice({ theme: "dark" });
+  const themeChoiceTwo = createChoice({ theme: "light" });
+  themeChoiceOne.classList.owner = themeChoiceOne;
+  themeChoiceTwo.classList.owner = themeChoiceTwo;
+  const modeChoiceOne = createChoice({ mode: "advanced" });
+  const modeChoiceTwo = createChoice({ mode: "standard" });
+  modeChoiceOne.classList.owner = modeChoiceOne;
+  modeChoiceTwo.classList.owner = modeChoiceTwo;
   const accessibilityStub = {
     bindModifierGroupCalls: [] as any[],
     bindSavedDialogInteractionsCalls: [] as any[],
@@ -64,15 +107,26 @@ export async function createExplorerAppEventsFixture() {
           },
         };
       },
+      setTimeout,
     },
   });
   Object.defineProperty(globalThis, "document", {
     configurable: true,
     value: {
+      documentElement: { dataset: { explorerMode: "advanced" } },
       addEventListener(type: string, handler: Function) {
         const list = documentListeners.get(type) ?? [];
         list.push(handler);
         documentListeners.set(type, list);
+      },
+      querySelector(selector: string) {
+        return selector === ".language-picker" ? languagePicker : null;
+      },
+      querySelectorAll(selector: string) {
+        if (selector === ".theme-choice")
+          return [themeChoiceOne, themeChoiceTwo];
+        if (selector === ".mode-choice") return [modeChoiceOne, modeChoiceTwo];
+        return [];
       },
     },
   });
@@ -115,9 +169,16 @@ export async function createExplorerAppEventsFixture() {
       return selector === ".install-dialog-close" ? installDialogClose : null;
     },
   };
-  const helpDialog = { open: true };
+  const helpDialog = {
+    open: true,
+    querySelectorAll(selector: string) {
+      if (selector === ".theme-choice") return [themeChoiceOne, themeChoiceTwo];
+      if (selector === ".mode-choice") return [modeChoiceOne, modeChoiceTwo];
+      return [];
+    },
+  };
   const languageDialog = { dataset: {} as Record<string, string> };
-  const savedDialog = {};
+  const savedDialog = createEventTarget();
   const advancedFilters = {};
   const panelDialogsValue = [{ id: "saved" }, { id: "help" }];
   const lifecycleCalls: string[] = [];
@@ -193,7 +254,6 @@ export async function createExplorerAppEventsFixture() {
 
   return {
     accessibilityStub,
-    audioToggleStub,
     bindsOptions,
     dependencies: {
       audioToggle: audioToggleStub,
@@ -214,6 +274,7 @@ export async function createExplorerAppEventsFixture() {
     languageDialog,
     lifecycleCalls,
     mediaListeners,
+    modeChoices: [modeChoiceOne, modeChoiceTwo],
     navigateCalls,
     onlineOfflineListeners,
     panelCloses,
@@ -227,6 +288,7 @@ export async function createExplorerAppEventsFixture() {
       else Reflect.deleteProperty(globalThis, "document");
     },
     stepCalls,
+    themeChoices: [themeChoiceOne, themeChoiceTwo],
     versionNext,
     versionPrevious,
   };

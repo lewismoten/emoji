@@ -21,8 +21,12 @@ const fallbackBaseUrl = () => {
   return `${origin}${urlString(location)}`;
 };
 
-const baseUrl = () =>
-  currentLocation()?.href ?? doc.getBaseUri() ?? fallbackBaseUrl();
+const baseUrl = () => {
+  const location = currentLocation();
+  if (location?.href) return location.href;
+  if (location) return fallbackBaseUrl();
+  return doc.getBaseUri() ?? "http://localhost/";
+};
 
 export const buildUrl = (bits: UrlBits | string) => {
   const base = baseUrl();

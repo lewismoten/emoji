@@ -282,7 +282,7 @@ export function bindExplorerEvents(
   bindLanguagePicker();
   if (getSavedDialog()) {
     const savedDialogDataset = ensureDataset(getSavedDialog());
-    bindSavedDialogInteractions({
+    dependencies.bindSavedDialogInteractions({
       ...options,
       savedDialog: getSavedDialog(),
     });

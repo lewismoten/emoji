@@ -14,17 +14,10 @@ const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
 const originalEvent = Object.getOwnPropertyDescriptor(globalThis, "Event");
 const asAny = (value: unknown) => value as any;
-try {
-  const defaults = createExplorerNavigationDependencies();
-  assert.equal(typeof defaults.parseExplorerUrlState, "function");
-  assert.equal(typeof defaults.buildExplorerUrlQuery, "function");
-  assert.equal(typeof defaults.getPanelDialog, "function");
-  assert.equal(typeof defaults.openPanelDialog, "function");
-  const fixture = createExplorerNavigationDirectFixture();
-
-  const defaultNavigation = createExplorerNavigation({
+const createBaseNavigationOptions = (overrides: Record<string, unknown> = {}) =>
+  ({
     allowedSequenceTypes: [],
-    applyingUrlState: () => true,
+    applyingUrlState: () => false,
     closeEmojiDialog() {},
     compositionMode: () => "full",
     currentEmojiKey: () => "",
@@ -65,11 +58,26 @@ try {
     subGroups: () => ({}),
     suppressedPanelCloses: () => new WeakSet(),
     syncVersionRange() {},
-    urlStateReady: () => false,
+    urlStateReady: () => true,
     versionModeSelector: () => asAny({ value: "through" }),
     versionRange: () => asAny({ value: "0", dispatchEvent() {} }),
     versionSelector: () => asAny({ value: "", options: { length: 0 } }),
-  });
+    ...overrides,
+  }) as any;
+try {
+  const defaults = createExplorerNavigationDependencies();
+  assert.equal(typeof defaults.parseExplorerUrlState, "function");
+  assert.equal(typeof defaults.buildExplorerUrlQuery, "function");
+  assert.equal(typeof defaults.getPanelDialog, "function");
+  assert.equal(typeof defaults.openPanelDialog, "function");
+  const fixture = createExplorerNavigationDirectFixture();
+
+  const defaultNavigation = createExplorerNavigation(
+    createBaseNavigationOptions({
+      applyingUrlState: () => true,
+      urlStateReady: () => false,
+    }),
+  );
   assert.equal(typeof defaultNavigation.syncUrlState, "function");
   installExplorerNavigationGlobals(fixture);
 
@@ -266,6 +274,28 @@ try {
     "/index.en.html?built=query#top",
     { page: 1 },
   ]);
+  assert.equal(
+    fixture.urlStateCalls.some(
+      (call: any[]) =>
+        call[0] === "buildExplorerUrlQuery" &&
+        call[1]?.explorerMode === "advanced",
+    ),
+    true,
+  );
+
+  fixture.urlStateCalls.length = 0;
+  (globalThis.document as any).documentElement ??= { dataset: {} };
+  (globalThis.document as any).documentElement.dataset ??= {};
+  (globalThis.document as any).documentElement.dataset.explorerMode = "developer";
+  navigation.syncUrlState("replace");
+  assert.equal(
+    fixture.urlStateCalls.some(
+      (call: any[]) =>
+        call[0] === "buildExplorerUrlQuery" &&
+        call[1]?.explorerMode === "developer",
+    ),
+    true,
+  );
 
   Reflect.deleteProperty(globalThis, "window");
   navigation.applyLoadedUrlState();
@@ -347,55 +377,12 @@ try {
   assert.equal(typingEvent.preventDefaultCalled, false);
 
   Reflect.deleteProperty(globalThis, "document");
-  const noDocumentNavigation = createExplorerNavigation({
-    ...({
-      allowedSequenceTypes: [],
-      applyingUrlState: () => false,
-      closeEmojiDialog() {},
-      compositionMode: () => "full",
-      currentEmojiKey: () => "",
-      developerModeEnabled: () => false,
-      fullDeveloperModeEnabled: () => false,
-      dialog: () => asAny({ open: false, classList: { contains: () => false } }),
-      drawList() {},
-      emojiByKey: () => ({}),
-      genderCheckboxes: () => [],
-      getOrderMode: () => "unicode",
-      getSelectedGroup: () => "",
-      getSelectedSequenceType: () => "",
-      getSelectedSubGroup: () => "",
-      groups: () => [],
-      hairCheckboxes: () => [],
-      helpDialog: () => undefined,
-      languageList: () => undefined,
-      latestReleasedVersion: () => undefined,
-      navigateEmoji() {},
-      openEmoji() {},
-      orderButtons: () => [],
-      panelDialogs: () => ({}),
-      preferredOrder: () => "unicode",
-      renderCategoryFilters() {},
-      renderSavedEmoji() {},
-      renderVersionModeToggle() {},
+  const noDocumentNavigation = createExplorerNavigation(
+    createBaseNavigationOptions({
       searchText: () => asAny({ value: "" }),
-      setCompositionMode() {},
-      setDialogView() {},
-      setOrderMode() {},
-      setSelectedGroup() {},
-      setSelectedSequenceType() {},
-      setSelectedSubGroup() {},
-      showEmojiDialog() {},
-      skinToneCheckboxes: () => [],
       subGroupSelectionKey: () => "",
-      subGroups: () => ({}),
-      suppressedPanelCloses: () => new WeakSet(),
-      syncVersionRange() {},
-      urlStateReady: () => true,
-      versionModeSelector: () => asAny({ value: "through" }),
-      versionRange: () => asAny({ value: "0", dispatchEvent() {} }),
-      versionSelector: () => asAny({ value: "", options: { length: 0 } }),
-    }) as any,
-  });
+    }),
+  );
   noDocumentNavigation.syncUrlState("replace");
 
   Object.defineProperty(globalThis, "document", {
@@ -406,56 +393,50 @@ try {
       },
     },
   });
-  const developerFallbackNavigation = createExplorerNavigation({
-    ...({
-      allowedSequenceTypes: [],
-      applyingUrlState: () => false,
-      closeEmojiDialog() {},
-      compositionMode: () => "full",
-      currentEmojiKey: () => "",
-      developerModeEnabled: () => false,
+  const developerFallbackNavigation = createExplorerNavigation(
+    createBaseNavigationOptions({
       fullDeveloperModeEnabled: () => true,
-      dialog: () => asAny({ open: false, classList: { contains: () => false } }),
-      drawList() {},
-      emojiByKey: () => ({}),
-      genderCheckboxes: () => [],
-      getOrderMode: () => "unicode",
-      getSelectedGroup: () => "",
-      getSelectedSequenceType: () => "",
-      getSelectedSubGroup: () => "",
-      groups: () => [],
-      hairCheckboxes: () => [],
-      helpDialog: () => undefined,
-      languageList: () => undefined,
-      latestReleasedVersion: () => undefined,
-      navigateEmoji() {},
-      openEmoji() {},
-      orderButtons: () => [],
-      panelDialogs: () => ({}),
-      preferredOrder: () => "unicode",
-      renderCategoryFilters() {},
-      renderSavedEmoji() {},
-      renderVersionModeToggle() {},
       searchText: () => asAny({ value: "" }),
-      setCompositionMode() {},
-      setDialogView() {},
-      setOrderMode() {},
-      setSelectedGroup() {},
-      setSelectedSequenceType() {},
-      setSelectedSubGroup() {},
-      showEmojiDialog() {},
-      skinToneCheckboxes: () => [],
       subGroupSelectionKey: () => "",
-      subGroups: () => ({}),
-      suppressedPanelCloses: () => new WeakSet(),
-      syncVersionRange() {},
-      urlStateReady: () => true,
-      versionModeSelector: () => asAny({ value: "through" }),
-      versionRange: () => asAny({ value: "0", dispatchEvent() {} }),
-      versionSelector: () => asAny({ value: "", options: { length: 0 } }),
-    }) as any,
-  });
+    }),
+  );
   developerFallbackNavigation.applyBasicUrlState();
+
+  const standardFallbackCalls: any[] = [];
+  Object.defineProperty(globalThis, "document", {
+    configurable: true,
+    value: {
+      documentElement: {
+        dataset: {},
+      },
+    },
+  });
+  Object.defineProperty(globalThis, "window", {
+    configurable: true,
+    value: {
+      history: {
+        state: {},
+        pushState() {},
+        replaceState() {},
+      },
+      location: { hash: "", pathname: "/index.en.html", search: "" },
+    },
+  });
+  const standardFallbackNavigation = createExplorerNavigation(
+    createBaseNavigationOptions({
+      searchText: () => asAny({ value: "" }),
+      subGroupSelectionKey: () => "",
+    }),
+    {
+      ...defaults,
+      buildExplorerUrlQuery(options: unknown) {
+        standardFallbackCalls.push(options);
+        return "";
+      },
+    },
+  );
+  standardFallbackNavigation.syncUrlState("replace");
+  assert.equal(standardFallbackCalls[0]?.explorerMode, "standard");
 
   const lateDialogs = {
     favorites: undefined,
@@ -488,53 +469,11 @@ try {
   });
   const ensuredPanelNavigation = createExplorerNavigation(
     {
-      ...( {
-        allowedSequenceTypes: [],
-        applyingUrlState: () => false,
-        closeEmojiDialog() {},
-        compositionMode: () => "full",
-        currentEmojiKey: () => "",
-        developerModeEnabled: () => false,
-        fullDeveloperModeEnabled: () => false,
-        dialog: () => asAny({ open: false, classList: { contains: () => false } }),
-        drawList() {},
-        emojiByKey: () => ({}),
-        genderCheckboxes: () => [],
-        getOrderMode: () => "unicode",
-        getSelectedGroup: () => "",
-        getSelectedSequenceType: () => "",
-        getSelectedSubGroup: () => "",
-        groups: () => [],
-        hairCheckboxes: () => [],
-        helpDialog: () => undefined,
-        languageList: () => undefined,
-        latestReleasedVersion: () => undefined,
-        navigateEmoji() {},
-        openEmoji() {},
-        orderButtons: () => [],
+      ...createBaseNavigationOptions({
         panelDialogs: () => lateDialogs,
-        preferredOrder: () => "unicode",
-        renderCategoryFilters() {},
-        renderSavedEmoji() {},
-        renderVersionModeToggle() {},
         searchText: () => asAny({ value: "" }),
-        setCompositionMode() {},
-        setDialogView() {},
-        setOrderMode() {},
-        setSelectedGroup() {},
-        setSelectedSequenceType() {},
-        setSelectedSubGroup() {},
-        showEmojiDialog() {},
-        skinToneCheckboxes: () => [],
         subGroupSelectionKey: () => "",
-        subGroups: () => ({}),
-        suppressedPanelCloses: () => new WeakSet(),
-        syncVersionRange() {},
-        urlStateReady: () => true,
-        versionModeSelector: () => asAny({ value: "through" }),
-        versionRange: () => asAny({ value: "0", dispatchEvent() {} }),
-        versionSelector: () => asAny({ value: "", options: { length: 0 } }),
-      }) as any,
+      }),
       ensurePanelDialog(panel: string) {
         ensuredPanels.push(panel);
         lateDialogs.filters = { id: "filters" };
