@@ -18,3 +18,4 @@
 /src/explorer/**/*.js
 /src/explorer/**/*.js.map
 .DS_Store
+/.tmp-v8-*/
