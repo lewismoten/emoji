@@ -13,6 +13,7 @@ import * as win from '../../utils/window.js';
 import buildScheduler from "./schedule-music.js";
 import buildRestart from "./restart-music.js";
 import buildSyncMusic from "./sync-help-music.js";
+import { EngineProps } from "./engine-props.js";
 
 export interface ExplorerAudioEngine {
     playClick: () => Promise<void>,
@@ -26,19 +27,6 @@ export interface ExplorerAudioEngine {
     resumeAudioContext: () => Promise<AudioContext | undefined>,
     stopMusic: () => void,
     syncHelpMusic: () => Promise<void>,
-}
-type EngineProps = {
-  audioContext: AudioContext | undefined;
-   masterGain: GainNode | undefined;
-   musicTimer: number | undefined;
-   musicBeat: number;
-   musicGain: GainNode | undefined;
-
-    stopMusic: () => void;
-    getAudioContext: () => AudioContext | undefined;
-    resumeAudioContext: () => Promise<AudioContext | undefined>;
-    scheduleMusic: () => Promise<void>;
-    resetMusicPlayback: () => void;
 }
 export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
   const props = {

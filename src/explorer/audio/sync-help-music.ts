@@ -1,28 +1,14 @@
 import * as audioHelpers from './audio-helpers.js';
+import { EngineProps } from './engine-props.js';
 
-export type SyncProps = {
-  stopMusic: () => void;
-  musicTimer: number | undefined;
-  resumeAudioContext: () => Promise<AudioContext | undefined>;
-  scheduleMusic: () => Promise<void>;
-}
-
-const buildSyncMusic = (props: SyncProps) => {
+const buildSyncMusic = (props: EngineProps) => {
   const syncHelpMusic = async () => {
     const enabled = await audioHelpers.shouldPlayMusic();
-    if (!enabled) {
-      props.stopMusic();
-      return;
-    }
-    if (!props.musicTimer) {
-      const context = await props.resumeAudioContext();
-      if (!context) return;
-      if (await audioHelpers.shouldPlayMusic()) {
-        await props.scheduleMusic();
-      }
-      return;
-    }
-    await props.resumeAudioContext();
+    if (!enabled) return void props.stopMusic();
+    const context = await props.resumeAudioContext();
+    if (props.musicTimer || !context) return;
+    if (await audioHelpers.shouldPlayMusic())
+      await props.scheduleMusic();
   };
   return syncHelpMusic;
 }

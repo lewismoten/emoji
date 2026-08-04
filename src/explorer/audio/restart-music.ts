@@ -1,12 +1,7 @@
 import * as audioHelpers from './audio-helpers.js';
+import { EngineProps } from './engine-props.js';
 
-export type RestartProps = {
-  resetMusicPlayback: () => void;
-  musicTimer: number | undefined;
-  resumeAudioContext: () => Promise<AudioContext | undefined>;
-  scheduleMusic: () => Promise<void>;
-}
-const buildRestart = (props: RestartProps) => {
+const buildRestart = (props: EngineProps) => {
   const restartMusic = async () => {
     props.resetMusicPlayback();
     const enabled = await audioHelpers.shouldPlayMusic();

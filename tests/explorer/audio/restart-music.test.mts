@@ -36,7 +36,13 @@ try {
   let scheduleCalls = 0;
   let resumeCalls = 0;
   const props = {
+    audioContext: undefined,
+    getAudioContext: () => undefined,
+    masterGain: undefined,
+    musicBeat: 0,
+    musicGain: undefined,
     musicTimer: undefined as number | undefined,
+    stopMusic: () => undefined,
     resetMusicPlayback: () => {
       resetCalls += 1;
     },

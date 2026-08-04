@@ -36,11 +36,17 @@ try {
   let resumeCalls = 0;
   let scheduleCalls = 0;
   const props = {
+    audioContext: undefined,
+    getAudioContext: () => undefined,
+    masterGain: undefined,
+    musicBeat: 0,
+    musicGain: undefined,
     musicTimer: undefined as number | undefined,
     resumeAudioContext: async () => {
       resumeCalls += 1;
       return { state: "running" } as AudioContext;
     },
+    resetMusicPlayback: () => undefined,
     scheduleMusic: async () => {
       scheduleCalls += 1;
     },

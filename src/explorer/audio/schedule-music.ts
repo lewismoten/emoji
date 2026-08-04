@@ -1,40 +1,48 @@
 import * as audioHelpers from './audio-helpers.js';
 import { scheduleExplorerMusic } from "./explorer-audio-music.js";
 import * as win from '../../utils/window.js';
+import { EngineProps } from './engine-props.js';
 
-export type SchedulerProps = {
-  stopMusic: () => void;
-  getAudioContext: () => AudioContext | undefined;
-  masterGain: GainNode | undefined;
-  musicGain: GainNode | undefined;
-  musicBeat: number;
-  musicTimer: number | undefined
-}
-const buildScheduler = (props: SchedulerProps) => {
+type SchedulableAudio = {
+  context: AudioContext;
+  masterGain: GainNode;
+};
 
-  const scheduleMusic = async () => {
-    const enabled = await audioHelpers.shouldPlayMusic();
-    if (!enabled) {
-      props.stopMusic();
-      return;
-    }
-    const context = props.getAudioContext();
-    if (!context || context.state !== "running" || !props.masterGain) return;
-    const scheduled = await scheduleExplorerMusic({
+export const canSchedule = (
+  value: Partial<SchedulableAudio>,
+): value is SchedulableAudio =>
+  value.context !== undefined &&
+  value.context.state === "running" &&
+  value.masterGain !== undefined;
+
+export const schedule = async (props: EngineProps, {context, masterGain}: SchedulableAudio, schedulePlayback: () => Promise<void>) => {
+  const { musicBeat, musicGain} = props;
+  const scheduled = await scheduleExplorerMusic({
       context,
       createGain: () => context.createGain(),
-      masterGain: props.masterGain,
-      musicBeat: props.musicBeat,
-      musicGain: props.musicGain,
-      scheduleNext: (callback, timeout) => win.setTimeout(callback, timeout),
-      schedulePlayback: scheduleMusic
+      masterGain,
+      musicBeat,
+      musicGain,
+      scheduleNext: win.setTimeout,
+      schedulePlayback
     });
     if(!scheduled) return;
     props.musicBeat = scheduled.musicBeat;
     props.musicGain = scheduled.musicGain;
     props.musicTimer = scheduled.musicTimer;
-  };
-  return scheduleMusic;
 }
-
+const buildScheduler = (props: EngineProps) => {
+  const schedulePlayback = async () => {
+    const { stopMusic, getAudioContext, masterGain} = props;
+    const enabled = await audioHelpers.shouldPlayMusic();
+    if (!enabled) {
+      stopMusic();
+      return;
+    }
+    const audio = { context: getAudioContext(), masterGain };
+    if (!canSchedule(audio)) return;
+    await schedule(props, audio, schedulePlayback);
+  }
+  return schedulePlayback;
+}
 export default buildScheduler;
