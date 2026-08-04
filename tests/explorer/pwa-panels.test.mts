@@ -14,7 +14,7 @@ import {
   openPanelDialog,
   renderInstallAppButton,
   updateWebAppManifest,
-} from "../../src/explorer/pwa-panels.js";
+} from "../../src/explorer/pwa/pwa-panels.js";
 
 class FakeElement {
   hidden = false;

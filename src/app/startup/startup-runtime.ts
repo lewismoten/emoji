@@ -9,7 +9,7 @@ import {
   closePanelDialog,
   getInstalledDisplayQueries,
   openPanelDialog,
-} from "../../explorer/pwa-panels.js";
+} from "../../explorer/pwa/pwa-panels.js";
 import { createStartupOrchestrator } from "./startup-orchestrator.js";
 
 export function createStartupRuntime(options: any) {

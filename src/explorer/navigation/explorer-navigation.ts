@@ -12,7 +12,7 @@ import {
   getOpenPanel,
   getPanelDialog,
   openPanelDialog,
-} from "../pwa-panels.js";
+} from "../pwa/pwa-panels.js";
 import { applyLanguagePanelParent } from "./panel-parent.js";
 
 type Checkbox = { checked: boolean; value: string };

@@ -7,7 +7,7 @@ import {
   finalizeExplorerStartup as finalizeExplorerStartupHelper,
   initializeExplorerControls as initializeExplorerControlsHelper,
 } from "./explorer/control-startup.js";
-import { bindPanelDialog } from "./explorer/pwa-panels.js";
+import { bindPanelDialog } from "./explorer/pwa/pwa-panels.js";
 import * as themes from "./utils/themes.js";
 type ApplicationWindow = {
   addEventListener(type: "load", listener: () => void): void;

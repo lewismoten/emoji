@@ -25,7 +25,7 @@ import {
   onPanelDialogClose,
   openPanelDialog,
   updateWebAppManifest,
-} from "../../explorer/pwa-panels.js";
+} from "../../explorer/pwa/pwa-panels.js";
 import { getEmojiGenders } from "../../explorer/emoji/emoji-filter.js";
 
 export function createExplorerBootstrapRuntime(options: any) {

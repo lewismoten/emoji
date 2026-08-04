@@ -3,7 +3,7 @@ import { createExplorerAudioController } from "../explorer-audio.js";
 import {
   installApp as installWebApp,
   renderInstallAppButton as renderInstallAppButtonHelper,
-} from "../explorer/pwa-panels.js";
+} from "../explorer/pwa/pwa-panels.js";
 import {
   createDeveloperModeController,
   createExplorerUiController,
