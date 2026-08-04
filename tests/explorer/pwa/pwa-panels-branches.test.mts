@@ -184,6 +184,20 @@ try {
   });
   assert.equal(warnCalls.length, 1);
 
+  await installApp({
+    deferredInstallPrompt: {
+      async prompt() {
+        throw { name: "OtherError" };
+      },
+      userChoice: Promise.resolve({}),
+    } as unknown as Event & {
+      prompt(): Promise<void>;
+      userChoice: Promise<unknown>;
+    },
+    renderInstallAppButton() {},
+  });
+  assert.equal(warnCalls.length, 2);
+
   const favoriteDialog = new FakeDialog();
   const favoriteClose = new FakeElement();
   favoriteDialog.queryMap.set(".dialog-close", favoriteClose);

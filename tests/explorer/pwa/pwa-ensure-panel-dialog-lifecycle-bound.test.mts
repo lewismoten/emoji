@@ -167,6 +167,61 @@ try {
   });
   foreignPanelDialog.closeButton.listeners.get("click")?.[0]?.();
   assert.equal(replaceCalls.length, foreignPanelReplacements);
+
+  const noAfterCloseDialog = new FakeDialog();
+  const noAfterCloseSyncCalls: string[] = [];
+  ensurePanelDialogLifecycleBound({
+    applyingUrlState: () => false,
+    dialog: noAfterCloseDialog as unknown as HTMLDialogElement,
+    panel: "help",
+    suppressedPanelCloses: new WeakSet<HTMLDialogElement>(),
+    syncUrlState() {
+      noAfterCloseSyncCalls.push("sync");
+    },
+    urlStateReady: () => true,
+  });
+  noAfterCloseDialog.listeners.get("close")?.[0]?.({
+    currentTarget: noAfterCloseDialog,
+  } as unknown as Event);
+  assert.deepEqual(noAfterCloseSyncCalls, ["sync"]);
+
+  const emptyQueryDialog = new FakeDialog();
+  (globalThis.window as {
+    location: { hash: string; pathname: string; search: string };
+    requestAnimationFrame?: (handler: () => void) => void;
+  }).location.search = "?panel=help";
+  ensurePanelDialogLifecycleBound({
+    applyingUrlState: () => false,
+    dialog: emptyQueryDialog as unknown as HTMLDialogElement,
+    panel: "help",
+    suppressedPanelCloses: new WeakSet<HTMLDialogElement>(),
+    syncUrlState() {},
+    urlStateReady: () => true,
+  });
+  emptyQueryDialog.closeButton.listeners.get("click")?.[0]?.();
+  assert.equal(replaceCalls.at(-1), "/demo#now");
+
+  const windowDescriptor = Object.getOwnPropertyDescriptor(globalThis, "window");
+  if (windowDescriptor) {
+    delete (globalThis as Record<string, unknown>).window;
+  }
+  try {
+    const noWindowDialog = new FakeDialog();
+    ensurePanelDialogLifecycleBound({
+      applyingUrlState: () => false,
+      dialog: noWindowDialog as unknown as HTMLDialogElement,
+      panel: "help",
+      suppressedPanelCloses: new WeakSet<HTMLDialogElement>(),
+      syncUrlState() {},
+      urlStateReady: () => true,
+    });
+    noWindowDialog.closeButton.listeners.get("click")?.[0]?.();
+    assert.equal(noWindowDialog.dataset.panelClosing, "true");
+  } finally {
+    if (windowDescriptor) {
+      Object.defineProperty(globalThis, "window", windowDescriptor);
+    }
+  }
 } finally {
   if (originalWindow) {
     Object.defineProperty(globalThis, "window", originalWindow);

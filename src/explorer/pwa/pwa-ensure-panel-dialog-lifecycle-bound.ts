@@ -1,6 +1,10 @@
 import { onPanelDialogClose } from "./pwa-on-panel-dialog-close.js";
 import type { EnsurePanelDialogLifecycleBoundOptions } from "./pwa-types.js";
 
+type UrlBits = Pick<Location, "pathname" | "search" | "hash">;
+const URL_BASE = "https://emoji.test";
+const buildUrl = ({pathname:p, search:s, hash:h}: UrlBits) => `${p}${s}${h}`;
+
 export const ensurePanelDialogLifecycleBound = (
   options: EnsurePanelDialogLifecycleBoundOptions,
 ) => {
@@ -11,14 +15,17 @@ export const ensurePanelDialogLifecycleBound = (
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
     if (params.get("panel") !== options.panel) return;
-    params.delete("panel");
-    const query = params.toString();
-    const nextUrl = `${window.location.pathname}${query ? `?${query}` : ""}${window.location.hash}`;
-    window.history.replaceState(window.history.state, "", nextUrl);
+    const nextUrl = new URL(buildUrl(window.location), URL_BASE);
+    nextUrl.searchParams.delete("panel");
+    window.history.replaceState(
+      window.history.state,
+      "",
+      buildUrl(nextUrl)
+    );
   };
 
   const markPanelClosing = () => {
-    if (dialog.dataset) dialog.dataset.panelClosing = "true";
+    dialog.dataset.panelClosing = "true";
   };
 
   const closeButton = dialog.querySelector<HTMLElement>(".dialog-close");
@@ -27,11 +34,9 @@ export const ensurePanelDialogLifecycleBound = (
     const handleDismiss = () => {
       markPanelClosing();
       clearPanelParam();
-      if (typeof window !== "undefined" && window.requestAnimationFrame) {
-        window.requestAnimationFrame(clearPanelParam);
-        return;
+      if (typeof window !== "undefined") {
+        window.requestAnimationFrame?.(clearPanelParam);
       }
-      clearPanelParam();
     };
     closeButton.addEventListener("click", handleDismiss);
     closeButton.closest("form")?.addEventListener("submit", handleDismiss);
