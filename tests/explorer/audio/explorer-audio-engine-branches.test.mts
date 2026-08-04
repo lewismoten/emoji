@@ -4,6 +4,18 @@ import { createExplorerAudioEngine } from "../../../src/explorer/audio/explorer-
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalAudioContext = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "AudioContext",
+);
+const originalSetTimeout = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "setTimeout",
+);
+const originalClearTimeout = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "clearTimeout",
+);
 const flush = async () => {
   await Promise.resolve();
   await Promise.resolve();
@@ -54,10 +66,24 @@ try {
   const storage = new Map<string, string>();
   const helpDialog = { open: false };
   const savedDialog = { open: false };
+  Object.defineProperty(globalThis, "AudioContext", {
+    configurable: true,
+    value: FakeAudioContext,
+  });
+  Object.defineProperty(globalThis, "setTimeout", {
+    configurable: true,
+    value(callback: () => void) {
+      timeouts.push(callback);
+      return timeouts.length;
+    },
+  });
+  Object.defineProperty(globalThis, "clearTimeout", {
+    configurable: true,
+    value() {},
+  });
   Object.defineProperty(globalThis, "window", {
     configurable: true,
     value: {
-      AudioContext: FakeAudioContext,
       localStorage: {
         getItem(key: string) {
           return storage.get(key) ?? null;
@@ -117,7 +143,6 @@ try {
   Object.defineProperty(globalThis, "window", {
     configurable: true,
     value: {
-      AudioContext: ClosedAudioContext,
       localStorage: {
         getItem(key: string) {
           return storage.get(key) ?? null;
@@ -132,6 +157,10 @@ try {
         return timeouts.length;
       },
     },
+  });
+  Object.defineProperty(globalThis, "AudioContext", {
+    configurable: true,
+    value: ClosedAudioContext,
   });
   const closedMusicEngine = createExplorerAudioEngine();
   helpDialog.open = true;
@@ -159,6 +188,7 @@ try {
       },
     },
   });
+  Reflect.deleteProperty(globalThis, "AudioContext");
   const noContextEngine = createExplorerAudioEngine();
   assert.equal(await noContextEngine.resumeAudioContext(), undefined);
   await noContextEngine.playSoundEffect("ui-click");
@@ -168,4 +198,8 @@ try {
   else Reflect.deleteProperty(globalThis, "window");
   if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
   else Reflect.deleteProperty(globalThis, "document");
+  if (originalAudioContext) Object.defineProperty(globalThis, "AudioContext", originalAudioContext);
+  else Reflect.deleteProperty(globalThis, "AudioContext");
+  if (originalSetTimeout) Object.defineProperty(globalThis, "setTimeout", originalSetTimeout);
+  if (originalClearTimeout) Object.defineProperty(globalThis, "clearTimeout", originalClearTimeout);
 }

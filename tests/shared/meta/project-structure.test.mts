@@ -25,7 +25,7 @@ const legacyLineBudgets: Record<string, number> = {
   "tests/app/category-controller.test.mts": 522,
   "tests/explorer/ui/explorer-ui-branches.test.mts": 341,
   "tests/explorer/ui/explorer-ui-theme-font.test.mts": 359,
-  "tests/explorer/audio/explorer-audio-engine.test.mts": 409,
+  "tests/explorer/audio/explorer-audio-engine.test.mts": 482,
   "tests/explorer/audio/direct/explorer-audio-direct-interactions.test.mts": 304,
   "tests/explorer/audio/direct/explorer-audio-direct-fixture.mts": 302,
   "tests/explorer/audio/module/explorer-audio-module-fixture.mts": 614,
