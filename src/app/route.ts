@@ -2,12 +2,27 @@ import { getWindow } from "../utils/window.js";
 import * as doc from "../utils/document.js";
 
 type UrlBits = Pick<URL, "pathname" | "search" | "hash">;
-const urlString = (url: UrlBits) => `${url.pathname}${url.search}${url.hash}`;
+type PartialLocation = Partial<
+  Pick<Location | URL, "href" | "origin" | "pathname" | "search" | "hash">
+>;
+const pathBits = (url?: PartialLocation | UrlBits) => ({
+  pathname: url?.pathname || "/",
+  search: url?.search || "",
+  hash: url?.hash || "",
+});
+const urlString = (url?: PartialLocation | UrlBits) => {
+  const bits = pathBits(url);
+  return `${bits.pathname}${bits.search}${bits.hash}`;
+};
+const currentLocation = (): PartialLocation | undefined => getWindow().location;
+const fallbackBaseUrl = () => {
+  const location = currentLocation();
+  const origin = location?.origin || "http://localhost";
+  return `${origin}${urlString(location)}`;
+};
 
 const baseUrl = () =>
-  getWindow().location.href ??
-  doc.getBaseUri() ??
-  `http://localhost${urlString(getLocation())}`;
+  currentLocation()?.href ?? doc.getBaseUri() ?? fallbackBaseUrl();
 
 export const buildUrl = (bits: UrlBits | string) => {
   const base = baseUrl();
@@ -18,7 +33,7 @@ export const buildUrl = (bits: UrlBits | string) => {
 export const hasLocation = () => !!getWindow().location;
 
 const getLocation = (href?: string | URL): URL => {
-  const base = buildUrl(getWindow().location);
+  const base = new URL(baseUrl());
   return href ? new URL(href, base) : base;
 };
 export const getSearch = (href?: string | URL): string =>

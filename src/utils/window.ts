@@ -1,4 +1,7 @@
-export const getWindow = () => globalThis;
+export const getWindow = () =>
+  typeof globalThis.window === "object" && globalThis.window
+    ? globalThis.window
+    : globalThis;
 
 export const initialPreferences = (): Record<string, any> => {
   if ("initialPreferences" in globalThis)

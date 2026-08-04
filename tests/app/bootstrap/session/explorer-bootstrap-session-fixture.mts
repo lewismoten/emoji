@@ -44,6 +44,10 @@ export async function createBootstrapSessionFixture() {
       'from "./browser-runtime-stub.mjs";',
     )
     .replace(
+      'import * as route from "../route.js";',
+      'import * as route from "./route-stub.mjs";',
+    )
+    .replace(
       'from "./explorer-bootstrap-bindings.js";',
       'from "./bindings-stub.mjs";',
     )
@@ -148,6 +152,11 @@ export async function createBootstrapSessionFixture() {
     "    formatUiPercent: (...args) => ['ui-percent', args],",
     "  };",
     "}",
+  ]);
+  await writeStub("route-stub.mjs", [
+    "export const getSearch = () => '?mode=developer';",
+    "export const getMode = () => 'developer';",
+    "export const getIsDeveloper = () => true;",
   ]);
   await writeStub("bindings-stub.mjs", [
     "export const bindingsCreated = [];",

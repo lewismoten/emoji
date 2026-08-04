@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import { initialPreferences, routeLocale } from "../../src/utils/window.js";
+import { getLocale } from "../../src/app/route.js";
+import { initialPreferences } from "../../src/utils/window.js";
 
 const originalLocation = Object.getOwnPropertyDescriptor(
   globalThis,
@@ -12,19 +13,19 @@ const originalInitialPreferences = Object.getOwnPropertyDescriptor(
 
 try {
   Reflect.deleteProperty(globalThis, "location");
-  assert.equal(routeLocale(), undefined);
+  assert.equal(getLocale(), undefined);
 
   Object.defineProperty(globalThis, "location", {
     configurable: true,
     value: { pathname: "/demo/index.ar-EG.html" },
   });
-  assert.equal(routeLocale(), "ar-EG");
+  assert.equal(getLocale(), "ar-EG");
 
   Object.defineProperty(globalThis, "location", {
     configurable: true,
     value: { pathname: "/demo/index.html" },
   });
-  assert.equal(routeLocale(), undefined);
+  assert.equal(getLocale(), undefined);
 
   Reflect.deleteProperty(globalThis, "initialPreferences");
   assert.deepEqual(initialPreferences(), {});

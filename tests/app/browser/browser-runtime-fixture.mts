@@ -23,6 +23,10 @@ export async function createBrowserRuntimeFixture() {
       'import { installPixelFontHotReload, refreshExplorerPixelFont, refreshPixelFontStylesheet } from "./pixel-font-hot-reload-stub.mjs";',
     )
     .replace(
+      'import * as route from "../route.js";',
+      'import * as route from "./route-stub.mjs";',
+    )
+    .replace(
       /export function createUiFormatters\(options: \{[\s\S]*?\}\) \{/,
       "export function createUiFormatters(options) {",
     )
@@ -92,6 +96,10 @@ export async function createBrowserRuntimeFixture() {
     "  refreshExplorerCalls.push({ options, revision });",
     "  return Promise.resolve();",
     "}",
+  ]);
+  await writeStub("route-stub.mjs", [
+    "export const getOrigin = () => 'https://emoji.example';",
+    "export const isLocalPreview = () => false;",
   ]);
 
   const moduleFile = path.join(tempDirectory, "browser-runtime.mjs");

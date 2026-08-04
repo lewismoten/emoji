@@ -7,8 +7,22 @@ import { bindPanelDialog } from "../explorer/pwa/pwa-panels.js";
 import * as audioToggle from "../controls/audio/audio-toggle.js";
 import * as themes from "../utils/themes.js";
 
+export function createExplorerAppEventDependencies() {
+  return {
+    audioToggle,
+    bindModifierGroup,
+    bindPanelDialog,
+    bindSavedDialogInteractions,
+    createThemeChoiceKeyDownHandler,
+    themes,
+  };
+}
+
 /** Bind browser events after the Explorer has resolved its DOM references. */
-export function bindExplorerEvents(options: any) {
+export function bindExplorerEvents(
+  options: any,
+  dependencies: any = createExplorerAppEventDependencies(),
+) {
   const documentRef = typeof document === "undefined" ? undefined : document;
   const windowRef = typeof window === "undefined" ? undefined : window;
   const getSavedDialog = () =>
@@ -59,7 +73,7 @@ export function bindExplorerEvents(options: any) {
       documentRef?.querySelectorAll?.<HTMLElement>(".theme-choice") ?? [],
     );
     if (choices.length === 0) return;
-    const onKeyDown = createThemeChoiceKeyDownHandler(choices);
+    const onKeyDown = dependencies.createThemeChoiceKeyDownHandler(choices);
     choices.forEach((choice) => {
       if (choice.dataset.themeBound === "true") return;
       choice.dataset.themeBound = "true";
@@ -73,7 +87,7 @@ export function bindExplorerEvents(options: any) {
       documentRef?.querySelectorAll?.<HTMLElement>(".mode-choice") ?? [],
     );
     if (choices.length === 0) return;
-    const onKeyDown = createThemeChoiceKeyDownHandler(choices);
+    const onKeyDown = dependencies.createThemeChoiceKeyDownHandler(choices);
     choices.forEach((choice) => {
       if (choice.dataset.modeBound === "true") return;
       choice.dataset.modeBound = "true";
@@ -91,7 +105,7 @@ export function bindExplorerEvents(options: any) {
     options.renderDeveloperMode?.();
     options.renderThemeToggle?.();
     options.renderPixelFontToggle?.();
-    audioToggle.render();
+    dependencies.audioToggle.render();
     options.renderSearchLanguages?.();
     bindThemeChoices();
     bindModeChoices();
@@ -101,7 +115,7 @@ export function bindExplorerEvents(options: any) {
       const dialogDataset = dialog ? ensureDataset(dialog) : undefined;
       if (dialog && dialogDataset?.savedDialogBound !== "true") {
         if (dialogDataset) dialogDataset.savedDialogBound = "true";
-        bindSavedDialogInteractions({
+        dependencies.bindSavedDialogInteractions({
           ...options,
           savedDialog: dialog,
         });
@@ -124,7 +138,7 @@ export function bindExplorerEvents(options: any) {
           ).dataset = {});
     if (buttonDataset.panelBound === "true") return;
     buttonDataset.panelBound = "true";
-    bindPanelDialog({
+    dependencies.bindPanelDialog({
       applyingUrlState: options.applyingUrlState,
       button,
       dialog: getLanguageDialog(),
@@ -162,11 +176,17 @@ export function bindExplorerEvents(options: any) {
   options.renderInstallAppButton();
   options.applyBasicUrlState();
 
-  bindModifierGroup(options.skinToneCheckboxes, options.onSkinToneChange);
-  bindModifierGroup(options.hairCheckboxes, options.onHairChange);
-  bindModifierGroup(options.genderCheckboxes, options.onGenderChange);
+  dependencies.bindModifierGroup(
+    options.skinToneCheckboxes,
+    options.onSkinToneChange,
+  );
+  dependencies.bindModifierGroup(options.hairCheckboxes, options.onHairChange);
+  dependencies.bindModifierGroup(
+    options.genderCheckboxes,
+    options.onGenderChange,
+  );
   options.searchText.addEventListener("input", options.scheduleSearchDraw);
-  bindPanelDialog({
+  dependencies.bindPanelDialog({
     applyingUrlState: options.applyingUrlState,
     button: options.savedPicker,
     dialog: getSavedDialog(),
@@ -182,7 +202,7 @@ export function bindExplorerEvents(options: any) {
     urlStateReady: options.urlStateReady,
   });
   bindLanguagePicker();
-  bindPanelDialog({
+  dependencies.bindPanelDialog({
     applyingUrlState: options.applyingUrlState,
     button: options.helpPicker,
     dialog: getHelpDialog(),
@@ -201,13 +221,13 @@ export function bindExplorerEvents(options: any) {
       options.refreshElements?.();
       options.renderDeveloperMode?.();
       options.renderThemeToggle?.();
-      audioToggle.render();
+      dependencies.audioToggle.render();
       const helpDialog = getHelpDialog();
       syncDialogChoiceGroup(
         helpDialog,
         ".theme-choice",
         "theme",
-        themes.getTheme(),
+        dependencies.themes.getTheme(),
       );
       syncDialogChoiceGroup(
         helpDialog,
@@ -223,7 +243,7 @@ export function bindExplorerEvents(options: any) {
     syncUrlState: options.syncUrlState,
     urlStateReady: options.urlStateReady,
   });
-  bindPanelDialog({
+  dependencies.bindPanelDialog({
     applyingUrlState: options.applyingUrlState,
     button: options.advancedFiltersButton,
     dialog: getAdvancedFiltersDialog(),

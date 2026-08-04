@@ -1,12 +1,4 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import { pathToFileURL } from "node:url";
-
 export const sourceModuleSpecifier = "build/src/app/explorer-app-events.js";
-
-const root = process.cwd();
-const sourcePath = path.join(root, sourceModuleSpecifier);
-const tempRoot = path.join(root, "build/tests/.tmp");
 
 const createEventTarget = () => {
   const listeners = new Map<string, Function[]>();
@@ -21,83 +13,6 @@ const createEventTarget = () => {
 };
 
 export async function createExplorerAppEventsFixture() {
-  const source = await fs.readFile(sourcePath, "utf8");
-  const transformedSource = source
-    .replace(
-      'from "../explorer/navigation/event-accessibility.js";',
-      'from "./event-accessibility-stub.mjs";',
-    )
-    .replace(
-      'from "../explorer/pwa/pwa-panels.js";',
-      'from "./pwa-panels-stub.mjs";',
-    )
-    .replace(
-      'from "../controls/audio/audio-toggle.js";',
-      'from "./audio-toggle-stub.mjs";',
-    )
-    .replace("from '../utils/themes.js';", 'from "./themes-stub.mjs";')
-    .replace('from "../utils/themes.js";', 'from "./themes-stub.mjs";');
-
-  await fs.mkdir(tempRoot, { recursive: true });
-  const tempDirectory = await fs.mkdtemp(
-    path.join(tempRoot, "explorer-app-events-"),
-  );
-
-  await fs.writeFile(
-    path.join(tempDirectory, "event-accessibility-stub.mjs"),
-    [
-      "export const bindModifierGroupCalls = [];",
-      "export const bindSavedDialogInteractionsCalls = [];",
-      "export const themeChoiceKeyDownCalls = [];",
-      "export function bindModifierGroup(group, handler) {",
-      "  bindModifierGroupCalls.push([group, handler]);",
-      "}",
-      "export function bindSavedDialogInteractions(options) {",
-      "  bindSavedDialogInteractionsCalls.push(options);",
-      "}",
-      "export function createThemeChoiceKeyDownHandler(choices) {",
-      "  themeChoiceKeyDownCalls.push(choices);",
-      "  return 'theme-keydown-handler';",
-      "}",
-    ].join("\n"),
-  );
-  await fs.writeFile(
-    path.join(tempDirectory, "pwa-panels-stub.mjs"),
-    [
-      "export const bindPanelDialogCalls = [];",
-      "export function bindPanelDialog(options) {",
-      "  bindPanelDialogCalls.push(options);",
-      "}",
-    ].join("\n"),
-  );
-  await fs.writeFile(
-    path.join(tempDirectory, "audio-toggle-stub.mjs"),
-    [
-      "export const renderCalls = [];",
-      "export function render(...args) {",
-      "  renderCalls.push(args);",
-      "}",
-    ].join("\n"),
-  );
-  await fs.writeFile(
-    path.join(tempDirectory, "themes-stub.mjs"),
-    ['export const getTheme = () => "dark";'].join("\n"),
-  );
-  await fs.writeFile(
-    path.join(tempDirectory, "explorer-app-events.mjs"),
-    transformedSource,
-  );
-
-  const module = await import(
-    pathToFileURL(path.join(tempDirectory, "explorer-app-events.mjs")).href
-  );
-  const accessibilityStub = await import(
-    pathToFileURL(path.join(tempDirectory, "event-accessibility-stub.mjs")).href
-  );
-  const panelStub = await import(
-    pathToFileURL(path.join(tempDirectory, "pwa-panels-stub.mjs")).href
-  );
-
   const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
   const originalDocument = Object.getOwnPropertyDescriptor(
     globalThis,
@@ -106,6 +21,33 @@ export async function createExplorerAppEventsFixture() {
   const mediaListeners: Function[] = [];
   const onlineOfflineListeners = new Map<string, Function[]>();
   const documentListeners = new Map<string, Function[]>();
+  const accessibilityStub = {
+    bindModifierGroupCalls: [] as any[],
+    bindSavedDialogInteractionsCalls: [] as any[],
+    themeChoiceKeyDownCalls: [] as any[],
+    bindModifierGroup(group: unknown, handler: unknown) {
+      this.bindModifierGroupCalls.push([group, handler]);
+    },
+    bindSavedDialogInteractions(options: unknown) {
+      this.bindSavedDialogInteractionsCalls.push(options);
+    },
+    createThemeChoiceKeyDownHandler(choices: unknown) {
+      this.themeChoiceKeyDownCalls.push(choices);
+      return "theme-keydown-handler";
+    },
+  };
+  const panelStub = {
+    bindPanelDialogCalls: [] as any[],
+    bindPanelDialog(options: unknown) {
+      this.bindPanelDialogCalls.push(options);
+    },
+  };
+  const audioToggleStub = {
+    renderCalls: [] as any[],
+    render(...args: any[]) {
+      this.renderCalls.push(args);
+    },
+  };
 
   Object.defineProperty(globalThis, "window", {
     configurable: true,
@@ -251,14 +193,27 @@ export async function createExplorerAppEventsFixture() {
 
   return {
     accessibilityStub,
+    audioToggleStub,
     bindsOptions,
+    dependencies: {
+      audioToggle: audioToggleStub,
+      bindModifierGroup:
+        accessibilityStub.bindModifierGroup.bind(accessibilityStub),
+      bindPanelDialog: panelStub.bindPanelDialog.bind(panelStub),
+      bindSavedDialogInteractions:
+        accessibilityStub.bindSavedDialogInteractions.bind(accessibilityStub),
+      createThemeChoiceKeyDownHandler:
+        accessibilityStub.createThemeChoiceKeyDownHandler.bind(
+          accessibilityStub,
+        ),
+      themes: { getTheme: () => "dark" },
+    },
     documentListeners,
     installDialog,
     installDialogClose,
     languageDialog,
     lifecycleCalls,
     mediaListeners,
-    module,
     navigateCalls,
     onlineOfflineListeners,
     panelCloses,

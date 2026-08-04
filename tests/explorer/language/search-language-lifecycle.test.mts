@@ -294,7 +294,7 @@ try {
   );
   assert.equal(
     historyCalls[historyCalls.length - 1].href,
-    "/emoji/?panel=help&group=Smileys#undefined",
+    "/emoji/?panel=help&group=Smileys",
   );
 
   const manifestCalls: string[] = [];

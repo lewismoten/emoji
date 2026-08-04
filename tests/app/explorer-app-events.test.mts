@@ -8,11 +8,15 @@ import {
 // Pairing source: ../../src/app/explorer-app-events.js
 
 assert.equal(typeof sourceModule.bindExplorerEvents, "function");
+assert.equal(
+  typeof sourceModule.createExplorerAppEventDependencies,
+  "function",
+);
 
 const fixture = await createExplorerAppEventsFixture();
 
 try {
-  fixture.module.bindExplorerEvents(fixture.bindsOptions);
+  sourceModule.bindExplorerEvents(fixture.bindsOptions, fixture.dependencies);
 
   assert.deepEqual(fixture.accessibilityStub.bindModifierGroupCalls, [
     [["light"], fixture.bindsOptions.onSkinToneChange],

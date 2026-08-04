@@ -263,8 +263,8 @@ try {
   navigation.syncUrlState("push");
   assert.deepEqual(fixture.historyCalls[0], [
     "push",
-    { page: 1 },
     "/index.en.html?built=query#top",
+    { page: 1 },
   ]);
 
   Reflect.deleteProperty(globalThis, "window");

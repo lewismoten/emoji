@@ -22,6 +22,10 @@ export async function loadStartupOrchestratorFixture() {
       'from "../../explorer/loading-state.js";',
       'from "./loading-state-stub.mjs";',
     )
+    .replace(
+      'import * as route from "../route.js";',
+      'import * as route from "./route-stub.mjs";',
+    )
     .replace(/options: any/g, "options");
 
   const tempRoot = path.join(root, "build/tests/.tmp");
@@ -59,6 +63,7 @@ export async function loadStartupOrchestratorFixture() {
     "  return ['reveal-explorer', emojiList, matchCount];",
     "}",
   ]);
+  await writeStub("route-stub.mjs", ['export const getPanel = () => "";']);
 
   await fs.writeFile(
     path.join(tempDirectory, "startup-orchestrator.mjs"),

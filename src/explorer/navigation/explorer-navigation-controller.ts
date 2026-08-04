@@ -88,10 +88,12 @@ export function createExplorerNavigation(
 
   const syncUrlState = (
     method: "replace" | "push" = "replace",
-    historyState = route.getHistoryState(),
+    historyState?: unknown,
   ) => {
     if (!options.urlStateReady() || options.applyingUrlState()) return;
     if (!route.hasLocation() || !route.hasHistory()) return;
+    const nextHistoryState =
+      historyState === undefined ? route.getHistoryState() : historyState;
     const checkedValues = (checkboxes: Checkbox[]) =>
       checkboxes
         .filter((checkbox) => checkbox.checked)
@@ -125,7 +127,7 @@ export function createExplorerNavigation(
       dialogOpen: dialog.open,
     });
     const url = `${route.getPathName()}${query ? `?${query}` : ""}${route.getHash()}`;
-    route.applyHistory(method, historyState, url);
+    route.applyHistory(method, nextHistoryState, url);
   };
 
   const applyDialogUrlState = async () => {
