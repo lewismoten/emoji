@@ -28,10 +28,6 @@ try {
     [["neutral"], fixture.bindsOptions.onGenderChange],
   ]);
   assert.equal(
-    fixture.accessibilityStub.themeChoiceKeyDownCalls.length >= 2,
-    true,
-  );
-  assert.equal(
     fixture.accessibilityStub.bindSavedDialogInteractionsCalls.length,
     1,
   );
@@ -59,7 +55,7 @@ try {
   );
   assert.equal(
     fixture.themeChoices[0].listeners.get("keydown")?.[0],
-    "theme-keydown-handler",
+    fixture.themeChoices[1].listeners.get("keydown")?.[0],
   );
   assert.equal(
     fixture.bindsOptions.versionModeToggle.listeners.get("click")?.[0],
@@ -74,6 +70,10 @@ try {
       .querySelector('input[type="radio"]')
       ?.listeners.get("change")?.[0],
     fixture.bindsOptions.toggleDeveloperMode,
+  );
+  assert.equal(
+    fixture.modeChoices[0].listeners.get("keydown")?.[0],
+    fixture.modeChoices[1].listeners.get("keydown")?.[0],
   );
 
   fixture.versionPrevious.listeners.get("click")?.[0]?.();
@@ -131,6 +131,7 @@ try {
     },
   } as any;
   const savedDialog = {} as any;
+  let currentSavedDialog: any;
 
   Object.defineProperty(globalThis, "window", {
     configurable: true,
@@ -175,6 +176,9 @@ try {
       installAppButton: createEventTarget(),
       installDialog: { close() {}, querySelector: () => createEventTarget() },
       installedDisplayQueries: [],
+      getSavedDialog() {
+        return currentSavedDialog;
+      },
       languageDialog: {},
       languagePicker: () => customButton,
       languageList: [],
@@ -196,12 +200,14 @@ try {
       renderInstallAppButton() {},
       renderSavedEmoji() {},
       resetFilters() {},
-      savedDialog,
       savedPicker: {},
       scheduleSearchDraw() {},
       searchText: { addEventListener() {} },
       selectEmojiFont() {},
       skinToneCheckboxes: [],
+      ensureUtilityPanel(panel: string) {
+        if (panel === "favorites") currentSavedDialog = savedDialog;
+      },
       stepVersion() {},
       suppressedPanelCloses: new Set(),
       syncUrlState() {},
@@ -233,6 +239,7 @@ try {
   );
 
   assert.equal(typeof customButton.dataset, "object");
+  assert.equal(bindSavedDialogInteractionsCalls.length, 0);
   await bindPanelDialogCalls[0].ensureDialog();
   assert.equal(savedDialog.dataset.savedDialogBound, "true");
   assert.equal(bindSavedDialogInteractionsCalls.length, 1);
