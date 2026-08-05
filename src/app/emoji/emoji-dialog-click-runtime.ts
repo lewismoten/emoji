@@ -16,7 +16,7 @@ export function createEmojiDialogClickRuntime(options: any) {
         : kind === "link"
           ? route.getHref()
           : options.currentEmojiCopies()[kind],
-    currentEmojiKey: options.currentEmojiKey,
+    currentEmojiKey: state.currentEmojiKey.get,
     dialog: options.dialog,
     openParentPanel: (panel: string) => {
       options.setSuppressDialogCloseSync(true);
@@ -41,7 +41,7 @@ export function createEmojiDialogClickRuntime(options: any) {
       );
     },
     openComposition: (key: string) => {
-      const parentEmojiKey = options.currentEmojiKey();
+      const parentEmojiKey = state.currentEmojiKey.get();
       options.showEmoji(key, false);
       options.syncUrlState("push", {
         ...window.history.state,
@@ -53,13 +53,13 @@ export function createEmojiDialogClickRuntime(options: any) {
     recordCopiedEmoji: options.recordCopiedEmoji,
     refreshComposition: () =>
       options.updateEmojiComposition(
-        state.byId.get(options.currentEmojiKey) ?? {},
-        state.emojiByKey.get(options.currentEmojiKey()) ?? "",
+        state.byId.get(state.currentEmojiKey.get()) ?? {},
+        state.emojiByKey.get(state.currentEmojiKey.get()) ?? "",
       ),
     setView: options.setView,
     syncUrlState: () => options.syncUrlState(),
     toggleComposition: () => options.toggleComposition(),
-    toggleFavorite: () => options.toggleFavorite(options.currentEmojiKey()),
+    toggleFavorite: () => options.toggleFavorite(state.currentEmojiKey.get()),
     translate: options.translate,
   });
 }

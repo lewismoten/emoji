@@ -2,6 +2,7 @@ import { createDialogNavigationController } from "../../explorer/dialog/dialog-n
 import { createEmojiSessionController } from "../emoji/emoji-session-controller.js";
 import { withoutCompositionParent } from "../../explorer/dialog/dialog-runtime-helpers.js";
 import { resolveDialogNavigationState } from "../../explorer/dialog/dialog-state.js";
+import * as state from "../../state.js";
 
 export function initializeDialogRuntime(options: any) {
   const { showEmoji } = createEmojiSessionController({
@@ -32,7 +33,6 @@ export function initializeDialogRuntime(options: any) {
     openEditor: options.openEditor,
     sequenceTranslationKeys: options.sequenceTranslationKeys,
     sequenceTypeLabels: options.sequenceTypeLabels,
-    state: options.state,
     statusTranslationKeys: options.statusTranslationKeys,
     translate: options.translate,
     updateDialogNavigation: options.updateDialogNavigation,
@@ -42,11 +42,11 @@ export function initializeDialogRuntime(options: any) {
   });
 
   const dialogNavigation = createDialogNavigationController({
-    currentDialogParentStack: options.currentDialogParentStack,
-    currentEmojiKey: options.currentEmojiKey,
+    currentDialogParentStack: state.currentDialogParentStack.get,
+    currentEmojiKey: state.currentEmojiKey.get,
     dialog: options.dialog,
-    dialogNavigationKeys: options.dialogNavigationKeys,
-    displayedKeys: options.displayedKeys,
+    dialogNavigationKeys: state.dialogNavigationKeys.get,
+    displayedKeys: state.displayedKeys.get,
     emojiNext: options.emojiNext,
     emojiParent: options.emojiParent,
     emojiPrevious: options.emojiPrevious,

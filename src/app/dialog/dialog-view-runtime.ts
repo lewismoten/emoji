@@ -1,14 +1,13 @@
 import { createEmojiDialogViewController } from "../../explorer/dialog/dialog-view.js";
+import * as state from "../../state.js";
 
 export function createDialogViewRuntime(options: any) {
   return createEmojiDialogViewController({
-    byId: options.byId,
-    currentDialogParentStack: () => options.currentDialogParentStack(),
-    currentEmojiKey: () => options.currentEmojiKey(),
+    currentDialogParentStack: state.currentDialogParentStack.get,
+    currentEmojiKey: state.currentEmojiKey.get,
     developerModeEnabled: options.developerModeEnabled,
     fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     dialog: () => options.dialog(),
-    emojiByKey: options.emojiByKey,
     emojiParent: () => options.emojiParent(),
     ensurePixelEditor: () => options.ensurePixelEditor(),
     getPixelEditor: () => options.getPixelEditor(),

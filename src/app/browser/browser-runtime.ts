@@ -6,6 +6,7 @@ import {
   refreshPixelFontStylesheet,
 } from "../../pixel-font-hot-reload.js";
 import * as route from "../route.js";
+import * as state from "../../state.js";
 
 export function isViteDevelopmentRuntime(env = import.meta.env) {
   const override = Reflect.get(globalThis, "__TEST_VITE_DEV__");
@@ -30,7 +31,7 @@ export function createUiFormatters(options: {
   const localeOptions = () => {
     const locale =
       options.document.documentElement.lang ||
-      options.selectedSearchLocale() ||
+      state.selectedSearchLocale.get() ||
       undefined;
     return {
       locale,
@@ -173,7 +174,7 @@ export function createPixelFontRefreshOptions(
               {
                 applyArtwork: options.applyPixelArtworkClass,
                 applyStandaloneArtwork: options.applyStandalonePixelArtwork,
-                currentEmojiKey: options.currentEmojiKey,
+                currentEmojiKey: state.currentEmojiKey.get,
                 dialog: options.dialog,
                 updateManifest: options.updatePixelArtworkManifest,
                 updateModifierArtwork: options.updateModifierArtwork,
@@ -200,7 +201,7 @@ export function initializeBrowserRuntime(options: any) {
         options.suppressedPanelCloses(),
       ),
     restoreLanguageParentPanel: () => restoreLanguageParentPanel(options),
-    currentLoadId: options.currentLoadId,
+    currentLoadId: state.searchLoadId.get,
     languageFlags: options.languageFlags,
     languageList: options.languageList,
     languagePicker: options.languagePicker,
@@ -210,8 +211,8 @@ export function initializeBrowserRuntime(options: any) {
     nextLoadId: options.nextLoadId,
     refreshLocalizedLabels: options.refreshLocalizedLabels,
     restoreDeveloperMode: options.restoreDeveloperMode,
-    searchLocales: options.searchLocales,
-    selectedSearchLocale: options.selectedSearchLocale,
+    searchLocales: state.searchLocales.get,
+    selectedSearchLocale: state.selectedSearchLocale.get,
     setApplyingUrlState: options.setApplyingUrlState,
     setSearchLabels: options.setSearchLabels,
     setSearchLocales: options.setSearchLocales,
