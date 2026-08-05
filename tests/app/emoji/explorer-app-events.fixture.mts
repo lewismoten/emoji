@@ -55,8 +55,10 @@ export async function createExplorerAppEventsFixture() {
   const mediaListeners: Function[] = [];
   const onlineOfflineListeners = new Map<string, Function[]>();
   const documentListeners = new Map<string, Function[]>();
-  const themeChoiceOne = createChoice({ theme: "dark" });
-  const themeChoiceTwo = createChoice({ theme: "light" });
+  const [themeChoiceOne, themeChoiceTwo] = [
+    createChoice({ theme: "dark" }),
+    createChoice({ theme: "light" }),
+  ];
   themeChoiceOne.classList.owner = themeChoiceOne;
   themeChoiceTwo.classList.owner = themeChoiceTwo;
   const modeChoiceOne = createChoice({ mode: "advanced" });

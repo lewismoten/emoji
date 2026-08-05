@@ -167,3 +167,50 @@ export const createHelpAfterOpen = (
     );
   };
 };
+
+export const bindSavedDialogInteractionsIfUnbound = (
+  dialog: unknown,
+  options: any,
+  bindSavedDialogInteractions: (options: unknown) => void,
+) => {
+  const dialogDataset = dialog ? ensureDataset(dialog) : undefined;
+  if (!dialog || dialogDataset?.savedDialogBound === "true") return false;
+  if (dialogDataset) dialogDataset.savedDialogBound = "true";
+  bindSavedDialogInteractions({ ...options, savedDialog: dialog });
+  return true;
+};
+
+export const bindSavedDialogInteractionsIfPresent = (
+  dialog: unknown,
+  options: any,
+  bindSavedDialogInteractions: (options: unknown) => void,
+) => {
+  if (!dialog) return false;
+  const savedDialogDataset = ensureDataset(dialog);
+  bindSavedDialogInteractions({ ...options, savedDialog: dialog });
+  if (savedDialogDataset) savedDialogDataset.savedDialogBound = "true";
+  return true;
+};
+
+export const bindInstallDialogClose = (
+  installDialog:
+    | {
+        close?: () => void;
+        querySelector?: (selector: string) => unknown;
+      }
+    | undefined,
+  bindClick: (target: any, handler: () => void) => () => void,
+) =>
+  bindClick(installDialog?.querySelector?.(".install-dialog-close"), () =>
+    installDialog?.close?.(),
+  );
+
+export const bindDeveloperModeToggleIfNeeded = (
+  modeChoices: unknown[] | undefined,
+  developerModeToggle: unknown,
+  toggleDeveloperMode: () => void,
+  bindChange: (target: any, handler: () => void) => () => void,
+) =>
+  modeChoices?.length
+    ? () => {}
+    : bindChange(developerModeToggle, toggleDeveloperMode);

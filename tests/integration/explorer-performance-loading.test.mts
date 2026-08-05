@@ -104,7 +104,7 @@ assert.match(
 );
 assert.match(
   `${explorerApp}\n${listController}`,
-  /options\.searchText\.addEventListener\((["'])input\1,\s*options\.scheduleSearchDraw\)[\s\S]*const schedule[\s\S]*window\.clearTimeout\(timer\)[\s\S]*window\.setTimeout\([\s\S]*draw\(\)[\s\S]*200\)/,
+  /bind\.input\(options\.searchText,\s*options\.scheduleSearchDraw\)[\s\S]*const schedule[\s\S]*window\.clearTimeout\(timer\)[\s\S]*window\.setTimeout\([\s\S]*draw\(\)[\s\S]*200\)/,
   "rapid search input must coalesce expensive emoji-list renders",
 );
 assert.match(

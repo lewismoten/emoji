@@ -1,9 +1,12 @@
 import * as bind from "./emoji-wire-up.js";
 import {
   bindChoiceGroup,
+  bindDeveloperModeToggleIfNeeded,
+  bindInstallDialogClose,
+  bindSavedDialogInteractionsIfPresent,
+  bindSavedDialogInteractionsIfUnbound,
   createHelpAfterOpen,
   createLanguageBeforeOpen,
-  ensureDataset,
   ensurePanelBound,
   resolveLanguagePickerButton,
   resolveOption,
@@ -76,17 +79,11 @@ export const bindExplorerEventsWithEnvironment = (
     bindThemeChoices();
     bindModeChoices();
     bindLanguagePicker();
-    if (panel === "favorites" && getSavedDialog()) {
-      const dialog = getSavedDialog();
-      const dialogDataset = dialog ? ensureDataset(dialog) : undefined;
-      if (dialog && dialogDataset?.savedDialogBound !== "true") {
-        if (dialogDataset) dialogDataset.savedDialogBound = "true";
-        dependencies.bindSavedDialogInteractions({
-          ...options,
-          savedDialog: dialog,
-        });
-      }
-    }
+    bindSavedDialogInteractionsIfUnbound(
+      panel === "favorites" ? getSavedDialog() : undefined,
+      options,
+      dependencies.bindSavedDialogInteractions,
+    );
   };
 
   const bindLanguagePicker = () => {
@@ -204,28 +201,22 @@ export const bindExplorerEventsWithEnvironment = (
   options.installedDisplayQueries.forEach((query: any) =>
     bound.push(bind.change(query, options.renderInstallAppButton)),
   );
+  bound.push(bindInstallDialogClose(options.installDialog, bind.click));
   bound.push(
-    bind.click(
-      options.installDialog?.querySelector(".install-dialog-close"),
-      options.installDialog.close,
+    bindDeveloperModeToggleIfNeeded(
+      options.modeChoices,
+      options.developerModeToggle,
+      options.toggleDeveloperMode,
+      bind.change,
     ),
   );
-
-  if (!options.modeChoices?.length) {
-    bound.push(
-      bind.change(options.developerModeToggle, options.toggleDeveloperMode),
-    );
-  }
   bindModeChoices();
   bindLanguagePicker();
-  if (getSavedDialog()) {
-    const savedDialogDataset = ensureDataset(getSavedDialog());
-    dependencies.bindSavedDialogInteractions({
-      ...options,
-      savedDialog: getSavedDialog(),
-    });
-    if (savedDialogDataset) savedDialogDataset.savedDialogBound = "true";
-  }
+  bindSavedDialogInteractionsIfPresent(
+    getSavedDialog(),
+    options,
+    dependencies.bindSavedDialogInteractions,
+  );
   bound.push(
     bind.click(options.emojiList, options.onClick),
     bind.focusIn(options.emojiList, options.onEmojiFocus),
