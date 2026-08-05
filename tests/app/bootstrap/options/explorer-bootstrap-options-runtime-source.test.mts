@@ -24,7 +24,6 @@ assert.equal(runtime.loadUiTranslations, options.loadUiTranslations);
 assert.equal(runtime.modeChoices(), "modeChoices-value");
 assert.equal(runtime.panelDialogs, options.panelDialogs);
 assert.equal(runtime.translate, options.translate);
-assert.equal(runtime.state(), state);
 for (const [key, expected] of [
   ["advancedFilters", "advancedFilters-value"],
   ["advancedFiltersButton", "advancedFiltersButton-value"],
@@ -94,7 +93,6 @@ assert.equal(runtime.renderInstallAppButton(), "renderInstallAppButton-value");
 assert.equal(runtime.renderPixelFontToggle(), "renderPixelFontToggle-value");
 assert.equal(runtime.renderSavedEmoji(), "renderSavedEmoji-value");
 assert.equal(runtime.renderSearchLanguages(), "renderSearchLanguages-value");
-assert.equal(runtime.renderThemeToggle(), "renderThemeToggle-value");
 assert.equal(
   runtime.renderVersionModeToggle(),
   "renderVersionModeToggle-value",
@@ -102,7 +100,6 @@ assert.equal(
 assert.equal(runtime.restoreDeveloperMode(), "restoreDeveloperMode-value");
 assert.equal(runtime.scheduleSearchDraw(), "scheduleSearchDraw-value");
 assert.equal(runtime.selectEmojiFont(), "selectEmojiFont-value");
-assert.equal(runtime.selectTheme(), "selectTheme-value");
 assert.equal(runtime.nextSearchLoadId(), "nextSearchLoadId-value");
 assert.equal(runtime.setApplyingUrlState(), "setApplyingUrlState-value");
 assert.equal(runtime.setControls(), "setControls-value");

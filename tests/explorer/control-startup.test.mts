@@ -262,9 +262,6 @@ try {
     renderPixelFontToggle() {
       startupCalls.push("renderPixelFontToggle");
     },
-    renderThemeToggle() {
-      startupCalls.push("renderThemeToggle");
-    },
     renderVersionModeToggle() {
       startupCalls.push("renderVersionModeToggle");
     },
@@ -279,7 +276,6 @@ try {
 
   assert.deepEqual(startupCalls, [
     "renderVersionModeToggle",
-    "renderThemeToggle",
     "renderPixelFontToggle",
     "observeToolbarHeight:toolbar",
     "loadUiTranslations:ar:true",
@@ -289,7 +285,6 @@ try {
     "drawList",
     "finishExplorerLoading",
     "applyDialogUrlState",
-    "renderThemeToggle",
     "renderPixelFontToggle",
     "renderVersionModeToggle",
     "setUrlStateReady:true",
@@ -329,9 +324,6 @@ try {
     renderPixelFontToggle() {
       fallbackStartupCalls.push("renderPixelFontToggle");
     },
-    renderThemeToggle() {
-      fallbackStartupCalls.push("renderThemeToggle");
-    },
     renderVersionModeToggle() {
       fallbackStartupCalls.push("renderVersionModeToggle");
     },
@@ -345,7 +337,6 @@ try {
   });
   assert.deepEqual(fallbackStartupCalls, [
     "renderVersionModeToggle",
-    "renderThemeToggle",
     "renderPixelFontToggle",
     "observeToolbarHeight:toolbar-2",
     "loadUiTranslations:en:false",
@@ -354,7 +345,6 @@ try {
     "drawList",
     "finishExplorerLoading",
     "applyDialogUrlState",
-    "renderThemeToggle",
     "renderPixelFontToggle",
     "renderVersionModeToggle",
     "setUrlStateReady:true",
@@ -394,9 +384,6 @@ try {
     renderPixelFontToggle() {
       newspeakStartupCalls.push("renderPixelFontToggle");
     },
-    renderThemeToggle() {
-      newspeakStartupCalls.push("renderThemeToggle");
-    },
     renderVersionModeToggle() {
       newspeakStartupCalls.push("renderVersionModeToggle");
     },
@@ -410,7 +397,6 @@ try {
   });
   assert.deepEqual(newspeakStartupCalls, [
     "renderVersionModeToggle",
-    "renderThemeToggle",
     "renderPixelFontToggle",
     "observeToolbarHeight:toolbar-3",
     "loadUiTranslations:en-x-newspeak:false",
@@ -419,7 +405,6 @@ try {
     "drawList",
     "finishExplorerLoading",
     "applyDialogUrlState",
-    "renderThemeToggle",
     "renderPixelFontToggle",
     "renderVersionModeToggle",
     "setUrlStateReady:true",
@@ -454,7 +439,6 @@ try {
     observeToolbarHeight() {},
     preferences: {},
     renderPixelFontToggle() {},
-    renderThemeToggle() {},
     renderVersionModeToggle() {},
     setUrlStateReady() {},
     syncUrlState() {},
@@ -487,7 +471,6 @@ try {
     observeToolbarHeight() {},
     preferences: {},
     renderPixelFontToggle() {},
-    renderThemeToggle() {},
     renderVersionModeToggle() {},
     setUrlStateReady() {},
     syncUrlState() {},

@@ -9,28 +9,13 @@ import type {
   ExplorerPanel,
 } from "./explorer-navigation-types.js";
 import * as route from '../../app/route.js';
+import * as state from "../../state.js";
 
 export function createExplorerNavigation(
   options: ExplorerNavigationOptions,
   dependencies: ExplorerNavigationDependencies =
     createExplorerNavigationDependencies(),
 ) {
-  const resolveExplorerMode = (): "standard" | "advanced" | "developer" => {
-    const datasetMode =
-      typeof document === "undefined"
-        ? ""
-        : (document.documentElement?.dataset?.explorerMode ?? "");
-    if (
-      datasetMode === "standard" ||
-      datasetMode === "advanced" ||
-      datasetMode === "developer"
-    ) {
-      return datasetMode;
-    }
-    if (options.fullDeveloperModeEnabled?.()) return "developer";
-    if (options.developerModeEnabled()) return "advanced";
-    return "standard";
-  };
   const panelDialogs = () => {
     const dialogs = options.panelDialogs();
     return {
@@ -100,7 +85,7 @@ export function createExplorerNavigation(
         .map((checkbox) => checkbox.value);
     const dialog = options.dialog();
     const openPanel = dependencies.getOpenPanel(options.panelDialogs());
-    const explorerMode = resolveExplorerMode();
+    const explorerMode = state.getExplorerMode();
     const query = dependencies.buildExplorerUrlQuery({
       search: options.searchText().value,
       explorerMode,

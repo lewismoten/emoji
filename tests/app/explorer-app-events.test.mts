@@ -46,10 +46,7 @@ try {
     fixture.bindsOptions.emojiFontChoices[0].listeners.get("click")?.[0],
     fixture.bindsOptions.selectEmojiFont,
   );
-  assert.equal(
-    fixture.themeChoices[0].listeners.get("click")?.[0],
-    fixture.bindsOptions.selectTheme,
-  );
+
   assert.equal(
     fixture.themeChoices[0].listeners.get("keydown")?.[0],
     fixture.themeChoices[1].listeners.get("keydown")?.[0],

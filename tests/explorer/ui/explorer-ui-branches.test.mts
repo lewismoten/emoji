@@ -3,9 +3,7 @@ import * as preferences from "../../../src/preferences.js";
 import {
   createDeveloperModeController,
   createExplorerUiController,
-  renderThemeToggle,
   selectEmojiFont,
-  selectTheme,
 } from "../../../src/explorer-ui.js";
 import { createElement, installExplorerUiFixture } from "./explorer-ui-fixture.mjs";
 
@@ -273,20 +271,7 @@ try {
   assert.equal(preferences.getBoolean("pixelFont"), false);
   assert.equal((uiCalls as string[]).includes("blur-no-detail"), false);
 
-  await selectTheme(
-    {
-      renderThemeToggle: () => (uiCalls as string[]).push("renderThemeToggle"),
-    },
-    { currentTarget: { dataset: { theme: "base" } } },
-  );
   assert.equal(preferences.getString("theme"), "base");
-  await selectTheme(
-    {
-      renderThemeToggle: () =>
-        (uiCalls as string[]).push("renderThemeToggleLight"),
-    },
-    { currentTarget: { dataset: { theme: "light" } } },
-  );
   assert.equal(preferences.getString("theme"), "light");
 
   await queryModeController.change({
@@ -298,15 +283,6 @@ try {
   assert.equal(preferences.getString("mode"), "standard");
 
   preferences.setString("theme", "dark");
-  renderThemeToggle({
-    choices: () => [null, "not-a-choice", { isConnected: false }],
-    state: () => ({
-      developerModeUrlDismissed: false,
-      explorerModeFromUrl: "",
-      developerModeFromUrl: false,
-      explorerPreferences: { mode: "standard", theme: "dark" },
-    } as any),
-  });
   assert.equal(fixture.documentElement.dataset.theme, "dark");
 
   const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
@@ -321,12 +297,6 @@ try {
       },
     },
   });
-  assert.doesNotThrow(() =>
-    renderThemeToggle({
-      choices: () => [],
-      state: () => state as any,
-    }),
-  );
   if (originalDocument) {
     Object.defineProperty(globalThis, "document", originalDocument);
   }

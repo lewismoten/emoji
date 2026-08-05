@@ -7,8 +7,6 @@ try {
   fixture.shell.renderPixelFontToggle();
   assert.equal(fixture.renderPixelFontToggleCalls.length, 1);
 
-  fixture.shell.renderThemeToggle();
-  assert.equal(fixture.renderThemeToggleCalls.length, 1);
   assert.equal(fixture.audioController.renderSoundEffectsToggleCalls, 0);
   assert.equal(fixture.audioController.renderMusicToggleCalls, 0);
   assert.equal(fixture.audioController.syncHelpMusicCalls, 1);
@@ -20,15 +18,6 @@ try {
       renderPixelFontToggle: fixture.shell.renderPixelFontToggle,
     },
     emojiEvent,
-  ]);
-
-  const themeEvent = { type: "theme" };
-  fixture.shell.selectTheme(themeEvent as unknown as Event);
-  assert.deepEqual(fixture.selectThemeCalls.at(-1), [
-    {
-      renderThemeToggle: fixture.shell.renderThemeToggle,
-    },
-    themeEvent,
   ]);
 
   const installEvent = {

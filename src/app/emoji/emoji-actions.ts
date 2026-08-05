@@ -9,20 +9,19 @@ import {
 } from "../../explorer/emoji/import-examples.js";
 import { updateExplorerComposition } from "../../explorer/dialog/explorer-composition-controller.js";
 import { copyToClipboard } from "../../explorer/saved-emoji.js";
+import * as state from "../../state.js";
 
 /** Coordinate emoji detail actions without retaining DOM state in index.ts. */
 export function createEmojiActions(options: any) {
   const updateEmojiImportExamples = (item: any) =>
-    renderImportExamplesHelper(options.state().packageManifest, item);
+    renderImportExamplesHelper(state.packageManifest.get(), item);
 
   const loadManifest = () =>
     loadPackageManifestHelper({
-      getManifest: () => options.state().packageManifest,
-      getPromise: () => options.state().packageManifestPromise,
-      setManifest: (manifest: unknown) =>
-        (options.state().packageManifest = manifest),
-      setPromise: (promise: Promise<unknown>) =>
-        (options.state().packageManifestPromise = promise),
+      getManifest: state.packageManifest.get,
+      getPromise: state.packageManifestPromise.get,
+      setManifest: state.packageManifest.set,
+      setPromise: state.packageManifestPromise.set,
     });
 
   const copyToClipboardValue = (value: string, successMessage: string) =>
@@ -36,22 +35,22 @@ export function createEmojiActions(options: any) {
   const getIntroducedVersion = (key: string) =>
     getIntroducedVersionHelper({
       key,
-      versionKeys: options.state().versionKeys,
-      versionManifests: options.state().versionManifests,
-      proposedVersionManifests: options.state().proposedVersionManifests,
+      versionKeys: state.versionKeys.get(),
+      versionManifests: state.versionManifests.get(),
+      proposedVersionManifests: state.proposedVersionManifests.get(),
     });
 
   const onClick = (event: any, openDialog = true) => {
     const cell = event.target.closest?.("[data-emoji-key]");
     const id = cell?.id ?? event.target.id;
-    if (options.state().emojiByKey[id] === undefined) return;
+    if (state.emojiByKey.get()[id] === undefined) return;
     cell?.focus();
     options.showEmoji(id, openDialog);
   };
 
   const onEmojiDialogClose = () => {
     options.setDialogView("details", false);
-    options.state().currentDialogParentStack = [];
+    state.currentDialogParentStack.set([]);
     options.dialog().dataset.dialogParentPanel = "";
     if (
       options.suppressDialogCloseSync() ||
@@ -79,14 +78,14 @@ export function createEmojiActions(options: any) {
       {
         applyPixelArtworkClass: options.applyPixelArtworkClass(),
         applyStandalonePixelArtwork: options.applyStandalonePixelArtwork(),
-        byId: () => options.state().byId,
-        compositionMode: () => options.state().compositionMode,
+        byId: state.byId.get,
+        compositionMode: state.compositionMode.get,
         developerModeEnabled: options.developerModeEnabled,
         dialog: options.dialog,
-        emojiByKey: () => options.state().emojiByKey,
-        emojiKeyByCodePoints: () => options.state().emojiKeyByCodePoints,
-        searchAnnotations: () => options.state().searchAnnotations,
-        selectedLocale: () => options.state().selectedSearchLocale,
+        emojiByKey: state.emojiByKey.get,
+        emojiKeyByCodePoints: state.emojiKeyByCodePoints.get,
+        searchAnnotations: state.searchAnnotations.get,
+        selectedLocale: state.selectedSearchLocale.get,
         translate: options.translate,
       },
       item,
@@ -94,9 +93,9 @@ export function createEmojiActions(options: any) {
     );
 
   const rebuildEmojiCodePointLookup = () => {
-    options.state().emojiKeyByCodePoints = options
-      .state()
-      .items.reduce((lookup: Map<string, string>, item: any) => {
+    const items = state.items.get();
+    state.emojiKeyByCodePoints.set(
+      items.reduce((lookup: Map<string, string>, item: any) => {
         const codePoints = options.normalizeCodePoints(item.codePoints);
         if (
           codePoints &&
@@ -105,7 +104,8 @@ export function createEmojiActions(options: any) {
           lookup.set(codePoints, item.key);
         }
         return lookup;
-      }, new Map<string, string>());
+      }, new Map<string, string>()),
+    );
   };
 
   return {

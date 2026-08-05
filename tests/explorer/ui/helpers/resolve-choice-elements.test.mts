@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import resolveChoiceElements from "../../../../src/resolve-choice-elements.js";
+import resolveChoiceElements from "../../../../src/resolve-connected-elements.js";
 
 const originalDocument = Object.getOwnPropertyDescriptor(
   globalThis,

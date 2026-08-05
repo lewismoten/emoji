@@ -1,4 +1,5 @@
 import { showEmojiSession } from "../../explorer/dialog/emoji-session.js";
+import * as state from "../../state.js";
 
 /** Assemble dependencies for opening an emoji-details session. */
 export function createEmojiSessionController(options: any) {
@@ -9,20 +10,20 @@ export function createEmojiSessionController(options: any) {
     initialMode: "details" | "code" | "editor" = "details",
     parentPanel?: "" | "favorites" | "help" | "language",
   ) => {
-    const currentEmojiCopies = { value: options.state().currentEmojiCopies };
-    const currentEmojiKey = { value: options.state().currentEmojiKey };
+    const currentEmojiCopies = { value: state.currentEmojiCopies.get() };
+    const currentEmojiKey = { value: state.currentEmojiKey.get() };
     const currentDialogParentStack = {
-      value: options.state().currentDialogParentStack,
+      value: state.currentDialogParentStack.get(),
     };
     const dialogNavigationKeys = {
-      value: options.state().dialogNavigationKeys,
+      value: state.dialogNavigationKeys.get(),
     };
 
     showEmojiSession({
       applyPixelArtworkClass: options.applyPixelArtworkClass,
       applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
-      byId: options.state().byId,
-      compositionMode: options.state().compositionMode,
+      byId: state.byId.get(),
+      compositionMode: state.compositionMode.get(),
       currentEmojiCopies,
       currentEmojiKey,
       currentDialogParentStack,
@@ -32,19 +33,19 @@ export function createEmojiSessionController(options: any) {
       dialogNavigationKeys,
       displayGroupName: options.displayGroupName,
       displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
-      displayedKeys: { value: options.state().displayedKeys },
-      emojiByKey: options.state().emojiByKey,
+      displayedKeys: { value: state.displayedKeys.get() },
+      emojiByKey: state.emojiByKey.get(),
       getIntroducedVersion: options.getIntroducedVersion,
       id,
       initialMode,
-      items: options.state().items,
+      items: state.items.get(),
       navigationKeys,
       openDialog,
       parentPanel,
       openDialogAction: options.openDialogAction,
       openEditor: options.openEditor,
-      searchAnnotations: options.state().searchAnnotations,
-      selectedSearchLocale: options.state().selectedSearchLocale,
+      searchAnnotations: state.searchAnnotations.get(),
+      selectedSearchLocale: state.selectedSearchLocale.get(),
       sequenceTranslationKeys: options.sequenceTranslationKeys,
       sequenceTypeLabels: options.sequenceTypeLabels,
       statusTranslationKeys: options.statusTranslationKeys,
@@ -55,10 +56,10 @@ export function createEmojiSessionController(options: any) {
       updateRenderingDiagnostic: options.updateRenderingDiagnostic,
     });
 
-    options.state().currentEmojiCopies = currentEmojiCopies.value;
-    options.state().currentEmojiKey = currentEmojiKey.value;
-    options.state().currentDialogParentStack = currentDialogParentStack.value;
-    options.state().dialogNavigationKeys = dialogNavigationKeys.value;
+    state.currentEmojiCopies.set(currentEmojiCopies.value);
+    state.currentEmojiKey.set(currentEmojiKey.value);
+    state.currentDialogParentStack.set(currentDialogParentStack.value);
+    state.dialogNavigationKeys.set(dialogNavigationKeys.value);
   };
 
   return { showEmoji };

@@ -4,7 +4,6 @@ import { createShellRuntimeFixture } from "./explorer-bootstrap-shell-runtime-fi
 const fixture = await createShellRuntimeFixture();
 const { bootstrap, dialogState, emojiOptions, shellOptions, state } = fixture;
 
-assert.equal(shellOptions.state(), state);
 assert.equal(
   shellOptions.pixelEditor().refreshFontBuild instanceof Function,
   true,
@@ -43,7 +42,6 @@ assert.deepEqual(shellOptions.setDialogView("editor"), [
 assert.deepEqual(shellOptions.syncUrlState(), ["syncUrlState"]);
 assert.equal(shellOptions.translate("k", "v"), "k:v");
 
-assert.equal(emojiOptions.state(), state);
 for (const [key, expected] of [
   ["applyingUrlState", false],
   ["applyPixelArtworkClass", "pixel-class"],
@@ -93,9 +91,7 @@ for (const [key, expected] of [
   ["renderPixelFontToggle", "renderPixelFontToggle"],
   ["renderSavedEmoji", "renderSavedEmoji"],
   ["renderSoundEffectsToggle", "renderSoundEffectsToggle"],
-  ["renderThemeToggle", "renderThemeToggle"],
   ["selectEmojiFont", "selectEmojiFont"],
-  ["selectTheme", "selectTheme"],
   ["syncHelpMusic", "syncHelpMusic"],
   ["toggleDeveloperMode", "toggleDeveloperMode"],
   ["updateFavoriteButton", "updateFavoriteButton"],

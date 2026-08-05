@@ -4,6 +4,7 @@ import * as doc from "../utils/document.js";
 import * as i18n from "../utils/i18n.js";
 import * as route from "../app/route.js";
 import * as audioToggle from '../controls/audio/audio-toggle.js';
+import { renderThemeToggle } from "../render-theme-toggle.js";
 
 export function initializeExplorerControls(options: any) {
   const controls = options.createFilterControlSetup({
@@ -98,7 +99,7 @@ export async function finalizeExplorerStartup(options: any) {
     });
   };
   options.renderVersionModeToggle();
-  options.renderThemeToggle();
+  renderThemeToggle();
   options.renderPixelFontToggle();
   options.observeToolbarHeight(options.toolbar);
   const initialSearchLocale =
@@ -120,7 +121,7 @@ export async function finalizeExplorerStartup(options: any) {
   await options.applyDialogUrlState();
   await waitForDialogControls();
   options.renderDeveloperMode?.();
-  options.renderThemeToggle();
+  renderThemeToggle();
   options.renderPixelFontToggle();
   audioToggle.render();
   options.renderSearchLanguages?.();

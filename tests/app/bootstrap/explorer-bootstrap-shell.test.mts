@@ -160,9 +160,7 @@ assert.equal(typeof shell.renderDeveloperMode, "function");
 assert.equal(typeof shell.renderInstallAppButton, "function");
 assert.equal(typeof shell.renderPixelFontToggle, "function");
 assert.equal(typeof shell.renderSavedEmoji, "function");
-assert.equal(typeof shell.renderThemeToggle, "function");
 assert.equal(typeof shell.selectEmojiFont, "function");
-assert.equal(typeof shell.selectTheme, "function");
 assert.equal(typeof shell.syncHelpMusic, "function");
 assert.equal(typeof shell.toggleDeveloperMode, "function");
 assert.equal(typeof shell.updateFavoriteButton, "function");
@@ -194,16 +192,10 @@ assert.deepEqual(state.copiedEmojiKeys, ["wrappedGift"]);
 shell.addFavorite("wrappedGift");
 assert.deepEqual(state.favoriteEmojiKeys, ["wrappedGift"]);
 for (const action of [
-  () => shell.renderThemeToggle(),
   () => shell.renderPixelFontToggle(),
   () => shell.renderInstallAppButton(),
 ])
   assert.doesNotThrow(action);
-assert.doesNotThrow(() =>
-  shell.selectTheme({
-    currentTarget: { dataset: { theme: "light" } },
-  } as any),
-);
 assert.doesNotThrow(() =>
   shell.selectEmojiFont({
     currentTarget: { dataset: { emojiFont: "system" }, blur() {} },
@@ -281,10 +273,7 @@ assert.equal(refreshed, 1);
 assert.doesNotThrow(() =>
   exercisedShell.updateRenderingDiagnostic("wrappedGift", "🎁"),
 );
-for (const action of [
-  () => exercisedShell.renderThemeToggle(),
-  () => exercisedShell.renderPixelFontToggle(),
-])
+for (const action of [() => exercisedShell.renderPixelFontToggle()])
   assert.doesNotThrow(action);
 
 (globalThis as any).window = originalWindow;

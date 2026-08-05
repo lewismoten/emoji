@@ -150,7 +150,6 @@ assert.equal(forwarded.getIntroducedVersion("grin"), "v:grin");
 assert.equal(forwarded.searchAnnotations(), searchAnnotations);
 assert.deepEqual(forwarded.sequenceTranslationKeys, { zwj: "zwj" });
 assert.deepEqual(forwarded.sequenceTypeLabels, { zwj: "ZWJ" });
-assert.equal(forwarded.state(), state);
 assert.deepEqual(forwarded.statusTranslationKeys, {
   fullyQualified: "fullyQualified",
 });

@@ -7,6 +7,7 @@ import {
   assignExplorerBootstrapElements,
   assignExplorerBootstrapFieldsets,
 } from "./explorer-bootstrap-bindings.js";
+import * as state from "../../state.js";
 
 export function initializeExplorerBootstrapSessionRuntime(options: any) {
   options.bindings.bootstrapRuntime = createExplorerBootstrapRuntime(
@@ -58,7 +59,7 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         matchCount: () => options.bindings.matchCount,
         navigateEmoji: (amount: number) =>
           options.bindings.navigateEmoji(amount),
-        nextSearchLoadId: () => ++options.state().searchLoadId,
+        nextSearchLoadId: state.searchLoadId.increment,
         onClick: options.shell.onClick,
         onCompactChoiceKeyDown: options.controllers.onCompactChoiceKeyDown,
         onDocumentKeyDown: options.controllers.onDocumentKeyDown,
@@ -83,7 +84,6 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         renderPixelFontToggle: options.shell.renderPixelFontToggle,
         renderSavedEmoji: options.shell.renderSavedEmoji,
         renderSearchLanguages: () => options.bindings.renderSearchLanguages(),
-        renderThemeToggle: options.shell.renderThemeToggle,
         renderVersionModeToggle: () =>
           options.bindings.renderVersionModeToggle(),
         restoreDeveloperMode: options.restoreDeveloperMode,
@@ -92,7 +92,6 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         scheduleSearchDraw: options.controllers.scheduleSearchDraw,
         searchText: () => options.bindings.searchText,
         selectEmojiFont: options.shell.selectEmojiFont,
-        selectTheme: options.shell.selectTheme,
         setApplyingUrlState: (value: any) =>
           (options.bindings.applyingUrlState = value),
         setControls: (values: any) =>
@@ -108,9 +107,7 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         setPixelEditorPromise: (promise: any) => {
           options.bindings.pixelEditorPromise = promise;
         },
-        setSearchLanguage: (locale: any) => {
-          options.state().selectedSearchLocale = locale;
-        },
+        setSearchLanguage: state.selectedSearchLocale.set,
         setSuppressDialogCloseSync: (value: any) =>
           (options.bindings.suppressDialogCloseSync = value),
         setUrlStateReady: (value: any) =>

@@ -69,7 +69,6 @@ try {
     loadVersionData: async () => {
       calls.push("load-version-data");
     },
-    renderThemeToggle: () => calls.push("rerender-dev-theme"),
     savePreference(key: string, value: unknown) {
       preferenceCalls.push([key, value]);
       state.explorerPreferences[key] = value;
@@ -104,7 +103,6 @@ try {
     dialog: () => developerDialog,
     disableDeveloperFeatures: () => undefined,
     loadVersionData: async () => undefined,
-    renderThemeToggle: () => undefined,
     savePreference: () => undefined,
     setDialogView: () => undefined,
     state: () => state,
@@ -127,7 +125,6 @@ try {
     loadVersionData: async () => {
       calls.push("load-version-data-legacy");
     },
-    renderThemeToggle: () => calls.push("rerender-legacy-theme"),
     savePreference(key: string, value: unknown) {
       preferenceCalls.push([key, value]);
       state.explorerPreferences[key] = value;
@@ -178,7 +175,6 @@ try {
     loadVersionData: async () => {
       calls.push("load-version-data-no-choices");
     },
-    renderThemeToggle: () => calls.push("rerender-no-choices-theme"),
     savePreference(key: string, value: unknown) {
       preferenceCalls.push([key, value]);
       state.explorerPreferences[key] = value;

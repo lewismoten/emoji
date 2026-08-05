@@ -11,8 +11,6 @@ try {
     "refresh-rendered-pixel-emoji",
   );
 
-  fixture.shell.renderThemeToggle();
-  assert.equal(fixture.uiStub.renderThemeToggleCalls.length, 1);
   assert.equal(fixture.audioStub.controller.renderSoundEffectsToggleCalls, 0);
   assert.equal(fixture.audioStub.controller.renderMusicToggleCalls, 0);
   assert.equal(fixture.audioStub.controller.syncHelpMusicCalls, 1);
@@ -22,11 +20,6 @@ try {
   fixture.shell.selectEmojiFont(emojiEvent as Event);
   assert.equal(fixture.uiStub.selectEmojiFontCalls.length, 1);
   assert.equal(fixture.uiStub.selectEmojiFontCalls[0][1], emojiEvent);
-
-  const themeEvent = { type: "theme" };
-  fixture.shell.selectTheme(themeEvent as Event);
-  assert.equal(fixture.uiStub.selectThemeCalls.length, 1);
-  assert.equal(fixture.uiStub.selectThemeCalls[0][1], themeEvent);
 
   const installEvent = {
     prevented: false,

@@ -6,28 +6,26 @@ import {
 } from "../../explorer/category/category-version.js";
 import { populateVersionSelector as populateVersionSelectorHelper } from "../../explorer/filters/version-data.js";
 import { createExplorerDataController } from "../data/explorer-data-controller.js";
+import * as state from "../../state.js";
 
 /** Coordinate version controls and the catalog/version data loader. */
 export function createVersionController(options: any) {
-  const proposedVersionManifests = () =>
-    options.state().proposedVersionManifests;
-
   const populateVersionSelector = () =>
     populateVersionSelectorHelper({
-      proposed: proposedVersionManifests(),
-      released: options.state().versionManifests,
-      selectedLocale: options.state().selectedSearchLocale,
+      proposed: state.proposedVersionManifests.get(),
+      released: state.versionManifests.get(),
+      selectedLocale: state.selectedSearchLocale.get(),
       selector: options.versionSelector(),
       syncRange: syncVersionRange,
       translate: options.translate,
     });
 
   const versionSliderLabel = (version: string) =>
-    versionSliderLabelHelper(version, proposedVersionManifests());
+    versionSliderLabelHelper(version, state.proposedVersionManifests.get());
 
   const syncVersionRange = () =>
     syncVersionRangeHelper({
-      proposedVersionManifests: proposedVersionManifests(),
+      proposedVersionManifests: state.proposedVersionManifests.get(),
       updateModifierAvailability,
       versionNext: options.versionNext(),
       versionPrevious: options.versionPrevious(),
@@ -49,27 +47,27 @@ export function createVersionController(options: any) {
 
   const updateModifierAvailability = () =>
     updateModifierAvailabilityHelper({
-      byId: options.state().byId,
+      byId: state.byId.get(),
       genderCheckboxes: options.genderCheckboxes(),
       genderFieldset: options.genderFieldset(),
       getEmojiGenders: options.getEmojiGenders,
       hairCheckboxes: options.hairCheckboxes(),
       hairFieldset: options.hairFieldset(),
       modifierFilters: options.modifierFilters(),
-      proposedVersionManifests: proposedVersionManifests(),
+      proposedVersionManifests: state.proposedVersionManifests.get(),
       skinToneCheckboxes: options.skinToneCheckboxes(),
       skinToneFieldset: options.skinToneFieldset(),
-      versionKeys: options.state().versionKeys,
-      versionManifests: options.state().versionManifests,
+      versionKeys: state.versionKeys.get(),
+      versionManifests: state.versionManifests.get(),
       versionValue: options.versionSelector().value,
     });
 
   const getVersionKeys = () =>
     getVersionKeysHelper({
-      proposedVersionManifests: proposedVersionManifests(),
-      releasedIds: options.state().releasedIds,
-      versionKeys: options.state().versionKeys,
-      versionManifests: options.state().versionManifests,
+      proposedVersionManifests: state.proposedVersionManifests.get(),
+      releasedIds: state.releasedIds.get(),
+      versionKeys: state.versionKeys.get(),
+      versionManifests: state.versionManifests.get(),
       versionMode: options.versionModeSelector().value,
       versionValue: options.versionSelector().value,
     });
@@ -95,7 +93,7 @@ export function createVersionController(options: any) {
     onSubGroupChange: options.onSubGroupChange,
     openEmoji: options.openEmoji,
     populateVersionSelector: populateVersionSelectorHelper,
-    proposedVersionManifests,
+    proposedVersionManifests: state.proposedVersionManifests.get,
     rebuildCodePointLookup: options.rebuildCodePointLookup,
     renderCategoryFilters: options.renderCategoryFilters,
     setIntroducedVersion: options.setIntroducedVersion,

@@ -1,6 +1,7 @@
 import { loadExplorerCatalog } from "../../explorer/catalog-loader.js";
 import { loadVersionCatalog } from "../../explorer/filters/version-data.js";
 import { createVersionController } from "./version-controller.js";
+import * as state from "../../state.js";
 
 export function createVersionConfig(options: any) {
   return {
@@ -23,11 +24,11 @@ export function createVersionConfig(options: any) {
       }),
     loadVersionCatalog: () =>
       loadVersionCatalog({
-        allIds: () => options.state().allIds,
-        byId: () => options.state().byId,
-        emojiByKey: () => options.state().emojiByKey,
+        allIds: state.allIds.get,
+        byId: state.byId.get,
+        emojiByKey: state.emojiByKey.get,
         getExplorerSubGroup: options.getExplorerSubGroup,
-        items: () => options.state().items,
+        items: state.items.get,
       }),
     modifierFilters: () => options.modifierFilters(),
     onGroupChange: options.onGroupChange,
@@ -54,7 +55,6 @@ export function createVersionConfig(options: any) {
     sequenceTypeSelector: () => options.sequenceTypeSelector(),
     skinToneCheckboxes: () => options.skinToneCheckboxes(),
     skinToneFieldset: () => options.skinToneFieldset(),
-    state: () => options.state(),
     subGroupSelector: () => options.subGroupSelector(),
     translate: options.translate,
     updateModifierArtwork: () => options.updateModifierArtwork(),

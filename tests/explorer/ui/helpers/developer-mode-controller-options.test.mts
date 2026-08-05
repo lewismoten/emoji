@@ -17,7 +17,6 @@ const options: DeveloperModeControllerOptions = {
   dialog: () => undefined,
   disableDeveloperFeatures: () => undefined,
   loadVersionData: () => undefined,
-  renderThemeToggle: () => undefined,
   setDialogView: () => undefined,
   state: () => state,
   syncUrlState: () => undefined,
@@ -25,5 +24,4 @@ const options: DeveloperModeControllerOptions = {
 };
 
 assert.equal(mode, "developer");
-assert.equal(options.state().explorerModeFromUrl, "advanced");
 assert.equal(typeof options.loadVersionData, "function");

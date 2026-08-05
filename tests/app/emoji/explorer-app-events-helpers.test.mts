@@ -243,7 +243,6 @@ await createHelpAfterOpen(
   {
     refreshElements: () => helpLifecycleCalls.push("refresh"),
     renderDeveloperMode: () => helpLifecycleCalls.push("mode"),
-    renderThemeToggle: () => helpLifecycleCalls.push("theme"),
   },
   () => helpDialog as any,
 )();
@@ -271,18 +270,50 @@ await createHelpAfterOpen(
 
 const savedInteractionCalls: any[] = [];
 const savedDialogTarget: any = {};
-assert.equal(bindSavedDialogInteractionsIfUnbound(savedDialogTarget, { id: "a" }, (value) => savedInteractionCalls.push(value)), true);
+assert.equal(
+  bindSavedDialogInteractionsIfUnbound(
+    savedDialogTarget,
+    { id: "a" },
+    (value) => savedInteractionCalls.push(value),
+  ),
+  true,
+);
 assert.equal(savedDialogTarget.dataset.savedDialogBound, "true");
-assert.equal(bindSavedDialogInteractionsIfUnbound(savedDialogTarget, {}, () => {}), false);
-assert.equal(bindSavedDialogInteractionsIfUnbound(undefined, {}, () => {}), false);
-assert.equal(bindSavedDialogInteractionsIfPresent(undefined, {}, () => {}), false);
-assert.equal(bindSavedDialogInteractionsIfPresent({}, {}, (value) => savedInteractionCalls.push(value)), true);
+assert.equal(
+  bindSavedDialogInteractionsIfUnbound(savedDialogTarget, {}, () => {}),
+  false,
+);
+assert.equal(
+  bindSavedDialogInteractionsIfUnbound(undefined, {}, () => {}),
+  false,
+);
+assert.equal(
+  bindSavedDialogInteractionsIfPresent(undefined, {}, () => {}),
+  false,
+);
+assert.equal(
+  bindSavedDialogInteractionsIfPresent({}, {}, (value) =>
+    savedInteractionCalls.push(value),
+  ),
+  true,
+);
 
 let installCloseHandler: Function | undefined;
 bindInstallDialogClose(
   { querySelector: () => ({}) as any },
-  ((_: unknown, handler: () => void) => ((installCloseHandler = handler), () => {})) as any,
+  ((_: unknown, handler: () => void) => (
+    (installCloseHandler = handler),
+    () => {}
+  )) as any,
 );
 installCloseHandler?.();
-assert.equal(typeof bindDeveloperModeToggleIfNeeded([{}], {}, () => {}, (() => () => {}) as any), "function");
-assert.equal(typeof bindDeveloperModeToggleIfNeeded(undefined, {}, () => {}, (() => () => {}) as any), "function");
+assert.equal(
+  typeof bindDeveloperModeToggleIfNeeded([{}], {}, () => {}, (() =>
+    () => {}) as any),
+  "function",
+);
+assert.equal(
+  typeof bindDeveloperModeToggleIfNeeded(undefined, {}, () => {}, (() =>
+    () => {}) as any),
+  "function",
+);

@@ -48,11 +48,17 @@ const createChoice = (dataset: Record<string, string>) => {
 
 export async function createExplorerAppEventsFixture() {
   const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
-  const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+  const originalDocument = Object.getOwnPropertyDescriptor(
+    globalThis,
+    "document",
+  );
   const mediaListeners: Function[] = [];
   const onlineOfflineListeners = new Map<string, Function[]>();
   const documentListeners = new Map<string, Function[]>();
-  const [themeChoiceOne, themeChoiceTwo] = [createChoice({ theme: "dark" }), createChoice({ theme: "light" })];
+  const [themeChoiceOne, themeChoiceTwo] = [
+    createChoice({ theme: "dark" }),
+    createChoice({ theme: "light" }),
+  ];
   themeChoiceOne.classList.owner = themeChoiceOne;
   themeChoiceTwo.classList.owner = themeChoiceTwo;
   const modeChoiceOne = createChoice({ mode: "advanced" });
@@ -227,14 +233,12 @@ export async function createExplorerAppEventsFixture() {
       lifecycleCalls.push("render-pixel-font-toggle"),
     renderSavedEmoji: () => lifecycleCalls.push("render-saved"),
     renderSearchLanguages: () => lifecycleCalls.push("render-search-languages"),
-    renderThemeToggle: () => lifecycleCalls.push("render-theme-toggle"),
     resetFilters: () => lifecycleCalls.push("reset-filters"),
     savedDialog,
     savedPicker,
     scheduleSearchDraw: () => lifecycleCalls.push("search-draw"),
     searchText,
     selectEmojiFont: () => lifecycleCalls.push("select-emoji-font"),
-    selectTheme: () => lifecycleCalls.push("select-theme"),
     skinToneCheckboxes: ["light"],
     stepVersion: (step: number) => stepCalls.push(step),
     suppressedPanelCloses: new Set<string>(),

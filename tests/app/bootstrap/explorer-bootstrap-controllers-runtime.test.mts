@@ -211,7 +211,6 @@ assert.deepEqual(categoryOptions.sequenceTypeEmoji, { single: "1️⃣" });
 assert.deepEqual(categoryOptions.sequenceTypeLabels, { single: "Single" });
 assert.deepEqual(categoryOptions.sequenceTypeOrder, ["single"]);
 assert.equal(categoryOptions.sequenceTypeSelector(), "sequence-selector");
-assert.equal(categoryOptions.state(), state);
 assert.equal(categoryOptions.subGroupFilterDialog(), "subgroup-dialog");
 assert.equal(categoryOptions.subGroupPickerTrigger(), "subgroup-trigger");
 assert.equal(categoryOptions.subGroupSelector(), "subgroup-selector");
@@ -243,7 +242,6 @@ assert.deepEqual(listOptions.sequenceTranslationKeys, { single: "single" });
 assert.deepEqual(listOptions.sequenceTypeLabels, { single: "Single" });
 assert.deepEqual(listOptions.sequenceTypeOrder, ["single"]);
 assert.deepEqual(listOptions.skinToneCheckboxes(), ["skin"]);
-assert.equal(listOptions.state(), state);
 assert.equal(
   listOptions.subGroupSelectionKey("Objects", "money"),
   "subGroupSelectionKey:Objects:money",
@@ -304,7 +302,6 @@ assert.deepEqual(versionOptions.setDialogView("code"), [
 ]);
 assert.deepEqual(versionOptions.skinToneCheckboxes(), ["skin"]);
 assert.equal(versionOptions.skinToneFieldset(), "skin-fieldset");
-assert.equal(versionOptions.state(), state);
 assert.equal(versionOptions.subGroupSelector(), "subgroup-selector");
 assert.equal(versionOptions.translate("x", "y"), "x:y");
 assert.equal(versionOptions.updateModifierArtwork, "updateModifierArtwork");

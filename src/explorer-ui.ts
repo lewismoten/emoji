@@ -1,13 +1,12 @@
 import * as aria from "./utils/aria.js";
 import { translate, applyTranslations, setTranslations } from "./utils/i18n.js";
 import * as preferences from "./preferences.js";
-import resolveChoiceElements from "./resolve-choice-elements.js";
 import buildDeveloperModeControllerChange from "./developer-mode-controller-change.js";
-import resolveExplorerMode from "./resolve-explorer-mode.js";
-import { ensureThemeStyles } from "./explorer/theme/theme-styles.js";
-export { renderThemeToggle } from "./render-theme-toggle.js";
 import { DeveloperModeControllerOptions } from "./developer-mode-controller-options.js";
 import syncChoiceInputSelection from "./sync-choice-input-selection.js";
+import * as doc from "./utils/document.js";
+import * as state from "./state.js";
+import * as auth from "./auth.js";
 
 export function createExplorerUiController(options: any) {
   const fetchJsonWithFallback = async (primary: string, fallback: string) => {
@@ -74,36 +73,23 @@ export function createExplorerUiController(options: any) {
   };
 }
 
-export async function selectTheme(options: any, event: any) {
-  const requestedTheme = event.currentTarget.dataset.theme;
-  const theme =
-    requestedTheme === "base" || ["light", "retro"].includes(requestedTheme)
-      ? requestedTheme
-      : "dark";
-  await ensureThemeStyles(theme);
-  preferences.setString("theme", theme);
-  options.renderThemeToggle();
-}
-
 export function renderPixelFontToggle(options: any) {
   const enabled = !preferences.getBoolean("pixelFont");
   document.documentElement.toggleAttribute("data-pixel-font", enabled);
   if (enabled) delete document.documentElement.dataset.emojiFont;
   else document.documentElement.dataset.emojiFont = "system";
-  resolveChoiceElements(options.choices, ".emoji-font-choice").forEach(
-    (choice: any) => {
-      const selected =
-        choice.dataset.emojiFont === (enabled ? "pixel" : "system");
-      choice.classList.toggle("is-active", selected);
-      aria.setPressed(choice, selected);
-      aria.setChecked(choice, selected);
-      choice.tabIndex = selected ? 0 : -1;
-      const input = choice.querySelector(
-        'input[type="radio"]',
-      ) as HTMLInputElement | null;
-      syncChoiceInputSelection(input, selected);
-    },
-  );
+  doc.all("emoji-font-choice").forEach((choice: any) => {
+    const selected =
+      choice.dataset.emojiFont === (enabled ? "pixel" : "system");
+    choice.classList.toggle("is-active", selected);
+    aria.setPressed(choice, selected);
+    aria.setChecked(choice, selected);
+    choice.tabIndex = selected ? 0 : -1;
+    const input = choice.querySelector(
+      'input[type="radio"]',
+    ) as HTMLInputElement | null;
+    syncChoiceInputSelection(input, selected);
+  });
   options.refreshRenderedPixelEmoji();
 }
 
@@ -117,16 +103,16 @@ export function selectEmojiFont(options: any, event: any) {
 export function createDeveloperModeController(
   options: DeveloperModeControllerOptions,
 ) {
-  const mode = () => resolveExplorerMode(options.state());
-  const enabled = () => mode() !== "standard";
-  const fullEnabled = () => mode() === "developer";
+  const mode = () => state.getExplorerMode();
+  const enabled = auth.canAccessAdvanced;
+  const fullEnabled = auth.canAccessDeveloper;
   function render() {
     const active = enabled();
     const full = fullEnabled();
     document.documentElement.dataset.explorerMode = mode();
     document.documentElement.toggleAttribute("data-developer-mode", active);
     document.documentElement.toggleAttribute("data-full-developer-mode", full);
-    const choices = resolveChoiceElements(options.choices, ".mode-choice");
+    const choices = doc.all("mode-choice");
     if (choices.length > 0) {
       choices.forEach((choice: any) => {
         const selected = choice.dataset.mode === mode();

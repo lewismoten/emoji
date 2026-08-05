@@ -29,9 +29,7 @@ export function createExplorerShellFixture() {
   const explorerUiCalls: unknown[] = [];
   const renderInstallAppButtonCalls: unknown[] = [];
   const renderPixelFontToggleCalls: unknown[] = [];
-  const renderThemeToggleCalls: unknown[] = [];
   const selectEmojiFontCalls: unknown[] = [];
-  const selectThemeCalls: unknown[] = [];
 
   const savedController = {
     copiedCount: () => 1,
@@ -92,17 +90,9 @@ export function createExplorerShellFixture() {
       renderPixelFontToggleCalls.push(options);
       return ["render-pixel-font-toggle", options];
     },
-    renderThemeToggleHelper(options: unknown) {
-      renderThemeToggleCalls.push(options);
-      return ["render-theme-toggle", options];
-    },
     selectEmojiFontHelper(options: unknown, event: unknown) {
       selectEmojiFontCalls.push([options, event]);
       return ["select-emoji-font", options, event];
-    },
-    selectThemeHelper(options: unknown, event: unknown) {
-      selectThemeCalls.push([options, event]);
-      return ["select-theme", options, event];
     },
     installWebApp: "install-web-app",
   };
@@ -194,10 +184,8 @@ export function createExplorerShellFixture() {
     orderButtonCalls,
     renderInstallAppButtonCalls,
     renderPixelFontToggleCalls,
-    renderThemeToggleCalls,
     savedEmojiCalls,
     selectEmojiFontCalls,
-    selectThemeCalls,
     shell,
     state,
     versionModeSelector,

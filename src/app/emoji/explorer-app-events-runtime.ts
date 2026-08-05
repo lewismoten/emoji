@@ -1,3 +1,5 @@
+import { selectTheme } from "../../explorer/theme/theme-styles.js";
+import { renderThemeToggle } from "../../render-theme-toggle.js";
 import * as bind from "./emoji-wire-up.js";
 import {
   bindChoiceGroup,
@@ -54,7 +56,7 @@ export const bindExplorerEventsWithEnvironment = (
     bindChoiceGroup(
       documentRef,
       ".theme-choice",
-      options.selectTheme,
+      selectTheme,
       dependencies.createThemeChoiceKeyDownHandler,
     );
   };
@@ -72,7 +74,7 @@ export const bindExplorerEventsWithEnvironment = (
     await options.ensureUtilityPanel?.(panel);
     options.refreshElements?.();
     options.renderDeveloperMode?.();
-    options.renderThemeToggle?.();
+    renderThemeToggle();
     options.renderPixelFontToggle?.();
     dependencies.audioToggle.render();
     options.renderSearchLanguages?.();

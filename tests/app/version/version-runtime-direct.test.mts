@@ -81,7 +81,6 @@ assert.equal(config.renderCategoryFilters(), "render-category-filters");
 assert.equal(config.sequenceTypeSelector(), "sequence-type-selector");
 assert.deepEqual(config.skinToneCheckboxes(), ["1F3FB"]);
 assert.equal(config.skinToneFieldset(), "skin-tone-fieldset");
-assert.equal(config.state(), state);
 assert.equal(config.subGroupSelector(), "subgroup-selector");
 assert.equal(config.translate("released", "released"), "released:released");
 assert.equal(config.updateModifierArtwork(), "update-modifier-artwork");

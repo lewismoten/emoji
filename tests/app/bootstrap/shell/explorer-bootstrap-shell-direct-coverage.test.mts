@@ -132,7 +132,6 @@ assert.equal(shellOptions.renderSearchLanguages(), "render-languages");
 assert.equal(shellOptions.renderVersionModeToggle(), "render-version-toggle");
 assert.equal(shellOptions.savedDialog(), "saved-dialog");
 assert.deepEqual(shellOptions.setDialogView("code"), ["setDialogView", "code"]);
-assert.equal(shellOptions.state(), state);
 assert.deepEqual(shellOptions.syncUrlState("replace"), [
   "syncUrlState",
   "replace",
@@ -158,7 +157,6 @@ assert.deepEqual(emojiOptions.showEmoji("wrappedGift"), [
   "showEmoji",
   "wrappedGift",
 ]);
-assert.equal(emojiOptions.state(), state);
 assert.equal(emojiOptions.suppressDialogCloseSync(), "suppressed");
 assert.deepEqual(emojiOptions.syncUrlState("push"), ["syncUrlState", "push"]);
 assert.equal(emojiOptions.translate("copy", "Copy"), "copy:Copy");

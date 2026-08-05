@@ -1,4 +1,7 @@
-type ThemeName = "base" | "dark" | "light" | "retro";
+import * as preferences from "../../preferences.js";
+import { renderThemeToggle }from "../../render-theme-toggle.js";
+
+export type ThemeName = "base" | "dark" | "light" | "retro";
 
 type ThemeStylesheet = {
   href: string;
@@ -82,10 +85,26 @@ function ensureStylesheet({ href, id }: ThemeStylesheet) {
   });
 }
 
+export const resolveTheme = (theme: string | undefined): ThemeName => {
+  switch(theme) {
+    case "base":
+    case "light":
+    case "retro":
+      return theme;
+    default:
+      return "dark";
+  }
+}
 export function ensureThemeStyles(theme: string) {
-  const resolved: ThemeName =
-    theme === "base" || theme === "light" || theme === "retro"
-      ? theme
-      : "dark";
+  const resolved = resolveTheme(theme);
   return Promise.all(themeStylesheets[resolved].map(ensureStylesheet));
+}
+
+export async function selectTheme(event: Event) {
+  const target = event.currentTarget as HTMLElement;
+  const requestedTheme = target.dataset.theme;
+  const theme = resolveTheme(requestedTheme);
+  await ensureThemeStyles(theme);
+  preferences.setString("theme", theme);
+  renderThemeToggle();
 }

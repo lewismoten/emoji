@@ -34,7 +34,7 @@ import { initializeExplorerBootstrapSessionRuntime } from "./explorer-bootstrap-
 import { createExplorerBootstrapShell } from "./explorer-bootstrap-shell.js";
 import { initializeExplorerPreferences } from "../explorer-preferences.js";
 import { translate } from "../../utils/i18n.js";
-
+import { renderThemeToggle } from "../../render-theme-toggle.js";
 const UNASSIGNED = "\u0000";
 const explorerState = createExplorerState();
 const bindings = createExplorerBootstrapBindings();
@@ -123,7 +123,7 @@ const controllers = createExplorerBootstrapControllers(
         assignExplorerBootstrapElements(bindings, elements);
       }
       shell.renderDeveloperMode();
-      shell.renderThemeToggle();
+      renderThemeToggle();
       shell.renderPixelFontToggle();
       audioToggle.render();
       bindings.renderSearchLanguages?.();

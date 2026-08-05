@@ -40,9 +40,6 @@ try {
       loadVersionData: () => {
         calls.push("load");
       },
-      renderThemeToggle: () => {
-        calls.push("theme");
-      },
       setDialogView: (name: string) => {
         calls.push(`view:${name}`);
       },

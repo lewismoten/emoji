@@ -76,7 +76,6 @@ const options: any = {
   renderInstallAppButton: mark("renderInstallAppButton"),
   renderPixelFontToggle: mark("renderPixelFontToggle"),
   renderSavedEmoji: mark("renderSavedEmoji"),
-  renderThemeToggle: mark("renderThemeToggle"),
   renderVersionModeToggle: mark("renderVersionModeToggle"),
   resetFilters: mark("resetFilters"),
   restoreDeveloperMode: mark("restoreDeveloperMode"),
@@ -86,7 +85,6 @@ const options: any = {
   scheduleSearchDraw: mark("scheduleSearchDraw"),
   searchText: mark("searchText"),
   selectEmojiFont: mark("selectEmojiFont"),
-  selectTheme: mark("selectTheme"),
   setApplyingUrlState: mark("setApplyingUrlState"),
   setControls: mark("setControls"),
   setDialogView: mark("setDialogView"),
@@ -164,11 +162,9 @@ for (const key of [
   "renderInstallAppButton",
   "renderPixelFontToggle",
   "renderSavedEmoji",
-  "renderThemeToggle",
   "restoreDeveloperMode",
   "scheduleSearchDraw",
   "selectEmojiFont",
-  "selectTheme",
   "setApplyingUrlState",
   "setControls",
   "setElements",
@@ -280,7 +276,6 @@ for (const [key, expected] of [
                           : runtimeOptions[key]();
   assert.equal(value, expected);
 }
-assert.equal(runtimeOptions.state(), state);
 
 options.modeChoices = mark("modeChoices");
 const runtimeWithModes = buildExplorerBootstrapRuntimeOptions(options);

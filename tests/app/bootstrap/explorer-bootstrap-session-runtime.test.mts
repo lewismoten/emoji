@@ -266,9 +266,7 @@ const shell = {
   renderInstallAppButton: "render-install-app-button",
   renderPixelFontToggle: "render-pixel-font-toggle",
   renderSavedEmoji: "render-saved-emoji",
-  renderThemeToggle: "render-theme-toggle",
   selectEmojiFont: "select-emoji-font",
-  selectTheme: "select-theme",
   toggleDeveloperMode: "toggle-developer-mode",
   updateEmojiComposition: "update-emoji-composition",
   updateFavoriteButton: "update-favorite-button",
@@ -403,11 +401,9 @@ assert.equal(
   "render-pixel-font-toggle",
 );
 assert.equal(runtimeSourceCall.renderSavedEmoji, "render-saved-emoji");
-assert.equal(runtimeSourceCall.renderThemeToggle, "render-theme-toggle");
 assert.equal(runtimeSourceCall.restoreDeveloperMode, "restore-developer-mode");
 assert.equal(runtimeSourceCall.scheduleSearchDraw, "schedule-search-draw");
 assert.equal(runtimeSourceCall.selectEmojiFont, "select-emoji-font");
-assert.equal(runtimeSourceCall.selectTheme, "select-theme");
 assert.equal(runtimeSourceCall.state, getState);
 assert.equal(runtimeSourceCall.stepVersion, "step-version");
 assert.equal(runtimeSourceCall.toggleDeveloperMode, "toggle-developer-mode");

@@ -78,9 +78,7 @@ export async function loadExplorerShellFixture() {
     "export const developerModeCalls = [];",
     "export const explorerUiCalls = [];",
     "export const renderPixelFontToggleCalls = [];",
-    "export const renderThemeToggleCalls = [];",
     "export const selectEmojiFontCalls = [];",
-    "export const selectThemeCalls = [];",
     "export const developerModeController = {",
     "  enabled: 'developer-enabled',",
     "  render: (...args) => ['developer-render', args],",
@@ -96,9 +94,7 @@ export async function loadExplorerShellFixture() {
     "export function createDeveloperModeController(options) { developerModeCalls.push(options); return developerModeController; }",
     "export function createExplorerUiController(options) { explorerUiCalls.push(options); return explorerUiController; }",
     "export function renderPixelFontToggle(options) { renderPixelFontToggleCalls.push(options); return ['render-pixel-font-toggle', options]; }",
-    "export function renderThemeToggle(options) { renderThemeToggleCalls.push(options); return ['render-theme-toggle', options]; }",
     "export function selectEmojiFont(options, event) { selectEmojiFontCalls.push([options, event]); return ['select-emoji-font', options, event]; }",
-    "export function selectTheme(options, event) { selectThemeCalls.push([options, event]); return ['select-theme', options, event]; }",
   ]);
   await fs.writeFile(
     path.join(tempDirectory, "explorer-shell.mjs"),

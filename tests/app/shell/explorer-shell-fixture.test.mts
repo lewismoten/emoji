@@ -12,9 +12,7 @@ try {
   assert.equal(dependencies.installWebApp, "install-web-app");
   assert.equal(typeof dependencies.renderInstallAppButtonHelper, "function");
   assert.equal(typeof dependencies.renderPixelFontToggleHelper, "function");
-  assert.equal(typeof dependencies.renderThemeToggleHelper, "function");
   assert.equal(typeof dependencies.selectEmojiFontHelper, "function");
-  assert.equal(typeof dependencies.selectThemeHelper, "function");
 
   assert.equal(fixture.savedEmojiStub.calls.length, 1);
   assert.equal(fixture.audioStub.calls.length, 1);

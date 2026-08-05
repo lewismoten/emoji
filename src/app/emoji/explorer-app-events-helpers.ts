@@ -1,3 +1,4 @@
+import { renderThemeToggle } from "../../render-theme-toggle.js";
 import * as aria from "../../utils/aria.js";
 
 type DatasetValue = Record<string, string | undefined>;
@@ -64,7 +65,10 @@ export const syncDialogChoiceGroup = (
 };
 
 export const bindChoiceEvents =
-  (onKeyDown: (event: KeyboardEvent) => void, toggleCallback: () => void) =>
+  (
+    onKeyDown: (event: KeyboardEvent) => void,
+    toggleCallback: (event: Event) => void,
+  ) =>
   (choice: ChoiceLike) => {
     if (choice.dataset.modeBound === "true") return;
     choice.dataset.modeBound = "true";
@@ -78,7 +82,7 @@ export const bindChoiceEvents =
 export const bindChoiceGroup = (
   documentRef: DocumentLike | undefined,
   selector: string,
-  toggleCallback: () => void,
+  toggleCallback: (event: Event) => void | Promise<void>,
   createKeyDownHandler: (
     choices: ChoiceLike[],
   ) => (event: KeyboardEvent) => void,
@@ -136,7 +140,6 @@ export const createHelpAfterOpen = (
   options: {
     refreshElements?: () => void;
     renderDeveloperMode?: () => void;
-    renderThemeToggle?: () => void;
   },
   getHelpDialog: () => DialogLike | undefined | null,
 ) => {
@@ -150,7 +153,7 @@ export const createHelpAfterOpen = (
     }
     options.refreshElements?.();
     options.renderDeveloperMode?.();
-    options.renderThemeToggle?.();
+    renderThemeToggle();
     dependencies.audioToggle.render();
     const helpDialog = getHelpDialog();
     syncDialogChoiceGroup(

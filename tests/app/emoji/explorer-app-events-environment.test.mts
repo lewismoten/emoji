@@ -108,15 +108,11 @@ try {
       renderSearchLanguages() {
         lifecycleCalls.push("render-search-languages");
       },
-      renderThemeToggle() {
-        lifecycleCalls.push("render-theme-toggle");
-      },
       resetFilters() {},
       savedPicker: {},
       scheduleSearchDraw() {},
       searchText: { addEventListener() {} },
       selectEmojiFont() {},
-      selectTheme() {},
       skinToneCheckboxes: [],
       suppressedPanelCloses: new Set(),
       syncUrlState() {},

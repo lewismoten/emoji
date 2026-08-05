@@ -28,7 +28,6 @@ assert.equal(
   "drawList",
 );
 assert.equal(fixture.sessionRuntimeInput.shell, fixture.shell);
-assert.equal(fixture.sessionRuntimeInput.state(), fixture.state);
 assert.equal(
   fixture.sessionRuntimeInput.translate("group.label", "fallback"),
   "Translated Group",

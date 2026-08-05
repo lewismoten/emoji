@@ -164,7 +164,6 @@ assert.equal(call.renderCategoryFilters(), "render-category-filters");
 assert.equal(call.sequenceTypeSelector(), "sequence-type-selector");
 assert.deepEqual(call.skinToneCheckboxes(), ["1F3FB"]);
 assert.equal(call.skinToneFieldset(), "skin-tone-fieldset");
-assert.equal(call.state(), state);
 assert.equal(call.subGroupSelector(), "subgroup-selector");
 assert.equal(call.translate, "translate");
 assert.equal(call.updateModifierArtwork(), "update-modifier-artwork");

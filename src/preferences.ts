@@ -71,8 +71,10 @@ export const get = <T = any>(name: keyof typeof preferences): T | undefined => {
 export const getBoolean = (name: keyof typeof preferences): boolean => {
   return get(name) === true;
 };
-export const getString = (name: keyof typeof preferences): string => {
-  return (get(name) as string) ?? "";
+export const getString = <T extends string = string>(
+  name: keyof typeof preferences,
+): T => {
+  return get<T>(name) ?? ("" as T);
 };
 export const getArray = <T = any>(name: keyof typeof preferences): T[] => {
   return Array.isArray(get(name)) ? (get(name) as T[]) : [];

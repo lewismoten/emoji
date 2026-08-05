@@ -1,9 +1,11 @@
+import * as state from "../../state.js";
+
 export function createExplorerDataController(options: any) {
   function populateVersionSelector() {
     options.populateVersionSelector({
-      proposed: options.state().proposedVersionManifests,
-      released: options.state().versionManifests,
-      selectedLocale: options.state().selectedSearchLocale,
+      proposed: state.proposedVersionManifests.get(),
+      released: state.versionManifests.get(),
+      selectedLocale: state.selectedSearchLocale.get(),
       selector: options.versionSelector(),
       syncRange: syncVersionRange,
       translate: options.translate,
@@ -11,24 +13,24 @@ export function createExplorerDataController(options: any) {
   }
   function updateModifierAvailability() {
     options.updateModifierAvailability({
-      byId: options.state().byId,
+      byId: state.byId.get(),
       genderCheckboxes: options.genderCheckboxes(),
       genderFieldset: options.genderFieldset(),
       getEmojiGenders: options.getEmojiGenders,
       hairCheckboxes: options.hairCheckboxes(),
       hairFieldset: options.hairFieldset(),
       modifierFilters: options.modifierFilters(),
-      proposedVersionManifests: options.state().proposedVersionManifests,
+      proposedVersionManifests: state.proposedVersionManifests.get(),
       skinToneCheckboxes: options.skinToneCheckboxes(),
       skinToneFieldset: options.skinToneFieldset(),
-      versionKeys: options.state().versionKeys,
-      versionManifests: options.state().versionManifests,
+      versionKeys: state.versionKeys.get(),
+      versionManifests: state.versionManifests.get(),
       versionValue: options.versionSelector().value,
     });
   }
   function syncVersionRange() {
     options.syncVersionRange({
-      proposedVersionManifests: options.state().proposedVersionManifests,
+      proposedVersionManifests: state.proposedVersionManifests.get(),
       updateModifierAvailability,
       versionNext: options.versionNext(),
       versionPrevious: options.versionPrevious(),
@@ -39,7 +41,7 @@ export function createExplorerDataController(options: any) {
   }
   async function loadData() {
     const catalog = await options.loadCatalog();
-    Object.assign(options.state(), catalog);
+    state.applyCatalog(catalog);
     options.rebuildCodePointLookup();
     options.updateModifierArtwork();
     options.buildRepresentatives();
@@ -52,39 +54,40 @@ export function createExplorerDataController(options: any) {
       .addEventListener("change", options.onSequenceTypeChange);
     options.renderCategoryFilters();
     options.applyLoadedUrlState();
-    if (!options.state().currentEmojiKey) {
+    if (!state.currentEmojiKey.get()) {
       options.openEmoji("clinkingBeerMugs", false);
     }
     if (options.developerModeEnabled()) await loadVersionData();
   }
   async function loadVersionData() {
-    if (options.state().versionDataPromise)
-      return options.state().versionDataPromise;
-    options.state().versionDataPromise = (async () => {
-      try {
-        const versions = await options.loadVersionCatalog();
-        options.state().versionManifests = versions.released;
-        options.state().proposedVersionManifests = versions.proposed;
-        options.state().versionKeys = versions.versionKeys;
-        options.rebuildCodePointLookup();
-        options.updateModifierArtwork();
-        options.buildRepresentatives();
-        populateVersionSelector();
-        options.applyLoadedUrlState();
-        options.renderCategoryFilters();
-        options.drawList();
-        const key = options.state().currentEmojiKey;
-        if (key)
-          options.setIntroducedVersion(options.getIntroducedVersion(key));
-      } catch (error) {
-        console.warn("Version filters unavailable", error);
-        const versionModeSelector = options.versionModeSelector?.();
-        const versionSelector = options.versionSelector?.();
-        if (versionModeSelector) versionModeSelector.disabled = true;
-        if (versionSelector) versionSelector.disabled = true;
-      }
-    })();
-    return options.state().versionDataPromise;
+    if (state.versionDataPromise.get()) return state.versionDataPromise.get();
+    state.versionDataPromise.set(
+      (async () => {
+        try {
+          const versions = await options.loadVersionCatalog();
+          state.versionManifests.set(versions.released);
+          state.proposedVersionManifests.set(versions.proposed);
+          state.versionKeys.set(versions.versionKeys);
+          options.rebuildCodePointLookup();
+          options.updateModifierArtwork();
+          options.buildRepresentatives();
+          populateVersionSelector();
+          options.applyLoadedUrlState();
+          options.renderCategoryFilters();
+          options.drawList();
+          const key = state.currentEmojiKey.get();
+          if (key)
+            options.setIntroducedVersion(options.getIntroducedVersion(key));
+        } catch (error) {
+          console.warn("Version filters unavailable", error);
+          const versionModeSelector = options.versionModeSelector?.();
+          const versionSelector = options.versionSelector?.();
+          if (versionModeSelector) versionModeSelector.disabled = true;
+          if (versionSelector) versionSelector.disabled = true;
+        }
+      })(),
+    );
+    return state.versionDataPromise.get();
   }
   function onVersionRangeInput() {
     const selector = options.versionSelector();
@@ -97,10 +100,10 @@ export function createExplorerDataController(options: any) {
   }
   function getVersionKeys() {
     return options.getVersionKeys({
-      proposedVersionManifests: options.state().proposedVersionManifests,
-      releasedIds: options.state().releasedIds,
-      versionKeys: options.state().versionKeys,
-      versionManifests: options.state().versionManifests,
+      proposedVersionManifests: state.proposedVersionManifests.get(),
+      releasedIds: state.releasedIds.get(),
+      versionKeys: state.versionKeys.get(),
+      versionManifests: state.versionManifests.get(),
       versionMode: options.versionModeSelector().value,
       versionValue: options.versionSelector().value,
     });

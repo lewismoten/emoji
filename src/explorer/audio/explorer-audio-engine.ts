@@ -28,6 +28,9 @@ export interface ExplorerAudioEngine {
     stopMusic: () => void,
     syncHelpMusic: () => Promise<void>,
 }
+
+let _singleton: ExplorerAudioEngine;
+
 export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
   const props = {
     audioContext: undefined,
@@ -36,6 +39,7 @@ export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
     musicBeat: 0,
     musicGain: undefined,
   } as EngineProps;
+  if(_singleton) return _singleton;
 
   props.getAudioContext = () => {
     if (props.audioContext) return props.audioContext;
@@ -123,11 +127,11 @@ export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
   const syncHelpMusic = buildSyncMusic(props);
   const restartMusic = buildRestart(props);
 
-  return {
-    playClick: () => playInteraction("button", "click"),
-    playDialogClose: () => playInteraction("dialog", "close"),
-    playDialogOpen: () => playInteraction("dialog", "open"),
-    playHover: () => playInteraction("button", "hover"),
+  _singleton = {
+    playClick: playInteraction.bind(this, "button", "click"),
+    playDialogClose: playInteraction.bind(this, "dialog", "close"),
+    playDialogOpen: playInteraction.bind(this, "dialog", "open"),
+    playHover: playInteraction.bind(this, "button", "hover"),
     playInteraction,
     playSoundEffect,
     restartMusic,
@@ -135,4 +139,7 @@ export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
     stopMusic: props.stopMusic,
     syncHelpMusic,
   };
+
+  return _singleton;
 }
+export default createExplorerAudioEngine;

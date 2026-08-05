@@ -10,7 +10,6 @@ const { calls, options, state } = createBootstrapOptionsFixture();
 const shell = buildExplorerBootstrapShellOptions(options);
 assert.equal(shell.normalizeCodePoints, options.normalizeCodePoints);
 assert.equal(shell.translate, options.translate);
-assert.equal(shell.state(), state);
 assert.equal(shell.modeChoices(), "modeChoices-value");
 assert.equal(shell.modeChoices(), "modeChoices-value");
 for (const [key, expected] of [
@@ -67,7 +66,6 @@ assert.equal(
   options.sequenceTranslationKeys,
 );
 assert.equal(controller.unassigned, "\u0000");
-assert.equal(controller.state(), state);
 for (const [key, expected] of [
   ["activeFilterSummary", "activeFilterSummary-value"],
   ["activeFilterText", "activeFilterText-value"],

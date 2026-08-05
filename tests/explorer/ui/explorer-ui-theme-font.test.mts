@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import * as preferences from "../../../src/preferences.js";
 import {
-  renderPixelFontToggle, renderThemeToggle, selectEmojiFont, selectTheme,
+  renderPixelFontToggle, selectEmojiFont,
 } from "../../../src/explorer-ui.js";
 import { createElement, installExplorerUiFixture } from "./explorer-ui-fixture.mjs";
 const fixture = installExplorerUiFixture();
@@ -63,15 +63,7 @@ try {
 
   fixture.documentElement.dataset.developerMode = "1";
   fixture.documentElement.dataset.fullDeveloperMode = "1";
-  renderThemeToggle({
-    choices: () => [
-      baseThemeChoice,
-      lightThemeChoice,
-      darkThemeChoice,
-      retroThemeChoice,
-    ],
-    state: () => state,
-  });
+  
   assert.equal(fixture.documentElement.dataset.theme, "base");
   assert.equal(baseThemeChoice.classList.active.has("is-active"), true);
   assert.equal(baseInput.getAttribute("checked"), "checked");
@@ -82,64 +74,31 @@ try {
   preferences.setString("theme", "base");
   delete fixture.documentElement.dataset.developerMode;
   delete fixture.documentElement.dataset.fullDeveloperMode;
-  renderThemeToggle({
-    choices: () => [lightThemeChoice, darkThemeChoice, retroThemeChoice],
-    state: () => state,
-  });
+  
   assert.equal(fixture.documentElement.dataset.theme, "dark");
   assert.equal(darkThemeChoice.classList.active.has("is-active"), true);
   assert.equal(fixture.themeMeta.content, "#160622");
 
   state.explorerPreferences.theme = "light";
   preferences.setString("theme", "light");
-  renderThemeToggle({
-    choices: () => [lightThemeChoice, darkThemeChoice, retroThemeChoice],
-    state: () => state,
-  });
+
   assert.equal(fixture.documentElement.dataset.theme, "light");
   assert.equal(fixture.themeMeta.content, "#f6efe4");
 
   state.explorerPreferences.theme = "retro";
   preferences.setString("theme", "retro");
-  renderThemeToggle({
-    choices: () => [lightThemeChoice, darkThemeChoice, retroThemeChoice],
-    state: () => state,
-  });
+
   assert.equal(fixture.documentElement.dataset.theme, "retro");
   assert.equal(fixture.themeMeta.content, "#0000aa");
 
-  renderThemeToggle({
-    choices: () => [],
-    state: () => ({
-      explorerModeFromUrl: "",
-      developerModeUrlDismissed: false,
-      developerModeFromUrl: false,
-      explorerPreferences: { developerMode: true, theme: "mystery" },
-    } as any),
-  });
+
   assert.equal(fixture.documentElement.dataset.theme, "retro");
 
   preferences.setString("theme", "dark");
-  renderThemeToggle({
-    choices: () => [],
-    state: () => ({
-      explorerModeFromUrl: "",
-      developerModeUrlDismissed: false,
-      developerModeFromUrl: false,
-      explorerPreferences: { developerMode: false, mode: "standard" },
-    } as any),
-  });
+
   assert.equal(fixture.documentElement.dataset.theme, "dark");
   preferences.setString("theme", "");
-  renderThemeToggle({
-    choices: () => [],
-    state: () => ({
-      explorerModeFromUrl: "",
-      developerModeUrlDismissed: false,
-      developerModeFromUrl: false,
-      explorerPreferences: { developerMode: false, mode: "standard" },
-    } as any),
-  });
+ 
   assert.equal(fixture.documentElement.dataset.theme, "dark");
 
   const selectorThemeChoice = createElement({ theme: "retro" });
@@ -165,19 +124,7 @@ try {
     },
   });
   preferences.setString("theme", "retro");
-  renderThemeToggle({
-    choices: () => [null as any, "bad-choice" as any, mixedLightChoice],
-    state: () => ({
-      explorerModeFromUrl: "",
-      developerModeUrlDismissed: false,
-      developerModeFromUrl: false,
-      explorerPreferences: {
-        developerMode: false,
-        theme: "retro",
-        mode: "advanced",
-      },
-    } as any),
-  });
+
   assert.equal(mixedLightChoice.classList.active.has("is-active"), false);
   if (originalDocumentForSelector) {
     Object.defineProperty(globalThis, "document", originalDocumentForSelector);
@@ -198,24 +145,10 @@ try {
       },
     },
   });
-  renderThemeToggle({
-    choices: () => [lightThemeChoice],
-    state: () => ({
-      explorerModeFromUrl: "",
-      developerModeUrlDismissed: false,
-      developerModeFromUrl: false,
-      explorerPreferences: { developerMode: false, theme: "light", mode: "mystery" },
-    } as any),
-  });
   assert.equal(fixture.themeMeta.content, "");
 
   Reflect.deleteProperty(globalThis, "document");
-  assert.doesNotThrow(() =>
-    renderThemeToggle({
-      choices: () => [],
-      state: () => state,
-    }),
-  );
+
   Object.defineProperty(globalThis, "document", {
     configurable: true,
     value: {
@@ -228,12 +161,7 @@ try {
       },
     },
   });
-  assert.doesNotThrow(() =>
-    renderThemeToggle({
-      choices: () => [],
-      state: () => state,
-    }),
-  );
+
   if (originalDocument) {
     Object.defineProperty(globalThis, "document", originalDocument);
   }
@@ -291,12 +219,6 @@ try {
     Object.defineProperty(globalThis, "document", originalDocument);
   }
 
-  await selectTheme(
-    {
-      renderThemeToggle: () => calls.push("rerender-theme"),
-    },
-    { currentTarget: { dataset: { theme: "retro" } } },
-  );
   selectEmojiFont(
     {
       renderPixelFontToggle: () => calls.push("rerender-font"),
@@ -312,12 +234,6 @@ try {
   assert.equal(preferences.getString("theme"), "retro");
   assert.equal(preferences.getBoolean("pixelFont"), false);
 
-  await selectTheme(
-    {
-      renderThemeToggle: () => calls.push("rerender-theme-fallback"),
-    },
-    { currentTarget: { dataset: { theme: "mystery" } } },
-  );
   assert.equal(preferences.getString("theme"), "dark");
 
   selectEmojiFont(

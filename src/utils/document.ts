@@ -1,4 +1,4 @@
-export const documentRef = () =>
+export const documentRef = (): Document | undefined =>
   typeof globalThis.document === "undefined" ? undefined : globalThis.document;
 export const querySelector = <T extends Element = Element>(
   selector: string,
@@ -8,6 +8,12 @@ export const selectAll = <T extends Element = Element>(
 ): NodeListOf<T> =>
   documentRef()?.querySelectorAll<T>(selector) ??
   ([] as unknown as NodeListOf<T>);
+
+export const getData = (name: string): string | undefined =>
+  documentRef()?.documentElement.dataset[name];
+
+export const all = <T extends Element = HTMLElement>(className: string) =>
+  Array.from(documentRef()?.getElementsByClassName(className) ?? []) as T[];
 
 export const selectAllAndApply = <T extends Element = Element>(
   selector: string,

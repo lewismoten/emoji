@@ -1,5 +1,3 @@
-export type ExplorerAudioTheme = "base" | "dark" | "light" | "retro";
-
 export type ExplorerWaveformId =
   | "bell-bright"
   | "lead-mellow"

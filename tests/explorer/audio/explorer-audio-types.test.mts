@@ -3,11 +3,13 @@ import assert from "node:assert/strict";
 import type {
   ExplorerAudioAction,
   ExplorerAudioElementType,
-  ExplorerAudioTheme,
   ExplorerToneShape,
 } from "../../../src/explorer/audio/explorer-audio-types.js";
+import type {
+  ThemeName
+} from  "../../../src/explorer/theme/theme-styles.js";
 
-const theme: ExplorerAudioTheme = "retro";
+const theme: ThemeName = "retro";
 const elementType: ExplorerAudioElementType = "button";
 const action: ExplorerAudioAction = "click";
 const tone: ExplorerToneShape = {

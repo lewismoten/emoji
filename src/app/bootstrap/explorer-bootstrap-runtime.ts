@@ -27,6 +27,7 @@ import {
   updateWebAppManifest,
 } from "../../explorer/pwa/pwa-panels.js";
 import { getEmojiGenders } from "../../explorer/emoji/emoji-filter.js";
+import * as state from "../../state.js";
 
 export function createExplorerBootstrapRuntime(options: any) {
   const explorerRuntime = createExplorerRuntime({
@@ -50,9 +51,9 @@ export function createExplorerBootstrapRuntime(options: any) {
   };
 
   const pixelEditorRuntime = createPixelEditorRuntime({
-    currentEmojiKey: () => options.state().currentEmojiKey,
+    currentEmojiKey: state.currentEmojiKey.get,
     dialog: () => explorerRuntime.get("exampleDialog"),
-    emojiByKey: () => options.state().emojiByKey,
+    emojiByKey: state.emojiByKey.get,
     formatNumber: options.formatNumber,
     formatPercent: options.formatPercent,
     getEditor: () => options.getPixelEditor(),
@@ -77,8 +78,8 @@ export function createExplorerBootstrapRuntime(options: any) {
     applyPixelArtworkClass: options.applyPixelArtworkClass,
     applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
     closePanelDialog,
-    currentEmojiKey: () => options.state().currentEmojiKey,
-    currentLoadId: () => options.state().searchLoadId,
+    currentEmojiKey: state.currentEmojiKey.get,
+    currentLoadId: state.searchLoadId.get,
     dialog: () => explorerRuntime.get("exampleDialog"),
     languageDialog: () => options.languageDialog(),
     languageFlags,
@@ -93,17 +94,14 @@ export function createExplorerBootstrapRuntime(options: any) {
     },
     refreshLocalizedLabels: options.refreshLocalizedLabels,
     restoreDeveloperMode: options.restoreDeveloperMode,
-    searchLocales: () => options.state().searchLocales,
-    selectedSearchLocale: () => options.state().selectedSearchLocale,
+    searchLocales: state.searchLocales.get,
+    selectedSearchLocale: state.selectedSearchLocale.get,
     setApplyingUrlState: options.setApplyingUrlState,
-    setSearchAnnotations: (value) =>
-      (options.state().searchAnnotations = value),
-    setSearchLabels: (value) => (options.state().searchLabels = value),
-    setSearchLocales: (value) => (options.state().searchLocales = value),
-    setSearchSubgroupLabels: (value) =>
-      (options.state().searchSubgroupLabels = value),
-    setSelectedLocale: (value) =>
-      (options.state().selectedSearchLocale = value),
+    setSearchAnnotations: state.searchAnnotations.set,
+    setSearchLabels: state.searchLabels.set,
+    setSearchLocales: state.searchLocales.set(value),
+    setSearchSubgroupLabels: state.searchSubgroupLabels.set,
+    setSelectedLocale: state.selectedSearchLocale.set,
     suppressedPanelCloses: () => options.suppressedPanelCloses(),
     syncUrlState: options.syncUrlState,
     translate: options.translate,
@@ -119,17 +117,17 @@ export function createExplorerBootstrapRuntime(options: any) {
   const dialogRuntime = createDialogRuntimeConfig({
     applyPixelArtworkClass: options.applyPixelArtworkClass,
     applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
-    byId: () => options.state().byId,
+    byId: state.byId.get,
     copyStatus: () => options.copyStatus(),
-    currentDialogParentStack: () => options.state().currentDialogParentStack,
-    currentEmojiKey: () => options.state().currentEmojiKey,
+    currentDialogParentStack: state.currentDialogParentStack.get,
+    currentEmojiKey: state.currentEmojiKey.get,
     developerModeEnabled: options.developerModeEnabled,
     dialog: () => explorerRuntime.get("exampleDialog"),
-    dialogNavigationKeys: () => options.state().dialogNavigationKeys,
-    displayedKeys: () => options.state().displayedKeys,
+    dialogNavigationKeys: state.dialogNavigationKeys.get,
+    displayedKeys: state.displayedKeys.get,
     displayGroupName: options.displayGroupName,
     displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
-    emojiByKey: () => options.state().emojiByKey,
+    emojiByKey: state.emojiByKey.get,
     emojiNext: () => explorerRuntime.get("emojiNext"),
     emojiParent: () => explorerRuntime.get("emojiParent"),
     emojiPrevious: () => explorerRuntime.get("emojiPrevious"),
@@ -137,13 +135,11 @@ export function createExplorerBootstrapRuntime(options: any) {
     getIntroducedVersion: options.getIntroducedVersion,
     openEditor: (key: string, value: string) =>
       options.getPixelEditor()?.open(key, value),
-    searchAnnotations: () => options.state().searchAnnotations,
+    searchAnnotations: state.searchAnnotations.get,
     sequenceTranslationKeys,
     sequenceTypeLabels,
-    setCurrentDialogParentStack: (value: string[]) =>
-      (options.state().currentDialogParentStack = value),
+    setCurrentDialogParentStack: state.currentDialogParentStack.set,
     setDialogView: options.setDialogView,
-    state: () => options.state(),
     statusTranslationKeys,
     syncUrlState: options.syncUrlState,
     translate: options.translate,
@@ -166,18 +162,18 @@ export function createExplorerBootstrapRuntime(options: any) {
     assignElements: (elements) => uiBindingRuntime.assignElements(elements),
     assignModifierFieldsets: () => uiBindingRuntime.assignModifierFieldsets(),
     clearFiltersButton: () => options.clearFiltersButton(),
-    copiedEmojiKeys: () => options.state().copiedEmojiKeys,
+    copiedEmojiKeys: state.copiedEmojiKeys.get,
     developerModeToggle: () => options.developerModeToggle(),
     modeChoices: () => options.modeChoices(),
     dialog: () => explorerRuntime.get("exampleDialog"),
     drawList: options.drawList,
-    emojiByKey: () => options.state().emojiByKey,
+    emojiByKey: state.emojiByKey.get,
     emojiFontChoices: () => options.emojiFontChoices(),
     emojiList: () => options.emojiList(),
     emojiNext: () => explorerRuntime.get("emojiNext"),
     emojiPrevious: () => explorerRuntime.get("emojiPrevious"),
     ensureEmojiCompositionControl,
-    favoriteEmojiKeys: () => options.state().favoriteEmojiKeys,
+    favoriteEmojiKeys: state.favoriteEmojiKeys.get,
     ensureUtilityPanel: async (panel) => {
       await ensureUtilityPanel(panel);
       refreshElements();
@@ -226,7 +222,6 @@ export function createExplorerBootstrapRuntime(options: any) {
     renderPixelFontToggle: options.renderPixelFontToggle,
     renderSavedEmoji: options.renderSavedEmoji,
     renderSearchLanguages: () => options.renderSearchLanguages(),
-    renderThemeToggle: options.renderThemeToggle,
     renderVersionModeToggle: () => options.renderVersionModeToggle(),
     resolveElements: () => explorerRuntime.resolveElements(),
     resetFilters: () => options.resetFilters(),
@@ -235,7 +230,6 @@ export function createExplorerBootstrapRuntime(options: any) {
     scheduleSearchDraw: options.scheduleSearchDraw,
     searchText: () => options.searchText(),
     selectEmojiFont: options.selectEmojiFont,
-    selectTheme: options.selectTheme,
     setUrlStateReady: options.setUrlStateReady,
     showEmoji: options.showEmoji,
     skinToneCheckboxes: () => options.skinToneCheckboxes(),
@@ -272,8 +266,7 @@ export function createExplorerBootstrapRuntime(options: any) {
     renderSearchLanguages: searchLanguageLifecycle.render,
     selectLanguageLink: searchLanguageLifecycle.select,
     setSearchLanguage: searchLanguageLifecycle.set,
-    getEmojiGenders: (item) =>
-      getEmojiGenders(item, options.state().emojiByKey),
+    getEmojiGenders: (item) => getEmojiGenders(item, state.emojiByKey.get()),
     showEmoji: dialogRuntime.showEmoji,
     navigateEmoji: dialogRuntime.navigateEmoji,
     updateDialogNavigation: dialogRuntime.updateDialogNavigation,

@@ -1,5 +1,8 @@
 import { DeveloperModeControllerOptions } from "./developer-mode-controller-options.js";
 import * as preferences from "./preferences.js";
+import { renderThemeToggle } from "./render-theme-toggle.js";
+import * as doc from "./utils/document.js";
+import * as state from "./state.js";
 
 const buildHandler = (
   options: DeveloperModeControllerOptions,
@@ -8,7 +11,7 @@ const buildHandler = (
   const handler = (event: any) => {
     const currentTarget =
       event.currentTarget?.closest?.(".mode-choice") ?? event.currentTarget;
-    const hasChoices = (options.choices?.() ?? []).length > 0;
+    const hasChoices = doc.all("mode-choice").length !== 0;
     const requestedMode =
       currentTarget?.dataset?.mode ??
       event.target?.value ??
@@ -23,15 +26,15 @@ const buildHandler = (
     )
       ? requestedMode
       : "standard";
-    options.state().developerModeUrlDismissed = nextMode === "standard";
-    options.state().explorerModeFromUrl = nextMode;
-    options.state().developerModeFromUrl = false;
+    state.developerModeUrlDismissed.set(nextMode === "standard");
+    state.explorerModeFromUrl.set(nextMode);
+    state.developerModeFromUrl.set(false);
     preferences.setString("mode", nextMode);
     if (nextMode !== "developer" && preferences.getString("theme") === "base") {
       preferences.setString("theme", "dark");
     }
     render();
-    options.renderThemeToggle?.();
+    renderThemeToggle();
     if (nextMode !== "standard") void options.loadVersionData();
     if (
       nextMode !== "developer" &&
