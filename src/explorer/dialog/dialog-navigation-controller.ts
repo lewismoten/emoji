@@ -6,13 +6,10 @@ import {
 export function createDialogNavigationController(options: any) {
   const updateBack = () =>
     updateCompositionBackButton({
-      byId: options.byId(),
       currentDialogParentStack: options.currentDialogParentStack?.() ?? [],
       dialogParentPanel: options.dialog()?.dataset?.dialogParentPanel ?? "",
-      emojiByKey: options.emojiByKey(),
       emojiParent: options.emojiParent(),
       historyState: window.history.state,
-      searchAnnotations: options.searchAnnotations(),
       translate: options.translate,
     });
   const update = () =>

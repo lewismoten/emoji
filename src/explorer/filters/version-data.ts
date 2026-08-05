@@ -1,3 +1,4 @@
+import * as state from "../../state.js";
 type Version = {
   version: string;
   file?: string;
@@ -14,8 +15,6 @@ declare const process: {
 
 export async function loadVersionCatalog(options: {
   allIds: () => string[];
-  byId: () => Record<string, any>;
-  emojiByKey: () => Record<string, string>;
   getExplorerSubGroup: (item: any) => string;
   items: () => any[];
 }) {
@@ -80,18 +79,25 @@ export async function loadVersionCatalog(options: {
       const proposal = await fetchJsonWithFallback(
         version.file!,
         `src/data/${version.file!}`,
-      );
+      ) as {
+        count: number,
+        emoji: Omit<state.EmojiData, "unicodeSubGroup">[],
+        retrieved: string,
+        source: string,
+        status: "draft",
+        unicodeVersion: string
+      };
       const proposalItems = proposal.emoji ?? [];
-      proposalItems.forEach((item: any) => {
-        if (options.emojiByKey()[item.key]) return;
+      proposalItems.forEach((item) => {
+        if (state.emojiByKey.get(item.key)) return;
         const explorerItem = {
           ...item,
           unicodeSubGroup: item.subGroup,
           subGroup: options.getExplorerSubGroup(item),
         };
         options.items().push(explorerItem);
-        options.byId()[item.key] = explorerItem;
-        options.emojiByKey()[item.key] = item.emoji;
+        state.byId.set(item.key, explorerItem);
+        state.emojiByKey.set(item.key, item.emoji);
         options.allIds().push(item.key);
       });
       return [

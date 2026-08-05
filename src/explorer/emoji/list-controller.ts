@@ -21,15 +21,12 @@ export function createListController(options: any) {
     const keys = options.orderedKeys(
       filterEmojiKeys({
         allIds: options.allIds(),
-        byId: options.byId(),
-        emojiByKey: options.emojiByKey(),
         hairModifiers: checked(options.hairCheckboxes()),
         includedVersionKeys: options.getVersionKeys(),
         items: options.items(),
         locale: options.selectedSearchLocale() || undefined,
         orderMode: options.orderMode(),
         popularKeys: options.popularKeys(),
-        searchAnnotations: options.searchAnnotations(),
         searchText: options.searchText().value,
         selectedGenders: checked(options.genderCheckboxes()),
         selectedGroup:

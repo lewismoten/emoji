@@ -1,7 +1,8 @@
+import * as state from "../state.js";
+
 export function createPixelEditorLoader(options: {
   currentEmojiKey: () => string;
   dialog: () => HTMLElement;
-  emojiByKey: () => Record<string, string>;
   formatNumber: (value: number) => string;
   formatPercent: (value: number) => string;
   getEditor: () => any;
@@ -55,7 +56,7 @@ export function createPixelEditorLoader(options: {
     if (!editor || !dialog.classList.contains("is-editor-view")) return editor;
     editor.refreshTranslations();
     editor.element.hidden = false;
-    if (key) await editor.open(key, options.emojiByKey()[key]);
+    if (key) await editor.open(key, state.emojiByKey.get(key));
     editor.refreshTranslations();
     editor.element
       .querySelector(".pixel-editor-canvas")

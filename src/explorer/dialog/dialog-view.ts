@@ -1,3 +1,5 @@
+import * as state from "../../state.js";
+
 export function applyDialogView(options: {
   developerMode: boolean;
   fullDeveloperMode?: boolean;
@@ -107,7 +109,6 @@ export function createEmojiDialogViewController(options: {
   developerModeEnabled: () => boolean;
   fullDeveloperModeEnabled?: () => boolean;
   dialog: () => any;
-  emojiByKey: () => Record<string, string>;
   emojiParent: () => HTMLElement | undefined;
   ensurePixelEditor: () => Promise<unknown>;
   getPixelEditor: () => any;
@@ -116,7 +117,6 @@ export function createEmojiDialogViewController(options: {
   translate: (key: string, fallback: string) => string;
   updateCompositionBackButton: () => void;
   updateImportExamples: (item: unknown) => void;
-  byId: () => Record<string, unknown>;
 }) {
   function setView(requestedMode: unknown, updateUrl = true) {
     const dialog = options.dialog();
@@ -134,14 +134,14 @@ export function createEmojiDialogViewController(options: {
     });
     const key = options.currentEmojiKey();
     if (mode === "code" && key) {
-      options.updateImportExamples(options.byId()[key] ?? {});
+      options.updateImportExamples(state.byId.get(key) ?? {});
       void options.loadPackageManifest().then(() => {
         if (
           options.currentEmojiKey() &&
           dialog.classList.contains("is-code-view")
         ) {
           options.updateImportExamples(
-            options.byId()[options.currentEmojiKey()] ?? {},
+            state.byId.get(options.currentEmojiKey()) ?? {},
           );
         }
       });
@@ -163,7 +163,7 @@ export function createEmojiDialogViewController(options: {
     const editor = options.getPixelEditor();
     if (editor) {
       editor.element.hidden = mode !== "editor";
-      if (mode === "editor" && key) editor.open(key, options.emojiByKey()[key]);
+      if (mode === "editor" && key) editor.open(key, state.emojiByKey.get(key));
     } else if (mode === "editor") {
       void options.ensurePixelEditor();
     }

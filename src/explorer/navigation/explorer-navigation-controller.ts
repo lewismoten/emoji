@@ -10,6 +10,7 @@ import type {
 } from "./explorer-navigation-types.js";
 import * as route from '../../app/route.js';
 import * as state from "../../state.js";
+const globalState = state;
 
 export function createExplorerNavigation(
   options: ExplorerNavigationOptions,
@@ -59,7 +60,6 @@ export function createExplorerNavigation(
       versionSelector: options.versionSelector(),
       versionModeSelector: options.versionModeSelector(),
       groups: options.groups(),
-      subGroups: options.subGroups(),
       skinToneCheckboxes: options.skinToneCheckboxes(),
       hairCheckboxes: options.hairCheckboxes(),
       genderCheckboxes: options.genderCheckboxes(),
@@ -119,7 +119,7 @@ export function createExplorerNavigation(
     const state = getUrlState();
     options.setCompositionMode(state.compositionMode);
     let { dialogs, all } = panelDialogs();
-    if (state.emoji && options.emojiByKey()[state.emoji] !== undefined) {
+    if (state.emoji && globalState.emojiByKey.get(state.emoji) !== undefined) {
       all.forEach((dialog) =>
         dependencies.closePanelDialog(dialog, options.suppressedPanelCloses()),
       );

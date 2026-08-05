@@ -4,6 +4,7 @@ import {
   setSearchLanguage as setSearchLanguageHelper,
 } from "./search-language-picker.js";
 import * as route from '../../app/route.js';
+
 export function createSearchLanguageLifecycle(options: any) {
   const render = () =>
     renderSearchLanguages({
@@ -40,7 +41,6 @@ export function createSearchLanguageLifecycle(options: any) {
     });
     if (result.loadId !== options.currentLoadId()) return;
     options.setSelectedLocale(result.selectedSearchLocale);
-    options.setSearchAnnotations(result.searchAnnotations);
     options.setSearchLabels(result.searchLabels);
     options.setSearchSubgroupLabels(result.searchSubgroupLabels);
     options.refreshLocalizedLabels();

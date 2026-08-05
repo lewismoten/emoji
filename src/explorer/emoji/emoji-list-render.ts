@@ -1,4 +1,6 @@
 import { displayEmojiKey } from "./emoji-format.js";
+import * as state from "../../state.js";
+import { displayUnicodeSubGroupName } from "../filters/filter-picker.js";
 
 type RenderState = {
   cellFragment?: DocumentFragment;
@@ -15,21 +17,16 @@ type RenderState = {
 
 export function createEmojiListRenderers(options: {
   applyPixelArtworkClass: (element: Element | null, key: string) => void;
-  byId: () => Record<string, any>;
   displayExplorerLabel: (name: string) => string;
   displayGroupName: (name: string) => string;
-  displayUnicodeSubGroupName: (name: string) => string;
-  emojiByKey: () => Record<string, string>;
   focusedEmojiKey: () => string;
   getIntroducedVersion: (key: string) => string;
   groups: () => string[];
   orderMode: () => string;
   popularKeys: () => string[];
-  searchAnnotations: () => Record<string, string[]>;
   sequenceTranslationKeys: Record<string, string>;
   sequenceTypeLabels: Record<string, string>;
   sequenceTypeOrder: string[];
-  subGroups: () => Record<string, string[]>;
   translate: (key: string, fallback: string) => string;
   unassigned: string;
 }) {
@@ -49,7 +46,7 @@ export function createEmojiListRenderers(options: {
     const element = document.createElement("div");
     element.className = "unicode-subgroup";
     const heading = document.createElement("h4");
-    heading.innerText = options.displayUnicodeSubGroupName(name);
+    heading.innerText = displayUnicodeSubGroupName(name);
     heading.className = "name";
     element.appendChild(heading);
     const sections = document.createElement("div");
@@ -80,13 +77,12 @@ export function createEmojiListRenderers(options: {
 
   const asEmojiCell = (key: string, groupId = 0, subGroupId = 0) => {
     const element = document.createElement("button");
-    const byId = options.byId();
     element.type = "button";
     element.id = key;
     element.dataset.emojiKey = key;
     const accessibleName =
-      options.searchAnnotations()[key]?.[0] ??
-      byId[key]?.shortName ??
+      state.searchAnnotations.get(key)?.[0] ??
+      state.byId.get(key)?.shortName ??
       displayEmojiKey(key);
     element.title = accessibleName;
     element.tabIndex = key === options.focusedEmojiKey() ? 0 : -1;
@@ -104,16 +100,15 @@ export function createEmojiListRenderers(options: {
     element.classList.add(`sub-group-${subGroupId}`);
     const glyph = document.createElement("span");
     glyph.className = "emoji-glyph";
-    glyph.innerText = options.emojiByKey()[key];
+    glyph.innerText = state.emojiByKey.get(key);
     options.applyPixelArtworkClass(glyph, key);
     element.appendChild(glyph);
     return element;
   };
 
-  const asItem = (state: RenderState, key: string) => {
-    const byId = options.byId();
+  type GS = typeof state;
+  const asItem = (state: RenderState, key: string, globalState: GS) => {
     const groups = options.groups();
-    const subGroups = options.subGroups();
     const orderMode = options.orderMode();
     if (orderMode === "popular") {
       const popularIndex = options.popularKeys().indexOf(key);
@@ -141,7 +136,7 @@ export function createEmojiListRenderers(options: {
       );
       return state;
     }
-    const meta = byId[key] ?? {
+    const meta = globalState.byId.get(key) ?? {
       group: options.unassigned,
       subGroups: options.unassigned,
     };
@@ -173,7 +168,6 @@ export function createEmojiListRenderers(options: {
         state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
         state.unicodeSubGroupElement.lastChild?.appendChild(state.subGroupElement);
         state.unicodeSubGroup = meta.unicodeSubGroup;
-        state.subGroup = displaySubGroup;
       } else if (state.subGroup !== displaySubGroup) {
         flushEmojiCellFragment(state);
         state.subGroupElement = asSubGroup(displaySubGroup, directSubGroup);
@@ -183,7 +177,7 @@ export function createEmojiListRenderers(options: {
         state.subGroup = displaySubGroup;
       }
       groupId = groups.indexOf(meta.group);
-      subGroupId = subGroups[meta.group]?.indexOf(meta.unicodeSubGroup) ?? 0;
+      subGroupId = globalState.subGroups.get(meta.group)?.indexOf(meta.unicodeSubGroup) ?? 0;
     }
 
     const cell = asEmojiCell(key, groupId, subGroupId);
@@ -192,8 +186,8 @@ export function createEmojiListRenderers(options: {
     return state;
   };
 
-  const asSequenceItem = (state: RenderState, key: string) => {
-    const type = options.byId()[key]?.sequenceType ?? "single";
+  const asSequenceItem = (state: RenderState, key: string, globalState: GS) => {
+    const type = globalState.byId.get(key)?.sequenceType ?? "single";
     if (state.type !== type) {
       flushEmojiCellFragment(state);
       const section = document.createElement("div");
@@ -219,7 +213,6 @@ export function createEmojiListRenderers(options: {
   const orderedKeys = (keys: string[]) => {
     const orderMode = options.orderMode();
     if (orderMode === "grouped") return keys;
-    const byId = options.byId();
     if (orderMode === "popular") {
       const popularOrder = new Map(
         options.popularKeys().map((key, index) => [key, index]),
@@ -234,14 +227,14 @@ export function createEmojiListRenderers(options: {
       if (orderMode === "sequence") {
         const typeDifference =
           options.sequenceTypeOrder.indexOf(
-            byId[left]?.sequenceType ?? "single",
+            state.byId.get(left)?.sequenceType ?? "single",
           ) -
           options.sequenceTypeOrder.indexOf(
-            byId[right]?.sequenceType ?? "single",
+            state.byId.get(right)?.sequenceType ?? "single",
           );
         if (typeDifference !== 0) return typeDifference;
       }
-      return (byId[left]?.order ?? Infinity) - (byId[right]?.order ?? Infinity);
+      return (state.byId.get(left)?.order ?? Infinity) - (state.byId.get(right)?.order ?? Infinity);
     });
   };
 

@@ -33,7 +33,6 @@ export function createStartupRuntime(options: any) {
     modeChoices: () => options.modeChoices?.(),
     dialog: () => options.dialog(),
     drawList: options.drawList,
-    emojiByKey: () => options.emojiByKey(),
     emojiFontChoices: () => options.emojiFontChoices(),
     emojiList: () => options.emojiList(),
     emojiNext: () => options.emojiNext(),

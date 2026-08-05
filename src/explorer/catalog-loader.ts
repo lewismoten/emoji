@@ -1,15 +1,14 @@
 import {querySelector} from '../utils/document.js';
 import * as route from '../app/route.js';
+import * as state from  "../state.js";
+import { EmojiData } from '../state.js';
 
 export type CatalogState = {
   allIds: string[];
-  byId: Record<string, any>;
-  emojiByKey: Record<string, string>;
   groupedKeys: Record<string, Record<string, string[]>>;
   groups: string[];
   items: any[];
   releasedIds: Set<string>;
-  subGroups: Record<string, string[]>;
 };
 
 export async function loadExplorerCatalog(options: {
@@ -32,7 +31,13 @@ export async function loadExplorerCatalog(options: {
     : pixelFontRevision
       ? `pixel-font/build/explorer-manifest.json?v=${pixelFontRevision}`
       : "pixel-font/build/explorer-manifest.json";
-  const [catalog, pixelFontManifest] = await Promise.all([
+
+type Catalog = {
+  schemaVersion: number,
+  fields: string[],
+  emoji: any[][]
+}
+  const [catalog, pixelFontManifest]: [Catalog, any] = await Promise.all([
     fetch("explorer/catalog.json").then((response) => response.json()),
     fetch(
       pixelFontManifestUrl,
@@ -41,16 +46,17 @@ export async function loadExplorerCatalog(options: {
       .then((response) => (response.ok ? response.json() : { glyphs: [] }))
       .catch(() => ({ glyphs: [] })),
   ]);
-  const data: any[] = catalog.emoji.map((row: any[]) =>
+  const asKey = (values: any[]) => (name: string, index: number) => [name, values[index]]
+  const data = catalog.emoji.map((row) =>
     Object.fromEntries(
-      catalog.fields.map((field: string, index: number) => [field, row[index]]),
-    ),
+      catalog.fields.map(asKey(row)),
+    ) as Omit<EmojiData, "unicodeSubGroup" | "hasExplorerSections">
   );
   options.updatePixelArtworkManifest(pixelFontManifest);
-  const emojiByKey: Record<string, string> = Object.fromEntries(
-    data.map((item: any) => [item.key, item.emoji]),
-  );
-  const items: any[] = data.map((item: any) => ({
+  state.emojiByKey.replace(Object.fromEntries(
+    data.map((item) => [item.key, item.emoji]),
+  ));
+  const items: EmojiData[] = data.map((item) => ({
     ...item,
     unicodeSubGroup: item.subGroup,
     subGroup: options.getExplorerSubGroup(item),
@@ -69,9 +75,9 @@ export async function loadExplorerCatalog(options: {
       (explorerSectionCounts.get(`${item.group}:${item.unicodeSubGroup}`)
         ?.size ?? 0) > 1;
   });
-  const byId: Record<string, any> = Object.fromEntries(
-    items.map((item: any) => [item.key, item]),
-  );
+  state.byId.replace(Object.fromEntries(
+    items.map((item) => [item.key, item]),
+  ));
   const groups: string[] = [
     ...new Set<string>(items.map((item: any) => item.group)),
   ].sort();
@@ -81,6 +87,8 @@ export async function loadExplorerCatalog(options: {
     return all;
   }, {});
   groups.forEach((group: string) => subGroups[group].sort());
+  state.subGroups.replace(subGroups);
+
   const groupedKeys: Record<string, Record<string, string[]>> = {};
   const allIds: string[] = [];
   groups.forEach((group: string) => {
@@ -105,12 +113,9 @@ export async function loadExplorerCatalog(options: {
   });
   return {
     allIds,
-    byId,
-    emojiByKey,
     groupedKeys,
     groups,
     items,
-    releasedIds: new Set(allIds),
-    subGroups,
+    releasedIds: new Set(allIds)
   };
 }

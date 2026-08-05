@@ -1,3 +1,5 @@
+import * as state from "../../state.js";
+
 type VersionManifest = {
   version: string;
   stage?: string;
@@ -136,7 +138,6 @@ export function getVersionKeys(options: {
 }
 
 export function updateModifierAvailability(options: {
-  byId: Record<string, unknown>;
   genderCheckboxes: CheckboxLike[];
   genderFieldset?: { hidden: boolean };
   getEmojiGenders: (item: unknown) => Set<string>;
@@ -180,7 +181,7 @@ export function updateModifierAvailability(options: {
   );
   const genderIndex = manifests.findIndex((version) =>
     [...(options.versionKeys.get(version.version) ?? [])].some(
-      (key) => options.getEmojiGenders(options.byId[key] ?? {}).size > 0,
+      (key) => options.getEmojiGenders(state.byId.get(key) ?? {}).size > 0,
     ),
   );
   const skinToneAvailable =

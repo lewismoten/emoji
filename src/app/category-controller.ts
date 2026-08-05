@@ -1,6 +1,5 @@
 import {
   closeFilterPicker as closeFilterPickerHelper,
-  displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper,
   focusCompactChoice as focusCompactChoiceHelper,
   onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper,
   openFilterPicker as openFilterPickerHelper,
@@ -17,36 +16,15 @@ export function createCategoryController(options: any) {
     `${group}::${subGroup}`;
 
   const displayGroupName = (name: string) =>
-    state.searchLabels.get()[options.unicodeGroupLabelKeys[name]] ?? name;
-
-  const displayUnicodeSubGroupName = (name: string) =>
-    displayUnicodeSubGroupNameHelper(name, {
-      searchSubgroupLabels: state.searchSubgroupLabels.get(),
-      searchLabels: state.searchLabels.get(),
-      unicodeSubgroupLabelKeys: options.unicodeSubgroupLabelKeys,
-    });
-
-  const buildRepresentatives = () => {
-    const representatives = buildCategoryRepresentatives({
-      groups: state.groups.get(),
-      items: state.items.get(),
-      proposedVersions: state.proposedVersionManifests.get(),
-      releasedVersions: state.versionManifests.get(),
-      subGroupKey: subGroupSelectionKey,
-      subGroups: state.subGroups.get(),
-      versionKeys: state.versionKeys.get(),
-    });
-    state.groupRepresentativeEmoji.set(representatives.groups);
-    state.subGroupRepresentativeEmoji.set(representatives.subGroups);
-  };
+    state.searchLabels.get(options.unicodeGroupLabelKeys[name]) ?? name;
 
   const getGroupRepresentativeEmoji = (group: string) =>
-    state.groupRepresentativeEmoji.get().get(group) ?? "";
+    state.groupRepresentativeEmoji.get(group) ?? "";
 
   const getSubGroupRepresentativeEmoji = (group: string, subGroup: string) =>
-    state.subGroupRepresentativeEmoji
-      .get()
-      .get(subGroupSelectionKey(group, subGroup)) ?? "";
+    state.subGroupRepresentativeEmoji.get(
+      subGroupSelectionKey(group, subGroup),
+    ) ?? "";
 
   const onGroupSelectorChange = () => {
     state.selectedGroup.set(options.groupSelector().value);
@@ -85,9 +63,6 @@ export function createCategoryController(options: any) {
   };
 
   const categoryFilterRenderer = createCategoryFilterRenderer({
-    availableGroups: state.availableGroups.get,
-    availableSequenceTypes: state.availableSequenceTypes.get,
-    availableSubGroups: state.availableSubGroups.get,
     compactGroupChoices: options.compactGroupChoices,
     compactGroupLabel: options.compactGroupLabel,
     compactSequenceChoices: options.compactSequenceChoices,
@@ -95,39 +70,23 @@ export function createCategoryController(options: any) {
     compactSubGroupChoices: options.compactSubGroupChoices,
     compactSubGroupLabel: options.compactSubGroupLabel,
     displayGroupName,
-    displayUnicodeSubGroupName,
     drawList: options.drawList,
     getGroupRepresentativeEmoji,
     getSubGroupRepresentativeEmoji,
-    getOrderMode: state.orderMode.get,
     getVersionKeys: options.getVersionKeys,
     groupFilterDialog: options.groupFilterDialog,
     groupPickerTrigger: options.groupPickerTrigger,
     groupSelector: options.groupSelector,
-    groups: state.groups.get(),
-    items: state.items.get(),
-    selectedGroup: state.selectedGroup.get(),
-    selectedSequenceType: state.selectedSequenceType.get,
-    selectedSubGroup: state.selectedSubGroup.get,
     sequenceTranslationKeys: options.sequenceTranslationKeys,
     sequenceTypeEmoji: options.sequenceTypeEmoji,
     sequenceTypeLabels: options.sequenceTypeLabels,
     sequenceTypeOrder: options.sequenceTypeOrder,
     sequenceTypeSelector: options.sequenceTypeSelector,
-    setAvailableCategoryKeys: state.availableCategoryKeys.set,
-    setAvailableGroups: state.availableGroups.set,
-    setAvailableSequenceTypes: state.availableSequenceTypes.set,
-    setAvailableSubGroups: state.availableSubGroups.set,
-    setSelectedGroup: state.selectedGroup.set,
-    setSelectedSequenceType: state.selectedSequenceType.set,
-    setSelectedSubGroup: state.selectedSubGroup.set,
     subGroupFilterDialog: options.subGroupFilterDialog,
     subGroupPickerTrigger: options.subGroupPickerTrigger,
     subGroupSelectionKey,
     subGroupSelector: options.subGroupSelector,
-    subGroups: state.subGroups.get,
     translate: options.translate,
-    versionKeys: state.versionKeys.get,
   });
   const { renderCategoryFilters, updateAvailableCategories } =
     categoryFilterRenderer;
@@ -140,10 +99,9 @@ export function createCategoryController(options: any) {
   };
 
   return {
-    buildRepresentatives,
+    buildRepresentatives: buildCategoryRepresentatives,
     closeFilterPicker: closeFilterPickerHelper,
     displayGroupName,
-    displayUnicodeSubGroupName,
     focusCompactChoice: focusCompactChoiceHelper,
     getGroupRepresentativeEmoji,
     getSubGroupRepresentativeEmoji,

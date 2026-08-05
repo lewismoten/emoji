@@ -1,5 +1,6 @@
 import { titleCase } from "../category/category-rules.js";
 import { createCompactChoiceControl } from "./filter-picker-control.js";
+import * as state from  "../../state.js";
 
 type ChoiceButtonLike = HTMLButtonElement & {
   dataset: DOMStringMap & { value?: string };
@@ -49,7 +50,6 @@ export function populateSubGroupFilter(options: {
   availableSubGroupParents: string[];
   availableSubGroups: Record<string, string[]>;
   displayGroupName: (name: string) => string;
-  displayUnicodeSubGroupName: (name: string) => string;
   getSubGroupRepresentativeEmoji: (group: string, subGroup: string) => string;
   selectedSubGroup: string;
   subGroupSelectionKey: (group: string, subGroup: string) => string;
@@ -69,7 +69,7 @@ export function populateSubGroupFilter(options: {
       option.value = options.subGroupSelectionKey(group, name);
       option.dataset.group = group;
       option.dataset.subgroup = name;
-      option.text = `${options.getSubGroupRepresentativeEmoji(group, name)} ${options.displayUnicodeSubGroupName(name)}`;
+      option.text = `${options.getSubGroupRepresentativeEmoji(group, name)} ${displayUnicodeSubGroupName(name)}`;
       optionGroup.appendChild(option);
     });
     children.push(optionGroup);
@@ -250,18 +250,11 @@ export function onCompactChoiceKeyDown(event: KeyboardEvent) {
   choices[nextIndex].focus();
 }
 
-export function displayUnicodeSubGroupName(
-  name: string,
-  options: {
-    searchSubgroupLabels: Record<string, string>;
-    searchLabels: Record<string, string>;
-    unicodeSubgroupLabelKeys: Record<string, string>;
-  },
-) {
-  if (options.searchSubgroupLabels[name])
-    return options.searchSubgroupLabels[name];
-  if (options.searchLabels[options.unicodeSubgroupLabelKeys[name]])
-    return options.searchLabels[options.unicodeSubgroupLabelKeys[name]];
+export function displayUnicodeSubGroupName(name: string) {
+  if (state.searchSubgroupLabels.get(name))
+    return state.searchSubgroupLabels.get(name);
+  if (state.searchLabels.get(state.unicodeSubgroupLabelKeys.get(name)))
+    return state.searchLabels.get(state.unicodeSubgroupLabelKeys.get(name));
   const conciseNames: Record<string, string> = {
     "animal-amphibian": "Amphibians",
     "animal-bird": "Birds",

@@ -5,7 +5,7 @@ import {
 } from "../../explorer/dialog/dialog-runtime-helpers.js";
 import { createEmojiDialogClickHandler } from "../../explorer/dialog/emoji-dialog-events.js";
 import * as route from "../route.js";
-
+import * as state from "../../state.js";
 export function createEmojiDialogClickRuntime(options: any) {
   return createEmojiDialogClickHandler({
     animateCopy: options.animateCopy,
@@ -53,8 +53,8 @@ export function createEmojiDialogClickRuntime(options: any) {
     recordCopiedEmoji: options.recordCopiedEmoji,
     refreshComposition: () =>
       options.updateEmojiComposition(
-        options.byId()[options.currentEmojiKey()] ?? {},
-        options.emojiByKey()[options.currentEmojiKey()] ?? "",
+        state.byId.get(options.currentEmojiKey) ?? {},
+        state.emojiByKey.get(options.currentEmojiKey()) ?? "",
       ),
     setView: options.setView,
     syncUrlState: () => options.syncUrlState(),

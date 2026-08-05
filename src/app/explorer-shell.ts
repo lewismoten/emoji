@@ -30,13 +30,10 @@ export function createExplorerShell(options: any, dependencies?: any) {
   const helpers = dependencies ?? createExplorerShellDependencies();
   const savedEmoji = helpers.createSavedEmojiController({
     applyPixelArtworkClass: () => options.applyPixelArtworkClass(),
-    byId: state.byId.get,
     copiedEmojiKeys: state.copiedEmojiKeys.get,
     currentEmojiKey: state.currentEmojiKey.get,
-    emojiByKey: state.emojiByKey.get,
     favoriteEmojiKeys: state.favoriteEmojiKeys.get,
     savedDialog: options.savedDialog,
-    searchAnnotations: state.searchAnnotations.get,
     setCopiedEmojiKeys: state.copiedEmojiKeys.set,
     setFavoriteEmojiKeys: state.favoriteEmojiKeys.set,
     translate: options.translate,

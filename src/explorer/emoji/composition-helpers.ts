@@ -3,6 +3,7 @@ import {
   formatCompositionReduction,
   normalizeCodePoints,
 } from "./emoji-format.js";
+import * as state from "../../state.js";
 
 export function isCondensedSequenceControl(point: number) {
   return point === 0x200d || point === 0xfe0e || point === 0xfe0f;
@@ -133,17 +134,10 @@ export function describeCompositionPoint(
   };
 }
 
-export function compositionTitle(
-  emojiKey: string,
-  searchAnnotations: Record<string, string[]>,
-  byId: Record<string, { shortName?: string }>,
-) {
-  return (
-    searchAnnotations[emojiKey]?.[0] ??
-    byId[emojiKey]?.shortName ??
-    displayEmojiKey(emojiKey)
-  );
-}
+export const compositionTitle = (emojiKey: string) =>
+    state.searchAnnotations.get(emojiKey)?.[0] ??
+    state.byId.get(emojiKey)?.shortName ??
+    displayEmojiKey(emojiKey);
 
 export function compositionReductionLabel(
   from: number,

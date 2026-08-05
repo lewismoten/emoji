@@ -47,7 +47,6 @@ export function createVersionController(options: any) {
 
   const updateModifierAvailability = () =>
     updateModifierAvailabilityHelper({
-      byId: state.byId.get(),
       genderCheckboxes: options.genderCheckboxes(),
       genderFieldset: options.genderFieldset(),
       getEmojiGenders: options.getEmojiGenders,

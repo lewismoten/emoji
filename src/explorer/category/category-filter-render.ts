@@ -38,7 +38,6 @@ export function createCategoryFilterRenderer(options: any) {
       selectedSubGroup: options.selectedSubGroup(),
       sequenceTypeOrder: options.sequenceTypeOrder,
       subGroupSelectionKey: options.subGroupSelectionKey,
-      subGroups: options.subGroups(),
       versionKeys: options.versionKeys(),
     });
     options.setAvailableCategoryKeys(next.availableCategoryKeys);
@@ -65,7 +64,6 @@ export function createCategoryFilterRenderer(options: any) {
       availableSubGroupParents: availableSubGroupParents(),
       availableSubGroups: options.availableSubGroups(),
       displayGroupName: options.displayGroupName,
-      displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
       getSubGroupRepresentativeEmoji: options.getSubGroupRepresentativeEmoji,
       selectedSubGroup: options.selectedSubGroup(),
       subGroupSelectionKey: options.subGroupSelectionKey,
@@ -108,7 +106,6 @@ export function createCategoryFilterRenderer(options: any) {
       availableSubGroups: options.availableSubGroups(),
       compactSubGroupChoices: options.compactSubGroupChoices(),
       compactSubGroupLabel: options.compactSubGroupLabel(),
-      displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
       drawList: options.drawList,
       getSubGroupRepresentativeEmoji: options.getSubGroupRepresentativeEmoji,
       rerender: renderCategoryFilters,

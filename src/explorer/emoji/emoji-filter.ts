@@ -1,3 +1,5 @@
+import * as state from "../../state.js";
+
 type EmojiItem = {
   codePoints?: string;
   group?: string;
@@ -7,10 +9,7 @@ type EmojiItem = {
   unicodeSubGroup?: string;
 };
 
-export function getEmojiGenders(
-  item: EmojiItem,
-  emojiByKey: Record<string, string>,
-) {
+export function getEmojiGenders(item: EmojiItem) {
   const genders = new Set<string>();
   const name = item.shortName?.toLocaleLowerCase() ?? "";
   const points = ` ${item.codePoints ?? ""} `;
@@ -33,8 +32,8 @@ export function getEmojiGenders(
     const key = item.key ?? "";
     const capitalizedKey = key.charAt(0).toLocaleUpperCase() + key.slice(1);
     if (
-      emojiByKey[`man${capitalizedKey}`] &&
-      emojiByKey[`woman${capitalizedKey}`]
+      state.emojiByKey.get(`man${capitalizedKey}`) &&
+      state.emojiByKey.get(`woman${capitalizedKey}`)
     ) {
       genders.add("neutral");
     }
@@ -44,15 +43,12 @@ export function getEmojiGenders(
 
 export function filterEmojiKeys(options: {
   allIds: string[];
-  byId: Record<string, EmojiItem>;
-  emojiByKey: Record<string, string>;
   hairModifiers: string[];
   includedVersionKeys?: Set<string>;
   items: EmojiItem[];
   locale?: string;
   orderMode: string;
   popularKeys?: string[];
-  searchAnnotations: Record<string, string[]>;
   searchText: string;
   selectedGenders: string[];
   selectedGroup: string;
@@ -70,8 +66,8 @@ export function filterEmojiKeys(options: {
   const hasKeyword = (emojiKey: string) => {
     const searchableFields = [
       emojiKey,
-      options.byId[emojiKey]?.shortName,
-      ...(options.searchAnnotations[emojiKey] ?? []),
+      state.byId.get(emojiKey)?.shortName,
+      ...(state.searchAnnotations.get(emojiKey) ?? []),
     ]
       .filter(Boolean)
       .map((field) => field!.toLocaleLowerCase(options.locale));
@@ -91,21 +87,19 @@ export function filterEmojiKeys(options: {
   }
   if (options.orderMode !== "sequence" && options.selectedGroup) {
     keys = keys.filter(
-      (key) => options.byId[key]?.group === options.selectedGroup,
+      (key) => state.byId.get(key)?.group === options.selectedGroup,
     );
   }
   if (options.orderMode !== "sequence" && options.selectedSubGroup) {
     keys = keys.filter(
-      (key) =>
-        options.subGroupSelectionKey(
-          options.byId[key]?.group,
-          options.byId[key]?.unicodeSubGroup,
-        ) === options.selectedSubGroup,
+      (key) =>{
+        const {group, unicodeSubGroup} = state.byId.get(key) ?? {};
+        return options.subGroupSelectionKey(group, unicodeSubGroup) === options.selectedSubGroup}
     );
   }
   if (options.orderMode === "sequence" && options.selectedSequenceType) {
     keys = keys.filter(
-      (key) => options.byId[key]?.sequenceType === options.selectedSequenceType,
+      (key) => state.byId.get(key)?.sequenceType === options.selectedSequenceType,
     );
   }
   for (const modifier of options.skinToneModifiers) {
@@ -117,7 +111,7 @@ export function filterEmojiKeys(options: {
   if (options.selectedGenders.length > 0) {
     keys = keys.filter((key) =>
       options.selectedGenders.some((gender) =>
-        getEmojiGenders(options.byId[key] ?? {}, options.emojiByKey).has(
+        getEmojiGenders(state.byId.get(key) ?? {}).has(
           gender,
         ),
       ),

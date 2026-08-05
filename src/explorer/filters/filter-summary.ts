@@ -1,3 +1,5 @@
+import { displayUnicodeSubGroupName } from "./filter-picker";
+
 type CheckboxLike = {
   checked: boolean;
   value: string;
@@ -33,7 +35,6 @@ export function updateActiveFilterSummary(options: {
   activeFilterSummary?: HTMLElement;
   activeFilterText?: HTMLElement;
   displayGroupName: (name: string) => string;
-  displayUnicodeSubGroupName: (name: string) => string;
   genderCheckboxes: CheckboxLike[];
   hairCheckboxes: CheckboxLike[];
   latestReleased?: string;
@@ -72,7 +73,7 @@ export function updateActiveFilterSummary(options: {
     if (options.selectedSubGroup) {
       appendTextPart(
         fragment,
-        options.displayUnicodeSubGroupName(
+        displayUnicodeSubGroupName(
           options.selectedSubGroup.split("::").slice(1).join("::"),
         ),
       );

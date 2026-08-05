@@ -1,3 +1,5 @@
+import * as state from "../../state.js";
+
 type ClassListLike = {
   add(name: string): void;
   remove(name: string): void;
@@ -21,7 +23,6 @@ export function updateAvailableCategories(options: {
   selectedSubGroup: string;
   sequenceTypeOrder: string[];
   subGroupSelectionKey: (group: string, subGroup: string) => string;
-  subGroups: Record<string, string[]>;
   versionKeys: Map<string, Set<string>>;
   includedVersionKeys: Set<string>;
 }) {
@@ -43,7 +44,7 @@ export function updateAvailableCategories(options: {
   const availableSubGroups = Object.fromEntries(
     availableGroups.map((group) => [
       group,
-      options.subGroups[group].filter((subGroup) =>
+      state.subGroups.get(group).filter((subGroup) =>
         subgroupNames[group]?.has(subGroup),
       ),
     ]),

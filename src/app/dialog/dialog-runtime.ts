@@ -11,7 +11,6 @@ export function initializeDialogRuntime(options: any) {
     fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     dialog: options.dialog,
     displayGroupName: options.displayGroupName,
-    displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
     getIntroducedVersion: options.getIntroducedVersion,
     openDialogAction(
       mode: "details" | "code" | "editor" = "details",
@@ -43,18 +42,15 @@ export function initializeDialogRuntime(options: any) {
   });
 
   const dialogNavigation = createDialogNavigationController({
-    byId: options.byId,
     currentDialogParentStack: options.currentDialogParentStack,
     currentEmojiKey: options.currentEmojiKey,
     dialog: options.dialog,
     dialogNavigationKeys: options.dialogNavigationKeys,
     displayedKeys: options.displayedKeys,
-    emojiByKey: options.emojiByKey,
     emojiNext: options.emojiNext,
     emojiParent: options.emojiParent,
     emojiPrevious: options.emojiPrevious,
     resolveNavigation: resolveDialogNavigationState,
-    searchAnnotations: options.searchAnnotations,
     showEmoji,
     syncUrlState: options.syncUrlState,
     translate: options.translate,

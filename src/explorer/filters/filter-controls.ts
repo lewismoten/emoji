@@ -4,6 +4,7 @@ import {
   ensureVersionModeToggleControl,
   ensureVersionSliderControl,
 } from "./version-filter-control.js";
+import * as state from "../../state.js";
 
 type SearchInputLike = {
   value: string;
@@ -52,7 +53,6 @@ export function applyLoadedUrlStateToControls(options: {
   versionSelector: SelectLike;
   versionModeSelector: SelectLike;
   groups: string[];
-  subGroups: Record<string, string[]>;
   skinToneCheckboxes: InputLike[];
   hairCheckboxes: InputLike[];
   genderCheckboxes: InputLike[];
@@ -72,7 +72,7 @@ export function applyLoadedUrlStateToControls(options: {
     : "";
   const selectedSubGroup =
     selectedGroup &&
-    options.subGroups[selectedGroup]?.includes(options.state.subGroup)
+    state.subGroups.get(selectedGroup)?.includes(options.state.subGroup)
       ? options.subGroupSelectionKey(selectedGroup, options.state.subGroup)
       : "";
   options.skinToneCheckboxes.forEach((checkbox) => {

@@ -1,6 +1,7 @@
+import * as state from "../state.js";
+
 export function finishExplorerLoading(options: {
   applyPixelArtworkClass: (element: HTMLElement, emojiKey: string) => void;
-  emojiByKey: Record<string, string>;
   emojiList: HTMLElement;
   matchCount: HTMLElement;
   revealExplorer: () => void;
@@ -11,7 +12,7 @@ export function finishExplorerLoading(options: {
     ".pixel-comparison-custom",
   );
   if (comparison) {
-    comparison.textContent = options.emojiByKey.grinningFace ?? "😀";
+    comparison.textContent = state.emojiByKey.get("grinningFace") ?? "😀";
     options.applyPixelArtworkClass(comparison, "grinningFace");
   }
 }

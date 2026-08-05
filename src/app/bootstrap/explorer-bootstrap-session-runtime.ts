@@ -28,8 +28,6 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         developerModeToggle: () => options.bindings.developerModeToggle,
         modeChoices: () => options.bindings.modeChoices,
         displayGroupName: options.controllers.displayGroupName,
-        displayUnicodeSubGroupName:
-          options.controllers.displayUnicodeSubGroupName,
         drawList: options.bindings.drawList,
         emojiFontChoices: () => options.bindings.emojiFontChoices,
         emojiList: () => options.bindings.emojiList,

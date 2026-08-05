@@ -8,14 +8,10 @@ import * as state from "../state.js";
 /** Assemble list rendering, interaction, and active-filter summary behavior. */
 export function createListOrchestration(options: any) {
   const rendererState = {
-    byId: state.byId.get,
-    emojiByKey: state.emojiByKey.get,
     focusedEmojiKey: state.focusedEmojiKey.get,
     groups: state.groups.get,
     orderMode: state.orderMode.get,
-    popularKeys: () => [...popularKeys],
-    searchAnnotations: state.searchAnnotations.get,
-    subGroups: state.subGroups.get,
+    popularKeys: () => [...popularKeys]
   };
   const {
     asEmojiCell,
@@ -25,38 +21,28 @@ export function createListOrchestration(options: any) {
     orderedKeys,
   } = createEmojiListRenderers({
     applyPixelArtworkClass: options.applyPixelArtworkClass,
-    byId: rendererState.byId,
     displayExplorerLabel: options.displayExplorerLabel,
     displayGroupName: options.displayGroupName,
-    displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
-    emojiByKey: rendererState.emojiByKey,
     focusedEmojiKey: rendererState.focusedEmojiKey,
     getIntroducedVersion: options.getIntroducedVersion,
     groups: rendererState.groups,
     orderMode: rendererState.orderMode,
     popularKeys: rendererState.popularKeys,
-    searchAnnotations: rendererState.searchAnnotations,
     sequenceTranslationKeys: options.sequenceTranslationKeys,
     sequenceTypeLabels: options.sequenceTypeLabels,
     sequenceTypeOrder: options.sequenceTypeOrder,
-    subGroups: rendererState.subGroups,
     translate: options.translate,
     unassigned: options.unassigned,
   });
-  rendererState.byId();
-  rendererState.emojiByKey();
   rendererState.focusedEmojiKey();
   rendererState.groups();
   rendererState.popularKeys();
-  rendererState.searchAnnotations();
-  rendererState.subGroups();
 
   const updateFilterSummary = () =>
     updateActiveFilterSummary({
       activeFilterSummary: options.activeFilterSummary(),
       activeFilterText: options.activeFilterText(),
       displayGroupName: options.displayGroupName,
-      displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
       genderCheckboxes: options.genderCheckboxes(),
       hairCheckboxes: options.hairCheckboxes(),
       latestReleased: state.versionManifests.get().at(-1)?.version,
@@ -77,8 +63,6 @@ export function createListOrchestration(options: any) {
   let renderEmojiList: (...args: any[]) => void;
   const list = createListController({
     allIds: state.allIds.get,
-    byId: state.byId.get,
-    emojiByKey: state.emojiByKey.get,
     focusedEmojiKey: state.focusedEmojiKey.get,
     formatNumber: options.formatNumber,
     genderCheckboxes: options.genderCheckboxes,
@@ -91,7 +75,6 @@ export function createListOrchestration(options: any) {
     popularKeys: () => [...popularKeys],
     orderedKeys,
     renderEmojiList: (...args: any[]) => renderEmojiList(...args),
-    searchAnnotations: state.searchAnnotations.get,
     searchText: options.searchText,
     selectedGroup: state.selectedGroup.get,
     selectedSearchLocale: state.selectedSearchLocale.get,

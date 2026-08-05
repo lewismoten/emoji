@@ -13,7 +13,6 @@ export function createExplorerDataController(options: any) {
   }
   function updateModifierAvailability() {
     options.updateModifierAvailability({
-      byId: state.byId.get(),
       genderCheckboxes: options.genderCheckboxes(),
       genderFieldset: options.genderFieldset(),
       getEmojiGenders: options.getEmojiGenders,

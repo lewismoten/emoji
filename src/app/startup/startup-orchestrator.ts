@@ -10,7 +10,6 @@ export function createStartupOrchestrator(options: any) {
   function finishExplorerLoading() {
     finishExplorerLoadingHelper({
       applyPixelArtworkClass: options.applyPixelArtworkClass,
-      emojiByKey: options.emojiByKey(),
       emojiList: options.emojiList(),
       matchCount: options.matchCount(),
       revealExplorer,

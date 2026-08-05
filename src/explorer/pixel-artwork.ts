@@ -1,3 +1,5 @@
+import * as state from "../state.js";
+
 export function createPixelArtworkManager(options: any) {
   let paintedKeys = new Set<string>();
   let proposedKeys = new Set<string>();
@@ -28,7 +30,7 @@ export function createPixelArtworkManager(options: any) {
 
   const renderedPixelEmoji = (emojiKey: string) => {
     const value =
-      options.emojiByKey()[emojiKey] ?? options.byId()[emojiKey]?.emoji ?? "";
+      state.emojiByKey.get(emojiKey) ?? state.byId.get(emojiKey)?.emoji ?? "";
     const privateUsePoint = privateUseByKey.get(emojiKey);
     if (!value || !privateUsePoint) return value;
     if (

@@ -53,7 +53,6 @@ export function createExplorerBootstrapRuntime(options: any) {
   const pixelEditorRuntime = createPixelEditorRuntime({
     currentEmojiKey: state.currentEmojiKey.get,
     dialog: () => explorerRuntime.get("exampleDialog"),
-    emojiByKey: state.emojiByKey.get,
     formatNumber: options.formatNumber,
     formatPercent: options.formatPercent,
     getEditor: () => options.getPixelEditor(),
@@ -97,7 +96,6 @@ export function createExplorerBootstrapRuntime(options: any) {
     searchLocales: state.searchLocales.get,
     selectedSearchLocale: state.selectedSearchLocale.get,
     setApplyingUrlState: options.setApplyingUrlState,
-    setSearchAnnotations: state.searchAnnotations.set,
     setSearchLabels: state.searchLabels.set,
     setSearchLocales: state.searchLocales.set(value),
     setSearchSubgroupLabels: state.searchSubgroupLabels.set,
@@ -117,7 +115,6 @@ export function createExplorerBootstrapRuntime(options: any) {
   const dialogRuntime = createDialogRuntimeConfig({
     applyPixelArtworkClass: options.applyPixelArtworkClass,
     applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
-    byId: state.byId.get,
     copyStatus: () => options.copyStatus(),
     currentDialogParentStack: state.currentDialogParentStack.get,
     currentEmojiKey: state.currentEmojiKey.get,
@@ -126,8 +123,6 @@ export function createExplorerBootstrapRuntime(options: any) {
     dialogNavigationKeys: state.dialogNavigationKeys.get,
     displayedKeys: state.displayedKeys.get,
     displayGroupName: options.displayGroupName,
-    displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
-    emojiByKey: state.emojiByKey.get,
     emojiNext: () => explorerRuntime.get("emojiNext"),
     emojiParent: () => explorerRuntime.get("emojiParent"),
     emojiPrevious: () => explorerRuntime.get("emojiPrevious"),
@@ -135,7 +130,6 @@ export function createExplorerBootstrapRuntime(options: any) {
     getIntroducedVersion: options.getIntroducedVersion,
     openEditor: (key: string, value: string) =>
       options.getPixelEditor()?.open(key, value),
-    searchAnnotations: state.searchAnnotations.get,
     sequenceTranslationKeys,
     sequenceTypeLabels,
     setCurrentDialogParentStack: state.currentDialogParentStack.set,
@@ -167,7 +161,6 @@ export function createExplorerBootstrapRuntime(options: any) {
     modeChoices: () => options.modeChoices(),
     dialog: () => explorerRuntime.get("exampleDialog"),
     drawList: options.drawList,
-    emojiByKey: state.emojiByKey.get,
     emojiFontChoices: () => options.emojiFontChoices(),
     emojiList: () => options.emojiList(),
     emojiNext: () => explorerRuntime.get("emojiNext"),

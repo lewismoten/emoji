@@ -25,8 +25,6 @@ export function createVersionConfig(options: any) {
     loadVersionCatalog: () =>
       loadVersionCatalog({
         allIds: state.allIds.get,
-        byId: state.byId.get,
-        emojiByKey: state.emojiByKey.get,
         getExplorerSubGroup: options.getExplorerSubGroup,
         items: state.items.get,
       }),

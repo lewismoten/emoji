@@ -26,8 +26,6 @@ export function createExplorerBootstrapShellWithFactories(
   const state = options.state;
 
   const pixelArtwork = createPixelArtworkManagerFactory({
-    byId: () => state().byId,
-    emojiByKey: () => state().emojiByKey,
     emojiKeyByCodePoints: () => state().emojiKeyByCodePoints,
     genderCheckboxes: options.genderCheckboxes,
     hairCheckboxes: options.hairCheckboxes,
@@ -42,7 +40,6 @@ export function createExplorerBootstrapShellWithFactories(
     updateRenderingDiagnostic: (values: any) =>
       updateRenderingDiagnosticFactory({
         ...values,
-        byId: state().byId,
         developerMode: developerModeEnabled(),
         detailsVisible:
           !options.dialog()?.classList.contains("is-code-view") &&

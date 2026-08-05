@@ -2,6 +2,7 @@ import {
   resolveCompositionParentLabel,
   resolveDialogNavigationState,
 } from "./dialog-state.js";
+import * as state from "../../state.js";
 
 export function getIntroducedVersion(options: {
   key: string;
@@ -55,13 +56,10 @@ export function updateDialogNavigation(options: {
 }
 
 export function updateCompositionBackButton(options: {
-  byId: Record<string, any>;
   dialogParentPanel?: string;
   currentDialogParentStack?: string[];
-  emojiByKey: Record<string, string>;
   emojiParent?: HTMLButtonElement;
   historyState: Record<string, unknown> | null | undefined;
-  searchAnnotations: Record<string, string[]>;
   translate: (key: string, fallback: string) => string;
 }) {
   if (!options.emojiParent) return;
@@ -72,7 +70,7 @@ export function updateCompositionBackButton(options: {
     options.dialogParentPanel ??
     (options.historyState?.dialogParentPanel as string | undefined);
   const emojiParentAvailable = Boolean(
-    parentKey && options.emojiByKey[parentKey],
+    parentKey && state.emojiByKey.get(parentKey),
   );
   const panelParentAvailable = Boolean(parentPanel);
   const available = emojiParentAvailable || panelParentAvailable;
@@ -82,8 +80,6 @@ export function updateCompositionBackButton(options: {
     emojiParentAvailable && parentKey
       ? resolveCompositionParentLabel({
           parentKey,
-          searchAnnotations: options.searchAnnotations,
-          byId: options.byId,
           translate: options.translate,
         })
       : parentPanel === "favorites"

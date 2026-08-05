@@ -7,6 +7,7 @@ import {
   findCompositionEmojiKey,
   isCondensedSequenceControl,
 } from "./composition-helpers.js";
+import * as state from "../../state.js";
 
 type MinimalElement = {
   ariaLabel?: string;
@@ -74,9 +75,6 @@ function createCondensedCompositionPart(
     components: CompositionPoint[];
   },
   options: {
-    emojiByKey: Record<string, string>;
-    searchAnnotations: Record<string, string[]>;
-    byId: Record<string, { shortName?: string }>;
     translate: (key: string, fallback: string) => string;
     applyPixelArtworkClass: (element: MinimalElement, emojiKey: string) => void;
     dir?: string;
@@ -87,11 +85,7 @@ function createCondensedCompositionPart(
   const part = document.createElement("button");
   const glyph = document.createElement("span");
   const code = document.createElement("span");
-  const linkedName = compositionTitle(
-    partData.emojiKey,
-    options.searchAnnotations,
-    options.byId,
-  );
+  const linkedName = compositionTitle(partData.emojiKey);
   const viewLabel = options.translate("viewEmoji", "View emoji");
   const codePoints = partData.components
     .map((component) => `U+${component.hex}`)
@@ -102,7 +96,7 @@ function createCondensedCompositionPart(
   part.title = `${viewLabel}: ${linkedName} — ${codePoints}`;
   part.setAttribute("aria-label", `${viewLabel}: ${linkedName}. ${codePoints}`);
   glyph.className = "emoji-composition-glyph";
-  glyph.textContent = options.emojiByKey[partData.emojiKey];
+  glyph.textContent = state.emojiByKey.get(partData.emojiKey);
   options.applyPixelArtworkClass(glyph, partData.emojiKey);
   code.className = "emoji-composition-code emoji-composition-code-condensed";
   code.textContent = compositionReductionLabel(partData.components.length, 1, {
@@ -119,8 +113,6 @@ function createCompositionPart(
   currentEmojiKey: string,
   options: {
     emojiKeyByCodePoints: Map<string, string>;
-    searchAnnotations: Record<string, string[]>;
-    byId: Record<string, { shortName?: string }>;
     translate: (key: string, fallback: string) => string;
     applyStandalonePixelArtwork: (
       element: MinimalElement,
@@ -143,11 +135,7 @@ function createCompositionPart(
   const details = describeCompositionPoint(component.point, options.translate);
   part.className = "emoji-composition-part";
   if (linkedEmojiKey) {
-    const linkedName = compositionTitle(
-      linkedEmojiKey,
-      options.searchAnnotations,
-      options.byId,
-    );
+    const linkedName = compositionTitle(linkedEmojiKey);
     const viewLabel = options.translate("viewEmoji", "View emoji");
     part.type = "button";
     part.dataset.compositionEmoji = linkedEmojiKey;
@@ -180,9 +168,6 @@ export function renderEmojiComposition(options: {
   detailsVisible: boolean;
   compositionMode: "condensed" | "full";
   emojiKeyByCodePoints: Map<string, string>;
-  emojiByKey: Record<string, string>;
-  searchAnnotations: Record<string, string[]>;
-  byId: Record<string, { shortName?: string }>;
   translate: (key: string, fallback: string) => string;
   applyPixelArtworkClass: (element: MinimalElement, emojiKey: string) => void;
   applyStandalonePixelArtwork: (

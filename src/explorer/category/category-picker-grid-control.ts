@@ -1,5 +1,6 @@
 import {
   closeFilterPicker,
+  displayUnicodeSubGroupName,
   focusCompactChoice,
   makeCompactChoice,
   renderFilterPickerTrigger,
@@ -88,7 +89,6 @@ export function renderSubGroupPickerGrid(options: {
   availableSubGroups: Record<string, string[]>;
   compactSubGroupChoices: HTMLElement | undefined;
   compactSubGroupLabel?: HTMLElement | null;
-  displayUnicodeSubGroupName: (name: string) => string;
   drawList: () => void;
   getSubGroupRepresentativeEmoji: (group: string, subGroup: string) => string;
   selectedGroup: string;
@@ -104,7 +104,7 @@ export function renderSubGroupPickerGrid(options: {
   const selectedName =
     separatorIndex === -1 ? "" : options.selectedSubGroup.slice(separatorIndex + 2);
   const selectedLabel = selectedName
-    ? options.displayUnicodeSubGroupName(selectedName)
+    ? displayUnicodeSubGroupName(selectedName)
     : options.translate("all", "All");
   if (options.compactSubGroupLabel) {
     options.compactSubGroupLabel.textContent = selectedLabel;
@@ -141,7 +141,7 @@ export function renderSubGroupPickerGrid(options: {
       makeCompactChoice({
         value: options.subGroupSelectionKey(group, name),
         emoji: options.getSubGroupRepresentativeEmoji(group, name),
-        label: options.displayUnicodeSubGroupName(name),
+        label: displayUnicodeSubGroupName(name),
         selected:
           options.selectedSubGroup === options.subGroupSelectionKey(group, name),
         onSelect() {

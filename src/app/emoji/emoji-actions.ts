@@ -43,7 +43,7 @@ export function createEmojiActions(options: any) {
   const onClick = (event: any, openDialog = true) => {
     const cell = event.target.closest?.("[data-emoji-key]");
     const id = cell?.id ?? event.target.id;
-    if (state.emojiByKey.get()[id] === undefined) return;
+    if (state.emojiByKey.get(id) === undefined) return;
     cell?.focus();
     options.showEmoji(id, openDialog);
   };
@@ -78,13 +78,10 @@ export function createEmojiActions(options: any) {
       {
         applyPixelArtworkClass: options.applyPixelArtworkClass(),
         applyStandalonePixelArtwork: options.applyStandalonePixelArtwork(),
-        byId: state.byId.get,
         compositionMode: state.compositionMode.get,
         developerModeEnabled: options.developerModeEnabled,
         dialog: options.dialog,
-        emojiByKey: state.emojiByKey.get,
         emojiKeyByCodePoints: state.emojiKeyByCodePoints.get,
-        searchAnnotations: state.searchAnnotations.get,
         selectedLocale: state.selectedSearchLocale.get,
         translate: options.translate,
       },

@@ -1,12 +1,13 @@
 import { renderEmojiDialog } from "./dialog-render.js";
+import * as state from "../../state.js";
 
 export function showEmojiSession(options: any) {
-  const value = options.emojiByKey[options.id];
+  const value = state.emojiByKey.get(options.id);
   if (value === undefined) return;
   if (options.navigationKeys || options.openDialog) {
     options.dialogNavigationKeys.value = [
       ...(options.navigationKeys ?? options.displayedKeys.value),
-    ].filter((key) => options.emojiByKey[key] !== undefined);
+    ].filter((key) => state.emojiByKey.get(key) !== undefined);
   }
   options.currentEmojiKey.value = options.id;
   if (options.parentPanel !== undefined) {
@@ -14,21 +15,18 @@ export function showEmojiSession(options: any) {
       ? [options.parentPanel]
       : [];
   }
-  const item = options.byId[options.id] ?? {};
+  const item = state.byId.get(options.id) ?? {};
   const sourceItem = options.items.find((item: any) => item.key === options.id);
   const display = renderEmojiDialog({
-    annotations: options.searchAnnotations[options.id] ?? [],
+    annotations: state.searchAnnotations.get(options.id) ?? [],
     applyPixelArtworkClass: options.applyPixelArtworkClass,
     applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
-    byId: options.byId,
     compositionMode: options.compositionMode,
     currentEmojiKey: options.id,
     developerMode: options.developerMode,
     fullDeveloperMode: options.fullDeveloperMode,
     dialogNavigationKeys: options.dialogNavigationKeys.value,
     displayGroupName: options.displayGroupName,
-    displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
-    emojiByKey: options.emojiByKey,
     exampleDialog: options.dialog,
     getIntroducedVersion: options.getIntroducedVersion,
     group: sourceItem?.group ?? "(none)",
@@ -41,7 +39,6 @@ export function showEmojiSession(options: any) {
     numberingSystem: document.documentElement.lang?.startsWith("ar")
       ? "arab"
       : undefined,
-    searchAnnotations: options.searchAnnotations,
     selectedSearchLocale: options.selectedSearchLocale,
     sequenceTranslationKeys: options.sequenceTranslationKeys,
     sequenceTypeLabels: options.sequenceTypeLabels,

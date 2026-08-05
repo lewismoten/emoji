@@ -4,6 +4,8 @@ import {
 } from "./language-dialog-control.js";
 import * as preferences from "../../preferences.js";
 import * as route from '../../app/route.js';
+import * as state from "../../state.js";
+
 type SearchLocale = {
   locale: string;
   label: string;
@@ -13,8 +15,9 @@ type SearchLocale = {
   baseLocale?: string;
 };
 
+type Annotations = Record<string, string[]>;
 type SearchLocalePack = {
-  annotations?: Record<string, string[]>;
+  annotations?: Annotations;
   labels?: Record<string, string>;
   subgroups?: Record<string, string>;
 };
@@ -118,7 +121,6 @@ type SetSearchLanguageOptions = {
 type SetSearchLanguageResult = {
   loadId: number;
   selectedSearchLocale: string;
-  searchAnnotations: Record<string, string[]>;
   searchLabels: Record<string, string>;
   searchSubgroupLabels: Record<string, string>;
 };
@@ -164,10 +166,11 @@ export async function setSearchLanguage({
     }
     await loadUiTranslations("en");
     preferences.set("locale", "");
+
+    state.searchAnnotations.clear();
     return {
       loadId,
       selectedSearchLocale: "",
-      searchAnnotations: {},
       searchLabels: {},
       searchSubgroupLabels: {},
     };
@@ -177,10 +180,10 @@ export async function setSearchLanguage({
     (entry) => entry.locale === requestedLocale,
   );
   if (!locale) {
+    state.searchAnnotations.clear();
     return {
       loadId,
       selectedSearchLocale: "",
-      searchAnnotations: {},
       searchLabels: {},
       searchSubgroupLabels: {},
     };
@@ -214,10 +217,6 @@ export async function setSearchLanguage({
         `src/data/locales/${locale.file}`,
       ),
     ])) as SearchLocalePack[];
-    const searchAnnotations = Object.assign(
-      {},
-      ...packs.map((pack) => pack.annotations ?? {}),
-    );
     const searchLabels = Object.assign(
       {},
       ...packs.map((pack) => pack.labels ?? {}),
@@ -236,10 +235,11 @@ export async function setSearchLanguage({
       }
     }
     preferences.setString("locale", locale.locale);
+
+    state.searchAnnotations.replace(packsToSearchAnnotations(packs));
     return {
       loadId,
       selectedSearchLocale: locale.locale,
-      searchAnnotations,
       searchLabels,
       searchSubgroupLabels,
     };
@@ -254,10 +254,10 @@ export async function setSearchLanguage({
         );
       }
     }
+    state.searchAnnotations.clear();
     return {
       loadId,
       selectedSearchLocale: "",
-      searchAnnotations: {},
       searchLabels: {},
       searchSubgroupLabels: {},
     };
@@ -265,3 +265,8 @@ export async function setSearchLanguage({
     if (updateUi && languagePicker) languagePicker.disabled = false;
   }
 }
+
+const packsToSearchAnnotations = (packs: SearchLocalePack[]) => 
+  Object.assign({},...packs.map(mapAnnotations));
+const mapAnnotations = (pack: Pick<SearchLocalePack, "annotations">) => 
+  pack.annotations ?? {};
