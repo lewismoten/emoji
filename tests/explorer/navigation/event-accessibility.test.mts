@@ -6,6 +6,7 @@ import {
   createThemeChoiceKeyDownHandler,
   syncSavedListFocus,
 } from "../../../src/explorer/navigation/event-accessibility.js";
+import * as state from "../../../src/state.js";
 import {
   FakeButton,
   FakeCheckbox,
@@ -17,6 +18,8 @@ import {
 const { restore } = installEventAccessibilityDocument();
 
 try {
+  state.favoriteEmojiKeys.set(["sparkles"]);
+  state.copiedEmojiKeys.set(["mailbox"]);
 
   syncSavedListFocus(null);
   const savedButtons = [new FakeButton("a"), new FakeButton("b"), new FakeButton("c")];
@@ -128,12 +131,6 @@ try {
   bindSavedDialogInteractions({
     closePanel(dialog: object) {
       closeCalls.push(dialog === savedDialog ? "saved" : "other");
-    },
-    copiedEmojiKeys() {
-      return ["mailbox"];
-    },
-    favoriteEmojiKeys() {
-      return ["sparkles"];
     },
     savedDialog,
     showEmoji(

@@ -1,3 +1,5 @@
+import * as state from "../../state.js";
+
 export function syncSavedListFocus(
   list: HTMLElement | null,
   active?: HTMLElement | null,
@@ -218,8 +220,8 @@ export function bindSavedDialogInteractions(options: any) {
     if (!button) return;
     const navigationKeys =
       button.dataset.savedSource === "favorites"
-        ? options.favoriteEmojiKeys()
-        : options.copiedEmojiKeys();
+        ? state.favoriteEmojiKeys.get()
+        : state.copiedEmojiKeys.get();
     options.closePanel(options.savedDialog, options.suppressedPanelCloses);
     options.showEmoji(
       button.dataset.savedEmoji,

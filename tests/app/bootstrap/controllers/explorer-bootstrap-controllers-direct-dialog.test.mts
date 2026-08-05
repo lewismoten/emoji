@@ -58,15 +58,11 @@ const controllers = createExplorerBootstrapControllersWithFactories(options, {
   },
 });
 
-assert.deepEqual(dialogViewOptions.byId(), state.byId);
-assert.deepEqual(dialogViewOptions.currentDialogParentStack(), ["favorites"]);
-assert.equal(dialogViewOptions.currentEmojiKey(), "wrappedGift");
 assert.equal(dialogViewOptions.developerModeEnabled(), true);
 assert.equal(
   dialogViewOptions.fullDeveloperModeEnabled(),
   "full-developer-mode",
 );
-assert.deepEqual(dialogViewOptions.emojiByKey(), state.emojiByKey);
 assert.deepEqual(dialogViewOptions.dialog(), { open: true });
 assert.equal(dialogViewOptions.emojiParent(), "emoji-parent");
 assert.equal(dialogViewOptions.ensurePixelEditor(), "ensure-pixel-editor");
@@ -86,14 +82,11 @@ assert.equal(
   "update-emoji-import-examples",
 );
 
-assert.deepEqual(dialogClickOptions.byId(), state.byId);
 assert.deepEqual(dialogClickOptions.currentDialogParentStack(), ["favorites"]);
 assert.deepEqual(dialogClickOptions.currentEmojiCopies(), { emoji: "🎁" });
-assert.equal(dialogClickOptions.currentEmojiKey(), "wrappedGift");
 assert.equal(dialogClickOptions.animateCopy, options.animateCopy);
 assert.equal(dialogClickOptions.copy, "copyToClipboardValue");
 assert.deepEqual(dialogClickOptions.dialog(), { open: true });
-assert.deepEqual(dialogClickOptions.emojiByKey(), state.emojiByKey);
 assert.equal(dialogClickOptions.languageList(), "language-list");
 assert.equal(dialogClickOptions.openPanel, "open-panel");
 assert.deepEqual(dialogClickOptions.panelDialogs(), { help: "help-panel" });
@@ -111,9 +104,14 @@ assert.deepEqual(dialogClickOptions.syncUrlState("replace"), [
   "replace",
 ]);
 dialogClickOptions.toggleComposition();
-assert.equal(state.compositionMode, "condensed");
+assert.equal(dialogClickOptions.currentDialogParentStack()[0], "favorites");
+assert.equal(controllers.onEmojiDialogClick instanceof Function, true);
+assert.equal(
+  (await import("../../../../src/state.js")).compositionMode.get(),
+  "condensed",
+);
 dialogClickOptions.toggleComposition();
-assert.equal(state.compositionMode, "full");
+assert.equal((await import("../../../../src/state.js")).compositionMode.get(), "full");
 assert.equal(dialogClickOptions.toggleFavorite, "toggle-favorite");
 assert.equal(dialogClickOptions.translate("copy", "Copy"), "copy:Copy");
 assert.deepEqual(dialogClickOptions.updateCompositionBackButton("left"), [
@@ -125,6 +123,7 @@ assert.equal(
   "update-emoji-composition",
 );
 dialogClickOptions.clearCurrentDialogParentStack();
-assert.deepEqual(state.currentDialogParentStack, []);
-
-assert.equal(typeof controllers.onEmojiDialogClick, "function");
+assert.deepEqual(
+  (await import("../../../../src/state.js")).currentDialogParentStack.get(),
+  [],
+);

@@ -43,7 +43,7 @@ for (const [key, expected] of [
 }
 assert.equal(
   calls.some((call) => call[0] === "state" && call[1].length === 0),
-  true,
+  false,
 );
 shell.setDialogView("code", false);
 shell.showEmoji("wrappedGift", true);

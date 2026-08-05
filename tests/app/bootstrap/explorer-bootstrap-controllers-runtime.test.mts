@@ -39,6 +39,10 @@ const transformedSource = source
   .replace(
     'import { createEmojiDialogClickRuntime } from "../emoji/emoji-dialog-click-runtime.js";',
     'import { createEmojiDialogClickRuntime, dialogClickCalls } from "./emoji-dialog-click-runtime-stub.mjs";',
+  )
+  .replace(
+    'import * as state from "../../state.js";',
+    'import * as state from "../../../src/state.js";',
   );
 
 const tempRoot = path.join(root, "build/tests/.tmp");

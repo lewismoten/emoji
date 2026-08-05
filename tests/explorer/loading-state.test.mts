@@ -3,8 +3,10 @@ import {
   finishExplorerLoading,
   revealExplorer,
 } from "../../src/explorer/loading-state.js";
+import * as state from "../../src/state.js";
 
 const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalEmojiByKey = state.emojiByKey.get();
 
 const createClassList = () => {
   const values = new Set<string>();
@@ -23,6 +25,7 @@ const createClassList = () => {
 };
 
 try {
+  state.emojiByKey.replace({ grinningFace: "😀" });
   const rootClassList = createClassList();
   rootClassList.add("app-loading");
   const comparison: any = { textContent: "" };
@@ -62,7 +65,6 @@ try {
     applyPixelArtworkClass(element, emojiKey) {
       applyCalls.push([element, emojiKey]);
     },
-    emojiByKey: { grinningFace: "😀" },
     emojiList: emojiList as any,
     matchCount: matchCount as any,
     revealExplorer() {
@@ -80,7 +82,6 @@ try {
     applyPixelArtworkClass(element, emojiKey) {
       applyCalls.push([element, emojiKey]);
     },
-    emojiByKey: {},
     emojiList: emojiList as any,
     matchCount: matchCount as any,
     revealExplorer() {
@@ -96,6 +97,7 @@ try {
   assert.equal(emojiList.attributes.get("aria-busy"), "false");
   assert.equal(resultCountContainer.hidden, false);
 } finally {
+  state.emojiByKey.replace(originalEmojiByKey);
   if (originalDocument) {
     Object.defineProperty(globalThis, "document", originalDocument);
   } else {

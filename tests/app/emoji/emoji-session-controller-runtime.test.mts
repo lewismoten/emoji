@@ -10,13 +10,15 @@ const sourcePath = path.join(
 );
 const source = await fs.readFile(sourcePath, "utf8");
 
-const transformedSource = source.replace(
-  /import\s+\{\s*showEmojiSession\s*\}\s+from\s+"..\/..\/explorer\/dialog\/emoji-session\.js";/,
-  'import { showEmojiSession, calls } from "./emoji-session-stub.mjs";',
-).replace(
-  'import * as state from "../../state.js";',
-  'import * as state from "../../../src/state.js";',
-);
+const transformedSource = source
+  .replace(
+    /import\s+\{\s*showEmojiSession\s*\}\s+from\s+"..\/..\/explorer\/dialog\/emoji-session\.js";/,
+    'import { showEmojiSession, calls } from "./emoji-session-stub.mjs";',
+  )
+  .replace(
+    'import * as state from "../../state.js";',
+    'import * as state from "../../../src/state.js";',
+  );
 
 const tempRoot = path.join(root, "build/tests/.tmp");
 await fs.mkdir(tempRoot, { recursive: true });

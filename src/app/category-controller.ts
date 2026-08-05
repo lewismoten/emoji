@@ -17,8 +17,7 @@ export function createCategoryController(options: any) {
     `${group}::${subGroup}`;
 
   const displayGroupName = (name: string) =>
-    state.searchLabels.get(options.unicodeGroupLabelKeys[name]) ??
-    name;
+    state.searchLabels.get(options.unicodeGroupLabelKeys[name]) ?? name;
 
   const getGroupRepresentativeEmoji = (group: string) =>
     state.groupRepresentativeEmoji.get(group) ?? "";

@@ -11,7 +11,6 @@ export function createStartupOrchestrator(options: any) {
   function finishExplorerLoading() {
     finishExplorerLoadingHelper({
       applyPixelArtworkClass: options.applyPixelArtworkClass,
-      emojiByKey: state.emojiByKey.get(),
       emojiList: options.emojiList(),
       matchCount: options.matchCount(),
       revealExplorer,
@@ -82,13 +81,11 @@ export function createStartupOrchestrator(options: any) {
       applyBasicUrlState: options.applyBasicUrlState,
       clearFiltersButton: options.clearFiltersButton(),
       closePanel: options.closePanel,
-      copiedEmojiKeys: state.copiedEmojiKeys.get,
       developerModeToggle: options.developerModeToggle(),
       modeChoices: options.modeChoices?.(),
       drawList: options.drawList,
       emojiFontChoices: options.emojiFontChoices(),
       emojiList: options.emojiList(),
-      favoriteEmojiKeys: state.favoriteEmojiKeys.get,
       genderCheckboxes: options.genderCheckboxes(),
       hairCheckboxes: options.hairCheckboxes(),
       helpDialog: options.helpDialog(),

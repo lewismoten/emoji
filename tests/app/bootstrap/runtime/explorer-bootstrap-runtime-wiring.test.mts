@@ -32,9 +32,7 @@ assert.equal(uiBindingCall.setControls, options.setControls);
 assert.equal(uiBindingCall.skinToneCheckboxes()[0], "1F3FB");
 
 const pixelEditorCall = pixelEditorRuntimeStub.calls[0];
-assert.equal(pixelEditorCall.currentEmojiKey(), "wave");
 assert.deepEqual(pixelEditorCall.dialog(), ["runtime-get", "exampleDialog"]);
-assert.equal(pixelEditorCall.emojiByKey().wave, "👋");
 assert.equal(pixelEditorCall.setEditor, options.setPixelEditor);
 assert.equal(pixelEditorCall.setPromise, options.setPixelEditorPromise);
 

@@ -61,29 +61,29 @@ export function createExplorerDataController(options: any) {
   async function loadVersionData() {
     if (state.versionDataPromise.get()) return state.versionDataPromise.get();
     const nextPromise = (async () => {
-        try {
-          const versions = await options.loadVersionCatalog();
-          state.versionManifests.set(versions.released);
-          state.proposedVersionManifests.set(versions.proposed);
-          state.versionKeys.replace(versions.versionKeys);
-          options.rebuildCodePointLookup();
-          options.updateModifierArtwork();
-          options.buildRepresentatives();
-          populateVersionSelector();
-          options.applyLoadedUrlState();
-          options.renderCategoryFilters();
-          options.drawList();
-          const key = state.currentEmojiKey.get();
-          if (key)
-            options.setIntroducedVersion(options.getIntroducedVersion(key));
-        } catch (error) {
-          console.warn("Version filters unavailable", error);
-          const versionModeSelector = options.versionModeSelector?.();
-          const versionSelector = options.versionSelector?.();
-          if (versionModeSelector) versionModeSelector.disabled = true;
-          if (versionSelector) versionSelector.disabled = true;
-        }
-      })();
+      try {
+        const versions = await options.loadVersionCatalog();
+        state.versionManifests.set(versions.released);
+        state.proposedVersionManifests.set(versions.proposed);
+        state.versionKeys.replace(versions.versionKeys);
+        options.rebuildCodePointLookup();
+        options.updateModifierArtwork();
+        options.buildRepresentatives();
+        populateVersionSelector();
+        options.applyLoadedUrlState();
+        options.renderCategoryFilters();
+        options.drawList();
+        const key = state.currentEmojiKey.get();
+        if (key)
+          options.setIntroducedVersion(options.getIntroducedVersion(key));
+      } catch (error) {
+        console.warn("Version filters unavailable", error);
+        const versionModeSelector = options.versionModeSelector?.();
+        const versionSelector = options.versionSelector?.();
+        if (versionModeSelector) versionModeSelector.disabled = true;
+        if (versionSelector) versionSelector.disabled = true;
+      }
+    })();
     state.versionDataPromise.set(nextPromise);
     return nextPromise;
   }

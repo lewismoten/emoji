@@ -1,3 +1,5 @@
+import * as sharedState from "../../../../src/state.js";
+
 export function createExplorerBootstrapControllersRuntimeFixture() {
   const state: any = {
     byId: { wrappedGift: { key: "wrappedGift" } },
@@ -19,6 +21,24 @@ export function createExplorerBootstrapControllersRuntimeFixture() {
     subGroups: { Objects: ["money"] },
     versionManifests: [{ version: "17.0" }],
   };
+
+  sharedState.byId.replace(state.byId);
+  sharedState.compositionMode.set(state.compositionMode);
+  sharedState.currentDialogParentStack.set(state.currentDialogParentStack);
+  sharedState.currentEmojiCopies.replace(state.currentEmojiCopies);
+  sharedState.currentEmojiKey.set(state.currentEmojiKey);
+  sharedState.dialogNavigationKeys.set(state.dialogNavigationKeys);
+  sharedState.displayedKeys.set(state.displayedKeys);
+  sharedState.emojiByKey.replace(state.emojiByKey);
+  sharedState.groups.set(state.groups);
+  sharedState.items.set(state.items);
+  sharedState.orderMode.set(state.orderMode);
+  sharedState.searchAnnotations.replace(state.searchAnnotations);
+  sharedState.selectedGroup.set(state.selectedGroup);
+  sharedState.selectedSequenceType.set(state.selectedSequenceType);
+  sharedState.selectedSubGroup.set(state.selectedSubGroup);
+  sharedState.subGroups.replace(state.subGroups);
+  sharedState.versionManifests.set(state.versionManifests);
 
   const calls: string[] = [];
   const options: any = {

@@ -92,12 +92,12 @@ export function createEmojiActions(options: any) {
   const rebuildEmojiCodePointLookup = () => {
     const items = state.items.get();
     const lookup = items.reduce((lookup: Map<string, string>, item: any) => {
-        const codePoints = options.normalizeCodePoints(item.codePoints);
-        if (
-          codePoints &&
-          (!lookup.has(codePoints) || item.status === "fully-qualified")
-        ) {
-          lookup.set(codePoints, item.key);
+      const codePoints = options.normalizeCodePoints(item.codePoints);
+      if (
+        codePoints &&
+        (!lookup.has(codePoints) || item.status === "fully-qualified")
+      ) {
+        lookup.set(codePoints, item.key);
       }
       return lookup;
     }, new Map<string, string>());

@@ -1,4 +1,5 @@
 import { createExplorerBootstrapControllers } from "../../../../src/app/bootstrap/explorer-bootstrap-controllers.js";
+import * as sharedState from "../../../../src/state.js";
 
 export function installBootstrapControllerDom() {
   const originalDocument = globalThis.document;
@@ -85,6 +86,31 @@ export function createBootstrapControllersFixture() {
     versionKeys: new Map<string, Set<string>>(),
     versionManifests: [] as Array<{ version: string }>,
   };
+
+  sharedState.allIds.set([]);
+  sharedState.byId.replace(state.byId);
+  sharedState.compositionMode.set(state.compositionMode as "condensed");
+  sharedState.currentDialogParentStack.set(state.currentDialogParentStack);
+  sharedState.currentEmojiCopies.replace(state.currentEmojiCopies);
+  sharedState.currentEmojiKey.set(state.currentEmojiKey);
+  sharedState.dialogNavigationKeys.set(state.dialogNavigationKeys);
+  sharedState.displayedKeys.set(state.displayedKeys);
+  sharedState.emojiByKey.replace(state.emojiByKey);
+  sharedState.focusedEmojiKey.set(state.focusedEmojiKey);
+  sharedState.groups.set(state.groups);
+  sharedState.items.set(state.items as any);
+  sharedState.orderMode.set(state.orderMode as "grouped" | "sequence");
+  sharedState.proposedVersionManifests.set(state.proposedVersionManifests);
+  sharedState.searchAnnotations.replace(state.searchAnnotations);
+  sharedState.searchLabels.replace(state.searchLabels);
+  sharedState.searchSubgroupLabels.replace(state.searchSubgroupLabels);
+  sharedState.selectedGroup.set(state.selectedGroup);
+  sharedState.selectedSearchLocale.set(state.selectedSearchLocale);
+  sharedState.selectedSequenceType.set(state.selectedSequenceType);
+  sharedState.selectedSubGroup.set(state.selectedSubGroup);
+  sharedState.subGroups.replace(state.subGroups);
+  sharedState.versionKeys.replace(state.versionKeys);
+  sharedState.versionManifests.set(state.versionManifests);
 
   const options: any = {
     activeFilterSummary: () => undefined,

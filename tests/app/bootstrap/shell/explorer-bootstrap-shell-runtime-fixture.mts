@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import * as sharedState from "../../../../src/state.js";
 
 export async function createShellRuntimeFixture() {
   const root = process.cwd();
@@ -29,6 +30,10 @@ export async function createShellRuntimeFixture() {
     .replace(
       'import * as preferences from "../../preferences.js";',
       'import * as preferences from "./preferences-stub.mjs";',
+    )
+    .replace(
+      'import * as state from "../../state.js";',
+      'import * as state from "../../../src/state.js";',
     );
 
   const tempRoot = path.join(root, "build/tests/.tmp");
@@ -138,6 +143,9 @@ export function updateRenderingDiagnostic(values) {
     emojiKeyByCodePoints: new Map([["1F381", "wrappedGift"]]),
     explorerPreferences: { pixelFont: true },
   };
+  sharedState.byId.replace(state.byId);
+  sharedState.emojiByKey.replace(state.emojiByKey);
+  sharedState.emojiKeyByCodePoints.replace(state.emojiKeyByCodePoints);
   const options: any = {
     applyingUrlState: () => false,
     copyStatus: () => "copy-status",
@@ -166,7 +174,6 @@ export function updateRenderingDiagnostic(values) {
     setDialogView: (...args: any[]) => ["setDialogView", ...args],
     showEmoji: (...args: any[]) => ["showEmoji-option", ...args],
     skinToneCheckboxes: () => ["1F3FB"],
-    state: () => state,
     suppressDialogCloseSync: () => "suppressed",
     syncUrlState: (...args: any[]) => ["syncUrlState", ...args],
     syncVersionRange: () => "sync-version-range",

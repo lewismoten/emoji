@@ -47,6 +47,10 @@ const transformedSource = sourceText
   .replace(/locale: any/g, "locale")
   .replace(/values: any/g, "values")
   .replace(/amount: number/g, "amount");
+const transformedSourceWithState = transformedSource.replace(
+  'import * as state from "../../state.js";',
+  'import * as state from "../../../src/state.js";',
+);
 
 const tempRoot = path.join(root, "build/tests/.tmp");
 await fs.mkdir(tempRoot, { recursive: true });
@@ -137,7 +141,7 @@ await fs.writeFile(
   ].join("\n"),
 );
 
-await fs.writeFile(moduleFile, transformedSource);
+await fs.writeFile(moduleFile, transformedSourceWithState);
 
 const module = await import(pathToFileURL(moduleFile).href);
 const { initializeExplorerBootstrapSessionRuntime } =

@@ -97,7 +97,6 @@ for (const [key, expected] of [
   ["groupPickerTrigger", "group-trigger"],
   ["groupSelector", "group-selector"],
   ["sequenceTypeSelector", "sequence-selector"],
-  ["state", state],
   ["subGroupFilterDialog", "subgroup-dialog"],
   ["subGroupPickerTrigger", "subgroup-trigger"],
   ["subGroupSelector", "subgroup-selector"],
@@ -121,7 +120,6 @@ for (const [key, expected] of [
   ["resetFilters", "reset-filters"],
   ["revealExplorer", "reveal-explorer"],
   ["searchText", "search-text"],
-  ["state", state],
   ["versionModeSelector", "version-mode-selector"],
   ["versionSelector", "version-selector"],
 ] as const) {
@@ -166,7 +164,6 @@ for (const [key, expected] of [
   ["modifierFilters", "modifier-filters"],
   ["sequenceTypeSelector", "sequence-selector"],
   ["skinToneFieldset", "skin-fieldset"],
-  ["state", state],
   ["subGroupSelector", "subgroup-selector"],
   ["versionModeSelector", "version-mode-selector"],
   ["versionNext", "version-next"],
