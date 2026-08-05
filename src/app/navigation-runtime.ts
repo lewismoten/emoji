@@ -1,4 +1,5 @@
 import { createExplorerNavigation } from "../explorer/navigation/explorer-navigation.js";
+import * as state from "../state.js";
 
 export function createNavigationConfig(options: any) {
   return {
@@ -13,16 +14,16 @@ export function createNavigationConfig(options: any) {
     developerModeEnabled: options.developerModeEnabled,
     fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     dialog: options.dialog,
-    currentEmojiKey: () => options.currentEmojiKey(),
+    currentEmojiKey: state.currentEmojiKey.get,
     drawList: options.drawList,
-    emojiByKey: () => options.emojiByKey?.(),
+    emojiByKey: state.emojiByKey.get,
     ensurePanelDialog: options.ensurePanelDialog,
     genderCheckboxes: () => options.genderCheckboxes(),
     getOrderMode: () => options.getOrderMode(),
     getSelectedGroup: () => options.getSelectedGroup(),
     getSelectedSequenceType: () => options.getSelectedSequenceType(),
     getSelectedSubGroup: () => options.getSelectedSubGroup(),
-    groups: () => options.groups(),
+    groups: state.groups.get,
     hairCheckboxes: () => options.hairCheckboxes(),
     helpDialog: () => options.helpDialog(),
     languageList: () => options.languageList(),
@@ -37,7 +38,7 @@ export function createNavigationConfig(options: any) {
       options.showEmoji(
         key,
         openDialog ?? false,
-        navigationKeys ?? options.displayedKeys(),
+        navigationKeys ?? state.displayedKeys.get(),
         initialMode,
       ),
     orderButtons: () => options.orderButtons(),
@@ -62,7 +63,7 @@ export function createNavigationConfig(options: any) {
     },
     skinToneCheckboxes: () => options.skinToneCheckboxes(),
     subGroupSelectionKey: options.subGroupSelectionKey,
-    subGroups: () => options.subGroups?.(),
+    subGroups: state.subGroups.get,
     suppressedPanelCloses: () => options.suppressedPanelCloses(),
     syncVersionRange: () => options.syncVersionRange(),
     urlStateReady: () => options.urlStateReady(),

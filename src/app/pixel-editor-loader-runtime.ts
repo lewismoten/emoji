@@ -1,11 +1,11 @@
 import { createPixelEditorLoader } from "../explorer/pixel-editor-loader.js";
 import { loadStylesheet } from "../explorer/dialog/dialog-view.js";
+import * as state from "../state.js";
 
 export function createPixelEditorRuntime(options: any) {
   const loadPixelEditor = createPixelEditorLoader({
-    currentEmojiKey: () => options.currentEmojiKey(),
+    currentEmojiKey: state.currentEmojiKey.get,
     dialog: () => options.dialog(),
-    emojiByKey: () => options.emojiByKey(),
     formatNumber: options.formatNumber,
     formatPercent: options.formatPercent,
     getEditor: () => options.getEditor(),

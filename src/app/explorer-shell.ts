@@ -29,12 +29,12 @@ export function createExplorerShellDependencies() {
 export function createExplorerShell(options: any, dependencies?: any) {
   const helpers = dependencies ?? createExplorerShellDependencies();
   const providedState = options.state?.();
-  const readRecord: any = (getter, key) => () =>
+  const readRecord: any = (getter: any, key: any) => () =>
     providedState?.[key] ?? getter();
-  const readList: any = (getter, key) => () =>
+  const readList: any = (getter: any, key: any) => () =>
     providedState?.[key] ?? getter();
   const writeList: any =
-    (setter, key) =>
+    (setter: any, key: any) =>
     (value: string[]) => {
       if (providedState) providedState[key] = value;
       else setter(value);

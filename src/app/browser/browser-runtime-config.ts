@@ -1,4 +1,5 @@
 import { initializeBrowserRuntime } from "./browser-runtime.js";
+import * as state from "../../state.js";
 
 export function createBrowserRuntimeConfig(options: any) {
   return initializeBrowserRuntime({
@@ -6,8 +7,8 @@ export function createBrowserRuntimeConfig(options: any) {
     applyPixelArtworkClass: options.applyPixelArtworkClass,
     applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
     closePanelDialog: options.closePanelDialog,
-    currentEmojiKey: options.currentEmojiKey,
-    currentLoadId: options.currentLoadId,
+    currentEmojiKey: state.currentEmojiKey.get,
+    currentLoadId: state.searchLoadId.get,
     dialog: options.dialog,
     languageDialog: options.languageDialog,
     languageFlags: options.languageFlags,
@@ -20,14 +21,14 @@ export function createBrowserRuntimeConfig(options: any) {
     onPixelFontRevisionLoaded: options.onPixelFontRevisionLoaded,
     refreshLocalizedLabels: options.refreshLocalizedLabels,
     restoreDeveloperMode: options.restoreDeveloperMode,
-    searchLocales: options.searchLocales,
-    selectedSearchLocale: options.selectedSearchLocale,
+    searchLocales: state.searchLocales.get,
+    selectedSearchLocale: state.selectedSearchLocale.get,
     setApplyingUrlState: options.setApplyingUrlState,
-    setSearchAnnotations: options.setSearchAnnotations,
-    setSearchLabels: options.setSearchLabels,
-    setSearchLocales: options.setSearchLocales,
-    setSearchSubgroupLabels: options.setSearchSubgroupLabels,
-    setSelectedLocale: options.setSelectedLocale,
+    setSearchAnnotations: state.searchAnnotations.set,
+    setSearchLabels: state.searchLabels.set,
+    setSearchLocales: state.searchLocales.set,
+    setSearchSubgroupLabels: state.searchSubgroupLabels.set,
+    setSelectedLocale: state.selectedSearchLocale.set,
     suppressedPanelCloses: options.suppressedPanelCloses,
     syncUrlState: options.syncUrlState,
     translate: options.translate,

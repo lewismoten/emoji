@@ -2,7 +2,7 @@ import * as state from "../../state.js";
 
 export function createExplorerDataController(options: any) {
   const providedState = options.state?.();
-  const getValue: any = (getter, key) =>
+  const getValue: any = (getter: any, key: any) =>
     () => providedState?.[key] ?? getter();
   function populateVersionSelector() {
     options.populateVersionSelector({

@@ -5,12 +5,13 @@ import {
   revealExplorer as revealExplorerHelper,
 } from "../../explorer/loading-state.js";
 import * as route from "../route.js";
+import * as state from "../../state.js";
 
 export function createStartupOrchestrator(options: any) {
   function finishExplorerLoading() {
     finishExplorerLoadingHelper({
       applyPixelArtworkClass: options.applyPixelArtworkClass,
-      emojiByKey: options.emojiByKey?.(),
+      emojiByKey: state.emojiByKey.get(),
       emojiList: options.emojiList(),
       matchCount: options.matchCount(),
       revealExplorer,

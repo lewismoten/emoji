@@ -14,7 +14,7 @@ import * as state from "../../state.js";
 /** Coordinate emoji detail actions without retaining DOM state in index.ts. */
 export function createEmojiActions(options: any) {
   const providedState = options.state?.();
-  const getValue: any = (getter, key) =>
+  const getValue: any = (getter: any, key: any) =>
     () => providedState?.[key] ?? getter();
   const updateEmojiImportExamples = (item: any) =>
     renderImportExamplesHelper(

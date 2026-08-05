@@ -11,7 +11,7 @@ import * as state from "../../state.js";
 /** Coordinate version controls and the catalog/version data loader. */
 export function createVersionController(options: any) {
   const providedState = options.state?.();
-  const getValue: any = (getter, key) =>
+  const getValue: any = (getter: any, key: any) =>
     () => providedState?.[key] ?? getter();
   const populateVersionSelector = () =>
     populateVersionSelectorHelper({

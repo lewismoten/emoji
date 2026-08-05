@@ -11,6 +11,7 @@ import {
   openPanelDialog,
 } from "../../explorer/pwa/pwa-panels.js";
 import { createStartupOrchestrator } from "./startup-orchestrator.js";
+import * as state from "../../state.js";
 
 export function createStartupRuntime(options: any) {
   return createStartupOrchestrator({
@@ -27,19 +28,19 @@ export function createStartupRuntime(options: any) {
     bindEvents: bindExplorerEvents,
     clearFiltersButton: () => options.clearFiltersButton(),
     closePanel: closePanelDialog,
-    copiedEmojiKeys: () => options.copiedEmojiKeys(),
+    copiedEmojiKeys: state.copiedEmojiKeys.get,
     createFilterControlSetup,
     developerModeToggle: () => options.developerModeToggle(),
     modeChoices: () => options.modeChoices?.(),
     dialog: () => options.dialog(),
     drawList: options.drawList,
-    emojiByKey: () => options.emojiByKey(),
+    emojiByKey: state.emojiByKey.get,
     emojiFontChoices: () => options.emojiFontChoices(),
     emojiList: () => options.emojiList(),
     emojiNext: () => options.emojiNext(),
     emojiPrevious: () => options.emojiPrevious(),
     ensureEmojiCompositionControl: options.ensureEmojiCompositionControl,
-    favoriteEmojiKeys: () => options.favoriteEmojiKeys(),
+    favoriteEmojiKeys: state.favoriteEmojiKeys.get,
     finalizeStartup: finalizeExplorerStartup,
     ensureUtilityPanel: options.ensureUtilityPanel,
     genderCheckboxes: () => options.genderCheckboxes(),
