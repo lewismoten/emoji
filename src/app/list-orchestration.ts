@@ -7,22 +7,15 @@ import * as state from "../state.js";
 
 /** Assemble list rendering, interaction, and active-filter summary behavior. */
 export function createListOrchestration(options: any) {
-  const providedState = options.state?.();
-  const read = (getter: () => any, key: string) => () =>
-    providedState?.[key] ?? getter();
-  const write = (setter: (value: any) => void, key: string) => (value: any) => {
-    if (providedState) providedState[key] = value;
-    else setter(value);
-  };
   const rendererState = {
-    byId: read(state.byId.get, "byId"),
-    emojiByKey: read(state.emojiByKey.get, "emojiByKey"),
-    focusedEmojiKey: read(state.focusedEmojiKey.get, "focusedEmojiKey"),
-    groups: read(state.groups.get, "groups"),
-    orderMode: read(state.orderMode.get, "orderMode"),
+    byId: state.byId.get,
+    emojiByKey: state.emojiByKey.get,
+    focusedEmojiKey: state.focusedEmojiKey.get,
+    groups: state.groups.get,
+    orderMode: state.orderMode.get,
     popularKeys: () => [...popularKeys],
-    searchAnnotations: read(state.searchAnnotations.get, "searchAnnotations"),
-    subGroups: read(state.subGroups.get, "subGroups"),
+    searchAnnotations: state.searchAnnotations.get,
+    subGroups: state.subGroups.get,
   };
   const {
     asEmojiCell,
@@ -62,16 +55,12 @@ export function createListOrchestration(options: any) {
       displayGroupName: options.displayGroupName,
       genderCheckboxes: options.genderCheckboxes(),
       hairCheckboxes: options.hairCheckboxes(),
-      latestReleased:
-        (providedState?.versionManifests ?? state.versionManifests.get()).at(-1)
-          ?.version,
-      orderMode: providedState?.orderMode ?? state.orderMode.get(),
+      latestReleased: state.versionManifests.get().at(-1)?.version,
+      orderMode: state.orderMode.get(),
       searchText: options.searchText().value,
-      selectedGroup: providedState?.selectedGroup ?? state.selectedGroup.get(),
-      selectedSequenceType:
-        providedState?.selectedSequenceType ?? state.selectedSequenceType.get(),
-      selectedSubGroup:
-        providedState?.selectedSubGroup ?? state.selectedSubGroup.get(),
+      selectedGroup: state.selectedGroup.get(),
+      selectedSequenceType: state.selectedSequenceType.get(),
+      selectedSubGroup: state.selectedSubGroup.get(),
       sequenceTranslationKeys: options.sequenceTranslationKeys,
       sequenceTypeLabels: options.sequenceTypeLabels,
       skinToneCheckboxes: options.skinToneCheckboxes(),
@@ -83,7 +72,7 @@ export function createListOrchestration(options: any) {
 
   let renderEmojiList: (...args: any[]) => void;
   const list = createListController({
-    allIds: read(state.allIds.get, "allIds"),
+    allIds: state.allIds.get,
     byId: rendererState.byId,
     emojiByKey: rendererState.emojiByKey,
     focusedEmojiKey: rendererState.focusedEmojiKey,
@@ -91,7 +80,7 @@ export function createListOrchestration(options: any) {
     genderCheckboxes: options.genderCheckboxes,
     getVersionKeys: options.getVersionKeys,
     hairCheckboxes: options.hairCheckboxes,
-    items: read(state.items.get, "items"),
+    items: state.items.get,
     matchCount: options.matchCount,
     nextRenderGeneration: options.nextRenderGeneration,
     orderMode: rendererState.orderMode,
@@ -100,18 +89,12 @@ export function createListOrchestration(options: any) {
     renderEmojiList: (...args: any[]) => renderEmojiList(...args),
     searchAnnotations: rendererState.searchAnnotations,
     searchText: options.searchText,
-    selectedGroup: read(state.selectedGroup.get, "selectedGroup"),
-    selectedSearchLocale: read(
-      state.selectedSearchLocale.get,
-      "selectedSearchLocale",
-    ),
-    selectedSequenceType: read(
-      state.selectedSequenceType.get,
-      "selectedSequenceType",
-    ),
-    selectedSubGroup: read(state.selectedSubGroup.get, "selectedSubGroup"),
-    setDisplayedKeys: write(state.displayedKeys.set, "displayedKeys"),
-    setFocusedEmojiKey: write(state.focusedEmojiKey.set, "focusedEmojiKey"),
+    selectedGroup: state.selectedGroup.get,
+    selectedSearchLocale: state.selectedSearchLocale.get,
+    selectedSequenceType: state.selectedSequenceType.get,
+    selectedSubGroup: state.selectedSubGroup.get,
+    setDisplayedKeys: state.displayedKeys.set,
+    setFocusedEmojiKey: state.focusedEmojiKey.set,
     skinToneCheckboxes: options.skinToneCheckboxes,
     subGroupSelectionKey: options.subGroupSelectionKey,
     syncUrlState: options.syncUrlState,
@@ -121,15 +104,15 @@ export function createListOrchestration(options: any) {
   const { draw: drawList, schedule: scheduleSearchDraw } = list;
 
   const interactionState = {
-    focusedEmojiKey: read(state.focusedEmojiKey.get, "focusedEmojiKey"),
-    getDisplayedKeys: read(state.displayedKeys.get, "displayedKeys"),
+    focusedEmojiKey: state.focusedEmojiKey.get,
+    getDisplayedKeys: state.displayedKeys.get,
     orderMode: rendererState.orderMode,
-    setFocusedEmojiKey: write(state.focusedEmojiKey.set, "focusedEmojiKey"),
+    setFocusedEmojiKey: state.focusedEmojiKey.set,
   };
   const interaction = createEmojiListInteraction({
-    asItem: (renderState, key) => asItem(renderState, key, providedState ?? state),
+    asItem: (renderState, key) => asItem(renderState, key, state),
     asSequenceItem: (renderState, key) =>
-      asSequenceItem(renderState, key, providedState ?? state),
+      asSequenceItem(renderState, key, state),
     drawList,
     emojiList: options.emojiList,
     flushEmojiCellFragment,

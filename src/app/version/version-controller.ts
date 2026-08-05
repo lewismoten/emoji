@@ -10,37 +10,22 @@ import * as state from "../../state.js";
 
 /** Coordinate version controls and the catalog/version data loader. */
 export function createVersionController(options: any) {
-  const providedState = options.state?.();
-  const getValue: any = (getter: any, key: any) =>
-    () => providedState?.[key] ?? getter();
   const populateVersionSelector = () =>
     populateVersionSelectorHelper({
-      proposed: getValue(
-        state.proposedVersionManifests.get,
-        "proposedVersionManifests",
-      )(),
-      released: getValue(state.versionManifests.get, "versionManifests")(),
-      selectedLocale: getValue(
-        state.selectedSearchLocale.get,
-        "selectedSearchLocale",
-      )(),
+      proposed: state.proposedVersionManifests.get(),
+      released: state.versionManifests.get(),
+      selectedLocale: state.selectedSearchLocale.get(),
       selector: options.versionSelector(),
       syncRange: syncVersionRange,
       translate: options.translate,
     });
 
   const versionSliderLabel = (version: string) =>
-    versionSliderLabelHelper(
-      version,
-      getValue(state.proposedVersionManifests.get, "proposedVersionManifests")(),
-    );
+    versionSliderLabelHelper(version, state.proposedVersionManifests.get());
 
   const syncVersionRange = () =>
     syncVersionRangeHelper({
-      proposedVersionManifests: getValue(
-        state.proposedVersionManifests.get,
-        "proposedVersionManifests",
-      )(),
+      proposedVersionManifests: state.proposedVersionManifests.get(),
       updateModifierAvailability,
       versionNext: options.versionNext(),
       versionPrevious: options.versionPrevious(),
@@ -68,26 +53,20 @@ export function createVersionController(options: any) {
       hairCheckboxes: options.hairCheckboxes(),
       hairFieldset: options.hairFieldset(),
       modifierFilters: options.modifierFilters(),
-      proposedVersionManifests: getValue(
-        state.proposedVersionManifests.get,
-        "proposedVersionManifests",
-      )(),
+      proposedVersionManifests: state.proposedVersionManifests.get(),
       skinToneCheckboxes: options.skinToneCheckboxes(),
       skinToneFieldset: options.skinToneFieldset(),
-      versionKeys: getValue(state.versionKeys.get, "versionKeys")(),
-      versionManifests: getValue(state.versionManifests.get, "versionManifests")(),
+      versionKeys: state.versionKeys.get(),
+      versionManifests: state.versionManifests.get(),
       versionValue: options.versionSelector().value,
     });
 
   const getVersionKeys = () =>
     getVersionKeysHelper({
-      proposedVersionManifests: getValue(
-        state.proposedVersionManifests.get,
-        "proposedVersionManifests",
-      )(),
-      releasedIds: getValue(state.releasedIds.get, "releasedIds")(),
-      versionKeys: getValue(state.versionKeys.get, "versionKeys")(),
-      versionManifests: getValue(state.versionManifests.get, "versionManifests")(),
+      proposedVersionManifests: state.proposedVersionManifests.get(),
+      releasedIds: state.releasedIds.get(),
+      versionKeys: state.versionKeys.get(),
+      versionManifests: state.versionManifests.get(),
       versionMode: options.versionModeSelector().value,
       versionValue: options.versionSelector().value,
     });
@@ -125,7 +104,6 @@ export function createVersionController(options: any) {
     translate: options.translate,
     updateModifierArtwork: options.updateModifierArtwork,
     updateModifierAvailability: updateModifierAvailabilityHelper,
-    state: options.state,
     versionModeSelector: options.versionModeSelector,
     versionNext: options.versionNext,
     versionPrevious: options.versionPrevious,

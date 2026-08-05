@@ -13,30 +13,15 @@ import * as state from "../../state.js";
 
 /** Coordinate emoji detail actions without retaining DOM state in index.ts. */
 export function createEmojiActions(options: any) {
-  const providedState = options.state?.();
-  const getValue: any = (getter: any, key: any) =>
-    () => providedState?.[key] ?? getter();
   const updateEmojiImportExamples = (item: any) =>
-    renderImportExamplesHelper(
-      providedState?.packageManifest ?? state.packageManifest.get(),
-      item,
-    );
+    renderImportExamplesHelper(state.packageManifest.get(), item);
 
   const loadManifest = () =>
     loadPackageManifestHelper({
-      getManifest: getValue(state.packageManifest.get, "packageManifest"),
-      getPromise: getValue(
-        state.packageManifestPromise.get,
-        "packageManifestPromise",
-      ),
-      setManifest: (value: any) => {
-        if (providedState) providedState.packageManifest = value;
-        else state.packageManifest.set(value);
-      },
-      setPromise: (value: any) => {
-        if (providedState) providedState.packageManifestPromise = value;
-        else state.packageManifestPromise.set(value);
-      },
+      getManifest: state.packageManifest.get,
+      getPromise: state.packageManifestPromise.get,
+      setManifest: state.packageManifest.set,
+      setPromise: state.packageManifestPromise.set,
     });
 
   const copyToClipboardValue = (value: string, successMessage: string) =>
@@ -50,27 +35,22 @@ export function createEmojiActions(options: any) {
   const getIntroducedVersion = (key: string) =>
     getIntroducedVersionHelper({
       key,
-      versionKeys: providedState?.versionKeys ?? state.versionKeys.get(),
-      versionManifests:
-        providedState?.versionManifests ?? state.versionManifests.get(),
-      proposedVersionManifests:
-        providedState?.proposedVersionManifests ??
-        state.proposedVersionManifests.get(),
+      versionKeys: state.versionKeys.get(),
+      versionManifests: state.versionManifests.get(),
+      proposedVersionManifests: state.proposedVersionManifests.get(),
     });
 
   const onClick = (event: any, openDialog = true) => {
     const cell = event.target.closest?.("[data-emoji-key]");
     const id = cell?.id ?? event.target.id;
-    if ((providedState?.emojiByKey ?? state.emojiByKey.get())[id] === undefined)
-      return;
+    if (state.emojiByKey.get(id) === undefined) return;
     cell?.focus();
     options.showEmoji(id, openDialog);
   };
 
   const onEmojiDialogClose = () => {
     options.setDialogView("details", false);
-    if (providedState) providedState.currentDialogParentStack = [];
-    else state.currentDialogParentStack.set([]);
+    state.currentDialogParentStack.set([]);
     options.dialog().dataset.dialogParentPanel = "";
     if (
       options.suppressDialogCloseSync() ||
@@ -98,17 +78,11 @@ export function createEmojiActions(options: any) {
       {
         applyPixelArtworkClass: options.applyPixelArtworkClass(),
         applyStandalonePixelArtwork: options.applyStandalonePixelArtwork(),
-        compositionMode: getValue(state.compositionMode.get, "compositionMode"),
+        compositionMode: state.compositionMode.get,
         developerModeEnabled: options.developerModeEnabled,
         dialog: options.dialog,
-        emojiKeyByCodePoints: getValue(
-          state.emojiKeyByCodePoints.get,
-          "emojiKeyByCodePoints",
-        ),
-        selectedLocale: getValue(
-          state.selectedSearchLocale.get,
-          "selectedSearchLocale",
-        ),
+        emojiKeyByCodePoints: state.emojiKeyByCodePoints.get,
+        selectedLocale: state.selectedSearchLocale.get,
         translate: options.translate,
       },
       item,
@@ -116,7 +90,7 @@ export function createEmojiActions(options: any) {
     );
 
   const rebuildEmojiCodePointLookup = () => {
-    const items = providedState?.items ?? state.items.get();
+    const items = state.items.get();
     const lookup = items.reduce((lookup: Map<string, string>, item: any) => {
         const codePoints = options.normalizeCodePoints(item.codePoints);
         if (
@@ -124,11 +98,10 @@ export function createEmojiActions(options: any) {
           (!lookup.has(codePoints) || item.status === "fully-qualified")
         ) {
           lookup.set(codePoints, item.key);
-        }
-        return lookup;
-      }, new Map<string, string>());
-    if (providedState) providedState.emojiKeyByCodePoints = lookup;
-    else state.emojiKeyByCodePoints.replace(lookup);
+      }
+      return lookup;
+    }, new Map<string, string>());
+    state.emojiKeyByCodePoints.replace(lookup);
   };
 
   return {

@@ -6,6 +6,7 @@ import { createNavigationRuntime } from "../navigation-runtime.js";
 import { createDialogViewRuntime } from "../dialog/dialog-view-runtime.js";
 import { createEmojiDialogClickRuntime } from "../emoji/emoji-dialog-click-runtime.js";
 import * as preferences from "../../preferences.js";
+import * as state from "../../state.js";
 export function createExplorerBootstrapControllers(options: any) {
   return createExplorerBootstrapControllersWithFactories(options, {});
 }
@@ -27,8 +28,6 @@ export function createExplorerBootstrapControllersWithFactories(
   const createEmojiDialogClickRuntimeFactory =
     factories.createEmojiDialogClickRuntime ?? createEmojiDialogClickRuntime;
 
-  const state = options.state;
-
   const categoryController = createCategoryControllerFactory({
     compactGroupChoices: options.compactGroupChoices,
     compactGroupLabel: options.compactGroupLabel,
@@ -48,7 +47,6 @@ export function createExplorerBootstrapControllersWithFactories(
     sequenceTypeLabels: options.sequenceTypeLabels,
     sequenceTypeOrder: options.sequenceTypeOrder,
     sequenceTypeSelector: options.sequenceTypeSelector,
-    state,
     subGroupFilterDialog: options.subGroupFilterDialog,
     subGroupPickerTrigger: options.subGroupPickerTrigger,
     subGroupSelector: options.subGroupSelector,
@@ -82,7 +80,6 @@ export function createExplorerBootstrapControllersWithFactories(
     sequenceTypeLabels: options.sequenceTypeLabels,
     sequenceTypeOrder: options.sequenceTypeOrder,
     skinToneCheckboxes: options.skinToneCheckboxes,
-    state,
     subGroupSelectionKey: categoryController.subGroupSelectionKey,
     syncUrlState: options.syncUrlState,
     translate: options.translate,
@@ -120,7 +117,6 @@ export function createExplorerBootstrapControllersWithFactories(
     setDialogView: options.setDialogView,
     skinToneCheckboxes: options.skinToneCheckboxes,
     skinToneFieldset: options.skinToneFieldset,
-    state,
     subGroupSelector: options.subGroupSelector,
     translate: options.translate,
     updateModifierArtwork: options.updateModifierArtwork,
@@ -136,26 +132,23 @@ export function createExplorerBootstrapControllersWithFactories(
   const navigationRuntime = createNavigationRuntimeFactory({
     allowedSequenceTypes: options.sequenceTypeOrder,
     applyingUrlState: options.applyingUrlState,
-    compositionMode: () => state().compositionMode,
-    currentEmojiKey: () => state().currentEmojiKey,
+    compositionMode: state.compositionMode.get,
     developerModeEnabled: options.developerModeEnabled,
     fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     dialog: options.dialog,
-    displayedKeys: () => state().displayedKeys,
+    displayedKeys: state.displayedKeys.get,
     drawList: listOrchestration.drawList,
-    emojiByKey: () => state().emojiByKey,
     ensurePanelDialog: options.ensurePanelDialog,
     focusInitialAction: options.focusInitialEmojiDialogAction,
     genderCheckboxes: options.genderCheckboxes,
-    getOrderMode: () => state().orderMode,
-    getSelectedGroup: () => state().selectedGroup,
-    getSelectedSequenceType: () => state().selectedSequenceType,
-    getSelectedSubGroup: () => state().selectedSubGroup,
-    groups: () => state().groups,
+    getOrderMode: state.orderMode.get,
+    getSelectedGroup: state.selectedGroup.get,
+    getSelectedSequenceType: state.selectedSequenceType.get,
+    getSelectedSubGroup: state.selectedSubGroup.get,
     hairCheckboxes: options.hairCheckboxes,
     helpDialog: options.helpDialog,
     languageList: options.languageList,
-    latestReleasedVersion: () => state().versionManifests.at(-1)?.version,
+    latestReleasedVersion: () => state.versionManifests.get().at(-1)?.version,
     navigateEmoji: options.navigateEmoji,
     orderButtons: options.orderButtons,
     panelDialogs: options.panelDialogs,
@@ -164,18 +157,16 @@ export function createExplorerBootstrapControllersWithFactories(
     renderSavedEmoji: options.renderSavedEmoji,
     renderVersionModeToggle: options.renderVersionModeToggle,
     searchText: options.searchText,
-    setCompositionMode: (value: any) => (state().compositionMode = value),
+    setCompositionMode: state.compositionMode.set,
     setDialogView: options.setDialogView,
-    setOrderMode: (value: any) => (state().orderMode = value),
-    setSelectedGroup: (value: any) => (state().selectedGroup = value),
-    setSelectedSequenceType: (value: any) =>
-      (state().selectedSequenceType = value),
-    setSelectedSubGroup: (value: any) => (state().selectedSubGroup = value),
+    setOrderMode: state.orderMode.set,
+    setSelectedGroup: state.selectedGroup.set,
+    setSelectedSequenceType: state.selectedSequenceType.set,
+    setSelectedSubGroup: state.selectedSubGroup.set,
     setSuppressDialogCloseSync: options.setSuppressDialogCloseSync,
     showEmoji: options.showEmoji,
     skinToneCheckboxes: options.skinToneCheckboxes,
     subGroupSelectionKey: categoryController.subGroupSelectionKey,
-    subGroups: () => state().subGroups,
     suppressedPanelCloses: options.suppressedPanelCloses,
     syncVersionRange: (...args: any[]) =>
       versionController.syncVersionRange(...args),
@@ -186,13 +177,9 @@ export function createExplorerBootstrapControllersWithFactories(
   });
 
   const dialogViewRuntime = createDialogViewRuntimeFactory({
-    byId: () => state().byId,
-    currentDialogParentStack: () => state().currentDialogParentStack,
-    currentEmojiKey: () => state().currentEmojiKey,
     developerModeEnabled: options.developerModeEnabled,
     fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     dialog: options.dialog,
-    emojiByKey: () => state().emojiByKey,
     emojiParent: options.emojiParent,
     ensurePixelEditor: options.ensurePixelEditor,
     getPixelEditor: options.getPixelEditor,
@@ -205,13 +192,10 @@ export function createExplorerBootstrapControllersWithFactories(
 
   const onEmojiDialogClick = createEmojiDialogClickRuntimeFactory({
     animateCopy: options.animateCopy,
-    byId: () => state().byId,
     copy: options.copyToClipboardValue,
-    currentDialogParentStack: () => state().currentDialogParentStack,
-    currentEmojiCopies: () => state().currentEmojiCopies,
-    currentEmojiKey: () => state().currentEmojiKey,
+    currentDialogParentStack: state.currentDialogParentStack.get,
+    currentEmojiCopies: state.currentEmojiCopies.get,
     dialog: options.dialog,
-    emojiByKey: () => state().emojiByKey,
     languageList: options.languageList,
     openPanel: options.openPanel,
     panelDialogs: options.panelDialogs,
@@ -222,15 +206,14 @@ export function createExplorerBootstrapControllersWithFactories(
     showEmoji: options.showEmoji,
     syncUrlState: options.syncUrlState,
     toggleComposition: () =>
-      (state().compositionMode =
-        state().compositionMode === "full" ? "condensed" : "full"),
+      state.compositionMode.set(
+        state.compositionMode.get() === "full" ? "condensed" : "full",
+      ),
     toggleFavorite: options.toggleFavorite,
     translate: options.translate,
     updateCompositionBackButton: options.updateCompositionBackButton,
     updateEmojiComposition: options.updateEmojiComposition,
-    clearCurrentDialogParentStack: () => {
-      state().currentDialogParentStack = [];
-    },
+    clearCurrentDialogParentStack: () => state.currentDialogParentStack.set([]),
   });
 
   return {

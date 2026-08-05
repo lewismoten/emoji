@@ -4,6 +4,7 @@ import { createExplorerShell } from "../explorer-shell.js";
 import { createEmojiActions } from "../emoji/emoji-actions.js";
 import { updateRenderingDiagnostic as updateRenderingDiagnosticHelper } from "../../explorer/dialog/dialog-render.js";
 import * as preferences from "../../preferences.js";
+import * as state from "../../state.js";
 
 export function createExplorerBootstrapShell(options: any) {
   return createExplorerBootstrapShellWithFactories(options, {});
@@ -23,12 +24,11 @@ export function createExplorerBootstrapShellWithFactories(
     factories.updateRenderingDiagnostic ?? updateRenderingDiagnosticHelper;
 
   let developerModeEnabled = () => false;
-  const state = options.state;
 
   const pixelArtwork = createPixelArtworkManagerFactory({
-    byId: () => state().byId,
-    emojiByKey: () => state().emojiByKey,
-    emojiKeyByCodePoints: () => state().emojiKeyByCodePoints,
+    byId: state.byId.get,
+    emojiByKey: state.emojiByKey.get,
+    emojiKeyByCodePoints: state.emojiKeyByCodePoints.get,
     genderCheckboxes: options.genderCheckboxes,
     hairCheckboxes: options.hairCheckboxes,
     normalizeCodePoints: options.normalizeCodePoints,
@@ -42,7 +42,7 @@ export function createExplorerBootstrapShellWithFactories(
     updateRenderingDiagnostic: (values: any) =>
       updateRenderingDiagnosticFactory({
         ...values,
-        byId: state().byId,
+        byId: state.byId.get(),
         developerMode: developerModeEnabled(),
         detailsVisible:
           !options.dialog()?.classList.contains("is-code-view") &&
@@ -71,7 +71,6 @@ export function createExplorerBootstrapShellWithFactories(
     renderVersionModeToggle: options.renderVersionModeToggle,
     savedDialog: options.savedDialog,
     setDialogView: options.setDialogView,
-    state,
     syncUrlState: options.syncUrlState,
     syncVersionRange: options.syncVersionRange,
     themeChoices: options.themeChoices,
@@ -92,7 +91,6 @@ export function createExplorerBootstrapShellWithFactories(
     normalizeCodePoints: options.normalizeCodePoints,
     setDialogView: options.setDialogView,
     showEmoji: options.showEmoji,
-    state,
     suppressDialogCloseSync: options.suppressDialogCloseSync,
     syncUrlState: options.syncUrlState,
     translate: options.translate,
