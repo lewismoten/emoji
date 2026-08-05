@@ -113,7 +113,6 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         showEmoji: options.bindings.showEmoji,
         skinToneCheckboxes: () => options.bindings.skinToneCheckboxes,
         stepVersion: options.controllers.stepVersion,
-        state: options.state,
         subGroupFilterDialog: () => options.bindings.subGroupFilterDialog,
         subGroupPickerTrigger: () => options.bindings.subGroupPickerTrigger,
         subGroupSelector: () => options.bindings.subGroupSelector,

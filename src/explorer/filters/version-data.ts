@@ -15,6 +15,8 @@ declare const process: {
 
 export async function loadVersionCatalog(options: {
   allIds: () => string[];
+  byId?: () => Record<string, any>;
+  emojiByKey?: () => Record<string, string>;
   getExplorerSubGroup: (item: any) => string;
   items: () => any[];
 }) {

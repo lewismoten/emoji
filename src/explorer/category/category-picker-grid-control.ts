@@ -89,6 +89,7 @@ export function renderSubGroupPickerGrid(options: {
   availableSubGroups: Record<string, string[]>;
   compactSubGroupChoices: HTMLElement | undefined;
   compactSubGroupLabel?: HTMLElement | null;
+  displayUnicodeSubGroupName?: (name: string) => string;
   drawList: () => void;
   getSubGroupRepresentativeEmoji: (group: string, subGroup: string) => string;
   selectedGroup: string;
@@ -104,7 +105,9 @@ export function renderSubGroupPickerGrid(options: {
   const selectedName =
     separatorIndex === -1 ? "" : options.selectedSubGroup.slice(separatorIndex + 2);
   const selectedLabel = selectedName
-    ? displayUnicodeSubGroupName(selectedName)
+    ? (options.displayUnicodeSubGroupName?.(selectedName) ??
+      displayUnicodeSubGroupName(selectedName) ??
+      selectedName)
     : options.translate("all", "All");
   if (options.compactSubGroupLabel) {
     options.compactSubGroupLabel.textContent = selectedLabel;
@@ -118,7 +121,7 @@ export function renderSubGroupPickerGrid(options: {
     selectedLabel,
   );
   const choices = options.availableSubGroupParents.flatMap((group) =>
-    options.availableSubGroups[group].map((name) => ({ group, name })),
+    (options.availableSubGroups[group] ?? []).map((name) => ({ group, name })),
   );
   if (!canRenderCompactChoices(options.compactSubGroupChoices)) return;
   replaceChoices(options.compactSubGroupChoices, [
@@ -141,7 +144,10 @@ export function renderSubGroupPickerGrid(options: {
       makeCompactChoice({
         value: options.subGroupSelectionKey(group, name),
         emoji: options.getSubGroupRepresentativeEmoji(group, name),
-        label: displayUnicodeSubGroupName(name),
+        label:
+          options.displayUnicodeSubGroupName?.(name) ??
+          displayUnicodeSubGroupName(name) ??
+          name,
         selected:
           options.selectedSubGroup === options.subGroupSelectionKey(group, name),
         onSelect() {
@@ -176,8 +182,8 @@ export function renderSequencePickerGrid(options: {
   const labelFor = (type: string) =>
     type
       ? options.translate(
-          options.sequenceTranslationKeys[type],
-          options.sequenceTypeLabels[type],
+          options.sequenceTranslationKeys[type] ?? type,
+          options.sequenceTypeLabels[type] ?? type,
         )
       : options.translate("all", "All");
   if (options.compactSequenceLabel) {
@@ -203,7 +209,7 @@ export function renderSequencePickerGrid(options: {
     ...options.availableSequenceTypes.map((type) =>
       makeCompactChoice({
         value: type,
-        emoji: options.sequenceTypeEmoji[type],
+        emoji: options.sequenceTypeEmoji[type] ?? "",
         label: labelFor(type),
         selected: options.selectedSequenceType === type,
         onSelect() {

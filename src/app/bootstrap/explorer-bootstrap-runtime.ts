@@ -97,7 +97,7 @@ export function createExplorerBootstrapRuntime(options: any) {
     selectedSearchLocale: state.selectedSearchLocale.get,
     setApplyingUrlState: options.setApplyingUrlState,
     setSearchLabels: state.searchLabels.set,
-    setSearchLocales: state.searchLocales.set(value),
+    setSearchLocales: state.searchLocales.set,
     setSearchSubgroupLabels: state.searchSubgroupLabels.set,
     setSelectedLocale: state.selectedSearchLocale.set,
     suppressedPanelCloses: () => options.suppressedPanelCloses(),

@@ -104,11 +104,13 @@ export function loadStylesheet(href: string, id: string) {
 }
 
 export function createEmojiDialogViewController(options: {
+  byId?: () => Record<string, any>;
   currentEmojiKey: () => string;
   currentDialogParentStack?: () => string[];
   developerModeEnabled: () => boolean;
   fullDeveloperModeEnabled?: () => boolean;
   dialog: () => any;
+  emojiByKey?: () => Record<string, string>;
   emojiParent: () => HTMLElement | undefined;
   ensurePixelEditor: () => Promise<unknown>;
   getPixelEditor: () => any;

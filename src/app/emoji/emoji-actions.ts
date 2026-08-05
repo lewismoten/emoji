@@ -91,7 +91,7 @@ export function createEmojiActions(options: any) {
 
   const rebuildEmojiCodePointLookup = () => {
     const items = state.items.get();
-    state.emojiKeyByCodePoints.set(
+    state.emojiKeyByCodePoints.replace(
       items.reduce((lookup: Map<string, string>, item: any) => {
         const codePoints = options.normalizeCodePoints(item.codePoints);
         if (

@@ -9,7 +9,10 @@ type EmojiItem = {
   unicodeSubGroup?: string;
 };
 
-export function getEmojiGenders(item: EmojiItem) {
+export function getEmojiGenders(
+  item: EmojiItem,
+  emojiByKey: Record<string, string> = state.emojiByKey.get(),
+) {
   const genders = new Set<string>();
   const name = item.shortName?.toLocaleLowerCase() ?? "";
   const points = ` ${item.codePoints ?? ""} `;
@@ -32,8 +35,8 @@ export function getEmojiGenders(item: EmojiItem) {
     const key = item.key ?? "";
     const capitalizedKey = key.charAt(0).toLocaleUpperCase() + key.slice(1);
     if (
-      state.emojiByKey.get(`man${capitalizedKey}`) &&
-      state.emojiByKey.get(`woman${capitalizedKey}`)
+      emojiByKey[`man${capitalizedKey}`] &&
+      emojiByKey[`woman${capitalizedKey}`]
     ) {
       genders.add("neutral");
     }

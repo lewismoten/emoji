@@ -43,6 +43,9 @@ type RangeLike = {
     setProperty(name: string, value: string): void;
   };
 };
+type RecordOrGetter<T> = Record<string, T> | (() => Record<string, T>);
+const resolveRecord = <T>(value?: RecordOrGetter<T>) =>
+  typeof value === "function" ? value() : value;
 
 export function versionSliderLabel(
   version: string,
@@ -138,6 +141,7 @@ export function getVersionKeys(options: {
 }
 
 export function updateModifierAvailability(options: {
+  byId?: RecordOrGetter<unknown>;
   genderCheckboxes: CheckboxLike[];
   genderFieldset?: { hidden: boolean };
   getEmojiGenders: (item: unknown) => Set<string>;
@@ -181,7 +185,10 @@ export function updateModifierAvailability(options: {
   );
   const genderIndex = manifests.findIndex((version) =>
     [...(options.versionKeys.get(version.version) ?? [])].some(
-      (key) => options.getEmojiGenders(state.byId.get(key) ?? {}).size > 0,
+      (key) =>
+        options.getEmojiGenders(
+          resolveRecord(options.byId)?.[key] ?? state.byId.get(key) ?? {},
+        ).size > 0,
     ),
   );
   const skinToneAvailable =

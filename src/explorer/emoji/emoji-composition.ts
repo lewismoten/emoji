@@ -96,7 +96,7 @@ function createCondensedCompositionPart(
   part.title = `${viewLabel}: ${linkedName} — ${codePoints}`;
   part.setAttribute("aria-label", `${viewLabel}: ${linkedName}. ${codePoints}`);
   glyph.className = "emoji-composition-glyph";
-  glyph.textContent = state.emojiByKey.get(partData.emojiKey);
+  glyph.textContent = state.emojiByKey.get(partData.emojiKey) ?? "";
   options.applyPixelArtworkClass(glyph, partData.emojiKey);
   code.className = "emoji-composition-code emoji-composition-code-condensed";
   code.textContent = compositionReductionLabel(partData.components.length, 1, {
@@ -159,6 +159,9 @@ function createCompositionPart(
 }
 
 export function renderEmojiComposition(options: {
+  byId?: Record<string, any>;
+  emojiByKey?: Record<string, string>;
+  searchAnnotations?: Record<string, string[]>;
   section: MinimalElement | null;
   equation: MinimalElement | null;
   modeButton: MinimalElement | null;

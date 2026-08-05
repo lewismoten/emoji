@@ -11,7 +11,7 @@ export function createListOrchestration(options: any) {
     focusedEmojiKey: state.focusedEmojiKey.get,
     groups: state.groups.get,
     orderMode: state.orderMode.get,
-    popularKeys: () => [...popularKeys]
+    popularKeys: () => [...popularKeys],
   };
   const {
     asEmojiCell,
@@ -97,8 +97,9 @@ export function createListOrchestration(options: any) {
     setFocusedEmojiKey: state.focusedEmojiKey.set,
   };
   const interaction = createEmojiListInteraction({
-    asItem,
-    asSequenceItem,
+    asItem: (renderState, key) => asItem(renderState, key, state),
+    asSequenceItem: (renderState, key) =>
+      asSequenceItem(renderState, key, state),
     drawList,
     emojiList: options.emojiList,
     flushEmojiCellFragment,

@@ -16,6 +16,7 @@ export function buildExplorerBootstrapRuntimeOptions(options: any) {
     fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     developerModeToggle: () => options.developerModeToggle(),
     modeChoices: () => options.modeChoices?.(),
+    displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
     displayGroupName: options.displayGroupName,
     drawList: options.drawList,
     emojiFontChoices: () => options.emojiFontChoices(),

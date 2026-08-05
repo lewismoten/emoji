@@ -49,6 +49,7 @@ export function populateGroupFilter(options: {
 export function populateSubGroupFilter(options: {
   availableSubGroupParents: string[];
   availableSubGroups: Record<string, string[]>;
+  displayUnicodeSubGroupName?: (name: string) => string;
   displayGroupName: (name: string) => string;
   getSubGroupRepresentativeEmoji: (group: string, subGroup: string) => string;
   selectedSubGroup: string;
@@ -69,7 +70,7 @@ export function populateSubGroupFilter(options: {
       option.value = options.subGroupSelectionKey(group, name);
       option.dataset.group = group;
       option.dataset.subgroup = name;
-      option.text = `${options.getSubGroupRepresentativeEmoji(group, name)} ${displayUnicodeSubGroupName(name)}`;
+      option.text = `${options.getSubGroupRepresentativeEmoji(group, name)} ${options.displayUnicodeSubGroupName?.(name) ?? displayUnicodeSubGroupName(name)}`;
       optionGroup.appendChild(option);
     });
     children.push(optionGroup);
@@ -97,7 +98,10 @@ export function populateSequenceTypeFilter(options: {
     ...options.availableSequenceTypes.map((type) => {
       const option = document.createElement("option");
       option.value = type;
-      option.text = `${options.sequenceTypeEmoji[type]} ${options.translate(options.sequenceTranslationKeys[type], options.sequenceTypeLabels[type])}`;
+      option.text = `${options.sequenceTypeEmoji[type] ?? ""} ${options.translate(
+        options.sequenceTranslationKeys[type] ?? type,
+        options.sequenceTypeLabels[type] ?? type,
+      )}`;
       return option;
     }),
   );
@@ -250,11 +254,26 @@ export function onCompactChoiceKeyDown(event: KeyboardEvent) {
   choices[nextIndex].focus();
 }
 
-export function displayUnicodeSubGroupName(name: string) {
-  if (state.searchSubgroupLabels.get(name))
-    return state.searchSubgroupLabels.get(name);
-  if (state.searchLabels.get(state.unicodeSubgroupLabelKeys.get(name)))
-    return state.searchLabels.get(state.unicodeSubgroupLabelKeys.get(name));
+export function displayUnicodeSubGroupName(
+  name: string,
+  options?: {
+    searchSubgroupLabels?: Record<string, string>;
+    searchLabels?: Record<string, string>;
+    unicodeSubgroupLabelKeys?: Record<string, string>;
+  },
+) {
+  const searchSubgroupLabels =
+    options?.searchSubgroupLabels ?? state.searchSubgroupLabels.get();
+  const searchLabels = options?.searchLabels ?? state.searchLabels.get();
+  const unicodeSubgroupLabelKeys =
+    options?.unicodeSubgroupLabelKeys ?? state.unicodeSubgroupLabelKeys.get();
+  const subgroupLabel = searchSubgroupLabels[name];
+  if (subgroupLabel) return subgroupLabel;
+  const labelKey = unicodeSubgroupLabelKeys[name];
+  if (labelKey) {
+    const label = searchLabels[labelKey];
+    if (label) return label;
+  }
   const conciseNames: Record<string, string> = {
     "animal-amphibian": "Amphibians",
     "animal-bird": "Birds",

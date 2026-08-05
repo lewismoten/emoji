@@ -134,10 +134,14 @@ export function describeCompositionPoint(
   };
 }
 
-export const compositionTitle = (emojiKey: string) =>
-    state.searchAnnotations.get(emojiKey)?.[0] ??
-    state.byId.get(emojiKey)?.shortName ??
-    displayEmojiKey(emojiKey);
+export const compositionTitle = (
+  emojiKey: string,
+  searchAnnotations: Record<string, string[]> = state.searchAnnotations.get(),
+  byId: Record<string, { shortName?: string }> = state.byId.get(),
+) =>
+  searchAnnotations[emojiKey]?.[0] ??
+  byId[emojiKey]?.shortName ??
+  displayEmojiKey(emojiKey);
 
 export function compositionReductionLabel(
   from: number,

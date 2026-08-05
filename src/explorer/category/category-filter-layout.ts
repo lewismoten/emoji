@@ -22,6 +22,7 @@ export function updateAvailableCategories(options: {
   selectedSequenceType: string;
   selectedSubGroup: string;
   sequenceTypeOrder: string[];
+  subGroups?: Record<string, string[]>;
   subGroupSelectionKey: (group: string, subGroup: string) => string;
   versionKeys: Map<string, Set<string>>;
   includedVersionKeys: Set<string>;
@@ -44,8 +45,8 @@ export function updateAvailableCategories(options: {
   const availableSubGroups = Object.fromEntries(
     availableGroups.map((group) => [
       group,
-      state.subGroups.get(group).filter((subGroup) =>
-        subgroupNames[group]?.has(subGroup),
+      (options.subGroups?.[group] ?? state.subGroups.get(group) ?? []).filter(
+        (subGroup: string) => subgroupNames[group]?.has(subGroup),
       ),
     ]),
   ) as Record<string, string[]>;

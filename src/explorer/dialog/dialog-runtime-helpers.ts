@@ -4,6 +4,10 @@ import {
 } from "./dialog-state.js";
 import * as state from "../../state.js";
 
+type RecordOrGetter<T> = Record<string, T> | (() => Record<string, T>);
+const resolveRecord = <T>(value?: RecordOrGetter<T>) =>
+  typeof value === "function" ? value() : value;
+
 export function getIntroducedVersion(options: {
   key: string;
   versionKeys: Map<string, Set<string>>;
@@ -56,10 +60,13 @@ export function updateDialogNavigation(options: {
 }
 
 export function updateCompositionBackButton(options: {
+  byId?: RecordOrGetter<{ shortName?: string }>;
   dialogParentPanel?: string;
   currentDialogParentStack?: string[];
+  emojiByKey?: RecordOrGetter<string>;
   emojiParent?: HTMLButtonElement;
   historyState: Record<string, unknown> | null | undefined;
+  searchAnnotations?: Record<string, string[]>;
   translate: (key: string, fallback: string) => string;
 }) {
   if (!options.emojiParent) return;
@@ -70,7 +77,9 @@ export function updateCompositionBackButton(options: {
     options.dialogParentPanel ??
     (options.historyState?.dialogParentPanel as string | undefined);
   const emojiParentAvailable = Boolean(
-    parentKey && state.emojiByKey.get(parentKey),
+    parentKey &&
+      (resolveRecord(options.emojiByKey)?.[parentKey] ??
+        state.emojiByKey.get(parentKey)),
   );
   const panelParentAvailable = Boolean(parentPanel);
   const available = emojiParentAvailable || panelParentAvailable;
@@ -79,7 +88,9 @@ export function updateCompositionBackButton(options: {
   const label =
     emojiParentAvailable && parentKey
       ? resolveCompositionParentLabel({
+          byId: resolveRecord(options.byId),
           parentKey,
+          searchAnnotations: options.searchAnnotations,
           translate: options.translate,
         })
       : parentPanel === "favorites"

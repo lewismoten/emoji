@@ -53,6 +53,7 @@ export function applyLoadedUrlStateToControls(options: {
   versionSelector: SelectLike;
   versionModeSelector: SelectLike;
   groups: string[];
+  subGroups?: Record<string, string[]>;
   skinToneCheckboxes: InputLike[];
   hairCheckboxes: InputLike[];
   genderCheckboxes: InputLike[];
@@ -72,7 +73,9 @@ export function applyLoadedUrlStateToControls(options: {
     : "";
   const selectedSubGroup =
     selectedGroup &&
-    state.subGroups.get(selectedGroup)?.includes(options.state.subGroup)
+    (options.subGroups?.[selectedGroup] ?? state.subGroups.get(selectedGroup))?.includes(
+      options.state.subGroup,
+    )
       ? options.subGroupSelectionKey(selectedGroup, options.state.subGroup)
       : "";
   options.skinToneCheckboxes.forEach((checkbox) => {

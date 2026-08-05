@@ -52,7 +52,7 @@ export function createEmojiSessionController(options: any) {
       updateRenderingDiagnostic: options.updateRenderingDiagnostic,
     });
 
-    state.currentEmojiCopies.set(currentEmojiCopies.value);
+    state.currentEmojiCopies.replace(currentEmojiCopies.value);
     state.currentEmojiKey.set(currentEmojiKey.value);
     state.currentDialogParentStack.set(currentDialogParentStack.value);
     state.dialogNavigationKeys.set(dialogNavigationKeys.value);

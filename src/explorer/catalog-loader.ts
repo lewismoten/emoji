@@ -5,10 +5,13 @@ import { EmojiData } from '../state.js';
 
 export type CatalogState = {
   allIds: string[];
+  byId: Record<string, EmojiData>;
+  emojiByKey: Record<string, string>;
   groupedKeys: Record<string, Record<string, string[]>>;
   groups: string[];
   items: any[];
   releasedIds: Set<string>;
+  subGroups: Record<string, string[]>;
 };
 
 export async function loadExplorerCatalog(options: {
@@ -113,9 +116,12 @@ type Catalog = {
   });
   return {
     allIds,
+    byId: state.byId.get(),
+    emojiByKey: state.emojiByKey.get(),
     groupedKeys,
     groups,
     items,
-    releasedIds: new Set(allIds)
+    releasedIds: new Set(allIds),
+    subGroups,
   };
 }

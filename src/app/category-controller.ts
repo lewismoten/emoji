@@ -1,5 +1,6 @@
 import {
   closeFilterPicker as closeFilterPickerHelper,
+  displayUnicodeSubGroupName as displayUnicodeSubGroupNameHelper,
   focusCompactChoice as focusCompactChoiceHelper,
   onCompactChoiceKeyDown as onCompactChoiceKeyDownHelper,
   openFilterPicker as openFilterPickerHelper,
@@ -102,6 +103,7 @@ export function createCategoryController(options: any) {
     buildRepresentatives: buildCategoryRepresentatives,
     closeFilterPicker: closeFilterPickerHelper,
     displayGroupName,
+    displayUnicodeSubGroupName: displayUnicodeSubGroupNameHelper,
     focusCompactChoice: focusCompactChoiceHelper,
     getGroupRepresentativeEmoji,
     getSubGroupRepresentativeEmoji,

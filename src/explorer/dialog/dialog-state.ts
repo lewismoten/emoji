@@ -77,12 +77,16 @@ export function resolveDialogNavigationState(
 }
 
 export function resolveCompositionParentLabel(options: {
+  byId?: Record<string, { shortName?: string }>;
   parentKey: string;
+  searchAnnotations?: Record<string, string[]>;
   translate: (key: string, fallback: string) => string;
 }) {
   if (!options.parentKey) return "";
   const parentName =
+    options.searchAnnotations?.[options.parentKey]?.[0] ??
     state.searchAnnotations.get(options.parentKey)?.[0] ??
+    options.byId?.[options.parentKey]?.shortName ??
     state.byId.get(options.parentKey)?.shortName ??
     displayEmojiKey(options.parentKey);
   return `${options.translate("backToEmoji", "Back to emoji")}: ${parentName}`;

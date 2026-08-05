@@ -15,9 +15,10 @@ export type EmojiData = {
   codePoints: string;
   status: EmojiStatus;
   shortName: string;
+  name?: string;
   group: string;
   subGroup: string;
-  order: number;
+  order?: number;
   sequenceType: EmojiSequenceType;
   unicodeSubGroup: string;
   hasExplorerSections?: boolean;
@@ -25,8 +26,8 @@ export type EmojiData = {
 
 export type EmojiItem = Pick<
   EmojiData,
-  "key" | "emoji" | "group" | "unicodeSubGroup" | "order"
->;
+  "key" | "emoji" | "group" | "unicodeSubGroup"
+> & { order?: number };
 
 export type Catalog = {
   allIds: string[];
@@ -43,8 +44,7 @@ const init = <T = any>(defaultValue: T, filter?: (value: T) => T) => {
   let _value = defaultValue;
   const get = () => _value;
   const set = (value: T) => {
-    if (typeof filter === "function") _value = filter(value);
-    _value = value;
+    _value = transformIfProvided(value, filter);
   };
   return { get, set };
 };
@@ -57,7 +57,11 @@ const initMap = <T = any>(
   transformer?: ValueTransformer<T>,
 ) => {
   let _value = defaultValue;
-  const get = (name: string) => _value.get(name);
+  const get = ((name?: string) =>
+    typeof name === "string" ? _value.get(name) : _value) as {
+    (): Map<string, T>;
+    (name: string): T | undefined;
+  };
   const set = (name: string, value: T) => {
     _value.set(name, transformIfProvided(value, transformer));
   };
@@ -74,7 +78,11 @@ const initRecord = <T = any>(
   transformer?: ValueTransformer<T>,
 ) => {
   let _value = defaultValue;
-  const get = (name: string) => _value[name];
+  const get = ((name?: string) =>
+    typeof name === "string" ? _value[name] : _value) as {
+    (): Record<string, T>;
+    (name: string): T | undefined;
+  };
   const set = (name: string, value: T) => {
     _value[name] = transformIfProvided(value, transformer);
   };
@@ -91,14 +99,15 @@ const initSet = <T = any>(
   transformer?: ValueTransformer<Set<T>>,
 ) => {
   let _value = defaultValue;
-  const first = () => _value.values().next().value;
+  const get = () => _value;
+  const first = (): T | undefined => _value.values().next().value;
   const replace = (value: Set<T>) => {
     _value = transformIfProvided(value, transformer);
   };
   const clear = () => {
     _value.clear();
   };
-  return { first, replace, clear };
+  return { get, first, replace, clear };
 };
 const initNum = <T extends number = number>(
   defaultValue: T,

@@ -34,6 +34,7 @@ function appendModifierPart(
 export function updateActiveFilterSummary(options: {
   activeFilterSummary?: HTMLElement;
   activeFilterText?: HTMLElement;
+  displayUnicodeSubGroupName?: (name: string) => string;
   displayGroupName: (name: string) => string;
   genderCheckboxes: CheckboxLike[];
   hairCheckboxes: CheckboxLike[];
@@ -62,8 +63,10 @@ export function updateActiveFilterSummary(options: {
     appendTextPart(
       fragment,
       options.translate(
-        options.sequenceTranslationKeys[options.selectedSequenceType],
-        options.sequenceTypeLabels[options.selectedSequenceType],
+        options.sequenceTranslationKeys[options.selectedSequenceType] ??
+          options.selectedSequenceType,
+        options.sequenceTypeLabels[options.selectedSequenceType] ??
+          options.selectedSequenceType,
       ),
     );
   } else {
@@ -73,9 +76,13 @@ export function updateActiveFilterSummary(options: {
     if (options.selectedSubGroup) {
       appendTextPart(
         fragment,
-        displayUnicodeSubGroupName(
+        options.displayUnicodeSubGroupName?.(
           options.selectedSubGroup.split("::").slice(1).join("::"),
-        ),
+        ) ??
+          displayUnicodeSubGroupName(
+            options.selectedSubGroup.split("::").slice(1).join("::"),
+          ) ??
+          options.selectedSubGroup,
       );
     }
   }

@@ -59,20 +59,25 @@ export function nextCopiedEmojiKeys(copiedEmojiKeys: string[], key: string) {
   ].slice(0, 24);
 }
 
-const savedEmojiLabel = (key: string) =>
-  state.searchAnnotations.get(key)?.[0] ?? 
-  state.byId.get(key)?.shortName ?? 
-  displayEmojiKey(key);
+export const savedEmojiLabel = (
+  key: string,
+  searchAnnotations: Record<string, string[]> = state.searchAnnotations.get(),
+  byId: Record<string, { shortName?: string }> = state.byId.get(),
+) =>
+  searchAnnotations[key]?.[0] ?? byId[key]?.shortName ?? displayEmojiKey(key);
 
 export function renderSavedEmojiList(options: {
   container: MinimalElement;
   empty: MinimalElement;
   keys: string[];
   source: string;
+  byId?: Record<string, { shortName?: string }>;
+  emojiByKey?: Record<string, string>;
+  searchAnnotations?: Record<string, string[]>;
   applyPixelArtworkClass: (element: MinimalElement, emojiKey: string) => void;
 }) {
   const available = options.keys.filter(
-    (key) => state.emojiByKey.get(key) !== undefined,
+    (key) => (options.emojiByKey ?? state.emojiByKey.get())[key] !== undefined,
   );
   options.container.replaceChildren(
     ...available.map((key, index) => {
@@ -81,11 +86,16 @@ export function renderSavedEmojiList(options: {
       button.dataset.savedSource = options.source;
       button.tabIndex = index === 0 ? 0 : -1;
       button.style.setProperty("--saved-index", String(Math.min(index, 12)));
-      button.textContent = state.emojiByKey.get(key);
+      button.textContent =
+        options.emojiByKey?.[key] ?? state.emojiByKey.get(key) ?? "";
       options.applyPixelArtworkClass(button, key);
       button.setAttribute(
         "aria-label",
-        savedEmojiLabel(key),
+        savedEmojiLabel(
+          key,
+          options.searchAnnotations ?? state.searchAnnotations.get(),
+          options.byId ?? state.byId.get(),
+        ),
       );
       return button;
     }),
@@ -98,10 +108,13 @@ export function createSavedEmojiController(options: {
     element: MinimalElement,
     emojiKey: string,
   ) => void;
+  byId?: () => Record<string, { shortName?: string }>;
   copiedEmojiKeys: () => string[];
   currentEmojiKey: () => string;
+  emojiByKey?: () => Record<string, string>;
   favoriteEmojiKeys: () => string[];
   savedDialog: () => MinimalElement | undefined;
+  searchAnnotations?: () => Record<string, string[]>;
   setCopiedEmojiKeys: (keys: string[]) => void;
   setFavoriteEmojiKeys: (keys: string[]) => void;
   translate: (key: string, fallback: string) => string;
@@ -136,6 +149,9 @@ export function createSavedEmojiController(options: {
       keys,
       source,
       applyPixelArtworkClass: options.applyPixelArtworkClass(),
+      byId: options.byId?.(),
+      emojiByKey: options.emojiByKey?.(),
+      searchAnnotations: options.searchAnnotations?.(),
     });
   }
 

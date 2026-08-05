@@ -66,7 +66,7 @@ export function createExplorerDataController(options: any) {
           const versions = await options.loadVersionCatalog();
           state.versionManifests.set(versions.released);
           state.proposedVersionManifests.set(versions.proposed);
-          state.versionKeys.set(versions.versionKeys);
+          state.versionKeys.replace(versions.versionKeys);
           options.rebuildCodePointLookup();
           options.updateModifierArtwork();
           options.buildRepresentatives();

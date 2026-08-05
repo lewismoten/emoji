@@ -99,7 +99,6 @@ export function createVersionController(options: any) {
     sequenceTypeSelector: options.sequenceTypeSelector,
     skinToneCheckboxes: options.skinToneCheckboxes,
     skinToneFieldset: options.skinToneFieldset,
-    state: options.state,
     subGroupSelector: options.subGroupSelector,
     syncVersionRange: syncVersionRangeHelper,
     translate: options.translate,

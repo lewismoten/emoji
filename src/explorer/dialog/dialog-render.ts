@@ -4,17 +4,24 @@ import { resolveRenderingDiagnostic } from "../emoji/rendering-diagnostic.js";
 import * as state from "../../state.js";
 import { displayUnicodeSubGroupName } from "../filters/filter-picker.js";
 
+type RecordOrGetter<T> = Record<string, T> | (() => Record<string, T>);
+const resolveRecord = <T>(value?: RecordOrGetter<T>) =>
+  typeof value === "function" ? value() : value;
+
 export function updateEmojiComposition(options: {
   applyPixelArtworkClass: (element: any, emojiKey: string) => void;
   applyStandalonePixelArtwork: (element: any, emojiKey?: string) => void;
+  byId?: RecordOrGetter<any>;
   developerMode: boolean;
   detailsVisible: boolean;
   dir: string;
   emojiKeyByCodePoints: Map<string, string>;
+  emojiByKey?: Record<string, string>;
   exampleDialog: HTMLElement;
   item: any;
   locale?: string;
   numberingSystem?: string;
+  searchAnnotations?: Record<string, string[]>;
   translate: (key: string, fallback: string) => string;
   value: string;
   compositionMode: "condensed" | "full";
@@ -32,6 +39,9 @@ export function updateEmojiComposition(options: {
     detailsVisible: options.detailsVisible,
     compositionMode: options.compositionMode,
     emojiKeyByCodePoints: options.emojiKeyByCodePoints,
+    emojiByKey: options.emojiByKey,
+    searchAnnotations: options.searchAnnotations,
+    byId: resolveRecord(options.byId),
     translate: options.translate,
     applyPixelArtworkClass: options.applyPixelArtworkClass,
     applyStandalonePixelArtwork: options.applyStandalonePixelArtwork,
@@ -42,6 +52,7 @@ export function updateEmojiComposition(options: {
 }
 
 export function updateRenderingDiagnostic(options: {
+  byId?: RecordOrGetter<any>;
   developerMode: boolean;
   fullDeveloperMode?: boolean;
   detailsVisible: boolean;
@@ -62,7 +73,9 @@ export function updateRenderingDiagnostic(options: {
   ) as HTMLElement | null;
   if (!section || !invitation) return;
   const diagnostic = resolveRenderingDiagnostic({
-    codePoints: state.byId.get(options.emojiKey)?.codePoints,
+    codePoints:
+      resolveRecord(options.byId)?.[options.emojiKey]?.codePoints ??
+      state.byId.get(options.emojiKey)?.codePoints,
     emojiValue: options.emojiValue,
     painted: options.painted,
     privateUsePoint: options.privateUsePoint,
@@ -101,9 +114,12 @@ export function renderEmojiDialog(options: {
     element: Element | null,
     emojiKey: string,
   ) => void;
+  byId?: RecordOrGetter<any>;
   compositionMode: string;
   currentEmojiKey: string;
   developerMode: boolean;
+  displayUnicodeSubGroupName?: (name: string) => string;
+  emojiByKey?: RecordOrGetter<string>;
   fullDeveloperMode?: boolean;
   dialogNavigationKeys: string[];
   displayGroupName: (name: string) => string;
@@ -114,6 +130,7 @@ export function renderEmojiDialog(options: {
   item: any;
   locale?: string;
   numberingSystem?: string;
+  searchAnnotations?: Record<string, string[]>;
   selectedSearchLocale: string;
   sequenceTranslationKeys: Record<string, string>;
   sequenceTypeLabels: Record<string, string>;
@@ -134,10 +151,13 @@ export function renderEmojiDialog(options: {
     emojiValue: options.value,
     item: options.item,
     groupText: options.displayGroupName(options.group),
-    subGroupText: displayUnicodeSubGroupName(options.subGroup),
+    subGroupText:
+      options.displayUnicodeSubGroupName?.(options.subGroup) ??
+      displayUnicodeSubGroupName(options.subGroup) ??
+      options.subGroup,
     introducedVersion: options.getIntroducedVersion(options.id),
-    selectedSearchLocale: options.selectedSearchLocale,
-    annotations: options.annotations,
+    selectedSearchLocale: options.selectedSearchLocale ?? "",
+    annotations: options.searchAnnotations?.[options.id] ?? options.annotations,
     sequenceTypeLabels: options.sequenceTypeLabels,
     sequenceTranslationKeys: options.sequenceTranslationKeys,
     statusTranslationKeys: options.statusTranslationKeys,
