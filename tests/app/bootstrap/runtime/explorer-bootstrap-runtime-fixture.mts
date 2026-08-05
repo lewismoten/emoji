@@ -74,6 +74,7 @@ export async function createBootstrapRuntimeFixture() {
   for (const [from, to] of sourceReplacements)
     sourceText = sourceText.replace(from, to);
   sourceText = sourceText
+    .replace('from "../../state.js";', 'from "../../../src/state.js";')
     .replace(/value: string\[\]/g, "value")
     .replace(/options: any/g, "options")
     .replace(/args: any\[\]/g, "args")

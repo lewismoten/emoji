@@ -28,14 +28,35 @@ export function createExplorerShellDependencies() {
 
 export function createExplorerShell(options: any, dependencies?: any) {
   const helpers = dependencies ?? createExplorerShellDependencies();
+  const providedState = options.state?.();
+  const readRecord: any = (getter, key) => () =>
+    providedState?.[key] ?? getter();
+  const readList: any = (getter, key) => () =>
+    providedState?.[key] ?? getter();
+  const writeList: any =
+    (setter, key) =>
+    (value: string[]) => {
+      if (providedState) providedState[key] = value;
+      else setter(value);
+    };
   const savedEmoji = helpers.createSavedEmojiController({
     applyPixelArtworkClass: () => options.applyPixelArtworkClass(),
-    copiedEmojiKeys: state.copiedEmojiKeys.get,
-    currentEmojiKey: state.currentEmojiKey.get,
-    favoriteEmojiKeys: state.favoriteEmojiKeys.get,
+    byId: readRecord(state.byId.get, "byId"),
+    copiedEmojiKeys: readList(state.copiedEmojiKeys.get, "copiedEmojiKeys"),
+    currentEmojiKey: () =>
+      providedState?.currentEmojiKey ?? state.currentEmojiKey.get(),
+    emojiByKey: readRecord(state.emojiByKey.get, "emojiByKey"),
+    favoriteEmojiKeys: readList(
+      state.favoriteEmojiKeys.get,
+      "favoriteEmojiKeys",
+    ),
     savedDialog: options.savedDialog,
-    setCopiedEmojiKeys: state.copiedEmojiKeys.set,
-    setFavoriteEmojiKeys: state.favoriteEmojiKeys.set,
+    searchAnnotations: readRecord(state.searchAnnotations.get, "searchAnnotations"),
+    setCopiedEmojiKeys: writeList(state.copiedEmojiKeys.set, "copiedEmojiKeys"),
+    setFavoriteEmojiKeys: writeList(
+      state.favoriteEmojiKeys.set,
+      "favoriteEmojiKeys",
+    ),
     translate: options.translate,
   });
 
@@ -56,21 +77,31 @@ export function createExplorerShell(options: any, dependencies?: any) {
   function disableDeveloperFeatures() {
     const versionModeSelector = options.versionModeSelector();
     if (versionModeSelector) versionModeSelector.value = "through";
-    const latest = state.versionManifests.get().at(-1)?.version;
+    const latest =
+      providedState?.versionManifests?.at(-1)?.version ??
+      state.versionManifests.get().at(-1)?.version;
     const versionSelector = options.versionSelector();
     if (latest && versionSelector) versionSelector.value = latest;
     options.renderVersionModeToggle();
     options.syncVersionRange();
-    if (state.orderMode.get() === "sequence") {
-      state.orderMode.set("grouped");
-      state.selectedSequenceType.set("");
+    const currentOrderMode = providedState?.orderMode ?? state.orderMode.get();
+    if (currentOrderMode === "sequence") {
+      if (providedState) {
+        providedState.orderMode = "grouped";
+        providedState.selectedSequenceType = "";
+      } else {
+        state.orderMode.set("grouped");
+        state.selectedSequenceType.set("");
+      }
       options.orderButtons()?.forEach((button: HTMLButtonElement) => {
-        const active = button.dataset.order === state.orderMode.get();
+        const active =
+          button.dataset.order ===
+          (providedState?.orderMode ?? state.orderMode.get());
         button.classList.toggle("is-active", active);
         aria.setPressed(button, active);
       });
     }
-    if (state.items.get().length > 0) {
+    if ((providedState?.items ?? state.items.get()).length > 0) {
       options.renderCategoryFilters();
       options.drawList();
     }

@@ -27,6 +27,7 @@ export async function loadExplorerShellFixture() {
       'from "./pwa-panels-stub.mjs";',
     )
     .replace('from "../explorer-ui.js";', 'from "./explorer-ui-stub.mjs";')
+    .replace('from "../state.js";', 'from "../../../src/state.js";')
     .replace(/options: any/g, "options")
     .replace(/dependencies\?: any/g, "dependencies")
     .replace(/keys: string\[\]/g, "keys")

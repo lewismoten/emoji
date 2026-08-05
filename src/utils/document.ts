@@ -13,7 +13,11 @@ export const getData = (name: string): string | undefined =>
   documentRef()?.documentElement.dataset[name];
 
 export const all = <T extends Element = HTMLElement>(className: string) =>
-  Array.from(documentRef()?.getElementsByClassName(className) ?? []) as T[];
+  Array.from(
+    documentRef()?.getElementsByClassName?.(className) ??
+      documentRef()?.querySelectorAll?.(`.${className}`) ??
+      [],
+  ) as T[];
 
 export const selectAllAndApply = <T extends Element = Element>(
   selector: string,

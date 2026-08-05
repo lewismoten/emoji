@@ -5,6 +5,7 @@ export function createPixelEditorRuntime(options: any) {
   const loadPixelEditor = createPixelEditorLoader({
     currentEmojiKey: () => options.currentEmojiKey(),
     dialog: () => options.dialog(),
+    emojiByKey: () => options.emojiByKey(),
     formatNumber: options.formatNumber,
     formatPercent: options.formatPercent,
     getEditor: () => options.getEditor(),

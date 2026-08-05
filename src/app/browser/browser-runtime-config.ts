@@ -23,6 +23,7 @@ export function createBrowserRuntimeConfig(options: any) {
     searchLocales: options.searchLocales,
     selectedSearchLocale: options.selectedSearchLocale,
     setApplyingUrlState: options.setApplyingUrlState,
+    setSearchAnnotations: options.setSearchAnnotations,
     setSearchLabels: options.setSearchLabels,
     setSearchLocales: options.setSearchLocales,
     setSearchSubgroupLabels: options.setSearchSubgroupLabels,

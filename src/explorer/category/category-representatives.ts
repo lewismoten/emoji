@@ -15,23 +15,27 @@ type Compare<T> = {
 const addSubGroups = (
   group: string, 
   compare: Compare<state.EmojiItem>,
-  subgroupKeys: Set<string>
+  subgroupKeys: Set<string>,
+  keyBuilder: (group: string, subGroup: string) => string,
+  sourceItems: state.EmojiItem[],
 ) => (subGroup: string) => {
-  const item = state.items.get()
+  const item = sourceItems
     .filter(inSubGroup(group, subGroup))
     .sort(compare)[0];
   if (!item) return;
-  state.subGroupRepresentativeEmoji.set(subGroupKey(group, subGroup), item.emoji)
+  state.subGroupRepresentativeEmoji.set(keyBuilder(group, subGroup), item.emoji)
   subgroupKeys.add(item.key);
 }
 
 const setupEmoji = (
-  compare: Compare<state.EmojiItem>
+  compare: Compare<state.EmojiItem>,
+  keyBuilder: (group: string, subGroup: string) => string,
+  sourceItems: state.EmojiItem[],
 ) => (group:string) => {
     const subgroupKeys = new Set<string>();
     (state.subGroups.get(group) ?? [])
-      .forEach(addSubGroups(group, compare, subgroupKeys));
-    const candidates = state.items.get()
+      .forEach(addSubGroups(group, compare, subgroupKeys, keyBuilder, sourceItems));
+    const candidates = sourceItems
       .filter((item) => item.group === group)
       .sort(compare);
     const item =
@@ -90,7 +94,7 @@ export function buildCategoryRepresentatives(options?: {
     left.localeCompare(right);
   if (!options) {
     state.subGroupRepresentativeEmoji.clear();
-    groupNames.forEach(setupEmoji(byIntroduction));
+    groupNames.forEach(setupEmoji(byIntroduction, subGroupKey, items));
     return;
   }
   const groupMap = new Map<string, string>();
@@ -115,12 +119,9 @@ export function buildCategoryRepresentatives(options?: {
     else groupMap.set(name, value);
     originalSet(name, value);
   }) as typeof state.subGroupRepresentativeEmoji.set;
-  const previousKeyBuilder = subGroupKey;
   try {
-    (subGroupKey as any) = keyFor;
-    groupNames.forEach(setupEmoji(byIntroduction));
+    groupNames.forEach(setupEmoji(byIntroduction, keyFor, items));
   } finally {
-    (subGroupKey as any) = previousKeyBuilder;
     state.subGroupRepresentativeEmoji.set = previousGroupSetter;
     state.items.set(previousItems);
     state.groups.set(previousGroups);

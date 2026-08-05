@@ -32,6 +32,10 @@ const transformedSource = sourceText
     'import { popularKeys } from "../explorer/emoji/popular-keys.js";',
     'import { popularKeys } from "./popular-keys-stub.mjs";',
   )
+  .replace(
+    'import * as state from "../state.js";',
+    'import * as state from "../../../src/state.js";',
+  )
   .replace(/options: any/g, "options")
   .replace(
     /let renderEmojiList: \(\.\.\.args: any\[\]\) => void;/g,

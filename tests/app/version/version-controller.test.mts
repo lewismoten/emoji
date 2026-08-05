@@ -27,6 +27,10 @@ const transformedSource = sourceText
     'import { createExplorerDataController } from "../data/explorer-data-controller.js";',
     'import { createExplorerDataController } from "./explorer-data-controller-stub.mjs";',
   )
+  .replace(
+    'import * as state from "../../state.js";',
+    'import * as state from "../../../src/state.js";',
+  )
   .replace(/options: any/g, "options")
   .replace(/version: string/g, "version");
 

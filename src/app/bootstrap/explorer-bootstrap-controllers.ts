@@ -64,6 +64,7 @@ export function createExplorerBootstrapControllersWithFactories(
     applyPixelArtworkClass: options.applyPixelArtworkClass,
     displayExplorerLabel: options.displayExplorerLabel,
     displayGroupName: categoryController.displayGroupName,
+    displayUnicodeSubGroupName: categoryController.displayUnicodeSubGroupName,
     emojiList: options.emojiList,
     formatNumber: options.formatNumber,
     genderCheckboxes: options.genderCheckboxes,
@@ -142,6 +143,7 @@ export function createExplorerBootstrapControllersWithFactories(
     dialog: options.dialog,
     displayedKeys: () => state().displayedKeys,
     drawList: listOrchestration.drawList,
+    emojiByKey: () => state().emojiByKey,
     ensurePanelDialog: options.ensurePanelDialog,
     focusInitialAction: options.focusInitialEmojiDialogAction,
     genderCheckboxes: options.genderCheckboxes,
@@ -173,6 +175,7 @@ export function createExplorerBootstrapControllersWithFactories(
     showEmoji: options.showEmoji,
     skinToneCheckboxes: options.skinToneCheckboxes,
     subGroupSelectionKey: categoryController.subGroupSelectionKey,
+    subGroups: () => state().subGroups,
     suppressedPanelCloses: options.suppressedPanelCloses,
     syncVersionRange: (...args: any[]) =>
       versionController.syncVersionRange(...args),
@@ -183,11 +186,13 @@ export function createExplorerBootstrapControllersWithFactories(
   });
 
   const dialogViewRuntime = createDialogViewRuntimeFactory({
+    byId: () => state().byId,
     currentDialogParentStack: () => state().currentDialogParentStack,
     currentEmojiKey: () => state().currentEmojiKey,
     developerModeEnabled: options.developerModeEnabled,
     fullDeveloperModeEnabled: options.fullDeveloperModeEnabled,
     dialog: options.dialog,
+    emojiByKey: () => state().emojiByKey,
     emojiParent: options.emojiParent,
     ensurePixelEditor: options.ensurePixelEditor,
     getPixelEditor: options.getPixelEditor,
@@ -200,11 +205,13 @@ export function createExplorerBootstrapControllersWithFactories(
 
   const onEmojiDialogClick = createEmojiDialogClickRuntimeFactory({
     animateCopy: options.animateCopy,
+    byId: () => state().byId,
     copy: options.copyToClipboardValue,
     currentDialogParentStack: () => state().currentDialogParentStack,
     currentEmojiCopies: () => state().currentEmojiCopies,
     currentEmojiKey: () => state().currentEmojiKey,
     dialog: options.dialog,
+    emojiByKey: () => state().emojiByKey,
     languageList: options.languageList,
     openPanel: options.openPanel,
     panelDialogs: options.panelDialogs,

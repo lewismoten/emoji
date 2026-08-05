@@ -27,6 +27,10 @@ export async function loadListOrchestrationFixture() {
     .replace(
       'import { popularKeys } from "../explorer/emoji/popular-keys.js";',
       'import { popularKeys } from "./popular-keys-stub.mjs";',
+    )
+    .replace(
+      'import * as state from "../state.js";',
+      'import * as state from "../../../src/state.js";',
     );
 
   const tempRoot = path.join(root, "build/tests/.tmp");

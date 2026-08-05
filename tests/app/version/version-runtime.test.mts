@@ -27,6 +27,10 @@ const transformedSource = sourceText
     'import { createVersionController } from "./version-controller.js";',
     'import { createVersionController } from "./version-controller-stub.mjs";',
   )
+  .replace(
+    'import * as state from "../../state.js";',
+    'import * as state from "../../../src/state.js";',
+  )
   .replace(/options: any/g, "options")
   .replace(/item: any/g, "item")
   .replace(/key: string/g, "key")

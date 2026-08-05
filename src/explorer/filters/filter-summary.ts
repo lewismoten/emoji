@@ -1,4 +1,4 @@
-import { displayUnicodeSubGroupName } from "./filter-picker";
+import { displayUnicodeSubGroupName } from "./filter-picker.js";
 
 type CheckboxLike = {
   checked: boolean;

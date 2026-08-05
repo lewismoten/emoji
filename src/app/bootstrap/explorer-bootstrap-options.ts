@@ -21,6 +21,7 @@ export function buildExplorerBootstrapShellOptions(options: any) {
     renderSearchLanguages: () => options.renderSearchLanguages(),
     renderVersionModeToggle: () => options.renderVersionModeToggle(),
     savedDialog: () => options.savedDialog(),
+    state: options.state,
     setDialogView: options.setDialogView,
     showEmoji: options.showEmoji,
     skinToneCheckboxes: () => options.skinToneCheckboxes(),

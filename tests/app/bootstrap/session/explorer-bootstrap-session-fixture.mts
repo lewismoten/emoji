@@ -71,7 +71,12 @@ export async function createBootstrapSessionFixture() {
       'from "../explorer-preferences.js";',
       'from "./preferences-stub.mjs";',
     )
-    .replace('from "../../utils/i18n.js";', 'from "./i18n-stub.mjs";');
+    .replace('from "../../utils/i18n.js";', 'from "./i18n-stub.mjs";')
+    .replace(
+      'from "../../render-theme-toggle.js";',
+      'from "../../../src/render-theme-toggle.js";',
+    )
+    .replace('from "../../state.js";', 'from "../../../src/state.js";');
 
   const tempRoot = path.join(root, "build/tests/.tmp");
   await fs.mkdir(tempRoot, { recursive: true });

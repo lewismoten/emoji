@@ -13,11 +13,14 @@ import * as aria from "../utils/aria.js";
 
 /** Own category selection, localized labels, and category filter rendering. */
 export function createCategoryController(options: any) {
+  const providedState = options.state?.();
   const subGroupSelectionKey = (group: string, subGroup: string) =>
     `${group}::${subGroup}`;
 
   const displayGroupName = (name: string) =>
-    state.searchLabels.get(options.unicodeGroupLabelKeys[name]) ?? name;
+    providedState?.searchLabels?.[options.unicodeGroupLabelKeys[name]] ??
+    state.searchLabels.get(options.unicodeGroupLabelKeys[name]) ??
+    name;
 
   const getGroupRepresentativeEmoji = (group: string) =>
     state.groupRepresentativeEmoji.get(group) ?? "";
@@ -93,7 +96,7 @@ export function createCategoryController(options: any) {
     categoryFilterRenderer;
 
   const refreshLocalizedLabels = () => {
-    if (state.groups.get().length === 0) return;
+    if ((providedState?.groups ?? state.groups.get()).length === 0) return;
     renderCategoryFilters();
     options.syncVersionRange();
     options.drawList();
