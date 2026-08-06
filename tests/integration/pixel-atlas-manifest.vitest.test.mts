@@ -109,7 +109,8 @@ describe("pixel-atlas-manifest integration", () => {
       "every pixel atlas sheet must be grouped, labeled, compact, and within capacity",
     );
     assert.ok(
-      new Set(pixelAtlasManifest.sheets.map((sheet) => sheet.imageHeight)).size > 1,
+      new Set(pixelAtlasManifest.sheets.map((sheet) => sheet.imageHeight))
+        .size > 1,
       "pixel atlas sheets must use variable heights instead of a fixed 16-row canvas",
     );
   });

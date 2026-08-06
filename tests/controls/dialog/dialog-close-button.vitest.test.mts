@@ -25,7 +25,8 @@ describe("dialog-close-button", () => {
     ).document;
 
     try {
-      const closeForm = DialogCloseButtonControl.create() as unknown as FakeElement;
+      const closeForm =
+        DialogCloseButtonControl.create() as unknown as FakeElement;
       const styles = (documentRef.head.children as FakeElement[]).filter(
         (child) => child.tagName === "STYLE",
       );
@@ -41,7 +42,10 @@ describe("dialog-close-button", () => {
       assert.equal(closeButton.className, dialogCloseButtonClassName);
       assert.equal(closeButton.type, "submit");
       assert.equal(closeButton.dataset.i18nAriaLabel, dialogCloseButtonAriaKey);
-      assert.equal(closeButton.getAttribute("aria-label"), dialogCloseButtonLabel);
+      assert.equal(
+        closeButton.getAttribute("aria-label"),
+        dialogCloseButtonLabel,
+      );
       assert.equal(closeButton.textContent, dialogCloseButtonText);
       const closeMarkup = DialogCloseButtonControl.toMarkup();
       assert.match(closeMarkup, /^<form method="dialog"><button /);

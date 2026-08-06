@@ -4,7 +4,10 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   resolve: {
     alias: {
-      "@lewismoten/emoji/all": path.resolve(process.cwd(), "dist/esm/all.min.js"),
+      "@lewismoten/emoji/all": path.resolve(
+        process.cwd(),
+        "dist/esm/all.min.js",
+      ),
     },
   },
   test: {

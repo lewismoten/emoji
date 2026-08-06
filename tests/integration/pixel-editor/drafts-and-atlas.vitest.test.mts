@@ -3,7 +3,11 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { describe, it } from "vitest";
 
-import { demoStyles, pixelEditorScript, root } from "../../shared/unit-fixtures.mjs";
+import {
+  demoStyles,
+  pixelEditorScript,
+  root,
+} from "../../shared/unit-fixtures.mjs";
 
 describe("pixel-editor drafts-and-atlas integration", () => {
   it("preserves draft, atlas, and preview workflows", async () => {

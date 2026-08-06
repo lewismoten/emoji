@@ -72,12 +72,13 @@ describe("localized-search", () => {
       );
       assert.ok(locale.count > 0 || locale.characterLabelCount > 0);
       if (!locale.baseLocale) assert.ok(locale.characterLabelCount > 0);
-      assert.ok(Object.keys(pack.annotations).every((key) => knownEmoji.has(key)));
+      assert.ok(
+        Object.keys(pack.annotations).every((key) => knownEmoji.has(key)),
+      );
     }
 
-    const { createEmojiSearch, mergeEmojiLocalePacks } = await import(
-      "../../../library/search.js"
-    );
+    const { createEmojiSearch, mergeEmojiLocalePacks } =
+      await import("../../../library/search.js");
     const searchEnglish = createEmojiSearch(
       require("@lewismoten/emoji/locales/en") as LocalePack,
     );

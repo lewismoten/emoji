@@ -14,14 +14,17 @@ describe("help-settings-dialog", () => {
     ).document;
 
     try {
-      const dialog = HelpSettingsDialogControl.create() as unknown as FakeElement;
+      const dialog =
+        HelpSettingsDialogControl.create() as unknown as FakeElement;
       const styleBlocks = documentRef.head.children.filter(
         (child) => child instanceof FakeElement && child.tagName === "STYLE",
       ) as FakeElement[];
 
       assert.ok(styleBlocks.length >= 4);
       assert.equal(
-        styleBlocks.some((item) => item.id === "help-settings-dialog-control-style"),
+        styleBlocks.some(
+          (item) => item.id === "help-settings-dialog-control-style",
+        ),
         true,
       );
       assert.equal(
@@ -29,11 +32,15 @@ describe("help-settings-dialog", () => {
         true,
       );
       assert.equal(
-        styleBlocks.some((item) => item.id === "dialog-close-button-control-style"),
+        styleBlocks.some(
+          (item) => item.id === "dialog-close-button-control-style",
+        ),
         true,
       );
       assert.equal(
-        styleBlocks.some((item) => item.id === "theme-choice-group-control-style"),
+        styleBlocks.some(
+          (item) => item.id === "theme-choice-group-control-style",
+        ),
         true,
       );
       assert.equal(dialog.className, "dialog help-dialog");

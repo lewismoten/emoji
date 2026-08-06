@@ -30,7 +30,9 @@ describe("explorer-app", () => {
 
     const tempRoot = path.join(root, "build/tests/.tmp");
     await fs.mkdir(tempRoot, { recursive: true });
-    const tempDirectory = await fs.mkdtemp(path.join(tempRoot, "explorer-app-"));
+    const tempDirectory = await fs.mkdtemp(
+      path.join(tempRoot, "explorer-app-"),
+    );
 
     await fs.writeFile(
       path.join(tempDirectory, "explorer-app-lifecycle-stub.mjs"),
@@ -67,7 +69,10 @@ describe("explorer-app", () => {
         "}",
       ].join("\n"),
     );
-    await fs.writeFile(path.join(tempDirectory, "explorer-app.mjs"), transformedSource);
+    await fs.writeFile(
+      path.join(tempDirectory, "explorer-app.mjs"),
+      transformedSource,
+    );
 
     const module = await import(
       pathToFileURL(path.join(tempDirectory, "explorer-app.mjs")).href
@@ -77,7 +82,8 @@ describe("explorer-app", () => {
         .href
     );
     const eventsStub = await import(
-      pathToFileURL(path.join(tempDirectory, "explorer-app-events-stub.mjs")).href
+      pathToFileURL(path.join(tempDirectory, "explorer-app-events-stub.mjs"))
+        .href
     );
     const controlStub = await import(
       pathToFileURL(path.join(tempDirectory, "control-startup-stub.mjs")).href
@@ -88,7 +94,9 @@ describe("explorer-app", () => {
       lifecycle: true,
       options: { id: "lifecycle" },
     });
-    assert.deepEqual(lifecycleStub.createExplorerAppCalls, [{ id: "lifecycle" }]);
+    assert.deepEqual(lifecycleStub.createExplorerAppCalls, [
+      { id: "lifecycle" },
+    ]);
 
     const eventsResult = module.bindExplorerEvents({ id: "events" });
     assert.deepEqual(eventsResult, {

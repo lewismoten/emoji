@@ -34,7 +34,10 @@ describe("explorer-runtime", () => {
     const resolved = runtime.resolveElements();
     assert.equal(resolved, elements);
     assert.deepEqual(ensureCalls, ["ensureUtilityControls", "getElements"]);
-    assert.equal(elements.languagePickerLabel.id, "language-picker-current-label");
+    assert.equal(
+      elements.languagePickerLabel.id,
+      "language-picker-current-label",
+    );
     assert.equal(
       languagePicker.attributes.get("aria-labelledby"),
       "language-picker-accessible-label language-picker-current-label",

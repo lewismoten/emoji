@@ -14,7 +14,8 @@ describe("advanced-filters-dialog", () => {
     ).document;
 
     try {
-      const dialog = AdvancedFiltersDialogControl.create() as unknown as FakeElement;
+      const dialog =
+        AdvancedFiltersDialogControl.create() as unknown as FakeElement;
       const styleBlocks = documentRef.head.children.filter(
         (child: FakeElement) =>
           child instanceof FakeElement && child.tagName === "STYLE",
@@ -28,7 +29,9 @@ describe("advanced-filters-dialog", () => {
         true,
       );
       assert.equal(
-        styleBlocks.some((item) => item.id === "dialog-close-button-control-style"),
+        styleBlocks.some(
+          (item) => item.id === "dialog-close-button-control-style",
+        ),
         true,
       );
       assert.equal(

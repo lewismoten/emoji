@@ -33,7 +33,11 @@ describe("explorer-localization-layout integration", () => {
       /جارٍ تحميل مستكشف الرموز التعبيرية/,
       "Arabic demo loading state must be localized before JavaScript runs",
     );
-    assert.match(arabicDemo, /نسخ الرابط/, "Arabic demo must localize the copy-link action");
+    assert.match(
+      arabicDemo,
+      /نسخ الرابط/,
+      "Arabic demo must localize the copy-link action",
+    );
     assert.equal(
       arabicUiLocale.keyboardShortcuts,
       "اختصارات لوحة المفاتيح",

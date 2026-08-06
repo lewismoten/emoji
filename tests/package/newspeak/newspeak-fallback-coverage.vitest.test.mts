@@ -74,7 +74,10 @@ describe("newspeak-fallback-coverage", () => {
     );
 
     assert.deepEqual(
-      missingKeys(baseSearchLocale.annotations, newspeakSearchLocale.annotations),
+      missingKeys(
+        baseSearchLocale.annotations,
+        newspeakSearchLocale.annotations,
+      ),
       [],
       "en-x-newspeak.json is missing annotation keys and would fall back to English",
     );

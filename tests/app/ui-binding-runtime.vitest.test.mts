@@ -3,7 +3,10 @@ import { afterAll, describe, it } from "vitest";
 
 import { createUiBindingRuntime } from "../../src/app/ui-binding-runtime.js";
 
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 
 afterAll(() => {
   if (originalDocument) {

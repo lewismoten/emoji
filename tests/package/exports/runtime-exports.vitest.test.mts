@@ -82,7 +82,10 @@ describe("runtime-exports", () => {
         packageManifest.categories.flatMap((category) =>
           [category, ...category.subcategories].map(
             async (entry) =>
-              [entry.importPath, await importDefault(entry.importPath)] as const,
+              [
+                entry.importPath,
+                await importDefault(entry.importPath),
+              ] as const,
           ),
         ),
       ),
@@ -92,7 +95,8 @@ describe("runtime-exports", () => {
       const categoryEmoji = categoryModules.get(category.importPath) ?? {};
       assert.equal(Object.keys(categoryEmoji).length, category.count);
       for (const subcategory of category.subcategories) {
-        const subcategoryEmoji = categoryModules.get(subcategory.importPath) ?? {};
+        const subcategoryEmoji =
+          categoryModules.get(subcategory.importPath) ?? {};
         assert.equal(Object.keys(subcategoryEmoji).length, subcategory.count);
         assert.ok(
           Object.keys(subcategoryEmoji).every((key) => key in categoryEmoji),

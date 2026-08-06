@@ -13,7 +13,11 @@ import {
 
 describe("pixel-editor palette-and-skin integration", () => {
   it("preserves palette, tone, and ownership behavior", () => {
-    assert.match(demoStyles, /\.pixel-editor-canvas/, "demo must style the pixel-art canvas");
+    assert.match(
+      demoStyles,
+      /\.pixel-editor-canvas/,
+      "demo must style the pixel-art canvas",
+    );
     assert.match(
       pixelEditorScript,
       /pixel-editor-workspace[\s\S]*?pixel-editor-stage[\s\S]*?pixel-editor-previews[\s\S]*?pixel-editor-controls/,
@@ -24,8 +28,16 @@ describe("pixel-editor palette-and-skin integration", () => {
       /@media \(min-width: 561px\) and \(max-height: 560px\)[\s\S]*?calc\(100dvh - 10rem\)/,
       "pixel editor must fit its canvas within short landscape viewports",
     );
-    assert.match(pixelEditorScript, /const CELL_SIZE = 12/, "pixel editor must use a 12 by 12 cell");
-    assert.match(pixelEditorScript, /const EGA_COLORS = \[/, "pixel editor must provide the classic EGA palette");
+    assert.match(
+      pixelEditorScript,
+      /const CELL_SIZE = 12/,
+      "pixel editor must use a 12 by 12 cell",
+    );
+    assert.match(
+      pixelEditorScript,
+      /const EGA_COLORS = \[/,
+      "pixel editor must provide the classic EGA palette",
+    );
     assert.doesNotMatch(
       pixelEditorScript,
       /type="color"|class="pixel-editor-alpha"/,
@@ -100,7 +112,11 @@ describe("pixel-editor palette-and-skin integration", () => {
     );
     assert.deepEqual(
       pixelColors(
-        remapSkinTonePixels(rgbaPixels("#3b271d", "#70452f"), ["1F3FF"], ["1F3FB"]),
+        remapSkinTonePixels(
+          rgbaPixels("#3b271d", "#70452f"),
+          ["1F3FF"],
+          ["1F3FB"],
+        ),
       ),
       ["#f2d2b6", "#ffffff"],
       "pasting to the lightest tone must extend its highlight to EGA white",
@@ -133,7 +149,10 @@ describe("pixel-editor palette-and-skin integration", () => {
       4,
       1,
     );
-    assert.ok(helperOwnership, "a uniquely toned helper must identify every person's region");
+    assert.ok(
+      helperOwnership,
+      "a uniquely toned helper must identify every person's region",
+    );
     assert.deepEqual(
       pixelColors(
         remapSkinTonePixels(

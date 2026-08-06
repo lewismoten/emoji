@@ -64,7 +64,10 @@ describe("font-build-runtime integration", () => {
       "the demo must watch and hot-swap rebuilt pixel font assets without repainting everything in one tight polling loop",
     );
     assert.match(
-      await fs.readFile(path.join(root, "src/app/browser/browser-runtime.ts"), "utf8"),
+      await fs.readFile(
+        path.join(root, "src/app/browser/browser-runtime.ts"),
+        "utf8",
+      ),
       /onPixelFontRevisionLoaded\(\);[\s\S]*refreshExplorerPixelFont\(/,
       "the demo must hot-swap rebuilt pixel fonts without refreshing the page",
     );
@@ -79,7 +82,9 @@ describe("font-build-runtime integration", () => {
       "rebuilt fonts must update existing Emoji Explorer result glyphs",
     );
     assert.ok(
-      pixelEditorFontRefreshSource.includes("async function refreshFontBuild()") &&
+      pixelEditorFontRefreshSource.includes(
+        "async function refreshFontBuild()",
+      ) &&
         pixelEditorFontRefreshSource.includes("loadManifest(true)") &&
         pixelEditorFontRefreshSource.includes(
           "const bypassCache = refresh || isViteDevelopment;",
@@ -87,7 +92,9 @@ describe("font-build-runtime integration", () => {
         pixelEditorFontRefreshSource.includes(
           'currentEntry().releaseStatus === "proposed"',
         ) &&
-        pixelEditorFontRefreshSource.includes("--pixel-emoji-proposed-family") &&
+        pixelEditorFontRefreshSource.includes(
+          "--pixel-emoji-proposed-family",
+        ) &&
         pixelEditorFontRefreshSource.includes("--pixel-emoji-released-family"),
       "the open pixel editor must reload build metadata and use the rebuilt font family",
     );

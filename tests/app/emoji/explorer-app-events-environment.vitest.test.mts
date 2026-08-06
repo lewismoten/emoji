@@ -45,7 +45,9 @@ describe("explorer-app-events environment", () => {
       value: {
         addEventListener() {},
         querySelector(selector: string) {
-          return selector === ".language-picker" ? fallbackLanguagePicker : null;
+          return selector === ".language-picker"
+            ? fallbackLanguagePicker
+            : null;
         },
         querySelectorAll() {
           return [];

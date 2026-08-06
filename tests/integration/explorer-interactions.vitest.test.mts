@@ -107,7 +107,10 @@ describe("explorer-interactions integration", () => {
     );
     assert.match(
       await fs.readFile(
-        path.join(root, "src/controls/filters/pickers/compact-choice-button.ts"),
+        path.join(
+          root,
+          "src/controls/filters/pickers/compact-choice-button.ts",
+        ),
         "utf8",
       ),
       /\.compact-choice\[aria-checked="true"\]\s*\{[^}]*background:\s*var\(--selected-control-bg\)[^}]*color:\s*var\(--selected-control-text\)/,
@@ -115,7 +118,10 @@ describe("explorer-interactions integration", () => {
     );
     assert.match(
       await fs.readFile(
-        path.join(root, "src/controls/filters/pickers/compact-choice-button.ts"),
+        path.join(
+          root,
+          "src/controls/filters/pickers/compact-choice-button.ts",
+        ),
         "utf8",
       ),
       /\.compact-choice:focus-visible\s*\{[^}]*outline:\s*2px dashed var\(--accent-strong\)/,
