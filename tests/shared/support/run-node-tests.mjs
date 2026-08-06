@@ -142,11 +142,7 @@ if (tests.length === 0) {
   }
   const run = (files, concurrency) =>
     new Promise((resolve, reject) => {
-      const shouldCollectCoverage =
-        coverageEnabled &&
-        !(
-          files.length === 1 && files[0]?.endsWith("project-structure.test.mjs")
-        );
+      const shouldCollectCoverage = coverageEnabled;
       const testArguments = [
         "--test",
         `--test-concurrency=${concurrency}`,
@@ -185,22 +181,9 @@ if (tests.length === 0) {
         resolve({ output, status });
       });
     });
-  // The structure audit reads the whole repository. Give it an isolated worker
-  // so concurrent test startup cannot make an otherwise fast audit exceed its
-  // per-test budget.
-  const structureTests = tests.filter((file) =>
-    file.endsWith("project-structure.test.mjs"),
-  );
-  const remainingTests = tests.filter((file) => !structureTests.includes(file));
   const results = [];
-  if (structureTests.length) results.push(await run(structureTests, 1));
-  if (remainingTests.length)
-    results.push(
-      await run(
-        remainingTests,
-        Math.min(testConcurrency, remainingTests.length),
-      ),
-    );
+  if (tests.length)
+    results.push(await run(tests, Math.min(testConcurrency, tests.length)));
   const result = {
     output: results.map((entry) => entry.output).join(""),
     status: results.find((entry) => entry.status !== 0)?.status ?? 0,
