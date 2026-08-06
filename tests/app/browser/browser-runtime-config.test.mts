@@ -3,6 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { createBrowserRuntimeConfig as actualCreateBrowserRuntimeConfig } from "../../../src/app/browser/browser-runtime-config.js";
+import * as state from "../../../src/state.js";
 
 const root = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -18,6 +19,7 @@ const transformedSource = sourceText
     'import { initializeBrowserRuntime } from "./browser-runtime.js";',
     'import { initializeBrowserRuntime } from "./browser-runtime-stub.mjs";',
   )
+  .replace(/"\.\.\/\.\.\/state\.js"/g, '"../../../src/state.js"')
   .replace(/options: any/g, "options")
   .replace(/\.\.\.args: any\[\]/g, "...args");
 
@@ -45,8 +47,6 @@ await fs.writeFile(moduleFile, transformedSource);
 const module = await import(pathToFileURL(moduleFile).href);
 const stub = await import(pathToFileURL(stubFile).href);
 
-let currentEmojiKey = "wave";
-let currentLoadId = 1;
 let dialogValue = { id: "dialog" };
 let languageDialogValue = { id: "language-dialog" };
 let languageListValue = [{ code: "en", name: "English" }];
@@ -54,8 +54,6 @@ let languagePickerValue = { id: "picker" };
 let languagePickerFlagValue = { id: "flag" };
 let languagePickerLabelValue = { id: "label" };
 let nextLoadId = 2;
-let searchLocalesValue = [{ code: "en" }];
-let selectedSearchLocaleValue = "en";
 let suppressedPanelClosesValue = 0;
 const syncUrlStateCalls: unknown[][] = [];
 
@@ -64,8 +62,6 @@ const options = {
   applyPixelArtworkClass: Symbol("applyPixelArtworkClass"),
   applyStandalonePixelArtwork: Symbol("applyStandalonePixelArtwork"),
   closePanelDialog: Symbol("closePanelDialog"),
-  currentEmojiKey: () => currentEmojiKey,
-  currentLoadId: () => currentLoadId,
   dialog: () => dialogValue,
   languageDialog: () => languageDialogValue,
   languageFlags: Symbol("languageFlags"),
@@ -78,12 +74,8 @@ const options = {
   onPixelFontRevisionLoaded: Symbol("onPixelFontRevisionLoaded"),
   refreshLocalizedLabels: Symbol("refreshLocalizedLabels"),
   restoreDeveloperMode: Symbol("restoreDeveloperMode"),
-  searchLocales: () => searchLocalesValue,
-  selectedSearchLocale: () => selectedSearchLocaleValue,
   setApplyingUrlState: Symbol("setApplyingUrlState"),
-  setSearchAnnotations: Symbol("setSearchAnnotations"),
   setSearchLabels: Symbol("setSearchLabels"),
-  setSearchLocales: Symbol("setSearchLocales"),
   setSearchSubgroupLabels: Symbol("setSearchSubgroupLabels"),
   setSelectedLocale: Symbol("setSelectedLocale"),
   suppressedPanelCloses: () => suppressedPanelClosesValue,
@@ -129,17 +121,6 @@ assert.equal(
   options.restoreDeveloperMode,
 );
 assert.equal(stub.lastOptions.setApplyingUrlState, options.setApplyingUrlState);
-assert.equal(
-  stub.lastOptions.setSearchAnnotations,
-  options.setSearchAnnotations,
-);
-assert.equal(stub.lastOptions.setSearchLabels, options.setSearchLabels);
-assert.equal(stub.lastOptions.setSearchLocales, options.setSearchLocales);
-assert.equal(
-  stub.lastOptions.setSearchSubgroupLabels,
-  options.setSearchSubgroupLabels,
-);
-assert.equal(stub.lastOptions.setSelectedLocale, options.setSelectedLocale);
 assert.equal(stub.lastOptions.translate, options.translate);
 assert.equal(
   stub.lastOptions.updateModifierArtwork,
@@ -154,8 +135,6 @@ assert.equal(
   options.updateWebAppManifest,
 );
 
-assert.equal(stub.lastOptions.currentEmojiKey(), "wave");
-assert.equal(stub.lastOptions.currentLoadId(), 1);
 assert.equal(stub.lastOptions.dialog(), dialogValue);
 assert.equal(stub.lastOptions.languageDialog(), languageDialogValue);
 assert.equal(stub.lastOptions.languageList(), languageListValue);
@@ -163,14 +142,10 @@ assert.equal(stub.lastOptions.languagePicker(), languagePickerValue);
 assert.equal(stub.lastOptions.languagePickerFlag(), languagePickerFlagValue);
 assert.equal(stub.lastOptions.languagePickerLabel(), languagePickerLabelValue);
 assert.equal(stub.lastOptions.nextLoadId(), 2);
-assert.equal(stub.lastOptions.searchLocales(), searchLocalesValue);
-assert.equal(stub.lastOptions.selectedSearchLocale(), "en");
 assert.equal(stub.lastOptions.suppressedPanelCloses(), 0);
 assert.equal(stub.lastOptions.syncUrlState("a", "b"), "synced");
 assert.deepEqual(syncUrlStateCalls, [["a", "b"]]);
 
-currentEmojiKey = "grin";
-currentLoadId = 4;
 dialogValue = { id: "dialog-2" };
 languageDialogValue = { id: "language-dialog-2" };
 languageListValue = [{ code: "ar", name: "Arabic" }];
@@ -178,12 +153,8 @@ languagePickerValue = { id: "picker-2" };
 languagePickerFlagValue = { id: "flag-2" };
 languagePickerLabelValue = { id: "label-2" };
 nextLoadId = 5;
-searchLocalesValue = [{ code: "ar" }];
-selectedSearchLocaleValue = "ar";
 suppressedPanelClosesValue = 3;
 
-assert.equal(stub.lastOptions.currentEmojiKey(), "grin");
-assert.equal(stub.lastOptions.currentLoadId(), 4);
 assert.deepEqual(stub.lastOptions.dialog(), { id: "dialog-2" });
 assert.deepEqual(stub.lastOptions.languageDialog(), {
   id: "language-dialog-2",
@@ -195,8 +166,6 @@ assert.deepEqual(stub.lastOptions.languagePicker(), { id: "picker-2" });
 assert.deepEqual(stub.lastOptions.languagePickerFlag(), { id: "flag-2" });
 assert.deepEqual(stub.lastOptions.languagePickerLabel(), { id: "label-2" });
 assert.equal(stub.lastOptions.nextLoadId(), 5);
-assert.deepEqual(stub.lastOptions.searchLocales(), [{ code: "ar" }]);
-assert.equal(stub.lastOptions.selectedSearchLocale(), "ar");
 assert.equal(stub.lastOptions.suppressedPanelCloses(), 3);
 
 const originalWindowDescriptor = Object.getOwnPropertyDescriptor(
@@ -221,6 +190,9 @@ Object.defineProperty(globalThis, "navigator", {
   value: {},
 });
 try {
+  state.searchLoadId.set(1);
+  state.searchLocales.set([{ code: "en" }] as any);
+  state.selectedSearchLocale.set("en");
   const actualResult = actualCreateBrowserRuntimeConfig(options);
   assert.equal(typeof actualResult.load, "function");
   assert.equal(typeof actualResult.render, "function");

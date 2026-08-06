@@ -206,7 +206,6 @@ assert.equal(
 );
 
 assert.equal(navigationOptions.compositionMode(), "full");
-assert.equal(navigationOptions.currentEmojiKey(), "wrappedGift");
 assert.equal(
   navigationOptions.fullDeveloperModeEnabled(),
   "full-developer-mode",
@@ -216,7 +215,6 @@ assert.equal(navigationOptions.getOrderMode(), "grouped");
 assert.equal(navigationOptions.getSelectedGroup(), "Objects");
 assert.equal(navigationOptions.getSelectedSequenceType(), "single");
 assert.equal(navigationOptions.getSelectedSubGroup(), "money");
-assert.deepEqual(navigationOptions.groups(), ["Objects"]);
 assert.deepEqual(navigationOptions.displayedKeys(), [
   "wrappedGift",
   "sparkles",
@@ -227,7 +225,6 @@ assert.deepEqual(navigationOptions.drawList("wrappedGift"), [
   "drawList",
   "wrappedGift",
 ]);
-assert.deepEqual(navigationOptions.emojiByKey(), state.emojiByKey);
 assert.equal(navigationOptions.focusInitialAction(), "focus-initial");
 assert.deepEqual(navigationOptions.genderCheckboxes(), ["gender"]);
 assert.deepEqual(navigationOptions.hairCheckboxes(), ["hair"]);
@@ -254,7 +251,7 @@ navigationOptions.setSelectedGroup("Smileys");
 navigationOptions.setSelectedSequenceType("zwj");
 navigationOptions.setSelectedSubGroup("face-smiling");
 assert.equal(state.compositionMode, "condensed");
-assert.equal(state.orderMode, "unicode");
+assert.equal(state.orderMode, "grouped");
 assert.equal(state.selectedGroup, "Smileys");
 assert.equal(state.selectedSequenceType, "zwj");
 assert.equal(state.selectedSubGroup, "face-smiling");
@@ -273,7 +270,6 @@ assert.equal(
   navigationOptions.subGroupSelectionKey("Objects", "money"),
   "Objects:money",
 );
-assert.deepEqual(navigationOptions.subGroups(), { Objects: ["money"] });
 assert.equal(
   navigationOptions.suppressedPanelCloses(),
   "suppressed-panel-closes",

@@ -7,45 +7,27 @@ import * as state from "../state.js";
 
 /** Assemble list rendering, interaction, and active-filter summary behavior. */
 export function createListOrchestration(options: any) {
-  const rendererState = {
-    byId: state.byId.get,
-    emojiByKey: state.emojiByKey.get,
-    focusedEmojiKey: state.focusedEmojiKey.get,
-    groups: state.groups.get,
-    orderMode: state.orderMode.get,
-    popularKeys: () => [...popularKeys],
-    searchAnnotations: state.searchAnnotations.get,
-    subGroups: state.subGroups.get,
-  };
-  const {
-    asEmojiCell,
-    asItem,
-    asSequenceItem,
-    flushEmojiCellFragment,
-    orderedKeys,
-  } = createEmojiListRenderers({
-    applyPixelArtworkClass: options.applyPixelArtworkClass,
-    byId: rendererState.byId,
-    displayExplorerLabel: options.displayExplorerLabel,
-    displayGroupName: options.displayGroupName,
-    displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
-    emojiByKey: rendererState.emojiByKey,
-    focusedEmojiKey: rendererState.focusedEmojiKey,
-    getIntroducedVersion: options.getIntroducedVersion,
-    groups: rendererState.groups,
-    orderMode: rendererState.orderMode,
-    popularKeys: rendererState.popularKeys,
-    searchAnnotations: rendererState.searchAnnotations,
-    sequenceTranslationKeys: options.sequenceTranslationKeys,
-    sequenceTypeLabels: options.sequenceTypeLabels,
-    sequenceTypeOrder: options.sequenceTypeOrder,
-    subGroups: rendererState.subGroups,
-    translate: options.translate,
-    unassigned: options.unassigned,
-  });
-  rendererState.focusedEmojiKey();
-  rendererState.groups();
-  rendererState.popularKeys();
+  const { asItem, asSequenceItem, flushEmojiCellFragment, orderedKeys } =
+    createEmojiListRenderers({
+      applyPixelArtworkClass: options.applyPixelArtworkClass,
+      byId: state.byId.get,
+      displayExplorerLabel: options.displayExplorerLabel,
+      displayGroupName: options.displayGroupName,
+      displayUnicodeSubGroupName: options.displayUnicodeSubGroupName,
+      emojiByKey: state.emojiByKey.get,
+      focusedEmojiKey: state.focusedEmojiKey.get,
+      getIntroducedVersion: options.getIntroducedVersion,
+      groups: state.groups.get,
+      orderMode: state.orderMode.get,
+      popularKeys: () => [...popularKeys],
+      searchAnnotations: state.searchAnnotations.get,
+      sequenceTranslationKeys: options.sequenceTranslationKeys,
+      sequenceTypeLabels: options.sequenceTypeLabels,
+      sequenceTypeOrder: options.sequenceTypeOrder,
+      subGroups: state.subGroups.get,
+      translate: options.translate,
+      unassigned: options.unassigned,
+    });
 
   const updateFilterSummary = () =>
     updateActiveFilterSummary({
@@ -73,9 +55,9 @@ export function createListOrchestration(options: any) {
   let renderEmojiList: (...args: any[]) => void;
   const list = createListController({
     allIds: state.allIds.get,
-    byId: rendererState.byId,
-    emojiByKey: rendererState.emojiByKey,
-    focusedEmojiKey: rendererState.focusedEmojiKey,
+    byId: state.byId.get,
+    emojiByKey: state.emojiByKey.get,
+    focusedEmojiKey: state.focusedEmojiKey.get,
     formatNumber: options.formatNumber,
     genderCheckboxes: options.genderCheckboxes,
     getVersionKeys: options.getVersionKeys,
@@ -83,11 +65,11 @@ export function createListOrchestration(options: any) {
     items: state.items.get,
     matchCount: options.matchCount,
     nextRenderGeneration: options.nextRenderGeneration,
-    orderMode: rendererState.orderMode,
+    orderMode: state.orderMode.get,
     popularKeys: () => [...popularKeys],
     orderedKeys,
     renderEmojiList: (...args: any[]) => renderEmojiList(...args),
-    searchAnnotations: rendererState.searchAnnotations,
+    searchAnnotations: state.searchAnnotations.get,
     searchText: options.searchText,
     selectedGroup: state.selectedGroup.get,
     selectedSearchLocale: state.selectedSearchLocale.get,
@@ -106,7 +88,7 @@ export function createListOrchestration(options: any) {
   const interactionState = {
     focusedEmojiKey: state.focusedEmojiKey.get,
     getDisplayedKeys: state.displayedKeys.get,
-    orderMode: rendererState.orderMode,
+    orderMode: state.orderMode.get,
     setFocusedEmojiKey: state.focusedEmojiKey.set,
   };
   const interaction = createEmojiListInteraction({
@@ -129,9 +111,6 @@ export function createListOrchestration(options: any) {
     translate: options.translate,
     unassigned: options.unassigned,
   });
-  interactionState.focusedEmojiKey();
-  interactionState.getDisplayedKeys();
-  interactionState.orderMode();
   interactionState.setFocusedEmojiKey(state.focusedEmojiKey.get());
   renderEmojiList = interaction.renderEmojiList;
 

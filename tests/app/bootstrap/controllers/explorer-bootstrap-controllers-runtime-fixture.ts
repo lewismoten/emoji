@@ -1,5 +1,78 @@
 import * as sharedState from "../../../../src/state.js";
 
+function bindState(state: any) {
+  Object.defineProperties(state, {
+    byId: {
+      get: () => sharedState.byId.get(),
+      set: (value) => sharedState.byId.replace(value),
+    },
+    compositionMode: {
+      get: () => sharedState.compositionMode.get(),
+      set: (value) => sharedState.compositionMode.set(value),
+    },
+    currentDialogParentStack: {
+      get: () => sharedState.currentDialogParentStack.get(),
+      set: (value) => sharedState.currentDialogParentStack.set(value),
+    },
+    currentEmojiCopies: {
+      get: () => sharedState.currentEmojiCopies.get(),
+      set: (value) => sharedState.currentEmojiCopies.replace(value),
+    },
+    currentEmojiKey: {
+      get: () => sharedState.currentEmojiKey.get(),
+      set: (value) => sharedState.currentEmojiKey.set(value),
+    },
+    dialogNavigationKeys: {
+      get: () => sharedState.dialogNavigationKeys.get(),
+      set: (value) => sharedState.dialogNavigationKeys.set(value),
+    },
+    displayedKeys: {
+      get: () => sharedState.displayedKeys.get(),
+      set: (value) => sharedState.displayedKeys.set(value),
+    },
+    emojiByKey: {
+      get: () => sharedState.emojiByKey.get(),
+      set: (value) => sharedState.emojiByKey.replace(value),
+    },
+    groups: {
+      get: () => sharedState.groups.get(),
+      set: (value) => sharedState.groups.set(value),
+    },
+    items: {
+      get: () => sharedState.items.get(),
+      set: (value) => sharedState.items.set(value),
+    },
+    orderMode: {
+      get: () => sharedState.orderMode.get(),
+      set: (value) => sharedState.orderMode.set(value),
+    },
+    searchAnnotations: {
+      get: () => sharedState.searchAnnotations.get(),
+      set: (value) => sharedState.searchAnnotations.replace(value),
+    },
+    selectedGroup: {
+      get: () => sharedState.selectedGroup.get(),
+      set: (value) => sharedState.selectedGroup.set(value),
+    },
+    selectedSequenceType: {
+      get: () => sharedState.selectedSequenceType.get(),
+      set: (value) => sharedState.selectedSequenceType.set(value),
+    },
+    selectedSubGroup: {
+      get: () => sharedState.selectedSubGroup.get(),
+      set: (value) => sharedState.selectedSubGroup.set(value),
+    },
+    subGroups: {
+      get: () => sharedState.subGroups.get(),
+      set: (value) => sharedState.subGroups.replace(value),
+    },
+    versionManifests: {
+      get: () => sharedState.versionManifests.get(),
+      set: (value) => sharedState.versionManifests.set(value),
+    },
+  });
+}
+
 export function createExplorerBootstrapControllersRuntimeFixture() {
   const state: any = {
     byId: { wrappedGift: { key: "wrappedGift" } },
@@ -39,6 +112,7 @@ export function createExplorerBootstrapControllersRuntimeFixture() {
   sharedState.selectedSubGroup.set(state.selectedSubGroup);
   sharedState.subGroups.replace(state.subGroups);
   sharedState.versionManifests.set(state.versionManifests);
+  bindState(state);
 
   const calls: string[] = [];
   const options: any = {

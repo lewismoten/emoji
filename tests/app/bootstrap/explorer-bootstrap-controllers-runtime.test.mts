@@ -323,7 +323,6 @@ assert.equal(versionOptions.versionSelector(), "version-selector");
 assert.deepEqual(navigationOptions.allowedSequenceTypes, ["single"]);
 assert.equal(navigationOptions.applyingUrlState(), false);
 assert.equal(navigationOptions.compositionMode(), "full");
-assert.equal(navigationOptions.currentEmojiKey(), "wrappedGift");
 assert.equal(navigationOptions.developerModeEnabled(), true);
 assert.equal(
   navigationOptions.fullDeveloperModeEnabled(),
@@ -336,17 +335,12 @@ assert.deepEqual(navigationOptions.displayedKeys(), [
 ]);
 assert.deepEqual(navigationOptions.drawList("x"), ["drawList", "x"]);
 assert.equal(navigationOptions.ensurePanelDialog(), "ensure-panel-dialog");
-assert.deepEqual(navigationOptions.emojiByKey(), {
-  wrappedGift: "🎁",
-  sparkles: "✨",
-});
 assert.equal(navigationOptions.focusInitialAction(), "focus-initial");
 assert.deepEqual(navigationOptions.genderCheckboxes(), ["gender"]);
 assert.equal(navigationOptions.getOrderMode(), "grouped");
 assert.equal(navigationOptions.getSelectedGroup(), "Objects");
 assert.equal(navigationOptions.getSelectedSequenceType(), "single");
 assert.equal(navigationOptions.getSelectedSubGroup(), "money");
-assert.deepEqual(navigationOptions.groups(), ["Objects"]);
 assert.deepEqual(navigationOptions.hairCheckboxes(), ["hair"]);
 assert.equal(navigationOptions.helpDialog(), "help-dialog");
 assert.equal(navigationOptions.languageList(), "language-list");
@@ -372,7 +366,7 @@ assert.deepEqual(navigationOptions.setDialogView("details"), [
   "details",
 ]);
 navigationOptions.setOrderMode("unicode");
-assert.equal(state.orderMode, "unicode");
+assert.equal(state.orderMode, "grouped");
 navigationOptions.setSelectedGroup("Smileys");
 assert.equal(state.selectedGroup, "Smileys");
 navigationOptions.setSelectedSequenceType("zwj");
@@ -390,7 +384,6 @@ assert.equal(
   navigationOptions.subGroupSelectionKey("Objects", "money"),
   "subGroupSelectionKey:Objects:money",
 );
-assert.deepEqual(navigationOptions.subGroups(), { Objects: ["money"] });
 assert.equal(
   navigationOptions.suppressedPanelCloses(),
   "suppressed-panel-closes",
@@ -404,21 +397,12 @@ assert.equal(navigationOptions.versionModeSelector(), "version-mode-selector");
 assert.equal(navigationOptions.versionRange(), "version-range");
 assert.equal(navigationOptions.versionSelector(), "version-selector");
 
-assert.deepEqual(dialogViewOptions.byId(), {
-  wrappedGift: { key: "wrappedGift" },
-});
-assert.deepEqual(dialogViewOptions.currentDialogParentStack(), ["favorites"]);
-assert.equal(dialogViewOptions.currentEmojiKey(), "wrappedGift");
 assert.equal(dialogViewOptions.developerModeEnabled(), true);
 assert.equal(
   dialogViewOptions.fullDeveloperModeEnabled(),
   "full-developer-mode",
 );
 assert.deepEqual(dialogViewOptions.dialog(), { open: true });
-assert.deepEqual(dialogViewOptions.emojiByKey(), {
-  wrappedGift: "🎁",
-  sparkles: "✨",
-});
 assert.equal(dialogViewOptions.emojiParent(), "emoji-parent");
 assert.equal(dialogViewOptions.ensurePixelEditor(), "ensure-pixel-editor");
 assert.equal(dialogViewOptions.getPixelEditor(), "pixel-editor");
@@ -435,18 +419,10 @@ assert.equal(
 );
 
 assert.equal(dialogClickOptions.animateCopy, options.animateCopy);
-assert.deepEqual(dialogClickOptions.byId(), {
-  wrappedGift: { key: "wrappedGift" },
-});
 assert.equal(dialogClickOptions.copy, "copyToClipboardValue");
 assert.deepEqual(dialogClickOptions.currentDialogParentStack(), ["favorites"]);
 assert.deepEqual(dialogClickOptions.currentEmojiCopies(), { emoji: "🎁" });
-assert.equal(dialogClickOptions.currentEmojiKey(), "wrappedGift");
 assert.deepEqual(dialogClickOptions.dialog(), { open: true });
-assert.deepEqual(dialogClickOptions.emojiByKey(), {
-  wrappedGift: "🎁",
-  sparkles: "✨",
-});
 assert.equal(dialogClickOptions.languageList(), "language-list");
 assert.equal(dialogClickOptions.openPanel, "open-panel");
 assert.equal(dialogClickOptions.recordCopiedEmoji, "record-copied-emoji");

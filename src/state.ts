@@ -2,7 +2,7 @@ import * as preferences from "./preferences.js";
 import * as doc from "./utils/document.js";
 
 export type ExplorerMode = "standard" | "advanced" | "developer";
-export type OrderMode = "grouped" | "sequence";
+export type OrderMode = "grouped" | "sequence" | "popular";
 export type CompositionMode = "condensed";
 
 type EmojiStatus = "fully-qualified" | "component";

@@ -3,6 +3,7 @@ import {
   createUiFormatters,
   isViteDevelopmentRuntime,
 } from "../../../src/app/browser/browser-runtime.js";
+import * as state from "../../../src/state.js";
 
 const formatterCalls: Array<{
   type: "number" | "percent";
@@ -10,6 +11,8 @@ const formatterCalls: Array<{
   locale: string | undefined;
   numberingSystem: string | undefined;
 }> = [];
+
+state.selectedSearchLocale.set("");
 
 const englishFormatters = createUiFormatters({
   document: { documentElement: { lang: "en-US" } } as Document,
@@ -38,6 +41,7 @@ const arabicFormatters = createUiFormatters({
 assert.equal(arabicFormatters.formatUiNumber(7), "n:7:ar:arab");
 assert.equal(arabicFormatters.formatUiPercent(88), "p:88:ar:arab");
 
+state.selectedSearchLocale.set("ar-EG");
 const fallbackFormatters = createUiFormatters({
   document: { documentElement: { lang: "" } } as Document,
   selectedSearchLocale: () => "ar-EG",
@@ -49,6 +53,7 @@ const fallbackFormatters = createUiFormatters({
 assert.equal(fallbackFormatters.formatUiNumber(3), "n:3:ar-EG:arab");
 assert.equal(fallbackFormatters.formatUiPercent(5), "p:5:ar-EG:arab");
 
+state.selectedSearchLocale.set("");
 const undefinedLocaleFormatters = createUiFormatters({
   document: { documentElement: { lang: "" } } as Document,
   selectedSearchLocale: () => "",

@@ -111,7 +111,10 @@ assert.equal(
   "condensed",
 );
 dialogClickOptions.toggleComposition();
-assert.equal((await import("../../../../src/state.js")).compositionMode.get(), "full");
+assert.equal(
+  (await import("../../../../src/state.js")).compositionMode.get(),
+  "full",
+);
 assert.equal(dialogClickOptions.toggleFavorite, "toggle-favorite");
 assert.equal(dialogClickOptions.translate("copy", "Copy"), "copy:Copy");
 assert.deepEqual(dialogClickOptions.updateCompositionBackButton("left"), [

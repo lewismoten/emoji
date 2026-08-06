@@ -26,6 +26,7 @@ export async function createBrowserRuntimeFixture() {
       'import * as route from "../route.js";',
       'import * as route from "./route-stub.mjs";',
     )
+    .replace(/"\.\.\/\.\.\/state\.js"/g, '"../../../src/state.js"')
     .replace(
       /export function createUiFormatters\(options: \{[\s\S]*?\}\) \{/,
       "export function createUiFormatters(options) {",

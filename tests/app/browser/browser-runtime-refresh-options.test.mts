@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { createPixelFontRefreshOptions } from "../../../src/app/browser/browser-runtime.js";
+import * as state from "../../../src/state.js";
 
 const refreshStylesheetCalls: Array<{ revision: string; hasHandler: boolean }> =
   [];
@@ -12,6 +13,8 @@ const refreshExplorerCalls: Array<{
 let loadedCalls = 0;
 let stylesheetRefreshed = false;
 
+state.currentEmojiKey.set("rocket");
+
 const refreshOptions = createPixelFontRefreshOptions(
   {
     applyPixelArtworkClass() {
@@ -20,7 +23,6 @@ const refreshOptions = createPixelFontRefreshOptions(
     applyStandalonePixelArtwork() {
       return "standalone";
     },
-    currentEmojiKey: () => "rocket",
     dialog: () => ({ id: "dialog" }),
     onPixelFontRevisionLoaded() {
       loadedCalls += 1;

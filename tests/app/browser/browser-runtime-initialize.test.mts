@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { createBrowserRuntimeFixture } from "./browser-runtime-fixture.mjs";
+import * as state from "../../../src/state.js";
 
 const { module, lifecycleStub, panelStub, pixelFontStub } =
   await createBrowserRuntimeFixture();
@@ -14,11 +15,12 @@ const refreshExplorerCalls: Array<{
 }> = [];
 let onPixelFontRevisionLoadedCalls = 0;
 
+state.currentEmojiKey.set("rocket");
+
 const refreshOptions = createPixelFontRefreshOptions(
   {
     applyPixelArtworkClass() {},
     applyStandalonePixelArtwork() {},
-    currentEmojiKey: () => "rocket",
     dialog: () => ({ id: "dialog" }),
     onPixelFontRevisionLoaded() {
       onPixelFontRevisionLoadedCalls += 1;
@@ -66,7 +68,6 @@ const ownerDocument = {
   },
 };
 const languageDialog = { dataset: { returnPanel: "help" }, ownerDocument };
-let currentEmojiKey = "wave";
 const syncUrlCalls: unknown[][] = [];
 
 const originalWindowDescriptor = Object.getOwnPropertyDescriptor(
@@ -100,13 +101,15 @@ Object.defineProperty(globalThis, "caches", {
 (globalThis as any).__TEST_VITE_DEV__ = true;
 
 try {
+  state.currentEmojiKey.set("rocket");
+  state.searchLoadId.set(1);
+  state.searchLocales.set([{ code: "en" }] as any);
+  state.selectedSearchLocale.set("en");
   const runtime = initializeBrowserRuntime({
     applyDialogUrlState() {},
     applyPixelArtworkClass() {},
     applyStandalonePixelArtwork() {},
     closePanelDialog() {},
-    currentEmojiKey: () => currentEmojiKey,
-    currentLoadId: () => 1,
     dialog: () => undefined,
     languageDialog: () => languageDialog,
     languageFlags: { en: "🇺🇸" },
@@ -120,12 +123,8 @@ try {
     refreshLocalizedLabels() {},
     restoreDeveloperMode() {},
     saveExplorerPreference() {},
-    searchLocales: () => [{ code: "en" }],
-    selectedSearchLocale: () => "en",
     setApplyingUrlState() {},
-    setSearchAnnotations() {},
     setSearchLabels() {},
-    setSearchLocales() {},
     setSearchSubgroupLabels() {},
     setSelectedLocale() {},
     suppressedPanelCloses: () => new WeakSet(),
