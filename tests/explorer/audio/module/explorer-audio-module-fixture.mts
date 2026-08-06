@@ -1,7 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-
 export class FakeElement {
   disabled = false;
   checked = false;
@@ -92,7 +91,8 @@ export async function loadExplorerAudioModuleFixture() {
     .replace(
       'import { classifyElement, isInput } from "./utils/element.js";',
       'import { classifyElement, isInput } from "./element-stub.mjs";',
-    );
+    )
+    .replace(/^\/\/# sourceMappingURL=.*$/m, "");
 
   const tempRoot = path.join(root, "build/tests/.tmp");
   await fs.mkdir(tempRoot, { recursive: true });

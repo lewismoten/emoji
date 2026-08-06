@@ -1,7 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-
 const root = process.cwd();
 const sourcePath = path.join(root, "build/src/explorer/utility/utility-controls.js");
 
@@ -47,8 +46,8 @@ export async function loadUtilityControlsModule() {
     .replace(
       'import { emojiCompositionMarkup, savedDialogMarkup, } from "./utility-control-markup.js";',
       'import { emojiCompositionMarkup, savedDialogMarkup } from "./utility-control-markup-stub.mjs";',
-    );
-
+    )
+    .replace(/^\/\/# sourceMappingURL=.*$/m, "");
   const tempRoot = path.join(root, "build/tests/.tmp");
   await fs.mkdir(tempRoot, { recursive: true });
   const tempDirectory = await fs.mkdtemp(path.join(tempRoot, "utility-controls-"));
