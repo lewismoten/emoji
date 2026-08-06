@@ -41,7 +41,7 @@ const requestedConcurrency = Number.parseInt(
   process.env.TEST_CONCURRENCY ?? "",
   10,
 );
-const reportMode = process.env.TEST_REPORT === "full" ? "full" : "quiet";
+const reportMode = process.env.TEST_REPORT === "quiet" ? "quiet" : "full";
 const testConcurrency =
   Number.isInteger(requestedConcurrency) && requestedConcurrency > 0
     ? requestedConcurrency

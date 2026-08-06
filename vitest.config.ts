@@ -6,5 +6,18 @@ export default defineConfig({
     environment: "node",
     clearMocks: true,
     restoreMocks: true,
+    coverage: {
+      provider: "v8",
+      include: ["src/**/*.ts"],
+      exclude: [
+        "src/**/*.d.ts",
+        "build/**",
+        "dist/**",
+        "tests/**",
+        "docs/**",
+        "pixel-font/**",
+        "scripts/**",
+      ],
+    },
   },
 });

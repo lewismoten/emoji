@@ -19,3 +19,4 @@
 /src/explorer/**/*.js.map
 .DS_Store
 /.tmp-v8-*/
+/coverage/
