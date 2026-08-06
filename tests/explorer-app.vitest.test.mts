@@ -2,11 +2,38 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
-import { describe, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+const explorerAppMocks = vi.hoisted(() => ({
+  finalize: vi.fn(async (options) => ({ finalized: true, options })),
+  initialize: vi.fn((options) => ({ initialized: true, options })),
+}));
+
+vi.mock("../src/explorer/control-startup.js", () => ({
+  finalizeExplorerStartup: explorerAppMocks.finalize,
+  initializeExplorerControls: explorerAppMocks.initialize,
+}));
 
 // Pairing source: ../src/explorer-app.js
 
 describe("explorer-app", () => {
+  it("covers the source startup wrappers", async () => {
+    const module = await import("../src/explorer-app.js");
+    expect(
+      module.initializeExplorerControls({ id: "controls-source" }),
+    ).toEqual({
+      initialized: true,
+      options: { id: "controls-source" },
+    });
+    await module.finalizeExplorerStartup({ id: "startup-source" });
+    expect(explorerAppMocks.initialize).toHaveBeenCalledWith({
+      id: "controls-source",
+    });
+    expect(explorerAppMocks.finalize).toHaveBeenCalledWith({
+      id: "startup-source",
+    });
+  });
+
   it("re-exports lifecycle, events, and startup helpers", async () => {
     const sourceModuleSpecifier = "build/src/explorer-app.js";
     const root = process.cwd();

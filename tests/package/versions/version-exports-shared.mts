@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
+import { createRequire } from "node:module";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { readEmojiJson } from "../../shared/emoji-data.mjs";
@@ -27,12 +28,40 @@ type VersionSnapshot = {
 };
 
 const root = path.resolve(process.cwd());
+const require = createRequire(import.meta.url);
 
 const readJson = async <T,>(file: string) =>
   JSON.parse(await fs.readFile(path.join(root, file), "utf8")) as T;
 
-const importDefault = async (specifier: string) =>
-  (await import(specifier)).default as Record<string, string>;
+const importDefault = async (specifier: string) => {
+  const localSpecifier = (() => {
+    if (specifier === "@lewismoten/emoji") {
+      return path.join(root, "dist/commonjs/popular.min.cjs");
+    }
+    if (specifier === "@lewismoten/emoji/all") {
+      return path.join(root, "dist/commonjs/all.min.cjs");
+    }
+    if (specifier === "@lewismoten/emoji/popular") {
+      return path.join(root, "dist/commonjs/popular.min.cjs");
+    }
+    if (specifier.startsWith("@lewismoten/emoji/categories/")) {
+      return path.join(
+        root,
+        "dist/commonjs/categories",
+        `${specifier.slice("@lewismoten/emoji/categories/".length)}.min.cjs`,
+      );
+    }
+    if (specifier.startsWith("@lewismoten/emoji/variations/")) {
+      return path.join(
+        root,
+        "dist/commonjs/variations",
+        `${specifier.slice("@lewismoten/emoji/variations/".length)}.min.cjs`,
+      );
+    }
+    return specifier;
+  })();
+  return require(localSpecifier) as Record<string, string>;
+};
 
 const emoji = (await readEmojiJson(root)) as EmojiRecord[];
 const emojiByKey = Object.fromEntries(

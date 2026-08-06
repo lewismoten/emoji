@@ -4,9 +4,21 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   resolve: {
     alias: {
+      "@lewismoten/emoji": path.resolve(
+        process.cwd(),
+        "dist/esm/popular.min.js",
+      ),
       "@lewismoten/emoji/all": path.resolve(
         process.cwd(),
         "dist/esm/all.min.js",
+      ),
+      "@lewismoten/emoji/categories/activities": path.resolve(
+        process.cwd(),
+        "dist/esm/categories/activities.min.js",
+      ),
+      "@lewismoten/emoji/search": path.resolve(
+        process.cwd(),
+        "dist/esm/search.min.js",
       ),
     },
   },

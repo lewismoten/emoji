@@ -27,9 +27,38 @@ describe("runtime-exports", () => {
     const root = path.resolve(process.cwd());
     const readJson = async <T,>(file: string) =>
       JSON.parse(await fs.readFile(path.join(root, file), "utf8")) as T;
-    const importDefault = async (specifier: string) =>
+    const importEsmDefault = async (specifier: string) =>
       (await import(specifier)).default as Record<string, string>;
     const require = createRequire(import.meta.url);
+    const requireDefault = (specifier: string) => {
+      const localSpecifier = (() => {
+        if (specifier === "@lewismoten/emoji") {
+          return path.join(root, "dist/commonjs/popular.min.cjs");
+        }
+        if (specifier === "@lewismoten/emoji/all") {
+          return path.join(root, "dist/commonjs/all.min.cjs");
+        }
+        if (specifier === "@lewismoten/emoji/popular") {
+          return path.join(root, "dist/commonjs/popular.min.cjs");
+        }
+        if (specifier.startsWith("@lewismoten/emoji/categories/")) {
+          return path.join(
+            root,
+            "dist/commonjs/categories",
+            `${specifier.slice("@lewismoten/emoji/categories/".length)}.min.cjs`,
+          );
+        }
+        if (specifier.startsWith("@lewismoten/emoji/variations/")) {
+          return path.join(
+            root,
+            "dist/commonjs/variations",
+            `${specifier.slice("@lewismoten/emoji/variations/".length)}.min.cjs`,
+          );
+        }
+        return specifier;
+      })();
+      return require(localSpecifier) as Record<string, string>;
+    };
     const emoji = (await readEmojiJson(root)) as Emoji[];
     const emojiByKey = Object.fromEntries(
       emoji.map((item) => [item.key, item.emoji]),
@@ -46,10 +75,12 @@ describe("runtime-exports", () => {
       allTypes,
       activityTypes,
     ] = await Promise.all([
-      importDefault(pathToFileURL(path.join(root, "dist/esm/index.js")).href),
-      importDefault("@lewismoten/emoji"),
-      importDefault("@lewismoten/emoji/all"),
-      importDefault("@lewismoten/emoji/popular"),
+      importEsmDefault(
+        pathToFileURL(path.join(root, "dist/esm/index.js")).href,
+      ),
+      Promise.resolve(requireDefault("@lewismoten/emoji")),
+      Promise.resolve(requireDefault("@lewismoten/emoji/all")),
+      Promise.resolve(requireDefault("@lewismoten/emoji/popular")),
       fs.readFile(path.join(root, "dist/esm/types/all.d.mts"), "utf8"),
       fs.readFile(
         path.join(
@@ -82,10 +113,7 @@ describe("runtime-exports", () => {
         packageManifest.categories.flatMap((category) =>
           [category, ...category.subcategories].map(
             async (entry) =>
-              [
-                entry.importPath,
-                await importDefault(entry.importPath),
-              ] as const,
+              [entry.importPath, requireDefault(entry.importPath)] as const,
           ),
         ),
       ),
@@ -112,7 +140,7 @@ describe("runtime-exports", () => {
     }
 
     for (const variation of ["skin-tones", "hair", "families", "all"]) {
-      const variationEmoji = await importDefault(
+      const variationEmoji = requireDefault(
         `@lewismoten/emoji/variations/${variation}`,
       );
       assert.ok(Object.keys(variationEmoji).every((key) => key in emojiByKey));
