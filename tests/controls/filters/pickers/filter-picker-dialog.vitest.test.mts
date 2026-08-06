@@ -16,7 +16,10 @@ describe("filter-picker-dialog", () => {
     });
 
     assert.match(markup, /^<dialog /);
-    assert.match(markup, /class="dialog filter-picker-dialog group-filter-dialog"/);
+    assert.match(
+      markup,
+      /class="dialog filter-picker-dialog group-filter-dialog"/,
+    );
     assert.match(markup, /id="group-filter-dialog"/);
     assert.match(markup, /aria-labelledby="group-filter-dialog-title"/);
     assert.match(markup, /data-i18n="chooseGroup">Choose a group</);
@@ -69,7 +72,8 @@ describe("filter-picker-dialog", () => {
       assert.equal(dialog.getAttribute("id"), "subgroup-filter-dialog");
       assert.equal(dialog.children.length, 2);
       assert.equal(
-        (dialog.querySelector(".compact-subgroup-choices") as FakeElement).tagName,
+        (dialog.querySelector(".compact-subgroup-choices") as FakeElement)
+          .tagName,
         "DIV",
       );
     } finally {

@@ -28,7 +28,10 @@ describe("dom-factory", () => {
       assert.equal(element.className, "example");
       assert.equal(element.getAttribute("role"), "status");
       assert.equal(element.dataset.panelId, "helpDialog");
-      assert.equal((element.children[0] as FakeElement).dataset.i18n, "helloLabel");
+      assert.equal(
+        (element.children[0] as FakeElement).dataset.i18n,
+        "helloLabel",
+      );
 
       assert.equal(
         DomFactory.toMarkup(spec),

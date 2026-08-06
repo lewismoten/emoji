@@ -111,8 +111,14 @@ describe("base-control", () => {
       }).create() as unknown as FakeElement;
       assert.equal(assetElement.tagName, "DIV");
       assert.equal(documentRef.head.children.length, 2);
-      assert.equal((documentRef.head.children[0] as FakeElement).id, "parent-style");
-      assert.equal((documentRef.head.children[1] as FakeElement).id, "child-style");
+      assert.equal(
+        (documentRef.head.children[0] as FakeElement).id,
+        "parent-style",
+      );
+      assert.equal(
+        (documentRef.head.children[1] as FakeElement).id,
+        "child-style",
+      );
       assert.equal(
         (documentRef.head.children[0] as FakeElement).textContent,
         ".parent {}",
@@ -131,7 +137,10 @@ describe("base-control", () => {
       assert.equal(staticCreateWithDocument.textContent, "Epsilon");
 
       const noAssetElement = new MinimalControl({ label: "Plain" }).create();
-      assert.equal((noAssetElement as unknown as FakeElement).textContent, "Plain");
+      assert.equal(
+        (noAssetElement as unknown as FakeElement).textContent,
+        "Plain",
+      );
 
       const appendChildStylesheetChildren: FakeElement[] = [];
       (globalThis as typeof globalThis & { document: any }).document = {
@@ -184,7 +193,9 @@ describe("base-control", () => {
           return new FakeElement(tagName);
         },
         getElementById(id: string) {
-          return id === "parent-style" || id === "stylesheet-control" ? { id } : null;
+          return id === "parent-style" || id === "stylesheet-control"
+            ? { id }
+            : null;
         },
         head: {
           appendChild(node: FakeElement) {
@@ -208,7 +219,9 @@ describe("base-control", () => {
         },
       };
       assert.doesNotThrow(() =>
-        new AssetParentControl({ label: "No head available" }).exposeAttachAssets(),
+        new AssetParentControl({
+          label: "No head available",
+        }).exposeAttachAssets(),
       );
       assert.doesNotThrow(() =>
         new StylesheetControl({ label: "No head available" }).create(),

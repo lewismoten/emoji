@@ -8,7 +8,9 @@ describe("advanced-filters-trigger", () => {
   it("renders default and custom advanced filter triggers", () => {
     const markup = AdvancedFiltersTriggerControl.toMarkup();
 
-    assert.ok(markup.includes('class="setting-choice advanced-filters-trigger"'));
+    assert.ok(
+      markup.includes('class="setting-choice advanced-filters-trigger"'),
+    );
     assert.ok(markup.includes('data-i18n="advancedFilters"'));
     assert.ok(markup.includes('data-i18n="filters"'));
 

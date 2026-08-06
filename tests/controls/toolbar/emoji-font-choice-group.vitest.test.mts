@@ -54,7 +54,8 @@ describe("emoji-font-choice-group", () => {
     try {
       const control = new EmojiFontChoiceGroupControl();
       assert.match(control.toMarkup(), /emoji-font-choice-system/);
-      const element = EmojiFontChoiceGroupControl.create() as unknown as FakeElement;
+      const element =
+        EmojiFontChoiceGroupControl.create() as unknown as FakeElement;
       assert.equal(element.className, "pixel-comparison");
       assert.equal(element.querySelectorAll(".emoji-font-choice").length, 2);
     } finally {

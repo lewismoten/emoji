@@ -23,7 +23,9 @@ describe("theme-choice-group", () => {
 
     try {
       ThemeChoiceGroupControl.create({
-        themes: [{ theme: "custom", emoji: "C", key: "custom", text: "Custom" }],
+        themes: [
+          { theme: "custom", emoji: "C", key: "custom", text: "Custom" },
+        ],
       });
       assert.equal(globals.document.head.children.length, 1);
       assert.equal(

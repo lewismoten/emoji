@@ -63,7 +63,7 @@
     "test": "npm run format && node ./scripts/ensure-test-bundle.mjs && npm run demo:locales -- build/demo-pages && npm run demo:pwa -- build/demo-pages/service-worker.js && TEST_COVERAGE=0 npm run test:node && tsc --ignoreConfig --noEmit --module NodeNext --moduleResolution NodeNext --target ESNext --strict tests/shared/meta/package-exports.test.mts && npm run pixel-font:validate",
     "test:node": "node ./scripts/ensure-test-bundle.mjs && npm run demo:locales -- build/demo-pages && npm run demo:pwa -- build/demo-pages/service-worker.js && node ./tests/shared/support/run-node-tests.mjs ./build/tests",
     "test:node:full": "node ./scripts/ensure-test-bundle.mjs && npm run demo:locales -- build/demo-pages && npm run demo:pwa -- build/demo-pages/service-worker.js && TEST_REPORT=full node ./tests/shared/support/run-node-tests.mjs ./build/tests",
-    "test:vitest": "vitest --run --coverage",
+    "test:vitest": "node ./scripts/ensure-test-bundle.mjs && vitest --run --coverage",
     "test:vitest:watch": "vitest",
     "format": "script -q /dev/null prettier --write . --ignore-unknown --cache | awk '!/ \\(unchanged\\)/'",
     "format:check": "prettier --check . --ignore-unknown",
