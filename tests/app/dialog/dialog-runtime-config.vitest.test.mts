@@ -23,6 +23,7 @@ describe("createDialogRuntimeConfig", () => {
       applyStandalonePixelArtwork: Symbol("applyStandalonePixelArtwork"),
       copyStatus: () => copyStatus,
       developerModeEnabled: () => true,
+      fullDeveloperModeEnabled: () => false,
       dialog: () => dialog,
       displayGroupName: (value: string) => `group:${value}`,
       displayUnicodeSubGroupName: (value: string) => `sub:${value}`,
@@ -78,6 +79,7 @@ describe("createDialogRuntimeConfig", () => {
     );
     expect(forwarded.copyStatus()).toBe(copyStatus);
     expect(forwarded.developerModeEnabled()).toBe(true);
+    expect(forwarded.fullDeveloperModeEnabled()).toBe(false);
     expect(forwarded.dialog()).toBe(dialog);
     expect(forwarded.displayGroupName("Smileys")).toBe("group:Smileys");
     expect(forwarded.displayUnicodeSubGroupName("face-smiling")).toBe(

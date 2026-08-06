@@ -93,6 +93,134 @@ describe("browser runtime", () => {
     expect(refreshRuntimeOptions.currentEmojiKey()).toBe("rocket");
   });
 
+  it("creates locale-aware ui formatters and vite dev detection", async () => {
+    const state = await import("../../../src/state.js");
+    const { createUiFormatters, isViteDevelopmentRuntime } = await import(
+      "../../../src/app/browser/browser-runtime.js"
+    );
+
+    const formatterCalls: Array<{
+      type: "number" | "percent";
+      value: number;
+      locale: string | undefined;
+      numberingSystem: string | undefined;
+    }> = [];
+
+    state.selectedSearchLocale.set("");
+
+    const englishFormatters = createUiFormatters({
+      document: { documentElement: { lang: "en-US" } } as Document,
+      selectedSearchLocale: () => "fr",
+      formatNumber: (
+        value: number,
+        locale?: string,
+        numberingSystem?: string,
+      ) => {
+        formatterCalls.push({
+          type: "number",
+          value,
+          locale,
+          numberingSystem,
+        });
+        return `n:${value}:${locale ?? ""}:${numberingSystem ?? ""}`;
+      },
+      formatPercent: (
+        value: number,
+        locale?: string,
+        numberingSystem?: string,
+      ) => {
+        formatterCalls.push({
+          type: "percent",
+          value,
+          locale,
+          numberingSystem,
+        });
+        return `p:${value}:${locale ?? ""}:${numberingSystem ?? ""}`;
+      },
+    });
+
+    expect(englishFormatters.formatUiNumber(42)).toBe("n:42:en-US:");
+    expect(englishFormatters.formatUiPercent(75)).toBe("p:75:en-US:");
+
+    const arabicFormatters = createUiFormatters({
+      document: { documentElement: { lang: "ar" } } as Document,
+      selectedSearchLocale: () => "en",
+      formatNumber: (
+        value: number,
+        locale?: string,
+        numberingSystem?: string,
+      ) => `n:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+      formatPercent: (
+        value: number,
+        locale?: string,
+        numberingSystem?: string,
+      ) => `p:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+    });
+    expect(arabicFormatters.formatUiNumber(7)).toBe("n:7:ar:arab");
+    expect(arabicFormatters.formatUiPercent(88)).toBe("p:88:ar:arab");
+
+    state.selectedSearchLocale.set("ar-EG");
+    const fallbackFormatters = createUiFormatters({
+      document: { documentElement: { lang: "" } } as Document,
+      selectedSearchLocale: () => "ar-EG",
+      formatNumber: (
+        value: number,
+        locale?: string,
+        numberingSystem?: string,
+      ) => `n:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+      formatPercent: (
+        value: number,
+        locale?: string,
+        numberingSystem?: string,
+      ) => `p:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+    });
+    expect(fallbackFormatters.formatUiNumber(3)).toBe("n:3:ar-EG:arab");
+    expect(fallbackFormatters.formatUiPercent(5)).toBe("p:5:ar-EG:arab");
+
+    state.selectedSearchLocale.set("");
+    const undefinedLocaleFormatters = createUiFormatters({
+      document: { documentElement: { lang: "" } } as Document,
+      selectedSearchLocale: () => "",
+      formatNumber: (
+        value: number,
+        locale?: string,
+        numberingSystem?: string,
+      ) => `n:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+      formatPercent: (
+        value: number,
+        locale?: string,
+        numberingSystem?: string,
+      ) => `p:${value}:${locale ?? ""}:${numberingSystem ?? ""}`,
+    });
+    expect(undefinedLocaleFormatters.formatUiNumber(1)).toBe("n:1::");
+    expect(undefinedLocaleFormatters.formatUiPercent(2)).toBe("p:2::");
+
+    expect(formatterCalls).toEqual([
+      {
+        type: "number",
+        value: 42,
+        locale: "en-US",
+        numberingSystem: undefined,
+      },
+      {
+        type: "percent",
+        value: 75,
+        locale: "en-US",
+        numberingSystem: undefined,
+      },
+    ]);
+
+    expect(isViteDevelopmentRuntime()).toBe(true);
+    expect(isViteDevelopmentRuntime({ DEV: true } as any)).toBe(true);
+    expect(isViteDevelopmentRuntime({ DEV: false } as any)).toBe(true);
+
+    delete (globalThis as any).__TEST_VITE_DEV__;
+    expect(isViteDevelopmentRuntime({ DEV: true } as any)).toBe(true);
+    expect(isViteDevelopmentRuntime({ DEV: false } as any)).toBe(false);
+    expect(isViteDevelopmentRuntime(undefined as any)).toBe(true);
+    Reflect.set(globalThis, "__TEST_VITE_DEV__", true);
+  });
+
   it("initializes lifecycle wiring, service worker runtime, and panel restoration", async () => {
     const popstateHandlers: Array<(...args: unknown[]) => void> = [];
     const loadHandlers: Array<(...args: unknown[]) => void> = [];
