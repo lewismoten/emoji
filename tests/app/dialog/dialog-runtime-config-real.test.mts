@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { createDialogRuntimeConfig } from "../../../src/app/dialog/dialog-runtime-config.js";
+import * as sharedState from "../../../src/state.js";
 
 class FakeClassList {
   contains() {
@@ -111,6 +112,16 @@ try {
     searchAnnotations: { wrappedGift: ["gift"] },
     selectedSearchLocale: "",
   };
+  sharedState.byId.replace(state.byId);
+  sharedState.currentEmojiCopies.replace(state.currentEmojiCopies);
+  sharedState.currentEmojiKey.set(state.currentEmojiKey);
+  sharedState.currentDialogParentStack.set(state.currentDialogParentStack);
+  sharedState.dialogNavigationKeys.set(state.dialogNavigationKeys);
+  sharedState.displayedKeys.set(state.displayedKeys);
+  sharedState.emojiByKey.replace(state.emojiByKey);
+  sharedState.items.set(state.items);
+  sharedState.searchAnnotations.replace(state.searchAnnotations);
+  sharedState.selectedSearchLocale.set(state.selectedSearchLocale);
   const dialog = {
     dataset: {} as Record<string, string>,
     classList: new FakeClassList(),
@@ -119,31 +130,24 @@ try {
   const config = createDialogRuntimeConfig({
     applyPixelArtworkClass: () => {},
     applyStandalonePixelArtwork: () => {},
-    byId: () => state.byId,
     copyStatus: () => ({ textContent: "" }),
-    currentDialogParentStack: () => state.currentDialogParentStack,
-    currentEmojiKey: () => state.currentEmojiKey,
     developerModeEnabled: () => true,
     dialog: () => dialog as any,
-    dialogNavigationKeys: () => state.dialogNavigationKeys,
-    displayedKeys: () => state.displayedKeys,
     displayGroupName: (value: string) => value,
     displayUnicodeSubGroupName: (value: string) => value,
-    emojiByKey: () => state.emojiByKey,
     emojiNext: () => ({ disabled: false }) as any,
     emojiParent: () => ({ hidden: true, title: "", setAttribute() {} }) as any,
     emojiPrevious: () => ({ disabled: false }) as any,
     focusInitialAction: () => {},
     getIntroducedVersion: () => "6.0",
     openEditor: () => {},
-    searchAnnotations: () => state.searchAnnotations,
     sequenceTranslationKeys: { single: "single" },
     sequenceTypeLabels: { single: "Single" },
     setCurrentDialogParentStack: (value: string[]) => {
       state.currentDialogParentStack = value;
+      sharedState.currentDialogParentStack.set(value);
     },
     setDialogView: () => {},
-    state: () => state,
     statusTranslationKeys: { "fully-qualified": "fullyQualified" },
     syncUrlState: () => {},
     translate: (_key: string, fallback: string) => fallback,
@@ -158,7 +162,7 @@ try {
   assert.equal(typeof config.updateDialogNavigation, "function");
   assert.equal(typeof config.updateCompositionBackButton, "function");
   config.showEmoji("wrappedGift", false);
-  assert.equal(state.currentEmojiKey, "wrappedGift");
+  assert.equal(sharedState.currentEmojiKey.get(), "wrappedGift");
 } finally {
   if (originalDocument)
     Object.defineProperty(globalThis, "document", originalDocument);

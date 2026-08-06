@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
+import * as sharedState from "../../../../src/state.js";
 
 const sourceReplacements = [
   ['from "../../explorer-runtime.js";', 'from "./explorer-runtime-stub.mjs";'],
@@ -148,6 +149,92 @@ export async function createBootstrapRuntimeFixture() {
     favoriteEmojiKeys: ["thumbsUp"],
     explorerPreferences: { theme: "retro" },
   };
+  sharedState.currentEmojiKey.set(state.currentEmojiKey);
+  sharedState.emojiByKey.replace(state.emojiByKey);
+  sharedState.searchLoadId.set(state.searchLoadId);
+  sharedState.searchLocales.set(state.searchLocales);
+  sharedState.selectedSearchLocale.set(state.selectedSearchLocale);
+  sharedState.searchAnnotations.replace(state.searchAnnotations ?? {});
+  sharedState.searchLabels.replace(state.searchLabels ?? {});
+  sharedState.searchSubgroupLabels.replace(state.searchSubgroupLabels ?? {});
+  sharedState.byId.replace(state.byId as any);
+  sharedState.currentDialogParentStack.set(state.currentDialogParentStack);
+  sharedState.dialogNavigationKeys.set(state.dialogNavigationKeys);
+  sharedState.displayedKeys.set(state.displayedKeys);
+  sharedState.copiedEmojiKeys.set(state.copiedEmojiKeys);
+  sharedState.favoriteEmojiKeys.set(state.favoriteEmojiKeys);
+  Object.defineProperties(state, {
+    byId: {
+      configurable: true,
+      get: () => sharedState.byId.get(),
+      set: (value) => sharedState.byId.replace(value as any),
+    },
+    copiedEmojiKeys: {
+      configurable: true,
+      get: () => sharedState.copiedEmojiKeys.get(),
+      set: (value) => sharedState.copiedEmojiKeys.set(value),
+    },
+    currentDialogParentStack: {
+      configurable: true,
+      get: () => sharedState.currentDialogParentStack.get(),
+      set: (value) => sharedState.currentDialogParentStack.set(value),
+    },
+    currentEmojiKey: {
+      configurable: true,
+      get: () => sharedState.currentEmojiKey.get(),
+      set: (value) => sharedState.currentEmojiKey.set(value),
+    },
+    dialogNavigationKeys: {
+      configurable: true,
+      get: () => sharedState.dialogNavigationKeys.get(),
+      set: (value) => sharedState.dialogNavigationKeys.set(value),
+    },
+    displayedKeys: {
+      configurable: true,
+      get: () => sharedState.displayedKeys.get(),
+      set: (value) => sharedState.displayedKeys.set(value),
+    },
+    emojiByKey: {
+      configurable: true,
+      get: () => sharedState.emojiByKey.get(),
+      set: (value) => sharedState.emojiByKey.replace(value),
+    },
+    favoriteEmojiKeys: {
+      configurable: true,
+      get: () => sharedState.favoriteEmojiKeys.get(),
+      set: (value) => sharedState.favoriteEmojiKeys.set(value),
+    },
+    searchAnnotations: {
+      configurable: true,
+      get: () => sharedState.searchAnnotations.get(),
+      set: (value) => sharedState.searchAnnotations.replace(value ?? {}),
+    },
+    searchLabels: {
+      configurable: true,
+      get: () => sharedState.searchLabels.get(),
+      set: (value) => sharedState.searchLabels.replace(value ?? {}),
+    },
+    searchLoadId: {
+      configurable: true,
+      get: () => sharedState.searchLoadId.get(),
+      set: (value) => sharedState.searchLoadId.set(value),
+    },
+    searchLocales: {
+      configurable: true,
+      get: () => sharedState.searchLocales.get(),
+      set: (value) => sharedState.searchLocales.set(value),
+    },
+    searchSubgroupLabels: {
+      configurable: true,
+      get: () => sharedState.searchSubgroupLabels.get(),
+      set: (value) => sharedState.searchSubgroupLabels.replace(value ?? {}),
+    },
+    selectedSearchLocale: {
+      configurable: true,
+      get: () => sharedState.selectedSearchLocale.get(),
+      set: (value) => sharedState.selectedSearchLocale.set(value),
+    },
+  });
   let pixelEditorValue = {
     refreshFontBuild: () => ["refresh-font-build"],
     open: (...args: unknown[]) => ["open-editor", args],

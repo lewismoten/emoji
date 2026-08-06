@@ -26,6 +26,10 @@ export async function loadStartupOrchestratorFixture() {
       'import * as route from "../route.js";',
       'import * as route from "./route-stub.mjs";',
     )
+    .replace(
+      'import * as state from "../../state.js";',
+      'import * as state from "../../../src/state.js";',
+    )
     .replace(/options: any/g, "options");
 
   const tempRoot = path.join(root, "build/tests/.tmp");

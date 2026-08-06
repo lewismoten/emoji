@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { createExplorerBootstrapShellWithFactories } from "../../../../src/app/bootstrap/explorer-bootstrap-shell.js";
+import * as sharedState from "../../../../src/state.js";
 
 const dialogState = {
   classList: {
@@ -15,6 +16,26 @@ const state: any = {
   emojiKeyByCodePoints: new Map([["1F381", "wrappedGift"]]),
   explorerPreferences: { pixelFont: true },
 };
+sharedState.byId.replace(state.byId as any);
+sharedState.emojiByKey.replace(state.emojiByKey);
+sharedState.emojiKeyByCodePoints.replace(state.emojiKeyByCodePoints);
+Object.defineProperties(state, {
+  byId: {
+    configurable: true,
+    get: () => sharedState.byId.get(),
+    set: (value) => sharedState.byId.replace(value as any),
+  },
+  emojiByKey: {
+    configurable: true,
+    get: () => sharedState.emojiByKey.get(),
+    set: (value) => sharedState.emojiByKey.replace(value),
+  },
+  emojiKeyByCodePoints: {
+    configurable: true,
+    get: () => sharedState.emojiKeyByCodePoints.get(),
+    set: (value) => sharedState.emojiKeyByCodePoints.replace(value),
+  },
+});
 
 let pixelOptions: any;
 let shellOptions: any;

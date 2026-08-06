@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { createExplorerBootstrapShell } from "../../../src/app/bootstrap/explorer-bootstrap-shell.js";
+import * as sharedState from "../../../src/state.js";
 const originalWindow = globalThis.window,
   originalDocument = globalThis.document,
   originalMutationObserver = (globalThis as any).MutationObserver;
@@ -105,6 +106,68 @@ const state = {
   versionManifests: [{ version: "17.0" }],
 };
 const saveCalls: Array<[string, unknown]> = [];
+sharedState.byId.replace(state.byId as any);
+sharedState.copiedEmojiKeys.set(state.copiedEmojiKeys);
+sharedState.currentEmojiKey.set(state.currentEmojiKey);
+sharedState.emojiByKey.replace(state.emojiByKey);
+sharedState.emojiKeyByCodePoints.replace(state.emojiKeyByCodePoints);
+sharedState.favoriteEmojiKeys.set(state.favoriteEmojiKeys);
+sharedState.proposedVersionManifests.set(state.proposedVersionManifests);
+sharedState.searchAnnotations.replace(state.searchAnnotations);
+sharedState.versionManifests.set(state.versionManifests);
+sharedState.versionKeys.replace(state.versionKeys);
+Object.defineProperties(state, {
+  byId: {
+    configurable: true,
+    get: () => sharedState.byId.get(),
+    set: (value) => sharedState.byId.replace(value as any),
+  },
+  copiedEmojiKeys: {
+    configurable: true,
+    get: () => sharedState.copiedEmojiKeys.get(),
+    set: (value) => sharedState.copiedEmojiKeys.set(value),
+  },
+  currentEmojiKey: {
+    configurable: true,
+    get: () => sharedState.currentEmojiKey.get(),
+    set: (value) => sharedState.currentEmojiKey.set(value),
+  },
+  emojiByKey: {
+    configurable: true,
+    get: () => sharedState.emojiByKey.get(),
+    set: (value) => sharedState.emojiByKey.replace(value),
+  },
+  emojiKeyByCodePoints: {
+    configurable: true,
+    get: () => sharedState.emojiKeyByCodePoints.get(),
+    set: (value) => sharedState.emojiKeyByCodePoints.replace(value),
+  },
+  favoriteEmojiKeys: {
+    configurable: true,
+    get: () => sharedState.favoriteEmojiKeys.get(),
+    set: (value) => sharedState.favoriteEmojiKeys.set(value),
+  },
+  proposedVersionManifests: {
+    configurable: true,
+    get: () => sharedState.proposedVersionManifests.get(),
+    set: (value) => sharedState.proposedVersionManifests.set(value),
+  },
+  searchAnnotations: {
+    configurable: true,
+    get: () => sharedState.searchAnnotations.get(),
+    set: (value) => sharedState.searchAnnotations.replace(value),
+  },
+  versionKeys: {
+    configurable: true,
+    get: () => sharedState.versionKeys.get(),
+    set: (value) => sharedState.versionKeys.replace(value),
+  },
+  versionManifests: {
+    configurable: true,
+    get: () => sharedState.versionManifests.get(),
+    set: (value) => sharedState.versionManifests.set(value),
+  },
+});
 const shell = createExplorerBootstrapShell({
   applyingUrlState: () => false,
   copyStatus: () => undefined,

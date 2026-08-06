@@ -28,6 +28,10 @@ export async function loadStartupRuntimeFixture() {
       'import { createStartupOrchestrator } from "./startup-orchestrator.js";',
       'import { createStartupOrchestrator } from "./startup-orchestrator-stub.mjs";',
     )
+    .replace(
+      'import * as state from "../../state.js";',
+      'import * as state from "../../../src/state.js";',
+    )
     .replace(/options: any/g, "options")
     .replace(/args: any\[\]/g, "args")
     .replace(/amount: number/g, "amount");

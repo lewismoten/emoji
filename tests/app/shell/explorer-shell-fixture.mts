@@ -28,6 +28,7 @@ export async function loadExplorerShellFixture() {
     )
     .replace('from "../explorer-ui.js";', 'from "./explorer-ui-stub.mjs";')
     .replace('from "../state.js";', 'from "../../../src/state.js";')
+    .replace('from "../utils/aria.js";', 'from "../../../src/utils/aria.js";')
     .replace(/options: any/g, "options")
     .replace(/dependencies\?: any/g, "dependencies")
     .replace(/keys: string\[\]/g, "keys")
