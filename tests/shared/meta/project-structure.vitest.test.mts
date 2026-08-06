@@ -50,7 +50,7 @@ const legacyLineBudgets: Record<string, number> = {
   "tests/pixel-editor/controllers/pixel-editor-transfer.test.mts": 405,
   "tests/pixel-editor/controllers/setup/pixel-editor-controller-visual.test.mts": 325,
   "tests/pixel-editor/data/pixel-editor-atlas-io.test.mts": 470,
-  "tests/pixel-font-hot-reload.test.mts": 546,
+  "tests/pixel-font-hot-reload.vitest.test.mts": 515,
   "tests/shared/meta/project-structure.vitest.test.mts": 319,
 };
 
