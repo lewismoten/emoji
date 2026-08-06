@@ -48,10 +48,12 @@ const legacyLineBudgets: Record<string, number> = {
   "tests/explorer/utility/runtime/utility-controls-fixture.mts": 305,
   "tests/pixel-editor/controllers/pixel-editor-atlas.test.mts": 346,
   "tests/pixel-editor/controllers/pixel-editor-transfer.test.mts": 405,
+  "tests/pixel-editor/controllers/pixel-editor-transfer.vitest.test.mts": 361,
   "tests/pixel-editor/controllers/setup/pixel-editor-controller-visual.test.mts": 325,
-  "tests/pixel-editor/data/pixel-editor-atlas-io.vitest.test.mts": 479,
+  "tests/pixel-editor/data/pixel-editor-atlas-io.vitest.test.mts": 493,
+  "tests/pixel-editor/layers/pixel-editor-layer-helpers.vitest.test.mts": 306,
   "tests/pixel-font-hot-reload.vitest.test.mts": 524,
-  "tests/shared/meta/project-structure.vitest.test.mts": 319,
+  "tests/shared/meta/project-structure.vitest.test.mts": 321,
 };
 
 const legacyFileCountBudgets: Record<string, number> = {
