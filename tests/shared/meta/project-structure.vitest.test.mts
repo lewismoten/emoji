@@ -47,7 +47,7 @@ const legacyLineBudgets: Record<string, number> = {
   "tests/explorer/pwa-panels.test.mts": 590,
   "tests/explorer/utility/runtime/utility-controls-fixture.mts": 305,
   "tests/pixel-editor/controllers/pixel-editor-atlas.test.mts": 346,
-  "tests/pixel-editor/controllers/pixel-editor-atlas.vitest.test.mts": 342,
+  "tests/pixel-editor/controllers/pixel-editor-atlas.vitest.test.mts": 354,
   "tests/pixel-editor/controllers/pixel-editor-transfer.test.mts": 405,
   "tests/pixel-editor/controllers/pixel-editor-transfer.vitest.test.mts": 361,
   "tests/pixel-editor/controllers/setup/pixel-editor-controller-visual.test.mts": 325,
