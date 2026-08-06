@@ -1,201 +1,169 @@
 import assert from "node:assert/strict";
-import { describe, it } from "vitest";
+import { beforeEach, describe, it, vi } from "vitest";
+
+const previewCalls: any[] = [];
+const canvasCalls: any[] = [];
+const paletteCalls: any[] = [];
+const modeCalls: any[] = [];
+const runtimeCalls: any[] = [];
+const toolCalls: any[] = [];
+const transferCalls: any[] = [];
+
+vi.mock(
+  "../../../../src/pixel-editor/canvas/pixel-editor-canvas-helpers.js",
+  () => ({
+    canvasIsBlackSilhouette: "black-silhouette",
+    createPixelEditorPreviewController(options: any) {
+      previewCalls.push(options);
+      return {
+        drawArtworkPreview() {},
+        kind: "preview-controller",
+      };
+    },
+    drawCenteredEmoji: "draw-centered-emoji",
+    drawCheckerboard: "checkerboard",
+    imageDataCanvas: "image-data-canvas",
+    recolorVisibleCanvasPixels: "recolor-visible",
+  }),
+);
+
+vi.mock(
+  "../../../../src/pixel-editor/canvas/pixel-editor-layer-canvas-controller.js",
+  () => ({
+    createPixelEditorCanvasController(options: any) {
+      canvasCalls.push(options);
+      return { draw() {}, kind: "render-controller" };
+    },
+  }),
+);
+
+vi.mock("../../../../src/pixel-editor/core/pixel-editor-constants.js", () => ({
+  CELL_SIZE: 12,
+  DISPLAY_SIZE: 240,
+  IS_VITE_DEVELOPMENT: true,
+}));
+
+vi.mock(
+  "../../../../src/pixel-editor/core/pixel-editor-geometry-helpers.js",
+  () => ({
+    cloneFloatingLayer: "clone-floating-layer",
+    pixelOffset: "pixel-offset",
+    trimVisiblePixels: "trim-visible-pixels",
+  }),
+);
+
+vi.mock("../../../../src/pixel-editor/data/pixel-editor-atlas-io.js", () => ({
+  extractCell: "extract-cell",
+}));
+
+vi.mock(
+  "../../../../src/pixel-editor/layers/pixel-editor-layer-helpers.js",
+  () => ({
+    effectiveLayerPixels: "effective-layer-pixels",
+    nearestPaletteColor: "nearest-palette-color",
+  }),
+);
+
+vi.mock("../../../../src/pixel-editor/palette/pixel-editor-palette.js", () => ({
+  createPixelEditorPaletteController(options: any) {
+    paletteCalls.push(options);
+    return { kind: "palette-controller" };
+  },
+}));
+
+vi.mock(
+  "../../../../src/pixel-editor/controllers/pixel-editor-mode.js",
+  () => ({
+    createPixelEditorModeController(options: any) {
+      modeCalls.push(options);
+      return {
+        kind: "mode-controller",
+        updateEditorModePanels() {},
+        updateTransferButtons() {},
+      };
+    },
+  }),
+);
+
+vi.mock(
+  "../../../../src/pixel-editor/controllers/pixel-editor-runtime.js",
+  () => ({
+    createPixelEditorRuntimeController(options: any) {
+      runtimeCalls.push(options);
+      return {
+        kind: "runtime-controller",
+        loadManifest() {
+          return "manifest";
+        },
+        redo() {
+          return "redo";
+        },
+        refreshFontBuild() {
+          return "font-build";
+        },
+        refreshTranslations() {
+          return "translations";
+        },
+        renderLocationText() {
+          return "loc";
+        },
+        undo() {
+          return "undo";
+        },
+      };
+    },
+  }),
+);
+
+vi.mock(
+  "../../../../src/pixel-editor/controllers/pixel-editor-tools.js",
+  () => ({
+    createPixelEditorToolController(options: any) {
+      toolCalls.push(options);
+      return {
+        drawLine() {},
+        drawShape() {},
+        floodFill() {},
+        kind: "tool-controller",
+        updateShapeToolButtons() {},
+      };
+    },
+  }),
+);
+
+vi.mock(
+  "../../../../src/pixel-editor/controllers/pixel-editor-transfer.js",
+  () => ({
+    createPixelEditorTransferController(options: any) {
+      transferCalls.push(options);
+      return {
+        bakeFloatingLayer() {},
+        cancelFloatingLayer() {},
+        copyPixelArt() {},
+        copySelection() {},
+        kind: "transfer-controller",
+        moveFloatingLayer() {},
+        pastePixelArt() {},
+        transformFloatingLayer() {},
+      };
+    },
+  }),
+);
 
 describe("pixel-editor-controller-visual", () => {
-  it("builds visual controllers through the transformed module harness", async () => {
-    const fs = await import("node:fs/promises");
-    const path = await import("node:path");
-    const { pathToFileURL } = await import("node:url");
-    // Pairing source: ../../../../src/pixel-editor/controllers/setup/pixel-editor-controller-visual.js
+  beforeEach(() => {
+    previewCalls.length = 0;
+    canvasCalls.length = 0;
+    paletteCalls.length = 0;
+    modeCalls.length = 0;
+    runtimeCalls.length = 0;
+    toolCalls.length = 0;
+    transferCalls.length = 0;
+  });
 
-    const sourceModuleSpecifier =
-      "../../../../src/pixel-editor/controllers/setup/pixel-editor-controller-visual.ts";
-    void sourceModuleSpecifier;
-    const root = process.cwd();
-    const source = await fs.readFile(
-      path.join(
-        root,
-        "src/pixel-editor/controllers/setup/pixel-editor-controller-visual.ts",
-      ),
-      "utf8",
-    );
-
-    const replacements: Array<[string, string]> = [
-      [
-        'from "../../canvas/pixel-editor-canvas-helpers.js";',
-        'from "./pixel-editor-canvas-helpers-stub.mjs";',
-      ],
-      [
-        'from "../../canvas/pixel-editor-layer-canvas-controller.js";',
-        'from "./pixel-editor-layer-canvas-controller-stub.mjs";',
-      ],
-      [
-        'from "../../core/pixel-editor-constants.js";',
-        'from "./pixel-editor-constants-stub.mjs";',
-      ],
-      [
-        'from "../../core/pixel-editor-geometry-helpers.js";',
-        'from "./pixel-editor-geometry-helpers-stub.mjs";',
-      ],
-      [
-        'from "../../data/pixel-editor-atlas-io.js";',
-        'from "./pixel-editor-atlas-io-stub.mjs";',
-      ],
-      [
-        'from "../../layers/pixel-editor-layer-helpers.js";',
-        'from "./pixel-editor-layer-helpers-stub.mjs";',
-      ],
-      [
-        'from "../../palette/pixel-editor-palette.js";',
-        'from "./pixel-editor-palette-stub.mjs";',
-      ],
-      [
-        'from "../pixel-editor-mode.js";',
-        'from "./pixel-editor-mode-stub.mjs";',
-      ],
-      [
-        'from "../pixel-editor-runtime.js";',
-        'from "./pixel-editor-runtime-stub.mjs";',
-      ],
-      [
-        'from "../pixel-editor-tools.js";',
-        'from "./pixel-editor-tools-stub.mjs";',
-      ],
-      [
-        'from "../pixel-editor-transfer.js";',
-        'from "./pixel-editor-transfer-stub.mjs";',
-      ],
-    ];
-    let transformedSource = source;
-    for (const [from, to] of replacements)
-      transformedSource = transformedSource.replace(from, to);
-
-    const tempRoot = path.join(root, "build/tests/.tmp");
-    await fs.mkdir(tempRoot, { recursive: true });
-    const tempDirectory = await fs.mkdtemp(
-      path.join(tempRoot, "pixel-editor-controller-visual-"),
-    );
-
-    await fs.writeFile(
-      path.join(tempDirectory, "pixel-editor-canvas-helpers-stub.mjs"),
-      [
-        "export const canvasIsBlackSilhouette = 'black-silhouette';",
-        "export const drawCenteredEmoji = 'draw-centered-emoji';",
-        "export const drawCheckerboard = 'checkerboard';",
-        "export const imageDataCanvas = 'image-data-canvas';",
-        "export const recolorVisibleCanvasPixels = 'recolor-visible';",
-        "export const previewCalls = [];",
-        "export function createPixelEditorPreviewController(options) {",
-        "  previewCalls.push(options);",
-        "  return { drawArtworkPreview: 'draw-artwork-preview', drawFontPreview() {}, renderTrace() {} };",
-        "}",
-      ].join("\n"),
-    );
-    await fs.writeFile(
-      path.join(tempDirectory, "pixel-editor-layer-canvas-controller-stub.mjs"),
-      [
-        "export const canvasCalls = [];",
-        "export function createPixelEditorCanvasController(options) {",
-        "  canvasCalls.push(options);",
-        "  return { draw() {}, kind: 'render-controller' };",
-        "}",
-      ].join("\n"),
-    );
-    await fs.writeFile(
-      path.join(tempDirectory, "pixel-editor-constants-stub.mjs"),
-      [
-        "export const CELL_SIZE = 12;",
-        "export const DISPLAY_SIZE = 240;",
-        "export const IS_VITE_DEVELOPMENT = true;",
-      ].join("\n"),
-    );
-    await fs.writeFile(
-      path.join(tempDirectory, "pixel-editor-geometry-helpers-stub.mjs"),
-      [
-        "export const cloneFloatingLayer = 'clone-floating-layer';",
-        "export const pixelOffset = 'pixel-offset';",
-        "export const trimVisiblePixels = 'trim-visible-pixels';",
-      ].join("\n"),
-    );
-    await fs.writeFile(
-      path.join(tempDirectory, "pixel-editor-atlas-io-stub.mjs"),
-      "export const extractCell = 'extract-cell';\n",
-    );
-    await fs.writeFile(
-      path.join(tempDirectory, "pixel-editor-layer-helpers-stub.mjs"),
-      [
-        "export const effectiveLayerPixels = 'effective-layer-pixels';",
-        "export const nearestPaletteColor = 'nearest-palette-color';",
-      ].join("\n"),
-    );
-    for (const [name, exportName] of [
-      ["pixel-editor-palette-stub.mjs", "createPixelEditorPaletteController"],
-      ["pixel-editor-mode-stub.mjs", "createPixelEditorModeController"],
-      ["pixel-editor-runtime-stub.mjs", "createPixelEditorRuntimeController"],
-      ["pixel-editor-tools-stub.mjs", "createPixelEditorToolController"],
-      ["pixel-editor-transfer-stub.mjs", "createPixelEditorTransferController"],
-    ]) {
-      await fs.writeFile(
-        path.join(tempDirectory, name),
-        [
-          "export const calls = [];",
-          `export function ${exportName}(options) {`,
-          "  calls.push(options);",
-          exportName === "createPixelEditorModeController"
-            ? "  return { kind: 'mode-controller', updateEditorModePanels() {}, updateTransferButtons() {} };"
-            : exportName === "createPixelEditorRuntimeController"
-              ? "  return { kind: 'runtime-controller', loadManifest() {}, redo() {}, refreshFontBuild() {}, refreshTranslations() {}, renderLocationText() { return 'loc'; }, undo() {} };"
-              : exportName === "createPixelEditorToolController"
-                ? "  return { kind: 'tool-controller', drawLine() {}, drawShape() {}, floodFill() {}, updateShapeToolButtons() {} };"
-                : exportName === "createPixelEditorTransferController"
-                  ? "  return { kind: 'transfer-controller', bakeFloatingLayer() {}, cancelFloatingLayer() {}, copyPixelArt() {}, copySelection() {}, moveFloatingLayer() {}, pastePixelArt() {}, transformFloatingLayer() {} };"
-                  : "  return { kind: 'palette-controller' };",
-          "}",
-        ].join("\n"),
-      );
-    }
-    await fs.writeFile(
-      path.join(tempDirectory, "pixel-editor-controller-visual.mjs"),
-      transformedSource,
-    );
-
-    const module = await import(
-      pathToFileURL(
-        path.join(tempDirectory, "pixel-editor-controller-visual.mjs"),
-      ).href
-    );
-    const previewStub = await import(
-      pathToFileURL(
-        path.join(tempDirectory, "pixel-editor-canvas-helpers-stub.mjs"),
-      ).href
-    );
-    const renderStub = await import(
-      pathToFileURL(
-        path.join(
-          tempDirectory,
-          "pixel-editor-layer-canvas-controller-stub.mjs",
-        ),
-      ).href
-    );
-    const paletteStub = await import(
-      pathToFileURL(path.join(tempDirectory, "pixel-editor-palette-stub.mjs"))
-        .href
-    );
-    const modeStub = await import(
-      pathToFileURL(path.join(tempDirectory, "pixel-editor-mode-stub.mjs")).href
-    );
-    const runtimeStub = await import(
-      pathToFileURL(path.join(tempDirectory, "pixel-editor-runtime-stub.mjs"))
-        .href
-    );
-    const toolStub = await import(
-      pathToFileURL(path.join(tempDirectory, "pixel-editor-tools-stub.mjs"))
-        .href
-    );
-    const transferStub = await import(
-      pathToFileURL(path.join(tempDirectory, "pixel-editor-transfer-stub.mjs"))
-        .href
-    );
+  it("builds visual controllers through the real source module", async () => {
+    const module =
+      await import("../../../../src/pixel-editor/controllers/setup/pixel-editor-controller-visual.js");
 
     const state: any = {
       artworkClipboard: "clipboard",
@@ -207,7 +175,6 @@ describe("pixel-editor-controller-visual", () => {
       floatingLayer: { id: 1 },
       manifestPromise: "manifest-promise",
       pastePending: false,
-      persistedArtwork: new Map(),
       pixels: new Uint8ClampedArray([1]),
       selectedColor: "#ffffff",
       selectedSkinTone: "1F3FB",
@@ -224,7 +191,6 @@ describe("pixel-editor-controller-visual", () => {
       copyArtButton: "copy-art",
       copyFontButton: "copy-font",
       copySelectionButton: "copy-selection",
-      dirtyIndicator: "dirty",
       downloadButton: "download",
       downloadEmojiButton: "download-emoji",
       downloadPreview: "download-preview",
@@ -237,37 +203,153 @@ describe("pixel-editor-controller-visual", () => {
       layerNudgeButtons: ["layer-nudge"],
       layerPanel: "layer-panel",
       layerTransformButtons: ["layer-transform"],
+      location: { textContent: "" },
+      officialPreview: "official-preview",
       paletteButtons: ["palette-button"],
-      paletteGrid: "palette-grid",
-      previewActionButtons: ["preview-action"],
-      previewPanel: "preview-panel",
-      saveButton: "save",
-      status: "status",
+      pasteArtButton: "paste-art",
+      previewActions: "preview-actions",
+      status: { textContent: "" },
       toolButtons: ["tool-button"],
+      toolsPanel: "tools-panel",
       traceAlpha: "trace-alpha",
-      traceNudgeButtons: ["trace-nudge"],
-      tracePanel: "trace-panel",
+      traceCanvas: "trace-canvas",
+      traceOutput: "trace-output",
+      tracingPanel: "tracing-panel",
+      transferPanel: "transfer-panel",
+      view: "view",
     };
 
-    const translate = "translate";
-    const visual = module.createPixelEditorVisualControllers({
+    const controllers = module.createPixelEditorVisualControllers({
+      draftController: { kind: "draft-controller" },
       elements,
+      formatNumber: (value: number) => `n:${value}`,
+      formatPercent: (value: number) => `p:${value}`,
       state,
-      translate,
+      translate: (key: string, fallback: string) => `${key}:${fallback}`,
     });
 
-    assert.equal(visual.paletteController.kind, "palette-controller");
-    assert.equal(visual.modeController.kind, "mode-controller");
-    assert.equal(visual.runtimeController.kind, "runtime-controller");
-    assert.equal(visual.toolController.kind, "tool-controller");
-    assert.equal(visual.transferController.kind, "transfer-controller");
-    assert.equal(visual.renderController.kind, "render-controller");
-    assert.equal(previewStub.previewCalls.length, 1);
-    assert.equal(renderStub.canvasCalls.length, 1);
-    assert.equal(paletteStub.calls.length, 1);
-    assert.equal(modeStub.calls.length, 1);
-    assert.equal(runtimeStub.calls.length, 1);
-    assert.equal(toolStub.calls.length, 1);
-    assert.equal(transferStub.calls.length, 1);
+    assert.equal(
+      (controllers.paletteController as any).kind,
+      "palette-controller",
+    );
+    assert.equal((controllers.modeController as any).kind, "mode-controller");
+    assert.equal(
+      (controllers.runtimeController as any).kind,
+      "runtime-controller",
+    );
+    assert.equal((controllers.toolController as any).kind, "tool-controller");
+    assert.equal(
+      (controllers.transferController as any).kind,
+      "transfer-controller",
+    );
+    assert.equal(
+      (controllers.renderController as any).kind,
+      "render-controller",
+    );
+    assert.equal(previewCalls.length, 1);
+    assert.equal(canvasCalls.length, 1);
+    assert.equal(paletteCalls.length, 1);
+    assert.equal(modeCalls.length, 1);
+    assert.equal(runtimeCalls.length, 1);
+    assert.equal(toolCalls.length, 1);
+    assert.equal(transferCalls.length, 1);
+
+    const paletteOptions = paletteCalls[0];
+    assert.equal(paletteOptions.getPixels(), state.pixels);
+    assert.equal(paletteOptions.getSelectedColor(), "#ffffff");
+    assert.equal(paletteOptions.getSelectedSkinTone(), "1F3FB");
+    assert.equal(paletteOptions.getTraceAlpha(), "trace-alpha");
+    assert.equal(paletteOptions.getTraceCanvas(), "trace-canvas");
+    paletteOptions.setSelectedColor("#000000");
+    paletteOptions.setSelectedSkinTone("1F3FFC");
+    assert.equal(state.selectedColor, "#000000");
+    assert.equal(state.selectedSkinTone, "1F3FFC");
+
+    const previewOptions = previewCalls[0];
+    assert.equal(previewOptions.currentEmoji(), "😀");
+    assert.equal(previewOptions.currentEntry(), state.currentEntry);
+    assert.equal(previewOptions.floatingLayer(), state.floatingLayer);
+    assert.equal(previewOptions.pixels(), state.pixels);
+    assert.equal(previewOptions.selectionDashOffset(), 2);
+    assert.equal(previewOptions.traceOffsetX(), 3);
+    assert.equal(previewOptions.traceOffsetY(), 4);
+    previewOptions.setSelectionDashOffset(9);
+    assert.equal(state.selectionDashOffset, 9);
+
+    const canvasOptions = canvasCalls[0];
+    assert.equal(canvasOptions.context, "context");
+    assert.equal(canvasOptions.currentEmoji(), "😀");
+    assert.equal(canvasOptions.currentSelection(), state.selection);
+    assert.equal(canvasOptions.currentTool(), "pencil");
+    assert.equal(canvasOptions.displaySize, 240);
+    assert.equal(canvasOptions.floatingLayer(), state.floatingLayer);
+    assert.equal(canvasOptions.pixels(), state.pixels);
+    assert.equal(canvasOptions.selectionDashOffset(), 9);
+    canvasOptions.setSelectionDashOffset(12);
+    assert.equal(state.selectionDashOffset, 12);
+
+    const modeOptions = modeCalls[0];
+    assert.equal(modeOptions.artworkClipboard(), "clipboard");
+    assert.equal(modeOptions.cellLoaded(), true);
+    assert.equal(modeOptions.currentEntry(), state.currentEntry);
+    assert.equal(modeOptions.floatingLayer(), state.floatingLayer);
+    assert.equal(modeOptions.pastePending(), false);
+    assert.equal(modeOptions.selection(), state.selection);
+    assert.equal(modeOptions.tool(), "pencil");
+
+    const toolOptions = toolCalls[0];
+    assert.equal(toolOptions.fillShapesEnabled(), false);
+    assert.equal(toolOptions.getPixels(), state.pixels);
+    assert.equal(toolOptions.getSelectedColor(), "#000000");
+    assert.equal(toolOptions.getTool(), "pencil");
+    assert.equal(toolOptions.hasFloatingLayer(), state.floatingLayer);
+    toolOptions.selection("selection-2");
+    toolOptions.setFillShapesEnabled(true);
+    toolOptions.setTool("eraser");
+    assert.equal(state.selection, "selection-2");
+    assert.equal(state.fillShapesEnabled, true);
+    assert.equal(state.tool, "eraser");
+
+    const runtimeOptions = runtimeCalls[0];
+    assert.equal(runtimeOptions.currentEntry(), state.currentEntry);
+    assert.equal(runtimeOptions.getManifestPromise(), "manifest-promise");
+    assert.equal(runtimeOptions.isViteDevelopment, true);
+    runtimeOptions.setCurrentEntry({ key: "other" });
+    runtimeOptions.setManifestPromise("next-manifest");
+    runtimeOptions.updateLocation();
+    assert.deepEqual(state.currentEntry, { key: "other" });
+    assert.equal(state.manifestPromise, "next-manifest");
+    assert.equal(elements.location.textContent, "loc");
+
+    const transferOptions = transferCalls[0];
+    assert.equal(transferOptions.artworkDrafts(), state.artworkDrafts);
+    assert.equal(transferOptions.cellLoaded(), true);
+    assert.equal(transferOptions.cellSize, 12);
+    assert.deepEqual(transferOptions.currentEntry(), { key: "other" });
+    assert.equal(transferOptions.floatingLayer(), state.floatingLayer);
+    assert.equal(transferOptions.getArtworkClipboard(), "clipboard");
+    assert.equal(transferOptions.getPixels(), state.pixels);
+    assert.equal(transferOptions.getSelection(), "selection-2");
+    assert.equal(transferOptions.getTool(), "eraser");
+    assert.equal(transferOptions.pastePending(), false);
+    assert.equal(
+      transferOptions.formatClipboardStatus("clip", "fallback"),
+      "clip:fallback",
+    );
+    assert.equal(
+      transferOptions.formatStatus("status", "fallback"),
+      "status:fallback",
+    );
+    assert.equal(transferOptions.loadManifest("a", "b"), "manifest");
+    transferOptions.setArtworkClipboard("clipboard-2");
+    transferOptions.setFloatingLayer(undefined);
+    transferOptions.setPastePending(true);
+    transferOptions.setSelection(undefined);
+    transferOptions.writeStatus("status-2");
+    assert.equal(state.artworkClipboard, "clipboard-2");
+    assert.equal(state.floatingLayer, undefined);
+    assert.equal(state.pastePending, true);
+    assert.equal(state.selection, undefined);
+    assert.equal(elements.status.textContent, "status-2");
   });
 });

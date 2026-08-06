@@ -156,6 +156,41 @@ describe("browser runtime service worker helpers", () => {
     expect(directDeletedCaches).toEqual(["emoji-explorer-v1"]);
     expect(directWarnings).toEqual([]);
 
+    const cleanupFailureWindowEvents: Record<string, () => unknown> = {};
+    const cleanupFailureWarnings: any[] = [];
+    bindServiceWorkerRuntime({
+      navigatorRef: {
+        serviceWorker: {
+          getRegistrations: async () => {
+            throw new Error("cleanup-failed");
+          },
+        },
+      } as any,
+      windowRef: {
+        isSecureContext: true,
+        location: {
+          origin: "https://emoji.example",
+          hostname: "emoji.example",
+        },
+        addEventListener(type: string, handler: () => unknown) {
+          cleanupFailureWindowEvents[type] = handler;
+        },
+      } as any,
+      cachesRef: {
+        keys: async () => ["emoji-explorer-v1"],
+        delete: async () => true,
+      },
+      isViteDevelopment: true,
+      warn: (...args: any[]) => {
+        cleanupFailureWarnings.push(args);
+      },
+    });
+    await cleanupFailureWindowEvents.load?.();
+    expect(cleanupFailureWarnings).toHaveLength(1);
+    expect(cleanupFailureWarnings[0][0]).toBe(
+      "Could not clear local offline cache",
+    );
+
     const installWindowEvents: Record<string, () => unknown> = {};
     const installCalls: string[] = [];
     const installWarnings: any[] = [];

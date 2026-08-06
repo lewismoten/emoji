@@ -28,6 +28,7 @@ const assignExplorerBootstrapElements = vi.fn((bindings: any, values: any) => {
   Object.assign(bindings, values);
 });
 const renderThemeToggle = vi.fn();
+const renderAudioToggle = vi.fn();
 const getExplorerSubGroup = vi.fn((...args: unknown[]) => ["subgroup", args]);
 
 vi.mock("../../../../src/explorer/explorer-labels.js", () => ({
@@ -102,6 +103,9 @@ vi.mock("../../../../src/utils/i18n.js", () => ({
 }));
 vi.mock("../../../../src/render-theme-toggle.js", () => ({
   renderThemeToggle,
+}));
+vi.mock("../../../../src/controls/audio/audio-toggle.js", () => ({
+  render: renderAudioToggle,
 }));
 
 describe("explorer bootstrap session entry", () => {
@@ -255,8 +259,25 @@ describe("explorer bootstrap session entry", () => {
       setView: vi.fn((...args: unknown[]) => ["controller-setView", args]),
     };
     const runtime = {
+      ensurePixelEditor: vi.fn((...args: unknown[]) => [
+        "ensurePixelEditor",
+        args,
+      ]),
+      explorerRuntime: {
+        get: vi.fn((id: string) => ["runtime-get", id]),
+        resolveElements: vi.fn(() => ({ exampleDialog: "dialog-element" })),
+      },
+      getEmojiGenders: vi.fn((item: unknown) => ["emoji-genders", item]),
+      navigateEmoji: vi.fn((amount: number) => [
+        "navigate-emoji-runtime",
+        amount,
+      ]),
       onLoad: "runtime-onload",
       removeLegacyDialogElements: vi.fn(),
+      ensureUtilityPanel: vi.fn(async (...args: unknown[]) => [
+        "ensure-utility-panel",
+        args,
+      ]),
     };
     const app = {
       startWhenReady: vi.fn(),
@@ -304,14 +325,112 @@ describe("explorer bootstrap session entry", () => {
       "controller-drawList",
       [],
     ]);
+    expect(shellBuilderOptions.applyingUrlState()).toBe(false);
+    expect(shellBuilderOptions.copyStatus()).toBe("copy-status");
+    expect(shellBuilderOptions.developerModeToggle()).toBe(
+      "developer-mode-toggle",
+    );
+    expect(shellBuilderOptions.modeChoices()).toEqual(["basic", "developer"]);
+    expect(shellBuilderOptions.dialog()).toEqual([
+      "runtime-get",
+      "exampleDialog",
+    ]);
+    expect(shellBuilderOptions.emojiFontChoices()).toEqual(["system", "pixel"]);
+    expect(shellBuilderOptions.genderCheckboxes()).toEqual(["neutral"]);
+    expect(shellBuilderOptions.getPixelEditor()).toBeUndefined();
+    expect(shellBuilderOptions.hairCheckboxes()).toEqual(["red"]);
+    expect(shellBuilderOptions.installAppButton()).toBe("install-app-button");
+    expect(shellBuilderOptions.installDialog()).toBe("install-dialog");
+    expect(shellBuilderOptions.loadVersionData()).toEqual([
+      "controller-loadVersionData",
+      [],
+    ]);
     expect(shellBuilderOptions.normalizeCodePoints("1F44D")).toEqual([
       "normalize",
       ["1F44D"],
     ]);
+    expect(shellBuilderOptions.offlineStatus()).toBe("offline-status");
+    expect(shellBuilderOptions.orderButtons()).toEqual(["unicode"]);
+    expect(shellBuilderOptions.renderCategoryFilters()).toEqual([
+      "renderCategoryFilters",
+      [],
+    ]);
+    expect(shellBuilderOptions.renderSearchLanguages()).toEqual([
+      "renderSearchLanguages",
+      [],
+    ]);
+    expect(shellBuilderOptions.renderVersionModeToggle()).toEqual([
+      "renderVersionModeToggle",
+      [],
+    ]);
+    expect(shellBuilderOptions.savedDialog()).toBe("saved-dialog");
+    expect(shellBuilderOptions.setDialogView("code")).toEqual([
+      "controller-setView",
+      ["code"],
+    ]);
+    expect(shellBuilderOptions.showEmoji("wave")).toEqual([
+      "showEmoji",
+      ["wave"],
+    ]);
+    expect(shellBuilderOptions.skinToneCheckboxes()).toEqual(["1F3FB"]);
+    expect(shellBuilderOptions.state()).toBe(
+      createExplorerState.mock.results[0]!.value,
+    );
+    expect(shellBuilderOptions.suppressDialogCloseSync()).toBe(false);
+    expect(shellBuilderOptions.syncUrlState("replace")).toEqual([
+      "controller-syncUrlState",
+      ["replace"],
+    ]);
+    expect(shellBuilderOptions.syncVersionRange()).toEqual([
+      "syncVersionRange",
+      [],
+    ]);
+    expect(shellBuilderOptions.themeChoices()).toEqual(["dark", "retro"]);
+    expect(shellBuilderOptions.urlStateReady()).toBe(true);
+    expect(shellBuilderOptions.versionModeSelector()).toBe(
+      "version-mode-selector",
+    );
+    expect(shellBuilderOptions.versionSelector()).toBe("version-selector");
 
     const controllerBuilderOptions =
       buildExplorerBootstrapControllerOptions.mock.calls[0]![0];
     expect(controllerBuilderOptions.unassigned).toBe("\u0000");
+    expect(controllerBuilderOptions.activeFilterSummary()).toBe(
+      "active-filter-summary",
+    );
+    expect(controllerBuilderOptions.activeFilterText()).toBe(
+      "active-filter-text",
+    );
+    expect(controllerBuilderOptions.applyingUrlState()).toBe(false);
+    expect(controllerBuilderOptions.compactGroupChoices()).toEqual([
+      "group-choice",
+    ]);
+    expect(controllerBuilderOptions.compactGroupLabel()).toBe("group-label");
+    expect(controllerBuilderOptions.compactSequenceChoices()).toEqual([
+      "sequence-choice",
+    ]);
+    expect(controllerBuilderOptions.compactSequenceLabel()).toBe(
+      "sequence-label",
+    );
+    expect(controllerBuilderOptions.compactSubGroupChoices()).toEqual([
+      "subgroup-choice",
+    ]);
+    expect(controllerBuilderOptions.compactSubGroupLabel()).toBe(
+      "subgroup-label",
+    );
+    expect(controllerBuilderOptions.copyToClipboardValue).toBe(
+      "copy-to-clipboard-value",
+    );
+    expect(controllerBuilderOptions.developerModeEnabled).toBe(
+      "developer-mode-enabled",
+    );
+    expect(controllerBuilderOptions.fullDeveloperModeEnabled).toBe(
+      "full-developer-mode-enabled",
+    );
+    expect(controllerBuilderOptions.dialog()).toEqual([
+      "runtime-get",
+      "exampleDialog",
+    ]);
     expect(controllerBuilderOptions.getExplorerSubGroup("mail")[0]).toBe(
       "subgroup",
     );
@@ -322,10 +441,204 @@ describe("explorer bootstrap session entry", () => {
     expect(controllerBuilderOptions.displayExplorerLabel("group")).toBe(
       "Translated Group",
     );
+    expect(controllerBuilderOptions.drawList()).toEqual([
+      "controller-drawList",
+      [],
+    ]);
+    await controllerBuilderOptions.ensurePanelDialog("help");
+    expect(
+      initializeExplorerBootstrapSessionRuntime.mock.results[0]!.value
+        .ensureUtilityPanel,
+    ).toHaveBeenCalledWith("help");
+    expect(assignExplorerBootstrapElements).toHaveBeenCalledWith(
+      createExplorerBootstrapBindings.mock.results[0]!.value,
+      {
+        exampleDialog: "dialog-element",
+      },
+    );
+    expect(
+      createExplorerBootstrapShell.mock.results[0]!.value.renderDeveloperMode,
+    ).toHaveBeenCalled();
+    expect(renderThemeToggle).toHaveBeenCalled();
+    expect(
+      createExplorerBootstrapShell.mock.results[0]!.value.renderPixelFontToggle,
+    ).toHaveBeenCalled();
+    expect(renderAudioToggle).toHaveBeenCalled();
+    expect(
+      createExplorerBootstrapBindings.mock.results[0]!.value
+        .renderSearchLanguages,
+    ).toHaveBeenCalled();
+    expect(controllerBuilderOptions.emojiList()).toBe("emoji-list");
+    expect(controllerBuilderOptions.emojiParent()).toEqual([
+      "runtime-get",
+      "emojiParent",
+    ]);
+    expect(controllerBuilderOptions.ensurePixelEditor()).toEqual([
+      "ensurePixelEditor",
+      [],
+    ]);
+    expect(controllerBuilderOptions.focusInitialEmojiDialogAction()).toEqual([
+      "controller-focusInitialAction",
+      [],
+    ]);
+    expect(controllerBuilderOptions.getPixelEditor()).toBeUndefined();
+    expect(controllerBuilderOptions.genderCheckboxes()).toEqual(["neutral"]);
+    expect(controllerBuilderOptions.genderFieldset()).toBe("gender-fieldset");
+    expect(controllerBuilderOptions.getEmojiGenders("wave")).toEqual([
+      "emoji-genders",
+      "wave",
+    ]);
+    expect(controllerBuilderOptions.getIntroducedVersion).toBe(
+      "get-introduced-version",
+    );
+    expect(controllerBuilderOptions.groupFilterDialog()).toBe(
+      "group-filter-dialog",
+    );
+    expect(controllerBuilderOptions.groupPickerTrigger()).toBe(
+      "group-picker-trigger",
+    );
+    expect(controllerBuilderOptions.groupSelector()).toBe("group-selector");
+    expect(controllerBuilderOptions.hairCheckboxes()).toEqual(["red"]);
+    expect(controllerBuilderOptions.hairFieldset()).toBe("hair-fieldset");
+    expect(controllerBuilderOptions.helpDialog()).toBe("help-dialog");
+    expect(controllerBuilderOptions.isViteDevelopment).toBe(true);
+    expect(controllerBuilderOptions.languageList()).toBe("language-list");
+    expect(controllerBuilderOptions.loadPackageManifest).toBe(
+      "load-package-manifest",
+    );
+    expect(controllerBuilderOptions.matchCount()).toBe("match-count");
+    expect(controllerBuilderOptions.modifierFilters()).toBe("modifier-filters");
+    expect(controllerBuilderOptions.navigateEmoji(2)).toEqual([
+      "navigate-emoji-runtime",
+      2,
+    ]);
+    expect(controllerBuilderOptions.nextRenderGeneration()).toBe(5);
+    expect(controllerBuilderOptions.onClick).toBe("on-click");
     expect(controllerBuilderOptions.openPanel("help")).toEqual([
       "open-panel-dialog",
       ["help"],
     ]);
+    expect(controllerBuilderOptions.orderButtons()).toEqual(["unicode"]);
+    expect(controllerBuilderOptions.panelDialogs()).toEqual({
+      filters: "advanced-filters",
+      favorites: "saved-dialog",
+      help: "help-dialog",
+      language: "language-dialog",
+    });
+    expect(controllerBuilderOptions.recordCopiedEmoji).toBe(
+      "record-copied-emoji",
+    );
+    expect(controllerBuilderOptions.rebuildEmojiCodePointLookup).toBe(
+      "rebuild-emoji-codepoint-lookup",
+    );
+    expect(controllerBuilderOptions.renderCategoryFilters()).toEqual([
+      "renderCategoryFilters",
+      [],
+    ]);
+    expect(controllerBuilderOptions.renderGeneration()).toBe(5);
+    expect(controllerBuilderOptions.renderSavedEmoji).toBe(
+      "render-saved-emoji",
+    );
+    expect(controllerBuilderOptions.renderVersionModeToggle()).toEqual([
+      "renderVersionModeToggle",
+      [],
+    ]);
+    expect(controllerBuilderOptions.resetFilters()).toEqual([
+      "controller-resetFilters",
+      [],
+    ]);
+    expect(controllerBuilderOptions.revealExplorer()).toEqual([
+      "revealExplorer",
+      [],
+    ]);
+    expect(controllerBuilderOptions.searchText()).toBe("search-text");
+    expect(controllerBuilderOptions.sequenceTranslationKeys).toEqual({
+      zwj: "joiner",
+    });
+    expect(controllerBuilderOptions.sequenceTypeEmoji).toEqual({ zwj: "🪢" });
+    expect(controllerBuilderOptions.sequenceTypeLabels).toEqual({
+      zwj: "ZWJ",
+    });
+    expect(controllerBuilderOptions.sequenceTypeOrder).toEqual(["zwj"]);
+    expect(controllerBuilderOptions.sequenceTypeSelector()).toBe(
+      "sequence-type-selector",
+    );
+    expect(controllerBuilderOptions.setDialogView("summary")).toEqual([
+      "controller-setView",
+      ["summary"],
+    ]);
+    controllerBuilderOptions.setSuppressDialogCloseSync(true);
+    expect(
+      createExplorerBootstrapBindings.mock.results[0]!.value
+        .suppressDialogCloseSync,
+    ).toBe(true);
+    expect(controllerBuilderOptions.showEmoji("wave")).toEqual([
+      "showEmoji",
+      ["wave"],
+    ]);
+    expect(controllerBuilderOptions.skinToneCheckboxes()).toEqual(["1F3FB"]);
+    expect(controllerBuilderOptions.skinToneFieldset()).toBe(
+      "skin-tone-fieldset",
+    );
+    expect(controllerBuilderOptions.state()).toBe(
+      createExplorerState.mock.results[0]!.value,
+    );
+    expect(controllerBuilderOptions.subGroupFilterDialog()).toBe(
+      "subgroup-filter-dialog",
+    );
+    expect(controllerBuilderOptions.subGroupPickerTrigger()).toBe(
+      "subgroup-picker-trigger",
+    );
+    expect(controllerBuilderOptions.subGroupSelector()).toBe(
+      "subgroup-selector",
+    );
+    expect(controllerBuilderOptions.suppressedPanelCloses()).toBe(
+      createExplorerBootstrapBindings.mock.results[0]!.value
+        .suppressedPanelCloses,
+    );
+    expect(controllerBuilderOptions.syncUrlState("push")).toEqual([
+      "controller-syncUrlState",
+      ["push"],
+    ]);
+    expect(controllerBuilderOptions.toggleFavorite).toBe("toggle-favorite");
+    expect(controllerBuilderOptions.translate("group.label", "fallback")).toBe(
+      "Translated Group",
+    );
+    expect(controllerBuilderOptions.unicodeGroupLabelKeys).toEqual({
+      Objects: "objects.label",
+    });
+    expect(controllerBuilderOptions.unicodeSubgroupLabelKeys).toEqual({
+      mail: "mail.label",
+    });
+    expect(controllerBuilderOptions.updateCompositionBackButton()).toEqual([
+      "updateCompositionBackButton",
+      [],
+    ]);
+    expect(controllerBuilderOptions.updateDialogNavigation()).toEqual([
+      "updateDialogNavigation",
+      [],
+    ]);
+    expect(controllerBuilderOptions.updateEmojiComposition).toBe(
+      "update-emoji-composition",
+    );
+    expect(controllerBuilderOptions.updateEmojiImportExamples).toBe(
+      "update-emoji-import-examples",
+    );
+    expect(controllerBuilderOptions.updateModifierArtwork).toBe(
+      "update-modifier-pixel-artwork",
+    );
+    expect(controllerBuilderOptions.updatePixelArtworkManifest).toBe(
+      "update-pixel-artwork-manifest",
+    );
+    expect(controllerBuilderOptions.urlStateReady()).toBe(true);
+    expect(controllerBuilderOptions.versionModeSelector()).toBe(
+      "version-mode-selector",
+    );
+    expect(controllerBuilderOptions.versionNext()).toBe("version-next");
+    expect(controllerBuilderOptions.versionPrevious()).toBe("version-previous");
+    expect(controllerBuilderOptions.versionRange()).toBe("version-range");
+    expect(controllerBuilderOptions.versionRangeValue()).toBe("15.1");
+    expect(controllerBuilderOptions.versionSelector()).toBe("version-selector");
 
     expect(initializeExplorerBootstrapSessionRuntime).toHaveBeenCalledTimes(1);
     const runtimeOptions =
@@ -370,7 +683,7 @@ describe("explorer bootstrap session entry", () => {
     expect(parseExplorerModeParam).toHaveBeenCalledWith("?mode=developer");
     expect(state.developerModeFromUrl).toBe(true);
     expect(state.explorerModeFromUrl).toBe("developer");
-    expect(shell.renderDeveloperMode).toHaveBeenCalledTimes(1);
+    expect(shell.renderDeveloperMode).toHaveBeenCalledTimes(2);
 
     expect(
       initializeExplorerBootstrapSessionRuntime.mock.calls[0]![0].shell,

@@ -1,115 +1,89 @@
 import assert from "node:assert/strict";
-import { describe, it } from "vitest";
+import { beforeEach, describe, it, vi } from "vitest";
+
+const geometryCalls: any[] = [];
+const layerCalls: any[] = [];
+const rovingCalls: any[] = [];
+
+vi.mock(
+  "../../../src/pixel-editor/layers/pixel-editor-layer-helpers.js",
+  () => ({
+    flipPixels(_layer: unknown, horizontal: boolean) {
+      layerCalls.push(["flipPixels", horizontal]);
+      return horizontal
+        ? new Uint8ClampedArray([7, 7, 7, 255])
+        : new Uint8ClampedArray([8, 8, 8, 255]);
+    },
+    layerTransformChangesPixels(
+      _layer: unknown,
+      rotated: { changed?: boolean },
+    ) {
+      layerCalls.push(["layerTransformChangesPixels"]);
+      return rotated.changed !== false;
+    },
+    nextLayerRotation(_layer: unknown, clockwise: boolean) {
+      layerCalls.push(["nextLayerRotation", clockwise]);
+      return {
+        changed: true,
+        height: 2,
+        pixels: new Uint8ClampedArray([9, 9, 9, 255]),
+        width: 2,
+      };
+    },
+  }),
+);
+
+vi.mock(
+  "../../../src/pixel-editor/core/pixel-editor-geometry-helpers.js",
+  () => ({
+    layerPositionAllowed(_layer: unknown, x: number, y: number) {
+      geometryCalls.push(["layerPositionAllowed", x, y]);
+      return x >= 0 && y >= 0 && x < 5 && y < 5;
+    },
+    pixelsEqual(left: Uint8ClampedArray, right: Uint8ClampedArray) {
+      geometryCalls.push(["pixelsEqual"]);
+      return (
+        left.length === right.length &&
+        left.every((value, index) => value === right[index])
+      );
+    },
+  }),
+);
+
+vi.mock(
+  "../../../src/pixel-editor/core/pixel-editor-grid-navigation.js",
+  () => ({
+    syncRovingGrid(buttons: unknown[]) {
+      rovingCalls.push(buttons);
+    },
+  }),
+);
+
+const classList = () => {
+  const active = new Set<string>();
+  return {
+    active,
+    contains(name: string) {
+      return active.has(name);
+    },
+    toggle(name: string, force?: boolean) {
+      if (force === false) active.delete(name);
+      else if (force === true || !active.has(name)) active.add(name);
+      else active.delete(name);
+    },
+  };
+};
 
 describe("pixel-editor-mode", () => {
+  beforeEach(() => {
+    geometryCalls.length = 0;
+    layerCalls.length = 0;
+    rovingCalls.length = 0;
+  });
+
   it("updates mode panels and transfer state", async () => {
-    const fs = await import("node:fs/promises");
-    const path = await import("node:path");
-    const { pathToFileURL } = await import("node:url");
-    // Pairing source: ../../../src/pixel-editor/controllers/pixel-editor-mode.js
-
-    const sourceModuleSpecifier =
-      "../../../src/pixel-editor/controllers/pixel-editor-mode.ts";
-    const root = process.cwd();
-    const source = await fs.readFile(
-      path.join(root, "src/pixel-editor/controllers/pixel-editor-mode.ts"),
-      "utf8",
-    );
-
-    const transformedSource = source
-      .replace(
-        'from "../layers/pixel-editor-layer-helpers.js";',
-        'from "./pixel-editor-layer-helpers-stub.mjs";',
-      )
-      .replace(
-        'from "../core/pixel-editor-geometry-helpers.js";',
-        'from "./pixel-editor-geometry-helpers-stub.mjs";',
-      )
-      .replace(
-        'from "../core/pixel-editor-grid-navigation.js";',
-        'from "./pixel-editor-grid-navigation-stub.mjs";',
-      );
-
-    const tempRoot = path.join(root, "build/tests/.tmp");
-    await fs.mkdir(tempRoot, { recursive: true });
-    const tempDirectory = await fs.mkdtemp(
-      path.join(tempRoot, "pixel-editor-mode-"),
-    );
-
-    await fs.writeFile(
-      path.join(tempDirectory, "pixel-editor-layer-helpers-stub.mjs"),
-      [
-        "export const layerCalls = [];",
-        "export function flipPixels(_layer, horizontal) {",
-        "  layerCalls.push(['flipPixels', horizontal]);",
-        "  return horizontal ? new Uint8ClampedArray([7,7,7,255]) : new Uint8ClampedArray([8,8,8,255]);",
-        "}",
-        "export function layerTransformChangesPixels(_layer, rotated) {",
-        "  layerCalls.push(['layerTransformChangesPixels']);",
-        "  return rotated.changed !== false;",
-        "}",
-        "export function nextLayerRotation(_layer, clockwise) {",
-        "  layerCalls.push(['nextLayerRotation', clockwise]);",
-        "  return { pixels: new Uint8ClampedArray([9,9,9,255]), width: 2, height: 2, changed: true };",
-        "}",
-      ].join("\n"),
-    );
-    await fs.writeFile(
-      path.join(tempDirectory, "pixel-editor-geometry-helpers-stub.mjs"),
-      [
-        "export const geometryCalls = [];",
-        "export function layerPositionAllowed(_layer, x, y) {",
-        "  geometryCalls.push(['layerPositionAllowed', x, y]);",
-        "  return x >= 0 && y >= 0 && x < 5 && y < 5;",
-        "}",
-        "export function pixelsEqual(left, right) {",
-        "  geometryCalls.push(['pixelsEqual']);",
-        "  return left.length === right.length && left.every((value, index) => value === right[index]);",
-        "}",
-      ].join("\n"),
-    );
-    await fs.writeFile(
-      path.join(tempDirectory, "pixel-editor-grid-navigation-stub.mjs"),
-      [
-        "export const rovingCalls = [];",
-        "export function syncRovingGrid(buttons) {",
-        "  rovingCalls.push(buttons);",
-        "}",
-      ].join("\n"),
-    );
-    await fs.writeFile(
-      path.join(tempDirectory, "pixel-editor-mode.mjs"),
-      transformedSource,
-    );
-
-    const module = await import(
-      pathToFileURL(path.join(tempDirectory, "pixel-editor-mode.mjs")).href
-    );
-    const geometryStub = await import(
-      pathToFileURL(
-        path.join(tempDirectory, "pixel-editor-geometry-helpers-stub.mjs"),
-      ).href
-    );
-    const gridStub = await import(
-      pathToFileURL(
-        path.join(tempDirectory, "pixel-editor-grid-navigation-stub.mjs"),
-      ).href
-    );
-
-    const classList = () => {
-      const active = new Set<string>();
-      return {
-        active,
-        contains(name: string) {
-          return active.has(name);
-        },
-        toggle(name: string, force?: boolean) {
-          if (force === false) active.delete(name);
-          else if (force === true || !active.has(name)) active.add(name);
-          else active.delete(name);
-        },
-      };
-    };
+    const module =
+      await import("../../../src/pixel-editor/controllers/pixel-editor-mode.js");
 
     const copyArtButton: any = { disabled: false, hidden: false };
     const copyFontButton: any = { disabled: false, hidden: false };
@@ -186,10 +160,6 @@ describe("pixel-editor-mode", () => {
       view,
     });
 
-    assert.equal(
-      sourceModuleSpecifier,
-      "../../../src/pixel-editor/controllers/pixel-editor-mode.ts",
-    );
     controller.updateTransferButtons();
     assert.equal(copyArtButton.disabled, false);
     assert.equal(copyFontButton.disabled, false);
@@ -229,7 +199,7 @@ describe("pixel-editor-mode", () => {
     );
     assert.equal(invertLayerButton.attributes.get("aria-pressed"), "true");
     assert.equal(invertLayerButton.classList.contains("is-active"), true);
-    assert.equal(gridStub.rovingCalls.length >= 1, true);
+    assert.equal(rovingCalls.length >= 1, true);
 
     controller.updateLayerControlStates();
     assert.equal(layerNudgeButtons[0].disabled, false);
@@ -237,9 +207,7 @@ describe("pixel-editor-mode", () => {
     assert.equal(layerTransformButtons[0].disabled, false);
     assert.equal(layerTransformButtons[1].disabled, false);
     assert.equal(
-      geometryStub.geometryCalls.some(
-        (entry: any[]) => entry[0] === "layerPositionAllowed",
-      ),
+      geometryCalls.some((entry: any[]) => entry[0] === "layerPositionAllowed"),
       true,
     );
 
@@ -250,5 +218,14 @@ describe("pixel-editor-mode", () => {
     assert.equal(view.classList.contains("is-selection-mode"), true);
     assert.equal(copyArtButton.hidden, true);
     assert.equal(copySelectionButton.hidden, false);
+
+    currentEntry = undefined;
+    currentSelection = undefined;
+    loaded = false;
+    controller.updateTransferButtons();
+    assert.equal(copyArtButton.disabled, true);
+    assert.equal(copyFontButton.disabled, true);
+    assert.equal(copySelectionButton.disabled, true);
+    assert.equal(pasteArtButton.disabled, true);
   });
 });

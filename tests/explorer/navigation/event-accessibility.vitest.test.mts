@@ -97,6 +97,16 @@ describe("event-accessibility", () => {
       themeHandler(rtlEvent as any);
       assert.equal(themeChoices[0].clicked, true);
       (globalThis.document as any).documentElement.dir = "ltr";
+      const ignoredThemeEvent = {
+        currentTarget: themeChoices[1],
+        key: "Escape",
+        preventDefaultCalled: false,
+        preventDefault() {
+          this.preventDefaultCalled = true;
+        },
+      };
+      themeHandler(ignoredThemeEvent as any);
+      assert.equal(ignoredThemeEvent.preventDefaultCalled, false);
 
       const skin = new FakeCheckbox("1F3FB", "skin-tone");
       const hair = new FakeCheckbox("1F9B0", "hair");
@@ -133,6 +143,16 @@ describe("event-accessibility", () => {
         preventDefault() {},
       });
       assert.equal(hair.focused, true);
+      const ignoredModifierEvent = {
+        currentTarget: skin,
+        key: "Escape",
+        preventDefaultCalled: false,
+        preventDefault() {
+          this.preventDefaultCalled = true;
+        },
+      };
+      skin.listeners.get("keydown")?.(ignoredModifierEvent as any);
+      assert.equal(ignoredModifierEvent.preventDefaultCalled, false);
 
       const favoriteButton = new FakeButton("fav");
       favoriteButton.dataset.savedEmoji = "sparkles";
@@ -253,6 +273,21 @@ describe("event-accessibility", () => {
       };
       savedDialogListeners.get("keydown")?.(rightEvent);
       assert.equal(copiedButtonTwo.focused, true);
+      const ignoredSavedEvent = {
+        key: "Escape",
+        preventDefaultCalled: false,
+        preventDefault() {
+          this.preventDefaultCalled = true;
+        },
+        target: {
+          closest(selector: string) {
+            if (selector === "[data-saved-emoji]") return copiedButton;
+            return null;
+          },
+        },
+      };
+      savedDialogListeners.get("keydown")?.(ignoredSavedEvent as any);
+      assert.equal(ignoredSavedEvent.preventDefaultCalled, false);
     } finally {
       restore();
     }

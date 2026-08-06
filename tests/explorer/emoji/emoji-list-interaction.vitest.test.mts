@@ -134,6 +134,37 @@ describe("emoji-list-interaction", () => {
       sequenceInteraction.renderEmojiList(["alpha"], false);
       assert.deepEqual(renderedStates.at(-1), ["sequence", "", "alpha"]);
 
+      const schedulerChunkStates: string[] = [];
+      const schedulerChunkInteraction = createEmojiListInteraction({
+        asItem(state: any, key: string) {
+          state.items.push({ key });
+          schedulerChunkStates.push(key);
+        },
+        asSequenceItem() {},
+        drawList() {},
+        emojiList: () => emojiList as any,
+        flushEmojiCellFragment() {},
+        focusedEmojiKey: () => focusedKey,
+        getDisplayedKeys: () => [],
+        nextRenderGeneration: () => 1,
+        onClick() {},
+        orderMode: () => "unicode",
+        renderGeneration: () => 1,
+        resetFilters() {},
+        revealExplorer() {},
+        searchText: () => searchText as any,
+        setFocusedEmojiKey() {},
+        translate: (_key: string, fallback: string) => fallback,
+        unassigned: "unassigned",
+      });
+      schedulerChunkInteraction.renderEmojiList(
+        Array.from({ length: 121 }, (_, index) => `scheduler-${index}`),
+        false,
+      );
+      await Promise.resolve();
+      assert.equal(runtime.yielded > 0, true);
+      assert.equal(schedulerChunkStates.length, 121);
+
       (globalThis as any).window.scheduler = undefined;
       const chunkStates: string[] = [];
       const chunkInteraction = createEmojiListInteraction({
@@ -174,6 +205,65 @@ describe("emoji-list-interaction", () => {
         },
       });
 
+      const canceledInteraction = createEmojiListInteraction({
+        asItem(state: any, key: string) {
+          state.items.push({ key });
+        },
+        asSequenceItem() {},
+        drawList() {},
+        emojiList: () => emojiList as any,
+        flushEmojiCellFragment() {},
+        focusedEmojiKey: () => focusedKey,
+        getDisplayedKeys: () => [],
+        nextRenderGeneration: () => 2,
+        onClick() {},
+        orderMode: () => "unicode",
+        renderGeneration: () => 3,
+        resetFilters() {},
+        revealExplorer() {
+          clicked.push("should-not-render");
+        },
+        searchText: () => searchText as any,
+        setFocusedEmojiKey() {},
+        translate: (_key: string, fallback: string) => fallback,
+        unassigned: "unassigned",
+      });
+      canceledInteraction.renderEmojiList(["alpha"], true);
+      assert.equal(clicked.includes("should-not-render"), false);
+
+      const documentDescriptor = Object.getOwnPropertyDescriptor(
+        globalThis,
+        "document",
+      );
+      try {
+        Reflect.deleteProperty(globalThis, "document");
+        const documentlessInteraction = createEmojiListInteraction({
+          asItem() {},
+          asSequenceItem() {},
+          drawList() {},
+          emojiList: () => emojiList as any,
+          flushEmojiCellFragment() {},
+          focusedEmojiKey: () => focusedKey,
+          getDisplayedKeys: () => [],
+          nextRenderGeneration: () => 1,
+          onClick() {},
+          orderMode: () => "unicode",
+          renderGeneration: () => 1,
+          resetFilters() {},
+          revealExplorer() {},
+          searchText: () => searchText as any,
+          setFocusedEmojiKey() {},
+          translate: (_key: string, fallback: string) => fallback,
+          unassigned: "unassigned",
+        });
+        assert.doesNotThrow(() =>
+          documentlessInteraction.renderEmojiList([], false),
+        );
+      } finally {
+        if (documentDescriptor)
+          Object.defineProperty(globalThis, "document", documentDescriptor);
+      }
+
       interaction.onEmojiFocus({
         target: listCells[2],
       } as any);
@@ -182,6 +272,14 @@ describe("emoji-list-interaction", () => {
         listCells.map((cell) => cell.tabIndex),
         [-1, -1, 0],
       );
+      interaction.onEmojiFocus({
+        target: {
+          closest: () => ({
+            dataset: {},
+          }),
+        },
+      } as any);
+      assert.equal(focusedKey, "");
 
       const enterEvent = {
         key: "Enter",
@@ -219,6 +317,14 @@ describe("emoji-list-interaction", () => {
       assert.equal(rightEvent.preventDefaultCalled, true);
       assert.equal(listCells[1].focused, true);
 
+      const endEvent = {
+        key: "End",
+        preventDefault() {},
+        target: listCells[0],
+      };
+      interaction.onEmojiKeyDown(endEvent as any);
+      assert.equal(listCells[2].focused, true);
+
       const homeEvent = {
         key: "Home",
         preventDefault() {},
@@ -226,6 +332,34 @@ describe("emoji-list-interaction", () => {
       };
       interaction.onEmojiKeyDown(homeEvent as any);
       assert.equal(listCells[0].focused, true);
+
+      const upEvent = {
+        key: "ArrowUp",
+        preventDefault() {},
+        target: listCells[2],
+      };
+      interaction.onEmojiKeyDown(upEvent as any);
+      assert.equal(listCells[0].focused, true);
+
+      (globalThis as any).document.documentElement.dir = "rtl";
+      const rtlEvent = {
+        key: "ArrowLeft",
+        preventDefault() {},
+        target: listCells[0],
+      };
+      interaction.onEmojiKeyDown(rtlEvent as any);
+      assert.equal(listCells[1].focused, true);
+
+      const ignoredEvent = {
+        key: "Escape",
+        preventDefaultCalled: false,
+        preventDefault() {
+          this.preventDefaultCalled = true;
+        },
+        target: listCells[0],
+      };
+      interaction.onEmojiKeyDown(ignoredEvent as any);
+      assert.equal(ignoredEvent.preventDefaultCalled, false);
     } finally {
       runtime.restore();
     }

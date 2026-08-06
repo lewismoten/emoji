@@ -1,9 +1,20 @@
 import assert from "node:assert/strict";
-import { describe, it } from "vitest";
+import { afterEach, describe, it } from "vitest";
 
 import { buildCategoryRepresentatives } from "../../../src/explorer/category/category-representatives.js";
+import * as state from "../../../src/state.js";
 
 describe("category-representatives", () => {
+  afterEach(() => {
+    state.groups.set([]);
+    state.items.set([]);
+    state.proposedVersions.set([]);
+    state.releasedVersions.set([]);
+    state.subGroups.replace({});
+    state.versionKeys.replace(new Map());
+    state.subGroupRepresentativeEmoji.clear();
+  });
+
   it("builds group and subgroup representative emoji", () => {
     const result = buildCategoryRepresentatives({
       groups: ["Smileys & Emotion", "Animals & Nature", "Flags"],
@@ -158,5 +169,69 @@ describe("category-representatives", () => {
       "✈️",
     );
     assert.equal(withOrderFallback.groups.get("Travel & Places"), "🚀");
+  });
+
+  it("builds representatives directly from shared state when no options are provided", () => {
+    state.groups.set(["People & Body", "Objects"]);
+    state.items.set([
+      {
+        key: "wave",
+        emoji: "👋",
+        group: "People & Body",
+        unicodeSubGroup: "hand-fingers-open",
+        order: 2,
+      },
+      {
+        key: "raisedHand",
+        emoji: "✋",
+        group: "People & Body",
+        unicodeSubGroup: "hand-fingers-open",
+        order: 1,
+      },
+      {
+        key: "toolbox",
+        emoji: "🧰",
+        group: "Objects",
+        unicodeSubGroup: "tool",
+        order: 3,
+      },
+      {
+        key: "hammer",
+        emoji: "🔨",
+        group: "Objects",
+        unicodeSubGroup: "tool",
+        order: 1,
+      },
+      {
+        key: "email",
+        emoji: "✉️",
+        group: "Objects",
+        unicodeSubGroup: "mail",
+        order: 0,
+      },
+    ] as any);
+    state.releasedVersions.set([{ version: "1.0" }, { version: "15.0" }] as any);
+    state.proposedVersions.set([{ version: "16.0" }] as any);
+    state.subGroups.replace({
+      "People & Body": ["hand-fingers-open"],
+      Objects: ["tool"],
+    });
+    state.versionKeys.replace(
+      new Map<string, Set<string>>([
+        ["1.0", new Set(["wave", "toolbox"])],
+        ["15.0", new Set(["raisedHand", "email"])],
+        ["16.0", new Set(["hammer"])],
+      ]),
+    );
+
+    buildCategoryRepresentatives();
+
+    assert.equal(
+      state.subGroupRepresentativeEmoji.get("People & Body::hand-fingers-open"),
+      "👋",
+    );
+    assert.equal(state.subGroupRepresentativeEmoji.get("Objects::tool"), "🧰");
+    assert.equal(state.subGroupRepresentativeEmoji.get("People & Body"), "✋");
+    assert.equal(state.subGroupRepresentativeEmoji.get("Objects"), "✉️");
   });
 });

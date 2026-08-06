@@ -35,6 +35,7 @@ import { createExplorerBootstrapShell } from "./explorer-bootstrap-shell.js";
 import { initializeExplorerPreferences } from "../explorer-preferences.js";
 import { translate } from "../../utils/i18n.js";
 import { renderThemeToggle } from "../../render-theme-toggle.js";
+import * as audioToggle from "../../controls/audio/audio-toggle.js";
 const UNASSIGNED = "\u0000";
 const explorerState = createExplorerState();
 const bindings = createExplorerBootstrapBindings();

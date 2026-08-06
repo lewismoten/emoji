@@ -26,6 +26,7 @@ export default defineConfig({
     include: ["tests/**/*.vitest.test.mts"],
     environment: "node",
     clearMocks: true,
+    fileParallelism: false,
     restoreMocks: true,
     coverage: {
       provider: "v8",

@@ -169,17 +169,22 @@ describe("createStartupRuntime bindings", () => {
     expect(call.emojiList()).toBe("emoji-list");
     expect(call.emojiNext()).toBe("emoji-next");
     expect(call.emojiPrevious()).toBe("emoji-previous");
+    expect(call.genderCheckboxes()).toBe("gender-checkboxes");
     expect(call.groupFilterDialog()).toBe("group-filter-dialog");
     expect(call.groupPickerTrigger()).toBe("group-picker-trigger");
     expect(call.groupSelector()).toBe("group-selector");
+    expect(call.hairCheckboxes()).toBe("hair-checkboxes");
     expect(call.helpDialog()).toBe("help-dialog");
     expect(call.helpPicker()).toBe("help-picker");
     expect(call.installApp).toBe("install-app");
     expect(call.installAppButton()).toBe("install-app-button");
+    expect(call.installDialog()).toBe("install-dialog");
     expect(call.languageDialog()).toBe("language-dialog");
     expect(call.languageList()).toBe("language-list");
     expect(call.languagePicker()).toBe("language-picker");
     expect(call.loadSearchLanguages()).toBe("load-search-languages");
+    expect(call.matchCount()).toBe("match-count");
+    expect(call.modeChoices()).toEqual(["standard", "developer"]);
     expect(call.navigateEmoji(3)).toEqual(["navigate-emoji", 3]);
     expect(call.orderButtons()).toBe("order-buttons");
     expect(call.populateVersionModeOptions("a")).toEqual([
@@ -191,7 +196,13 @@ describe("createStartupRuntime bindings", () => {
     expect(call.resetFilters()).toEqual(["reset-filters"]);
     expect(call.savedDialog()).toBe("saved-dialog");
     expect(call.savedPicker()).toBe("saved-picker");
+    expect(call.searchText()).toBe("search-text");
     expect(call.showEmoji("wave")).toEqual(["show-emoji", ["wave"]]);
+    expect(call.skinToneCheckboxes()).toBe("skin-tone-checkboxes");
+    expect(call.subGroupFilterDialog()).toBe("subgroup-filter-dialog");
+    expect(call.subGroupPickerTrigger()).toBe("subgroup-picker-trigger");
+    expect(call.subGroupSelector()).toBe("subgroup-selector");
+    expect(call.suppressedPanelCloses()).toBe("suppressed-panel-closes");
     expect(call.syncUrlState("replace")).toEqual([
       "sync-url-state",
       ["replace"],
@@ -200,10 +211,18 @@ describe("createStartupRuntime bindings", () => {
       "sync-version-range",
       ["through"],
     ]);
+    expect(call.themeChoices()).toBe("theme-choices");
+    expect(call.toolbar()).toBe("toolbar");
     expect(call.toggleVersionMode("selected")).toEqual([
       "toggle-version-mode",
       ["selected"],
     ]);
     expect(call.urlStateReady()).toBe(true);
+    expect(call.versionModeSelector()).toBe("version-mode-selector");
+    expect(call.versionModeToggle()).toBe("version-mode-toggle");
+    expect(call.versionNext()).toBe("version-next");
+    expect(call.versionPrevious()).toBe("version-previous");
+    expect(call.versionRange()).toBe("version-range");
+    expect(call.versionSelector()).toBe("version-selector");
   });
 });

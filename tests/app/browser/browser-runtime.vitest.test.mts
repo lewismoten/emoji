@@ -257,6 +257,8 @@ describe("browser runtime", () => {
     };
     const languageDialog = { dataset: { returnPanel: "help" }, ownerDocument };
     const syncUrlCalls: unknown[][] = [];
+    const closePanelDialogCalls: unknown[][] = [];
+    const suppressedCloses = new WeakSet();
 
     const { initializeBrowserRuntime } =
       await import("../../../src/app/browser/browser-runtime.js");
@@ -265,7 +267,9 @@ describe("browser runtime", () => {
       applyDialogUrlState() {},
       applyPixelArtworkClass() {},
       applyStandalonePixelArtwork() {},
-      closePanelDialog() {},
+      closePanelDialog: (...args: unknown[]) => {
+        closePanelDialogCalls.push(args);
+      },
       dialog: () => undefined,
       languageDialog: () => languageDialog,
       languageFlags: { en: "🇺🇸" },
@@ -283,7 +287,7 @@ describe("browser runtime", () => {
       setSearchLocales() {},
       setSearchSubgroupLabels() {},
       setSelectedLocale() {},
-      suppressedPanelCloses: () => new WeakSet(),
+      suppressedPanelCloses: () => suppressedCloses,
       syncUrlState: (...args: unknown[]) => {
         syncUrlCalls.push(args);
       },
@@ -296,6 +300,8 @@ describe("browser runtime", () => {
     expect(runtime.kind).toBe("search-language-lifecycle");
     expect(createSearchLanguageLifecycle).toHaveBeenCalledTimes(1);
     const lifecycleOptions = createSearchLanguageLifecycle.mock.calls[0]![0];
+    lifecycleOptions.closeLanguageDialog();
+    expect(closePanelDialogCalls).toEqual([[languageDialog, suppressedCloses]]);
     expect(lifecycleOptions.currentLoadId()).toBe(1);
     expect(lifecycleOptions.searchLocales()).toEqual([{ code: "en" }]);
     expect(lifecycleOptions.selectedSearchLocale()).toBe("en");

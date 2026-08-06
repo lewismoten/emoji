@@ -247,6 +247,12 @@ describe("createExplorerBootstrapRuntime", () => {
       hairCheckboxes: expect.any(Function),
       genderCheckboxes: expect.any(Function),
     });
+    const uiBindingOptions: any = (
+      createUiBindingRuntime.mock.calls as any
+    )[0][0];
+    expect(uiBindingOptions.skinToneCheckboxes()).toEqual(["1F3FB"]);
+    expect(uiBindingOptions.hairCheckboxes()).toEqual(["red"]);
+    expect(uiBindingOptions.genderCheckboxes()).toEqual(["neutral"]);
     expect(createPixelEditorRuntime).toHaveBeenCalledWith({
       dialog: expect.any(Function),
       formatNumber: "format-number",
@@ -257,6 +263,15 @@ describe("createExplorerBootstrapRuntime", () => {
       setPromise: expect.any(Function),
       translate: "translate",
     });
+    const pixelEditorOptions: any = (
+      createPixelEditorRuntime.mock.calls as any
+    )[0][0];
+    expect(pixelEditorOptions.dialog()).toEqual([
+      "runtime-get",
+      "exampleDialog",
+    ]);
+    expect(pixelEditorOptions.getEditor()).toBe(pixelEditorValue);
+    expect(pixelEditorOptions.getPromise()).toBe(pixelEditorPromiseValue);
     expect(createVersionModeRuntime).toHaveBeenCalledWith({
       definitions: ["all", "selected"],
       drawList: "draw-list",
@@ -266,19 +281,32 @@ describe("createExplorerBootstrapRuntime", () => {
       toggle: expect.any(Function),
       translate: "translate",
     });
+    const versionModeOptions: any = (
+      createVersionModeRuntime.mock.calls as any
+    )[0][0];
+    expect(versionModeOptions.selector()).toBe("version-mode-selector");
+    expect(versionModeOptions.toggle()).toBe("version-mode-toggle");
 
     const browserOptions: any = (
       createBrowserRuntimeConfig.mock.calls as any
     )[0][0];
     expect(browserOptions.closePanelDialog).toBe("close-panel-dialog");
     expect(browserOptions.dialog()).toEqual(["runtime-get", "exampleDialog"]);
+    expect(browserOptions.languageDialog()).toBe("language-dialog");
     expect(browserOptions.languageFlags.en).toBe("🇺🇸");
+    expect(browserOptions.languageList()).toBe("language-list");
+    expect(browserOptions.languagePicker()).toBe("language-picker");
+    expect(browserOptions.languagePickerFlag()).toBe("language-picker-flag");
+    expect(browserOptions.languagePickerLabel()).toBe("language-picker-label");
     expect(browserOptions.nextLoadId()).toBe(6);
     expect(browserOptions.onPixelFontRevisionLoaded()).toBeUndefined();
     browserOptions.onPixelFontRevisionLoaded();
     expect(pixelEditorValue.refreshFontBuild).toHaveBeenCalledTimes(2);
     expect(browserOptions.updateModifierArtwork()).toBeUndefined();
     browserOptions.updateModifierArtwork();
+    expect(browserOptions.suppressedPanelCloses()).toBe(
+      "suppressed-panel-closes",
+    );
     expect(createBrowserRuntimeConfig).toHaveBeenCalledTimes(1);
 
     const dialogOptions: any = (
@@ -289,12 +317,25 @@ describe("createExplorerBootstrapRuntime", () => {
     expect(dialogOptions.statusTranslationKeys).toEqual({
       fullyQualified: "fq",
     });
+    expect(dialogOptions.copyStatus()).toBe("copy-status");
+    expect(dialogOptions.dialog()).toEqual(["runtime-get", "exampleDialog"]);
+    expect(dialogOptions.emojiParent()).toEqual(["runtime-get", "emojiParent"]);
     expect(dialogOptions.dialog()).toEqual(["runtime-get", "exampleDialog"]);
     expect(dialogOptions.emojiNext()).toEqual(["runtime-get", "emojiNext"]);
+    expect(dialogOptions.emojiPrevious()).toEqual([
+      "runtime-get",
+      "emojiPrevious",
+    ]);
     expect(dialogOptions.openEditor("wave", "👋")).toEqual([
       "open-editor",
       ["wave", "👋"],
     ]);
+    expect(dialogOptions.updateCompositionBackButton()).toBe(
+      "update-composition-back-button",
+    );
+    expect(dialogOptions.updateDialogNavigation()).toBe(
+      "update-dialog-navigation",
+    );
     dialogOptions.setCurrentDialogParentStack(["help"]);
     expect(state.currentDialogParentStack.get()).toEqual(["help"]);
 
@@ -308,9 +349,29 @@ describe("createExplorerBootstrapRuntime", () => {
       "assign-controls",
       ["controls"],
     ]);
+    expect(startupOptions.assignElements("elements")).toEqual([
+      "assign-elements",
+      ["elements"],
+    ]);
     expect(startupOptions.assignModifierFieldsets()).toEqual([
       "assign-fieldsets",
       [],
+    ]);
+    expect(startupOptions.advancedFilters()).toBe("advanced-filters");
+    expect(startupOptions.advancedFiltersButton()).toBe(
+      "advanced-filters-button",
+    );
+    expect(startupOptions.applyingUrlState()).toBe(false);
+    expect(startupOptions.clearFiltersButton()).toBe("clear-filters-button");
+    expect(startupOptions.developerModeToggle()).toBe("developer-mode-toggle");
+    expect(startupOptions.modeChoices()).toBe("mode-choices");
+    expect(startupOptions.dialog()).toEqual(["runtime-get", "exampleDialog"]);
+    expect(startupOptions.emojiFontChoices()).toBe("emoji-font-choices");
+    expect(startupOptions.emojiList()).toBe("emoji-list");
+    expect(startupOptions.emojiNext()).toEqual(["runtime-get", "emojiNext"]);
+    expect(startupOptions.emojiPrevious()).toEqual([
+      "runtime-get",
+      "emojiPrevious",
     ]);
     expect(startupOptions.loadSearchLanguages()).toBe(
       "load-search-languages-option",
@@ -318,8 +379,59 @@ describe("createExplorerBootstrapRuntime", () => {
     expect(startupOptions.copiedEmojiKeys()).toEqual(["wave"]);
     expect(startupOptions.favoriteEmojiKeys()).toEqual(["thumbsUp"]);
     expect(startupOptions.emojiByKey()).toEqual({ wave: "👋" });
+    expect(startupOptions.genderCheckboxes()).toEqual(["neutral"]);
+    expect(startupOptions.groupFilterDialog()).toBe("group-filter-dialog");
+    expect(startupOptions.groupPickerTrigger()).toBe("group-picker-trigger");
+    expect(startupOptions.groupSelector()).toBe("group-selector");
+    expect(startupOptions.hairCheckboxes()).toEqual(["red"]);
+    expect(startupOptions.helpDialog()).toBe("help-dialog");
+    expect(startupOptions.helpPicker()).toBe("help-picker");
+    expect(startupOptions.hideModifierEmojiAccessibility()).toEqual([
+      "hide-modifier-a11y",
+    ]);
+    expect(startupOptions.installAppButton()).toBe("install-app-button");
+    expect(startupOptions.installDialog()).toBe("install-dialog");
+    expect(startupOptions.languageDialog()).toBe("language-dialog");
+    expect(startupOptions.languageList()).toBe("language-list");
+    expect(startupOptions.languagePicker()).toBe("language-picker");
+    expect(startupOptions.matchCount()).toBe("match-count");
+    expect(startupOptions.navigateEmoji(2)).toEqual([
+      "navigate-emoji-option",
+      2,
+    ]);
+    expect(startupOptions.orderButtons()).toBe("order-buttons");
     await startupOptions.ensureUtilityPanel("help");
     expect(ensureUtilityPanel).toHaveBeenCalledWith("help");
+    expect(startupOptions.renderSearchLanguages()).toBe(
+      "render-search-languages",
+    );
+    expect(startupOptions.renderVersionModeToggle()).toBe(
+      "render-version-mode-toggle",
+    );
+    expect(startupOptions.resetFilters()).toBe("reset-filters");
+    expect(startupOptions.savedDialog()).toBe("saved-dialog");
+    expect(startupOptions.savedPicker()).toBe("saved-picker");
+    expect(startupOptions.searchText()).toBe("search-text");
+    expect(startupOptions.skinToneCheckboxes()).toEqual(["1F3FB"]);
+    expect(startupOptions.subGroupFilterDialog()).toBe(
+      "subgroup-filter-dialog",
+    );
+    expect(startupOptions.subGroupPickerTrigger()).toBe(
+      "subgroup-picker-trigger",
+    );
+    expect(startupOptions.subGroupSelector()).toBe("subgroup-selector");
+    expect(startupOptions.suppressedPanelCloses()).toBe(
+      "suppressed-panel-closes",
+    );
+    expect(startupOptions.themeChoices()).toBe("theme-choices");
+    expect(startupOptions.toolbar()).toBe("toolbar");
+    expect(startupOptions.urlStateReady()).toBe(true);
+    expect(startupOptions.versionModeSelector()).toBe("version-mode-selector");
+    expect(startupOptions.versionModeToggle()).toBe("version-mode-toggle");
+    expect(startupOptions.versionNext()).toBe("version-next");
+    expect(startupOptions.versionPrevious()).toBe("version-previous");
+    expect(startupOptions.versionRange()).toBe("version-range");
+    expect(startupOptions.versionSelector()).toBe("version-selector");
 
     expect(runtime.explorerRuntime.get("exampleDialog")).toEqual([
       "runtime-get",

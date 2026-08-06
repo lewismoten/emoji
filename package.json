@@ -54,7 +54,7 @@
     }
   },
   "scripts": {
-    "clean": "rm -rf build && rm -rf dist",
+    "clean": "node ./scripts/clean-build-artifacts.mjs",
     "generate": "node ./scripts/generate-library.mjs && node ./scripts/generate-explorer-css.mjs",
     "build": "npm run clean && npm run generate && tsc && tsc -p src/explorer.tsconfig.json",
     "bundle": "npm run build && npm run svg:render && node ./scripts/generate-browser.mjs && npx rollup -c ./build/config/rollup.config.js --silent && node ./scripts/generate-type-declarations.mjs",

@@ -103,10 +103,51 @@ describe("createNavigationRuntime", () => {
     });
 
     const options = createExplorerNavigation.mock.calls[0]![0];
+    expect(options.allowedSequenceTypes).toBe("allowed-sequence-types");
+    expect(options.applyingUrlState()).toBe(false);
+    expect(options.compositionMode()).toBe("condensed");
+    expect(options.developerModeEnabled).toBe("developer-mode-enabled");
+    expect(options.fullDeveloperModeEnabled).toBe(
+      "full-developer-mode-enabled",
+    );
+    expect(options.dialog().close).toBeTypeOf("function");
     expect(options.currentEmojiKey()).toBe("wave");
+    expect(options.drawList).toBe("draw-list");
     expect(options.emojiByKey()).toEqual({ wave: "👋" });
+    expect(options.ensurePanelDialog).toBe("ensure-panel-dialog");
+    expect(options.genderCheckboxes()).toEqual(["neutral"]);
+    expect(options.getOrderMode()).toBe("grouped");
+    expect(options.getSelectedGroup()).toBe("Objects");
+    expect(options.getSelectedSequenceType()).toBe("zwj");
+    expect(options.getSelectedSubGroup()).toBe("mail");
     expect(options.groups()).toEqual(["Objects"]);
+    expect(options.hairCheckboxes()).toEqual(["red"]);
+    expect(options.helpDialog()).toBe("help-dialog");
+    expect(options.languageList()).toBe("language-list");
+    expect(options.latestReleasedVersion()).toBe("17.0");
+    expect(options.navigateEmoji(2)).toEqual(["navigate-emoji", 2]);
+    expect(options.orderButtons()).toBe("order-buttons");
+    expect(options.panelDialogs).toBe("panel-dialogs");
+    expect(options.preferredOrder()).toBe("unicode");
+    expect(options.renderCategoryFilters()).toBe("render-category-filters");
+    expect(options.renderSavedEmoji).toBe("render-saved-emoji");
+    expect(options.renderVersionModeToggle()).toBe(
+      "render-version-mode-toggle",
+    );
+    expect(options.searchText()).toBe("search-text");
     expect(options.subGroups()).toEqual({ Objects: ["mail"] });
+    expect(options.setDialogView("details")).toEqual([
+      "set-dialog-view",
+      ["details"],
+    ]);
+    expect(options.skinToneCheckboxes()).toEqual(["1F3FB"]);
+    expect(options.subGroupSelectionKey).toBe("subgroup-selection-key");
+    expect(options.suppressedPanelCloses()).toBe("suppressed-panel-closes");
+    expect(options.syncVersionRange()).toBe("sync-version-range");
+    expect(options.urlStateReady()).toBe(true);
+    expect(options.versionModeSelector()).toBe("version-mode-selector");
+    expect(options.versionRange()).toBe("version-range");
+    expect(options.versionSelector()).toBe("version-selector");
     expect(options.openEmoji("wave", true, ["a", "b"], "code")).toEqual([
       "show-emoji",
       ["wave", true, ["a", "b"], "code"],
