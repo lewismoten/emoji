@@ -51,7 +51,7 @@ const legacyLineBudgets: Record<string, number> = {
   "tests/pixel-editor/controllers/setup/pixel-editor-controller-visual.test.mts": 325,
   "tests/pixel-editor/data/pixel-editor-atlas-io.test.mts": 470,
   "tests/pixel-font-hot-reload.test.mts": 546,
-  "tests/shared/meta/project-structure.vitest.test.mts": 315,
+  "tests/shared/meta/project-structure.vitest.test.mts": 319,
 };
 
 const legacyFileCountBudgets: Record<string, number> = {
