@@ -5,6 +5,7 @@ import { availableParallelism } from "node:os";
 
 const root = path.resolve(process.argv[2] ?? "build/tests");
 const testPattern = /\.test\.(?:js|mjs|cjs)$/;
+const vitestPattern = /\.vitest\.test\.(?:js|mjs|cjs)$/;
 // Keep normal test files under the project's 200 ms budget. Coverage adds
 // instrumentation and reports work that does not run in a normal test pass.
 const maximumDurationMs = 200;
@@ -119,7 +120,7 @@ function findTests(directory) {
       const file = path.join(directory, entry.name);
       return entry.isDirectory()
         ? findTests(file)
-        : testPattern.test(entry.name)
+        : testPattern.test(entry.name) && !vitestPattern.test(entry.name)
           ? [file]
           : [];
     })

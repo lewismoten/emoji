@@ -413,7 +413,6 @@ describe("explorer-navigation direct", () => {
       value: {
         documentElement: {
           dataset: {},
-          dataset: {},
         },
       },
     });
