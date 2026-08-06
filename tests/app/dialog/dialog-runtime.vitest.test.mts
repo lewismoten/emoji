@@ -44,16 +44,18 @@ describe("dialog runtime", () => {
   });
 
   it("wires emoji session and navigation controllers through shared state", async () => {
-    const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
+    const originalWindow = Object.getOwnPropertyDescriptor(
+      globalThis,
+      "window",
+    );
     Object.defineProperty(globalThis, "window", {
       configurable: true,
       value: { history: { state: { kept: "value", compositionParent: "x" } } },
     });
 
     try {
-      const { initializeDialogRuntime } = await import(
-        "../../../src/app/dialog/dialog-runtime.js"
-      );
+      const { initializeDialogRuntime } =
+        await import("../../../src/app/dialog/dialog-runtime.js");
 
       const copyStatus = { textContent: "copied" };
       const dialog = {
@@ -107,9 +109,7 @@ describe("dialog runtime", () => {
       );
       expect(sessionOptions.developerModeEnabled()).toBe(true);
       expect(sessionOptions.fullDeveloperModeEnabled()).toBe(false);
-      expect(sessionOptions.displayGroupName("Smileys")).toBe(
-        "group:Smileys",
-      );
+      expect(sessionOptions.displayGroupName("Smileys")).toBe("group:Smileys");
       expect(sessionOptions.getIntroducedVersion("wave")).toBe("v:wave");
       expect(sessionOptions.translate("group", "Group")).toBe("group:Group");
 
@@ -183,9 +183,8 @@ describe("dialog runtime", () => {
   });
 
   it("wraps dialog view controller dependencies with shared state selectors", async () => {
-    const { createDialogViewRuntime } = await import(
-      "../../../src/app/dialog/dialog-view-runtime.js"
-    );
+    const { createDialogViewRuntime } =
+      await import("../../../src/app/dialog/dialog-view-runtime.js");
 
     const runtime = createDialogViewRuntime({
       developerModeEnabled: () => true,

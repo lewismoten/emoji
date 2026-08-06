@@ -55,7 +55,10 @@ describe("createExplorerShell direct dependency injection", () => {
     Object.defineProperty(globalThis, "window", {
       configurable: true,
       value: {
-        addEventListener(type: string, handler: (...args: unknown[]) => unknown) {
+        addEventListener(
+          type: string,
+          handler: (...args: unknown[]) => unknown,
+        ) {
           if (type === "beforeinstallprompt") {
             beforeInstallHandlers.push(handler as (event: any) => void);
           }
@@ -284,7 +287,9 @@ describe("createExplorerShell direct dependency injection", () => {
     expect(versionSelector.value).toBe("16.0");
 
     const savedOptions: any = savedEmojiCalls[0];
-    expect(savedOptions.applyPixelArtworkClass()).toBe("apply-pixel-artwork-class");
+    expect(savedOptions.applyPixelArtworkClass()).toBe(
+      "apply-pixel-artwork-class",
+    );
     expect(savedOptions.byId()).toEqual(state.byId.get());
     expect(savedOptions.copiedEmojiKeys()).toEqual(["wave"]);
     expect(savedOptions.currentEmojiKey()).toBe("wave");

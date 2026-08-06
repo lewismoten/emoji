@@ -68,7 +68,9 @@ describe("createExplorerBootstrapControllers", () => {
       expect(controllerApi.displayGroupName("Objects")).toBe("Objects");
       expect(controllerApi.displayUnicodeSubGroupName("mail")).toBe("Mail");
       expect(() => controllerApi.getGroupRepresentativeEmoji()).not.toThrow();
-      expect(() => controllerApi.getSubGroupRepresentativeEmoji()).not.toThrow();
+      expect(() =>
+        controllerApi.getSubGroupRepresentativeEmoji(),
+      ).not.toThrow();
       expect(() => controllerApi.getVersionKeys()).not.toThrow();
       expect(() =>
         controllerApi.onEmojiDialogClick({
@@ -115,7 +117,10 @@ describe("createExplorerBootstrapControllers", () => {
 
   it("reopens the parent panel when dialog click handling returns from a panel-backed dialog", async () => {
     const undoDom = restoreDom();
-    const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
+    const originalWindow = Object.getOwnPropertyDescriptor(
+      globalThis,
+      "window",
+    );
     try {
       const { createControllers, options, state } =
         createBootstrapControllersFixture();
@@ -193,7 +198,10 @@ describe("createExplorerBootstrapControllers", () => {
   });
 
   it("wires factory-created runtimes through shared state and option delegates", async () => {
-    const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
+    const originalWindow = Object.getOwnPropertyDescriptor(
+      globalThis,
+      "window",
+    );
     Object.defineProperty(globalThis, "window", {
       configurable: true,
       value: {
@@ -207,9 +215,8 @@ describe("createExplorerBootstrapControllers", () => {
     });
 
     try {
-      const { createExplorerBootstrapControllersWithFactories } = await import(
-        "../../../src/app/bootstrap/explorer-bootstrap-controllers.js"
-      );
+      const { createExplorerBootstrapControllersWithFactories } =
+        await import("../../../src/app/bootstrap/explorer-bootstrap-controllers.js");
       const preferences = await import("../../../src/preferences.js");
       const sharedState = await import("../../../src/state.js");
       preferences.init({});
@@ -451,9 +458,8 @@ describe("createExplorerBootstrapControllers", () => {
       getString,
     }));
 
-    const module = await import(
-      "../../../src/app/bootstrap/explorer-bootstrap-controllers.js"
-    );
+    const module =
+      await import("../../../src/app/bootstrap/explorer-bootstrap-controllers.js");
     const { options } = createExplorerBootstrapControllersRuntimeFixture();
 
     const controllers = module.createExplorerBootstrapControllers(options);

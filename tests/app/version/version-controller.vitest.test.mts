@@ -237,10 +237,16 @@ describe("createVersionController", () => {
       ]),
     );
     state.releasedIds.replace(new Set(["wave"]));
-    state.byId.replace({ adult: { genders: ["neutral"] }, wave: { key: "wave" } } as any);
+    state.byId.replace({
+      adult: { genders: ["neutral"] },
+      wave: { key: "wave" },
+    } as any);
 
     const createdOptions: Array<{ value: string; text?: string }> = [];
-    const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+    const originalDocument = Object.getOwnPropertyDescriptor(
+      globalThis,
+      "document",
+    );
     Object.defineProperty(globalThis, "document", {
       configurable: true,
       value: {
@@ -358,7 +364,8 @@ describe("createVersionController", () => {
       return ["update-modifier-availability-result", options];
     });
     getVersionKeysHelper.mockImplementation((options: any) => {
-      const keys = options.versionKeys.get(options.versionValue) ?? new Set<string>();
+      const keys =
+        options.versionKeys.get(options.versionValue) ?? new Set<string>();
       if (options.versionMode === "selected") return new Set(keys);
       const versions = [...options.versionKeys.keys()].filter(
         (version) => version <= options.versionValue,
@@ -397,11 +404,14 @@ describe("createVersionController", () => {
         (option: any) => option.value === options.versionSelector.value,
       );
       if (selectedIndex < 0) return ["sync-version-range-result", options];
-      options.versionRange.max = String(options.versionSelector.options.length - 1);
+      options.versionRange.max = String(
+        options.versionSelector.options.length - 1,
+      );
       options.versionRange.value = String(selectedIndex);
-      const label = options.versionSelector.options[selectedIndex]?.value === "18.0"
-        ? "Emoji 18.0"
-        : `Emoji ${options.versionSelector.options[selectedIndex]?.value}`;
+      const label =
+        options.versionSelector.options[selectedIndex]?.value === "18.0"
+          ? "Emoji 18.0"
+          : `Emoji ${options.versionSelector.options[selectedIndex]?.value}`;
       options.versionRangeValue.value = label;
       options.versionRange.setAttribute("aria-valuetext", label);
       options.versionPrevious.disabled = false;
@@ -526,7 +536,9 @@ describe("createVersionController", () => {
       expect(openedEmoji).toEqual([]);
       expect(groupSelector.addEventListener).toHaveBeenCalledWith("change");
       expect(subGroupSelector.addEventListener).toHaveBeenCalledWith("change");
-      expect(sequenceTypeSelector.addEventListener).toHaveBeenCalledWith("change");
+      expect(sequenceTypeSelector.addEventListener).toHaveBeenCalledWith(
+        "change",
+      );
       expect(versionModeSelector.value).toBe("through");
 
       const firstPromise = controller.loadVersionData();

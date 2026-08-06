@@ -1,7 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import {
-  bindExplorerEventsWithEnvironment,
-} from "../../../src/app/emoji/explorer-app-events-runtime.js";
+import { bindExplorerEventsWithEnvironment } from "../../../src/app/emoji/explorer-app-events-runtime.js";
 import {
   bindExplorerEvents,
   createExplorerAppEventDependencies,
@@ -65,7 +63,10 @@ const createChoice = (dataset: Record<string, string>) => {
 
 const createWindowDocumentPair = () => {
   const mediaListeners: Array<(...args: any[]) => void> = [];
-  const onlineOfflineListeners = new Map<string, Array<(...args: any[]) => void>>();
+  const onlineOfflineListeners = new Map<
+    string,
+    Array<(...args: any[]) => void>
+  >();
   const documentListeners = new Map<string, Array<(...args: any[]) => void>>();
   const themeChoices = [
     createChoice({ theme: "dark" }),
@@ -152,7 +153,9 @@ const createRuntimeHarness = () => {
   const options = {
     advancedFilters: {},
     advancedFiltersButton,
-    applyBasicUrlState: vi.fn(() => lifecycleCalls.push("apply-basic-url-state")),
+    applyBasicUrlState: vi.fn(() =>
+      lifecycleCalls.push("apply-basic-url-state"),
+    ),
     applyingUrlState: false,
     clearFiltersButton: createEventTarget(),
     closePanel: vi.fn((...args: any[]) => panelCloses.push(args)),
@@ -227,15 +230,9 @@ const createRuntimeHarness = () => {
     stepVersion: vi.fn((step: number) => stepCalls.push(step)),
     suppressedPanelCloses: new Set<string>(),
     syncUrlState: vi.fn(() => lifecycleCalls.push("sync-url")),
-    syncVersionRange: vi.fn(() =>
-      lifecycleCalls.push("sync-version-range"),
-    ),
-    toggleDeveloperMode: vi.fn(() =>
-      lifecycleCalls.push("toggle-developer"),
-    ),
-    toggleVersionMode: vi.fn(() =>
-      lifecycleCalls.push("toggle-version-mode"),
-    ),
+    syncVersionRange: vi.fn(() => lifecycleCalls.push("sync-version-range")),
+    toggleDeveloperMode: vi.fn(() => lifecycleCalls.push("toggle-developer")),
+    toggleVersionMode: vi.fn(() => lifecycleCalls.push("toggle-version-mode")),
     updateOnlineStatus: vi.fn(() => lifecycleCalls.push("update-online")),
     urlStateReady: true,
     versionModeToggle: createEventTarget(),
@@ -247,7 +244,9 @@ const createRuntimeHarness = () => {
   const dependencies = {
     audioToggle: { render: vi.fn(() => lifecycleCalls.push("render-audio")) },
     bindModifierGroup: vi.fn(),
-    bindPanelDialog: vi.fn((value: unknown) => bindPanelDialogCalls.push(value)),
+    bindPanelDialog: vi.fn((value: unknown) =>
+      bindPanelDialogCalls.push(value),
+    ),
     bindSavedDialogInteractions: vi.fn((value: unknown) =>
       bindSavedDialogInteractionsCalls.push(value),
     ),
@@ -270,11 +269,15 @@ const createRuntimeHarness = () => {
 };
 
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
-const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
+const originalDocument = Object.getOwnPropertyDescriptor(
+  globalThis,
+  "document",
+);
 
 afterEach(() => {
   vi.restoreAllMocks();
-  if (originalWindow) Object.defineProperty(globalThis, "window", originalWindow);
+  if (originalWindow)
+    Object.defineProperty(globalThis, "window", originalWindow);
   else Reflect.deleteProperty(globalThis, "window");
   if (originalDocument) {
     Object.defineProperty(globalThis, "document", originalDocument);
@@ -482,7 +485,10 @@ describe("bindExplorerEventsWithEnvironment", () => {
         applyingUrlState: false,
         clearFiltersButton: { addEventListener() {}, removeEventListener() {} },
         closePanel() {},
-        developerModeToggle: { addEventListener() {}, removeEventListener() {} },
+        developerModeToggle: {
+          addEventListener() {},
+          removeEventListener() {},
+        },
         emojiFontChoices: [],
         emojiList: { addEventListener() {}, removeEventListener() {} },
         emojiNext: { addEventListener() {}, removeEventListener() {} },
@@ -575,7 +581,9 @@ describe("bindExplorerEvents", () => {
         addEventListener() {},
         documentElement: { dataset: { explorerMode: "standard" } },
         querySelector(selector: string) {
-          return selector === ".language-picker" ? fallbackLanguagePicker : null;
+          return selector === ".language-picker"
+            ? fallbackLanguagePicker
+            : null;
         },
         querySelectorAll() {
           return [];

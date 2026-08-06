@@ -95,9 +95,8 @@ describe("browser runtime", () => {
 
   it("creates locale-aware ui formatters and vite dev detection", async () => {
     const state = await import("../../../src/state.js");
-    const { createUiFormatters, isViteDevelopmentRuntime } = await import(
-      "../../../src/app/browser/browser-runtime.js"
-    );
+    const { createUiFormatters, isViteDevelopmentRuntime } =
+      await import("../../../src/app/browser/browser-runtime.js");
 
     const formatterCalls: Array<{
       type: "number" | "percent";

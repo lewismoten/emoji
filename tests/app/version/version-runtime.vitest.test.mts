@@ -145,6 +145,8 @@ describe("version runtime", () => {
     expect(loadVersionCatalog.mock.calls[0]![0].getExplorerSubGroup).toBe(
       options.getExplorerSubGroup,
     );
+    expect(loadVersionCatalog.mock.calls[0]![0].byId).toBeUndefined();
+    expect(loadVersionCatalog.mock.calls[0]![0].emojiByKey).toBeUndefined();
 
     config.openEmoji("wave", true, undefined, "code");
     expect(clickCalls.at(-1)).toEqual([{ target: { id: "wave" } }, true]);

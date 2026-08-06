@@ -323,7 +323,9 @@ describe("createExplorerShell", () => {
     state.emojiByKey.get.mockReturnValue(customState.emojiByKey);
     state.favoriteEmojiKeys.get.mockReturnValue(customState.favoriteEmojiKeys);
     state.searchAnnotations.get.mockReturnValue(customState.searchAnnotations);
-    state.versionManifests.get.mockReturnValue(customState.versionManifests as any);
+    state.versionManifests.get.mockReturnValue(
+      customState.versionManifests as any,
+    );
     state.orderMode.get.mockImplementation(() => customState.orderMode as any);
     state.orderMode.set.mockImplementation((next: string) => {
       customState.orderMode = next;

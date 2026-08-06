@@ -277,13 +277,9 @@ describe("explorer bootstrap option builders", () => {
     expect(runtime.renderInstallAppButton()).toBe(
       "renderInstallAppButton-value",
     );
-    expect(runtime.renderPixelFontToggle()).toBe(
-      "renderPixelFontToggle-value",
-    );
+    expect(runtime.renderPixelFontToggle()).toBe("renderPixelFontToggle-value");
     expect(runtime.renderSavedEmoji()).toBe("renderSavedEmoji-value");
-    expect(runtime.renderSearchLanguages()).toBe(
-      "renderSearchLanguages-value",
-    );
+    expect(runtime.renderSearchLanguages()).toBe("renderSearchLanguages-value");
     expect(runtime.renderVersionModeToggle()).toBe(
       "renderVersionModeToggle-value",
     );
@@ -296,9 +292,7 @@ describe("explorer bootstrap option builders", () => {
     expect(runtime.setElements()).toBe("setElements-value");
     expect(runtime.setFieldsets()).toBe("setFieldsets-value");
     expect(runtime.setPixelEditor()).toBe("setPixelEditor-value");
-    expect(runtime.setPixelEditorPromise()).toBe(
-      "setPixelEditorPromise-value",
-    );
+    expect(runtime.setPixelEditorPromise()).toBe("setPixelEditorPromise-value");
     expect(runtime.setSearchLanguage()).toBe("setSearchLanguage-value");
     expect(runtime.setSuppressDialogCloseSync()).toBe(
       "setSuppressDialogCloseSync-value",
@@ -339,9 +333,7 @@ describe("explorer bootstrap option builders", () => {
     expect(runtime.toggleDeveloperMode()).toBe("toggleDeveloperMode-value");
     runtime.toggleVersionMode("selected");
     expect(runtime.updateFavoriteButton()).toBe("updateFavoriteButton-value");
-    expect(runtime.updateModifierArtwork()).toBe(
-      "updateModifierArtwork-value",
-    );
+    expect(runtime.updateModifierArtwork()).toBe("updateModifierArtwork-value");
     expect(runtime.updateOnlineStatus()).toBe("updateOnlineStatus-value");
     expect(runtime.updatePixelArtworkManifest()).toBe(
       "updatePixelArtworkManifest-value",
