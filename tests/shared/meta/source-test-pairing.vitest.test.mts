@@ -108,8 +108,8 @@ describe("source-test-pairing", () => {
       if (matchingTests.length === 0) continue;
       const importsSource = matchingTests.some((testFile) => {
         const contents = fs.readFileSync(path.join(root, testFile), "utf8");
-        return expectedImportSpecifiers(sourceFile, testFile).some((specifier) =>
-          contents.includes(specifier),
+        return expectedImportSpecifiers(sourceFile, testFile).some(
+          (specifier) => contents.includes(specifier),
         );
       });
       if (!importsSource) {

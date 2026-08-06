@@ -141,7 +141,9 @@ describe("explorer composition integration", () => {
         path.join(root, "src/explorer/dialog/emoji-session.ts"),
         "utf8",
       ),
-    ).toMatch(/startsWith\((["'])ar\1\)[\s\S]*\?\s*(["'])arab\2\s*:\s*undefined/);
+    ).toMatch(
+      /startsWith\((["'])ar\1\)[\s\S]*\?\s*(["'])arab\2\s*:\s*undefined/,
+    );
     expect(emojiFormatHelper).toMatch(
       /options\.dir === (["'])rtl\1[\s\S]*\? `\$\{toLabel\}\\u2190\$\{fromLabel\}`/,
     );

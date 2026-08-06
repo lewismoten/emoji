@@ -102,9 +102,7 @@ describe("explorer preferences and modes integration", () => {
     expect(filterPickerHelper).toMatch(
       /function renderFilterPickerTrigger[\s\S]*filter-picker-emoji[\s\S]*filter-picker-value[\s\S]*aria-label/,
     );
-    expect(demoStyles).toMatch(
-      /\.search-controls\s*\{[^}]*max-width:\s*none;/,
-    );
+    expect(demoStyles).toMatch(/\.search-controls\s*\{[^}]*max-width:\s*none;/);
     expect(demoStyles).toMatch(
       /\.code\s*\{[\s\S]*direction:\s*ltr;[\s\S]*unicode-bidi:\s*isolate;[\s\S]*overflow-x:\s*auto;[\s\S]*white-space:\s*pre;[\s\S]*\.code-space\s*\{[\s\S]*display:\s*inline-block;[\s\S]*width:\s*0\.6ch;/,
     );
