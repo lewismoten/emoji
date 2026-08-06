@@ -35,9 +35,8 @@ vi.mock("../../../../src/app/startup/startup-orchestrator.js", () => ({
 
 describe("createStartupRuntime bindings", () => {
   it("forwards binding-heavy options into the startup orchestrator", async () => {
-    const { createStartupRuntime } = await import(
-      "../../../../src/app/startup/startup-runtime.js"
-    );
+    const { createStartupRuntime } =
+      await import("../../../../src/app/startup/startup-runtime.js");
 
     const runtime = createStartupRuntime({
       advancedFilters: () => "advanced-filters",

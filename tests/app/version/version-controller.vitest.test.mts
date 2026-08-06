@@ -43,7 +43,10 @@ describe("createVersionController", () => {
     vi.clearAllMocks();
     const state = await import("../../../src/state.js");
     state.proposedVersionManifests.set([{ version: "18.0" }] as any);
-    state.versionManifests.set([{ version: "15.0" }, { version: "16.0" }] as any);
+    state.versionManifests.set([
+      { version: "15.0" },
+      { version: "16.0" },
+    ] as any);
     state.selectedSearchLocale.set("en");
     state.byId.replace({ wave: { key: "wave" } } as any);
     state.versionKeys.replace(new Map([["16.0", new Set(["wave"])]]));
@@ -51,9 +54,8 @@ describe("createVersionController", () => {
   });
 
   it("coordinates version helper wiring through shared state", async () => {
-    const { createVersionController } = await import(
-      "../../../src/app/version/version-controller.js"
-    );
+    const { createVersionController } =
+      await import("../../../src/app/version/version-controller.js");
 
     const selector = {
       value: "16.0",
@@ -130,10 +132,9 @@ describe("createVersionController", () => {
     expect(populateVersionSelectorHelper.mock.calls[0]![0].translate).toBe(
       "translate",
     );
-    expect(populateVersionSelectorHelper.mock.calls[0]![0].syncRange()).toEqual([
-      "sync-version-range-result",
-      syncVersionRangeHelper.mock.calls[0]![0],
-    ]);
+    expect(populateVersionSelectorHelper.mock.calls[0]![0].syncRange()).toEqual(
+      ["sync-version-range-result", syncVersionRangeHelper.mock.calls[0]![0]],
+    );
 
     expect(controller.syncVersionRange()).toEqual([
       "sync-version-range-result",
@@ -192,18 +193,18 @@ describe("createVersionController", () => {
     expect(dataOptions.loadCatalog).toBe("load-catalog");
     expect(dataOptions.loadVersionCatalog).toBe("load-version-catalog");
     expect(dataOptions.openEmoji).toBe("open-emoji");
-    expect(dataOptions.populateVersionSelector).toBe(populateVersionSelectorHelper);
-    expect(dataOptions.proposedVersionManifests()).toEqual([{ version: "18.0" }]);
+    expect(dataOptions.populateVersionSelector).toBe(
+      populateVersionSelectorHelper,
+    );
+    expect(dataOptions.proposedVersionManifests()).toEqual([
+      { version: "18.0" },
+    ]);
     expect(dataOptions.syncVersionRange).toBe(syncVersionRangeHelper);
     expect(dataOptions.updateModifierAvailability).toBe(
       updateModifierAvailabilityHelper,
     );
 
-    expect(controller.loadData()).toEqual([
-      "load-data",
-      [],
-      dataOptions,
-    ]);
+    expect(controller.loadData()).toEqual(["load-data", [], dataOptions]);
     expect(controller.loadVersionData()).toEqual([
       "load-version-data",
       [],

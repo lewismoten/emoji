@@ -1,12 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const createEmojiListRenderers = vi.fn((options: any) => {
-  const asItem = vi.fn((renderState: unknown, key: string, stateRef: unknown) => [
-    "as-item",
-    renderState,
-    key,
-    stateRef,
-  ]);
+  const asItem = vi.fn(
+    (renderState: unknown, key: string, stateRef: unknown) => [
+      "as-item",
+      renderState,
+      key,
+      stateRef,
+    ],
+  );
   const asSequenceItem = vi.fn(
     (renderState: unknown, key: string, stateRef: unknown) => [
       "as-sequence-item",
@@ -23,7 +25,11 @@ const createEmojiListRenderers = vi.fn((options: any) => {
   };
 });
 const createEmojiListInteraction = vi.fn((options: any) => ({
-  renderEmojiList: (...args: unknown[]) => ["render-emoji-list", ...args, options],
+  renderEmojiList: (...args: unknown[]) => [
+    "render-emoji-list",
+    ...args,
+    options,
+  ],
   onEmojiFocus: (...args: unknown[]) => ["on-emoji-focus", ...args],
   onEmojiKeyDown: (...args: unknown[]) => ["on-emoji-key-down", ...args],
 }));
@@ -74,9 +80,8 @@ describe("createListOrchestration", () => {
   });
 
   it("assembles render, controller, interaction, and summary behavior from shared state", async () => {
-    const { createListOrchestration } = await import(
-      "../../../src/app/list-orchestration.js"
-    );
+    const { createListOrchestration } =
+      await import("../../../src/app/list-orchestration.js");
     const state = await import("../../../src/state.js");
 
     const runtime = createListOrchestration({
@@ -114,7 +119,9 @@ describe("createListOrchestration", () => {
     });
 
     const renderOptions = createEmojiListRenderers.mock.calls[0]![0];
-    expect(renderOptions.applyPixelArtworkClass).toBe("apply-pixel-artwork-class");
+    expect(renderOptions.applyPixelArtworkClass).toBe(
+      "apply-pixel-artwork-class",
+    );
     expect(renderOptions.byId()).toEqual(state.byId.get());
     expect(renderOptions.displayExplorerLabel).toBe("display-explorer-label");
     expect(renderOptions.displayGroupName).toBe("display-group-name");
@@ -203,13 +210,16 @@ describe("createListOrchestration", () => {
     expect(summaryOptions.versionSliderLabel).toBe("version-slider-label");
     expect(summaryOptions.versionValue).toBe("17.0");
 
-    expect(runtime.drawList("list")).toEqual(["draw-list", "list"]);
-    expect(runtime.scheduleSearchDraw("schedule")).toEqual([
+    expect((runtime as any).drawList("list")).toEqual(["draw-list", "list"]);
+    expect((runtime as any).scheduleSearchDraw("schedule")).toEqual([
       "schedule-search-draw",
       "schedule",
     ]);
-    expect(runtime.onEmojiFocus("focus")).toEqual(["on-emoji-focus", "focus"]);
-    expect(runtime.onEmojiKeyDown("keydown")).toEqual([
+    expect((runtime as any).onEmojiFocus("focus" as any)).toEqual([
+      "on-emoji-focus",
+      "focus",
+    ]);
+    expect((runtime as any).onEmojiKeyDown("keydown" as any)).toEqual([
       "on-emoji-key-down",
       "keydown",
     ]);

@@ -3,12 +3,10 @@ import { describe, expect, it, vi } from "vitest";
 describe("createPixelEditorRuntime", () => {
   it("stubs module collaborators through Vitest spies", async () => {
     const state = await import("../../src/state.js");
-    const loaderModule = await import(
-      "../../src/explorer/pixel-editor-loader.js"
-    );
-    const dialogViewModule = await import(
-      "../../src/explorer/dialog/dialog-view.js"
-    );
+    const loaderModule =
+      await import("../../src/explorer/pixel-editor-loader.js");
+    const dialogViewModule =
+      await import("../../src/explorer/dialog/dialog-view.js");
 
     vi.spyOn(state.currentEmojiKey, "get").mockReturnValue("wave");
     const loadStylesheet = vi
@@ -20,9 +18,8 @@ describe("createPixelEditorRuntime", () => {
         return () => Promise.resolve(["pixel-editor-loader", options]);
       });
 
-    const { createPixelEditorRuntime } = await import(
-      "../../src/app/pixel-editor-loader-runtime.js"
-    );
+    const { createPixelEditorRuntime } =
+      await import("../../src/app/pixel-editor-loader-runtime.js");
 
     let editor: unknown = "editor";
     let promise: unknown = "promise";
@@ -51,9 +48,9 @@ describe("createPixelEditorRuntime", () => {
     expect(options.getPromise()).toBe("promise");
 
     options.setEditor("next-editor");
-    options.setPromise("next-promise");
+    options.setPromise(Promise.resolve("next-promise"));
     expect(editor).toBe("next-editor");
-    expect(promise).toBe("next-promise");
+    await expect(promise).resolves.toBe("next-promise");
 
     expect(options.loadStylesheet()).toEqual(["load-stylesheet"]);
     expect(loadStylesheet).toHaveBeenCalledWith(

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const makeStore = <T>(initial: T) => {
+const makeStore = <T,>(initial: T) => {
   let value = initial;
   return {
     get: vi.fn(() => value),
@@ -116,9 +116,8 @@ describe("createExplorerShell runtime behavior", () => {
   });
 
   it("handles runtime interactions without fixture source rewriting", async () => {
-    const { createExplorerShell } = await import(
-      "../../../src/app/explorer-shell.js"
-    );
+    const { createExplorerShell } =
+      await import("../../../src/app/explorer-shell.js");
 
     const versionModeSelector = { value: "selected" };
     const versionSelector = { value: "15.0" };
@@ -177,12 +176,12 @@ describe("createExplorerShell runtime behavior", () => {
       fontEvent,
     );
 
-    const beforeInstall = {
+    const beforeInstall: any = {
       prevented: false,
       preventDefault() {
         this.prevented = true;
       },
-    } as unknown as Event & { prevented: boolean };
+    };
     beforeInstallHandlers[0](beforeInstall);
     expect(beforeInstall.prevented).toBe(true);
     expect(renderInstallAppButtonHelper).toHaveBeenCalledWith(installButton);
@@ -190,7 +189,9 @@ describe("createExplorerShell runtime behavior", () => {
     appInstalledHandlers[0]();
     expect(installButton.hidden).toBe(true);
 
-    const devModeOptions = createDeveloperModeController.mock.calls[0]![0];
+    const devModeOptions: any = (
+      createDeveloperModeController.mock.calls as any
+    )[0][0];
     devModeOptions.disableDeveloperFeatures();
     expect(versionModeSelector.value).toBe("through");
     expect(versionSelector.value).toBe("16.0");

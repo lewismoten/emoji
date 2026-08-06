@@ -62,9 +62,8 @@ describe("browser runtime", () => {
   });
 
   it("creates pixel font refresh behavior from shared state", async () => {
-    const { createPixelFontRefreshOptions } = await import(
-      "../../../src/app/browser/browser-runtime.js"
-    );
+    const { createPixelFontRefreshOptions } =
+      await import("../../../src/app/browser/browser-runtime.js");
 
     let onPixelFontRevisionLoadedCalls = 0;
     const refreshOptions = createPixelFontRefreshOptions({
@@ -88,9 +87,10 @@ describe("browser runtime", () => {
       }),
       "rev-direct-done",
     );
-    expect(refreshExplorerPixelFont.mock.calls[0]![0].currentEmojiKey()).toBe(
-      "rocket",
-    );
+    const refreshRuntimeOptions: any = (
+      refreshExplorerPixelFont.mock.calls as any
+    )[0][0];
+    expect(refreshRuntimeOptions.currentEmojiKey()).toBe("rocket");
   });
 
   it("initializes lifecycle wiring, service worker runtime, and panel restoration", async () => {
@@ -100,7 +100,10 @@ describe("browser runtime", () => {
       configurable: true,
       value: {
         isSecureContext: true,
-        location: { origin: "https://emoji.example", hostname: "emoji.example" },
+        location: {
+          origin: "https://emoji.example",
+          hostname: "emoji.example",
+        },
         addEventListener(type: string, handler: (...args: unknown[]) => void) {
           if (type === "popstate") popstateHandlers.push(handler);
           if (type === "load") loadHandlers.push(handler);
@@ -128,11 +131,10 @@ describe("browser runtime", () => {
     const languageDialog = { dataset: { returnPanel: "help" }, ownerDocument };
     const syncUrlCalls: unknown[][] = [];
 
-    const { initializeBrowserRuntime } = await import(
-      "../../../src/app/browser/browser-runtime.js"
-    );
+    const { initializeBrowserRuntime } =
+      await import("../../../src/app/browser/browser-runtime.js");
 
-    const runtime = initializeBrowserRuntime({
+    const runtime: any = initializeBrowserRuntime({
       applyDialogUrlState() {},
       applyPixelArtworkClass() {},
       applyStandalonePixelArtwork() {},

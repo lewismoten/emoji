@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-const makeStore = <T>(initial: T) => {
+const makeStore = <T,>(initial: T) => {
   let value = initial;
   return {
     get: vi.fn(() => value),

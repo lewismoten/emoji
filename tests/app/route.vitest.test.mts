@@ -52,10 +52,14 @@ describe("route helpers", () => {
     expect(route.getSearch()).toBe("?mode=developer&panel=help&x=1");
     expect(route.getHash()).toBe("#top");
     expect(
-      route.getSearch("https://emoji.example/index.ar.html?panel=favorites#sheet"),
+      route.getSearch(
+        "https://emoji.example/index.ar.html?panel=favorites#sheet",
+      ),
     ).toBe("?panel=favorites");
     expect(
-      route.getHash("https://emoji.example/index.ar.html?panel=favorites#sheet"),
+      route.getHash(
+        "https://emoji.example/index.ar.html?panel=favorites#sheet",
+      ),
     ).toBe("#sheet");
     expect(route.getParam("x")).toBe("1");
     expect(route.getParam("missing")).toBe("");
@@ -82,9 +86,9 @@ describe("route helpers", () => {
     expect(route.getSearchParams({ add: { locale: "fr" } })).toBe(
       "?mode=developer&panel=help&x=1&locale=fr",
     );
-    expect(route.getLocationUrl({ ignore: "panel", add: { locale: "ar" } })).toBe(
-      "/index.en.html?mode=developer&x=1&locale=ar#top",
-    );
+    expect(
+      route.getLocationUrl({ ignore: "panel", add: { locale: "ar" } }),
+    ).toBe("/index.en.html?mode=developer&x=1&locale=ar#top");
     expect(route.buildUrl("./index.ar.html").href).toBe(
       "https://emoji.example/index.ar.html",
     );
@@ -131,7 +135,7 @@ describe("route helpers", () => {
     expect(route.getHref()).toBe("http://localhost/local/index.html");
     expect(route.hasHistory()).toBe(true);
 
-    Reflect.deleteProperty((globalThis.window as any), "location");
+    Reflect.deleteProperty(globalThis.window as any, "location");
     expect(route.buildUrl("./index.fr.html").href).toBe(
       "https://fallback.example/base/index.fr.html",
     );
@@ -140,9 +144,9 @@ describe("route helpers", () => {
     Reflect.deleteProperty(globalThis.window as any, "history");
     expect(route.hasHistory()).toBe(false);
     (globalThis.document as any).baseURI = undefined;
-    expect(route.buildUrl({ search: "?fallback=1", hash: "#hash" } as any).href).toBe(
-      "http://localhost/?fallback=1#hash",
-    );
+    expect(
+      route.buildUrl({ search: "?fallback=1", hash: "#hash" } as any).href,
+    ).toBe("http://localhost/?fallback=1#hash");
 
     (globalThis.window as any).location = {
       origin: "http://localhost:4173",

@@ -11,9 +11,8 @@ vi.mock("../../../src/app/dialog/dialog-runtime.js", () => ({
 
 describe("createDialogRuntimeConfig", () => {
   it("forwards dialog runtime config into initializeDialogRuntime", async () => {
-    const { createDialogRuntimeConfig } = await import(
-      "../../../src/app/dialog/dialog-runtime-config.js"
-    );
+    const { createDialogRuntimeConfig } =
+      await import("../../../src/app/dialog/dialog-runtime-config.js");
 
     const copyStatus = { textContent: "copied" };
     const dialog = { open: false };

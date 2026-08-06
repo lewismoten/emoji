@@ -72,9 +72,8 @@ describe("createStartupOrchestrator", () => {
       },
     });
 
-    const { createStartupOrchestrator } = await import(
-      "../../../../src/app/startup/startup-orchestrator.js"
-    );
+    const { createStartupOrchestrator } =
+      await import("../../../../src/app/startup/startup-orchestrator.js");
 
     const orchestrator = createStartupOrchestrator({
       applyPixelArtworkClass: "apply-pixel-artwork-class",
@@ -119,9 +118,8 @@ describe("createStartupOrchestrator", () => {
       value: { querySelector: () => null },
     });
 
-    const { createStartupOrchestrator } = await import(
-      "../../../../src/app/startup/startup-orchestrator.js"
-    );
+    const { createStartupOrchestrator } =
+      await import("../../../../src/app/startup/startup-orchestrator.js");
 
     const assignElements = vi.fn();
     const assignControls = vi.fn();
@@ -132,7 +130,9 @@ describe("createStartupOrchestrator", () => {
     const finalizeStartup = vi.fn();
     const ensureUtilityPanel = vi.fn();
     const ensureEmojiCompositionControl = vi.fn();
-    const initializeControls = vi.fn((options) => ({ initializedWith: options }));
+    const initializeControls = vi.fn((options) => ({
+      initializedWith: options,
+    }));
 
     const orchestrator = createStartupOrchestrator({
       advancedFilters: () => "advanced-filters",
@@ -244,7 +244,9 @@ describe("createStartupOrchestrator", () => {
 
     expect(ensureUtilityPanel).toHaveBeenCalledWith("help");
     expect(ensureEmojiCompositionControl).toHaveBeenCalledTimes(1);
-    expect(assignElements).toHaveBeenCalledWith({ emojiList: "emoji-list-node" });
+    expect(assignElements).toHaveBeenCalledWith({
+      emojiList: "emoji-list-node",
+    });
     expect(initializeControls).toHaveBeenCalledTimes(1);
     expect(assignControls).toHaveBeenCalledWith({
       initializedWith: expect.objectContaining({

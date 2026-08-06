@@ -20,7 +20,10 @@ const parseExplorerModeParam = vi.fn();
 const translate = vi.fn((key: string, fallback: string) =>
   key === "group.label" ? "Translated Group" : fallback,
 );
-const openPanelDialog = vi.fn((...args: unknown[]) => ["open-panel-dialog", args]);
+const openPanelDialog = vi.fn((...args: unknown[]) => [
+  "open-panel-dialog",
+  args,
+]);
 const assignExplorerBootstrapElements = vi.fn((bindings: any, values: any) => {
   Object.assign(bindings, values);
 });
@@ -48,7 +51,10 @@ vi.mock("../../../../src/explorer/emoji/emoji-format.js", () => ({
   normalizeCodePoints: vi.fn((...args: unknown[]) => ["normalize", args]),
 }));
 vi.mock("../../../../src/explorer/saved-emoji.js", () => ({
-  animateCopyConfirmation: vi.fn((...args: unknown[]) => ["animate-copy", args]),
+  animateCopyConfirmation: vi.fn((...args: unknown[]) => [
+    "animate-copy",
+    args,
+  ]),
 }));
 vi.mock("../../../../src/explorer/pwa/pwa-panels.js", () => ({
   openPanelDialog,
@@ -234,8 +240,14 @@ describe("explorer bootstrap session entry", () => {
         "controller-loadVersionData",
         args,
       ]),
-      resetFilters: vi.fn((...args: unknown[]) => ["controller-resetFilters", args]),
-      syncUrlState: vi.fn((...args: unknown[]) => ["controller-syncUrlState", args]),
+      resetFilters: vi.fn((...args: unknown[]) => [
+        "controller-resetFilters",
+        args,
+      ]),
+      syncUrlState: vi.fn((...args: unknown[]) => [
+        "controller-syncUrlState",
+        args,
+      ]),
       focusInitialAction: vi.fn((...args: unknown[]) => [
         "controller-focusInitialAction",
         args,
@@ -264,9 +276,7 @@ describe("explorer bootstrap session entry", () => {
   });
 
   it("wires shell, controllers, runtime, and startup side effects through builders", async () => {
-    await import(
-      "../../../../src/app/bootstrap/explorer-bootstrap-session.js"
-    );
+    await import("../../../../src/app/bootstrap/explorer-bootstrap-session.js");
 
     expect(createExplorerState).toHaveBeenCalledTimes(1);
     expect(initializeExplorerPreferences).toHaveBeenCalledTimes(1);
@@ -362,9 +372,9 @@ describe("explorer bootstrap session entry", () => {
     expect(state.explorerModeFromUrl).toBe("developer");
     expect(shell.renderDeveloperMode).toHaveBeenCalledTimes(1);
 
-    expect(initializeExplorerBootstrapSessionRuntime.mock.calls[0]![0].shell).toBe(
-      shell,
-    );
+    expect(
+      initializeExplorerBootstrapSessionRuntime.mock.calls[0]![0].shell,
+    ).toBe(shell);
     expect(runtimeOptions.translate("group.label", "fallback")).toBe(
       "Translated Group",
     );
@@ -376,15 +386,16 @@ describe("explorer bootstrap session entry", () => {
       language: "language-dialog",
     });
 
-    expect(initializeExplorerBootstrapSessionRuntime.mock.results[0]!.value.removeLegacyDialogElements).toHaveBeenCalledTimes(
-      1,
-    );
+    expect(
+      initializeExplorerBootstrapSessionRuntime.mock.results[0]!.value
+        .removeLegacyDialogElements,
+    ).toHaveBeenCalledTimes(1);
     expect(createExplorerApp).toHaveBeenCalledTimes(1);
     const appOptions = createExplorerApp.mock.calls[0]![0];
     expect(appOptions.window).toBe(globalThis.window);
     expect(appOptions.start).toBe("runtime-onload");
-    expect(createExplorerApp.mock.results[0]!.value.startWhenReady).toHaveBeenCalledTimes(
-      1,
-    );
+    expect(
+      createExplorerApp.mock.results[0]!.value.startWhenReady,
+    ).toHaveBeenCalledTimes(1);
   });
 });

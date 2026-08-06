@@ -11,9 +11,8 @@ vi.mock("../../../src/app/browser/browser-runtime.js", () => ({
 
 describe("createBrowserRuntimeConfig", () => {
   it("forwards config options into initializeBrowserRuntime", async () => {
-    const { createBrowserRuntimeConfig } = await import(
-      "../../../src/app/browser/browser-runtime-config.js"
-    );
+    const { createBrowserRuntimeConfig } =
+      await import("../../../src/app/browser/browser-runtime-config.js");
 
     let dialogValue = { id: "dialog" };
     let languageDialogValue = { id: "language-dialog" };
@@ -77,20 +76,14 @@ describe("createBrowserRuntimeConfig", () => {
     expect(forwarded.refreshLocalizedLabels).toBe(
       options.refreshLocalizedLabels,
     );
-    expect(forwarded.restoreDeveloperMode).toBe(
-      options.restoreDeveloperMode,
-    );
+    expect(forwarded.restoreDeveloperMode).toBe(options.restoreDeveloperMode);
     expect(forwarded.setApplyingUrlState).toBe(options.setApplyingUrlState);
     expect(forwarded.translate).toBe(options.translate);
-    expect(forwarded.updateModifierArtwork).toBe(
-      options.updateModifierArtwork,
-    );
+    expect(forwarded.updateModifierArtwork).toBe(options.updateModifierArtwork);
     expect(forwarded.updatePixelArtworkManifest).toBe(
       options.updatePixelArtworkManifest,
     );
-    expect(forwarded.updateWebAppManifest).toBe(
-      options.updateWebAppManifest,
-    );
+    expect(forwarded.updateWebAppManifest).toBe(options.updateWebAppManifest);
 
     expect(forwarded.dialog()).toBe(dialogValue);
     expect(forwarded.languageDialog()).toBe(languageDialogValue);
@@ -114,9 +107,7 @@ describe("createBrowserRuntimeConfig", () => {
 
     expect(forwarded.dialog()).toEqual({ id: "dialog-2" });
     expect(forwarded.languageDialog()).toEqual({ id: "language-dialog-2" });
-    expect(forwarded.languageList()).toEqual([
-      { code: "ar", name: "Arabic" },
-    ]);
+    expect(forwarded.languageList()).toEqual([{ code: "ar", name: "Arabic" }]);
     expect(forwarded.languagePicker()).toEqual({ id: "picker-2" });
     expect(forwarded.languagePickerFlag()).toEqual({ id: "flag-2" });
     expect(forwarded.languagePickerLabel()).toEqual({ id: "label-2" });

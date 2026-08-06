@@ -104,16 +104,15 @@ describe("createExplorerBootstrapRuntime", () => {
   });
 
   it("wires the bootstrap runtime from mocked sub-runtimes and shared state", async () => {
-    const { createExplorerBootstrapRuntime } = await import(
-      "../../../src/app/bootstrap/explorer-bootstrap-runtime.js"
-    );
+    const { createExplorerBootstrapRuntime } =
+      await import("../../../src/app/bootstrap/explorer-bootstrap-runtime.js");
     const state = await import("../../../src/state.js");
 
     let pixelEditorValue: any = {
       refreshFontBuild: vi.fn(),
       open: vi.fn((...args: unknown[]) => ["open-editor", args]),
     };
-    let pixelEditorPromiseValue = "pixel-editor-promise";
+    let pixelEditorPromiseValue: unknown = "pixel-editor-promise";
 
     const runtime = createExplorerBootstrapRuntime({
       setControls: "set-controls",
@@ -161,7 +160,9 @@ describe("createExplorerBootstrapRuntime", () => {
       focusInitialEmojiDialogAction: "focus-initial-action",
       getIntroducedVersion: "get-introduced-version",
       setDialogView: "set-dialog-view",
-      updateCompositionBackButton: vi.fn(() => "update-composition-back-button"),
+      updateCompositionBackButton: vi.fn(
+        () => "update-composition-back-button",
+      ),
       updateDialogNavigation: vi.fn(() => "update-dialog-navigation"),
       updateEmojiComposition: "update-emoji-composition",
       updateFavoriteButton: "update-favorite-button",
@@ -266,7 +267,9 @@ describe("createExplorerBootstrapRuntime", () => {
       translate: "translate",
     });
 
-    const browserOptions = createBrowserRuntimeConfig.mock.calls[0]![0];
+    const browserOptions: any = (
+      createBrowserRuntimeConfig.mock.calls as any
+    )[0][0];
     expect(browserOptions.closePanelDialog).toBe("close-panel-dialog");
     expect(browserOptions.dialog()).toEqual(["runtime-get", "exampleDialog"]);
     expect(browserOptions.languageFlags.en).toBe("🇺🇸");
@@ -276,10 +279,14 @@ describe("createExplorerBootstrapRuntime", () => {
     browserOptions.updateModifierArtwork();
     expect(createBrowserRuntimeConfig).toHaveBeenCalledTimes(1);
 
-    const dialogOptions = createDialogRuntimeConfig.mock.calls[0]![0];
+    const dialogOptions: any = (
+      createDialogRuntimeConfig.mock.calls as any
+    )[0][0];
     expect(dialogOptions.sequenceTranslationKeys).toEqual({ zwj: "joiner" });
     expect(dialogOptions.sequenceTypeLabels).toEqual({ zwj: "ZWJ" });
-    expect(dialogOptions.statusTranslationKeys).toEqual({ fullyQualified: "fq" });
+    expect(dialogOptions.statusTranslationKeys).toEqual({
+      fullyQualified: "fq",
+    });
     expect(dialogOptions.dialog()).toEqual(["runtime-get", "exampleDialog"]);
     expect(dialogOptions.emojiNext()).toEqual(["runtime-get", "emojiNext"]);
     expect(dialogOptions.openEditor("wave", "👋")).toEqual([
@@ -289,7 +296,7 @@ describe("createExplorerBootstrapRuntime", () => {
     dialogOptions.setCurrentDialogParentStack(["help"]);
     expect(state.currentDialogParentStack.get()).toEqual(["help"]);
 
-    const startupOptions = createStartupRuntime.mock.calls[0]![0];
+    const startupOptions: any = (createStartupRuntime.mock.calls as any)[0][0];
     expect(startupOptions.onPanelClose).toBe("on-panel-dialog-close");
     expect(startupOptions.positionFavoriteButton).toBe(
       "position-favorite-button",
@@ -325,7 +332,9 @@ describe("createExplorerBootstrapRuntime", () => {
     );
     expect(runtime.ensurePixelEditor).toBe("ensure-pixel-editor");
     expect(runtime.populateVersionModeOptions).toBe("populate-options");
-    expect(runtime.renderVersionModeToggleController).toBe("render-version-mode");
+    expect(runtime.renderVersionModeToggleController).toBe(
+      "render-version-mode",
+    );
     expect(runtime.toggleVersionMode).toBe("toggle-version-mode");
     expect(runtime.loadSearchLanguages).toBe("load-search-languages");
     expect(runtime.renderSearchLanguages).toBe("render-search-languages");

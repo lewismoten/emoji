@@ -130,7 +130,10 @@ describe("browser runtime service worker helpers", () => {
       } as any,
       windowRef: {
         isSecureContext: true,
-        location: { origin: "https://emoji.example", hostname: "emoji.example" },
+        location: {
+          origin: "https://emoji.example",
+          hostname: "emoji.example",
+        },
         addEventListener(type: string, handler: () => unknown) {
           directWindowEvents[type] = handler;
         },
@@ -167,7 +170,10 @@ describe("browser runtime service worker helpers", () => {
       } as any,
       windowRef: {
         isSecureContext: true,
-        location: { origin: "https://emoji.example", hostname: "emoji.example" },
+        location: {
+          origin: "https://emoji.example",
+          hostname: "emoji.example",
+        },
         addEventListener(type: string, handler: () => unknown) {
           installWindowEvents[type] = handler;
         },
@@ -193,7 +199,10 @@ describe("browser runtime service worker helpers", () => {
       } as any,
       windowRef: {
         isSecureContext: true,
-        location: { origin: "https://emoji.example", hostname: "emoji.example" },
+        location: {
+          origin: "https://emoji.example",
+          hostname: "emoji.example",
+        },
         addEventListener(type: string, handler: () => unknown) {
           installFailureWindowEvents[type] = handler;
         },

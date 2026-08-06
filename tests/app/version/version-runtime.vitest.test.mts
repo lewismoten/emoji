@@ -45,9 +45,8 @@ describe("version runtime", () => {
   });
 
   it("builds version config from options and shared state", async () => {
-    const { createVersionConfig, createVersionRuntime } = await import(
-      "../../../src/app/version/version-runtime.js"
-    );
+    const { createVersionConfig, createVersionRuntime } =
+      await import("../../../src/app/version/version-runtime.js");
     const state = await import("../../../src/state.js");
 
     const clickCalls: unknown[][] = [];
@@ -116,9 +115,7 @@ describe("version runtime", () => {
     expect(config.skinToneCheckboxes()).toEqual(["1F3FB"]);
     expect(config.skinToneFieldset()).toBe("skin-tone-fieldset");
     expect(config.subGroupSelector()).toBe("subgroup-selector");
-    expect(config.translate("released", "released")).toBe(
-      "released:released",
-    );
+    expect(config.translate("released", "released")).toBe("released:released");
     expect(config.updateModifierArtwork()).toBe("update-modifier-artwork");
     expect(config.versionModeSelector().value).toBe("selected");
     expect(config.versionNext()).toBe("version-next");
@@ -197,15 +194,18 @@ describe("version runtime", () => {
       "catalog-result",
       loadExplorerCatalog.mock.calls.at(-1)![0],
     ]);
-    expect(createVersionController.mock.calls[0]![0].loadVersionCatalog()).toEqual(
-      ["version-catalog-result", loadVersionCatalog.mock.calls.at(-1)![0]],
-    );
+    expect(
+      createVersionController.mock.calls[0]![0].loadVersionCatalog(),
+    ).toEqual([
+      "version-catalog-result",
+      loadVersionCatalog.mock.calls.at(-1)![0],
+    ]);
     expect(createVersionController.mock.calls[0]![0].groupSelector()).toBe(
       "group-selector",
     );
-    expect(createVersionController.mock.calls[0]![0].skinToneCheckboxes()).toEqual(
-      ["1F3FB"],
-    );
+    expect(
+      createVersionController.mock.calls[0]![0].skinToneCheckboxes(),
+    ).toEqual(["1F3FB"]);
     expect(state.byId.get()).toEqual({ wave: { key: "wave" } });
   });
 });

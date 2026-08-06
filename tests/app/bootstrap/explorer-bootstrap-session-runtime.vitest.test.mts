@@ -17,7 +17,10 @@ const createExplorerBootstrapRuntime = vi.fn(() => ({
     "render-version-toggle",
     args,
   ]),
-  toggleVersionMode: vi.fn((...args: unknown[]) => ["toggle-version-mode", args]),
+  toggleVersionMode: vi.fn((...args: unknown[]) => [
+    "toggle-version-mode",
+    args,
+  ]),
   loadSearchLanguages: vi.fn((...args: unknown[]) => [
     "load-search-languages",
     args,
@@ -83,9 +86,8 @@ describe("initializeExplorerBootstrapSessionRuntime", () => {
   });
 
   it("builds session runtime wiring from bindings, controllers, shell, and state", async () => {
-    const { initializeExplorerBootstrapSessionRuntime } = await import(
-      "../../../src/app/bootstrap/explorer-bootstrap-session-runtime.js"
-    );
+    const { initializeExplorerBootstrapSessionRuntime } =
+      await import("../../../src/app/bootstrap/explorer-bootstrap-session-runtime.js");
     const state = await import("../../../src/state.js");
 
     const bindings: any = {
@@ -269,9 +271,7 @@ describe("initializeExplorerBootstrapSessionRuntime", () => {
     expect(runtimeSourceCall.onCompactChoiceKeyDown).toBe("compact-keydown");
     expect(runtimeSourceCall.onDocumentKeyDown).toBe("document-keydown");
     expect(runtimeSourceCall.onEmojiDialogClick).toBe("dialog-click");
-    expect(runtimeSourceCall.onEmojiDialogClose).toBe(
-      "on-emoji-dialog-close",
-    );
+    expect(runtimeSourceCall.onEmojiDialogClose).toBe("on-emoji-dialog-close");
     expect(runtimeSourceCall.onEmojiFocus).toBe("emoji-focus");
     expect(runtimeSourceCall.onHairChange).toBe("hair-change");
     expect(runtimeSourceCall.onEmojiKeyDown).toBe("emoji-keydown");
@@ -298,9 +298,7 @@ describe("initializeExplorerBootstrapSessionRuntime", () => {
     expect(runtimeSourceCall.scheduleSearchDraw).toBe("schedule-search-draw");
     expect(runtimeSourceCall.selectEmojiFont).toBe("select-emoji-font");
     expect(runtimeSourceCall.stepVersion).toBe("step-version");
-    expect(runtimeSourceCall.toggleDeveloperMode).toBe(
-      "toggle-developer-mode",
-    );
+    expect(runtimeSourceCall.toggleDeveloperMode).toBe("toggle-developer-mode");
     expect(runtimeSourceCall.translate).toBe("translate");
     expect(runtimeSourceCall.updateEmojiComposition).toBe(
       "update-emoji-composition",
@@ -328,7 +326,10 @@ describe("initializeExplorerBootstrapSessionRuntime", () => {
     expect(runtimeSourceCall.developerModeToggle()).toBe(
       "developer-mode-toggle",
     );
-    expect(runtimeSourceCall.drawList("hello")).toEqual(["drawList", ["hello"]]);
+    expect(runtimeSourceCall.drawList("hello")).toEqual([
+      "drawList",
+      ["hello"],
+    ]);
     expect(runtimeSourceCall.emojiFontChoices()).toEqual(["pixel", "system"]);
     expect(runtimeSourceCall.emojiList()).toBe("emoji-list");
     expect(runtimeSourceCall.genderCheckboxes()).toEqual(["neutral"]);
@@ -341,9 +342,7 @@ describe("initializeExplorerBootstrapSessionRuntime", () => {
       "pixel-editor-promise",
     );
     expect(runtimeSourceCall.groupFilterDialog()).toBe("group-filter-dialog");
-    expect(runtimeSourceCall.groupPickerTrigger()).toBe(
-      "group-picker-trigger",
-    );
+    expect(runtimeSourceCall.groupPickerTrigger()).toBe("group-picker-trigger");
     expect(runtimeSourceCall.groupSelector()).toBe("group-selector");
     expect(runtimeSourceCall.hairCheckboxes()).toEqual(["bald"]);
     expect(runtimeSourceCall.helpDialog()).toBe("help-dialog");
@@ -437,7 +436,7 @@ describe("initializeExplorerBootstrapSessionRuntime", () => {
       kind: "source-options",
       options: runtimeSourceCall,
     });
-    expect(createExplorerBootstrapRuntime.mock.calls[0]![0]).toEqual({
+    expect((createExplorerBootstrapRuntime.mock.calls[0] as any)?.[0]).toEqual({
       kind: "runtime-options",
       options: buildExplorerBootstrapRuntimeOptions.mock.calls[0]![0],
     });

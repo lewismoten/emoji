@@ -43,9 +43,9 @@ describe("explorer bootstrap option builders", () => {
     ] as const) {
       expect(shell[key]()).toBe(expected);
     }
-    expect(calls.some((call) => call[0] === "state" && call[1].length === 0)).toBe(
-      false,
-    );
+    expect(
+      calls.some((call) => call[0] === "state" && call[1].length === 0),
+    ).toBe(false);
     shell.setDialogView("code", false);
     shell.showEmoji("wrappedGift", true);
     shell.syncUrlState("replace", { ok: true });
@@ -153,8 +153,12 @@ describe("explorer bootstrap option builders", () => {
     );
     expect(controller.translate("copy", "Copy")).toBe("translate-value");
     expect(controller.animateCopy()).toBe("animateCopy-value");
-    expect(controller.copyToClipboardValue()).toBe("copyToClipboardValue-value");
-    expect(controller.developerModeEnabled()).toBe("developerModeEnabled-value");
+    expect(controller.copyToClipboardValue()).toBe(
+      "copyToClipboardValue-value",
+    );
+    expect(controller.developerModeEnabled()).toBe(
+      "developerModeEnabled-value",
+    );
     expect(controller.displayExplorerLabel("x")).toBe(
       "displayExplorerLabel-value",
     );

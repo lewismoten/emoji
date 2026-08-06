@@ -8,7 +8,10 @@ const observeToolbarHeight = vi.fn();
 const closePanelDialog = vi.fn();
 const openPanelDialog = vi.fn();
 const getInstalledDisplayQueries = vi.fn(() => "installed-display-queries");
-const createStartupOrchestrator = vi.fn((options: any) => ({ kind: "startup", options }));
+const createStartupOrchestrator = vi.fn((options: any) => ({
+  kind: "startup",
+  options,
+}));
 
 vi.mock("../../../../src/explorer-app.js", () => ({
   bindExplorerEvents,
@@ -32,9 +35,8 @@ vi.mock("../../../../src/app/startup/startup-orchestrator.js", () => ({
 
 describe("createStartupRuntime", () => {
   it("passes startup options through to the orchestrator with mocked imports", async () => {
-    const { createStartupRuntime } = await import(
-      "../../../../src/app/startup/startup-runtime.js"
-    );
+    const { createStartupRuntime } =
+      await import("../../../../src/app/startup/startup-runtime.js");
 
     createStartupRuntime({
       advancedFilters: () => "advanced-filters",
@@ -153,7 +155,9 @@ describe("createStartupRuntime", () => {
       "populate-version-mode-options",
       ["a"],
     ]);
-    expect(options.renderVersionModeToggle()).toBe("render-version-mode-toggle");
+    expect(options.renderVersionModeToggle()).toBe(
+      "render-version-mode-toggle",
+    );
     expect(options.resolveElements()).toBe("resolve-elements");
     expect(options.resetFilters()).toEqual(["reset-filters"]);
     expect(options.savedDialog()).toBe("saved-dialog");

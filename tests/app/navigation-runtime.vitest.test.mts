@@ -1,6 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 
-const createExplorerNavigation = vi.fn((options: any) => ({ kind: "runtime", options }));
+const createExplorerNavigation = vi.fn((options: any) => ({
+  kind: "runtime",
+  options,
+}));
 
 vi.mock("../../src/explorer/navigation/explorer-navigation.js", () => ({
   createExplorerNavigation,
@@ -20,9 +23,8 @@ describe("createNavigationRuntime", () => {
     const showEmoji = vi.fn((...args: unknown[]) => ["show-emoji", args]);
     const setters: Record<string, string[]> = {};
 
-    const { createNavigationRuntime } = await import(
-      "../../src/app/navigation-runtime.js"
-    );
+    const { createNavigationRuntime } =
+      await import("../../src/app/navigation-runtime.js");
 
     const runtime = createNavigationRuntime({
       allowedSequenceTypes: "allowed-sequence-types",
@@ -58,17 +60,27 @@ describe("createNavigationRuntime", () => {
       renderSavedEmoji: "render-saved-emoji",
       renderVersionModeToggle: () => "render-version-mode-toggle",
       searchText: () => "search-text",
-      setCompositionMode: (value: string) =>
-        ((setters.composition ??= []).push(value), undefined),
+      setCompositionMode: (value: string) => (
+        (setters.composition ??= []).push(value),
+        undefined
+      ),
       setDialogView: (...args: unknown[]) => ["set-dialog-view", args],
-      setOrderMode: (value: string) =>
-        ((setters.order ??= []).push(value), undefined),
-      setSelectedGroup: (value: string) =>
-        ((setters.group ??= []).push(value), undefined),
-      setSelectedSequenceType: (value: string) =>
-        ((setters.sequenceType ??= []).push(value), undefined),
-      setSelectedSubGroup: (value: string) =>
-        ((setters.subGroup ??= []).push(value), undefined),
+      setOrderMode: (value: string) => (
+        (setters.order ??= []).push(value),
+        undefined
+      ),
+      setSelectedGroup: (value: string) => (
+        (setters.group ??= []).push(value),
+        undefined
+      ),
+      setSelectedSequenceType: (value: string) => (
+        (setters.sequenceType ??= []).push(value),
+        undefined
+      ),
+      setSelectedSubGroup: (value: string) => (
+        (setters.subGroup ??= []).push(value),
+        undefined
+      ),
       focusInitialAction: () => {
         dialogCalls.push("focus");
       },
