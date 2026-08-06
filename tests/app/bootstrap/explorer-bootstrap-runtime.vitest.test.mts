@@ -274,8 +274,10 @@ describe("createExplorerBootstrapRuntime", () => {
     expect(browserOptions.dialog()).toEqual(["runtime-get", "exampleDialog"]);
     expect(browserOptions.languageFlags.en).toBe("🇺🇸");
     expect(browserOptions.nextLoadId()).toBe(6);
+    expect(browserOptions.onPixelFontRevisionLoaded()).toBeUndefined();
     browserOptions.onPixelFontRevisionLoaded();
-    expect(pixelEditorValue.refreshFontBuild).toHaveBeenCalledTimes(1);
+    expect(pixelEditorValue.refreshFontBuild).toHaveBeenCalledTimes(2);
+    expect(browserOptions.updateModifierArtwork()).toBeUndefined();
     browserOptions.updateModifierArtwork();
     expect(createBrowserRuntimeConfig).toHaveBeenCalledTimes(1);
 
@@ -357,5 +359,6 @@ describe("createExplorerBootstrapRuntime", () => {
       "wave",
       { wave: "👋" },
     ]);
+    expect(getEmojiGenders).toHaveBeenCalledWith("wave", { wave: "👋" });
   });
 });
