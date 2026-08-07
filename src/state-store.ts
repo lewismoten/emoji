@@ -112,14 +112,14 @@ export const createSetStore = <T>(
   return { get, first, replace, clear };
 };
 
-export const createNumberStore = <T extends number>(
-  initialValue: T,
-  { transform: transformer }: StoreOptions<T> = {},
+export const createNumberStore = (
+  initialValue: number,
+  { transform: transformer }: StoreOptions<number> = {},
 ) => {
   const { get, set, replace } = createBaseStore(initialValue, transformer);
 
   const increment = () => {
-    const nextValue = (get() + 1) as T;
+    const nextValue = get() + 1;
     replace(nextValue);
     return nextValue;
   };
