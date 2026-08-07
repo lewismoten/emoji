@@ -116,6 +116,22 @@ describe("theme-styles", () => {
     } as unknown as Event);
     assert.deepEqual(preferenceCalls.at(-1), ["theme", "dark"]);
 
+    await module.selectTheme({
+      currentTarget: {
+        closest(selector: string) {
+          return selector === ".theme-choice"
+            ? { dataset: { theme: "retro" } }
+            : null;
+        },
+      },
+      target: {
+        closest() {
+          return null;
+        },
+      },
+    } as unknown as Event);
+    assert.deepEqual(preferenceCalls.at(-1), ["theme", "retro"]);
+
     Reflect.deleteProperty(globalThis, "document");
     await assert.doesNotReject(() => module.ensureThemeStyles("base"));
     Object.defineProperty(globalThis, "document", {

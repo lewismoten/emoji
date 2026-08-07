@@ -100,8 +100,17 @@ export function ensureThemeStyles(theme: string) {
 }
 
 export async function selectTheme(event: Event) {
-  const target = event.currentTarget as HTMLElement;
-  const requestedTheme = target.dataset.theme;
+  const currentTarget = event.currentTarget as HTMLElement | null;
+  const fallbackTarget = event.target as HTMLElement | null;
+  const target =
+    currentTarget?.closest?.(".theme-choice") ??
+    fallbackTarget?.closest?.(".theme-choice") ??
+    currentTarget ??
+    fallbackTarget;
+  const requestedTheme =
+    target && typeof target === "object" && "dataset" in target
+      ? (target as HTMLElement).dataset.theme
+      : undefined;
   const theme = resolveTheme(requestedTheme);
   await ensureThemeStyles(theme);
   preferences.setString("theme", theme);
