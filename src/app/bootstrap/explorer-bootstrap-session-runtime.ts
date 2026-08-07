@@ -121,7 +121,8 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         syncVersionRange: options.controllers.syncVersionRange,
         themeChoices: () => options.bindings.themeChoices,
         toggleDeveloperMode: options.shell.toggleDeveloperMode,
-        toggleVersionMode: options.bindings.toggleVersionMode,
+        toggleVersionMode: (...args: any[]) =>
+          options.bindings.toggleVersionMode(...args),
         toolbar: () => options.bindings.toolbar,
         translate: options.translate,
         updateCompositionBackButton:

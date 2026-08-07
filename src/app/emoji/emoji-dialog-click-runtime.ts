@@ -6,6 +6,10 @@ import {
 import { createEmojiDialogClickHandler } from "../../explorer/dialog/emoji-dialog-events.js";
 import * as route from "../route.js";
 import * as state from "../../state.js";
+import {
+  setSelectedVersion,
+  setSelectedVersionMode,
+} from "../../version-keys.js";
 export function createEmojiDialogClickRuntime(options: any) {
   return createEmojiDialogClickHandler({
     animateCopy: options.animateCopy,
@@ -18,6 +22,23 @@ export function createEmojiDialogClickRuntime(options: any) {
           : options.currentEmojiCopies()[kind],
     currentEmojiKey: state.currentEmojiKey.get,
     dialog: options.dialog,
+    selectIntroducedVersion: async () => {
+      await options.loadVersionData?.();
+      const currentKey = state.currentEmojiKey.get();
+      const version = options.getIntroducedVersion?.(currentKey) ?? "";
+      if (!version) return;
+      const versionModeSelector = options.versionModeSelector?.();
+      const versionSelector = options.versionSelector?.();
+      if (versionModeSelector) versionModeSelector.value = "selected";
+      if (versionSelector) versionSelector.value = version;
+      setSelectedVersionMode("selected");
+      setSelectedVersion(version);
+      options.renderVersionModeToggle?.();
+      options.syncVersionRange?.();
+      options.renderCategoryFilters?.();
+      options.drawList?.();
+      options.syncUrlState();
+    },
     openParentPanel: (panel: string) => {
       options.setSuppressDialogCloseSync(true);
       const dialog = options.dialog();

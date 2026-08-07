@@ -33,15 +33,18 @@ export function createVersionController(options: any) {
     versionSliderLabelHelper(version, state.proposedVersionManifests.get());
 
   const syncVersionRange = () =>
-    syncVersionRangeHelper({
-      proposedVersionManifests: state.proposedVersionManifests.get(),
-      updateModifierAvailability,
-      versionNext: options.versionNext(),
-      versionPrevious: options.versionPrevious(),
-      versionRange: options.versionRange(),
-      versionRangeValue: options.versionRangeValue(),
-      versionSelector: options.versionSelector(),
-    });
+    (() => {
+      syncSelectedVersionFromControl(options.versionSelector());
+      return syncVersionRangeHelper({
+        proposedVersionManifests: state.proposedVersionManifests.get(),
+        updateModifierAvailability,
+        versionNext: options.versionNext(),
+        versionPrevious: options.versionPrevious(),
+        versionRange: options.versionRange(),
+        versionRangeValue: options.versionRangeValue(),
+        versionSelector: options.versionSelector(),
+      });
+    })();
 
   const onVersionRangeInput = () => {
     const selector = options.versionSelector();

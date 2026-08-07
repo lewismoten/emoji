@@ -66,6 +66,7 @@ describe("emoji-dialog-events", () => {
       sync: 0,
       openComposition: [] as string[],
       openParentPanel: [] as string[],
+      selectIntroducedVersion: 0,
       toggleFavorite: 0,
       setView: [] as string[],
       copy: [] as Array<[string, string]>,
@@ -92,6 +93,9 @@ describe("emoji-dialog-events", () => {
       },
       openParentPanel: (panel: string) => {
         calls.openParentPanel.push(panel);
+      },
+      selectIntroducedVersion: () => {
+        calls.selectIntroducedVersion += 1;
       },
       recordCopiedEmoji: (key: string) => {
         calls.recordCopied.push(key);
@@ -151,6 +155,23 @@ describe("emoji-dialog-events", () => {
       }),
     } as unknown as MouseEvent);
     assert.equal(calls.toggleFavorite, 1);
+
+    handler({
+      target: new FakeTarget({
+        ".emoji-version": { id: "version" },
+      }),
+    } as unknown as MouseEvent);
+    assert.equal(calls.selectIntroducedVersion, 1);
+
+    const textTarget = {
+      parentElement: new FakeTarget({
+        ".emoji-version": { id: "version-text-parent" },
+      }),
+    };
+    handler({
+      target: textTarget,
+    } as unknown as MouseEvent);
+    assert.equal(calls.selectIntroducedVersion, 2);
 
     handler({
       target: new FakeTarget({

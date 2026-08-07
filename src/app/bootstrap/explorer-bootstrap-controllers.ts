@@ -194,15 +194,21 @@ export function createExplorerBootstrapControllersWithFactories(
     currentDialogParentStack: state.currentDialogParentStack.get,
     currentEmojiCopies: state.currentEmojiCopies.get,
     dialog: options.dialog,
+    drawList: listOrchestration.drawList,
+    getIntroducedVersion: options.getIntroducedVersion,
     languageList: options.languageList,
+    loadVersionData: versionController.loadVersionData,
     openPanel: options.openPanel,
     panelDialogs: options.panelDialogs,
     recordCopiedEmoji: options.recordCopiedEmoji,
+    renderCategoryFilters: categoryController.renderCategoryFilters,
     renderSavedEmoji: options.renderSavedEmoji,
+    renderVersionModeToggle: options.renderVersionModeToggle,
     setSuppressDialogCloseSync: options.setSuppressDialogCloseSync,
     setView: dialogViewRuntime.setView,
     showEmoji: options.showEmoji,
     syncUrlState: options.syncUrlState,
+    syncVersionRange: versionController.syncVersionRange,
     toggleComposition: () =>
       state.compositionMode.set(
         state.compositionMode.get() === "full" ? "condensed" : "full",
@@ -211,6 +217,8 @@ export function createExplorerBootstrapControllersWithFactories(
     translate: options.translate,
     updateCompositionBackButton: options.updateCompositionBackButton,
     updateEmojiComposition: options.updateEmojiComposition,
+    versionModeSelector: options.versionModeSelector,
+    versionSelector: options.versionSelector,
     clearCurrentDialogParentStack: () => state.currentDialogParentStack.clear(),
   });
 

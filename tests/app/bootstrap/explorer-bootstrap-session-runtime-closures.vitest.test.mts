@@ -219,5 +219,17 @@ describe("initializeExplorerBootstrapSessionRuntime closures", () => {
     expect(assignExplorerBootstrapFieldsets).toHaveBeenCalledWith(bindings, {
       advancedFilters: "next-advanced-filters",
     });
+
+    const firstToggle = vi.fn(() => ["first-toggle"]);
+    const secondToggle = vi.fn((value?: unknown) => ["second-toggle", value]);
+    bindings.toggleVersionMode = firstToggle;
+    expect(runtimeSourceCall.toggleVersionMode()).toEqual(["first-toggle"]);
+    bindings.toggleVersionMode = secondToggle;
+    expect(runtimeSourceCall.toggleVersionMode("selected")).toEqual([
+      "second-toggle",
+      "selected",
+    ]);
+    expect(firstToggle).toHaveBeenCalledTimes(1);
+    expect(secondToggle).toHaveBeenCalledTimes(1);
   });
 });

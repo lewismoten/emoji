@@ -233,6 +233,7 @@ export const bindExplorerEventsWithEnvironment = (
     bind.click(options.emojiNext, () => options.navigateEmoji(1)),
     bind.change(options.versionSelector, () => {
       options.syncVersionRange();
+      options.renderCategoryFilters?.();
       options.drawList();
     }),
     bind.input(options.versionRange, options.onVersionRangeInput),

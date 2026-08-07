@@ -7,9 +7,28 @@ const copyMessages: Record<string, [string, string]> = {
   link: ["linkCopied", "Link copied to the clipboard."],
 };
 
+type ClosestCapableTarget = {
+  closest(selector: string): Element | null;
+  matches?(selector: string): boolean;
+};
+
+const resolveElementTarget = (target: EventTarget | null) => {
+  if (
+    target &&
+    typeof (target as unknown as ClosestCapableTarget).closest === "function"
+  ) {
+    return target as unknown as ClosestCapableTarget;
+  }
+  const parentElement = (target as Node | null)?.parentElement;
+  if (parentElement && typeof parentElement.closest === "function")
+    return parentElement as ClosestCapableTarget;
+  return null;
+};
+
 export function createEmojiDialogClickHandler(options: any) {
   return (event: MouseEvent) => {
-    const target = event.target as HTMLElement;
+    const target = resolveElementTarget(event.target);
+    if (!target) return;
     const dialog = options.dialog();
     if (target.closest(".emoji-composition-mode")) {
       options.toggleComposition();
@@ -30,6 +49,10 @@ export function createEmojiDialogClickHandler(options: any) {
       return window.history.back();
     }
     if (target.closest(".toggle-favorite")) return options.toggleFavorite();
+    if (target.closest(".emoji-version")) {
+      options.selectIntroducedVersion?.();
+      return;
+    }
     if (target.closest(".show-emoji-code")) {
       options.setView("code");
       dialog.querySelector(".dialog-mode-back:not([hidden])")?.focus();
@@ -63,7 +86,7 @@ export function createEmojiDialogClickHandler(options: any) {
       .then((copied: boolean) => {
         if (!copied) return;
         options.recordCopiedEmoji(emojiKey);
-        if (button.matches(".emoji-preview")) options.animateCopy(button);
+        if (button.matches?.(".emoji-preview")) options.animateCopy(button);
       });
   };
 }
