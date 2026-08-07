@@ -17,6 +17,10 @@ describe("list-controller", () => {
 
     const transformedSource = source
       .replace(
+        'import { getIncludedVersionKeys } from "../../version-keys.js";',
+        'import { getIncludedVersionKeys } from "./version-keys-stub.mjs";',
+      )
+      .replace(
         'import { filterEmojiKeys } from "./emoji-filter.js";',
         'import { filterEmojiKeys, filterCalls } from "./emoji-filter-stub.mjs";',
       )
@@ -26,6 +30,12 @@ describe("list-controller", () => {
     await fs.mkdir(tempRoot, { recursive: true });
     const tempDirectory = await fs.mkdtemp(path.join(tempRoot, "list-controller-"));
 
+    await fs.writeFile(
+      path.join(tempDirectory, "version-keys-stub.mjs"),
+      `export function getIncludedVersionKeys() {
+  return new Set(["alpha", "beta"]);
+}`,
+    );
     await fs.writeFile(
       path.join(tempDirectory, "emoji-filter-stub.mjs"),
       `export const filterCalls = [];
@@ -177,6 +187,12 @@ export function filterEmojiKeys(options) {
       assert.equal(searchInput.focused, false);
 
       await fs.writeFile(
+        path.join(tempDirectory, "version-keys-empty-stub.mjs"),
+        `export function getIncludedVersionKeys() {
+  return new Set();
+}`,
+      );
+      await fs.writeFile(
         path.join(tempDirectory, "emoji-filter-empty-stub.mjs"),
         `export const filterCalls = [];
 export function filterEmojiKeys(options) {
@@ -189,7 +205,7 @@ export function filterEmojiKeys(options) {
         transformedSource.replace(
           "./emoji-filter-stub.mjs",
           "./emoji-filter-empty-stub.mjs",
-        ),
+        ).replace("./version-keys-stub.mjs", "./version-keys-empty-stub.mjs"),
       );
       const emptyModule = await import(
         pathToFileURL(path.join(tempDirectory, "list-controller-empty.mjs")).href

@@ -22,6 +22,8 @@ const state = {
   items: makeStore<any[]>([{ key: "wave" }]),
   orderMode: makeStore("sequence"),
   searchAnnotations: makeStore({ wave: ["hello"] }),
+  selectedVersion: makeStore("15.0"),
+  selectedVersionMode: makeStore("selected"),
   selectedSequenceType: makeStore("zwj"),
   versionManifests: makeStore([{ version: "15.0" }, { version: "16.0" }]),
 };
@@ -48,6 +50,8 @@ describe("createExplorerShell direct dependency injection", () => {
     state.items.set([{ key: "wave" }]);
     state.orderMode.set("sequence");
     state.searchAnnotations.replace({ wave: ["hello"] });
+    state.selectedVersion.set("15.0");
+    state.selectedVersionMode.set("selected");
     state.selectedSequenceType.set("zwj");
     state.versionManifests.set([{ version: "15.0" }, { version: "16.0" }]);
     beforeInstallHandlers.length = 0;

@@ -22,6 +22,8 @@ const state = {
   items: makeStore<any[]>([]),
   orderMode: makeStore("grouped"),
   searchAnnotations: makeStore({ wave: ["hello"] }),
+  selectedVersion: makeStore("17.0"),
+  selectedVersionMode: makeStore("through"),
   selectedSequenceType: makeStore(""),
   versionManifests: makeStore([{ version: "17.0" }]),
 };

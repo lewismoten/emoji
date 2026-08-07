@@ -22,11 +22,15 @@ export function createVersionModeController(options: any) {
   function populateOptions() {
     const modeSelector = selector();
     if (!modeSelector) return;
+    const currentValue = modeSelector.value;
+    const stateValue = getSelectedVersionMode();
     const previousValue = options.definitions.some(
-      (mode: any) => mode.value === getSelectedVersionMode(),
+      (mode: any) => mode.value === currentValue,
     )
-      ? getSelectedVersionMode()
-      : "through";
+      ? currentValue
+      : options.definitions.some((mode: any) => mode.value === stateValue)
+        ? stateValue
+        : "through";
     modeSelector.replaceChildren(
       ...options.definitions.map((mode: any) => {
         const option = document.createElement("option");

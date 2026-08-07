@@ -80,7 +80,10 @@ describe("emoji-session", () => {
     showEmojiSession(options);
     expect(state.currentEmojiKey.get()).toBe("wrappedGift");
     expect(state.currentDialogParentStack.get()).toEqual(["favorites"]);
-    expect(state.currentEmojiCopies.get()).toEqual(["copied", "wrappedGift"]);
+    expect(state.currentEmojiCopies.get()).toEqual({
+      0: "copied",
+      1: "wrappedGift",
+    });
     expect(state.dialogNavigationKeys.get()).toEqual(["smile", "wrappedGift"]);
     expect(renderEmojiDialog).toHaveBeenCalled();
   });

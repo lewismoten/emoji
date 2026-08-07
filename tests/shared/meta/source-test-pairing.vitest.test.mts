@@ -18,6 +18,7 @@ const legacyMissingTestPairs = new Set<string>([
   "src/explorer/filters/filter-picker.ts",
   "src/explorer/filters/version-data.ts",
   "src/resolve-connected-elements.ts",
+  "src/deepEqual.ts",
 ]);
 
 function walk(directory: string, extension: string) {

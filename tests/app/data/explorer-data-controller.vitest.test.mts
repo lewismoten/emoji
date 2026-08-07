@@ -85,7 +85,16 @@ describe("createExplorerDataController", () => {
       groupSelector: () => groupSelector as any,
       hairCheckboxes: () => ["hair"],
       hairFieldset: () => "hairFieldset",
-      loadCatalog: async () => ({ allIds: ["alpha"], byId: { alpha: {} } }),
+      loadCatalog: async () => ({
+        allIds: ["alpha"],
+        byId: { alpha: {} },
+        emojiByKey: {},
+        groupedKeys: {},
+        groups: [],
+        items: [],
+        releasedIds: new Set(),
+        subGroups: {},
+      }),
       loadVersionCatalog: async () => ({
         proposed: [{ version: "18.0" }],
         released: [{ version: "16.0" }],
@@ -215,7 +224,16 @@ describe("createExplorerDataController", () => {
       groupSelector: () => ({ addEventListener() {} }) as any,
       hairCheckboxes: () => [],
       hairFieldset: () => null,
-      loadCatalog: async () => ({ allIds: [] }),
+      loadCatalog: async () => ({
+        allIds: [],
+        byId: {},
+        emojiByKey: {},
+        groupedKeys: {},
+        groups: [],
+        items: [],
+        releasedIds: new Set(),
+        subGroups: {},
+      }),
       loadVersionCatalog: async () => {
         throw new Error("boom");
       },

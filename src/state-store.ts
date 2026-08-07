@@ -96,9 +96,10 @@ export const createArrayStore = <T>(
 
   const replace = (value: T[]) =>
     _replace(value.map((v) => (transformer ? transformer(v) : v)));
+  const set = (value: T[]) => replace(value);
   const get = () => Array.from(_get());
 
-  return { get, clear, has, first, last, remove, add, isDefault, replace };
+  return { get, clear, has, first, last, remove, add, isDefault, replace, set };
 };
 
 type MapSetListener<T> = (key: string, value: T) => void;
@@ -193,7 +194,10 @@ export const createRecordStore = <T>(
 
 export const createSetStore = <T>(
   initialValue: Set<T>,
-  { transform: transformer, equal: equalValues }: StoreOptions<T, Set<T>> = {},
+  {
+    transform: transformer,
+    equal: equalValues,
+  }: StoreOptions<Set<T>, Set<T>> = {},
 ) => {
   const {
     get: _get,
@@ -204,10 +208,11 @@ export const createSetStore = <T>(
   const first = (): T | undefined => _get().values().next().value;
   const add = (item: T) => {
     const next = new Set(_get());
-    next.add(transform(item, transformer));
-    _replace(next);
+    next.add(item);
+    _replace(transform(next, transformer));
   };
-  const replace = (value: Set<T>) => _replace(new Set(value));
+  const replace = (value: Set<T>) =>
+    _replace(transform(new Set(value), transformer));
   const clear = () => _replace(new Set());
   const isDefault = () => {
     const o = original();

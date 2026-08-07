@@ -1,10 +1,5 @@
 import * as state from "../../state.js";
-import {
-  findVersionAvailabilityIndex,
-  getAllVersionManifests,
-  getIncludedVersionKeys,
-  getSelectedVersion,
-} from "../../version-keys.js";
+import { getSelectedVersion } from "../../version-keys.js";
 
 type VersionManifest = {
   version: string;
@@ -125,9 +120,22 @@ export function getVersionKeys(options: {
   versionMode: string;
   versionValue: string;
 }) {
-  const versionMode =
-    options.versionMode === "selected" ? "selected" : "through";
-  return getIncludedVersionKeys({ versionMode, versionValue: options.versionValue });
+  if (options.versionKeys.size === 0) return options.releasedIds;
+  if (options.versionMode === "selected") {
+    return options.versionKeys.get(options.versionValue) ?? new Set<string>();
+  }
+  const manifests = [
+    ...options.versionManifests,
+    ...options.proposedVersionManifests,
+  ];
+  const selectedIndex = manifests.findIndex(
+    (version) => version.version === options.versionValue,
+  );
+  return new Set(
+    manifests
+      .slice(0, selectedIndex + 1)
+      .flatMap((version) => [...(options.versionKeys.get(version.version) ?? [])]),
+  );
 }
 
 export function updateModifierAvailability(options: {
@@ -156,23 +164,27 @@ export function updateModifierAvailability(options: {
     }
     return;
   }
-  const manifests =
-    options.versionManifests && options.proposedVersionManifests
-      ? [...options.versionManifests, ...options.proposedVersionManifests]
-      : getAllVersionManifests();
+  const manifests = [
+    ...options.versionManifests,
+    ...options.proposedVersionManifests,
+  ];
   const selectedVersion = options.versionValue || getSelectedVersion();
   const selectedIndex = manifests.findIndex(
     (version) => version.version === selectedVersion,
   );
-  const skinToneIndex = findVersionAvailabilityIndex((keys) =>
-    [...keys].some((key) => key.endsWith("SkinTone")),
+  const skinToneIndex = manifests.findIndex((version) =>
+    [...(versionKeys.get(version.version) ?? [])].some((key) =>
+      key.endsWith("SkinTone"),
+    ),
   );
   const hairKeys = new Set(["redHair", "curlyHair", "bald", "whiteHair"]);
-  const hairIndex = findVersionAvailabilityIndex((keys) =>
-    [...keys].some((key) => hairKeys.has(key)),
+  const hairIndex = manifests.findIndex((version) =>
+    [...(versionKeys.get(version.version) ?? [])].some((key) =>
+      hairKeys.has(key),
+    ),
   );
-  const genderIndex = findVersionAvailabilityIndex((keys) =>
-    [...keys].some(
+  const genderIndex = manifests.findIndex((version) =>
+    [...(versionKeys.get(version.version) ?? [])].some(
       (key) =>
         options.getEmojiGenders(
           resolveRecord(options.byId)?.[key] ?? state.byId.get(key) ?? {},

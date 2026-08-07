@@ -111,7 +111,7 @@ describe("explorer composition integration", () => {
       /function createCompositionPart[\s\S]*findCompositionArtworkKey\([\s\S]*applyStandalonePixelArtwork\(glyph, artworkEmojiKey\)/,
     );
     expect(`${versionData}\n${explorerDataController}`).toMatch(
-      /versionKeys: new Map\(\[\.\.\.releasedKeys, \.\.\.proposedKeys\]\)[\s\S]*state\.versionKeys\.replace\(versions\.versionKeys\);[\s\S]*options\.rebuildCodePointLookup\(\);/,
+      /versionKeys: new Map\(\[\.\.\.releasedKeys, \.\.\.proposedKeys\]\)[\s\S]*setVersionCatalog\(versions\);[\s\S]*options\.rebuildCodePointLookup\(\);/,
     );
     expect(
       await fs.readFile(

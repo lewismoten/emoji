@@ -74,7 +74,7 @@ export function createListOrchestration(options: any) {
     selectedSearchLocale: state.selectedSearchLocale.get,
     selectedSequenceType: state.selectedSequenceType.get,
     selectedSubGroup: state.selectedSubGroup.get,
-    setDisplayedKeys: state.displayedKeys.set,
+    setDisplayedKeys: state.displayedKeys.replace,
     setFocusedEmojiKey: state.focusedEmojiKey.set,
     skinToneCheckboxes: options.skinToneCheckboxes,
     subGroupSelectionKey: options.subGroupSelectionKey,

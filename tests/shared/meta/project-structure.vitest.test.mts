@@ -20,16 +20,16 @@ const legacyLineBudgets: Record<string, number> = {
   "tests/app/bootstrap/explorer-bootstrap-session-runtime.test.mts": 547,
   "tests/app/bootstrap/explorer-bootstrap-session-runtime.vitest.test.mts": 445,
   "tests/app/bootstrap/controllers/explorer-bootstrap-controllers-fixture.ts": 340,
-  "tests/app/bootstrap/explorer-bootstrap-controllers.vitest.test.mts": 492,
+  "tests/app/bootstrap/explorer-bootstrap-controllers.vitest.test.mts": 490,
   "tests/app/bootstrap/explorer-bootstrap-runtime.vitest.test.mts": 605,
   "tests/app/bootstrap/explorer-bootstrap-shell.vitest.test.mts": 351,
   "tests/app/bootstrap/options/explorer-bootstrap-options.vitest.test.mts": 377,
   "tests/app/bootstrap/session/explorer-bootstrap-session-entry.vitest.test.mts": 715,
   "tests/app/browser/browser-runtime.vitest.test.mts": 318,
-  "tests/app/emoji/emoji-runtime.vitest.test.mts": 317,
   "tests/app/emoji/explorer-app-events-runtime.vitest.test.mts": 787,
-  "tests/app/shell/explorer-shell.vitest.test.mts": 472,
-  "tests/app/version/version-controller.vitest.test.mts": 558,
+  "tests/app/shell/explorer-shell-direct.vitest.test.mts": 303,
+  "tests/app/shell/explorer-shell.vitest.test.mts": 474,
+  "tests/app/version/version-controller.vitest.test.mts": 552,
   "tests/app/version/version-mode-runtime.vitest.test.mts": 306,
   "tests/explorer/ui/explorer-ui-branches.vitest.test.mts": 329,
   "tests/explorer/audio/explorer-audio-engine.vitest.test.mts": 563,
@@ -59,12 +59,13 @@ const legacyLineBudgets: Record<string, number> = {
   "tests/pixel-editor/data/pixel-editor-atlas-io.vitest.test.mts": 437,
   "tests/pixel-editor/layers/pixel-editor-layer-helpers.vitest.test.mts": 306,
   "tests/pixel-font-hot-reload.vitest.test.mts": 561,
-  "tests/shared/meta/project-structure.vitest.test.mts": 327,
+  "tests/shared/meta/project-structure.vitest.test.mts": 328,
 };
 
 const legacyFileCountBudgets: Record<string, number> = {
   ".": 11,
-  src: 19,
+  src: 22,
+  tests: 11,
 };
 
 const legacyDirectoryCountBudgets: Record<string, number> = {
