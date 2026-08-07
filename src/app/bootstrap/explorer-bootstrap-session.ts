@@ -36,6 +36,7 @@ import { initializeExplorerPreferences } from "../explorer-preferences.js";
 import { translate } from "../../utils/i18n.js";
 import { renderThemeToggle } from "../../render-theme-toggle.js";
 import * as audioToggle from "../../controls/audio/audio-toggle.js";
+import * as globalState from "../../state.js";
 const UNASSIGNED = "\u0000";
 const explorerState = createExplorerState();
 const bindings = createExplorerBootstrapBindings();
@@ -225,6 +226,10 @@ bindings.bootstrapRuntime = initializeExplorerBootstrapSessionRuntime({
     const explorerModeFromUrl = parseExplorerModeParam(route.getSearch());
     explorerState.explorerModeFromUrl = explorerModeFromUrl;
     explorerState.developerModeFromUrl = explorerModeFromUrl !== "";
+    globalState.explorerModeFromUrl.set(
+      explorerModeFromUrl === "" ? undefined : explorerModeFromUrl,
+    );
+    globalState.developerModeFromUrl.set(explorerModeFromUrl !== "");
     shell.renderDeveloperMode();
   },
   shell,
