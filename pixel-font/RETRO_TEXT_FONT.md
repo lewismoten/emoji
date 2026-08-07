@@ -159,21 +159,21 @@ The sample preview currently renders both of these sentences:
 
 <!-- retro-text-build-stats:start -->
 
-As of the current build, Pixel Latin Retro contains 368 glyphs and ships as:
+As of the current build, Pixel Latin Retro contains 374 glyphs and ships as:
 
 | File                      |         Size |
 | ------------------------- | -----------: |
-| `pixel-latin-retro.ttf`   | 30,520 bytes |
-| `pixel-latin-retro.woff`  |  9,064 bytes |
-| `pixel-latin-retro.woff2` |  5,292 bytes |
+| `pixel-latin-retro.ttf`   | 31,044 bytes |
+| `pixel-latin-retro.woff`  |  9,244 bytes |
+| `pixel-latin-retro.woff2` |  5,448 bytes |
 | `pixel-latin-retro.css`   |    290 bytes |
 | `manifest.json`           |    563 bytes |
 
 At the moment, aggressive size optimization is not a priority because the compiled font is already small:
 
-- `pixel-latin-retro.ttf`: about 29.8 KB
-- `pixel-latin-retro.woff`: about 8.9 KB
-- `pixel-latin-retro.woff2`: about 5.2 KB
+- `pixel-latin-retro.ttf`: about 30.3 KB
+- `pixel-latin-retro.woff`: about 9.0 KB
+- `pixel-latin-retro.woff2`: about 5.3 KB
 - `manifest.json`: about 0.5 KB
 
 <!-- retro-text-build-stats:end -->
