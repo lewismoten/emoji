@@ -16,6 +16,8 @@ describe("category-representatives", () => {
   });
 
   it("builds group and subgroup representative emoji", () => {
+    state.releasedVersions.set([{ version: "1.0" }, { version: "15.0" }]);
+    state.proposedVersions.set([{ version: "18.0" }]);
     const result = buildCategoryRepresentatives({
       groups: ["Smileys & Emotion", "Animals & Nature", "Flags"],
       items: [
@@ -76,8 +78,6 @@ describe("category-representatives", () => {
           order: 4,
         },
       ],
-      proposedVersions: [{ version: "18.0" }],
-      releasedVersions: [{ version: "1.0" }, { version: "15.0" }],
       subGroupKey: (group: string, subGroup: string) => `${group}::${subGroup}`,
       subGroups: {
         "Smileys & Emotion": ["face-smiling", "face-affection"],
@@ -101,6 +101,8 @@ describe("category-representatives", () => {
     assert.equal(result.groups.get("Animals & Nature"), "🐰");
     assert.equal(result.groups.get("Flags"), "🏴");
 
+    state.releasedVersions.set([{ version: "1.0" }]);
+    state.proposedVersions.set([]);
     const withUngroupedCandidate = buildCategoryRepresentatives({
       groups: ["Objects"],
       items: [
@@ -123,8 +125,6 @@ describe("category-representatives", () => {
           unicodeSubGroup: "mail",
         },
       ],
-      proposedVersions: [],
-      releasedVersions: [{ version: "1.0" }],
       subGroupKey: (group: string, subGroup: string) => `${group}::${subGroup}`,
       subGroups: {
         Objects: ["mail"],
@@ -137,6 +137,8 @@ describe("category-representatives", () => {
     assert.equal(withUngroupedCandidate.subGroups.get("Objects::mail"), "📫");
     assert.equal(withUngroupedCandidate.groups.get("Objects"), "💽");
 
+    state.releasedVersions.set([]);
+    state.proposedVersions.set([]);
     const withOrderFallback = buildCategoryRepresentatives({
       groups: ["Travel & Places"],
       items: [
@@ -155,8 +157,6 @@ describe("category-representatives", () => {
           order: 1,
         },
       ],
-      proposedVersions: [],
-      releasedVersions: [],
       subGroupKey: (group: string, subGroup: string) => `${group}::${subGroup}`,
       subGroups: {
         "Travel & Places": ["transport-air"],
