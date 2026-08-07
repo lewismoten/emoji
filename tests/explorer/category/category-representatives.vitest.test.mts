@@ -10,7 +10,7 @@ describe("category-representatives", () => {
     state.items.set([]);
     state.proposedVersions.set([]);
     state.releasedVersions.set([]);
-    state.subGroups.replace({});
+    state.subGroups.clear();
     state.versionKeys.replace(new Map());
     state.subGroupRepresentativeEmoji.clear();
   });

@@ -8,12 +8,12 @@ describe("category-controller", () => {
   const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 
   afterEach(() => {
-    state.searchLabels.replace({});
+    state.searchLabels.clear();
     state.groupRepresentativeEmoji.replace(new Map());
     state.subGroupRepresentativeEmoji.replace(new Map());
     state.availableGroups.set([]);
     state.availableSequenceTypes.set([]);
-    state.availableSubGroups.replace({});
+    state.availableSubGroups.clear();
     state.groups.set([]);
     state.items.set([]);
     state.versionKeys.replace(new Map());

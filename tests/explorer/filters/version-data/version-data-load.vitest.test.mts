@@ -14,8 +14,8 @@ describe("version-data load", () => {
     globalThis.fetch = originalFetch;
     (globalThis as any).window = originalWindow;
     globalThis.Function = originalFunction;
-    state.byId.replace({});
-    state.emojiByKey.replace({});
+    state.byId.clear();
+    state.emojiByKey.clear();
   });
 
   it("loads released and proposed catalogs across fetch and fallback paths", async () => {

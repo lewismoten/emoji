@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { afterEach, describe, it } from "vitest";
 
 import * as preferences from "../../src/preferences.js";
+import * as state from "../../src/state.js";
 import {
   createSavedEmojiController,
   nextCopiedEmojiKeys,
@@ -18,6 +19,12 @@ const originalDocument = globals.document;
 const originalWindow = Object.getOwnPropertyDescriptor(globalThis, "window");
 
 afterEach(() => {
+  state.byId.clear();
+  state.copiedEmojiKeys.set([]);
+  state.currentEmojiKey.set("");
+  state.emojiByKey.clear();
+  state.favoriteEmojiKeys.set([]);
+  state.searchAnnotations.clear();
   if (originalDocument === undefined) {
     delete globals.document;
   } else {
@@ -212,39 +219,33 @@ describe("saved-emoji", () => {
       if (selector === ".example-dialog .toggle-favorite") return toggleButton;
       return null;
     };
-    let favoriteEmojiKeys = ["wave"];
-    let copiedEmojiKeys = ["grinningFace"];
+    state.favoriteEmojiKeys.set(["wave"]);
+    state.copiedEmojiKeys.set(["grinningFace"]);
+    state.currentEmojiKey.set("wave");
+    state.byId.replace({
+      wave: { shortName: "Wave" } as any,
+      grinningFace: { shortName: "Grinning face" } as any,
+    });
+    state.emojiByKey.replace({ wave: "👋", grinningFace: "😀" });
     const controller = createSavedEmojiController({
       applyPixelArtworkClass: () => () => {},
-      byId: () => ({
-        wave: { shortName: "Wave" },
-        grinningFace: { shortName: "Grinning face" },
-      }),
-      copiedEmojiKeys: () => copiedEmojiKeys,
-      currentEmojiKey: () => "wave",
-      favoriteEmojiKeys: () => favoriteEmojiKeys,
+      byId: state.byId.get,
       savedDialog: () => dialog as never,
       searchAnnotations: () => ({}),
-      setCopiedEmojiKeys: (keys) => {
-        copiedEmojiKeys = keys;
-      },
-      setFavoriteEmojiKeys: (keys) => {
-        favoriteEmojiKeys = keys;
-      },
       translate: (_key, fallback) => fallback,
-      emojiByKey: () => ({ wave: "👋", grinningFace: "😀" }),
+      emojiByKey: state.emojiByKey.get,
     });
 
     controller.recordCopiedEmoji("wave");
-    assert.deepEqual(copiedEmojiKeys, ["wave", "grinningFace"]);
+    assert.deepEqual(state.copiedEmojiKeys.get(), ["wave", "grinningFace"]);
     controller.addFavorite("grinningFace");
-    assert.deepEqual(favoriteEmojiKeys, ["grinningFace", "wave"]);
+    assert.deepEqual(state.favoriteEmojiKeys.get(), ["grinningFace", "wave"]);
     controller.addFavorite("grinningFace");
-    assert.deepEqual(favoriteEmojiKeys, ["grinningFace", "wave"]);
+    assert.deepEqual(state.favoriteEmojiKeys.get(), ["grinningFace", "wave"]);
     controller.toggleFavorite("wave");
-    assert.deepEqual(favoriteEmojiKeys, ["grinningFace"]);
+    assert.deepEqual(state.favoriteEmojiKeys.get(), ["grinningFace"]);
     controller.toggleFavorite("");
-    assert.deepEqual(favoriteEmojiKeys, ["grinningFace"]);
+    assert.deepEqual(state.favoriteEmojiKeys.get(), ["grinningFace"]);
     controller.renderSavedEmoji();
     controller.updateFavoriteButton();
     assert.deepEqual(preferences.getStringArray("recentCopied"), [
@@ -258,13 +259,8 @@ describe("saved-emoji", () => {
     const closedDialogController = createSavedEmojiController({
       applyPixelArtworkClass: () => () => {},
       byId: () => ({}),
-      copiedEmojiKeys: () => [],
-      currentEmojiKey: () => "",
-      favoriteEmojiKeys: () => [],
       savedDialog: () => ({ open: false, querySelector: () => null } as never),
       searchAnnotations: () => ({}),
-      setCopiedEmojiKeys: () => {},
-      setFavoriteEmojiKeys: () => {},
       translate: (_key, fallback) => fallback,
       emojiByKey: () => ({}),
     });

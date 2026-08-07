@@ -134,9 +134,9 @@ function createOptions(overrides: Partial<any> = {}) {
 
 describe("emoji-filter", () => {
   afterEach(() => {
-    state.byId.replace({});
-    state.searchAnnotations.replace({});
-    state.emojiByKey.replace({});
+    state.byId.clear();
+    state.searchAnnotations.clear();
+    state.emojiByKey.clear();
   });
 
   it("derives male, female, and neutral genders from names and code points", () => {

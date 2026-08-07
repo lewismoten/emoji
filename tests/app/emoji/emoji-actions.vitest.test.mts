@@ -45,12 +45,12 @@ describe("emoji-actions", () => {
     state.versionKeys.replace(new Map());
     state.versionManifests.set([]);
     state.proposedVersionManifests.set([]);
-    state.emojiByKey.replace({});
+    state.emojiByKey.clear();
     state.items.set([]);
-    state.byId.replace({});
+    state.byId.clear();
     state.currentDialogParentStack.set([]);
     state.compositionMode.set("condensed");
-    state.searchAnnotations.replace({});
+    state.searchAnnotations.clear();
     state.selectedSearchLocale.set("");
     state.emojiKeyByCodePoints.replace(new Map());
     vi.clearAllMocks();

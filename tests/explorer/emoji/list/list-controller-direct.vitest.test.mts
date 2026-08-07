@@ -8,8 +8,8 @@ describe("list-controller direct", () => {
   const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
 
   afterEach(() => {
-    state.byId.replace({});
-    state.searchAnnotations.replace({});
+    state.byId.clear();
+    state.searchAnnotations.clear();
     if (originalWindow) {
       Object.defineProperty(globalThis, "window", originalWindow);
     } else {

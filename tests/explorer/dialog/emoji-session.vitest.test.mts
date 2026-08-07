@@ -15,9 +15,9 @@ describe("emoji-session", () => {
 
   afterEach(() => {
     renderEmojiDialog.mockClear();
-    state.emojiByKey.replace({});
-    state.byId.replace({});
-    state.searchAnnotations.replace({});
+    state.emojiByKey.clear();
+    state.byId.clear();
+    state.searchAnnotations.clear();
     if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
     else delete (globalThis as any).document;
   });

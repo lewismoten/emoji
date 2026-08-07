@@ -33,8 +33,8 @@ describe("pixel-artwork", () => {
   const originalDocument = Object.getOwnPropertyDescriptor(globalThis, "document");
 
   afterEach(() => {
-    state.byId.replace({});
-    state.emojiByKey.replace({});
+    state.byId.clear();
+    state.emojiByKey.clear();
     if (originalDocument) {
       Object.defineProperty(globalThis, "document", originalDocument);
     } else {

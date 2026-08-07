@@ -69,7 +69,7 @@ describe("explorer-navigation direct", () => {
     }) as any;
 
   afterEach(() => {
-    state.emojiByKey.replace({});
+    state.emojiByKey.clear();
     if (originalWindow) {
       Object.defineProperty(globalThis, "window", originalWindow);
     } else {

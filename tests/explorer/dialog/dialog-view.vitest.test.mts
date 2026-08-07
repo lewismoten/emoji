@@ -121,8 +121,8 @@ describe("dialog-view", () => {
   afterEach(() => {
     (globalThis as any).document = originalDocument;
     globalThis.queueMicrotask = originalQueueMicrotask;
-    state.emojiByKey.replace({});
-    state.byId.replace({});
+    state.emojiByKey.clear();
+    state.byId.clear();
     vi.restoreAllMocks();
   });
 

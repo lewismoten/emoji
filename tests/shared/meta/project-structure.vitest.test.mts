@@ -28,8 +28,7 @@ const legacyLineBudgets: Record<string, number> = {
   "tests/app/browser/browser-runtime.vitest.test.mts": 318,
   "tests/app/emoji/emoji-runtime.vitest.test.mts": 317,
   "tests/app/emoji/explorer-app-events-runtime.vitest.test.mts": 787,
-  "tests/app/shell/explorer-shell-direct.vitest.test.mts": 306,
-  "tests/app/shell/explorer-shell.vitest.test.mts": 479,
+  "tests/app/shell/explorer-shell.vitest.test.mts": 472,
   "tests/app/version/version-controller.vitest.test.mts": 558,
   "tests/app/version/version-mode-runtime.vitest.test.mts": 306,
   "tests/explorer/ui/explorer-ui-branches.vitest.test.mts": 329,
@@ -60,7 +59,7 @@ const legacyLineBudgets: Record<string, number> = {
   "tests/pixel-editor/data/pixel-editor-atlas-io.vitest.test.mts": 437,
   "tests/pixel-editor/layers/pixel-editor-layer-helpers.vitest.test.mts": 306,
   "tests/pixel-font-hot-reload.vitest.test.mts": 561,
-  "tests/shared/meta/project-structure.vitest.test.mts": 328,
+  "tests/shared/meta/project-structure.vitest.test.mts": 327,
 };
 
 const legacyFileCountBudgets: Record<string, number> = {

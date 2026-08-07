@@ -203,7 +203,7 @@ const appendTriggerContents = (trigger: FakeElement) => {
 
 describe("category-filter-render", () => {
   afterEach(() => {
-    state.subGroups.replace({});
+    state.subGroups.clear();
     if (originalDocument) {
       Object.defineProperty(globalThis, "document", originalDocument);
     } else {

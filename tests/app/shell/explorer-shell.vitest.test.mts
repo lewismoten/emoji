@@ -419,15 +419,8 @@ describe("createExplorerShell", () => {
       "apply-pixel-artwork-class",
     );
     expect(savedOptions.byId()).toEqual(customState.byId);
-    expect(savedOptions.copiedEmojiKeys()).toEqual(["wave"]);
-    expect(savedOptions.currentEmojiKey()).toBe("wave");
     expect(savedOptions.emojiByKey()).toEqual(customState.emojiByKey);
-    expect(savedOptions.favoriteEmojiKeys()).toEqual(["thumbsUp"]);
     expect(savedOptions.searchAnnotations()).toEqual({ wave: ["hello"] });
-    savedOptions.setCopiedEmojiKeys(["sparkles"]);
-    savedOptions.setFavoriteEmojiKeys(["wave"]);
-    expect(state.copiedEmojiKeys.set).toHaveBeenCalledWith(["sparkles"]);
-    expect(state.favoriteEmojiKeys.set).toHaveBeenCalledWith(["wave"]);
     expect(savedOptions.translate).toBe("translate");
 
     shell.renderPixelFontToggle();

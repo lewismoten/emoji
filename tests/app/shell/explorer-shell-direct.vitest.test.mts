@@ -291,15 +291,8 @@ describe("createExplorerShell direct dependency injection", () => {
       "apply-pixel-artwork-class",
     );
     expect(savedOptions.byId()).toEqual(state.byId.get());
-    expect(savedOptions.copiedEmojiKeys()).toEqual(["wave"]);
-    expect(savedOptions.currentEmojiKey()).toBe("wave");
     expect(savedOptions.emojiByKey()).toEqual(state.emojiByKey.get());
-    expect(savedOptions.favoriteEmojiKeys()).toEqual(["thumbsUp"]);
     expect(savedOptions.searchAnnotations()).toEqual({ wave: ["hello"] });
-    savedOptions.setCopiedEmojiKeys(["sparkles"]);
-    savedOptions.setFavoriteEmojiKeys(["wave"]);
-    expect(state.copiedEmojiKeys.get()).toEqual(["sparkles"]);
-    expect(state.favoriteEmojiKeys.get()).toEqual(["wave"]);
     expect(savedOptions.translate).toBe("translate");
   });
 });

@@ -109,14 +109,9 @@ export function createSavedEmojiController(options: {
     emojiKey: string,
   ) => void;
   byId?: () => Record<string, { shortName?: string }>;
-  copiedEmojiKeys: () => string[];
-  currentEmojiKey: () => string;
   emojiByKey?: () => Record<string, string>;
-  favoriteEmojiKeys: () => string[];
   savedDialog: () => MinimalElement | undefined;
   searchAnnotations?: () => Record<string, string[]>;
-  setCopiedEmojiKeys: (keys: string[]) => void;
-  setFavoriteEmojiKeys: (keys: string[]) => void;
   translate: (key: string, fallback: string) => string;
 }) {
   function updateFavoriteButton() {
@@ -129,8 +124,8 @@ export function createSavedEmojiController(options: {
       document.querySelector(".example-dialog .toggle-favorite"),
       {
         applyPixelArtworkClass: options.applyPixelArtworkClass(),
-        favoriteEmojiKeys: options.favoriteEmojiKeys(),
-        currentEmojiKey: options.currentEmojiKey(),
+        favoriteEmojiKeys: state.favoriteEmojiKeys.get(),
+        currentEmojiKey: state.currentEmojiKey.get(),
         translate: options.translate,
       },
     );
@@ -161,34 +156,34 @@ export function createSavedEmojiController(options: {
     renderList(
       dialog.querySelector(".favorites-list"),
       dialog.querySelector(".favorites-empty"),
-      options.favoriteEmojiKeys(),
+      state.favoriteEmojiKeys.get(),
       "favorites",
     );
     renderList(
       dialog.querySelector(".copied-list"),
       dialog.querySelector(".copied-empty"),
-      options.copiedEmojiKeys(),
+      state.copiedEmojiKeys.get(),
       "copied",
     );
   }
 
   function toggleFavorite(key: string) {
     if (!key) return;
-    const keys = nextFavoriteEmojiKeys(options.favoriteEmojiKeys(), key);
-    options.setFavoriteEmojiKeys(keys);
+    const keys = nextFavoriteEmojiKeys(state.favoriteEmojiKeys.get(), key);
+    state.favoriteEmojiKeys.set(keys);
     preferences.setStringArray("favorites", keys);
     updateFavoriteButton();
     if (options.savedDialog()?.open) renderSavedEmoji();
   }
 
   function addFavorite(key: string) {
-    if (!key || options.favoriteEmojiKeys().includes(key)) return;
+    if (!key || state.favoriteEmojiKeys.get().includes(key)) return;
     toggleFavorite(key);
   }
 
   function recordCopiedEmoji(key: string) {
-    const keys = nextCopiedEmojiKeys(options.copiedEmojiKeys(), key);
-    options.setCopiedEmojiKeys(keys);
+    const keys = nextCopiedEmojiKeys(state.copiedEmojiKeys.get(), key);
+    state.copiedEmojiKeys.set(keys);
     preferences.setStringArray("recentCopied", keys);
   }
 
