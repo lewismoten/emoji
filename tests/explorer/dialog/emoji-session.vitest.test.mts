@@ -17,7 +17,13 @@ describe("emoji-session", () => {
     renderEmojiDialog.mockClear();
     state.emojiByKey.clear();
     state.byId.clear();
+    state.currentDialogParentStack.set([]);
+    state.currentEmojiCopies.clear();
+    state.currentEmojiKey.set("");
+    state.dialogNavigationKeys.set([]);
+    state.displayedKeys.set([]);
     state.searchAnnotations.clear();
+    state.selectedSearchLocale.set("");
     if (originalDocument) Object.defineProperty(globalThis, "document", originalDocument);
     else delete (globalThis as any).document;
   });
@@ -29,7 +35,13 @@ describe("emoji-session", () => {
     });
     state.emojiByKey.replace({ wrappedGift: "🎁", smile: "😀" });
     state.byId.replace({ wrappedGift: { status: "fully-qualified" } as any });
+    state.currentDialogParentStack.set(["stale"]);
+    state.currentEmojiCopies.clear();
+    state.currentEmojiKey.set("before");
+    state.dialogNavigationKeys.set(["before"]);
+    state.displayedKeys.set(["smile", "wrappedGift", "missing"]);
     state.searchAnnotations.replace({ wrappedGift: ["gift"] });
+    state.selectedSearchLocale.set("en-GB");
     const { showEmojiSession } = await import("../../../src/explorer/dialog/emoji-session.js");
     const options: any = {
       id: "wrappedGift",
@@ -38,15 +50,10 @@ describe("emoji-session", () => {
       applyStandalonePixelArtwork: Symbol("applyStandalonePixelArtwork"),
       compositionMode: "full",
       developerMode: true,
-      dialogNavigationKeys: { value: ["before"] },
-      displayedKeys: { value: ["smile", "wrappedGift", "missing"] },
       displayGroupName: (value: string) => `group:${value}`,
       displayUnicodeSubGroupName: (value: string) => `sub:${value}`,
       dialog: { classList: { contains: (name: string) => name === "is-editor-view" } },
       getIntroducedVersion: (value: string) => `v:${value}`,
-      currentEmojiKey: { value: "before" },
-      currentDialogParentStack: { value: ["stale"] },
-      currentEmojiCopies: { value: [] },
       openDialog: true,
       openDialogActionCalls: [] as any[],
       openDialogAction(mode: string, panel: string) {
@@ -60,7 +67,6 @@ describe("emoji-session", () => {
       updateDialogNavigation() {
         this.updateDialogNavigationCalls += 1;
       },
-      selectedSearchLocale: "en-GB",
       sequenceTranslationKeys: {},
       sequenceTypeLabels: {},
       statusTranslationKeys: {},
@@ -72,9 +78,10 @@ describe("emoji-session", () => {
       initialMode: "code",
     };
     showEmojiSession(options);
-    expect(options.currentEmojiKey.value).toBe("wrappedGift");
-    expect(options.currentDialogParentStack.value).toEqual(["favorites"]);
-    expect(options.currentEmojiCopies.value).toEqual(["copied", "wrappedGift"]);
+    expect(state.currentEmojiKey.get()).toBe("wrappedGift");
+    expect(state.currentDialogParentStack.get()).toEqual(["favorites"]);
+    expect(state.currentEmojiCopies.get()).toEqual(["copied", "wrappedGift"]);
+    expect(state.dialogNavigationKeys.get()).toEqual(["smile", "wrappedGift"]);
     expect(renderEmojiDialog).toHaveBeenCalled();
   });
 });

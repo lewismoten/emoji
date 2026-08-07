@@ -41,13 +41,6 @@ describe("emoji runtime wrappers", () => {
   });
 
   it("forwards emoji session options through shared state and writes back mutations", async () => {
-    showEmojiSession.mockImplementation((options: any) => {
-      options.currentEmojiCopies.value = { key: "after" };
-      options.currentEmojiKey.value = "wrappedGift";
-      options.currentDialogParentStack.value = ["help"];
-      options.dialogNavigationKeys.value = ["sparkles"];
-    });
-
     const { createEmojiSessionController } =
       await import("../../../src/app/emoji/emoji-session-controller.js");
     const state = await import("../../../src/state.js");
@@ -85,19 +78,12 @@ describe("emoji runtime wrappers", () => {
     const options: any = showEmojiSession.mock.calls[0]![0];
     expect(options.applyPixelArtworkClass).toBe("apply-pixel");
     expect(options.applyStandalonePixelArtwork).toBe("apply-standalone");
-    expect(options.byId).toEqual({ wrappedGift: { key: "wrappedGift" } });
     expect(options.compositionMode).toBe("condensed");
-    expect(options.currentEmojiCopies.value).toEqual({ key: "after" });
-    expect(options.currentEmojiKey.value).toBe("wrappedGift");
-    expect(options.currentDialogParentStack.value).toEqual(["help"]);
     expect(options.developerMode).toBe(true);
     expect(options.fullDeveloperMode).toBe(false);
     expect(options.dialog).toEqual({ open: false });
-    expect(options.dialogNavigationKeys.value).toEqual(["sparkles"]);
     expect(options.displayGroupName("Objects")).toBe("group:Objects");
     expect(options.displayUnicodeSubGroupName("money")).toBe("sub:money");
-    expect(options.displayedKeys).toEqual({ value: ["wrappedGift"] });
-    expect(options.emojiByKey).toEqual({ wrappedGift: "🎁" });
     expect(options.getIntroducedVersion()).toBe("17.0");
     expect(options.id).toBe("wrappedGift");
     expect(options.initialMode).toBe("editor");
@@ -107,8 +93,6 @@ describe("emoji runtime wrappers", () => {
     expect(options.parentPanel).toBe("help");
     expect(options.openDialogAction).toBe("open-dialog");
     expect(options.openEditor).toBe("open-editor");
-    expect(options.searchAnnotations).toEqual({ wrappedGift: ["gift"] });
-    expect(options.selectedSearchLocale).toBe("en");
     expect(options.sequenceTranslationKeys).toEqual({ single: "single" });
     expect(options.sequenceTypeLabels).toEqual({ single: "Single" });
     expect(options.statusTranslationKeys).toEqual({
@@ -119,11 +103,6 @@ describe("emoji runtime wrappers", () => {
     expect(options.updateEmojiComposition).toBe("update-composition");
     expect(options.updateFavoriteButton).toBe("update-favorite");
     expect(options.updateRenderingDiagnostic).toBe("update-rendering");
-
-    expect(state.currentEmojiCopies.get()).toEqual({ key: "after" });
-    expect(state.currentEmojiKey.get()).toBe("wrappedGift");
-    expect(state.currentDialogParentStack.get()).toEqual(["help"]);
-    expect(state.dialogNavigationKeys.get()).toEqual(["sparkles"]);
   });
 
   it("wraps dialog click helpers with route and shared state readers", async () => {

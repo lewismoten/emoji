@@ -1,5 +1,6 @@
 import * as preferences from "./preferences.js";
 import * as doc from "./utils/document.js";
+import { init, initArray, initRecord, initMap, initNum, initSet } from "./state-init.js";
 
 export type ExplorerMode = "standard" | "advanced" | "developer";
 export type OrderMode = "grouped" | "sequence" | "popular";
@@ -40,88 +41,6 @@ export type Catalog = {
   subGroups: Record<string, string[]>;
 };
 
-const init = <T = any>(defaultValue: T, filter?: (value: T) => T) => {
-  let _value = defaultValue;
-  const get = () => _value;
-  const set = (value: T) => {
-    _value = transformIfProvided(value, filter);
-  };
-  return { get, set };
-};
-type ValueTransformer<T> = (value: T) => T;
-const transformIfProvided = <T>(value: T, transformer?: ValueTransformer<T>) =>
-  transformer ? transformer(value) : value;
-
-const initMap = <T = any>(
-  defaultValue: Map<string, T>,
-  transformer?: ValueTransformer<T>,
-) => {
-  let _value = defaultValue;
-  const get = ((name?: string) =>
-    typeof name === "string" ? _value.get(name) : _value) as {
-    (): Map<string, T>;
-    (name: string): T | undefined;
-  };
-  const set = (name: string, value: T) => {
-    _value.set(name, transformIfProvided(value, transformer));
-  };
-  const replace = (value: Map<string, T>) => {
-    _value = value;
-  };
-  const clear = () => {
-    _value.clear();
-  };
-  return { get, set, clear, replace };
-};
-const initRecord = <T = any>(
-  defaultValue: Record<string, T>,
-  transformer?: ValueTransformer<T>,
-) => {
-  let _value = defaultValue;
-  const get = ((name?: string) =>
-    typeof name === "string" ? _value[name] : _value) as {
-    (): Record<string, T>;
-    (name: string): T | undefined;
-  };
-  const set = (name: string, value: T) => {
-    _value[name] = transformIfProvided(value, transformer);
-  };
-  const clear = () => {
-    _value = {};
-  };
-  const replace = (replacement: Record<string, T>) => {
-    _value = replacement;
-  };
-  return { get, set, clear, replace };
-};
-const initSet = <T = any>(
-  defaultValue: Set<T>,
-  transformer?: ValueTransformer<Set<T>>,
-) => {
-  let _value = defaultValue;
-  const get = () => _value;
-  const first = (): T | undefined => _value.values().next().value;
-  const replace = (value: Set<T>) => {
-    _value = transformIfProvided(value, transformer);
-  };
-  const clear = () => {
-    _value.clear();
-  };
-  return { get, first, replace, clear };
-};
-const initNum = <T extends number = number>(
-  defaultValue: T,
-  transformer?: ValueTransformer<T>,
-) => {
-  let _value = defaultValue;
-  const get = () => _value;
-  const set = (value: T) => {
-    _value = transformIfProvided(value, transformer);
-  };
-  const increment = () => ++_value;
-  return { get, set, increment };
-};
-
 type ValueSet = Set<string>;
 type PackageManifest = {
   packs: Array<{
@@ -154,10 +73,10 @@ export const explorerModeFromUrl = init<ExplorerMode | undefined>(undefined);
 export const developerModeFromUrl = init(false);
 export const searchLabels = initRecord<string>({});
 export const searchSubgroupLabels = initRecord<string>({});
-export const groups = init<string[]>([]);
-export const items = init<EmojiItem[]>([]);
-export const proposedVersionManifests = init<any[]>([]);
-export const versionManifests = init<any[]>([]);
+export const groups = initArray<string>([]);
+export const items = initArray<EmojiItem>([]);
+export const proposedVersionManifests = initArray<any>([]);
+export const versionManifests = initArray<any>([]);
 export const versionKeys = initMap<ValueSet>(new Map<string, ValueSet>());
 export const groupRepresentativeEmoji = initMap<string>(
   new Map<string, string>(),
@@ -168,20 +87,20 @@ export const subGroupRepresentativeEmoji = initMap<string>(
 export const selectedGroup = init<string>("");
 export const selectedSubGroup = init<string>("");
 export const selectedSequenceType = init<string>("");
-export const availableGroups = init<string[]>([]);
-export const availableSequenceTypes = init<string[]>([]);
+export const availableGroups = initArray<string>([]);
+export const availableSequenceTypes = initArray<string>([]);
 export const availableSubGroups = initRecord<string[]>({});
 export const availableCategoryKeys = initSet<string>(new Set<string>());
-export const allIds = init<string[]>([]);
+export const allIds = initArray<string>([]);
 export const searchLoadId = initNum<number>(0);
 export const selectedSearchLocale = init<string>("");
 export const releasedIds = initSet<string>(new Set<string>());
 export const currentEmojiCopies = initRecord<string>({});
 export const currentEmojiKey = init<string>("");
-export const currentDialogParentStack = init<string[]>([]);
-export const dialogNavigationKeys = init<string[]>([]);
+export const currentDialogParentStack = initArray<string>([]);
+export const dialogNavigationKeys = initArray<string>([]);
 export const compositionMode = init<CompositionMode>("condensed");
-export const displayedKeys = init<string[]>([]);
+export const displayedKeys = initArray<string>([]);
 export const packageManifest = init<PackageManifest>({
   packs: [],
   categories: [],
@@ -191,14 +110,14 @@ export const packageManifestPromise = init<Promise<unknown> | undefined>(
 );
 export const emojiKeyByCodePoints = initMap<string>(new Map<string, string>());
 export const versionDataPromise = init<Promise<unknown> | undefined>(undefined);
-export const favoriteEmojiKeys = init<string[]>([]);
-export const searchLocales = init<string[]>([]);
-export const copiedEmojiKeys = init<string[]>([]);
+export const favoriteEmojiKeys = initArray<string>([]);
+export const searchLocales = initArray<string>([]);
+export const copiedEmojiKeys = initArray<string>([]);
 export const groupedKeys = initRecord<Record<string, string[]>>({});
 export const focusedEmojiKey = init<string>("");
 
-export const releasedVersions = init<{ version: string }[]>([]);
-export const proposedVersions = init<{ version: string }[]>([]);
+export const releasedVersions = initArray<{ version: string }>([]);
+export const proposedVersions = initArray<{ version: string }>([]);
 export const unicodeSubgroupLabelKeys = initRecord<string>({});
 
 export const orderMode = init<OrderMode>("grouped", (value) => {

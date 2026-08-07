@@ -5,15 +5,17 @@ export function showEmojiSession(options: any) {
   const value = state.emojiByKey.get(options.id);
   if (value === undefined) return;
   if (options.navigationKeys || options.openDialog) {
-    options.dialogNavigationKeys.value = [
-      ...(options.navigationKeys ?? options.displayedKeys.value),
-    ].filter((key) => state.emojiByKey.get(key) !== undefined);
+    state.dialogNavigationKeys.set(
+      [...(options.navigationKeys ?? state.displayedKeys.get())].filter(
+        (key) => state.emojiByKey.get(key) !== undefined,
+      ),
+    );
   }
-  options.currentEmojiKey.value = options.id;
+  state.currentEmojiKey.set(options.id);
   if (options.parentPanel !== undefined) {
-    options.currentDialogParentStack.value = options.parentPanel
-      ? [options.parentPanel]
-      : [];
+    state.currentDialogParentStack.set(
+      options.parentPanel ? [options.parentPanel] : [],
+    );
   }
   const item = state.byId.get(options.id) ?? {};
   const sourceItem = options.items.find((item: any) => item.key === options.id);
@@ -25,7 +27,7 @@ export function showEmojiSession(options: any) {
     currentEmojiKey: options.id,
     developerMode: options.developerMode,
     fullDeveloperMode: options.fullDeveloperMode,
-    dialogNavigationKeys: options.dialogNavigationKeys.value,
+    dialogNavigationKeys: state.dialogNavigationKeys.get(),
     displayGroupName: options.displayGroupName,
     exampleDialog: options.dialog,
     getIntroducedVersion: options.getIntroducedVersion,
@@ -34,12 +36,12 @@ export function showEmojiSession(options: any) {
     item,
     locale:
       document.documentElement.lang ||
-      options.selectedSearchLocale ||
+      state.selectedSearchLocale.get() ||
       undefined,
     numberingSystem: document.documentElement.lang?.startsWith("ar")
       ? "arab"
       : undefined,
-    selectedSearchLocale: options.selectedSearchLocale,
+    selectedSearchLocale: state.selectedSearchLocale.get(),
     sequenceTranslationKeys: options.sequenceTranslationKeys,
     sequenceTypeLabels: options.sequenceTypeLabels,
     statusTranslationKeys: options.statusTranslationKeys,
@@ -50,7 +52,7 @@ export function showEmojiSession(options: any) {
     updateEmojiComposition: options.updateEmojiComposition,
     value,
   });
-  options.currentEmojiCopies.value = display.copyValues;
+  state.currentEmojiCopies.replace(display.copyValues);
   if (options.openDialog) {
     options.openDialogAction(
       options.initialMode ?? "details",
