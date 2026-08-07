@@ -198,4 +198,38 @@ describe("pixel-artwork", () => {
     expect(modifierGlyphs.fallback.dataset.pixelEmojiKey).toBe("lightSkinTone");
     expect(modifierGlyphs.male.dataset.pixelEmojiKey).toBe("man");
   });
+
+  it("treats missing canvas contexts as not split", () => {
+    Object.defineProperty(globalThis, "document", {
+      configurable: true,
+      value: {
+        createElement() {
+          return {
+            getContext() {
+              return null;
+            },
+          };
+        },
+        querySelector() {
+          return null;
+        },
+        querySelectorAll() {
+          return [];
+        },
+      },
+    });
+
+    const manager = createPixelArtworkManager({
+      emojiKeyByCodePoints: () => new Map(),
+      genderCheckboxes: () => [],
+      hairCheckboxes: () => [],
+      normalizeCodePoints: (value: string) => value,
+      pixelFontPreferred: () => false,
+      refreshEditor() {},
+      skinToneCheckboxes: () => [],
+      updateRenderingDiagnostic() {},
+    });
+
+    expect(manager.systemEmojiAppearsSplit("😀😀")).toBe(false);
+  });
 });

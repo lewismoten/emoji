@@ -107,6 +107,7 @@ describe("createExplorerBootstrapRuntime", () => {
     const { createExplorerBootstrapRuntime } =
       await import("../../../src/app/bootstrap/explorer-bootstrap-runtime.js");
     const state = await import("../../../src/state.js");
+    const updateModifierArtwork = vi.fn();
 
     let pixelEditorValue: any = {
       refreshFontBuild: vi.fn(),
@@ -151,7 +152,7 @@ describe("createExplorerBootstrapRuntime", () => {
       restoreDeveloperMode: "restore-developer-mode",
       setApplyingUrlState: "set-applying-url-state",
       suppressedPanelCloses: () => "suppressed-panel-closes",
-      updateModifierArtwork: vi.fn(),
+      updateModifierArtwork,
       updatePixelArtworkManifest: "update-pixel-artwork-manifest",
       copyStatus: () => "copy-status",
       developerModeEnabled: "developer-mode-enabled",
@@ -303,7 +304,7 @@ describe("createExplorerBootstrapRuntime", () => {
     browserOptions.onPixelFontRevisionLoaded();
     expect(pixelEditorValue.refreshFontBuild).toHaveBeenCalledTimes(2);
     expect(browserOptions.updateModifierArtwork()).toBeUndefined();
-    browserOptions.updateModifierArtwork();
+    expect(updateModifierArtwork).toHaveBeenCalledTimes(1);
     expect(browserOptions.suppressedPanelCloses()).toBe(
       "suppressed-panel-closes",
     );
@@ -472,5 +473,132 @@ describe("createExplorerBootstrapRuntime", () => {
       { wave: "👋" },
     ]);
     expect(getEmojiGenders).toHaveBeenCalledWith("wave", { wave: "👋" });
+  });
+
+  it("skips modifier artwork updates when modifier controls are unavailable", async () => {
+    const { createExplorerBootstrapRuntime } =
+      await import("../../../src/app/bootstrap/explorer-bootstrap-runtime.js");
+    const updateModifierArtwork = vi.fn();
+
+    createExplorerBootstrapRuntime({
+      setControls: "set-controls",
+      setElements: vi.fn(),
+      setFieldsets: "set-fieldsets",
+      skinToneCheckboxes: () => null,
+      hairCheckboxes: () => ["red"],
+      genderCheckboxes: () => ["neutral"],
+      formatNumber: "format-number",
+      formatPercent: "format-percent",
+      getPixelEditor: () => null,
+      getPixelEditorPromise: () => null,
+      setPixelEditor: vi.fn(),
+      setPixelEditorPromise: vi.fn(),
+      translate: "translate",
+      drawList: "draw-list",
+      renderCategoryFilters: "render-category-filters",
+      versionModeSelector: () => "version-mode-selector",
+      versionModeToggle: () => "version-mode-toggle",
+      syncUrlState: "sync-url-state",
+      applyDialogUrlState: "apply-dialog-url-state",
+      applyPixelArtworkClass: "apply-pixel-artwork-class",
+      applyStandalonePixelArtwork: "apply-standalone-pixel-artwork",
+      languageDialog: () => "language-dialog",
+      languageList: () => "language-list",
+      languagePicker: () => "language-picker",
+      languagePickerFlag: () => "language-picker-flag",
+      languagePickerLabel: () => "language-picker-label",
+      loadUiTranslations: "load-ui-translations",
+      nextSearchLoadId: () => 6,
+      refreshLocalizedLabels: "refresh-localized-labels",
+      restoreDeveloperMode: "restore-developer-mode",
+      setApplyingUrlState: "set-applying-url-state",
+      suppressedPanelCloses: () => "suppressed-panel-closes",
+      updateModifierArtwork,
+      updatePixelArtworkManifest: "update-pixel-artwork-manifest",
+      copyStatus: () => "copy-status",
+      developerModeEnabled: "developer-mode-enabled",
+      displayGroupName: "display-group-name",
+      displayUnicodeSubGroupName: "display-unicode-subgroup-name",
+      focusInitialEmojiDialogAction: "focus-initial-action",
+      getIntroducedVersion: "get-introduced-version",
+      setDialogView: "set-dialog-view",
+      updateCompositionBackButton: vi.fn(),
+      updateDialogNavigation: vi.fn(),
+      updateEmojiComposition: "update-emoji-composition",
+      updateFavoriteButton: "update-favorite-button",
+      updateRenderingDiagnostic: "update-rendering-diagnostic",
+      advancedFilters: () => "advanced-filters",
+      advancedFiltersButton: () => "advanced-filters-button",
+      applyingUrlState: () => false,
+      applyBasicUrlState: "apply-basic-url-state",
+      bindAudioInteractions: "bind-audio-interactions",
+      clearFiltersButton: () => "clear-filters-button",
+      developerModeToggle: () => "developer-mode-toggle",
+      modeChoices: () => "mode-choices",
+      emojiFontChoices: () => "emoji-font-choices",
+      emojiList: () => "emoji-list",
+      groupFilterDialog: () => "group-filter-dialog",
+      groupPickerTrigger: () => "group-picker-trigger",
+      groupSelector: () => "group-selector",
+      helpDialog: () => "help-dialog",
+      helpPicker: () => "help-picker",
+      installApp: "install-app",
+      installAppButton: () => "install-app-button",
+      installDialog: () => "install-dialog",
+      loadData: "load-data",
+      loadSearchLanguages: () => "load-search-languages-option",
+      matchCount: () => "match-count",
+      navigateEmoji: (amount: number) => ["navigate-emoji-option", amount],
+      onClick: "on-click",
+      onCompactChoiceKeyDown: "on-compact-choice-keydown",
+      onDocumentKeyDown: "on-document-keydown",
+      onEmojiDialogClick: "on-emoji-dialog-click",
+      onEmojiDialogClose: "on-emoji-dialog-close",
+      onEmojiFocus: "on-emoji-focus",
+      onHairChange: "on-hair-change",
+      onEmojiKeyDown: "on-emoji-keydown",
+      onGenderChange: "on-gender-change",
+      onSkinToneChange: "on-skin-tone-change",
+      onOrderModeChange: "on-order-mode-change",
+      onVersionRangeInput: "on-version-range-input",
+      openFilterPicker: "open-filter-picker",
+      orderButtons: () => "order-buttons",
+      panelDialogs: "panel-dialogs",
+      populateVersionModeOptions: "populate-version-mode-options",
+      renderDeveloperMode: "render-developer-mode",
+      renderInstallAppButton: "render-install-app-button",
+      renderPixelFontToggle: "render-pixel-font-toggle",
+      renderSavedEmoji: "render-saved-emoji",
+      renderSearchLanguages: () => "render-search-languages",
+      renderVersionModeToggle: () => "render-version-mode-toggle",
+      resetFilters: () => "reset-filters",
+      savedDialog: () => "saved-dialog",
+      savedPicker: () => "saved-picker",
+      scheduleSearchDraw: "schedule-search-draw",
+      searchText: () => "search-text",
+      selectEmojiFont: "select-emoji-font",
+      setUrlStateReady: "set-url-state-ready",
+      showEmoji: "show-emoji-option",
+      stepVersion: "step-version",
+      subGroupFilterDialog: () => "subgroup-filter-dialog",
+      subGroupPickerTrigger: () => "subgroup-picker-trigger",
+      subGroupSelector: () => "subgroup-selector",
+      themeChoices: () => "theme-choices",
+      toggleDeveloperMode: "toggle-developer-mode",
+      toggleVersionMode: "toggle-version-mode",
+      toolbar: () => "toolbar",
+      updateOnlineStatus: "update-online-status",
+      urlStateReady: () => true,
+      versionNext: () => "version-next",
+      versionPrevious: () => "version-previous",
+      versionRange: () => "version-range",
+      versionSelector: () => "version-selector",
+    });
+
+    const browserOptions: any = (
+      createBrowserRuntimeConfig.mock.calls as any
+    ).at(-1)[0];
+    expect(browserOptions.updateModifierArtwork()).toBeUndefined();
+    expect(updateModifierArtwork).not.toHaveBeenCalled();
   });
 });

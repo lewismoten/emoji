@@ -111,18 +111,23 @@ describe("event-accessibility", () => {
       const skin = new FakeCheckbox("1F3FB", "skin-tone");
       const hair = new FakeCheckbox("1F9B0", "hair");
       const gender = new FakeCheckbox("neutral", "gender");
+      const extraGender = new FakeCheckbox("masculine", "gender");
       skin.checked = true;
       skin.label.rect = { left: 0, top: 0, width: 10, height: 10 };
       hair.label.rect = { left: 20, top: 0, width: 10, height: 10 };
       gender.label.rect = { left: 0, top: 20, width: 10, height: 10 };
-      new FakeFieldset([skin, hair, gender]);
+      extraGender.label.rect = { left: 20, top: 20, width: 10, height: 10 };
+      new FakeFieldset([skin, hair, gender, extraGender]);
       const changes: string[] = [];
-      bindModifierGroup([skin as any, hair as any, gender as any], (event) => {
-        changes.push((event.currentTarget as unknown as FakeCheckbox).value);
-      });
-      assert.deepEqual([skin.tabIndex, hair.tabIndex, gender.tabIndex], [0, -1, -1]);
+      bindModifierGroup(
+        [skin as any, hair as any, gender as any, extraGender as any],
+        (event) => {
+          changes.push((event.currentTarget as unknown as FakeCheckbox).value);
+        },
+      );
+      assert.deepEqual([skin.tabIndex, hair.tabIndex, gender.tabIndex, extraGender.tabIndex], [0, -1, -1, -1]);
       hair.listeners.get("focus")?.({ target: hair });
-      assert.deepEqual([skin.tabIndex, hair.tabIndex, gender.tabIndex], [-1, 0, -1]);
+      assert.deepEqual([skin.tabIndex, hair.tabIndex, gender.tabIndex, extraGender.tabIndex], [-1, 0, -1, -1]);
       hair.listeners.get("change")?.({ currentTarget: hair });
       assert.deepEqual(changes, ["1F9B0"]);
       const downEvent = {
@@ -135,7 +140,8 @@ describe("event-accessibility", () => {
       };
       hair.listeners.get("keydown")?.(downEvent);
       assert.equal(downEvent.preventDefaultCalled, true);
-      assert.equal(gender.focused, true);
+      assert.equal(extraGender.focused, true);
+      extraGender.focused = false;
       hair.focused = false;
       skin.listeners.get("keydown")?.({
         currentTarget: skin,

@@ -54,8 +54,6 @@ export function createPixelFontHotReloadController(
 
 export function installPixelFontHotReload(options: any, hot = import.meta.hot) {
   if (!hot) return;
-  if (hot === import.meta.hot)
-    return createPixelFontHotReloadController(options).start();
   const dependencies = {
     hot,
     fetch: globalThis.fetch,

@@ -133,6 +133,7 @@ const createRuntimeHarness = () => {
   const bindPanelDialogCalls: any[] = [];
   const bindSavedDialogInteractionsCalls: any[] = [];
   const installDialogClose = createEventTarget();
+  const orderButton = createEventTarget();
   const advancedFiltersButton = {
     ...createEventTarget(),
     focusCalled: 0,
@@ -201,7 +202,7 @@ const createRuntimeHarness = () => {
     onSkinToneChange: vi.fn(() => lifecycleCalls.push("skin-change")),
     onVersionRangeInput: vi.fn(() => lifecycleCalls.push("range-input")),
     openPanel: vi.fn(() => lifecycleCalls.push("open-panel")),
-    orderButtons: [],
+    orderButtons: [orderButton],
     panelDialogs: vi.fn(() => [{ id: "saved" }, { id: "help" }]),
     positionFavoriteButton: vi.fn(() =>
       lifecycleCalls.push("position-favorite"),
@@ -263,6 +264,7 @@ const createRuntimeHarness = () => {
     lifecycleCalls,
     navigateCalls,
     options,
+    orderButton,
     panelCloses,
     stepCalls,
   };
@@ -338,6 +340,12 @@ describe("bindExplorerEventsWithEnvironment", () => {
     const helpPanel: any = harness.bindPanelDialogCalls[2];
     const filtersPanel: any = harness.bindPanelDialogCalls[3];
 
+    expect(savedPanel.getDialogs()).toEqual([{ id: "saved" }, { id: "help" }]);
+    expect(helpPanel.getDialogs()).toEqual([{ id: "saved" }, { id: "help" }]);
+    expect(filtersPanel.getDialogs()).toEqual([
+      { id: "saved" },
+      { id: "help" },
+    ]);
     await savedPanel.ensureDialog();
     await languagePanel.ensureDialog();
     await helpPanel.onAfterOpen();
@@ -366,6 +374,7 @@ describe("bindExplorerEventsWithEnvironment", () => {
     expect(harness.env.modeChoices[0].attributes.get("aria-checked")).toBe(
       "true",
     );
+    expect(harness.orderButton.listeners.get("click")).toHaveLength(1);
 
     cleanup();
   });

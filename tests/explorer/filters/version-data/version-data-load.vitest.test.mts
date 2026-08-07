@@ -43,6 +43,12 @@ describe("version-data load", () => {
                   stage: "beta",
                   expectedRelease: "2026-09",
                 },
+                {
+                  version: "9.0",
+                  file: "proposed/9.0.json",
+                  status: "draft",
+                  retrieved: "2026-01-01T00:00:00.000Z",
+                },
               ],
             };
           },
@@ -79,6 +85,9 @@ describe("version-data load", () => {
           },
         } as Response;
       }
+      if (url === "proposed/9.0.json") {
+        return { ok: true, async json() { return { emoji: [] }; } } as Response;
+      }
       throw new Error(`Unexpected fetch ${url}`);
     }) as typeof fetch;
 
@@ -102,6 +111,7 @@ describe("version-data load", () => {
       "versions/15.0.json",
       "versions/16.0.json",
       "src/data/versions/15.0.json",
+      "proposed/9.0.json",
       "proposed/18.0.json",
       "src/data/proposed/18.0.json",
     ]);
@@ -109,10 +119,14 @@ describe("version-data load", () => {
       "15.0",
       "16.0",
     ]);
-    expect(catalog.proposed.map((version) => version.version)).toEqual(["18.0"]);
+    expect(catalog.proposed.map((version) => version.version)).toEqual([
+      "9.0",
+      "18.0",
+    ]);
     expect([...catalog.versionKeys.get("15.0")!]).toEqual(["wave"]);
     expect([...catalog.versionKeys.get("16.0")!]).toEqual(["sparkles"]);
     expect([...catalog.versionKeys.get("18.0")!]).toEqual(["draftFace", "wave"]);
+    expect([...catalog.versionKeys.get("9.0")!]).toEqual([]);
     expect(state.emojiByKey.get("draftFace")).toBe("🫨");
     expect((state.byId.get("draftFace") as any).subGroup).toBe("Smileys");
     expect((state.byId.get("draftFace") as any).unicodeSubGroup).toBe(

@@ -57,6 +57,7 @@ describe("createPixelEditorRuntime", () => {
       "./explorer/pixel-editor.css",
       "pixel-editor-stylesheet",
     );
+    await expect(options.loadEditor()).resolves.toBeTruthy();
 
     const result = await runtime.ensurePixelEditor();
     expect(result).toEqual(["pixel-editor-loader", options]);

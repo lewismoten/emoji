@@ -1,7 +1,8 @@
-import { afterEach, describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 
 import {
   applyTranslations,
+  getLocale,
   setTranslations,
   translate,
 } from "../../src/utils/i18n.js";
@@ -114,5 +115,23 @@ describe("utils/i18n", () => {
     textElement.textContent = "fallback";
     setTranslations("en", false);
     expect(textElement.textContent).toBe("fallback");
+  });
+
+  it("prefers the route locale and falls back to the document locale", async () => {
+    const route = await import("../../src/app/route.js");
+    const documentUtils = await import("../../src/utils/document.js");
+
+    const routeSpy = vi.spyOn(route, "getLocale");
+    const documentSpy = vi.spyOn(documentUtils, "getLocale");
+
+    routeSpy.mockReturnValue("es");
+    documentSpy.mockReturnValue("fr");
+    expect(getLocale()).toBe("es");
+
+    routeSpy.mockReturnValue(undefined);
+    expect(getLocale()).toBe("fr");
+
+    routeSpy.mockRestore();
+    documentSpy.mockRestore();
   });
 });

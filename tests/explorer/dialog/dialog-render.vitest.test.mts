@@ -93,11 +93,29 @@ class FakeElement {
 
   querySelectorAll(selector: string): FakeElement[] {
     const selectors = selector.split(",").map((part) => part.trim());
-    const matches = (element: FakeElement, currentSelector: string) => {
+    const matchesSimpleSelector = (
+      element: FakeElement,
+      currentSelector: string,
+    ) => {
       if (currentSelector.startsWith(".")) {
         return element.className.split(/\s+/).includes(currentSelector.slice(1));
       }
       return false;
+    };
+    const matches = (element: FakeElement, currentSelector: string) => {
+      const parts = currentSelector.split(/\s+/).filter(Boolean);
+      if (parts.length === 0) return false;
+      if (!matchesSimpleSelector(element, parts.at(-1)!)) return false;
+      let ancestor = element.parent;
+      for (let index = parts.length - 2; index >= 0; index -= 1) {
+        const selectorPart = parts[index]!;
+        while (ancestor && !matchesSimpleSelector(ancestor, selectorPart)) {
+          ancestor = ancestor.parent;
+        }
+        if (!ancestor) return false;
+        ancestor = ancestor.parent;
+      }
+      return true;
     };
     const results: FakeElement[] = [];
     const stack = [...this.children];
@@ -345,6 +363,19 @@ describe("dialog-render", () => {
       renderingResult.textContent ?? "",
       /Pixel Emoji keeps the sequence together/,
     );
+    updateRenderingDiagnostic({
+      developerMode: false,
+      detailsVisible: true,
+      emojiKey: "womanTechnologist",
+      emojiValue: "👩‍💻",
+      exampleDialog: exampleDialog as any,
+      painted: true,
+      privateUsePoint: 0xe001,
+      systemEmojiAppearsSplit: () => false,
+      translate: (_key, fallback) => fallback,
+      byId: { womanTechnologist: { codePoints: "1F469 200D 1F4BB" } },
+    });
+    assert.equal(regularEditorButton.hidden, true);
 
     const noInvitationDialog = new FakeElement("dialog");
     updateRenderingDiagnostic({

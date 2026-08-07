@@ -177,4 +177,68 @@ describe("catalog-loader", () => {
     assert.deepEqual(receivedManifest, { glyphs: [] });
     assert.deepEqual(viteResult.allIds, []);
   });
+
+  it("falls back to href revisions and swallowed manifest fetch errors outside vite mode", async () => {
+    const fetchCalls: Array<[string, RequestInit | undefined]> = [];
+
+    Object.defineProperty(globalThis, "document", {
+      configurable: true,
+      value: {
+        querySelector(selector: string) {
+          if (selector === "#pixel-font-stylesheet") {
+            return {
+              dataset: {},
+              href: "https://example.test/pixel-font.css?v=href-rev-3",
+            };
+          }
+          return null;
+        },
+      },
+    });
+    Object.defineProperty(globalThis, "window", {
+      configurable: true,
+      value: {
+        location: { href: "https://example.test/demo/" },
+      },
+    });
+
+    globalThis.fetch = (async (
+      input: string | URL | Request,
+      init?: RequestInit,
+    ) => {
+      const url = String(input);
+      fetchCalls.push([url, init]);
+      if (url === "explorer/catalog.json") {
+        return {
+          ok: true,
+          async json() {
+            return {
+              fields: ["key", "emoji", "group", "subGroup"],
+              emoji: [["splitHands", "🫱‍🫲", "People & Body", "handshake"]],
+            };
+          },
+        } as Response;
+      }
+      if (url === "pixel-font/build/explorer-manifest.json?v=href-rev-3") {
+        throw new Error("manifest unavailable");
+      }
+      throw new Error(`Unexpected fetch ${url}`);
+    }) as typeof fetch;
+
+    let receivedManifest: unknown = undefined;
+    const result = await loadExplorerCatalog({
+      getExplorerSubGroup: (item: any) => item.subGroup,
+      isViteDevelopment: false,
+      updatePixelArtworkManifest: (manifest: unknown) => {
+        receivedManifest = manifest;
+      },
+    });
+
+    assert.deepEqual(fetchCalls, [
+      ["explorer/catalog.json", undefined],
+      ["pixel-font/build/explorer-manifest.json?v=href-rev-3", undefined],
+    ]);
+    assert.deepEqual(receivedManifest, { glyphs: [] });
+    assert.deepEqual(result.allIds, ["splitHands"]);
+  });
 });

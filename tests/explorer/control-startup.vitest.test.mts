@@ -28,7 +28,6 @@ vi.mock("../../src/render-theme-toggle.js", () => ({
 vi.mock("../../src/controls/audio/audio-toggle.js", () => ({
   render: mocked.renderAudioToggle,
 }));
-
 import {
   finalizeExplorerStartup,
   initializeExplorerControls,
@@ -610,4 +609,5 @@ describe("control-startup", () => {
       "requestAnimationFrame",
     ]);
   });
+
 });

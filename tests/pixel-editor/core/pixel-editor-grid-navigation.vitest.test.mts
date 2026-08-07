@@ -221,6 +221,46 @@ describe("pixel-editor-grid-navigation", () => {
       assert.equal(event.prevented, true);
       assert.equal(horizontalPaletteButtons[0].focused, true);
 
+      const unsortedVerticalButtons = [
+        new FakeButton(),
+        new FakeButton(),
+        new FakeButton(),
+      ];
+      unsortedVerticalButtons[0].dataset.gridRow = "2";
+      unsortedVerticalButtons[0].dataset.gridColumn = "1";
+      unsortedVerticalButtons[1].dataset.gridRow = "3";
+      unsortedVerticalButtons[1].dataset.gridColumn = "1";
+      unsortedVerticalButtons[2].dataset.gridRow = "1";
+      unsortedVerticalButtons[2].dataset.gridColumn = "1";
+      bindPaletteGrid(unsortedVerticalButtons as any);
+      resetFocus(unsortedVerticalButtons);
+      unsortedVerticalButtons[0].focus();
+      resetFocus(unsortedVerticalButtons);
+      event = keyEvent("ArrowUp");
+      unsortedVerticalButtons[0].dispatch("keydown", event);
+      assert.equal(event.prevented, true);
+      assert.equal(unsortedVerticalButtons[2].focused, true);
+
+      const unsortedHorizontalButtons = [
+        new FakeButton(),
+        new FakeButton(),
+        new FakeButton(),
+      ];
+      unsortedHorizontalButtons[0].dataset.gridRow = "1";
+      unsortedHorizontalButtons[0].dataset.gridColumn = "2";
+      unsortedHorizontalButtons[1].dataset.gridRow = "1";
+      unsortedHorizontalButtons[1].dataset.gridColumn = "3";
+      unsortedHorizontalButtons[2].dataset.gridRow = "1";
+      unsortedHorizontalButtons[2].dataset.gridColumn = "1";
+      bindPaletteGrid(unsortedHorizontalButtons as any);
+      resetFocus(unsortedHorizontalButtons);
+      unsortedHorizontalButtons[0].focus();
+      resetFocus(unsortedHorizontalButtons);
+      event = keyEvent("ArrowLeft");
+      unsortedHorizontalButtons[0].dispatch("keydown", event);
+      assert.equal(event.prevented, true);
+      assert.equal(unsortedHorizontalButtons[2].focused, true);
+
       const hiddenPaletteButton = new FakeButton({ hidden: true });
       hiddenPaletteButton.dataset.gridRow = "1";
       hiddenPaletteButton.dataset.gridColumn = "1";

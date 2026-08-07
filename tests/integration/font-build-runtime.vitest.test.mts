@@ -47,7 +47,7 @@ describe("font-build-runtime integration", () => {
     assert.ok(
       /createPixelFontHotReloadController/.test(pixelFontHotReload) &&
         /dependencies\.hot\?\.on/.test(pixelFontHotReload) &&
-        /createPixelFontHotReloadController\(options\)\.start\(\)/.test(
+        /createPixelFontHotReloadController\(options,\s*dependencies\)\.start\(\)/.test(
           pixelFontHotReload,
         ) &&
         /pixel-font\/font-build\.revision/.test(pixelFontHotReload) &&

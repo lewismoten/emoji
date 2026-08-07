@@ -48,11 +48,19 @@ class FakeElement {
     return this.classList.toString();
   }
 
+  detachFromParent(node: FakeElement | string) {
+    if (!(node instanceof FakeElement) || !node.parentElement) return;
+    const siblings = node.parentElement.children;
+    const index = siblings.indexOf(node);
+    if (index !== -1) siblings.splice(index, 1);
+  }
+
   append(...nodes: Array<FakeElement | string>) {
     nodes.forEach((node) => this.appendChild(node));
   }
 
   appendChild(node: FakeElement | string) {
+    this.detachFromParent(node);
     this.children.push(node);
     if (node instanceof FakeElement) node.parentElement = this;
     return node;
@@ -60,6 +68,7 @@ class FakeElement {
 
   prepend(...nodes: Array<FakeElement | string>) {
     const next = nodes.map((node) => {
+      this.detachFromParent(node);
       if (node instanceof FakeElement) node.parentElement = this;
       return node;
     });
@@ -71,6 +80,7 @@ class FakeElement {
     const siblings = this.parentElement.children;
     const index = siblings.indexOf(this);
     const next = nodes.map((node) => {
+      this.detachFromParent(node);
       if (node instanceof FakeElement) node.parentElement = this.parentElement;
       return node;
     });
@@ -280,5 +290,22 @@ describe("dialog-title-controls", () => {
     const positionedTitleMain = dialogTitleRow.children[0] as FakeElement;
     assert.equal(positionedTitleMain.className, "dialog-title-main");
     assert.equal(positionedTitleMain.children[0], ensuredFavorite);
+
+    positionFavoriteButton({
+      compact: true,
+      dialogControls: dialogControls as unknown as HTMLElement,
+      dialogTitleRow: dialogTitleRow as unknown as HTMLElement,
+      favoriteButton: ensuredFavorite as unknown as HTMLElement,
+    });
+    assert.equal(dialogControls.children[0], ensuredFavorite);
+    assert.equal(dialogControls.children[1], form);
+
+    positionFavoriteButton({
+      compact: false,
+      dialogControls: null,
+      dialogTitleRow: dialogTitleRow as unknown as HTMLElement,
+      favoriteButton: ensuredFavorite as unknown as HTMLElement,
+    });
+    assert.equal(dialogControls.children[0], ensuredFavorite);
   });
 });

@@ -13,13 +13,11 @@ const legacyMissingTestPairs = new Set<string>([
   "src/app/explorer-app-events.ts",
   "src/app/startup/startup-runtime.ts",
   "src/app/version/version-mode-controller.ts",
-  "src/auth.ts",
   "src/explorer/category/category-version.ts",
   "src/explorer/filters/filter-controls.ts",
   "src/explorer/filters/filter-picker.ts",
   "src/explorer/filters/version-data.ts",
   "src/resolve-connected-elements.ts",
-  "src/state.ts",
 ]);
 
 function walk(directory: string, extension: string) {

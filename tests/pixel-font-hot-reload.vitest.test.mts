@@ -519,5 +519,42 @@ describe("pixel-font-hot-reload", () => {
       ),
     ).toBe(true);
     warnSpy.mockRestore();
+
+    const defaultRefreshCalls: string[] = [];
+    Object.defineProperty(globalThis, "fetch", {
+      configurable: true,
+      value: async () => ({
+        ok: true,
+        text: async () => "rev-default",
+      }),
+    });
+    Object.defineProperty(globalThis, "document", {
+      configurable: true,
+      value: {
+        hidden: false,
+        addEventListener() {},
+      },
+    });
+    Object.defineProperty(globalThis, "window", {
+      configurable: true,
+      value: {
+        setInterval() {
+          return 1;
+        },
+        requestAnimationFrame(handler: () => void) {
+          pendingTasks.push(handler);
+          return 1;
+        },
+      },
+    });
+    const defaultController = createPixelFontHotReloadController({
+      refreshStylesheet(revision: string) {
+        defaultRefreshCalls.push(revision);
+      },
+    });
+    await defaultController.refresh(true);
+    await Promise.resolve();
+    await flushTasks();
+    expect(defaultRefreshCalls).toEqual(["rev-default"]);
   });
 });

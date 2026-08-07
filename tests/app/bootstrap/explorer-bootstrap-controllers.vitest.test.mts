@@ -372,7 +372,13 @@ describe("createExplorerBootstrapControllers", () => {
         "wrappedGift",
         "sparkles",
       ]);
+      expect(navigationOptions.latestReleasedVersion()).toBe("17.0");
       expect(navigationOptions.preferredOrder()).toBe("grouped");
+      expect(navigationOptions.syncVersionRange("16.0", "17.0")).toEqual([
+        "syncVersionRange",
+        "16.0",
+        "17.0",
+      ]);
       navigationOptions.setCompositionMode("condensed");
       navigationOptions.setSelectedGroup("Smileys");
       navigationOptions.setSelectedSequenceType("zwj");

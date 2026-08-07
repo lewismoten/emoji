@@ -186,6 +186,44 @@ describe("category-controller", () => {
     expect(state.orderMode.get()).toBe("sequence");
     expect(preferences.getString("order")).toBe("sequence");
 
+    const blockedController = createCategoryController({
+      compactGroupChoices: () => ({ replaceChildren() {} }) as any,
+      compactGroupLabel: () => ({ textContent: "" }) as any,
+      compactSequenceChoices: () => ({ replaceChildren() {} }) as any,
+      compactSequenceLabel: () => ({ textContent: "" }) as any,
+      compactSubGroupChoices: () => ({ replaceChildren() {} }) as any,
+      compactSubGroupLabel: () => ({ textContent: "" }) as any,
+      developerModeEnabled: () => false,
+      drawList: () => calls.push("blocked-draw"),
+      getVersionKeys: () => new Set(["grinningFace", "family"]),
+      groupFilterDialog: () => undefined,
+      groupPickerTrigger: () => undefined,
+      groupSelector: () => groupSelector as any,
+      orderButtons: () => orderButtons,
+      sequenceTranslationKeys: { single: "single", zwj: "zwj" },
+      sequenceTypeEmoji: { single: "1", zwj: "2" },
+      sequenceTypeLabels: { single: "Single", zwj: "ZWJ" },
+      sequenceTypeOrder: ["single", "zwj"],
+      sequenceTypeSelector: () => sequenceTypeSelector as any,
+      subGroupFilterDialog: () => undefined,
+      subGroupPickerTrigger: () => undefined,
+      subGroupSelector: () => subGroupSelector as any,
+      syncVersionRange: () => calls.push("blocked-sync"),
+      translate: (_key: string, fallback: string) => fallback,
+      unicodeGroupLabelKeys: {
+        "Smileys & Emotion": "smileysLabel",
+      },
+      unicodeSubgroupLabelKeys: {
+        "face-smiling": "faceSmilingLabel",
+      },
+    });
+    state.orderMode.set("grouped");
+    blockedController.onOrderModeChange({
+      currentTarget: { dataset: { order: "sequence" } },
+    });
+    expect(state.orderMode.get()).toBe("grouped");
+    expect(calls).not.toContain("blocked-draw");
+
     controller.refreshLocalizedLabels();
     expect(calls).toContain("sync");
     expect(calls.filter((value) => value === "draw").length).toBeGreaterThan(0);

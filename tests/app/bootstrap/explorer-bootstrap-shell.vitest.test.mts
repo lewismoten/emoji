@@ -104,10 +104,8 @@ describe("createExplorerBootstrapShellWithFactories", () => {
       versionSelector: vi.fn(() => "version-selector"),
     };
 
-    const {
-      createExplorerBootstrapShell,
-      createExplorerBootstrapShellWithFactories,
-    } = await import("../../../src/app/bootstrap/explorer-bootstrap-shell.js");
+    const { createExplorerBootstrapShellWithFactories } =
+      await import("../../../src/app/bootstrap/explorer-bootstrap-shell.js");
 
     const bootstrap = createExplorerBootstrapShellWithFactories(options, {
       createPixelArtworkManager,
@@ -269,7 +267,84 @@ describe("createExplorerBootstrapShellWithFactories", () => {
     expect(bootstrap.bindAudioInteractions()).toBe("bindAudioInteractions");
     expect(bootstrap.renderSavedEmoji()).toBe("renderSavedEmoji");
     expect(bootstrap.applyUiTranslations()).toBe("applyUiTranslations");
+  });
 
-    expect(createExplorerBootstrapShell).toBeTypeOf("function");
+  it("uses default module factories through createExplorerBootstrapShell", async () => {
+    vi.resetModules();
+
+    const localState = {
+      byId: { get: vi.fn(() => ({})) },
+      emojiByKey: { get: vi.fn(() => ({})) },
+      emojiKeyByCodePoints: { get: vi.fn(() => new Map()) },
+    };
+    const createPixelArtworkManager = vi.fn(() => ({
+      applyPixelArtworkClass: "pixel-class",
+      refreshRenderedPixelEmoji: vi.fn(),
+    }));
+    const createExplorerShell = vi.fn(() => ({
+      developerModeEnabled: vi.fn(() => false),
+    }));
+    const createEmojiActions = vi.fn(() => ({
+      showEmoji: vi.fn(),
+    }));
+
+    vi.doMock("../../../src/state.js", () => localState);
+    vi.doMock("../../../src/preferences.js", () => ({
+      getBoolean: vi.fn(() => false),
+    }));
+    vi.doMock("../../../src/explorer/pixel-artwork.js", () => ({
+      createPixelArtworkManager,
+    }));
+    vi.doMock("../../../src/app/explorer-shell.js", () => ({
+      createExplorerShell,
+    }));
+    vi.doMock("../../../src/app/emoji/emoji-actions.js", () => ({
+      createEmojiActions,
+    }));
+    vi.doMock("../../../src/explorer/dialog/dialog-render.js", () => ({
+      updateRenderingDiagnostic: vi.fn(),
+    }));
+
+    const { createExplorerBootstrapShell } =
+      await import("../../../src/app/bootstrap/explorer-bootstrap-shell.js");
+
+    const bootstrap = createExplorerBootstrapShell({
+      applyingUrlState: vi.fn(() => false),
+      copyStatus: vi.fn(),
+      developerModeToggle: vi.fn(),
+      dialog: vi.fn(() => ({ classList: { contains: vi.fn(() => false) } })),
+      drawList: vi.fn(),
+      emojiFontChoices: vi.fn(),
+      genderCheckboxes: vi.fn(),
+      getPixelEditor: vi.fn(),
+      hairCheckboxes: vi.fn(),
+      installAppButton: vi.fn(),
+      installDialog: vi.fn(),
+      loadVersionData: vi.fn(),
+      modeChoices: vi.fn(),
+      normalizeCodePoints: vi.fn(),
+      offlineStatus: vi.fn(),
+      orderButtons: vi.fn(),
+      renderCategoryFilters: vi.fn(),
+      renderSearchLanguages: vi.fn(),
+      renderVersionModeToggle: vi.fn(),
+      savedDialog: vi.fn(),
+      setDialogView: vi.fn(),
+      showEmoji: vi.fn(),
+      skinToneCheckboxes: vi.fn(),
+      suppressDialogCloseSync: vi.fn(),
+      syncUrlState: vi.fn(),
+      syncVersionRange: vi.fn(),
+      themeChoices: vi.fn(),
+      translate: vi.fn(),
+      urlStateReady: vi.fn(() => true),
+      versionModeSelector: vi.fn(),
+      versionSelector: vi.fn(),
+    });
+
+    expect(createPixelArtworkManager).toHaveBeenCalledTimes(1);
+    expect(createExplorerShell).toHaveBeenCalledTimes(1);
+    expect(createEmojiActions).toHaveBeenCalledTimes(1);
+    expect(bootstrap.applyStandalonePixelArtwork).toBe("pixel-class");
   });
 });
