@@ -139,6 +139,31 @@ describe("initializeExplorerBootstrapSessionRuntime closures", () => {
       versionSelector: { value: "17.0" },
     };
 
+    const shell = {
+      applyPixelArtworkClass: vi.fn(),
+      applyStandalonePixelArtwork: vi.fn(),
+      bindAudioInteractions: vi.fn(),
+      developerModeEnabled: vi.fn(),
+      fullDeveloperModeEnabled: vi.fn(),
+      getIntroducedVersion: vi.fn(),
+      installApp: vi.fn(),
+      loadUiTranslations: vi.fn(),
+      onClick: vi.fn(),
+      onEmojiDialogClose: vi.fn(),
+      renderDeveloperMode: vi.fn(),
+      renderInstallAppButton: vi.fn(),
+      renderPixelFontToggle: vi.fn(),
+      renderSavedEmoji: vi.fn(),
+      selectEmojiFont: vi.fn(),
+      toggleDeveloperMode: vi.fn(),
+      updateEmojiComposition: vi.fn(),
+      updateFavoriteButton: vi.fn(),
+      updateModifierPixelArtwork: vi.fn(),
+      updateOnlineStatus: vi.fn(),
+      updatePixelArtworkManifest: vi.fn(),
+      updateRenderingDiagnostic: vi.fn(),
+    };
+
     initializeExplorerBootstrapSessionRuntime({
       bindings,
       controllers: {
@@ -165,30 +190,7 @@ describe("initializeExplorerBootstrapSessionRuntime closures", () => {
       },
       panelDialogs: vi.fn(),
       restoreDeveloperMode: vi.fn(),
-      shell: {
-        applyPixelArtworkClass: vi.fn(),
-        applyStandalonePixelArtwork: vi.fn(),
-        bindAudioInteractions: vi.fn(),
-        developerModeEnabled: vi.fn(),
-        fullDeveloperModeEnabled: vi.fn(),
-        getIntroducedVersion: vi.fn(),
-        installApp: vi.fn(),
-        loadUiTranslations: vi.fn(),
-        onClick: vi.fn(),
-        onEmojiDialogClose: vi.fn(),
-        renderDeveloperMode: vi.fn(),
-        renderInstallAppButton: vi.fn(),
-        renderPixelFontToggle: vi.fn(),
-        renderSavedEmoji: vi.fn(),
-        selectEmojiFont: vi.fn(),
-        toggleDeveloperMode: vi.fn(),
-        updateEmojiComposition: vi.fn(),
-        updateFavoriteButton: vi.fn(),
-        updateModifierPixelArtwork: vi.fn(),
-        updateOnlineStatus: vi.fn(),
-        updatePixelArtworkManifest: vi.fn(),
-        updateRenderingDiagnostic: vi.fn(),
-      },
+      shell,
       translate: vi.fn(),
     });
 
@@ -231,5 +233,22 @@ describe("initializeExplorerBootstrapSessionRuntime closures", () => {
     ]);
     expect(firstToggle).toHaveBeenCalledTimes(1);
     expect(secondToggle).toHaveBeenCalledTimes(1);
+
+    const firstModeToggle = vi.fn(() => ["first-mode-toggle"]);
+    const secondModeToggle = vi.fn((value?: unknown) => [
+      "second-mode-toggle",
+      value,
+    ]);
+    shell.toggleDeveloperMode = firstModeToggle;
+    expect(runtimeSourceCall.toggleDeveloperMode()).toEqual([
+      "first-mode-toggle",
+    ]);
+    shell.toggleDeveloperMode = secondModeToggle;
+    expect(runtimeSourceCall.toggleDeveloperMode("advanced")).toEqual([
+      "second-mode-toggle",
+      "advanced",
+    ]);
+    expect(firstModeToggle).toHaveBeenCalledTimes(1);
+    expect(secondModeToggle).toHaveBeenCalledTimes(1);
   });
 });

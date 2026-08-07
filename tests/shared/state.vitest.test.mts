@@ -22,17 +22,13 @@ describe("state", () => {
     expect([...state.availableCategoryKeys.get()]).toEqual([]);
   });
 
-  it("prefers dataset explorer mode, then url mode, then preferences, then standard", async () => {
+  it("prefers url mode, then preferences, then dataset mode, then standard", async () => {
     const documentUtils = await import("../../src/utils/document.js");
     const preferences = await import("../../src/preferences.js");
 
     const getData = vi.spyOn(documentUtils, "getData");
     const getString = vi.spyOn(preferences, "getString");
 
-    getData.mockReturnValue("developer");
-    expect(state.getExplorerMode()).toBe("developer");
-
-    getData.mockReturnValue("not-a-mode");
     state.explorerModeFromUrl.set("advanced");
     state.developerModeUrlDismissed.set(false);
     expect(state.getExplorerMode()).toBe("advanced");
@@ -41,6 +37,11 @@ describe("state", () => {
     getString.mockReturnValue("developer");
     expect(state.getExplorerMode()).toBe("developer");
 
+    getString.mockReturnValue("unknown");
+    getData.mockReturnValue("developer");
+    expect(state.getExplorerMode()).toBe("developer");
+
+    getData.mockReturnValue("not-a-mode");
     getString.mockReturnValue("unknown");
     expect(state.getExplorerMode()).toBe("standard");
   });

@@ -120,7 +120,8 @@ export function initializeExplorerBootstrapSessionRuntime(options: any) {
         syncUrlState: options.bindings.syncUrlState,
         syncVersionRange: options.controllers.syncVersionRange,
         themeChoices: () => options.bindings.themeChoices,
-        toggleDeveloperMode: options.shell.toggleDeveloperMode,
+        toggleDeveloperMode: (...args: any[]) =>
+          options.shell.toggleDeveloperMode(...args),
         toggleVersionMode: (...args: any[]) =>
           options.bindings.toggleVersionMode(...args),
         toolbar: () => options.bindings.toolbar,

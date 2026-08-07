@@ -10,7 +10,9 @@ const buildHandler = (
 ) => {
   const handler = (event: any) => {
     const currentTarget =
-      event.currentTarget?.closest?.(".mode-choice") ?? event.currentTarget;
+      event.currentTarget?.closest?.(".mode-choice") ??
+      event.target?.closest?.(".mode-choice") ??
+      event.currentTarget;
     const hasChoices = doc.all("mode-choice").length !== 0;
     const requestedMode =
       currentTarget?.dataset?.mode ??

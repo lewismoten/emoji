@@ -173,20 +173,15 @@ const isValidExplorerMode = (mode: string): mode is ExplorerMode => {
   }
 };
 export const getExplorerMode = (): ExplorerMode => {
-  const datasetMode = doc.getData("explorerMode") ?? "";
-  if (isValidExplorerMode(datasetMode)) return datasetMode;
-
   let mode = explorerModeFromUrl.get();
   if (mode && !developerModeUrlDismissed.get()) {
     return mode;
   }
   mode = preferences.getString("mode");
-  switch (mode) {
-    case "standard":
-    case "advanced":
-    case "developer":
-      return mode;
-    default:
-      return "standard";
-  }
+  if (isValidExplorerMode(mode)) return mode;
+
+  const datasetMode = doc.getData("explorerMode") ?? "";
+  if (isValidExplorerMode(datasetMode)) return datasetMode;
+
+  return "standard";
 };
