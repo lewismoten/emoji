@@ -266,6 +266,13 @@ describe("explorer-navigation direct", () => {
     });
     await navigation.applyDialogUrlState();
     expect(fixture.openEmojiCalls).toHaveLength(1);
+    expect(fixture.openEmojiCalls[0]).toEqual([
+      "sparkles",
+      true,
+      undefined,
+      "code",
+      "help",
+    ]);
     expect(fixture.drawCalls.includes("showEmojiDialog")).toBe(true);
 
     fixture.dialog.open = true;
@@ -298,14 +305,15 @@ describe("explorer-navigation direct", () => {
     navigation.syncUrlState("push");
     expect(fixture.historyCalls[0]).toEqual([
       "push",
-      "/index.en.html?built=query#top",
       { page: 1 },
+      "/index.en.html?built=query#top",
     ]);
     expect(
       fixture.urlStateCalls.some(
         (call: any[]) =>
           call[0] === "buildExplorerUrlQuery" &&
-          call[1]?.explorerMode === "advanced",
+          call[1]?.explorerMode === "advanced" &&
+          call[1]?.panel === "favorites",
       ),
     ).toBe(true);
 

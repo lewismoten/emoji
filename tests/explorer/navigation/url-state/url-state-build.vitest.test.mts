@@ -80,7 +80,7 @@ describe("url-state-build", () => {
         panel: "help",
         dialogOpen: true,
       }),
-      "q=gift&mode=developer&group=Objects&subgroup=mail&skin=1F3FB&hair=1F9B0&gender=female&emoji=wrappedGift",
+      "q=gift&mode=developer&group=Objects&subgroup=mail&skin=1F3FB&hair=1F9B0&gender=female&emoji=wrappedGift&panel=help",
     );
 
     assert.equal(
@@ -146,10 +146,10 @@ describe("url-state-build", () => {
         compositionMode: "condensed",
         currentEmojiKey: "wrappedGift",
         emojiMode: "code",
-        panel: "",
+        panel: "help",
         dialogOpen: true,
       }),
-      "version=18.0&versionMode=selected&mode=developer&emoji=wrappedGift&emojiMode=code",
+      "version=18.0&versionMode=selected&mode=developer&emoji=wrappedGift&emojiMode=code&panel=help",
     );
 
     assert.equal(

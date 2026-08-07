@@ -130,7 +130,8 @@ export function buildExplorerUrlQuery(options: {
     params.set("emoji", options.currentEmojiKey);
     if (options.emojiMode === "code") params.set("emojiMode", "code");
     if (options.emojiMode === "editor") params.set("emojiMode", "editor");
-  } else if (options.panel) {
+  }
+  if (options.panel) {
     params.set("panel", options.panel);
   }
   return params.toString();

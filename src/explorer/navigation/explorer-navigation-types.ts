@@ -31,6 +31,7 @@ export type ExplorerNavigationOptions = {
     openDialog?: boolean,
     navigationKeys?: string[],
     initialMode?: ExplorerUrlState["emojiMode"],
+    parentPanel?: ExplorerPanel,
   ) => void;
   orderButtons: () => any[];
   panelDialogs: () => any;

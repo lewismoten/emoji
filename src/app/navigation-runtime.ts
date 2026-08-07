@@ -34,12 +34,14 @@ export function createNavigationConfig(options: any) {
       openDialog?: boolean,
       navigationKeys?: string[],
       initialMode?: string,
+      parentPanel?: "" | "favorites" | "help" | "language" | "filters",
     ) =>
       options.showEmoji(
         key,
         openDialog ?? false,
         navigationKeys ?? state.displayedKeys.get(),
         initialMode,
+        parentPanel,
       ),
     orderButtons: () => options.orderButtons(),
     panelDialogs: options.panelDialogs,

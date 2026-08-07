@@ -17,6 +17,7 @@ export function createExplorerNavigationDirectFixture() {
   const versionSelector = { options: { length: 5 }, value: "16.0" };
   const versionModeSelector = { value: "selected" };
   const dialog = {
+    dataset: { dialogParentPanel: "help" },
     open: false,
     classList: { contains(name: string) { return name === "is-code-view"; } },
   };

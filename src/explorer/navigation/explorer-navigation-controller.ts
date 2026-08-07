@@ -85,6 +85,11 @@ export function createExplorerNavigation(
         .map((checkbox) => checkbox.value);
     const dialog = options.dialog();
     const openPanel = dependencies.getOpenPanel(options.panelDialogs());
+    const parentPanel = (
+      dialog?.dataset?.dialogParentPanel ??
+      state.currentDialogParentStack.get().at(-1) ??
+      ""
+    ) as ExplorerPanel;
     const explorerMode = state.getExplorerMode();
     const query = dependencies.buildExplorerUrlQuery({
       search: options.searchText().value,
@@ -106,11 +111,11 @@ export function createExplorerNavigation(
         : dialog.classList.contains("is-code-view")
           ? "code"
           : "details",
-      panel: openPanel,
+      panel: openPanel || parentPanel,
       dialogOpen: dialog.open,
     });
     const url = `${route.getPathName()}${query ? `?${query}` : ""}${route.getHash()}`;
-    route.applyHistory(method, nextHistoryState, url);
+    route.applyHistory(method, url, nextHistoryState);
   };
 
   const applyDialogUrlState = async () => {
@@ -121,7 +126,7 @@ export function createExplorerNavigation(
       all.forEach((dialog) =>
         dependencies.closePanelDialog(dialog, options.suppressedPanelCloses()),
       );
-      options.openEmoji(state.emoji, true, undefined, state.emojiMode);
+      options.openEmoji(state.emoji, true, undefined, state.emojiMode, state.panel);
       if (!options.dialog().open) options.showEmojiDialog();
       return;
     }
