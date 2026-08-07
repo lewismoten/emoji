@@ -200,6 +200,7 @@ export class SavedDialogControl extends BaseControl<SavedDialogState> {
       ],
       className: "saved-dialog",
       dialogId: this.state.dialogId,
+      isMusical: true,
       title: this.state.title,
       titleId: this.state.titleId,
       titleKey: this.state.titleKey,

@@ -77,7 +77,7 @@ describe("help-settings-control", () => {
     });
 
     const control = await createHelpDialogControl();
-    assert.equal(control.element.className, "dialog help-dialog");
+    assert.equal(control.element.className, "dialog musical help-dialog");
     assert.equal(control.element.getAttribute("id"), "help-dialog");
     assert.equal(control.element.getAttribute("aria-labelledby"), "help-title");
 

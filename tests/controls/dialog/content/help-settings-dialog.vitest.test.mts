@@ -43,12 +43,12 @@ describe("help-settings-dialog", () => {
         ),
         true,
       );
-      assert.equal(dialog.className, "dialog help-dialog");
+      assert.equal(dialog.className, "dialog musical help-dialog");
       assert.equal(dialog.getAttribute("id"), "help-dialog");
       assert.equal(dialog.children.length, 5);
 
       const markup = HelpSettingsDialogControl.toMarkup();
-      assert.match(markup, /class="dialog help-dialog"/);
+      assert.match(markup, /class="dialog musical help-dialog"/);
       assert.match(markup, /class="help-pixel"/);
       assert.match(markup, /class="help-settings"/);
       assert.match(markup, /class="setting-choice-group mode-choices"/);

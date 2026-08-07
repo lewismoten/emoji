@@ -303,6 +303,7 @@ export class HelpSettingsDialogControl extends BaseControl<HelpSettingsDialogSta
       ],
       className: "help-dialog",
       dialogId: "help-dialog",
+      isMusical: true,
       title: this.state.headingTitle,
       titleId: this.state.headingTitleId,
       titleKey: this.state.headingTitleKey,
