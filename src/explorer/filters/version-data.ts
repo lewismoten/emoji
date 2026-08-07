@@ -21,10 +21,7 @@ export async function loadVersionCatalog(options: {
   items: () => any[];
 }) {
   const loadJsonFromFile = async (filePath: string) => {
-    const runtimeImport = new Function(
-      "specifier",
-      "return import(specifier);",
-    ) as (specifier: string) => Promise<any>;
+    const runtimeImport = (specifier: string) => import(specifier);
     const [{ readFile }, { resolve }] = (await Promise.all([
       runtimeImport("node:fs/promises"),
       runtimeImport("node:path"),

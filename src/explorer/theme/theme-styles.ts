@@ -1,5 +1,4 @@
 import * as preferences from "../../preferences.js";
-import { renderThemeToggle }from "../../render-theme-toggle.js";
 
 export type ThemeName = "base" | "dark" | "light" | "retro";
 
@@ -106,5 +105,6 @@ export async function selectTheme(event: Event) {
   const theme = resolveTheme(requestedTheme);
   await ensureThemeStyles(theme);
   preferences.setString("theme", theme);
+  const { renderThemeToggle } = await import("../../render-theme-toggle.js");
   renderThemeToggle();
 }

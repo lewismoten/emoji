@@ -128,10 +128,10 @@ export const createExplorerAudioEngine = (): ExplorerAudioEngine => {
   const restartMusic = buildRestart(props);
 
   _singleton = {
-    playClick: playInteraction.bind(this, "button", "click"),
-    playDialogClose: playInteraction.bind(this, "dialog", "close"),
-    playDialogOpen: playInteraction.bind(this, "dialog", "open"),
-    playHover: playInteraction.bind(this, "button", "hover"),
+    playClick: () => playInteraction("button", "click"),
+    playDialogClose: () => playInteraction("dialog", "close"),
+    playDialogOpen: () => playInteraction("dialog", "open"),
+    playHover: () => playInteraction("button", "hover"),
     playInteraction,
     playSoundEffect,
     restartMusic,
