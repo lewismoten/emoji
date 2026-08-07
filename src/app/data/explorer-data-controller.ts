@@ -1,4 +1,5 @@
 import * as state from "../../state.js";
+import { getVersionKeys as getVersionKeysHelper } from "../../explorer/category/category-version.js";
 
 export function createExplorerDataController(options: any) {
   function populateVersionSelector() {
@@ -97,7 +98,7 @@ export function createExplorerDataController(options: any) {
     options.drawList();
   }
   function getVersionKeys() {
-    return options.getVersionKeys({
+    return getVersionKeysHelper({
       proposedVersionManifests: state.proposedVersionManifests.get(),
       releasedIds: state.releasedIds.get(),
       versionKeys: state.versionKeys.get(),

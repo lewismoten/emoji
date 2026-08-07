@@ -189,7 +189,6 @@ describe("createVersionController", () => {
     expect(dataOptions.developerModeEnabled).toBe("developer-mode-enabled");
     expect(dataOptions.drawList).toBeTypeOf("function");
     expect(dataOptions.getEmojiGenders).toBe("get-emoji-genders");
-    expect(dataOptions.getVersionKeys).toBe(getVersionKeysHelper);
     expect(dataOptions.loadCatalog).toBe("load-catalog");
     expect(dataOptions.loadVersionCatalog).toBe("load-version-catalog");
     expect(dataOptions.openEmoji).toBe("open-emoji");

@@ -78,7 +78,6 @@ export function createVersionController(options: any) {
     drawList: options.drawList,
     getEmojiGenders: options.getEmojiGenders,
     getIntroducedVersion: options.getIntroducedVersion,
-    getVersionKeys: getVersionKeysHelper,
     groupSelector: options.groupSelector,
     genderCheckboxes: options.genderCheckboxes,
     genderFieldset: options.genderFieldset,

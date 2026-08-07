@@ -82,10 +82,6 @@ describe("createExplorerDataController", () => {
       getIntroducedVersion(key: string) {
         return `introduced:${key}`;
       },
-      getVersionKeys(options: any) {
-        calls.push(`getVersionKeys:${options.versionValue}`);
-        return ["alpha"];
-      },
       groupSelector: () => groupSelector as any,
       hairCheckboxes: () => ["hair"],
       hairFieldset: () => "hairFieldset",
@@ -189,7 +185,7 @@ describe("createExplorerDataController", () => {
     expect(versionSelector.value).toBe("16.0");
     expect(calls.length).toBe(callCountBeforeMissingOption);
 
-    expect(controller.getVersionKeys()).toEqual(["alpha"]);
+    expect([...controller.getVersionKeys()]).toEqual(["alpha"]);
   });
 
   it("disables version controls and warns when version loading fails", async () => {
@@ -216,7 +212,6 @@ describe("createExplorerDataController", () => {
       genderFieldset: () => null,
       getEmojiGenders: null,
       getIntroducedVersion: () => "—",
-      getVersionKeys: () => [],
       groupSelector: () => ({ addEventListener() {} }) as any,
       hairCheckboxes: () => [],
       hairFieldset: () => null,

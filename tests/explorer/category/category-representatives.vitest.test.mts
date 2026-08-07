@@ -18,6 +18,13 @@ describe("category-representatives", () => {
   it("builds group and subgroup representative emoji", () => {
     state.releasedVersions.set([{ version: "1.0" }, { version: "15.0" }]);
     state.proposedVersions.set([{ version: "18.0" }]);
+    state.versionKeys.replace(
+      new Map<string, Set<string>>([
+        ["1.0", new Set(["grin", "heartEyes", "bear", "blackFlag"])],
+        ["15.0", new Set(["rabbit", "sunflower"])],
+        ["18.0", new Set(["meltingFace"])],
+      ]),
+    );
     const result = buildCategoryRepresentatives({
       groups: ["Smileys & Emotion", "Animals & Nature", "Flags"],
       items: [
@@ -84,11 +91,6 @@ describe("category-representatives", () => {
         "Animals & Nature": ["animal-mammal", "plant-flower"],
         Flags: ["flag"],
       },
-      versionKeys: new Map<string, Set<string>>([
-        ["1.0", new Set(["grin", "heartEyes", "bear", "blackFlag"])],
-        ["15.0", new Set(["rabbit", "sunflower"])],
-        ["18.0", new Set(["meltingFace"])],
-      ]),
     });
 
     assert.equal(result.subGroups.get("Smileys & Emotion::face-smiling"), "😁");
@@ -103,6 +105,11 @@ describe("category-representatives", () => {
 
     state.releasedVersions.set([{ version: "1.0" }]);
     state.proposedVersions.set([]);
+    state.versionKeys.replace(
+      new Map<string, Set<string>>([
+        ["1.0", new Set(["memo", "computerDisk", "mailbox"])],
+      ]),
+    );
     const withUngroupedCandidate = buildCategoryRepresentatives({
       groups: ["Objects"],
       items: [
@@ -129,9 +136,6 @@ describe("category-representatives", () => {
       subGroups: {
         Objects: ["mail"],
       },
-      versionKeys: new Map<string, Set<string>>([
-        ["1.0", new Set(["memo", "computerDisk", "mailbox"])],
-      ]),
     });
 
     assert.equal(withUngroupedCandidate.subGroups.get("Objects::mail"), "📫");
@@ -139,6 +143,7 @@ describe("category-representatives", () => {
 
     state.releasedVersions.set([]);
     state.proposedVersions.set([]);
+    state.versionKeys.replace(new Map());
     const withOrderFallback = buildCategoryRepresentatives({
       groups: ["Travel & Places"],
       items: [
@@ -161,7 +166,6 @@ describe("category-representatives", () => {
       subGroups: {
         "Travel & Places": ["transport-air"],
       },
-      versionKeys: new Map(),
     });
 
     assert.equal(

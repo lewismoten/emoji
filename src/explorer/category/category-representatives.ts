@@ -52,20 +52,18 @@ export function buildCategoryRepresentatives(options: {
   items?: state.EmojiItem[];
   subGroupKey?: (group: string, subGroup: string) => string;
   subGroups?: Record<string, string[]>;
-  versionKeys?: Map<string, Set<string>>;
 }): { groups: Map<string, string>; subGroups: Map<string, string> };
 export function buildCategoryRepresentatives(options?: {
   groups?: string[];
   items?: state.EmojiItem[];
   subGroupKey?: (group: string, subGroup: string) => string;
   subGroups?: Record<string, string[]>;
-  versionKeys?: Map<string, Set<string>>;
 }) {
   const groupNames = options?.groups ?? state.groups.get();
   const items = options?.items ?? state.items.get();
   const proposedVersions = state.proposedVersions.get();
   const releasedVersions = state.releasedVersions.get();
-  const versionKeys = options?.versionKeys ?? state.versionKeys.get();
+  const versionKeys = state.versionKeys.get();
   const keyFor = options?.subGroupKey ?? subGroupKey;
   const allSubGroups = options?.subGroups ?? state.subGroups.get();
   const versionOrder = new Map<string, number>();
