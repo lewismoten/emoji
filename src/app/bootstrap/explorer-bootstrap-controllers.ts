@@ -213,7 +213,7 @@ export function createExplorerBootstrapControllersWithFactories(
     translate: options.translate,
     updateCompositionBackButton: options.updateCompositionBackButton,
     updateEmojiComposition: options.updateEmojiComposition,
-    clearCurrentDialogParentStack: () => state.currentDialogParentStack.set([]),
+    clearCurrentDialogParentStack: () => state.currentDialogParentStack.clear(),
   });
 
   return {

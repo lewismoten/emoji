@@ -50,7 +50,7 @@ export function createEmojiActions(options: any) {
 
   const onEmojiDialogClose = () => {
     options.setDialogView("details", false);
-    state.currentDialogParentStack.set([]);
+    state.currentDialogParentStack.clear();
     options.dialog().dataset.dialogParentPanel = "";
     if (
       options.suppressDialogCloseSync() ||
