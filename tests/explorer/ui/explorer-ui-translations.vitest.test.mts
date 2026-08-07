@@ -107,9 +107,7 @@ describe("explorer-ui-translations", () => {
       await controller.loadUiTranslations("en-US");
       assert.deepEqual(fixture.fetchCalls, [
         "demo-locales/ui.en.json",
-        "demo-locales/ui.en-US.json",
         "src/demo-locales/ui.en.json",
-        "src/demo-locales/ui.en-US.json",
       ]);
       assert.equal(fixture.i18nText.textContent, "Emoji Explorer");
       assert.equal(fixture.i18nPlaceholder.placeholder, "Find emoji");

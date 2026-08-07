@@ -8,6 +8,16 @@ import * as doc from "./utils/document.js";
 import * as state from "./state.js";
 import * as auth from "./auth.js";
 
+const supportedUiLocales = new Set([
+  "ar",
+  "en",
+  "en-GB",
+  "en-x-newspeak",
+  "es",
+  "hi",
+  "zh",
+]);
+
 export function createExplorerUiController(options: any) {
   const fetchJsonWithFallback = async (primary: string, fallback: string) => {
     const response = await fetch(primary);
@@ -17,6 +27,15 @@ export function createExplorerUiController(options: any) {
       throw new Error(`Unable to load ${primary} or ${fallback}`);
     }
     return secondary.json();
+  };
+
+  const resolveUiTranslationCodes = (locale: string) => {
+    const base = locale.split("-")[0];
+    if (supportedUiLocales.has(locale)) {
+      return locale === base ? [locale] : [base, locale];
+    }
+    if (supportedUiLocales.has(base)) return [base];
+    return [];
   };
 
   function updateOnlineStatus() {
@@ -44,16 +63,16 @@ export function createExplorerUiController(options: any) {
   }
 
   async function loadUiTranslations(locale: string, rtl = false) {
-    const base = locale.split("-")[0];
+    const codes = resolveUiTranslationCodes(locale);
     try {
-      const codes = locale === base ? [base] : [base, locale];
+      if (codes.length === 0) throw new Error(`Unsupported UI locale ${locale}`);
       const packs = await Promise.all(
-        codes.map(async (code) => {
-          return fetchJsonWithFallback(
+        codes.map((code) =>
+          fetchJsonWithFallback(
             `demo-locales/ui.${code}.json`,
             `src/demo-locales/ui.${code}.json`,
-          );
-        }),
+          ),
+        ),
       );
       setTranslations(locale, rtl, packs);
     } catch {

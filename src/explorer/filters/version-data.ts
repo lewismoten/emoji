@@ -21,10 +21,11 @@ export async function loadVersionCatalog(options: {
   items: () => any[];
 }) {
   const loadJsonFromFile = async (filePath: string) => {
-    const runtimeImport = (specifier: string) => import(specifier);
+    const fsModuleSpecifier = "node:fs/promises";
+    const pathModuleSpecifier = "node:path";
     const [{ readFile }, { resolve }] = (await Promise.all([
-      runtimeImport("node:fs/promises"),
-      runtimeImport("node:path"),
+      import(/* @vite-ignore */ fsModuleSpecifier),
+      import(/* @vite-ignore */ pathModuleSpecifier),
     ])) as [
       { readFile(path: string, encoding: string): Promise<string> },
       { resolve(...paths: string[]): string },
