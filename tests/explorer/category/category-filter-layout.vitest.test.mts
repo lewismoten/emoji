@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "vitest";
 
+import * as state from "../../../src/state.js";
 import {
   renderCategoryFilterLayout,
   updateAvailableCategories,
@@ -35,6 +36,9 @@ class FakeField {
 
 describe("category-filter-layout", () => {
   it("updates available categories and renders filter layout visibility", () => {
+    state.versionKeys.replace(new Map());
+    state.selectedVersion.set("");
+    state.selectedVersionMode.set("through");
     const items = [
       {
         group: "Smileys & Emotion",
@@ -72,8 +76,6 @@ describe("category-filter-layout", () => {
       sequenceTypeOrder: ["single", "zwj", "tag"],
       subGroupSelectionKey: (group, subGroup) => `${group}::${subGroup}`,
       subGroups,
-      versionKeys: new Map(),
-      includedVersionKeys: new Set(),
     });
     assert.deepEqual([...allResult.availableCategoryKeys], [
       "smile",
@@ -93,6 +95,8 @@ describe("category-filter-layout", () => {
     assert.equal(allResult.selectedSequenceType, "");
     assert.equal(allResult.selectedSubGroup, "");
 
+    state.versionKeys.replace(new Map([["15.0", new Set(["runner"])]]) as any);
+    state.selectedVersion.set("15.0");
     const filteredResult = updateAvailableCategories({
       groups,
       items,
@@ -102,8 +106,6 @@ describe("category-filter-layout", () => {
       sequenceTypeOrder: ["single", "zwj", "tag"],
       subGroupSelectionKey: (group, subGroup) => `${group}::${subGroup}`,
       subGroups,
-      versionKeys: new Map([["15.0", new Set(["runner"])]]) as any,
-      includedVersionKeys: new Set(["runner"]),
     });
     assert.deepEqual([...filteredResult.availableCategoryKeys], ["runner"]);
     assert.deepEqual(filteredResult.availableGroups, ["People & Body"]);
@@ -115,6 +117,8 @@ describe("category-filter-layout", () => {
     assert.equal(filteredResult.selectedSequenceType, "");
     assert.equal(filteredResult.selectedSubGroup, "");
 
+    state.versionKeys.replace(new Map([["15.0", new Set(["smile"])]]) as any);
+    state.selectedVersion.set("15.0");
     const invalidGroupResult = updateAvailableCategories({
       groups,
       items,
@@ -124,13 +128,15 @@ describe("category-filter-layout", () => {
       sequenceTypeOrder: ["single", "zwj"],
       subGroupSelectionKey: (group, subGroup) => `${group}::${subGroup}`,
       subGroups,
-      versionKeys: new Map(),
-      includedVersionKeys: new Set(["smile"]),
     });
     assert.equal(invalidGroupResult.selectedGroup, "");
     assert.equal(invalidGroupResult.selectedSubGroup, "");
     assert.equal(invalidGroupResult.selectedSequenceType, "single");
 
+    state.versionKeys.replace(
+      new Map([["15.0", new Set(["runner", "walker"])]]) as any,
+    );
+    state.selectedVersion.set("15.0");
     const validSubGroupResult = updateAvailableCategories({
       groups,
       items,
@@ -140,8 +146,6 @@ describe("category-filter-layout", () => {
       sequenceTypeOrder: ["single", "zwj"],
       subGroupSelectionKey: (group, subGroup) => `${group}::${subGroup}`,
       subGroups,
-      versionKeys: new Map(),
-      includedVersionKeys: new Set(["runner", "walker"]),
     });
     assert.equal(validSubGroupResult.selectedGroup, "People & Body");
     assert.equal(

@@ -12,6 +12,7 @@ import {
 export type ExplorerMode = "standard" | "advanced" | "developer";
 export type OrderMode = "grouped" | "sequence" | "popular";
 export type CompositionMode = "condensed";
+export type VersionMode = "through" | "selected";
 
 type EmojiStatus = "fully-qualified" | "component";
 type EmojiSequenceType =
@@ -84,8 +85,13 @@ export const searchLabels = createRecordStore<string>({});
 export const searchSubgroupLabels = createRecordStore<string>({});
 export const groups = createArrayStore<string>([]);
 export const items = createArrayStore<EmojiItem>([]);
-export const proposedVersionManifests = createArrayStore<any>([]);
-export const versionManifests = createArrayStore<any>([]);
+type VersionManifest = {
+  version: string;
+  stage?: string;
+  status?: string;
+};
+export const proposedVersionManifests = createArrayStore<VersionManifest>([]);
+export const versionManifests = createArrayStore<VersionManifest>([]);
 export const versionKeys = createMapStore<ValueSet>(
   new Map<string, ValueSet>(),
 );
@@ -106,6 +112,10 @@ export const allIds = createArrayStore<string>([]);
 export const searchLoadId = createNumberStore(0);
 export const selectedSearchLocale = createStore<string>("");
 export const releasedIds = createSetStore<string>(new Set<string>());
+export const selectedVersion = createStore<string>("");
+export const selectedVersionMode = createStore<VersionMode>("through", {
+  transform: (value) => (value === "selected" ? "selected" : "through"),
+});
 export const currentEmojiCopies = createRecordStore<string>({});
 export const currentEmojiKey = createStore<string>("");
 export const currentDialogParentStack = createArrayStore<string>([]);
@@ -143,11 +153,11 @@ export const orderMode = createStore<OrderMode>("grouped", {
 });
 
 export const applyCatalog = (catalog: Catalog) => {
-  allIds.set(catalog.allIds);
+  allIds.replace(catalog.allIds);
   emojiByKey.replace(catalog.emojiByKey);
   groupedKeys.replace(catalog.groupedKeys);
-  groups.set(catalog.groups);
-  items.set(catalog.items);
+  groups.replace(catalog.groups);
+  items.replace(catalog.items);
   releasedIds.replace(catalog.releasedIds);
   subGroups.replace(catalog.subGroups);
 };

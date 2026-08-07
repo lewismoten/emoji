@@ -75,6 +75,8 @@ describe("createListOrchestration", () => {
     state.selectedSearchLocale.set("en");
     state.selectedSequenceType.set("zwj");
     state.selectedSubGroup.set("mail");
+    state.selectedVersion.set("17.0");
+    state.selectedVersionMode.set("selected");
     state.subGroups.replace({ Objects: ["mail"] });
     state.versionManifests.set([{ version: "16.0" }, { version: "17.0" }]);
   });
@@ -94,7 +96,6 @@ describe("createListOrchestration", () => {
       formatNumber: "format-number",
       genderCheckboxes: () => ["neutral"],
       getIntroducedVersion: "get-introduced-version",
-      getVersionKeys: "get-version-keys",
       hairCheckboxes: () => ["red"],
       matchCount: "match-count",
       nextRenderGeneration: "next-render-generation",
@@ -113,8 +114,6 @@ describe("createListOrchestration", () => {
       translate: "translate",
       unassigned: "unassigned",
       updateDialogNavigation: "update-dialog-navigation",
-      versionModeSelector: () => ({ value: "selected" }),
-      versionSelector: () => ({ value: "17.0" }),
       versionSliderLabel: "version-slider-label",
     });
 

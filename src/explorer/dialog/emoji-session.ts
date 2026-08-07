@@ -5,7 +5,7 @@ export function showEmojiSession(options: any) {
   const value = state.emojiByKey.get(options.id);
   if (value === undefined) return;
   if (options.navigationKeys || options.openDialog) {
-    state.dialogNavigationKeys.set(
+    state.dialogNavigationKeys.replace(
       [...(options.navigationKeys ?? state.displayedKeys.get())].filter(
         (key) => state.emojiByKey.get(key) !== undefined,
       ),
@@ -13,7 +13,7 @@ export function showEmojiSession(options: any) {
   }
   state.currentEmojiKey.set(options.id);
   if (options.parentPanel !== undefined) {
-    state.currentDialogParentStack.set(
+    state.currentDialogParentStack.replace(
       options.parentPanel ? [options.parentPanel] : [],
     );
   }

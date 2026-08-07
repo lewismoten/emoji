@@ -5,6 +5,7 @@ import {
   ensureVersionSliderControl,
 } from "./version-filter-control.js";
 import * as state from "../../state.js";
+import { setSelectedVersion, setSelectedVersionMode } from "../../version-keys.js";
 
 type SearchInputLike = {
   value: string;
@@ -68,6 +69,8 @@ export function applyLoadedUrlStateToControls(options: {
     options.versionSelector.value = options.state.version;
   }
   options.versionModeSelector.value = options.state.versionMode;
+  setSelectedVersion(options.versionSelector.value);
+  setSelectedVersionMode(options.state.versionMode);
   const selectedGroup = options.groups.includes(options.state.group)
     ? options.state.group
     : "";
@@ -110,6 +113,8 @@ export function resetFilterControls(options: {
   if (options.latestReleasedVersion) {
     options.versionSelector.value = options.latestReleasedVersion;
   }
+  setSelectedVersionMode("through");
+  setSelectedVersion(options.versionSelector.value);
   options.skinToneCheckboxes.forEach((checkbox) => {
     checkbox.checked = false;
   });

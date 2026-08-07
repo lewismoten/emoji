@@ -1,8 +1,16 @@
 import * as state from "../../state.js";
 import { getVersionKeys as getVersionKeysHelper } from "../../explorer/category/category-version.js";
+import {
+  setSelectedVersion,
+  setSelectedVersionMode,
+  setVersionCatalog,
+  syncSelectedVersionFromControl,
+  syncSelectedVersionModeFromControl,
+} from "../../version-keys.js";
 
 export function createExplorerDataController(options: any) {
   function populateVersionSelector() {
+    syncSelectedVersionFromControl(options.versionSelector());
     options.populateVersionSelector({
       proposed: state.proposedVersionManifests.get(),
       released: state.versionManifests.get(),
@@ -29,6 +37,7 @@ export function createExplorerDataController(options: any) {
     });
   }
   function syncVersionRange() {
+    syncSelectedVersionFromControl(options.versionSelector());
     options.syncVersionRange({
       proposedVersionManifests: state.proposedVersionManifests.get(),
       updateModifierAvailability,
@@ -64,9 +73,7 @@ export function createExplorerDataController(options: any) {
     const nextPromise = (async () => {
       try {
         const versions = await options.loadVersionCatalog();
-        state.versionManifests.set(versions.released);
-        state.proposedVersionManifests.set(versions.proposed);
-        state.versionKeys.replace(versions.versionKeys);
+        setVersionCatalog(versions);
         options.rebuildCodePointLookup();
         options.updateModifierArtwork();
         options.buildRepresentatives();
@@ -93,18 +100,21 @@ export function createExplorerDataController(options: any) {
     const option = selector.options[Number(options.versionRange().value)];
     if (!option) return;
     selector.value = option.value;
+    setSelectedVersion(selector.value);
     syncVersionRange();
     options.renderCategoryFilters();
     options.drawList();
   }
   function getVersionKeys() {
+    syncSelectedVersionModeFromControl(options.versionModeSelector());
+    syncSelectedVersionFromControl(options.versionSelector());
     return getVersionKeysHelper({
       proposedVersionManifests: state.proposedVersionManifests.get(),
       releasedIds: state.releasedIds.get(),
       versionKeys: state.versionKeys.get(),
       versionManifests: state.versionManifests.get(),
-      versionMode: options.versionModeSelector().value,
-      versionValue: options.versionSelector().value,
+      versionMode: state.selectedVersionMode.get(),
+      versionValue: state.selectedVersion.get(),
     });
   }
   return {

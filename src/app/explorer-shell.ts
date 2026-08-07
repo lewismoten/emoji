@@ -12,6 +12,7 @@ import {
 } from "../explorer-ui.js";
 import * as state from "../state.js";
 import * as aria from "../utils/aria.js";
+import { setSelectedVersion, setSelectedVersionMode } from "../version-keys.js";
 
 export function createExplorerShellDependencies() {
   return {
@@ -53,9 +54,11 @@ export function createExplorerShell(options: any, dependencies?: any) {
   function disableDeveloperFeatures() {
     const versionModeSelector = options.versionModeSelector();
     if (versionModeSelector) versionModeSelector.value = "through";
+    setSelectedVersionMode("through");
     const latest = state.versionManifests.get().at(-1)?.version;
     const versionSelector = options.versionSelector();
     if (latest && versionSelector) versionSelector.value = latest;
+    setSelectedVersion(versionSelector?.value ?? latest ?? "");
     options.renderVersionModeToggle();
     options.syncVersionRange();
     if (state.orderMode.get() === "sequence") {

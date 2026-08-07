@@ -1,4 +1,10 @@
 import * as state from "../../state.js";
+import {
+  findVersionAvailabilityIndex,
+  getAllVersionManifests,
+  getIncludedVersionKeys,
+  getSelectedVersion,
+} from "../../version-keys.js";
 
 type VersionManifest = {
   version: string;
@@ -119,25 +125,9 @@ export function getVersionKeys(options: {
   versionMode: string;
   versionValue: string;
 }) {
-  if (options.versionKeys.size === 0) return options.releasedIds;
-  if (options.versionMode === "selected") {
-    return options.versionKeys.get(options.versionValue) ?? new Set<string>();
-  }
-
-  const manifests = [
-    ...options.versionManifests,
-    ...options.proposedVersionManifests,
-  ];
-  const selectedIndex = manifests.findIndex(
-    (version) => version.version === options.versionValue,
-  );
-  return new Set(
-    manifests
-      .slice(0, selectedIndex + 1)
-      .flatMap((version) => [
-        ...(options.versionKeys.get(version.version) ?? []),
-      ]),
-  );
+  const versionMode =
+    options.versionMode === "selected" ? "selected" : "through";
+  return getIncludedVersionKeys({ versionMode, versionValue: options.versionValue });
 }
 
 export function updateModifierAvailability(options: {
@@ -151,11 +141,12 @@ export function updateModifierAvailability(options: {
   proposedVersionManifests: VersionManifest[];
   skinToneCheckboxes: CheckboxLike[];
   skinToneFieldset?: { hidden: boolean };
-  versionKeys: Map<string, Set<string>>;
+  versionKeys?: Map<string, Set<string>>;
   versionManifests: VersionManifest[];
   versionValue: string;
 }) {
-  if (options.versionKeys.size === 0) {
+  const versionKeys = options.versionKeys ?? state.versionKeys.get();
+  if (versionKeys.size === 0) {
     if (options.skinToneFieldset) options.skinToneFieldset.hidden = false;
     if (options.hairFieldset) options.hairFieldset.hidden = false;
     if (options.genderFieldset) options.genderFieldset.hidden = false;
@@ -165,26 +156,23 @@ export function updateModifierAvailability(options: {
     }
     return;
   }
-  const manifests = [
-    ...options.versionManifests,
-    ...options.proposedVersionManifests,
-  ];
+  const manifests =
+    options.versionManifests && options.proposedVersionManifests
+      ? [...options.versionManifests, ...options.proposedVersionManifests]
+      : getAllVersionManifests();
+  const selectedVersion = options.versionValue || getSelectedVersion();
   const selectedIndex = manifests.findIndex(
-    (version) => version.version === options.versionValue,
+    (version) => version.version === selectedVersion,
   );
-  const skinToneIndex = manifests.findIndex((version) =>
-    [...(options.versionKeys.get(version.version) ?? [])].some((key) =>
-      key.endsWith("SkinTone"),
-    ),
+  const skinToneIndex = findVersionAvailabilityIndex((keys) =>
+    [...keys].some((key) => key.endsWith("SkinTone")),
   );
   const hairKeys = new Set(["redHair", "curlyHair", "bald", "whiteHair"]);
-  const hairIndex = manifests.findIndex((version) =>
-    [...(options.versionKeys.get(version.version) ?? [])].some((key) =>
-      hairKeys.has(key),
-    ),
+  const hairIndex = findVersionAvailabilityIndex((keys) =>
+    [...keys].some((key) => hairKeys.has(key)),
   );
-  const genderIndex = manifests.findIndex((version) =>
-    [...(options.versionKeys.get(version.version) ?? [])].some(
+  const genderIndex = findVersionAvailabilityIndex((keys) =>
+    [...keys].some(
       (key) =>
         options.getEmojiGenders(
           resolveRecord(options.byId)?.[key] ?? state.byId.get(key) ?? {},

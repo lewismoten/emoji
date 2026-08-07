@@ -1,3 +1,4 @@
+import { getIncludedVersionKeys } from "../../version-keys.js";
 import { filterEmojiKeys } from "./emoji-filter.js";
 
 export function createListController(options: any) {
@@ -22,7 +23,7 @@ export function createListController(options: any) {
       filterEmojiKeys({
         allIds: options.allIds(),
         hairModifiers: checked(options.hairCheckboxes()),
-        includedVersionKeys: options.getVersionKeys(),
+        includedVersionKeys: getIncludedVersionKeys(),
         items: options.items(),
         locale: options.selectedSearchLocale() || undefined,
         orderMode: options.orderMode(),

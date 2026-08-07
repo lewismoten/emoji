@@ -80,7 +80,6 @@ export function createCategoryController(options: any) {
     getGroupRepresentativeEmoji,
     getOrderMode: state.orderMode.get,
     getSubGroupRepresentativeEmoji,
-    getVersionKeys: options.getVersionKeys,
     groupFilterDialog: options.groupFilterDialog,
     groupPickerTrigger: options.groupPickerTrigger,
     groupSelector: options.groupSelector,
@@ -106,7 +105,6 @@ export function createCategoryController(options: any) {
     subGroupSelectionKey,
     subGroupSelector: options.subGroupSelector,
     translate: options.translate,
-    versionKeys: state.versionKeys.get,
   });
   const { renderCategoryFilters, updateAvailableCategories } =
     categoryFilterRenderer;

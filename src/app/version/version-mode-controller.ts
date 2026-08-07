@@ -1,3 +1,9 @@
+import {
+  getSelectedVersionMode,
+  setSelectedVersionMode,
+  syncSelectedVersionModeFromControl,
+} from "../../version-keys.js";
+
 /** Manage the compact toggle for the two version filtering modes. */
 export function createVersionModeController(options: any) {
   const selector = () =>
@@ -17,9 +23,9 @@ export function createVersionModeController(options: any) {
     const modeSelector = selector();
     if (!modeSelector) return;
     const previousValue = options.definitions.some(
-      (mode: any) => mode.value === modeSelector.value,
+      (mode: any) => mode.value === getSelectedVersionMode(),
     )
-      ? modeSelector.value
+      ? getSelectedVersionMode()
       : "through";
     modeSelector.replaceChildren(
       ...options.definitions.map((mode: any) => {
@@ -37,6 +43,7 @@ export function createVersionModeController(options: any) {
     const modeSelector = selector();
     if (!toggleButton || !modeSelector) return;
     populateOptions();
+    syncSelectedVersionModeFromControl(modeSelector);
     const selected = modeSelector.value === "selected";
     const label = options.translate(
       "selectedVersionOnly",
@@ -60,6 +67,9 @@ export function createVersionModeController(options: any) {
     if (!modeSelector) return;
     modeSelector.value =
       modeSelector.value === "selected" ? "through" : "selected";
+    setSelectedVersionMode(
+      modeSelector.value === "selected" ? "selected" : "through",
+    );
     options.syncUrlState?.();
     render();
     options.renderCategoryFilters();

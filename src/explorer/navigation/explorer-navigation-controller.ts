@@ -90,10 +90,8 @@ export function createExplorerNavigation(
       search: options.searchText().value,
       explorerMode,
       latestReleasedVersion: options.latestReleasedVersion(),
-      version: options.versionSelector().value,
-      versionMode: options.versionModeSelector().value as
-        | "through"
-        | "selected",
+      version: state.selectedVersion.get(),
+      versionMode: state.selectedVersionMode.get(),
       order: options.getOrderMode(),
       group: options.getSelectedGroup(),
       subGroup: options.getSelectedSubGroup(),

@@ -7,6 +7,12 @@ import {
 import { populateVersionSelector as populateVersionSelectorHelper } from "../../explorer/filters/version-data.js";
 import { createExplorerDataController } from "../data/explorer-data-controller.js";
 import * as state from "../../state.js";
+import {
+  getIncludedVersionKeys,
+  getSelectedVersion,
+  setSelectedVersion,
+  syncSelectedVersionFromControl,
+} from "../../version-keys.js";
 
 /** Coordinate version controls and the catalog/version data loader. */
 export function createVersionController(options: any) {
@@ -16,7 +22,10 @@ export function createVersionController(options: any) {
       released: state.versionManifests.get(),
       selectedLocale: state.selectedSearchLocale.get(),
       selector: options.versionSelector(),
-      syncRange: syncVersionRange,
+      syncRange: () => {
+        syncSelectedVersionFromControl(options.versionSelector());
+        return syncVersionRange();
+      },
       translate: options.translate,
     });
 
@@ -40,6 +49,7 @@ export function createVersionController(options: any) {
     const option = selector.options[Number(range.value)];
     if (!option) return;
     selector.value = option.value;
+    setSelectedVersion(selector.value);
     syncVersionRange();
     options.renderCategoryFilters();
     options.drawList();
@@ -56,20 +66,11 @@ export function createVersionController(options: any) {
       proposedVersionManifests: state.proposedVersionManifests.get(),
       skinToneCheckboxes: options.skinToneCheckboxes(),
       skinToneFieldset: options.skinToneFieldset(),
-      versionKeys: state.versionKeys.get(),
       versionManifests: state.versionManifests.get(),
-      versionValue: options.versionSelector().value,
+      versionValue: getSelectedVersion(),
     });
 
-  const getVersionKeys = () =>
-    getVersionKeysHelper({
-      proposedVersionManifests: state.proposedVersionManifests.get(),
-      releasedIds: state.releasedIds.get(),
-      versionKeys: state.versionKeys.get(),
-      versionManifests: state.versionManifests.get(),
-      versionMode: options.versionModeSelector().value,
-      versionValue: options.versionSelector().value,
-    });
+  const getVersionKeys = () => getIncludedVersionKeys();
 
   const data = createExplorerDataController({
     applyLoadedUrlState: options.applyLoadedUrlState,

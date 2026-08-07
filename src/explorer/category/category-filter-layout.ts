@@ -1,3 +1,4 @@
+import { getIncludedVersionKeys, hasVersionKeyData } from "../../version-keys.js";
 import * as state from "../../state.js";
 
 type ClassListLike = {
@@ -24,13 +25,12 @@ export function updateAvailableCategories(options: {
   sequenceTypeOrder: string[];
   subGroups?: Record<string, string[]>;
   subGroupSelectionKey: (group: string, subGroup: string) => string;
-  versionKeys: Map<string, Set<string>>;
-  includedVersionKeys: Set<string>;
 }) {
+  const includedVersionKeys = getIncludedVersionKeys();
   const availableCategoryKeys =
-    options.includedVersionKeys.size === 0 && options.versionKeys.size === 0
+    includedVersionKeys.size === 0 && !hasVersionKeyData()
       ? new Set(options.items.map((item) => item.key))
-      : options.includedVersionKeys;
+      : includedVersionKeys;
   const groupNames = new Set<string>();
   const subgroupNames: Record<string, Set<string>> = {};
   options.items.forEach((item) => {

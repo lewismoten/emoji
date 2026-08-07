@@ -10,6 +10,9 @@ describe("list-controller direct", () => {
   afterEach(() => {
     state.byId.clear();
     state.searchAnnotations.clear();
+    state.selectedVersion.set("");
+    state.selectedVersionMode.set("through");
+    state.versionKeys.replace(new Map());
     if (originalWindow) {
       Object.defineProperty(globalThis, "window", originalWindow);
     } else {
@@ -104,6 +107,9 @@ describe("list-controller direct", () => {
       } as any,
     });
     state.searchAnnotations.replace({ alpha: ["grinning face"] });
+    state.versionKeys.replace(new Map([["17.0", new Set(["alpha", "beta"])]]) as any);
+    state.selectedVersion.set("17.0");
+    state.selectedVersionMode.set("selected");
 
     const controller = createListController({
       allIds: () => ["alpha", "beta", "gamma"],
@@ -139,7 +145,6 @@ describe("list-controller direct", () => {
       emojiByKey: () => ({ alpha: "😀", beta: "😎", gamma: "😇" }),
       formatNumber: (value: number) => `#${value}`,
       genderCheckboxes: () => gender,
-      getVersionKeys: () => new Set(["alpha", "beta"]),
       hairCheckboxes: () => hair,
       items: () => items,
       nextRenderGeneration: () => ++generation,

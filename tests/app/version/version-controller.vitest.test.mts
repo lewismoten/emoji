@@ -48,6 +48,8 @@ describe("createVersionController", () => {
       { version: "16.0" },
     ] as any);
     state.selectedSearchLocale.set("en");
+    state.selectedVersion.set("16.0");
+    state.selectedVersionMode.set("selected");
     state.byId.replace({ wave: { key: "wave" } } as any);
     state.versionKeys.replace(new Map([["16.0", new Set(["wave"])]]));
     state.releasedIds.replace(new Set(["wave"]));
@@ -160,16 +162,7 @@ describe("createVersionController", () => {
       }),
     );
 
-    expect(controller.getVersionKeys()).toEqual([
-      "version-keys-result",
-      getVersionKeysHelper.mock.calls[0]![0],
-    ]);
-    expect(getVersionKeysHelper.mock.calls[0]![0]).toEqual(
-      expect.objectContaining({
-        versionMode: "selected",
-        versionValue: "16.0",
-      }),
-    );
+    expect([...controller.getVersionKeys()]).toEqual(["wave"]);
 
     range.value = "1";
     controller.onVersionRangeInput();
@@ -240,6 +233,8 @@ describe("createVersionController", () => {
       adult: { genders: ["neutral"] },
       wave: { key: "wave" },
     } as any);
+    state.selectedVersion.set("16.0");
+    state.selectedVersionMode.set("selected");
 
     const createdOptions: Array<{ value: string; text?: string }> = [];
     const originalDocument = Object.getOwnPropertyDescriptor(
@@ -507,7 +502,7 @@ describe("createVersionController", () => {
 
       versionModeSelector.value = "through";
       selector.value = "18.0";
-      expect([...controller.getVersionKeys()]).toEqual(["wave", "adult"]);
+      expect([...controller.getVersionKeys()]).toEqual(["adult", "wave"]);
 
       controller.updateModifierAvailability();
       expect(hairCheckboxes[0]?.checked).toBe(false);

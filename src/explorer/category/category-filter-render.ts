@@ -31,14 +31,12 @@ export function createCategoryFilterRenderer(options: any) {
   const updateAvailableCategories = () => {
     const next = updateAvailableCategoriesHelper({
       groups: options.groups(),
-      includedVersionKeys: options.getVersionKeys(),
       items: options.items(),
       selectedGroup: options.selectedGroup(),
       selectedSequenceType: options.selectedSequenceType(),
       selectedSubGroup: options.selectedSubGroup(),
       sequenceTypeOrder: options.sequenceTypeOrder,
       subGroupSelectionKey: options.subGroupSelectionKey,
-      versionKeys: options.versionKeys(),
     });
     options.setAvailableCategoryKeys(next.availableCategoryKeys);
     options.setAvailableGroups(next.availableGroups);

@@ -314,13 +314,11 @@ describe("createExplorerBootstrapControllers", () => {
         },
       );
 
-      expect(categoryOptions.getVersionKeys()).toBe("version-keys");
       expect(categoryOptions.syncVersionRange()).toEqual(["syncVersionRange"]);
       expect(categoryOptions.developerModeEnabled()).toBe(true);
       expect(categoryOptions.orderButtons()).toEqual(["order-buttons"]);
       expect(categoryOptions.translate("a", "b")).toBe("a:b");
 
-      expect(listOptions.getVersionKeys()).toBe("version-keys");
       expect(listOptions.renderGeneration()).toBe(7);
       expect(listOptions.versionSliderLabel("16.0", "17.0")).toBe("16.0:17.0");
       expect(listOptions.displayGroupName("Objects")).toBe("group:Objects");

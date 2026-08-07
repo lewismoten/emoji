@@ -170,7 +170,7 @@ export function createSavedEmojiController(options: {
   function toggleFavorite(key: string) {
     if (!key) return;
     const keys = nextFavoriteEmojiKeys(state.favoriteEmojiKeys.get(), key);
-    state.favoriteEmojiKeys.set(keys);
+    state.favoriteEmojiKeys.replace(keys);
     preferences.setStringArray("favorites", keys);
     updateFavoriteButton();
     if (options.savedDialog()?.open) renderSavedEmoji();
@@ -183,7 +183,7 @@ export function createSavedEmojiController(options: {
 
   function recordCopiedEmoji(key: string) {
     const keys = nextCopiedEmojiKeys(state.copiedEmojiKeys.get(), key);
-    state.copiedEmojiKeys.set(keys);
+    state.copiedEmojiKeys.replace(keys);
     preferences.setStringArray("recentCopied", keys);
   }
 

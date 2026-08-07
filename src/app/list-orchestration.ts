@@ -47,9 +47,9 @@ export function createListOrchestration(options: any) {
       sequenceTypeLabels: options.sequenceTypeLabels,
       skinToneCheckboxes: options.skinToneCheckboxes(),
       translate: options.translate,
-      versionMode: options.versionModeSelector().value,
+      versionMode: state.selectedVersionMode.get(),
       versionSliderLabel: options.versionSliderLabel,
-      versionValue: options.versionSelector().value,
+      versionValue: state.selectedVersion.get(),
     });
 
   let renderEmojiList: (...args: any[]) => void;
@@ -60,7 +60,6 @@ export function createListOrchestration(options: any) {
     focusedEmojiKey: state.focusedEmojiKey.get,
     formatNumber: options.formatNumber,
     genderCheckboxes: options.genderCheckboxes,
-    getVersionKeys: options.getVersionKeys,
     hairCheckboxes: options.hairCheckboxes,
     items: state.items.get,
     matchCount: options.matchCount,
